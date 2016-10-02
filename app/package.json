@@ -6,11 +6,21 @@
   "homepage": "https://github.com/dorbel-tech/dorbel-app#readme",
   "author": "",
   "license": "ISC",
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dorbel-tech/dorbel-app.git"
   },
   "bugs": {
     "url": "https://github.com/dorbel-tech/dorbel-app/issues"
+  },
+   "engines": {
+    "node": ">= 0.11.13"
+  },
+  "dependencies": {
+    "koa": "1.2.4"
   }
 }
