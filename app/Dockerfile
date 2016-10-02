@@ -8,4 +8,4 @@ COPY package.json /usr/src/app
 RUN npm install --silent
 COPY . /usr/src/app
 
-CMD [ "npm", "--prefix ./app", "start" ]
+CMD [ "npm", "start" ]
