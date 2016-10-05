@@ -1,0 +1,27 @@
+{
+  "name": "dorbel-apartment-api",
+  "version": "0.0.1",
+  "description": "API for dorbel apartments domain",
+  "main": "src/index.js",
+  "scripts": {
+    "docker-build": "docker build -t dorbel-apt-api-image:latest .",
+    "docker-run": "docker run -it -v $PWD/src:/home/nodejs/app/src -p 3000:3000 --name dorbel-apt-api dorbel-apt-api-image npm run-script start-dev; docker stop dorbel-apt-api",
+    "docker-start": "docker start -a dorbel-apt-api; docker stop dorbel-apt-api",
+    "docker-clear": "docker stop dorbel-apt-api; docker rm dorbel-apt-api; docker rmi dorbel-apt-api-image",
+    "start": "babel-node src/index",
+    "start-dev": "nodemon --exec babel-node src/index | bunyan",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "babel-cli": "^6.16.0",
+    "babel-plugin-transform-flow-strip-types": "^6.14.0",
+    "bunyan": "^1.8.1",
+    "koa": "^1.2.4"
+  },
+  "devDependencies": {
+    "babel-eslint": "^7.0.0",
+    "eslint": "^3.7.1",
+    "eslint-plugin-flowtype": "^2.19.0",
+    "nodemon": "^1.10.2"
+  }
+}
