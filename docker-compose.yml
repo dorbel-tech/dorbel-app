@@ -1,0 +1,31 @@
+version: '2'
+services:
+  db:
+    image: mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: dorbel
+      MYSQL_DATABASE: dorbel
+      MYSQL_USER: dorbel
+      MYSQL_PASSWORD: dorbel
+    restart: always
+  app:
+    build: ./app
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - logvolume01:/var/log
+    depends_on:
+      - db
+    links:
+       - db
+    restart: always
+    environment:
+      DB_HOST: db
+      DB_NAME: dorbel
+      DB_USER: dorbel
+      DB_PASSWORD: dorbel
+volumes:
+  logvolume01: {}
