@@ -5,7 +5,7 @@ var app = module.exports = koa();
 // Create a MySQL connection pool (do this once) 
 var db = mysql.createPool({ 
   host: process.env.DB_HOST || 'localhost',
-  // database: process.env.DB_NAME || 'dorbel',
+  database: process.env.DB_NAME || 'dorbel',
   user: process.env.DB_USER || 'dorbel', 
   password: process.env.DB_PASSWORD || 'dorbel'
 });
