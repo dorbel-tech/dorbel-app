@@ -1,11 +1,9 @@
-# Change latest to your desired node version (https://hub.docker.com/r/library/node/tags/) 
-FROM node:latest
+FROM nodesource/node:4
 
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
+RUN mkdir -p /home/nodejs/app
+WORKDIR /home/nodejs/app
 
-COPY package.json /usr/src/app
-RUN npm install --silent
-COPY . /usr/src/app
+COPY . /home/nodejs/app
+RUN npm install --production --silent
 
 CMD [ "npm", "start" ]
