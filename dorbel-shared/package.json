@@ -1,0 +1,15 @@
+{
+  "name": "dorbel-shared",
+  "version": "0.0.1",
+  "description": "Shared module for dorbel services",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bunyan": "^1.8.1",
+    "nconf": "^0.8.4"
+  }
+}

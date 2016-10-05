@@ -1,0 +1,17 @@
+{
+  "name": "dorbel-app",
+  "version": "0.0.1",
+  "description": "package.json to include development dependencies needed by all the services",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dorbel-tech/dorbel-app.git"
+  },
+  "devDependencies": {
+    "babel-eslint": "^7.0.0",
+    "eslint": "^3.7.1",
+    "eslint-plugin-flowtype": "^2.19.0"
+  }
+}
