@@ -19,8 +19,7 @@
     "fleek-router": "^1.2.5",
     "koa": "^1.2.4",
     "koa-bodyparser": "^2.2.0",
-    "lodash": "^4.16.3",
-    "swagger-validate": "^0.1.7"
+    "lodash": "^4.16.3"
   },
   "devDependencies": {
     "babel-register": "^6.16.3",
