@@ -13,7 +13,7 @@ var db = mysql.createPool({
 app.use(function *(){
    try {
         // Execute a sample query (with params) 
-        var rows = yield db.query("select ? + ? as test", [1, 2]);
+        var rows = yield db.query("select ? + ? as test", [2, 3]);
  
         // Output test result (3) 
         this.body = { test: rows[0].test };
