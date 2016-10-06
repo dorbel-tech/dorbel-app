@@ -1,4 +1,4 @@
-# dorbel-app
+# dorbel-app [![CircleCI](https://circleci.com/gh/dorbel-tech/dorbel-app.svg?style=svg)](https://circleci.com/gh/dorbel-tech/dorbel-app)
 > dorbel new generation node.js app
 
 ## Scripts
