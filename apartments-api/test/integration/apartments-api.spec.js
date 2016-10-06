@@ -1,7 +1,7 @@
 'use strict';
 describe('/apartments', function () {
-  const app = require('../../src/server/server.js');
-  const request = require('co-supertest').agent(app.listen());
+  const app = require('../../src/index.js').app;
+  const request = require('co-supertest').agent(app);
   const __ = require('hamjest');
 
   it('should add apartment and return it', function* () {
