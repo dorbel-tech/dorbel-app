@@ -1,5 +1,7 @@
 #!/bin/bash
+# First time install script to install all project dependenices.
 # This script is optimized for Mac machines.
+
 echo "Starting to install the apps..."
 
 # Install Xcode
