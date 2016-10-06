@@ -1,4 +1,5 @@
 #!/bin/bash
+# A script to start/stop Docker compose local environment.
 
 if [ $# -eq 0 ]; then
     echo "No arguments provided."
