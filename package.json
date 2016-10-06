@@ -3,7 +3,11 @@
   "version": "0.0.1",
   "description": "package.json to include development dependencies needed by all the services",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "first": "scripts/first_time_install.sh",
+    "install": "scripts/npm-install.sh", 
+    "test": "scripts/npm-test.sh",
+    "start": "scripts/env.sh start",
+    "stop": "scripts/env.sh stop"
   },
   "repository": {
     "type": "git",
