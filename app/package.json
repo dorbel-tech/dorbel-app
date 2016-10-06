@@ -17,10 +17,11 @@
   "bugs": {
     "url": "https://github.com/dorbel-tech/dorbel-app/issues"
   },
-   "engines": {
+  "engines": {
     "node": ">= 0.11.13"
   },
   "dependencies": {
-    "koa": "1.2.4"
+    "koa": "1.2.4",
+    "koa-mysql": "1.0.3"
   }
 }
