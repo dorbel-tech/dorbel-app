@@ -4,13 +4,9 @@
   "description": "API for dorbel apartments domain",
   "main": "src/index.js",
   "scripts": {
-    "docker-build": "docker build -t dorbel-apt-api-image:latest .",
-    "docker-run": "docker run -it -v $PWD/src:/home/nodejs/app/src -p 3000:3000 --name dorbel-apt-api dorbel-apt-api-image npm run-script start-dev; docker stop dorbel-apt-api",
-    "docker-start": "docker start -a dorbel-apt-api; docker stop dorbel-apt-api",
-    "docker-clear": "docker stop dorbel-apt-api; docker rm dorbel-apt-api; docker rmi dorbel-apt-api-image",
     "start": "babel-node src/index",
     "start-dev": "nodemon --exec babel-node src/index | bunyan",
-    "test": "mocha --compilers js:babel-register test/shared/before-tests.js test/**/*.js"
+    "test": "mocha --compilers js:babel-register test/shared/before-tests.js test/**/*.spec.js"
   },
   "dependencies": {
     "babel-cli": "^6.16.0",
