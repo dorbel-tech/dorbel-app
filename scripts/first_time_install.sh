@@ -19,6 +19,8 @@ brew install awscli
 # Install Docker
 brew cask install docker
 
+brew install flow
+
 # Install software
 brew tap caskroom/cask
 brew cask install google-chrome
