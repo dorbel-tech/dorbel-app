@@ -1,4 +1,4 @@
-process.env.LOG_LEVEL = 'error';
+process.env.NODE_ENV = 'test';
 
 const mocha = require('mocha');
 const coMocha = require('co-mocha');
