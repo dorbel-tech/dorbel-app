@@ -19,5 +19,8 @@ RUN npm install --production --silent
 # Copy all files from host to container.
 COPY . $WORKDIR
 
+# Open port
+EXPOSE 3000
+
 # Run node server.
 CMD [ "npm", "start" ]
