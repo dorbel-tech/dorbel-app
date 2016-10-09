@@ -9,9 +9,9 @@ machine:
   services:
     - mysql
 
-# database:
-#   override:
-#     - mysql -u $DB_USER $DB_NAME  
+database:
+  override:
+    - mysql -u $DB_USER $DB_NAME   # < test/data/mysql-seed-data.sql  
 
 dependencies:
   override:
@@ -20,3 +20,9 @@ dependencies:
 test:
   override:
     - npm test    
+
+cache_directories:
+  - node_modules
+  - sared/node_modules        
+  - apartments-api/node_modules
+  
