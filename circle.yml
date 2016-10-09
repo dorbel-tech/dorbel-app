@@ -1,14 +1,17 @@
 machine:
   environment:
+    NODE_ENV: test
     PORT: 3000
     DB_HOST: 127.0.0.1
     DB_NAME: circle_test
     DB_USER: ubuntu
     DB_PASSWORD: 
+  services:
+    - mysql
 
 database:
   override:
-    - mysql -u ubuntu circle_test
+    - mysql -u $DB_USER $DB_NAME   # < mysql-seed.sql
 
 dependencies:
   override:
