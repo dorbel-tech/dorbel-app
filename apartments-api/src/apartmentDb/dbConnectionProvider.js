@@ -26,7 +26,7 @@ function attemptConnection(retries) {
         logger.error('Failed to find DB');
         resolve(attemptConnection(retries--));
       });
-    }, RETRY_PERIOD_MS);
+    }, retries === ATTEMPTS_TO_CONNECT ? 0 : RETRY_PERIOD_MS);
   });
 }
 

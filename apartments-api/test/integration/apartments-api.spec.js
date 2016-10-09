@@ -1,7 +1,14 @@
 'use strict';
 describe('/apartments', function () {
-  const request = require('co-supertest')('http://localhost:3000');
+  const app = require('../../src/index.js');
+  const coSupertest = require('co-supertest');
   const __ = require('hamjest');
+  let request;
+
+  before(function* () {
+    let server = yield app.bootstrap();
+    request = coSupertest.agent(server);
+  });
 
   it('should add apartment and return it', function* () {
     const newApartment = {

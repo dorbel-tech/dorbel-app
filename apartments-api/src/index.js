@@ -6,19 +6,19 @@ shared.config.setConfigFileFolder(__dirname + '/config'); // load config from fi
 const db = require('./apartmentDb/dbConnectionProvider');
 const logger = shared.logger.getLogger(module);
 
-let app;
-
-co(function* () {
+function* bootstrap() {
   try {
     yield db.connect();
     const server = require('./server/server'); // server should be required only after db connect finish
-    app = server.listen();
+    return server.listen();
   } catch (ex) {
     logger.error('failed to bootstrap application', ex);
     process.exit(-1);
   }
-});
+}
+
+if (require.main === module) co(bootstrap);
 
 module.exports = {
-  app
+  bootstrap
 };

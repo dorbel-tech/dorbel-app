@@ -1,3 +1,7 @@
 {
-  "LOG_LEVEL": "error"
+  "LOG_LEVEL": "error",
+  "DB_HOST": "localhost",
+  "DB_NAME": "dorbel",
+  "DB_USER": "dorbel",
+  "DB_PASSWORD": "dorbel"
 }
