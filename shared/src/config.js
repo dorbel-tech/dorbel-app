@@ -3,15 +3,15 @@ const nconf = require('nconf');
 const path = require('path');
 
 let config = nconf
-  .argv() // command line args and environment vars are top priority
-  .env();
+  .argv() // command line args are top priority
+  .env(); // environment vars are 2nd priority
 
 function setConfigFileFolder(folder) {
   const environmentConfigFile = path.join(folder, process.env.NODE_ENV + '.json');
   const sharedConfigFile = path.join(folder, 'shared.json');
   config = config
-    .file('env', environmentConfigFile) // files are last in the priority
-    .file('shared', sharedConfigFile ); // shared comes last
+    .file('env-file', environmentConfigFile) // files are last in the priority
+    .file('shared-file', sharedConfigFile ); // shared file comes last
 }
 
 function get(key) {

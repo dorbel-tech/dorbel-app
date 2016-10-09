@@ -1,0 +1,13 @@
+version: '2'
+services:
+  apartments-api:
+    ports:
+      - '3000:3000'
+      - '5858:5858'
+    volumes:
+      - ./apartments-api/src:/home/nodejs/app/src
+    environment:
+      NODE_ENV: development
+      DB_HOST: db
+    command: npm run-script start-dev
+

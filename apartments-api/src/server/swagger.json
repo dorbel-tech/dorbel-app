@@ -90,7 +90,7 @@
         "house_number": { "type": "string" },
         "unit": { "type": "string" }
       },
-      "required": [ "title" ]
+      "required": [ "title", "street_name", "house_number", "unit" ]
     },
     "Error": {
       "type": "object",
