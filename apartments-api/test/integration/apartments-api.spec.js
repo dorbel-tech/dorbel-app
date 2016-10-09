@@ -1,17 +1,22 @@
 'use strict';
 describe('/apartments', function () {
-  const app = require('../../src/index.js').app;
-  const request = require('co-supertest').agent(app);
+  const request = require('co-supertest')('http://localhost:3000');
   const __ = require('hamjest');
 
   it('should add apartment and return it', function* () {
-    const newApartment = { 'title': 'Best apartment', 'description': 'Really nice place to live' };
+    const newApartment = {
+      title: 'Best apartment',
+      description: 'Really nice place to live',
+      street_name: 'Rothschild Boulevard',
+      house_number: '129',
+      unit: '2'
+    };
 
     yield request.post('/v1/apartments').send(newApartment).expect(201).end();
     const getResponse = yield request.get('/v1/apartments').expect(200).end();
     __.assertThat(getResponse.body, __.allOf(
       __.is(__.array()),
-      __.hasItem(newApartment)
+      __.hasItem(__.hasProperties(newApartment))
     ));
   });
 

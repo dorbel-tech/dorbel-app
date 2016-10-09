@@ -1,15 +1,16 @@
 'use strict';
-let apartments = [];
+const apartmentRepository = require('../../apartmentDb/repositories/apartmentRepository');
 
 function* get() {
-  this.response.body = apartments;
+  this.response.body = yield apartmentRepository.list();
 }
 
 function* post() {
   let newApartment = this.request.body;
-  apartments.push(newApartment);
+  // TODO : this does find-or-create - we should return an error if the apartment already exists
+  let createdApartment = yield apartmentRepository.create(newApartment);
   this.response.status = 201;
-  this.response.body = newApartment;
+  this.response.body = createdApartment;
 }
 
 module.exports = {

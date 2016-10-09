@@ -8,8 +8,7 @@ if [ $# -eq 0 ]; then
 fi
 
 if [[ $1 == "start" ]]; then
-    docker-compose up --force-recreate --build -d &&
-    open http://localhost:3000/
+    docker-compose -f docker-compose.yml -f docker-compose.development.yml up --force-recreate --build
 elif [[ $1 == "stop" ]]; then
     docker-compose down
 fi
