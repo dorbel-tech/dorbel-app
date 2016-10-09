@@ -1,0 +1,19 @@
+machine:
+  environment:
+    PORT: 3000
+    DB_HOST: 127.0.0.1
+    DB_NAME: circle_test
+    DB_USER: ubuntu
+    DB_PASSWORD: 
+
+database:
+  override:
+    - mysql -u ubuntu circle_test
+
+dependencies:
+  override:
+    - npm install
+
+test:
+  override:
+    - npm test    
