@@ -11,18 +11,17 @@ machine:
 
 database:
   override:
+    - mysql -u $DB_USER -e "create database circle_test"
     - mysql -u $DB_USER $DB_NAME   # < test/data/mysql-seed-data.sql  
 
 dependencies:
   override:
     - npm install
+  cache_directories:
+    - node_modules
+    - sared/node_modules        
+    - apartments-api/node_modules
 
 test:
   override:
-    - npm test    
-
-cache_directories:
-  - node_modules
-  - sared/node_modules        
-  - apartments-api/node_modules
-  
+    - npm test
