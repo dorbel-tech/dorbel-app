@@ -11,7 +11,6 @@ machine:
 
 database:
   override:
-    - mysql -u $DB_USER -e "create database circle_test"
     - mysql -u $DB_USER $DB_NAME   # < test/data/mysql-seed-data.sql  
 
 dependencies:
