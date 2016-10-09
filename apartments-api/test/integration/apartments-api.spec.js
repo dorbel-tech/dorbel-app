@@ -1,6 +1,6 @@
 'use strict';
 describe('/apartments', function () {
-  const request = require('co-supertest')('http://localhost:3000');
+  const request = require('co-supertest')('http://127.0.0.1:3000');
   const __ = require('hamjest');
 
   it('should add apartment and return it', function* () {
