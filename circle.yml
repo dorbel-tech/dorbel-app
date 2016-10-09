@@ -18,7 +18,7 @@ dependencies:
     - npm install
   cache_directories:
     - node_modules
-    - sared/node_modules        
+    - shared/node_modules        
     - apartments-api/node_modules
 
 test:
