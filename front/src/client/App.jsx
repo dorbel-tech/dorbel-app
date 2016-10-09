@@ -7,4 +7,6 @@ class App extends Component {
   }
 }
 
-render(<App />, document.getElementById('root'));
+if(typeof window !== 'undefined') {
+  render(<App />, document.getElementById('root'));
+}

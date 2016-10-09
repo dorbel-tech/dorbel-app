@@ -9,7 +9,7 @@ const TARGET = process.env.npm_lifecycle_event;
 let Config = {
   entry: [
     'babel-polyfill',
-    path.join(dir.src, 'client.jsx')
+    path.join(dir.src, 'client/App.jsx')
   ],
   output: {
     path: path.join(dir.public, 'build'),
@@ -42,34 +42,34 @@ let Config = {
   ]
 };
 
-if (TARGET === 'build:prod') {
-  Config = merge(Config, {
-    bail: true,
-    devtool: 'source-map',
-    output: { publicPath: '/build/' },
-    plugins: [
-      new webpack.optimize.DedupePlugin(),
-      new webpack.optimize.UglifyJsPlugin({
-        comments: false,
-        dropDebugger: true,
-        dropConsole: true,
-        compressor: {
-          warnings: false,
-        },
-      }),
-    ],
-  });
-}
+// if (TARGET === 'build:prod') {
+//   Config = merge(Config, {
+//     bail: true,
+//     devtool: 'source-map',
+//     output: { publicPath: '/build/' },
+//     plugins: [
+//       new webpack.optimize.DedupePlugin(),
+//       new webpack.optimize.UglifyJsPlugin({
+//         comments: false,
+//         dropDebugger: true,
+//         dropConsole: true,
+//         compressor: {
+//           warnings: false,
+//         },
+//       }),
+//     ],
+//   });
+// }
 
-if (TARGET === 'server:dev') {
-  Config = merge(Config, {
-    devtool: 'eval',
-    entry: ['webpack-hot-middleware/client'],
-    plugins: [
-      new webpack.HotModuleReplacementPlugin(),
-      new webpack.NoErrorsPlugin(),
-    ],
-  });
-}
+// if (TARGET === 'server:dev') {
+//   Config = merge(Config, {
+//     devtool: 'eval',
+//     entry: ['webpack-hot-middleware/client'],
+//     plugins: [
+//       new webpack.HotModuleReplacementPlugin(),
+//       new webpack.NoErrorsPlugin(),
+//     ],
+//   });
+// }
 
 module.exports = Config;
