@@ -8,6 +8,5 @@ services:
       - ./apartments-api/src:/home/nodejs/app/src
     environment:
       NODE_ENV: development
-      DB_HOST: db
     command: npm run-script start-dev
 
