@@ -1,8 +1,8 @@
+# This file is meant to extend docker-compose.yml for development environment
 version: '2'
 services:
   apartments-api:
     ports:
-      - '3000:3000'
       - '5858:5858'
     volumes:
       - ./apartments-api/src:/home/nodejs/app/src
