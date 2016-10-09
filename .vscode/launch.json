@@ -17,6 +17,23 @@
       "console": "internalConsole",
       "sourceMaps": true,
       "outDir": null
+    },
+    {
+      "name": "tests#apartments-api",
+      "type": "node",
+      "cwd": "${workspaceRoot}/apartments-api",
+      "request": "launch",
+      "program": "${workspaceRoot}/apartments-api/node_modules/mocha/bin/_mocha",
+      "stopOnEntry": false,
+      "args": [ "test/shared/before-tests.js", "test/**/*.spec.js" ],
+      "preLaunchTask": null,
+      "port": 5858,
+      "runtimeExecutable": "${workspaceRoot}/apartments-api/node_modules/babel-cli/bin/babel-node.js",
+      "runtimeArgs": [ "--nolazy" ],
+      "env": { "NODE_ENV": "test" },
+      "console": "internalConsole",
+      "sourceMaps": true,
+      "outDir": null
     }
   ]
 }
