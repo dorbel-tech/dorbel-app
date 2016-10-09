@@ -9,9 +9,9 @@ machine:
   services:
     - mysql
 
-database:
-  override:
-    - mysql -u $DB_USER $DB_NAME   # < mysql-seed.sql
+# database:
+#   override:
+#     - mysql -u $DB_USER $DB_NAME  
 
 dependencies:
   override:
