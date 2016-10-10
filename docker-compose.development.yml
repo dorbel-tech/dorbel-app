@@ -1,0 +1,12 @@
+# This file is meant to extend docker-compose.yml for development environment
+version: '2'
+services:
+  apartments-api:
+    ports:
+      - '5858:5858'
+    volumes:
+      - ./apartments-api/src:/home/nodejs/app/src
+    environment:
+      NODE_ENV: development
+    command: npm run-script start-dev
+

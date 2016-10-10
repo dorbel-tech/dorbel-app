@@ -12,12 +12,12 @@ services:
       MYSQL_PASSWORD: dorbel
     restart: always
 
-  app:
-    build: ./app
+  apartments-api:
+    build:
+      context: .
+      dockerfile: apartments-api/Dockerfile
     ports:
       - '3000:3000'
-    volumes:
-      - .:/app
     depends_on:
       - db
     links:

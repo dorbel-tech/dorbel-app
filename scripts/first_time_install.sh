@@ -1,5 +1,7 @@
 #!/bin/bash
+# First time install script to install all project dependenices.
 # This script is optimized for Mac machines.
+
 echo "Starting to install the apps..."
 
 # Install Xcode
@@ -18,6 +20,8 @@ brew install amazon-ecs-cli
 
 # Install Docker
 brew cask install docker
+
+brew install flow
 
 # Install software
 brew tap caskroom/cask

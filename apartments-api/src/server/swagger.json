@@ -1,0 +1,107 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "dorbel Apartments API",
+    "description": "dorbel API for the apartments domain",
+    "version": "0.0.1"
+  },
+  "host": "api.dorbel.com",
+  "schemes": [
+    "https"
+  ],
+  "basePath": "/v1",
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/apartments": {
+      "get": {
+        "summary": "List Apartments",
+        "description": "The Apartments endpoint returns the available apartments",
+        "parameters": [
+          {
+            "name": "city",
+            "in": "query",
+            "description": "City apartment is in",
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "apartment-controller"
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of apartments",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Apartment"
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Post new apartment",
+        "description": "Add a new apartment to the system",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Apartment"
+            }
+          }
+        ],
+        "tags": [
+          "apartment-controller"
+        ],
+        "responses": {
+          "201": {
+            "description": "Apartment created succesfully",
+            "schema": {
+              "$ref": "#/definitions/Apartment"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Apartment": {
+      "type": "object",
+      "properties": {
+        "apartment_id": { "type": "integer" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "street_name": { "type": "string" },
+        "house_number": { "type": "string" },
+        "unit": { "type": "string" }
+      },
+      "required": [ "title", "street_name", "house_number", "unit" ]
+    },
+    "Error": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": { "type": "string" },
+        "fields": { "type": "string" }
+      }
+    }
+  }
+}
