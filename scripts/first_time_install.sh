@@ -16,7 +16,6 @@ brew install git
 # Install AWS CLI
 brew install awscli
 brew install awsebcli
-brew install amazon-ecs-cli
 
 # Install Docker
 brew cask install docker

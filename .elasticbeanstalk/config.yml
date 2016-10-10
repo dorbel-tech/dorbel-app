@@ -1,6 +1,8 @@
 branch-defaults:
-  aws:
+  develop:
     environment: dorbel-develop
+  master:
+    environment: dorbel-production
 global:
   application_name: dorbel
   default_ec2_keyname: aws-eb
