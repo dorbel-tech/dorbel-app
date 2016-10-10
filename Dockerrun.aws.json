@@ -1,9 +1,5 @@
 {
   "AWSEBDockerrunVersion": 2,
-  "authentication": { 
-    "bucket": "dorbel-repository",
-    "key": "dockercfg"
-  },
   "volumes": [
     {
       "name": "apartments-api",
