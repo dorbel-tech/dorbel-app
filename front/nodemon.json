@@ -7,5 +7,5 @@
     "node_modules/**/node_modules",
     "public/build"
   ],
-  "ext": "js json ejs"
+  "ext": "js json ejs jsx"
 }

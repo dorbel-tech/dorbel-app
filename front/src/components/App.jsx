@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import NavLink from './NavLink';
+import { observer } from 'mobx-react';
 
+@observer
 class App extends Component {
   render() {
     return (

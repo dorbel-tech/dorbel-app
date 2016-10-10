@@ -3,12 +3,17 @@ import koa from 'koa';
 import koaStatic from 'koa-static';
 import compress from 'koa-compress';
 import koa_ejs from 'koa-ejs';
-import config from '../config';
-import shared from 'dorbel-shared';
+import 'isomorphic-fetch'; // polyfill fetch for nodejs
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { match, RouterContext } from 'react-router';
-import routes from '../routes';
+import { Provider } from 'mobx-react';
+
+import config from '~/config';
+import shared from 'dorbel-shared';
+import routes from '~/routes';
+
+import ApartmentStore from '~/stores/ApartmentStore';
 
 const app = koa();
 const logger = shared.logger.getLogger(module);
@@ -26,6 +31,8 @@ koa_ejs(app, {
 
 app.use(function* () {
   let appHtml;
+  const apartmentStore = new ApartmentStore();
+  const initialState = { apartmentStore: apartmentStore.toJson() };
 
   match({ routes: routes, location: this.path }, (err, redirect, props) => {
     if (err) {
@@ -36,7 +43,7 @@ app.use(function* () {
       this.redirect(redirect.pathname + redirect.search);
     }
     else if (props) {
-      appHtml = renderToString(<RouterContext {...props}/>);
+      appHtml = renderToString(<Provider apartmentStore={apartmentStore}><RouterContext {...props}/></Provider>);
     }
     else {
       // no errors, no redirect, we just didn't match anything
@@ -45,7 +52,7 @@ app.use(function* () {
     }
   });
 
-  yield this.render('index', { appHtml });
+  yield this.render('index', { appHtml, initialState });
 });
 
 app.listen(port, () => {
