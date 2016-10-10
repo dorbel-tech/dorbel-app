@@ -4,10 +4,6 @@ import { observer } from 'mobx-react';
 
 @observer(['apartmentStore'])
 class Apartments extends Component {
-  componentWillMount() {
-    this.props.apartmentStore.loadApartments();
-  }
-
   render() {
     return (
       <div>
@@ -16,7 +12,7 @@ class Apartments extends Component {
           <li><NavLink to="/apartments/123">Nice Apartment</NavLink></li>
           <li><NavLink to="/apartments/456">Amazing Home</NavLink></li>
         </ul>
-        <p>{this.props.apartmentStore.apartments}</p>
+        {this.props.apartmentStore.apartments.map(apt => <p key={apt.id}>{apt.title}</p>)}
         {this.props.children}
       </div>
     );

@@ -32,6 +32,7 @@ koa_ejs(app, {
 app.use(function* () {
   let appHtml;
   const apartmentStore = new ApartmentStore();
+  yield apartmentStore.loadApartments();
   const initialState = { apartmentStore: apartmentStore.toJson() };
 
   match({ routes: routes, location: this.path }, (err, redirect, props) => {

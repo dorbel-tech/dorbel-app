@@ -25,7 +25,6 @@
     "koa-static": "^2.0.0",
     "mobx": "^2.6.0",
     "mobx-react": "^3.5.8",
-    "mobx-server-wait": "0.0.4",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
     "react-router": "^2.8.1"

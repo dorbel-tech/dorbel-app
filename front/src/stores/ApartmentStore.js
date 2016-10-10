@@ -14,10 +14,10 @@ export default class ApartmentStore {
   loadApartments() {
     console.log('loading apartments');
     if (this.apartments.length > 0) return;
-    fetch('https://app.dorbel.com/apartments.json?search=1&empty=false&roommates=true&min_rooms=1&max_rooms=5&min_rent=0&max_rent=12000&min_size=0&max_size=140&city_id=0&data=%7B%22amenities%22%3A%5B%5D%7D')
+    return fetch('https://app.dorbel.com/apartments.json?search=1&empty=false&roommates=true&min_rooms=1&max_rooms=5&min_rent=0&max_rent=12000&min_size=0&max_size=140&city_id=0&data=%7B%22amenities%22%3A%5B%5D%7D')
       .then(response => response.json())
       .then(response => {
-        console.log('got apartments', response.apartments);
+        console.log('got apartments', response.apartments.length);
         this.apartments = response.apartments;
       });
   }

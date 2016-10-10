@@ -1,6 +1,6 @@
 {
   "env": {
-    "NODE_ENV": "devlopment"
+    "NODE_ENV": "development"
   },
   "ignore": [
     ".git",
