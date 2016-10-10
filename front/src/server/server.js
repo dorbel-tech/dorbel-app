@@ -1,52 +1,52 @@
 'use strict';
-require('babel-core/register');
-const koa = require('koa');
-const config = require('../config');
-const logger = require('dorbel-shared').logger.getLogger(module);
-const koaStatic = require('koa-static');
-const path = require('path');
-const render = require('koa-ejs');
-const reactDom = require('react-dom/server');
-const reactRouter = require('react-router');
-
-const RouterContext = require('../client/RouterContext');
-const App = require('../client/App');
-
-const routes = {
-  path: '/',
-  component: App
-};
+import koa from 'koa';
+import koaStatic from 'koa-static';
+import compress from 'koa-compress';
+import koa_ejs from 'koa-ejs';
+import config from '../config';
+import shared from 'dorbel-shared';
+import React from 'react';
+import { renderToString } from 'react-dom/server';
+import { match, RouterContext } from 'react-router';
+import routes from '../routes';
 
 const app = koa();
+const logger = shared.logger.getLogger(module);
 const port = config.get('PORT');
 
+app.use(compress());
+app.use(shared.middleware.requestLogger());
 app.use(koaStatic(config.dir.public));
 
-render(app, {
-  root: path.join(__dirname, 'views'),
+koa_ejs(app, {
+  root: __dirname,
   layout: false,
   viewExt: 'ejs'
 });
 
 app.use(function* () {
-  let reactString;
+  let appHtml;
 
-  reactRouter.match({ routes, location: this.url },
-    (error, redirectLocation, renderProps) => {
-      if (error) {
-        this.throw(error.message, 500);
-      } else if (redirectLocation) {
-        this.redirect(redirectLocation.pathname + redirectLocation.search);
-      } else if (renderProps) {
-        reactString = reactDom.renderToString(RouterContext(renderProps));
-        this.render('index', { reactString });
-      } else {
-        this.throw('Not Found', 404);
-      }
+  match({ routes: routes, location: this.path }, (err, redirect, props) => {
+    if (err) {
+      this.status = 500;
+      this.body = err.message;
     }
-  );
-});
+    else if (redirect) {
+      this.redirect(redirect.pathname + redirect.search);
+    }
+    else if (props) {
+      appHtml = renderToString(<RouterContext {...props}/>);
+    }
+    else {
+      // no errors, no redirect, we just didn't match anything
+      this.status = 404;
+      this.body = 'Not Found';
+    }
+  });
 
+  yield this.render('index', { appHtml });
+});
 
 app.listen(port, () => {
   logger.info({ port, env: process.env.NODE_ENV }, '✅  Server is listening');

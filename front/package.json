@@ -6,20 +6,23 @@
   "scripts": {
     "clean": "rm -rf ./public/build",
     "build:watch": "npm run clean && NODE_ENV=development webpack -d --watch",
-    "start-dev": "NODE_ENV=development nodemon src/server/server.js | bunyan",
+    "start-dev": "nodemon --exec babel-node src/server/server.js | bunyan",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "babel-cli": "^6.16.0",
     "bunyan": "^1.8.1",
     "dorbel-shared": "file:../shared",
     "ejs": "^2.5.2",
     "koa": "^1.2.4",
+    "koa-compress": "^1.0.9",
     "koa-ejs": "^3.0.0",
     "koa-static": "^2.0.0",
     "react": "^15.3.2",
-    "react-dom": "^15.3.2"
+    "react-dom": "^15.3.2",
+    "react-router": "^2.8.1"
   },
   "devDependencies": {
     "babel-core": "^6.17.0",
