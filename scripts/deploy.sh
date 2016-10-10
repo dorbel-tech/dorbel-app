@@ -31,5 +31,5 @@ docker build -t dorbel/apartments-api:$VERSION . -f apartments-api/Dockerfile
 docker tag dorbel/apartments-api:$VERSION 168720412882.dkr.ecr.eu-west-1.amazonaws.com/dorbel/apartments-api:$VERSION
 docker push 168720412882.dkr.ecr.eu-west-1.amazonaws.com/dorbel/apartments-api:$VERSION
 
-# Deploy application to AWS EBS
+# Deploy application to AWS EB
 eb deploy $ENV_NAME $VERSION_WITHFLAG --staged
