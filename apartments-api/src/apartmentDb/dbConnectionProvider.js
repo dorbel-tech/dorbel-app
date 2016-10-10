@@ -18,15 +18,14 @@ function attemptConnection(retries) {
       return reject();
     }
 
-    setTimeout(() => {
-      net.connect(MY_SQL_PORT, config.get('DB_HOST'), () => {
-        logger.info('DB Available');
-        resolve(true);
-      }).on('error', () => {
-        logger.error('Failed to find DB');
-        resolve(attemptConnection(retries--));
-      });
-    }, retries === ATTEMPTS_TO_CONNECT ? 0 : RETRY_PERIOD_MS);
+    net.connect(MY_SQL_PORT, config.get('DB_HOST'), () => {
+      logger.info('DB Available');
+      resolve(true);
+    }).on('error', () => {
+      logger.error({ retries }, 'Failed to find DB, will retry');
+      setTimeout(() => resolve(attemptConnection(--retries)), RETRY_PERIOD_MS);
+    });
+
   });
 }
 

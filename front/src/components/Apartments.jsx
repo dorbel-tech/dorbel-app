@@ -4,15 +4,23 @@ import { observer } from 'mobx-react';
 
 @observer(['apartmentStore'])
 class Apartments extends Component {
+  componentDidMount() {
+    const { apartmentStore } = this.props;
+
+    if (apartmentStore.apartments.length === 0) {
+      apartmentStore.loadApartments();
+    }
+  }
+
   render() {
     return (
       <div>
         <h2>Apartments</h2>
         <ul>
-          <li><NavLink to="/apartments/123">Nice Apartment</NavLink></li>
-          <li><NavLink to="/apartments/456">Amazing Home</NavLink></li>
+          {this.props.apartmentStore.apartments.map(apt =>
+            <li key={apt.id}><NavLink to={'/apartments/' + apt.id}>{apt.title}</NavLink></li>
+          )}
         </ul>
-        {this.props.apartmentStore.apartments.map(apt => <p key={apt.id}>{apt.title}</p>)}
         {this.props.children}
       </div>
     );
