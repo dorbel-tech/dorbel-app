@@ -21,8 +21,8 @@ if [ ! -z "$1" ]; then
   if [ ! -z "$2" ]; then
     VERSION=$2
     GIT_SHA1=$(git rev-parse --short HEAD)
-    VERSION_WITHFLAG="--label ${VERSION}"
     VERSION="${VERSION}.${GIT_SHA1}"
+    VERSION_WITHFLAG="--label ${VERSION}"
   fi
 fi
 
@@ -45,3 +45,6 @@ eb deploy $ENV_NAME $VERSION_WITHFLAG --staged
 
 # Revert version change
 mv Dockerrun.aws.json-e Dockerrun.aws.json
+
+# Stage all changes again
+git add .
