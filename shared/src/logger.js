@@ -3,7 +3,7 @@ const bunyan = require('bunyan');
 const config = require('./config');
 const Logger = require('le_node');
 
-const loggerDefinition = Logger.bunyanStream({ token: config.get('LE_TOKEN') });
+const loggerDefinition = Logger.bunyanStream({ token: config.get('LOGENTRIES_TOKEN') });
 const generalLogger = bunyan.createLogger({ name: 'general', level: config.get('LOG_LEVEL'), streams: [ loggerDefinition ] });
 
 function getLogger(callingModule) {
