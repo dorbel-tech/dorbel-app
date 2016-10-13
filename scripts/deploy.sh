@@ -20,7 +20,9 @@ if [ ! -z "$1" ]; then
 
   if [ ! -z "$2" ]; then
     VERSION=$2
+    GIT_SHA1=$(git rev-parse --short HEAD)
     VERSION_WITHFLAG="--label ${VERSION}"
+    VERSION="${VERSION}.${GIT_SHA1}"
   fi
 fi
 
