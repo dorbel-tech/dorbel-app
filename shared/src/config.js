@@ -11,7 +11,7 @@ function setConfigFileFolder(folder) {
   const sharedConfigFile = path.join(folder, 'shared.json');
   config = config
     .file('env-file', environmentConfigFile) // files are last in the priority
-    .file('shared-file', sharedConfigFile ); // shared file comes last
+    .file('shared-file', sharedConfigFile); // shared file comes last
 }
 
 function get(key) {
