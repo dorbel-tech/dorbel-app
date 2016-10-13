@@ -1,5 +1,6 @@
 {
   "LOG_LEVEL": "error",
+  "LOGENTRIES_TOKEN": "aaaaaaa",
   "RDS_HOSTNAME": "localhost",
   "RDS_DB_NAME": "dorbel",
   "RDS_USERNAME": "dorbel",
