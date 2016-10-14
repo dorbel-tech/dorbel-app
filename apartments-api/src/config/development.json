@@ -1,4 +1,4 @@
 {
   "LOG_LEVEL": "debug",
-  "LOGENTRIES_TOKEN": "aaaaaaa"
+  "LOGENTRIES_TOKEN": "dummy-token"
 }

@@ -29,7 +29,7 @@ fi
 echo "Starting deployment of version ${VERSION} to ${ENV_NAME}."
 
 # Build docker image for Apartments API and upload it to AWS RDS
-docker build --no-cache -t dorbel/apartments-api . -f apartments-api/Dockerfile
+docker build -t dorbel/apartments-api . -f apartments-api/Dockerfile
 docker tag dorbel/apartments-api:latest 168720412882.dkr.ecr.eu-west-1.amazonaws.com/dorbel/apartments-api:$VERSION
 docker push 168720412882.dkr.ecr.eu-west-1.amazonaws.com/dorbel/apartments-api:$VERSION
 
