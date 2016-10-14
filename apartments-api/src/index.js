@@ -6,6 +6,8 @@ shared.config.setConfigFileFolder(__dirname + '/config'); // load config from fi
 const db = require('./apartmentDb/dbConnectionProvider');
 const logger = shared.logger.getLogger(module);
 
+logger.info('Starting server, mode:', shared.config.get('NODE_ENV'));
+
 function* bootstrap() {
   try {
     yield db.connect();

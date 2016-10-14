@@ -7,11 +7,11 @@ let config = nconf
   .env(); // environment vars are 2nd priority
 
 function setConfigFileFolder(folder) {
+  const commonConfigFile = path.join(folder, 'common.json');
   const environmentConfigFile = path.join(folder, process.env.NODE_ENV + '.json');
-  const sharedConfigFile = path.join(folder, 'shared.json');
   config = config
-    .file('env-file', environmentConfigFile) // files are last in the priority
-    .file('shared-file', sharedConfigFile); // shared file comes last
+    .file('env-file', environmentConfigFile)
+    .file('common-file', commonConfigFile);
 }
 
 function get(key) {

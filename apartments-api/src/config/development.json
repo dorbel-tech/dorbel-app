@@ -1,4 +1,3 @@
 {
-  "LOG_LEVEL": "debug",
-  "LOGENTRIES_TOKEN": "dummy-token"
+  "LOG_LEVEL": "debug"
 }

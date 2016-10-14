@@ -16,6 +16,7 @@ services:
     build:
       context: .
       dockerfile: apartments-api/Dockerfile
+    image: dorbel/apartments-api
     ports:
       - '3000:3000'
     depends_on:
