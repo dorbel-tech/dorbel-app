@@ -19,6 +19,11 @@
           "sourceVolume": "apartments-api",
           "containerPath": "/var/www/app",
           "readOnly": true
+        },
+        {
+          "sourceVolume": "apartments-api-logs",
+          "containerPath": "/var/log/containers/containername",
+          "readOnly": true
         }
       ],
       "portMappings": [

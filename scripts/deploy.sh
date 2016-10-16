@@ -28,6 +28,10 @@ fi
 
 echo "Starting deployment of version ${VERSION} to ${ENV_NAME}."
 
+# Login to AWS ECR to push docker image
+aws ecr get-login
+$($(!!)) # Execute output of previouse command.
+
 # Build docker image for Apartments API and upload it to AWS RDS
 docker build -t dorbel/apartments-api . -f apartments-api/Dockerfile
 docker tag dorbel/apartments-api:latest 168720412882.dkr.ecr.eu-west-1.amazonaws.com/dorbel/apartments-api:$VERSION

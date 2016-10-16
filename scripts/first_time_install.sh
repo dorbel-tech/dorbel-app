@@ -20,6 +20,11 @@ brew install awsebcli
 # Install Docker
 brew cask install docker
 
+# Install envsubst for deployment
+brew install gettext
+brew link --force gettext
+
+# Install Flow support
 brew install flow
 
 # Install software
