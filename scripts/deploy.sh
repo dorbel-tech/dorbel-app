@@ -21,12 +21,15 @@ if [ ! -z "$1" ]; then
   if [ ! -z "$2" ]; then
     VERSION=$2
     GIT_SHA1=$(git rev-parse --short HEAD)
-    VERSION="${VERSION}.${GIT_SHA1}"
-    VERSION_WITHFLAG="--label ${VERSION}"
+    VERSION_SHA1="${VERSION}.${GIT_SHA1}"
+    VERSION_WITHFLAG="--label ${VERSION_SHA1}"
   fi
 fi
 
 echo "Starting deployment of version ${VERSION} to ${ENV_NAME}."
+
+# Change version in all npm package files
+npm run set-version $VERSION
 
 # Login to AWS ECR to push docker image
 aws ecr get-login
@@ -34,11 +37,11 @@ $($(!!)) # Execute output of previouse command.
 
 # Build docker image for Apartments API and upload it to AWS RDS
 docker build -t dorbel/apartments-api . -f apartments-api/Dockerfile
-docker tag dorbel/apartments-api:latest 168720412882.dkr.ecr.eu-west-1.amazonaws.com/dorbel/apartments-api:$VERSION
-docker push 168720412882.dkr.ecr.eu-west-1.amazonaws.com/dorbel/apartments-api:$VERSION
+docker tag dorbel/apartments-api:latest 168720412882.dkr.ecr.eu-west-1.amazonaws.com/dorbel/apartments-api:$VERSION_SHA1
+docker push 168720412882.dkr.ecr.eu-west-1.amazonaws.com/dorbel/apartments-api:$VERSION_SHA1
 
 # Replace Docker image version
-REPLACE="s/latest/${VERSION}/g" 
+REPLACE="s/latest/${VERSION_SHA1}/g" 
 sed -i -e $REPLACE Dockerrun.aws.json
 
 # Stage all changes
