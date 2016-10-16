@@ -28,7 +28,7 @@
         },
         {
           "sourceVolume": "apartments-api-logs",
-          "containerPath": "/var/log/containers/containername",
+          "containerPath": "/var/log/containers/apartments-api",
           "readOnly": true
         }
       ],
