@@ -32,8 +32,7 @@ echo "Starting deployment of version ${VERSION} to ${ENV_NAME}."
 npm run set-version $VERSION
 
 # Login to AWS ECR to push docker image
-aws ecr get-login
-$($(!!)) # Execute output of previouse command.
+$(aws ecr get-login) # Execute output of previouse command.
 
 # Build docker image for Apartments API and upload it to AWS RDS
 docker build -t dorbel/apartments-api . -f apartments-api/Dockerfile
