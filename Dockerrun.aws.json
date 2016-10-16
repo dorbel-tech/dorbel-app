@@ -6,13 +6,7 @@
       "host": {
         "sourcePath": "/var/app/current/apartments-api"
       }
-    },
-    {
-      "name": "apartments-api-logs",
-      "host": {
-        "sourcePath": "/var/log/supervisor"
-      }
-    }    
+    }
   ],
   "containerDefinitions": [
     {
@@ -24,11 +18,6 @@
         {
           "sourceVolume": "apartments-api",
           "containerPath": "/var/www/app",
-          "readOnly": true
-        },
-        {
-          "sourceVolume": "apartments-api-logs",
-          "containerPath": "/var/log/containers/apartments-api",
           "readOnly": true
         }
       ],
