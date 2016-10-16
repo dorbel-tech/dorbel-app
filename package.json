@@ -1,6 +1,6 @@
 {
   "name": "dorbel-app",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "package.json to include development dependencies needed by all the services",
   "scripts": {
     "first": "scripts/first_time_install.sh",
@@ -8,7 +8,7 @@
     "test": "scripts/npm-test.sh",
     "start": "scripts/env.sh start",
     "stop": "scripts/env.sh stop",
-    "version": "scripts/npm-version.sh",
+    "set-version": "scripts/npm-version.sh",
     "deploy": "scripts/deploy.sh"
   },
   "repository": {
