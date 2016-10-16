@@ -1,6 +1,6 @@
 {
   "name": "dorbel-app",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "package.json to include development dependencies needed by all the services",
   "scripts": {
     "first": "scripts/first_time_install.sh",
