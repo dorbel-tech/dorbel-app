@@ -16,7 +16,7 @@ if [ ! -z "$1" ]; then
 fi
 
 if [ ! -z "$2" ]; then
-  case $1 in
+  case $2 in
     dev)
       ENV_NAME="apartments-api-dev" ;;
     test)
@@ -30,14 +30,14 @@ if [ ! -z "$2" ]; then
   esac
 
   if [ ! -z "$3" ]; then
-    VERSION=$2
+    VERSION=$3
     GIT_SHA1=$(git rev-parse --short HEAD)
     VERSION_SHA1="${VERSION}.${GIT_SHA1}"
     VERSION_WITHFLAG="--label ${VERSION_SHA1}"
   fi
 fi
 
-echo "Starting deployment of version ${VERSION} to ${ENV_NAME}."
+echo "Starting deployment of ${SERVICE_NAME} ${VERSION} to ${ENV_NAME}."
 
 cd $SERVICE_NAME
 
