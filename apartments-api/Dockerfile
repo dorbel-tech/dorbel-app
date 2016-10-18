@@ -2,11 +2,11 @@
 FROM nodesource/node:4
 
 # Working directory environment variable.
-ENV WORKDIR="/home/nodejs/app"
+ENV WORKDIR="/var/app/current"
 
 # Create non root "nodejs" user to run from for security reasons.
-RUN groupadd -r nodejs && useradd -m -r -g nodejs nodejs
-USER nodejs
+# RUN groupadd -r nodejs && useradd -m -r -g nodejs nodejs
+# USER nodejs
 
 # Create working directory in container.
 RUN mkdir -p $WORKDIR
@@ -14,7 +14,7 @@ WORKDIR $WORKDIR
 
 # Install dependencies before to cache node_modules.
 COPY package.json $WORKDIR
-RUN npm install
+RUN npm install 
 
 # Copy all files from host to container.
 COPY . $WORKDIR
