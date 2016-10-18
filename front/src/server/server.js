@@ -8,11 +8,12 @@ import 'isomorphic-fetch'; // polyfill fetch for nodejs
 import config from '~/config';
 import shared from 'dorbel-shared';
 import apiProxy from '~/server/apiProxy';
-import { renderReact } from '~/server/reactServerRenderer';
+import { renderApp } from '~/app.server';
+
+const logger = shared.logger.getLogger(module);
 
 function* runServer() {
   const app = koa();
-  const logger = shared.logger.getLogger(module);
   const port = config.get('PORT');
 
   app.use(compress());
@@ -27,11 +28,11 @@ function* runServer() {
     viewExt: 'ejs'
   });
 
-  app.use(renderReact);
+  app.use(renderApp);
 
   app.listen(port, () => {
     logger.info({ port, env: process.env.NODE_ENV }, '✅  Server is listening');
   });
 }
 
-if (require.main === module) co(runServer);
+if (require.main === module) co(runServer).catch(err => logger.error(err));

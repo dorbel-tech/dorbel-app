@@ -6,7 +6,7 @@ const dir = require('./src/config').dir;
 let Config = {
   entry: [
     'babel-polyfill',
-    path.join(dir.src, 'components/Router.jsx')
+    path.join(dir.src, '/app.client.js')
   ],
   output: {
     path: path.join(dir.public, 'build'),
