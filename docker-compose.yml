@@ -10,7 +10,6 @@ services:
       MYSQL_DATABASE: dorbel
       MYSQL_USER: dorbel
       MYSQL_PASSWORD: dorbel
-    restart: always
 
   apartments-api:
     build:
@@ -23,7 +22,6 @@ services:
       - db
     links:
        - db
-    restart: always
     environment:
       RDS_HOSTNAME: db
       RDS_DB_NAME: dorbel
