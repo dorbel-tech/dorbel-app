@@ -19,7 +19,7 @@ function escapseSlashes(path) {
 
 function* loadProxy(app) {
   logger.info('loading proxy');
-  const backendUrls = shared.config.get('BACKEND_URLS');
+  const backendUrls = shared.config.get('BACKEND_URLS') || [];
   const swaggerDocs = yield Promise.all(backendUrls.map(getApiPaths));
 
   swaggerDocs.forEach(doc => {

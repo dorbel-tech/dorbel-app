@@ -1,3 +1,10 @@
 # dorbel front end application
 
-- mostly based on the guide https://medium.com/@foxhound87/lets-start-with-webpack-and-babel-we-must-react-ep-01-5013c70b78c9
+## Install
+``npm install``
+
+## Running
+You'll need to run two terminals
+1. One for the main application - ``npm run start:dev``
+2. One for the hot-reload server - ``npm run build:dev``
+
