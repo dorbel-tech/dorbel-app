@@ -5,8 +5,8 @@ FROM node:4
 ENV WORKDIR="/home/nodejs/app"
 
 # Create non root "nodejs" user to run from for security reasons.
-RUN groupadd -r nodejs && useradd -m -r -g nodejs nodejs
-USER nodejs
+# RUN groupadd -r nodejs && useradd -m -r -g nodejs nodejs
+# USER nodejs
 
 # Create working directory in container.
 RUN mkdir -p $WORKDIR
@@ -23,4 +23,5 @@ COPY . $WORKDIR
 EXPOSE 3000
 
 # Run node server.
+CMD [ "npm", "install" ]
 CMD [ "npm", "start" ]
