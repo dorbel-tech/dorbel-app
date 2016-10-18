@@ -1,0 +1,12 @@
+branch-defaults:
+  develop:
+    environment: dorbel-develop
+  master:
+    environment: dorbel-production
+global:
+  application_name: dorbel
+  default_ec2_keyname: aws-eb
+  default_platform: Multi-container Docker 1.11.2 (Generic)
+  default_region: eu-west-1
+  profile: null
+  sc: git

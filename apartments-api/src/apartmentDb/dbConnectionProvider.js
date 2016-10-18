@@ -32,9 +32,9 @@ function attemptConnection(retries) {
 module.exports.connect = function* connect() {
   yield attemptConnection(ATTEMPTS_TO_CONNECT);
 
-  const db = new Sequelize(config.get('DB_NAME'), config.get('DB_USER'), config.get('DB_PASSWORD'),
+  const db = new Sequelize(config.get('RDS_DB_NAME'), config.get('RDS_USERNAME'), config.get('RDS_PASSWORD'),
     {
-      host: config.get('DB_HOST'),
+      host: config.get('RDS_HOSTNAME'),
       pool: {
         max: 10,
         min: 0
