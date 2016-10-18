@@ -10,6 +10,5 @@
       "HostDirectory": "/var/app/current",
       "ContainerDirectory": "/home/nodejs/app"
     }
-  ],
-  "Logging": "/var/log/nginx"
+  ]
 }
