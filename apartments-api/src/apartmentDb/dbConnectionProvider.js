@@ -18,7 +18,7 @@ function attemptConnection(retries) {
       return reject();
     }
 
-    net.connect(MY_SQL_PORT, config.get('DB_HOST'), () => {
+    net.connect(MY_SQL_PORT, config.get('RDS_HOSTNAME'), () => {
       logger.info('DB Available');
       resolve(true);
     }).on('error', () => {
