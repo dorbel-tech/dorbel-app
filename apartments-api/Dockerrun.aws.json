@@ -1,14 +1,15 @@
 {
   "AWSEBDockerrunVersion": "1",
-  "Ports": [
+  "containerDefinitions": [
     {
-      "ContainerPort": "3000"
-    }
-  ],
-  "Volumes": [
-    {
-      "HostDirectory": "/var/app/current",
-      "ContainerDirectory": "/usr/app"
+      "name": "apartments-api",
+      "essential": true,
+      "portMappings": [
+        {
+          "hostPort": 80,
+          "containerPort": 4000
+        }
+      ]
     }
   ]
 }
