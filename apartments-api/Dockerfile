@@ -19,5 +19,4 @@ COPY . $WORKDIR
 EXPOSE 3000
 
 # Run node server.
-# CMD [ "npm", "install" ]
 CMD [ "npm", "start" ]

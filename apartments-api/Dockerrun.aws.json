@@ -1,15 +1,8 @@
 {
   "AWSEBDockerrunVersion": "1",
-  "containerDefinitions": [
+  "Ports": [
     {
-      "name": "apartments-api",
-      "essential": true,
-      "portMappings": [
-        {
-          "hostPort": 80,
-          "containerPort": 3000
-        }
-      ]
+      "ContainerPort": "3000"
     }
   ]
 }
