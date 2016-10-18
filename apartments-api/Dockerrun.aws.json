@@ -8,7 +8,7 @@
   "Volumes": [
     {
       "HostDirectory": "/var/app/current",
-      "ContainerDirectory": "/home/nodejs/app"
+      "ContainerDirectory": "/usr/app"
     }
   ]
 }
