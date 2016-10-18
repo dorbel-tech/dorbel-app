@@ -42,7 +42,7 @@ echo "Starting deployment of ${SERVICE_NAME} ${VERSION} to ${ENV_NAME}."
 cd $SERVICE_NAME
 
 # Change version in all npm package files
-npm version $VERSION -m 'version bump as a result of new deployment' --force
+npm version $VERSION -m 'version bump as a result of new deployment'
 
 # Stage all changes
 git add .
