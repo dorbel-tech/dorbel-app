@@ -15,10 +15,12 @@ brew install git
 
 # Install AWS CLI
 brew install awscli
+brew install awsebcli
 
 # Install Docker
 brew cask install docker
 
+# Install Flow support
 brew install flow
 
 # Install software

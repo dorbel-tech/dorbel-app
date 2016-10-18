@@ -7,7 +7,9 @@
     "install": "scripts/npm-install.sh",
     "test": "scripts/npm-test.sh",
     "start": "scripts/env.sh start",
-    "stop": "scripts/env.sh stop"
+    "stop": "scripts/env.sh stop",
+    "set-version": "scripts/npm-version.sh",
+    "deploy": "scripts/deploy.sh"
   },
   "repository": {
     "type": "git",

@@ -1,6 +1,6 @@
 {
   "name": "dorbel-shared",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "description": "Shared module for dorbel services",
   "main": "src/index.js",
   "scripts": {
@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "bunyan": "^1.8.1",
+    "le_node": "1.6.7",
     "lodash": "^4.16.3",
     "nconf": "^0.8.4",
     "swagger-model-validator": "^2.1.2"
