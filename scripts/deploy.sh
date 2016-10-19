@@ -18,13 +18,13 @@ fi
 if [ ! -z "$2" ]; then
   case $2 in
     dev)
-      ENV_NAME="apartments-api-dev" ;;
+      ENV_NAME="apartments-api-develop" ;;
     test)
       ENV_NAME="apartments-api-test" ;;
     stage)
       ENV_NAME="apartments-api-stage" ;;
     prod)
-      ENV_NAME="apartments-api-dev-prod" ;;
+      ENV_NAME="apartments-api-production" ;;
     *)
       ;;
   esac
