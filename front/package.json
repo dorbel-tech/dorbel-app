@@ -20,6 +20,7 @@
     "babel-preset-stage-1": "^6.16.0",
     "bunyan": "^1.8.1",
     "co": "^4.6.0",
+    "director": "^1.2.8",
     "dorbel-shared": "git://github.com/dorbel-tech/dorbel-shared#v0.1.8",
     "ejs": "^2.5.2",
     "isomorphic-fetch": "^2.2.1",
@@ -30,6 +31,7 @@
     "koa-static": "^2.0.0",
     "mobx": "^2.6.0",
     "mobx-react": "^3.5.8",
+    "node-sass": "3.10.1",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
     "xhr2": "^0.1.3"
