@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
+import styles from './about.scss';
+
 
 class About extends Component {
   render() {
     return (
       <div>
         <h2>About</h2>
-        <p>
+        <p className={styles.aboutText}>
           לשכור דירה זה סיוט.
           המשימה שלנו בדורבל היא להפוך את תהליך ההשכרה המסורבל, הארוך והמבאס - לפשוט, מהיר ומהנה.
           באמצעות בניית קהילה של שוכרים ומשכירים, עזרנו כבר למאות דיירים איכותיים למצוא דירות טובות ושוות שהם שמחים לגור בהן, ולמאות בעלי דירות למצוא שוכרים איכותיים וטובים בצורה הנוחה ביותר.

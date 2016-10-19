@@ -1,5 +1,6 @@
 'use strict';
 import { renderToString } from 'react-dom/server';
+import 'ignore-styles';
 import shared from '~/app.shared';
 
 function* renderApp() {

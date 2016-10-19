@@ -1,7 +1,7 @@
 import director from 'director';
 // import { autorun } from 'mobx';
 
-import About from '~/components/About';
+import About from '~/components/About/About';
 import Apartments from '~/components/Apartments';
 import Apartment from '~/components/Apartment';
 import Home from '~/components/Home';
