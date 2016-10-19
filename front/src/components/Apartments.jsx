@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import NavLink from './NavLink';
 import { observer } from 'mobx-react';
+import NavLink from '~/components/NavLink';
 
 @observer(['appStore'])
 class Apartments extends Component {

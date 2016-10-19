@@ -4,14 +4,14 @@ class Apartment extends Component {
   render() {
     return (
       <div>
-        <h4>ID: {this.props.params.apartmentId}</h4>
+        <h4>ID: {this.props.apartmentId}</h4>
       </div>
     );
   }
 }
 
 Apartment.propTypes = {
-  params: React.PropTypes.object
+  apartmentId: React.PropTypes.string.isRequired
 };
 
 export default Apartment;
