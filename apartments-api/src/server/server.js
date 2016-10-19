@@ -3,6 +3,7 @@ const koa = require('koa');
 const fleekRouter = require('fleek-router');
 const bodyParser = require('koa-bodyparser');
 const shared = require('dorbel-shared');
+const swaggerDoc = require('./swagger.json');
 
 const logger = shared.logger.getLogger(module);
 const app = koa();
@@ -13,8 +14,13 @@ const env = process.env.NODE_ENV;
 app.use(shared.middleware.requestLogger());
 app.use(bodyParser());
 
+app.use(function* returnSwagger(next) {
+  if (this.method === 'GET' && this.url === '/swagger') this.body = swaggerDoc;
+  else yield next;
+});
+
 fleekRouter(app, {
-  swagger: './swagger.json',
+  swagger: swaggerDoc,
   validate: true,
   middleware: [ shared.middleware.swaggerModelValidator() ]
 });
