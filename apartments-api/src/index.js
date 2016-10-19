@@ -1,5 +1,4 @@
 'use strict';
-require('@risingstack/trace'); // Application monitoring
 const co = require('co');
 const shared = require('dorbel-shared');
 const config = shared.config;

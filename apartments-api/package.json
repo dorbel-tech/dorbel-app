@@ -9,11 +9,10 @@
     "test": "mocha --compilers js:babel-register test/shared/before-tests.js test/**/*.spec.js"
   },
   "dependencies": {
-    "@risingstack/trace": "2.27.2",
     "babel-cli": "^6.16.0",
     "babel-plugin-transform-flow-strip-types": "^6.14.0",
     "co": "^4.6.0",
-    "dorbel-shared": "git://github.com/dorbel-tech/dorbel-shared#v0.0.8",
+    "dorbel-shared": "git://github.com/dorbel-tech/dorbel-shared#v0.0.9",
     "fleek-router": "^1.2.5",
     "koa": "^1.2.4",
     "koa-bodyparser": "^2.2.0",
