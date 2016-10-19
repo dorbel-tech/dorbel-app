@@ -18,6 +18,22 @@ function* runServer() {
 
   app.use(compress());
   app.use(shared.middleware.requestLogger());
+
+  if (config.get('HOT_RELOAD_SERVER_PORT')) {
+    const buildHost = 'http://localhost:' + config.get('HOT_RELOAD_SERVER_PORT');
+
+    app.use(function* (next) {
+      this.state = this.state || {};
+      this.state.buildHost = buildHost;
+      yield next;
+    });
+
+    app.use(require('koa-proxy')({
+      host: buildHost,
+      match: /^\/build\//,
+    }));
+  }
+
   app.use(koaStatic(config.dir.public));
 
   yield apiProxy.loadProxy(app);

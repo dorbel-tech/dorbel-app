@@ -22,7 +22,7 @@ function* renderApp() {
   }
   else if (props) {
     const entryPoint = shared.injectStores(<RouterContext {...props} />);
-    const initialState = entryPoint.appState.toJson();
+    const initialState = entryPoint.appStore.toJson();
     const appHtml = renderToString(entryPoint.app);
     yield this.render('index', { appHtml, initialState });
   }
