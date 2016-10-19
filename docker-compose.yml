@@ -13,8 +13,7 @@ services:
 
   apartments-api:
     build:
-      context: .
-      dockerfile: apartments-api/Dockerfile
+      context: apartments-api
     image: dorbel/apartments-api
     ports:
       - '3000:3000'

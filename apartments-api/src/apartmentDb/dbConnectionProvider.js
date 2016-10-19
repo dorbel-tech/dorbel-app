@@ -22,7 +22,7 @@ function attemptConnection(retries) {
       logger.info('DB Available');
       resolve(true);
     }).on('error', () => {
-      logger.error({ retries }, 'Failed to find DB, will retry');
+      logger.error({ retries, hostname: config.get('RDS_HOSTNAME') }, 'Failed to find DB, will retry');
       setTimeout(() => resolve(attemptConnection(--retries)), RETRY_PERIOD_MS);
     });
 

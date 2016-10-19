@@ -1,62 +1,52 @@
 #!/bin/bash
-# A script to deploy Docker containers to AWS Elastic Beanstalk multi container environment.
+# A script to deploy Docker containers to AWS Elastic Beanstalk single container environment.
 
+SERVICE_NAME=""
 ENV_NAME=""
 VERSION=""
 
 if [ $# -eq 0 ]; then
     echo "No arguments provided."
-    echo "[npm run deploy dev v0.1] should work."
+    echo "[npm run deploy service-name dev v0.0.1] should work."
     exit 1
 fi
 
 if [ ! -z "$1" ]; then
-  case $1 in
+  SERVICE_NAME=$1
+fi
+
+if [ ! -z "$2" ]; then
+  case $2 in
     dev)
-      ENV_NAME="dorbel-develop" ;;
+      ENV_NAME="apartments-api-develop" ;;
     test)
-      ENV_NAME="dorbel-test" ;;
+      ENV_NAME="apartments-api-test" ;;
     stage)
-      ENV_NAME="dorbel-staging" ;;
+      ENV_NAME="apartments-api-stage" ;;
     prod)
-      ENV_NAME="dorbel-production" ;;
+      ENV_NAME="apartments-api-production" ;;
     *)
       ;;
   esac
 
-  if [ ! -z "$2" ]; then
-    VERSION=$2
-    GIT_SHA1=$(git rev-parse --short HEAD)
-    VERSION_SHA1="${VERSION}.${GIT_SHA1}"
-    VERSION_WITHFLAG="--label ${VERSION_SHA1}"
+  if [ ! -z "$3" ]; then
+    VERSION=$3
+    VERSION_WITHFLAG="--label ${VERSION}"
   fi
 fi
 
-echo "Starting deployment of version ${VERSION} to ${ENV_NAME}."
+echo "Starting deployment of ${SERVICE_NAME} ${VERSION} to ${ENV_NAME}."
+
+cd $SERVICE_NAME
 
 # Change version in all npm package files
-npm run set-version $VERSION
-
-# Login to AWS ECR to push docker image
-$(aws ecr get-login) # Execute output of previouse command.
-
-# Build docker image for Apartments API and upload it to AWS RDS
-docker build -t dorbel/apartments-api . -f apartments-api/Dockerfile
-docker tag dorbel/apartments-api:latest 168720412882.dkr.ecr.eu-west-1.amazonaws.com/dorbel/apartments-api:$VERSION_SHA1
-docker push 168720412882.dkr.ecr.eu-west-1.amazonaws.com/dorbel/apartments-api:$VERSION_SHA1
-
-# Replace Docker image version
-REPLACE="s/latest/${VERSION_SHA1}/g" 
-sed -i -e $REPLACE Dockerrun.aws.json
+npm version $VERSION -m 'version bump as a result of new deployment'
 
 # Stage all changes
 git add .
 
 # Deploy application to AWS EB
-eb deploy $ENV_NAME $VERSION_WITHFLAG --staged
+COMMIT_MESSAGE=$(git log -1 --oneline)
+eb deploy $ENV_NAME $VERSION_WITHFLAG --staged --message "$COMMIT_MESSAGE"
 
-# Revert version change
-mv Dockerrun.aws.json-e Dockerrun.aws.json
-
-# Stage all changes again
-git add .
+cd ..

@@ -1,5 +1,4 @@
 #!/bin/bash
 # A script to run all modules tests.
 
-npm --prefix ./apartments-api test &&
-npm --prefix ./shared test
+npm --prefix ./apartments-api test #&&

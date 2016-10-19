@@ -6,6 +6,7 @@ machine:
     RDS_DB_NAME: circle_test
     RDS_USERNAME: ubuntu
     RDS_PASSWORD: 
+    NEW_RELIC_ENABLED: False
   services:
     - mysql
 
@@ -18,7 +19,6 @@ dependencies:
     - npm install
   cache_directories:
     - node_modules
-    - shared/node_modules        
     - apartments-api/node_modules
 
 test:
