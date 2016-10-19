@@ -31,9 +31,7 @@ if [ ! -z "$2" ]; then
 
   if [ ! -z "$3" ]; then
     VERSION=$3
-    GIT_SHA1=$(git rev-parse --short HEAD)
-    VERSION_SHA1="${VERSION}.${GIT_SHA1}"
-    VERSION_WITHFLAG="--label ${VERSION_SHA1}"
+    VERSION_WITHFLAG="--label ${VERSION}"
   fi
 fi
 
@@ -48,6 +46,7 @@ npm version $VERSION -m 'version bump as a result of new deployment'
 git add .
 
 # Deploy application to AWS EB
-eb deploy $ENV_NAME $VERSION_WITHFLAG --staged
+COMMIT_MESSAGE=$(git log -1 --oneline)
+eb deploy $ENV_NAME $VERSION_WITHFLAG --staged --message "$COMMIT_MESSAGE"
 
 cd ..
