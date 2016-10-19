@@ -17,7 +17,7 @@
     "babel-preset-stage-1": "^6.16.0",
     "bunyan": "^1.8.1",
     "co": "^4.6.0",
-    "dorbel-shared": "git://github.com/dorbel-tech/dorbel-shared#v0.0.4",
+    "dorbel-shared": "git://github.com/dorbel-tech/dorbel-shared#v0.0.8",
     "ejs": "^2.5.2",
     "isomorphic-fetch": "^2.2.1",
     "koa": "^1.2.4",
