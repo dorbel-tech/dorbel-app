@@ -54,6 +54,10 @@ let Config = {
         test: /\.jsx?$/,
         loader: reactLoader,
         exclude: /node_modules/,
+      },
+      {
+        test: /\.scss$/,
+        loaders: ['style', 'css?modules', 'sass' ]
       }
     ],
   },
