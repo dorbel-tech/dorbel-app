@@ -1,6 +1,7 @@
 # This file is meant to extend docker-compose.yml for development environment
 version: '2'
 services:
+
   apartments-api:
     ports:
       - '5858:5858'
@@ -10,3 +11,11 @@ services:
       NODE_ENV: development
     command: npm run start-dev
 
+  apartments-api:
+    ports:
+      - '5858:5858'
+    volumes:
+      - ./front-gateway/src:/usr/app/src
+    environment:
+      NODE_ENV: development
+    command: npm run start:dev

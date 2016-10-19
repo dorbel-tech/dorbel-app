@@ -29,8 +29,8 @@ services:
 
   front:
     build:
-      context: front
-    image: dorbel/front
+      context: front-gateway
+    image: dorbel/front-gateway
     ports:
       - '3001:3001'
     depends_on:
