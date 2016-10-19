@@ -1,4 +1,5 @@
 'use strict';
+require('@risingstack/trace'); // Application monitoring
 const co = require('co');
 const shared = require('dorbel-shared');
 shared.config.setConfigFileFolder(__dirname + '/config'); // load config from file before anything else
