@@ -1,25 +1,28 @@
 import React, { Component } from 'react';
-import NavLink from './NavLink';
 import { observer } from 'mobx-react';
+import NavLink from '~/components/NavLink';
 
-@observer
+@observer(['appStore'])
 class App extends Component {
   render() {
+    const { appStore } = this.props;
+
     return (
       <div>
-        <NavLink to="/" onlyActiveOnIndex={true}><h1>dorbel</h1></NavLink>
+        <NavLink to="/"><h1>dorbel</h1></NavLink>
         <ul role="nav">
           <li><NavLink to="/apartments">Apartments</NavLink></li>
           <li><NavLink to="/about">About</NavLink></li>
         </ul>
-        {this.props.children}
+        <appStore.currentView {...appStore.routeParams} />
       </div>
     );
   }
+
 }
 
-App.propTypes = {
-  children: React.PropTypes.node,
+App.wrappedComponent.propTypes = {
+  appStore: React.PropTypes.object
 };
 
 export default App;
