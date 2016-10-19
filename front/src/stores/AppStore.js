@@ -6,8 +6,9 @@ import { observable, action } from 'mobx';
 // A wrapper for all the stores that the application uses
 export default class AppStore {
   apartmentStore: ApartmentStore;
+  authStore: AuthStore;
   @observable currentView: string;
-  @observable routeParams;
+  @observable routeParams: {[id:string]: string};
 
   constructor(initialState = {}) {
     this.apartmentStore = new ApartmentStore(initialState.apartmentStore);

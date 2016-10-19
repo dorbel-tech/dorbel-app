@@ -4,23 +4,24 @@ import { Provider } from 'mobx-react';
 import { startRouter } from '~/routes';
 import AppStore from '~/stores/AppStore';
 import App from '~/components/App';
-// import AuthProvider from '~/providers/authProvider';
 
-// const isServer = !global.window;
+import AuthProvider from '~/providers/authProvider';
+
+const isServer = !global.window;
 
 function injectStores(initialState) {
   const appStore = new AppStore(initialState);
   const router = startRouter(appStore);
 
-  // let authProvider;
+  let authProvider;
 
-  // if (!isServer) {
-  //   // TODO : config config config
-  //   authProvider = new AuthProvider('UyuPpE4zo4sUTcDYrGQrtTRY5eQHHULm', 'dorbel.eu.auth0.com', appStore.authStore);
-  // }
+  if (!isServer) {
+    if (!process.env.AUTH0_CLIENT_ID || !process.env.AUTH0_DOMAIN) throw new Error('must set auth0 env vars');
+    authProvider = new AuthProvider(process.env.AUTH0_CLIENT_ID, process.env.AUTH0_DOMAIN, appStore.authStore);
+  }
 
   const app = (
-    <Provider appStore={appStore} router={router}>
+    <Provider appStore={appStore} router={router} authProvider={authProvider}>
       <App />
     </Provider>
   );

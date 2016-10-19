@@ -11,9 +11,6 @@ let publicPath = '';
 
 if (process.env.NODE_ENV === 'production') {
   plugins = [
-    new webpack.DefinePlugin({
-      'process.env':{ 'NODE_ENV': JSON.stringify('production') }
-    }),
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.optimize.UglifyJsPlugin()
@@ -60,7 +57,15 @@ let Config = {
       }
     ],
   },
-  plugins,
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env': { // these are env variables that get forwarded to the client side (during the build!)
+        'NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+        'AUTH0_CLIENT_ID': JSON.stringify(process.env.AUTH0_CLIENT_ID),
+        'AUTH0_DOMAIN': JSON.stringify(process.env.AUTH0_DOMAIN)
+      }
+    })
+  ].concat(plugins),
   devServer
 };
 

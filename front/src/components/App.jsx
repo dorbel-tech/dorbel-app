@@ -12,6 +12,8 @@ class App extends Component {
         <NavLink to="/"><h1>dorbel</h1></NavLink>
         <ul role="nav">
           <li><NavLink to="/apartments">Apartments</NavLink></li>
+          <li><NavLink to="/login">Login</NavLink></li>
+          <li><NavLink to="/profile">Profile</NavLink></li>
           <li><NavLink to="/about">About</NavLink></li>
         </ul>
         <appStore.currentView {...appStore.routeParams} />
