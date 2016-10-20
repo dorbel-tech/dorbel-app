@@ -11,11 +11,11 @@ services:
       NODE_ENV: development
     command: npm run start:dev
 
-  front-gateway:
-    ports:
-      - '5859:5859'
-    volumes:
-      - ./front-gateway/src:/usr/app/src
-    environment:
-      NODE_ENV: development
-    command: npm run start:dev
+  # front-gateway:
+  #   ports:
+  #     - '5859:5859'
+  #   volumes:
+  #     - ./front-gateway/src:/usr/app/src
+  #   environment:
+  #     NODE_ENV: development
+  #   command: npm run start:dev

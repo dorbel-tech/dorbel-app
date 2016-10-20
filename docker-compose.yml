@@ -27,15 +27,15 @@ services:
       RDS_USERNAME: dorbel
       RDS_PASSWORD: dorbel
 
-  front-gateway:
-    build:
-      context: front-gateway
-    image: dorbel/front-gateway
-    ports:
-      - '3001:3001'
-    depends_on:
-      - apartments-api
-    links:
-      - apartments-api
-    environment:
-      APARTMENTS_API_URL: APARTMENTS-API_PORT
+  # front-gateway:
+  #   build:
+  #     context: front-gateway
+  #   image: dorbel/front-gateway
+  #   ports:
+  #     - '3001:3001'
+  #   depends_on:
+  #     - apartments-api
+  #   links:
+  #     - apartments-api
+  #   environment:
+  #     APARTMENTS_API_URL: http://localhost:3000
