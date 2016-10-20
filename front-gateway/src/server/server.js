@@ -35,8 +35,7 @@ function* runServer() {
     }));
   }
 
-  app.use(serve(__dirname + '/public'));
-  // app.use(serve(config.dir.public));
+  app.use(serve(config.dir.public));
 
   yield apiProxy.loadProxy(app);
 
