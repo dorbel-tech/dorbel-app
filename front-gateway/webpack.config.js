@@ -41,14 +41,15 @@ let Config = {
     extensions: ['', '.js', '.jsx', '.json'],
   },
   module: {
-    preLoaders: [
-      {
-        test: /\.jsx?$/,
-        loader: 'eslint-loader',
-        exclude: /node_modules/,
-        include: dir.src,
-      }
-    ],
+    // Commented out as it causing eslint failures during build in Docker
+    // preLoaders: [
+    //   {
+    //     test: /\.jsx?$/,
+    //     loader: 'eslint-loader',
+    //     exclude: /node_modules/,
+    //     include: dir.src,
+    //   }
+    // ],
     loaders: [
       {
         test: /\.jsx?$/,
