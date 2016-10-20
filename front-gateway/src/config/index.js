@@ -1,7 +1,9 @@
-const config = require('dorbel-shared').config;
+const shared = require('dorbel-shared');
+const logger = shared.logger.getLogger(module);
+
 const path = require('path');
 
-config.setConfigFileFolder(__dirname);
+shared.config.setConfigFileFolder(__dirname);
 
 const frontRoot = path.resolve(__dirname, '..', '..');
 
@@ -10,7 +12,9 @@ const dir = {
   public: path.resolve(frontRoot, 'public')
 };
 
+logger.info({frontRoot, dir}, 'Debugging path');
+
 module.exports = {
-  get: config.get,
+  get: shared.config.get,
   dir
 };
