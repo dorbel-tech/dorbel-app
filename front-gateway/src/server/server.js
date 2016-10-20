@@ -47,7 +47,7 @@ function* runServer() {
   app.use(renderApp);
 
   app.listen(port, () => {
-    logger.info({ port, env: process.env.NODE_ENV }, '✅  Server is listening');
+    logger.info({ version: process.env.npm_package_version, env: config.get('NODE_ENV') }, 'Starting server');
   });
 }
 
