@@ -15,8 +15,6 @@ RUN npm install --silent
 # Copy all files from host to container.
 COPY . $WORKDIR
 
-RUN npm run build --silent
-
 # Open port
 EXPOSE 3001
 

@@ -1,6 +1,6 @@
 {
   "name": "dorbel-apartment-api",
-  "version": "0.0.38",
+  "version": "0.0.39",
   "description": "API for dorbel apartments domain",
   "main": "src/index.js",
   "scripts": {
@@ -22,6 +22,7 @@
   },
   "devDependencies": {
     "babel-register": "^6.16.3",
+    "bunyan": "^1.8.1",
     "co-mocha": "^1.1.3",
     "co-supertest": "0.0.10",
     "hamjest": "^2.13.0",
