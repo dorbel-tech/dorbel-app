@@ -13,7 +13,7 @@ services:
 
   front-gateway:
     ports:
-      - '5858:5858'
+      - '5859:5859'
     volumes:
       - ./front-gateway/src:/usr/app/src
     environment:
