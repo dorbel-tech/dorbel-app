@@ -9,7 +9,7 @@ services:
       - ./apartments-api/src:/usr/app/src
     environment:
       NODE_ENV: development
-    command: npm run start-dev
+    command: npm run start:dev
 
   front-gateway:
     ports:
