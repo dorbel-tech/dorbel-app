@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "start": "babel-node src/index",
-    "start-dev": "nodemon --exec babel-node src/index | bunyan",
+    "start:dev": "nodemon --exec babel-node src/index | bunyan",
     "test": "mocha --compilers js:babel-register test/shared/before-tests.js test/**/*.spec.js"
   },
   "dependencies": {
