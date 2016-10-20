@@ -1,8 +1,8 @@
 # Image to pull.
-FROM node:4
+FROM nodesource/node:4
 
 # Working directory environment variable.
-ENV WORKDIR="/usr/app"
+ENV WORKDIR="/home/nodejs/app"
 
 # Create working directory in container.
 RUN mkdir -p $WORKDIR
