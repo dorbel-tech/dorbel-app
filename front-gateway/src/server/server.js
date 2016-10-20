@@ -1,6 +1,6 @@
 'use strict';
 import koa from 'koa';
-import koaStatic from 'koa-static';
+import serve from 'koa-static';
 import compress from 'koa-compress';
 import koa_ejs from 'koa-ejs';
 import co from 'co';
@@ -19,6 +19,7 @@ function* runServer() {
   app.use(compress());
   app.use(shared.middleware.requestLogger());
 
+  // Used for development only
   if (config.get('HOT_RELOAD_SERVER_PORT')) {
     const buildHost = 'http://localhost:' + config.get('HOT_RELOAD_SERVER_PORT');
 
@@ -34,7 +35,8 @@ function* runServer() {
     }));
   }
 
-  app.use(koaStatic(config.dir.public));
+  app.use(serve(__dirname + '/public'));
+  // app.use(serve(config.dir.public));
 
   yield apiProxy.loadProxy(app);
 

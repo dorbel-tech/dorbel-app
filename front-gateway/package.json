@@ -1,6 +1,6 @@
 {
   "name": "dorbel-front",
-  "version": "0.0.5",
+  "version": "0.0.7",
   "description": "Front end application for dorbel",
   "main": "index.js",
   "scripts": {
@@ -21,7 +21,7 @@
     "bunyan": "^1.8.1",
     "co": "^4.6.0",
     "director": "^1.2.8",
-    "dorbel-shared": "dorbel-tech/dorbel-shared#v0.2.3",
+    "dorbel-shared": "dorbel-tech/dorbel-shared#v0.2.4",
     "ejs": "^2.5.2",
     "isomorphic-fetch": "^2.2.1",
     "koa": "^1.2.4",
