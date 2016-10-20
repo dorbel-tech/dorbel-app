@@ -1,5 +1,5 @@
 # Image to pull.
-FROM nodesource/node:4
+FROM node:4
 
 # Working directory environment variable.
 ENV WORKDIR="/home/nodejs/app"
