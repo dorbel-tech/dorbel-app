@@ -1,8 +1,5 @@
-const config = require('dorbel-shared').config;
+const config = require('dorbel-shared').config; config.setConfigFileFolder(__dirname);
 const path = require('path');
-
-config.setConfigFileFolder(__dirname);
-
 const frontRoot = path.resolve(__dirname, '..', '..');
 
 const dir = {

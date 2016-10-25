@@ -15,8 +15,11 @@ RUN npm install --silent
 # Copy all files from host to container.
 COPY . $WORKDIR
 
+# Build client
+RUN npm run build --silent
+
 # Open port
-EXPOSE 3000
+EXPOSE 3001
 
 # Run node server.
 CMD [ "npm", "start" ]

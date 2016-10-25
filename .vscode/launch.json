@@ -11,7 +11,7 @@
       "args": [ ],
       "preLaunchTask": null,
       "port": 5858,
-      "runtimeExecutable": "${workspaceRoot}/apartments-api/scripts/run.sh",
+      "runtimeExecutable": "${workspaceRoot}/apartments-api/scripts/debug.sh",
       "runtimeArgs": [ "--nolazy" ],
       "env": { "NODE_ENV": "development" },
       "console": "internalConsole",
@@ -34,6 +34,23 @@
       "console": "internalConsole",
       "sourceMaps": true,
       "outDir": null
-    }
+    },
+    {
+      "name": "front-gateway",
+      "type": "node",
+      "cwd": "${workspaceRoot}/front-gateway",
+      "request": "launch",
+      "program": "${workspaceRoot}/front-gateway/src/server/server.js",
+      "stopOnEntry": false,
+      "args": [ ],
+      "preLaunchTask": null,
+      "port": 5859,
+      "runtimeExecutable": "${workspaceRoot}/front-gateway/scripts/debug.sh",
+      "runtimeArgs": [ "--nolazy" ],
+      "env": { "NODE_ENV": "development" },
+      "console": "internalConsole",
+      "sourceMaps": true,
+      "outDir": null
+    },    
   ]
 }

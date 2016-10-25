@@ -4,7 +4,7 @@
 ## Scripts
 - Install using ``npm install``
 - Start using ``npm start``
-- Start development using ``npm run start-dev``
+- Start development using ``npm run start:dev``
   - will restart server when files are changed.
 - Run tests using ``npm test`` (currently runs integration tests)
 
