@@ -65,11 +65,7 @@ let Config = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      'process.env': { // these are env variables that get forwarded to the client side (during the build!)
-        'NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-        'AUTH0_CLIENT_ID': JSON.stringify(process.env.AUTH0_CLIENT_ID),
-        'AUTH0_DOMAIN': JSON.stringify(process.env.AUTH0_DOMAIN)
-      }
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
     })
   ].concat(plugins),
   devServer
