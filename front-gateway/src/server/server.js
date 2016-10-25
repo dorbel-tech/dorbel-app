@@ -16,8 +16,9 @@ function* runServer() {
   const app = koa();
   const port = config.get('PORT');
 
-  app.use(compress());
+  app.use(shared.middleware.errorHandler());
   app.use(shared.middleware.requestLogger());
+  app.use(compress());
 
   // Used for development only
   if (config.get('HOT_RELOAD_SERVER_PORT')) {

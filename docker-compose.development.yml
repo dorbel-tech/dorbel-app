@@ -17,5 +17,5 @@ services:
     volumes:
       - ./front-gateway/src:/usr/app/src
     environment:
-      NODE_ENV: development
+      NODE_ENV: local
     command: npm run start:dev

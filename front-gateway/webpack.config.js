@@ -5,18 +5,12 @@ const config = require('./src/config');
 const dir = config.dir;
 
 let plugins = [];
+let preLoaders = [];
 let devServer = undefined;
 let reactLoader = 'babel-loader';
 let publicPath = '';
 
-if (process.env.NODE_ENV === 'production') {
-  plugins = [
-    new webpack.optimize.DedupePlugin(),
-    new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.optimize.UglifyJsPlugin()
-  ];
-}
-else {
+if (process.env.NODE_ENV === 'local') {
   devServer = {
     host: 'localhost',
     port: config.get('HOT_RELOAD_SERVER_PORT'),
@@ -24,6 +18,21 @@ else {
   };
   reactLoader = 'react-hot!babel-loader';
   publicPath = `http://localhost:${devServer.port}/build/`;
+  preLoaders = [
+    {
+      test: /\.jsx?$/,
+      loader: 'eslint-loader',
+      exclude: /node_modules/,
+      include: dir.src,
+    }
+  ];
+}
+else {
+  plugins = [
+    new webpack.optimize.DedupePlugin(),
+    new webpack.optimize.OccurrenceOrderPlugin(),
+    new webpack.optimize.UglifyJsPlugin()
+  ];
 }
 
 let Config = {
@@ -41,15 +50,7 @@ let Config = {
     extensions: ['', '.js', '.jsx', '.json'],
   },
   module: {
-    // Commented out as it causing eslint failures during build in Docker
-    // preLoaders: [
-    //   {
-    //     test: /\.jsx?$/,
-    //     loader: 'eslint-loader',
-    //     exclude: /node_modules/,
-    //     include: dir.src,
-    //   }
-    // ],
+    preLoaders,
     loaders: [
       {
         test: /\.jsx?$/,
@@ -58,7 +59,7 @@ let Config = {
       },
       {
         test: /\.scss$/,
-        loaders: ['style', 'css?modules', 'sass' ]
+        loaders: ['style', 'css?modules', 'sass']
       }
     ],
   },
