@@ -18,4 +18,4 @@ services:
       - ./front-gateway/src:/usr/app/src
     environment:
       NODE_ENV: development
-    command: npm run start:dev
+    command: npm run start
