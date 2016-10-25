@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "clean": "rm -rf ./public/build",
-    "start": "npm run build && babel-node src/server/server.js",
+    "start": "babel-node src/server/server.js",
     "build": "npm run clean && NODE_ENV=production webpack",
     "start:dev": "nodemon --exec babel-node src/server/server.js | bunyan",
     "build:dev": "NODE_ENV=development webpack-dev-server --content-base public -ds --config webpack.config.js --hot --colors --inline",
@@ -20,7 +20,7 @@
     "babel-preset-stage-1": "^6.16.0",
     "co": "^4.6.0",
     "director": "^1.2.8",
-    "dorbel-shared": "dorbel-tech/dorbel-shared#v0.2.4",
+    "dorbel-shared": "dorbel-tech/dorbel-shared#v0.3.2",
     "ejs": "^2.5.2",
     "isomorphic-fetch": "^2.2.1",
     "koa": "^1.2.4",

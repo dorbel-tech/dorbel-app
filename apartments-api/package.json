@@ -12,7 +12,7 @@
     "babel-cli": "^6.16.0",
     "babel-plugin-transform-flow-strip-types": "^6.14.0",
     "co": "^4.6.0",
-    "dorbel-shared": "dorbel-tech/dorbel-shared#v0.2.4",
+    "dorbel-shared": "dorbel-tech/dorbel-shared#v0.3.2",
     "fleek-router": "^1.2.5",
     "koa": "^1.2.4",
     "koa-bodyparser": "^2.2.0",
