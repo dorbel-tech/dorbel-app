@@ -1,12 +1,12 @@
 {
   "name": "dorbel-front",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "description": "Front end application for dorbel",
   "main": "index.js",
   "scripts": {
     "clean": "rm -rf ./public/build",
     "start": "babel-node src/server/server.js",
-    "build": "npm run clean && NODE_ENV=production webpack",
+    "build": "npm run clean && webpack",
     "start:dev": "nodemon --exec babel-node src/server/server.js | bunyan",
     "build:dev": "NODE_ENV=development webpack-dev-server --content-base public -ds --config webpack.config.js --hot --colors --inline",
     "test": "echo \"Error: no test specified\" && exit 1"
