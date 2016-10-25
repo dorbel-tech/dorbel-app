@@ -16,8 +16,8 @@ function injectStores(initialState) {
   let authProvider;
 
   if (!isServer) {
-    if (!process.env.AUTH0_CLIENT_ID || !process.env.AUTH0_DOMAIN) throw new Error('must set auth0 env vars');
-    authProvider = new AuthProvider(process.env.AUTH0_CLIENT_ID, process.env.AUTH0_DOMAIN, appStore.authStore);
+    if (!dorbelConfig.AUTH0_CLIENT_ID || !dorbelConfig.AUTH0_DOMAIN) throw new Error('must set auth0 env vars');
+    authProvider = new AuthProvider(dorbelConfig.AUTH0_CLIENT_ID, dorbelConfig.AUTH0_DOMAIN, appStore.authStore);
   }
 
   const app = (
