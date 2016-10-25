@@ -2,16 +2,16 @@
 import React, { PropTypes as T } from 'react';
 import { observer } from 'mobx-react';
 
-@observer(['authProvider','appStore'])
+@observer(['appProviders','appStore'])
 export class Login extends React.Component {
   static propTypes = {
-    authProvider: T.object,
+    appProviders: T.object,
     appStore: T.object
   }
 
   componentDidMount() {
-    const { authProvider, appStore } = this.props;
-    if (!appStore.authStore.isLoggedIn) authProvider.showLoginModal();
+    const { appProviders, appStore } = this.props;
+    if (!appStore.authStore.isLoggedIn) appProviders.authProvider.showLoginModal();
   }
 
   render() {

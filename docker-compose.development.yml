@@ -6,7 +6,7 @@ services:
     ports:
       - '5858:5858'
     volumes:
-      - ./apartments-api/src:/usr/app/src
+      - ./apartments-api/src:/home/nodejs/app/src
     environment:
       NODE_ENV: development
     command: npm run start:dev

@@ -4,7 +4,7 @@ class AuthProvider {
     const Auth0Lock = require('auth0-lock').default; // can only be required on client side
     this.lock = new Auth0Lock(clientId, domain, {
       auth: {
-        redirectUrl: 'http://localhost:3001/login',
+        redirectUrl: window.location.origin + '/login',
         responseType: 'token'
       }
     });
