@@ -3,11 +3,10 @@
 
 SERVICE_NAME=""
 ENV_NAME=""
-VERSION=""
 
 if [ $# -eq 0 ]; then
     echo "No arguments provided."
-    echo "[npm run deploy service-name dev v0.0.1] should work."
+    echo "[npm run deploy service-name dev] should work."
     exit 1
 fi
 
@@ -29,24 +28,25 @@ if [ ! -z "$2" ]; then
       ;;
   esac
 
-  if [ ! -z "$3" ]; then
-    VERSION=$3
-    VERSION_WITHFLAG="--label ${VERSION}"
-  fi
 fi
-
-echo "Starting deployment of ${SERVICE_NAME} ${VERSION} to ${ENV_NAME}."
 
 cd $SERVICE_NAME
 
 # Change version in all npm package files
-npm version $VERSION -m 'version bump as a result of new deployment'
+GIT_SHA1=$(git rev-parse --short HEAD)
+VERSION=$(npm version patch)
+VERSION_WITHFLAG="--label ${VERSION}.${GIT_SHA1}"
+BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
 
 # Stage all changes
 git add .
+# git commit -m $VERSION
+# git push --set-upstream origin $BRANCH_NAME 
+
+echo "Starting deployment of ${SERVICE_NAME} ${VERSION} to ${ENV_NAME}."
 
 # Deploy application to AWS EB
 COMMIT_MESSAGE=$(git log -1 --oneline)
-eb deploy $ENV_NAME $VERSION_WITHFLAG --staged --message "$COMMIT_MESSAGE"
+eb deploy $ENV_NAME $VERSION_WITHFLAG --staged --message "$COMMIT_MESSAGE" 
 
 cd ..
