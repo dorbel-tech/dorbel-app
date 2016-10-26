@@ -28,4 +28,6 @@ test:
 deployment:
   development:
     branch: develop
-    commands: npm run deploy apartments-api dev
+    commands: [ 
+      "npm run deploy apartments-api dev" 
+    ]
