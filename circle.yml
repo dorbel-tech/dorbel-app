@@ -27,7 +27,8 @@ test:
 
 deployment:
   development:
-    branch: develop
+    branch: feature/ci-deploy
     commands: [ 
-      "npm run deploy apartments-api dev" 
+      "npm run deploy apartments-api dev",
+      "npm run deploy front-gateway dev",
     ]
