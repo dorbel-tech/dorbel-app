@@ -33,19 +33,20 @@ fi
 cd $SERVICE_NAME
 
 # Change version in all npm package files
+GIT_SHA1=$(git rev-parse --short HEAD)
 VERSION=$(npm version patch)
-VERSION_WITHFLAG="--label ${VERSION}"
+VERSION_WITHFLAG="--label ${VERSION}.${GIT_SHA1}"
 BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
 
 # Stage all changes
 git add .
-git commit -m $VERSION
-git push --set-upstream origin $BRANCH_NAME 
+# git commit -m $VERSION
+# git push --set-upstream origin $BRANCH_NAME 
 
 echo "Starting deployment of ${SERVICE_NAME} ${VERSION} to ${ENV_NAME}."
 
 # Deploy application to AWS EB
 COMMIT_MESSAGE=$(git log -1 --oneline)
-eb deploy $ENV_NAME $VERSION_WITHFLAG --message "$COMMIT_MESSAGE"
+eb deploy $ENV_NAME $VERSION_WITHFLAG --staged --message "$COMMIT_MESSAGE"
 
 cd ..
