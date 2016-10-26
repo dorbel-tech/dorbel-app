@@ -2,18 +2,10 @@
  * ApiProvider supplies infrastructure for calling the API layer
  */
 'use strict';
-import { action } from 'mobx';
 
 class ApiProvider {
   constructor(appStore) {
     this.appStore = appStore;
-  }
-
-  // TODO: this should be in a specific provider for the Apartments API
-  @action
-  loadApartments() {
-    return this.fetch('/api/v1/apartments')
-      .then(apartments => this.appStore.apartmentStore.apartments = apartments);
   }
 
   fetch(url, options){

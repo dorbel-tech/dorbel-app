@@ -8,7 +8,7 @@ export default class AppStore {
   apartmentStore: ApartmentStore;
   authStore: AuthStore;
   @observable currentView: string;
-  @observable routeParams: {[id:string]: string};
+  @observable routeParams: {[id: string]: string};
 
   constructor(initialState = {}) {
     this.apartmentStore = new ApartmentStore(initialState.apartmentStore);

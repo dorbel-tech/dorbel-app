@@ -1,10 +1,11 @@
 'use strict';
 const AuthenticationClient = require('auth0').AuthenticationClient;
 const promisify = require('es6-promisify');
+const config = require('dorbel-shared').config;
 
 const auth0 = new AuthenticationClient({
-  domain: process.env.AUTH0_DOMAIN,
-  clientId: process.env.AUTH0_CLIENT_ID
+  domain: config.get('AUTH0_DOMAIN'),
+  clientId: config.get('AUTH0_CLIENT_ID')
 });
 
 const getInfo = promisify(auth0.tokens.getInfo, auth0.tokens);
@@ -29,7 +30,9 @@ function* parseAuthToken(next) {
 function getAccessTokenFromHeader(req) {
   if (req.headers.authorization) {
     var tokenMatch = req.headers.authorization.match(/^bearer (.+)/i);
-    if (tokenMatch) return tokenMatch[1];
+    if (tokenMatch) {
+      return tokenMatch[1];
+    }
   }
 }
 

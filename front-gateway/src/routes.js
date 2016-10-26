@@ -2,7 +2,7 @@ import director from 'director';
 // import { autorun } from 'mobx';
 
 import About from '~/components/About/About';
-import Apartments from '~/components/Apartments';
+import Apartments from '~/components/Apartments/Apartments';
 import Apartment from '~/components/Apartment';
 import Home from '~/components/Home';
 import Login from '~/components/Login';
@@ -11,7 +11,9 @@ import Profile from '~/components/Profile';
 function startRouter(appStore) {
   function checkAuth() {
     var callback = arguments[arguments.length - 1];
-    if (appStore.authStore.isLoggedIn) return callback();
+    if (appStore.authStore.isLoggedIn) {
+      return callback();
+    }
     appStore.setView(Login);
     callback(false);
   }

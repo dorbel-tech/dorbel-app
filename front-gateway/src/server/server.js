@@ -54,4 +54,6 @@ function* runServer() {
   });
 }
 
-if (require.main === module) co(runServer).catch(err => logger.error(err));
+if (require.main === module) {
+  co(runServer).catch(err => logger.error(err));
+}
