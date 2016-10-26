@@ -28,21 +28,25 @@ if [ ! -z "$2" ]; then
       ;;
   esac
 
-    # Change version in all npm package files
-    GIT_SHA1=$(git rev-parse --short HEAD)
-    VERSION=$(npm version patch)
-    VERSION_WITHFLAG="--label ${VERSION}"
 fi
-
-echo "Starting deployment of ${SERVICE_NAME} ${VERSION} to ${ENV_NAME}."
 
 cd $SERVICE_NAME
 
+# Change version in all npm package files
+VERSION=$(npm version patch)
+VERSION_WITHFLAG="--label ${VERSION} ${GIT_SHA1}"
+
 # Stage all changes
 git add .
+git commit -m $VERSION
+git push
+
+GIT_SHA1=$(git rev-parse --short HEAD)
+
+echo "Starting deployment of ${SERVICE_NAME} ${VERSION} ${GIT_SHA1} to ${ENV_NAME}."
 
 # Deploy application to AWS EB
 COMMIT_MESSAGE=$(git log -1 --oneline)
-eb deploy $ENV_NAME $VERSION_WITHFLAG --staged --message "$COMMIT_MESSAGE"
+eb deploy $ENV_NAME $VERSION_WITHFLAG --message "$COMMIT_MESSAGE"
 
 cd ..
