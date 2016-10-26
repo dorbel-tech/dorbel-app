@@ -6,6 +6,7 @@ machine:
     RDS_DB_NAME: circle_test
     RDS_USERNAME: ubuntu
     RDS_PASSWORD: 
+    AWS_DEFAULT_REGION: eu-west-1
   services:
     - mysql
 
@@ -14,6 +15,9 @@ machine:
 #     - mysql -u $RDS_USERNAME $RDS_DB_NAME   # < test/data/mysql-seed-data.sql  
 
 dependencies:
+  pre:
+    - sudo apt-get install python-dev
+    - sudo pip install awsebcli
   override:
     - npm install
   cache_directories:
@@ -23,4 +27,10 @@ dependencies:
 test:
   override:
     - npm test
-    
+
+deployment:
+  development:
+    branch: develop
+    commands:  
+      - npm run deploy apartments-api dev
+      - npm run deploy front-gateway dev    

@@ -6,6 +6,13 @@ class AuthProvider {
       auth: {
         redirectUrl: window.location.origin + '/login',
         responseType: 'token'
+      },
+      theme: {
+        logo: 'http://res.cloudinary.com/dorbel/image/upload/c_scale,h_58,w_58/v1477485453/dorbel_logo_2_1_uvvf3j.png',
+        primaryColor: '#31124b'
+      },
+      languageDictionary: {
+        title: 'Welcome'
       }
     });
     this.lock.on('authenticated', this._doAuthentication.bind(this));
