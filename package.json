@@ -6,7 +6,8 @@
     "first": "scripts/first_time_install.sh",
     "install": "scripts/npm-install.sh",
     "test": "scripts/npm-test.sh",
-    "start": "scripts/env.sh start fresh",
+    "start": "scripts/env.sh start",
+    "start:fresh": "scripts/env.sh start fresh",
     "stop": "scripts/env.sh stop",
     "deploy": "scripts/deploy.sh"
   },
