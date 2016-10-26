@@ -15,6 +15,10 @@ machine:
 #     - mysql -u $RDS_USERNAME $RDS_DB_NAME   # < test/data/mysql-seed-data.sql  
 
 dependencies:
+  pre:
+    - sudo pip install awsebcli
+    - git config --global user.email "circleci@dorbel.com"
+    - git config --global user.name "CircleCI"
   override:
     - npm install
   cache_directories:
@@ -28,7 +32,6 @@ test:
 deployment:
   development:
     branch: feature/ci-deploy
-    commands: [ 
-      "npm run deploy apartments-api dev",
-      "npm run deploy front-gateway dev",
-    ]
+    commands:  
+      - npm run deploy apartments-api dev
+      - npm run deploy front-gateway dev    

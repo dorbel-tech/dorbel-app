@@ -34,16 +34,14 @@ cd $SERVICE_NAME
 
 # Change version in all npm package files
 VERSION=$(npm version patch)
-VERSION_WITHFLAG="--label ${VERSION} ${GIT_SHA1}"
+VERSION_WITHFLAG="--label ${VERSION}"
 
 # Stage all changes
 git add .
 git commit -m $VERSION
 git push
 
-GIT_SHA1=$(git rev-parse --short HEAD)
-
-echo "Starting deployment of ${SERVICE_NAME} ${VERSION} ${GIT_SHA1} to ${ENV_NAME}."
+echo "Starting deployment of ${SERVICE_NAME} ${VERSION} to ${ENV_NAME}."
 
 # Deploy application to AWS EB
 COMMIT_MESSAGE=$(git log -1 --oneline)
