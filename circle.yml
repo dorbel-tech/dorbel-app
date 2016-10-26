@@ -30,7 +30,7 @@ test:
 
 deployment:
   development:
-    branch: feature/ci-deploy
+    branch: develop
     commands:  
       - npm run deploy apartments-api dev
       - npm run deploy front-gateway dev    
