@@ -16,7 +16,7 @@ machine:
 
 dependencies:
   pre:
-    - sudo pip install awsebcli
+    - pip install --upgrade --user awsebcli
     - git config --global user.email "circleci@dorbel.com"
     - git config --global user.name "CircleCI"
   override:
