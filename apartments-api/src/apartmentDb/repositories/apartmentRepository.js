@@ -1,11 +1,9 @@
 'use strict';
 const db = require('../dbConnectionProvider');
-const apartment = db.models.apartment;
-const building = db.models.building;
 
 function* list () {
-  return apartment.findAll({
-    include: building,
+  return db.models.apartment.findAll({
+    include: db.models.building,
     raw: true, // readonly get - no need for full sequlize instances
     fieldMap: {
       'building.street_name': 'street_name',
@@ -16,10 +14,10 @@ function* list () {
 
 function* create(apartment) {
   const buildingWhere = { street_name: apartment.street_name, house_number: apartment.house_number };
-  const existingApartment = yield apartment.findOne({
+  const existingApartment = yield db.models.apartment.findOne({
     where: { unit: apartment.unit },
     include: [
-      { model: building, where : buildingWhere }
+      { model: db.models.building, where : buildingWhere }
     ]
   });
 
@@ -27,8 +25,8 @@ function* create(apartment) {
     return existingApartment;
   }
 
-  const buildingResult = yield building.findOrCreate({ where: buildingWhere });
-  let newApartment = apartment.build(apartment);
+  const buildingResult = yield db.models.building.findOrCreate({ where: buildingWhere });
+  let newApartment = db.models.apartment.build(apartment);
   newApartment.building_id = buildingResult[0].id;
   return newApartment.save();
 }
