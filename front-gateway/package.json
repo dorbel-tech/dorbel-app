@@ -21,7 +21,7 @@
     "babel-preset-stage-1": "^6.16.0",
     "co": "^4.6.0",
     "director": "^1.2.8",
-    "dorbel-shared": "dorbel-tech/dorbel-shared#v0.3.3",
+    "dorbel-shared": "dorbel-tech/dorbel-shared#v0.3.4",
     "ejs": "^2.5.2",
     "es6-promisify": "^5.0.0",
     "isomorphic-fetch": "^2.2.1",
