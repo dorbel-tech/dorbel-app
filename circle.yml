@@ -16,9 +16,12 @@ machine:
 
 dependencies:
   pre:
+    - sudo apt-get install python3.4
     - pip install --upgrade --user awsebcli
+    - export PATH=~/.local/bin:$PATH
     - export PATH=$PATH:/opt/aws/eb/linux/python2.7/
     - source ~/.bash_profile
+    - which awsebcli
     - git config --global user.email "circleci@dorbel.com"
     - git config --global user.name "CircleCI"
   override:
