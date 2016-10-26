@@ -7,7 +7,7 @@ class Apartments extends Component {
   componentDidMount() {
     const { appProviders, appStore } = this.props;
     if (appStore.apartmentStore.apartments.length === 0) {
-      appProviders.apiProvider.loadApartments();
+      appProviders.apartmentsProvider.loadApartments();
     }
   }
 

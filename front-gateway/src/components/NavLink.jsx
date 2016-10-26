@@ -14,7 +14,9 @@ class NavLink extends Component {
   }
 
   routeTo(link) {
-    if (this.props.router.setRoute) this.props.router.setRoute(link);
+    if (this.props.router.setRoute) {
+      this.props.router.setRoute(link);
+    }
   }
 }
 

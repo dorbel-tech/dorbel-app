@@ -11,7 +11,9 @@ export class Login extends React.Component {
 
   componentDidMount() {
     const { appProviders, appStore } = this.props;
-    if (!appStore.authStore.isLoggedIn) appProviders.authProvider.showLoginModal();
+    if (!appStore.authStore.isLoggedIn) {
+      appProviders.authProvider.showLoginModal();
+    }
   }
 
   render() {

@@ -4,10 +4,7 @@ export default class ApartmentStore {
   @observable apartments;
 
   constructor(initialState) {
-    if (initialState) {
-      this.apartments = initialState.apartments;
-    }
-    else this.apartments = [];
+    this.apartments = initialState ? initialState.apartments : [];
   }
 
   toJson() {

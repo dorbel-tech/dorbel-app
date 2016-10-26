@@ -5,6 +5,7 @@
 'use strict';
 import AuthProvider from './AuthProvider';
 import ApiProvider from './ApiProvider';
+import ApartmentsProvider from './ApartmentsProvider';
 
 const isServer = !global.window;
 
@@ -18,6 +19,7 @@ class AppProviders {
     }
 
     this.apiProvider = new ApiProvider(appStore);
+    this.apartmentsProvider = new ApartmentsProvider(appStore, this.apiProvider);
   }
 }
 
