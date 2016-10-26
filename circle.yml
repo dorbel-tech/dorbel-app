@@ -17,6 +17,8 @@ machine:
 dependencies:
   pre:
     - pip install --upgrade --user awsebcli
+    - export PATH=~/.local/bin:$PATH
+    - source ~/.bash_profile
     - git config --global user.email "circleci@dorbel.com"
     - git config --global user.name "CircleCI"
   override:
