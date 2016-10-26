@@ -50,7 +50,7 @@ let Config = {
     extensions: ['', '.js', '.jsx', '.json'],
   },
   module: {
-    preLoaders,
+    // preLoaders,
     loaders: [
       {
         test: /\.jsx?$/,
