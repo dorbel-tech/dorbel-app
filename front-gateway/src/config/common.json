@@ -1,5 +1,6 @@
 {
   "PORT":3001,
   "LOG_LEVEL": "error",
-  "NEW_RELIC_ENABLED": "False"
+  "NEW_RELIC_ENABLED": "False",
+  "AUTH0_DOMAIN": "dorbel.eu.auth0.com"
 }
