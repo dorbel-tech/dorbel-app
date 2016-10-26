@@ -46,6 +46,6 @@ echo "Starting deployment of ${SERVICE_NAME} ${VERSION} to ${ENV_NAME}."
 
 # Deploy application to AWS EB
 COMMIT_MESSAGE=$(git log -1 --oneline)
-/usr/local/bin/eb deploy $ENV_NAME $VERSION_WITHFLAG --message "$COMMIT_MESSAGE"
+eb deploy $ENV_NAME $VERSION_WITHFLAG --message "$COMMIT_MESSAGE"
 
 cd ..
