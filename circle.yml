@@ -1,18 +1,9 @@
 machine:
   environment:
     NODE_ENV: test
-    PORT: 3000
-    RDS_HOSTNAME: 127.0.0.1
-    RDS_DB_NAME: circle_test
-    RDS_USERNAME: ubuntu
-    RDS_PASSWORD: 
     AWS_DEFAULT_REGION: eu-west-1
   services:
-    - mysql
-
-# database:
-#   override:
-#     - mysql -u $RDS_USERNAME $RDS_DB_NAME   # < test/data/mysql-seed-data.sql  
+    - docker
 
 dependencies:
   pre:
