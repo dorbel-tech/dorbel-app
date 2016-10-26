@@ -1,27 +1,21 @@
 'use strict';
 
 function define(sequelize, DataTypes) {
-  return sequelize.define('Apartment', {
+  return sequelize.define('apartment', {
     title: { type: DataTypes.STRING, allowNull: false },
     description: DataTypes.STRING,
     unit: { type: DataTypes.STRING, allowNull: false }
   }, {
     classMethods: {
-      associate: function associate(models) {
-        models.Apartment.belongsTo(models.Building, {
-          onDelete: 'CASCADE',
-          foreignKey: {
-            allowNull: false
-          }
-        });
-      }
+      associate: models => models.apartment.belongsTo(models.building)
     },
     indexes: [
       {
-        fields: ['BuildingId', 'unit'],
+        fields: ['building_id', 'unit'],
         unique: true
       }
-    ]
+    ],
+    underscored: true
   });
 }
 

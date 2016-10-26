@@ -1,21 +1,14 @@
 'use strict';
 
 function define(sequelize, DataTypes) {
-  return sequelize.define('Building', {
-    street_name: { type: DataTypes.STRING, allowNull: false },
-    house_number: { type: DataTypes.STRING, allowNull: false }
+  return sequelize.define('building', {
+    street_name: { type: DataTypes.STRING, allowNull: false, unique: 'address' },
+    house_number: { type: DataTypes.STRING, allowNull: false, unique: 'address' }
   }, {
     classMethods: {
-      associate: function associate(models) {
-        models.Building.hasMany(models.Apartment);
-      }
+      associate: models => models.building.belongsTo(models.city)
     },
-    indexes: [
-      {
-        fields: ['street_name', 'house_number'],
-        unique: true
-      }
-    ]
+    underscored: true
   });
 }
 
