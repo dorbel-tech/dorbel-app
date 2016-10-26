@@ -2,17 +2,12 @@ import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import NavLink from '~/components/NavLink';
 
-@observer(['appStore'])
+@observer(['appStore', 'appProviders'])
 class Apartments extends Component {
-  static serverWillRender(appStore) {
-    return appStore.apartmentStore.loadApartments();
-  }
-
   componentDidMount() {
-    const { apartmentStore } = this.props.appStore;
-
-    if (apartmentStore.apartments.length === 0) {
-      apartmentStore.loadApartments();
+    const { appProviders, appStore } = this.props;
+    if (appStore.apartmentStore.apartments.length === 0) {
+      appProviders.apiProvider.loadApartments();
     }
   }
 
@@ -35,7 +30,8 @@ class Apartments extends Component {
 
 Apartments.wrappedComponent.propTypes = {
   children: React.PropTypes.node,
-  appStore: React.PropTypes.object.isRequired
+  appStore: React.PropTypes.object.isRequired,
+  appProviders: React.PropTypes.object.isRequired
 };
 
 export default Apartments;

@@ -6,7 +6,7 @@ services:
     ports:
       - '5858:5858'
     volumes:
-      - ./apartments-api/src:/usr/app/src
+      - ./apartments-api/src:/home/nodejs/app/src
     environment:
       NODE_ENV: development
     command: npm run start:dev
@@ -18,5 +18,5 @@ services:
     volumes:
       - ./front-gateway/src:/usr/app/src
     environment:
-      NODE_ENV: development
+      NODE_ENV: local
     command: npm run build:dev& npm run start:dev 
