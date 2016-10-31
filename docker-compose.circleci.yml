@@ -1,5 +1,5 @@
 apartments-api:
-  image: dorbel/apartments-api
+  build: ./apartments-api
   ports:
     - '3000:3000'
   volumes:
@@ -13,7 +13,7 @@ apartments-api:
   command: npm run start
 
 front-gateway:
-  image: dorbel/front-gateway
+  build: ./front-gateway
   ports:
     - '3001:3001'
   links:
