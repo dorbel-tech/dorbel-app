@@ -1,0 +1,17 @@
+# This file is meant to extend docker-compose.yml for development environment
+version: '2'
+services:
+
+  apartments-api:
+    volumes:
+      - ./apartments-api/src:/home/nodejs/app/src
+    environment:
+      NODE_ENV: test
+    command: npm run start
+
+  front-gateway:
+    volumes:
+      - ./front-gateway/src:/home/nodejs/app/src
+    environment:
+      NODE_ENV: test
+    command: bash -c "npm run build& npm run start" 

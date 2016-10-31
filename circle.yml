@@ -10,14 +10,14 @@ dependencies:
     - sudo apt-get install python-dev
     - sudo pip install awsebcli
   override:
-    - npm install
-  cache_directories:
-    - node_modules
-    - apartments-api/node_modules
+    - docker info
+    - docker-compose -f docker-compose.yml -f docker-compose.test.yml up
 
 test:
   override:
-    - npm test
+    - curl --retry 10 --retry-delay 5 -v http://localhost:3001
+    - docker run dorbel/apartments-api npm test
+    - docker run dorbel/front-gateway npm test
 
 deployment:
   development:
