@@ -14,3 +14,6 @@
 - Controllers are in ``src/controllers``
 - Mapping from routes to controllers is according to the first ``tag`` value of each path in the swagger doc
 - See [fleek-router](https://github.com/fleekjs/fleek-router) for details
+
+## Db migration
+- run ``docker exec -it dorbelapp_apartments-api_1 node ./src/apartmentDb/migrations/seed``

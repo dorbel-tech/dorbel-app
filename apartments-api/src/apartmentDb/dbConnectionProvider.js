@@ -16,7 +16,12 @@ module.exports.connect = function* connect() {
         max: 10,
         min: 0
       },
-      logging: false
+      logging: false,
+      define: { // default definitions for models
+        underscored: true,
+        charset: 'utf8',
+        collate: 'utf8_general_ci'
+      }
     }
   );
 

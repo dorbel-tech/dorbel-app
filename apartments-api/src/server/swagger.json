@@ -83,6 +83,12 @@
     "Apartment": {
       "type": "object",
       "properties": {
+        "country_name": { "type": "string" },
+        "city_name": { "type": "string" },
+        "neighborhood_name": { "type": "string" },
+        "rooms": { "type": "number" },
+        "floor": { "type": "integer" },
+        "size": { "type": "integer" },
         "apartment_id": { "type": "integer" },
         "title": { "type": "string" },
         "description": { "type": "string" },
@@ -90,7 +96,7 @@
         "house_number": { "type": "string" },
         "unit": { "type": "string" }
       },
-      "required": [ "title", "street_name", "house_number", "unit" ]
+      "required": [ "country_name", "city_name", "house_number", "street_name", "rooms", "floor", "size", "title", "unit" ]
     },
     "Error": {
       "type": "object",

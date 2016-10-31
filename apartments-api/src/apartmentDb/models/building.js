@@ -2,13 +2,25 @@
 
 function define(sequelize, DataTypes) {
   return sequelize.define('building', {
-    street_name: { type: DataTypes.STRING, allowNull: false, unique: 'address' },
-    house_number: { type: DataTypes.STRING, allowNull: false, unique: 'address' }
+    street_name: { type: DataTypes.STRING, allowNull: false },
+    house_number: { type: DataTypes.STRING, allowNull: false },
+    entrance: { type: DataTypes.STRING, allowNull: true },
+    floors: DataTypes.INTEGER,
+    geometry: DataTypes.GEOMETRY('POINT'),
+    elevator: DataTypes.BOOLEAN
   }, {
     classMethods: {
-      associate: models => models.building.belongsTo(models.city)
+      associate: models => {
+        models.building.belongsTo(models.city, { foreignKey: { allowNull: false }, onDelete: 'CASCADE' });
+        models.building.belongsTo(models.neighborhood);
+      }
     },
-    underscored: true
+    indexes: [
+      {
+        fields: ['city_id', 'street_name', 'house_number', 'entrance'],
+        unique: true
+      }
+    ]
   });
 }
 

@@ -13,7 +13,22 @@ function* list () {
 }
 
 function* create(apartment) {
-  const buildingWhere = { street_name: apartment.street_name, house_number: apartment.house_number };
+  // TODO: add reference to country
+  const city = yield db.models.city.findOne({
+    where: { city_name: apartment.city_name }
+  });
+
+  const neighborhood = yield db.models.neighborhood.findOne({
+    where: { neighborhood_name: apartment.neighborhood_name }
+  });
+
+  if (!city && !neighborhood) {
+    throw new Error('did not find city or neighborhood');
+  } else if (neighborhood.city_id !== city.id) {
+    throw new Error('city and neighborhood do not match');
+  }
+
+  const buildingWhere = { street_name: apartment.street_name, house_number: apartment.house_number, city_id: city.id };
   const existingApartment = yield db.models.apartment.findOne({
     where: { unit: apartment.unit },
     include: [
@@ -23,12 +38,12 @@ function* create(apartment) {
 
   if (existingApartment) {
     return existingApartment;
+  } else {
+    const buildingResult = yield db.models.building.findOrCreate({ where: buildingWhere });
+    let newApartment = db.models.apartment.build(apartment);
+    newApartment.building_id = buildingResult[0].id;
+    return newApartment.save();
   }
-
-  const buildingResult = yield db.models.building.findOrCreate({ where: buildingWhere });
-  let newApartment = db.models.apartment.build(apartment);
-  newApartment.building_id = buildingResult[0].id;
-  return newApartment.save();
 }
 
 module.exports = {
