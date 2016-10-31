@@ -13,7 +13,7 @@ dependencies:
 
 test:
   override:
-    - docker run -d -p 3000:3000 -e NODE_ENV=test -e RDS_HOSTNAME=localhost -e RDS_DB_NAME=circle_test -e RDS_USERNAME=ubuntu dorbel/apartments-api npm test
+    - docker run -p 3000:3000 -e NODE_ENV=test -e RDS_HOSTNAME=localhost -e RDS_DB_NAME=circle_test -e RDS_USERNAME=ubuntu dorbel/apartments-api npm test
 
 deployment:
   development:
