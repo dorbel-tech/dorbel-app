@@ -14,7 +14,8 @@ function getApiDocs() {
         return;
       }
 
-      return fetch(url + '/swagger')
+      return shared.utils.waitForConnection({ path: url })
+        .then(() => fetch(url + '/swagger'))
         .then(res => res.json())
         .then(res => ({
           url, basePath: res.basePath, paths: Object.keys(res.paths), title: res.info.title
