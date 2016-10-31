@@ -5,10 +5,9 @@ const modelLoader = require('./models');
 
 const config = shared.config;
 const MY_SQL_PORT = 3306;
-const DB_CONECT_RETRIES = 10;
 
 module.exports.connect = function* connect() {
-  yield shared.utils.waitForConnection({ host: config.get('RDS_HOSTNAME'), port: MY_SQL_PORT }, DB_CONECT_RETRIES);
+  yield shared.utils.waitForConnection({ host: config.get('RDS_HOSTNAME'), port: MY_SQL_PORT });
 
   const db = new Sequelize(config.get('RDS_DB_NAME'), config.get('RDS_USERNAME'), config.get('RDS_PASSWORD'),
     {
