@@ -1,6 +1,11 @@
 machine:
   environment:
     NODE_ENV: test
+    PORT: 3000		
+    RDS_HOSTNAME: 127.0.0.1		
+    RDS_DB_NAME: circle_test		
+    RDS_USERNAME: ubuntu		
+    RDS_PASSWORD: 
     AWS_DEFAULT_REGION: eu-west-1
   services:    
     - docker
@@ -11,6 +16,7 @@ dependencies:
     - sudo apt-get install python-dev
     - sudo pip install awsebcli
   override:
+    - docker info
     - docker-compose -f docker-compose.circleci.yml up
 
 test:
