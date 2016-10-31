@@ -12,7 +12,7 @@ if [[ $1 == "start" ]]; then
     if [[ $2 == "fresh" ]]; then
         FRESH="--force-recreate --build"
     fi
-    docker-compose -f docker-compose.yml -f docker-compose.development.yml up $FRESH
+    docker-compose -f docker-compose.yml -f docker-compose.local.yml up $FRESH
 elif [[ $1 == "stop" ]]; then
     docker-compose down
 fi
