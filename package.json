@@ -4,7 +4,6 @@
   "description": "package.json to include development dependencies needed by all the services",
   "scripts": {
     "first": "scripts/first_time_install.sh",
-    "install": "scripts/npm-install.sh",
     "test": "scripts/npm-test.sh",
     "start": "scripts/env.sh start",
     "start:fresh": "scripts/env.sh start fresh",
