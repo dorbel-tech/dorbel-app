@@ -1,18 +1,50 @@
 {
+  "parser": "babel-eslint",
   "plugins": [
-    "react",
-    "jsx-a11y"
+    "flowtype",
+    "jsx-a11y",
+    "react"
   ],
   "extends": [
-    "plugin:react/recommended"
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:flowtype/recommended"
   ],
   "env": {
     "es6": true,
     "browser": true,
-    "jasmine": true
+    "jasmine": true,
+    "node": true,
+    "mocha": true
+  },
+  "settings": {
+    "flowtype": {
+      "onlyFilesWithFlowAnnotation": false
+    }
   },
   "rules": {
-    "no-console": 0
+    "no-console": 0,
+    "indent": [
+      "error",
+      2
+    ],
+    "linebreak-style": [
+      "error",
+      "unix"
+    ],
+    "quotes": [
+      "error",
+      "single"
+    ],
+    "semi": [
+      "error",
+      "always"
+    ],
+    "curly": [
+      "error",
+      "all"
+    ],
+    "require-yield": 0
   },
   "parserOptions": {
     "sourceType": "module",
