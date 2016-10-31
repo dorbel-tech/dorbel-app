@@ -2,16 +2,14 @@ apartments-api:
   image: dorbel/apartments-api
   ports:
     - '3000:3000'
-  links:
-    - db
   volumes:
     - ./apartments-api/src:/home/nodejs/app/src
   environment:
     NODE_ENV: test
-    RDS_HOSTNAME: db
-    RDS_DB_NAME: dorbel
-    RDS_USERNAME: dorbel
-    RDS_PASSWORD: dorbel
+    RDS_HOSTNAME: 127.0.0.1
+    RDS_DB_NAME: circle_test
+    RDS_USERNAME: ubuntu
+    RDS_PASSWORD: 
   command: npm run start
 
 front-gateway:
