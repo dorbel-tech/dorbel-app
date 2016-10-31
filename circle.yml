@@ -1,29 +1,32 @@
 machine:
   environment:
     NODE_ENV: test
-    PORT: 3000		
-    RDS_HOSTNAME: 127.0.0.1		
-    RDS_DB_NAME: circle_test		
-    RDS_USERNAME: ubuntu		
+    PORT: 3000
+    RDS_HOSTNAME: 127.0.0.1
+    RDS_DB_NAME: circle_test
+    RDS_USERNAME: ubuntu
     RDS_PASSWORD: 
     AWS_DEFAULT_REGION: eu-west-1
-  services:    
-    - docker
+  services:
     - mysql
+
+# database:
+#   override:
+#     - mysql -u $RDS_USERNAME $RDS_DB_NAME   # < test/data/mysql-seed-data.sql  
 
 dependencies:
   pre:
     - sudo apt-get install python-dev
     - sudo pip install awsebcli
   override:
-    - docker info
-    - docker-compose -f docker-compose.circleci.yml up
+    - npm install
+  cache_directories:
+    - node_modules
+    - apartments-api/node_modules
 
 test:
   override:
-    - curl --retry 10 --retry-delay 5 -v http://localhost:3001
-    - docker run dorbel/apartments-api npm test
-    - docker run dorbel/front-gateway npm test
+    - npm test
 
 deployment:
   development:
