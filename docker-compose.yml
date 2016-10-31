@@ -38,4 +38,4 @@ services:
     links:
       - apartments-api
     environment:
-      APARTMENTS_API_URL: http://apartments-api
+      APARTMENTS_API_URL: http://apartments-api:3000
