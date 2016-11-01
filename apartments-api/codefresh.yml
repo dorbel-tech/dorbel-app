@@ -8,9 +8,8 @@ steps:
     # dockerfile: apartments-api/Dockerfile
     image-name: dorbel/apartments-api
     tag: develop
-  unit-test-step:
+  unit-test:
     image: ${{build-the-image}}
-    working-directory: ${{initial-clone}}/apartments-api
+    working-directory: /home/nodejs/app
     commands:
-        - npm install
         - npm test
