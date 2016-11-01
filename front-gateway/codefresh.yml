@@ -1,0 +1,20 @@
+version: '1.0'
+
+steps:
+  build-the-image:
+    type: build
+    description: Builds front-gateway
+    working-directory: ${{initial-clone}}/front-gateway
+    image-name: dorbel/front-gateway
+    tag: develop
+  unit-test:
+    image: ${{build-the-image}}
+    commands:
+        - npm test
+  integration-test:
+      type: composition
+      composition: dorbel
+      composition-candidates:
+        test:
+          image: ${{build-the-image}}
+          command: npm run test:integration
