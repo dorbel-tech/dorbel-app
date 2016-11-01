@@ -47,9 +47,9 @@ fleekRouter(app, {
 
 function listen() {
   return new Promise((resolve, reject) => {
-    app.listen(port, function () {
+    let server = app.listen(port, function () {
       logger.info({ port, env }, 'listening');
-      resolve();
+      resolve(server);
     })
     .on('error', reject);
   });
