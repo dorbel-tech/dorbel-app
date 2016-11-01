@@ -6,7 +6,10 @@
   "scripts": {
     "start": "babel-node src/index",
     "start:dev": "nodemon --exec babel-node src/index | bunyan",
-    "test": "mocha --compilers js:babel-register test/shared/before-tests.js test/**/*.spec.js"
+    "test": "npm run test:lint && npm run test:unit",
+    "test:lint": "eslint --ext .js -f table src",
+    "test:unit": "mocha --compilers js:babel-register test/shared/before-tests.js test/unit/**/*.spec.js",
+    "test:integration": "mocha --compilers js:babel-register test/shared/before-tests.js test/integration/**/*.spec.js"
   },
   "dependencies": {
     "babel-cli": "^6.16.0",

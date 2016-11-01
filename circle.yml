@@ -10,10 +10,6 @@ machine:
   services:
     - mysql
 
-# database:
-#   override:
-#     - mysql -u $RDS_USERNAME $RDS_DB_NAME   # < test/data/mysql-seed-data.sql  
-
 dependencies:
   pre:
     - sudo apt-get install python-dev
