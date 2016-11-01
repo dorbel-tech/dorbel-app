@@ -8,5 +8,3 @@ steps:
     dockerfile: apartments-api/Dockerfile
     image-name: dorbel/apartments-api
     tag: develop
-    build-arguments:
-      - port=3000
