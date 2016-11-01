@@ -17,7 +17,7 @@ steps:
         test:
           image: ${{build-the-image}}
           command: npm run test:e2e          
-  deployment:
+  elastic-beanstalk:
     image: garland/aws-cli-docker:latest
     commands: >-
       sh -c  "[ ${{CF_BRANCH}} == feature/codefresh ] &&
