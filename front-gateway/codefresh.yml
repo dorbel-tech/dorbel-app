@@ -1,27 +1,23 @@
 version: '1.0'
 
 steps:
-
   build-the-image:
     type: build
     description: Builds front-gateway
     working-directory: ${{initial-clone}}/front-gateway
     image-name: dorbel/front-gateway
     tag: develop
-
   unit-test:
     image: ${{build-the-image}}
     commands:
         - npm test
-
   e2e-test:
       type: composition
       composition: docker-compose.codefresh.yml
       composition-candidates:
         test:
           image: ${{build-the-image}}
-          command: npm run test:e2e
-          
+          command: npm run test:e2e          
   deployment:
     image: garland/aws-cli-docker:latest
     commands: >-
