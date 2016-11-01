@@ -20,6 +20,7 @@ function list (query) {
 
 function* create(listing) {
   // TODO: add reference to country
+  // TODO: should much of this be in the listingService ? findOrCreate for building and apartment is actually business logic and not persistance logic |:
   const city = yield models.city.findOne({
     where: listing.apartment.building.city
   });

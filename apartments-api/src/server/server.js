@@ -3,7 +3,7 @@ const koa = require('koa');
 const fleekRouter = require('fleek-router');
 const bodyParser = require('koa-bodyparser');
 const shared = require('dorbel-shared');
-const swaggerDoc = require('./swagger.json');
+const swaggerDoc = require('./swagger/swagger');
 
 const logger = shared.logger.getLogger(module);
 const app = koa();

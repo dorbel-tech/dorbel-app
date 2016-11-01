@@ -1,0 +1,21 @@
+{
+  "Building": {
+    "type": "object",
+    "properties": {
+      "street_name": {
+        "type": "string"
+      },
+      "house_number": {
+        "type": "string"
+      },
+      "city": {
+        "$ref": "#/definitions/City"
+      }
+    },
+    "required": [
+      "street_name",
+      "house_number",
+      "city"
+    ]
+  }
+}

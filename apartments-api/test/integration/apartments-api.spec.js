@@ -1,5 +1,5 @@
 'use strict';
-describe('/apartments', function () {
+describe('/listings', function () {
   const ApiClient = require('./apiClient.js');
   const __ = require('hamjest');
   const _ = require('lodash');

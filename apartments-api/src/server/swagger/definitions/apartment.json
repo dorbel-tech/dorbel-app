@@ -1,0 +1,32 @@
+{
+  "Apartment": {
+    "type": "object",
+    "properties": {
+      "rooms": {
+        "type": "number"
+      },
+      "floor": {
+        "type": "integer"
+      },
+      "size": {
+        "type": "integer"
+      },
+      "title": {
+        "type": "string"
+      },
+      "unit": {
+        "type": "string"
+      },
+      "building": {
+        "$ref": "#/definitions/Building"
+      }
+    },
+    "required": [
+      "rooms",
+      "floor",
+      "size",
+      "unit",
+      "building"
+    ]
+  }
+}
