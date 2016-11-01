@@ -1,0 +1,11 @@
+version: '1.0'
+
+steps:
+
+  build-the-image:
+    type: build
+    description: Builds apartments-api
+    image-name: dorbel/apartments-api
+    tag: develop
+    build-arguments:
+      - port=3000
