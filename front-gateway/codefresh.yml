@@ -13,7 +13,7 @@ steps:
         - npm test
   integration-test:
       type: composition
-      composition: dorbel
+      composition: docker-compose.codefresh.yml
       composition-candidates:
         test:
           image: ${{build-the-image}}
