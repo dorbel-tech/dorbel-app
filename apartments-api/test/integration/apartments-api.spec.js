@@ -35,7 +35,7 @@ describe('/apartments', function () {
       description: 'Really nice place to live',
     };
 
-    yield request.post('/v1/apartments').send(newApartment).expect(201).end();
+    yield request.post('/v1/listings').send(newApartment).expect(201).end();
     const getResponse = yield request.get('/v1/apartments').expect(200).end();
     const expected = _.pick(newApartment, ['street_name', 'house_number', 'unit']);
     __.assertThat(getResponse.body, __.allOf(
@@ -45,7 +45,7 @@ describe('/apartments', function () {
   });
 
   it('should fail to add an apartment without a title', function* () {
-    const response = yield request.post('/v1/apartments').send({ description: 'just this' }).expect(400).end();
+    const response = yield request.post('/v1/listings').send({ description: 'just this' }).expect(400).end();
     __.assertThat(response.body,
       __.hasProperty('details', __.hasItem('title is a required field'))
     );
