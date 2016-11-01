@@ -17,7 +17,7 @@ steps:
         version: '2'
         services:
           db:
-            image: mysql
+            image: mysql:latest
             ports:
               - 3306
             environment:
@@ -28,4 +28,4 @@ steps:
       composition-candidates:
         test:
           image: ${{build-the-image}}
-          command: npm test:integration
+          command: MYSQL_HOST=db MYSQL_ROOT_PASSWORD=root MYSQL_USER=dorbel MYSQL_PASSWORD=dorbel MYSQL_DATABASE=dorbel npm test:integration
