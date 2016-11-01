@@ -13,19 +13,8 @@ steps:
         - npm test
   integration-test:
       type: composition
-      composition:
-        version: '2'
-        services:
-          db:
-            image: mysql:latest
-            ports:
-              - 3306
-            environment:
-              MYSQL_ROOT_PASSWORD: root
-              MYSQL_DATABASE: dorbel
-              MYSQL_USER: dorbel
-              MYSQL_PASSWORD: dorbel
+      composition: docker-compose.codefresh.yml
       composition-candidates:
         test:
           image: ${{build-the-image}}
-          command: bash -c 'sleep 30 && RDS_HOSTNAME=db RDS_DB_NAME=dorbel RDS_USERNAME=dorbel RDS_PASSWORD=dorbel npm run test:integration'
+          command: npm run test:integration
