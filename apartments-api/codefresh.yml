@@ -10,6 +10,5 @@ steps:
     tag: develop
   unit-test:
     image: ${{build-the-image}}
-    working-directory: /home/nodejs/app
     commands:
         - npm test
