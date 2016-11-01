@@ -1,19 +1,28 @@
 machine:
   environment:
+    NODE_ENV: test
+    PORT: 3000
+    RDS_HOSTNAME: 127.0.0.1
+    RDS_DB_NAME: circle_test
+    RDS_USERNAME: ubuntu
+    RDS_PASSWORD: 
     AWS_DEFAULT_REGION: eu-west-1
   services:
-    - docker
     - mysql
 
 dependencies:
   pre:
     - sudo apt-get install python-dev
     - sudo pip install awsebcli
-    - cd apartments-api; docker build --rm=false -t dorbel/apartments-api .
+  override:
+    - npm install
+  cache_directories:
+    - node_modules
+    - apartments-api/node_modules
 
 test:
   override:
-    - docker run -p 3000:3000 -e NODE_ENV=test -e RDS_HOSTNAME=localhost -e RDS_DB_NAME=circle_test -e RDS_USERNAME=ubuntu dorbel/apartments-api npm test
+    - npm test
 
 deployment:
   development:

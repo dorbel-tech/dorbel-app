@@ -23,7 +23,7 @@ function* create(apartment) {
     ]
   });
 
-  if (existingApartment) return existingApartment;
+  if (existingApartment) { return existingApartment; }
 
   const buildingResult = yield Building.findOrCreate({ where: buildingWhere });
   let newApartment = Apartment.build(apartment);

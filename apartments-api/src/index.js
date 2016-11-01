@@ -19,7 +19,7 @@ function* bootstrap() {
   }
 }
 
-if (require.main === module) co(bootstrap);
+if (require.main === module) { co(bootstrap); }
 
 module.exports = {
   bootstrap
