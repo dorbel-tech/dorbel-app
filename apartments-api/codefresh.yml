@@ -5,10 +5,20 @@ steps:
     type: build
     description: Builds apartments-api
     working-directory: ${{initial-clone}}/apartments-api
-    # dockerfile: apartments-api/Dockerfile
     image-name: dorbel/apartments-api
     tag: develop
   unit-test:
     image: ${{build-the-image}}
     commands:
         - npm test
+  integration-test:
+      type: composition
+      composition:
+        version: '2'
+        services:
+          db:
+            image: mysql
+      composition-candidates:
+        test:
+          image: ${{build-the-image}}
+          command: npm test:integration
