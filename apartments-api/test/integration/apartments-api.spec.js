@@ -1,53 +1,33 @@
 'use strict';
 describe('/apartments', function () {
-  const app = require('../../src/index.js');
-  const coSupertest = require('co-supertest');
+  const ApiClient = require('./apiClient.js');
   const __ = require('hamjest');
   const _ = require('lodash');
-  let request;
+  const faker = require('../shared/fakeObjectGenerator');
 
   before(function* () {
-    try {
-      let server = yield app.bootstrap();
-      request = coSupertest.agent(server);
-    }
-    catch (err) {
-      if (err.code === 'EADDRINUSE') { // server is already up
-        request = coSupertest('localhost:' + err.port);
-      } else {
-        throw err;
-      }
-    }
+    this.apiClient = yield ApiClient.init(faker.getFakeUser());
   });
 
-  it('should add apartment and return it', function* () {
-    const newApartment = {
-      country_name: 'Israel',
-      city_name: 'תל אביב',
-      neighborhood_name: 'מרכז העיר',
-      street_name: 'Rothschild Boulevard',
-      house_number: '129',
-      unit: '2',
-      rooms: 3,
-      floor: 4,
-      size: 45,
-      title: 'Best apartment',
-      description: 'Really nice place to live',
-    };
+  it('should add listing and return it', function* () {
+    const newListing = faker.getFakeListing();
 
-    yield request.post('/v1/listings').send(newApartment).expect(201).end();
-    const getResponse = yield request.get('/v1/apartments').expect(200).end();
-    const expected = _.pick(newApartment, ['street_name', 'house_number', 'unit']);
+    yield this.apiClient.createListing(newListing).expect(201).end();
+    const getResponse = yield this.apiClient.getListings().expect(200).end();
+    const expected = _.pick(newListing, ['street_name', 'house_number', 'unit']);
     __.assertThat(getResponse.body, __.allOf(
       __.is(__.array()),
       __.hasItem(__.hasProperties(expected))
     ));
   });
 
-  it('should fail to add an apartment without a title', function* () {
-    const response = yield request.post('/v1/listings').send({ description: 'just this' }).expect(400).end();
+  it('should fail to add a listing without monthly rent', function* () {
+    const newListing = faker.getFakeListing();
+    delete newListing.monthly_rent;
+
+    const response = yield this.apiClient.createListing(newListing).expect(400).end();
     __.assertThat(response.body,
-      __.hasProperty('details', __.hasItem('title is a required field'))
+      __.hasProperty('details', __.hasItem('monthly_rent is a required field'))
     );
   });
 });

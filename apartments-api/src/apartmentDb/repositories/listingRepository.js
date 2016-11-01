@@ -2,11 +2,25 @@
 const db = require('../dbConnectionProvider');
 const models = db.models;
 const _ = require('lodash');
+const helper = require('./repositoryHelper');
+const apartmentRepository = require('./apartmentRepository');
+const buildingRepository = require('./buildingRepository');
+
+function list (query) {
+  return models.listing.findAll({
+    where: query,
+    include: [ { model: models.apartment, include: models.building } ],
+    raw: true, // readonly get - no need for full sequlize instances
+    fieldMap: {
+      'building.street_name': 'street_name',
+      'building.house_number': 'house_number'
+    }
+  });
+}
 
 function* create(listing) {
   // TODO: add reference to country
-
-  const city = yield db.models.city.findOne({
+  const city = yield models.city.findOne({
     where: listing.apartment.building.city
   });
 
@@ -14,24 +28,56 @@ function* create(listing) {
     throw new Error('did not find city');
   }
 
-  const buildingQuery = { street_name: listing.apartment.building.street_name, house_number: listing.apartment.building.house_number, city_id: city.id };
-  const existingApartment = yield db.models.apartment.findOne({
-    where: { unit: listing.apartment.unit },
-    include: [
-      { model: db.models.building, where : buildingQuery }
-    ]
-  });
+  const building = yield buildingRepository.findOrCreate(listing.apartment.building.street_name, listing.apartment.building.house_number, city.id);
+  const apartment = yield apartmentRepository.findOrCreate(listing.apartment.unit, building.id, listing.apartment);
 
-  if (existingApartment) {
-    return existingApartment;
-  } else {
-    const buildingResult = yield db.models.building.findOrCreate({ where: buildingQuery });
-    let newApartment = db.models.apartment.build(apartment);
-    newApartment.building_id = buildingResult[0].id;
-    return newApartment.save();
+  let newListing = models.listing.build(_.pick(listing, helper.getModelFieldNames(models.listing)));
+  newListing.apartment_id = apartment.id;
+  let savedListing = yield newListing.save();
+
+  building.city = city;
+  apartment.building = building;
+  savedListing.apartment = apartment;
+
+  if (listing.images) {
+    savedListing.images = yield listing.images.map(image => {
+      image.listing_id = savedListing.id;
+      return models.image.create(image);
+    });
   }
+
+  if (listing.open_house_events) {
+    savedListing.open_house_events = yield listing.open_house_events.map(ohe => {
+      ohe.listing_id = savedListing.id;
+      return models.open_house_event.create(ohe);
+    });
+  }
+
+  return savedListing;
+}
+
+function getListingsForApartment(apartment, listingQuery) {
+  const includeCity = [
+    { model: models.city, where: { city_name: apartment.building.city.city_name } }
+  ];
+
+  const includeBuildings = [
+    { model: models.building, where: { street_name: apartment.building.street_name, house_number: apartment.building.house_number }, include: includeCity }
+  ];
+
+  const includeApartment = [
+    { model: models.apartment, where: { unit: apartment.unit }, include: includeBuildings }
+  ];
+
+  return models.listing.findAll({
+    where: listingQuery,
+    include: includeApartment,
+    raw: true
+  });
 }
 
 module.exports = {
-  create
+  list,
+  create,
+  getListingsForApartment
 };

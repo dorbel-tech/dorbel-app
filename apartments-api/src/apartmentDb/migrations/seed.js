@@ -1,28 +1,37 @@
 'use strict';
 // Initial seed file for database
 /* eslint no-console: "off" */
-
 const co = require('co');
-const db = require('../dbConnectionProvider');
+let db;
 
-function findOrCreate(modelName, obj) {
+function findOrCreate(modelName, obj, transaction) {
   return db.models[modelName].findOrCreate({
-    where: obj
+    where: obj, transaction
   }).spread(result => result); // return just the first result which is the object found or created
 }
 
 function createNeighborhoodsInCity(city, neighborhoodNames) {
-  return neighborhoodNames.map((neighborhood_name, index) =>
-    findOrCreate('neighborhood', {
-      neighborhood_name,
-      city_id: city.id,
-      display_order: index + 1
-    })
-  );
+  return db.db.transaction(transaction => { // these are done concurrently so need a transaction
+    let promises = neighborhoodNames.map((neighborhood_name, index) =>
+      findOrCreate('neighborhood', {
+        neighborhood_name,
+        city_id: city.id,
+        display_order: index + 1
+      }, transaction)
+    );
+
+    return Promise.all(promises);
+  });
 }
 
-function* createSeed() {
-  yield db.connect();
+function* createSeed(dbToSeed) {
+  if (!dbToSeed) {
+    db = require('../dbConnectionProvider');
+    yield db.connect();
+  }
+  else {
+    db = dbToSeed;
+  }
 
   const israel = yield findOrCreate('country', {
     country_name: 'Israel',
@@ -45,8 +54,20 @@ function* createSeed() {
   yield createNeighborhoodsInCity(telAviv, ['מרכז העיר', 'הצפון הישן']);
   yield createNeighborhoodsInCity(hertzelya, ['ויצמן', 'גורדון']);
 
-  console.log('seed finished');
-  process.exit();
 }
 
-if (require.main === module) { co(createSeed).catch(err => console.error(err.stack || err)); }
+if (require.main === module) {
+  co(createSeed)
+    .then(() => {
+      console.log('seed finished');
+      process.exit();
+    })
+    .catch(err => {
+      console.error(err.stack || err);
+      process.exit(-1);
+    });
+}
+
+module.exports = {
+  createSeed
+};

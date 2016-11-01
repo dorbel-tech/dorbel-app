@@ -1,14 +1,19 @@
 'use strict';
-const apartmentRepository = require('../../apartmentDb/repositories/apartmentRepository');
+const listingService = require('../../services/listingService');
+
+function* get() {
+  this.response.body = yield listingService.list();
+}
 
 function* post() {
   let newApartment = this.request.body;
   // TODO : this does find-or-create - we should return an error if the apartment already exists
-  let createdApartment = yield apartmentRepository.create(newApartment);
+  let createdApartment = yield listingService.create(newApartment);
   this.response.status = 201;
   this.response.body = createdApartment;
 }
 
 module.exports = {
-  post: post
+  post: post,
+  get: get
 };

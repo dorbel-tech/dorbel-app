@@ -1,249 +1,246 @@
 {
-    "swagger": "2.0",
-    "info": {
-        "title": "dorbel Apartments API",
-        "description": "dorbel API for the apartments domain",
-        "version": "0.0.1"
-    },
-    "host": "api.dorbel.com",
-    "schemes": [
-        "https"
-    ],
-    "basePath": "/v1",
-    "produces": [
-        "application/json"
-    ],
-    "paths": {
-        "/apartments": {
-            "get": {
-                "summary": "List Apartments",
-                "description": "The Apartments endpoint returns the available apartments",
-                "parameters": [
-                    {
-                        "name": "city",
-                        "in": "query",
-                        "description": "City apartment is in",
-                        "type": "string"
-                    }
-                ],
-                "tags": [
-                    "apartmentController"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "An array of apartments",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/Apartment"
-                            }
-                        }
-                    },
-                    "default": {
-                        "description": "Unexpected error",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    }
-                }
+  "swagger": "2.0",
+  "info": {
+    "title": "dorbel Apartments API",
+    "description": "dorbel API for the apartments domain",
+    "version": "0.0.1"
+  },
+  "host": "api.dorbel.com",
+  "schemes": [
+    "https"
+  ],
+  "basePath": "/v1",
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/listings": {
+      "get": {
+        "summary": "List Listings",
+        "description": "The Listing endpoint returns the available listings",
+        "parameters": [
+          {
+            "name": "city_name",
+            "in": "query",
+            "description": "City listing are in",
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "listingController"
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of apartments",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Listing"
+              }
             }
-        },
-        "/listings": {
-            "post": {
-                "summary": "Post new listing",
-                "description": "Add a new listing to the system",
-                "parameters": [
-                    {
-                        "name": "body",
-                        "in": "body",
-                        "schema": {
-                            "$ref": "#/definitions/Listing"
-                        }
-                    },
-                    {
-                        "name": "x-user-profile",
-                        "in": "header",
-                        "required": true,
-                        "type": "string",
-                        "description": "Stringified JSON object with the user's profile information"
-                    }
-                ],
-                "tags": [
-                    "listingController"
-                ],
-                "responses": {
-                    "201": {
-                        "description": "Listing created succesfully",
-                        "schema": {
-                            "$ref": "#/definitions/Listing"
-                        }
-                    },
-                    "default": {
-                        "description": "Unexpected error",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    }
-                }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
             }
+          }
         }
-    },
-    "definitions": {
-        "City": {
-            "type": "object",
-            "properties": {
-                "city_name": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "city_name"
-            ]
-        },
-        "Building": {
-            "type": "object",
-            "properties": {
-                "street_name": {
-                    "type": "string"
-                },
-                "house_number": {
-                    "type": "string"
-                },
-                "city": {
-                    "$ref": "#/definitions/City"
-                }
-            },
-            "required": [
-                "street_name",
-                "house_number",
-                "city"
-            ]
-        },
-        "Apartment": {
-            "type": "object",
-            "properties": {
-                "rooms": {
-                    "type": "number"
-                },
-                "floor": {
-                    "type": "integer"
-                },
-                "size": {
-                    "type": "integer"
-                },
-                "title": {
-                    "type": "string"
-                },
-                "unit": {
-                    "type": "string"
-                },
-                "building": {
-                    "$ref": "#/definitions/Building"
-                }
-            },
-            "required": [
-                "rooms",
-                "floor",
-                "size",
-                "title",
-                "unit",
-                "building"
-            ]
-        },
-        "Listing": {
-            "type": "object",
-            "properties": {
-                "monthly_rent": {
-                    "type": "integer"
-                },
-                "lease_start": {
-                    "type": "string",
-                    "format": "date"
-                },
-                "lease_end": {
-                    "type": "string",
-                    "format": "date"
-                },
-                "publishing_user_id": {
-                    "type": "string"
-                },
-                "publishing_user_type": {
-                    "type": "string",
-                    "enum": [
-                        "landlord",
-                        "tenant"
-                    ]
-                },
-                "apartment": {
-                    "$ref": "#/definitions/Apartment"
-                },
-                "images": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/Image"
-                    }
-                },
-                "open_house_events": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/OpenHouseEvent"
-                    }
-                }
-            },
-            "required": [
-                "monthly_rent",
-                "lease_start",
-                "lease_end",
-                "publishing_user_id",
-                "publishing_user_type",
-                "apartment"
-            ]
-        },
-        "Image": {
-            "type": "object",
-            "properties": {
-                "url": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "url"
-            ]
-        },
-        "OpenHouseEvent": {
-            "type": "object",
-            "properties": {
-                "start_time": {
-                    "type": "string",
-                    "format": "date-time"
-                },
-                "end_time": {
-                    "type": "string",
-                    "format": "date-time"
-                },
-                "comments": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "start_time",
-                "end_time"
-            ]
-        },
-        "Error": {
-            "type": "object",
-            "properties": {
-                "code": {
-                    "type": "integer",
-                    "format": "int32"
-                },
-                "message": {
-                    "type": "string"
-                },
-                "fields": {
-                    "type": "string"
-                }
+      },
+      "post": {
+        "summary": "Post new listing",
+        "description": "Add a new listing to the system",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Listing"
             }
+          },
+          {
+            "name": "x-user-profile",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Stringified JSON object with the user's profile information"
+          }
+        ],
+        "tags": [
+          "listingController"
+        ],
+        "responses": {
+          "201": {
+            "description": "Listing created succesfully",
+            "schema": {
+              "$ref": "#/definitions/Listing"
+            }
+          },
+          "default": {
+            "description": "Unexpected error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
         }
+      }
     }
+  },
+  "definitions": {
+    "City": {
+      "type": "object",
+      "properties": {
+        "city_name": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "city_name"
+      ]
+    },
+    "Building": {
+      "type": "object",
+      "properties": {
+        "street_name": {
+          "type": "string"
+        },
+        "house_number": {
+          "type": "string"
+        },
+        "city": {
+          "$ref": "#/definitions/City"
+        }
+      },
+      "required": [
+        "street_name",
+        "house_number",
+        "city"
+      ]
+    },
+    "Apartment": {
+      "type": "object",
+      "properties": {
+        "rooms": {
+          "type": "number"
+        },
+        "floor": {
+          "type": "integer"
+        },
+        "size": {
+          "type": "integer"
+        },
+        "title": {
+          "type": "string"
+        },
+        "unit": {
+          "type": "string"
+        },
+        "building": {
+          "$ref": "#/definitions/Building"
+        }
+      },
+      "required": [
+        "rooms",
+        "floor",
+        "size",
+        "unit",
+        "building"
+      ]
+    },
+    "Listing": {
+      "type": "object",
+      "properties": {
+        "monthly_rent": {
+          "type": "integer"
+        },
+        "lease_start": {
+          "type": "string",
+          "format": "date"
+        },
+        "lease_end": {
+          "type": "string",
+          "format": "date"
+        },
+        "publishing_user_id": {
+          "type": "string"
+        },
+        "publishing_user_type": {
+          "type": "string",
+          "enum": [
+            "landlord",
+            "tenant"
+          ]
+        },
+        "apartment": {
+          "$ref": "#/definitions/Apartment"
+        },
+        "images": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Image"
+          }
+        },
+        "open_house_events": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OpenHouseEvent"
+          }
+        }
+      },
+      "required": [
+        "monthly_rent",
+        "lease_start",
+        "lease_end",
+        "publishing_user_id",
+        "publishing_user_type",
+        "apartment"
+      ]
+    },
+    "Image": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "url"
+      ]
+    },
+    "OpenHouseEvent": {
+      "type": "object",
+      "properties": {
+        "start_time": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "end_time": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "comments": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "start_time",
+        "end_time"
+      ]
+    },
+    "Error": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "fields": {
+          "type": "string"
+        }
+      }
+    }
+  }
 }

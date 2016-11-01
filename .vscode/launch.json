@@ -1,31 +1,40 @@
 {
   "version": "0.2.0",
   "configurations": [
-      {
-        "name": "apartments-api#attach",
-        "type": "node",
-        "request": "attach",
-        "port": 5858,
-        "address": "localhost",
-        "restart": true,
-        "sourceMaps": true,
-        "outDir": null,
-        "localRoot": "${workspaceRoot}/apartments-api",
-        "remoteRoot": "."
+    {
+      "name": "apartments-api#attach",
+      "type": "node",
+      "request": "attach",
+      "port": 5858,
+      "address": "localhost",
+      "restart": true,
+      "sourceMaps": true,
+      "outDir": null,
+      "localRoot": "${workspaceRoot}/apartments-api",
+      "remoteRoot": "."
     },
     {
-      "name": "apartments-api#tests",
+      "name": "apartments-api#unit-tests",
       "type": "node",
       "cwd": "${workspaceRoot}/apartments-api",
       "request": "launch",
-      "program": "${workspaceRoot}/apartments-api/node_modules/mocha/bin/_mocha",
-      "stopOnEntry": false,
-      "args": [ "test/shared/before-tests.js", "test/**/*.spec.js" ],
-      "preLaunchTask": null,
+      "args": [ "run", "test:unit", "--", "--debug", "--debug-brk" ],
       "port": 5858,
-      "runtimeExecutable": "${workspaceRoot}/apartments-api/node_modules/babel-cli/bin/babel-node.js",
-      "runtimeArgs": [ "--nolazy" ],
-      "env": { "NODE_ENV": "test" },
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [ ],
+      "console": "internalConsole",
+      "sourceMaps": true,
+      "outDir": null
+    },
+    {
+      "name": "apartments-api#integration-tests",
+      "type": "node",
+      "cwd": "${workspaceRoot}/apartments-api",
+      "request": "launch",
+      "args": [ "run", "test:integration", "--", "--debug", "--debug-brk" ],
+      "port": 5858,
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [ ],
       "console": "internalConsole",
       "sourceMaps": true,
       "outDir": null
@@ -46,6 +55,6 @@
       "console": "internalConsole",
       "sourceMaps": true,
       "outDir": null
-    },
+    }
   ]
 }
