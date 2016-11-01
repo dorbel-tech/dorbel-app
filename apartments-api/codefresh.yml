@@ -12,4 +12,5 @@ steps:
     image: ${{build-the-image}}
     working-directory: ${{initial-clone}}/apartments-api
     commands:
+        - npm install
         - npm test
