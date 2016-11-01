@@ -5,6 +5,7 @@ steps:
   build-the-image:
     type: build
     description: Builds apartments-api
+    dockerfile: apartments-api/Dockerfile
     image-name: dorbel/apartments-api
     tag: develop
     build-arguments:
