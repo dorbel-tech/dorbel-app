@@ -5,7 +5,6 @@ steps:
   build-the-image:
     type: build
     description: Builds apartments-api
-    working-directory: apartments-api/
+    dockerfile: apartments-api/Dockerfile
     image-name: dorbel/apartments-api
     tag: develop
-    fail-fast: false
