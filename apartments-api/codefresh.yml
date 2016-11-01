@@ -22,7 +22,7 @@ steps:
           image: ${{build-the-image}}
           command: bash -c 'sleep 30 && env && npm run test:integration'
           
-  elastic-beanstalk:
+  deployment:
     image: garland/aws-cli-docker:latest
     commands: >-
       sh -c  "[ ${{CF_BRANCH}} == feature/codefresh ] &&
