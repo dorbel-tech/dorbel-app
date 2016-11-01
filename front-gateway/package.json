@@ -12,7 +12,7 @@
     "test": "npm run test:lint && npm run test:unit",
     "test:lint": "eslint --ext .jsx,.js -f table src",
     "test:unit": "jest",
-    "test:integration": "echo TBD"
+    "test:e2e": "echo TBD"
     
   },
   "author": "",
