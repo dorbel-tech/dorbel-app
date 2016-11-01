@@ -23,7 +23,6 @@ dependencies:
 test:
   override:
     - npm test
-    - npm run test:integration
 
 deployment:
   development:
