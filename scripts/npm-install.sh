@@ -4,7 +4,7 @@
 PROD=""
 
 if [[ $1 == "prod" ]]; then
-    PROD="-- production"
+    PROD="--silent --production"
 fi
 
 npm --prefix ./apartments-api install $PROD &&
