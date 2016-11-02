@@ -8,7 +8,8 @@
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
-    "plugin:flowtype/recommended"
+    "plugin:flowtype/recommended",
+     "./node_modules/dorbel-shared/eslintrc.json"
   ],
   "env": {
     "es6": true,
