@@ -3,7 +3,7 @@
 
 if [ $# -eq 0 ]; then
     echo "No arguments provided."
-    echo "[start] or [stop] are valid options."
+    echo "[start] or [stop] are valid options, then [fresh] optional."
     exit 1
 fi
 

@@ -11,6 +11,9 @@ machine:
     - mysql
 
 dependencies:
+  cache_directories:
+    - "apartments-api/node_modules"
+    - "front-gateway/node_modules"
   override:
     - npm run install:prod
 
