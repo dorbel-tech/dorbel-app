@@ -2,6 +2,7 @@
 const Sequelize = require('sequelize');
 const shared = require('dorbel-shared');
 const modelLoader = require('./models');
+const graphql = require('graphql-sequelize-crud');
 
 const config = shared.config;
 const MY_SQL_PORT = 3306;
@@ -27,5 +28,6 @@ module.exports.connect = function* connect() {
 
   module.exports.db = db;
   module.exports.models = modelLoader.load(db);
+  module.exports.graphqlSchema = graphql.getSchema(db);
   yield db.sync();
 };
