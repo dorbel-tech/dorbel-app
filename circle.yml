@@ -11,9 +11,6 @@ machine:
     - mysql
 
 dependencies:
-  pre:
-    - sudo apt-get install python-dev
-    - sudo pip install awsebcli
   override:
     - npm run install:prod
 
@@ -25,5 +22,7 @@ deployment:
   development:
     branch: develop
     commands:  
+      - sudo apt-get install python-dev
+      - sudo pip install awsebcli
       - npm run deploy apartments-api dev
       - npm run deploy front-gateway dev    
