@@ -39,5 +39,5 @@ steps:
         pip install --upgrade pip &&
         pip install awsebcli &&
         export PATH=/usr/local/bin:$PATH
-        eb
+        eb deploy apartments-api-develop v0.1.test --message test 
         "
