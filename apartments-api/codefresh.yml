@@ -38,7 +38,6 @@ steps:
         apt-get -y install python-pip python-dev build-essential && 
         pip install --upgrade pip &&
         pip install --upgrade --user awsebcli &&
-        export PATH=~/.local/bin:$PATH &&
-        source ~/.profile &&
-        eb
+        ~/.local/bin &&
+        ~/.local/bin/eb
         "
