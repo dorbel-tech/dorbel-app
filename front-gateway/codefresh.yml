@@ -25,4 +25,4 @@ steps:
         aws configure set aws_access_key_id ${{ACCESS_KEY_ID}} &&
         aws configure set aws_secret_access_key ${{SECRET_ACCESS_KEY_ID}} &&
         aws configure set region ${{REGION}} &&
-        aws elasticbeanstalk update-environment --environment-name front-gateway-develop --version-label v0.1.${{CF_SHORT_REVISION}}"
+        aws elasticbeanstalk update-environment --version-label ${{VERSION}} --environment-name front-gateway-develop"
