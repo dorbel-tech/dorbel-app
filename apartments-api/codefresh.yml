@@ -35,5 +35,5 @@ steps:
       - >-
         sh -c  "pwd &&
         ls -la &&
-        env &&
-        pwd"
+        aws &&
+        docker"
