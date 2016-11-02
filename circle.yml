@@ -16,9 +16,6 @@ dependencies:
     - sudo pip install awsebcli
   override:
     - npm run install:prod
-  cache_directories:
-    - node_modules
-    - apartments-api/node_modules
 
 test:
   override:
