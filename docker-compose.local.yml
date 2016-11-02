@@ -3,6 +3,9 @@ version: '2'
 services:
 
   apartments-api:
+    build:
+      dockerfile: Dockerfile.dev  
+    image: dorbel/apartments-api:local
     ports:
       - '5858:5858'
     volumes:
@@ -12,6 +15,9 @@ services:
     command: npm run start:dev
 
   front-gateway:
+    build:
+      dockerfile: Dockerfile.dev  
+    image: dorbel/front-gateway:local
     ports:
       - '5859:5859'
       - '8888:8888'

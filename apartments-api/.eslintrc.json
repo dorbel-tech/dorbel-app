@@ -9,37 +9,12 @@
     "mocha": true
   },
   "extends": [
-    "eslint:recommended",
-    "plugin:flowtype/recommended"
+    "plugin:flowtype/recommended",
+    "./node_modules/dorbel-shared/eslint.shared.json"    
   ],
   "settings": {
     "flowtype": {
       "onlyFilesWithFlowAnnotation": false
     }
-  },
-  "rules": {
-    "indent": [
-      "error",
-      2, {
-        "SwitchCase": 1
-      }
-    ],
-    "linebreak-style": [
-      "error",
-      "unix"
-    ],
-    "quotes": [
-      "error",
-      "single"
-    ],
-    "semi": [
-      "error",
-      "always"
-    ],
-    "curly": [
-      "error",
-      "all"
-    ],
-    "require-yield": 0
   }
 }

@@ -5,6 +5,7 @@
   "scripts": {
     "first": "scripts/first_time_install.sh",
     "install": "scripts/npm-install.sh",
+    "install:prod": "scripts/npm-install.sh prod",
     "test": "scripts/npm-test.sh",
     "start": "scripts/env.sh start",
     "start:fresh": "scripts/env.sh start fresh",
@@ -14,5 +15,12 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/dorbel-tech/dorbel-app.git"
-  }
+  },
+   "devDependencies": {
+    "babel-eslint": "^7.0.0",
+    "eslint": "^3.7.1",    
+    "eslint-plugin-flowtype": "^2.19.0",
+    "eslint-plugin-jsx-a11y": "^2.2.3",
+    "eslint-plugin-react": "^6.3.0"
+   }
 }
