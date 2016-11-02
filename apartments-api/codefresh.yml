@@ -34,4 +34,5 @@ steps:
         - >-
           sh -c  "pwd &&
           ls -la &&
-          env"
+          env &&
+          pwd"
