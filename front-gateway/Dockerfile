@@ -10,7 +10,7 @@ WORKDIR $WORKDIR
 
 # Install dependencies before to cache node_modules.
 COPY package.json $WORKDIR
-RUN npm install --silent
+RUN npm install --silent --production
 
 # Copy all files from host to container.
 COPY . $WORKDIR

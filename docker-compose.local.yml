@@ -9,7 +9,7 @@ services:
       - ./apartments-api/src:/home/nodejs/app/src
     environment:
       NODE_ENV: local
-    command: npm run start:dev
+    command: bash -c "npm install --silent && npm run start:dev"
 
   front-gateway:
     ports:
@@ -19,4 +19,4 @@ services:
       - ./front-gateway/src:/home/nodejs/app/src
     environment:
       NODE_ENV: local
-    command: bash -c "npm run build:dev& npm run start:dev" 
+    command: bash -c "npm install --silent && npm run build:dev& npm run start:dev" 
