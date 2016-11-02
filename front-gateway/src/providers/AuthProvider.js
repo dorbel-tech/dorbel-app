@@ -23,7 +23,7 @@ class AuthProvider {
     this.authStore.setToken(authResult.idToken);
     this.lock.getProfile(authResult.idToken, (error, profile) => {
       if (error) {
-        console.log('Error loading the Profile', error);
+        window.console.log('Error loading the Profile', error);
       } else {
         this.authStore.setProfile(profile);
       }
