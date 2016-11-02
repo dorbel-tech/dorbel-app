@@ -10,8 +10,7 @@
   },
   "extends": [
     "eslint:recommended",
-    "plugin:flowtype/recommended",
-    "./node_modules/dorbel-shared/eslintrc.json"
+    "plugin:flowtype/recommended"
   ],
   "settings": {
     "flowtype": {
