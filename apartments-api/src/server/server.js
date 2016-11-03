@@ -2,8 +2,11 @@
 const koa = require('koa');
 const fleekRouter = require('fleek-router');
 const bodyParser = require('koa-bodyparser');
+const mount = require('koa-mount');
+const graphqlHTTP = require('koa-graphql');
 const shared = require('dorbel-shared');
 const swaggerDoc = require('./swagger/swagger');
+const db = require('../apartmentDb/dbConnectionProvider');
 
 const logger = shared.logger.getLogger(module);
 const app = koa();
@@ -38,6 +41,11 @@ app.use(function* returnSwagger(next) {
     yield next;
   }
 });
+
+app.use(mount('/graphql', graphqlHTTP({
+  schema: db.graphqlSchema,
+  graphiql: true
+})));
 
 fleekRouter(app, {
   swagger: swaggerDoc,

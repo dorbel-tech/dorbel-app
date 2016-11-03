@@ -6,7 +6,7 @@ function define(sequelize, DataTypes) {
     house_number: { type: DataTypes.STRING, allowNull: false },
     entrance: { type: DataTypes.STRING, allowNull: true },
     floors: DataTypes.INTEGER,
-    geometry: DataTypes.GEOMETRY('POINT'),
+    // geometry: DataTypes.GEOMETRY('POINT'),
     elevator: DataTypes.BOOLEAN
   }, {
     classMethods: {
