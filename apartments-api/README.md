@@ -16,6 +16,6 @@
 - See [fleek-router](https://github.com/fleekjs/fleek-router) for details
 
 ## Database
-- Uses Sequelize CLI
-- Run DB migrate: ``NODE_ENV=local sequelize db:migrate``
-- Run DB seed: ``NODE_ENV=local sequelize db:seed``
+- Uses [Sequelize ORM](https://github.com/sequelize/sequelize) and its [CLI](https://github.com/sequelize/cli) to run seeds amd migrations. 
+- Run DB migrate: ``sequelize db:migrate``
+- Run DB seed: ``sequelize db:seed``
