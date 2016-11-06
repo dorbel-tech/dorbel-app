@@ -1,6 +1,6 @@
 // Main Sequelize CLI database configuration file.
 // In use for Sequelize CLI seeds & migrations only - https://github.com/sequelize/cli
-{
+module.exports = {
   "local": {
     "username": "dorbel",
     "password": "dorbel",
@@ -29,4 +29,4 @@
     "host": process.env.RDS_HOSTNAME,
     "dialect": "mysql"
   },
-}
+};
