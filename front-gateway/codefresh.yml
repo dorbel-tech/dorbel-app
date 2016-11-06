@@ -9,7 +9,8 @@ steps:
   unit-test:
     image: ${{build-the-image}}
     commands:
-        - npm test
+      - npm run lint
+      - npm run test
   e2e-test:
       type: composition
       composition: docker-compose.codefresh.yml

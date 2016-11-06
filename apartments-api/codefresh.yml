@@ -10,7 +10,8 @@ steps:
   unit-test:
     image: ${{build-the-image}}
     commands:
-        - npm test
+      - npm run lint
+      - npm run test
   integration-test:
       type: composition
       composition:
@@ -28,7 +29,7 @@ steps:
       composition-candidates:
         test:
           image: ${{build-the-image}}
-          command: bash -c 'sleep 30 && RDS_HOSTNAME=db RDS_DB_NAME=dorbel RDS_USERNAME=dorbel RDS_PASSWORD=dorbel npm run test:integration'
+          command: bash -c 'sleep 30 && RDS_HOSTNAME=db RDS_DB_NAME=dorbel RDS_USERNAME=dorbel RDS_PASSWORD=dorbel NODE_ENV=test npm run db:migrate && npm run db:seed && npm run test:integration'
   # deployment:      
   #   image: ${{build-the-image}}
   #   commands: 
