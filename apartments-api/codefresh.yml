@@ -29,7 +29,7 @@ steps:
       composition-candidates:
         test:
           image: ${{build-the-image}}
-          command: bash -c 'sleep 30 && RDS_HOSTNAME=db NODE_ENV=test npm run db:migrate && RDS_HOSTNAME=db NODE_ENV=test npm run db:seed && RDS_HOSTNAME=db NODE_ENV=test npm run test:integration'
+          command: bash -c 'sleep 30 && export RDS_HOSTNAME=db;NODE_ENV=test && npm run db:migrate && npm run db:seed && npm run test:integration'
   # deployment:      
   #   image: ${{build-the-image}}
   #   commands: 
