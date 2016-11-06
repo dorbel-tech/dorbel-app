@@ -9,10 +9,10 @@
     "build": "npm run clean && webpack",
     "start:dev": "npm run check; nodemon --exec babel-node src/server/server.js | bunyan",
     "build:dev": "NODE_ENV=local webpack-dev-server --content-base public -ds --config webpack.config.js --hot --colors --inline",
-    "test": "npm run test:lint && npm run test:unit",
-    "test:lint": "eslint --ext .jsx,.js -f table src",
+    "test": "npm run test:unit",
     "test:unit": "jest",
     "test:e2e": "echo TBD",
+    "lint": "eslint --ext .jsx,.js -f table src",
     "check": "satisfaction-status || npm install"
   },
   "author": "",
