@@ -1,7 +1,3 @@
 {
-  "LOG_LEVEL": "debug",
-  "RDS_HOSTNAME": "127.0.0.1",
-  "RDS_DB_NAME": "dorbel",
-  "RDS_USERNAME": "dorbel",
-  "RDS_PASSWORD": "dorbel"
+  "LOG_LEVEL": "debug"
 }
