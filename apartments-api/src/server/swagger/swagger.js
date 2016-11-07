@@ -1,4 +1,8 @@
 'use strict';
+/**
+ * This module will aggregate all the parts of the Swagger API Definition File
+ * Will take paths from `paths` sub-folder and (model) definitions from `definitions` sub-folder
+ */
 const fs = require('fs');
 const path = require('path');
 const _ = require('lodash');

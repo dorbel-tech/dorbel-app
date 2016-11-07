@@ -23,8 +23,7 @@ app.use(function* handleSequelizeErrors(next) {
     if (ex.name === 'SequelizeValidationError') {
       this.body = ex.errors;
       this.status = 400;
-    }
-    else {
+    } else {
       throw ex;
     }
   }
@@ -33,8 +32,7 @@ app.use(function* handleSequelizeErrors(next) {
 app.use(function* returnSwagger(next) {
   if (this.method === 'GET' && this.url === '/swagger') {
     this.body = swaggerDoc;
-  }
-  else {
+  } else {
     yield next;
   }
 });
