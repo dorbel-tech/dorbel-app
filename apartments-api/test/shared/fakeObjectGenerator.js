@@ -13,7 +13,7 @@ function getFakeListing() {
     publishing_user_id: faker.random.uuid(),
     publishing_user_type: 'landlord',
     apartment: {
-      unit: '7',
+      apt_number: '7',
       rooms: 3,
       size: 35,
       floor: 3,

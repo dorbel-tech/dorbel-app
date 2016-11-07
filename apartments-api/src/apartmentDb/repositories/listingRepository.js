@@ -30,7 +30,7 @@ function* create(listing) {
   }
 
   const building = yield buildingRepository.findOrCreate(listing.apartment.building.street_name, listing.apartment.building.house_number, city.id);
-  const apartment = yield apartmentRepository.findOrCreate(listing.apartment.unit, building.id, listing.apartment);
+  const apartment = yield apartmentRepository.findOrCreate(listing.apartment.apt_number, building.id, listing.apartment);
 
   let newListing = models.listing.build(_.pick(listing, helper.getModelFieldNames(models.listing)));
   newListing.apartment_id = apartment.id;
@@ -67,7 +67,7 @@ function getListingsForApartment(apartment, listingQuery) {
   ];
 
   const includeApartment = [
-    { model: models.apartment, where: { unit: apartment.unit }, include: includeBuildings }
+    { model: models.apartment, where: { apt_number: apartment.apt_number }, include: includeBuildings }
   ];
 
   return models.listing.findAll({

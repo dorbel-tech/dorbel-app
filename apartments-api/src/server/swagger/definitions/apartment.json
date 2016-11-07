@@ -14,7 +14,7 @@
       "title": {
         "type": "string"
       },
-      "unit": {
+      "apt_number": {
         "type": "string"
       },
       "building": {
@@ -25,7 +25,7 @@
       "rooms",
       "floor",
       "size",
-      "unit",
+      "apt_number",
       "building"
     ]
   }

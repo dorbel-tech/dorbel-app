@@ -2,7 +2,7 @@
 
 function define(sequelize, DataTypes) {
   return sequelize.define('apartment', {
-    unit: { type: DataTypes.STRING, allowNull: false },
+    apt_number: { type: DataTypes.STRING },
     size: { type: DataTypes.INTEGER, allowNull: false },
     rooms: { type: DataTypes.DECIMAL(3, 1) , allowNull: false },
     floor: { type: DataTypes.INTEGER, allowNull: false },
@@ -19,7 +19,7 @@ function define(sequelize, DataTypes) {
     },
     indexes: [
       {
-        fields: ['building_id', 'unit'],
+        fields: ['building_id', 'apt_number'],
         unique: true
       }
     ]
