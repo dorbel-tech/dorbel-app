@@ -14,3 +14,8 @@
 - Controllers are in ``src/controllers``
 - Mapping from routes to controllers is according to the first ``tag`` value of each path in the swagger doc
 - See [fleek-router](https://github.com/fleekjs/fleek-router) for details
+
+## Database
+- Uses [Sequelize ORM](https://github.com/sequelize/sequelize) and its [CLI](https://github.com/sequelize/cli) to run seeds amd migrations. 
+- Run DB migrate: ``npm run db:migrate``
+- Run DB seed: ``npm run db:seed``

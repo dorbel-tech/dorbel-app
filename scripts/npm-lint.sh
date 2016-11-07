@@ -1,0 +1,5 @@
+#!/bin/bash
+# A script to run all linting.
+
+npm --prefix ./apartments-api run lint && 
+npm --prefix ./front-gateway run lint

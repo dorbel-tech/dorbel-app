@@ -18,5 +18,9 @@ COPY . $WORKDIR
 # Open port
 EXPOSE 3000
 
+# Run DB seed and migrations
+RUN npm run db:migrate
+RUN npm run db:seed
+
 # Run node server.
 CMD [ "npm", "start" ]
