@@ -17,5 +17,5 @@
 
 ## Database
 - Uses [Sequelize ORM](https://github.com/sequelize/sequelize) and its [CLI](https://github.com/sequelize/cli) to run seeds amd migrations. 
-- Run DB migrate: ``sequelize db:migrate``
-- Run DB seed: ``sequelize db:seed``
+- Run DB migrate: ``npm run db:migrate``
+- Run DB seed: ``npm run db:seed``
