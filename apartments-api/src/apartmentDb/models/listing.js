@@ -5,14 +5,15 @@ function define(sequelize, DataTypes) {
     title: { type: DataTypes.STRING },
     description: DataTypes.STRING,
     status: { type: DataTypes.ENUM, values: ['pending', 'listed', 'rented', 'unlisted'], allowNull: false, defaultValue: 'pending' },
-    monthly_rent: { type: DataTypes.INTEGER, allowNull: false },
-    roommates: DataTypes.ENUM('not_suitable', 'possible', 'roommate_needed'),
-    property_tax: { type: DataTypes.INTEGER, comment: 'ארנונה לחודשיים' },
-    board_fee: { type: DataTypes.INTEGER, comment: 'ועד בית' },
+    monthly_rent: { type: DataTypes.DECIMAL(10,2), allowNull: false },
+    roommates: DataTypes.ENUM('allowed', 'disallowed'),
+    property_tax: { type: DataTypes.DECIMAL(10,2), comment: 'ארנונה לחודשיים' },
+    board_fee: { type: DataTypes.DECIMAL(10,2), comment: 'ועד בית' },
     lease_start: { type: DataTypes.DATE, allowNull: false },
     lease_end: { type: DataTypes.DATE, allowNull: false },
     publishing_user_id: { type: DataTypes.UUID, allowNull: false },
-    publishing_user_type: { type: DataTypes.ENUM, values: ['landlord', 'tenant'], allowNull: false }
+    publishing_user_type: { type: DataTypes.ENUM, values: ['landlord', 'tenant'], allowNull: false },
+    roommate_needed: { type: DataTypes.BOOLEAN, defaultValue: false }
   }, {
     classMethods: {
       associate: models => models.listing.belongsTo(models.apartment, { foreignKey: { allowNull: false }, onDelete: 'CASCADE' })
