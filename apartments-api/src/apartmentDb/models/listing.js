@@ -4,7 +4,7 @@ function define(sequelize, DataTypes) {
   return sequelize.define('listing', {
     title: { type: DataTypes.STRING },
     description: DataTypes.STRING,
-    status: { type: DataTypes.ENUM, values: ['pending_review', 'listed', 'pending_contract', 'rented', 'closed'], allowNull: false, defaultValue: 'pending_review' },
+    status: { type: DataTypes.ENUM, values: ['pending', 'listed', 'rented', 'unlisted'], allowNull: false, defaultValue: 'pending' },
     monthly_rent: { type: DataTypes.INTEGER, allowNull: false },
     roommates: DataTypes.ENUM('not_suitable', 'possible', 'roommate_needed'),
     property_tax: { type: DataTypes.INTEGER, comment: 'ארנונה לחודשיים' },
