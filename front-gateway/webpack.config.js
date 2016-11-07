@@ -10,7 +10,7 @@ let devServer = undefined;
 let reactLoader = 'babel-loader';
 let publicPath = '';
 
-if (process.env.NODE_ENV === 'local') {
+if (process.env.NODE_ENV === 'development') {
   devServer = {
     host: 'localhost',
     port: config.get('HOT_RELOAD_SERVER_PORT'),

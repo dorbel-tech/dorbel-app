@@ -11,22 +11,24 @@ machine:
     - mysql
 
 dependencies:
-  pre:
-    - sudo apt-get install python-dev
-    - sudo pip install awsebcli
-  override:
-    - npm install
   cache_directories:
-    - node_modules
-    - apartments-api/node_modules
+    - "apartments-api/node_modules"
+    - "front-gateway/node_modules"
+  override:
+    - npm run install:prod
 
 test:
   override:
-    - npm test
+    - npm run lint
+    - npm run db:migrate
+    - npm run db:seed
+    - npm run test
 
 deployment:
   development:
     branch: develop
     commands:  
+      - sudo apt-get install python-dev
+      - sudo pip install awsebcli
       - npm run deploy apartments-api dev
       - npm run deploy front-gateway dev    

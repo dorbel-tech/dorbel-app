@@ -6,9 +6,9 @@
     "react"
   ],
   "extends": [
-    "eslint:recommended",
+    "plugin:flowtype/recommended",
     "plugin:react/recommended",
-    "plugin:flowtype/recommended"
+    "./node_modules/dorbel-shared/eslint.shared.json"
   ],
   "env": {
     "es6": true,
@@ -21,32 +21,6 @@
     "flowtype": {
       "onlyFilesWithFlowAnnotation": false
     }
-  },
-  "rules": {
-    "no-console": 0,
-    "indent": [
-      "error",
-      2, {
-        "SwitchCase": 1
-      }
-    ],
-    "linebreak-style": [
-      "error",
-      "unix"
-    ],
-    "quotes": [
-      "error",
-      "single"
-    ],
-    "semi": [
-      "error",
-      "always"
-    ],
-    "curly": [
-      "error",
-      "all"
-    ],
-    "require-yield": 0
   },
   "parserOptions": {
     "sourceType": "module",
