@@ -5,24 +5,24 @@ services:
   apartments-api:
     build:
       dockerfile: Dockerfile.dev  
-    image: dorbel/apartments-api:local
+    image: dorbel/apartments-api:development
     ports:
       - '5858:5858'
     volumes:
       - ./apartments-api/src:/home/nodejs/app/src
     environment:
-      NODE_ENV: local
+      NODE_ENV: development
     command: npm run start:dev
 
   front-gateway:
     build:
       dockerfile: Dockerfile.dev  
-    image: dorbel/front-gateway:local
+    image: dorbel/front-gateway:development
     ports:
       - '5859:5859'
       - '8888:8888'
     volumes:
       - ./front-gateway/src:/home/nodejs/app/src
     environment:
-      NODE_ENV: local
+      NODE_ENV: development
     command: bash -c "npm run build:dev& npm run start:dev" 
