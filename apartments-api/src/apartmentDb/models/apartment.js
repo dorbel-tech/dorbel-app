@@ -15,7 +15,11 @@ function define(sequelize, DataTypes) {
     parquet_floor: DataTypes.BOOLEAN
   }, {
     classMethods: {
-      associate: models => models.apartment.belongsTo(models.building, { foreignKey: { allowNull: false }, onDelete: 'CASCADE' })
+      associate: models => {
+        const options = { foreignKey: { allowNull: false }, onDelete: 'CASCADE' };
+        models.apartment.belongsTo(models.building, options);
+        models.apartment.hasMany(models.usersToApartments, options)
+      }
     },
     indexes: [
       {

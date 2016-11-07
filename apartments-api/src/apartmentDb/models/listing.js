@@ -11,8 +11,7 @@ function define(sequelize, DataTypes) {
     board_fee: { type: DataTypes.DECIMAL(10,2), comment: 'ועד בית' },
     lease_start: { type: DataTypes.DATE, allowNull: false },
     lease_end: { type: DataTypes.DATE, allowNull: false },
-    publishing_user_id: { type: DataTypes.UUID, allowNull: false },
-    publishing_user_type: { type: DataTypes.ENUM, values: ['landlord', 'tenant'], allowNull: false },
+    publishing_user_id: { type: DataTypes.UUID, allowNull: false }, // this is just to audit who created the listing
     roommate_needed: { type: DataTypes.BOOLEAN, defaultValue: false }
   }, {
     classMethods: {
