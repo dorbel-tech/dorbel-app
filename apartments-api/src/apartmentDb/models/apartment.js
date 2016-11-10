@@ -18,7 +18,7 @@ function define(sequelize, DataTypes) {
       associate: models => {
         const options = { foreignKey: { allowNull: false }, onDelete: 'CASCADE' };
         models.apartment.belongsTo(models.building, options);
-        models.apartment.hasMany(models.usersToApartments, options)
+        models.apartment.hasMany(models.usersToApartments, options);
       }
     },
     indexes: [
