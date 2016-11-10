@@ -5,8 +5,8 @@ module.exports = {
     return queryInterface.bulkInsert('Tests', [{
       foo: 'aaa',
       bar: 'bbb',
-      created_at: new Date(),
-      updated_at: new Date()
+      createdAt: new Date(),
+      updatedAt: new Date()
     }], {});
   },
   down: function (queryInterface) {

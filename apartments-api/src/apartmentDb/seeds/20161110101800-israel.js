@@ -60,7 +60,7 @@ module.exports = {
   up: function () {
     return co(createSeed);
   },
-  down: function (queryInterface) {
+  down: function () {
     throw new Error('Not Implemented');
   }
 };
