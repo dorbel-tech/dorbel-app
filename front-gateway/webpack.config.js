@@ -5,7 +5,6 @@ const config = require('./src/config');
 const dir = config.dir;
 
 let plugins = [];
-let preLoaders = [];
 let devServer = undefined;
 let reactLoader = 'babel-loader';
 let publicPath = '';
@@ -18,14 +17,6 @@ if (process.env.NODE_ENV === 'development') {
   };
   reactLoader = 'react-hot!babel-loader';
   publicPath = `http://localhost:${devServer.port}/build/`;
-  preLoaders = [
-    {
-      test: /\.jsx?$/,
-      loader: 'eslint-loader',
-      exclude: /node_modules/,
-      include: dir.src,
-    }
-  ];
 }
 else {
   plugins = [
@@ -50,17 +41,13 @@ let Config = {
     extensions: ['', '.js', '.jsx', '.json'],
   },
   module: {
-    // preLoaders,
     loaders: [
-      {
-        test: /\.jsx?$/,
-        loader: reactLoader,
-        exclude: /node_modules/,
-      },
-      {
-        test: /\.scss$/,
-        loaders: ['style', 'css?modules', 'sass']
-      }
+      { test: /\.woff2?$|\.ttf$|\.eot$|\.svg$/, loader: 'file' },
+      { test: /\.jsx?$/, loader: reactLoader, exclude: /node_modules/, },
+      { test: /\.css$/, loaders: ['style', 'css?sourceMap'] },
+      { test: /\.scss$/, loaders: ['style', 'css?sourceMap', 'sass?sourceMap'] },
+      { test: /\.png$/, loader: 'url-loader?limit=100000' },
+      { test: /\.jpg$/, loader: 'file-loader' }
     ],
   },
   plugins: [

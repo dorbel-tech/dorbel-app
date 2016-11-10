@@ -3,7 +3,7 @@ const koa = require('koa');
 const fleekRouter = require('fleek-router');
 const bodyParser = require('koa-bodyparser');
 const shared = require('dorbel-shared');
-const swaggerDoc = require('./swagger.json');
+const swaggerDoc = require('./swagger/swagger');
 
 const logger = shared.logger.getLogger(module);
 const app = koa();
@@ -11,8 +11,23 @@ const app = koa();
 const port: number = shared.config.get('PORT');
 const env = process.env.NODE_ENV;
 
+app.use(shared.middleware.errorHandler());
 app.use(shared.middleware.requestLogger());
 app.use(bodyParser());
+
+app.use(function* handleSequelizeErrors(next) {
+  try {
+    yield next;
+  }
+  catch (ex) {
+    if (ex.name === 'SequelizeValidationError') {
+      this.body = ex.errors;
+      this.status = 400;
+    } else {
+      throw ex;
+    }
+  }
+});
 
 app.use(function* returnSwagger(next) {
   if (this.method === 'GET' && this.url === '/swagger') {
@@ -29,8 +44,12 @@ fleekRouter(app, {
 });
 
 function listen() {
-  return app.listen(port, function () {
-    logger.info({ port, env }, 'listening');
+  return new Promise((resolve, reject) => {
+    let server = app.listen(port, function () {
+      logger.info({ port, env }, 'listening');
+      resolve(server);
+    })
+    .on('error', reject);
   });
 }
 

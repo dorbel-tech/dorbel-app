@@ -1,10 +1,10 @@
 'use strict';
 import React from 'react';
 import { Provider } from 'mobx-react';
+import App from '~/components/App';
 import { startRouter } from '~/routes';
 import AppStore from '~/stores/AppStore';
 import AppProviders from '~/providers/AppProviders';
-import App from '~/components/App';
 
 function injectStores(initialState) {
   const appStore = new AppStore(initialState);

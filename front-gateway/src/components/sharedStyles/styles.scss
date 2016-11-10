@@ -1,0 +1,88 @@
+$bootstrap-sass-asset-helper: true;
+@import './variables.scss';
+@import "~bootstrap-sass/assets/stylesheets/bootstrap";
+@import "~bootstrap-rtl/dist/css/bootstrap-rtl.min.css";
+@import "~bootstrap-rtl/dist/css/bootstrap-flipped.min.css";
+@import "./rtl.scss";
+@import "./fonts.scss";
+
+*,html,body{
+    box-sizing: border-box !important;
+}
+
+body,
+html {
+  height: 100%;
+}
+
+.full-height {
+  height: 100%;
+}
+
+a {
+    &:visited,
+    &:hover {
+        text-decoration: none !important;
+    }
+    &:hover {
+        color: $brand-success;
+    }
+}
+
+.dorbel-btn {
+    padding: 15px 25px;
+    font-size: $font-size-base;
+    &.disabled {
+        background-color: $gray-light;
+        @include box-shadow(inset 0px -2px 0px 0px rgba(255, 255, 255, 0.2), inset 0px 2px 3px 0px rgba(0, 0, 0, 0.19));
+        border: 0;
+    }
+}
+
+body {
+    overflow-x: hidden;
+}
+
+.sweet-alert {
+    font-family: "Alef";
+    font-size: $font-size-small;
+    padding: 20px 40px !important;
+    @include box-shadow(0px 2px 2px 0px rgba(0, 0, 0, 0.2));
+    a {
+        font-weight: bold;
+    }
+    @media (max-width: $screen-xs-min) {
+        // height: 100% !important;
+        padding: 5px 20px !important;
+    }
+    .confirm {
+        margin: 20px 0px;
+    }
+    hr {
+        display: none;
+    }
+}
+
+.search-header {
+    background: url('~assets/images/telaviv-test2.jpg') center center;
+    &:after {
+        overflow: hidden;
+        text-indent: -9999rem;
+        font-size: 0;
+        line-height: 0;
+        background: linear-gradient(to bottom right, rgba(255, 101, 100, 0.4) 0%, rgba(255, 101, 100, 0) 50%, rgba(255, 101, 100, 0) 100%), linear-gradient(to top right, rgba(40, 0, 215, 0) 0%, rgba(40, 0, 215, 0) 50%, rgba(40, 0, 215, 0.4) 100%), linear-gradient(transparent 5%, rgba(0, 0, 0, 0.8) 100%);;;
+        -pie-background: -pie-linear-gradient(135deg, rgba(255, 101, 100, 0.4) 0%, rgba(255, 101, 100, 0) 50%, rgba(255, 101, 100, 0) 100%), -pie-linear-gradient(45deg, rgba(40, 0, 215, 0) 0%, rgba(40, 0, 215, 0) 50%, rgba(40, 0, 215, 0.4) 100%), -pie-linear-gradient(transparent 5%, rgba(0, 0, 0, 0.8) 100%);
+        content: "gradient mask for lede image";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+    padding: 120px 0px;
+    h1 {
+        color: $brand-white;
+        font-weight: 700;
+        font-size: $font-size-large*3;
+    }
+}
