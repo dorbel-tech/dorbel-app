@@ -1,6 +1,5 @@
 'use strict';
 // Initial seed file for database
-/* eslint no-console: "off" */
 const co = require('co');
 let db;
 
@@ -56,18 +55,12 @@ function* createSeed(dbToSeed) {
 
 }
 
-if (require.main === module) {
-  co(createSeed)
-    .then(() => {
-      console.log('seed finished');
-      process.exit();
-    })
-    .catch(err => {
-      console.error(err.stack || err);
-      process.exit(-1);
-    });
-}
-
 module.exports = {
-  createSeed
+  createSeed,
+  up: function () {
+    return co(createSeed);
+  },
+  down: function (queryInterface) {
+    throw new Error('Not Implemented');
+  }
 };

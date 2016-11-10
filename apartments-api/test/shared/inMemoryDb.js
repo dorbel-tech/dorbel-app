@@ -1,7 +1,7 @@
 'use strict';
 const Sequelize = require('sequelize');
 const modelLoader = require('../../src/apartmentDb/models');
-const seed = require('../../src/apartmentDb/migrations/seed');
+const seed = require('../../src/apartmentDb/seeds/20161110101800-israel');
 var mockRequire = require('mock-require');
 
 module.exports.connect = function* connect() {
