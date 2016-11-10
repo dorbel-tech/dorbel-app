@@ -44,8 +44,7 @@ let Config = {
     loaders: [
       { test: /\.woff2?$|\.ttf$|\.eot$|\.svg$/, loader: 'file' },
       { test: /\.jsx?$/, loader: reactLoader, exclude: /node_modules/, },
-      { test: /\.css$/, loaders: ['style', 'css?sourceMap'] },
-      { test: /\.scss$/, loaders: ['style', 'css?sourceMap', 'sass?sourceMap'] },
+      { test: /\.(scss|css)$/, loaders: ['style', 'css?sourceMap', 'sass?sourceMap'] },
       { test: /\.png$/, loader: 'url-loader?limit=100000' },
       { test: /\.jpg$/, loader: 'file-loader' }
     ],

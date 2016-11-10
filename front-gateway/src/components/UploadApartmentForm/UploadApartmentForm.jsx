@@ -1,12 +1,26 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import './UploadApartmentForm.scss';
+import Dropzone from 'react-dropzone';
+import axios from 'axios';
+import _ from 'lodash';
 
 @observer(['appStore', 'appProviders'])
 class UploadApartmentForm extends Component {
   constructor(props) {
     super(props);
-    this.state = { stepNumber: 0 };
+    this.state = { stepNumber: 0, images: [] };
+  }
+
+  onChooseFile(acceptedFiles) {
+    let formData = new FormData();
+    _.each(window.dorbelConfig.CLOUDINARY_PARAMS, (value, key) => formData.append(key, value));
+    acceptedFiles.forEach(file => formData.append('file', file));
+
+    axios.post('https://api.cloudinary.com/v1_1/dorbel/auto/upload', formData)
+    .then(res => {
+      this.setState(prevState => ({ images: prevState.images.concat([res.data]) }));
+    });
   }
 
   render() {
@@ -30,15 +44,27 @@ class UploadApartmentForm extends Component {
           <div className="photos-upload" >
             <form>
               <div className="row thumbs">
-                <div className="col-md-4 thumb"><div className="thumb-inner"><span className="plus">+</span><span className="upload-photo">תמונה 1</span></div></div>
-                <div className="col-md-4 thumb"><div className="thumb-inner"><span className="plus">+</span><span className="upload-photo">תמונה 2</span></div></div>
-                <div className="col-md-4 thumb"><div className="thumb-inner add"><span className="add-photo">הוסף תמונה</span></div></div>
+                <Dropzone className="col-md-4 thumb" multiple={false} onDrop={this.onChooseFile.bind(this)}>
+                  <div className="thumb-inner add">
+                    <span className="add-photo">הוסף תמונה</span>
+                  </div>
+                </Dropzone>
+                {this.state.images.map(image =>
+                  <div key={image.public_id} className="image col-md-4 thumb">
+                    <div className="thumb-inner">
+                      <label className="uploaded-image">
+                        <img className="img-full" height="190" width="340"
+                          src={`http://res.cloudinary.com/dorbel/${image.resource_type}/${image.type}/c_fill,h_190,w_340/v${image.version}/${image.public_id}.${image.format}`} />
+                      </label>
+                    </div>
+                  </div>
+                )}
               </div>
             </form>
             <div className="form-nav bottom col-lg-5 col-md-5 col-sm-12 col-xs-12">
-              <span><i className="fa fa-arrow-circle-o-right fa-2x" aria-hidden="true"></i> &nbspשלב קודם</span>
+              <span><i className="fa fa-arrow-circle-o-right fa-2x" aria-hidden="true"></i>&nbsp; שלב קודם</span>
               <span>1/3</span>
-              <span>שלב הבא &nbsp<i className="fa fa-arrow-circle-o-left fa-2x" aria-hidden="true"></i></span>
+              <span>שלב הבא &nbsp;<i className="fa fa-arrow-circle-o-left fa-2x" aria-hidden="true"></i></span>
             </div>
           </div>
         )
