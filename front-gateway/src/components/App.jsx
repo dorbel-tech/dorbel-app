@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import AppHeader from '~/components/Header/Header';
-import './sharedStyles/styles.scss';
 
 @observer(['appStore'])
 class App extends Component {

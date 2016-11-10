@@ -1,6 +1,7 @@
 'use strict';
 const webpack = require('webpack');
 const path = require('path');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 const config = require('./src/config');
 const dir = config.dir;
 
@@ -44,7 +45,7 @@ let Config = {
     loaders: [
       { test: /\.woff2?$|\.ttf$|\.eot$|\.svg$/, loader: 'file' },
       { test: /\.jsx?$/, loader: reactLoader, exclude: /node_modules/, },
-      { test: /\.(scss|css)$/, loaders: ['style', 'css?sourceMap', 'sass?sourceMap'] },
+      { test: /\.(css|scss)$/, loader: ExtractTextPlugin.extract('style', 'css?sourceMap!sass', 'sass?sourceMap') },
       { test: /\.png$/, loader: 'url-loader?limit=100000' },
       { test: /\.jpg$/, loader: 'file-loader' }
     ],
@@ -52,7 +53,8 @@ let Config = {
   plugins: [
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
-    })
+    }),
+    new ExtractTextPlugin('bundle.css')
   ].concat(plugins),
   devServer
 };

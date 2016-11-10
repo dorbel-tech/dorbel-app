@@ -1,13 +1,13 @@
 $bootstrap-sass-asset-helper: true;
+$dir: rtl;
 @import './variables.scss';
-@import "~bootstrap-sass/assets/stylesheets/bootstrap";
+@import "~bootstrap-sass-directional/assets/stylesheets/_bootstrap.scss";
 @import "./rtl.scss";
-@import "~bootstrap-rtl/dist/css/bootstrap-rtl.min.css";
-@import "~bootstrap-rtl/dist/css/bootstrap-flipped.min.css";
 @import "./fonts.scss";
 
 *,html,body{
-    box-sizing: border-box !important;
+  box-sizing: border-box !important;
+  direction: $dir;
 }
 
 body,
