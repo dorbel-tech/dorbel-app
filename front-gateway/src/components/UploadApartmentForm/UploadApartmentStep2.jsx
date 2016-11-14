@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 
 class UploadApartmentStep2 extends Component {
+  clickNext() {
+    if (this.props.onClickNext) {
+      this.props.onClickNext();
+    }
+  }
+
   render() {
     return (
       <div className="container-fluid upload-apt-wrapper">
@@ -153,15 +159,18 @@ class UploadApartmentStep2 extends Component {
             </div>
           </form>
           <div className="form-nav bottom col-lg-5 col-md-5 col-sm-12 col-xs-12">
-            <span><i className="fa fa-arrow-circle-o-right fa-2x" aria-hidden="true"></i> &nbspשלב קודם</span>
+            <span><i className="fa fa-arrow-circle-o-right fa-2x" aria-hidden="true"></i>&nbsp; שלב קודם</span>
             <span>2/3</span>
-
-            <span>שלב הבא &nbsp<i className="fa fa-arrow-circle-o-left fa-2x" aria-hidden="true"></i></span>
+            <span onClick={this.clickNext.bind(this)}>שלב הבא &nbsp;<i className="fa fa-arrow-circle-o-left fa-2x" aria-hidden="true"></i></span>
           </div>
         </div>
       </div>
     );
   }
 }
+
+UploadApartmentStep2.propTypes = {
+  onClickNext: React.PropTypes.func
+};
 
 export default UploadApartmentStep2;

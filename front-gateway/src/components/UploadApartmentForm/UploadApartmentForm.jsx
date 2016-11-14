@@ -4,6 +4,7 @@ import './UploadApartmentForm.scss';
 
 import UploadApartmentStep1 from './UploadApartmentStep1';
 import UploadApartmentStep2 from './UploadApartmentStep2';
+import UploadApartmentStep3 from './UploadApartmentStep3';
 
 @observer(['appStore', 'appProviders'])
 class UploadApartmentForm extends Component {
@@ -19,7 +20,8 @@ class UploadApartmentForm extends Component {
   render() {
     const steps = [
       <UploadApartmentStep1 onClickNext={this.nextStep.bind(this)} />,
-      <UploadApartmentStep2 />
+      <UploadApartmentStep2 onClickNext={this.nextStep.bind(this)} />,
+      <UploadApartmentStep3 />
     ];
 
     return steps[this.state.stepNumber];
