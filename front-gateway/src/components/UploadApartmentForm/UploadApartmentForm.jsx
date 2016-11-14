@@ -22,7 +22,7 @@ class UploadApartmentForm extends Component {
       // last step
       this.props.appProviders.apartmentsProvider.uploadApartment(this.state.formValues)
       .then(() => this.props.router.setRoute('/apartments'))
-      .catch(err => console.error(err));
+      .catch(() => alert('upload failed'));
     } else {
       this.setState({ stepNumber: this.state.stepNumber + 1 });
     }
