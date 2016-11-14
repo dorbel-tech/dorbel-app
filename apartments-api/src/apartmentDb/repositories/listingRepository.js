@@ -12,8 +12,9 @@ function list (query) {
     include: [ { model: models.apartment, include: models.building } ],
     raw: true, // readonly get - no need for full sequlize instances
     fieldMap: {
-      'building.street_name': 'street_name',
-      'building.house_number': 'house_number'
+      'apartment.building.street_name': 'street_name',
+      'apartment.building.house_number': 'house_number',
+      'apartment.apt_number': 'apt_number'
     }
   });
 }

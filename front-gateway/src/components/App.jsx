@@ -6,10 +6,11 @@ import AppHeader from '~/components/Header/Header';
 class App extends Component {
   render() {
     const { appStore } = this.props;
+    const header =  appStore.currentView.hideApplicationHeader ? null : (<AppHeader />); 
 
     return (
       <div className="full-height">
-        <AppHeader />
+        {header}
         <appStore.currentView {...appStore.routeParams} />
       </div>
     );

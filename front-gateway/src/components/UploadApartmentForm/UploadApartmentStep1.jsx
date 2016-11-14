@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
+import { inject } from 'mobx-react';
 import Dropzone from 'react-dropzone';
-import axios from 'axios';
-import _ from 'lodash';
 
+@inject('appProviders')
 class UploadApartmentStep1 extends Component {
   constructor(props) {
     super(props);
@@ -10,19 +10,15 @@ class UploadApartmentStep1 extends Component {
   }
 
   onChooseFile(acceptedFiles) {
-    let formData = new FormData();
-    _.each(window.dorbelConfig.CLOUDINARY_PARAMS, (value, key) => formData.append(key, value));
-    acceptedFiles.forEach(file => formData.append('file', file));
-
-    axios.post('https://api.cloudinary.com/v1_1/dorbel/auto/upload', formData)
-    .then(res => {
-      this.setState(prevState => ({ images: prevState.images.concat([res.data]) }));
+    this.props.appProviders.cloudinaryProvider.upload(acceptedFiles[0]) // expecting only one file each time      
+    .then(uploadedImage => {
+      this.setState({ images: this.state.images.concat([uploadedImage]) });
     });
   }
 
   clickNext() {
     if (this.props.onClickNext) {
-      this.props.onClickNext();
+      this.props.onClickNext({ images: this.state.images });
     }
   }
 
@@ -76,8 +72,9 @@ class UploadApartmentStep1 extends Component {
   }
 }
 
-UploadApartmentStep1.propTypes = {
-  onClickNext: React.PropTypes.func
+UploadApartmentStep1.wrappedComponent.propTypes = {
+  onClickNext: React.PropTypes.func,
+  appProviders: React.PropTypes.object
 };
 
 export default UploadApartmentStep1;

@@ -1,13 +1,35 @@
 import React, { Component } from 'react';
+import { observer } from 'mobx-react';
+import formHelper from './formHelper';
 
+// TODO:
+// --- A LOT of refactoring ---
+// Entire form should be dynamic and based on schema from backend
+// All the form controls should be components
+
+@observer(['appStore', 'appProviders'])
 class UploadApartmentStep2 extends Component {
+  componentDidMount() {
+    if (this.props.appStore.cityStore.cities.length === 0) {
+      this.props.appProviders.cityProvider.loadCities();
+    }
+  }
+
   clickNext() {
     if (this.props.onClickNext) {
-      this.props.onClickNext();
+      const formValues = formHelper.getValuesFromInputRefs(this.refs);
+      this.props.onClickNext(formValues);
     }
   }
 
   render() {
+    const cities = this.props.appStore.cityStore.cities;
+    const citySelector = cities.length ?
+      (<select className="form-control" ref="city_name">
+        {cities.map(city => (<option key={city.id}>{city.city_name}</option>))}
+      </select>) : 
+      (<select className="form-control" disabled={true}><option>טוען...</option></select>);
+
     return (
       <div className="container-fluid upload-apt-wrapper">
         <div className="col-md-7 upload-apt-right-container">
@@ -31,13 +53,13 @@ class UploadApartmentStep2 extends Component {
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>עיר</label>
-                    <input type="text" className="form-control" placeholder="" />
+                    {citySelector}
                   </div>
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>שם רחוב</label>
-                    <input type="text" className="form-control" placeholder="" />
+                    <input ref="street_name" type="text" className="form-control" placeholder="" />
                   </div>
                 </div>
               </div>
@@ -45,13 +67,13 @@ class UploadApartmentStep2 extends Component {
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>מספר בניין</label>
-                    <input type="text" className="form-control" placeholder="" />
+                    <input ref="house_number" type="text" className="form-control" placeholder="" />
                   </div>
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>מספר דירה</label>
-                    <input type="text" className="form-control" placeholder="" />
+                    <input ref="apt_number" type="text" className="form-control" placeholder="" />
                   </div>
                 </div>
               </div>
@@ -59,19 +81,19 @@ class UploadApartmentStep2 extends Component {
                 <div className="col-md-4">
                   <div className="form-group">
                     <label>כניסה</label>
-                    <input type="text" className="form-control" placeholder="" />
+                    <input ref="entrance" type="text" className="form-control" placeholder="" />
                   </div>
                 </div>
                 <div className="col-md-4">
                   <div className="form-group">
                     <label>קומה</label>
-                    <input type="text" className="form-control" placeholder="" />
+                    <input ref="floor" type="number" className="form-control" placeholder="" />
                   </div>
                 </div>
                 <div className="col-md-4">
                   <div className="form-group">
                     <label>מספר קומות בבניין</label>
-                    <input type="text" className="form-control" placeholder="" />
+                    <input ref="floors" type="number" className="form-control" placeholder="" />
                   </div>
                 </div>
               </div>
@@ -84,13 +106,13 @@ class UploadApartmentStep2 extends Component {
                 <div className="col-md-4">
                   <div className="form-group">
                     <label>גודל הדירה</label>
-                    <input type="text" className="form-control" placeholder="" />
+                    <input ref="size" type="number" className="form-control" placeholder="" />
                   </div>
                 </div>
                 <div className="col-md-4">
                   <div className="form-group">
                     <label>מספר חדרים</label>
-                    <input type="text" className="form-control" placeholder="" />
+                    <input ref="rooms" type="number" className="form-control" placeholder="" />
                   </div>
                 </div>
                 <div className="col-md-4">
@@ -106,23 +128,23 @@ class UploadApartmentStep2 extends Component {
               </div>
               <div className="row checkbox-row">
                 <label className="checkbox-inline">
-                  <input type="checkbox" value="" />יש חנייה</label>
+                  <input ref="parking" type="checkbox" value="" />יש חנייה</label>
                 <label className="checkbox-inline">
-                  <input type="checkbox" value="" />יש מעלית</label>
+                  <input ref="elevator" type="checkbox" value="" />יש מעלית</label>
                 <label className="checkbox-inline">
-                  <input type="checkbox" value="" />דוד-שמש</label>
+                  <input ref="sun_heated_boiler" type="checkbox" value="" />דוד-שמש</label>
                 <label className="checkbox-inline">
-                  <input type="checkbox" value="" />מותר בע״ח</label>
+                  <input ref="pets" type="checkbox" value="" />מותר בע״ח</label>
               </div>
               <div className="row checkbox-row">
                 <label className="checkbox-inline">
-                  <input type="checkbox" value="" />יש מזגן</label>
+                  <input ref="air_conditioning" type="checkbox" value="" />יש מזגן</label>
                 <label className="checkbox-inline">
-                  <input type="checkbox" value="" />יש מרפסת</label>
+                  <input ref="balcony" type="checkbox" value="" />יש מרפסת</label>
                 <label className="checkbox-inline">
-                  <input type="checkbox" value="" />יש סורגים</label>
+                  <input ref="security_bars" type="checkbox" value="" />יש סורגים</label>
                 <label className="checkbox-inline">
-                  <input type="checkbox" value="" />פרקט</label>
+                  <input ref="parquet_floor" type="checkbox" value="" />פרקט</label>
               </div>
             </div>
             <div className="row form-section">
@@ -133,25 +155,25 @@ class UploadApartmentStep2 extends Component {
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>תאריך כניסה לדירה</label>
-                    <input type="text" className="form-control" placeholder="" />
+                    <input ref="lease_start" type="date" className="form-control" placeholder="" />
                   </div>
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>שכ״ד חודשי</label>
-                    <input type="text" className="form-control" placeholder="" />
+                    <input ref="monthly_rent" type="number" className="form-control" placeholder="" />
                   </div>
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>ארנונה לחודשיים</label>
-                    <input type="text" className="form-control" placeholder="" />
+                    <input ref="property_tax" type="number" className="form-control" placeholder="" />
                   </div>
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>ועד בית לחודש</label>
-                    <input type="text" className="form-control" placeholder="" />
+                    <input ref="board_fee" type="number" className="form-control" placeholder="" />
                   </div>
                 </div>
               </div>
@@ -169,8 +191,10 @@ class UploadApartmentStep2 extends Component {
   }
 }
 
-UploadApartmentStep2.propTypes = {
-  onClickNext: React.PropTypes.func
+UploadApartmentStep2.wrappedComponent.propTypes = {
+  onClickNext: React.PropTypes.func,
+  appStore: React.PropTypes.object,
+  appProviders: React.PropTypes.object
 };
 
 export default UploadApartmentStep2;

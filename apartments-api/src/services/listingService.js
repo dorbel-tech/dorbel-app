@@ -17,6 +17,12 @@ function* create(listing) {
     throw new Error('apartment already has an active listing');
   }
 
+  if (listing.lease_start && !listing.lease_end) {
+    let oneMoreYear = new Date(listing.lease_start);
+    oneMoreYear.setYear(oneMoreYear.getFullYear() + 1); // one year default
+    listing.lease_end = oneMoreYear.toJSON().substr(0,10); 
+  }
+
   return yield listingRepository.create(listing);
 }
 

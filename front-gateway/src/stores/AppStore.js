@@ -1,5 +1,6 @@
 'use strict';
 import ApartmentStore from '~/stores/ApartmentStore';
+import CityStore from '~/stores/CityStore';
 import AuthStore from '~/stores/AuthStore';
 import { observable, action } from 'mobx';
 
@@ -7,11 +8,15 @@ import { observable, action } from 'mobx';
 export default class AppStore {
   apartmentStore: ApartmentStore;
   authStore: AuthStore;
+  cityStore: CityStore;
+
+  // routing params
   @observable currentView: string;
   @observable routeParams: {[id: string]: string};
 
   constructor(initialState = {}) {
     this.apartmentStore = new ApartmentStore(initialState.apartmentStore);
+    this.cityStore = new CityStore(initialState.cityStore);
     this.authStore = new AuthStore();
   }
 
@@ -22,7 +27,8 @@ export default class AppStore {
 
   toJson() {
     return {
-      apartmentStore: this.apartmentStore.toJson()
+      apartmentStore: this.apartmentStore.toJson(),
+      cityStore: this.cityStore.toJson()
     };
   }
 
