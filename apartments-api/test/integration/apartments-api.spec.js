@@ -1,5 +1,5 @@
 'use strict';
-describe('/listings', function () {
+describe('Apartments API Integration', function () {
   const ApiClient = require('./apiClient.js');
   const __ = require('hamjest');
   const _ = require('lodash');
@@ -9,25 +9,40 @@ describe('/listings', function () {
     this.apiClient = yield ApiClient.init(faker.getFakeUser());
   });
 
-  it('should add listing and return it', function* () {
-    const newListing = faker.getFakeListing();
+  describe('/cities', function() {
+    it('should return cities', function* () {
+      const cities = _.get(yield this.apiClient.getCities(), 'body');
 
-    yield this.apiClient.createListing(newListing).expect(201).end();
-    const getResponse = yield this.apiClient.getListings().expect(200).end();
-    const expected = _.pick(newListing, ['street_name', 'house_number', 'apt_number']);
-    __.assertThat(getResponse.body, __.allOf(
-      __.is(__.array()),
-      __.hasItem(__.hasProperties(expected))
-    ));
+      __.assertThat(cities, __.allOf(
+        __.is(__.array()),
+        __.everyItem(__.hasProperty('city_name'))
+      ));
+    });
   });
 
-  it('should fail to add a listing without monthly rent', function* () {
-    const newListing = faker.getFakeListing();
-    delete newListing.monthly_rent;
+  describe('/listings', function() {
+    it('should add listing and return it', function* () {
+      const newListing = faker.getFakeListing();
 
-    const response = yield this.apiClient.createListing(newListing).expect(400).end();
-    __.assertThat(response.body,
-      __.hasProperty('details', __.hasItem('monthly_rent is a required field'))
-    );
+      yield this.apiClient.createListing(newListing).expect(201).end();
+      const getResponse = yield this.apiClient.getListings().expect(200).end();
+      const expected = _.pick(newListing, ['street_name', 'house_number', 'apt_number']);
+      __.assertThat(getResponse.body, __.allOf(
+        __.is(__.array()),
+        __.hasItem(__.hasProperties(expected))
+      ));
+    });
+
+    it('should fail to add a listing without monthly rent', function* () {
+      const newListing = faker.getFakeListing();
+      delete newListing.monthly_rent;
+
+      const response = yield this.apiClient.createListing(newListing).expect(400).end();
+      __.assertThat(response.body,
+        __.hasProperty('details', __.hasItem('monthly_rent is a required field'))
+      );
+    });
   });
+
+  
 });
