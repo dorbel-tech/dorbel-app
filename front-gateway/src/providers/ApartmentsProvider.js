@@ -46,7 +46,7 @@ class ApartmentsProvider {
   }
 
   setTimeFromString(dateString, timeString) {
-    return moment(dateString + 'T' + timeString).toJSON();    
+    return moment(dateString + 'T' + timeString + ':00.000Z').toJSON();    
   }
 }
 

@@ -3,8 +3,30 @@ import UploadApartmentBaseStep from './UploadApartmentBaseStep';
 import DatePicker from '~/components/DatePicker/DatePicker';
 import signupCard from '~/assets/images/icon-signup-card.svg';
 
+const hours = [
+  '07:00', '07:30', '08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', 
+  '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', 
+  '19:00', '19:30', '20:00', '20:30', '21:00', '21:30', '22:00', '22:30', '23:00', '23:30', '24:00'
+];
+
+function getHourOptions(hoursArray) {
+  return hoursArray.map((hour, index) => (<option key={index}>{hour}</option>));
+}
+
 class UploadApartmentStep3 extends UploadApartmentBaseStep {
+  constructor(props) {
+    super(props);    
+    this.state.formValues.ohe_start_time = hours[0];
+  }
+  
+  // ohe_start_time needs to be in state because ohe_end_time dependes on it
+  onStartTimeChange(changeEvent) {
+    this.handleChange('ohe_start_time', changeEvent.target.value);
+  }
+
   render() {
+    const endHours = hours.slice(hours.indexOf(this.state.formValues.ohe_start_time) + 1);
+
     return (
       <div className="container-fluid upload-apt-wrapper">
         <div className="col-md-7 upload-apt-right-container">
@@ -33,13 +55,17 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep {
               <div className="col-md-6">
                 <div className="form-group">
                   <label>שעת התחלת ביקור</label>
-                  <input ref="ohe_start_time" type="time" className="form-control" placeholder="" />
+                  <select className="form-control" onChange={this.onStartTimeChange.bind(this)} value={this.state.formValues.ohe_start_time}>
+                    {getHourOptions(hours)}
+                  </select>
                 </div>
               </div>
               <div className="col-md-6">
                 <div className="form-group">
                   <label>שעת סיום ביקור</label>
-                  <input ref="ohe_end_time" type="time" className="form-control" placeholder="" />
+                  <select className="form-control" ref="ohe_end_time">
+                    {getHourOptions(endHours)}
+                  </select>
                 </div>
               </div>
             </div>
