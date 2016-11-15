@@ -1,4 +1,5 @@
 @import '../sharedStyles/styles.scss';
+
 .upload-apt-wrapper {
   height: 100%;
   padding: 0;
@@ -171,4 +172,14 @@
       }
     }
   }
+}
+
+.img-full {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.uploaded-image {
+  display: inline;
 }

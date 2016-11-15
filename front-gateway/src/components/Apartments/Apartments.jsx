@@ -19,7 +19,7 @@ class Apartments extends Component {
         <h2>Apartments</h2>
         <ul>
           {apartmentStore.apartments.map(apt =>
-            <li key={apt.id}><NavLink to={'/apartments/' + apt.id}>{apt.title}</NavLink></li>
+            <li key={apt.id}><NavLink to={'/apartments/' + apt.id}>{apt.street_name} {apt.house_number} - {apt.apt_number}</NavLink></li>
           )}
         </ul>
         {this.props.children}

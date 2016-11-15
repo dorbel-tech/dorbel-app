@@ -42,8 +42,6 @@
     "required": [
       "monthly_rent",
       "lease_start",
-      "lease_end",
-      "publishing_user_id",
       "publishing_user_type",
       "apartment"
     ]

@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import AppHeader from '~/components/Header/Header';
-import './sharedStyles/styles.scss';
+import moment from 'moment';
+
+moment.locale('he'); // TODO : dynamic locale
 
 @observer(['appStore'])
 class App extends Component {
@@ -11,7 +13,9 @@ class App extends Component {
     return (
       <div className="full-height">
         <AppHeader />
-        <appStore.currentView {...appStore.routeParams} />
+        <div className="app-content-with-header full-height">
+          <appStore.currentView {...appStore.routeParams} />
+        </div>
       </div>
     );
   }

@@ -7,7 +7,7 @@ class NavLink extends Component {
   render() {
     const to = this.props.to;
     return (
-      <a href="#" onClick={() => this.routeTo(to)}>
+      <a href="#" onClick={() => this.routeTo(to)} className={this.props.className}>
         {this.props.children}
       </a>
     );
@@ -23,6 +23,7 @@ class NavLink extends Component {
 NavLink.wrappedComponent.propTypes = {
   to: React.PropTypes.string,
   router: React.PropTypes.any,
+  className: React.PropTypes.string,
   children: React.PropTypes.any
 };
 

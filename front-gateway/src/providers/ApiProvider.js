@@ -2,6 +2,7 @@
  * ApiProvider supplies infrastructure for calling the API layer
  */
 'use strict';
+import axios from 'axios';
 
 class ApiProvider {
   constructor(appStore) {
@@ -18,23 +19,13 @@ class ApiProvider {
       headers['Authorization'] = 'Bearer ' + this.appStore.authStore.getToken();
     }
 
-    return fetch(url, {
+    return axios({
+      url,
       headers,
       ...options
     })
-    .then(this._checkStatus)
-    .then(response => response.json());
-  }
-
-  _checkStatus(response) {
-    if (response.status >= 200 && response.status < 300) {
-      return response;
-    } else {
-      var error = new Error(response.statusText);
-      error.response = response;
-      throw error;
-    }
-  }
+    .then(res => res.data);
+  }  
 }
 
 module.exports = ApiProvider;

@@ -40,10 +40,11 @@ describe('Listing Repository', function () {
       __.assertThat(newListing.open_house_events[0], __.hasProperty('id', 1));
     });
 
-    it('should not create new building and apartment if already exists', function* () {
+    it('should not create new building if already exists', function* () {
+      // depends on faker.getFakeListing to return constant address but random apartment
       let newListing = yield this.listingRepo.create(faker.getFakeListing());
       __.assertThat(newListing, __.hasProperty('id', 2));
-      __.assertThat(newListing.apartment, __.hasProperty('id', 1));
+      __.assertThat(newListing.apartment, __.hasProperty('id', 2));
       __.assertThat(newListing.apartment.building, __.hasProperty('id', 1));
     });
 
