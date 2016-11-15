@@ -2,26 +2,16 @@
 const app = require('../../src/index.js');
 const coSupertest = require('co-supertest');
 
-const USER_PROFILE_HEADER = 'x-user-profile';
-
 class ApiClient{
-  constructor(request, userProfile) {
+  constructor(request) {
     this.request = request;
-    this.userProfile = userProfile;
   }
 
-  createListing(newListing) {
-    return this.request
-      .post('/v1/listings')
-      .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile))
-      .send(newListing);
+  getHealth() {
+    return this.request.get('/v1/health');
   }
 
-  getListings() {
-    return this.request.get('/v1/listings');
-  }
-
-  static * init(userProfile) {
+  static * init() {
     let request;
 
     try {
@@ -36,7 +26,7 @@ class ApiClient{
       }
     }
 
-    return new ApiClient(request, userProfile);
+    return new ApiClient(request);
   }
 }
 

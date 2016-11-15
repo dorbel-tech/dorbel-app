@@ -1,33 +1,21 @@
 'use strict';
-describe('/listings', function () {
+describe('/health', function () {
   const ApiClient = require('./apiClient.js');
   const __ = require('hamjest');
   const _ = require('lodash');
-  const faker = require('../shared/fakeObjectGenerator');
 
   before(function* () {
-    this.apiClient = yield ApiClient.init(faker.getFakeUser());
+    this.apiClient = yield ApiClient.init();
   });
 
-  it('should add listing and return it', function* () {
-    const newListing = faker.getFakeListing();
+  it('should check health for status', function* () {
 
-    yield this.apiClient.createListing(newListing).expect(201).end();
-    const getResponse = yield this.apiClient.getListings().expect(200).end();
-    const expected = _.pick(newListing, ['street_name', 'house_number', 'apt_number']);
-    __.assertThat(getResponse.body, __.allOf(
-      __.is(__.array()),
-      __.hasItem(__.hasProperties(expected))
+    const getResponse = yield this.apiClient.getHealth().expect(200).end();
+    const expected = 'OK';
+
+    __.assertThat(getResponse.text, __.allOf(
+      __.is(__.string()),
+      __.containsString(expected)
     ));
-  });
-
-  it('should fail to add a listing without monthly rent', function* () {
-    const newListing = faker.getFakeListing();
-    delete newListing.monthly_rent;
-
-    const response = yield this.apiClient.createListing(newListing).expect(400).end();
-    __.assertThat(response.body,
-      __.hasProperty('details', __.hasItem('monthly_rent is a required field'))
-    );
   });
 });
