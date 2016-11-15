@@ -7,6 +7,8 @@ const logger = shared.logger.getLogger(module);
 logger.info({ version: process.env.npm_package_version, env: config.get('NODE_ENV') }, 'Starting server');
 
 function* bootstrap() {
+  // TODO: Add SQS polling
+
   const server = require('./server/server'); // server should be required only after db connect finish
   return server.listen();
 }
