@@ -39,3 +39,10 @@ services:
       - apartments-api
     environment:
       APARTMENTS_API_URL: http://apartments-api:3000
+  
+  notifications-service:
+    build:
+      context: notifications-service
+    image: dorbel/notifications-service
+    ports:
+      - '3002:3002'
