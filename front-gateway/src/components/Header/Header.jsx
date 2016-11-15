@@ -23,8 +23,7 @@ class Header extends Component {
                 </form>
             </div>
           </div>
-        </nav>
-        <div className="navbar-spacer"></div>
+        </nav>        
       </div>
     );
   }

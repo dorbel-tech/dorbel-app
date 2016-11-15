@@ -2,6 +2,7 @@ import React from 'react';
 import { observer } from 'mobx-react';
 import UploadApartmentBaseStep from './UploadApartmentBaseStep';
 import DatePicker from '~/components/DatePicker/DatePicker';
+import signupFolder from '~/assets/images/icon-signup-folder.svg';
  
 // TODO:
 // --- A LOT of refactoring ---
@@ -36,7 +37,7 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep {
               <li>שקפו את המציאות כמו שהיא, על מנת למנוע ביקורים מיותרים</li>
             </ul>
           </div>
-          <img src="assets/images/icon-signup-folder.svg" alt="" />
+          <img src={signupFolder} alt="" />
         </div>
         <div className="col-md-5 upload-apt-left-container">
           <form>

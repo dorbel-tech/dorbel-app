@@ -41,8 +41,6 @@ class UploadApartmentForm extends Component {
     };
     return <activeStep.step onClickNext={this.nextStep.bind(this)} onClickBack={this.prevStep.bind(this)} />;
   }
-
-  static hideApplicationHeader = true
 }
 
 UploadApartmentForm.wrappedComponent.propTypes = {

@@ -9,12 +9,13 @@ moment.locale('he'); // TODO : dynamic locale
 class App extends Component {
   render() {
     const { appStore } = this.props;
-    const header =  appStore.currentView.hideApplicationHeader ? null : (<AppHeader />); 
 
     return (
       <div className="full-height">
-        {header}
-        <appStore.currentView {...appStore.routeParams} />
+        <AppHeader />
+        <div className="app-content-with-header full-height">
+          <appStore.currentView {...appStore.routeParams} />
+        </div>
       </div>
     );
   }

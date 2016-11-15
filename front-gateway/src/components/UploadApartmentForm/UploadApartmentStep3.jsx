@@ -1,6 +1,7 @@
 import React from 'react';
 import UploadApartmentBaseStep from './UploadApartmentBaseStep';
 import DatePicker from '~/components/DatePicker/DatePicker';
+import signupCard from '~/assets/images/icon-signup-card.svg';
 
 class UploadApartmentStep3 extends UploadApartmentBaseStep {
   render() {
@@ -16,7 +17,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep {
               <li>פרטיותכם יקרה לנו. פרטיכם ישמשו ליצירת קשר ולעדכונים הנוגעים לתהליך בלבד</li>
             </ul>
           </div>
-          <img src="assets/images/icon-signup-card.svg" alt="" />
+          <img src={signupCard} alt="" />
         </div>
         <div className="col-md-5 upload-apt-left-container">
           <form>
