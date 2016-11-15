@@ -22,6 +22,13 @@ class UploadApartmentStep2 extends Component {
     }
   }
 
+  clickBack() {
+    if (this.props.onClickBack) {
+      const formValues = formHelper.getValuesFromInputRefs(this.refs);
+      this.props.onClickBack(formValues);
+    }
+  }
+
   render() {
     const cities = this.props.appStore.cityStore.cities;
     const citySelector = cities.length ?
@@ -181,7 +188,7 @@ class UploadApartmentStep2 extends Component {
             </div>
           </form>
           <div className="form-nav bottom col-lg-5 col-md-5 col-sm-12 col-xs-12">
-            <span><i className="fa fa-arrow-circle-o-right fa-2x" aria-hidden="true"></i>&nbsp; שלב קודם</span>
+            <span onClick={this.clickBack.bind(this)}><i className="fa fa-arrow-circle-o-right fa-2x" aria-hidden="true"></i>&nbsp; שלב קודם</span>
             <span>2/3</span>
             <span onClick={this.clickNext.bind(this)}>שלב הבא &nbsp;<i className="fa fa-arrow-circle-o-left fa-2x" aria-hidden="true"></i></span>
           </div>
@@ -193,6 +200,7 @@ class UploadApartmentStep2 extends Component {
 
 UploadApartmentStep2.wrappedComponent.propTypes = {
   onClickNext: React.PropTypes.func,
+  onClickBack: React.PropTypes.func,
   appStore: React.PropTypes.object,
   appProviders: React.PropTypes.object
 };

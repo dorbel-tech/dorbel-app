@@ -9,6 +9,13 @@ class UploadApartmentStep3 extends Component {
     }
   }
 
+  clickBack() {
+    if (this.props.onClickBack) {
+      const formValues = formHelper.getValuesFromInputRefs(this.refs);
+      this.props.onClickBack(formValues);
+    }
+  }
+
   render() {
     return (
       <div className="container-fluid upload-apt-wrapper">
@@ -95,7 +102,7 @@ class UploadApartmentStep3 extends Component {
           </div>
         </form>
         <div className="form-nav bottom col-lg-5 col-md-5 col-sm-12 col-xs-12">
-          <span><i className="fa fa-arrow-circle-o-right fa-2x" aria-hidden="true"></i>&nbsp; שלב קודם</span>
+          <span onClick={this.clickBack.bind(this)}><i className="fa fa-arrow-circle-o-right fa-2x" aria-hidden="true"></i>&nbsp; שלב קודם</span>
           <span>3/3</span>
           <button onClick={this.clickSend.bind(this)} className="btn btn-lg btn-default btn-submit dorbel-btn">שליחה וסיום</button>
         </div>
@@ -106,7 +113,8 @@ class UploadApartmentStep3 extends Component {
 }
 
 UploadApartmentStep3.propTypes = {
-  onClickNext: React.PropTypes.func
+  onClickNext: React.PropTypes.func,
+  onClickBack: React.PropTypes.func
 };
 
 export default UploadApartmentStep3;
