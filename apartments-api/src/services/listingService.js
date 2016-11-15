@@ -1,5 +1,6 @@
 'use strict';
 const listingRepository = require('../apartmentDb/repositories/listingRepository');
+const moment = require('moment');
 
 // TODO : errors thrown here return 500
 
@@ -18,9 +19,8 @@ function* create(listing) {
   }
 
   if (listing.lease_start && !listing.lease_end) {
-    let oneMoreYear = new Date(listing.lease_start);
-    oneMoreYear.setYear(oneMoreYear.getFullYear() + 1); // one year default
-    listing.lease_end = oneMoreYear.toJSON().substr(0,10); 
+    // Upload form sends only lease_start so we default lease_end to after one year 
+    listing.lease_end = moment(listing.lease_start).add(1, 'years').format('YYYY-MM-DD');
   }
 
   return yield listingRepository.create(listing);
