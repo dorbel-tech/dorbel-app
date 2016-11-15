@@ -8,6 +8,7 @@
         window.__INITIAL_STATE__ = <%- JSON.stringify(initialState) -%>;
         window.dorbelConfig = <%- JSON.stringify(envVars) -%>;
     </script>
+    <link rel="stylesheet" href="<% locals.buildHost || '' %>/build/bundle.css" type="text/css" />
   </head>
   <body>
     <div id="root" class="full-height"><%- appHtml -%></div>

@@ -21,6 +21,10 @@ class ApiClient{
     return this.request.get('/v1/listings');
   }
 
+  getCities() {
+    return this.request.get('/v1/cities');
+  }
+
   static * init(userProfile) {
     let request;
 

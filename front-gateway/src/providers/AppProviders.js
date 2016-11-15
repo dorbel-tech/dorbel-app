@@ -6,6 +6,8 @@
 import AuthProvider from './AuthProvider';
 import ApiProvider from './ApiProvider';
 import ApartmentsProvider from './ApartmentsProvider';
+import CityProvider from './CityProvider';
+import CloudinaryProvider from './CloudinaryProvider';
 
 const isServer = !global.window;
 
@@ -20,6 +22,8 @@ class AppProviders {
 
     this.apiProvider = new ApiProvider(appStore);
     this.apartmentsProvider = new ApartmentsProvider(appStore, this.apiProvider);
+    this.cityProvider = new CityProvider(appStore, this.apiProvider);
+    this.cloudinaryProvider = new CloudinaryProvider();
   }
 }
 

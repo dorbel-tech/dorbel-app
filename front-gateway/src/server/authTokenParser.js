@@ -2,6 +2,7 @@
 const AuthenticationClient = require('auth0').AuthenticationClient;
 const promisify = require('es6-promisify');
 const config = require('dorbel-shared').config;
+const logger = require('dorbel-shared').logger.getLogger(module);
 
 const auth0 = new AuthenticationClient({
   domain: config.get('AUTH0_DOMAIN'),
@@ -14,8 +15,9 @@ function* parseAuthToken(next) {
   const token = getAccessTokenFromHeader(this.request);
 
   if (token) {
+    logger.info('getting user profile info for API');
     // TODO this takes forever and MUST be cached
-    let info = yield getInfo(token);
+    let info = yield getInfo(token);    
     this.request.headers['x-user-profile'] = JSON.stringify({
       id: info.dorbel_user_id,
       email: info.email,

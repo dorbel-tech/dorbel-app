@@ -40,7 +40,18 @@ app.use(function* returnSwagger(next) {
 fleekRouter(app, {
   swagger: swaggerDoc,
   validate: true,
-  middleware: [ shared.middleware.swaggerModelValidator() ]
+  middleware: [ shared.middleware.swaggerModelValidator() ],
+  authenticate: function *(next) {
+    // TODO : put in other file
+    const user = JSON.parse(this.request.headers['x-user-profile']);
+    if (user && user.id) {      
+      this.request.user = user;
+      yield next;
+    } else {
+      this.response.status = 401;
+      this.response.body = 'Not Authorized';
+    }
+  }
 });
 
 function listen() {
