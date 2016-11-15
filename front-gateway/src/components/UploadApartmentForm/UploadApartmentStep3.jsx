@@ -1,21 +1,8 @@
-import React, { Component } from 'react';
-import formHelper from './formHelper';
+import React from 'react';
+import UploadApartmentBaseStep from './UploadApartmentBaseStep';
+import DatePicker from '~/components/DatePicker/DatePicker';
 
-class UploadApartmentStep3 extends Component {
-  clickSend() {
-    if (this.props.onClickNext) {
-      const formValues = formHelper.getValuesFromInputRefs(this.refs);
-      this.props.onClickNext(formValues);
-    }
-  }
-
-  clickBack() {
-    if (this.props.onClickBack) {
-      const formValues = formHelper.getValuesFromInputRefs(this.refs);
-      this.props.onClickBack(formValues);
-    }
-  }
-
+class UploadApartmentStep3 extends UploadApartmentBaseStep {
   render() {
     return (
       <div className="container-fluid upload-apt-wrapper">
@@ -39,7 +26,7 @@ class UploadApartmentStep3 extends Component {
             </div>
             <div className="form-group">
               <label>תאריך 1</label>
-              <input ref="ohe_date" type="date" className="form-control" placeholder="" />
+              <DatePicker onChange={this.handleChange.bind(this, 'ohe_date')} />              
             </div>
             <div className="row">
               <div className="col-md-6">
@@ -104,17 +91,12 @@ class UploadApartmentStep3 extends Component {
         <div className="form-nav bottom col-lg-5 col-md-5 col-sm-12 col-xs-12">
           <span onClick={this.clickBack.bind(this)}><i className="fa fa-arrow-circle-o-right fa-2x" aria-hidden="true"></i>&nbsp; שלב קודם</span>
           <span>3/3</span>
-          <button onClick={this.clickSend.bind(this)} className="btn btn-lg btn-default btn-submit dorbel-btn">שליחה וסיום</button>
+          <button onClick={this.clickNext.bind(this)} className="btn btn-lg btn-default btn-submit dorbel-btn">שליחה וסיום</button>
         </div>
       </div>
     </div>      
     );
   }
 }
-
-UploadApartmentStep3.propTypes = {
-  onClickNext: React.PropTypes.func,
-  onClickBack: React.PropTypes.func
-};
 
 export default UploadApartmentStep3;

@@ -1,28 +1,25 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { inject } from 'mobx-react';
 import Dropzone from 'react-dropzone';
+import UploadApartmentBaseStep from './UploadApartmentBaseStep';
 
 @inject('appProviders')
-class UploadApartmentStep1 extends Component {
+class UploadApartmentStep1 extends UploadApartmentBaseStep {
   constructor(props) {
     super(props);
-    this.state = { images: [] };
+    this.state.formValues.images = [];
   }
 
   onChooseFile(acceptedFiles) {
     this.props.appProviders.cloudinaryProvider.upload(acceptedFiles[0]) // expecting only one file each time      
     .then(uploadedImage => {
-      this.setState({ images: this.state.images.concat([uploadedImage]) });
+      this.handleChange('images', this.state.formValues.images.concat([uploadedImage]));
     });
   }
 
-  clickNext() {
-    if (this.props.onClickNext) {
-      this.props.onClickNext({ images: this.state.images });
-    }
-  }
-
   render() {
+    const images = this.state.formValues.images;
+
     return (
       <div className="container-fluid upload-apt-wrapper">
         <div className="col-md-7 upload-apt-right-container">
@@ -48,7 +45,7 @@ class UploadApartmentStep1 extends Component {
                     <span className="add-photo">הוסף תמונה</span>
                   </div>
                 </Dropzone>
-                {this.state.images.map(image =>
+                {images.map(image =>
                   <div key={image.public_id} className="image col-md-4 thumb">
                     <div className="thumb-inner">
                       <label className="uploaded-image">
@@ -73,7 +70,6 @@ class UploadApartmentStep1 extends Component {
 }
 
 UploadApartmentStep1.wrappedComponent.propTypes = {
-  onClickNext: React.PropTypes.func,
   appProviders: React.PropTypes.object
 };
 

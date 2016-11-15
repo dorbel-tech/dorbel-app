@@ -4,6 +4,7 @@
 'use strict';
 import { action } from 'mobx';
 import _ from 'lodash';
+import moment from 'moment';
 
 class ApartmentsProvider {
   constructor(appStore, apiProvider) {
@@ -34,8 +35,7 @@ class ApartmentsProvider {
       comments: formValues.ohe_comments
     }];    
 
-    listing.publishing_user_type = formValues.publishing_user_type_tenant ? 'tenant' : 'landlord';
-    listing.lease_start = listing.lease_start.toJSON().substr(0,10); // just date format
+    listing.publishing_user_type = formValues.publishing_user_type_tenant ? 'tenant' : 'landlord';    
 
     return listing;
   }
@@ -45,12 +45,8 @@ class ApartmentsProvider {
     return this.apiProvider.fetch('/api/v1/listings', { method: 'POST', data: listing });
   }
 
-  setTimeFromString(date, timeString) {
-    const dateObj = new Date(date.getTime()); // i.e. cloning date
-    var timeSplit = timeString.split(':').map(s => parseInt(s));
-    dateObj.setHours(timeSplit[0]); 
-    dateObj.setMinutes(timeSplit[1]);
-    return dateObj;
+  setTimeFromString(dateString, timeString) {
+    return moment(dateString + 'T' + timeString).toJSON();    
   }
 }
 

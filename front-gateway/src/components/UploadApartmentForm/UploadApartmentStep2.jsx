@@ -1,31 +1,19 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { observer } from 'mobx-react';
-import formHelper from './formHelper';
-
+import UploadApartmentBaseStep from './UploadApartmentBaseStep';
+import DatePicker from '~/components/DatePicker/DatePicker';
+ 
 // TODO:
 // --- A LOT of refactoring ---
 // Entire form should be dynamic and based on schema from backend
 // All the form controls should be components
 
 @observer(['appStore', 'appProviders'])
-class UploadApartmentStep2 extends Component {
+class UploadApartmentStep2 extends UploadApartmentBaseStep {
+
   componentDidMount() {
     if (this.props.appStore.cityStore.cities.length === 0) {
       this.props.appProviders.cityProvider.loadCities();
-    }
-  }
-
-  clickNext() {
-    if (this.props.onClickNext) {
-      const formValues = formHelper.getValuesFromInputRefs(this.refs);
-      this.props.onClickNext(formValues);
-    }
-  }
-
-  clickBack() {
-    if (this.props.onClickBack) {
-      const formValues = formHelper.getValuesFromInputRefs(this.refs);
-      this.props.onClickBack(formValues);
     }
   }
 
@@ -162,7 +150,7 @@ class UploadApartmentStep2 extends Component {
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>תאריך כניסה לדירה</label>
-                    <input ref="lease_start" type="date" className="form-control" placeholder="" />
+                    <DatePicker onChange={this.handleChange.bind(this, 'lease_start')} />                    
                   </div>
                 </div>
                 <div className="col-md-6">
@@ -197,12 +185,5 @@ class UploadApartmentStep2 extends Component {
     );
   }
 }
-
-UploadApartmentStep2.wrappedComponent.propTypes = {
-  onClickNext: React.PropTypes.func,
-  onClickBack: React.PropTypes.func,
-  appStore: React.PropTypes.object,
-  appProviders: React.PropTypes.object
-};
 
 export default UploadApartmentStep2;

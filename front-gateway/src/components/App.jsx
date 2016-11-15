@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import AppHeader from '~/components/Header/Header';
+import moment from 'moment';
+
+moment.locale('he'); // TODO : dynamic locale
 
 @observer(['appStore'])
 class App extends Component {
