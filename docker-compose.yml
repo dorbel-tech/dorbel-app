@@ -14,7 +14,7 @@ services:
   apartments-api:
     build:
       context: apartments-api
-    image: dorbel/apartments-api
+    image: dorbel/apartments-api 
     ports:
       - '3000:3000'
     depends_on:
