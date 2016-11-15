@@ -28,11 +28,18 @@ class UploadApartmentForm extends Component {
     }
   }
 
+  prevStep(formValues) {
+    this.setState({ 
+      formValues: Object.assign(this.state.formValues, formValues),
+      stepNumber: this.state.stepNumber - 1 
+    });
+  }
+
   render() {
     const activeStep = {
       step: steps[this.state.stepNumber]
     };
-    return <activeStep.step onClickNext={this.nextStep.bind(this)} />;
+    return <activeStep.step onClickNext={this.nextStep.bind(this)} onClickBack={this.prevStep.bind(this)} />;
   }
 
   static hideApplicationHeader = true
