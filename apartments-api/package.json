@@ -6,8 +6,9 @@
   "scripts": {
     "db:migrate": "sequelize db:migrate",
     "db:seed": "sequelize db:seed:all",
-    "start": "npm run db:migrate && npm run db:seed && babel-node src/index",
-    "start:dev": "npm run check; npm run db:migrate && npm run db:seed && nodemon --exec babel-node src/index | bunyan",
+    "prestart": "npm run db:migrate",
+    "start": "babel-node src/index",
+    "start:dev": "npm run check; npm run db:migrate && nodemon --exec babel-node src/index | bunyan",
     "test": "npm run test:unit",
     "test:unit": "mocha --compilers js:babel-register test/shared/before-tests.js test/unit/**/*.spec.js",
     "test:integration": "mocha --compilers js:babel-register test/shared/before-tests.js test/integration/**/*.spec.js",
