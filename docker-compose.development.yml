@@ -2,6 +2,7 @@
 version: '2'
 volumes:
   apartments-api-node_modules:
+  front-gateway-node_modules:
 services:
 
   apartments-api:
@@ -25,7 +26,8 @@ services:
       - '5859:5859'
       - '8888:8888'
     volumes:
-      - ./front-gateway/src:/home/nodejs/app/src
+      - ./front-gateway:/home/nodejs/app
+      - front-gateway-node_modules:/home/nodejs/app/node_modules
     environment:
       NODE_ENV: ${NODE_ENV}
       AUTH0_DOMAIN: ${AUTH0_DOMAIN}
