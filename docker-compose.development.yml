@@ -16,7 +16,7 @@ services:
       - apartments-api-node_modules:/home/nodejs/app/node_modules
     environment:
       NODE_ENV: ${NODE_ENV}
-      NOTIFICATIONS_SNS_TOPIC_ARN: {$NOTIFICATIONS_SNS_TOPIC_ARN}
+      NOTIFICATIONS_SNS_TOPIC_ARN: ${NOTIFICATIONS_SNS_TOPIC_ARN}
     command: npm run start:dev
 
   front-gateway:
