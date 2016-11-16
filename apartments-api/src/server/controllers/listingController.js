@@ -17,7 +17,10 @@ function* post() {
   logger.info('Listing created', createdListing.id, createdListing.apartment_id, createdListing.publishing_user_id);
 
   // Publish event trigger message to SNS for notifications dispatching.
-  yield messageBus.publish(messageBus.eventType.APARTMENT_CREATED, { apartment_id: createdListing.apartment_id, user_uuid: createdListing.publishing_user_id });
+  yield messageBus.publish(messageBus.eventType.APARTMENT_CREATED, { 
+    user_uuid: createdListing.publishing_user_id,
+    apartment_id: createdListing.apartment_id      
+  });
 
   this.response.status = 201;
   this.response.body = createdListing;
