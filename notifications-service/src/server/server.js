@@ -13,7 +13,7 @@ const env = process.env.NODE_ENV;
 
 // Catch all uncaught exceptions and write to log.
 process.on('uncaughtException', function(err) {
-  logger.error(err)
+  logger.error(err);
 });
 
 app.use(shared.middleware.errorHandler());
