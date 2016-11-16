@@ -4,13 +4,26 @@ const shared = require('dorbel-shared');
 const config = shared.config; config.setConfigFileFolder(__dirname + '/config'); // load config from file before anything else
 const logger = shared.logger.getLogger(module);
 const notificationsHandler = require('./handlers/notificationsHandler');
+const messageBus = shared.utils.messageBus;
 
 logger.info({ version: process.env.npm_package_version, env: config.get('NODE_ENV') }, 'Starting server');
 
 function* bootstrap() {
   // Starting notifications SQS queue polling.
-  let consumer = notificationsHandler.begin();
-  process.on('exit', notificationsHandler.end(consumer));
+  logger.info('Begin consuming messages from notifications SQS queue.');
+  let consumer = messageBus.consume.start(notificationsHandler.handleMessage);
+
+  // Not sure it is going to work.
+  process.on('exit', function(code) {
+    logger.info('Stopping consuming messages from notifications SQS queue.'); 
+    consumer.stop(); 
+    process.exit(code);
+  });
+
+  // Ctrl-C exit
+  process.on('SIGINT', function () {
+    process.exit(0);
+  });
   
   const server = require('./server/server'); // server should be required only after db connect finish
   return server.listen();
