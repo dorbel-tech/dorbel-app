@@ -16,7 +16,7 @@ function handleMessage(message, done) {
        *       Do we remove the message from queue or keep it? 
        *       Do we need separate queues for each type of dispatcher? */
       apartmentCreatedHandler.sendEmail(message, done);
-      apartmentCreatedHandler.sendSMS(message, done);
+      //apartmentCreatedHandler.sendSMS(message, done);
       break;
     default:
       var error = new Error('Message type not found');

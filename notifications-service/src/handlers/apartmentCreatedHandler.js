@@ -14,7 +14,7 @@ function sendSMS(message, done) {
   // TODO: Get user phone number.
   // TODO: Add send transactional SMS implemetation.
   logger.debug('Sending SMS', message);
-  // done();
+  done();
 }
 
 module.exports = {
