@@ -17,6 +17,11 @@ function* runServer() {
   const app = koa();
   const port = config.get('PORT');
 
+  // Catch all uncaught exceptions and write to log.
+  process.on('uncaughtException', function(err) {
+    logger.error(err);
+  });
+
   app.use(shared.middleware.errorHandler());
   app.use(shared.middleware.requestLogger());
   app.use(compress());
