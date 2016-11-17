@@ -8,7 +8,7 @@ const apartmentCreatedHandler = require('./apartmentCreatedHandler');
 function handleMessage(message, done) {
   const messageBody = JSON.parse(message.Body);
   const messageDataPayload = JSON.parse(messageBody.Message);
-  logger.debug('Email message content', messageBody);
+  logger.debug('SQS Email message content', messageBody);
 
   switch (messageDataPayload.eventType) {
     case messageBus.eventType.APARTMENT_CREATED:
