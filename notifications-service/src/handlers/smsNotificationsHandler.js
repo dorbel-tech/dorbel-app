@@ -6,13 +6,13 @@ const messageBus = shared.utils.messageBus;
 const apartmentCreatedHandler = require('./apartmentCreatedHandler');
 
 function handleMessage(message, done) {
-  let messageBody = JSON.parse(message.Body);
-  let messageDataPayload = JSON.parse(messageBody.Message);
+  const messageBody = JSON.parse(message.Body);
+  const messageDataPayload = JSON.parse(messageBody.Message);
   logger.debug('SMS message content', messageBody);
 
   switch (messageDataPayload.eventType) {
     case messageBus.eventType.APARTMENT_CREATED:
-      apartmentCreatedHandler.sendSMS(message, done);
+      apartmentCreatedHandler.sendSMS(messageBody, done);
       break;
 
     default:

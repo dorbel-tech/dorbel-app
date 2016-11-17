@@ -3,12 +3,13 @@ const koa = require('koa');
 const fleekRouter = require('fleek-router');
 const bodyParser = require('koa-bodyparser');
 const shared = require('dorbel-shared');
-const swaggerDoc = require('./swagger/swagger');
-
+const config = shared.config; 
+const path = require('path'); config.setConfigFileFolder(path.join(__dirname, '/../config')); // load config from file before anything else
 const logger = shared.logger.getLogger(module);
+const swaggerDoc = require('./swagger/swagger');
 const app = koa();
 
-const port: number = shared.config.get('PORT');
+const port: number = config.get('PORT');
 const env = process.env.NODE_ENV;
 
 // Catch all uncaught exceptions and write to log.
