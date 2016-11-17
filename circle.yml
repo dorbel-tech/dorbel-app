@@ -35,6 +35,6 @@ deployment:
     commands:  
       - sudo apt-get install python-dev
       - sudo pip install awsebcli
-      - npm run deploy apartments-api dev
-      - npm run deploy front-gateway dev
-      - npm run deploy notifications-service dev    
+      - npm run deploy apartments-api stage
+      - npm run deploy front-gateway stage
+      - npm run deploy notifications-service stage    

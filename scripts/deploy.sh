@@ -16,8 +16,6 @@ fi
 
 if [ ! -z "$2" ]; then
   case $2 in
-    dev)
-      ENV_NAME="${SERVICE_NAME}-develop" ;;
     test)
       ENV_NAME="${SERVICE_NAME}-test" ;;
     stage)
