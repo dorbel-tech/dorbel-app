@@ -1,6 +1,6 @@
 machine:
   environment:
-    NODE_ENV: test
+    NODE_ENV: ci
     PORT: 3000
     RDS_HOSTNAME: 127.0.0.1
     RDS_DB_NAME: circle_test
@@ -8,7 +8,7 @@ machine:
     RDS_PASSWORD: 
     AWS_DEFAULT_REGION: eu-west-1
     AWS_REGION: eu-west-1
-    NOTIFICATIONS_SNS_TOPIC_ARN: arn:aws:sns:eu-west-1:168720412882:notifications-test
+    NOTIFICATIONS_SNS_TOPIC_ARN: arn:aws:sns:eu-west-1:168720412882:notifications-ci
     NOTIFICATIONS_EMAIL_SQS_QUEUE_URL: https://sqs.eu-west-1.amazonaws.com/168720412882/notifications-test-email
     NOTIFICATIONS_SMS_SQS_QUEUE_URL: https://sqs.eu-west-1.amazonaws.com/168720412882/notifications-test-sms
   services:
