@@ -1,4 +1,5 @@
 // Email dispatcher using Mandrill API
+'use strict';
 const shared = require('dorbel-shared');
 const config = shared.config;
 const path = require('path');
