@@ -9,6 +9,8 @@ machine:
     AWS_DEFAULT_REGION: eu-west-1
     AWS_REGION: eu-west-1
     NOTIFICATIONS_SNS_TOPIC_ARN: arn:aws:sns:eu-west-1:168720412882:notifications-ci
+    NOTIFICATIONS_EMAIL_SQS_QUEUE_URL: https://sqs.eu-west-1.amazonaws.com/168720412882/notifications-ci-email
+    NOTIFICATIONS_SMS_SQS_QUEUE_URL: https://sqs.eu-west-1.amazonaws.com/168720412882/notifications-ci-sms		     
   services:
     - mysql
 
