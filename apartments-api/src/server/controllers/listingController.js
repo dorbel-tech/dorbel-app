@@ -1,5 +1,6 @@
 'use strict';
 const shared = require('dorbel-shared');
+const config = shared.config; config.setConfigFileFolder(__dirname + '/config'); // load config from file before anything else
 const logger = shared.logger.getLogger(module);
 const messageBus = shared.utils.messageBus;
 const listingService = require('../../services/listingService');
@@ -17,7 +18,7 @@ function* post() {
   logger.info('Listing created', createdListing.id, createdListing.apartment_id, createdListing.publishing_user_id);
 
   // Publish event trigger message to SNS for notifications dispatching.
-  yield messageBus.publish(messageBus.eventType.APARTMENT_CREATED, { 
+  yield messageBus.publish(config.get('NOTIFICATIONS_SNS_TOPIC_ARN'), messageBus.eventType.APARTMENT_CREATED, { 
     user_uuid: createdListing.publishing_user_id,
     apartment_id: createdListing.apartment_id      
   });
