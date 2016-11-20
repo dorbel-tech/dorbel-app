@@ -7,7 +7,7 @@ const smsDispatcher = require('../../dispatchers/smsDispatcher');
 
 function sendEmail(messageBody, done) {
   logger.debug('Sending email');
-  const messageDataPayload = JSON.parse(messageBody.Message); 
+  const message = JSON.parse(messageBody.Message); 
   // Pass dynamic params in email body using mergeVars object.
   const templateName = 'test';
   const additionalParams = {
@@ -15,7 +15,7 @@ function sendEmail(messageBody, done) {
     userFullName: 'Dorbel Tester', // TODO: Get user full name.
     mergeVars: [{
       name: 'apartment_id',
-      value: messageDataPayload.apartment_id
+      value: message.dataPayload.apartment_id
     }]
   };
 
@@ -24,9 +24,9 @@ function sendEmail(messageBody, done) {
 
 function sendSMS(messageBody, done) {
   logger.debug('Sending SMS');
-  const messageDataPayload = JSON.parse(messageBody.Message);  
+  const message = JSON.parse(messageBody.Message); 
   const toPhoneNumber = '+972544472571'; // TODO: Get user phone number.
-  const smsText = 'Hello from notifications service with aprtment id: ' + messageDataPayload.apartment_id;
+  const smsText = 'Hello from notifications service with aprtment id: ' + message.dataPayload.apartment_id;
   
   smsDispatcher.send(toPhoneNumber, smsText, done);
 }
