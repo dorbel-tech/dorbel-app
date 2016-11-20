@@ -1,0 +1,36 @@
+{
+  "/cities": {
+    "get": {
+      "summary": "List Cities",
+      "description": "Returns the available Cities",
+      "parameters": [
+        {
+          "name": "country_name",
+          "in": "query",
+          "description": "Country cities are in",
+          "type": "string"
+        }
+      ],
+      "tags": [
+        "cityController"
+      ],
+      "responses": {
+        "200": {
+          "description": "An array of cities",
+          "schema": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/City"
+            }
+          }
+        },
+        "default": {
+          "description": "Unexpected error",
+          "schema": {
+            "$ref": "#/definitions/Error"
+          }
+        }
+      }
+    }
+  }
+} 
