@@ -20,7 +20,7 @@ function* post() {
   // Publish event trigger message to SNS for notifications dispatching.
   yield messageBus.publish(config.get('NOTIFICATIONS_SNS_TOPIC_ARN'), messageBus.eventType.APARTMENT_CREATED, { 
     user_uuid: createdListing.publishing_user_id,
-    apartment_id: createdListing.apartment_id      
+    apartment_id: createdListing.apartment_id    
   });
 
   this.response.status = 201;
