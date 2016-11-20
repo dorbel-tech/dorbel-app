@@ -2,8 +2,8 @@
 'use strict';
 const shared = require('dorbel-shared');
 const logger = shared.logger.getLogger(module);
-const emailDispatcher = require('../dispatchers/emailDispatcher');
-const smsDispatcher = require('../dispatchers/smsDispatcher');
+const emailDispatcher = require('../../dispatchers/emailDispatcher');
+const smsDispatcher = require('../../dispatchers/smsDispatcher');
 
 function sendEmail(messageBody, done) {
   logger.debug('Sending email');

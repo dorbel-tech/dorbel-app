@@ -4,8 +4,8 @@ const shared = require('dorbel-shared');
 const config = shared.config; 
 const path = require('path'); config.setConfigFileFolder(path.join(__dirname, '/config')); // load config from file before anything else
 const logger = shared.logger.getLogger(module);
-const emailNotificationsHandler = require('./handlers/emailNotificationsHandler');
-const smsNotificationsHandler = require('./handlers/smsNotificationsHandler');
+const emailNotificationsHandler = require('./transactional/emailNotificationsHandler');
+const smsNotificationsHandler = require('./transactional/smsNotificationsHandler');
 const messageBus = shared.utils.messageBus;
 
 logger.info({
