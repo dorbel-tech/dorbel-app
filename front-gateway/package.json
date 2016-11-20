@@ -35,7 +35,7 @@
     "co": "^4.6.0",
     "css-loader": "^0.25.0",
     "director": "^1.2.8",
-    "dorbel-shared": "git://github.com/dorbel-tech/dorbel-shared#v0.4.11",
+    "dorbel-shared": "git://github.com/dorbel-tech/dorbel-shared#v0.4.12",
     "ejs": "^2.5.2",
     "enzyme": "^2.5.1",
     "es6-promisify": "^5.0.0",
