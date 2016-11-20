@@ -14,7 +14,7 @@ function sendEmail(messageBody, done) {
     userEmail: 'david@dorbel.com', // TODO: Get user email.
     userFullName: 'Dorbel Tester', // TODO: Get user full name.
     mergeVars: [{
-      name: 'env',
+      name: 'apartment_id',
       value: messageDataPayload.apartment_id
     }]
   };
