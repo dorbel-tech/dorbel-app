@@ -20,7 +20,7 @@ services:
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
       AWS_REGION: ${AWS_REGION}
       NOTIFICATIONS_SNS_TOPIC_ARN: ${NOTIFICATIONS_SNS_TOPIC_ARN}
-    command: npm run start:dev
+    command: bash -c "./scripts/wait-for-it.sh db:3306 --timeout=180 && npm run start:dev"
 
   front-gateway:
     build:
@@ -41,6 +41,9 @@ services:
     command: bash -c "npm run build:dev& npm run start:dev" 
 
   notifications-service:
+    build:
+      dockerfile: Dockerfile.dev  
+    image: dorbel/notifications-service:development
     environment:
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
@@ -51,3 +54,4 @@ services:
       TWILIO_ACCOUNT_SID: ${TWILIO_ACCOUNT_SID}
       TWILIO_AUTH_TOKEN: ${TWILIO_AUTH_TOKEN}
       TWILIO_PHONE_NUMBER: ${TWILIO_PHONE_NUMBER}
+    command: npm run start:dev

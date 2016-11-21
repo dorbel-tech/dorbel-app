@@ -20,6 +20,3 @@ EXPOSE 3002
 
 # Run node server.
 CMD [ "npm", "start" ]
-
-# Health check for running server
-HEALTHCHECK CMD curl --fail http://localhost:3002/swagger || exit 1  
