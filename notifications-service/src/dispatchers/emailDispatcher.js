@@ -3,10 +3,10 @@
 const shared = require('dorbel-shared');
 const config = shared.config;
 const logger = shared.logger.getLogger(module);
-var mandrill = require('mandrill-api/mandrill');
+const mandrill = require('mandrill-api/mandrill');
+const emailClient = new mandrill.Mandrill(config.get('MANDRILL_API_KEY'));
 
 function send(templateName, additionalParams, done) {
-  const emailClient = new mandrill.Mandrill(config.get('MANDRILL_API_KEY'));
   const templateContent = [{}];
 
   let messageParams = {

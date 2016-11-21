@@ -4,10 +4,9 @@ const shared = require('dorbel-shared');
 const config = shared.config;
 const logger = shared.logger.getLogger(module);
 const twilio = require('twilio');
+const smsClient = new twilio.RestClient(config.get('TWILIO_ACCOUNT_SID'), config.get('TWILIO_AUTH_TOKEN'));
 
 function send(toPhoneNumber, smsText, done) {
-  const smsClient = new twilio.RestClient(config.get('TWILIO_ACCOUNT_SID'), config.get('TWILIO_AUTH_TOKEN'));
-
   smsClient.messages.create({
     body: smsText,
     to: toPhoneNumber,
