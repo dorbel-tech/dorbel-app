@@ -16,9 +16,8 @@ function handleMessage(message, done) {
       break;
 
     default:
-      var error = new Error('Message type not found');
-      logger.error(error);
-      done(error);
+      logger.info('Message was skipped and not processed as no handler was defined for its type.');
+      done();
       break;
   }
 }
