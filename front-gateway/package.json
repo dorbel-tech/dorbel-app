@@ -8,7 +8,7 @@
     "start": "babel-node src/server/server.js",
     "build": "npm run clean && webpack",
     "start:dev": "npm run check; nodemon --exec babel-node src/server/server.js | bunyan",
-    "build:dev": "NODE_ENV=development webpack-dev-server --content-base public -ds --config webpack.config.js --host 0.0.0.0 --hot --colors --inline",
+    "build:dev": "NODE_ENV=development webpack-dev-server --content-base public -ds --config webpack.config.js --host 0.0.0.0 --hot --colors --inline --no-info",
     "test": "npm run test:unit",
     "test:unit": "jest",
     "test:e2e": "echo TBD",

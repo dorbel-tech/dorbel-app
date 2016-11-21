@@ -4,9 +4,11 @@ const shared = require('dorbel-shared');
 const config = shared.config;
 const logger = shared.logger.getLogger(module);
 const mandrill = require('mandrill-api/mandrill');
+const promisify = require('es6-promisify');
 const emailClient = new mandrill.Mandrill(config.get('MANDRILL_API_KEY'));
+const sendEmail = promisify(emailClient.messages.sendTemplate, emailClient.messages);
 
-function send(templateName, additionalParams, done) {
+function send(templateName, additionalParams) {
   const templateContent = [{}];
 
   let messageParams = {
@@ -19,20 +21,20 @@ function send(templateName, additionalParams, done) {
     global_merge_vars: additionalParams.mergeVars,
   };
 
-  emailClient.messages.sendTemplate({
+  return sendEmail({
     template_name: templateName,
     template_content: templateContent,
     message: messageParams,
     async: false,
     ip_pool: null,
     send_at: null
-  }, function (result) {
-    logger.info(result,'Email was sent');
-    done();
-  }, function (err) {
+  }).then(msg => {
+    logger.info(msg, 'Email was sent');
+    return msg;
+  }).catch(err => {
     logger.error(err, 'Email sending error');
-    done(err);
-  });
+    throw err;
+  }); 
 }
 
 module.exports = {

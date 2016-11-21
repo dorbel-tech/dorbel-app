@@ -5,7 +5,19 @@ const logger = shared.logger.getLogger(module);
 const emailDispatcher = require('../../dispatchers/emailDispatcher');
 const smsDispatcher = require('../../dispatchers/smsDispatcher');
 
-function sendEmail(messageBody, done) {
+function send(messageType, messageBody) {
+  switch (messageType) {
+    case 'Email':     
+      return sendEmail(messageBody); 
+    case 'SMS': 
+      return sendSMS(messageBody);     
+  
+    default:
+      throw new Error('Message type wasnt defined!');
+  }
+}
+
+function sendEmail(messageBody) {
   logger.debug('Sending email');
   const message = JSON.parse(messageBody.Message);
   // Pass dynamic params in email body using mergeVars object.
@@ -25,19 +37,18 @@ function sendEmail(messageBody, done) {
     ]
   };
 
-  emailDispatcher.send(templateName, additionalParams, done);
+  return emailDispatcher.send(templateName, additionalParams);
 }
 
-function sendSMS(messageBody, done) {
+function sendSMS(messageBody) {
   logger.debug('Sending SMS');
   const message = JSON.parse(messageBody.Message);
   const toPhoneNumber = '+972544472571'; // TODO: Get user phone number.
   const smsText = 'Hello from notifications service with aprtment id: ' + message.dataPayload.apartment_id + ' (' + message.environemnt + ')';
 
-  smsDispatcher.send(toPhoneNumber, smsText, done);
+  return smsDispatcher.send(toPhoneNumber, smsText);
 }
 
 module.exports = {
-  sendEmail,
-  sendSMS
+  send
 };
