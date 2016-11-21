@@ -1,8 +1,6 @@
 'use strict';
 const listingRepository = require('../apartmentDb/repositories/listingRepository');
 const moment = require('moment');
-const shared = require('dorbel-shared');
-const logger = shared.logger.getLogger(module);
 
 // TODO : errors thrown here return 500
 
