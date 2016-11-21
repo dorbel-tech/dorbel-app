@@ -2,8 +2,6 @@
 'use strict';
 const shared = require('dorbel-shared');
 const config = shared.config;
-const path = require('path');
-config.setConfigFileFolder(path.join(__dirname, '/../config')); // load config from file before anything else
 const logger = shared.logger.getLogger(module);
 const twilio = require('twilio');
 
@@ -16,10 +14,10 @@ function send(toPhoneNumber, smsText, done) {
     from: config.get('TWILIO_PHONE_NUMBER') // From a valid Twilio number.
   }, function (err, message) {
     if (err) {
-      logger.error('SMS sending error', err.message);
+      logger.error(err, 'SMS sending error');
       done(err);
     } else {
-      logger.info('SMS was sent', message);
+      logger.info(message, 'SMS was sent');
       done();
     }
   });

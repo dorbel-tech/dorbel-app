@@ -48,7 +48,7 @@ function* bootstrap() {
 
 if (require.main === module) {
   co(bootstrap).catch(ex => {
-    logger.error('failed to bootstrap application', ex.stack || ex);
+    logger.error(ex.stack || ex, 'failed to bootstrap application');
     process.exit(-1);
   });
 }

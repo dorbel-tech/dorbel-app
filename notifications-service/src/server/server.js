@@ -4,7 +4,6 @@ const fleekRouter = require('fleek-router');
 const bodyParser = require('koa-bodyparser');
 const shared = require('dorbel-shared');
 const config = shared.config; 
-const path = require('path'); config.setConfigFileFolder(path.join(__dirname, '/../config')); // load config from file before anything else
 const logger = shared.logger.getLogger(module);
 const swaggerDoc = require('./swagger/swagger');
 const app = koa();

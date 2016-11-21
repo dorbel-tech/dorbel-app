@@ -2,8 +2,6 @@
 'use strict';
 const shared = require('dorbel-shared');
 const config = shared.config;
-const path = require('path');
-config.setConfigFileFolder(path.join(__dirname, '/../config')); // load config from file before anything else
 const logger = shared.logger.getLogger(module);
 var mandrill = require('mandrill-api/mandrill');
 
@@ -29,10 +27,10 @@ function send(templateName, additionalParams, done) {
     ip_pool: null,
     send_at: null
   }, function (result) {
-    logger.info('Email was sent', result);
+    logger.info(result,'Email was sent');
     done();
   }, function (err) {
-    logger.error('Email sending error', err);
+    logger.error(err, 'Email sending error');
     done(err);
   });
 }
