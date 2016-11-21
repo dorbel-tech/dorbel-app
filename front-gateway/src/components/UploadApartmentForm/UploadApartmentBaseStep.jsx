@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import formHelper from './formHelper';
 
 class UploadApartmentBaseStep extends Component {
   constructor(props) {
     super(props);
     this.state = { formValues: {} };
+    this.handleChanges = this.handleChanges.bind(this);
+    this.clickNext = this.clickNext.bind(this);
+    this.clickBack = this.clickBack.bind(this);
   }
 
   clickNext() {
@@ -21,14 +23,15 @@ class UploadApartmentBaseStep extends Component {
 
   handleChange(key, value) {
     // Non standard inputs (like DatePicker) are handled through state and not through refs
-    this.setState({ formValues: Object.assign(this.state.formValues, { [key] : value })});
+    this.handleChanges({ [key] : value });
+  }
+
+  handleChanges(changes) {
+    this.setState({ formValues: Object.assign(this.state.formValues, changes)});
   }
 
   getFormValues() {
-    return Object.assign(
-      formHelper.getValuesFromInputRefs(this.refs), // raw inputs
-      this.state.formValues // component inputs
-    );
+    return this.state.formValues;
   }
 }
 

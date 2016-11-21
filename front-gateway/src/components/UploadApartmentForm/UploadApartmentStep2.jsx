@@ -1,13 +1,18 @@
 import React from 'react';
 import { observer } from 'mobx-react';
+import _ from 'lodash';
 import UploadApartmentBaseStep from './UploadApartmentBaseStep';
 import DatePicker from '~/components/DatePicker/DatePicker';
 import signupFolder from '~/assets/images/icon-signup-folder.svg';
+import formHelper from './formHelper';
+import FRC from 'formsy-react-components';
  
 // TODO:
 // --- A LOT of refactoring ---
 // Entire form should be dynamic and based on schema from backend
 // All the form controls should be components
+
+const roomOptions = _.range(1,11,0.5).map(num => ({value:num, label:num}));
 
 @observer(['appStore', 'appProviders'])
 class UploadApartmentStep2 extends UploadApartmentBaseStep {
@@ -18,16 +23,22 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep {
     }
   }
 
+  clickNext() {
+    const formsy = this.refs.form.refs.formsy; 
+    if (formsy.state.isValid) {
+      super.clickNext();
+    } else {
+      formsy.submit(); // will trigger validation messages
+    }
+  }
+
   render() {
     const cities = this.props.appStore.cityStore.cities;
-    const citySelector = cities.length ?
-      (<select className="form-control" ref="city_name">
-        {cities.map(city => (<option key={city.id}>{city.city_name}</option>))}
-      </select>) : 
-      (<select className="form-control" disabled={true}><option>טוען...</option></select>);
+    const citySelectorOptions = cities.length ? cities.map(city => ({ label: city.city_name })) : [ { label: 'טוען...' } ];
 
     return (
       <div className="container-fluid upload-apt-wrapper">
+
         <div className="col-md-7 upload-apt-right-container">
           <div className="text">
             <h1>מלאו את הפרטים של הדירה <br/>המעיפה שלכם!</h1>
@@ -39,148 +50,110 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep {
           </div>
           <img src={signupFolder} alt="" />
         </div>
+
         <div className="col-md-5 upload-apt-left-container">
-          <form>
+          <formHelper.FormWrapper layout="vertical" onChange={this.handleChanges} ref="form">
+
             <div className="row form-section">
-              <div className="form-section-headline">
-                כתובת
-              </div>
+              <div className="form-section-headline">כתובת</div>
               <div className="row">
                 <div className="col-md-6">
-                  <div className="form-group">
-                    <label>עיר</label>
-                    {citySelector}
-                  </div>
+                  <FRC.Select name="city_name" label="עיר" options={citySelectorOptions} value={citySelectorOptions[0].label} required />
                 </div>
                 <div className="col-md-6">
-                  <div className="form-group">
-                    <label>שם רחוב</label>
-                    <input ref="street_name" type="text" className="form-control" placeholder="" />
-                  </div>
+                  <FRC.Input value="" name="street_name" label="שם רחוב" type="text" required />
                 </div>
               </div>
               <div className="row">
                 <div className="col-md-6">
-                  <div className="form-group">
-                    <label>מספר בניין</label>
-                    <input ref="house_number" type="text" className="form-control" placeholder="" />
-                  </div>
+                  <FRC.Input value="" name="house_number" label="מספר בניין" type="text" required />
                 </div>
                 <div className="col-md-6">
-                  <div className="form-group">
-                    <label>מספר דירה</label>
-                    <input ref="apt_number" type="text" className="form-control" placeholder="" />
-                  </div>
+                  <FRC.Input value="" name="apt_number" label="מספר דירה" type="text" required />
                 </div>
               </div>
               <div className="row">
                 <div className="col-md-4">
-                  <div className="form-group">
-                    <label>כניסה</label>
-                    <input ref="entrance" type="text" className="form-control" placeholder="" />
-                  </div>
+                  <FRC.Input value="" name="entrance" label="כניסה" type="text" />
                 </div>
                 <div className="col-md-4">
-                  <div className="form-group">
-                    <label>קומה</label>
-                    <input ref="floor" type="number" className="form-control" placeholder="" />
-                  </div>
+                  <FRC.Input value="" name="floor" label="קומה" type="number" required />
                 </div>
                 <div className="col-md-4">
-                  <div className="form-group">
-                    <label>מספר קומות בבניין</label>
-                    <input ref="floors" type="number" className="form-control" placeholder="" />
-                  </div>
+                  <FRC.Input value="" name="floors" label="מס' קומות בבניין" type="number" />
                 </div>
               </div>
             </div>
+
             <div className="row form-section">
-              <div className="form-section-headline">
-                פרטי הדירה
-              </div>
+              <div className="form-section-headline">פרטי הדירה</div>
               <div className="row">
                 <div className="col-md-4">
-                  <div className="form-group">
-                    <label>גודל הדירה</label>
-                    <input ref="size" type="number" className="form-control" placeholder="" />
-                  </div>
+                  <FRC.Input value="" name="size" label="גודל הדירה" type="number" required />
                 </div>
                 <div className="col-md-4">
-                  <div className="form-group">
-                    <label>מספר חדרים</label>
-                    <input ref="rooms" type="number" className="form-control" placeholder="" />
-                  </div>
+                  <FRC.Select name="rooms" label="מספר חדרים" required options={roomOptions} value={roomOptions[0].value} />
                 </div>
                 <div className="col-md-4">
-                  <div className="form-group">
-                    <label>שותפים</label>
-                    <input type="text" className="form-control" placeholder="" />
-                  </div>
+                  <FRC.Input value="" name="roomates" label="שותפים" type="text" />
                 </div>
               </div>
-              <div className="form-group">
-                <label>מידע נוסף ותיאור הדירה</label>
-                <textarea className="form-control" rows="3"></textarea>
+              <div className="row">
+                <div className="col-md-12">
+                  <FRC.Textarea name="description" rows={3} label="מידע נוסף ותיאור הדירה" />
+                </div>
               </div>
-              <div className="row checkbox-row">
-                <label className="checkbox-inline">
-                  <input ref="parking" type="checkbox" value="" />יש חנייה</label>
-                <label className="checkbox-inline">
-                  <input ref="elevator" type="checkbox" value="" />יש מעלית</label>
-                <label className="checkbox-inline">
-                  <input ref="sun_heated_boiler" type="checkbox" value="" />דוד-שמש</label>
-                <label className="checkbox-inline">
-                  <input ref="pets" type="checkbox" value="" />מותר בע״ח</label>
+              <div className="row">
+                <FRC.Checkbox name="parking" label="חנייה" rowClassName="checkbox-inline"/>
+                <FRC.Checkbox name="elevator" label="מעלית" rowClassName="checkbox-inline"/>
+                <FRC.Checkbox name="sun_heated_boiler" label="דוד שמש" rowClassName="checkbox-inline"/>
+                <FRC.Checkbox name="pets" label='מותר בע"ח' rowClassName="checkbox-inline"/>
               </div>
-              <div className="row checkbox-row">
-                <label className="checkbox-inline">
-                  <input ref="air_conditioning" type="checkbox" value="" />יש מזגן</label>
-                <label className="checkbox-inline">
-                  <input ref="balcony" type="checkbox" value="" />יש מרפסת</label>
-                <label className="checkbox-inline">
-                  <input ref="security_bars" type="checkbox" value="" />יש סורגים</label>
-                <label className="checkbox-inline">
-                  <input ref="parquet_floor" type="checkbox" value="" />פרקט</label>
+              <div className="row">
+                <FRC.Checkbox name="air_conditioning" label="מזגן" rowClassName="checkbox-inline"/>
+                <FRC.Checkbox name="balcony" label="מרפסת" rowClassName="checkbox-inline"/>
+                <FRC.Checkbox name="security_bars" label="סורגים" rowClassName="checkbox-inline"/>
+                <FRC.Checkbox name="parquet_floor" label="פרקט" rowClassName="checkbox-inline"/>
               </div>
             </div>
+
             <div className="row form-section">
-              <div className="form-section-headline">
-                חוזה ותשלומים
-              </div>
+              <div className="form-section-headline">חוזה ותשלומים</div>
               <div className="row">
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>תאריך כניסה לדירה</label>
                     <DatePicker onChange={this.handleChange.bind(this, 'lease_start')} />                    
-                  </div>
+                  </div> 
                 </div>
                 <div className="col-md-6">
-                  <div className="form-group">
-                    <label>שכ״ד חודשי</label>
-                    <input ref="monthly_rent" type="number" className="form-control" placeholder="" />
-                  </div>
-                </div>
-                <div className="col-md-6">
-                  <div className="form-group">
-                    <label>ארנונה לחודשיים</label>
-                    <input ref="property_tax" type="number" className="form-control" placeholder="" />
-                  </div>
-                </div>
-                <div className="col-md-6">
-                  <div className="form-group">
-                    <label>ועד בית לחודש</label>
-                    <input ref="board_fee" type="number" className="form-control" placeholder="" />
-                  </div>
+                  <FRC.Input value="" name="monthly_rent" label='שכ"ד לחודש' type="number" required />
                 </div>
               </div>
-
+              <div className="row">
+                <div className="col-md-6">
+                  <FRC.Input value="" name="property_tax" label="ארנונה לחודשיים" type="number" /> 
+                </div>
+                <div className="col-md-6">
+                  <FRC.Input value="" name="board_fee" label="ועד בית לחודש" type="number" /> 
+                </div>
+              </div>
             </div>
-          </form>
+
+          </formHelper.FormWrapper>
+          
           <div className="form-nav bottom col-lg-5 col-md-5 col-sm-12 col-xs-12">
-            <span onClick={this.clickBack.bind(this)}><i className="fa fa-arrow-circle-o-right fa-2x" aria-hidden="true"></i>&nbsp; שלב קודם</span>
+            <span onClick={this.clickBack}>
+              <i className="fa fa-arrow-circle-o-right fa-2x" aria-hidden="true"></i>
+              &nbsp; שלב קודם
+            </span>
             <span>2/3</span>
-            <span onClick={this.clickNext.bind(this)}>שלב הבא &nbsp;<i className="fa fa-arrow-circle-o-left fa-2x" aria-hidden="true"></i></span>
+            <span onClick={this.clickNext}>
+              שלב הבא &nbsp;
+              <i className="fa fa-arrow-circle-o-left fa-2x" aria-hidden="true"></i>
+            </span>
           </div>
+
         </div>
       </div>
     );
