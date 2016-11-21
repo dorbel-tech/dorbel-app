@@ -16,7 +16,7 @@ function sendEmail(messageBody, done) {
     mergeVars: [
       {
         name: 'environment',
-        value: message.environment
+        value: message.environemnt
       },
       {
         name: 'apartment_id',
@@ -32,7 +32,7 @@ function sendSMS(messageBody, done) {
   logger.debug('Sending SMS');
   const message = JSON.parse(messageBody.Message);
   const toPhoneNumber = '+972544472571'; // TODO: Get user phone number.
-  const smsText = 'Hello from notifications service with aprtment id: ' + message.dataPayload.apartment_id + ' (' + message.environment + ')';
+  const smsText = 'Hello from notifications service with aprtment id: ' + message.dataPayload.apartment_id + ' (' + message.environemnt + ')';
 
   smsDispatcher.send(toPhoneNumber, smsText, done);
 }
