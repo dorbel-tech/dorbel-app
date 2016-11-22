@@ -62,11 +62,18 @@ class ApartmentsProvider {
     .then(action('image-upload-done', uploadedImage => {
       image.complete = true;
       image.src = `http://res.cloudinary.com/dorbel/${uploadedImage.resource_type}/${uploadedImage.type}/c_fill,h_190,w_340/v${uploadedImage.version}/${uploadedImage.public_id}.${uploadedImage.format}`;
+      image.delete_token = uploadedImage.delete_token;
       return uploadedImage;      
     }))
     .catch(action(() => {
       imageStore.remove(image); // remove method is available as this is a mobx observable array
     }));
+  }
+
+  @action
+  deleteImage(image) {
+    this.appStore.newListingStore.images.remove(image);
+    return this.cloudinaryProvider.deleteImage(image);      
   }
 }
 

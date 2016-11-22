@@ -10,6 +10,7 @@ class UploadApartmentStep1 extends UploadApartmentBaseStep {
   }
 
   renderImage(image, index) {
+    const { apartmentsProvider } = this.props.appProviders;
     const progressPct = Math.round(image.progress * 100) + '%';  
     const progressBarStyle = { width: progressPct };
 
@@ -21,12 +22,14 @@ class UploadApartmentStep1 extends UploadApartmentBaseStep {
       </div>
     );
 
+    const deleteButton = (<div><a href="#" className="remove-image" onClick={() => apartmentsProvider.deleteImage(image)} >הסרה</a></div>);
+
     return (
       <div key={index} className="image col-md-4 thumb">
         <div className="thumb-inner">
           <label className="uploaded-image">
             <img className="img-full" height="190" width="340" src={image.src} />
-            {image.complete ? null : progressBar}
+            {image.complete ? deleteButton : progressBar}
           </label>
         </div>
       </div>);
@@ -60,7 +63,7 @@ class UploadApartmentStep1 extends UploadApartmentBaseStep {
                     <span className="add-photo">הוסף תמונה</span>
                   </div>
                 </Dropzone>
-                {images.map(this.renderImage)}
+                {images.map(this.renderImage.bind(this))}
               </div>
             </form>
             <div className="form-nav bottom col-lg-5 col-md-5 col-sm-12 col-xs-12">
