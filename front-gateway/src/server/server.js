@@ -18,6 +18,7 @@ function* runServer() {
   const port = config.get('PORT');
 
   // Catch all uncaught exceptions and write to log.
+  // TODO: Move to dorbel-shared.
   process.on('uncaughtException', function(err) {
     logger.error(err);
     process.exit(1);
