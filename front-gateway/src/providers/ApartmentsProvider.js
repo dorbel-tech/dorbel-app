@@ -20,7 +20,7 @@ class ApartmentsProvider {
 
   // TODO : this is very form-specific , should mostly go to the form component (maybe)
   mapUploadApartmentFormToCreateListing(formValues) {
-    let listing = _.pick(formValues, ['monthly_rent', 'lease_start']);
+    let listing = _.pick(formValues, ['monthly_rent', 'lease_start', 'publishing_user_type']);
     listing.apartment = _.pick(formValues, ['apt_number', 'rooms', 'size', 'floor']);
     listing.apartment.building = _.pick(formValues, ['street_name', 'house_number', 'entrance', 'floors']); 
     listing.apartment.building.city = _.pick(formValues, ['city_name']);
@@ -34,8 +34,6 @@ class ApartmentsProvider {
       end_time: this.setTimeFromString(formValues.ohe_date, formValues.ohe_end_time),
       comments: formValues.ohe_comments
     }];    
-
-    listing.publishing_user_type = formValues.publishing_user_type_tenant ? 'tenant' : 'landlord';    
 
     return listing;
   }
