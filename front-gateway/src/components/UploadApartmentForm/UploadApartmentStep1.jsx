@@ -4,7 +4,7 @@ import Dropzone from 'react-dropzone';
 import UploadApartmentBaseStep from './UploadApartmentBaseStep';
 
 @observer(['appProviders', 'appStore'])
-class UploadApartmentStep1 extends UploadApartmentBaseStep {
+class UploadApartmentStep1 extends UploadApartmentBaseStep.wrappedComponent {
   onChooseFile(acceptedFiles) {
     this.props.appProviders.apartmentsProvider.uploadImage(acceptedFiles[0]); // expecting only one file each time      
   }
@@ -36,7 +36,7 @@ class UploadApartmentStep1 extends UploadApartmentBaseStep {
   }
 
   render() {
-    const images = this.props.appStore.newListingStore.images;
+    const images = this.props.appStore.newListingStore.formValues.images;
 
     return (
       <div className="container-fluid upload-apt-wrapper">

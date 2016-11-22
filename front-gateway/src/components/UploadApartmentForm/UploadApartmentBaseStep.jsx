@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
+import { action } from 'mobx';
+import { observer } from 'mobx-react';
 
+@observer(['appStore', 'appProviders'])
 class UploadApartmentBaseStep extends Component {
   constructor(props) {
     super(props);
@@ -11,33 +14,30 @@ class UploadApartmentBaseStep extends Component {
 
   clickNext() {
     if (this.props.onClickNext) {
-      this.props.onClickNext(this.getFormValues());
+      this.props.onClickNext();
     }
   }
 
   clickBack() {
     if (this.props.onClickBack) {
-      this.props.onClickBack(this.getFormValues());
+      this.props.onClickBack();
     }
   }
 
-  handleChange(key, value) {
-    // Non standard inputs (like DatePicker) are handled through state and not through refs
+  handleChange(key, value) {    
     this.handleChanges({ [key] : value });
   }
 
+  @action
   handleChanges(changes) {
-    this.setState({ formValues: Object.assign(this.state.formValues, changes)});
-  }
-
-  getFormValues() {
-    return this.state.formValues;
+    this.props.appStore.newListingStore.formValues = Object.assign(this.props.appStore.newListingStore.formValues, changes);    
   }
 }
 
-UploadApartmentBaseStep.propTypes = {
+UploadApartmentBaseStep.wrappedComponent.propTypes = {
   onClickNext: React.PropTypes.func,
-  onClickBack: React.PropTypes.func
+  onClickBack: React.PropTypes.func,
+  appStore: React.PropTypes.object
 };
 
 export default UploadApartmentBaseStep;

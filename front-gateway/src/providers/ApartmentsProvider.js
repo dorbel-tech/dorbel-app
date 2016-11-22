@@ -13,10 +13,9 @@ class ApartmentsProvider {
     this.cloudinaryProvider = cloudinaryProvider;
   }
 
-  @action
   loadApartments() {
     return this.apiProvider.fetch('/api/v1/listings')
-      .then(apartments => this.appStore.apartmentStore.apartments = apartments);
+      .then(action(apartments => this.appStore.apartmentStore.apartments = apartments));
   }
 
   // TODO : this is very form-specific , should mostly go to the form component (maybe)
@@ -52,7 +51,7 @@ class ApartmentsProvider {
 
   @action
   uploadImage(file) {
-    const imageStore = this.appStore.newListingStore.images;     
+    const imageStore = this.appStore.newListingStore.formValues.images;     
     const image = { complete: false, src: file.preview, progress: 0 };
     imageStore.push(image);
 
@@ -63,6 +62,7 @@ class ApartmentsProvider {
       image.complete = true;
       image.src = `http://res.cloudinary.com/dorbel/${uploadedImage.resource_type}/${uploadedImage.type}/c_fill,h_190,w_340/v${uploadedImage.version}/${uploadedImage.public_id}.${uploadedImage.format}`;
       image.delete_token = uploadedImage.delete_token;
+      image.secure_url = uploadedImage.secure_url;
       return uploadedImage;      
     }))
     .catch(action(() => {
@@ -72,7 +72,7 @@ class ApartmentsProvider {
 
   @action
   deleteImage(image) {
-    this.appStore.newListingStore.images.remove(image);
+    this.appStore.newListingStore.formValues.images.remove(image);
     return this.cloudinaryProvider.deleteImage(image);      
   }
 }

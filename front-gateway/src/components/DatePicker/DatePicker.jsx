@@ -10,7 +10,7 @@ const dateFormat = moment.localeData()._longDateFormat.L;
 class DatePicker extends Component {
   constructor(props) {
     super(props);
-    this.state = { dateValue: moment().format() }; // today
+    this.state = { dateValue: this.props.value || moment().format() }; // today
   }
 
   componentDidMount() {
@@ -45,7 +45,8 @@ class DatePicker extends Component {
 }
 
 DatePicker.propTypes = {
-  onChange: React.PropTypes.func
+  onChange: React.PropTypes.func,
+  value: React.PropTypes.string
 };
 
 export default DatePicker;

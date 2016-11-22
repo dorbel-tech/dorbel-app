@@ -1,29 +1,26 @@
 import React from 'react';
+import { observer } from 'mobx-react';
 import UploadApartmentBaseStep from './UploadApartmentBaseStep';
 import DatePicker from '~/components/DatePicker/DatePicker';
-
 import formHelper from './formHelper';
 import FRC from 'formsy-react-components';
 
-const hours = [
-  '07:00', '07:30', '08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', 
-  '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', 
-  '19:00', '19:30', '20:00', '20:30', '21:00', '21:30', '22:00', '22:30', '23:00', '23:30', '24:00'
-];
+@observer(['appStore'])
+class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
 
-function getHourOptions(hoursArray) {
-  return hoursArray.map((hour) => ({ label:hour }));
-}
+  componentDidMount() {
+    if (this.props.appStore.newListingStore.formValues) {
+      // load form with existing values
+      this.refs.form.refs.formsy.reset(this.props.appStore.newListingStore.formValues);
+    }
+  }
 
-class UploadApartmentStep3 extends UploadApartmentBaseStep {
-  constructor(props) {
-    super(props);    
-    this.state.formValues.ohe_start_time = hours[0];
-    this.state.formValues.ohe_end_time = hours[1];
+  getHourOptions(hoursArray) {
+    return hoursArray.map((hour) => ({ label:hour }));
   }
   
   render() {
-    const endHours = hours.slice(hours.indexOf(this.state.formValues.ohe_start_time) + 1); // start end_hours after start_hours
+    let { newListingStore } = this.props.appStore; 
 
     return (
       <div className="container-fluid upload-apt-wrapper">
@@ -40,19 +37,19 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep {
           <img src="https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/upload-apt-form/icon-signup-card.svg" alt="" />
         </div>
         <div className="col-md-5 upload-apt-left-container">
-          <formHelper.FormWrapper layout="vertical" onChange={this.handleChanges}>
+          <formHelper.FormWrapper layout="vertical" onChange={this.handleChanges} ref="form">
             <div className="row form-section">
               <div className="form-section-headline">מועדי ביקור בדירה</div>
               <div className="form-group">
                 <label>תאריך</label>
-                <DatePicker onChange={this.handleChange.bind(this, 'ohe_date')} />              
+                <DatePicker value={this.props.appStore.newListingStore.formValues.ohe_date} onChange={this.handleChange.bind(this, 'ohe_date')} />              
               </div>
               <div className="row">
                 <div className="col-md-6">
-                  <FRC.Select name="ohe_start_time" label="שעת התחלת ביקור" required options={getHourOptions(hours)} />
+                  <FRC.Select name="ohe_start_time" label="שעת התחלת ביקור" required options={this.getHourOptions(newListingStore.hours)} />
                 </div>
                 <div className="col-md-6">
-                  <FRC.Select name="ohe_end_time" label="שעת סיום ביקור" required options={getHourOptions(endHours)} />
+                  <FRC.Select name="ohe_end_time" label="שעת סיום ביקור" required options={this.getHourOptions(newListingStore.endHours)} />
                 </div>
               </div>
               <div className="row">

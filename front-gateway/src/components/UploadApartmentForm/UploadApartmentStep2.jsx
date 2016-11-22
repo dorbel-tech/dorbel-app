@@ -9,11 +9,15 @@ import FRC from 'formsy-react-components';
 const roomOptions = _.range(1,11,0.5).map(num => ({value:num, label:num}));
 
 @observer(['appStore', 'appProviders'])
-class UploadApartmentStep2 extends UploadApartmentBaseStep {
+class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
 
   componentDidMount() {
     if (this.props.appStore.cityStore.cities.length === 0) {
       this.props.appProviders.cityProvider.loadCities();
+    }
+    if (this.props.appStore.newListingStore.formValues) {
+      // load form with existing values
+      this.refs.form.refs.formsy.reset(this.props.appStore.newListingStore.formValues);
     }
   }
 
@@ -117,7 +121,7 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep {
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>תאריך כניסה לדירה</label>
-                    <DatePicker onChange={this.handleChange.bind(this, 'lease_start')} />                    
+                    <DatePicker value={this.props.appStore.newListingStore.formValues.lease_start} onChange={this.handleChange.bind(this, 'lease_start')} />                    
                   </div> 
                 </div>
                 <div className="col-md-6">
