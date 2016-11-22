@@ -19,6 +19,19 @@ function list (query) {
   });
 }
 
+function getById(id) {
+  return models.listing.findOne({
+    where: { id },
+    include: [ { 
+      model: models.apartment, include: [ 
+        { model: models.building, include : [ models.city, models.neighborhood ] } 
+      ] },
+      models.image,
+      models.open_house_event
+    ]
+  });
+}
+
 function* create(listing) {
   // TODO: add reference to country
   // TODO: should much of this be in the listingService ? findOrCreate for building and apartment is actually business logic and not persistance logic |:
@@ -81,5 +94,6 @@ function getListingsForApartment(apartment, listingQuery) {
 module.exports = {
   list,
   create,
-  getListingsForApartment
+  getListingsForApartment,
+  getById
 };

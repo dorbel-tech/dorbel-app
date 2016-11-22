@@ -30,15 +30,18 @@ function* create(listing) {
   let createdListing = yield listingRepository.create(listing);
   
   // Publish event trigger message to SNS for notifications dispatching.
-  messageBus.publish(config.get('NOTIFICATIONS_SNS_TOPIC_ARN'), messageBus.eventType.APARTMENT_CREATED, { 
-    user_uuid: createdListing.publishing_user_id,
-    apartment_id: createdListing.apartment_id    
-  });
+  if (config.get('NOTIFICATIONS_SNS_TOPIC_ARN')) {
+    messageBus.publish(config.get('NOTIFICATIONS_SNS_TOPIC_ARN'), messageBus.eventType.APARTMENT_CREATED, { 
+      user_uuid: createdListing.publishing_user_id,
+      apartment_id: createdListing.apartment_id    
+    });
+  }
 
   return createdListing;
 }
 
 module.exports = {
   create,
-  list: listingRepository.list
+  list: listingRepository.list,
+  getById: listingRepository.getById
 };
