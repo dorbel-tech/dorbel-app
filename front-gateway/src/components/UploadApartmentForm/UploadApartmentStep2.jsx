@@ -1,13 +1,10 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import _ from 'lodash';
 import UploadApartmentBaseStep from './UploadApartmentBaseStep';
 import DatePicker from '~/components/DatePicker/DatePicker';
 import formHelper from './formHelper';
 import FRC from 'formsy-react-components';
  
-const roomOptions = _.range(1,11,0.5).map(num => ({value:num, label:num}));
-
 @observer(['appStore', 'appProviders'])
 class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
 
@@ -31,8 +28,12 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
   }
 
   render() {
+    const { newListingStore } = this.props.appStore;
     const cities = this.props.appStore.cityStore.cities;
     const citySelectorOptions = cities.length ? cities.map(city => ({ label: city.city_name })) : [ { label: 'טוען...' } ];
+
+    const roomOptions = newListingStore.roomOptions.slice(0);
+    if (!newListingStore.formValues.rooms) { roomOptions.unshift({ label: 'בחר'}); }
 
     return (
       <div className="container-fluid upload-apt-wrapper">
@@ -90,7 +91,7 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
                   <FRC.Input value="" name="size" label="גודל הדירה" type="number" required />
                 </div>
                 <div className="col-md-4">
-                  <FRC.Select name="rooms" label="מספר חדרים" required options={roomOptions} value={roomOptions[0].value} />
+                  <FRC.Select name="rooms" label="מספר חדרים" required options={roomOptions} />
                 </div>
                 <div className="col-md-4">
                   <FRC.Input value="" name="roomates" label="שותפים" type="text" />

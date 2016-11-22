@@ -1,7 +1,7 @@
 /**
  * This store should hold the values of the upload-apartment-form while it is being filled
  */
-
+import _ from 'lodash';
 import { observable } from 'mobx';
 
 const hours = [
@@ -9,6 +9,8 @@ const hours = [
   '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30', 
   '19:00', '19:30', '20:00', '20:30', '21:00', '21:30', '22:00', '22:30', '23:00', '23:30', '24:00'
 ];
+
+const roomOptions = _.range(1,11,0.5).map(num => ({value:num, label:num}));
 
 const defaultFormValues = {
   images: [],
@@ -26,6 +28,10 @@ export default class NewListingStore {
 
   get endHours() {
     return hours.slice(hours.indexOf(this.formValues.ohe_start_time) + 1);
+  }
+
+  get roomOptions() {
+    return roomOptions;
   }
 
   toJson() {
