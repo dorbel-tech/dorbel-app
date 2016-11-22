@@ -28,10 +28,10 @@ function sendEmail(messageBody) {
     userFullName: 'Dorbel Tester', // TODO: Get user full name.
     mergeVars: [{
       name: 'environment',
-      value: message.environemnt
+      content: message.environemnt
     }, {
       name: 'apartment_id',
-      value: message.dataPayload.apartment_id
+      content: message.dataPayload.apartment_id
     }]
   };
 
