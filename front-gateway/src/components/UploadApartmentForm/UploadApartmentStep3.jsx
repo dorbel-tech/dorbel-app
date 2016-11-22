@@ -1,7 +1,6 @@
 import React from 'react';
 import UploadApartmentBaseStep from './UploadApartmentBaseStep';
 import DatePicker from '~/components/DatePicker/DatePicker';
-import signupCard from '~/assets/images/icon-signup-card.svg';
 
 import formHelper from './formHelper';
 import FRC from 'formsy-react-components';
@@ -38,7 +37,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep {
               <li>פרטיותכם יקרה לנו. פרטיכם ישמשו ליצירת קשר ולעדכונים הנוגעים לתהליך בלבד</li>
             </ul>
           </div>
-          <img src={signupCard} alt="" />
+          <img src="https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/upload-apt-form/icon-signup-card.svg" alt="" />
         </div>
         <div className="col-md-5 upload-apt-left-container">
           <formHelper.FormWrapper layout="vertical" onChange={this.handleChanges}>

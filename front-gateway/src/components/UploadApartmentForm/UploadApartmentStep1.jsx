@@ -2,7 +2,6 @@ import React from 'react';
 import { inject } from 'mobx-react';
 import Dropzone from 'react-dropzone';
 import UploadApartmentBaseStep from './UploadApartmentBaseStep';
-import signupPhoto from '~/assets/images/icon-signup-photos.svg';
 
 @inject('appProviders')
 class UploadApartmentStep1 extends UploadApartmentBaseStep {
@@ -34,7 +33,7 @@ class UploadApartmentStep1 extends UploadApartmentBaseStep {
                 <li>פרטיותכם יקרה לנו. פרטיכם ישמשו ליצירת קשר ולעדכונים הנוגעים לתהליך בלבד</li>
               </ul>
             </div>
-            <img src={signupPhoto} alt="" />
+            <img src="https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/upload-apt-form/icon-signup-photos.svg" alt="Upload photos" />
           </div>
         </div>
         <div className="col-md-5 upload-apt-left-container">

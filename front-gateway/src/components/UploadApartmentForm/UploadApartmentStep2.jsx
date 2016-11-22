@@ -3,7 +3,6 @@ import { observer } from 'mobx-react';
 import _ from 'lodash';
 import UploadApartmentBaseStep from './UploadApartmentBaseStep';
 import DatePicker from '~/components/DatePicker/DatePicker';
-import signupFolder from '~/assets/images/icon-signup-folder.svg';
 import formHelper from './formHelper';
 import FRC from 'formsy-react-components';
  
@@ -48,7 +47,7 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep {
               <li>שקפו את המציאות כמו שהיא, על מנת למנוע ביקורים מיותרים</li>
             </ul>
           </div>
-          <img src={signupFolder} alt="" />
+          <img src="https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/upload-apt-form/icon-signup-folder.svg" alt="" />
         </div>
 
         <div className="col-md-5 upload-apt-left-container">
