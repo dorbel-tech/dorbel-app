@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { action } from 'mobx';
 import { observer } from 'mobx-react';
 import './UploadApartmentForm.scss';
 
@@ -10,40 +11,34 @@ const steps = [
 
 @observer(['appStore', 'appProviders', 'router'])
 class UploadApartmentForm extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { stepNumber: 0, formValues: {} };
-  }
 
-  nextStep(formValues) {
-    this.setState({ formValues: Object.assign(this.state.formValues, formValues) });
-    
-    if (this.state.stepNumber === steps.length - 1) {
-      // last step
-      this.props.appProviders.apartmentsProvider.uploadApartment(this.state.formValues)
+  @action
+  nextStep() {
+    let { newListingStore }  = this.props.appStore;        
+    if (newListingStore.stepNumber === steps.length - 1) { // last step
+      this.props.appProviders.apartmentsProvider.uploadApartment(newListingStore.formValues)
       .then(() => this.props.router.setRoute('/apartments'))
       .catch(() => alert('upload failed'));
     } else {
-      this.setState({ stepNumber: this.state.stepNumber + 1 });
+      newListingStore.stepNumber++;
     }
   }
 
-  prevStep(formValues) {
-    this.setState({ 
-      formValues: Object.assign(this.state.formValues, formValues),
-      stepNumber: this.state.stepNumber - 1 
-    });
+  @action
+  prevStep() {
+    this.props.appStore.newListingStore.stepNumber--;
   }
 
   render() {
     const activeStep = {
-      step: steps[this.state.stepNumber]
+      step: steps[this.props.appStore.newListingStore.stepNumber]
     };
     return <activeStep.step onClickNext={this.nextStep.bind(this)} onClickBack={this.prevStep.bind(this)} />;
   }
 }
 
 UploadApartmentForm.wrappedComponent.propTypes = {
+  appStore: React.PropTypes.object,
   appProviders: React.PropTypes.object,
   router: React.PropTypes.object
 };

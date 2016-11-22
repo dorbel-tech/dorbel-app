@@ -10,10 +10,9 @@ class CityProvider {
     this.apiProvider = apiProvider;
   }
 
-  @action
   loadCities() {
     return this.apiProvider.fetch('/api/v1/cities')
-      .then(cities => this.appStore.cityStore.cities = cities);
+      .then(action(cities => this.appStore.cityStore.cities = cities));
   }
 }
 
