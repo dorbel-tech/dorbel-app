@@ -1,4 +1,7 @@
 'use strict';
+const shared = require('dorbel-shared');
+const config = shared.config; 
+const messageBus = shared.utils.messageBus;
 const listingRepository = require('../apartmentDb/repositories/listingRepository');
 const moment = require('moment');
 
@@ -23,7 +26,15 @@ function* create(listing) {
     listing.lease_end = moment(listing.lease_start).add(1, 'years').format('YYYY-MM-DD');
   }
 
-  return yield listingRepository.create(listing);
+  let createdListing = yield listingRepository.create(listing);
+  
+  // Publish event trigger message to SNS for notifications dispatching.
+  messageBus.publish(config.get('NOTIFICATIONS_SNS_TOPIC_ARN'), messageBus.eventType.APARTMENT_CREATED, { 
+    user_uuid: createdListing.publishing_user_id,
+    apartment_id: createdListing.apartment_id    
+  });
+
+  return createdListing;
 }
 
 module.exports = {

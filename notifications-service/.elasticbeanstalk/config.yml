@@ -1,0 +1,14 @@
+branch-defaults:
+  default:
+    environment: notifications-service-develop
+environment-defaults:
+  notifications-service-develop:
+    branch: null
+    repository: null
+global:
+  application_name: notifications-service
+  default_ec2_keyname: aws-eb
+  default_platform: 64bit Amazon Linux 2016.09 v2.2.0 running Docker 1.11.2
+  default_region: eu-west-1
+  profile: null
+  sc: null
