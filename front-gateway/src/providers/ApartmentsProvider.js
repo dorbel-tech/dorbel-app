@@ -7,9 +7,10 @@ import _ from 'lodash';
 import moment from 'moment';
 
 class ApartmentsProvider {
-  constructor(appStore, apiProvider) {
+  constructor(appStore, apiProvider, cloudinaryProvider) {
     this.appStore = appStore;
     this.apiProvider = apiProvider;
+    this.cloudinaryProvider = cloudinaryProvider;
   }
 
   @action
@@ -47,6 +48,25 @@ class ApartmentsProvider {
 
   setTimeFromString(dateString, timeString) {
     return moment(dateString + 'T' + timeString + ':00.000Z').toJSON();    
+  }
+
+  @action
+  uploadImage(file) {
+    const imageStore = this.appStore.newListingStore.images;     
+    const image = { complete: false, src: file.preview, progress: 0 };
+    imageStore.push(image);
+
+    const onProgress = action('image-upload-progress', e => image.progress = e.lengthComputable ? (e.loaded / e.total) : 0);
+    
+    return this.cloudinaryProvider.upload(file, onProgress)      
+    .then(action('image-upload-done', uploadedImage => {
+      image.complete = true;
+      image.src = `http://res.cloudinary.com/dorbel/${uploadedImage.resource_type}/${uploadedImage.type}/c_fill,h_190,w_340/v${uploadedImage.version}/${uploadedImage.public_id}.${uploadedImage.format}`;
+      return uploadedImage;      
+    }))
+    .catch(action(() => {
+      imageStore.remove(image); // remove method is available as this is a mobx observable array
+    }));
   }
 }
 

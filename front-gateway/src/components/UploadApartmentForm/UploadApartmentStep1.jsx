@@ -1,24 +1,39 @@
 import React from 'react';
-import { inject } from 'mobx-react';
+import { observer } from 'mobx-react';
 import Dropzone from 'react-dropzone';
 import UploadApartmentBaseStep from './UploadApartmentBaseStep';
 
-@inject('appProviders')
+@observer(['appProviders', 'appStore'])
 class UploadApartmentStep1 extends UploadApartmentBaseStep {
-  constructor(props) {
-    super(props);
-    this.state.formValues.images = [];
+  onChooseFile(acceptedFiles) {
+    this.props.appProviders.apartmentsProvider.uploadImage(acceptedFiles[0]); // expecting only one file each time      
   }
 
-  onChooseFile(acceptedFiles) {
-    this.props.appProviders.cloudinaryProvider.upload(acceptedFiles[0]) // expecting only one file each time      
-    .then(uploadedImage => {
-      this.handleChange('images', this.state.formValues.images.concat([uploadedImage]));
-    });
+  renderImage(image, index) {
+    const progressPct = Math.round(image.progress * 100) + '%';  
+    const progressBarStyle = { width: progressPct };
+
+    const progressBar = (
+      <div className="progress">
+        <div className="progress-bar" style={ progressBarStyle }>
+          {progressPct}
+        </div>
+      </div>
+    );
+
+    return (
+      <div key={index} className="image col-md-4 thumb">
+        <div className="thumb-inner">
+          <label className="uploaded-image">
+            <img className="img-full" height="190" width="340" src={image.src} />
+            {image.complete ? null : progressBar}
+          </label>
+        </div>
+      </div>);
   }
 
   render() {
-    const images = this.state.formValues.images;
+    const images = this.props.appStore.newListingStore.images;
 
     return (
       <div className="container-fluid upload-apt-wrapper">
@@ -45,16 +60,7 @@ class UploadApartmentStep1 extends UploadApartmentBaseStep {
                     <span className="add-photo">הוסף תמונה</span>
                   </div>
                 </Dropzone>
-                {images.map(image =>
-                  <div key={image.public_id} className="image col-md-4 thumb">
-                    <div className="thumb-inner">
-                      <label className="uploaded-image">
-                        <img className="img-full" height="190" width="340"
-                          src={`http://res.cloudinary.com/dorbel/${image.resource_type}/${image.type}/c_fill,h_190,w_340/v${image.version}/${image.public_id}.${image.format}`} />
-                      </label>
-                    </div>
-                  </div>
-                )}
+                {images.map(this.renderImage)}
               </div>
             </form>
             <div className="form-nav bottom col-lg-5 col-md-5 col-sm-12 col-xs-12">
@@ -70,7 +76,8 @@ class UploadApartmentStep1 extends UploadApartmentBaseStep {
 }
 
 UploadApartmentStep1.wrappedComponent.propTypes = {
-  appProviders: React.PropTypes.object
+  appProviders: React.PropTypes.object,
+  appStore: React.PropTypes.object,
 };
 
 export default UploadApartmentStep1;

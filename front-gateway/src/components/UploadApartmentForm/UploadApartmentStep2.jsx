@@ -6,11 +6,6 @@ import DatePicker from '~/components/DatePicker/DatePicker';
 import formHelper from './formHelper';
 import FRC from 'formsy-react-components';
  
-// TODO:
-// --- A LOT of refactoring ---
-// Entire form should be dynamic and based on schema from backend
-// All the form controls should be components
-
 const roomOptions = _.range(1,11,0.5).map(num => ({value:num, label:num}));
 
 @observer(['appStore', 'appProviders'])

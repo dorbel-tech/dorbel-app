@@ -2,6 +2,7 @@
 import ApartmentStore from '~/stores/ApartmentStore';
 import CityStore from '~/stores/CityStore';
 import AuthStore from '~/stores/AuthStore';
+import NewListingStore from '~/stores/NewListingStore';
 import { observable, action } from 'mobx';
 
 // A wrapper for all the stores that the application uses
@@ -18,6 +19,7 @@ export default class AppStore {
     this.apartmentStore = new ApartmentStore(initialState.apartmentStore);
     this.cityStore = new CityStore(initialState.cityStore);
     this.authStore = new AuthStore();
+    this.newListingStore = new NewListingStore();
   }
 
   @action setView(route, params) {

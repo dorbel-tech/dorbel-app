@@ -8,12 +8,12 @@ class CloudinaryProvider {
     this.params = global.window && global.window.dorbelConfig.CLOUDINARY_PARAMS;
   }
 
-  upload(file) {
+  upload(file, onUploadProgress) {
     let formData = new FormData();
     _.each(this.params, (value, key) => formData.append(key, value));
     formData.append('file', file);
 
-    return axios.post('https://api.cloudinary.com/v1_1/dorbel/auto/upload', formData)
+    return axios.post('https://api.cloudinary.com/v1_1/dorbel/auto/upload', formData, { onUploadProgress })
     .then(res => res.data);      
   }
 }

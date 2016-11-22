@@ -20,10 +20,11 @@ class AppProviders {
       this.authProvider = new AuthProvider(window.dorbelConfig.AUTH0_CLIENT_ID, window.dorbelConfig.AUTH0_DOMAIN, appStore.authStore);
     }
 
-    this.apiProvider = new ApiProvider(appStore);
-    this.apartmentsProvider = new ApartmentsProvider(appStore, this.apiProvider);
-    this.cityProvider = new CityProvider(appStore, this.apiProvider);
     this.cloudinaryProvider = new CloudinaryProvider();
+
+    this.apiProvider = new ApiProvider(appStore);
+    this.apartmentsProvider = new ApartmentsProvider(appStore, this.apiProvider, this.cloudinaryProvider);
+    this.cityProvider = new CityProvider(appStore, this.apiProvider);
   }
 }
 
