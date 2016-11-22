@@ -12,7 +12,7 @@ class App extends Component {
   render() {
     const { appStore } = this.props;
     const devTools = {
-      mobx: process.env.NODE_ENV === 'development' ? require('mobx-react-devtools').default : null
+      mobx: process.env.NODE_ENV === 'development' ? require('mobx-react-devtools').default : (() => null)
     };
 
     return (
@@ -20,8 +20,8 @@ class App extends Component {
         <AppHeader />
         <div className="app-content-with-header full-height">
           <appStore.currentView {...appStore.routeParams} />
-          <devTools.mobx />
         </div>
+        <devTools.mobx />
       </div>
     );
   }
