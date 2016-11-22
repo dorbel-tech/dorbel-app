@@ -1,12 +1,20 @@
 machine:
   environment:
-    NODE_ENV: test
+    NODE_ENV: ci
     PORT: 3000
     RDS_HOSTNAME: 127.0.0.1
     RDS_DB_NAME: circle_test
     RDS_USERNAME: ubuntu
     RDS_PASSWORD: 
     AWS_DEFAULT_REGION: eu-west-1
+    AWS_REGION: eu-west-1
+    NOTIFICATIONS_SNS_TOPIC_ARN: arn:aws:sns:eu-west-1:168720412882:notifications-ci
+    NOTIFICATIONS_EMAIL_SQS_QUEUE_URL: https://sqs.eu-west-1.amazonaws.com/168720412882/notifications-ci-email
+    NOTIFICATIONS_SMS_SQS_QUEUE_URL: https://sqs.eu-west-1.amazonaws.com/168720412882/notifications-ci-sms		     
+    MANDRILL_API_KEY: 1234567890
+    TWILIO_ACCOUNT_SID: 1234567890
+    TWILIO_AUTH_TOKEN: 1234567890
+    TWILIO_PHONE_NUMBER: 1234567890
   services:
     - mysql
 
@@ -14,6 +22,7 @@ dependencies:
   cache_directories:
     - "apartments-api/node_modules"
     - "front-gateway/node_modules"
+    - "notifications-service/node_modules"
   override:
     - npm run install:prod
 
@@ -30,5 +39,6 @@ deployment:
     commands:  
       - sudo apt-get install python-dev
       - sudo pip install awsebcli
-      - npm run deploy apartments-api dev
-      - npm run deploy front-gateway dev    
+      - npm run deploy apartments-api stage
+      - npm run deploy front-gateway stage
+      - npm run deploy notifications-service stage    

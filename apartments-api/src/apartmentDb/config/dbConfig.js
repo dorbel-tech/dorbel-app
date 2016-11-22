@@ -15,5 +15,7 @@ const dbConfig = {
 module.exports = {
   development: dbConfig,
   test: dbConfig,
+  ci: dbConfig,
+  staging: dbConfig,
   production: dbConfig
 };

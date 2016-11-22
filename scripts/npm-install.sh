@@ -8,4 +8,6 @@ if [[ $1 == "prod" ]]; then
 fi
 
 npm --prefix ./apartments-api install $PROD &&
-npm --prefix ./front-gateway install $PROD
+npm --prefix ./front-gateway install $PROD &&
+npm --prefix ./notifications-service install $PROD
+

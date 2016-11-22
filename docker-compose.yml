@@ -14,7 +14,7 @@ services:
   apartments-api:
     build:
       context: apartments-api
-    image: dorbel/apartments-api
+    image: dorbel/apartments-api 
     ports:
       - '3000:3000'
     depends_on:
@@ -39,3 +39,10 @@ services:
       - apartments-api
     environment:
       APARTMENTS_API_URL: http://apartments-api:3000
+  
+  notifications-service:
+    build:
+      context: notifications-service
+    image: dorbel/notifications-service
+    ports:
+      - '3002:3002'
