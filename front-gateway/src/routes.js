@@ -3,7 +3,7 @@ import director from 'director';
 
 import About from '~/components/About/About';
 import Apartments from '~/components/Apartments/Apartments';
-import Apartment from '~/components/Apartment';
+import Apartment from '~/components/Apartment/Apartment';
 import Home from '~/components/Home';
 import Login from '~/components/Login';
 import Profile from '~/components/Profile';

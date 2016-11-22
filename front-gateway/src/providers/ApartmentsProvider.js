@@ -18,6 +18,11 @@ class ApartmentsProvider {
       .then(action(apartments => this.appStore.apartmentStore.apartments = apartments));
   }
 
+  loadSingleApartment(id) {    
+    return this.apiProvider.fetch('/api/v1/listings/' + id)
+      .then(action('load-single-apartment', apartment => this.appStore.apartmentStore.apartmentsById.set(id,apartment)));
+  }
+
   // TODO : this is very form-specific , should mostly go to the form component (maybe)
   mapUploadApartmentFormToCreateListing(formValues) {
     let listing = _.pick(formValues, ['monthly_rent', 'lease_start', 'publishing_user_type']);
