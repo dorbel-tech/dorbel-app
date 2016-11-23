@@ -2,13 +2,14 @@ version: '2'
 services:
 
   db:
-    image: mysql
+    build:
+      context: mysql_db
+    image: dorbel/mysql
     ports:
       - '3306:3306'
     environment:
-      MYSQL_DATABASE: ${RDS_DB_NAME}
-      MYSQL_USER: ${RDS_USERNAME}
-      MYSQL_PASSWORD: ${RDS_PASSWORD}
+      MYSQL_USER: ${MYSQL_ROOT_USER}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
 
   apartments-api:
     build:
@@ -22,9 +23,9 @@ services:
       - db
     environment:
       RDS_HOSTNAME: db
-      RDS_DB_NAME: ${RDS_DB_NAME}
-      RDS_USERNAME: ${RDS_USERNAME}
-      RDS_PASSWORD: ${RDS_PASSWORD}
+      RDS_DB_NAME: ${MYSQL_DATABASE_APT}
+      RDS_USERNAME: ${MYSQL_ROOT_USER}
+      RDS_PASSWORD: ${MYSQL_ROOT_PASSWORD}
 
   front-gateway:
     build:
