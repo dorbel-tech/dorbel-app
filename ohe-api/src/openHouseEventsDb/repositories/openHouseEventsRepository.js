@@ -2,35 +2,36 @@
 const db = require('../dbConnectionProvider');
 const models = db.models;
 const _ = require('lodash');
-const helper = require('./repositoryHelper');
 
-function* get(eventId){
-  yield models.open_house_event.findOne({
+function* find(eventId) {
+  return yield models.ohe.findOne({
     where: {
-      id: eventId
+      id: eventId,
+      is_active: true
     }
   });
 }
 
-function* getByListingId(listing_id){
-  yield models.open_house_event.findAll({
+function* findByListingId(listing_id) {
+  return yield models.ohe.findAll({
     where: {
-      listing_id: listing_id
+      listing_id: listing_id,
+      is_active: true
     }
   });
 }
 
 function* create(openHouseEvent) {
-  yield db.models.open_house_event.create(openHouseEvent); 
+  return yield db.models.ohe.create(openHouseEvent);
 }
 
-function* update(openHouseEvent){
-  yield db.models.open_house_event.update(openHouseEvent); 
+function* update(openHouseEvent) {
+  return yield db.models.ohe.update(openHouseEvent);
 }
 
 module.exports = {
-  get,
+  find,
+  findByListingId,
   create,
-  update,
-  getByListingId
+  update
 };

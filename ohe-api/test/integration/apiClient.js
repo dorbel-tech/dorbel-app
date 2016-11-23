@@ -1,28 +1,21 @@
 'use strict';
+
 const app = require('../../src/index.js');
 const coSupertest = require('co-supertest');
 
 const USER_PROFILE_HEADER = 'x-user-profile';
 
-class ApiClient{
+class ApiClient {
   constructor(request, userProfile) {
     this.request = request;
     this.userProfile = userProfile;
   }
 
-  createListing(newListing) {
+  createNewEvent(newEvent) {
     return this.request
-      .post('/v1/listings')
+      .post('/v1/ohe')
       .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile))
-      .send(newListing);
-  }
-
-  getListings() {
-    return this.request.get('/v1/listings');
-  }
-
-  getCities() {
-    return this.request.get('/v1/cities');
+      .send(newEvent);
   }
 
   static * init(userProfile) {

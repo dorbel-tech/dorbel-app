@@ -13,7 +13,7 @@
       "listing_id": {
         "type": "integer"
       },
-      "is_active": {
+      "is_active":{
         "type": "boolean"
       }
     },

@@ -30,7 +30,6 @@ const swaggerBase = {
     'application/json'
   ],
   paths: consolidateFilesInFolder('paths'),
-  // TODO : can definitions be based on the DB models ?
   definitions: consolidateFilesInFolder('definitions')
 };
 

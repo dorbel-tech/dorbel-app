@@ -30,6 +30,8 @@ function validateEventParamters(listing_id, start, end) {
 }
 
 function validateEventIsNotNotOverlappingExistingEvents(existingListingEvents, listing_id, start, end) {
+    if(!existingListingEvents) return;
+    console.log('------');
     existingListingEvents.forEach(function (existingEvent) {
         const range = moment.range(existingEvent.start_time, existingEvent.end_time);
         if (range.contains(start) || range.contains(end)) {
@@ -46,7 +48,7 @@ function* create(openHouseEvent) {
 
     validateEventParamters(listing_id, start, end);
 
-    const existingListingEvents = yield openHouseEventsRepository.getByListingId(listing_id);
+    const existingListingEvents = yield openHouseEventsRepository.findByListingId(listing_id);
     validateEventIsNotNotOverlappingExistingEvents(existingListingEvents, listing_id, start, end);
 
     return yield openHouseEventsRepository.create({
@@ -63,7 +65,7 @@ function* update(openHouseEvent) {
         throw new Error('event id is not valid');
     }
 
-    const existingEvent = yield openHouseEventsRepository.get(id);
+    const existingEvent = yield openHouseEventsRepository.find(id);
     if(existingEvent == undefined){
         throw new Error('event does not exist');
     }
@@ -74,7 +76,7 @@ function* update(openHouseEvent) {
 
     validateEventParamters(listing_id, start, end);
     
-    const existingListingEvents = yield openHouseEventsRepository.getByListingId(listing_id);
+    const existingListingEvents = yield openHouseEventsRepository.findByListingId(listing_id);
     const existingEventsWithoutCurrent = existingListingEvents.filter(function(existingEvent){
         return existingEvent.id != id;
     });
@@ -96,7 +98,7 @@ function* remove(eventId){
         throw new Error('event id is not valid');
     }
 
-    const existingEvent = yield openHouseEventsRepository.get(id);
+    const existingEvent = yield openHouseEventsRepository.find(id);
     if(existingEvent == undefined){
         throw new Error('event does not exist');
     }

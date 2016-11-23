@@ -32,7 +32,7 @@ describe('Open House Event Service', function () {
                 end_time: newEvent.end_time.toISOString()
             };
 
-            this.openHouseEventsRepositoryMock.getByListingId = sinon.stub().resolves([]);
+            this.openHouseEventsRepositoryMock.findByListingId = sinon.stub().resolves([]);
 
             this.openHouseEventsRepositoryMock.create = sinon.stub().resolves({
                 id: 1,
@@ -114,7 +114,7 @@ describe('Open House Event Service', function () {
                 end_time: moment().add(-5, 'hours').toISOString()
             };
 
-            this.openHouseEventsRepositoryMock.getByListingId = sinon.stub().resolves([{
+            this.openHouseEventsRepositoryMock.findByListingId = sinon.stub().resolves([{
                 start_time: moment().add(-20, 'hours').toISOString(),
                 end_time: moment().add(-10, 'hours').toISOString()
             }]);
@@ -135,7 +135,7 @@ describe('Open House Event Service', function () {
                 end_time: moment().add(-15, 'hours').toISOString()
             };
 
-            this.openHouseEventsRepositoryMock.getByListingId = sinon.stub().resolves([{
+            this.openHouseEventsRepositoryMock.findByListingId = sinon.stub().resolves([{
                 start_time: moment().add(-20, 'hours').toISOString(),
                 end_time: moment().add(-10, 'hours').toISOString()
             }]);
@@ -156,7 +156,7 @@ describe('Open House Event Service', function () {
                 end_time: moment().add(-15, 'hours').toISOString()
             };
 
-            this.openHouseEventsRepositoryMock.getByListingId = sinon.stub().resolves([{
+            this.openHouseEventsRepositoryMock.findByListingId = sinon.stub().resolves([{
                 start_time: moment().add(-20, 'hours').toISOString(),
                 end_time: moment().add(-10, 'hours').toISOString()
             }]);
@@ -174,14 +174,14 @@ describe('Open House Event Service', function () {
     describe('Update Open House Event', function () {
 
         it('should update an existing event', function* () {
-            this.openHouseEventsRepositoryMock.get = sinon.stub().resolves({
+            this.openHouseEventsRepositoryMock.find = sinon.stub().resolves({
                 id: 1,
                 listing_id: 1,
                 start_time: moment().add(-4, 'hours'),
                 end_time: moment().add(-3, 'hours')
             });
 
-            this.openHouseEventsRepositoryMock.getByListingId = sinon.stub().resolves([]);
+            this.openHouseEventsRepositoryMock.findByListingId = sinon.stub().resolves([]);
 
             let updatedEvent = {
                 id: 1,
@@ -225,7 +225,7 @@ describe('Open House Event Service', function () {
         });
 
         it('should fail when updated event id does not exists in db', function* () {
-            this.openHouseEventsRepositoryMock.get = sinon.stub().resolves(null);
+            this.openHouseEventsRepositoryMock.find = sinon.stub().resolves(null);
 
             let updatedEvent = {
                 id: 1,
@@ -251,7 +251,7 @@ describe('Open House Event Service', function () {
         });
 
         it('should fail when listing id is not valid', function* () {
-            this.openHouseEventsRepositoryMock.get = sinon.stub().resolves({
+            this.openHouseEventsRepositoryMock.find = sinon.stub().resolves({
                 id: 1,
                 listing_id: 1,
                 start_time: moment().add(-4, 'hours'),
@@ -274,7 +274,7 @@ describe('Open House Event Service', function () {
         });
 
         it('should fail when start time is not valid', function* () {
-            this.openHouseEventsRepositoryMock.get = sinon.stub().resolves({
+            this.openHouseEventsRepositoryMock.find = sinon.stub().resolves({
                 id: 1,
                 listing_id: 1,
                 start_time: moment().add(-4, 'hours'),
@@ -297,7 +297,7 @@ describe('Open House Event Service', function () {
         });
 
         it('should fail when end time is not valid', function* () {
-            this.openHouseEventsRepositoryMock.get = sinon.stub().resolves({
+            this.openHouseEventsRepositoryMock.find = sinon.stub().resolves({
                 id: 1,
                 listing_id: 1,
                 start_time: moment().add(-4, 'hours'),
@@ -321,7 +321,7 @@ describe('Open House Event Service', function () {
         });
 
         it('should fail when end time is less than 30 minutes after start time', function* () {
-            this.openHouseEventsRepositoryMock.get = sinon.stub().resolves({
+            this.openHouseEventsRepositoryMock.find = sinon.stub().resolves({
                 id: 1,
                 listing_id: 1,
                 start_time: moment().add(-4, 'hours'),
@@ -345,7 +345,7 @@ describe('Open House Event Service', function () {
         });
 
         it('should fail updated event is overlapping existing events (starts during an existing event)', function* () {
-            this.openHouseEventsRepositoryMock.get = sinon.stub().resolves({
+            this.openHouseEventsRepositoryMock.find = sinon.stub().resolves({
                 id: 1,
                 listing_id: 1,
                 start_time: moment().add(-4, 'hours'),
@@ -359,7 +359,7 @@ describe('Open House Event Service', function () {
                 end_time: moment().add(-5, 'hours').toISOString()
             };
 
-            this.openHouseEventsRepositoryMock.getByListingId = sinon.stub().resolves([{
+            this.openHouseEventsRepositoryMock.findByListingId = sinon.stub().resolves([{
                 start_time: moment().add(-20, 'hours').toISOString(),
                 end_time: moment().add(-10, 'hours').toISOString()
             }]);
@@ -374,7 +374,7 @@ describe('Open House Event Service', function () {
         });
 
         it('should fail updated event is overlapping existing events (ends during an existing event)', function* () {
-            this.openHouseEventsRepositoryMock.get = sinon.stub().resolves({
+            this.openHouseEventsRepositoryMock.find = sinon.stub().resolves({
                 id: 1,
                 listing_id: 1,
                 start_time: moment().add(-4, 'hours'),
@@ -388,7 +388,7 @@ describe('Open House Event Service', function () {
                 end_time: moment().add(-15, 'hours').toISOString()
             };
 
-            this.openHouseEventsRepositoryMock.getByListingId = sinon.stub().resolves([{
+            this.openHouseEventsRepositoryMock.findByListingId = sinon.stub().resolves([{
                 start_time: moment().add(-20, 'hours').toISOString(),
                 end_time: moment().add(-10, 'hours').toISOString()
             }]);
@@ -403,7 +403,7 @@ describe('Open House Event Service', function () {
         });
 
         it('should fail updated event is overlapping existing events (happens during an existing event)', function* () {
-            this.openHouseEventsRepositoryMock.get = sinon.stub().resolves({
+            this.openHouseEventsRepositoryMock.find = sinon.stub().resolves({
                 id: 1,
                 listing_id: 1,
                 start_time: moment().add(-4, 'hours'),
@@ -417,7 +417,7 @@ describe('Open House Event Service', function () {
                 end_time: moment().add(-15, 'hours').toISOString()
             };
 
-            this.openHouseEventsRepositoryMock.getByListingId = sinon.stub().resolves([{
+            this.openHouseEventsRepositoryMock.findByListingId = sinon.stub().resolves([{
                 start_time: moment().add(-20, 'hours').toISOString(),
                 end_time: moment().add(-10, 'hours').toISOString()
             }]);
@@ -446,7 +446,7 @@ describe('Open House Event Service', function () {
                 end_time: moment().add(-4, 'hours')
             };
 
-            this.openHouseEventsRepositoryMock.get = sinon.stub().resolves({
+            this.openHouseEventsRepositoryMock.find = sinon.stub().resolves({
                 id: existingEvent.id,
                 listing_id: existingEvent.listing_id,
                 start_time: existingEvent.start_time,
@@ -467,7 +467,7 @@ describe('Open House Event Service', function () {
                 end_time: updatedEvent.end_time.toISOString()
             };
 
-            this.openHouseEventsRepositoryMock.getByListingId = sinon.stub().resolves([existingEvent]);
+            this.openHouseEventsRepositoryMock.findByListingId = sinon.stub().resolves([existingEvent]);
             let savedEvent = yield this.openHouseEventsService.update(ohe);
             __.assertThat(savedEvent, __.is(updatedEvent));
         });
@@ -476,7 +476,7 @@ describe('Open House Event Service', function () {
     describe('Remove Open House Event', function () {
 
         it('should remove an existing event (set as not active)', function* () {
-            this.openHouseEventsRepositoryMock.get = sinon.stub().resolves({
+            this.openHouseEventsRepositoryMock.find = sinon.stub().resolves({
                 id: 1,
                 listing_id: 1,
                 start_time: moment().add(-4, 'hours'),
@@ -513,7 +513,7 @@ describe('Open House Event Service', function () {
         });
 
         it('should fail when deleted event id does not exists in db', function* () {
-            this.openHouseEventsRepositoryMock.get = sinon.stub().resolves(null);
+            this.openHouseEventsRepositoryMock.find = sinon.stub().resolves(null);
 
             let oheId = 1;
 

@@ -1,42 +1,42 @@
 {
   "/ohe": {
     "post": {
-      "summary": "Post new open house event",
-        "description": "Create a new open house event to the system",
-          "parameters": [
-            {
-              "name": "body",
-              "in": "body",
-              "schema": {
-                "$ref": "#/definitions/openHouseEvent"
-              }
-            },
-            {
-              "name": "x-user-profile",
-              "in": "header",
-              "required": true,
-              "type": "string",
-              "description": "Stringified JSON object with the user's profile information"
-            }
-          ],
-            "tags": [
-              "oheController",
-              "authenticated"
-            ],
-              "responses": {
+      "summary": "Get open house event",
+      "description": "Get a open house event to the system",
+      "parameters": [
+        {
+          "name": "body",
+          "in": "body",
+          "schema": {
+            "$ref": "#/definitions/OpenHouseEvent"
+          }
+        },
+        {
+          "name": "x-user-profile",
+          "in": "header",
+          "required": true,
+          "type": "string",
+          "description": "Stringified JSON object with the user's profile information"
+        }
+      ],
+      "tags": [
+        "oheController",
+        "authenticate"
+      ],
+      "responses": {
         "201": {
           "description": "Open house event created succesfully",
-            "schema": {
-            "$ref": "#/definitions/openHouseEvent"
+          "schema": {
+            "$ref": "#/definitions/OpenHouseEvent"
           }
         },
         "default": {
           "description": "Unexpected error",
-            "schema": {
+          "schema": {
             "$ref": "#/definitions/Error"
           }
         }
       }
     }
   }
-} 
+}

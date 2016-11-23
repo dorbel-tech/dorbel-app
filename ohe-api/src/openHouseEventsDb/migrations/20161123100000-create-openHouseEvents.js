@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: function(queryInterface, Sequelize) {
-    return queryInterface.createTable('OpenHouseEvents', {
+    return queryInterface.createTable('ohes', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -22,8 +22,7 @@ module.exports = {
       },
       is_active: {
         allowNull: false,
-        type: Sequelize.BOOLEAN,
-        defaultValue: true
+        type: Sequelize.BOOLEAN
       },
       createdAt: {
         allowNull: false,
@@ -36,6 +35,6 @@ module.exports = {
     });
   },
   down: function(queryInterface) {
-    return queryInterface.dropTable('OpenHouseEvents');
+    return queryInterface.dropTable('ohes');
   }
 };
