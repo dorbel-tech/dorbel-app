@@ -14,6 +14,51 @@ describe('Open House Event Service', function () {
 
     after(() => mockRequire.stopAll());
 
+    describe('Find Open House Event', function () {
+
+        it('should finf an existing event (set as not active)', function* () {
+            let existingEvent = {
+                id: 1,
+                listing_id: 1,
+                start_time: moment().add(-4, 'hours'),
+                end_time: moment().add(-3, 'hours'),
+                is_active: false
+            };
+            this.openHouseEventsRepositoryMock.find = sinon.stub().resolves(existingEvent);
+
+            let oheId = 1;
+
+            let existingEventtResponse = yield this.openHouseEventsService.find(oheId);
+            __.assertThat(existingEvent, __.is(existingEventtResponse));
+        });
+
+        it('should fail when event id is not valid', function* () {
+            let oheId = 'a';
+
+            try {
+                yield this.openHouseEventsService.find(oheId);
+                __.assertThat('code', __.is('not reached'));
+            }
+            catch (error) {
+                __.assertThat(error.message, __.is('event id is not valid'));
+            }
+        });
+
+        it('should fail when event id does not exists in db', function* () {
+            this.openHouseEventsRepositoryMock.find = sinon.stub().resolves(null);
+
+            let oheId = 1;
+
+            try {
+                yield this.openHouseEventsService.find(oheId);
+                // __.assertThat('code', __.is('not reached'));
+            }
+            catch (error) {
+                __.assertThat(error.message, __.is('event does not exist'));
+            }
+        });
+    });
+
     describe('Create Open House Event', function () {
 
         it('should create a new event', function* () {

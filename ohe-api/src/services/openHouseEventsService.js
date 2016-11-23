@@ -45,6 +45,20 @@ function validateEventIsNotNotOverlappingExistingEvents(existingListingEvents, l
     });
 }
 
+function* find(eventId){
+     const id = parseInt(eventId);
+    if(!isValidNumber(id)){
+        throw new OpenHouseEventValidationError('event id is not valid');
+    }
+
+    const existingEvent = yield openHouseEventsRepository.find(id);
+    if(existingEvent == undefined){
+        throw new OpenHouseEventValidationError('event does not exist');
+    }
+
+    return existingEvent;
+}
+
 function* create(openHouseEvent) {
     
     const listing_id = parseInt(openHouseEvent.listing_id);
@@ -113,6 +127,7 @@ function* remove(eventId){
 }
 
 module.exports = {
+    find,
     create,
     update,
     remove,
