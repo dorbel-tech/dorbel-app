@@ -4,12 +4,6 @@
   "description": "package.json to include development dependencies needed by all the services",
   "scripts": {
     "first": "scripts/first_time_install.sh",
-    "install": "scripts/npm-install.sh",
-    "install:prod": "scripts/npm-install.sh prod",
-    "db:migrate":  "scripts/npm-db-migrate.sh",
-    "db:seed":  "scripts/npm-db-seed.sh",
-    "lint": "scripts/npm-lint.sh",
-    "test": "scripts/npm-test.sh",
     "start": "npm stop; scripts/env.sh start fresh",
     "stop": "scripts/env.sh stop",
     "deploy": "scripts/deploy.sh"
