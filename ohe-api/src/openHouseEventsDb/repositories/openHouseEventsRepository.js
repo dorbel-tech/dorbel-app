@@ -3,8 +3,6 @@ const db = require('../dbConnectionProvider');
 const models = db.models;
 const _ = require('lodash');
 const helper = require('./repositoryHelper');
-const apartmentRepository = require('./apartmentRepository');
-const buildingRepository = require('./buildingRepository');
 
 function* get(eventId){
   yield models.open_house_event.findOne({

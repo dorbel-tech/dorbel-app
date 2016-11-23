@@ -10,6 +10,7 @@ const _ = require('lodash');
 function consolidateFilesInFolder(folderName: string) {
   let folderPath = path.join(__dirname, folderName);
   return fs.readdirSync(folderPath)
+    .filter(file => file !== '.DS_Store')
     .reduce((fullObj, fileName) => _.extend(fullObj, require(path.join(folderPath, fileName))), {});
 }
 

@@ -4,6 +4,7 @@ volumes:
   apartments-api-node_modules:
   front-gateway-node_modules:
   notifications-service-node_modules:
+  ohe-api-node_modules:
 services:
 
   apartments-api:
@@ -59,3 +60,18 @@ services:
       TWILIO_AUTH_TOKEN: ${TWILIO_AUTH_TOKEN}
       TWILIO_PHONE_NUMBER: ${TWILIO_PHONE_NUMBER}
     command: npm run start:dev
+
+  ohe-api:
+    build:
+      dockerfile: Dockerfile.dev  
+    image: dorbel/ohe-api:development
+    volumes:
+      - ./ohe-api:/home/nodejs/app
+      - ohe-api-node_modules:/home/nodejs/app/node_modules
+    environment:
+      NODE_ENV: ${NODE_ENV}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_REGION: ${AWS_REGION}
+      NOTIFICATIONS_SNS_TOPIC_ARN: ${NOTIFICATIONS_SNS_TOPIC_ARN}
+    command: bash -c "./scripts/wait-for-it.sh db:3306 --timeout=180 && npm run start:dev"

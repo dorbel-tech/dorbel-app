@@ -3,7 +3,7 @@ const co = require('co');
 const shared = require('dorbel-shared');
 const config = shared.config; config.setConfigFileFolder(__dirname + '/config'); // load config from file before anything else
 const logger = shared.logger.getLogger(module);
-const db = require('./apartmentDb/dbConnectionProvider');
+const db = require('./openHouseEventsDb/dbConnectionProvider');
 
 logger.info({ version: process.env.npm_package_version, env: config.get('NODE_ENV') }, 'Starting server');
 logger.info({ hostname: config.get('RDS_HOSTNAME'), dbname: config.get('RDS_DB_NAME')}, 'Connecting to DB');

@@ -1,5 +1,5 @@
 {
-  "PORT": 3000,
+  "PORT": 3003,
   "LOG_LEVEL": "error",
   "RDS_HOSTNAME": "127.0.0.1",
   "RDS_DB_NAME": "dorbel",
