@@ -1,24 +1,29 @@
 'use strict';
+import React from 'react';
+import FRC from 'formsy-react-components';
+import Formsy from 'formsy-react';
+import _ from 'lodash';
 
-function getValuesFromInputRefs(refs) {
-  return Object.keys(refs)
-    .filter(key => refs.hasOwnProperty(key))
-    .reduce((obj, key) => {
-      obj[key] = getValueFromInput(refs[key]);
-      return obj; 
-    }, {});
-}
+const FormWrapper = React.createClass({
+  mixins: [FRC.ParentContextMixin],
+  propTypes: {
+    children: React.PropTypes.node
+  },
+  render() {
+    const props = _.omit(this.props, ['layout', 'validatePristine']);
 
-function getValueFromInput(input) {
-  switch(input.type) {
-    case 'checkbox': return input.checked;
-    case 'radio': return input.checked;
-    case 'number': return input.valueAsNumber;
-    case 'date': return input.valueAsDate;
-    default: return input.value;
+    return (
+      <Formsy.Form
+        className={this.getLayoutClassName()}
+        {...props}
+        ref="formsy"
+      >
+        {this.props.children}
+      </Formsy.Form>
+    );
   }
-}
+});
 
 module.exports = {
-  getValuesFromInputRefs
+  FormWrapper
 };

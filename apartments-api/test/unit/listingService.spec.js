@@ -31,17 +31,12 @@ describe('Listing Service', function () {
       __.assertThat(newListing, __.is(this.mockListing));
     });
 
-    it('should not create a new listing without at least one image', function* () {
+    it('should create a new listing without any images', function* () {
       let badListing = faker.getFakeListing();
       badListing.images = [];
 
-      try {
-        yield this.listingService.create(badListing);
-        __.assertThat('code', __.is('not reached'));
-      }
-      catch (error) {
-        __.assertThat(error.message, __.is('listing must contain at least one image'));
-      }
+      let newListing = yield this.listingService.create(badListing);
+      __.assertThat(newListing, __.is(this.mockListing));
     });
 
     it('should not create a new listing without at least one open house event', function* () {

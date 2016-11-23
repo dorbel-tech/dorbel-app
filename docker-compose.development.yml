@@ -3,6 +3,7 @@ version: '2'
 volumes:
   apartments-api-node_modules:
   front-gateway-node_modules:
+  notifications-service-node_modules:
 services:
 
   apartments-api:
@@ -16,7 +17,11 @@ services:
       - apartments-api-node_modules:/home/nodejs/app/node_modules
     environment:
       NODE_ENV: ${NODE_ENV}
-    command: npm run start:dev
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_REGION: ${AWS_REGION}
+      NOTIFICATIONS_SNS_TOPIC_ARN: ${NOTIFICATIONS_SNS_TOPIC_ARN}
+    command: bash -c "./scripts/wait-for-it.sh db:3306 --timeout=180 && npm run start:dev"
 
   front-gateway:
     build:
@@ -35,3 +40,22 @@ services:
       CLOUDINARY_SECRET: ${CLOUDINARY_SECRET}
       CLOUDINARY_API_KEY: ${CLOUDINARY_API_KEY}
     command: bash -c "npm run build:dev& npm run start:dev" 
+
+  notifications-service:
+    build:
+      dockerfile: Dockerfile.dev  
+    image: dorbel/notifications-service:development
+    volumes:
+      - ./notifications-service:/home/nodejs/app
+      - notifications-service-node_modules:/home/nodejs/app/node_modules
+    environment:
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_REGION: ${AWS_REGION}
+      NOTIFICATIONS_EMAIL_SQS_QUEUE_URL: ${NOTIFICATIONS_EMAIL_SQS_QUEUE_URL}
+      NOTIFICATIONS_SMS_SQS_QUEUE_URL: ${NOTIFICATIONS_SMS_SQS_QUEUE_URL}
+      MANDRILL_API_KEY: ${MANDRILL_API_KEY}
+      TWILIO_ACCOUNT_SID: ${TWILIO_ACCOUNT_SID}
+      TWILIO_AUTH_TOKEN: ${TWILIO_AUTH_TOKEN}
+      TWILIO_PHONE_NUMBER: ${TWILIO_PHONE_NUMBER}
+    command: npm run start:dev
