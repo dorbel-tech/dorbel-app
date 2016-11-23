@@ -52,7 +52,8 @@ function* create(openHouseEvent) {
     return yield openHouseEventsRepository.create({
         startTime: start,
         endTime: end,
-        listingId: listingId
+        listingId: listingId,
+        isActive: true
     });
 }
 
@@ -84,11 +85,27 @@ function* update(openHouseEvent) {
         id: id,
         startTime: start,
         endTime: end,
-        listingId: listingId
+        listingId: listingId,
+        isActive: true
     });
+}
+
+function* remove(eventId){
+    const id = parseInt(eventId);
+    if(!isValidNumber(id)){
+        throw new Error('event id is not valid');
+    }
+
+    const existingEvent = yield openHouseEventsRepository.get(id);
+    if(existingEvent == undefined){
+        throw new Error('event does not exist');
+    }
+
+    return yield openHouseEventsRepository.delete(id);
 }
 
 module.exports = {
     create,
-    update
+    update,
+    remove
 };

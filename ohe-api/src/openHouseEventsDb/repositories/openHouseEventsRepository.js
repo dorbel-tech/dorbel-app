@@ -90,11 +90,16 @@ function update(eventId){
   return {};
 }
 
+function remove(eventId){
+  return {};
+}
+
 module.exports = {
   list,
   create,
   get,
   update,
+  remove,
   getListingsForApartment,
   eventsForListing
 };

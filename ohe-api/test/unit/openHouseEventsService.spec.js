@@ -24,7 +24,8 @@ describe('Open House Event Service', function () {
                 id: 1,
                 listingId: 1,
                 startTime: moment().add(-2, 'hours'),
-                endTime: moment().add(-1, 'hours')
+                endTime: moment().add(-1, 'hours'),
+                isActive: true
             }
 
 
@@ -40,7 +41,8 @@ describe('Open House Event Service', function () {
                 id: 1,
                 listingId: newEvent.listingId,
                 startTime: newEvent.startTime,
-                endTime: newEvent.endTime
+                endTime: newEvent.endTime,
+                isActive: true
             });
 
             let savedEvent = yield this.openHouseEventsService.create(ohe);
@@ -188,14 +190,16 @@ describe('Open House Event Service', function () {
                 id: 1,
                 listingId: 1,
                 startTime: moment().add(-2, 'hours'),
-                endTime: moment().add(-1, 'hours')
+                endTime: moment().add(-1, 'hours'),
+                isActive: true
             }
 
             this.openHouseEventsRepositoryMock.update = sinon.stub().resolves({
                 id: 1,
                 listingId: updatedEvent.listingId,
                 startTime: updatedEvent.startTime,
-                endTime: updatedEvent.endTime
+                endTime: updatedEvent.endTime,
+                isActive: true                
             });
 
             let ohe = {
@@ -350,7 +354,7 @@ describe('Open House Event Service', function () {
                 startTime: moment().add(-4, 'hours'),
                 endTime: moment().add(-3, 'hours')
             });
-            
+
             let ohe = {
                 id: 1,
                 listingId: 1,
@@ -437,7 +441,7 @@ describe('Open House Event Service', function () {
                 startTime: moment().add(-5, 'hours'),
                 endTime: moment().add(-3, 'hours')
             };
-            
+
             let updatedEvent = {
                 id: 1,
                 listingId: 1,
@@ -469,6 +473,60 @@ describe('Open House Event Service', function () {
             this.openHouseEventsRepositoryMock.eventsForListing = sinon.stub().resolves([existingEvent]);
             let savedEvent = yield this.openHouseEventsService.update(ohe);
             __.assertThat(savedEvent, __.is(updatedEvent));
+        });
+    });
+
+    describe('Remove Open House Event', function () {
+
+        it('should remove an existing event (set as not active)', function* () {
+            this.openHouseEventsRepositoryMock.get = sinon.stub().resolves({
+                id: 1,
+                listingId: 1,
+                startTime: moment().add(-4, 'hours'),
+                endTime: moment().add(-3, 'hours'),
+                isActive: true
+            });
+
+            let deletedEvent = {
+                id: 1,
+                listingId: 1,
+                startTime: moment().add(-4, 'hours'),
+                endTime: moment().add(-3, 'hours'),
+                isActive: false
+            };
+
+            this.openHouseEventsRepositoryMock.delete = sinon.stub().resolves(deletedEvent);
+
+            let oheId = 1;
+
+            let deleteEventResponse = yield this.openHouseEventsService.remove(oheId);
+            __.assertThat(deletedEvent, __.is(deleteEventResponse));
+        });
+
+        it('should fail when deleted event id is not valid', function* () {
+            let oheId = 'a';
+
+            try {
+                yield this.openHouseEventsService.remove(oheId);
+                __.assertThat('code', __.is('not reached'));
+            }
+            catch (error) {
+                __.assertThat(error.message, __.is('event id is not valid'));
+            }
+        });
+
+        it('should fail when deleted event id does not exists in db', function* () {
+            this.openHouseEventsRepositoryMock.get = sinon.stub().resolves(null);
+
+            let oheId = 1;
+
+            try {
+                yield this.openHouseEventsService.remove(oheId);
+                // __.assertThat('code', __.is('not reached'));
+            }
+            catch (error) {
+                __.assertThat(error.message, __.is('event does not exist'));
+            }
         });
     });
 });
