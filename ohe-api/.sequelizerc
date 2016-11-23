@@ -1,7 +1,7 @@
 // Main Sequelize CLI configuration file defining all the critical paths.
 // In use for Sequelize CLI seeds & migrations only - https://github.com/sequelize/cli
 var path = require('path')
-var relativePath = 'src/apartmentDb/';
+var relativePath = 'src/openHouseEventsDb/';
 
 module.exports = {
   'config':          path.resolve(relativePath, 'config/dbConfig.js'),
