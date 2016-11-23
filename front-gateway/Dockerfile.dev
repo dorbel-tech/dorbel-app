@@ -1,5 +1,6 @@
 # Image to pull.
-FROM node:4
+FROM node:6
+ENV NPM_CONFIG_LOGLEVEL warn
 
 # Working directory environment variable.
 ENV WORKDIR="/home/nodejs/app"

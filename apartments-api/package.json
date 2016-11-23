@@ -8,7 +8,7 @@
     "db:seed": "sequelize db:seed:all",
     "prestart": "npm run db:migrate; npm run db:seed",
     "start": "babel-node src/index",
-    "start:dev": "npm run check; npm run db:migrate; npm run db:seed && nodemon --exec babel-node src/index | bunyan",
+    "start:dev": "npm run db:migrate; npm run db:seed && nodemon --exec babel-node src/index | bunyan",
     "test": "npm run test:unit",
     "test:unit": "mocha --compilers js:babel-register test/shared/before-tests.js test/unit/**/*.spec.js",
     "test:integration": "mocha --compilers js:babel-register test/shared/before-tests.js test/integration/**/*.spec.js",
@@ -37,10 +37,11 @@
     "moment": "~2.16.0",
     "mysql": "^2.11.1",
     "sequelize": "^3.24.3",
-    "sequelize-cli": "2.4.0",
+    "sequelize-cli": "^2.4.0",
     "sinon": "^1.17.6",
     "sinon-as-promised": "^4.0.2",
     "sqlite3": "^3.1.8",
+    "sqlstring": "^2.2.0",
     "supertest": "^1.2.0"
   },
   "devDependencies": {
