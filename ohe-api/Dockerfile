@@ -16,7 +16,7 @@ RUN npm install --silent --production
 COPY . $WORKDIR
 
 # Open port
-EXPOSE 3000
+EXPOSE 3003
 
 # Run node server.
 CMD [ "npm", "start" ]
