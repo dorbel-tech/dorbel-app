@@ -31,6 +31,11 @@
     margin-bottom: 30px;
     margin-top: 15px;
   }
+
+  .checkbox {
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
 }
 
 .form-section {
@@ -98,15 +103,6 @@
   transform: rotate(90deg);
   text-align: center;
   opacity: 0.5;
-}
-
-.checkbox-row {
-  // display: flex;
-  // justify-content: space-between;
-  margin-right: 0px;
-  margin-top: 20px;
-  // width: 100%;
-  // text-align: right;
 }
 
 .upload-apt-right-container {

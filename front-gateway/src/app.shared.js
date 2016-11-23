@@ -1,5 +1,6 @@
 'use strict';
 import React from 'react';
+import { action } from 'mobx';
 import { Provider } from 'mobx-react';
 import App from '~/components/App';
 import { startRouter } from '~/routes';
@@ -21,5 +22,5 @@ function injectStores(initialState) {
 }
 
 module.exports = {
-  injectStores
+  injectStores: action(injectStores)
 };
