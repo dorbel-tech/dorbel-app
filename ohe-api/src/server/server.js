@@ -29,6 +29,20 @@ app.use(function* handleSequelizeErrors(next) {
   }
 });
 
+app.use(function* handleOpenHouseEventValidationErrors(next) {
+  try {
+    yield next;
+  }
+  catch (ex) {
+    if (ex.name === 'OpenHouseEventValidationError') {
+      this.body = ex.message;
+      this.status = 400;
+    } else {
+      throw ex;
+    }
+  }
+});
+
 app.use(function* returnSwagger(next) {
   if (this.method === 'GET' && this.url === '/swagger') {
     this.body = swaggerDoc;

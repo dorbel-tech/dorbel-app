@@ -18,6 +18,20 @@ class ApiClient {
       .send(newEvent);
   }
 
+  updateEvent(existingEvent) {
+    return this.request
+      .put('/v1/ohe')
+      .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile))
+      .send(existingEvent);
+  }
+
+  deleteEvent(existingEventId) {
+    return this.request
+      .delete('/v1/ohe')
+      .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile))
+      .send({ id: existingEventId });
+  }
+
   static * init(userProfile) {
     let request;
 

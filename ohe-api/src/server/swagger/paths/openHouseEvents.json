@@ -1,8 +1,8 @@
 {
   "/ohe": {
     "post": {
-      "summary": "Get open house event",
-      "description": "Get a open house event to the system",
+      "summary": "Create an open house event",
+      "description": "Create an open house event to the system",
       "parameters": [
         {
           "name": "body",
@@ -26,6 +26,82 @@
       "responses": {
         "201": {
           "description": "Open house event created succesfully",
+          "schema": {
+            "$ref": "#/definitions/OpenHouseEvent"
+          }
+        },
+        "default": {
+          "description": "Unexpected error",
+          "schema": {
+            "$ref": "#/definitions/Error"
+          }
+        }
+      }
+    },
+    "put": {
+      "summary": "Update an open house event",
+      "description": "Update an open house event to the system",
+      "parameters": [
+        {
+          "name": "body",
+          "in": "body",
+          "schema": {
+            "$ref": "#/definitions/OpenHouseEvent"
+          }
+        },
+        {
+          "name": "x-user-profile",
+          "in": "header",
+          "required": true,
+          "type": "string",
+          "description": "Stringified JSON object with the user's profile information"
+        }
+      ],
+      "tags": [
+        "oheController",
+        "authenticate"
+      ],
+      "responses": {
+        "200": {
+          "description": "Open house event updated succesfully",
+          "schema": {
+            "$ref": "#/definitions/OpenHouseEvent"
+          }
+        },
+        "default": {
+          "description": "Unexpected error",
+          "schema": {
+            "$ref": "#/definitions/Error"
+          }
+        }
+      }
+    },
+    "delete": {
+      "summary": "Deletes an open house event",
+      "description": "Deletes an open house event to the system",
+      "parameters": [
+        {
+          "name": "id",
+          "in": "body",
+          "schema": {
+            "$ref": "#/definitions/OpenHouseEvent"
+          }
+        },
+        {
+          "name": "x-user-profile",
+          "in": "header",
+          "required": true,
+          "type": "string",
+          "description": "Stringified JSON object with the user's profile information"
+        }
+      ],
+      "tags": [
+        "oheController",
+        "authenticate"
+      ],
+      "responses": {
+        "200": {
+          "description": "Open house event deleted succesfully",
           "schema": {
             "$ref": "#/definitions/OpenHouseEvent"
           }

@@ -4,16 +4,30 @@ const logger = shared.logger.getLogger(module);
 const openHouseEventsService = require('../../services/openHouseEventsService');
 
 function* post() {
-  this.response.status = 201;
   logger.debug('Creating new open house event...');
-  let newEvent = this.request.body;
-  
-  let newEventResult = yield openHouseEventsService.create(newEvent);
+  let newEventResult = yield openHouseEventsService.create(this.request.body);
   logger.info(newEventResult.id, 'Open house event created');
   this.response.status = 201;
   this.response.body = newEventResult;
 }
 
+function* put() {
+  logger.debug('Updating new open house event...');
+  let updatedEventResult = yield openHouseEventsService.update(this.request.body);
+  logger.info(updatedEventResult.id, 'Open house event updated');
+  this.response.status = 200;
+  this.response.body = updatedEventResult;
+}
+
+function* remove() {
+  logger.debug('Updating new open house event...');
+  let deletedEventResult = yield openHouseEventsService.remove(this.request.body.id);
+  logger.info(deletedEventResult.id, 'Open house event deleted');
+  this.response.status = 200;
+}
+
 module.exports = {
-  post: post
+  post: post,
+  put: put,
+  delete:remove
 };

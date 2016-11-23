@@ -26,7 +26,12 @@ function* create(openHouseEvent) {
 }
 
 function* update(openHouseEvent) {
-  return yield db.models.ohe.update(openHouseEvent);
+  let ohe = yield find(openHouseEvent.id);
+  return yield ohe.update({
+    start_time: openHouseEvent.start_time,
+    end_time: openHouseEvent.end_time,
+    is_active: openHouseEvent.is_active
+  });
 }
 
 module.exports = {
