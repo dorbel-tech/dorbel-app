@@ -1,5 +1,43 @@
 {
   "/ohe": {
+    "get": {
+      "summary": "Finds an open house event",
+      "description": "Finds an open house event in the system",
+      "parameters": [
+        {
+          "name": "id",
+          "in": "query",
+          "schema": {
+            "$ref": "#/definitions/OpenHouseEvent"
+          }
+        },
+        {
+          "name": "x-user-profile",
+          "in": "header",
+          "required": true,
+          "type": "string",
+          "description": "Stringified JSON object with the user's profile information"
+        }
+      ],
+      "tags": [
+        "oheController",
+        "authenticate"
+      ],
+      "responses": {
+        "201": {
+          "description": "Open house event found succesfully",
+          "schema": {
+            "$ref": "#/definitions/OpenHouseEvent"
+          }
+        },
+        "default": {
+          "description": "Unexpected error",
+          "schema": {
+            "$ref": "#/definitions/Error"
+          }
+        }
+      }
+    },
     "post": {
       "summary": "Create an open house event",
       "description": "Create an open house event to the system",

@@ -11,6 +11,12 @@ class ApiClient {
     this.userProfile = userProfile;
   }
 
+  findEvent(existingEventId) {
+    return this.request
+      .get('/v1/ohe?id=' + existingEventId)
+      .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile));
+  }
+
   createNewEvent(newEvent) {
     return this.request
       .post('/v1/ohe')
