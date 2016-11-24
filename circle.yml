@@ -19,22 +19,31 @@ machine:
     - mysql
 
 dependencies:
+  override:
+    - npm --prefix ./apartments-api install --silent --production
+    - npm --prefix ./apartments-api install --silent --production
+    - npm --prefix ./notifications-service install --silent --production
   cache_directories:
     - "apartments-api/node_modules"
     - "front-gateway/node_modules"
     - "notifications-service/node_modules"
-  override:
-    - npm run install:prod
 
 test:
   override:
-    - npm run lint
-    - npm run db:migrate
-    - npm run db:seed
-    - npm run test
+    - npm --prefix ./apartments-api run lint 
+    - npm --prefix ./front-gateway run lint
+    - npm --prefix ./notifications-service run lint
+    - npm --prefix ./apartments-api run db:migrate
+    - npm --prefix ./apartments-api run db:seed
+    - npm --prefix ./apartments-api test
+    - npm --prefix ./apartments-api run test:integration
+    - npm --prefix ./front-gateway test 
+    - npm --prefix ./front-gateway run test:e2e 
+    - npm --prefix ./notifications-service test 
+    - npm --prefix ./notifications-service run test:integration
 
 deployment:
-  development:
+  staging:
     branch: develop
     commands:  
       - sudo apt-get install python-dev
