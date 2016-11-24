@@ -46,6 +46,7 @@ deployment:
   staging:
     branch: develop
     commands:  
+      - sudo apt-get update
       - sudo apt-get install python2.7-dev
       - sudo pip install awsebcli
       - npm run deploy apartments-api stage
