@@ -2,7 +2,7 @@
   "PORT": 3000,
   "LOG_LEVEL": "error",
   "RDS_HOSTNAME": "127.0.0.1",
-  "RDS_DB_NAME": "apartmentsDb",
+  "RDS_DB_NAME": "apartment",
   "RDS_USERNAME": "dorbel",
   "RDS_PASSWORD": "dorbel",
   "NEW_RELIC_ENABLED": "False"
