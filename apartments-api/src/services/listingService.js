@@ -2,7 +2,7 @@
 const shared = require('dorbel-shared');
 const config = shared.config; 
 const messageBus = shared.utils.messageBus;
-const listingRepository = require('../apartmentDb/repositories/listingRepository');
+const listingRepository = require('../apartmentsDb/repositories/listingRepository');
 const moment = require('moment');
 
 // TODO : move this to dorbel-shared

@@ -1,7 +1,7 @@
 'use strict';
 const Sequelize = require('sequelize');
-const modelLoader = require('../../src/apartmentDb/models');
-const seed = require('../../src/apartmentDb/seeds/20161110101800-israel');
+const modelLoader = require('../../src/apartmentsDb/models');
+const seed = require('../../src/apartmentsDb/seeds/20161110101800-israel');
 var mockRequire = require('mock-require');
 
 module.exports.connect = function* connect() {
@@ -22,7 +22,7 @@ module.exports.connect = function* connect() {
   module.exports.models = modelLoader.load(db);
   yield db.sync();
   yield seed.createSeed(module.exports);
-  mockRequire('../../src/apartmentDb/dbConnectionProvider', module.exports);
+  mockRequire('../../src/apartmentsDb/dbConnectionProvider', module.exports);
 };
 
 

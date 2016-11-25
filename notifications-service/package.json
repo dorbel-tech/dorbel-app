@@ -1,6 +1,6 @@
 {
   "name": "dorbel-notifications-service",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "description": "Worker to process notifications messages from SQS and dispatch using Email or SMS",
   "main": "src/index.js",
   "scripts": {
@@ -40,7 +40,6 @@
   },
   "devDependencies": {
     "bunyan": "^1.8.1",
-    "flow-bin": "0.33.0",
     "nodemon": "^1.10.2",
     "satisfaction": "3.0.0"
   }

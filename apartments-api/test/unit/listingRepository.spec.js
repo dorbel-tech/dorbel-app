@@ -6,7 +6,7 @@ var faker = require('../shared/fakeObjectGenerator');
 describe('Listing Repository', function () {
   before(function * () {
     yield inMemoryDb.connect();
-    this.listingRepo = require('../../src/apartmentDb/repositories/listingRepository');
+    this.listingRepo = require('../../src/apartmentsDb/repositories/listingRepository');
   });
 
   describe('Add listing', function () {
