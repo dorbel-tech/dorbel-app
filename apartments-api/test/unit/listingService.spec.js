@@ -12,7 +12,7 @@ describe('Listing Service', function () {
       create: sinon.stub().resolves(this.mockListing),
       getListingsForApartment: sinon.stub().resolves([])
     };
-    mockRequire('../../src/apartmentDb/repositories/listingRepository', this.listingRepositoryMock);
+    mockRequire('../../src/apartmentsDb/repositories/listingRepository', this.listingRepositoryMock);
     this.listingService = require('../../src/services/listingService');
   });
 

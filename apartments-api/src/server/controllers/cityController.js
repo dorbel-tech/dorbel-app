@@ -1,5 +1,5 @@
 'use strict';
-const cityRepository = require('../../apartmentDb/repositories/cityRepository');
+const cityRepository = require('../../apartmentsDb/repositories/cityRepository');
 
 function* get() {
   this.response.body = yield cityRepository.list();
