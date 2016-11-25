@@ -46,7 +46,6 @@
   },
   "devDependencies": {
     "bunyan": "^1.8.1",
-    "flow-bin": "0.33.0",
     "nodemon": "^1.10.2",
     "satisfaction": "3.0.0"
   }

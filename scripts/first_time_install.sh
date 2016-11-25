@@ -10,6 +10,9 @@ xcode-select --install
 # Install Homebrew
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
+# Install node
+brew install node
+
 # Install git
 brew install git
 
@@ -27,7 +30,12 @@ brew install flow
 brew tap caskroom/cask
 brew cask install google-chrome
 brew cask install iterm2
-brew cask install sublime-text
-brew cask install sourcetree
+brew cask install visual-studio-code
+brew cask install gitkraken
+brew cask install meld
+brew cask install sequel-pro
+brew cask install skitch
+brew cask install spectacle
+brew cask install slack
 
 echo "All of the apps were installed succesfully!"
