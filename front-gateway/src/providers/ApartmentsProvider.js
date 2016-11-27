@@ -29,12 +29,6 @@ class ApartmentsProvider {
       url: cloudinaryImage.secure_url, display_order: index
     }));
 
-    listing.open_house_events = [{ 
-      start_time: this.setTimeFromString(formValues.ohe_date, formValues.ohe_start_time),
-      end_time: this.setTimeFromString(formValues.ohe_date, formValues.ohe_end_time),
-      comments: formValues.ohe_comments
-    }];    
-
     return listing;
   }
 

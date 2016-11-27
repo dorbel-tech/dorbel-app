@@ -37,7 +37,6 @@ describe('Listing Repository', function () {
       __.assertThat(newListing.apartment, __.hasProperty('id', 1));
       __.assertThat(newListing.apartment.building, __.hasProperty('id', 1));
       __.assertThat(newListing.images[0], __.hasProperty('id', 1));
-      __.assertThat(newListing.open_house_events[0], __.hasProperty('id', 1));
     });
 
     it('should not create new building if already exists', function* () {

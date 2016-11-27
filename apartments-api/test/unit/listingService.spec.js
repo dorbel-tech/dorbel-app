@@ -39,19 +39,6 @@ describe('Listing Service', function () {
       __.assertThat(newListing, __.is(this.mockListing));
     });
 
-    it('should not create a new listing without at least one open house event', function* () {
-      let badListing = faker.getFakeListing();
-      badListing.open_house_events = [];
-
-      try {
-        yield this.listingService.create(badListing);
-        __.assertThat('code', __.is('not reached'));
-      }
-      catch (error) {
-        __.assertThat(error.message, __.is('listing must contain at least one open house event'));
-      }
-    });
-
     it('should not create a new listing if apartment already has a non-closed listing', function* () {
       this.listingRepositoryMock.getListingsForApartment = sinon.stub().resolves([{ something: 1 }]);
       let newListing = faker.getFakeListing();
