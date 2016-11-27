@@ -31,12 +31,6 @@
         "items": {
           "$ref": "#/definitions/Image"
         }
-      },
-      "open_house_events": {
-        "type": "array",
-        "items": {
-          "$ref": "#/definitions/OpenHouseEvent"
-        }
       }
     },
     "required": [
