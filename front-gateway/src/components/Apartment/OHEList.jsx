@@ -12,7 +12,7 @@ const timeFormat = 'HH:mm';
 const dateFormat = 'DD/MM/YY';
 
 class OHEList extends Component {
-  renderEvent(event) {
+  renderEvent(event, index) {
     const start = moment(event.start_time);
     const end = moment(event.end_time);
 
@@ -20,7 +20,7 @@ class OHEList extends Component {
     const dateLabel = start.format(dateFormat);
 
     return (
-      <a href="#" className="list-group-item" data-toggle="modal" data-target="#modal-signup">
+      <a key={index} href="#" className="list-group-item" data-toggle="modal" data-target="#modal-signup">
         <div className="row">
           <div className="dorbel-icon-calendar pull-left">
             <Icon iconName="icon_calendar" />

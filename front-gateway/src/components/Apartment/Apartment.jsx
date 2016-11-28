@@ -56,6 +56,48 @@ class Apartment extends Component {
     return label;
   }
 
+  renderListingDescription(listing) {
+    return (
+      <div className="container-fluid apt-info-container">
+        <div className="container">
+          <div className="col-lg-9">
+            <div className="row property-desc">
+              <div className="col-md-2">
+                <h5>תאור הנכס</h5>
+              </div>
+              <div className="col-md-10">
+                <p>מיקומו המרכזי של מגדל TIME TOWER , בליבו של המתחם האורבני הגדול בישראל חייב אותו להיות יצירה אדריכלית מעוררת גאווה. העיצוב של מגדל TIME TOWER מאופיין באלגנטיות ויוקרה: הוא עשוי קווים ישרים ונקיים, ונושא מראה שאינו כפוף לגחמה אופנתית אלא בעל תוקף עדכני לשנים ארוכות. קומת הכניסה לבניין היא יצירה ייחודית בפני עצמה, עשויה קוביות זכוכית.</p>
+              </div>
+            </div>
+            <div className="row property-amenities">
+              <div className="col-lg-2 col-sm-2 col-xs-12">
+                <h5>תאור הנכס</h5>
+              </div>
+              <div className="col-lg-5 col-sm-5 col-xs-6">
+                <ul>
+                  <li>בעלות: פרטית</li>
+                  <li>ועד בית: 250 ₪</li>
+                  <li>שכונה: בבלי</li>
+                  <li>איזור: 2</li>
+                  <li>בעל חיים: מותר חתול</li>
+                </ul>
+              </div>
+              <div className="col-lg-5 col-sm-5 col-xs-6">
+                <ul>
+                  <li>חנייה ברחוב</li>
+                  <li>נגיש לנכים</li>
+                  <li>מזגן בחדר שינה</li>
+                  <li>מזגן בסלון</li>
+                  <li>מרפסת</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   render() {
     // TODO : mixup between listing and apartment here !!!
     const listing = this.props.appStore.apartmentStore.apartmentsById.get(this.props.apartmentId);
@@ -93,6 +135,7 @@ class Apartment extends Component {
             </div>
           </div>
         </div>
+        {this.renderListingDescription(listing)}
       </div>
     );
   }
