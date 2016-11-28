@@ -2,11 +2,11 @@
 > REST API for dorbel apartments domain
 
 ## Scripts
-- Install using ``npm install``
-- Start using ``npm start``
-- Start development using ``npm run start:dev``
+- Install using ``yarn install``
+- Start using ``yarn start``
+- Start development using ``yarn run start:dev``
   - will restart server when files are changed.
-- Run tests using ``npm test`` (currently runs integration tests)
+- Run tests using ``yarn test`` (currently runs integration tests)
 
 ## Server
 - Uses [koa](http://koajs.com/) for http framework
@@ -17,5 +17,5 @@
 
 ## Database
 - Uses [Sequelize ORM](https://github.com/sequelize/sequelize) and its [CLI](https://github.com/sequelize/cli) to run seeds amd migrations. 
-- Run DB migrate: ``npm run db:migrate``
-- Run DB seed: ``npm run db:seed``
+- Run DB migrate: ``yarn run db:migrate``
+- Run DB seed: ``yarn run db:seed``
