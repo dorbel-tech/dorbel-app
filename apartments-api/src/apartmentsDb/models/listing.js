@@ -17,8 +17,7 @@ function define(sequelize, DataTypes) {
     classMethods: {
       associate: models => {
         models.listing.belongsTo(models.apartment, { foreignKey: { allowNull: false }, onDelete: 'CASCADE' });
-        models.listing.hasMany(models.image);
-        models.listing.hasMany(models.open_house_event);
+        models.listing.hasMany(models.image);        
       }
     }
   });
