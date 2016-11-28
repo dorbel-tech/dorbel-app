@@ -4,6 +4,7 @@ $dir: rtl;
 @import "~bootstrap-sass-directional/assets/stylesheets/_bootstrap.scss";
 @import "./rtl.scss";
 @import "./fonts.scss";
+@import url('https://cdnjs.cloudflare.com/ajax/libs/flickity/2.0.5/flickity.min.css');
 
 *,html,body{
   box-sizing: border-box !important;

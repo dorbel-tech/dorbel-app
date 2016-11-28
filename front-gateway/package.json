@@ -68,10 +68,12 @@
     "react-bootstrap-date-picker": "^3.7.0",
     "react-dom": "~15.3.0",
     "react-dropzone": "3.7.3",
+    "react-flickity-component": "0.1.0",
     "sass-loader": "^4.0.2",
     "sinon": "^1.17.6",
     "sinon-as-promised": "^4.0.2",
-    "style-loader": "^0.13.1",
+    "style-loader": "^0.13.1",    
+    "svg-sprite-loader": "0.0.31",
     "url-loader": "0.5.7",
     "webpack": "^1.13.2",
     "xhr2": "^0.1.3"

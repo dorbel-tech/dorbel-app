@@ -14,11 +14,13 @@ class App extends Component {
     const devTools = {
       mobx: process.env.NODE_ENV === 'development' ? require('mobx-react-devtools').default : (() => null)
     };
+    
+    const viewClassName = appStore.currentView.behindHeader ? 'full-height' : 'app-content-with-header full-height';   
 
     return (
       <div className="full-height">
         <AppHeader />
-        <div className="app-content-with-header full-height">
+        <div className={viewClassName}>
           <appStore.currentView {...appStore.routeParams} />
         </div>
         <devTools.mobx />

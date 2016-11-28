@@ -1,23 +1,57 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
+import svgIcons from '~/assets/images/images.sprite.svg';
+import './Apartment.scss';
+
+const Flickity = global.window ? require('react-flickity-component')(React) : 'div';
+
+const flickityOptions = {
+  cellAlign: 'left',
+  wrapAround: true,
+  rightToLeft: true,
+  pageDots: false
+};
 
 @observer(['appStore', 'appProviders'])
 class Apartment extends Component {
+  static behindHeader = true;
+
   componentDidMount() {
     this.props.appProviders.apartmentsProvider.loadSingleApartment(this.props.apartmentId);
   }
 
   renderImageGallery(apartment) {
-    return ( 
+    return (
       <header className="apt-header">
         <div className="container-fluid">
           <div className="row">
-            <div className="apt-gallery">
-              {apartment.images.map(image => (<div className="gallery-cell"><img src={image.url} /></div>))}
-            </div>
+            <Flickity options={flickityOptions} >
+              {apartment.images.map((image, index) => 
+                <img key={index} src={image.url.replace('upload','upload/h_500')}/>
+              )}
+            </Flickity>
           </div>
         </div>
-      </header>);
+      </header>
+    );
+  }
+
+  renderInfoBox(title, svgName) {
+    return (
+      <li className="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+        <a href="">
+          <svg><use xlinkHref={svgIcons + '_' + svgName} /></svg>
+          <div>{title}</div>
+        </a>
+      </li>
+    );
+  }
+
+  getFloorLabel(apartment) {
+    let label = 'קומה ' + apartment.floor;
+    if (apartment.building.floors) { label += '/' + apartment.building.floors }
+    if (apartment.building.elevator) { label += ' + מעלית'}
+    return label;
   }
 
   render() {
@@ -47,30 +81,10 @@ class Apartment extends Component {
             <div className="row">
               <div className="col-lg-9 col-md-12 col-sm-12 col-xs-12">
                 <ul className="row">
-                  <li className="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-                    <a href="">
-                      <svg><use href="assets/svg/images.svg#dorbel_icon_location"></use></svg>
-                      <div>טשרניחובסקי, תל אביב</div>
-                    </a>
-                  </li>
-                  <li className="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-                    <a href="">
-                      <svg><use href="assets/svg/images.svg#dorbel_icon_bed"></use></svg>
-                      <div>{listing.apartment.rooms} חדרים</div>
-                    </a>
-                  </li>
-                  <li className="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-                    <a href="">
-                      <svg><use href="assets/svg/images.svg#dorbel_icon_ruler"></use></svg>
-                      <div>{listing.apartment.size} מ״ר</div>
-                    </a>
-                  </li>
-                  <li className="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-                    <a href="">
-                      <svg><use href="assets/svg/images.svg#dorbel_icon_stairs"></use></svg>
-                      <div>קומה 3/4 + מעלית</div>
-                    </a>
-                  </li>
+                  {this.renderInfoBox(listing.apartment.building.street_name + ', ' + listing.apartment.building.city.city_name, 'dorbel_icon_location')}
+                  {this.renderInfoBox(listing.apartment.rooms + ' חדרים', 'dorbel_icon_bed')}
+                  {this.renderInfoBox(listing.apartment.size + ' מ"ר', 'dorbel_icon_ruler')}
+                  {this.renderInfoBox(this.getFloorLabel(listing.apartment), 'dorbel_icon_stairs')}
                 </ul>
               </div>
             </div>
