@@ -1,5 +1,10 @@
 # Image to pull.
-FROM node:4
+FROM node:6
+ENV NPM_CONFIG_LOGLEVEL warn
+
+# Create non root user for better security + npm doesn't like root.
+RUN groupadd -r nodejs && useradd -m -r -g nodejs nodejs
+USER nodejs
 
 # Working directory environment variable.
 ENV WORKDIR="/home/nodejs/app"

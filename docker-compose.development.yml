@@ -1,10 +1,13 @@
 # This file is meant to extend docker-compose.yml for development environment
 version: '2'
+<<<<<<< HEAD
 volumes:
   apartments-api-node_modules:
   front-gateway-node_modules:
   notifications-service-node_modules:
   ohe-api-node_modules:
+=======
+>>>>>>> origin/develop
 services:
 
   apartments-api:
@@ -15,7 +18,7 @@ services:
       - '5858:5858'
     volumes:
       - ./apartments-api:/home/nodejs/app
-      - apartments-api-node_modules:/home/nodejs/app/node_modules
+      - /home/nodejs/app/node_modules
     environment:
       NODE_ENV: ${NODE_ENV}
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
@@ -33,7 +36,7 @@ services:
       - '8888:8888'
     volumes:
       - ./front-gateway:/home/nodejs/app
-      - front-gateway-node_modules:/home/nodejs/app/node_modules
+      - /home/nodejs/app/node_modules
     environment:
       NODE_ENV: ${NODE_ENV}
       AUTH0_DOMAIN: ${AUTH0_DOMAIN}
@@ -48,7 +51,11 @@ services:
     image: dorbel/notifications-service:development
     volumes:
       - ./notifications-service:/home/nodejs/app
+<<<<<<< HEAD
       - notifications-service-node_modules:/home/nodejs/app/node_modules
+=======
+      - /home/nodejs/app/node_modules
+>>>>>>> origin/develop
     environment:
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
@@ -75,3 +82,4 @@ services:
       AWS_REGION: ${AWS_REGION}
       NOTIFICATIONS_SNS_TOPIC_ARN: ${NOTIFICATIONS_SNS_TOPIC_ARN}
     command: bash -c "./scripts/wait-for-it.sh db:3306 --timeout=180 && npm run start:dev"
+    
