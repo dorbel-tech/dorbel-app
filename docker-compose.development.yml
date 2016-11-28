@@ -1,13 +1,12 @@
 # This file is meant to extend docker-compose.yml for development environment
 version: '2'
-<<<<<<< HEAD
+
 volumes:
   apartments-api-node_modules:
   front-gateway-node_modules:
   notifications-service-node_modules:
   ohe-api-node_modules:
-=======
->>>>>>> origin/develop
+
 services:
 
   apartments-api:
@@ -45,17 +44,14 @@ services:
       CLOUDINARY_API_KEY: ${CLOUDINARY_API_KEY}
     command: bash -c "npm run build:dev& npm run start:dev" 
 
+  
   notifications-service:
     build:
       dockerfile: Dockerfile.dev  
     image: dorbel/notifications-service:development
     volumes:
       - ./notifications-service:/home/nodejs/app
-<<<<<<< HEAD
-      - notifications-service-node_modules:/home/nodejs/app/node_modules
-=======
       - /home/nodejs/app/node_modules
->>>>>>> origin/develop
     environment:
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
