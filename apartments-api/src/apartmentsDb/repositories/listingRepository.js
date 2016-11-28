@@ -26,8 +26,7 @@ function getById(id) {
       model: models.apartment, include: [ 
         { model: models.building, include : [ models.city, models.neighborhood ] } 
       ] },
-      models.image,
-      models.open_house_event
+      models.image
     ]
   });
 }
