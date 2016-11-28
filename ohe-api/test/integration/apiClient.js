@@ -13,7 +13,7 @@ class ApiClient {
 
   findEvent(existingEventId) {
     return this.request
-      .get('/v1/ohe?id=' + existingEventId)
+      .get('/v1/ohe/' + existingEventId)
       .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile));
   }
 
@@ -33,9 +33,8 @@ class ApiClient {
 
   deleteEvent(existingEventId) {
     return this.request
-      .delete('/v1/ohe')
-      .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile))
-      .send({ id: existingEventId });
+      .delete('/v1/ohe/' + existingEventId)
+      .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile));
   }
 
   static * init(userProfile) {

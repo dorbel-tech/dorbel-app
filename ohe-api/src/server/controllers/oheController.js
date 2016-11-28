@@ -5,7 +5,7 @@ const openHouseEventsService = require('../../services/openHouseEventsService');
 
 function* get() {
   logger.debug('Getting  open house event...');
-  let eventResult = yield openHouseEventsService.find(this.request.query.id);
+  let eventResult = yield openHouseEventsService.find(this.params.id);
   logger.info(eventResult.id, 'Open house event found');
   this.response.status = 200;
   this.response.body = eventResult;
@@ -29,7 +29,7 @@ function* put() {
 
 function* remove() {
   logger.debug('Updating open house event...');
-  let deletedEventResult = yield openHouseEventsService.remove(this.request.body.id);
+  let deletedEventResult = yield openHouseEventsService.remove(this.params.id);
   logger.info(deletedEventResult.id, 'Open house event deleted');
   this.response.status = 200;
 }
