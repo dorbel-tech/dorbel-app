@@ -1,7 +1,7 @@
 'use strict';
 
 function define(sequelize, DataTypes) {
-  return sequelize.define('ohe', {
+  return sequelize.define('open_house_event', {
     start_time: { type: DataTypes.DATE, allowNull: false },
     end_time: { type: DataTypes.DATE, allowNull: false },
     listing_id: { type: DataTypes.INTEGER, allowNull: false },

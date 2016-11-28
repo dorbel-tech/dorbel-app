@@ -4,7 +4,7 @@ const models = db.models;
 const _ = require('lodash');
 
 function* find(eventId) {
-  return yield models.ohe.findOne({
+  return yield models.open_house_event.findOne({
     where: {
       id: eventId,
       is_active: true
@@ -13,7 +13,7 @@ function* find(eventId) {
 }
 
 function* findByListingId(listing_id) {
-  return yield models.ohe.findAll({
+  return yield models.open_house_event.findAll({
     where: {
       listing_id: listing_id,
       is_active: true
@@ -22,12 +22,11 @@ function* findByListingId(listing_id) {
 }
 
 function* create(openHouseEvent) {
-  return yield db.models.ohe.create(openHouseEvent);
+  return yield db.models.open_house_event.create(openHouseEvent);
 }
 
 function* update(openHouseEvent) {
-  let ohe = yield find(openHouseEvent.id);
-  return yield ohe.update({
+  return yield openHouseEvent.update({
     start_time: openHouseEvent.start_time,
     end_time: openHouseEvent.end_time,
     is_active: openHouseEvent.is_active

@@ -1,21 +1,13 @@
 {
   "name": "dorbel-front",
-<<<<<<< HEAD
-  "version": "0.0.29",
-=======
   "version": "0.0.33",
->>>>>>> origin/develop
   "description": "Front end application for dorbel",
   "main": "index.js",
   "scripts": {
     "clean": "rm -rf ./public/build",
     "start": "babel-node src/server/server.js",
     "build": "npm run clean && webpack",
-<<<<<<< HEAD
-    "start:dev": "npm run check; nodemon --exec babel-node src/server/server.js | bunyan",
-=======
     "start:dev": "nodemon --exec babel-node src/server/server.js | bunyan",
->>>>>>> origin/develop
     "build:dev": "NODE_ENV=development webpack-dev-server --content-base public -ds --config webpack.config.js --host 0.0.0.0 --hot --colors --inline --no-info",
     "test": "npm run test:unit",
     "test:unit": "jest",

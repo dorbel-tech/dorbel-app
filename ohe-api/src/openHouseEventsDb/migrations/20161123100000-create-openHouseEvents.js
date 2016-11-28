@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: function(queryInterface, Sequelize) {
-    return queryInterface.createTable('ohes', {
+    return queryInterface.createTable('open_house_events', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -24,17 +24,17 @@ module.exports = {
         allowNull: false,
         type: Sequelize.BOOLEAN
       },
-      createdAt: {
+      created_at: {
         allowNull: false,
         type: Sequelize.DATE
       },
-      updatedAt: {
+      updated_at: {
         allowNull: false,
         type: Sequelize.DATE
       }
     });
   },
   down: function(queryInterface) {
-    return queryInterface.dropTable('ohes');
+    return queryInterface.dropTable('open_house_events');
   }
 };
