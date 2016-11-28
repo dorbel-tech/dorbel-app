@@ -12,6 +12,7 @@ xcode-select --install
 
 # Install node
 brew install node
+brew install yarn
 
 # Install git
 brew install git

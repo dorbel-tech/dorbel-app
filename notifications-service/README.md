@@ -2,11 +2,11 @@
 > Worker to process notifications messages from SQS and dispatch using Email or SMS.
 
 ## Scripts
-- Install using ``npm install``
-- Start using ``npm start``
-- Start development using ``npm run start:dev``
+- Install using ``yarn install``
+- Start using ``yarn start``
+- Start development using ``yarn run start:dev``
   - will restart server when files are changed.
-- Run tests using ``npm test`` (currently runs integration tests)
+- Run tests using ``yarn test`` (currently runs integration tests)
 
 ## Server
 - Uses [koa](http://koajs.com/) for http framework
