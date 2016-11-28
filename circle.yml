@@ -19,28 +19,35 @@ machine:
     - mysql
 
 dependencies:
+  pre:
+    # Install Yarn
+    - sudo apt-key adv --fetch-keys http://dl.yarnpkg.com/debian/pubkey.gpg
+    - echo "deb http://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+    - sudo apt-get update -qq
+    - sudo apt-get install -y -qq yarn
   override:
-    - npm --prefix ./apartments-api install --silent --production
-    - npm --prefix ./apartments-api install --silent --production
-    - npm --prefix ./notifications-service install --silent --production
+    - cd apartments-api && yarn install
+    - cd front-gateway && yarn install
+    - cd notifications-service && yarn install
   cache_directories:
+    - ~/.yarn-cache
     - "apartments-api/node_modules"
     - "front-gateway/node_modules"
     - "notifications-service/node_modules"
 
 test:
   override:
-    - npm --prefix ./apartments-api run lint 
-    - npm --prefix ./front-gateway run lint
-    - npm --prefix ./notifications-service run lint
-    - npm --prefix ./apartments-api run db:migrate
-    - npm --prefix ./apartments-api run db:seed
-    - npm --prefix ./apartments-api test
-    - npm --prefix ./apartments-api run test:integration
-    - npm --prefix ./front-gateway test 
-    - npm --prefix ./front-gateway run test:e2e 
-    - npm --prefix ./notifications-service test 
-    - npm --prefix ./notifications-service run test:integration
+    - cd apartments-api && yarn run lint 
+    - cd front-gateway && yarn run lint
+    - cd notifications-service run lint
+    - cd apartments-api && yarn run db:migrate
+    - cd apartments-api && yarn run db:seed
+    - cd apartments-api && yarn test
+    - cd apartments-api && yarn run test:integration
+    - cd front-gateway && yarn test 
+    - cd front-gateway && yarn run test:e2e 
+    - cd notifications-service test 
+    - cd notifications-service run test:integration
 
 deployment:
   staging:
@@ -49,6 +56,6 @@ deployment:
       - sudo apt-get update
       - sudo apt-get install python2.7-dev
       - sudo pip install awsebcli
-      - npm run deploy apartments-api stage
-      - npm run deploy front-gateway stage
-      - npm run deploy notifications-service stage    
+      - yarn run deploy apartments-api stage
+      - yarn run deploy front-gateway stage
+      - yarn run deploy notifications-service stage    
