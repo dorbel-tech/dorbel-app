@@ -60,13 +60,6 @@ function* create(listing) {
     });
   }
 
-  if (listing.open_house_events) {
-    savedListing.open_house_events = yield listing.open_house_events.map(ohe => {
-      ohe.listing_id = savedListing.id;
-      return models.open_house_event.create(ohe);
-    });
-  }
-
   return savedListing;
 }
 
