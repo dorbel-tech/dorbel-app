@@ -15,7 +15,9 @@ class Header extends Component {
                   <span className="icon-bar"></span>
                   <span className="icon-bar"></span>
                 </button>
-                <NavLink className="navbar-brand" to="/"><h6>dorbel</h6></NavLink>
+                <NavLink className="navbar-brand" to="/">
+                  <h1 className="text-hide dorbel-logo">dorbel</h1>                  
+                </NavLink>
             </div>
             <div id="navbar" className="navbar-collapse collapse">
                 <form className="navbar-form navbar-left">
