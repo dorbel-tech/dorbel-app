@@ -31,9 +31,6 @@ dependencies:
     - cd notifications-service && yarn install
   cache_directories:
     - ~/.yarn-cache
-    - "apartments-api/node_modules"
-    - "front-gateway/node_modules"
-    - "notifications-service/node_modules"
 
 test:
   override:
