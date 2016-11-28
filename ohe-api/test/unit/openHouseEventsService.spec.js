@@ -583,10 +583,10 @@ describe('Open House Event Service', function () {
                 is_active: true
             });
 
-            this.openHouseEventsRepositoryMock.register = sinon.stub().resolves(true);
+            this.openHouseEventsRepositoryMock.createRegistration = sinon.stub().resolves(true);
 
             const oheId = 1;
-            const userId = 1;
+            const userId = 'user';
 
             const registrationResponse = yield this.openHouseEventsService.register(oheId, userId);
             __.assertThat(registrationResponse, __.is(true));
@@ -622,21 +622,25 @@ describe('Open House Event Service', function () {
     describe('UnRegister an Open House Event', function () {
 
         it('should unregister a user from an event', function* () {
-            this.openHouseEventsRepositoryMock.find = sinon.stub().resolves({
+            this.openHouseEventsRepositoryMock.findRegistration = sinon.stub().resolves({
                 id: 1,
-                listing_id: 1,
-                start_time: moment().add(-4, 'hours'),
-                end_time: moment().add(-3, 'hours'),
+                eventId: 1,
+                userId: 'user',
                 is_active: true
             });
 
-            this.openHouseEventsRepositoryMock.unregister = sinon.stub().resolves(true);
+            this.openHouseEventsRepositoryMock.updateRegistration = sinon.stub().resolves({
+                id: 1,
+                eventId: 1,
+                userId: 'user',
+                is_active: false
+            });
 
             const oheId = 1;
-            const userId = 1;
+            const userId = 'user';
 
             const registrationResponse = yield this.openHouseEventsService.unregister(oheId, userId);
-            __.assertThat(registrationResponse, __.is(true));
+            __.assertThat(registrationResponse.is_active, __.is(false));
         });
 
         it('should fail when the event id a user unregisters is not valid', function* () {
@@ -647,7 +651,7 @@ describe('Open House Event Service', function () {
                 __.assertThat('code', __.is('not reached'));
             }
             catch (error) {
-                __.assertThat(error.message, __.is('event id is not valid'));
+                __.assertThat(error.message, __.is('registration id is not valid'));
             }
         });
 

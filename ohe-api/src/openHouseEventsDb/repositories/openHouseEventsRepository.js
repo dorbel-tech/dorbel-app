@@ -33,9 +33,31 @@ function* update(openHouseEvent) {
   });
 }
 
+function* findRegistration(registrationId) {
+  return yield models.registration.findOne({
+    where: {
+      id: registrationId,
+      is_active: true
+    }
+  });
+}
+
+function* createRegistration(eventRegistration) {
+  return yield db.models.registration.create(eventRegistration);
+}
+
+function* updateRegistration(eventRegistration) {
+  return yield eventRegistration.update({
+    is_active: eventRegistration.is_active
+  });
+}
+
 module.exports = {
   find,
   findByListingId,
   create,
-  update
+  update,
+  findRegistration,
+  createRegistration,
+  updateRegistration
 };
