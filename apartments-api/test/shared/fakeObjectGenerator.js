@@ -25,8 +25,7 @@ function getFakeListing() {
         }
       }
     },
-    images: [{ url: faker.internet.url() }],
-    open_house_events: [{ start_time: new Date(), end_time: new Date() }]
+    images: [{ url: faker.internet.url() }]
   };
 }
 

@@ -2,7 +2,7 @@
 const shared = require('dorbel-shared');
 const config = shared.config; 
 const messageBus = shared.utils.messageBus;
-const listingRepository = require('../apartmentDb/repositories/listingRepository');
+const listingRepository = require('../apartmentsDb/repositories/listingRepository');
 const moment = require('moment');
 
 // TODO : move this to dorbel-shared
@@ -13,10 +13,6 @@ function CustomError(code, message) {
 }
 
 function* create(listing) {
-  if (!listing.open_house_events || !listing.open_house_events.length) {
-    throw new CustomError(400, 'listing must contain at least one open house event');
-  }
-
   const existingOpenListingForApartment = yield listingRepository.getListingsForApartment(listing.apartment, { status: { $notIn: ['closed', 'rented'] } });
   if (existingOpenListingForApartment && existingOpenListingForApartment.length) {
     throw new CustomError(409, 'apartment already has an active listing');

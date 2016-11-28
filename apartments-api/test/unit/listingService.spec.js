@@ -12,7 +12,7 @@ describe('Listing Service', function () {
       create: sinon.stub().resolves(this.mockListing),
       getListingsForApartment: sinon.stub().resolves([])
     };
-    mockRequire('../../src/apartmentDb/repositories/listingRepository', this.listingRepositoryMock);
+    mockRequire('../../src/apartmentsDb/repositories/listingRepository', this.listingRepositoryMock);
     this.listingService = require('../../src/services/listingService');
   });
 
@@ -37,19 +37,6 @@ describe('Listing Service', function () {
 
       let newListing = yield this.listingService.create(badListing);
       __.assertThat(newListing, __.is(this.mockListing));
-    });
-
-    it('should not create a new listing without at least one open house event', function* () {
-      let badListing = faker.getFakeListing();
-      badListing.open_house_events = [];
-
-      try {
-        yield this.listingService.create(badListing);
-        __.assertThat('code', __.is('not reached'));
-      }
-      catch (error) {
-        __.assertThat(error.message, __.is('listing must contain at least one open house event'));
-      }
     });
 
     it('should not create a new listing if apartment already has a non-closed listing', function* () {
