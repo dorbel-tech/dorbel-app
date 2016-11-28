@@ -1,7 +1,7 @@
 'use strict';
 const listingService = require('../../services/listingService');
 
-function* get(next) {
+function* get() {
   this.response.body = yield listingService.getById(this.params.listingId);
 }
 
