@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import svgIcons from '~/assets/images/images.sprite.svg';
 import './Apartment.scss';
+import OHEList from './OHEList.jsx';
 
 const Flickity = global.window ? require('react-flickity-component')(React) : 'div';
 
@@ -22,6 +23,7 @@ class Apartment extends Component {
 
   renderImageGallery(apartment) {
     return (
+
       <header className="apt-header">
         <div className="container-fluid">
           <div className="row">
@@ -49,8 +51,8 @@ class Apartment extends Component {
 
   getFloorLabel(apartment) {
     let label = 'קומה ' + apartment.floor;
-    if (apartment.building.floors) { label += '/' + apartment.building.floors }
-    if (apartment.building.elevator) { label += ' + מעלית'}
+    if (apartment.building.floors) { label += '/' + apartment.building.floors; }
+    if (apartment.building.elevator) { label += ' + מעלית'; }
     return label;
   }
 
@@ -67,6 +69,7 @@ class Apartment extends Component {
     return (
       <div>
         {this.renderImageGallery(listing)}
+        <OHEList listing={listing} />
         <div className="container-fluid apt-headline-container">
           <div className="container">
             <div className="row">
