@@ -126,10 +126,28 @@ function* remove(eventId){
     return yield openHouseEventsRepository.update(existingEvent);
 }
 
+function* register(eventId, userId){
+    let existingEvent = yield find(eventId);
+    return yield openHouseEventsRepository.register({
+        eventId: eventId,
+        userId: userId
+    });
+}
+
+function* unregister(eventId, userId){
+    let existingEvent = yield find(eventId);
+    return yield openHouseEventsRepository.unregister({
+        eventId: eventId,
+        userId: userId
+    });
+}
+
 module.exports = {
     find,
     create,
     update,
     remove,
+    register,
+    unregister,
     OpenHouseEventValidationError
 };

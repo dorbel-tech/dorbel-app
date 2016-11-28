@@ -571,4 +571,98 @@ describe('Open House Event Service', function () {
             }
         });
     });
+
+    describe('Register To Open House Event', function () {
+
+        it('should register a user to an event', function* () {
+            this.openHouseEventsRepositoryMock.find = sinon.stub().resolves({
+                id: 1,
+                listing_id: 1,
+                start_time: moment().add(-4, 'hours'),
+                end_time: moment().add(-3, 'hours'),
+                is_active: true
+            });
+
+            this.openHouseEventsRepositoryMock.register = sinon.stub().resolves(true);
+
+            const oheId = 1;
+            const userId = 1;
+
+            const registrationResponse = yield this.openHouseEventsService.register(oheId, userId);
+            __.assertThat(registrationResponse, __.is(true));
+        });
+
+        it('should fail when the event id a user registers is not valid', function* () {
+            let oheId = 'a';
+
+            try {
+                yield this.openHouseEventsService.register(oheId);
+                __.assertThat('code', __.is('not reached'));
+            }
+            catch (error) {
+                __.assertThat(error.message, __.is('event id is not valid'));
+            }
+        });
+
+        it('should fail when the event a user registers does not exists in db', function* () {
+            this.openHouseEventsRepositoryMock.find = sinon.stub().resolves(null);
+
+            let oheId = 1;
+
+            try {
+                yield this.openHouseEventsService.register(oheId);
+                // __.assertThat('code', __.is('not reached'));
+            }
+            catch (error) {
+                __.assertThat(error.message, __.is('event does not exist'));
+            }
+        });
+    });
+
+    describe('UnRegister an Open House Event', function () {
+
+        it('should unregister a user from an event', function* () {
+            this.openHouseEventsRepositoryMock.find = sinon.stub().resolves({
+                id: 1,
+                listing_id: 1,
+                start_time: moment().add(-4, 'hours'),
+                end_time: moment().add(-3, 'hours'),
+                is_active: true
+            });
+
+            this.openHouseEventsRepositoryMock.unregister = sinon.stub().resolves(true);
+
+            const oheId = 1;
+            const userId = 1;
+
+            const registrationResponse = yield this.openHouseEventsService.unregister(oheId, userId);
+            __.assertThat(registrationResponse, __.is(true));
+        });
+
+        it('should fail when the event id a user unregisters is not valid', function* () {
+            let oheId = 'a';
+
+            try {
+                yield this.openHouseEventsService.unregister(oheId);
+                __.assertThat('code', __.is('not reached'));
+            }
+            catch (error) {
+                __.assertThat(error.message, __.is('event id is not valid'));
+            }
+        });
+
+        it('should fail when the event a user unregisters does not exists in db', function* () {
+            this.openHouseEventsRepositoryMock.find = sinon.stub().resolves(null);
+
+            let oheId = 1;
+
+            try {
+                yield this.openHouseEventsService.unregister(oheId);
+                // __.assertThat('code', __.is('not reached'));
+            }
+            catch (error) {
+                __.assertThat(error.message, __.is('event does not exist'));
+            }
+        });
+    });
 });
