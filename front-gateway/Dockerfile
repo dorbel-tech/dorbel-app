@@ -1,30 +1,31 @@
 # Image to pull.
-FROM node:6
-ENV NPM_CONFIG_LOGLEVEL warn
+FROM kkarczmarczyk/node-yarn:6.9
 
 # Create non root user for better security + npm doesn't like root.
 RUN groupadd -r nodejs && useradd -m -r -g nodejs nodejs
 USER nodejs
 
 # Working directory environment variable.
-ENV WORKDIR="/home/nodejs/app"
+ENV WORKDIR="/home/nodejs/app/"
 
 # Create working directory in container.
 RUN mkdir -p $WORKDIR
 WORKDIR $WORKDIR
 
 # Install dependencies before to cache node_modules.
-COPY package.json $WORKDIR
-RUN npm install --silent --production
+COPY package.json yarn.lock $WORKDIR
+RUN yarn install
 
 # Copy all files from host to container.
 COPY . $WORKDIR
 
 # Build client
-RUN npm run build --silent
+USER root
+RUN yarn run build
+USER nodejs
 
 # Open port
 EXPOSE 3001
 
 # Run node server.
-CMD [ "npm", "start" ]
+CMD [ "yarn", "start" ]
