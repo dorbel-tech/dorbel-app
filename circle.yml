@@ -37,17 +37,18 @@ dependencies:
 test:
   override:
     - cd apartments-api && yarn run lint 
-    - cd front-gateway && yarn run lint
-    - cd notifications-service && yarn run lint
-    - cd ohe-api && yarn run lint
     - cd apartments-api && yarn run db:migrate
     - cd apartments-api && yarn run db:seed
     - cd apartments-api && yarn test
     - cd apartments-api && yarn run test:integration
+    - cd front-gateway && yarn run lint
     - cd front-gateway && yarn test 
     - cd front-gateway && yarn run test:e2e 
+    - cd notifications-service && yarn run lint
     - cd notifications-service && yarn test 
     - cd notifications-service && yarn run test:integration
+    - cd ohe-api && yarn run lint
+    - cd ohe-api && yarn run db:migrate
     - cd ohe-api && yarn test 
     - cd ohe-api && yarn run test:integration
 

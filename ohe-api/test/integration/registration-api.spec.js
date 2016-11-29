@@ -1,5 +1,5 @@
 'use strict';
-describe('Open House Events API Integration', function () {
+describe('Open House Events Registration API Integration', function () {
   const ApiClient = require('./apiClient.js');
   const __ = require('hamjest');
   const _ = require('lodash');
