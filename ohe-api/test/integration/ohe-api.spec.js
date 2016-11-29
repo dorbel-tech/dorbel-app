@@ -25,8 +25,10 @@ describe('Open House Events API Integration', function () {
           listing_id: getRandomNumber()
         };
         const newEventReponse = yield this.apiClient.createNewEvent(ohe).expect(201).end();
-        let newEvent = newEventReponse.body;
-        const existingEvent = yield this.apiClient.findEvent(newEvent.id).expect(200).end();
+        const newEvent = newEventReponse.body;
+        const existingEventResponse = yield this.apiClient.findEvent(newEvent.id).expect(200).end();
+        const existingEvent = existingEventResponse.body;
+        __.assertThat(newEvent.id, __.is(existingEvent.id));
       });
 
       it('should return an error for non existing event', function* () {
@@ -58,7 +60,7 @@ describe('Open House Events API Integration', function () {
         let newEvent = newEventReponse.body;
         newEvent.start_time = moment().add(-10, 'hours').toISOString();
         newEvent.start_time = moment().add(-9, 'hours').toISOString();
-        const updatedEvent = yield this.apiClient.updateEvent(newEvent).expect(200).end();
+        yield this.apiClient.updateEvent(newEvent).expect(200).end();
       });
 
       it('should return an error for non existing event', function* () {
@@ -81,7 +83,7 @@ describe('Open House Events API Integration', function () {
         };
         const newEventReponse = yield this.apiClient.createNewEvent(ohe).expect(201).end();
         let newEvent = newEventReponse.body;
-        const deletedEvent = yield this.apiClient.deleteEvent(newEvent.id).expect(200).end();
+        yield this.apiClient.deleteEvent(newEvent.id).expect(200).end();
       });
 
       it('should return an error for non existing event', function* () {

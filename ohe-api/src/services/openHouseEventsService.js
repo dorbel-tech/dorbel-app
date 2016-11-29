@@ -33,6 +33,10 @@ function validateEventIsNotNotOverlappingExistingEvents(existingListingEvents, l
   });
 }
 
+function* list(listingId){
+  return yield openHouseEventsRepository.findByListingId(listingId);
+}
+
 function* find(eventId) {
   const existingEvent = yield openHouseEventsRepository.find(eventId);
   if (existingEvent == undefined) {
@@ -116,6 +120,7 @@ function* unregister(registrationId) {
 }
 
 module.exports = {
+  list,
   find,
   create,
   update,

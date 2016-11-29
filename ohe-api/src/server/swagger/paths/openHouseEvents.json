@@ -149,5 +149,44 @@
         }
       }
     }
+  },
+  "/ohe/by-listing/{id}": {
+    "get": {
+      "summary": "Finds all an open house events for a listing",
+      "description": "Finds all an open house events for a listing in the system",
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "type":"string",
+          "required": true
+        },
+        {
+          "name": "x-user-profile",
+          "in": "header",
+          "required": true,
+          "type": "string",
+          "description": "Stringified JSON object with the user's profile information"
+        }
+      ],
+      "tags": [
+        "listingEventsController",
+        "authenticated"
+      ],
+      "responses": {
+        "200": {
+          "description": "Open house event for listing found succesfully",
+          "schema": {
+            "$ref": "#/definitions/ListingEvents"
+          }
+        },
+        "default": {
+          "description": "Unexpected error",
+          "schema": {
+            "$ref": "#/definitions/Error"
+          }
+        }
+      }
+    }
   }
 }

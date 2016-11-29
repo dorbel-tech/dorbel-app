@@ -11,6 +11,12 @@ class ApiClient {
     this.userProfile = userProfile;
   }
 
+  findEventsByListing(listingId) {
+    return this.request
+      .get('/v1/ohe/by-listing/' + listingId)
+      .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile));
+  }
+
   findEvent(existingEventId) {
     return this.request
       .get('/v1/ohe/' + existingEventId)
