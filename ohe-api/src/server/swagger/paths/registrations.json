@@ -1,8 +1,8 @@
 {
   "/registration": {
     "post": {
-      "summary": "Create an open house event",
-      "description": "Create an open house event to the system",
+      "summary": "Create an open house event registration",
+      "description": "Create an open house event registration to the system",
       "parameters": [
         {
           "name": "body",
@@ -25,7 +25,10 @@
       ],
       "responses": {
         "201": {
-          "description": "Registration created succesfully"
+          "description": "Registration created succesfully",
+          "schema": {
+            "$ref": "#/definitions/Registration"
+          }
         },
         "default": {
           "description": "Unexpected error",
