@@ -1,7 +1,6 @@
 'use strict';
 const db = require('../dbConnectionProvider');
 const models = db.models;
-const _ = require('lodash');
 
 function* find(eventId) {
   return yield models.open_house_event.findOne({
