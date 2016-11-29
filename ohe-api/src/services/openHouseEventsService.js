@@ -38,11 +38,6 @@ function validateEventIsNotOverlappingExistingEvents(existingListingEvents, list
 }
 
 function sendNotification(messageType, data) {
-  if (!messageBus) {
-    logger.debug(data, 'notification not sent for %s - message bus is undefined', messageType);
-    return;
-  }
-
   const topic = config.get('NOTIFICATIONS_SNS_TOPIC_ARN');
   if (topic == undefined) {
     logger.debug(data, 'notification not sent for %s - topic is undefined', messageType);
