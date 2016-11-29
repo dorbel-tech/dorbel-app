@@ -1,18 +1,10 @@
 # This file is meant to extend docker-compose.yml for development environment
 version: '2'
 
-volumes:
-  apartments-api-node_modules:
-  front-gateway-node_modules:
-  notifications-service-node_modules:
-  ohe-api-node_modules:
-
 services:
 
   apartments-api:
-    build:
-      dockerfile: Dockerfile.dev  
-    image: dorbel/apartments-api:development
+    image: dorbel/apartments-api
     ports:
       - '5858:5858'
     volumes:
@@ -24,31 +16,28 @@ services:
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
       AWS_REGION: ${AWS_REGION}
       NOTIFICATIONS_SNS_TOPIC_ARN: ${NOTIFICATIONS_SNS_TOPIC_ARN}
-    command: bash -c "./scripts/wait-for-it.sh db:3306 --timeout=180 && npm run start:dev"
+    command: bash -c "./scripts/wait-for-it.sh db:3306 --timeout=180 && yarn run start:dev"
 
   front-gateway:
-    build:
-      dockerfile: Dockerfile.dev  
-    image: dorbel/front-gateway:development
+    image: dorbel/front-gateway
     ports:
       - '5859:5859'
       - '8888:8888'
     volumes:
       - ./front-gateway:/home/nodejs/app
       - /home/nodejs/app/node_modules
+      - /home/nodejs/app/public/build
     environment:
       NODE_ENV: ${NODE_ENV}
       AUTH0_DOMAIN: ${AUTH0_DOMAIN}
       AUTH0_CLIENT_ID: ${AUTH0_CLIENT_ID}
       CLOUDINARY_SECRET: ${CLOUDINARY_SECRET}
       CLOUDINARY_API_KEY: ${CLOUDINARY_API_KEY}
-    command: bash -c "npm run build:dev& npm run start:dev" 
+    command: bash -c "yarn run build:dev& yarn run start:dev" 
 
   
   notifications-service:
-    build:
-      dockerfile: Dockerfile.dev  
-    image: dorbel/notifications-service:development
+    image: dorbel/notifications-service
     volumes:
       - ./notifications-service:/home/nodejs/app
       - /home/nodejs/app/node_modules
@@ -62,22 +51,21 @@ services:
       TWILIO_ACCOUNT_SID: ${TWILIO_ACCOUNT_SID}
       TWILIO_AUTH_TOKEN: ${TWILIO_AUTH_TOKEN}
       TWILIO_PHONE_NUMBER: ${TWILIO_PHONE_NUMBER}
-    command: npm run start:dev
+    command: yarn run start:dev  
 
   ohe-api:
-    build:
-      dockerfile: Dockerfile.dev  
     image: dorbel/ohe-api:development
     ports:
       - '5860:5860'
     volumes:
       - ./ohe-api:/home/nodejs/app
-      - ohe-api-node_modules:/home/nodejs/app/node_modules
+      - /home/nodejs/app/node_modules
     environment:
       NODE_ENV: ${NODE_ENV}
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
       AWS_REGION: ${AWS_REGION}
       NOTIFICATIONS_SNS_TOPIC_ARN: ${NOTIFICATIONS_SNS_TOPIC_ARN}
-    command: bash -c "./scripts/wait-for-it.sh db:3306 --timeout=180 && npm run start:dev"
+    command: bash -c "./scripts/wait-for-it.sh db:3306 --timeout=180 && yarn run start:dev"
+    
     
