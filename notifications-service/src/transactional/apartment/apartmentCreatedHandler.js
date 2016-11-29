@@ -9,18 +9,24 @@ const userManagement = shared.utils.userManagement;
 
 function send(messageType, messageBody) {
   const message = JSON.parse(messageBody.Message);
-  logger.info(userManagement);
-  let userDetails = userManagement.getUserDetails(message.dataPayload.uuid);
+  
+  userManagement.getUserDetails(message.dataPayload.user_uuid)
+    .then(userDetails => {
+      logger.debug({userDetails}, 'userDetails');
 
-  switch (messageType) {
-    case 'Email':
-      return sendEmail(messageBody, userDetails);
-    case 'SMS':
-      return sendSMS(messageBody, userDetails);
+      switch (messageType) {
+        case 'Email':
+          return sendEmail(messageBody, userDetails);
+        case 'SMS':
+          return sendSMS(messageBody, userDetails);
 
-    default:
-      throw new Error('Message type wasnt defined!');
-  }
+        default:
+          throw new Error('Message type wasnt defined!');
+      }
+    })
+    .catch(err => {
+      logger.error(err);
+    });
 }
 
 function sendEmail(messageBody, userDetails) {
