@@ -68,6 +68,8 @@ services:
     build:
       dockerfile: Dockerfile.dev  
     image: dorbel/ohe-api:development
+    ports:
+      - '5860:5860'
     volumes:
       - ./ohe-api:/home/nodejs/app
       - ohe-api-node_modules:/home/nodejs/app/node_modules

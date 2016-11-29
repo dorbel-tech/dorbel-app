@@ -1,5 +1,5 @@
 'use strict';
-describe('Apartments API Integration', function() {
+describe('Open House Events API Integration', function() {
     const ApiClient = require('./apiClient.js');
     const __ = require('hamjest');
     const _ = require('lodash');
@@ -17,7 +17,7 @@ describe('Apartments API Integration', function() {
     }
 
     describe('/ohe', function() {
-        describe('/get', function() {
+        describe('/get{id}', function() {
             it('should find an open house event', function* () {
                 const ohe = {
                     start_time: moment().add(-2, 'hours').toISOString(),
@@ -57,7 +57,7 @@ describe('Apartments API Integration', function() {
             });
         });
 
-        describe('/delete', function() {
+        describe('/delete/{id}', function() {
             it('should delete an existing open house event', function* () {
                 const ohe = {
                     start_time: moment().add(-2, 'hours').toISOString(),

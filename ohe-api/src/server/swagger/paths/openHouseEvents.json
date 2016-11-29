@@ -21,7 +21,7 @@
       ],
       "tags": [
         "oheController",
-        "authenticate"
+        "authenticated"
       ],
       "responses": {
         "201": {
@@ -59,7 +59,7 @@
       ],
       "tags": [
         "oheController",
-        "authenticate"
+        "authenticated"
       ],
       "responses": {
         "200": {
@@ -98,7 +98,7 @@
       ],
       "tags": [
         "oheController",
-        "authenticate"
+        "authenticated"
       ],
       "responses": {
         "201": {
@@ -135,7 +135,7 @@
       ],
       "tags": [
         "oheController",
-        "authenticate"
+        "authenticated"
       ],
       "responses": {
         "200": {

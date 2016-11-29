@@ -9,27 +9,7 @@ function OpenHouseEventValidationError(message) {
     this.message = message;
 }
 
-function isValidNumber(value) {
-    return Number.isInteger(value);
-}
-
-function isValidDate(date) {
-    return date.isValid();
-}
-
 function validateEventParamters(listing_id, start, end) {
-    // TODO:  make sure listing exists (call apartements API).
-    // For now just make sure listing id is provided
-    if (!isValidNumber(listing_id)) {
-        throw new OpenHouseEventValidationError('listing id is not valid');
-    }
-    if (!isValidDate(start)) {
-        throw new OpenHouseEventValidationError('start time is not valid');
-    }
-    if (!isValidDate(end)) {
-        throw new OpenHouseEventValidationError('end time is not valid');
-    }
-
     if (end.diff(start, 'minutes') < 30) {
         throw new OpenHouseEventValidationError('open house event should be at least 30 minutes');
     }
@@ -46,12 +26,7 @@ function validateEventIsNotNotOverlappingExistingEvents(existingListingEvents, l
 }
 
 function* find(eventId) {
-    const id = parseInt(eventId);
-    if (!isValidNumber(id)) {
-        throw new OpenHouseEventValidationError('event id is not valid');
-    }
-
-    const existingEvent = yield openHouseEventsRepository.find(id);
+    const existingEvent = yield openHouseEventsRepository.find(eventId);
     if (existingEvent == undefined) {
         throw new OpenHouseEventValidationError('event does not exist');
     }
@@ -107,22 +82,25 @@ function* remove(eventId) {
 
 function* register(eventId, userId) {
     let existingEvent = yield find(eventId);
+    if (existingEvent.registrations) {
+        existingEvent.registrations.forEach(function (registration) {
+            if (registration.user_id == userId) {
+                throw new OpenHouseEventValidationError('user already registered to this event');
+            }
+        });
+    }
+
     const registration = {
-        eventId: eventId,
-        userId: userId,
+        open_house_event_id: eventId,
+        user_id: userId,
         is_active: true
     }
     return yield openHouseEventsRepository.createRegistration(registration);
 }
 
 function* unregister(registrationId) {
-    const id = parseInt(registrationId);
-    if (!isValidNumber(id)) {
-        throw new OpenHouseEventValidationError('registration id is not valid');
-    }
-
     let existingRegistration = yield openHouseEventsRepository.findRegistration(registrationId);
-    if(existingRegistration == undefined){
+    if (existingRegistration == undefined) {
         throw new OpenHouseEventValidationError('registration does not exist');
     }
     existingRegistration.is_active = false;

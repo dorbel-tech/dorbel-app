@@ -16,7 +16,7 @@ module.exports.connect = function* connect() {
         max: 10,
         min: 0
       },
-      logging: console.log,
+      logging: false,
       define: { // default definitions for models
         underscored: true,
         charset: 'utf8',

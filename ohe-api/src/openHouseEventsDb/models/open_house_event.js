@@ -6,6 +6,10 @@ function define(sequelize, DataTypes) {
     end_time: { type: DataTypes.DATE, allowNull: false },
     listing_id: { type: DataTypes.INTEGER, allowNull: false },
     is_active: { type: DataTypes.BOOLEAN, allowNull: false }
+  }, {
+    classMethods: {
+      associate: models => models.open_house_event.hasMany(models.registration, { foreignKey: { allowNull: false }, onDelete: 'CASCADE' })
+    }
   });
 }
 

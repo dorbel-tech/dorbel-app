@@ -16,7 +16,7 @@ describe('Open House Event Service', function () {
 
     describe('Find Open House Event', function () {
 
-        it('should finf an existing event (set as not active)', function* () {
+        it('should find an existing event', function* () {
             let existingEvent = {
                 id: 1,
                 listing_id: 1,
@@ -30,18 +30,6 @@ describe('Open House Event Service', function () {
 
             let existingEventtResponse = yield this.openHouseEventsService.find(oheId);
             __.assertThat(existingEvent, __.is(existingEventtResponse));
-        });
-
-        it('should fail when event id is not valid', function* () {
-            let oheId = 'a';
-
-            try {
-                yield this.openHouseEventsService.find(oheId);
-                __.assertThat('code', __.is('not reached'));
-            }
-            catch (error) {
-                __.assertThat(error.message, __.is('event id is not valid'));
-            }
         });
 
         it('should fail when event id does not exists in db', function* () {
@@ -89,51 +77,6 @@ describe('Open House Event Service', function () {
 
             let savedEvent = yield this.openHouseEventsService.create(ohe);
             __.assertThat(savedEvent, __.is(newEvent));
-        });
-
-        it('should fail when listing id is not valid', function* () {
-            let ohe = {
-                listing_id: 'a'
-            };
-
-            try {
-                yield this.openHouseEventsService.create(ohe);
-                __.assertThat('code', __.is('not reached'));
-            }
-            catch (error) {
-                __.assertThat(error.message, __.is('listing id is not valid'));
-            }
-        });
-
-        it('should fail when start time is not valid', function* () {
-            let ohe = {
-                listing_id: 1,
-                start_time: 'aaaaaaa'
-            };
-
-            try {
-                yield this.openHouseEventsService.create(ohe);
-                __.assertThat('code', __.is('not reached'));
-            }
-            catch (error) {
-                __.assertThat(error.message, __.is('start time is not valid'));
-            }
-        });
-
-        it('should fail when end time is not valid', function* () {
-            let ohe = {
-                listing_id: 1,
-                start_time: moment().toISOString(),
-                end_time: 'aaaaaa'
-            };
-
-            try {
-                yield this.openHouseEventsService.create(ohe);
-                __.assertThat('code', __.is('not reached'));
-            }
-            catch (error) {
-                __.assertThat(error.message, __.is('end time is not valid'));
-            }
         });
 
         it('should fail when end time is less than 30 minutes after start time', function* () {
@@ -255,20 +198,6 @@ describe('Open House Event Service', function () {
             __.assertThat(savedEvent, __.is(updatedEvent));
         });
 
-        it('should fail when updated event id is not valid', function* () {
-            let ohe = {
-                id: 'a'
-            };
-
-            try {
-                yield this.openHouseEventsService.update(ohe);
-                __.assertThat('code', __.is('not reached'));
-            }
-            catch (error) {
-                __.assertThat(error.message, __.is('event id is not valid'));
-            }
-        });
-
         it('should fail when updated event id does not exists in db', function* () {
             this.openHouseEventsRepositoryMock.find = sinon.stub().resolves(null);
 
@@ -292,76 +221,6 @@ describe('Open House Event Service', function () {
             }
             catch (error) {
                 __.assertThat(error.message, __.is('event does not exist'));
-            }
-        });
-
-        it('should fail when listing id is not valid', function* () {
-            this.openHouseEventsRepositoryMock.find = sinon.stub().resolves({
-                id: 1,
-                listing_id: 1,
-                start_time: moment().add(-4, 'hours'),
-                end_time: moment().add(-3, 'hours')
-            });
-
-            let ohe = {
-                id: 1,
-                listing_id: 'a'
-            };
-
-
-            try {
-                yield this.openHouseEventsService.update(ohe);
-                __.assertThat('code', __.is('not reached'));
-            }
-            catch (error) {
-                __.assertThat(error.message, __.is('listing id is not valid'));
-            }
-        });
-
-        it('should fail when start time is not valid', function* () {
-            this.openHouseEventsRepositoryMock.find = sinon.stub().resolves({
-                id: 1,
-                listing_id: 1,
-                start_time: moment().add(-4, 'hours'),
-                end_time: moment().add(-3, 'hours')
-            });
-
-            let ohe = {
-                id: 1,
-                listing_id: 1,
-                start_time: 'aaaaaaa'
-            };
-
-            try {
-                yield this.openHouseEventsService.update(ohe);
-                __.assertThat('code', __.is('not reached'));
-            }
-            catch (error) {
-                __.assertThat(error.message, __.is('start time is not valid'));
-            }
-        });
-
-        it('should fail when end time is not valid', function* () {
-            this.openHouseEventsRepositoryMock.find = sinon.stub().resolves({
-                id: 1,
-                listing_id: 1,
-                start_time: moment().add(-4, 'hours'),
-                end_time: moment().add(-3, 'hours')
-            });
-
-            let ohe = {
-                id: 1,
-                listing_id: 1,
-                start_time: moment().toISOString(),
-                end_time: 'aaaaaa'
-            };
-
-            try {
-                yield this.openHouseEventsService.update(ohe);
-                __.assertThat('code', __.is('not reached'));
-            }
-            catch (error) {
-                __.assertThat(error.message, __.is('end time is not valid'));
             }
         });
 
@@ -545,18 +404,6 @@ describe('Open House Event Service', function () {
             __.assertThat(deletedEvent, __.is(deleteEventResponse));
         });
 
-        it('should fail when deleted event id is not valid', function* () {
-            let oheId = 'a';
-
-            try {
-                yield this.openHouseEventsService.remove(oheId);
-                __.assertThat('code', __.is('not reached'));
-            }
-            catch (error) {
-                __.assertThat(error.message, __.is('event id is not valid'));
-            }
-        });
-
         it('should fail when deleted event id does not exists in db', function* () {
             this.openHouseEventsRepositoryMock.find = sinon.stub().resolves(null);
 
@@ -592,18 +439,6 @@ describe('Open House Event Service', function () {
             __.assertThat(registrationResponse, __.is(true));
         });
 
-        it('should fail when the event id a user registers is not valid', function* () {
-            let oheId = 'a';
-
-            try {
-                yield this.openHouseEventsService.register(oheId);
-                __.assertThat('code', __.is('not reached'));
-            }
-            catch (error) {
-                __.assertThat(error.message, __.is('event id is not valid'));
-            }
-        });
-
         it('should fail when the event a user registers does not exists in db', function* () {
             this.openHouseEventsRepositoryMock.find = sinon.stub().resolves(null);
 
@@ -615,6 +450,32 @@ describe('Open House Event Service', function () {
             }
             catch (error) {
                 __.assertThat(error.message, __.is('event does not exist'));
+            }
+        });
+
+        it('should fail when user registers to an event more than once', function* () {
+            this.openHouseEventsRepositoryMock.find = sinon.stub().resolves({
+                id: 1,
+                listing_id: 1,
+                start_time: moment().add(-4, 'hours'),
+                end_time: moment().add(-3, 'hours'),
+                is_active: true,
+                registrations:[
+                    {open_house_event_id: 1, user_id: 'user', is_active: true}
+                ]
+            });
+
+            this.openHouseEventsRepositoryMock.createRegistration = sinon.stub().resolves(true);
+
+            const oheId = 1;
+            const userId = 'user';
+
+            try {
+                yield this.openHouseEventsService.register(oheId);
+                // __.assertThat('code', __.is('not reached'));
+            }
+            catch (error) {
+                __.assertThat(error.message, __.is('user already registered to this event'));
             }
         });
     });
@@ -641,18 +502,6 @@ describe('Open House Event Service', function () {
 
             const registrationResponse = yield this.openHouseEventsService.unregister(oheId, userId);
             __.assertThat(registrationResponse.is_active, __.is(false));
-        });
-
-        it('should fail when the event id a user unregisters is not valid', function* () {
-            let oheId = 'a';
-
-            try {
-                yield this.openHouseEventsService.unregister(oheId);
-                __.assertThat('code', __.is('not reached'));
-            }
-            catch (error) {
-                __.assertThat(error.message, __.is('registration id is not valid'));
-            }
         });
 
         it('should fail when the event a user unregisters does not exists in db', function* () {

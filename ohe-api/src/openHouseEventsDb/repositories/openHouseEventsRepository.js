@@ -8,7 +8,8 @@ function* find(eventId) {
     where: {
       id: eventId,
       is_active: true
-    }
+    },
+    include: [{ model: models.registration, required: false,  where: { is_active: true } }]
   });
 }
 

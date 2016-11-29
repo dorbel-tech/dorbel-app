@@ -55,6 +55,18 @@
       "console": "internalConsole",
       "sourceMaps": true,
       "outDir": null
-    }
+    },
+    {
+      "name": "ohe-api#attach",
+      "type": "node",
+      "request": "attach",
+      "port": 5860,
+      "address": "localhost",
+      "restart": true,
+      "sourceMaps": true,
+      "outDir": null,
+      "localRoot": "${workspaceRoot}/ohe-api",
+      "remoteRoot": "."
+    }    
   ]
 }

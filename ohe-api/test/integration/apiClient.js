@@ -37,6 +37,19 @@ class ApiClient {
       .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile));
   }
 
+  createNewRegistration(existingEventId) {
+    return this.request
+      .post('/v1/registration')
+      .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile))
+      .send({'open_house_event_id': existingEventId});
+  }
+
+  deleteRegistration(registrationId) {
+    return this.request
+      .delete('/v1/registration/' + registrationId)
+      .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile));
+  }
+
   static * init(userProfile) {
     let request;
 

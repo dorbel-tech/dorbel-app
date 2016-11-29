@@ -28,7 +28,7 @@ function* put() {
 }
 
 function* remove() {
-  logger.debug('Updating open house event...');
+  logger.debug('Deleting open house event...');
   let deletedEventResult = yield openHouseEventsService.remove(this.params.id);
   logger.info(deletedEventResult.id, 'Open house event deleted');
   this.response.status = 200;
