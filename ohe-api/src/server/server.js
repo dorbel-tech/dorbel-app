@@ -43,6 +43,20 @@ app.use(function* handleOpenHouseEventValidationErrors(next) {
   }
 });
 
+app.use(function* handleOpenHouseEventNotFoundErrors(next) {
+  try {
+    yield next;
+  }
+  catch (ex) {
+    if (ex.name === 'OpenHouseEventNotFoundError') {
+      this.body = ex.message;
+      this.status = 404;
+    } else {
+      throw ex;
+    }
+  }
+});
+
 app.use(function* returnSwagger(next) {
   if (this.method === 'GET' && this.url === '/swagger') {
     this.body = swaggerDoc;

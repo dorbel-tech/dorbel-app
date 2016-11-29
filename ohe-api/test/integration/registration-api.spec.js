@@ -28,6 +28,11 @@ describe('Open House Events Registration API Integration', function () {
         const response = yield this.apiClient.createNewEvent(ohe).expect(201).end();
         yield this.apiClient.createNewRegistration(response.body.id).expect(201).end();
       });
+
+      it('return an error for non existing event', function* () {
+        yield this.apiClient.createNewRegistration(999999).expect(404).end();
+      });
+
     });
 
     describe('/delete/{id}', function () {
@@ -41,6 +46,11 @@ describe('Open House Events Registration API Integration', function () {
         const registrationResponse = yield this.apiClient.createNewRegistration(response.body.id).expect(201).end();
         yield this.apiClient.deleteRegistration(registrationResponse.body.id).expect(200).end();
       });
+
+      it('should return an error for non existing registration', function* () {
+        yield this.apiClient.deleteRegistration(999999).expect(404).end();
+      });
+
     });
   });
 });

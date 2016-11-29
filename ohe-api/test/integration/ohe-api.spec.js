@@ -28,6 +28,11 @@ describe('Open House Events API Integration', function () {
         let newEvent = newEventReponse.body;
         const existingEvent = yield this.apiClient.findEvent(newEvent.id).expect(200).end();
       });
+
+      it('should return an error for non existing event', function* () {
+        yield this.apiClient.findEvent(9999999).expect(404).end();
+      });
+
     });
 
     describe('/post', function () {
@@ -55,6 +60,16 @@ describe('Open House Events API Integration', function () {
         newEvent.start_time = moment().add(-9, 'hours').toISOString();
         const updatedEvent = yield this.apiClient.updateEvent(newEvent).expect(200).end();
       });
+
+      it('should return an error for non existing event', function* () {
+        const ohe = {
+          id: 9999999,
+          start_time: moment().add(-2, 'hours').toISOString(),
+          end_time: moment().add(-1, 'hours').toISOString(),
+          listing_id: getRandomNumber()
+        };
+        yield this.apiClient.updateEvent(ohe).expect(404).end();
+      });
     });
 
     describe('/delete/{id}', function () {
@@ -67,6 +82,10 @@ describe('Open House Events API Integration', function () {
         const newEventReponse = yield this.apiClient.createNewEvent(ohe).expect(201).end();
         let newEvent = newEventReponse.body;
         const deletedEvent = yield this.apiClient.deleteEvent(newEvent.id).expect(200).end();
+      });
+
+      it('should return an error for non existing event', function* () {
+        yield this.apiClient.deleteEvent(9999999).expect(404).end();
       });
     });
   });

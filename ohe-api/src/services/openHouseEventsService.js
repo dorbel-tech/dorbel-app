@@ -9,6 +9,12 @@ function OpenHouseEventValidationError(message) {
   this.message = message;
 }
 
+function OpenHouseEventNotFoundError(message) {
+  Error.captureStackTrace(this, this.constructor);
+  this.name = this.constructor.name;
+  this.message = message;
+}
+
 function validateEventParamters(listing_id, start, end) {
   if (end.diff(start, 'minutes') < 30) {
     throw new OpenHouseEventValidationError('open house event should be at least 30 minutes');
@@ -30,7 +36,7 @@ function validateEventIsNotNotOverlappingExistingEvents(existingListingEvents, l
 function* find(eventId) {
   const existingEvent = yield openHouseEventsRepository.find(eventId);
   if (existingEvent == undefined) {
-    throw new OpenHouseEventValidationError('event does not exist');
+    throw new OpenHouseEventNotFoundError('event does not exist');
   }
 
   return existingEvent;
@@ -103,7 +109,7 @@ function* register(eventId, userId) {
 function* unregister(registrationId) {
   let existingRegistration = yield openHouseEventsRepository.findRegistration(registrationId);
   if (existingRegistration == undefined) {
-    throw new OpenHouseEventValidationError('registration does not exist');
+    throw new OpenHouseEventNotFoundError('registration does not exist');
   }
   existingRegistration.is_active = false;
   return yield openHouseEventsRepository.updateRegistration(existingRegistration);
@@ -116,5 +122,6 @@ module.exports = {
   remove,
   register,
   unregister,
-  OpenHouseEventValidationError
+  OpenHouseEventValidationError,
+  OpenHouseEventNotFoundError
 };
