@@ -1,8 +1,5 @@
 'use strict';
-const shared = require('dorbel-shared');
-const logger = shared.logger.getLogger(module);
-const config = shared.config;
-const messageBus = shared.utils.messageBus;
+const notificationService = require('./notificationService');
 const openHouseEventsService = require('./openHouseEventsService');
 const repository = require('../openHouseEventsDb/repositories/openHouseEventRegistrationsRepository');
 
@@ -16,16 +13,6 @@ function OpenHouseEventRegistrationNotFoundError(message) {
   Error.captureStackTrace(this, this.constructor);
   this.name = this.constructor.name;
   this.message = message;
-}
-
-function sendNotification(messageType, data) {
-  const topic = config.get('NOTIFICATIONS_SNS_TOPIC_ARN');
-  if (topic == undefined) {
-    logger.debug(data, 'notification not sent for %s - topic is undefined', messageType);
-    return;
-  }
-
-  messageBus.publish(topic, messageBus.eventType[messageType], data);
 }
 
 function* register(eventId, userId) {
@@ -46,7 +33,7 @@ function* register(eventId, userId) {
 
   const result = yield repository.createRegistration(registration);
 
-  sendNotification('OHE_REGISTERED', {
+  notificationService.send('OHE_REGISTERED', {
     listing_id: existingEvent.listing_id,
     event_id: existingEvent.id,
     registered_user_id: userId
@@ -64,7 +51,7 @@ function* unregister(registrationId) {
 
   const result = yield repository.updateRegistration(existingRegistration);
 
-  sendNotification('OHE_UNREGISTERED', {
+  notificationService.send('OHE_UNREGISTERED', {
     event_id: existingRegistration.id,
     registered_user_id: existingRegistration.user_id
   });

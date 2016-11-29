@@ -1,8 +1,5 @@
 'use strict';
-const shared = require('dorbel-shared');
-const logger = shared.logger.getLogger(module);
-const config = shared.config;
-const messageBus = shared.utils.messageBus;
+const notificationService = require('./notificationService');
 const openHouseEventsRepository = require('../openHouseEventsDb/repositories/openHouseEventsRepository');
 const moment = require('moment');
 require('moment-range');
@@ -37,16 +34,6 @@ function validateEventIsNotOverlappingExistingEvents(existingListingEvents, list
   });
 }
 
-function sendNotification(messageType, data) {
-  const topic = config.get('NOTIFICATIONS_SNS_TOPIC_ARN');
-  if (topic == undefined) {
-    logger.debug(data, 'notification not sent for %s - topic is undefined', messageType);
-    return;
-  }
-
-  messageBus.publish(topic, messageBus.eventType[messageType], data);
-}
-
 function* find(eventId) {
   const existingEvent = yield openHouseEventsRepository.find(eventId);
   if (existingEvent == undefined) {
@@ -74,7 +61,7 @@ function* create(openHouseEvent) {
     is_active: true
   });
 
-  sendNotification('OHE_CREATED', {
+  notificationService.send('OHE_CREATED', {
     listing_id: listing_id,
     event_id: newEvent.id,
     start_time: start,
@@ -104,7 +91,7 @@ function* update(openHouseEvent) {
 
   const result = yield openHouseEventsRepository.update(existingEvent);
 
-  sendNotification('OHE_UPDATED', {
+  notificationService.send('OHE_UPDATED', {
     listing_id: existingEvent.listing_id,
     event_id: existingEvent.id,
     old_start_time: existingEvent.start_time,
@@ -122,7 +109,7 @@ function* remove(eventId) {
 
   const result = yield openHouseEventsRepository.update(existingEvent);
 
-  sendNotification('OHE_DELETED', {
+  notificationService.send('OHE_DELETED', {
     listing_id: existingEvent.listing_id,
     event_id: existingEvent.id,
     start_time: existingEvent.start_time,
