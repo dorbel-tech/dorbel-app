@@ -36,6 +36,8 @@ services:
 
   notifications-service:
     image: dorbel/notifications-service
+    ports:
+      - '5861:5861'
     volumes:
       - ./notifications-service:/home/nodejs/app
       - /home/nodejs/app/node_modules
