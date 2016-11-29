@@ -132,57 +132,11 @@ function* remove(eventId) {
   return result;
 }
 
-function* register(eventId, userId) {
-  let existingEvent = yield find(eventId);
-  if (existingEvent.registrations) {
-    existingEvent.registrations.forEach(function (registration) {
-      if (registration.user_id == userId) {
-        throw new OpenHouseEventValidationError('user already registered to this event');
-      }
-    });
-  }
-
-  const registration = {
-    open_house_event_id: eventId,
-    user_id: userId,
-    is_active: true
-  };
-
-  const result = yield openHouseEventsRepository.createRegistration(registration);
-
-  sendNotification('OHE_REGISTERED', {
-    listing_id: existingEvent.listing_id,
-    event_id: existingEvent.id,
-    registered_user_id: userId
-  });
-
-  return result;
-}
-
-function* unregister(registrationId) {
-  let existingRegistration = yield openHouseEventsRepository.findRegistration(registrationId);
-  if (existingRegistration == undefined) {
-    throw new OpenHouseEventNotFoundError('registration does not exist');
-  }
-  existingRegistration.is_active = false;
-
-  const result = yield openHouseEventsRepository.updateRegistration(existingRegistration);
-
-  sendNotification('OHE_UNREGISTERED', {
-    event_id: existingRegistration.id,
-    registered_user_id: existingRegistration.user_id
-  });
-
-  return result;
-}
-
 module.exports = {
   find,
   create,
   update,
   remove,
-  register,
-  unregister,
   OpenHouseEventValidationError,
   OpenHouseEventNotFoundError
 };

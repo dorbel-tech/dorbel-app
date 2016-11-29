@@ -22,7 +22,7 @@ function* findByListingId(listing_id) {
 }
 
 function* create(openHouseEvent) {
-  return yield db.models.open_house_event.create(openHouseEvent);
+  return yield models.open_house_event.create(openHouseEvent);
 }
 
 function* update(openHouseEvent) {
@@ -33,31 +33,9 @@ function* update(openHouseEvent) {
   });
 }
 
-function* findRegistration(registrationId) {
-  return yield models.registration.findOne({
-    where: {
-      id: registrationId,
-      is_active: true
-    }
-  });
-}
-
-function* createRegistration(eventRegistration) {
-  return yield db.models.registration.create(eventRegistration);
-}
-
-function* updateRegistration(eventRegistration) {
-  return yield eventRegistration.update({
-    is_active: eventRegistration.is_active
-  });
-}
-
 module.exports = {
   find,
   findByListingId,
   create,
-  update,
-  findRegistration,
-  createRegistration,
-  updateRegistration
+  update
 };

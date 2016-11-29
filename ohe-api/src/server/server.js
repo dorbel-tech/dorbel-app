@@ -34,7 +34,7 @@ app.use(function* handleOpenHouseEventValidationErrors(next) {
     yield next;
   }
   catch (ex) {
-    if (ex.name === 'OpenHouseEventValidationError') {
+    if (ex.name === 'OpenHouseEventValidationError' || ex.name === 'OpenHouseEventRegistrationValidationError') {
       this.body = ex.message;
       this.status = 400;
     } else {
@@ -48,7 +48,7 @@ app.use(function* handleOpenHouseEventNotFoundErrors(next) {
     yield next;
   }
   catch (ex) {
-    if (ex.name === 'OpenHouseEventNotFoundError') {
+    if (ex.name === 'OpenHouseEventNotFoundError' || ex.name  === 'OpenHouseEventRegistrationNotFoundError') {
       this.body = ex.message;
       this.status = 404;
     } else {
