@@ -1,0 +1,13 @@
+{
+  "ListingEvents": {
+    "type": "object",
+    "properties": {
+      "events": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/OpenHouseEvent"
+        }
+      }
+    }
+  }
+}

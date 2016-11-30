@@ -1,0 +1,9 @@
+{
+  "PORT": 3003,
+  "LOG_LEVEL": "error",
+  "RDS_HOSTNAME": "127.0.0.1",
+  "RDS_DB_NAME": "open_house_events",
+  "RDS_USERNAME": "root",
+  "RDS_PASSWORD": "root",
+  "NEW_RELIC_ENABLED": "False"
+}
