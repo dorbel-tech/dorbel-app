@@ -1,0 +1,64 @@
+.apt-highlights-container {
+    background: $brand-white;
+    border-bottom: 1px solid $gray-lighter;
+    border-top: 1px solid $gray-lighter;
+    text-align: center;
+    a {
+        color: $brand-primary;
+        &:hover {
+            color: $brand-success;
+            svg {
+                fill: $brand-success;
+            }
+        }
+    }
+    ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+    li {
+        @media (max-width: $screen-sm-min) {
+            border: 0 !important;
+        }
+        @media (max-width: $screen-lg-min) {
+            border-right: 0 !important;
+        }
+        padding: 20px 0px 15px 0px;
+        border-left: 1px solid $gray-lighter;
+        &:last-child {
+            border-left: none;
+            @media (max-width: $screen-sm-min) {
+                border-top: 1px solid $gray-lighter !important;
+            }
+        }
+        &:first-child {
+            border-right: 1px solid $gray-lighter;
+            @media (max-width: $screen-sm-min) {
+                border-left: 1px solid $gray-lighter !important;
+            }
+        }
+        &:nth-child(3) {
+            @media (max-width: $screen-sm-min) {
+                border-top: 1px solid $gray-lighter !important;
+                border-left: 1px solid $gray-lighter !important;
+            }
+        }
+    }
+    svg {
+        width: 91%;
+        height: 44px;
+        fill: $gray-light;
+        margin: 10px 0px;
+        fill: $brand-primary;
+    }
+}
+
+.apt-headline-container {
+    h2 {
+        font-weight: 600;
+    }
+    margin-top: -1px;
+    padding: 0px 0px 10px 0px;
+    background: $brand-white;
+}

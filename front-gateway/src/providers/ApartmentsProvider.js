@@ -23,13 +23,10 @@ class ApartmentsProvider {
       .then(action('load-single-apartment', apartment => this.appStore.apartmentStore.apartmentsById.set(id,apartment)));
   }
 
-  // TODO : this is very form-specific , should mostly go to the form component (maybe)
   mapUploadApartmentFormToCreateListing(formValues) {
-    let listing = _.pick(formValues, ['monthly_rent', 'lease_start', 'publishing_user_type']);
-    listing.apartment = _.pick(formValues, ['apt_number', 'rooms', 'size', 'floor']);
-    listing.apartment.building = _.pick(formValues, ['street_name', 'house_number', 'entrance', 'floors']); 
-    listing.apartment.building.city = _.pick(formValues, ['city_name']);
-
+    let listing = {};
+    // this is so we can use nested structure in our form attributes
+    Object.keys(formValues).filter(key => formValues.hasOwnProperty(key)).forEach(key => _.set(listing, key, formValues[key]));
     listing.images = formValues.images.map((cloudinaryImage, index) => ({
       url: cloudinaryImage.secure_url, display_order: index
     }));

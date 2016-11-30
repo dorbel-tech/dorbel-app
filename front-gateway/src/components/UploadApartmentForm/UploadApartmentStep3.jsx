@@ -29,18 +29,18 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
         <div>
           <div className="row">
             <div className="col-md-6">
-              <FRC.Input name="user_firstname" label="שם פרטי" value={profile.given_name} disabled={true} />
+              <FRC.Input name="user.firstname" label="שם פרטי" value={profile.given_name} disabled={true} />
             </div>
             <div className="col-md-6">
-              <FRC.Input name="user_lastname" label="שם משפחה" value={profile.family_name} disabled={true} />
+              <FRC.Input name="user.lastname" label="שם משפחה" value={profile.family_name} disabled={true} />
             </div>                
           </div>
           <div className="row">
             <div className="col-md-6">
-              <FRC.Input name="user_email" label="מייל" type="email" validations="isEmail" value={profile.email} disabled={true} />
+              <FRC.Input name="user.email" label="מייל" type="email" validations="isEmail" value={profile.email} disabled={true} />
             </div>
             <div className="col-md-6">
-              <FRC.Input name="user_phone" label="טלפון" />
+              <FRC.Input name="user.phone" label="טלפון" />
             </div>                
           </div>
           <div className="row">
@@ -83,15 +83,15 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
               </div>
               <div className="row">
                 <div className="col-md-6">
-                  <FRC.Select name="ohe_start_time" label="שעת התחלת ביקור" required options={this.getHourOptions(newListingStore.hours)} />
+                  <FRC.Select name="open_house_events[0].start_time" label="שעת התחלת ביקור" required options={this.getHourOptions(newListingStore.hours)} />
                 </div>
                 <div className="col-md-6">
-                  <FRC.Select name="ohe_end_time" label="שעת סיום ביקור" required options={this.getHourOptions(newListingStore.endHours)} />
+                  <FRC.Select name="open_house_events[0].time" label="שעת סיום ביקור" required options={this.getHourOptions(newListingStore.endHours)} />
                 </div>
               </div>
               <div className="row">
                 <div className="col-md-12">
-                  <FRC.Textarea name="ohe_comments" rows={3} label="הכוונה לדירה בבניין (אם צריך)" />
+                  <FRC.Textarea name="open_house_events[0].comments" rows={3} label="הכוונה לדירה בבניין (אם צריך)" />
                 </div>
               </div>
             </div>

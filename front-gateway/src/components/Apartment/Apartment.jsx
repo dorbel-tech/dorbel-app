@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import svgIcons from '~/assets/images/images.sprite.svg';
-import './Apartment.scss';
+import ApartmentAmenities from './ApartmentAmenities.jsx';
 import OHEList from './OHEList.jsx';
+import './Apartment.scss';
 
 const Flickity = global.window ? require('react-flickity-component')(React) : 'div';
 
@@ -69,29 +70,7 @@ class Apartment extends Component {
                 <p>{listing.description}</p>
               </div>
             </div>
-            <div className="row property-amenities">
-              <div className="col-lg-2 col-sm-2 col-xs-12">
-                <h5>תאור הנכס</h5>
-              </div>
-              <div className="col-lg-5 col-sm-5 col-xs-6">
-                <ul>
-                  <li>בעלות: פרטית</li>
-                  <li>ועד בית: 250 ₪</li>
-                  <li>שכונה: בבלי</li>
-                  <li>איזור: 2</li>
-                  <li>בעל חיים: מותר חתול</li>
-                </ul>
-              </div>
-              <div className="col-lg-5 col-sm-5 col-xs-6">
-                <ul>
-                  <li>חנייה ברחוב</li>
-                  <li>נגיש לנכים</li>
-                  <li>מזגן בחדר שינה</li>
-                  <li>מזגן בסלון</li>
-                  <li>מרפסת</li>
-                </ul>
-              </div>
-            </div>
+            <ApartmentAmenities listing={listing} />
           </div>
         </div>
       </div>
@@ -148,3 +127,4 @@ Apartment.wrappedComponent.propTypes = {
 };
 
 export default Apartment;
+
