@@ -1889,9 +1889,9 @@ domutils@1.5.1, domutils@^1.5.1:
     dom-serializer "0"
     domelementtype "1"
 
-"dorbel-shared@git://github.com/dorbel-tech/dorbel-shared#v0.4.23":
-  version "0.4.23"
-  resolved "git://github.com/dorbel-tech/dorbel-shared#fd571b3e18ec7daa8eb13547b6935e9a70b20a72"
+"dorbel-shared@git://github.com/dorbel-tech/dorbel-shared#v0.4.24":
+  version "0.4.24"
+  resolved "git://github.com/dorbel-tech/dorbel-shared#8dbf95dcafb1b761ea6ad40d11d95543e82ebfd9"
   dependencies:
     auth0 "^2.5.0"
     bunyan "~1.8.1"

@@ -10,7 +10,7 @@ const userManagement = shared.utils.userManagement;
 function send(messageType, messageBody) {
   const message = JSON.parse(messageBody.Message);
   
-  userManagement.getUserDetails(message.dataPayload.user_uuid)
+  return userManagement.getUserDetails(message.dataPayload.user_uuid)
     .then(userDetails => {
       logger.debug({userDetails}, 'userDetails');
 
