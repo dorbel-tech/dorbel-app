@@ -2,6 +2,7 @@
 const moment = require('moment');
 const mockRequire = require('mock-require');
 const __ = require('hamjest');
+const faker = require('../shared/fakeObjectGenerator');
 var sinon = require('sinon');
 
 describe('Listing Events Service', function () {
@@ -17,18 +18,13 @@ describe('Listing Events Service', function () {
   describe('List Open House Events For Listing', function () {
 
     it('should retun all events given a listing id', function* () {
-      let existingEvents = [{
+      let existingEvents = [faker.generateEvent({
         id: 1,
-        listing_id: 1,
-        start_time: moment().add(-4, 'hours'),
-        end_time: moment().add(-3, 'hours'),
         is_active: false
-      }];
+      })];
       this.openHouseEventsRepositoryMock.findByListingId = sinon.stub().resolves(existingEvents);
 
-      let listingId = 1;
-
-      let existingEventsResponse = yield this.service.list(listingId);
+      let existingEventsResponse = yield this.service.list(1);
       __.assertThat(existingEvents, __.is(existingEventsResponse));
     });
 
