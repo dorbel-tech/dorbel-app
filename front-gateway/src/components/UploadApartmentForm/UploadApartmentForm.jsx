@@ -11,6 +11,7 @@ const steps = [
 
 @observer(['appStore', 'appProviders', 'router'])
 class UploadApartmentForm extends Component {
+  static hideFooter = true;
 
   @action
   nextStep() {

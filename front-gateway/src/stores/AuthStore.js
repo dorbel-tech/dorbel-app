@@ -1,12 +1,14 @@
 'use strict';
+import jwtDecode from 'jwt-decode';
+
 const noop = () => { };
 // mocking localStorage on the server side - must be better way to do this ...
 const localStorage = (global.window) ? global.window.localStorage : { getItem: noop, setItem: noop, removeItem: noop };
 
 class AuthStore {
   get isLoggedIn() {
-    // TODO : check token is still valid !
-    return !!this.getToken();
+    const token = this.getToken();     
+    return token && this.isTokenNotExpired(token);
   }
 
   setToken(idToken) {
@@ -15,6 +17,12 @@ class AuthStore {
 
   getToken() {
     return localStorage.getItem('id_token');
+  }
+
+  isTokenNotExpired(token) {
+    const valid = jwtDecode(token).exp > (Date.now() / 1000);
+    if (!valid) { this.logout(); } 
+    return valid;
   }
 
   setProfile(profile) {
