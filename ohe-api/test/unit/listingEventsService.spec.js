@@ -32,9 +32,7 @@ describe('Listing Events Service', function () {
       let existingEvents = [];
       this.openHouseEventsRepositoryMock.findByListingId = sinon.stub().resolves(existingEvents);
 
-      let listingId = 1;
-
-      let existingEventsResponse = yield this.service.list(listingId);
+      let existingEventsResponse = yield this.service.list(1);
       __.assertThat(existingEvents, __.is(existingEventsResponse));
     });
   });
