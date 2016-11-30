@@ -6,7 +6,8 @@
 - Start using ``yarn start``
 - Start development using ``yarn run start:dev``
   - will restart server when files are changed.
-- Run tests using ``yarn test`` (currently runs integration tests)
+- Run unit tests using ``yarn test``
+- Run integration tests using ``yarn test:integration``
 
 ## Server
 - Uses [koa](http://koajs.com/) for http framework
@@ -18,4 +19,3 @@
 ## Database
 - Uses [Sequelize ORM](https://github.com/sequelize/sequelize) and its [CLI](https://github.com/sequelize/cli) to run seeds amd migrations. 
 - Run DB migrate: ``yarn run db:migrate``
-- Run DB seed: ``yarn run db:seed``
