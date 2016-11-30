@@ -1,6 +1,7 @@
 'use strict';
 const moment = require('moment');
 const mockRequire = require('mock-require');
+const _ = require('lodash');
 const __ = require('hamjest');
 var sinon = require('sinon');
 
@@ -14,16 +15,27 @@ describe('Open House Event Service', function () {
 
   after(() => mockRequire.stopAll());
 
+  function generateEvent(variant) {
+    return _.extend({
+      listing_id: 1,
+      start_time: moment().add(-5, 'hours'),
+      end_time: moment().add(-3, 'hours'),
+    }, variant);
+  }
+
+  function assertSpecificProperties(original, expected, props) {
+    for (var p in props) {
+      __.assertThat(original[p], __.is(expected[p]));
+    }
+  }
+
   describe('Find Open House Event', function () {
 
     it('should find an existing event', function* () {
-      let existingEvent = {
+      let existingEvent = generateEvent({
         id: 1,
-        listing_id: 1,
-        start_time: moment().add(-4, 'hours'),
-        end_time: moment().add(-3, 'hours'),
-        is_active: false
-      };
+      });
+
       this.openHouseEventsRepositoryMock.find = sinon.stub().resolves(existingEvent);
 
       let oheId = 1;
@@ -50,41 +62,24 @@ describe('Open House Event Service', function () {
   describe('Create Open House Event', function () {
 
     it('should create a new event', function* () {
-      let newEvent = {
-        id: 1,
-        listing_id: 1,
-        start_time: moment().add(-2, 'hours'),
-        end_time: moment().add(-1, 'hours'),
-        is_active: true
-      }
-
-
-      let ohe = {
-        listing_id: newEvent.listing_id,
-        start_time: newEvent.start_time.toISOString(),
-        end_time: newEvent.end_time.toISOString()
-      };
+      let newEvent = generateEvent();
 
       this.openHouseEventsRepositoryMock.findByListingId = sinon.stub().resolves([]);
 
-      this.openHouseEventsRepositoryMock.create = sinon.stub().resolves({
+      this.openHouseEventsRepositoryMock.create = sinon.stub().resolves(generateEvent({
         id: 1,
-        listing_id: newEvent.listing_id,
-        start_time: newEvent.start_time,
-        end_time: newEvent.end_time,
         is_active: true
-      });
+      }));
 
-      let savedEvent = yield this.openHouseEventsService.create(ohe);
-      __.assertThat(savedEvent, __.is(newEvent));
+      let savedEvent = yield this.openHouseEventsService.create(newEvent);
+      assertSpecificProperties(newEvent, savedEvent, ['listing_id', 'start_time', 'end_time']);
     });
 
     it('should fail when end time is less than 30 minutes after start time', function* () {
-      let ohe = {
-        listing_id: 1,
+      let ohe = generateEvent({
         start_time: moment().toISOString(),
         end_time: moment().add(29, 'minutes').toISOString()
-      };
+      });
 
       try {
         yield this.openHouseEventsService.create(ohe);
@@ -96,16 +91,16 @@ describe('Open House Event Service', function () {
     });
 
     it('should fail new event is overlapping existing events (starts during an existing event)', function* () {
-      let ohe = {
-        listing_id: 1,
+      let ohe = generateEvent({
         start_time: moment().add(-15, 'hours').toISOString(),
         end_time: moment().add(-5, 'hours').toISOString()
-      };
+      });
 
-      this.openHouseEventsRepositoryMock.findByListingId = sinon.stub().resolves([{
+      this.openHouseEventsRepositoryMock.findByListingId = sinon.stub().resolves([generateEvent({
+        listing_id: 2,
         start_time: moment().add(-20, 'hours').toISOString(),
         end_time: moment().add(-10, 'hours').toISOString()
-      }]);
+      })]);
 
       try {
         yield this.openHouseEventsService.create(ohe);
@@ -117,16 +112,16 @@ describe('Open House Event Service', function () {
     });
 
     it('should fail new event is overlapping existing events (ends during an existing event)', function* () {
-      let ohe = {
-        listing_id: 1,
+      let ohe = generateEvent({
         start_time: moment().add(-25, 'hours').toISOString(),
         end_time: moment().add(-15, 'hours').toISOString()
-      };
+      });
 
-      this.openHouseEventsRepositoryMock.findByListingId = sinon.stub().resolves([{
+      this.openHouseEventsRepositoryMock.findByListingId = sinon.stub().resolves([generateEvent({
+        listing_id: 2,
         start_time: moment().add(-20, 'hours').toISOString(),
         end_time: moment().add(-10, 'hours').toISOString()
-      }]);
+      })]);
 
       try {
         yield this.openHouseEventsService.create(ohe);
@@ -138,16 +133,16 @@ describe('Open House Event Service', function () {
     });
 
     it('should fail new event is overlapping existing events (happens during an existing event)', function* () {
-      let ohe = {
-        listing_id: 1,
+      let ohe = generateEvent({
         start_time: moment().add(-25, 'hours').toISOString(),
         end_time: moment().add(-15, 'hours').toISOString()
-      };
+      });
 
-      this.openHouseEventsRepositoryMock.findByListingId = sinon.stub().resolves([{
+      this.openHouseEventsRepositoryMock.findByListingId = sinon.stub().resolves([generateEvent({
+        listing_id: 2,
         start_time: moment().add(-20, 'hours').toISOString(),
         end_time: moment().add(-10, 'hours').toISOString()
-      }]);
+      })]);
 
       try {
         yield this.openHouseEventsService.create(ohe);
@@ -162,61 +157,36 @@ describe('Open House Event Service', function () {
   describe('Update Open House Event', function () {
 
     it('should update an existing event', function* () {
-      this.openHouseEventsRepositoryMock.find = sinon.stub().resolves({
-        id: 1,
-        listing_id: 1,
-        start_time: moment().add(-4, 'hours'),
-        end_time: moment().add(-3, 'hours')
+      let originalEvent = generateEvent({
+        id: 1
       });
+
+      this.openHouseEventsRepositoryMock.find = sinon.stub().resolves(originalEvent);
 
       this.openHouseEventsRepositoryMock.findByListingId = sinon.stub().resolves([]);
 
-      let updatedEvent = {
-        id: 1,
-        listing_id: 1,
+      let updatedEvent = generateEvent({
+        id: originalEvent.id,
+        listing_id: originalEvent.listing_id,
         start_time: moment().add(-2, 'hours'),
         end_time: moment().add(-1, 'hours'),
-        is_active: true
-      }
-
-      this.openHouseEventsRepositoryMock.update = sinon.stub().resolves({
-        id: 1,
-        listing_id: updatedEvent.listing_id,
-        start_time: updatedEvent.start_time,
-        end_time: updatedEvent.end_time,
-        is_active: true
       });
 
-      let ohe = {
-        id: updatedEvent.id,
-        listing_id: updatedEvent.listing_id,
-        start_time: updatedEvent.start_time.toISOString(),
-        end_time: updatedEvent.end_time.toISOString()
-      };
+      this.openHouseEventsRepositoryMock.update = sinon.stub().resolves(updatedEvent);
 
-      let savedEvent = yield this.openHouseEventsService.update(ohe);
+      let savedEvent = yield this.openHouseEventsService.update(updatedEvent);
       __.assertThat(savedEvent, __.is(updatedEvent));
     });
 
     it('should fail when updated event id does not exists in db', function* () {
       this.openHouseEventsRepositoryMock.find = sinon.stub().resolves(null);
 
-      let updatedEvent = {
-        id: 1,
-        listing_id: 1,
-        start_time: moment().add(-2, 'hours'),
-        end_time: moment().add(-1, 'hours')
-      }
-
-      let ohe = {
-        id: updatedEvent.id,
-        listing_id: updatedEvent.listing_id,
-        start_time: updatedEvent.start_time.toISOString(),
-        end_time: updatedEvent.end_time.toISOString()
-      };
+      let updatedEvent = generateEvent({
+        id: 1
+      });
 
       try {
-        yield this.openHouseEventsService.update(ohe);
+        yield this.openHouseEventsService.update(updatedEvent);
         __.assertThat('code', __.is('not reached'));
       }
       catch (error) {
@@ -225,22 +195,20 @@ describe('Open House Event Service', function () {
     });
 
     it('should fail when end time is less than 30 minutes after start time', function* () {
-      this.openHouseEventsRepositoryMock.find = sinon.stub().resolves({
-        id: 1,
-        listing_id: 1,
-        start_time: moment().add(-4, 'hours'),
-        end_time: moment().add(-3, 'hours')
+      let originalEvent = generateEvent({
+        id: 1
       });
 
-      let ohe = {
+      this.openHouseEventsRepositoryMock.find = sinon.stub().resolves(originalEvent);
+
+      let updatedEvent = generateEvent({
         id: 1,
-        listing_id: 1,
         start_time: moment().toISOString(),
         end_time: moment().add(29, 'minutes').toISOString()
-      };
+      });
 
       try {
-        yield this.openHouseEventsService.update(ohe);
+        yield this.openHouseEventsService.update(updatedEvent);
         __.assertThat('code', __.is('not reached'));
       }
       catch (error) {
@@ -249,27 +217,22 @@ describe('Open House Event Service', function () {
     });
 
     it('should fail updated event is overlapping existing events (starts during an existing event)', function* () {
-      this.openHouseEventsRepositoryMock.find = sinon.stub().resolves({
-        id: 1,
-        listing_id: 1,
-        start_time: moment().add(-4, 'hours'),
-        end_time: moment().add(-3, 'hours')
+      let originalEvent = generateEvent({
+        id: 1
       });
 
-      let ohe = {
-        id: 1,
-        listing_id: 1,
-        start_time: moment().add(-15, 'hours').toISOString(),
-        end_time: moment().add(-5, 'hours').toISOString()
-      };
+      this.openHouseEventsRepositoryMock.find = sinon.stub().resolves(originalEvent);
 
-      this.openHouseEventsRepositoryMock.findByListingId = sinon.stub().resolves([{
-        start_time: moment().add(-20, 'hours').toISOString(),
-        end_time: moment().add(-10, 'hours').toISOString()
-      }]);
+      let anotherEvent = generateEvent({
+        id: 2,
+        start_time: moment().add(-6, 'hours').toISOString(),
+        end_time: moment().add(-4, 'hours').toISOString(),
+      });
+
+      this.openHouseEventsRepositoryMock.findByListingId = sinon.stub().resolves([originalEvent]);
 
       try {
-        yield this.openHouseEventsService.update(ohe);
+        yield this.openHouseEventsService.update(anotherEvent);
         __.assertThat('code', __.is('not reached'));
       }
       catch (error) {
@@ -278,27 +241,22 @@ describe('Open House Event Service', function () {
     });
 
     it('should fail updated event is overlapping existing events (ends during an existing event)', function* () {
-      this.openHouseEventsRepositoryMock.find = sinon.stub().resolves({
-        id: 1,
-        listing_id: 1,
-        start_time: moment().add(-4, 'hours'),
-        end_time: moment().add(-3, 'hours')
+      let originalEvent = generateEvent({
+        id: 1
       });
 
-      let ohe = {
-        id: 1,
-        listing_id: 1,
-        start_time: moment().add(-25, 'hours').toISOString(),
-        end_time: moment().add(-15, 'hours').toISOString()
-      };
+      this.openHouseEventsRepositoryMock.find = sinon.stub().resolves(originalEvent);
 
-      this.openHouseEventsRepositoryMock.findByListingId = sinon.stub().resolves([{
-        start_time: moment().add(-20, 'hours').toISOString(),
-        end_time: moment().add(-10, 'hours').toISOString()
-      }]);
+      let anotherEvent = generateEvent({
+        id: 2,
+        start_time: moment().add(-4, 'hours').toISOString(),
+        end_time: moment().add(-2, 'hours').toISOString(),
+      });
+
+      this.openHouseEventsRepositoryMock.findByListingId = sinon.stub().resolves([originalEvent]);
 
       try {
-        yield this.openHouseEventsService.update(ohe);
+        yield this.openHouseEventsService.update(anotherEvent);
         __.assertThat('code', __.is('not reached'));
       }
       catch (error) {
@@ -307,27 +265,24 @@ describe('Open House Event Service', function () {
     });
 
     it('should fail updated event is overlapping existing events (happens during an existing event)', function* () {
-      this.openHouseEventsRepositoryMock.find = sinon.stub().resolves({
+      let originalEvent = generateEvent({
         id: 1,
-        listing_id: 1,
-        start_time: moment().add(-4, 'hours'),
-        end_time: moment().add(-3, 'hours')
+        start_time: moment().add(-6, 'hours'),
+        end_time: moment().add(-1, 'hours'),
       });
 
-      let ohe = {
-        id: 1,
-        listing_id: 1,
-        start_time: moment().add(-25, 'hours').toISOString(),
-        end_time: moment().add(-15, 'hours').toISOString()
-      };
+      this.openHouseEventsRepositoryMock.find = sinon.stub().resolves(originalEvent);
 
-      this.openHouseEventsRepositoryMock.findByListingId = sinon.stub().resolves([{
-        start_time: moment().add(-20, 'hours').toISOString(),
-        end_time: moment().add(-10, 'hours').toISOString()
-      }]);
+      let anotherEvent = generateEvent({
+        id: 2,
+        start_time: moment().add(-4, 'hours').toISOString(),
+        end_time: moment().add(-2, 'hours').toISOString(),
+      });
+
+      this.openHouseEventsRepositoryMock.findByListingId = sinon.stub().resolves([originalEvent]);
 
       try {
-        yield this.openHouseEventsService.update(ohe);
+        yield this.openHouseEventsService.update(anotherEvent);
         __.assertThat('code', __.is('not reached'));
       }
       catch (error) {
@@ -336,43 +291,23 @@ describe('Open House Event Service', function () {
     });
 
     it('should exclude the updated event when checking for overlap', function* () {
-      let existingEvent = {
+      let originalEvent = generateEvent({
         id: 1,
-        listing_id: 1,
-        start_time: moment().add(-5, 'hours'),
-        end_time: moment().add(-3, 'hours')
-      };
-
-      let updatedEvent = {
-        id: 1,
-        listing_id: 1,
         start_time: moment().add(-6, 'hours'),
-        end_time: moment().add(-4, 'hours')
-      };
-
-      this.openHouseEventsRepositoryMock.find = sinon.stub().resolves({
-        id: existingEvent.id,
-        listing_id: existingEvent.listing_id,
-        start_time: existingEvent.start_time,
-        end_time: existingEvent.end_time
+        end_time: moment().add(-2, 'hours')
       });
 
-      this.openHouseEventsRepositoryMock.update = sinon.stub().resolves({
-        id: updatedEvent.id,
-        listing_id: updatedEvent.listing_id,
-        start_time: updatedEvent.start_time,
-        end_time: updatedEvent.end_time
+      let updatedEvent = generateEvent({
+        id: 1,
+        start_time: moment().add(-5, 'hours'),
+        end_time: moment().add(-2, 'hours')
       });
 
-      let ohe = {
-        id: updatedEvent.id,
-        listing_id: updatedEvent.listing_id,
-        start_time: updatedEvent.start_time.toISOString(),
-        end_time: updatedEvent.end_time.toISOString()
-      };
-
-      this.openHouseEventsRepositoryMock.findByListingId = sinon.stub().resolves([existingEvent]);
-      let savedEvent = yield this.openHouseEventsService.update(ohe);
+      this.openHouseEventsRepositoryMock.find = sinon.stub().resolves(originalEvent);
+      this.openHouseEventsRepositoryMock.findByListingId = sinon.stub().resolves([originalEvent]);
+      this.openHouseEventsRepositoryMock.update = sinon.stub().resolves(updatedEvent);
+      
+      let savedEvent = yield this.openHouseEventsService.update(updatedEvent);
       __.assertThat(savedEvent, __.is(updatedEvent));
     });
   });
@@ -380,37 +315,29 @@ describe('Open House Event Service', function () {
   describe('Remove Open House Event', function () {
 
     it('should remove an existing event (set as not active)', function* () {
-      this.openHouseEventsRepositoryMock.find = sinon.stub().resolves({
+      let originalEvent = generateEvent({
         id: 1,
-        listing_id: 1,
-        start_time: moment().add(-4, 'hours'),
-        end_time: moment().add(-3, 'hours'),
         is_active: true
       });
 
-      let deletedEvent = {
+      this.openHouseEventsRepositoryMock.find = sinon.stub().resolves(originalEvent);
+
+      let deletedEvent = generateEvent({
         id: 1,
-        listing_id: 1,
-        start_time: moment().add(-4, 'hours'),
-        end_time: moment().add(-3, 'hours'),
         is_active: false
-      };
+      });
 
       this.openHouseEventsRepositoryMock.update = sinon.stub().resolves(deletedEvent);
 
-      let oheId = 1;
-
-      let deleteEventResponse = yield this.openHouseEventsService.remove(oheId);
+      let deleteEventResponse = yield this.openHouseEventsService.remove(originalEvent.id);
       __.assertThat(deletedEvent, __.is(deleteEventResponse));
     });
 
     it('should fail when deleted event id does not exists in db', function* () {
       this.openHouseEventsRepositoryMock.find = sinon.stub().resolves(null);
 
-      let oheId = 1;
-
       try {
-        yield this.openHouseEventsService.remove(oheId);
+        yield this.openHouseEventsService.remove(1);
         // __.assertThat('code', __.is('not reached'));
       }
       catch (error) {
