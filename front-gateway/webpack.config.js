@@ -43,7 +43,8 @@ let Config = {
   },
   module: {
     loaders: [
-      { test: /\.woff2?$|\.ttf$|\.eot$|\.svg$/, loader: 'file' },
+      { test: /\.sprite\.svg$/, loader: 'svg-sprite' },
+      { test: /\.woff2?$|\.ttf$|\.eot$|\.svg$/, exclude: /\.sprite\.svg$/, loader: 'file' },
       { test: /\.jsx?$/, loader: reactLoader, exclude: /node_modules/, },
       { test: /\.(css|scss)$/, loader: ExtractTextPlugin.extract('style', 'css?sourceMap!sass', 'sass?sourceMap') },
       { test: /\.png$/, loader: 'url-loader?limit=100000' },

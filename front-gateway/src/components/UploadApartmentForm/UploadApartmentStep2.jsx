@@ -57,29 +57,29 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
               <div className="form-section-headline">כתובת</div>
               <div className="row">
                 <div className="col-md-6">
-                  <FRC.Select name="city_name" label="עיר" options={citySelectorOptions} value={citySelectorOptions[0].label} required />
+                  <FRC.Select name="apartment.building.city.city_name" label="עיר" options={citySelectorOptions} value={citySelectorOptions[0].label} required />
                 </div>
                 <div className="col-md-6">
-                  <FRC.Input value="" name="street_name" label="שם רחוב" type="text" required />
+                  <FRC.Input value="" name="apartment.building.street_name" label="שם רחוב" type="text" required />
                 </div>
               </div>
               <div className="row">
                 <div className="col-md-6">
-                  <FRC.Input value="" name="house_number" label="מספר בניין" type="text" required />
+                  <FRC.Input value="" name="apartment.building.house_number" label="מספר בניין" type="text" required />
                 </div>
                 <div className="col-md-6">
-                  <FRC.Input value="" name="apt_number" label="מספר דירה" type="text" required />
+                  <FRC.Input value="" name="apartment.apt_number" label="מספר דירה" type="text" required />
                 </div>
               </div>
               <div className="row">
                 <div className="col-md-4">
-                  <FRC.Input value="" name="entrance" label="כניסה" type="text" />
+                  <FRC.Input value="" name="apartment.building.entrance" label="כניסה" type="text" />
                 </div>
                 <div className="col-md-4">
-                  <FRC.Input value="" name="floor" label="קומה" type="number" required />
+                  <FRC.Input value="" name="apartment.floor" label="קומה" type="number" required />
                 </div>
                 <div className="col-md-4">
-                  <FRC.Input value="" name="floors" label="מס' קומות בבניין" type="number" />
+                  <FRC.Input value="" name="apartment.building.floors" label="מס' קומות בבניין" type="number" />
                 </div>
               </div>
             </div>
@@ -88,10 +88,10 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
               <div className="form-section-headline">פרטי הדירה</div>
               <div className="row">
                 <div className="col-md-4">
-                  <FRC.Input value="" name="size" label="גודל הדירה" type="number" required />
+                  <FRC.Input value="" name="apartment.size" label="גודל הדירה" type="number" required />
                 </div>
                 <div className="col-md-4">
-                  <FRC.Select name="rooms" label="מספר חדרים" required options={roomOptions} />
+                  <FRC.Select name="apartment.rooms" label="מספר חדרים" required options={roomOptions} />
                 </div>
                 <div className="col-md-4">
                   <FRC.Input value="" name="roomates" label="שותפים" type="text" />
@@ -103,16 +103,16 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
                 </div>
               </div>
               <div className="row">
-                <FRC.Checkbox name="parking" label="חנייה" rowClassName="checkbox-inline"/>
-                <FRC.Checkbox name="elevator" label="מעלית" rowClassName="checkbox-inline"/>
-                <FRC.Checkbox name="sun_heated_boiler" label="דוד שמש" rowClassName="checkbox-inline"/>
-                <FRC.Checkbox name="pets" label='מותר בע"ח' rowClassName="checkbox-inline"/>
+                <FRC.Checkbox name="apartment.parking" label="חנייה" rowClassName="checkbox-inline"/>
+                <FRC.Checkbox name="apartment.building.elevator" label="מעלית" rowClassName="checkbox-inline"/>
+                <FRC.Checkbox name="apartment.sun_heated_boiler" label="דוד שמש" rowClassName="checkbox-inline"/>
+                <FRC.Checkbox name="apartment.pets" label='מותר בע"ח' rowClassName="checkbox-inline"/>
               </div>
               <div className="row">
-                <FRC.Checkbox name="air_conditioning" label="מזגן" rowClassName="checkbox-inline"/>
-                <FRC.Checkbox name="balcony" label="מרפסת" rowClassName="checkbox-inline"/>
-                <FRC.Checkbox name="security_bars" label="סורגים" rowClassName="checkbox-inline"/>
-                <FRC.Checkbox name="parquet_floor" label="פרקט" rowClassName="checkbox-inline"/>
+                <FRC.Checkbox name="apartment.air_conditioning" label="מזגן" rowClassName="checkbox-inline"/>
+                <FRC.Checkbox name="apartment.balcony" label="מרפסת" rowClassName="checkbox-inline"/>
+                <FRC.Checkbox name="apartment.security_bars" label="סורגים" rowClassName="checkbox-inline"/>
+                <FRC.Checkbox name="apartment.parquet_floor" label="פרקט" rowClassName="checkbox-inline"/>
               </div>
             </div>
 
