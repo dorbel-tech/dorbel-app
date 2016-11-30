@@ -16,7 +16,7 @@ describe('Listing Events API Integration', function () {
     return Math.floor(Math.random() * (max - min)) + min;
   }
 
-  describe('/ohe/by-listing/', function () {
+  describe('/events/by-listing/', function () {
 
     describe('/get/{id}', function () {
       it('should get all events per listing id', function* () {

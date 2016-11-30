@@ -1,5 +1,5 @@
 {
-  "/registration": {
+  "/event/registration": {
     "post": {
       "summary": "Create an open house event registration",
       "description": "Create an open house event registration to the system",
@@ -39,7 +39,7 @@
       }
     }
   },
-  "/registration/{id}": {
+  "/event/registration/{id}": {
     "delete": {
       "summary": "Deletes a registration for an open house event",
       "description": "Deletes a registration for an open house event to the system",

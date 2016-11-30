@@ -1,5 +1,5 @@
 {
-  "/ohe": {
+  "/event": {
     "post": {
       "summary": "Create an open house event",
       "description": "Create an open house event to the system",
@@ -77,7 +77,7 @@
       }
     }
   },
-  "/ohe/{id}": {
+  "/event/{id}": {
     "get": {
       "summary": "Finds an open house event",
       "description": "Finds an open house event in the system",
@@ -150,7 +150,7 @@
       }
     }
   },
-  "/ohe/by-listing/{id}": {
+  "/events/by-listing/{id}": {
     "get": {
       "summary": "Finds all an open house events for a listing",
       "description": "Finds all an open house events for a listing in the system",

@@ -16,7 +16,7 @@ describe('Open House Events Registration API Integration', function () {
     return Math.floor(Math.random() * (max - min)) + min;
   }
 
-  describe('/registration', function () {
+  describe('/event/registration', function () {
 
     describe('/post', function () {
       it('should create a new registation', function* () {
@@ -35,7 +35,7 @@ describe('Open House Events Registration API Integration', function () {
 
     });
 
-    describe('/delete/{id}', function () {
+    describe('delete/{id}', function () {
       it('should delete a registation', function* () {
         const ohe = {
           start_time: moment().add(-2, 'hours').toISOString(),

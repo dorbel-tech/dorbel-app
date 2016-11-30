@@ -16,7 +16,7 @@ describe('Open House Events API Integration', function () {
     return Math.floor(Math.random() * (max - min)) + min;
   }
 
-  describe('/ohe', function () {
+  describe('/event', function () {
     describe('/get{id}', function () {
       it('should find an open house event', function* () {
         const ohe = {

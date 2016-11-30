@@ -13,46 +13,46 @@ class ApiClient {
 
   findEventsByListing(listingId) {
     return this.request
-      .get('/v1/ohe/by-listing/' + listingId)
+      .get('/v1/events/by-listing/' + listingId)
       .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile));
   }
 
   findEvent(existingEventId) {
     return this.request
-      .get('/v1/ohe/' + existingEventId)
+      .get('/v1/event/' + existingEventId)
       .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile));
   }
 
   createNewEvent(newEvent) {
     return this.request
-      .post('/v1/ohe')
+      .post('/v1/event')
       .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile))
       .send(newEvent);
   }
 
   updateEvent(existingEvent) {
     return this.request
-      .put('/v1/ohe')
+      .put('/v1/event')
       .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile))
       .send(existingEvent);
   }
 
   deleteEvent(existingEventId) {
     return this.request
-      .delete('/v1/ohe/' + existingEventId)
+      .delete('/v1/event/' + existingEventId)
       .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile));
   }
 
   createNewRegistration(existingEventId) {
     return this.request
-      .post('/v1/registration')
+      .post('/v1/event/registration')
       .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile))
       .send({'open_house_event_id': existingEventId});
   }
 
   deleteRegistration(registrationId) {
     return this.request
-      .delete('/v1/registration/' + registrationId)
+      .delete('/v1/event/registration/' + registrationId)
       .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile));
   }
 
