@@ -6,6 +6,7 @@ const _ = require('lodash');
 const emailDispatcher = require('../../dispatchers/emailDispatcher');
 const smsDispatcher = require('../../dispatchers/smsDispatcher');
 const userManagement = shared.utils.userManagement;
+const emailTemplates = require('../emailTemplates');
 
 function send(messageType, messageBody) {
   const message = JSON.parse(messageBody.Message);
@@ -31,7 +32,7 @@ function sendEmail(messageBody, userDetails) {
   if (!userDetails[0].email) { throw new Error('No email was provided!'); }
 
   // Pass dynamic params in email body using mergeVars object.
-  const templateName = 'test';
+  const templateName = emailTemplates.templateSlug.APARTMENT_CREATED_1A;
   const additionalParams = {
     email: userDetails[0].email,
     name: userDetails[0].name,
@@ -54,7 +55,7 @@ function sendSMS(messageBody, userDetails) {
 
   if (!userDetails[0].phone) { throw new Error('No phone number was provided!'); }
   
-  const smsTemplate = _.template('Hello from notifications service with aprtment id: <%= apartment_id %> (<%= environemnt %>)');
+  const smsTemplate = _.template('New aprtment was added id: <%= apartment_id %> (<%= environemnt %>)');
   const smsText = smsTemplate({
     apartment_id: message.dataPayload.apartment_id,
     environemnt: message.environemnt
