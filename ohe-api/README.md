@@ -1,4 +1,4 @@
-# dorbel-apartments-api
+# dorbel-ohe-api
 > REST API for dorbel open house events domain
 
 ## Scripts
