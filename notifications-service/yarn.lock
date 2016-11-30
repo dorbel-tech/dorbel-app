@@ -863,9 +863,9 @@ doctrine@^1.2.2:
     esutils "^2.0.2"
     isarray "^1.0.0"
 
-"dorbel-shared@git://github.com/dorbel-tech/dorbel-shared#v0.4.19":
-  version "0.4.19"
-  resolved "git://github.com/dorbel-tech/dorbel-shared#7add67d34b82ac6f97cc72e2e3111678a2bfd605"
+"dorbel-shared@git://github.com/dorbel-tech/dorbel-shared#v0.4.23":
+  version "0.4.23"
+  resolved "git://github.com/dorbel-tech/dorbel-shared#fd571b3e18ec7daa8eb13547b6935e9a70b20a72"
   dependencies:
     auth0 "^2.5.0"
     bunyan "~1.8.1"
@@ -3025,11 +3025,11 @@ semver@5.0.1:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/semver/-/semver-5.0.1.tgz#9fb3f4004f900d83c47968fe42f7583e05832cc9"
 
-semver@5.1.0, semver@^5.0.3:
+semver@5.1.0:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/semver/-/semver-5.1.0.tgz#85f2cf8550465c4df000cf7d86f6b054106ab9e5"
 
-semver@5.3.0, semver@~5.3.0:
+semver@5.3.0, semver@^5.0.3, semver@~5.3.0:
   version "5.3.0"
   resolved "https://registry.yarnpkg.com/semver/-/semver-5.3.0.tgz#9b2ce5d3de02d17c6012ad326aa6b4d0cf54f94f"
 

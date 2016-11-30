@@ -13,7 +13,7 @@
     "test:unit": "jest",
     "test:e2e": "echo TBD",
     "lint": "eslint --ext .jsx,.js -f table src",
-    "check": "satisfaction-status || yarn install"    
+    "check": "satisfaction-status || yarn install"
   },
   "author": "",
   "license": "ISC",
@@ -36,7 +36,7 @@
     "co": "^4.6.0",
     "css-loader": "^0.25.0",
     "director": "^1.2.8",
-    "dorbel-shared": "git://github.com/dorbel-tech/dorbel-shared#v0.4.19",
+    "dorbel-shared": "git://github.com/dorbel-tech/dorbel-shared#v0.4.23",
     "ejs": "^2.5.2",
     "enzyme": "^2.5.1",
     "es6-promisify": "^5.0.0",
