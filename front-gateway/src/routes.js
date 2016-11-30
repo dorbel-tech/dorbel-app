@@ -25,10 +25,7 @@ function startRouter(appStore) {
     '/login': () => appStore.setView(Login),
     '/apartments': () => appStore.setView(Apartments),
     '/apartments/new_form': () => appStore.setView(UploadApartmentForm),
-    '/apartments/:apartmentId': [
-      checkAuth,
-      (id) => appStore.setView(Apartment, { apartmentId: id })
-    ],
+    '/apartments/:apartmentId': (id) => appStore.setView(Apartment, { apartmentId: id }),
     '/profile': [
       checkAuth,
       () => appStore.setView(Profile)
