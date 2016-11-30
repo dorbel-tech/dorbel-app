@@ -11,6 +11,13 @@ const app = koa();
 const port: number = shared.config.get('PORT');
 const env = process.env.NODE_ENV;
 
+const statusCodes = {
+  'OpenHouseEventValidationError': 400,
+  'OpenHouseEventRegistrationValidationError':400,
+  'OpenHouseEventNotFoundError':404,
+  'OpenHouseEventRegistrationNotFoundError':404
+};
+
 app.use(shared.middleware.errorHandler());
 app.use(shared.middleware.requestLogger());
 app.use(bodyParser());
@@ -29,29 +36,16 @@ app.use(function* handleSequelizeErrors(next) {
   }
 });
 
-app.use(function* handleOpenHouseEventValidationErrors(next) {
+app.use(function* handleDomainErrors(next) {
   try {
     yield next;
   }
   catch (ex) {
-    if (ex.name === 'OpenHouseEventValidationError' || ex.name === 'OpenHouseEventRegistrationValidationError') {
+    if(statusCodes.hasOwnProperty(ex.name)){
       this.body = ex.message;
-      this.status = 400;
-    } else {
-      throw ex;
+      this.status = statusCodes[ex.name];
     }
-  }
-});
-
-app.use(function* handleOpenHouseEventNotFoundErrors(next) {
-  try {
-    yield next;
-  }
-  catch (ex) {
-    if (ex.name === 'OpenHouseEventNotFoundError' || ex.name  === 'OpenHouseEventRegistrationNotFoundError') {
-      this.body = ex.message;
-      this.status = 404;
-    } else {
+    else {
       throw ex;
     }
   }
