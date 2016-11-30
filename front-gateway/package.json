@@ -7,12 +7,13 @@
     "clean": "rm -rf ./public/build",
     "start": "babel-node src/server/server.js",
     "build": "yarn run clean; webpack",
-    "start:dev": "nodemon --exec babel-node src/server/server.js | bunyan",
+    "start:dev": "yarn run check; nodemon --exec babel-node --debug=5859 src/server/server.js | bunyan",
     "build:dev": "NODE_ENV=development webpack-dev-server --content-base public -ds --config webpack.config.js --host 0.0.0.0 --hot --colors --inline --no-info",
     "test": "yarn run test:unit",
     "test:unit": "jest",
     "test:e2e": "echo TBD",
-    "lint": "eslint --ext .jsx,.js -f table src"
+    "lint": "eslint --ext .jsx,.js -f table src",
+    "check": "satisfaction-status || yarn install"    
   },
   "author": "",
   "license": "ISC",
@@ -67,6 +68,7 @@
     "react-dom": "~15.3.0",
     "react-dropzone": "3.7.3",
     "sass-loader": "^4.0.2",
+    "satisfaction": "^3.0.0",
     "sinon": "^1.17.6",
     "sinon-as-promised": "^4.0.2",
     "style-loader": "^0.13.1",
