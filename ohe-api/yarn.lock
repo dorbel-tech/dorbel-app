@@ -946,9 +946,9 @@ doctrine@^1.2.2:
     esutils "^2.0.2"
     isarray "^1.0.0"
 
-"dorbel-shared@git://github.com/dorbel-tech/dorbel-shared#v0.4.26":
-  version "0.4.26"
-  resolved "git://github.com/dorbel-tech/dorbel-shared#03ecbdf438c28797333c25befc3370316de50d34"
+"dorbel-shared@git://github.com/dorbel-tech/dorbel-shared#v0.4.27":
+  version "0.4.27"
+  resolved "git://github.com/dorbel-tech/dorbel-shared#982eee819e1e1e0fb2db548880fb8d8541b6d2bd"
   dependencies:
     auth0 "^2.5.0"
     bunyan "~1.8.1"
