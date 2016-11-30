@@ -1,5 +1,6 @@
 # This file is meant to extend docker-compose.yml for development environment
 version: '2'
+
 services:
 
   apartments-api:
@@ -36,6 +37,7 @@ services:
       CLOUDINARY_API_KEY: ${CLOUDINARY_API_KEY}
     command: bash -c "yarn run build:dev& yarn run start:dev" 
 
+  
   notifications-service:
     image: dorbel/notifications-service
     ports:
@@ -57,4 +59,21 @@ services:
       TWILIO_ACCOUNT_SID: ${TWILIO_ACCOUNT_SID}
       TWILIO_AUTH_TOKEN: ${TWILIO_AUTH_TOKEN}
       TWILIO_PHONE_NUMBER: ${TWILIO_PHONE_NUMBER}
-    command: yarn run start:dev
+    command: yarn run start:dev  
+
+  ohe-api:
+    image: dorbel/ohe-api:development
+    ports:
+      - '5860:5860'
+    volumes:
+      - ./ohe-api:/home/nodejs/app
+      - /home/nodejs/app/node_modules
+    environment:
+      NODE_ENV: ${NODE_ENV}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_REGION: ${AWS_REGION}
+      NOTIFICATIONS_SNS_TOPIC_ARN: ${NOTIFICATIONS_SNS_TOPIC_ARN}
+    command: bash -c "./scripts/wait-for-it.sh db:3306 --timeout=180 && yarn run start:dev"
+    
+    

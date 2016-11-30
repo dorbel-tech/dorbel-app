@@ -1,0 +1,32 @@
+{
+  "OpenHouseEvent": {
+    "type": "object",
+    "properties": {
+      "start_time": {
+        "type": "string",
+        "format": "date-time"
+      },
+      "end_time": {
+        "type": "string",
+        "format": "date-time"
+      },
+      "listing_id": {
+        "type": "integer"
+      },
+      "is_active":{
+        "type": "boolean"
+      },
+      "registrations": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/Registration"
+        }
+      }
+    },
+    "required": [
+      "start_time",
+      "end_time",
+      "listing_id"
+    ]
+  }
+}

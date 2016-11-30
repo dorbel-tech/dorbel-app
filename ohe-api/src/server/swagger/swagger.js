@@ -17,8 +17,8 @@ function consolidateFilesInFolder(folderName: string) {
 const swaggerBase = {
   swagger: '2.0',
   info: {
-    'title': 'dorbel Apartments API',
-    'description': 'dorbel API for the apartments domain',
+    'title': 'dorbel Open House Events API',
+    'description': 'dorbel API for the open house events domain',
     'version': '0.0.1'
   },
   host: 'api.dorbel.com',
@@ -30,7 +30,6 @@ const swaggerBase = {
     'application/json'
   ],
   paths: consolidateFilesInFolder('paths'),
-  // TODO : can definitions be based on the DB models ?
   definitions: consolidateFilesInFolder('definitions')
 };
 

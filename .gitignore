@@ -1,6 +1,6 @@
 # Configuration environment variables
 .env
-
+.DS_Store
 # Logs
 logs
 *.log
