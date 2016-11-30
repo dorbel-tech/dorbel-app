@@ -20,7 +20,7 @@
         }
       ],
       "tags": [
-        "oheController",
+        "openHouseEventsController",
         "authenticated"
       ],
       "responses": {
@@ -58,7 +58,7 @@
         }
       ],
       "tags": [
-        "oheController",
+        "openHouseEventsController",
         "authenticated"
       ],
       "responses": {
@@ -97,7 +97,7 @@
         }
       ],
       "tags": [
-        "oheController",
+        "openHouseEventsController",
         "authenticated"
       ],
       "responses": {
@@ -134,7 +134,7 @@
         }
       ],
       "tags": [
-        "oheController",
+        "openHouseEventsController",
         "authenticated"
       ],
       "responses": {
