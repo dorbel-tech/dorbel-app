@@ -16,7 +16,7 @@ function OpenHouseEventNotFoundError(message) {
   this.message = message;
 }
 
-function validateEventParamters(listing_id, start, end) {
+function validateEventParamters(start, end) {
   if (end.diff(start, 'minutes') < 30) {
     throw new OpenHouseEventValidationError('open house event should be at least 30 minutes');
   }
@@ -49,7 +49,7 @@ function* create(openHouseEvent) {
   const start = moment(openHouseEvent.start_time, moment.ISO_8601, true);
   const end = moment(openHouseEvent.end_time, moment.ISO_8601, true);
 
-  validateEventParamters(listing_id, start, end);
+  validateEventParamters(start, end);
 
   const existingListingEvents = yield openHouseEventsRepository.findByListingId(listing_id);
   validateEventIsNotOverlappingExistingEvents(existingListingEvents, listing_id, start, end);
@@ -77,7 +77,7 @@ function* update(openHouseEvent) {
   const listing_id = parseInt(openHouseEvent.listing_id);
   const start = moment(openHouseEvent.start_time, moment.ISO_8601, true);
   const end = moment(openHouseEvent.end_time, moment.ISO_8601, true);
-  validateEventParamters(listing_id, start, end);
+  validateEventParamters(start, end);
 
   const existingListingEvents = yield openHouseEventsRepository.findByListingId(listing_id);
   const existingEventsWithoutCurrent = existingListingEvents.filter(function (existingEvent) {
