@@ -12,8 +12,6 @@ function send(messageType, messageBody) {
   
   return userManagement.getUserDetails(message.dataPayload.user_uuid)
     .then(userDetails => {
-      logger.debug({userDetails}, 'userDetails');
-
       switch (messageType) {
         case 'Email':
           return sendEmail(messageBody, userDetails);
@@ -23,9 +21,6 @@ function send(messageType, messageBody) {
         default:
           throw new Error('Message type wasnt defined!');
       }
-    })
-    .catch(err => {
-      logger.error(err);
     });
 }
 
@@ -33,11 +28,13 @@ function sendEmail(messageBody, userDetails) {
   logger.debug('Sending email');
   const message = JSON.parse(messageBody.Message);
 
+  if (!userDetails[0].email) { throw new Error('No email was provided!'); }
+
   // Pass dynamic params in email body using mergeVars object.
   const templateName = 'test';
   const additionalParams = {
-    userEmail: userDetails.email,
-    userFullName: userDetails.name,
+    email: userDetails[0].email,
+    name: userDetails[0].name,
     mergeVars: [{
       name: 'environment',
       content: message.environemnt
@@ -46,6 +43,7 @@ function sendEmail(messageBody, userDetails) {
       content: message.dataPayload.apartment_id
     }]
   };
+  logger.debug({additionalParams}, 'Email additionalParams');
 
   return emailDispatcher.send(templateName, additionalParams);
 }
@@ -53,14 +51,17 @@ function sendEmail(messageBody, userDetails) {
 function sendSMS(messageBody, userDetails) {
   logger.debug('Sending SMS');
   const message = JSON.parse(messageBody.Message);
-  const toPhoneNumber = userDetails.phone;
+
+  if (!userDetails[0].phone) { throw new Error('No phone number was provided!'); }
+  
   const smsTemplate = _.template('Hello from notifications service with aprtment id: <%= apartment_id %> (<%= environemnt %>)');
   const smsText = smsTemplate({
     apartment_id: message.dataPayload.apartment_id,
     environemnt: message.environemnt
   });
+  logger.debug({smsText}, 'SMS text');
 
-  return smsDispatcher.send(toPhoneNumber, smsText);
+  return smsDispatcher.send(userDetails[0].phone, smsText);
 }
 
 module.exports = {
