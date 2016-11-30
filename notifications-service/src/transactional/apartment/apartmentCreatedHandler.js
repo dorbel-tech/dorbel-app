@@ -31,22 +31,24 @@ function sendEmail(messageBody, userDetails) {
 
   if (!userDetails[0].email) { throw new Error('No email was provided!'); }
 
-  // Pass dynamic params in email body using mergeVars object.
-  const templateName = emailTemplates.templateSlug.APARTMENT_CREATED_1A;
-  const additionalParams = {
-    email: userDetails[0].email,
-    name: userDetails[0].name,
-    mergeVars: [{
-      name: 'environment',
-      content: message.environemnt
-    }, {
-      name: 'apartment_id',
-      content: message.dataPayload.apartment_id
-    }]
-  };
-  logger.debug({additionalParams}, 'Email additionalParams');
+  try {
+    // Pass dynamic params in email body using mergeVars object.
+    const templateName = emailTemplates.templateSlug.APARTMENT_CREATED_1A;
+    const additionalParams = {
+      email: userDetails[0].email,
+      name: userDetails[0].name,
+      mergeVars: [{
+        name: 'environment',
+        content: message.environemnt
+      }, {
+        name: 'apartment_id',
+        content: message.dataPayload.apartment_id
+      }]
+    };
+    logger.debug({additionalParams}, 'Email additionalParams');
 
-  return emailDispatcher.send(templateName, additionalParams);
+    return emailDispatcher.send(templateName, additionalParams);    
+  } catch (error) { throw error;  }
 }
 
 function sendSMS(messageBody, userDetails) {
@@ -55,12 +57,14 @@ function sendSMS(messageBody, userDetails) {
 
   if (!userDetails[0].phone) { throw new Error('No phone number was provided!'); }
   
-  const smsTemplate = _.template('New aprtment was added id: <%= apartment_id %> (<%= environemnt %>)');
-  const smsText = smsTemplate({
-    apartment_id: message.dataPayload.apartment_id,
-    environemnt: message.environemnt
-  });
-  logger.debug({smsText}, 'SMS text');
+  try {
+    const smsTemplate = _.template('New aprtment was added id: <%= apartment_id %> (<%= environemnt %>)');
+    const smsText = smsTemplate({
+      apartment_id: message.dataPayload.apartment_id,
+      environemnt: message.environemnt
+    });
+    logger.debug({smsText}, 'SMS text');
+  } catch (error) { throw error;  }
 
   return smsDispatcher.send(userDetails[0].phone, smsText);
 }
