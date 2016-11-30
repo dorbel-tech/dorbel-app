@@ -1,0 +1,41 @@
+.apt-header {
+    background: $brand-white;
+}
+
+.navbar {
+    @include gradient-vertical(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0), 0%, 100%);
+    border: 0;
+    @media (max-width: $screen-xs-min) {
+        background-color: #fff;
+        .btn-success{
+            display:block;
+        }
+    }
+}
+
+.apt-gallery {
+    height: 700px;
+    @media (max-width: 1440px) {
+        height: 500px;
+    }
+    @media (max-width: $screen-xs-min) {
+        height: 300px;
+    }
+    
+}
+
+.gallery-cell {
+    height: 100%;
+    img {
+        height: 100%;
+        padding-right: 2px;
+    }
+}
+
+.flickity-page-dots {
+    display: none;
+}
+
+.flickity-prev-next-button:disabled {
+    display: none;
+}

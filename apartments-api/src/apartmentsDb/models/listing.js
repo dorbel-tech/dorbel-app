@@ -15,7 +15,10 @@ function define(sequelize, DataTypes) {
     roommate_needed: { type: DataTypes.BOOLEAN, defaultValue: false }
   }, {
     classMethods: {
-      associate: models => models.listing.belongsTo(models.apartment, { foreignKey: { allowNull: false }, onDelete: 'CASCADE' })
+      associate: models => {
+        models.listing.belongsTo(models.apartment, { foreignKey: { allowNull: false }, onDelete: 'CASCADE' });
+        models.listing.hasMany(models.image);        
+      }
     }
   });
 }

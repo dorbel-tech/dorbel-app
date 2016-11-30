@@ -44,5 +44,19 @@ describe('Apartments API Integration', function () {
     });
   });
 
+  describe('/listings/{id}', function() {
+    before(function* () {
+      const newListing = faker.getFakeListing();
+      const postReponse = yield this.apiClient.createListing(newListing).expect(201).end();
+      this.createdListing = postReponse.body;
+    })
+
+    it('should return a single listing', function* () {
+      const getResponse = yield this.apiClient.getSingleListing(this.createdListing.id).expect(200).end();
+      // TODO : this is a very shallow check
+      __.assertThat(getResponse.body, __.hasProperties(this.createdListing));
+    });
+  });
+
   
 });
