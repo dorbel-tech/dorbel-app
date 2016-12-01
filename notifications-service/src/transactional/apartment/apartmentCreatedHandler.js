@@ -5,50 +5,68 @@ const logger = shared.logger.getLogger(module);
 const _ = require('lodash');
 const emailDispatcher = require('../../dispatchers/emailDispatcher');
 const smsDispatcher = require('../../dispatchers/smsDispatcher');
+const userManagement = shared.utils.userManagement;
+const emailTemplates = require('../emailTemplates');
 
 function send(messageType, messageBody) {
-  switch (messageType) {
-    case 'Email':
-      return sendEmail(messageBody);
-    case 'SMS':
-      return sendSMS(messageBody);
+  const message = JSON.parse(messageBody.Message);
+  
+  return userManagement.getUserDetails(message.dataPayload.user_uuid)
+    .then(userDetails => {
+      switch (messageType) {
+        case 'Email':
+          return sendEmail(messageBody, userDetails);
+        case 'SMS':
+          return sendSMS(messageBody, userDetails);
 
-    default:
-      throw new Error('Message type wasnt defined!');
-  }
+        default:
+          throw new Error('Message type wasnt defined!');
+      }
+    });
 }
 
-function sendEmail(messageBody) {
+function sendEmail(messageBody, userDetails) {
   logger.debug('Sending email');
   const message = JSON.parse(messageBody.Message);
-  // Pass dynamic params in email body using mergeVars object.
-  const templateName = 'test';
-  const additionalParams = {
-    userEmail: 'david@dorbel.com', // TODO: Get user email.
-    userFullName: 'Dorbel Tester', // TODO: Get user full name.
-    mergeVars: [{
-      name: 'environment',
-      content: message.environemnt
-    }, {
-      name: 'apartment_id',
-      content: message.dataPayload.apartment_id
-    }]
-  };
 
-  return emailDispatcher.send(templateName, additionalParams);
+  if (!userDetails[0].email) { throw new Error('No email was provided!'); }
+
+  try {
+    // Pass dynamic params in email body using mergeVars object.
+    const templateName = emailTemplates.templateSlug.APARTMENT_CREATED_1A;
+    const additionalParams = {
+      email: userDetails[0].email,
+      name: userDetails[0].name,
+      mergeVars: [{
+        name: 'environment',
+        content: message.environemnt
+      }, {
+        name: 'apartment_id',
+        content: message.dataPayload.apartment_id
+      }]
+    };
+    logger.debug({additionalParams}, 'Email additionalParams');
+
+    return emailDispatcher.send(templateName, additionalParams);    
+  } catch (error) { throw error;  }
 }
 
-function sendSMS(messageBody) {
+function sendSMS(messageBody, userDetails) {
   logger.debug('Sending SMS');
   const message = JSON.parse(messageBody.Message);
-  const toPhoneNumber = '+972544472571'; // TODO: Get user phone number.
-  const smsTemplate = _.template('Hello from notifications service with aprtment id: <%= apartment_id %> (<%= environemnt %>)');
-  const smsText = smsTemplate({
-    apartment_id: message.dataPayload.apartment_id,
-    environemnt: message.environemnt
-  });
 
-  return smsDispatcher.send(toPhoneNumber, smsText);
+  if (!userDetails[0].phone) { throw new Error('No phone number was provided!'); }
+  
+  try {
+    const smsTemplate = _.template('New aprtment was added id: <%= apartment_id %> (<%= environemnt %>)');
+    const smsText = smsTemplate({
+      apartment_id: message.dataPayload.apartment_id,
+      environemnt: message.environemnt
+    });
+    logger.debug({smsText}, 'SMS text');
+    return smsDispatcher.send(userDetails[0].phone, smsText);
+  } catch (error) { throw error;  }
+
 }
 
 module.exports = {

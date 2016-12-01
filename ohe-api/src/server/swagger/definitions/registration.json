@@ -1,0 +1,19 @@
+{
+  "Registration": {
+    "type": "object",
+    "properties": {
+      "open_house_event_id": {
+        "type": "integer"
+      },
+      "user_id": {
+        "type": "string"
+      },
+      "is_active":{
+        "type": "boolean"
+      }
+    },
+    "required": [
+      "open_house_event_id"
+    ]
+  }
+}

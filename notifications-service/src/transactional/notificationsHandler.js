@@ -20,7 +20,10 @@ function handleMessage(messageType, message, done) {
   if (handler) {
     handler.send(messageType, messageBody)
       .then(() => done())
-      .catch(done);
+      .catch(err => {
+        logger.error(err, 'Notifications handler error');
+        done(err);
+      });
   } else {
     logger.info('Message was skipped and not processed as no handler was defined for its type.');      
     done();

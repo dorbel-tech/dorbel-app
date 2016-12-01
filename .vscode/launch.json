@@ -55,6 +55,43 @@
       "console": "internalConsole",
       "sourceMaps": true,
       "outDir": null
+    },
+    {
+      "name": "notifications-service#attach",
+      "type": "node",
+      "request": "attach",
+      "port": 5861,
+      "address": "localhost",
+      "restart": true,
+      "sourceMaps": true,
+      "outDir": null,
+      "localRoot": "${workspaceRoot}/notifications-service",
+      "remoteRoot": "."
+    },
+    {
+      "name": "ohe-api#attach",
+      "type": "node",
+      "request": "attach",
+      "port": 5860,
+      "address": "localhost",
+      "restart": true,
+      "sourceMaps": true,
+      "outDir": null,
+      "localRoot": "${workspaceRoot}/ohe-api",
+      "remoteRoot": "."
+    },
+    {
+      "name": "ohi-api#unit-tests",
+      "type": "node",
+      "cwd": "${workspaceRoot}/ohe-api",
+      "request": "launch",
+      "args": [ "run", "test:unit" ],
+      "port": 5858,
+      "runtimeExecutable": "yarn",
+      "runtimeArgs": [ ],
+      "console": "internalConsole",
+      "sourceMaps": true,
+      "outDir": null
     }
   ]
 }

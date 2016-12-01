@@ -32,20 +32,25 @@ dependencies:
     - cd apartments-api && yarn install
     - cd front-gateway && yarn install
     - cd notifications-service && yarn install
+    - cd ohe-api && yarn install
 
 test:
   override:
     - cd apartments-api && yarn run lint 
-    - cd front-gateway && yarn run lint
-    - cd notifications-service && yarn run lint
     - cd apartments-api && yarn run db:migrate
     - cd apartments-api && yarn run db:seed
     - cd apartments-api && yarn test
     - cd apartments-api && yarn run test:integration
+    - cd front-gateway && yarn run lint
     - cd front-gateway && yarn test 
     - cd front-gateway && yarn run test:e2e 
+    - cd notifications-service && yarn run lint
     - cd notifications-service && yarn test 
     - cd notifications-service && yarn run test:integration
+    - cd ohe-api && yarn run lint
+    - cd ohe-api && yarn run db:migrate
+    - cd ohe-api && yarn test 
+    - cd ohe-api && yarn run test:integration
 
 deployment:
   staging:
@@ -56,4 +61,5 @@ deployment:
       - sudo pip install awsebcli
       - yarn run deploy apartments-api stage
       - yarn run deploy front-gateway stage
-      - yarn run deploy notifications-service stage    
+      - yarn run deploy notifications-service stage
+      - yarn run deploy ohe-api stage    

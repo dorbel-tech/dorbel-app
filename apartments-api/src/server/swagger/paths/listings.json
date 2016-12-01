@@ -70,5 +70,37 @@
         }
       }
     }
+  },
+  "/listings/{listingId}" : {
+    "get": {  
+      "summary": "Get a single listing",
+      "description": "Get a single listing with all it's details",
+      "parameters": [
+        {
+          "name": "listingId",
+          "in": "path",
+          "description": "id of listing",
+          "type": "integer",
+          "required": true
+        }
+      ],
+      "tags": [
+        "singleListingController"
+      ],
+      "responses": {
+        "200": {
+          "description": "A listing",
+          "schema": {
+            "$ref": "#/definitions/Listing"
+          }
+        },
+        "default": {
+          "description": "Unexpected error",
+          "schema": {
+            "$ref": "#/definitions/Error"
+          }
+        }
+      }
+    }
   }
 }

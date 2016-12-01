@@ -46,3 +46,21 @@ services:
     image: dorbel/notifications-service
     ports:
       - '3002:3002'
+
+  ohe-api:
+    build:
+      context: ohe-api
+    image: dorbel/ohe-api
+    ports:
+      - '3003:3003'
+    depends_on:
+      - db
+    links:
+      - db
+    environment:
+      RDS_HOSTNAME: db
+      RDS_DB_NAME: ${MYSQL_DATABASE_OHE}
+      RDS_USERNAME: ${MYSQL_ROOT_USER}
+      RDS_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+
+      

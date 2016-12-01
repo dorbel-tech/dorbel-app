@@ -9,6 +9,7 @@ services:
     volumes:
       - ./apartments-api:/home/nodejs/app
       - /home/nodejs/app/node_modules
+      - ../dorbel-shared:/home/nodejs/app/node_modules/dorbel-shared
     environment:
       NODE_ENV: ${NODE_ENV}
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
@@ -26,6 +27,7 @@ services:
       - ./front-gateway:/home/nodejs/app
       - /home/nodejs/app/node_modules
       - /home/nodejs/app/public/build
+      - ../dorbel-shared:/home/nodejs/app/node_modules/dorbel-shared
     environment:
       NODE_ENV: ${NODE_ENV}
       AUTH0_DOMAIN: ${AUTH0_DOMAIN}
@@ -33,13 +35,19 @@ services:
       CLOUDINARY_SECRET: ${CLOUDINARY_SECRET}
       CLOUDINARY_API_KEY: ${CLOUDINARY_API_KEY}
     command: bash -c "yarn run build:dev& yarn run start:dev" 
-
+  
   notifications-service:
     image: dorbel/notifications-service
+    ports:
+      - '5861:5861'
     volumes:
       - ./notifications-service:/home/nodejs/app
       - /home/nodejs/app/node_modules
+      - ../dorbel-shared:/home/nodejs/app/node_modules/dorbel-shared
     environment:
+      AUTH0_DOMAIN: ${AUTH0_DOMAIN}
+      AUTH0_API_CLIENT_ID: ${AUTH0_API_CLIENT_ID}
+      AUTH0_API_CLIENT_SECRET: ${AUTH0_API_CLIENT_SECRET}
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
       AWS_REGION: ${AWS_REGION}
@@ -49,4 +57,20 @@ services:
       TWILIO_ACCOUNT_SID: ${TWILIO_ACCOUNT_SID}
       TWILIO_AUTH_TOKEN: ${TWILIO_AUTH_TOKEN}
       TWILIO_PHONE_NUMBER: ${TWILIO_PHONE_NUMBER}
-    command: yarn run start:dev
+    command: yarn run start:dev  
+
+  ohe-api:
+    image: dorbel/ohe-api:development
+    ports:
+      - '5860:5860'
+    volumes:
+      - ./ohe-api:/home/nodejs/app
+      - /home/nodejs/app/node_modules
+      - ../dorbel-shared:/home/nodejs/app/node_modules/dorbel-shared
+    environment:
+      NODE_ENV: ${NODE_ENV}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_REGION: ${AWS_REGION}
+      NOTIFICATIONS_SNS_TOPIC_ARN: ${NOTIFICATIONS_SNS_TOPIC_ARN}
+    command: bash -c "./scripts/wait-for-it.sh db:3306 --timeout=180 && yarn run start:dev"

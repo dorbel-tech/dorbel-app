@@ -11,7 +11,7 @@ class Apartments extends Component {
     }
   }
 
-  render() {
+  render() {    
     const { apartmentStore } = this.props.appStore;
 
     return (

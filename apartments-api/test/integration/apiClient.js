@@ -21,6 +21,10 @@ class ApiClient{
     return this.request.get('/v1/listings');
   }
 
+  getSingleListing(id) {
+    return this.request.get('/v1/listings/' + id);
+  }
+
   getCities() {
     return this.request.get('/v1/cities');
   }
