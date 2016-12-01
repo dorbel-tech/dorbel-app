@@ -7,9 +7,9 @@ const mandrill = require('mandrill-api/mandrill');
 const emailClient = new mandrill.Mandrill(config.get('MANDRILL_API_KEY'));
 
 function send(templateName, additionalParams) {
-
   const templateContent = [{}];
   let messageParams = {
+    from_name: additionalParams.from_name,
     to: [{
       email: additionalParams.email,
       name: additionalParams.name,
@@ -34,7 +34,7 @@ function send(templateName, additionalParams) {
       throw new Error('Email wasnt sent. Reason: ' + JSON.stringify(response));
     }
 
-    logger.info(response, 'Email was sent');
+    logger.info({response}, 'Email was sent');
     return response;
   });
 }

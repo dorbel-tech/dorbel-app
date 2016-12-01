@@ -13,6 +13,7 @@ function send(messageType, messageBody) {
   
   return userManagement.getUserDetails(message.dataPayload.user_uuid)
     .then(userDetails => {
+      logger.debug({userDetails}, 'User details from auth0');
       switch (messageType) {
         case 'Email':
           return sendEmail(messageBody, userDetails);
@@ -34,7 +35,9 @@ function sendEmail(messageBody, userDetails) {
   try {
     // Pass dynamic params in email body using mergeVars object.
     const templateName = emailTemplates.templateSlug.APARTMENT_CREATED_1A;
+    const fromName = (message.environemnt === 'production') ? 'dorbel' : 'dorbel ' + message.environemnt;
     const additionalParams = {
+      from_name: fromName,
       email: userDetails[0].email,
       name: userDetails[0].name,
       mergeVars: [{
@@ -54,17 +57,18 @@ function sendEmail(messageBody, userDetails) {
 function sendSMS(messageBody, userDetails) {
   logger.debug('Sending SMS');
   const message = JSON.parse(messageBody.Message);
+  const envAttach = (message.environemnt === 'production') ? '' : '(' + message.environemnt + ')';
 
-  if (!userDetails[0].phone) { throw new Error('No phone number was provided!'); }
+  if (!userDetails[0].user_metadata.phone) { throw new Error('No phone number was provided!'); }
   
   try {
-    const smsTemplate = _.template('New aprtment was added id: <%= apartment_id %> (<%= environemnt %>)');
+    const smsTemplate = _.template('New aprtment was added id: <%= apartment_id %> <%= environemnt %>');
     const smsText = smsTemplate({
       apartment_id: message.dataPayload.apartment_id,
-      environemnt: message.environemnt
+      environemnt: envAttach
     });
     logger.debug({smsText}, 'SMS text');
-    return smsDispatcher.send(userDetails[0].phone, smsText);
+    return smsDispatcher.send(userDetails[0].user_metadata.phone, smsText);
   } catch (error) { throw error;  }
 
 }
