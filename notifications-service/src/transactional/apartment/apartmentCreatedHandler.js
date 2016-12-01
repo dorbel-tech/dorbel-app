@@ -64,9 +64,9 @@ function sendSMS(messageBody, userDetails) {
       environemnt: message.environemnt
     });
     logger.debug({smsText}, 'SMS text');
+    return smsDispatcher.send(userDetails[0].phone, smsText);
   } catch (error) { throw error;  }
 
-  return smsDispatcher.send(userDetails[0].phone, smsText);
 }
 
 module.exports = {
