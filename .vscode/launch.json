@@ -57,6 +57,18 @@
       "outDir": null
     },
     {
+      "name": "notifications-service#attach",
+      "type": "node",
+      "request": "attach",
+      "port": 5861,
+      "address": "localhost",
+      "restart": true,
+      "sourceMaps": true,
+      "outDir": null,
+      "localRoot": "${workspaceRoot}/notifications-service",
+      "remoteRoot": "."
+    },
+    {
       "name": "ohe-api#attach",
       "type": "node",
       "request": "attach",
@@ -80,6 +92,6 @@
       "console": "internalConsole",
       "sourceMaps": true,
       "outDir": null
-    }    
+    }
   ]
 }
