@@ -40,21 +40,17 @@ function* create(listing) {
 }
 
 function* setGeoLocation(listing) {
-  const options = {
-    provider: 'google',
-    httpAdapter: 'https', // Default 
-    formatter: null         // 'gpx', 'string', ... 
-  };
+  const options = { provider: 'google'};
   const geocoder = NodeGeocoder(options);
   let fullAddress = [  
     listing.apartment.building.street_name,
     listing.apartment.building.house_number,
     listing.apartment.building.city.city_name
-  ];
-  return geocoder.geocode(fullAddress.join(' '))
+  ].join(' '); // Full address in one string with spacing.
+  return geocoder.geocode(fullAddress)
     .then(res => {
       logger.debug({ res }, 'Got geo location of apartment.');
-      let point = { type: 'Point', coordinates: [ res[0].longitude, res[0].latitude ]};
+      var point = { type: 'Point', coordinates: [ res[0].longitude, res[0].latitude ]};
       listing.apartment.building.geolocation = point;
       return listing;
 
