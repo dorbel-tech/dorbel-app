@@ -11,7 +11,6 @@ import apiProxy from '~/server/apiProxy';
 import { renderApp } from '~/app.server';
 
 const logger = shared.logger.getLogger(module);
-const userManagement = shared.utils.userManagement;
 
 function* runServer() {
   const app = koa();
@@ -45,7 +44,7 @@ function* runServer() {
   }
 
   app.use(serve(config.dir.public));
-  app.use(userManagement.parseAuthToken);
+  app.use(shared.utils.userManagement.parseAuthToken);
   yield apiProxy.loadProxy(app);
 
   koa_ejs(app, {
