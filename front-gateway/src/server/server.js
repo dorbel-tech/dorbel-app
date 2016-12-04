@@ -8,10 +8,10 @@ import 'isomorphic-fetch'; // polyfill fetch for nodejs
 import config from '~/config';
 import shared from 'dorbel-shared';
 import apiProxy from '~/server/apiProxy';
-import { parseAuthToken } from '~/server/authTokenParser';
 import { renderApp } from '~/app.server';
 
 const logger = shared.logger.getLogger(module);
+const userManagement = shared.utils.userManagement;
 
 function* runServer() {
   const app = koa();
@@ -45,7 +45,7 @@ function* runServer() {
   }
 
   app.use(serve(config.dir.public));
-  app.use(parseAuthToken);
+  app.use(userManagement.parseAuthToken);
   yield apiProxy.loadProxy(app);
 
   koa_ejs(app, {

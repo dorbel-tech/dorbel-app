@@ -30,7 +30,7 @@ function sendEmail(messageBody, userDetails) {
   logger.debug('Sending email');
   const message = JSON.parse(messageBody.Message);
 
-  if (!userDetails[0].email) { throw new Error('No email was provided!'); }
+  if (!userDetails.email) { throw new Error('No email was provided!'); }
 
   try {
     // Pass dynamic params in email body using mergeVars object.
@@ -38,8 +38,8 @@ function sendEmail(messageBody, userDetails) {
     const fromName = (message.environemnt === 'production') ? 'dorbel' : 'dorbel ' + message.environemnt;
     const additionalParams = {
       from_name: fromName,
-      email: userDetails[0].email,
-      name: userDetails[0].name,
+      email: userDetails.email,
+      name: userDetails.name,
       mergeVars: [{
         name: 'environment',
         content: message.environemnt
@@ -59,7 +59,7 @@ function sendSMS(messageBody, userDetails) {
   const message = JSON.parse(messageBody.Message);
   const envAttach = (message.environemnt === 'production') ? '' : '(' + message.environemnt + ')';
 
-  if (!userDetails[0].user_metadata.phone) { throw new Error('No phone number was provided!'); }
+  if (!userDetails.user_metadata.phone) { throw new Error('No phone number was provided!'); }
   
   try {
     const smsTemplate = _.template('New aprtment was added id: <%= apartment_id %> <%= environemnt %>');
@@ -68,7 +68,7 @@ function sendSMS(messageBody, userDetails) {
       environemnt: envAttach
     });
     logger.debug({smsText}, 'SMS text');
-    return smsDispatcher.send(userDetails[0].user_metadata.phone, smsText);
+    return smsDispatcher.send(userDetails.user_metadata.phone, smsText);
   } catch (error) { throw error;  }
 
 }
