@@ -2,6 +2,7 @@
 const mockRequire = require('mock-require');
 const __ = require('hamjest');
 const faker = require('../shared/fakeObjectGenerator');
+const notificationService = require('../../src/services/notificationService');
 var sinon = require('sinon');
 
 describe('Open House Event Followers Service', function () {
@@ -12,6 +13,14 @@ describe('Open House Event Followers Service', function () {
     this.openHouseEventsFinderServiceMock = {};
     mockRequire('../../src/services/openHouseEventsFinderService', this.openHouseEventsFinderServiceMock);
     this.service = require('../../src/services/openHouseEventFollowersService');
+  });
+
+  beforeEach(function () {
+    this.sendNotification = sinon.spy(notificationService, 'send');
+  });
+
+  afterEach(function () {
+    this.sendNotification.restore();
   });
 
   after(() => mockRequire.stopAll());
@@ -28,6 +37,8 @@ describe('Open House Event Followers Service', function () {
 
       const result = yield this.service.follow(1, 'user');
       __.assertThat(result, __.is(true));
+      __.assertThat(this.sendNotification.calledOnce, __.is(true));
+      __.assertThat(this.sendNotification.getCall(0).args[0], __.is(notificationService.eventType.OHE_FOLLOW));
     });
 
     it('should fail when the event a user wants to follow does not exists in db', function* () {
@@ -38,6 +49,7 @@ describe('Open House Event Followers Service', function () {
       }
       catch (error) {
         __.assertThat(error.message, __.is('Error'));
+        __.assertThat(this.sendNotification.callCount, __.is(0));
       }
     });
 
@@ -58,6 +70,7 @@ describe('Open House Event Followers Service', function () {
       }
       catch (error) {
         __.assertThat(error.message, __.is('user already follows this event'));
+        __.assertThat(this.sendNotification.callCount, __.is(0));
       }
     });
   });
@@ -73,6 +86,8 @@ describe('Open House Event Followers Service', function () {
 
       const result = yield this.service.unfollow(1, 'user');
       __.assertThat(result.is_active, __.is(false));
+      __.assertThat(this.sendNotification.calledOnce, __.is(true));
+      __.assertThat(this.sendNotification.getCall(0).args[0], __.is(notificationService.eventType.OHE_UNFOLLOW));
     });
 
     it('should fail when the event a user tries to unfollow does not exists in db', function* () {
@@ -83,6 +98,7 @@ describe('Open House Event Followers Service', function () {
       }
       catch (error) {
         __.assertThat(error.message, __.is('event does not exist'));
+        __.assertThat(this.sendNotification.callCount, __.is(0));
       }
     });
   });

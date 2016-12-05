@@ -3,6 +3,7 @@ const moment = require('moment');
 const mockRequire = require('mock-require');
 const __ = require('hamjest');
 const faker = require('../shared/fakeObjectGenerator');
+const notificationService = require('../../src/services/notificationService');
 var sinon = require('sinon');
 
 describe('Open House Event Service', function () {
@@ -13,6 +14,14 @@ describe('Open House Event Service', function () {
     this.openHouseEventsFinderServiceMock = {};
     mockRequire('../../src/services/openHouseEventsFinderService', this.openHouseEventsFinderServiceMock);
     this.service = require('../../src/services/openHouseEventsService');
+  });
+
+  beforeEach(function () {
+    this.sendNotification = sinon.spy(notificationService, 'send');
+  });
+
+  afterEach(function () {
+    this.sendNotification.restore();
   });
 
   after(() => mockRequire.stopAll());
@@ -37,6 +46,8 @@ describe('Open House Event Service', function () {
 
       let savedEvent = yield this.service.create(newEvent);
       assertSpecificProperties(newEvent, savedEvent, ['listing_id', 'start_time', 'end_time']);
+      __.assertThat(this.sendNotification.calledOnce, __.is(true));
+      __.assertThat(this.sendNotification.getCall(0).args[0], __.is(notificationService.eventType.OHE_CREATED));
     });
 
     it('should fail when end time is less than 30 minutes after start time', function* () {
@@ -51,6 +62,7 @@ describe('Open House Event Service', function () {
       }
       catch (error) {
         __.assertThat(error.message, __.is('open house event should be at least 30 minutes'));
+        __.assertThat(this.sendNotification.callCount, __.is(0));
       }
     });
 
@@ -72,6 +84,7 @@ describe('Open House Event Service', function () {
       }
       catch (error) {
         __.assertThat(error.message, __.is('new event is overlapping an existing event'));
+        __.assertThat(this.sendNotification.callCount, __.is(0));
       }
     });
 
@@ -93,6 +106,7 @@ describe('Open House Event Service', function () {
       }
       catch (error) {
         __.assertThat(error.message, __.is('new event is overlapping an existing event'));
+        __.assertThat(this.sendNotification.callCount, __.is(0));
       }
     });
 
@@ -114,6 +128,7 @@ describe('Open House Event Service', function () {
       }
       catch (error) {
         __.assertThat(error.message, __.is('new event is overlapping an existing event'));
+        __.assertThat(this.sendNotification.callCount, __.is(0));
       }
     });
   });
@@ -140,6 +155,8 @@ describe('Open House Event Service', function () {
 
       let savedEvent = yield this.service.update(updatedEvent);
       __.assertThat(savedEvent, __.is(updatedEvent));
+      __.assertThat(this.sendNotification.calledOnce, __.is(true));
+      __.assertThat(this.sendNotification.getCall(0).args[0], __.is(notificationService.eventType.OHE_UPDATED));
     });
 
     it('should fail when updated event id does not exists in db', function* () {
@@ -159,6 +176,7 @@ describe('Open House Event Service', function () {
         thrown = true;
       }
       __.assertThat(thrown, __.is(true));
+      __.assertThat(this.sendNotification.callCount, __.is(0));
     });
 
     it('should fail when end time is less than 30 minutes after start time', function* () {
@@ -180,6 +198,7 @@ describe('Open House Event Service', function () {
       }
       catch (error) {
         __.assertThat(error.message, __.is('open house event should be at least 30 minutes'));
+        __.assertThat(this.sendNotification.callCount, __.is(0));
       }
     });
 
@@ -204,6 +223,7 @@ describe('Open House Event Service', function () {
       }
       catch (error) {
         __.assertThat(error.message, __.is('new event is overlapping an existing event'));
+        __.assertThat(this.sendNotification.callCount, __.is(0));
       }
     });
 
@@ -228,6 +248,7 @@ describe('Open House Event Service', function () {
       }
       catch (error) {
         __.assertThat(error.message, __.is('new event is overlapping an existing event'));
+        __.assertThat(this.sendNotification.callCount, __.is(0));
       }
     });
 
@@ -254,6 +275,7 @@ describe('Open House Event Service', function () {
       }
       catch (error) {
         __.assertThat(error.message, __.is('new event is overlapping an existing event'));
+        __.assertThat(this.sendNotification.callCount, __.is(0));
       }
     });
 
@@ -276,6 +298,8 @@ describe('Open House Event Service', function () {
 
       let savedEvent = yield this.service.update(updatedEvent);
       __.assertThat(savedEvent, __.is(updatedEvent));
+      __.assertThat(this.sendNotification.calledOnce, __.is(true));
+      __.assertThat(this.sendNotification.getCall(0).args[0], __.is(notificationService.eventType.OHE_UPDATED));
     });
   });
 
@@ -298,6 +322,8 @@ describe('Open House Event Service', function () {
 
       let deleteEventResponse = yield this.service.remove(originalEvent.id);
       __.assertThat(deletedEvent, __.is(deleteEventResponse));
+      __.assertThat(this.sendNotification.calledOnce, __.is(true));
+      __.assertThat(this.sendNotification.getCall(0).args[0], __.is(notificationService.eventType.OHE_DELETED));
     });
 
     it('should fail when deleted event id does not exists in db', function* () {
@@ -314,6 +340,7 @@ describe('Open House Event Service', function () {
       }
 
       __.assertThat(thrown, __.is(true));
+      __.assertThat(this.sendNotification.callCount, __.is(0));
 
     });
   });

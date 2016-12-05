@@ -2,6 +2,7 @@
 const mockRequire = require('mock-require');
 const __ = require('hamjest');
 const faker = require('../shared/fakeObjectGenerator');
+const notificationService = require('../../src/services/notificationService');
 var sinon = require('sinon');
 
 describe('Open House Event Registration Service', function () {
@@ -12,9 +13,20 @@ describe('Open House Event Registration Service', function () {
     this.openHouseEventsFinderServiceMock = {};
     mockRequire('../../src/services/openHouseEventsFinderService', this.openHouseEventsFinderServiceMock);
     this.service = require('../../src/services/openHouseEventRegistrationsService');
+
   });
 
-  after(() => mockRequire.stopAll());
+  beforeEach(function () {
+    this.sendNotification = sinon.spy(notificationService, 'send');
+  });
+
+  afterEach(function () {
+    this.sendNotification.restore();
+  });
+
+  after(() => {
+    mockRequire.stopAll();
+  });
 
   describe('Register To Open House Event', function () {
 
@@ -28,6 +40,9 @@ describe('Open House Event Registration Service', function () {
 
       const registrationResponse = yield this.service.register(1, 'user');
       __.assertThat(registrationResponse, __.is(true));
+      __.assertThat(this.sendNotification.calledOnce, __.is(true));
+      __.assertThat(this.sendNotification.getCall(0).args[0], __.is(notificationService.eventType.OHE_REGISTERED));
+
     });
 
     it('should fail when the event a user wants to register does not exists in db', function* () {
@@ -40,6 +55,7 @@ describe('Open House Event Registration Service', function () {
       }
       catch (error) {
         __.assertThat(error.message, __.is('Error'));
+        __.assertThat(this.sendNotification.callCount, __.is(0));
       }
     });
 
@@ -60,6 +76,7 @@ describe('Open House Event Registration Service', function () {
       }
       catch (error) {
         __.assertThat(error.message, __.is('user already registered to this event'));
+        __.assertThat(this.sendNotification.callCount, __.is(0));
       }
     });
   });
@@ -75,6 +92,8 @@ describe('Open House Event Registration Service', function () {
 
       const registrationResponse = yield this.service.unregister(1, 'user');
       __.assertThat(registrationResponse.is_active, __.is(false));
+      __.assertThat(this.sendNotification.calledOnce, __.is(true));
+      __.assertThat(this.sendNotification.getCall(0).args[0], __.is(notificationService.eventType.OHE_UNREGISTERED));
     });
 
     it('should fail when the event a user tries to unregister does not exists in db', function* () {
@@ -85,6 +104,7 @@ describe('Open House Event Registration Service', function () {
       }
       catch (error) {
         __.assertThat(error.message, __.is('event does not exist'));
+        __.assertThat(this.sendNotification.callCount, __.is(0));
       }
     });
   });
