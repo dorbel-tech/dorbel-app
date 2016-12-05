@@ -6,7 +6,8 @@
     "first": "scripts/first_time_install.sh",
     "start": "scripts/env.sh start",
     "stop": "scripts/env.sh stop",
-    "deploy": "scripts/deploy.sh"
+    "deploy": "scripts/deploy.sh",
+    "upgrade:shared": "scripts/upgrade_shared.sh"
   },
   "repository": {
     "type": "git",

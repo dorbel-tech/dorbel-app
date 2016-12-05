@@ -13,12 +13,9 @@ function send(toPhoneNumber, smsText) {
     body: smsText,
     to: toPhoneNumber,
     from: config.get('TWILIO_PHONE_NUMBER') // From a valid Twilio number.
-  }).then(msg => {
-    logger.info(msg, 'SMS was sent');
-    return msg;
-  }).catch(err => {
-    logger.error(err, 'SMS sending error');
-    throw err;
+  }).then(response => {
+    logger.info((response), 'SMS was sent');
+    return response;
   }); 
 }
 

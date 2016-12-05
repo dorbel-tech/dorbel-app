@@ -37,4 +37,8 @@ module.exports = {
   down: function(queryInterface) {
     return queryInterface.dropTable('open_house_events');
   }
+<<<<<<< HEAD
 };
+=======
+};
+>>>>>>> origin/develop

@@ -34,4 +34,8 @@ module.exports = {
   down: function(queryInterface) {
     return queryInterface.dropTable('registrations');
   }
+<<<<<<< HEAD
 };
+=======
+};
+>>>>>>> origin/develop

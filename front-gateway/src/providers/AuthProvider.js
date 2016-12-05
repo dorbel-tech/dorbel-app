@@ -17,6 +17,7 @@ class AuthProvider {
     });
     this.lock.on('authenticated', this._doAuthentication.bind(this));
     this.authStore = authStore;
+    this.showLoginModal = this.showLoginModal.bind(this); 
   }
 
   _doAuthentication(authResult) {
