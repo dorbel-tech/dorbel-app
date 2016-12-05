@@ -56,6 +56,19 @@ class ApiClient {
       .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile));
   }
 
+  createNewFollower(existingEventId) {
+    return this.request
+      .post('/v1/event/follow')
+      .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile))
+      .send({'open_house_event_id': existingEventId});
+  }
+
+  deleteFollower(followId) {
+    return this.request
+      .delete('/v1/event/follow/' + followId)
+      .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile));
+  }
+
   static * init(userProfile) {
     let request;
 
