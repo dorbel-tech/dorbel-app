@@ -8,7 +8,10 @@ function define(sequelize, DataTypes) {
     is_active: { type: DataTypes.BOOLEAN, allowNull: false }
   }, {
     classMethods: {
-      associate: models => models.open_house_event.hasMany(models.registration, { foreignKey: { allowNull: false }, onDelete: 'CASCADE' })
+      associate: models => {
+        models.open_house_event.hasMany(models.registration, { foreignKey: { allowNull: false }, onDelete: 'CASCADE' });
+        models.open_house_event.hasMany(models.follower, { foreignKey: { allowNull: false }, onDelete: 'CASCADE' });
+      }
     }
   });
 }

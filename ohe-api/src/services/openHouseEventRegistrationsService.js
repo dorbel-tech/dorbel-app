@@ -3,16 +3,19 @@ const notificationService = require('./notificationService');
 const openHouseEventsFinderService = require('./openHouseEventsFinderService');
 const repository = require('../openHouseEventsDb/repositories/openHouseEventRegistrationsRepository');
 
-function OpenHouseEventRegistrationValidationError(message) {
+function OpenHouseEventRegistrationValidationError(eventId, userId, message) {
   Error.captureStackTrace(this, this.constructor);
   this.name = this.constructor.name;
   this.message = message;
+  this.eventId = eventId;
+  this.userId = userId;
 }
 
-function OpenHouseEventRegistrationNotFoundError(message) {
+function OpenHouseEventRegistrationNotFoundError(registrationId, message) {
   Error.captureStackTrace(this, this.constructor);
   this.name = this.constructor.name;
   this.message = message;
+  this.registrationId = registrationId;
 }
 
 function* register(eventId, userId) {
@@ -20,7 +23,7 @@ function* register(eventId, userId) {
   if (existingEvent.registrations) {
     existingEvent.registrations.forEach(function (registration) {
       if (registration.user_id == userId) {
-        throw new OpenHouseEventRegistrationValidationError('user already registered to this event');
+        throw new OpenHouseEventRegistrationValidationError(eventId, userId, 'user already registered to this event');
       }
     });
   }
@@ -45,7 +48,7 @@ function* register(eventId, userId) {
 function* unregister(registrationId) {
   let existingRegistration = yield repository.findRegistration(registrationId);
   if (existingRegistration == undefined) {
-    throw new OpenHouseEventRegistrationNotFoundError('registration does not exist');
+    throw new OpenHouseEventRegistrationNotFoundError(registrationId, 'registration does not exist');
   }
   existingRegistration.is_active = false;
 

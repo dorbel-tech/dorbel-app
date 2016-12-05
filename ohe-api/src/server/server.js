@@ -14,8 +14,10 @@ const env = process.env.NODE_ENV;
 const statusCodes = {
   'OpenHouseEventValidationError': 400,
   'OpenHouseEventRegistrationValidationError':400,
+  'OpenHouseEventFollowerValidationError':400,
   'OpenHouseEventNotFoundError':404,
-  'OpenHouseEventRegistrationNotFoundError':404
+  'OpenHouseEventRegistrationNotFoundError':404,
+  'OpenHouseEventFollowerNotFoundError':404
 };
 
 app.use(shared.middleware.errorHandler());

@@ -3,16 +3,19 @@ const notificationService = require('./notificationService');
 const openHouseEventsFinderService = require('./openHouseEventsFinderService');
 const repository = require('../openHouseEventsDb/repositories/openHouseEventFollowersRepository');
 
-function OpenHouseEventFollowerValidationError(message) {
+function OpenHouseEventFollowerValidationError(eventId, userId,message) {
   Error.captureStackTrace(this, this.constructor);
   this.name = this.constructor.name;
   this.message = message;
+  this.eventId = eventId;
+  this.userId = userId;
 }
 
-function OpenHouseEventFollowerNotFoundError(message) {
+function OpenHouseEventFollowerNotFoundError(followId, message) {
   Error.captureStackTrace(this, this.constructor);
   this.name = this.constructor.name;
   this.message = message;
+  this.followId = followId;
 }
 
 function* follow(eventId, userId) {
@@ -20,7 +23,7 @@ function* follow(eventId, userId) {
   if (existingEvent.followers) {
     existingEvent.followers.forEach(function (follower) {
       if (follower.user_id == userId) {
-        throw new OpenHouseEventFollowerValidationError('user already follows this event');
+        throw new OpenHouseEventFollowerValidationError(eventId, userId, 'user already follows this event');
       }
     });
   }
@@ -45,7 +48,7 @@ function* follow(eventId, userId) {
 function* unfollow(followId) {
   let existingFollower = yield repository.findFollower(followId);
   if (existingFollower == undefined) {
-    throw new OpenHouseEventFollowerNotFoundError('follower does not exist');
+    throw new OpenHouseEventFollowerNotFoundError(followId, 'follower does not exist');
   }
   existingFollower.is_active = false;
 
