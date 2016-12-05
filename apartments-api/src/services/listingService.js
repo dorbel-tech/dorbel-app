@@ -1,11 +1,10 @@
 'use strict';
 const shared = require('dorbel-shared');
 const config = shared.config; 
-const logger = shared.logger.getLogger(module);
 const messageBus = shared.utils.messageBus;
 const listingRepository = require('../apartmentsDb/repositories/listingRepository');
 const moment = require('moment');
-const NodeGeocoder = require('node-geocoder');
+const geoService = require('geoService');
 
 // TODO : move this to dorbel-shared
 function CustomError(code, message) {
@@ -25,7 +24,7 @@ function* create(listing) {
     listing.lease_end = moment(listing.lease_start).add(1, 'years').format('YYYY-MM-DD');
   }
 
-  let modifiedListing = yield setGeoLocation(listing);
+  let modifiedListing = yield geoService.setGeoLocation(listing);
   let createdListing = yield listingRepository.create(modifiedListing);
   
   // Publish event trigger message to SNS for notifications dispatching.
@@ -37,28 +36,6 @@ function* create(listing) {
   }
 
   return createdListing;
-}
-
-function* setGeoLocation(listing) {
-  const options = { provider: 'google'};
-  const geocoder = NodeGeocoder(options);
-  let fullAddress = [  
-    listing.apartment.building.street_name,
-    listing.apartment.building.house_number,
-    listing.apartment.building.city.city_name
-  ].join(' '); // Full address in one string with spacing.
-  return geocoder.geocode(fullAddress)
-    .then(res => {
-      logger.debug({ res }, 'Got geo location of apartment.');
-      var point = { type: 'Point', coordinates: [ res[0].longitude, res[0].latitude ]};
-      listing.apartment.building.geolocation = point;
-      return listing;
-
-    })
-    .catch(err => {
-      logger.error(err, 'Cant get geo location of apartment.');
-      return listing;
-    });
 }
 
 module.exports = {
