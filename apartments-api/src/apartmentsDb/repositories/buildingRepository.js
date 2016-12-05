@@ -1,9 +1,11 @@
 'use strict';
 const db = require('../dbConnectionProvider');
+const _ = require('lodash');
 
-function* findOrCreate(street_name: string, house_number: string, city_id: integer) {
+function* findOrCreate(building) {
   const buildingResult = yield db.models.building.findOrCreate({
-    where: { street_name, house_number, city_id }
+    where: _.pick(building, ['street_name', 'house_number', 'city_id']),
+    defaults: _.pick(building, ['geolocation', 'elevator'])
   });
 
   return buildingResult[0];
