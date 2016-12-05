@@ -1,0 +1,14 @@
+[
+  {
+    "eventType": "APARTMENT_CREATED",
+    "notificationType": "apartment-created-confirm",    
+    "relatedObjectType": "apartment"
+  },
+  {
+    "eventType": "OHE_CREATED",
+    "notificationType": "ohe-about-to-start",
+    "delay": -2,
+    "delayRelativeTo": "start_time",
+    "relatedObjectType": "open_house_event"
+  }
+]

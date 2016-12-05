@@ -5,6 +5,9 @@ const config = shared.config;
 const path = require('path'); config.setConfigFileFolder(path.join(__dirname, '/config')); // load config from file before anything else
 const logger = shared.logger.getLogger(module);
 const notificationsHandler = require('./transactional/notificationsHandler');
+const notificationScheduler = require('./scheduler/notificationScheduler');
+const notificationSender = require('./scheduler/notificationSender');
+const notificationRepository = require('./notificationDb/notificationRepository');
 const messageBus = shared.utils.messageBus;
 
 logger.info({
@@ -12,24 +15,27 @@ logger.info({
   env: config.get('NODE_ENV')
 }, 'Starting server');
 
+const messageConsumers = [
+  { name: 'email', queueKey: 'NOTIFICATIONS_EMAIL_SQS_QUEUE_URL', 
+    handler: notificationsHandler.handleMessage.bind(notificationsHandler, 'Email') },
+  { name: 'sms', queueKey: 'NOTIFICATIONS_SMS_SQS_QUEUE_URL', 
+    handler: notificationsHandler.handleMessage.bind(notificationsHandler, 'SMS') },
+  { name: 'app-events', queueKey: 'NOTIFICATIONS_APP_EVENTS_SQS_QUEUE_URL', 
+    handler: notificationScheduler.handleMessage },
+];
+
 function startMessageConsumers() {
-  logger.info('Begin consuming messages from email notifications SQS queue.');
-  const emailConsumer = messageBus.consume.start(
-    config.get('NOTIFICATIONS_EMAIL_SQS_QUEUE_URL'),
-    notificationsHandler.handleMessage.bind(notificationsHandler, 'Email')
-  );
+  const consumers = messageConsumers.map(consumer => {
+    logger.info({ queueName: consumer.name }, 'Begin consuming messages from SQS queue');
+    return messageBus.consume.start(config.get(consumer.queueKey), consumer.handler);
+  });
 
-  logger.info('Begin consuming messages from SMS notifications SQS queue.');
-  const smsConsumer = messageBus.consume.start(
-    config.get('NOTIFICATIONS_SMS_SQS_QUEUE_URL'),
-    notificationsHandler.handleMessage.bind(notificationsHandler, 'SMS')
-  );
+  notificationRepository.startPolling(notificationSender.handleNotificationEvent, 1000 * 60);
 
-  // Not sure it is going to work.
   process.on('exit', function (code) {
     logger.info('Stopping consuming messages from notifications SQS queues.');
-    emailConsumer.stop();
-    smsConsumer.stop();
+    consumers.forEach(consumer => consumer.stop());
+    notificationRepository.stopPolling();
     process.exit(code);
   });
 

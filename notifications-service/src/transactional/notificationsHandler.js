@@ -5,6 +5,8 @@ const logger = shared.logger.getLogger(module);
 const messageBus = shared.utils.messageBus;
 const apartmentCreatedHandler = require('./apartment/apartmentCreatedHandler');
 
+// TODO : wrapper for message handler to include all the parsing and promising
+
 function handleMessage(messageType, message, done) {
   const messageBody = JSON.parse(message.Body);
   const messageDataPayload = JSON.parse(messageBody.Message);

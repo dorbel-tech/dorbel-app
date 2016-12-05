@@ -157,7 +157,7 @@ auth0@^2.5.0:
     rest-facade "^1.2.7"
     url-join "0.0.1"
 
-aws-sdk@2.6.1, aws-sdk@^2.0.23:
+aws-sdk@2.6.1, aws-sdk@^2.0.23, aws-sdk@^2.1.2:
   version "2.6.1"
   resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.6.1.tgz#35ee10113d431a066ef0ba1116947b98b1c68b13"
   dependencies:
@@ -2177,7 +2177,7 @@ lodash@^3.10.0, lodash@^3.10.1, lodash@^3.8.0, lodash@^3.9.1:
   version "3.10.1"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-3.10.1.tgz#5bf45e8e49ba4189e17d482789dfd15bd140b7b6"
 
-lodash@^4.0.0, lodash@^4.13.1, lodash@^4.14.0, lodash@^4.15.0, lodash@^4.16.3, lodash@^4.2.0, lodash@^4.3.0:
+lodash@^4.0.0, lodash@^4.11.2, lodash@^4.13.1, lodash@^4.14.0, lodash@^4.15.0, lodash@^4.16.3, lodash@^4.2.0, lodash@^4.3.0:
   version "4.17.2"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.2.tgz#34a3055babe04ce42467b607d700072c7ff6bf42"
 
@@ -3147,6 +3147,13 @@ sqs-consumer@3.4.0:
     aws-sdk "^2.0.23"
     debug "^2.1.0"
 
+sqs-producer@1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/sqs-producer/-/sqs-producer-1.4.0.tgz#f8981b3905cd424b9e3d0bf537988ca45466c069"
+  dependencies:
+    aws-sdk "^2.1.2"
+    lodash "^4.11.2"
+
 sshpk@^1.7.0:
   version "1.10.1"
   resolved "https://registry.yarnpkg.com/sshpk/-/sshpk-1.10.1.tgz#30e1a5d329244974a1af61511339d595af6638b0"
@@ -3352,6 +3359,10 @@ through@2, through@^2.3.6, through@~2.3, through@~2.3.1:
 timed-out@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/timed-out/-/timed-out-2.0.0.tgz#f38b0ae81d3747d628001f41dafc652ace671c0a"
+
+timekeeper@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/timekeeper/-/timekeeper-1.0.0.tgz#2f38aee1e94b11dd66d8580ff1aa9dcc6a2ba0d8"
 
 title-case@^1.1.0:
   version "1.1.2"

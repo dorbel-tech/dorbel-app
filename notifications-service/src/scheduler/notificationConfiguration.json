@@ -1,0 +1,14 @@
+[
+  {
+    "notificationType": "ohe-about-to-start",
+    "medium": "email", 
+    "templateName": "email 5 design",
+    "dataRetrivel": [ "oheDetails", "oheSignups" ]  
+  },
+  {
+    "notificationType": "apartment-created-confirm",
+    "medium": "email", 
+    "templateName": "email 1A",
+    "dataRetrivel": [ "getUserDetails" ]
+  }
+]
