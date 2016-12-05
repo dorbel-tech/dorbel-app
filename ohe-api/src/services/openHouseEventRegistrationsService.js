@@ -36,7 +36,7 @@ function* register(eventId, userId) {
 
   const result = yield repository.createRegistration(registration);
 
-  notificationService.send('OHE_REGISTERED', {
+  notificationService.send(notificationService.eventType.OHE_REGISTERED, {
     listing_id: existingEvent.listing_id,
     event_id: existingEvent.id,
     registered_user_id: userId
@@ -54,7 +54,7 @@ function* unregister(registrationId) {
 
   const result = yield repository.updateRegistration(existingRegistration);
 
-  notificationService.send('OHE_UNREGISTERED', {
+  notificationService.send(notificationService.eventType.OHE_UNREGISTERED, {
     event_id: existingRegistration.id,
     registered_user_id: existingRegistration.user_id
   });

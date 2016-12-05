@@ -49,7 +49,7 @@ function* create(openHouseEvent) {
     is_active: true
   });
 
-  notificationService.send('OHE_CREATED', {
+  notificationService.send(notificationService.eventType.OHE_CREATED, {
     listing_id: listing_id,
     event_id: newEvent.id,
     start_time: start,
@@ -79,7 +79,7 @@ function* update(openHouseEvent) {
 
   const result = yield openHouseEventsRepository.update(existingEvent);
 
-  notificationService.send('OHE_UPDATED', {
+  notificationService.send(notificationService.eventType.OHE_UPDATED, {
     listing_id: existingEvent.listing_id,
     event_id: existingEvent.id,
     old_start_time: existingEvent.start_time,
@@ -97,7 +97,7 @@ function* remove(eventId) {
 
   const result = yield openHouseEventsRepository.update(existingEvent);
 
-  notificationService.send('OHE_DELETED', {
+  notificationService.send(notificationService.eventType.OHE_DELETED, {
     listing_id: existingEvent.listing_id,
     event_id: existingEvent.id,
     start_time: existingEvent.start_time,

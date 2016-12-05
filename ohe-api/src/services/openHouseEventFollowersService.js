@@ -36,7 +36,7 @@ function* follow(eventId, userId) {
 
   const result = yield repository.createFollower(follower);
 
-  notificationService.send('OHE_FOLLOW', {
+  notificationService.send(notificationService.eventType.OHE_FOLLOW, {
     listing_id: existingEvent.listing_id,
     event_id: existingEvent.id,
     follower_user_id: userId
@@ -54,7 +54,7 @@ function* unfollow(followId) {
 
   const result = yield repository.updateFollower(existingFollower);
 
-  notificationService.send('OHE_UNFOLLOW', {
+  notificationService.send(notificationService.eventType.OHE_UNFOLLOW, {
     event_id: existingFollower.id,
     follower_user_id: existingFollower.user_id
   });
