@@ -51,15 +51,12 @@ services:
     image: dorbel/notifications-service
     ports:
       - '3002:3002'
-<<<<<<< HEAD
-=======
     depends_on:
       - cache
     links:
       - cache
     environment:
       REDIS_HOST: cache
->>>>>>> origin/develop
 
   ohe-api:
     build:

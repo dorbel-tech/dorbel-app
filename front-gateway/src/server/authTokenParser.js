@@ -6,7 +6,7 @@ const logger = require('dorbel-shared').logger.getLogger(module);
 
 const auth0 = new AuthenticationClient({
   domain: config.get('AUTH0_DOMAIN'),
-  clientId: config.get('AUTH0_CLIENT_ID')
+  clientId: config.get('AUTH0_FRONT_CLIENT_ID')
 });
 
 const getInfo = promisify(auth0.tokens.getInfo, auth0.tokens);

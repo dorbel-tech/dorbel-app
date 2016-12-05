@@ -34,5 +34,5 @@ services:
     environment:
       NODE_ENV: test
       AUTH0_DOMAIN: dorbel-dev.eu.auth0.com
-      AUTH0_CLIENT_ID: n0kP3YCZ0uOP0JBpGmrcYvBUwNtdApBL
+      AUTH0_FRONT_CLIENT_ID: n0kP3YCZ0uOP0JBpGmrcYvBUwNtdApBL
       APARTMENTS_API_URL: 'http://apartments-api:3000'

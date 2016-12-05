@@ -16,8 +16,4 @@ function send(messageType, data) {
 
 module.exports ={
   send
-<<<<<<< HEAD
 };
-=======
-};
->>>>>>> origin/develop

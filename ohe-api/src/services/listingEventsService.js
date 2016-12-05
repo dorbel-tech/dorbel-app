@@ -7,8 +7,4 @@ function* list(listingId) {
 
 module.exports = {
   list
-<<<<<<< HEAD
 };
-=======
-};
->>>>>>> origin/develop
