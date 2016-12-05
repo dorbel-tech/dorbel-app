@@ -1,7 +1,7 @@
 /**
-* AppProviders will consolidate all the providers in the application
-* Providers should supply data to the stores, but not store any data themselves
-*/
+ * AppProviders will consolidate all the providers in the application
+ * Providers should supply data to the stores, but not store any data themselves
+ */
 'use strict';
 import AuthProvider from './AuthProvider';
 import ApiProvider from './ApiProvider';

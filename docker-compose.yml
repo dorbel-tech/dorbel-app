@@ -40,10 +40,13 @@ services:
       - '3001:3001'
     depends_on:
       - apartments-api
+      - cache
     links:
       - apartments-api
+      - cache
     environment:
       APARTMENTS_API_URL: http://apartments-api:3000
+      REDIS_HOST: cache
   
   notifications-service:
     build:
