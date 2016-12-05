@@ -1,16 +1,11 @@
 'use strict';
 const notificationService = require('./notificationService');
+const openHouseEventsFinderService = require('./openHouseEventsFinderService');
 const openHouseEventsRepository = require('../openHouseEventsDb/repositories/openHouseEventsRepository');
 const moment = require('moment');
 require('moment-range');
 
 function OpenHouseEventValidationError(message) {
-  Error.captureStackTrace(this, this.constructor);
-  this.name = this.constructor.name;
-  this.message = message;
-}
-
-function OpenHouseEventNotFoundError(message) {
   Error.captureStackTrace(this, this.constructor);
   this.name = this.constructor.name;
   this.message = message;
@@ -32,15 +27,6 @@ function validateEventIsNotOverlappingExistingEvents(existingListingEvents, list
       throw new OpenHouseEventValidationError('new event is overlapping an existing event');
     }
   });
-}
-
-function* find(eventId) {
-  const existingEvent = yield openHouseEventsRepository.find(eventId);
-  if (existingEvent == undefined) {
-    throw new OpenHouseEventNotFoundError('event does not exist');
-  }
-
-  return existingEvent;
 }
 
 function* create(openHouseEvent) {
@@ -72,14 +58,14 @@ function* create(openHouseEvent) {
 }
 
 function* update(openHouseEvent) {
-  let existingEvent = yield find(openHouseEvent.id);
+  let existingEvent = yield openHouseEventsFinderService.find(openHouseEvent.id);
 
   const listing_id = parseInt(openHouseEvent.listing_id);
   const start = moment(openHouseEvent.start_time, moment.ISO_8601, true);
   const end = moment(openHouseEvent.end_time, moment.ISO_8601, true);
   validateEventParamters(start, end);
 
-  const existingListingEvents = yield openHouseEventsRepository.findByListingId(listing_id);
+  const existingListingEvents = yield openHouseEventsFinderService.findByListing(listing_id);
   const existingEventsWithoutCurrent = existingListingEvents.filter(function (existingEvent) {
     return existingEvent.id != openHouseEvent.id;
   });
@@ -104,7 +90,7 @@ function* update(openHouseEvent) {
 }
 
 function* remove(eventId) {
-  let existingEvent = yield find(eventId);
+  let existingEvent = yield openHouseEventsFinderService.find(eventId);
   existingEvent.is_active = false;
 
   const result = yield openHouseEventsRepository.update(existingEvent);
@@ -120,10 +106,8 @@ function* remove(eventId) {
 }
 
 module.exports = {
-  find,
   create,
   update,
   remove,
-  OpenHouseEventValidationError,
-  OpenHouseEventNotFoundError
+  OpenHouseEventValidationError
 };

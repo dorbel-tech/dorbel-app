@@ -2,10 +2,11 @@
 const shared = require('dorbel-shared');
 const logger = shared.logger.getLogger(module);
 const openHouseEventsService = require('../../services/openHouseEventsService');
+const openHouseEventsFinderService = require('../../services/openHouseEventsFinderService');
 
 function* get() {
   logger.debug('Getting  open house event...');
-  let eventResult = yield openHouseEventsService.find(this.params.id);
+  let eventResult = yield openHouseEventsFinderService.find(this.params.id);
   logger.info(eventResult.id, 'Open house event found');
   this.response.status = 200;
   this.response.body = eventResult;

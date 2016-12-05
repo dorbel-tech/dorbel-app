@@ -1,6 +1,6 @@
 'use strict';
 const notificationService = require('./notificationService');
-const openHouseEventsService = require('./openHouseEventsService');
+const openHouseEventsFinderService = require('./openHouseEventsFinderService');
 const repository = require('../openHouseEventsDb/repositories/openHouseEventRegistrationsRepository');
 
 function OpenHouseEventRegistrationValidationError(message) {
@@ -16,7 +16,7 @@ function OpenHouseEventRegistrationNotFoundError(message) {
 }
 
 function* register(eventId, userId) {
-  let existingEvent = yield openHouseEventsService.find(eventId);
+  let existingEvent = yield openHouseEventsFinderService.find(eventId);
   if (existingEvent.registrations) {
     existingEvent.registrations.forEach(function (registration) {
       if (registration.user_id == userId) {

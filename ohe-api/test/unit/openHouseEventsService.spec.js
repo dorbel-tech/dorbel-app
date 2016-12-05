@@ -10,7 +10,9 @@ describe('Open House Event Service', function () {
   before(function () {
     this.openHouseEventsRepositoryMock = {};
     mockRequire('../../src/openHouseEventsDb/repositories/openHouseEventsRepository', this.openHouseEventsRepositoryMock);
-    this.openHouseEventsService = require('../../src/services/openHouseEventsService');
+    this.openHouseEventsFinderServiceMock = {};
+    mockRequire('../../src/services/openHouseEventsFinderService', this.openHouseEventsFinderServiceMock);
+    this.service = require('../../src/services/openHouseEventsService');
   });
 
   after(() => mockRequire.stopAll());
@@ -20,36 +22,6 @@ describe('Open House Event Service', function () {
       __.assertThat(original[p], __.is(expected[p]));
     }
   }
-
-  describe('Find Open House Event', function () {
-
-    it('should find an existing event', function* () {
-      let existingEvent = faker.generateEvent({
-        id: 1,
-      });
-
-      this.openHouseEventsRepositoryMock.find = sinon.stub().resolves(existingEvent);
-
-      let oheId = 1;
-
-      let existingEventtResponse = yield this.openHouseEventsService.find(oheId);
-      __.assertThat(existingEvent, __.is(existingEventtResponse));
-    });
-
-    it('should fail when event id does not exists in db', function* () {
-      this.openHouseEventsRepositoryMock.find = sinon.stub().resolves(null);
-
-      let oheId = 1;
-
-      try {
-        yield this.openHouseEventsService.find(oheId);
-        // __.assertThat('code', __.is('not reached'));
-      }
-      catch (error) {
-        __.assertThat(error.message, __.is('event does not exist'));
-      }
-    });
-  });
 
   describe('Create Open House Event', function () {
 
@@ -63,7 +35,7 @@ describe('Open House Event Service', function () {
         is_active: true
       }));
 
-      let savedEvent = yield this.openHouseEventsService.create(newEvent);
+      let savedEvent = yield this.service.create(newEvent);
       assertSpecificProperties(newEvent, savedEvent, ['listing_id', 'start_time', 'end_time']);
     });
 
@@ -74,7 +46,7 @@ describe('Open House Event Service', function () {
       });
 
       try {
-        yield this.openHouseEventsService.create(ohe);
+        yield this.service.create(ohe);
         __.assertThat('code', __.is('not reached'));
       }
       catch (error) {
@@ -95,7 +67,7 @@ describe('Open House Event Service', function () {
       })]);
 
       try {
-        yield this.openHouseEventsService.create(ohe);
+        yield this.service.create(ohe);
         __.assertThat('code', __.is('not reached'));
       }
       catch (error) {
@@ -116,7 +88,7 @@ describe('Open House Event Service', function () {
       })]);
 
       try {
-        yield this.openHouseEventsService.create(ohe);
+        yield this.service.create(ohe);
         __.assertThat('code', __.is('not reached'));
       }
       catch (error) {
@@ -137,7 +109,7 @@ describe('Open House Event Service', function () {
       })]);
 
       try {
-        yield this.openHouseEventsService.create(ohe);
+        yield this.service.create(ohe);
         __.assertThat('code', __.is('not reached'));
       }
       catch (error) {
@@ -153,9 +125,9 @@ describe('Open House Event Service', function () {
         id: 1
       });
 
-      this.openHouseEventsRepositoryMock.find = sinon.stub().resolves(originalEvent);
+      this.openHouseEventsFinderServiceMock.find = sinon.stub().resolves(originalEvent);
 
-      this.openHouseEventsRepositoryMock.findByListingId = sinon.stub().resolves([]);
+      this.openHouseEventsFinderServiceMock.findByListing = sinon.stub().resolves([]);
 
       let updatedEvent = faker.generateEvent({
         id: originalEvent.id,
@@ -166,24 +138,27 @@ describe('Open House Event Service', function () {
 
       this.openHouseEventsRepositoryMock.update = sinon.stub().resolves(updatedEvent);
 
-      let savedEvent = yield this.openHouseEventsService.update(updatedEvent);
+      let savedEvent = yield this.service.update(updatedEvent);
       __.assertThat(savedEvent, __.is(updatedEvent));
     });
 
     it('should fail when updated event id does not exists in db', function* () {
-      this.openHouseEventsRepositoryMock.find = sinon.stub().resolves(null);
+      this.openHouseEventsFinderServiceMock.find = sinon.stub().throws();
 
       let updatedEvent = faker.generateEvent({
         id: 1
       });
 
+      let thrown = false;
+
       try {
-        yield this.openHouseEventsService.update(updatedEvent);
+        yield this.service.update(updatedEvent);
         __.assertThat('code', __.is('not reached'));
       }
       catch (error) {
-        __.assertThat(error.message, __.is('event does not exist'));
+        thrown = true;
       }
+      __.assertThat(thrown, __.is(true));
     });
 
     it('should fail when end time is less than 30 minutes after start time', function* () {
@@ -191,7 +166,7 @@ describe('Open House Event Service', function () {
         id: 1
       });
 
-      this.openHouseEventsRepositoryMock.find = sinon.stub().resolves(originalEvent);
+      this.openHouseEventsFinderServiceMock.find = sinon.stub().resolves(originalEvent);
 
       let updatedEvent = faker.generateEvent({
         id: 1,
@@ -200,7 +175,7 @@ describe('Open House Event Service', function () {
       });
 
       try {
-        yield this.openHouseEventsService.update(updatedEvent);
+        yield this.service.update(updatedEvent);
         __.assertThat('code', __.is('not reached'));
       }
       catch (error) {
@@ -213,7 +188,7 @@ describe('Open House Event Service', function () {
         id: 1
       });
 
-      this.openHouseEventsRepositoryMock.find = sinon.stub().resolves(originalEvent);
+      this.openHouseEventsFinderServiceMock.find = sinon.stub().resolves(originalEvent);
 
       let anotherEvent = faker.generateEvent({
         id: 2,
@@ -221,10 +196,10 @@ describe('Open House Event Service', function () {
         end_time: moment().add(-4, 'hours').toISOString(),
       });
 
-      this.openHouseEventsRepositoryMock.findByListingId = sinon.stub().resolves([originalEvent]);
+      this.openHouseEventsFinderServiceMock.findByListing = sinon.stub().resolves([originalEvent]);
 
       try {
-        yield this.openHouseEventsService.update(anotherEvent);
+        yield this.service.update(anotherEvent);
         __.assertThat('code', __.is('not reached'));
       }
       catch (error) {
@@ -237,7 +212,7 @@ describe('Open House Event Service', function () {
         id: 1
       });
 
-      this.openHouseEventsRepositoryMock.find = sinon.stub().resolves(originalEvent);
+      this.openHouseEventsFinderServiceMock.find = sinon.stub().resolves(originalEvent);
 
       let anotherEvent = faker.generateEvent({
         id: 2,
@@ -245,10 +220,10 @@ describe('Open House Event Service', function () {
         end_time: moment().add(-2, 'hours').toISOString(),
       });
 
-      this.openHouseEventsRepositoryMock.findByListingId = sinon.stub().resolves([originalEvent]);
+      this.openHouseEventsFinderServiceMock.findByListing = sinon.stub().resolves([originalEvent]);
 
       try {
-        yield this.openHouseEventsService.update(anotherEvent);
+        yield this.service.update(anotherEvent);
         __.assertThat('code', __.is('not reached'));
       }
       catch (error) {
@@ -263,7 +238,7 @@ describe('Open House Event Service', function () {
         end_time: moment().add(-1, 'hours'),
       });
 
-      this.openHouseEventsRepositoryMock.find = sinon.stub().resolves(originalEvent);
+      this.openHouseEventsFinderServiceMock.find = sinon.stub().resolves(originalEvent);
 
       let anotherEvent = faker.generateEvent({
         id: 2,
@@ -271,10 +246,10 @@ describe('Open House Event Service', function () {
         end_time: moment().add(-2, 'hours').toISOString(),
       });
 
-      this.openHouseEventsRepositoryMock.findByListingId = sinon.stub().resolves([originalEvent]);
+      this.openHouseEventsFinderServiceMock.findByListing = sinon.stub().resolves([originalEvent]);
 
       try {
-        yield this.openHouseEventsService.update(anotherEvent);
+        yield this.service.update(anotherEvent);
         __.assertThat('code', __.is('not reached'));
       }
       catch (error) {
@@ -295,11 +270,11 @@ describe('Open House Event Service', function () {
         end_time: moment().add(-2, 'hours')
       });
 
-      this.openHouseEventsRepositoryMock.find = sinon.stub().resolves(originalEvent);
-      this.openHouseEventsRepositoryMock.findByListingId = sinon.stub().resolves([originalEvent]);
+      this.openHouseEventsFinderServiceMock.find = sinon.stub().resolves(originalEvent);
+      this.openHouseEventsFinderServiceMock.findByListing = sinon.stub().resolves([originalEvent]);
       this.openHouseEventsRepositoryMock.update = sinon.stub().resolves(updatedEvent);
-      
-      let savedEvent = yield this.openHouseEventsService.update(updatedEvent);
+
+      let savedEvent = yield this.service.update(updatedEvent);
       __.assertThat(savedEvent, __.is(updatedEvent));
     });
   });
@@ -312,7 +287,7 @@ describe('Open House Event Service', function () {
         is_active: true
       });
 
-      this.openHouseEventsRepositoryMock.find = sinon.stub().resolves(originalEvent);
+      this.openHouseEventsFinderServiceMock.find = sinon.stub().resolves(originalEvent);
 
       let deletedEvent = faker.generateEvent({
         id: 1,
@@ -321,20 +296,25 @@ describe('Open House Event Service', function () {
 
       this.openHouseEventsRepositoryMock.update = sinon.stub().resolves(deletedEvent);
 
-      let deleteEventResponse = yield this.openHouseEventsService.remove(originalEvent.id);
+      let deleteEventResponse = yield this.service.remove(originalEvent.id);
       __.assertThat(deletedEvent, __.is(deleteEventResponse));
     });
 
     it('should fail when deleted event id does not exists in db', function* () {
-      this.openHouseEventsRepositoryMock.find = sinon.stub().resolves(null);
+      this.openHouseEventsFinderServiceMock.find = sinon.stub().throws();
+
+      let thrown = false;
 
       try {
-        yield this.openHouseEventsService.remove(1);
-        // __.assertThat('code', __.is('not reached'));
+        yield this.service.remove(1);
+        __.assertThat('code', __.is('not reached'));
       }
       catch (error) {
-        __.assertThat(error.message, __.is('event does not exist'));
+        thrown = true;
       }
+
+      __.assertThat(thrown, __.is(true));
+
     });
   });
 });

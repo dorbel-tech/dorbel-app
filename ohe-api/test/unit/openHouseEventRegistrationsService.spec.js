@@ -9,8 +9,8 @@ describe('Open House Event Registration Service', function () {
   before(function () {
     this.repositoryMock = {};
     mockRequire('../../src/openHouseEventsDb/repositories/openHouseEventRegistrationsRepository', this.repositoryMock);
-    this.openHouseEventsServiceMock = {};
-    mockRequire('../../src/services/openHouseEventsService', this.openHouseEventsServiceMock);
+    this.openHouseEventsFinderServiceMock = {};
+    mockRequire('../../src/services/openHouseEventsFinderService', this.openHouseEventsFinderServiceMock);
     this.service = require('../../src/services/openHouseEventRegistrationsService');
   });
 
@@ -19,7 +19,7 @@ describe('Open House Event Registration Service', function () {
   describe('Register To Open House Event', function () {
 
     it('should register a user to an event', function* () {
-      this.openHouseEventsServiceMock.find = sinon.stub().resolves(faker.generateEvent({
+      this.openHouseEventsFinderServiceMock.find = sinon.stub().resolves(faker.generateEvent({
         id: 1,
         is_active: true
       }));
@@ -31,7 +31,7 @@ describe('Open House Event Registration Service', function () {
     });
 
     it('should fail when the event a user registers does not exists in db', function* () {
-      this.openHouseEventsServiceMock.find = sinon.stub().throws();
+      this.openHouseEventsFinderServiceMock.find = sinon.stub().throws();
 
       let oheId = 1;
 
@@ -44,7 +44,7 @@ describe('Open House Event Registration Service', function () {
     });
 
     it('should fail when user registers to an event more than once', function* () {
-      this.openHouseEventsServiceMock.find = sinon.stub().resolves(faker.generateEvent({
+      this.openHouseEventsFinderServiceMock.find = sinon.stub().resolves(faker.generateEvent({
         id: 1,
         is_active: true,
         registrations: [
@@ -78,7 +78,7 @@ describe('Open House Event Registration Service', function () {
     });
 
     it('should fail when the event a user unregisters does not exists in db', function* () {
-      this.openHouseEventsServiceMock.find = sinon.stub().resolves(null);
+      this.openHouseEventsFinderServiceMock.find = sinon.stub().resolves(null);
 
       try {
         yield this.service.unregister(1, 'user');
