@@ -6,9 +6,7 @@ let geoCoderInstance = null;
 
 class Geo{  
   constructor() {
-    if(!geoCoderInstance){
-      geoCoderInstance = this;
-    }
+    if(!geoCoderInstance){ geoCoderInstance = this; }
     this.coder = NodeGeocoder({ provider: 'google'});
     return geoCoderInstance;
   }
