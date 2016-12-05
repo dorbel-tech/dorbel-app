@@ -28,12 +28,12 @@ function getById(id) {
       id
     },
     include: [{
-        model: models.apartment,
-        include: [{
-          model: models.building,
-          include: [models.city, models.neighborhood]
-        }]
-      },
+      model: models.apartment,
+      include: [{
+        model: models.building,
+        include: [models.city, models.neighborhood]
+      }]
+    },
       models.image
     ]
   });
@@ -50,15 +50,10 @@ function* create(listing) {
     throw new Error('did not find city');
   }
 
-  const building = yield buildingRepository.findOrCreate(
-    listing.apartment.building.street_name,
-    listing.apartment.building.house_number,
-    city.id,
-    listing.apartment.building.geolocation
-  );
-  
+  const building = yield buildingRepository.findOrCreate(listing.apartment.building);
+
   const apartment = yield apartmentRepository.findOrCreate(
-    listing.apartment.apt_number, 
+    listing.apartment.apt_number,
     building.id,
     listing.apartment
   );
