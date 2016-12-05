@@ -4,6 +4,7 @@ const config = shared.config;
 const messageBus = shared.utils.messageBus;
 const listingRepository = require('../apartmentsDb/repositories/listingRepository');
 const moment = require('moment');
+const geoService = require('./geoService');
 
 // TODO : move this to dorbel-shared
 function CustomError(code, message) {
@@ -23,7 +24,8 @@ function* create(listing) {
     listing.lease_end = moment(listing.lease_start).add(1, 'years').format('YYYY-MM-DD');
   }
 
-  let createdListing = yield listingRepository.create(listing);
+  let modifiedListing = yield geoService.setGeoLocation(listing);
+  let createdListing = yield listingRepository.create(modifiedListing);
   
   // Publish event trigger message to SNS for notifications dispatching.
   if (config.get('NOTIFICATIONS_SNS_TOPIC_ARN')) {

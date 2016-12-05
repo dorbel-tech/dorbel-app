@@ -45,7 +45,7 @@ function* runServer() {
   }
 
   app.use(serve(config.dir.public));
-  app.use(userManagement.parseAuthToken);
+  app.use(shared.utils.userManagement.parseAuthToken);
   yield apiProxy.loadProxy(app);
 
   koa_ejs(app, {
