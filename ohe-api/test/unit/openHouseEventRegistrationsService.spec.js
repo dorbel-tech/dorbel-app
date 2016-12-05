@@ -30,7 +30,7 @@ describe('Open House Event Registration Service', function () {
       __.assertThat(registrationResponse, __.is(true));
     });
 
-    it('should fail when the event a user registers does not exists in db', function* () {
+    it('should fail when the event a user wants to register does not exists in db', function* () {
       this.openHouseEventsFinderServiceMock.find = sinon.stub().throws();
 
       let oheId = 1;
@@ -77,7 +77,7 @@ describe('Open House Event Registration Service', function () {
       __.assertThat(registrationResponse.is_active, __.is(false));
     });
 
-    it('should fail when the event a user unregisters does not exists in db', function* () {
+    it('should fail when the event a user tries to unregister does not exists in db', function* () {
       this.openHouseEventsFinderServiceMock.find = sinon.stub().resolves(null);
 
       try {

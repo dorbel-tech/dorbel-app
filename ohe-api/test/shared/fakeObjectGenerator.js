@@ -27,8 +27,18 @@ function generateRegistration(variant) {
   }, variant);
 }
 
+function generateFollower(variant) {
+  return _.extend({
+    id: 1,
+    eventId: 1,
+    userId: 'user',
+    is_active: true
+  }, variant);
+}
+
 module.exports = {
   getFakeUser,
   generateEvent,
-  generateRegistration
+  generateRegistration,
+  generateFollower
 };
