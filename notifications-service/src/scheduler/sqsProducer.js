@@ -18,14 +18,14 @@ const queues = {
   }) 
 };
 
-function send(medium, messages) {
+function send(medium, message) {
   let queue = queues[medium];
 
   if (!queue) {
     throw new Error('attempted to send SQS message with unknown medium : ', medium);
   }
 
-  return promisify(queue.send, queue)(messages);
+  return promisify(queue.send, queue)([message]);
 }
 
 module.exports = {

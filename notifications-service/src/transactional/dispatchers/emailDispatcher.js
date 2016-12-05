@@ -6,22 +6,24 @@ const logger = shared.logger.getLogger(module);
 const mandrill = require('mandrill-api/mandrill');
 const emailClient = new mandrill.Mandrill(config.get('MANDRILL_API_KEY'));
 
-function send(templateName, additionalParams) {
+function send(params) {
+  let mergeVars = Object.keys(params).filter(key => params.hasOwnProperty(key)).map(key => ({ name: key, content: params[key] }));
+
   const templateContent = [{}];
   let messageParams = {
-    from_name: additionalParams.from_name,
+    from_name: 'dorbel',
     to: [{
-      email: additionalParams.email,
-      name: additionalParams.name,
+      email: params.user.email,
+      name: params.user.name,
       type: 'to'
-    }],
+    }], 
     merge_language: 'handlebars',
-    global_merge_vars: additionalParams.mergeVars,
+    global_merge_vars: mergeVars,
   };
 
   return new Promise((resolve, reject) => {
     return emailClient.messages.sendTemplate({
-      template_name: templateName,
+      template_name: params.templateName,
       template_content: templateContent,
       message: messageParams,
       async: false,

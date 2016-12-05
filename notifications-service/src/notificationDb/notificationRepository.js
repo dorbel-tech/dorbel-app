@@ -1,10 +1,13 @@
 'use strict';
-const moment = require('moment');
 // TODO: put this in a real DB !
+const moment = require('moment');
+const faker = require('faker');
+
 let notifications = [];
 let pollIntervalHandle;
 
 function create(notification) {
+  notification.id = faker.random.uuid();
   notifications.push(notification);
   return Promise.resolve(notification);
 }

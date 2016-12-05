@@ -4,7 +4,7 @@
 'use strict';
 const _ = require('lodash');
 const dataRetrivel = require('./dataRetrivel');
-// const sqsProducer = require('./sqsProducer');
+const sqsProducer = require('./sqsProducer');
 const notifications = require('./notificationConfiguration.json');
 
 function handleNotificationEvent(notificationEvent) {
@@ -19,8 +19,10 @@ function sendNotification(notificationConfig, notificationEvent) {
   return getDataForNotification(notificationConfig, notificationEvent)
   .then(eventParams => {    
     const notificationRequest = _.extend(notificationConfig, notificationEvent, eventParams);
-    console.log('will send', notificationRequest);
-    // return sqsProducer.send(notificationConfig.medium, notificationRequest);
+    return sqsProducer.send(notificationConfig.medium, {
+      id: notificationEvent.id,
+      body: JSON.stringify(notificationRequest)
+    }); 
   });  
 }
 

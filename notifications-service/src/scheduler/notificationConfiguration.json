@@ -8,7 +8,13 @@
   {
     "notificationType": "apartment-created-confirm",
     "medium": "email", 
-    "templateName": "email 1A",
+    "templateName": "owner-new-property-he-prod",
+    "dataRetrivel": [ "getUserDetails" ]
+  },
+  {
+    "notificationType": "apartment-created-confirm",
+    "medium": "sms", 
+    "templateName": "newApartmentAdded",
     "dataRetrivel": [ "getUserDetails" ]
   }
 ]

@@ -17,9 +17,9 @@ logger.info({
 
 const messageConsumers = [
   { name: 'email', queueKey: 'NOTIFICATIONS_EMAIL_SQS_QUEUE_URL', 
-    handler: notificationsHandler.handleMessage.bind(notificationsHandler, 'Email') },
+    handler: notificationsHandler.handleMessage.bind(notificationsHandler, 'email') },
   { name: 'sms', queueKey: 'NOTIFICATIONS_SMS_SQS_QUEUE_URL', 
-    handler: notificationsHandler.handleMessage.bind(notificationsHandler, 'SMS') },
+    handler: notificationsHandler.handleMessage.bind(notificationsHandler, 'sms') },
   { name: 'app-events', queueKey: 'NOTIFICATIONS_APP_EVENTS_SQS_QUEUE_URL', 
     handler: notificationScheduler.handleMessage },
 ];
@@ -30,7 +30,7 @@ function startMessageConsumers() {
     return messageBus.consume.start(config.get(consumer.queueKey), consumer.handler);
   });
 
-  notificationRepository.startPolling(notificationSender.handleNotificationEvent, 1000 * 60);
+  notificationRepository.startPolling(notificationSender.handleNotificationEvent, 1000 * 10); 
 
   process.on('exit', function (code) {
     logger.info('Stopping consuming messages from notifications SQS queues.');

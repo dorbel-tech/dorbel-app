@@ -43,7 +43,6 @@ services:
     volumes:
       - ./notifications-service:/home/nodejs/app
       - /home/nodejs/app/node_modules
-      - ../dorbel-shared:/home/nodejs/app/node_modules/dorbel-shared
     environment:
       AUTH0_DOMAIN: ${AUTH0_DOMAIN}
       AUTH0_API_CLIENT_ID: ${AUTH0_API_CLIENT_ID}
