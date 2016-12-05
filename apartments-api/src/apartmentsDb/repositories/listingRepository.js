@@ -50,6 +50,7 @@ function* create(listing) {
     throw new Error('did not find city');
   }
 
+  listing.apartment.building.city_id = city.id;
   const building = yield buildingRepository.findOrCreate(listing.apartment.building);
 
   const apartment = yield apartmentRepository.findOrCreate(
