@@ -20,6 +20,7 @@ function getFakeListing() {
       building: {
         street_name: 'רוטשילד',
         house_number: '192',
+        city_id: 1,
         city: {
           city_name: 'תל אביב'
         }

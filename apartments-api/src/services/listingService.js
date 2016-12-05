@@ -4,7 +4,7 @@ const config = shared.config;
 const messageBus = shared.utils.messageBus;
 const listingRepository = require('../apartmentsDb/repositories/listingRepository');
 const moment = require('moment');
-const geoService = require('geoService');
+const geoService = require('./geoService');
 
 // TODO : move this to dorbel-shared
 function CustomError(code, message) {
