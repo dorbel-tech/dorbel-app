@@ -1,5 +1,5 @@
 'use strict';
-describe('Listing Events API Integration', function () {
+describe('Open House Events By Listing API Integration', function () {
   const ApiClient = require('./apiClient.js');
   const __ = require('hamjest');
   const _ = require('lodash');
@@ -18,7 +18,7 @@ describe('Listing Events API Integration', function () {
 
   describe('/events/by-listing/', function () {
 
-    describe('/get/{id}', function () {
+    describe('GET', function () {
       it('should get all events per listing id', function* () {
         const listingId = getRandomNumber();
         const ohe1 = {

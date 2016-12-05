@@ -18,7 +18,7 @@ describe('Open House Events Registration API Integration', function () {
 
   describe('/event/registration', function () {
 
-    describe('/post', function () {
+    describe('POST', function () {
       it('should create a new registation', function* () {
         const ohe = {
           start_time: moment().add(-2, 'hours').toISOString(),
@@ -35,7 +35,7 @@ describe('Open House Events Registration API Integration', function () {
 
     });
 
-    describe('delete/{id}', function () {
+    describe('DELETE', function () {
       it('should delete a registation', function* () {
         const ohe = {
           start_time: moment().add(-2, 'hours').toISOString(),

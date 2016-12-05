@@ -18,7 +18,7 @@ describe('Open House Events Registration API Integration', function () {
 
   describe('/event/follow', function () {
 
-    describe('/post', function () {
+    describe('POST', function () {
       it('should create a new follower', function* () {
         const ohe = {
           start_time: moment().add(-2, 'hours').toISOString(),
@@ -35,7 +35,7 @@ describe('Open House Events Registration API Integration', function () {
 
     });
 
-    describe('delete/{id}', function () {
+    describe('DELETE', function () {
       it('should delete a follower', function* () {
         const ohe = {
           start_time: moment().add(-2, 'hours').toISOString(),

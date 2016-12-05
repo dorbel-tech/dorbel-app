@@ -17,7 +17,7 @@ describe('Open House Events API Integration', function () {
   }
 
   describe('/event', function () {
-    describe('/get{id}', function () {
+    describe('GET', function () {
       it('should find an open house event', function* () {
         const ohe = {
           start_time: moment().add(-2, 'hours').toISOString(),
@@ -26,9 +26,17 @@ describe('Open House Events API Integration', function () {
         };
         const newEventReponse = yield this.apiClient.createNewEvent(ohe).expect(201).end();
         const newEvent = newEventReponse.body;
+
+        yield this.apiClient.createNewRegistration(newEvent.id).expect(201).end();
+        yield this.apiClient.createNewFollower(newEvent.id).expect(201).end();
+        yield this.apiClient.findEvent(newEvent.id).expect(200).end();
+        
         const existingEventResponse = yield this.apiClient.findEvent(newEvent.id).expect(200).end();
         const existingEvent = existingEventResponse.body;
+        
         __.assertThat(newEvent.id, __.is(existingEvent.id));
+        __.assertThat(existingEvent.registrations.length, __.is(1));
+        __.assertThat(existingEvent.followers.length, __.is(1));
       });
 
       it('should return an error for non existing event', function* () {
@@ -37,7 +45,7 @@ describe('Open House Events API Integration', function () {
 
     });
 
-    describe('/post', function () {
+    describe('POST', function () {
       it('should create a new open house event', function* () {
         const ohe = {
           start_time: moment().add(-2, 'hours').toISOString(),
@@ -49,7 +57,7 @@ describe('Open House Events API Integration', function () {
       });
     });
 
-    describe('/put', function () {
+    describe('PUT', function () {
       it('should update an existing open house event', function* () {
         const ohe = {
           start_time: moment().add(-2, 'hours').toISOString(),
@@ -74,7 +82,7 @@ describe('Open House Events API Integration', function () {
       });
     });
 
-    describe('/delete/{id}', function () {
+    describe('DELETE', function () {
       it('should delete an existing open house event', function* () {
         const ohe = {
           start_time: moment().add(-2, 'hours').toISOString(),
