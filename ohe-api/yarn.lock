@@ -946,9 +946,9 @@ doctrine@^1.2.2:
     esutils "^2.0.2"
     isarray "^1.0.0"
 
-"dorbel-shared@git://github.com/dorbel-tech/dorbel-shared#v0.4.31":
-  version "0.4.29"
-  resolved "git://github.com/dorbel-tech/dorbel-shared#2beaa22c22ff28da1846f6beab7c1e993ad27f5e"
+"dorbel-shared@git://github.com/dorbel-tech/dorbel-shared#v0.4.32":
+  version "0.4.32"
+  resolved "git://github.com/dorbel-tech/dorbel-shared#9264316591c220ab88bd0696b6f2233df4bfc145"
   dependencies:
     auth0 "^2.5.0"
     bluebird "^3.4.6"
@@ -1395,9 +1395,9 @@ fleek-parser@^1.1.2, fleek-parser@^1.2.3:
     object-search "0.0.5"
     traverse "^0.6.6"
 
-"fleek-parser@git+https://github.com/fleekjs/fleek-parser.git":
+"fleek-parser@https://github.com/fleekjs/fleek-parser":
   version "1.2.5"
-  resolved "git+https://github.com/fleekjs/fleek-parser.git#d03add15290ec7043c500c2a1d6c822637d4c918"
+  resolved "https://github.com/fleekjs/fleek-parser#d03add15290ec7043c500c2a1d6c822637d4c918"
   dependencies:
     deasync "^0.1.0"
     defaults-deep "^0.2.3"

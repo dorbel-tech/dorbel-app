@@ -52,7 +52,7 @@ describe('Open House Events API Integration', function () {
           end_time: moment().add(-1, 'hours').toISOString(),
           listing_id: getRandomNumber()
         };
-        const response = yield this.apiClient.createNewEvent(ohe).expect(201).end();
+        yield this.apiClient.createNewEvent(ohe).expect(201).end();
 
       });
     });
