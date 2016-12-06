@@ -29,7 +29,7 @@ function* create(listing) {
   let createdListing = yield listingRepository.create(modifiedListing);
   
   // Update user phone number in auth0.
-  yield userManagement.updateUserDetails(createdListing.publishing_user_id, {
+  userManagement.updateUserDetails(createdListing.publishing_user_id, {
     user_metadata: { 
       phone: listing.user.phone 
     }
@@ -39,7 +39,9 @@ function* create(listing) {
   if (config.get('NOTIFICATIONS_SNS_TOPIC_ARN')) {
     messageBus.publish(config.get('NOTIFICATIONS_SNS_TOPIC_ARN'), messageBus.eventType.APARTMENT_CREATED, { 
       user_uuid: createdListing.publishing_user_id,
-      apartment_id: createdListing.apartment_id    
+      user_email: listing.user.email,
+      user_phone: listing.user.phone,
+      apartment_id: createdListing.apartment_id      
     });
   }
 
