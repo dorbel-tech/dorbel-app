@@ -41,6 +41,7 @@ function* create(listing) {
       user_uuid: createdListing.publishing_user_id,
       user_email: listing.user.email,
       user_phone: listing.user.phone,
+      user_full_name: listing.user.firstname + ' ' + listing.user.lastname,
       apartment_id: createdListing.apartment_id      
     });
   }
