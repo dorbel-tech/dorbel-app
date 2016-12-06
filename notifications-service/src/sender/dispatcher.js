@@ -1,9 +1,10 @@
 // Email notificatons handler.
 'use strict';
 const shared = require('dorbel-shared');
+const _ = require('lodash'); 
+const dataRetrieval = require('./dataRetrieval');
 const logger = shared.logger.getLogger(module);
 
-// TODO : wrapper for message handler to include all the parsing and promising
 const dispatchers = {
   email: require('./dispatchers/emailDispatcher'),
   sms: require('./dispatchers/smsDispatcher')
@@ -19,7 +20,10 @@ function handleMessage(messageType, message, done) {
     logger.warn('Message was skipped and not processed as no dispatcher was defined for its type.');      
     done();
   } else {
-    dispatcher.send(messageBody)
+
+    dataRetrieval.getDataForNotification(messageBody)
+    .then(data => _.extend(messageBody, data))
+    .then(message => dispatcher.send(message))
     .then(() => done())
     .catch(err => {
       logger.error(err, 'Notifications handler error');

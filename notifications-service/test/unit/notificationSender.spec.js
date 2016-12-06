@@ -10,7 +10,7 @@ describe('Notification Sender', function() {
 
   const mockData = { stuff: 12378 };
 
-  const dataRetrivelMock = {
+  const dataRetrievalMock = {
     getData: sinon.stub().resolves(mockData)
   };
 
@@ -18,19 +18,19 @@ describe('Notification Sender', function() {
     notificationType: 'regular-notif',
     medium: 'dove', 
     templateName: '5AB4G',
-    dataRetrivel: [ 'getData' ]  
+    dataRetrieval: [ 'getData' ]  
   };
 
   before(function() {
     mockRequire('../../src/scheduler/sqsProducer', sqsProducerMock); 
-    mockRequire('../../src/scheduler/dataRetrivel', dataRetrivelMock);
+    mockRequire('../../src/scheduler/dataRetrieval', dataRetrievalMock);
     mockRequire('../../src/scheduler/notificationConfiguration.json', [ regularNotification ]);
     this.sender = require('../../src/scheduler/notificationSender');
   });
 
   afterEach(() => {
     sqsProducerMock.send.reset();
-    dataRetrivelMock.getData.reset();
+    dataRetrievalMock.getData.reset();
   });
 
   after(() => mockRequire.stopAll());
@@ -53,7 +53,7 @@ describe('Notification Sender', function() {
   it('should call data retrivel functions with event data', function* () {
     const eventData = { notificationType: regularNotification.notificationType, test: 918734 };
     yield this.sender.handleNotificationEvent(eventData);
-    __.assertThat(dataRetrivelMock.getData.args[0][0], __.is(eventData));
+    __.assertThat(dataRetrievalMock.getData.args[0][0], __.is(eventData));
   });
 
 });

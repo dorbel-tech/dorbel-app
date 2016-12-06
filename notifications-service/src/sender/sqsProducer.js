@@ -10,11 +10,11 @@ const config = shared.config;
 const queues = {
   email: Producer.create({
     queueUrl: config.get('NOTIFICATIONS_EMAIL_SQS_QUEUE_URL'),
-    region: 'eu-west-1'
+    region: config.get('AWS_REGION')
   }),
   sms: Producer.create({
     queueUrl: config.get('NOTIFICATIONS_SMS_SQS_QUEUE_URL'),
-    region: 'eu-west-1'
+    region: config.get('AWS_REGION')
   }) 
 };
 

@@ -4,9 +4,9 @@ const shared = require('dorbel-shared');
 const config = shared.config; 
 const path = require('path'); config.setConfigFileFolder(path.join(__dirname, '/config')); // load config from file before anything else
 const logger = shared.logger.getLogger(module);
-const notificationsHandler = require('./transactional/notificationsHandler');
+const dispatcher = require('./sender/dispatcher');
 const notificationScheduler = require('./scheduler/notificationScheduler');
-const notificationSender = require('./scheduler/notificationSender');
+const notificationSender = require('./sender/notificationSender');
 const notificationRepository = require('./notificationDb/notificationRepository');
 const messageBus = shared.utils.messageBus;
 
@@ -17,9 +17,9 @@ logger.info({
 
 const messageConsumers = [
   { name: 'email', queueKey: 'NOTIFICATIONS_EMAIL_SQS_QUEUE_URL', 
-    handler: notificationsHandler.handleMessage.bind(notificationsHandler, 'email') },
+    handler: dispatcher.handleMessage.bind(dispatcher, 'email') },
   { name: 'sms', queueKey: 'NOTIFICATIONS_SMS_SQS_QUEUE_URL', 
-    handler: notificationsHandler.handleMessage.bind(notificationsHandler, 'sms') },
+    handler: dispatcher.handleMessage.bind(dispatcher, 'sms') },
   { name: 'app-events', queueKey: 'NOTIFICATIONS_APP_EVENTS_SQS_QUEUE_URL', 
     handler: notificationScheduler.handleMessage },
 ];

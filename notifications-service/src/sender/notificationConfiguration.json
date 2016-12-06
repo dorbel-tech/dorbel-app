@@ -3,18 +3,18 @@
     "notificationType": "ohe-about-to-start",
     "medium": "email", 
     "templateName": "email 5 design",
-    "dataRetrivel": [ "oheDetails", "oheSignups" ]  
+    "dataRetrieval": [ "oheDetails", "oheSignups" ]  
   },
   {
     "notificationType": "apartment-created-confirm",
     "medium": "email", 
     "templateName": "owner-new-property-he-prod",
-    "dataRetrivel": [ "getUserDetails" ]
+    "dataRetrieval": [ "getUserDetails" ]
   },
   {
     "notificationType": "apartment-created-confirm",
     "medium": "sms", 
     "templateName": "newApartmentAdded",
-    "dataRetrivel": [ "getUserDetails" ]
+    "dataRetrieval": [ "getUserDetails" ]
   }
 ]
