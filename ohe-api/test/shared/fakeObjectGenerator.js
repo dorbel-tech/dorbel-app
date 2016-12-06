@@ -36,9 +36,16 @@ function generateFollower(variant) {
   }, variant);
 }
 
+function getRandomNumber() {
+  const min = 1000;
+  const max = 100000;
+  return Math.floor(Math.random() * (max - min)) + min;
+}
+
 module.exports = {
   getFakeUser,
   generateEvent,
   generateRegistration,
-  generateFollower
+  generateFollower,
+  getRandomNumber
 };

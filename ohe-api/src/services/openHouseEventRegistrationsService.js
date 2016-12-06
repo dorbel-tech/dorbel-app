@@ -1,29 +1,17 @@
 'use strict';
+const errors = require('./domainErrors');
 const notificationService = require('./notificationService');
 const openHouseEventsFinderService = require('./openHouseEventsFinderService');
 const repository = require('../openHouseEventsDb/repositories/openHouseEventRegistrationsRepository');
-
-function OpenHouseEventRegistrationValidationError(eventId, userId, message) {
-  Error.captureStackTrace(this, this.constructor);
-  this.name = this.constructor.name;
-  this.message = message;
-  this.eventId = eventId;
-  this.userId = userId;
-}
-
-function OpenHouseEventRegistrationNotFoundError(registrationId, message) {
-  Error.captureStackTrace(this, this.constructor);
-  this.name = this.constructor.name;
-  this.message = message;
-  this.registrationId = registrationId;
-}
 
 function* register(eventId, userId) {
   let existingEvent = yield openHouseEventsFinderService.find(eventId);
   if (existingEvent.registrations) {
     existingEvent.registrations.forEach(function (registration) {
       if (registration.user_id == userId) {
-        throw new OpenHouseEventRegistrationValidationError(eventId, userId, 'user already registered to this event');
+        throw new errors.DomainValidationError('OpenHouseEventRegistrationValidationError',
+          { event_id: eventId, user_id: userId },
+          'user already registered to this event');
       }
     });
   }
@@ -48,7 +36,9 @@ function* register(eventId, userId) {
 function* unregister(registrationId) {
   let existingRegistration = yield repository.findRegistration(registrationId);
   if (existingRegistration == undefined) {
-    throw new OpenHouseEventRegistrationNotFoundError(registrationId, 'registration does not exist');
+    throw new errors.DomainNotFoundError('OpenHouseEventRegistrationNotFoundError',
+      { registration_id: registrationId },
+      'registration does not exist');
   }
   existingRegistration.is_active = false;
 
@@ -64,7 +54,5 @@ function* unregister(registrationId) {
 
 module.exports = {
   register,
-  unregister,
-  OpenHouseEventRegistrationValidationError,
-  OpenHouseEventRegistrationNotFoundError
+  unregister
 };

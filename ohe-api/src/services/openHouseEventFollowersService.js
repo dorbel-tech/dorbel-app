@@ -1,31 +1,19 @@
 'use strict';
+const errors = require('./domainErrors');
 const notificationService = require('./notificationService');
 const repository = require('../openHouseEventsDb/repositories/openHouseEventFollowersRepository');
 
-function OpenHouseEventFollowerValidationError(eventId, userId,message) {
-  Error.captureStackTrace(this, this.constructor);
-  this.name = this.constructor.name;
-  this.message = message;
-  this.eventId = eventId;
-  this.userId = userId;
-}
-
-function OpenHouseEventFollowerNotFoundError(followId, message) {
-  Error.captureStackTrace(this, this.constructor);
-  this.name = this.constructor.name;
-  this.message = message;
-  this.followId = followId;
-}
-
 function* follow(listingId, userId) {
-  let existingFollowers = yield repository.findByListingId(listingId);
+  const existingFollowers = yield repository.findByListingId(listingId);
   if (existingFollowers) {
-    const alreadyFollow = existingFollowers.filter(function(follower){
+    const alreadyFollow = existingFollowers.filter(function (follower) {
       return follower.user_id == userId;
     });
 
-    if(alreadyFollow.length){
-      throw new OpenHouseEventFollowerValidationError(listingId, userId, 'user already follows this listing');
+    if (alreadyFollow.length) {
+      throw new errors.DomainValidationError('OpenHouseEventFollowerValidationError',
+        { listing_id: listingId, user_id: userId },
+        'user already follows this listing');
     }
   }
 
@@ -48,8 +36,11 @@ function* follow(listingId, userId) {
 function* unfollow(followId) {
   let existingFollower = yield repository.findFollower(followId);
   if (existingFollower == undefined) {
-    throw new OpenHouseEventFollowerNotFoundError(followId, 'follower does not exist');
+    throw new errors.DomainNotFoundError('OpenHouseEventFollowerNotFoundError',
+      { follow_id: followId },
+      'follower does not exist');
   }
+  
   existingFollower.is_active = false;
 
   const result = yield repository.updateFollower(existingFollower);
@@ -64,7 +55,5 @@ function* unfollow(followId) {
 
 module.exports = {
   follow,
-  unfollow,
-  OpenHouseEventFollowerValidationError,
-  OpenHouseEventFollowerNotFoundError
+  unfollow
 };

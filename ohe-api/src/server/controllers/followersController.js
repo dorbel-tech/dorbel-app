@@ -4,21 +4,24 @@ const logger = shared.logger.getLogger(module);
 const service = require('../../services/openHouseEventFollowersService');
 
 function* post() {
-  logger.debug('Following an open house event...');
-  let result = yield service.follow(this.request.body.listing_id, this.request.user.id);
-  logger.info('Follower created');
+  const listingId = this.request.body.listing_id;
+  const userId = this.request.user.id;
+  logger.debug({ listing_id: listingId, user_id: userId }, 'Following an open house event...');
+  let result = yield service.follow(listingId, userId);
+  logger.info({ listing_id: listingId, user_id: userId, followId: result.id }, 'Follower created');
   this.response.status = 201;
   this.response.body = result;
 }
 
 function* remove() {
-  logger.debug('Unfollow an open house event...');
-  let result = yield service.unfollow(this.params.id);
-  logger.info(result.id, 'Unfollow completed');
+  const id = this.params.id;
+  logger.debug({ followId: id }, 'Unfollow an open house event...');
+  yield service.unfollow(this.params.id);
+  logger.info(id, 'Unfollow completed');
   this.response.status = 200;
 }
 
 module.exports = {
   post: post,
-  delete:remove
+  delete: remove
 };

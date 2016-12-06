@@ -11,15 +11,6 @@ const app = koa();
 const port: number = shared.config.get('PORT');
 const env = process.env.NODE_ENV;
 
-const statusCodes = {
-  'OpenHouseEventValidationError': 400,
-  'OpenHouseEventRegistrationValidationError':400,
-  'OpenHouseEventFollowerValidationError':400,
-  'OpenHouseEventNotFoundError':404,
-  'OpenHouseEventRegistrationNotFoundError':404,
-  'OpenHouseEventFollowerNotFoundError':404
-};
-
 app.use(shared.middleware.errorHandler());
 app.use(shared.middleware.requestLogger());
 app.use(bodyParser());
@@ -43,13 +34,8 @@ app.use(function* handleDomainErrors(next) {
     yield next;
   }
   catch (ex) {
-    if(statusCodes.hasOwnProperty(ex.name)){
-      this.body = ex.message;
-      this.status = statusCodes[ex.name];
-    }
-    else {
-      throw ex;
-    }
+    this.body = ex.message;
+    this.status = ex.statusCode;
   }
 });
 

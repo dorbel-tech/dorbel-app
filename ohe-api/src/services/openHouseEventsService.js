@@ -1,21 +1,16 @@
 'use strict';
+const errors = require('./domainErrors');
 const notificationService = require('./notificationService');
 const openHouseEventsFinderService = require('./openHouseEventsFinderService');
 const openHouseEventsRepository = require('../openHouseEventsDb/repositories/openHouseEventsRepository');
 const moment = require('moment');
 require('moment-range');
 
-function OpenHouseEventValidationError(start, end, message) {
-  Error.captureStackTrace(this, this.constructor);
-  this.name = this.constructor.name;
-  this.message = message;
-  this.startTime= start;
-  this.endTime = end;
-}
-
 function validateEventParamters(start, end) {
   if (end.diff(start, 'minutes') < 30) {
-    throw new OpenHouseEventValidationError(start, end, 'open house event should be at least 30 minutes');
+    throw new errors.DomainValidationError('OpenHouseEventValidationError',
+      { start_time: start, end_time: end },
+      'open house event should be at least 30 minutes');
   }
 }
 
@@ -26,7 +21,9 @@ function validateEventIsNotOverlappingExistingEvents(existingListingEvents, list
   existingListingEvents.forEach(function (existingEvent) {
     const range = moment.range(existingEvent.start_time, existingEvent.end_time);
     if (range.contains(start) || range.contains(end)) {
-      throw new OpenHouseEventValidationError(start, end, 'new event is overlapping an existing event');
+      throw new errors.DomainValidationError('OpenHouseEventValidationError',
+        { start_time: start, end_time: end },
+        'new event is overlapping an existing event');
     }
   });
 }
@@ -110,6 +107,5 @@ function* remove(eventId) {
 module.exports = {
   create,
   update,
-  remove,
-  OpenHouseEventValidationError
+  remove
 };

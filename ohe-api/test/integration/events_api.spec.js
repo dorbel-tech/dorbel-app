@@ -10,19 +10,13 @@ describe('Open House Events API Integration', function () {
     this.apiClient = yield ApiClient.init(faker.getFakeUser());
   });
 
-  function getRandomNumber() {
-    let min = 1000;
-    let max = 100000;
-    return Math.floor(Math.random() * (max - min)) + min;
-  }
-
   describe('/event', function () {
     describe('GET', function () {
       it('should find an open house event', function* () {
         const ohe = {
           start_time: moment().add(-2, 'hours').toISOString(),
           end_time: moment().add(-1, 'hours').toISOString(),
-          listing_id: getRandomNumber()
+          listing_id: faker.getRandomNumber()
         };
         const newEventReponse = yield this.apiClient.createNewEvent(ohe).expect(201).end();
         const newEvent = newEventReponse.body;
@@ -48,7 +42,7 @@ describe('Open House Events API Integration', function () {
         const ohe = {
           start_time: moment().add(-2, 'hours').toISOString(),
           end_time: moment().add(-1, 'hours').toISOString(),
-          listing_id: getRandomNumber()
+          listing_id: faker.getRandomNumber()
         };
         yield this.apiClient.createNewEvent(ohe).expect(201).end();
 
@@ -60,7 +54,7 @@ describe('Open House Events API Integration', function () {
         const ohe = {
           start_time: moment().add(-2, 'hours').toISOString(),
           end_time: moment().add(-1, 'hours').toISOString(),
-          listing_id: getRandomNumber()
+          listing_id: faker.getRandomNumber()
         };
         const newEventReponse = yield this.apiClient.createNewEvent(ohe).expect(201).end();
         let newEvent = newEventReponse.body;
@@ -74,7 +68,7 @@ describe('Open House Events API Integration', function () {
           id: 9999999,
           start_time: moment().add(-2, 'hours').toISOString(),
           end_time: moment().add(-1, 'hours').toISOString(),
-          listing_id: getRandomNumber()
+          listing_id: faker.getRandomNumber()
         };
         yield this.apiClient.updateEvent(ohe).expect(404).end();
       });
@@ -85,7 +79,7 @@ describe('Open House Events API Integration', function () {
         const ohe = {
           start_time: moment().add(-2, 'hours').toISOString(),
           end_time: moment().add(-1, 'hours').toISOString(),
-          listing_id: getRandomNumber()
+          listing_id: faker.getRandomNumber()
         };
         const newEventReponse = yield this.apiClient.createNewEvent(ohe).expect(201).end();
         let newEvent = newEventReponse.body;
