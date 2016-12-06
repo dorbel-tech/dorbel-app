@@ -28,7 +28,6 @@ describe('Open House Events API Integration', function () {
         const newEvent = newEventReponse.body;
 
         yield this.apiClient.createNewRegistration(newEvent.id).expect(201).end();
-        yield this.apiClient.createNewFollower(newEvent.id).expect(201).end();
         yield this.apiClient.findEvent(newEvent.id).expect(200).end();
         
         const existingEventResponse = yield this.apiClient.findEvent(newEvent.id).expect(200).end();
@@ -36,7 +35,6 @@ describe('Open House Events API Integration', function () {
         
         __.assertThat(newEvent.id, __.is(existingEvent.id));
         __.assertThat(existingEvent.registrations.length, __.is(1));
-        __.assertThat(existingEvent.followers.length, __.is(1));
       });
 
       it('should return an error for non existing event', function* () {

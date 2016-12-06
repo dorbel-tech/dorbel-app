@@ -1,8 +1,8 @@
 {
   "/event/follow": {
     "post": {
-      "summary": "Enables a user to follow an open house event",
-      "description": "Enables a user to follow an open house event in the system",
+      "summary": "Enables a user to follow a listing",
+      "description": "Enables a user to follow a listing in the system",
       "parameters": [
         {
           "name": "body",
@@ -41,8 +41,8 @@
   },
   "/event/follow/{id}": {
     "delete": {
-      "summary": "Unfollows a user from an open house event",
-      "description": "Unfollows a user from an open house event in the system",
+      "summary": "Unfollows a user from a listing",
+      "description": "Unfollows a user from a listing in the system",
       "parameters": [
         {
           "name": "id",

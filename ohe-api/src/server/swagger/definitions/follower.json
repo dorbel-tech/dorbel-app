@@ -5,7 +5,7 @@
       "id": {
         "type": "integer"
       },
-      "open_house_event_id": {
+      "listing_id": {
         "type": "integer"
       },
       "user_id": {

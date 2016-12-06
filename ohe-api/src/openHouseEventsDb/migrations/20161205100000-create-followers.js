@@ -8,10 +8,9 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      open_house_event_id: {
+      listing_id: {
         allowNull: false,
-        type: Sequelize.INTEGER,
-        references: { model: 'open_house_events', key: 'id' }
+        type: Sequelize.INTEGER
       },
       user_id: {
         allowNull: false,

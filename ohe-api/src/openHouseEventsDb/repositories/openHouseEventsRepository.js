@@ -3,8 +3,7 @@ const db = require('../dbConnectionProvider');
 const models = db.models;
 
 const findInclude = [
-  { model: models.registration, required: false, where: { is_active: true } },
-  { model: models.follower, required: false, where: { is_active: true } }
+  { model: models.registration, required: false, where: { is_active: true } }
 ];
 
 function* find(eventId) {

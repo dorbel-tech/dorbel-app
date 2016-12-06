@@ -24,12 +24,6 @@
         "items": {
           "$ref": "#/definitions/Registration"
         }
-      },
-      "followers": {
-        "type": "array",
-        "items": {
-          "$ref": "#/definitions/Follower"
-        }
       }
     }
   }

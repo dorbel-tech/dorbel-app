@@ -2,12 +2,12 @@
   "AddFollowRequest": {
     "type": "object",
     "properties": {
-      "open_house_event_id": {
+      "listing_id": {
         "type": "integer"
       }
     },
     "required": [
-      "open_house_event_id"
+      "listing_id"
     ]
   }
 }

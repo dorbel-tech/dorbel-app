@@ -1,6 +1,5 @@
 'use strict';
 const notificationService = require('./notificationService');
-const openHouseEventsFinderService = require('./openHouseEventsFinderService');
 const repository = require('../openHouseEventsDb/repositories/openHouseEventFollowersRepository');
 
 function OpenHouseEventFollowerValidationError(eventId, userId,message) {
@@ -18,18 +17,20 @@ function OpenHouseEventFollowerNotFoundError(followId, message) {
   this.followId = followId;
 }
 
-function* follow(eventId, userId) {
-  let existingEvent = yield openHouseEventsFinderService.find(eventId);
-  if (existingEvent.followers) {
-    existingEvent.followers.forEach(function (follower) {
-      if (follower.user_id == userId) {
-        throw new OpenHouseEventFollowerValidationError(eventId, userId, 'user already follows this event');
-      }
+function* follow(listingId, userId) {
+  let existingFollowers = yield repository.findByListingId(listingId);
+  if (existingFollowers) {
+    const alreadyFollow = existingFollowers.filter(function(follower){
+      return follower.user_id == userId;
     });
+
+    if(alreadyFollow.length){
+      throw new OpenHouseEventFollowerValidationError(listingId, userId, 'user already follows this listing');
+    }
   }
 
   const follower = {
-    open_house_event_id: eventId,
+    listing_id: listingId,
     user_id: userId,
     is_active: true
   };
@@ -37,8 +38,7 @@ function* follow(eventId, userId) {
   const result = yield repository.createFollower(follower);
 
   notificationService.send(notificationService.eventType.OHE_FOLLOW, {
-    listing_id: existingEvent.listing_id,
-    event_id: existingEvent.id,
+    listing_id: listingId,
     follower_user_id: userId
   });
 
@@ -55,7 +55,7 @@ function* unfollow(followId) {
   const result = yield repository.updateFollower(existingFollower);
 
   notificationService.send(notificationService.eventType.OHE_UNFOLLOW, {
-    event_id: existingFollower.id,
+    listing_id: existingFollower.listing_id,
     follower_user_id: existingFollower.user_id
   });
 

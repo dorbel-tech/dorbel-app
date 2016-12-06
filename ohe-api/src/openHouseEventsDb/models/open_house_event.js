@@ -10,7 +10,6 @@ function define(sequelize, DataTypes) {
     classMethods: {
       associate: models => {
         models.open_house_event.hasMany(models.registration, { foreignKey: { allowNull: false }, onDelete: 'CASCADE' });
-        models.open_house_event.hasMany(models.follower, { foreignKey: { allowNull: false }, onDelete: 'CASCADE' });
       }
     }
   });

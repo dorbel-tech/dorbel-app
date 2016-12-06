@@ -5,7 +5,7 @@ const service = require('../../services/openHouseEventFollowersService');
 
 function* post() {
   logger.debug('Following an open house event...');
-  let result = yield service.follow(this.request.body.open_house_event_id, this.request.user.id);
+  let result = yield service.follow(this.request.body.listing_id, this.request.user.id);
   logger.info('Follower created');
   this.response.status = 201;
   this.response.body = result;
