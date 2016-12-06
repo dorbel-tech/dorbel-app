@@ -26,7 +26,10 @@ function getFakeListing() {
         }
       }
     },
-    images: [{ url: faker.internet.url() }]
+    images: [{ url: faker.internet.url() }],
+    user: {
+      phone: '123456789'
+    }
   };
 }
 
