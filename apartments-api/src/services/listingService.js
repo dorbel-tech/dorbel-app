@@ -26,14 +26,10 @@ function* create(listing) {
   }
 
   let modifiedListing = yield geoService.setGeoLocation(listing);
-  let createdListing = yield listingRepository.create(modifiedListing);
-  
-  let normalizedPhone = listing.user.phone;
-  if (listing.user.phone.startsWith('0')) { 
-    normalizedPhone = '+972' + listing.user.phone.substring(1).replace(/[-+()]/g, ''); // remove trailing zero, remove special chars.
-  }
+  let createdListing = yield listingRepository.create(modifiedListing); 
 
   // Update user phone number in auth0.
+  let normalizedPhone = normalizePhone(listing.user.phone);
   userManagement.updateUserDetails(createdListing.publishing_user_id, {
     user_metadata: { 
       phone: normalizedPhone 
@@ -53,6 +49,14 @@ function* create(listing) {
   }
 
   return createdListing;
+}
+
+function normalizePhone(phone) {
+  if (phone.startsWith('0')) { 
+    return '+972' + phone.substring(1).replace(/[-+()]/g, ''); // remove trailing zero, remove special chars.
+  } else {
+    return phone;
+  }
 }
 
 module.exports = {
