@@ -6,6 +6,7 @@ machine:
     RDS_DB_NAME: circle_test
     RDS_USERNAME: ubuntu
     RDS_PASSWORD: 
+    REDIS_HOST: 127.0.0.1
     AWS_DEFAULT_REGION: eu-west-1
     AWS_REGION: eu-west-1
     NOTIFICATIONS_SNS_TOPIC_ARN: arn:aws:sns:eu-west-1:168720412882:notifications-ci
