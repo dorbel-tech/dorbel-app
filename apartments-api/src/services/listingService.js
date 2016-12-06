@@ -28,20 +28,26 @@ function* create(listing) {
   let modifiedListing = yield geoService.setGeoLocation(listing);
   let createdListing = yield listingRepository.create(modifiedListing);
   
+  let normalizedPhone = listing.user.phone;
+  if (listing.user.phone.startsWith('0')) { 
+    normalizedPhone = '+972' + listing.user.phone.substring(1).replace(/[-+()]/g, ''); // remove trailing zero, remove special chars.
+  }
+
   // Update user phone number in auth0.
   userManagement.updateUserDetails(createdListing.publishing_user_id, {
     user_metadata: { 
-      phone: listing.user.phone 
+      phone: normalizedPhone 
     }
   });
 
   // Publish event trigger message to SNS for notifications dispatching.
   if (config.get('NOTIFICATIONS_SNS_TOPIC_ARN')) {
+    let fullName = listing.user.firstname + ' ' + listing.user.lastname;
     messageBus.publish(config.get('NOTIFICATIONS_SNS_TOPIC_ARN'), messageBus.eventType.APARTMENT_CREATED, { 
       user_uuid: createdListing.publishing_user_id,
       user_email: listing.user.email,
-      user_phone: listing.user.phone,
-      user_full_name: listing.user.firstname + ' ' + listing.user.lastname,
+      user_phone: normalizedPhone,
+      user_full_name: fullName,
       apartment_id: createdListing.apartment_id      
     });
   }
