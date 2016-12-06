@@ -5,6 +5,7 @@ const messageBus = shared.utils.messageBus;
 const listingRepository = require('../apartmentsDb/repositories/listingRepository');
 const moment = require('moment');
 const geoService = require('./geoService');
+const userManagement = shared.utils.userManagement;
 
 // TODO : move this to dorbel-shared
 function CustomError(code, message) {
@@ -27,6 +28,16 @@ function* create(listing) {
   let modifiedListing = yield geoService.setGeoLocation(listing);
   let createdListing = yield listingRepository.create(modifiedListing);
   
+  // Update user phone number in auth0.
+  userManagement.updateUserDetails(
+    createdListing.publishing_user_id, 
+    { 
+      user_metadata: { 
+        phone: listing.user.phone 
+      }
+    }
+  );
+
   // Publish event trigger message to SNS for notifications dispatching.
   if (config.get('NOTIFICATIONS_SNS_TOPIC_ARN')) {
     messageBus.publish(config.get('NOTIFICATIONS_SNS_TOPIC_ARN'), messageBus.eventType.APARTMENT_CREATED, { 

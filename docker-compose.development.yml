@@ -9,7 +9,7 @@ services:
     volumes:
       - ./apartments-api:/home/nodejs/app
       - /home/nodejs/app/node_modules
-      # - ../dorbel-shared:/home/nodejs/app/node_modules/dorbel-shared
+      - ../dorbel-shared:/home/nodejs/app/node_modules/dorbel-shared
     environment:
       NODE_ENV: ${NODE_ENV}
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
@@ -27,7 +27,7 @@ services:
       - ./front-gateway:/home/nodejs/app
       - /home/nodejs/app/node_modules
       - /home/nodejs/app/public/build
-      - ../dorbel-shared:/home/nodejs/app/node_modules/dorbel-shared
+      # - ../dorbel-shared:/home/nodejs/app/node_modules/dorbel-shared
     environment:
       NODE_ENV: ${NODE_ENV}
       AUTH0_DOMAIN: ${AUTH0_DOMAIN}
@@ -43,7 +43,7 @@ services:
     volumes:
       - ./notifications-service:/home/nodejs/app
       - /home/nodejs/app/node_modules
-      # - ../dorbel-shared:/home/nodejs/app/node_modules/dorbel-shared
+      - ../dorbel-shared:/home/nodejs/app/node_modules/dorbel-shared
     environment:
       AUTH0_DOMAIN: ${AUTH0_DOMAIN}
       AUTH0_API_CLIENT_ID: ${AUTH0_API_CLIENT_ID}
