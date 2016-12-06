@@ -7,8 +7,10 @@ let geoCoderInstance = null;
 // NodeGeocoder client singleton class.
 class Geo{  
   constructor() {
-    if(!geoCoderInstance){ geoCoderInstance = this; }
-    this.coder = NodeGeocoder({ provider: 'google'});
+    if(!geoCoderInstance){ 
+      this.coder = NodeGeocoder({ provider: 'google'});
+      geoCoderInstance = this; 
+    }    
     return geoCoderInstance;
   }
 }

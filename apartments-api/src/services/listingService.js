@@ -29,14 +29,11 @@ function* create(listing) {
   let createdListing = yield listingRepository.create(modifiedListing);
   
   // Update user phone number in auth0.
-  userManagement.updateUserDetails(
-    createdListing.publishing_user_id, 
-    { 
-      user_metadata: { 
-        phone: listing.user.phone 
-      }
+  yield userManagement.updateUserDetails(createdListing.publishing_user_id, {
+    user_metadata: { 
+      phone: listing.user.phone 
     }
-  );
+  });
 
   // Publish event trigger message to SNS for notifications dispatching.
   if (config.get('NOTIFICATIONS_SNS_TOPIC_ARN')) {
