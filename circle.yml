@@ -17,6 +17,7 @@ machine:
     TWILIO_PHONE_NUMBER: 1234567890
   services:
     - mysql
+    - redis
   pre:
     - mkdir ~/.yarn-cache
   node:
@@ -26,6 +27,7 @@ dependencies:
   pre:
     # Install Yarn
      - curl -o- -L https://yarnpkg.com/install.sh | bash
+     - 
   cache_directories:
     - ~/.yarn-cache
   override:
