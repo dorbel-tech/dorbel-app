@@ -24,13 +24,16 @@ services:
       - '3000:3000'
     depends_on:
       - db
+      - ohe-api
     links:
       - db
+      - ohe-api
     environment:
       RDS_HOSTNAME: db
       RDS_DB_NAME: ${MYSQL_DATABASE_APT}
       RDS_USERNAME: ${MYSQL_ROOT_USER}
       RDS_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      OHE_API_URL: http://ohe-api:3003
 
   front-gateway:
     build:
