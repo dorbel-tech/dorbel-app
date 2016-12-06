@@ -8,6 +8,7 @@ const dispatcher = require('./sender/dispatcher');
 const notificationScheduler = require('./scheduler/notificationScheduler');
 const notificationSender = require('./sender/notificationSender');
 const notificationRepository = require('./notificationDb/notificationRepository');
+const dbConnectionProvider = require('./notificationDb/dbConnectionProvider');
 const messageBus = shared.utils.messageBus;
 
 logger.info({
@@ -46,6 +47,7 @@ function startMessageConsumers() {
 }
 
 function* bootstrap() {
+  yield dbConnectionProvider.connect();
   startMessageConsumers(); // Starting notification messages consumers.
   const server = require('./server/server'); // server should be required only after db connect finish
   return server.listen();

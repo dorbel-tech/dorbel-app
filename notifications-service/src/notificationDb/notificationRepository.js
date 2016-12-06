@@ -1,25 +1,52 @@
 'use strict';
-// TODO: put this in a real DB !
-const moment = require('moment');
-const faker = require('faker');
+const db = require('./dbConnectionProvider');
+const shared = require('dorbel-shared');
+const logger = shared.logger.getLogger(module);
 
-let notifications = [];
 let pollIntervalHandle;
 
 function create(notification) {
-  notification.id = faker.random.uuid();
-  notifications.push(notification);
-  return Promise.resolve(notification);
+  notification.status = 'pending';
+  return db.models.notification.create(notification);
+}
+
+function cancel(cancelRequest) {
+  if (!cancelRequest.relatedObjectId || cancelRequest.relatedObjectType) {
+    throw new Error('cannot cancel events without related object id');
+  }
+
+  return db.models.notification.update({ status: 'canceled' }, {
+    where: {
+      notificationType: { $in: cancelRequest.notificationTypes },
+      status: 'pending',
+      relatedObjectId: cancelRequest.relatedObjectId,
+      relatedObjectType: cancelRequest.relatedObjectType
+    }
+  });
 }
 
 function startPolling(handler, interval) {
   pollIntervalHandle = setInterval(() => {
-    notifications.filter(notification => {
-      return notification.status === 'pending' && moment(notification.scheduledTo).isBefore(moment());
+    logger.debug('polling for due notifications');
+    db.models.notification.findAll({
+      where : {
+        status: 'pending',
+        scheduledTo: { $lte: (new Date()).toISOString() }
+      }
     })
-    .forEach(notification => {
-      notification.status = 'in-flight';
-      handler(notification).then(() => notification.status = 'sent');
+    .then(pendingNotifications => {
+      if (pendingNotifications.length) {
+        logger.debug({ count: pendingNotifications.length }, 'found due notifications');
+        pendingNotifications.forEach(notification => {
+          notification.update({status: 'in-flight'})
+          .then(() => handler(notification.dataValues))
+          .then(() => notification.update({status: 'sent'}))
+          .catch(err => {
+            logger.error(err, 'failed to handle due notification');
+            notification.update({status: 'pending'});
+          }); // retry forever ?
+        });
+      }
     });
   }, interval);
 }
@@ -31,5 +58,6 @@ function stopPolling() {
 module.exports = {
   create,
   startPolling,
-  stopPolling
+  stopPolling,
+  cancel
 };

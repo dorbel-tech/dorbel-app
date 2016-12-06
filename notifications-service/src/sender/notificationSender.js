@@ -18,7 +18,7 @@ function handleNotificationEvent(notificationEvent) {
 function sendNotification(notificationConfig, notificationEvent) {
   const notificationRequest = _.extend(notificationConfig, notificationEvent);
   return sqsProducer.send(notificationConfig.medium, {
-    id: notificationEvent.id,
+    id: notificationEvent.id.toString(),
     body: JSON.stringify(notificationRequest)
   }); 
 }

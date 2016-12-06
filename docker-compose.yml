@@ -53,10 +53,16 @@ services:
       - '3002:3002'
     depends_on:
       - cache
+      - db
     links:
       - cache
+      - db
     environment:
       REDIS_HOST: cache
+      RDS_HOSTNAME: db
+      RDS_DB_NAME: ${MYSQL_DATABASE_NOTIFICATIONS}
+      RDS_USERNAME: ${MYSQL_ROOT_USER}
+      RDS_PASSWORD: ${MYSQL_ROOT_PASSWORD}
 
   ohe-api:
     build:
@@ -73,5 +79,3 @@ services:
       RDS_DB_NAME: ${MYSQL_DATABASE_OHE}
       RDS_USERNAME: ${MYSQL_ROOT_USER}
       RDS_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-
-      
