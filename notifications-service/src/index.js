@@ -31,7 +31,7 @@ function startMessageConsumers() {
     return messageBus.consume.start(config.get(consumer.queueKey), consumer.handler);
   });
 
-  notificationRepository.startPolling(notificationSender.handleNotificationEvent, 1000 * 10); 
+  notificationRepository.startPolling(notificationSender.handleNotificationEvent); 
 
   process.on('exit', function (code) {
     logger.info('Stopping consuming messages from notifications SQS queues.');

@@ -101,5 +101,5 @@ function handleMessageWrapper(handleFunc, message, done) {
 }
 
 module.exports = {
-  handleMessage: handleMessageWrapper.bind(null, handleMessage)
+  handleMessage: handleMessageWrapper.bind(null, handleMessage)  
 };

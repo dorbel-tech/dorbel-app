@@ -3,6 +3,7 @@ const db = require('./dbConnectionProvider');
 const shared = require('dorbel-shared');
 const logger = shared.logger.getLogger(module);
 
+const pollInterval = shared.config.get('NOTIFICATION_DB_POLL_INTERVAL_MS') || 1000*60;
 let pollIntervalHandle;
 
 function create(notification) {
@@ -25,7 +26,7 @@ function cancel(cancelRequest) {
   });
 }
 
-function startPolling(handler, interval) {
+function startPolling(handler) {
   pollIntervalHandle = setInterval(() => {
     logger.debug('polling for due notifications');
     db.models.notification.findAll({
@@ -48,7 +49,7 @@ function startPolling(handler, interval) {
         });
       }
     });
-  }, interval);
+  }, pollInterval);
 }
 
 function stopPolling() {
