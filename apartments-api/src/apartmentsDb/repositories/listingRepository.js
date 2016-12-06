@@ -6,10 +6,13 @@ const helper = require('./repositoryHelper');
 const apartmentRepository = require('./apartmentRepository');
 const buildingRepository = require('./buildingRepository');
 
-function list (query) {
+function list(query) {
   return models.listing.findAll({
     where: query,
-    include: [ { model: models.apartment, include: models.building } ],
+    include: [{
+      model: models.apartment,
+      include: models.building
+    }],
     raw: true, // readonly get - no need for full sequlize instances
     fieldMap: {
       'apartment.building.street_name': 'street_name',
@@ -21,11 +24,16 @@ function list (query) {
 
 function getById(id) {
   return models.listing.findOne({
-    where: { id },
-    include: [ { 
-      model: models.apartment, include: [ 
-        { model: models.building, include : [ models.city, models.neighborhood ] } 
-      ] },
+    where: {
+      id
+    },
+    include: [{
+      model: models.apartment,
+      include: [{
+        model: models.building,
+        include: [models.city, models.neighborhood]
+      }]
+    },
       models.image
     ]
   });
@@ -42,8 +50,14 @@ function* create(listing) {
     throw new Error('did not find city');
   }
 
-  const building = yield buildingRepository.findOrCreate(listing.apartment.building.street_name, listing.apartment.building.house_number, city.id);
-  const apartment = yield apartmentRepository.findOrCreate(listing.apartment.apt_number, building.id, listing.apartment);
+  listing.apartment.building.city_id = city.id;
+  const building = yield buildingRepository.findOrCreate(listing.apartment.building);
+
+  const apartment = yield apartmentRepository.findOrCreate(
+    listing.apartment.apt_number,
+    building.id,
+    listing.apartment
+  );
 
   let newListing = models.listing.build(_.pick(listing, helper.getModelFieldNames(models.listing)));
   newListing.apartment_id = apartment.id;
@@ -64,17 +78,29 @@ function* create(listing) {
 }
 
 function getListingsForApartment(apartment, listingQuery) {
-  const includeCity = [
-    { model: models.city, where: { city_name: apartment.building.city.city_name } }
-  ];
+  const includeCity = [{
+    model: models.city,
+    where: {
+      city_name: apartment.building.city.city_name
+    }
+  }];
 
-  const includeBuildings = [
-    { model: models.building, where: { street_name: apartment.building.street_name, house_number: apartment.building.house_number }, include: includeCity }
-  ];
+  const includeBuildings = [{
+    model: models.building,
+    where: {
+      street_name: apartment.building.street_name,
+      house_number: apartment.building.house_number
+    },
+    include: includeCity
+  }];
 
-  const includeApartment = [
-    { model: models.apartment, where: { apt_number: apartment.apt_number }, include: includeBuildings }
-  ];
+  const includeApartment = [{
+    model: models.apartment,
+    where: {
+      apt_number: apartment.apt_number
+    },
+    include: includeBuildings
+  }];
 
   return models.listing.findAll({
     where: listingQuery,
