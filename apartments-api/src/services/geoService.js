@@ -7,8 +7,10 @@ let geoCoderInstance = null;
 // NodeGeocoder client singleton class.
 class Geo{  
   constructor() {
-    if(!geoCoderInstance){ geoCoderInstance = this; }
-    this.coder = NodeGeocoder({ provider: 'google'});
+    if(!geoCoderInstance){ 
+      this.coder = NodeGeocoder({ provider: 'google'});
+      geoCoderInstance = this; 
+    }    
     return geoCoderInstance;
   }
 }
@@ -23,8 +25,10 @@ function* setGeoLocation(listing) {
   return geo.coder.geocode(fullAddress)
     .then(res => {
       logger.debug({ res }, 'Got geo location of apartment.');
-      var point = { type: 'Point', coordinates: [ res[0].longitude, res[0].latitude ]};
-      listing.apartment.building.geolocation = point;
+      if (res && res[0] && res[0].longitude) {
+        var point = { type: 'Point', coordinates: [ res[0].longitude, res[0].latitude ]};
+        listing.apartment.building.geolocation = point;
+      }
       return listing;
 
     })

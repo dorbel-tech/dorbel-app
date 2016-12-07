@@ -12,6 +12,9 @@ services:
       # - ../dorbel-shared:/home/nodejs/app/node_modules/dorbel-shared
     environment:
       NODE_ENV: ${NODE_ENV}
+      AUTH0_DOMAIN: ${AUTH0_DOMAIN}
+      AUTH0_API_CLIENT_ID: ${AUTH0_API_CLIENT_ID}
+      AUTH0_API_CLIENT_SECRET: ${AUTH0_API_CLIENT_SECRET}
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
       AWS_REGION: ${AWS_REGION}
@@ -27,7 +30,7 @@ services:
       - ./front-gateway:/home/nodejs/app
       - /home/nodejs/app/node_modules
       - /home/nodejs/app/public/build
-      - ../dorbel-shared:/home/nodejs/app/node_modules/dorbel-shared
+      # - ../dorbel-shared:/home/nodejs/app/node_modules/dorbel-shared
     environment:
       NODE_ENV: ${NODE_ENV}
       AUTH0_DOMAIN: ${AUTH0_DOMAIN}

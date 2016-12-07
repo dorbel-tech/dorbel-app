@@ -29,7 +29,10 @@ function getFakeListing() {
     ohe_date: getDateString(),
     ohe_start_time: '07:00',
     ohe_end_time: '07:30',
-    images: [{ url: faker.internet.url() }]
+    images: [{ url: faker.internet.url() }],
+    user: {
+      phone: '123456789'
+    }
   };
 }
 

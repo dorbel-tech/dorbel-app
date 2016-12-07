@@ -45,4 +45,8 @@ jspm_packages
 !.elasticbeanstalk/*.global.yml
 
 # E2E Test Results
+<<<<<<< HEAD
 front-gateway/test/e2e/reports
+=======
+front-gateway/test/e2e/reports
+>>>>>>> develop

@@ -6,6 +6,7 @@ machine:
     RDS_DB_NAME: circle_test
     RDS_USERNAME: ubuntu
     RDS_PASSWORD: 
+    REDIS_HOST: 127.0.0.1
     AWS_DEFAULT_REGION: eu-west-1
     AWS_REGION: eu-west-1
     NOTIFICATIONS_SNS_TOPIC_ARN: arn:aws:sns:eu-west-1:168720412882:notifications-ci
@@ -15,8 +16,12 @@ machine:
     TWILIO_ACCOUNT_SID: 1234567890
     TWILIO_AUTH_TOKEN: 1234567890
     TWILIO_PHONE_NUMBER: 1234567890
+    AUTH0_DOMAIN: dorbel-dev.eu.auth0.com
+    AUTH0_API_CLIENT_ID: 6LbnsQrAVSEk8MPpZzcwvkze5G5fAc7q
+    AUTH0_API_CLIENT_SECRET: eNxH29niwPQ8VZH4o9kcUP9-VBZnkT_j5_azdKNyArt1WVfh_JxAs_PlG05UDPHC
   services:
     - mysql
+    - redis
   pre:
     - mkdir ~/.yarn-cache
   node:
