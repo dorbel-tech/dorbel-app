@@ -69,7 +69,7 @@ class UploadApartmentStep1 extends UploadApartmentBaseStep.wrappedComponent {
             <div className="form-nav bottom col-lg-5 col-md-5 col-sm-12 col-xs-12">
               <span></span>
               <span>1/3</span>
-              <span onClick={this.clickNext.bind(this)}>שלב הבא &nbsp;<i className="fa fa-arrow-circle-o-left fa-2x" aria-hidden="true"></i></span>
+              <span onClick={this.clickNext.bind(this)}>שלב הבא &nbsp;<i className="new-aparatment-next-step-button fa fa-arrow-circle-o-left fa-2x" aria-hidden="true"></i></span>
             </div>
           </div>
         </div>

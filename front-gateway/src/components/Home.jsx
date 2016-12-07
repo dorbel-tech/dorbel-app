@@ -9,7 +9,7 @@ class Home extends Component {
         <ul role="nav">
           <li><NavLink to="/apartments">Apartments</NavLink></li>
           <li><NavLink to="/apartments/new_form">Add New Apartment</NavLink></li>
-          <li><NavLink to="/login">Login</NavLink></li>
+          <li><NavLink className="login-link" to="/login">Login</NavLink></li>
           <li><NavLink to="/profile">Profile</NavLink></li>
           <li><NavLink to="/about">About</NavLink></li>
         </ul>
