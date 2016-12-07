@@ -9,6 +9,7 @@ const listingRepository = require('../apartmentsDb/repositories/listingRepositor
 const moment = require('moment');
 const geoService = require('./geoService');
 const userManagement = shared.utils.userManagement;
+const oheApiClient = require('./oheApiClient');
 
 // TODO : move this to dorbel-shared
 function CustomError(code, message) {
@@ -42,25 +43,8 @@ function* create(listing) {
   const userProfile = JSON.stringify({ id: createdListing.publishing_user_id });
   const start = buildTimeString(listing.ohe_date, listing.ohe_start_time);
   const end = buildTimeString(listing.ohe_date, listing.ohe_end_time);
-  const options = {
-    method: 'POST',
-    url: config.get('OHE_API_URL') + '/v1/event',
-    headers: { 'x-user-profile': userProfile },
-    body: {
-      start_time: start,
-      end_time: end,
-      listing_id: createdListing.id
-    },
-    json: true,
-    resolveWithFullResponse: true
-  };
 
-  yield request(options)
-    .then(response => {
-      logger.info({ event_id: response.body.id, listing_id: createdListing.id }, 'new open house event created');
-    }).catch(function (err) {
-      logger.error({ error_code: err.statusCode, message: err.error, listing_id: createdListing.id }, 'failed to create new open house event');
-    });
+  oheApiClient.createOpenHouseEvent(userProfile, createdListing.id,start, end);
 
   // Publish event trigger message to SNS for notifications dispatching.
   if (config.get('NOTIFICATIONS_SNS_TOPIC_ARN')) {
