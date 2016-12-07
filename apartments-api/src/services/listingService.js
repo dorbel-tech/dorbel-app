@@ -1,11 +1,13 @@
 'use strict';
+const util = require('util');
 const shared = require('dorbel-shared');
-const config = shared.config; 
+const config = shared.config;
 const messageBus = shared.utils.messageBus;
 const listingRepository = require('../apartmentsDb/repositories/listingRepository');
 const moment = require('moment');
 const geoService = require('./geoService');
 const userManagement = shared.utils.userManagement;
+const oheApiClient = require('./oheApiClient');
 
 // TODO : move this to dorbel-shared
 function CustomError(code, message) {
@@ -36,6 +38,12 @@ function* create(listing) {
     }
   });
 
+  const userProfile = JSON.stringify({ id: createdListing.publishing_user_id });
+  const start = buildTimeString(listing.ohe_date, listing.ohe_start_time);
+  const end = buildTimeString(listing.ohe_date, listing.ohe_end_time);
+
+  oheApiClient.createOpenHouseEvent(userProfile, createdListing.id,start, end);
+
   // Publish event trigger message to SNS for notifications dispatching.
   if (config.get('NOTIFICATIONS_SNS_TOPIC_ARN')) {
     let fullName = listing.user.firstname + ' ' + listing.user.lastname;
@@ -57,6 +65,10 @@ function normalizePhone(phone) {
   } else {
     return phone;
   }
+}
+
+function buildTimeString(eventDate, eventTime) {
+  return moment(util.format('%sT%s', eventDate, eventTime)).toISOString();
 }
 
 module.exports = {
