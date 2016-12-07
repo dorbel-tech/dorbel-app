@@ -28,12 +28,14 @@ services:
     links:
       - db
       - ohe-api
+      - cache
     environment:
       RDS_HOSTNAME: db
       RDS_DB_NAME: ${MYSQL_DATABASE_APT}
       RDS_USERNAME: ${MYSQL_ROOT_USER}
       RDS_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       OHE_API_URL: http://ohe-api:3003
+      REDIS_HOST: cache
 
   front-gateway:
     build:
@@ -72,12 +74,13 @@ services:
       - '3003:3003'
     depends_on:
       - db
+      - cache
     links:
       - db
+      - cache
     environment:
       RDS_HOSTNAME: db
       RDS_DB_NAME: ${MYSQL_DATABASE_OHE}
       RDS_USERNAME: ${MYSQL_ROOT_USER}
       RDS_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-
-      
+      REDIS_HOST: cache     
