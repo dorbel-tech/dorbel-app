@@ -1,8 +1,6 @@
 'use strict';
 const util = require('util');
-const request = require('request-promise');
 const shared = require('dorbel-shared');
-const logger = shared.logger.getLogger(module);
 const config = shared.config;
 const messageBus = shared.utils.messageBus;
 const listingRepository = require('../apartmentsDb/repositories/listingRepository');
