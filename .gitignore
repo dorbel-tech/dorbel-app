@@ -43,3 +43,6 @@ jspm_packages
 .elasticbeanstalk/*
 !.elasticbeanstalk/config.yml
 !.elasticbeanstalk/*.global.yml
+
+# E2E Test Results
+front-gateway/test/e2e/reports
