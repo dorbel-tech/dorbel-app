@@ -27,8 +27,25 @@ function generateRegistration(variant) {
   }, variant);
 }
 
+function generateFollower(variant) {
+  return _.extend({
+    id: 1,
+    eventId: 1,
+    userId: 'user',
+    is_active: true
+  }, variant);
+}
+
+function getRandomNumber() {
+  const min = 1000;
+  const max = 100000;
+  return Math.floor(Math.random() * (max - min)) + min;
+}
+
 module.exports = {
   getFakeUser,
   generateEvent,
-  generateRegistration
+  generateRegistration,
+  generateFollower,
+  getRandomNumber
 };

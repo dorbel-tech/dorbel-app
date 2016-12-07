@@ -1,0 +1,13 @@
+{
+  "AddFollowRequest": {
+    "type": "object",
+    "properties": {
+      "listing_id": {
+        "type": "integer"
+      }
+    },
+    "required": [
+      "listing_id"
+    ]
+  }
+}

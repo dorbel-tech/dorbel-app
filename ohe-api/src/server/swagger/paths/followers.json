@@ -1,14 +1,14 @@
 {
-  "/event/registration": {
+  "/event/follow": {
     "post": {
-      "summary": "Create an open house event registration",
-      "description": "Create an open house event registration to the system",
+      "summary": "Enables a user to follow a listing",
+      "description": "Enables a user to follow a listing in the system",
       "parameters": [
         {
           "name": "body",
           "in": "body",
           "schema": {
-            "$ref": "#/definitions/AddRegistrationRequest"
+            "$ref": "#/definitions/AddFollowRequest"
           }
         },
         {
@@ -20,14 +20,14 @@
         }
       ],
       "tags": [
-        "registrationsController",
+        "followersController",
         "authenticated"
       ],
       "responses": {
         "201": {
-          "description": "Registration created succesfully",
+          "description": "Follower created succesfully",
           "schema": {
-            "$ref": "#/definitions/Registration"
+            "$ref": "#/definitions/Follower"
           }
         },
         "default": {
@@ -39,10 +39,10 @@
       }
     }
   },
-  "/event/registration/{id}": {
+  "/event/follow/{id}": {
     "delete": {
-      "summary": "Deletes a registration for an open house event",
-      "description": "Deletes a registration for an open house event to the system",
+      "summary": "Unfollows a user from a listing",
+      "description": "Unfollows a user from a listing in the system",
       "parameters": [
         {
           "name": "id",
@@ -59,12 +59,12 @@
         }
       ],
       "tags": [
-        "registrationsController",
+        "followersController",
         "authenticated"
       ],
       "responses": {
         "200": {
-          "description": "Registration deleted succesfully"
+          "description": "Unfollow completed succesfully"
         },
         "default": {
           "description": "Unexpected error",

@@ -2,13 +2,17 @@
 const db = require('../dbConnectionProvider');
 const models = db.models;
 
+const findInclude = [
+  { model: models.registration, required: false, where: { is_active: true } }
+];
+
 function* find(eventId) {
   return yield models.open_house_event.findOne({
     where: {
       id: eventId,
       is_active: true
     },
-    include: [{ model: models.registration, required: false,  where: { is_active: true } }]
+    include: findInclude
   });
 }
 
@@ -17,7 +21,8 @@ function* findByListingId(listing_id) {
     where: {
       listing_id: listing_id,
       is_active: true
-    }
+    },
+    include: findInclude
   });
 }
 

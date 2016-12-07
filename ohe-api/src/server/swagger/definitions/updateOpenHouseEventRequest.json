@@ -1,5 +1,5 @@
 {
-  "OpenHouseEvent": {
+  "UpdateOpenHouseEventRequest": {
     "type": "object",
     "properties": {
       "id": {
@@ -18,13 +18,13 @@
       },
       "is_active":{
         "type": "boolean"
-      },
-      "registrations": {
-        "type": "array",
-        "items": {
-          "$ref": "#/definitions/Registration"
-        }
       }
-    }
+    },
+    "required": [
+      "id",
+      "start_time",
+      "end_time",
+      "listing_id"
+    ]
   }
 }

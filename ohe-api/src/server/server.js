@@ -11,13 +11,6 @@ const app = koa();
 const port: number = shared.config.get('PORT');
 const env = process.env.NODE_ENV;
 
-const statusCodes = {
-  'OpenHouseEventValidationError': 400,
-  'OpenHouseEventRegistrationValidationError':400,
-  'OpenHouseEventNotFoundError':404,
-  'OpenHouseEventRegistrationNotFoundError':404
-};
-
 app.use(shared.middleware.errorHandler());
 app.use(shared.middleware.requestLogger());
 app.use(bodyParser());
@@ -41,13 +34,8 @@ app.use(function* handleDomainErrors(next) {
     yield next;
   }
   catch (ex) {
-    if(statusCodes.hasOwnProperty(ex.name)){
-      this.body = ex.message;
-      this.status = statusCodes[ex.name];
-    }
-    else {
-      throw ex;
-    }
+    this.body = ex.message;
+    this.status = ex.statusCode;
   }
 });
 
@@ -63,16 +51,7 @@ fleekRouter(app, {
   swagger: swaggerDoc,
   validate: true,
   middleware: [ shared.middleware.swaggerModelValidator() ],
-  authenticate: function *(next) {
-    const user = JSON.parse(this.request.headers['x-user-profile']);
-    if (user && user.id) {      
-      this.request.user = user;
-      yield next;
-    } else {
-      this.response.status = 401;
-      this.response.body = 'Not Authorized';
-    }
-  }
+  authenticate: shared.middleware.authenticate
 });
 
 function listen() {

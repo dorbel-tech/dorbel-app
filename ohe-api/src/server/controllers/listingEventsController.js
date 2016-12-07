@@ -1,16 +1,17 @@
 'use strict';
 const shared = require('dorbel-shared');
 const logger = shared.logger.getLogger(module);
-const service = require('../../services/listingEventsService');
+const openHouseEventsFinderService = require('../../services/openHouseEventsFinderService');
 
 function* get() {
-  logger.debug('Getting open house events for listing...');
-  let eventsResult = yield service.list(this.params.id);
-  logger.info('Open house events for listing found');
+  const listingId = this.params.id;
+  logger.debug({ listing_id: listingId }, 'Getting open house events for listing...');
+  const result = yield openHouseEventsFinderService.findByListing(listingId);
+  logger.info({ listing_id: listingId, eventCount: result.length }, 'Open house events for listing found');
   this.response.status = 200;
-  this.response.body = eventsResult;
+  this.response.body = result;
 }
 
 module.exports = {
-  get:get
+  get: get
 };
