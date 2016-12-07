@@ -5,6 +5,7 @@ const messageBus = shared.utils.messageBus;
 const listingRepository = require('../apartmentsDb/repositories/listingRepository');
 const moment = require('moment');
 const geoService = require('./geoService');
+const userManagement = shared.utils.userManagement;
 
 // TODO : move this to dorbel-shared
 function CustomError(code, message) {
@@ -25,17 +26,37 @@ function* create(listing) {
   }
 
   let modifiedListing = yield geoService.setGeoLocation(listing);
-  let createdListing = yield listingRepository.create(modifiedListing);
-  
+  let createdListing = yield listingRepository.create(modifiedListing); 
+
+  // Update user phone number in auth0.
+  let normalizedPhone = normalizePhone(listing.user.phone);
+  userManagement.updateUserDetails(createdListing.publishing_user_id, {
+    user_metadata: { 
+      phone: normalizedPhone 
+    }
+  });
+
   // Publish event trigger message to SNS for notifications dispatching.
   if (config.get('NOTIFICATIONS_SNS_TOPIC_ARN')) {
+    let fullName = listing.user.firstname + ' ' + listing.user.lastname;
     messageBus.publish(config.get('NOTIFICATIONS_SNS_TOPIC_ARN'), messageBus.eventType.APARTMENT_CREATED, { 
       user_uuid: createdListing.publishing_user_id,
-      apartment_id: createdListing.apartment_id    
+      user_email: listing.user.email,
+      user_phone: normalizedPhone,
+      user_full_name: fullName,
+      apartment_id: createdListing.apartment_id      
     });
   }
 
   return createdListing;
+}
+
+function normalizePhone(phone) {
+  if (phone.startsWith('0')) { 
+    return '+972' + phone.substring(1).replace(/[-+()]/g, ''); // remove trailing zero, remove special chars.
+  } else {
+    return phone;
+  }
 }
 
 module.exports = {
