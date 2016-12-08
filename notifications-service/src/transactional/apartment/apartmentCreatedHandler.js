@@ -5,7 +5,6 @@ const logger = shared.logger.getLogger(module);
 const _ = require('lodash');
 const emailDispatcher = require('../../dispatchers/emailDispatcher');
 const smsDispatcher = require('../../dispatchers/smsDispatcher');
-const userManagement = shared.utils.userManagement;
 const emailTemplates = require('../emailTemplates');
 
 function send(messageType, messageBody) {

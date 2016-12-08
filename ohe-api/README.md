@@ -4,7 +4,7 @@
 ## Scripts
 - Install using ``yarn install``
 - Start using ``yarn start``
-- Start development using ``yarn run start:dev``
+- Start development using ``yarn start:dev``
   - will restart server when files are changed.
 - Run unit tests using ``yarn test``
 - Run integration tests using ``yarn test:integration``
@@ -18,4 +18,4 @@
 
 ## Database
 - Uses [Sequelize ORM](https://github.com/sequelize/sequelize) and its [CLI](https://github.com/sequelize/cli) to run seeds amd migrations. 
-- Run DB migrate: ``yarn run db:migrate``
+- Run DB migrate: ``yarn db:migrate``

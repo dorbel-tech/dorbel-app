@@ -15,6 +15,7 @@ function generateEvent(variant) {
     listing_id: 1,
     start_time: moment().add(-5, 'hours'),
     end_time: moment().add(-3, 'hours'),
+    comments: 'בדיקה'
   }, variant);
 }
 

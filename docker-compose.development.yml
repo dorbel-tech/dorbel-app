@@ -19,7 +19,7 @@ services:
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
       AWS_REGION: ${AWS_REGION}
       NOTIFICATIONS_SNS_TOPIC_ARN: ${NOTIFICATIONS_SNS_TOPIC_ARN}
-    command: bash -c "./scripts/wait-for-it.sh db:3306 --timeout=180 && yarn run start:dev"
+    command: bash -c "./scripts/wait-for-it.sh db:3306 --timeout=180 && yarn start:dev"
 
   front-gateway:
     image: dorbel/front-gateway
@@ -37,7 +37,7 @@ services:
       AUTH0_FRONT_CLIENT_ID: ${AUTH0_FRONT_CLIENT_ID}
       CLOUDINARY_SECRET: ${CLOUDINARY_SECRET}
       CLOUDINARY_API_KEY: ${CLOUDINARY_API_KEY}
-    command: bash -c "yarn run build:dev& yarn run start:dev" 
+    command: bash -c "yarn build:dev& yarn start:dev" 
   
   notifications-service:
     image: dorbel/notifications-service
@@ -60,7 +60,7 @@ services:
       TWILIO_ACCOUNT_SID: ${TWILIO_ACCOUNT_SID}
       TWILIO_AUTH_TOKEN: ${TWILIO_AUTH_TOKEN}
       TWILIO_PHONE_NUMBER: ${TWILIO_PHONE_NUMBER}
-    command: yarn run start:dev  
+    command: yarn start:dev  
 
   ohe-api:
     image: dorbel/ohe-api:development
@@ -76,4 +76,4 @@ services:
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
       AWS_REGION: ${AWS_REGION}
       NOTIFICATIONS_SNS_TOPIC_ARN: ${NOTIFICATIONS_SNS_TOPIC_ARN}
-    command: bash -c "./scripts/wait-for-it.sh db:3306 --timeout=180 && yarn run start:dev"
+    command: bash -c "./scripts/wait-for-it.sh db:3306 --timeout=180 && yarn start:dev"

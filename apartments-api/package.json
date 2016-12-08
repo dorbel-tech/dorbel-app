@@ -6,10 +6,10 @@
   "scripts": {
     "db:migrate": "sequelize db:migrate",
     "db:seed": "sequelize db:seed:all",
-    "prestart": "yarn run db:migrate; yarn run db:seed",
+    "prestart": "yarn db:migrate; yarn db:seed",
     "start": "babel-node src/index",
-    "start:dev": "yarn run db:migrate; yarn run db:seed && nodemon --exec babel-node --debug=5858 src/index | bunyan",
-    "test": "yarn run test:unit",
+    "start:dev": "yarn db:migrate; yarn db:seed && nodemon --exec babel-node --debug=5858 src/index | bunyan",
+    "test": "yarn test:unit",
     "test:unit": "mocha --compilers js:babel-register test/shared/before-tests.js test/unit/**/*.spec.js",
     "test:integration": "mocha --compilers js:babel-register test/shared/before-tests.js test/integration/**/*.spec.js",
     "lint": "eslint --ext .js -f table src",

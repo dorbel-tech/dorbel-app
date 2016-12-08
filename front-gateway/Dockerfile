@@ -21,7 +21,7 @@ COPY . $WORKDIR
 
 # Build client
 USER root
-RUN yarn run build
+RUN yarn build
 USER nodejs
 
 # Open port
