@@ -47,7 +47,7 @@ function* create(listing) {
   const end = buildTimeString(listing.open_house_event_date, listing.open_house_event_end_time);
 
   // TODO: Move ths call to client side.
-  oheApiClient.createOpenHouseEvent(userProfile, createdListing.id,start, end, listing.open_house_event_comments);
+  oheApiClient.createOpenHouseEvent(userProfile, createdListing.id, start, end, listing.open_house_event_comments);
 
   // Publish event trigger message to SNS for notifications dispatching.
   if (config.get('NOTIFICATIONS_SNS_TOPIC_ARN')) {
