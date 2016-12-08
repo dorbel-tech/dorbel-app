@@ -14,8 +14,8 @@ const roomOptions = _.range(1,11,0.5).map(num => ({value:num, label:num}));
 
 const defaultFormValues = {
   images: [],
-  ohe_start_time: hours[0],
-  ohe_end_time: hours[1]
+  open_house_event_start_time: hours[0], 
+  open_house_event_end_time: hours[1]
 };
 
 export default class NewListingStore {
@@ -27,7 +27,7 @@ export default class NewListingStore {
   }
 
   get endHours() {
-    return hours.slice(hours.indexOf(this.formValues.ohe_start_time) + 1);
+    return hours.slice(hours.indexOf(this.formValues.open_house_event_start_time) + 1);
   }
 
   get roomOptions() {

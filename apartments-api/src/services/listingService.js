@@ -32,21 +32,25 @@ function* create(listing) {
 
   // Update user phone number in auth0.
   let normalizedPhone = normalizePhone(listing.user.phone);
+  let fullName = listing.user.firstname + ' ' + listing.user.lastname;
+  // TODO: Update user details can be done on client using user token.
   userManagement.updateUserDetails(createdListing.publishing_user_id, {
     user_metadata: { 
-      phone: normalizedPhone 
+      full_name: fullName,
+      email: listing.user.email,
+      phone: normalizedPhone
     }
   });
 
   const userProfile = JSON.stringify({ id: createdListing.publishing_user_id });
-  const start = buildTimeString(listing.ohe_date, listing.ohe_start_time);
-  const end = buildTimeString(listing.ohe_date, listing.ohe_end_time);
+  const start = buildTimeString(listing.open_house_event_date, listing.open_house_event_start_time);
+  const end = buildTimeString(listing.open_house_event_date, listing.open_house_event_end_time);
 
-  oheApiClient.createOpenHouseEvent(userProfile, createdListing.id,start, end);
+  // TODO: Move ths call to client side.
+  oheApiClient.createOpenHouseEvent(userProfile, createdListing.id,start, end, listing.open_house_event_comments);
 
   // Publish event trigger message to SNS for notifications dispatching.
   if (config.get('NOTIFICATIONS_SNS_TOPIC_ARN')) {
-    let fullName = listing.user.firstname + ' ' + listing.user.lastname;
     messageBus.publish(config.get('NOTIFICATIONS_SNS_TOPIC_ARN'), messageBus.eventType.APARTMENT_CREATED, { 
       user_uuid: createdListing.publishing_user_id,
       user_email: listing.user.email,

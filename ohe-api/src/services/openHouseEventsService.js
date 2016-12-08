@@ -43,6 +43,7 @@ function* create(openHouseEvent) {
     start_time: start,
     end_time: end,
     listing_id: listing_id,
+    comments: openHouseEvent.comments,
     is_active: true
   });
 
@@ -50,7 +51,8 @@ function* create(openHouseEvent) {
     listing_id: listing_id,
     event_id: newEvent.id,
     start_time: start,
-    end_time: end
+    end_time: end,
+    comments: openHouseEvent.comments
   });
 
   return newEvent;
@@ -73,6 +75,7 @@ function* update(openHouseEvent) {
 
   existingEvent.start_time = start;
   existingEvent.start_time = end;
+  existingEvent.comments = openHouseEvent.comments;
 
   const result = yield openHouseEventsRepository.update(existingEvent);
 
@@ -81,8 +84,10 @@ function* update(openHouseEvent) {
     event_id: existingEvent.id,
     old_start_time: existingEvent.start_time,
     old_end_time: existingEvent.end_time,
+    old_comments: existingEvent.comments,
     new_start_time: start,
     new_end_time: end,
+    new_comments: openHouseEvent.comments
   });
 
   return result;
@@ -98,7 +103,8 @@ function* remove(eventId) {
     listing_id: existingEvent.listing_id,
     event_id: existingEvent.id,
     start_time: existingEvent.start_time,
-    end_time: existingEvent.end_time
+    end_time: existingEvent.end_time,
+    comments: existingEvent.comments    
   });
 
   return result;

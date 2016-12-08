@@ -13,6 +13,9 @@
         "type": "string",
         "format": "date-time"
       },
+      "comments": {
+        "type": "string"
+      },
       "listing_id": {
         "type": "integer"
       },
