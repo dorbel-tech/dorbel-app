@@ -21,14 +21,6 @@ module.exports = {
       display_order: {
         type: Sequelize.FLOAT
       },
-      created_at: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      updated_at: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
       city_id: {
         type: Sequelize.INTEGER,
         allowNull: false, 
@@ -38,6 +30,14 @@ module.exports = {
         },
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE'
+      },
+      created_at: {
+        allowNull: false,
+        type: Sequelize.DATE
+      },
+      updated_at: {
+        allowNull: false,
+        type: Sequelize.DATE
       }
     }, {
       charset: 'utf8',

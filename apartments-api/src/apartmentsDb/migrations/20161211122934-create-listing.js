@@ -50,14 +50,6 @@ module.exports = {
         type: Sequelize.BOOLEAN,
         defaultValue: false 
       },
-      created_at: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      updated_at: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
       apartment_id: {
         type: Sequelize.INTEGER,
         allowNull: false, 
@@ -67,6 +59,14 @@ module.exports = {
         },
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE'
+      },
+      created_at: {
+        allowNull: false,
+        type: Sequelize.DATE
+      },
+      updated_at: {
+        allowNull: false,
+        type: Sequelize.DATE
       }
     }, {
       charset: 'utf8',

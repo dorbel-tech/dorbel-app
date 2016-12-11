@@ -44,14 +44,6 @@ module.exports = {
       parquet_floor: {
         type: Sequelize.BOOLEAN
       },
-      created_at: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      updated_at: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
       building_id: {
         type: Sequelize.INTEGER,
         allowNull: false, 
@@ -61,6 +53,14 @@ module.exports = {
         },
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE'
+      },
+      created_at: {
+        allowNull: false,
+        type: Sequelize.DATE
+      },
+      updated_at: {
+        allowNull: false,
+        type: Sequelize.DATE
       }
     }, {
       charset: 'utf8',
