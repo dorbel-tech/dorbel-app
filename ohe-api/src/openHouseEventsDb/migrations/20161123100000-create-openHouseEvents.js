@@ -27,6 +27,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.BOOLEAN
       },
+      publishing_user_id: {
+        allowNull: false,
+        type: Sequelize.UUID
+      },      
       created_at: {
         allowNull: false,
         type: Sequelize.DATE

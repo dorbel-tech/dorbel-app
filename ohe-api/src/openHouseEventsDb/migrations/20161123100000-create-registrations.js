@@ -13,9 +13,9 @@ module.exports = {
         type: Sequelize.INTEGER,
         references: { model: 'open_house_events', key: 'id' }
       },
-      user_id: {
+      registered_user_id: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.UUID
       },
       is_active: {
         allowNull: false,

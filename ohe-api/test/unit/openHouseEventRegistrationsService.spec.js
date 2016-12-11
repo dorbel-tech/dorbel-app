@@ -64,7 +64,7 @@ describe('Open House Event Registration Service', function () {
         id: 1,
         is_active: true,
         registrations: [
-          { open_house_event_id: 1, user_id: 'user', is_active: true }
+          { open_house_event_id: 1, publishing_user_id: 'user', is_active: true }
         ]
       }));
 

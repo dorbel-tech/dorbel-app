@@ -20,12 +20,14 @@ describe('Open House Events By Listing API Integration', function () {
         const ohe1 = {
           start_time: moment().add(-2, 'hours').toISOString(),
           end_time: moment().add(-1, 'hours').toISOString(),
-          listing_id: listingId
+          listing_id: listingId,
+          publishing_user_id: faker.getFakeUser().id
         };
         const ohe2 = {
           start_time: moment().add(-4, 'hours').toISOString(),
           end_time: moment().add(-3, 'hours').toISOString(),
-          listing_id: listingId
+          listing_id: listingId,
+          publishing_user_id: faker.getFakeUser().id
         };
         yield this.apiClient.createNewEvent(ohe1).end();
         yield this.apiClient.createNewEvent(ohe2).expect(201).end();

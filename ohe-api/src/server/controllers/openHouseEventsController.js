@@ -15,7 +15,7 @@ function* get() {
 
 function* post() {
   const data = this.request.body;
-  logger.debug(data, 'Creating new open house event...');
+  logger.debug({data}, 'Creating new open house event...');
   const result = yield openHouseEventsService.create(data);
   logger.info({event_id: result.id}, 'Open house event created');
   this.response.status = 201;
@@ -24,7 +24,7 @@ function* post() {
 
 function* put() {
   const data = this.request.body;
-  logger.debug(data, 'Updating open house event...');
+  logger.debug({data}, 'Updating open house event...');
   const result = yield openHouseEventsService.update(data);
   logger.info({event_id: result.id}, 'Open house event updated');
   this.response.status = 200;
