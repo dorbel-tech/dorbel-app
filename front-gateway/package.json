@@ -13,7 +13,7 @@
     "test:unit": "jest",
     "test:e2e": "echo TBD",
     "lint": "eslint --ext .jsx,.js -f table src",
-    "check": "satisfaction-status || yarn run install"
+    "check": "satisfaction-status || yarn install"
   },
   "author": "",
   "license": "ISC",
