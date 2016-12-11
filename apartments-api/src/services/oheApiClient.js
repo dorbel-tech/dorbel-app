@@ -6,10 +6,6 @@ const logger = shared.logger.getLogger(module);
 const config = shared.config;
 
 function generateRequestOptions(resource, method, userProfile) {
-  if (!config.get('OHE_API_URL')) {
-    throw new Error('Environment variable OHE_API_URL is required, but wasnt defined!');
-  }
-
   return {
     method: method,
     url: util.format('%s/v1/%s', config.get('OHE_API_URL'), resource),
