@@ -44,8 +44,8 @@ function* create(openHouseEvent) {
     end_time: end,
     listing_id: listing_id,
     comments: openHouseEvent.comments,
+    publishing_user_id: openHouseEvent.publishing_user_id,
     is_active: true,
-    publishing_user_id: openHouseEvent.publishing_user_id
   });
 
   notificationService.send(notificationService.eventType.OHE_CREATED, {

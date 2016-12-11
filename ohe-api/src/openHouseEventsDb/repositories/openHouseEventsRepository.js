@@ -35,8 +35,8 @@ function* update(openHouseEvent) {
     start_time: openHouseEvent.start_time,
     end_time: openHouseEvent.end_time,
     comments: openHouseEvent.comments,
-    is_active: openHouseEvent.is_active,
-    publishing_user_id: openHouseEvent.publishing_user_id
+    publishing_user_id: openHouseEvent.publishing_user_id,
+    is_active: openHouseEvent.is_active    
   });
 }
 
