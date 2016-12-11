@@ -39,7 +39,7 @@ describe('Listing Followers Service', function () {
     it('should enable a user to follow a listing given listing has followers, but not this user', function* () {
       let another_user = faker.getFakeUser();
       this.repositoryMock.findByListingId = sinon.stub().resolves([{ 
-        listing_id: 1, publishing_user_id: another_user.id, is_active: true }
+        listing_id: 1, following_user_id: another_user.id, is_active: true }
       ]);
 
       this.repositoryMock.createFollower = sinon.stub().resolves(true);
@@ -52,7 +52,7 @@ describe('Listing Followers Service', function () {
 
     it('should fail when user tries to follow an event more than once', function* () {
       this.repositoryMock.findByListingId = sinon.stub().resolves([
-        { listing_id: 1, publishing_user_id: fakeUserId, is_active: true }
+        { listing_id: 1, following_user_id: fakeUserId, is_active: true }
       ]);
 
       this.repositoryMock.createFollower = sinon.stub().resolves(true);

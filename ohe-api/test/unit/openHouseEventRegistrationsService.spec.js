@@ -4,6 +4,7 @@ const __ = require('hamjest');
 const faker = require('../shared/fakeObjectGenerator');
 const notificationService = require('../../src/services/notificationService');
 var sinon = require('sinon');
+let fakeUserId = '00000000-0000-0000-0000-000000000001';
 
 describe('Open House Event Registration Service', function () {
 
@@ -38,7 +39,7 @@ describe('Open House Event Registration Service', function () {
 
       this.repositoryMock.createRegistration = sinon.stub().resolves(true);
 
-      const registrationResponse = yield this.service.register(1, 'user');
+      const registrationResponse = yield this.service.register(1, fakeUserId);
       __.assertThat(registrationResponse, __.is(true));
       __.assertThat(this.sendNotification.calledOnce, __.is(true));
       __.assertThat(this.sendNotification.getCall(0).args[0], __.is(notificationService.eventType.OHE_REGISTERED));
@@ -64,14 +65,14 @@ describe('Open House Event Registration Service', function () {
         id: 1,
         is_active: true,
         registrations: [
-          { open_house_event_id: 1, publishing_user_id: 'user', is_active: true }
+          { open_house_event_id: 1, registered_user_id: fakeUserId, is_active: true }
         ]
       }));
 
       this.repositoryMock.createRegistration = sinon.stub().resolves(true);
 
       try {
-        yield this.service.register(1, 'user');
+        yield this.service.register(1, fakeUserId);
         __.assertThat('code', __.is('not reached'));
       }
       catch (error) {
@@ -90,7 +91,7 @@ describe('Open House Event Registration Service', function () {
         is_active: false
       }));
 
-      const registrationResponse = yield this.service.unregister(1, 'user');
+      const registrationResponse = yield this.service.unregister(1, fakeUserId);
       __.assertThat(registrationResponse.is_active, __.is(false));
       __.assertThat(this.sendNotification.calledOnce, __.is(true));
       __.assertThat(this.sendNotification.getCall(0).args[0], __.is(notificationService.eventType.OHE_UNREGISTERED));
@@ -100,7 +101,7 @@ describe('Open House Event Registration Service', function () {
       this.openHouseEventsFinderServiceMock.find = sinon.stub().resolves(null);
 
       try {
-        yield this.service.unregister(1, 'user');
+        yield this.service.unregister(1, fakeUserId);
       }
       catch (error) {
         __.assertThat(error.message, __.is('event does not exist'));
