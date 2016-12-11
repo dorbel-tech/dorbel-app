@@ -9,8 +9,8 @@ tmux set -t $SESSION mouse-resize-pane on
 
 tmux split-window -v
 tmux select-pane -t 0
-tmux send-keys "yarn start:dev" C-m
+tmux send-keys "yarn run start:dev" C-m
 tmux select-pane -t 1
-tmux send-keys "yarn build:dev" C-m
+tmux send-keys "yarn run build:dev" C-m
 
 tmux -2 attach-session -t $SESSION

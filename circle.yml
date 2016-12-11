@@ -41,21 +41,21 @@ dependencies:
 
 test:
   override:
-    - cd apartments-api && yarn lint 
-    - cd apartments-api && yarn db:migrate
-    - cd apartments-api && yarn db:seed
+    - cd apartments-api && yarn run lint 
+    - cd apartments-api && yarn run db:migrate
+    - cd apartments-api && yarn run db:seed
     - cd apartments-api && yarn test
-    - cd apartments-api && yarn test:integration
-    - cd front-gateway && yarn lint
+    - cd apartments-api && yarn run test:integration
+    - cd front-gateway && yarn run lint
     - cd front-gateway && yarn test 
-    - cd front-gateway && yarn test:e2e 
-    - cd notifications-service && yarn lint
+    - cd front-gateway && yarn run test:e2e 
+    - cd notifications-service && yarn run lint
     - cd notifications-service && yarn test 
-    - cd notifications-service && yarn test:integration
-    - cd ohe-api && yarn lint
-    - cd ohe-api && yarn db:migrate
+    - cd notifications-service && yarn run test:integration
+    - cd ohe-api && yarn run lint
+    - cd ohe-api && yarn run db:migrate
     - cd ohe-api && yarn test 
-    - cd ohe-api && yarn  test:integration
+    - cd ohe-api && yarn run test:integration
 
 deployment:
   staging:
@@ -64,7 +64,7 @@ deployment:
       - sudo apt-get update
       - sudo apt-get install python2.7-dev
       - sudo pip install awsebcli
-      - yarn deploy apartments-api stage
-      - yarn deploy front-gateway stage
-      - yarn deploy notifications-service stage
-      - yarn deploy ohe-api stage    
+      - yarn run deploy apartments-api stage
+      - yarn run deploy front-gateway stage
+      - yarn run deploy notifications-service stage
+      - yarn run deploy ohe-api stage    

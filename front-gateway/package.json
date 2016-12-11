@@ -6,14 +6,14 @@
   "scripts": {
     "clean": "rm -rf ./public/build",
     "start": "babel-node src/server/server.js",
-    "build": "yarn clean; webpack",
+    "build": "yarn run clean; webpack",
     "start:dev": "nodemon --exec babel-node --debug=5859 src/server/server.js | bunyan",
     "build:dev": "NODE_ENV=development webpack-dev-server --content-base public -ds --config webpack.config.js --host 0.0.0.0 --hot --colors --inline --no-info",
-    "test": "yarn test:unit",
+    "test": "yarn run test:unit",
     "test:unit": "jest",
     "test:e2e": "echo TBD",
     "lint": "eslint --ext .jsx,.js -f table src",
-    "check": "satisfaction-status || yarn install"
+    "check": "satisfaction-status || yarn run install"
   },
   "author": "",
   "license": "ISC",

@@ -4,7 +4,7 @@
 ## Scripts
 - Install using ``yarn install``
 - Start using ``yarn start``
-- Start development using ``yarn start:dev``
+- Start development using ``yarn run start:dev``
   - will restart server when files are changed.
 - Run tests using ``yarn test`` (currently runs integration tests)
 

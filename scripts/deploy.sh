@@ -6,7 +6,7 @@ ENV_NAME=""
 
 if [ $# -eq 0 ]; then
     echo "No arguments provided."
-    echo "[yarn deploy service-name dev] should work."
+    echo "[yarn run deploy service-name dev] should work."
     exit 1
 fi
 
