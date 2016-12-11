@@ -39,7 +39,7 @@ module.exports = {
       collate: 'utf8_general_ci',
     });
   },
-  down: function(queryInterface, Sequelize) {
+  down: function(queryInterface) {
     return queryInterface.dropTable('images');
   }
 };
