@@ -48,7 +48,6 @@ module.exports = {
       },
       neighborhood_id: {
         type: Sequelize.INTEGER,
-        allowNull: false, 
         references: {
           model: 'neighborhoods',
           key: 'id'
