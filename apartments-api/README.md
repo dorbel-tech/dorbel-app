@@ -17,5 +17,6 @@
 
 ## Database
 - Uses [Sequelize ORM](https://github.com/sequelize/sequelize) and its [CLI](https://github.com/sequelize/cli) to run seeds amd migrations. 
+- More info [here](https://github.com/sequelize/sequelize/blob/master/docs/docs/migrations.md) on how to create migrations.
 - Run DB migrate: ``yarn run db:migrate``
 - Run DB seed: ``yarn run db:seed``
