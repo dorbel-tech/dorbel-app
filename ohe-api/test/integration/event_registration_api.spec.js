@@ -25,7 +25,7 @@ describe('Open House Events Registration API Integration', function () {
       });
 
       it('return an error for non existing event', function* () {
-        yield this.apiClient.createNewRegistration(999999).expect(404).end();
+        yield this.apiClient.createNewRegistration(999999).expect(500).end();
       });
 
     });
@@ -43,7 +43,7 @@ describe('Open House Events Registration API Integration', function () {
       });
 
       it('should return an error for non existing registration', function* () {
-        yield this.apiClient.deleteRegistration(999999).expect(404).end();
+        yield this.apiClient.deleteRegistration(999999).expect(500).end();
       });
 
     });
