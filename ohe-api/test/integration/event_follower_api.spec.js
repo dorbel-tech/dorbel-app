@@ -31,7 +31,7 @@ describe('Open House Events Registration API Integration', function () {
       });
 
       it('should return an error for non existing follow', function* () {
-        yield this.apiClient.deleteFollower(999999).expect(404).end();
+        yield this.apiClient.deleteFollower(999999).expect(500).end();
       });
 
     });

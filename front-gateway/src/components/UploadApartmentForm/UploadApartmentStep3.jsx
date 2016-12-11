@@ -19,6 +19,16 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
     return hoursArray.map((hour) => ({ label:hour }));
   }
 
+
+  clickNext() {
+    const formsy = this.refs.form.refs.formsy; 
+    if (formsy.state.isValid) {
+      super.clickNext();
+    } else {
+      formsy.submit(); // will trigger validation messages
+    }
+  }  
+
   renderUserDetails() {
     const { authStore } = this.props.appStore;
     const { authProvider } = this.props.appProviders;
@@ -29,18 +39,18 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
         <div>
           <div className="row">
             <div className="col-md-6">
-              <FRC.Input name="user.firstname" label="שם פרטי" value={profile.given_name} disabled={true} />
+              <FRC.Input name="user.firstname" label="שם פרטי" value={profile.given_name} required/>
             </div>
             <div className="col-md-6">
-              <FRC.Input name="user.lastname" label="שם משפחה" value={profile.family_name} disabled={true} />
+              <FRC.Input name="user.lastname" label="שם משפחה" value={profile.family_name} required/>
             </div>                
           </div>
           <div className="row">
             <div className="col-md-6">
-              <FRC.Input name="user.email" label="מייל" type="email" validations="isEmail" value={profile.email} disabled={true} />
+              <FRC.Input name="user.email" label="מייל" type="email" value={profile.email} validations="isEmail" validationError="כתובת מייל לא תקינה" required/>
             </div>
             <div className="col-md-6">
-              <FRC.Input name="user.phone" label="טלפון" />
+              <FRC.Input name="user.phone" label="טלפון" type="number" validationError="מספר טלפון לא תקין" required/>
             </div>                
           </div>
           <div className="row">
@@ -79,19 +89,19 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
               <div className="form-section-headline">מועדי ביקור בדירה</div>
               <div className="form-group">
                 <label>תאריך</label>
-                <DatePicker value={this.props.appStore.newListingStore.formValues.ohe_date} onChange={this.handleChange.bind(this, 'ohe_date')} />              
+                <DatePicker value={this.props.appStore.newListingStore.formValues.open_house_event_date} onChange={this.handleChange.bind(this, 'open_house_event_date')} />              
               </div>
               <div className="row">
                 <div className="col-md-6">
-                  <FRC.Select name="open_house_events[0].start_time" label="שעת התחלת ביקור" required options={this.getHourOptions(newListingStore.hours)} />
+                  <FRC.Select name="open_house_event_start_time" label="שעת התחלת ביקור" required options={this.getHourOptions(newListingStore.hours)} />
                 </div>
                 <div className="col-md-6">
-                  <FRC.Select name="open_house_events[0].time" label="שעת סיום ביקור" required options={this.getHourOptions(newListingStore.endHours)} />
+                  <FRC.Select name="open_house_event_end_time" label="שעת סיום ביקור" required options={this.getHourOptions(newListingStore.endHours)} />
                 </div>
               </div>
               <div className="row">
                 <div className="col-md-12">
-                  <FRC.Textarea name="open_house_events[0].comments" rows={3} label="הכוונה לדירה בבניין (אם צריך)" />
+                  <FRC.Textarea name="open_house_event_comments" rows={3} label="הכוונה לדירה בבניין (אם צריך)" />
                 </div>
               </div>
             </div>

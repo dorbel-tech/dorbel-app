@@ -3,7 +3,6 @@ version: '2'
 services:
 
   apartments-api:
-    image: dorbel/apartments-api
     ports:
       - '5858:5858'
     volumes:
@@ -12,17 +11,9 @@ services:
       # - ../dorbel-shared:/home/nodejs/app/node_modules/dorbel-shared
     environment:
       NODE_ENV: ${NODE_ENV}
-      AUTH0_DOMAIN: ${AUTH0_DOMAIN}
-      AUTH0_API_CLIENT_ID: ${AUTH0_API_CLIENT_ID}
-      AUTH0_API_CLIENT_SECRET: ${AUTH0_API_CLIENT_SECRET}
-      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
-      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
-      AWS_REGION: ${AWS_REGION}
-      NOTIFICATIONS_SNS_TOPIC_ARN: ${NOTIFICATIONS_SNS_TOPIC_ARN}
     command: bash -c "./scripts/wait-for-it.sh db:3306 --timeout=180 && yarn run start:dev"
 
   front-gateway:
-    image: dorbel/front-gateway
     ports:
       - '5859:5859'
       - '8888:8888'
@@ -33,14 +24,9 @@ services:
       # - ../dorbel-shared:/home/nodejs/app/node_modules/dorbel-shared
     environment:
       NODE_ENV: ${NODE_ENV}
-      AUTH0_DOMAIN: ${AUTH0_DOMAIN}
-      AUTH0_FRONT_CLIENT_ID: ${AUTH0_FRONT_CLIENT_ID}
-      CLOUDINARY_SECRET: ${CLOUDINARY_SECRET}
-      CLOUDINARY_API_KEY: ${CLOUDINARY_API_KEY}
     command: bash -c "yarn run build:dev& yarn run start:dev" 
   
   notifications-service:
-    image: dorbel/notifications-service
     ports:
       - '5861:5861'
     volumes:
@@ -48,22 +34,10 @@ services:
       - /home/nodejs/app/node_modules
       # - ../dorbel-shared:/home/nodejs/app/node_modules/dorbel-shared
     environment:
-      AUTH0_DOMAIN: ${AUTH0_DOMAIN}
-      AUTH0_API_CLIENT_ID: ${AUTH0_API_CLIENT_ID}
-      AUTH0_API_CLIENT_SECRET: ${AUTH0_API_CLIENT_SECRET}
-      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
-      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
-      AWS_REGION: ${AWS_REGION}
-      NOTIFICATIONS_EMAIL_SQS_QUEUE_URL: ${NOTIFICATIONS_EMAIL_SQS_QUEUE_URL}
-      NOTIFICATIONS_SMS_SQS_QUEUE_URL: ${NOTIFICATIONS_SMS_SQS_QUEUE_URL}
-      MANDRILL_API_KEY: ${MANDRILL_API_KEY}
-      TWILIO_ACCOUNT_SID: ${TWILIO_ACCOUNT_SID}
-      TWILIO_AUTH_TOKEN: ${TWILIO_AUTH_TOKEN}
-      TWILIO_PHONE_NUMBER: ${TWILIO_PHONE_NUMBER}
+      NODE_ENV: ${NODE_ENV}
     command: yarn run start:dev  
 
   ohe-api:
-    image: dorbel/ohe-api:development
     ports:
       - '5860:5860'
     volumes:
@@ -72,8 +46,4 @@ services:
       # - ../dorbel-shared:/home/nodejs/app/node_modules/dorbel-shared
     environment:
       NODE_ENV: ${NODE_ENV}
-      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
-      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
-      AWS_REGION: ${AWS_REGION}
-      NOTIFICATIONS_SNS_TOPIC_ARN: ${NOTIFICATIONS_SNS_TOPIC_ARN}
     command: bash -c "./scripts/wait-for-it.sh db:3306 --timeout=180 && yarn run start:dev"

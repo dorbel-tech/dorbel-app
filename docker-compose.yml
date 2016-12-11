@@ -37,6 +37,13 @@ services:
       RDS_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       OHE_API_URL: http://ohe-api:3003
       REDIS_HOST: cache
+      AUTH0_DOMAIN: ${AUTH0_DOMAIN}
+      AUTH0_API_CLIENT_ID: ${AUTH0_API_CLIENT_ID}
+      AUTH0_API_CLIENT_SECRET: ${AUTH0_API_CLIENT_SECRET}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_REGION: ${AWS_REGION}
+      NOTIFICATIONS_SNS_TOPIC_ARN: ${NOTIFICATIONS_SNS_TOPIC_ARN}
 
   front-gateway:
     build:
@@ -45,14 +52,21 @@ services:
     ports:
       - '3001:3001'
     depends_on:
-      - apartments-api
       - cache
+      - apartments-api
+      - ohe-api
     links:
-      - apartments-api
       - cache
+      - apartments-api
+      - ohe-api
     environment:
       APARTMENTS_API_URL: http://apartments-api:3000
+      OHE_API_URL: http://ohe-api:3003      
       REDIS_HOST: cache
+      AUTH0_DOMAIN: ${AUTH0_DOMAIN}
+      AUTH0_FRONT_CLIENT_ID: ${AUTH0_FRONT_CLIENT_ID}
+      CLOUDINARY_SECRET: ${CLOUDINARY_SECRET}
+      CLOUDINARY_API_KEY: ${CLOUDINARY_API_KEY}
   
   notifications-service:
     build:
@@ -66,6 +80,18 @@ services:
       - cache
     environment:
       REDIS_HOST: cache
+      AUTH0_DOMAIN: ${AUTH0_DOMAIN}
+      AUTH0_API_CLIENT_ID: ${AUTH0_API_CLIENT_ID}
+      AUTH0_API_CLIENT_SECRET: ${AUTH0_API_CLIENT_SECRET}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_REGION: ${AWS_REGION}
+      NOTIFICATIONS_EMAIL_SQS_QUEUE_URL: ${NOTIFICATIONS_EMAIL_SQS_QUEUE_URL}
+      NOTIFICATIONS_SMS_SQS_QUEUE_URL: ${NOTIFICATIONS_SMS_SQS_QUEUE_URL}
+      MANDRILL_API_KEY: ${MANDRILL_API_KEY}
+      TWILIO_ACCOUNT_SID: ${TWILIO_ACCOUNT_SID}
+      TWILIO_AUTH_TOKEN: ${TWILIO_AUTH_TOKEN}
+      TWILIO_PHONE_NUMBER: ${TWILIO_PHONE_NUMBER}
 
   ohe-api:
     build:
@@ -85,3 +111,7 @@ services:
       RDS_USERNAME: ${MYSQL_ROOT_USER}
       RDS_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       REDIS_HOST: cache     
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_REGION: ${AWS_REGION}
+      NOTIFICATIONS_SNS_TOPIC_ARN: ${NOTIFICATIONS_SNS_TOPIC_ARN}

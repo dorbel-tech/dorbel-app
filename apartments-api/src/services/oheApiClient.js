@@ -15,11 +15,12 @@ function generateRequestOptions(resource, method, userProfile) {
   };
 }
 
-function* createOpenHouseEvent(userProfile, listingId, startTime, endTime) {
+function createOpenHouseEvent(userProfile, listingId, startTime, endTime, comments) {
   const options = generateRequestOptions('event', 'POST', userProfile);
   options.body = {
     start_time: startTime,
     end_time: endTime,
+    comments: comments,
     listing_id: listingId
   };
 

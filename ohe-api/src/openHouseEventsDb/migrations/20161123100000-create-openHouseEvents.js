@@ -20,6 +20,9 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       },
+      comments: {
+        type: Sequelize.STRING
+      },
       is_active: {
         allowNull: false,
         type: Sequelize.BOOLEAN
@@ -32,6 +35,9 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       }
+    }, {
+      charset: 'utf8',
+      collate: 'utf8_general_ci',
     });
   },
   down: function(queryInterface) {

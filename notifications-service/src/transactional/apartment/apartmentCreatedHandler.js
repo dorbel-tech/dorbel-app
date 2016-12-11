@@ -5,32 +5,23 @@ const logger = shared.logger.getLogger(module);
 const _ = require('lodash');
 const emailDispatcher = require('../../dispatchers/emailDispatcher');
 const smsDispatcher = require('../../dispatchers/smsDispatcher');
-const userManagement = shared.utils.userManagement;
 const emailTemplates = require('../emailTemplates');
 
 function send(messageType, messageBody) {
-  const message = JSON.parse(messageBody.Message);
-  
-  return userManagement.getUserDetails(message.dataPayload.user_uuid)
-    .then(userDetails => {
-      logger.debug({userDetails}, 'User details from auth0');
-      switch (messageType) {
-        case 'Email':
-          return sendEmail(messageBody, userDetails);
-        case 'SMS':
-          return sendSMS(messageBody, userDetails);
+  switch (messageType) {
+    case 'Email':
+      return sendEmail(messageBody);
+    case 'SMS':
+      return sendSMS(messageBody);
 
-        default:
-          throw new Error('Message type wasnt defined!');
-      }
-    });
+    default:
+      throw new Error('Message type wasnt defined!');
+  }
 }
 
-function sendEmail(messageBody, userDetails) {
+function sendEmail(messageBody) {
   logger.debug('Sending email');
   const message = JSON.parse(messageBody.Message);
-
-  if (!userDetails.email) { throw new Error('No email was provided!'); }
 
   try {
     // Pass dynamic params in email body using mergeVars object.
@@ -38,8 +29,8 @@ function sendEmail(messageBody, userDetails) {
     const fromName = (message.environemnt === 'production') ? 'dorbel' : 'dorbel ' + message.environemnt;
     const additionalParams = {
       from_name: fromName,
-      email: userDetails.email,
-      name: userDetails.name,
+      email: message.dataPayload.user_email,
+      name: message.dataPayload.user_full_name,
       mergeVars: [{
         name: 'environment',
         content: message.environemnt
@@ -54,13 +45,11 @@ function sendEmail(messageBody, userDetails) {
   } catch (error) { throw error;  }
 }
 
-function sendSMS(messageBody, userDetails) {
+function sendSMS(messageBody) {
   logger.debug('Sending SMS');
   const message = JSON.parse(messageBody.Message);
   const envAttach = (message.environemnt === 'production') ? '' : '(' + message.environemnt + ')';
 
-  if (!userDetails.user_metadata.phone) { throw new Error('No phone number was provided!'); }
-  
   try {
     const smsTemplate = _.template('New aprtment was added id: <%= apartment_id %> <%= environemnt %>');
     const smsText = smsTemplate({
@@ -68,7 +57,7 @@ function sendSMS(messageBody, userDetails) {
       environemnt: envAttach
     });
     logger.debug({smsText}, 'SMS text');
-    return smsDispatcher.send(userDetails.user_metadata.phone, smsText);
+    return smsDispatcher.send(message.dataPayload.user_phone, smsText);
   } catch (error) { throw error;  }
 
 }
