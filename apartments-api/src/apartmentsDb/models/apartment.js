@@ -34,7 +34,6 @@ function define(sequelize, DataTypes) {
           onDelete: 'CASCADE'
         };
         models.apartment.belongsTo(models.building, options);
-        models.apartment.hasMany(models.users_to_apartments, options);
       }
     },
     indexes: [{
