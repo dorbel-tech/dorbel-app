@@ -1,7 +1,10 @@
 'use strict';
 
 const strategies = {
-  default: eventData => Promise.resolve([ eventData.user_uuid ])
+  default: eventData => Promise.resolve([ eventData.user_uuid ]),
+  'ohe-followers': eventData => {
+    
+  }
 };
 
 function getRecipients(eventConfig, eventData) {
