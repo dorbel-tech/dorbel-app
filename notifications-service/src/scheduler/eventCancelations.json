@@ -1,7 +1,0 @@
-[
-  {
-    "eventType": "APARTMENT_UNLISTED",
-    "cancelNotificationTypes": [ "apartment-stats" ],
-    "relatedObjectType": "apartment"
-  }  
-]

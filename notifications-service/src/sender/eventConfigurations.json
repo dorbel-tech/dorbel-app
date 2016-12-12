@@ -1,0 +1,11 @@
+[
+  {
+    "eventType": "APARTMENT_CREATED",
+    "notificationType": "apartment-created"
+  },    
+  {
+    "eventType": "OHE_CREATED",
+    "notificationType": "ohe-added-to-followed-listing",
+    "recipients": "ohe-followers"
+  }
+]

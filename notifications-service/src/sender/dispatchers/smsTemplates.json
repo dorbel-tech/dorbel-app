@@ -1,3 +1,0 @@
-{
-  "newApartmentAdded": "New apartment was added. id: <%= relatedObjectId %>"
-}

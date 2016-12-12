@@ -27,7 +27,7 @@ services:
       - ./front-gateway:/home/nodejs/app
       - /home/nodejs/app/node_modules
       - /home/nodejs/app/public/build
-      - ../dorbel-shared:/home/nodejs/app/node_modules/dorbel-shared
+      # - ../dorbel-shared:/home/nodejs/app/node_modules/dorbel-shared
     environment:
       NODE_ENV: ${NODE_ENV}
       AUTH0_DOMAIN: ${AUTH0_DOMAIN}
@@ -51,13 +51,8 @@ services:
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
       AWS_REGION: ${AWS_REGION}
-      NOTIFICATIONS_EMAIL_SQS_QUEUE_URL: ${NOTIFICATIONS_EMAIL_SQS_QUEUE_URL}
-      NOTIFICATIONS_SMS_SQS_QUEUE_URL: ${NOTIFICATIONS_SMS_SQS_QUEUE_URL}
       NOTIFICATIONS_APP_EVENTS_SQS_QUEUE_URL: ${NOTIFICATIONS_APP_EVENTS_SQS_QUEUE_URL}
-      MANDRILL_API_KEY: ${MANDRILL_API_KEY}
-      TWILIO_ACCOUNT_SID: ${TWILIO_ACCOUNT_SID}
-      TWILIO_AUTH_TOKEN: ${TWILIO_AUTH_TOKEN}
-      TWILIO_PHONE_NUMBER: ${TWILIO_PHONE_NUMBER}
+      SEGMENT_IO_WRITE_KEY: ${SEGMENT_IO_WRITE_KEY}
     command: yarn run start:dev  
 
   ohe-api:
