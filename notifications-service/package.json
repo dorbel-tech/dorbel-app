@@ -3,11 +3,9 @@
   "version": "0.0.17",
   "description": "Worker to process notifications messages from SQS and dispatch using Email or SMS",
   "main": "src/index.js",
-  "scripts": {
-    "db:migrate": "sequelize db:migrate",
-    "prestart": "yarn run db:migrate",
+  "scripts": {    
     "start": "babel-node src/index",
-    "start:dev": "yarn run db:migrate && nodemon --exec babel-node --debug=5861 src/index | bunyan",
+    "start:dev": "nodemon --exec babel-node --debug=5861 src/index | bunyan",
     "test": "yarn run test:unit",
     "test:unit": "mocha --compilers js:babel-register test/shared/before-tests.js test/unit/**/*.spec.js",
     "test:integration": "mocha --compilers js:babel-register test/shared/before-tests.js test/integration/**/*.spec.js",
@@ -15,6 +13,7 @@
     "check": "satisfaction-status || yarn install"
   },
   "dependencies": {
+    "analytics-node": "2.1.0",
     "babel-cli": "^6.16.0",
     "babel-eslint": "^7.0.0",
     "babel-plugin-transform-flow-strip-types": "^6.14.0",

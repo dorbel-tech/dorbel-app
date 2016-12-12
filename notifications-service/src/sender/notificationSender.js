@@ -5,9 +5,11 @@
 'use strict';
 const shared = require('dorbel-shared');
 const logger = shared.logger.getLogger(module);
-const eventConfigurations = require('./eventConfigurations.json');
 const recipientStrategy = require('./recipientStrategy');
 const segmentClient = require('./segmentClient');
+
+// TODO : move out of application code
+const eventConfigurations = require('./eventConfigurations.json');
 
 function handleMessage(payload) {
   logger.debug(payload, 'handeling app event');
