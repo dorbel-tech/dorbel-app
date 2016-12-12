@@ -5,7 +5,7 @@ export default class OheStore {
   @observable oheByListingId;
 
   constructor(initialState) {
-    this.events = initialState ? initialState.openHouseEvents : [];
+    this.openHouseEvents = initialState ? initialState.openHouseEvents : [];
     this.oheByListingId = asMap({});
   }
 
