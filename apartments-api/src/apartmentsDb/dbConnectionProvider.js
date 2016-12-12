@@ -27,5 +27,4 @@ module.exports.connect = function* connect() {
 
   module.exports.db = db;
   module.exports.models = modelLoader.load(db);
-  yield db.sync();     
 };

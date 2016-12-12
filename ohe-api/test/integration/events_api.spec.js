@@ -10,51 +10,54 @@ describe('Open House Events API Integration', function () {
     this.apiClient = yield ApiClient.init(faker.getFakeUser());
   });
 
-  function getRandomNumber() {
-    let min = 1000;
-    let max = 100000;
-    return Math.floor(Math.random() * (max - min)) + min;
-  }
-
   describe('/event', function () {
-    describe('/get{id}', function () {
+    describe('GET', function () {
       it('should find an open house event', function* () {
         const ohe = {
           start_time: moment().add(-2, 'hours').toISOString(),
           end_time: moment().add(-1, 'hours').toISOString(),
-          listing_id: getRandomNumber()
+          listing_id: faker.getRandomNumber(),
+          publishing_user_id: faker.getFakeUser().id
         };
         const newEventReponse = yield this.apiClient.createNewEvent(ohe).expect(201).end();
         const newEvent = newEventReponse.body;
+
+        yield this.apiClient.createNewRegistration(newEvent.id).expect(201).end();
+        yield this.apiClient.findEvent(newEvent.id).expect(200).end();
+        
         const existingEventResponse = yield this.apiClient.findEvent(newEvent.id).expect(200).end();
         const existingEvent = existingEventResponse.body;
+        
         __.assertThat(newEvent.id, __.is(existingEvent.id));
+        __.assertThat(existingEvent.registrations.length, __.is(1));
       });
 
       it('should return an error for non existing event', function* () {
-        yield this.apiClient.findEvent(9999999).expect(404).end();
+        yield this.apiClient.findEvent(9999999).expect(500).end();
       });
 
     });
 
-    describe('/post', function () {
+    describe('POST', function () {
       it('should create a new open house event', function* () {
         const ohe = {
           start_time: moment().add(-2, 'hours').toISOString(),
           end_time: moment().add(-1, 'hours').toISOString(),
-          listing_id: getRandomNumber()
+          listing_id: faker.getRandomNumber(),
+          publishing_user_id: faker.getFakeUser().id
         };
-        const response = yield this.apiClient.createNewEvent(ohe).expect(201).end();
+        yield this.apiClient.createNewEvent(ohe).expect(201).end();
 
       });
     });
 
-    describe('/put', function () {
+    describe('PUT', function () {
       it('should update an existing open house event', function* () {
         const ohe = {
           start_time: moment().add(-2, 'hours').toISOString(),
           end_time: moment().add(-1, 'hours').toISOString(),
-          listing_id: getRandomNumber()
+          listing_id: faker.getRandomNumber(),
+          publishing_user_id: faker.getFakeUser().id
         };
         const newEventReponse = yield this.apiClient.createNewEvent(ohe).expect(201).end();
         let newEvent = newEventReponse.body;
@@ -68,18 +71,20 @@ describe('Open House Events API Integration', function () {
           id: 9999999,
           start_time: moment().add(-2, 'hours').toISOString(),
           end_time: moment().add(-1, 'hours').toISOString(),
-          listing_id: getRandomNumber()
+          listing_id: faker.getRandomNumber(),
+          publishing_user_id: faker.getFakeUser().id
         };
-        yield this.apiClient.updateEvent(ohe).expect(404).end();
+        yield this.apiClient.updateEvent(ohe).expect(500).end();
       });
     });
 
-    describe('/delete/{id}', function () {
+    describe('DELETE', function () {
       it('should delete an existing open house event', function* () {
         const ohe = {
           start_time: moment().add(-2, 'hours').toISOString(),
           end_time: moment().add(-1, 'hours').toISOString(),
-          listing_id: getRandomNumber()
+          listing_id: faker.getRandomNumber(),
+          publishing_user_id: faker.getFakeUser().id
         };
         const newEventReponse = yield this.apiClient.createNewEvent(ohe).expect(201).end();
         let newEvent = newEventReponse.body;
@@ -87,7 +92,7 @@ describe('Open House Events API Integration', function () {
       });
 
       it('should return an error for non existing event', function* () {
-        yield this.apiClient.deleteEvent(9999999).expect(404).end();
+        yield this.apiClient.deleteEvent(9999999).expect(500).end();
       });
     });
   });

@@ -2,10 +2,21 @@
 
 function define(sequelize, DataTypes) {
   return sequelize.define('apartment', {
-    apt_number: { type: DataTypes.STRING },
-    size: { type: DataTypes.INTEGER, allowNull: false },
-    rooms: { type: DataTypes.DECIMAL(3, 1) , allowNull: false },
-    floor: { type: DataTypes.INTEGER, allowNull: false },
+    apt_number: {
+      type: DataTypes.STRING
+    },
+    size: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    rooms: {
+      type: DataTypes.DECIMAL(3, 1),
+      allowNull: false
+    },
+    floor: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
     parking: DataTypes.BOOLEAN,
     sun_heated_boiler: DataTypes.BOOLEAN,
     pets: DataTypes.BOOLEAN,
@@ -16,17 +27,20 @@ function define(sequelize, DataTypes) {
   }, {
     classMethods: {
       associate: models => {
-        const options = { foreignKey: { allowNull: false }, onDelete: 'CASCADE' };
+        const options = {
+          foreignKey: {
+            allowNull: false
+          },
+          onDelete: 'CASCADE'
+        };
         models.apartment.belongsTo(models.building, options);
         models.apartment.hasMany(models.users_to_apartments, options);
       }
     },
-    indexes: [
-      {
-        fields: ['building_id', 'apt_number'],
-        unique: true
-      }
-    ]
+    indexes: [{
+      fields: ['building_id', 'apt_number'],
+      unique: true
+    }]
   });
 }
 

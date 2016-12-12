@@ -85,8 +85,8 @@ class Apartment extends Component {
       return (<div><h4>Loading...</h4></div>);  
     }
 
-    const title = listing.title || `${listing.apartment.building.street_name} ${listing.apartment.building.house_number} - ${listing.apartment.apt_number}`;
-
+    const title = listing.title || `דירת ${listing.apartment.rooms} חד׳ ברח׳ ${listing.apartment.building.street_name}`;
+    
     return (
       <div>
         {this.renderImageGallery(listing)}

@@ -11,9 +11,10 @@ function send(messageType, data) {
     return;
   }
 
-  messageBus.publish(topic, messageBus.eventType[messageType], data);
+  messageBus.publish(topic, messageType, data);
 }
 
 module.exports ={
-  send
+  send,
+  eventType: messageBus.eventType
 };

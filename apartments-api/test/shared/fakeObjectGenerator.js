@@ -26,7 +26,13 @@ function getFakeListing() {
         }
       }
     },
-    images: [{ url: faker.internet.url() }]
+    open_house_event_date: getDateString(),
+    open_house_event_start_time: '07:00',
+    open_house_event_end_time: '07:30',
+    images: [{ url: faker.internet.url() }],
+    user: {
+      phone: '123456789'
+    }
   };
 }
 
