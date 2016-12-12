@@ -1,19 +1,21 @@
 import React, { Component } from 'react';
+import { observer } from 'mobx-react';
 import Icon from '../Icon/Icon';
 import moment from 'moment';
-
-const eventsMock = [
-  { start_time: new Date(2016, 11, 1, 16, 0), end_time: new Date(2016, 11, 1, 17, 0) },
-  { start_time: new Date(2016, 11, 3, 7, 0), end_time: new Date(2016, 11, 3, 7, 30) }
-]; 
 
 const timeFormat = 'HH:mm';
 const dateFormat = 'DD/MM/YY';
 
+@observer(['appStore', 'appProviders'])
 class OHEList extends Component {
-  renderEvent(event, index) {
-    const start = moment(event.start_time);
-    const end = moment(event.end_time);
+
+  componentDidMount() {
+    this.props.appProviders.oheProvider.loadListingEvents(this.props.listing.id);
+  }
+
+  renderOpenHouseEvent(openHouseEvent, index) {
+    const start = moment(openHouseEvent.start_time);
+    const end = moment(openHouseEvent.end_time);
 
     const timeLabel = `${start.format(timeFormat)} - ${end.format(timeFormat)}`;
     const dateLabel = start.format(dateFormat);
@@ -39,7 +41,8 @@ class OHEList extends Component {
 
   render() {
     const { listing } = this.props;
-    const events = eventsMock;
+    const openHouseEvents = this.props.appStore.oheStore.oheByListingId.get(this.props.listing.id) || [];
+    const profile = this.props.appStore.authStore.getProfile();
 
     return (
       <div className="container">
@@ -65,12 +68,16 @@ class OHEList extends Component {
 
               <div className="list-group apt-choose-date-container">
                 <h5 className="text-center apt-choose-date-title">בחר במועד לביקור</h5>
-                {events.map(this.renderEvent)}
-                <a href="#" className="list-group-item owner-container text-center">
-                  <div>
-                    <img src="https://github.com/dorbel-tech/dorbel-design-v2/raw/master/assets/images/owner.png" alt="" className="img-circle" />
-                  </div>
-                  <h5>בעלת הנכס: ענת</h5>
+                {openHouseEvents.map(this.renderOpenHouseEvent)}
+                <a href="#" className="list-group-item owner-container text-center">                 
+                  <h5>
+                  { listing.publishing_user_type === 'landlord' ?
+                   <span>בעל הנכס</span>
+                    :
+                    <span>דייר יוצא</span>
+                  }
+                  <span>: {profile.user_metadata.first_name}</span>
+                  </h5>
                 </a>
               </div>
 
@@ -82,8 +89,10 @@ class OHEList extends Component {
   }
 }
 
-OHEList.propTypes = {
-  listing: React.PropTypes.object.isRequired
+OHEList.wrappedComponent.propTypes = {
+  listing: React.PropTypes.object.isRequired,
+  appProviders: React.PropTypes.object,
+  appStore: React.PropTypes.object  
 };
 
 export default OHEList;

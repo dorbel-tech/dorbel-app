@@ -12,7 +12,7 @@ function send(templateName, additionalParams) {
     from_name: additionalParams.from_name,
     to: [{
       email: additionalParams.email,
-      name: additionalParams.name,
+      name: additionalParams.first_name + ' ' + additionalParams.last_name,
       type: 'to'
     }],
     merge_language: 'handlebars',
