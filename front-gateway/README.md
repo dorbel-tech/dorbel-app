@@ -2,6 +2,7 @@
 
 ## Install
 ``yarn install``
+Also install chromedirver from https://chromedriver.storage.googleapis.com/index.html?path=2.26/ and place it under bin folder
 
 ## Running in Developemt
 You'll need to run two terminals

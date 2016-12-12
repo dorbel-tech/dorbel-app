@@ -50,7 +50,7 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
           <img src="https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/upload-apt-form/icon-signup-folder.svg" alt="" />
         </div>
 
-        <div className="col-md-5 upload-apt-left-container">
+        <div className="col-md-5 upload-apt-left-container apartment-details-step">
           <formHelper.FormWrapper layout="vertical" onChange={this.handleChanges} ref="form">
 
             <div className="row form-section">
@@ -122,7 +122,7 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>תאריך כניסה לדירה</label>
-                    <DatePicker value={this.props.appStore.newListingStore.formValues.lease_start} onChange={this.handleChange.bind(this, 'lease_start')} />                    
+                    <DatePicker name="apartment.entrance-date" value={this.props.appStore.newListingStore.formValues.lease_start} onChange={this.handleChange.bind(this, 'lease_start')} />                    
                   </div> 
                 </div>
                 <div className="col-md-6">
@@ -143,15 +143,15 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
           
           <div className="form-nav bottom col-lg-5 col-md-5 col-sm-12 col-xs-12">
             <span onClick={this.clickBack}>
-              <i className="fa fa-arrow-circle-o-right fa-2x" aria-hidden="true"></i>
+              <i className=" apartment-details-previous-step fa fa-arrow-circle-o-right fa-2x" aria-hidden="true"></i>
               &nbsp; שלב קודם
             </span>
             <span>2/3</span>
             <span onClick={this.clickNext}>
               שלב הבא &nbsp;
-              <i className="fa fa-arrow-circle-o-left fa-2x" aria-hidden="true"></i>
+              <i className="apartment-details-next-step fa fa-arrow-circle-o-left fa-2x" aria-hidden="true"></i>
             </span>
-          </div>
+          </div> 
 
         </div>
       </div>

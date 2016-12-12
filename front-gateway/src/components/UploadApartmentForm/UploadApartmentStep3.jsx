@@ -73,13 +73,13 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
           </div>
           <img src="https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/upload-apt-form/icon-signup-card.svg" alt="" />
         </div>
-        <div className="col-md-5 upload-apt-left-container">
+        <div className="col-md-5 upload-apt-left-container open-house-event-step">
           <formHelper.FormWrapper layout="vertical" onChange={this.handleChanges} ref="form">
             <div className="row form-section">
               <div className="form-section-headline">מועדי ביקור בדירה</div>
               <div className="form-group">
                 <label>תאריך</label>
-                <DatePicker value={this.props.appStore.newListingStore.formValues.ohe_date} onChange={this.handleChange.bind(this, 'ohe_date')} />              
+                <DatePicker name="ohe-date" value={this.props.appStore.newListingStore.formValues.ohe_date} onChange={this.handleChange.bind(this, 'ohe_date')} />              
               </div>
               <div className="row">
                 <div className="col-md-6">
@@ -103,7 +103,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
           </formHelper.FormWrapper>
 
         <div className="form-nav bottom col-lg-5 col-md-5 col-sm-12 col-xs-12">
-          <span onClick={this.clickBack.bind(this)}><i className="fa fa-arrow-circle-o-right fa-2x" aria-hidden="true"></i>&nbsp; שלב קודם</span>
+          <span onClick={this.clickBack.bind(this)}><i className="open-house-event-previous-step fa fa-arrow-circle-o-right fa-2x" aria-hidden="true"></i>&nbsp; שלב קודם</span>
           <span>3/3</span>
           <button onClick={this.clickNext.bind(this)} disabled={!authStore.isLoggedIn} className="btn btn-lg btn-default btn-submit dorbel-btn">שליחה וסיום</button>
         </div>

@@ -15,6 +15,9 @@ module.exports = {
     },
     approve: {
       selector: 'button.auth0-lock-social-button.auth0-lock-social-big-button:first-of-type > div.auth0-lock-social-button-text'
+    },
+    addNewApartmentLink: {
+      selector: 'a.add-apartment-button'
     }
   },
   commands: [{
