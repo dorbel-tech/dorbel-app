@@ -30,7 +30,8 @@ function sendEmail(messageBody) {
     const additionalParams = {
       from_name: fromName,
       email: message.dataPayload.user_email,
-      name: message.dataPayload.user_full_name,
+      first_name: message.dataPayload.user_first_name,
+      last_name: message.dataPayload.user_last_name,
       mergeVars: [{
         name: 'environment',
         content: message.environemnt

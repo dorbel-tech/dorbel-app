@@ -34,11 +34,11 @@ function* create(listing) {
 
   // Update user phone number in auth0.
   let normalizedPhone = normalizePhone(listing.user.phone);
-  let fullName = listing.user.firstname + ' ' + listing.user.lastname;
   // TODO: Update user details can be done on client using user token.
   userManagement.updateUserDetails(createdListing.publishing_user_id, {
     user_metadata: { 
-      full_name: fullName,
+      first_name: listing.user.firstname,
+      last_name: listing.user.lastname,
       email: listing.user.email,
       phone: normalizedPhone
     }
@@ -54,7 +54,8 @@ function* create(listing) {
       user_uuid: createdListing.publishing_user_id,
       user_email: listing.user.email,
       user_phone: normalizedPhone,
-      user_full_name: fullName,
+      user_first_name: listing.user.firstname,
+      user_last_name: listing.user.lastname,
       apartment_id: createdListing.apartment_id      
     });
   }

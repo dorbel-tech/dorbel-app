@@ -46,6 +46,10 @@ module.exports = {
         type: Sequelize.UUID,
         allowNull: false
       },
+      publishing_user_type: {
+        type: Sequelize.ENUM('landlord', 'tenant'),
+        allowNull: false
+      },      
       roommate_needed: {
         type: Sequelize.BOOLEAN,
         defaultValue: false 

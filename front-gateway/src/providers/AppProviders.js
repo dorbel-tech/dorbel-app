@@ -6,6 +6,7 @@
 import AuthProvider from './AuthProvider';
 import ApiProvider from './ApiProvider';
 import ApartmentsProvider from './ApartmentsProvider';
+import OheProvider from './OheProvider';
 import CityProvider from './CityProvider';
 import CloudinaryProvider from './CloudinaryProvider';
 
@@ -24,6 +25,7 @@ class AppProviders {
 
     this.apiProvider = new ApiProvider(appStore);
     this.apartmentsProvider = new ApartmentsProvider(appStore, this.apiProvider, this.cloudinaryProvider);
+    this.oheProvider = new OheProvider(appStore, this.apiProvider);
     this.cityProvider = new CityProvider(appStore, this.apiProvider);
   }
 }
