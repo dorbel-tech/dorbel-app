@@ -43,6 +43,7 @@ class OHEList extends Component {
     const { listing } = this.props;
     const openHouseEvents = this.props.appStore.oheStore.oheByListingId.get(this.props.listing.id) || [];
     const profile = this.props.appStore.authStore.getProfile();
+    const currentUrl = 'https://app.dorbel.com/apartments/' + listing.id;
 
     return (
       <div className="container">
@@ -57,10 +58,10 @@ class OHEList extends Component {
                 </div>
                 <div className="row social-share-wrapper">
                   <div className="social-share-container text-center">
-                    <span>שתפו את הדירה</span>&nbsp;
-                    <a className="fa fa-facebook-square" href="https://www.facebook.com/sharer.php?u=https://app.dorbel.com/apartments/435-hotels-combined" target="_blank"></a>&nbsp;
-                    <a className="fa fa-envelope" href="mailto:?subject=Great%20apartment%20from%20dorbel&amp;body=https://app.dorbel.com/apartments/435-hotels-combined"></a>&nbsp;
-                    <a href=""><Icon iconName="dorbel-icon-social-fbmsg" /></a>
+                    <span>שתפו את הדירה</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a className="fa fa-facebook-square" href={'https://www.facebook.com/sharer.php?u=' + currentUrl} target="_blank"></a>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a className="fa fa-envelope" href={'mailto:?subject=Great%20apartment%20from%20dorbel&amp;body=' + currentUrl}></a>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href={'https://www.facebook.com/dialog/send?app_id=1651579398444396&link=' + currentUrl + '&redirect_uri=' + currentUrl}><Icon iconName="dorbel-icon-social-fbmsg" /></a>
                   </div>
                 </div>
                 <div className="chupchik visible-lg"></div>
@@ -69,7 +70,7 @@ class OHEList extends Component {
               <div className="list-group apt-choose-date-container">
                 <h5 className="text-center apt-choose-date-title">בחר במועד לביקור</h5>
                 {openHouseEvents.map(this.renderOpenHouseEvent)}
-                <a href="#" className="list-group-item owner-container text-center">                 
+                <div href="#" className="list-group-item owner-container text-center">                 
                   <h5>
                   { listing.publishing_user_type === 'landlord' ?
                    <span>בעל הנכס</span>
@@ -78,7 +79,7 @@ class OHEList extends Component {
                   }
                   <span>: {profile.user_metadata.first_name}</span>
                   </h5>
-                </a>
+                </div>
               </div>
 
             </div>
@@ -92,7 +93,7 @@ class OHEList extends Component {
 OHEList.wrappedComponent.propTypes = {
   listing: React.PropTypes.object.isRequired,
   appProviders: React.PropTypes.object,
-  appStore: React.PropTypes.object  
+  appStore: React.PropTypes.object
 };
 
 export default OHEList;
