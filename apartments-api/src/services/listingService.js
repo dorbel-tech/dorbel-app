@@ -1,5 +1,4 @@
 'use strict';
-const util = require('util');
 const shared = require('dorbel-shared');
 const config = shared.config;
 const messageBus = shared.utils.messageBus;
@@ -17,7 +16,10 @@ function CustomError(code, message) {
 }
 
 function* create(listing) {
-  const existingOpenListingForApartment = yield listingRepository.getListingsForApartment(listing.apartment, { status: { $notIn: ['closed', 'rented'] } });
+  const existingOpenListingForApartment = yield listingRepository.getListingsForApartment(
+    listing.apartment, 
+    { status: { $notIn: ['closed', 'rented'] } }
+  );
   if (existingOpenListingForApartment && existingOpenListingForApartment.length) {
     throw new CustomError(409, 'apartment already has an active listing');
   }
@@ -42,12 +44,9 @@ function* create(listing) {
     }
   });
 
-  const userProfile = JSON.stringify({ id: createdListing.publishing_user_id });
-  const start = buildTimeString(listing.open_house_event_date, listing.open_house_event_start_time);
-  const end = buildTimeString(listing.open_house_event_date, listing.open_house_event_end_time);
-
   // TODO: Move ths call to client side.
-  oheApiClient.createOpenHouseEvent(userProfile, createdListing.id, start, end, listing.open_house_event_comments);
+  oheApiClient.createOpenHouseEvent(createdListing, listing);
+  
 
   // Publish event trigger message to SNS for notifications dispatching.
   if (config.get('NOTIFICATIONS_SNS_TOPIC_ARN')) {
@@ -69,10 +68,6 @@ function normalizePhone(phone) {
   } else {
     return phone;
   }
-}
-
-function buildTimeString(eventDate, eventTime) {
-  return moment(util.format('%sT%s', eventDate, eventTime)).toISOString();
 }
 
 module.exports = {

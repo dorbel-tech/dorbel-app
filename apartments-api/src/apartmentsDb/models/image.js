@@ -2,11 +2,22 @@
 
 function define(sequelize, DataTypes) {
   return sequelize.define('image', {
-    url: { type: DataTypes.STRING, allowNull: false, unique: true },
-    display_order: { type: DataTypes.FLOAT }
+    url: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true
+    },
+    display_order: {
+      type: DataTypes.FLOAT
+    }
   }, {
     classMethods: {
-      associate: models => models.image.belongsTo(models.listing, { foreignKey: { allowNull: false }, onDelete: 'CASCADE' })
+      associate: models => models.image.belongsTo(models.listing, {
+        foreignKey: {
+          allowNull: false
+        },
+        onDelete: 'CASCADE'
+      })
     }
   });
 }

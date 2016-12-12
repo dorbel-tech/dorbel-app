@@ -16,7 +16,8 @@ describe('Open House Events API Integration', function () {
         const ohe = {
           start_time: moment().add(-2, 'hours').toISOString(),
           end_time: moment().add(-1, 'hours').toISOString(),
-          listing_id: faker.getRandomNumber()
+          listing_id: faker.getRandomNumber(),
+          publishing_user_id: faker.getFakeUser().id
         };
         const newEventReponse = yield this.apiClient.createNewEvent(ohe).expect(201).end();
         const newEvent = newEventReponse.body;
@@ -42,7 +43,8 @@ describe('Open House Events API Integration', function () {
         const ohe = {
           start_time: moment().add(-2, 'hours').toISOString(),
           end_time: moment().add(-1, 'hours').toISOString(),
-          listing_id: faker.getRandomNumber()
+          listing_id: faker.getRandomNumber(),
+          publishing_user_id: faker.getFakeUser().id
         };
         yield this.apiClient.createNewEvent(ohe).expect(201).end();
 
@@ -54,7 +56,8 @@ describe('Open House Events API Integration', function () {
         const ohe = {
           start_time: moment().add(-2, 'hours').toISOString(),
           end_time: moment().add(-1, 'hours').toISOString(),
-          listing_id: faker.getRandomNumber()
+          listing_id: faker.getRandomNumber(),
+          publishing_user_id: faker.getFakeUser().id
         };
         const newEventReponse = yield this.apiClient.createNewEvent(ohe).expect(201).end();
         let newEvent = newEventReponse.body;
@@ -68,7 +71,8 @@ describe('Open House Events API Integration', function () {
           id: 9999999,
           start_time: moment().add(-2, 'hours').toISOString(),
           end_time: moment().add(-1, 'hours').toISOString(),
-          listing_id: faker.getRandomNumber()
+          listing_id: faker.getRandomNumber(),
+          publishing_user_id: faker.getFakeUser().id
         };
         yield this.apiClient.updateEvent(ohe).expect(500).end();
       });
@@ -79,7 +83,8 @@ describe('Open House Events API Integration', function () {
         const ohe = {
           start_time: moment().add(-2, 'hours').toISOString(),
           end_time: moment().add(-1, 'hours').toISOString(),
-          listing_id: faker.getRandomNumber()
+          listing_id: faker.getRandomNumber(),
+          publishing_user_id: faker.getFakeUser().id
         };
         const newEventReponse = yield this.apiClient.createNewEvent(ohe).expect(201).end();
         let newEvent = newEventReponse.body;

@@ -2,11 +2,23 @@
 
 function define(sequelize, DataTypes) {
   return sequelize.define('users_to_apartments', {
-    user_id: { type: DataTypes.UUID, allowNull: false },
-    type: { type: DataTypes.ENUM, values: ['landlord', 'tenant'], allowNull: false },
+    user_id: {
+      type: DataTypes.UUID,
+      allowNull: false
+    },
+    type: {
+      type: DataTypes.ENUM,
+      values: ['landlord', 'tenant'],
+      allowNull: false
+    },
   }, {
     classMethods: {
-      associate: models => models.listing.belongsTo(models.apartment, { foreignKey: { allowNull: false }, onDelete: 'CASCADE' })
+      associate: models => models.listing.belongsTo(models.apartment, {
+        foreignKey: {
+          allowNull: false
+        },
+        onDelete: 'CASCADE'
+      })
     }
   });
 }

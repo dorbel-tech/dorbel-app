@@ -12,9 +12,9 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER
       },
-      user_id: {
+      following_user_id: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.UUID
       },
       is_active: {
         allowNull: false,

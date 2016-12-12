@@ -23,6 +23,10 @@ module.exports = {
       comments: {
         type: Sequelize.STRING
       },
+      publishing_user_id: {
+        allowNull: false,
+        type: Sequelize.UUID
+      },    
       is_active: {
         allowNull: false,
         type: Sequelize.BOOLEAN
