@@ -5,8 +5,9 @@
 'use strict';
 const shared = require('dorbel-shared');
 const logger = shared.logger.getLogger(module);
-const recipientStrategy = require('./recipientStrategy');
+const dataRetrieval = require('./dataRetrieval');
 const segmentClient = require('./segmentClient');
+
 
 // TODO : move out of application code
 const eventConfigurations = require('./eventConfigurations.json');
@@ -21,10 +22,13 @@ function handleMessage(payload) {
 }
 
 function sendEvent(eventConfig, eventData) {
-  recipientStrategy.getRecipients(eventConfig, eventData)
-  .then(recipients => {
+  dataRetrieval.getAdditonalData(eventConfig, eventData)
+  .then(additonalData => {
+    const recipients = additonalData.customRecipients || [ eventData.user_uuid ];    
+    const trackedEventData = Object.assign({}, eventData, additonalData);
+
     return Promise.all(
-      recipients.map(recipient => segmentClient.track(recipient, eventConfig.notificationType, eventData))
+      recipients.map(recipient => segmentClient.track(recipient, eventConfig.notificationType, trackedEventData))
     );
   });  
 }
