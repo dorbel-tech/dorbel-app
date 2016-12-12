@@ -3,12 +3,18 @@
  * To fetch the different data needed by each notification type before it is sent 
  */ 
 'use strict'; 
+const request = require('request-promise'); 
+const shared = require('dorbel-shared');
  
 const dataRetrievalFunctions = { 
-  'getOheFollowers': (eventData) => {
-    // return { customRecipients : [...] };
-    throw new Error('not implemented yet in OHE API');
-  } 
+  // 'getOheFollowers': (eventData) => {
+  //   return { customRecipients : [...] };
+  // },
+  'getListingInfo': eventData => {
+    const listing_id = eventData.listing_id;
+    return request.get(`${shared.config.get('APARTMENTS_API_URL')}/v1/listings/${listing_id}`, { json: true })
+    .then(response => ({ listing : response }));
+  }
 }; 
  
 function getAdditonalData(eventConfig, eventData) {
