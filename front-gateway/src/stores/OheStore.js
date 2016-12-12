@@ -11,7 +11,7 @@ export default class OheStore {
 
   toJson() {
     return {
-      events: this.openHouseEvents
+      openHouseEvents: this.openHouseEvents
     };
   }
 
