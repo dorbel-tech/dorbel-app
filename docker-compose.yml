@@ -76,9 +76,15 @@ services:
       - '3002:3002'
     depends_on:
       - cache
+      - apartments-api
+      - ohe-api
     links:
       - cache
+      - apartments-api
+      - ohe-api
     environment:
+      APARTMENTS_API_URL: http://apartments-api:3000
+      OHE_API_URL: http://ohe-api:3003
       REDIS_HOST: cache
       AUTH0_DOMAIN: ${AUTH0_DOMAIN}
       AUTH0_API_CLIENT_ID: ${AUTH0_API_CLIENT_ID}
@@ -86,12 +92,8 @@ services:
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
       AWS_REGION: ${AWS_REGION}
-      NOTIFICATIONS_EMAIL_SQS_QUEUE_URL: ${NOTIFICATIONS_EMAIL_SQS_QUEUE_URL}
-      NOTIFICATIONS_SMS_SQS_QUEUE_URL: ${NOTIFICATIONS_SMS_SQS_QUEUE_URL}
-      MANDRILL_API_KEY: ${MANDRILL_API_KEY}
-      TWILIO_ACCOUNT_SID: ${TWILIO_ACCOUNT_SID}
-      TWILIO_AUTH_TOKEN: ${TWILIO_AUTH_TOKEN}
-      TWILIO_PHONE_NUMBER: ${TWILIO_PHONE_NUMBER}
+      SEGMENT_IO_WRITE_KEY: ${SEGMENT_IO_WRITE_KEY}
+      NOTIFICATIONS_APP_EVENTS_SQS_QUEUE_URL: ${NOTIFICATIONS_APP_EVENTS_SQS_QUEUE_URL}
 
   ohe-api:
     build:

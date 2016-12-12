@@ -27,7 +27,7 @@ function* register(eventId, userId) {
   notificationService.send(notificationService.eventType.OHE_REGISTERED, {
     listing_id: existingEvent.listing_id,
     event_id: existingEvent.id,
-    registered_user_id: userId
+    user_uuid: userId
   });
 
   return result;
@@ -46,7 +46,7 @@ function* unregister(registrationId) {
 
   notificationService.send(notificationService.eventType.OHE_UNREGISTERED, {
     event_id: existingRegistration.id,
-    registered_user_id: existingRegistration.registered_user_id
+    user_uuid: existingRegistration.registered_user_id
   });
 
   return result;

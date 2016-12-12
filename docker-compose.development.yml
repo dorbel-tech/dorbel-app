@@ -34,7 +34,7 @@ services:
       - /home/nodejs/app/node_modules
       # - ../dorbel-shared:/home/nodejs/app/node_modules/dorbel-shared
     environment:
-      NODE_ENV: ${NODE_ENV}
+      NODE_ENV: ${NODE_ENV}          
     command: yarn run start:dev  
 
   ohe-api:

@@ -4,7 +4,7 @@ const shared = require('dorbel-shared');
 const config = shared.config; 
 const path = require('path'); config.setConfigFileFolder(path.join(__dirname, '/config')); // load config from file before anything else
 const logger = shared.logger.getLogger(module);
-const notificationsHandler = require('./transactional/notificationsHandler');
+const notificationSender = require('./sender/notificationSender');
 const messageBus = shared.utils.messageBus;
 
 logger.info({
@@ -13,23 +13,13 @@ logger.info({
 }, 'Starting server');
 
 function startMessageConsumers() {
-  logger.info('Begin consuming messages from email notifications SQS queue.');
-  const emailConsumer = messageBus.consume.start(
-    config.get('NOTIFICATIONS_EMAIL_SQS_QUEUE_URL'),
-    notificationsHandler.handleMessage.bind(notificationsHandler, 'Email')
-  );
+  logger.info('Begin consuming messages from SQS queue');
+  const appEventsConsumers = messageBus.consume.start(
+    config.get('NOTIFICATIONS_APP_EVENTS_SQS_QUEUE_URL'), 
+    notificationSender.handleMessage);
 
-  logger.info('Begin consuming messages from SMS notifications SQS queue.');
-  const smsConsumer = messageBus.consume.start(
-    config.get('NOTIFICATIONS_SMS_SQS_QUEUE_URL'),
-    notificationsHandler.handleMessage.bind(notificationsHandler, 'SMS')
-  );
-
-  // Not sure it is going to work.
   process.on('exit', function (code) {
-    logger.info('Stopping consuming messages from notifications SQS queues.');
-    emailConsumer.stop();
-    smsConsumer.stop();
+    appEventsConsumers.stop();
     process.exit(code);
   });
 
