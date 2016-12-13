@@ -9,6 +9,10 @@ const shared = require('dorbel-shared');
 const APT_API = shared.config.get('APARTMENTS_API_URL');
 const OHE_API = shared.config.get('OHE_API_URL');
 
+if (!APT_API || !OHE_API) {
+  throw new Error('Missing API Urls in config');
+}
+
 function getOheInfo(oheId) {
   return request.get(`${OHE_API}/v1/event/${oheId}`, { json: true });
 }
