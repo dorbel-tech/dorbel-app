@@ -11,7 +11,7 @@ class CityProvider {
   }
 
   loadCities() {
-    return this.apiProvider.fetch('/api/v1/cities')
+    return this.apiProvider.fetch('/api/apartments/v1/cities')
       .then(action(cities => this.appStore.cityStore.cities = cities));
   }
 }

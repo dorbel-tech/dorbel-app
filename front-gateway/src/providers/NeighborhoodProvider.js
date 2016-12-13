@@ -11,7 +11,7 @@ class NeighborhoodProvider {
   }
 
   loadNeighborhoodByCityId(id) {
-    return this.apiProvider.fetch('/api/v1/neighborhoods/' + id)
+    return this.apiProvider.fetch('/api/apartments/v1/neighborhoods/' + id)
       .then(action(neighborhoods => this.appStore.neighborhoodStore.neighborhoods = neighborhoods));
   }
 }
