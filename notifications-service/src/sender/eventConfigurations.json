@@ -15,6 +15,6 @@
   {
     "eventType": "OHE_REGISTERED",
     "notificationType": "signed up for ohe",
-    "dataRetrieval": [ "getListingInfo" ]
+    "dataRetrieval": [ "getListingInfo", "getOheInfo" ]
   }
 ]

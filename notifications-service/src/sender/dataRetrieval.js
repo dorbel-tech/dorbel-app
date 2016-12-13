@@ -10,11 +10,15 @@ const dataRetrievalFunctions = {
   // 'getOheFollowers': (eventData) => {
   //   return { customRecipients : [...] };
   // },
-  'getListingInfo': eventData => {
-    const listing_id = eventData.listing_id;
-    return request.get(`${shared.config.get('APARTMENTS_API_URL')}/v1/listings/${listing_id}`, { json: true })
+  getListingInfo: eventData => {
+    return request.get(`${shared.config.get('APARTMENTS_API_URL')}/v1/listings/${eventData.listing_id}`, { json: true })
     .then(response => ({ listing : response }));
+  },
+  getOheInfo: eventData => {
+    return request.get(`${shared.config.get('OHE_API_URL')}/v1/event/${eventData.event_id}`, { json: true })
+    .then(reponse => ({ ohe: reponse }));
   }
+
 }; 
  
 function getAdditonalData(eventConfig, eventData) {
