@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Nav, NavItem } from 'react-bootstrap';
 import { observer } from 'mobx-react';
 import svgIcons from '~/assets/images/images.sprite.svg';
 import ApartmentAmenities from './ApartmentAmenities.jsx';
@@ -14,9 +15,21 @@ const flickityOptions = {
   pageDots: false
 };
 
+const tabs = [
+  { eventKey: 'publishing', title: 'פרסום' },
+  { eventKey: 'open_house_events', title: 'מועדי ביקור' }
+];
+
 @observer(['appStore', 'appProviders'])
 class Apartment extends Component {
   static behindHeader = true;
+
+  constructor(props) {
+    super(props);
+    this.state = { activeTab: tabs[0].eventKey };
+    this.changeTab = this.changeTab.bind(this);
+  }
+  
 
   componentDidMount() {
     this.props.appProviders.apartmentsProvider.loadSingleApartment(this.props.apartmentId);
@@ -24,7 +37,6 @@ class Apartment extends Component {
 
   renderImageGallery(apartment) {
     return (
-
       <header className="apt-header">
         <div className="container-fluid">
           <div className="row">
@@ -77,6 +89,24 @@ class Apartment extends Component {
     );
   }
 
+  renderListingMenu(listing) {
+    const { authStore } = this.props.appStore;
+    const profile = authStore.getProfile();     
+    if (listing.publishing_user_id === profile.dorbel_user_id) {
+      return (
+        <Nav bsStyle="tabs" activeKey={tabs[0].eventKey} onSelect={this.changeTab}>
+          {tabs.map(tab => <NavItem key={tab.eventKey} eventKey={tab.eventKey}>{tab.title}</NavItem>)}
+        </Nav>
+      );
+    } else {
+      return null;
+    }
+  }
+
+  changeTab(tabKey) {
+    this.setState({ activeTab: tabKey });
+  }
+
   render() {
     // TODO : mixup between listing and apartment here !!!
     const listing = this.props.appStore.apartmentStore.apartmentsById.get(this.props.apartmentId);
@@ -86,6 +116,16 @@ class Apartment extends Component {
     }
 
     const title = listing.title || `דירת ${listing.apartment.rooms} חד׳ ברח׳ ${listing.apartment.building.street_name}`;
+
+    let tabContent;
+    switch (this.state.activeTab) {
+      case 'open_house_events' : 
+        tabContent = (<div>WOW so many events</div>);
+        break;
+      case 'publishing' :
+      default: 
+        tabContent = this.renderListingDescription(listing);
+    }
     
     return (
       <div>
@@ -114,7 +154,8 @@ class Apartment extends Component {
             </div>
           </div>
         </div>
-        {this.renderListingDescription(listing)}
+        {this.renderListingMenu(listing)}
+        {tabContent}
       </div>
     );
   }
