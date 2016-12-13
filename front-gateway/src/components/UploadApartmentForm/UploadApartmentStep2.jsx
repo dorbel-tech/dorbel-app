@@ -12,6 +12,11 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
     if (this.props.appStore.cityStore.cities.length === 0) {
       this.props.appProviders.cityProvider.loadCities();
     }
+
+    if (this.props.appStore.neighborhoodStore.cities.length === 0) {
+      this.props.appProviders.neighborhoodProvider.loadNeighborhoodByCityId(1); // TODO: pass dynamic cityId param.
+    }
+    
     if (this.props.appStore.newListingStore.formValues) {
       // load form with existing values
       this.refs.form.refs.formsy.reset(this.props.appStore.newListingStore.formValues);
