@@ -10,11 +10,16 @@
   {
     "eventType": "OHE_CREATED",
     "notificationType": "ohe added to followed listing",
-    "dataRetrieval": [ "getOheFollowers" ]
+    "dataRetrieval": [ "getListingFollowers" ]
   },
   {
     "eventType": "OHE_REGISTERED",
     "notificationType": "signed up for ohe",
     "dataRetrieval": [ "getListingInfo", "getOheInfo" ]
+  },
+  {
+    "eventType": "OHE_DELETED",
+    "notificationType": "OHE I was signed up for was cancelled",
+    "dataRetrieval": [ "getListingInfo", "getOheRegisteredUsers" ]
   }
 ]

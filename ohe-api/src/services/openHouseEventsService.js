@@ -54,7 +54,7 @@ function* create(openHouseEvent) {
     start_time: start,
     end_time: end,
     comments: openHouseEvent.comments,
-    publishing_user_id: openHouseEvent.publishing_user_id
+    user_uuid: openHouseEvent.publishing_user_id
   });
 
   return newEvent;

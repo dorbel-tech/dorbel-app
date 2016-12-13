@@ -22,7 +22,7 @@ function handleMessage(payload) {
 }
 
 function sendEvent(eventConfig, eventData) {
-  dataRetrieval.getAdditonalData(eventConfig, eventData)
+  return dataRetrieval.getAdditonalData(eventConfig, eventData)
   .then(additonalData => {
     const recipients = additonalData.customRecipients || [ eventData.user_uuid ];    
     const trackedEventData = Object.assign({}, eventData, additonalData);
