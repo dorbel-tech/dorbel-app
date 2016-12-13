@@ -242,7 +242,6 @@ module.exports = {
         .setValue('@email', 'poison77@gmail.com')
         .setValue('@phoneNumber', '9999999');
 
-      this.section.openHouseEvent.assert.visible('@eventDateCalendar');
       return this;
     },
     submitNewApartmentForm: function () {
