@@ -59,14 +59,17 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
                   <FRC.Select name="apartment.building.city.city_name" label="עיר" options={citySelectorOptions} value={citySelectorOptions[0].label} required />
                 </div>
                 <div className="col-md-6">
-                  <FRC.Input value="" name="apartment.building.street_name" label="שם רחוב" type="text" required />
+                  <FRC.Input value="" name="apartment.building.neighborhood.neighborhood_name" label="שכונה" type="text" />
                 </div>
               </div>
               <div className="row">
                 <div className="col-md-6">
+                  <FRC.Input value="" name="apartment.building.street_name" label="שם רחוב" type="text" required />
+                </div>
+                <div className="col-md-3">
                   <FRC.Input value="" name="apartment.building.house_number" label="מספר בניין" type="text" required />
                 </div>
-                <div className="col-md-6">
+                <div className="col-md-3">
                   <FRC.Input value="" name="apartment.apt_number" label="מספר דירה" type="text" required />
                 </div>
               </div>
@@ -86,10 +89,10 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
             <div className="row form-section">
               <div className="form-section-headline">פרטי הדירה</div>
               <div className="row">
-                <div className="col-md-4">
+                <div className="col-md-6">
                   <FRC.Input value="" name="apartment.size" label="גודל הדירה" type="number" required />
                 </div>
-                <div className="col-md-4">
+                <div className="col-md-6">
                   <FRC.Select name="apartment.rooms" label="מספר חדרים" required options={roomOptions} />
                 </div>
               </div>
