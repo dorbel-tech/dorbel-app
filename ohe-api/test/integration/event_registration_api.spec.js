@@ -18,14 +18,15 @@ describe('Open House Events Registration API Integration', function () {
         const ohe = {
           start_time: moment().add(-2, 'hours').toISOString(),
           end_time: moment().add(-1, 'hours').toISOString(),
-          listing_id: faker.getRandomNumber()
+          listing_id: faker.getRandomNumber(),
+          publishing_user_id: faker.getFakeUser().id
         };
         const response = yield this.apiClient.createNewEvent(ohe).expect(201).end();
         yield this.apiClient.createNewRegistration(response.body.id).expect(201).end();
       });
 
       it('return an error for non existing event', function* () {
-        yield this.apiClient.createNewRegistration(999999).expect(404).end();
+        yield this.apiClient.createNewRegistration(999999).expect(500).end();
       });
 
     });
@@ -35,7 +36,8 @@ describe('Open House Events Registration API Integration', function () {
         const ohe = {
           start_time: moment().add(-2, 'hours').toISOString(),
           end_time: moment().add(-1, 'hours').toISOString(),
-          listing_id: faker.getRandomNumber()
+          listing_id: faker.getRandomNumber(),
+          publishing_user_id: faker.getFakeUser().id
         };
         const response = yield this.apiClient.createNewEvent(ohe).expect(201).end();
         const registrationResponse = yield this.apiClient.createNewRegistration(response.body.id).expect(201).end();
@@ -43,7 +45,7 @@ describe('Open House Events Registration API Integration', function () {
       });
 
       it('should return an error for non existing registration', function* () {
-        yield this.apiClient.deleteRegistration(999999).expect(404).end();
+        yield this.apiClient.deleteRegistration(999999).expect(500).end();
       });
 
     });

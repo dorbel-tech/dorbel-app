@@ -34,8 +34,12 @@ app.use(function* handleDomainErrors(next) {
     yield next;
   }
   catch (ex) {
-    this.body = ex.message;
-    this.status = ex.statusCode;
+    if (ex.name === 'DomainValidationError' || ex.name === 'DomainNotFoundError') {
+      this.body = ex.message;
+      this.status = ex.statusCode;
+    } else {
+      throw ex;
+    }      
   }
 });
 

@@ -5,7 +5,6 @@ class Home extends Component {
   render() {
     return (
       <div>
-        <NavLink to="/"><h1>dorbel</h1></NavLink>
         <ul role="nav">
           <li><NavLink to="/apartments">Apartments</NavLink></li>
           <li><NavLink to="/apartments/new_form">Add New Apartment</NavLink></li>

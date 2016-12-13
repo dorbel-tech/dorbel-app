@@ -1,0 +1,20 @@
+[
+  {
+    "eventType": "APARTMENT_CREATED",
+    "notificationType": "added apartment"
+  },
+  { 
+    "eventType": "OHE_CREATED",
+    "notificationType": "added open house event"
+  },
+  {
+    "eventType": "OHE_CREATED",
+    "notificationType": "ohe added to followed listing",
+    "dataRetrieval": [ "getOheFollowers" ]
+  },
+  {
+    "eventType": "OHE_REGISTERED",
+    "notificationType": "signed up for ohe",
+    "dataRetrieval": [ "getListingInfo" ]
+  }
+]

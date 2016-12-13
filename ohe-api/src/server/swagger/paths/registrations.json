@@ -1,7 +1,7 @@
 {
   "/event/registration": {
     "post": {
-      "summary": "Create an open house event registration",
+      "summary": "Register user to an open house event",
       "description": "Create an open house event registration to the system",
       "parameters": [
         {
@@ -41,7 +41,7 @@
   },
   "/event/registration/{id}": {
     "delete": {
-      "summary": "Deletes a registration for an open house event",
+      "summary": "Unregister user from an open house event",
       "description": "Deletes a registration for an open house event to the system",
       "parameters": [
         {

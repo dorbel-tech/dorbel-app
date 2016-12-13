@@ -12,6 +12,7 @@ machine:
     NOTIFICATIONS_SNS_TOPIC_ARN: arn:aws:sns:eu-west-1:168720412882:notifications-ci
     NOTIFICATIONS_EMAIL_SQS_QUEUE_URL: https://sqs.eu-west-1.amazonaws.com/168720412882/notifications-ci-email
     NOTIFICATIONS_SMS_SQS_QUEUE_URL: https://sqs.eu-west-1.amazonaws.com/168720412882/notifications-ci-sms		     
+    NOTIFICATIONS_APP_EVENTS_SQS_QUEUE_URL: https://sqs.eu-west-1.amazonaws.com/168720412882/notifications-ci-app-events
     MANDRILL_API_KEY: 1234567890
     TWILIO_ACCOUNT_SID: 1234567890
     TWILIO_AUTH_TOKEN: 1234567890

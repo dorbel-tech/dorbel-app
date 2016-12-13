@@ -162,6 +162,7 @@ module.exports = {
     goFromApartmentDetailsToOpenHouseEventAndFail: function () {
       this.section.apartmentDetails.click('@nextStep');
       this.expect.section('@openHouseEvent').to.not.be.present;
+      return this;
     },
     goFromOpenHouseEventToApartmentDetails: function () {
       this.section.openHouseEvent.click('@previousStep');

@@ -126,15 +126,15 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
                   </div> 
                 </div>
                 <div className="col-md-6">
-                  <FRC.Input value="" name="monthly_rent" label='שכ"ד לחודש' type="number" required />
+                  <FRC.Input name="monthly_rent" label='שכ"ד לחודש' type="number" required />
                 </div>
               </div>
               <div className="row">
                 <div className="col-md-6">
-                  <FRC.Input value="" name="property_tax" label="ארנונה לחודשיים" type="number" /> 
+                  <FRC.Input name="property_tax" label="ארנונה לחודשיים" type="number" /> 
                 </div>
                 <div className="col-md-6">
-                  <FRC.Input value="" name="board_fee" label="ועד בית לחודש" type="number" /> 
+                  <FRC.Input name="board_fee" label="ועד בית לחודש" type="number" /> 
                 </div>
               </div>
             </div>

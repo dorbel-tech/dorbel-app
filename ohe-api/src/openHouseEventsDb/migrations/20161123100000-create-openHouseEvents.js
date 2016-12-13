@@ -20,6 +20,13 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       },
+      comments: {
+        type: Sequelize.STRING
+      },
+      publishing_user_id: {
+        allowNull: false,
+        type: Sequelize.UUID
+      },    
       is_active: {
         allowNull: false,
         type: Sequelize.BOOLEAN
@@ -32,6 +39,9 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       }
+    }, {
+      charset: 'utf8',
+      collate: 'utf8_general_ci',
     });
   },
   down: function(queryInterface) {

@@ -8,9 +8,9 @@ function* register(eventId, userId) {
   let existingEvent = yield openHouseEventsFinderService.find(eventId);
   if (existingEvent.registrations) {
     existingEvent.registrations.forEach(function (registration) {
-      if (registration.user_id == userId) {
+      if (registration.registered_user_id == userId) {
         throw new errors.DomainValidationError('OpenHouseEventRegistrationValidationError',
-          { event_id: eventId, user_id: userId },
+          { event_id: eventId, registered_user_id: userId },
           'user already registered to this event');
       }
     });
@@ -18,7 +18,7 @@ function* register(eventId, userId) {
 
   const registration = {
     open_house_event_id: eventId,
-    user_id: userId,
+    registered_user_id: userId,
     is_active: true
   };
 
@@ -27,7 +27,7 @@ function* register(eventId, userId) {
   notificationService.send(notificationService.eventType.OHE_REGISTERED, {
     listing_id: existingEvent.listing_id,
     event_id: existingEvent.id,
-    registered_user_id: userId
+    user_uuid: userId
   });
 
   return result;
@@ -46,7 +46,7 @@ function* unregister(registrationId) {
 
   notificationService.send(notificationService.eventType.OHE_UNREGISTERED, {
     event_id: existingRegistration.id,
-    registered_user_id: existingRegistration.user_id
+    user_uuid: existingRegistration.registered_user_id
   });
 
   return result;

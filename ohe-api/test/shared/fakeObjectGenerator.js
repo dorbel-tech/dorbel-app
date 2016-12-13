@@ -2,6 +2,7 @@
 const faker = require('faker');
 const _ = require('lodash');
 const moment = require('moment');
+const fakeUserId = '00000000-0000-0000-0000-000000000001';
 
 function getFakeUser() {
   return {
@@ -15,6 +16,8 @@ function generateEvent(variant) {
     listing_id: 1,
     start_time: moment().add(-5, 'hours'),
     end_time: moment().add(-3, 'hours'),
+    comments: 'בדיקה',
+    publishing_user_id: fakeUserId
   }, variant);
 }
 
@@ -22,7 +25,7 @@ function generateRegistration(variant) {
   return _.extend({
     id: 1,
     eventId: 1,
-    userId: 'user',
+    registered_user_id: fakeUserId,
     is_active: true
   }, variant);
 }
@@ -31,7 +34,7 @@ function generateFollower(variant) {
   return _.extend({
     id: 1,
     eventId: 1,
-    userId: 'user',
+    following_user_id: fakeUserId,
     is_active: true
   }, variant);
 }

@@ -21,14 +21,12 @@ brew install git
 brew install awscli
 brew install awsebcli
 
-# Install Docker
-brew cask install docker
-
 # Install Flow support
 brew install flow
 
 # Install software
 brew tap caskroom/cask
+brew cask install docker
 brew cask install google-chrome
 brew cask install iterm2
 brew cask install visual-studio-code

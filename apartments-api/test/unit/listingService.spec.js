@@ -4,6 +4,7 @@ const __ = require('hamjest');
 var sinon = require('sinon');
 var faker = require('../shared/fakeObjectGenerator');
 const shared = require('dorbel-shared');
+const oheApiClient = require('../../src/services/oheApiClient');
 
 describe('Listing Service', function () {
 
@@ -16,6 +17,7 @@ describe('Listing Service', function () {
     mockRequire('../../src/apartmentsDb/repositories/listingRepository', this.listingRepositoryMock);
     this.listingService = require('../../src/services/listingService');
     sinon.stub(shared.utils.userManagement, 'updateUserDetails');
+    sinon.stub(oheApiClient, 'createOpenHouseEvent');
   });
 
   after(() => mockRequire.stopAll());

@@ -6,7 +6,7 @@ const logger = shared.logger.getLogger(module);
 const apiPrefix = '/api';
 
 function getApiDocs() {
-  return ['APARTMENTS_API_URL']
+  return ['APARTMENTS_API_URL', 'OHE_API_URL']
     .map(urlKey => {
       const url = shared.config.get(urlKey);
       if (!url) {

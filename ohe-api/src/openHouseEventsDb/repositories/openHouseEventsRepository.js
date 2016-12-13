@@ -34,7 +34,9 @@ function* update(openHouseEvent) {
   return yield openHouseEvent.update({
     start_time: openHouseEvent.start_time,
     end_time: openHouseEvent.end_time,
-    is_active: openHouseEvent.is_active
+    comments: openHouseEvent.comments,
+    publishing_user_id: openHouseEvent.publishing_user_id,
+    is_active: openHouseEvent.is_active    
   });
 }
 

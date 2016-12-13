@@ -23,7 +23,8 @@ describe('Open House Events Registration API Integration', function () {
         const ohe = {
           start_time: moment().add(-2, 'hours').toISOString(),
           end_time: moment().add(-1, 'hours').toISOString(),
-          listing_id: faker.getRandomNumber()
+          listing_id: faker.getRandomNumber(),
+          publishing_user_id: faker.getFakeUser().id
         };
         const response = yield this.apiClient.createNewEvent(ohe).expect(201).end();
         const registrationResponse = yield this.apiClient.createNewFollower(response.body.id).expect(201).end();
@@ -31,7 +32,7 @@ describe('Open House Events Registration API Integration', function () {
       });
 
       it('should return an error for non existing follow', function* () {
-        yield this.apiClient.deleteFollower(999999).expect(404).end();
+        yield this.apiClient.deleteFollower(999999).expect(500).end();
       });
 
     });

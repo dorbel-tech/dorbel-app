@@ -11,6 +11,6 @@ You'll need to run two terminals
 3. If you have ``tmux`` installed you can run ``./scripts/run`` to run both commands in a split screen
 
 ## Running in production
-1. ``yarn build``
+1. ``yarn run build``
 2. ``yarn start``
 

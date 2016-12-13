@@ -1,8 +1,8 @@
 {
   "/event/follow": {
     "post": {
-      "summary": "Enables a user to follow a listing",
-      "description": "Enables a user to follow a listing in the system",
+      "summary": "Follow a listing by user",
+      "description": "Enables a user to follow a listing to get notified on new OHE",
       "parameters": [
         {
           "name": "body",
@@ -41,7 +41,7 @@
   },
   "/event/follow/{id}": {
     "delete": {
-      "summary": "Unfollows a user from a listing",
+      "summary": "Unfollow a listing by user",
       "description": "Unfollows a user from a listing in the system",
       "parameters": [
         {

@@ -7,7 +7,7 @@
 - Start development using ``yarn run start:dev``
   - will restart server when files are changed.
 - Run unit tests using ``yarn test``
-- Run integration tests using ``yarn test:integration``
+- Run integration tests using ``yarn run test:integration``
 
 ## Server
 - Uses [koa](http://koajs.com/) for http framework

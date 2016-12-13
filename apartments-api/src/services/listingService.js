@@ -1,5 +1,4 @@
 'use strict';
-const util = require('util');
 const shared = require('dorbel-shared');
 const config = shared.config;
 const messageBus = shared.utils.messageBus;
@@ -17,7 +16,10 @@ function CustomError(code, message) {
 }
 
 function* create(listing) {
-  const existingOpenListingForApartment = yield listingRepository.getListingsForApartment(listing.apartment, { status: { $notIn: ['closed', 'rented'] } });
+  const existingOpenListingForApartment = yield listingRepository.getListingsForApartment(
+    listing.apartment, 
+    { status: { $notIn: ['closed', 'rented'] } }
+  );
   if (existingOpenListingForApartment && existingOpenListingForApartment.length) {
     throw new CustomError(409, 'apartment already has an active listing');
   }
@@ -32,26 +34,28 @@ function* create(listing) {
 
   // Update user phone number in auth0.
   let normalizedPhone = normalizePhone(listing.user.phone);
+  // TODO: Update user details can be done on client using user token.
   userManagement.updateUserDetails(createdListing.publishing_user_id, {
     user_metadata: { 
-      phone: normalizedPhone 
+      first_name: listing.user.firstname,
+      last_name: listing.user.lastname,
+      email: listing.user.email,
+      phone: normalizedPhone
     }
   });
 
-  const userProfile = JSON.stringify({ id: createdListing.publishing_user_id });
-  const start = buildTimeString(listing.ohe_date, listing.ohe_start_time);
-  const end = buildTimeString(listing.ohe_date, listing.ohe_end_time);
-
-  oheApiClient.createOpenHouseEvent(userProfile, createdListing.id,start, end);
+  // TODO: Move ths call to client side.
+  oheApiClient.createOpenHouseEvent(createdListing, listing);
+  
 
   // Publish event trigger message to SNS for notifications dispatching.
   if (config.get('NOTIFICATIONS_SNS_TOPIC_ARN')) {
-    let fullName = listing.user.firstname + ' ' + listing.user.lastname;
     messageBus.publish(config.get('NOTIFICATIONS_SNS_TOPIC_ARN'), messageBus.eventType.APARTMENT_CREATED, { 
       user_uuid: createdListing.publishing_user_id,
       user_email: listing.user.email,
       user_phone: normalizedPhone,
-      user_full_name: fullName,
+      user_first_name: listing.user.firstname,
+      user_last_name: listing.user.lastname,
       apartment_id: createdListing.apartment_id      
     });
   }
@@ -65,10 +69,6 @@ function normalizePhone(phone) {
   } else {
     return phone;
   }
-}
-
-function buildTimeString(eventDate, eventTime) {
-  return moment(util.format('%sT%s', eventDate, eventTime)).toISOString();
 }
 
 module.exports = {
