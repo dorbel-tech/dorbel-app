@@ -98,22 +98,37 @@ module.exports = {
       selector: '.open-house-event-step',
       elements: {
         eventDate: {
-          selector: 'input[name="ohe-date] + input'
+          selector: 'input[name="ohe-date"] + input'
+        },
+        eventDateCalendar: {
+          selector: '#calendar'
         },
         eventStartTime: {
-          selector: 'select[name="open_house_events[0].start_time"]'
+          selector: 'select[name="open_house_event_start_time"]'
         },
-        eventStartTime: {
-          selector: 'select[name="open_house_events[0].time"]'
+        eventEndTime: {
+          selector: 'select[name="open_house_event_end_time"]'
         },
         comments: {
-          selector: 'textarea[name="open_house_events[0].comments"]'
+          selector: 'textarea[name="open_house_event_comments"]'
         },
-        previousStep: {
-          selector: 'i.open-house-event-previous-step'
+        firstName: {
+          selector: 'input[name="user.firstname"]'
+        },
+        lastName: {
+          selector: 'input[name="user.lastname"]'
+        },
+        email: {
+          selector: 'input[name="user.email"]'
+        },
+        phoneNumber: {
+          selector: 'input[name="user.phone"]'
         },
         submit: {
           selector: 'button.btn-submit'
+        },
+        previousStep: {
+          selector: 'i.open-house-event-previous-step'
         }
       }
     }
@@ -208,6 +223,31 @@ module.exports = {
         .setValue('@apartmentSize', '50')
         .setValue('@apartmentRooms', '2')
         .setValue('@monthlyRent', '1000');
+      return this;
+    },
+    fillOpenHouseEventDetailsAllFields: function () {
+      this.section.openHouseEvent
+        .setValue('@eventDate', '')
+        .setValue('@eventStartTime', '08:00')
+        .setValue('@eventEndTime', '09:00')
+        .setValue('@comments', 'דויד גם מגיע');
+
+      this.section.openHouseEvent.assert.visible('@eventDateCalendar');
+      return this;
+    },
+    fillUserDetailsFields: function () {
+      this.section.openHouseEvent
+        .setValue('@firstName', 'דויד')
+        .setValue('@lastName', 'וירצר')
+        .setValue('@email', 'poison77@gmail.com')
+        .setValue('@phoneNumber', '9999999');
+
+      this.section.openHouseEvent.assert.visible('@eventDateCalendar');
+      return this;
+    },
+    submitNewApartmentForm: function () {
+      this.section.openHouseEvent
+        .click('@submit');
       return this;
     }
   }]
