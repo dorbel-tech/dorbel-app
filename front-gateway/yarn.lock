@@ -1366,9 +1366,9 @@ chokidar@^1.0.0, chokidar@^1.4.3:
   optionalDependencies:
     fsevents "^1.0.0"
 
-chromedriver@^2.25.1:
-  version "2.25.1"
-  resolved "https://registry.yarnpkg.com/chromedriver/-/chromedriver-2.25.1.tgz#04de1a9242ffe3182786410dbefaae147435e67e"
+chromedriver@^2.25.3:
+  version "2.25.3"
+  resolved "https://registry.yarnpkg.com/chromedriver/-/chromedriver-2.25.3.tgz#1abe235c2fff91100ef122db59843f2c618ad8e9"
   dependencies:
     adm-zip "^0.4.7"
     kew "^0.5.0"
@@ -6060,11 +6060,11 @@ satisfaction@^3.0.0:
     lodash "4.16.2"
     semver "5.3.0"
 
-sax@1.1.5, sax@>=0.6.0:
+sax@1.1.5:
   version "1.1.5"
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.1.5.tgz#1da50a8d00cdecd59405659f5ff85349fe773743"
 
-sax@^1.1.4, sax@~1.2.1:
+sax@>=0.6.0, sax@^1.1.4, sax@~1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.1.tgz#7b8e656190b228e81a66aea748480d828cd2d37a"
 
