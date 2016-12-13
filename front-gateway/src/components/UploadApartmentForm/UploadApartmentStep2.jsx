@@ -40,11 +40,10 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
 
         <div className="col-md-7 upload-apt-right-container">
           <div className="text">
-            <h1>מלאו את הפרטים של הדירה <br/>המעיפה שלכם!</h1>
+            <h1>מלאו את הפרטים של הדירה המעיפה שלכם!</h1>
             <ul>
-              <li>מלאו את פרטי הדירה</li>
               <li>הקפידו למלא את כל הפרטים</li>
-              <li>שקפו את המציאות כמו שהיא, על מנת למנוע ביקורים מיותרים</li>
+              <li>דייקו בפרטים בכדי למנוע ביקורים מיותרים</li>
             </ul>
           </div>
           <img src="https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/upload-apt-form/icon-signup-folder.svg" alt="" />
@@ -93,9 +92,6 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
                 <div className="col-md-4">
                   <FRC.Select name="apartment.rooms" label="מספר חדרים" required options={roomOptions} />
                 </div>
-                <div className="col-md-4">
-                  <FRC.Input value="" name="roomates" label="שותפים" type="text" />
-                </div>
               </div>
               <div className="row">
                 <div className="col-md-12">
@@ -107,12 +103,12 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
                 <FRC.Checkbox name="apartment.building.elevator" label="מעלית" rowClassName="checkbox-inline"/>
                 <FRC.Checkbox name="apartment.sun_heated_boiler" label="דוד שמש" rowClassName="checkbox-inline"/>
                 <FRC.Checkbox name="apartment.pets" label='מותר בע"ח' rowClassName="checkbox-inline"/>
-              </div>
-              <div className="row">
+                <FRC.Checkbox name="roommates" label='אפשר שוטפים' rowClassName="checkbox-inline"/>
                 <FRC.Checkbox name="apartment.air_conditioning" label="מזגן" rowClassName="checkbox-inline"/>
                 <FRC.Checkbox name="apartment.balcony" label="מרפסת" rowClassName="checkbox-inline"/>
                 <FRC.Checkbox name="apartment.security_bars" label="סורגים" rowClassName="checkbox-inline"/>
                 <FRC.Checkbox name="apartment.parquet_floor" label="פרקט" rowClassName="checkbox-inline"/>
+                <FRC.Checkbox name="roommate_needed" label='דרוש שוטף/ה' rowClassName="checkbox-inline"/>
               </div>
             </div>
 
