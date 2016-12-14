@@ -13,7 +13,7 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
       this.props.appProviders.cityProvider.loadCities();
     }
 
-    if (this.props.appStore.neighborhoodStore.cities.length === 0) {
+    if (this.props.appStore.neighborhoodStore.neighborhoods.length === 0) {
       this.props.appProviders.neighborhoodProvider.loadNeighborhoodByCityId(1); // TODO: pass dynamic cityId param.
     }
     
@@ -37,7 +37,7 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
     const cities = this.props.appStore.cityStore.cities;
     const citySelectorOptions = cities.length ? cities.map(city => ({ label: city.city_name })) : [ { label: 'טוען...' } ];
     const neighborhoods = this.props.appStore.neighborhoodStore.neighborhoods;
-    const neighborhoodSelectorOptions = neighborhoods.length ? neighborhoods.map(neighborhood => ({ label: neighborhood.neighborhoods_name })) : [ { label: 'טוען...' } ];
+    const neighborhoodSelectorOptions = neighborhoods.length ? neighborhoods.map(neighborhood => ({ label: neighborhood.neighborhood_name })) : [ { label: 'טוען...' } ];
 
     const roomOptions = newListingStore.roomOptions.slice(0);
     if (!newListingStore.formValues.rooms) { roomOptions.unshift({ label: 'בחר'}); }
@@ -66,7 +66,7 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
                   <FRC.Select name="apartment.building.city.city_name" label="עיר" options={citySelectorOptions} value={citySelectorOptions[0].label} required />
                 </div>
                 <div className="col-md-6">
-                  <FRC.Input value="" name="apartment.building.neighborhood.neighborhood_name" label="שכונה" type="text" options={neighborhoodSelectorOptions} value={neighborhoodSelectorOptions[0].label} required/>
+                  <FRC.Select name="apartment.building.neighborhood.neighborhood_name" label="שכונה" options={neighborhoodSelectorOptions} value={neighborhoodSelectorOptions[0].label} required/>
                 </div>
               </div>
               <div className="row">
