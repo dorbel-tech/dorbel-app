@@ -63,8 +63,17 @@ function* create(listing) {
   return createdListing;
 }
 
+function* updateStatus(listingId, status) {
+  let listing = yield listingRepository.getById(listingId);
+  if (listing == undefined) {
+    throw new CustomError(400, 'listing "' + listingId + '" does not exist');
+  }
+
+  return yield listingRepository.updateStatus(listing, status);
+}
+
 function normalizePhone(phone) {
-  if (phone.startsWith('0')) { 
+  if (phone.startsWith('0')) {
     return '+972' + phone.substring(1).replace(/[-+()]/g, ''); // remove trailing zero, remove special chars.
   } else {
     return phone;
@@ -73,6 +82,7 @@ function normalizePhone(phone) {
 
 module.exports = {
   create,
+  updateStatus,
   list: listingRepository.list,
   getById: listingRepository.getById
 };
