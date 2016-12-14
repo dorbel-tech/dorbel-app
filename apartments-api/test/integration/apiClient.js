@@ -4,7 +4,7 @@ const coSupertest = require('co-supertest');
 
 const USER_PROFILE_HEADER = 'x-user-profile';
 
-class ApiClient{
+class ApiClient {
   constructor(request, userProfile) {
     this.request = request;
     this.userProfile = userProfile;
@@ -23,6 +23,12 @@ class ApiClient{
 
   getSingleListing(id) {
     return this.request.get('/v1/listings/' + id);
+  }
+
+  updateSingleListingStatus(id, data) {
+    return this.request.patch('/v1/listings/' + id)
+      .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile))
+      .send(data);
   }
 
   getCities() {

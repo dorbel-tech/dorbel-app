@@ -2,6 +2,9 @@
   "Listing": {
     "type": "object",
     "properties": {
+      "status": {
+        "type": "string"
+      },
       "monthly_rent": {
         "type": "integer"
       },

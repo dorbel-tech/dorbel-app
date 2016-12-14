@@ -7,6 +7,7 @@ function getDateString() {
 
 function getFakeListing() {
   return {
+    status: 'listed',
     monthly_rent: faker.random.number(),
     lease_start: getDateString(),
     lease_end: getDateString(),
