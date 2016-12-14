@@ -12,11 +12,10 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
     if (this.props.appStore.cityStore.cities.length === 0) {
       this.props.appProviders.cityProvider.loadCities();
     }
-
     if (this.props.appStore.neighborhoodStore.neighborhoods.length === 0) {
-      this.props.appProviders.neighborhoodProvider.loadNeighborhoodByCityId(1); // TODO: pass dynamic cityId param.
+      this.getNeghborhoods();
     }
-    
+
     if (this.props.appStore.newListingStore.formValues) {
       // load form with existing values
       this.refs.form.refs.formsy.reset(this.props.appStore.newListingStore.formValues);
@@ -32,19 +31,31 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
     }
   }
 
+  getNeghborhoods() {
+    let cityId = this.value || 1;
+    this.props.appProviders.neighborhoodProvider.loadNeighborhoodByCityId(cityId);
+    this.fillNeighborhoods();
+  }
+
+  fillCities() {
+    const cities = this.props.appStore.cityStore.cities;
+    return cities.length ? cities.map(city => (
+      { value: city.id, label: city.city_name })) : 
+      [ { value: 0, label: 'טוען...' } ];
+  }
+
+  fillNeighborhoods() {
+    const neighborhoods = this.props.appStore.neighborhoodStore.neighborhoods;
+    return neighborhoods.length ?  neighborhoods.map(neighborhood => (
+      { value: neighborhood.id, label: neighborhood.neighborhood_name })) : 
+      [ { label: 'טוען...' } ];    
+  }
+
   render() {
     const { newListingStore } = this.props.appStore;
-    
-    const cities = this.props.appStore.cityStore.cities;
-    const citySelectorOptions = cities.length ? 
-      cities.map(city => ({ value: city.id, label: city.city_name })) : 
-      [ { value: 0, label: 'טוען...' } ];
+    const citySelectorOptions = this.fillCities();
+    const neighborhoodSelectorOptions = this.fillNeighborhoods();
       
-    const neighborhoods = this.props.appStore.neighborhoodStore.neighborhoods;
-    const neighborhoodSelectorOptions = neighborhoods.length ? 
-      neighborhoods.map(neighborhood => ({ value: neighborhood.id, label: neighborhood.neighborhood_name })) : 
-      [ { label: 'טוען...' } ];
-
     const roomOptions = newListingStore.roomOptions.slice(0);
     if (!newListingStore.formValues.rooms) { roomOptions.unshift({ label: 'בחר'}); }
 
@@ -69,10 +80,10 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
               <div className="form-section-headline">כתובת</div>
               <div className="row">
                 <div className="col-md-6">
-                  <FRC.Select name="apartment.building.city.id" label="עיר" options={citySelectorOptions} value={citySelectorOptions[0].value} required />
+                  <FRC.Select name="apartment.building.city.id" label="עיר" ref="city_id" options={citySelectorOptions} value={citySelectorOptions[0].value} onChange={this.getNeghborhoods} required/>
                 </div>
                 <div className="col-md-6">
-                  <FRC.Select name="apartment.building.neighborhood.id" label="שכונה" options={neighborhoodSelectorOptions} value={neighborhoodSelectorOptions[0].value} onChange="" required/>
+                  <FRC.Select name="apartment.building.neighborhood.id" label="שכונה" options={neighborhoodSelectorOptions} value={neighborhoodSelectorOptions[0].value} required/>
                 </div>
               </div>
               <div className="row">
