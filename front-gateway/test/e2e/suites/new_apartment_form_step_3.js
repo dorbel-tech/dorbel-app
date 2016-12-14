@@ -44,12 +44,11 @@ module.exports = {
       .fillUserDetailsFields()
       .submitNewApartmentForm();
 
-    // browser.end();
+    browser.end();
   },
   'should fill event details required fields as anonymous user': function (browser) {
     newApartmentForm
       .navigateToOpenHouseEventSection()
-      .fillUserDetailsFields()
       .submitNewApartmentForm();
 
     browser.end();

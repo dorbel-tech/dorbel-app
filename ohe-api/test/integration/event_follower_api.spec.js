@@ -5,12 +5,22 @@ const _ = require('lodash');
 const moment = require('moment');
 const faker = require('../shared/fakeObjectGenerator');
 
-describe('Open House Events Registration API Integration', function () {
+describe('Followers API Integration', function () {
   before(function* () {
     this.apiClient = yield ApiClient.init(faker.getFakeUser());
   });
 
-  describe('/event/follow', function () {
+  describe('/follower', function () {
+
+    describe('GET', function () {
+      it('should get followers by listing', function* () {
+        const followerResponse = yield this.apiClient.createNewFollower(faker.getRandomNumber()).expect(201).end();
+        const follower = followerResponse.body;
+        const response = yield this.apiClient.getFollowersByListing(follower.listing_id).expect(200).end();
+        __.assertThat(response.body.length, __.is(1));
+        __.assertThat(response.body[0], __.is(follower));
+      });
+    });
 
     describe('POST', function () {
       it('should create a new follower', function* () {

@@ -6060,11 +6060,11 @@ satisfaction@^3.0.0:
     lodash "4.16.2"
     semver "5.3.0"
 
-sax@1.1.5:
+sax@1.1.5, sax@>=0.6.0:
   version "1.1.5"
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.1.5.tgz#1da50a8d00cdecd59405659f5ff85349fe773743"
 
-sax@>=0.6.0, sax@^1.1.4, sax@~1.2.1:
+sax@^1.1.4, sax@~1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.1.tgz#7b8e656190b228e81a66aea748480d828cd2d37a"
 
