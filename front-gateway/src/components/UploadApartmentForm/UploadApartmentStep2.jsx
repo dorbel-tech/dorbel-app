@@ -34,10 +34,16 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
 
   render() {
     const { newListingStore } = this.props.appStore;
+    
     const cities = this.props.appStore.cityStore.cities;
-    const citySelectorOptions = cities.length ? cities.map(city => ({ label: city.city_name })) : [ { label: 'טוען...' } ];
+    const citySelectorOptions = cities.length ? 
+      cities.map(city => ({ value: city.id, label: city.city_name })) : 
+      [ { value: 0, label: 'טוען...' } ];
+      
     const neighborhoods = this.props.appStore.neighborhoodStore.neighborhoods;
-    const neighborhoodSelectorOptions = neighborhoods.length ? neighborhoods.map(neighborhood => ({ label: neighborhood.neighborhood_name })) : [ { label: 'טוען...' } ];
+    const neighborhoodSelectorOptions = neighborhoods.length ? 
+      neighborhoods.map(neighborhood => ({ value: neighborhood.id, label: neighborhood.neighborhood_name })) : 
+      [ { label: 'טוען...' } ];
 
     const roomOptions = newListingStore.roomOptions.slice(0);
     if (!newListingStore.formValues.rooms) { roomOptions.unshift({ label: 'בחר'}); }
@@ -63,10 +69,10 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
               <div className="form-section-headline">כתובת</div>
               <div className="row">
                 <div className="col-md-6">
-                  <FRC.Select name="apartment.building.city.city_name" label="עיר" options={citySelectorOptions} value={citySelectorOptions[0].label} required />
+                  <FRC.Select name="apartment.building.city.id" label="עיר" options={citySelectorOptions} value={citySelectorOptions[0].value} required />
                 </div>
                 <div className="col-md-6">
-                  <FRC.Select name="apartment.building.neighborhood.neighborhood_name" label="שכונה" options={neighborhoodSelectorOptions} value={neighborhoodSelectorOptions[0].label} required/>
+                  <FRC.Select name="apartment.building.neighborhood.id" label="שכונה" options={neighborhoodSelectorOptions} value={neighborhoodSelectorOptions[0].value} onChange="" required/>
                 </div>
               </div>
               <div className="row">

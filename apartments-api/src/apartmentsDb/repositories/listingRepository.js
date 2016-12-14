@@ -53,7 +53,7 @@ function* create(listing) {
   if (!neighborhood) { throw new Error('did not find neighborhood');} 
 
   listing.apartment.building.city_id = city.id;
-  listing.apartment.building.neighborhood_id = neighborhood.id;
+  listing.apartment.building.neighborhood_id = neighborhood.id;  
   const building = yield buildingRepository.findOrCreate(listing.apartment.building);
 
   const apartment = yield apartmentRepository.findOrCreate(
@@ -85,14 +85,14 @@ function getListingsForApartment(apartment, listingQuery) {
   const includeCity = {
     model: models.city,
     where: {
-      city_name: apartment.building.city.city_name
+      id: apartment.building.city.city_id
     }
   };
 
   const includeNeighborhood = {
     model: models.neighborhood,
     where: {
-      neighborhood_name: apartment.building.neighborhood.neighborhood_name
+      id: apartment.building.neighborhood.neighborhood_id
     }
   };
 
