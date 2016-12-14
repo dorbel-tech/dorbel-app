@@ -81,6 +81,12 @@ function* create(listing) {
   return savedListing;
 }
 
+function* updateStatus(listing, status) {
+  return yield listing.update({
+    status: status
+  });
+}
+
 function getListingsForApartment(apartment, listingQuery) {
   const includeCity = {
     model: models.city,
@@ -123,6 +129,7 @@ function getListingsForApartment(apartment, listingQuery) {
 module.exports = {
   list,
   create,
+  updateStatus,
   getListingsForApartment,
   getById
 };

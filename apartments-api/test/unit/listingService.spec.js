@@ -57,4 +57,31 @@ describe('Listing Service', function () {
 
   });
 
+  describe('Update Listing Status', function () {
+    it('should update status for an existing listing', function* () {
+      const listing = faker.getFakeListing();
+      const user = 'user';
+      const updatedListing = Object.assign({}, listing, { status: 'rented' });
+
+      this.listingRepositoryMock.getById = sinon.stub().resolves(listing);
+      this.listingRepositoryMock.updateStatus = sinon.stub().resolves(updatedListing);
+
+      const result = yield this.listingService.updateStatus(listing.id, user, 'rented');
+
+      __.assertThat(result, __.is(updatedListing));
+    });
+
+    it('should throw when update status given no listing found', function* () {
+      this.listingRepositoryMock.getById = sinon.stub().resolves(undefined);
+
+      try {
+        yield this.listingService.updateStatus(1, 'rented');
+        __.assertThat('code', __.is('not reached'));
+      }
+      catch (error) {
+        __.assertThat(error.message, __.is('listing "1" does not exist'));
+      }
+    });
+  });
+
 });

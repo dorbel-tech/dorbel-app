@@ -1,0 +1,13 @@
+{
+  "ListingUpdate": {
+    "type": "object",
+    "properties": {
+      "status": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "status"
+    ]
+  }
+}
