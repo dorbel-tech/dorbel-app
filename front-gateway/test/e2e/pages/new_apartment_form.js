@@ -1,7 +1,10 @@
 
 
 module.exports = {
-  url: 'http://localhost:3001/apartments/new_form',
+  url: function(){
+    var baseUrl =  process.env.E2E_TEST_URL || 'http://localhost:3001';
+    return baseUrl+ '/apartments/new_form';
+  },
   sections: {
     apartmentPictures: {
       selector: '.apartment-pictures-step',
