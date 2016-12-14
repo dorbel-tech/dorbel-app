@@ -7,7 +7,6 @@ import FRC from 'formsy-react-components';
  
 @observer(['appStore', 'appProviders'])
 class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
-
   componentDidMount() {
     if (this.props.appStore.cityStore.cities.length === 0) {
       this.props.appProviders.cityProvider.loadCities();
@@ -32,9 +31,8 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
   }
 
   getNeghborhoods() {
-    let cityId = this.value || 1;
+    let cityId = event.target.value || 1;
     this.props.appProviders.neighborhoodProvider.loadNeighborhoodByCityId(cityId);
-    this.fillNeighborhoods();
   }
 
   fillCities() {
@@ -80,7 +78,7 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
               <div className="form-section-headline">כתובת</div>
               <div className="row">
                 <div className="col-md-6">
-                  <FRC.Select name="apartment.building.city.id" label="עיר" ref="city_id" options={citySelectorOptions} value={citySelectorOptions[0].value} onChange={this.getNeghborhoods} required/>
+                  <FRC.Select name="apartment.building.city.id" label="עיר" options={citySelectorOptions} value={citySelectorOptions[0].value} required/>
                 </div>
                 <div className="col-md-6">
                   <FRC.Select name="apartment.building.neighborhood.id" label="שכונה" options={neighborhoodSelectorOptions} value={neighborhoodSelectorOptions[0].value} required/>
