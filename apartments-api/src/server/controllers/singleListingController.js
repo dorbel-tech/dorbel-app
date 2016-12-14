@@ -12,7 +12,7 @@ function* patch(){
   const listingId = this.params.listingId;
   const updatedData = this.request.body;
   const userId = this.request.user.id;
-  const listing = yield listingService.updateStatus(listingId, userId, updatedData.new_status);
+  const listing = yield listingService.updateStatus(listingId, userId, updatedData.status);
   logger.info({listing_id: listingId, status: updatedData.status}, 'Listing status updated');
 
   this.response.status = 200;

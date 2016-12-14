@@ -2,12 +2,12 @@
   "ListingUpdate": {
     "type": "object",
     "properties": {
-      "new_status": {
+      "status": {
         "type": "string"
       }
     },
     "required": [
-      "new_status"
+      "status"
     ]
   }
 }

@@ -25,10 +25,10 @@ class ApiClient {
     return this.request.get('/v1/listings/' + id);
   }
 
-  updateSingleListingStatus(id, status) {
+  updateSingleListingStatus(id, data) {
     return this.request.patch('/v1/listings/' + id)
       .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile))
-      .send({ new_status: status });
+      .send(data);
   }
 
   getCities() {
