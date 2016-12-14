@@ -12,5 +12,4 @@ export default class NeighborhoodStore {
       neighborhoods: this.neighborhoods
     };
   }
-
 }
