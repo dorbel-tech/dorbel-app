@@ -2,7 +2,7 @@
 
 module.exports = {
   url: function(){
-    var baseUrl =  process.env.E2E_TEST_URL || 'http://localhost:3001';
+    var baseUrl =  process.env.FRONT_GATEWAY_URL || 'http://localhost:3001';
     return baseUrl+ '/apartments/new_form';
   },
   sections: {

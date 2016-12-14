@@ -1,6 +1,6 @@
 module.exports = {
   url: function(){
-    return process.env.E2E_TEST_URL || 'http://localhost:3001';
+    return process.env.FRONT_GATEWAY_URL || 'http://localhost:3001';
   },
   elements: {
     loginLink:{
