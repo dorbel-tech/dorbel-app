@@ -5,7 +5,7 @@ const __ = require('hamjest');
 const faker = require('../shared/fakeObjectGenerator');
 var sinon = require('sinon');
 
-describe('Open House Event Service', function () {
+describe('Open House Event Finder Service', function () {
 
   before(function () {
     this.openHouseEventsRepositoryMock = {};

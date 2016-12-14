@@ -1,5 +1,7 @@
 module.exports = {
-  url: 'http://localhost:3001',
+  url: function(){
+    return process.env.FRONT_GATEWAY_URL || 'http://localhost:3001';
+  },
   elements: {
     loginLink:{
       selector: '.login-link'

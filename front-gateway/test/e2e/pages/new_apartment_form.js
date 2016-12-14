@@ -1,7 +1,11 @@
 
 
 module.exports = {
-  url: 'http://localhost:3001/apartments/new_form',
+
+  url: function(){
+    var baseUrl =  process.env.FRONT_GATEWAY_URL || 'http://localhost:3001';
+    return baseUrl+ '/apartments/new_form';
+  },
   sections: {
     apartmentPictures: {
       selector: '.apartment-pictures-step',
@@ -242,7 +246,6 @@ module.exports = {
         .setValue('@email', 'poison77@gmail.com')
         .setValue('@phoneNumber', '9999999');
 
-      this.section.openHouseEvent.assert.visible('@eventDateCalendar');
       return this;
     },
     submitNewApartmentForm: function () {
