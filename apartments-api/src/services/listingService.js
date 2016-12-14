@@ -13,11 +13,11 @@ function CustomError(code, message) {
   let error = new Error(message);
   error.status = code;
   return error;
-}
+} 
 
 function* create(listing) {
   const existingOpenListingForApartment = yield listingRepository.getListingsForApartment(
-    listing.apartment, 
+    listing.apartment,
     { status: { $notIn: ['closed', 'rented'] } }
   );
   if (existingOpenListingForApartment && existingOpenListingForApartment.length) {
@@ -30,13 +30,13 @@ function* create(listing) {
   }
 
   let modifiedListing = yield geoService.setGeoLocation(listing);
-  let createdListing = yield listingRepository.create(modifiedListing); 
+  let createdListing = yield listingRepository.create(modifiedListing);
 
   // Update user phone number in auth0.
   let normalizedPhone = normalizePhone(listing.user.phone);
   // TODO: Update user details can be done on client using user token.
   userManagement.updateUserDetails(createdListing.publishing_user_id, {
-    user_metadata: { 
+    user_metadata: {
       first_name: listing.user.firstname,
       last_name: listing.user.lastname,
       email: listing.user.email,
@@ -46,30 +46,41 @@ function* create(listing) {
 
   // TODO: Move ths call to client side.
   oheApiClient.createOpenHouseEvent(createdListing, listing);
-  
+
 
   // Publish event trigger message to SNS for notifications dispatching.
   if (config.get('NOTIFICATIONS_SNS_TOPIC_ARN')) {
-    messageBus.publish(config.get('NOTIFICATIONS_SNS_TOPIC_ARN'), messageBus.eventType.APARTMENT_CREATED, { 
+    messageBus.publish(config.get('NOTIFICATIONS_SNS_TOPIC_ARN'), messageBus.eventType.APARTMENT_CREATED, {
       user_uuid: createdListing.publishing_user_id,
       user_email: listing.user.email,
       user_phone: normalizedPhone,
       user_first_name: listing.user.firstname,
       user_last_name: listing.user.lastname,
-      apartment_id: createdListing.apartment_id      
+      apartment_id: createdListing.apartment_id
     });
   }
 
   return createdListing;
 }
 
-function* updateStatus(listingId, status) {
+function* updateStatus(listingId, userId, status) {
   let listing = yield listingRepository.getById(listingId);
   if (listing == undefined) {
     throw new CustomError(400, 'listing "' + listingId + '" does not exist');
   }
+  const currentStatus = listing.status;
+  const result = yield listingRepository.updateStatus(listing, status);
+  const messageBusEvent = messageBus.eventType['APARTMENT_' + status.toUpperCase()];
 
-  return yield listingRepository.updateStatus(listing, status);
+  if (config.get('NOTIFICATIONS_SNS_TOPIC_ARN')) {
+    messageBus.publish(config.get('NOTIFICATIONS_SNS_TOPIC_ARN'), messageBusEvent, {
+      user_uuid: userId,
+      listing_id: listingId,
+      previous_status: currentStatus
+    });
+  }
+
+  return result;
 }
 
 function normalizePhone(phone) {
