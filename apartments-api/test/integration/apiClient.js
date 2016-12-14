@@ -28,7 +28,7 @@ class ApiClient {
   updateSingleListingStatus(id, status) {
     return this.request.patch('/v1/listings/' + id)
       .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile))
-      .send({ status: status });
+      .send({ new_status: status });
   }
 
   getCities() {

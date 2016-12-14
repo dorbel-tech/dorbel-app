@@ -68,7 +68,7 @@ function* updateStatus(listingId, userId, status) {
   if (listing == undefined) {
     throw new CustomError(400, 'listing "' + listingId + '" does not exist');
   }
-  const currentStatus = listing.status;
+  const lastStatus = listing.status;
   const result = yield listingRepository.updateStatus(listing, status);
   const messageBusEvent = messageBus.eventType['APARTMENT_' + status.toUpperCase()];
 
@@ -76,7 +76,7 @@ function* updateStatus(listingId, userId, status) {
     messageBus.publish(config.get('NOTIFICATIONS_SNS_TOPIC_ARN'), messageBusEvent, {
       user_uuid: userId,
       listing_id: listingId,
-      previous_status: currentStatus
+      previous_status: lastStatus
     });
   }
 
