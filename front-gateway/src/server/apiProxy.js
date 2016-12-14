@@ -4,6 +4,11 @@ import proxy from 'koa-proxy';
 
 const logger = shared.logger.getLogger(module);
 
+/* Definition of all grateway API urls and their prefixes in front-gateway proxy.
+ * For example:
+ *  apartments API oiginal route http://localhost:3000/v1/listings
+ *  will be accessible from front-gateway as: http://localhost:3001/api/apartments/v1/listings
+ */
 const apisConfig = [{
   url: 'APARTMENTS_API_URL',
   prefix: 'apartments'
