@@ -24,6 +24,24 @@ describe('Listing Followers Service', function () {
 
   after(() => mockRequire.stopAll());
 
+  describe('Get By Listing', function () {
+
+    it('should return active followers by listing id', function* () {
+      const follower = faker.generateFollower();
+      this.repositoryMock.findByListingId = sinon.stub().resolves([follower]);
+
+      const result = yield this.service.getByListing(1);
+      __.assertThat(result, __.is([follower]));
+    });
+
+    it('should return empty array when no followers by listing id', function* () {
+      this.repositoryMock.findByListingId = sinon.stub().resolves([]);
+
+      const result = yield this.service.getByListing(1);
+      __.assertThat(result, __.is([]));
+    });
+  });
+
   describe('Follow Listing', function () {
 
     it('should enable a user to follow a listing given no followers for listing', function* () {
@@ -38,8 +56,9 @@ describe('Listing Followers Service', function () {
 
     it('should enable a user to follow a listing given listing has followers, but not this user', function* () {
       let another_user = faker.getFakeUser();
-      this.repositoryMock.findByListingId = sinon.stub().resolves([{ 
-        listing_id: 1, following_user_id: another_user.id, is_active: true }
+      this.repositoryMock.findByListingId = sinon.stub().resolves([{
+        listing_id: 1, following_user_id: another_user.id, is_active: true
+      }
       ]);
 
       this.repositoryMock.createFollower = sinon.stub().resolves(true);

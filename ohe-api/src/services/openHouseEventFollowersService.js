@@ -3,6 +3,10 @@ const errors = require('./domainErrors');
 const notificationService = require('./notificationService');
 const repository = require('../openHouseEventsDb/repositories/openHouseEventFollowersRepository');
 
+function* getByListing(listingId){
+  return yield repository.findByListingId(listingId);
+}
+
 function* follow(listingId, userId) {
   const existingFollowers = yield repository.findByListingId(listingId);
   if (existingFollowers) {
@@ -54,6 +58,7 @@ function* unfollow(followId) {
 }
 
 module.exports = {
+  getByListing,
   follow,
   unfollow
 };
