@@ -101,6 +101,51 @@
           }
         }
       }
+    },
+    "patch": {  
+      "summary": "Patches a single listing",
+      "description": "Patches a single listing with all it's details",
+      "parameters": [
+        {
+          "name": "listingId",
+          "in": "path",
+          "description": "id of listing",
+          "type": "integer",
+          "required": true
+        },
+        {
+          "name": "body",
+          "in": "body",
+          "schema": {
+            "$ref": "#/definitions/ListingUpdate"
+          }
+        },
+        {
+          "name": "x-user-profile",
+          "in": "header",
+          "required": true,
+          "type": "string",
+          "description": "Stringified JSON object with the user's profile information"
+        }
+      ],
+      "tags": [
+        "singleListingController",
+        "authenticated"
+      ],
+      "responses": {
+        "200": {
+          "description": "A listing",
+          "schema": {
+            "$ref": "#/definitions/Listing"
+          }
+        },
+        "default": {
+          "description": "Unexpected error",
+          "schema": {
+            "$ref": "#/definitions/Error"
+          }
+        }
+      }
     }
   }
 }

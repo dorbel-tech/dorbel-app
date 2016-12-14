@@ -78,7 +78,7 @@ function* create(listing) {
 }
 
 function* updateStatus(listing, status) {
-  return yield listing.updateStatus({
+  return yield listing.update({
     status: status
   });
 }
