@@ -4,6 +4,8 @@ import Icon from '../Icon/Icon';
 import moment from 'moment';
 import _ from 'lodash';
 
+import OHERegisterModal from './OHERegisterModal';
+
 const timeFormat = 'HH:mm';
 const dateFormat = 'DD/MM/YY';
 
@@ -12,6 +14,7 @@ class OHEList extends Component {
   constructor(props) {
     super(props);
     this.renderOpenHouseEvent = this.renderOpenHouseEvent.bind(this);
+    this.state = { oheForModal: null };
   }
 
   componentDidMount() {
@@ -34,7 +37,7 @@ class OHEList extends Component {
         onClickFunction = () => this.props.appProviders.oheProvider.unregisterForEvent(usersOwnRegistration);
         callToActionText = 'הינך רשומ/ה לארוע זה. לחצ/י לביטול';
       } else {
-        onClickFunction = () => this.props.appProviders.oheProvider.registerForEvent(openHouseEvent);
+        onClickFunction = () => this.setState({ oheForModal: openHouseEvent });
       }
     }
 
@@ -98,6 +101,7 @@ class OHEList extends Component {
             </div>
           </div>
         </div>
+        <OHERegisterModal ohe={this.state.oheForModal} onClose={() => this.setState({oheForModal: null })} />
       </div>
     );
   }
