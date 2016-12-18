@@ -12,7 +12,7 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
       this.props.appProviders.cityProvider.loadCities();
     }
     if (this.props.appStore.neighborhoodStore.neighborhoods.length === 0) {
-      this.getNeghborhoods();
+      this.getNeghborhoods('apartment.building.city.id', '1');
     }
 
     if (this.props.appStore.newListingStore.formValues) {
@@ -30,9 +30,9 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
     }
   }
 
-  getNeghborhoods() {
-    let cityId = event.target.value || 1;
-    this.props.appProviders.neighborhoodProvider.loadNeighborhoodByCityId(cityId);
+  getNeghborhoods(name, value) {
+    this.props.appProviders.neighborhoodProvider.loadNeighborhoodByCityId(value);
+    this.fillNeighborhoods();
   }
 
   fillCities() {
@@ -78,7 +78,7 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
               <div className="form-section-headline">כתובת</div>
               <div className="row">
                 <div className="col-md-6">
-                  <FRC.Select name="apartment.building.city.id" label="עיר" options={citySelectorOptions} value={citySelectorOptions[0].value} required/>
+                  <FRC.Select name="apartment.building.city.id" label="עיר" options={citySelectorOptions} value={citySelectorOptions[0].value} onChange={this.getNeghborhoods} required/>
                 </div>
                 <div className="col-md-6">
                   <FRC.Select name="apartment.building.neighborhood.id" label="שכונה" options={neighborhoodSelectorOptions} value={neighborhoodSelectorOptions[0].value} required/>
