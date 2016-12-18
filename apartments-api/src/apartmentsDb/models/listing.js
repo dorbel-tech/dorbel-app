@@ -16,7 +16,10 @@ function define(sequelize, DataTypes) {
       type: DataTypes.DECIMAL(10, 2),
       allowNull: false
     },
-    roommates: DataTypes.ENUM('allowed', 'disallowed'),
+    roommates: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    },
     property_tax: {
       type: DataTypes.DECIMAL(10, 2),
       comment: 'ארנונה לחודשיים'

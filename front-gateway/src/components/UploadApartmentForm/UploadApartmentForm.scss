@@ -49,12 +49,6 @@
   }
 }
 
-.upload-apt-left-container {
-  &_photosUpload {
-    padding: 15px 30px !important;
-  }
-}
-
 .thumb {
   // height: 120px;
   // background: red;
@@ -140,6 +134,14 @@
   background-color: $gray-lighter;
   overflow-y: auto;
   overflow-x: hidden;
+
+  &_photosUpload {
+    padding: 15px 30px !important;
+  }
+  
+  .checkbox-inline {
+    margin: 0px;
+  }
 }
 
 .form-nav {
