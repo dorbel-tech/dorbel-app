@@ -1,5 +1,5 @@
 {
-  "/event/follow": {
+  "/follower": {
     "post": {
       "summary": "Follow a listing by user",
       "description": "Enables a user to follow a listing to get notified on new OHE",
@@ -39,7 +39,7 @@
       }
     }
   },
-  "/event/follow/{id}": {
+  "/follower/{id}": {
     "delete": {
       "summary": "Unfollow a listing by user",
       "description": "Unfollows a user from a listing in the system",
@@ -65,6 +65,37 @@
       "responses": {
         "200": {
           "description": "Unfollow completed succesfully"
+        },
+        "default": {
+          "description": "Unexpected error",
+          "schema": {
+            "$ref": "#/definitions/Error"
+          }
+        }
+      }
+    }
+  },
+  "/followers/by-listing/{id}": {
+    "get": {
+      "summary": "Get followers by listing",
+      "description": "Get active followers by listing id",
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "type":"integer",
+          "required": true
+        }
+      ],
+      "tags": [
+        "followersController"
+      ],
+      "responses": {
+        "200": {
+          "description": "Followers by listing",
+          "schema": {
+            "$ref": "#/definitions/Followers"
+          }
         },
         "default": {
           "description": "Unexpected error",

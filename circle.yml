@@ -51,7 +51,7 @@ test:
     - cd apartments-api && yarn run test:integration
     - cd front-gateway && yarn run lint
     - cd front-gateway && yarn test 
-    - cd front-gateway && yarn run test:e2e 
+    # - cd front-gateway && yarn run test:e2e 
     - cd notifications-service && yarn run lint
     - cd notifications-service && yarn test 
     - cd notifications-service && yarn run test:integration

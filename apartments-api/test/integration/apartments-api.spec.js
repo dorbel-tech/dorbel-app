@@ -45,7 +45,7 @@ describe('Apartments API Integration', function () {
     });
   });
 
-  describe('/listings/{id}', function() {
+  describe('/listings/{id}', function () {
     before(function* () {
       const newListing = faker.getFakeListing();
       const postReponse = yield this.apiClient.createListing(newListing).expect(201).end();
@@ -57,7 +57,10 @@ describe('Apartments API Integration', function () {
       // TODO : this is a very shallow check
       __.assertThat(getResponse.body, __.hasProperties(this.createdListing));
     });
-  });
 
-  
+    it('should update listing status', function* () {
+      const response = yield this.apiClient.updateSingleListingStatus(this.createdListing.id, { status: 'rented' }).expect(200).end();
+      __.assertThat(response.body.status, __.is('rented'));
+    });
+  });
 });

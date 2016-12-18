@@ -54,7 +54,7 @@ class UploadApartmentStep1 extends UploadApartmentBaseStep.wrappedComponent {
             <img src="https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/upload-apt-form/icon-signup-photos.svg" alt="Upload photos" />
           </div>
         </div>
-        <div className="col-md-5 upload-apt-left-container">
+        <div className="col-md-5 upload-apt-left-container apartment-pictures-step">
           <div className="photos-upload" >
             <form>
               <div className="row thumbs">
@@ -69,7 +69,7 @@ class UploadApartmentStep1 extends UploadApartmentBaseStep.wrappedComponent {
             <div className="form-nav bottom col-lg-5 col-md-5 col-sm-12 col-xs-12">
               <span></span>
               <span>1/3</span>
-              <span onClick={this.clickNext.bind(this)}>שלב הבא &nbsp;<i className="fa fa-arrow-circle-o-left fa-2x" aria-hidden="true"></i></span>
+              <span onClick={this.clickNext.bind(this)}>שלב הבא &nbsp;<i className="apartment-pictures-next-step fa fa-arrow-circle-o-left fa-2x" aria-hidden="true"></i></span>
             </div>
           </div>
         </div>
