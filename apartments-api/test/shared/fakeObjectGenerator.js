@@ -23,11 +23,11 @@ function getFakeListing() {
         house_number: '192',
         city_id: 1,
         city: {
-          city_name: 'תל אביב'
+          id: 1
         },
         neighborhood_id: 1,
         neighborhood: {
-          neighborhood_name: 'צהלה'
+          id: 1
         }
       }
     },

@@ -29,6 +29,25 @@ describe('Listing Repository', function () {
       }
     });
 
+    it('should fail if neighborhood is not found', function* () {
+      let fakeListing = {
+        apartment: {
+          building: {
+            neighborhood: {
+              neighborhood_name: 'bla'
+            }
+          }
+        }
+      };
+
+      try {
+        yield this.listingRepo.create(fakeListing);
+        __.assertThat('code', __.is('not reached'));
+      } catch (error) {
+        __.assertThat(error.message, __.equalTo('did not find neighborhood'));
+      }
+    });
+
     it('should succeed in creating a valid listing with everything in it', function* () {
       let newListing = yield this.listingRepo.create(faker.getFakeListing());
 
