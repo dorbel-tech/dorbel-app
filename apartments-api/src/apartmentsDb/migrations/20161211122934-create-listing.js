@@ -25,8 +25,8 @@ module.exports = {
         allowNull: false
       },
       roommates: {
-        type: Sequelize.ENUM,
-        values: ['allowed', 'disallowed']
+        type: Sequelize.BOOLEAN,
+        defaultValue: false 
       },
       property_tax: {
         type: Sequelize.DECIMAL(10,2)

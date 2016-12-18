@@ -1,8 +1,8 @@
 {
-  "City": {
+  "Neighborhood": {
     "type": "object",
     "properties": {
-      "city_name": {
+      "neighborhood_name": {
         "type": "string"
       }
     }

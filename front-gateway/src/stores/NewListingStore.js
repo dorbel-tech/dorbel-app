@@ -15,7 +15,8 @@ const roomOptions = _.range(1,11,0.5).map(num => ({value:num, label:num}));
 const defaultFormValues = {
   images: [],
   open_house_event_start_time: hours[0], 
-  open_house_event_end_time: hours[1]
+  open_house_event_end_time: hours[1],
+  'apartment.building.city.id': 0 // we have to initialize this so Mobx will re-render the form when it changes
 };
 
 export default class NewListingStore {

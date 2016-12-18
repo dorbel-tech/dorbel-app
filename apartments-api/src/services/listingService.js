@@ -29,6 +29,11 @@ function* create(listing) {
     listing.lease_end = moment(listing.lease_start).add(1, 'years').format('YYYY-MM-DD');
   }
 
+  // In case that roomate is needed, the listing should allow roommates.
+  if(listing.roommate_needed) {
+    listing.roommates = true;
+  }
+
   let modifiedListing = yield geoService.setGeoLocation(listing);
   let createdListing = yield listingRepository.create(modifiedListing);
 
