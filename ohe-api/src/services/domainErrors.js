@@ -14,6 +14,9 @@ function DomainNotFoundError(name, data, message) {
   this.statusCode = 404;
 }
 
+DomainValidationError.prototype = Error.prototype;
+DomainNotFoundError.prototype = Error.prototype;
+
 module.exports = {
   DomainValidationError,
   DomainNotFoundError

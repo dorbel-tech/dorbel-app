@@ -31,7 +31,7 @@ function* follow(listingId, userId) {
 
   notificationService.send(notificationService.eventType.OHE_FOLLOW, {
     listing_id: listingId,
-    following_user_id: userId
+    user_uuid: userId
   });
 
   return result;
@@ -51,7 +51,7 @@ function* unfollow(followId) {
 
   notificationService.send(notificationService.eventType.OHE_UNFOLLOW, {
     listing_id: existingFollower.listing_id,
-    following_user_id: existingFollower.following_user_id
+    user_uuid: existingFollower.following_user_id
   });
 
   return result;

@@ -2,7 +2,6 @@
 describe('/health', function () {
   const ApiClient = require('./apiClient.js');
   const __ = require('hamjest');
-  const _ = require('lodash');
 
   before(function* () {
     this.apiClient = yield ApiClient.init();
