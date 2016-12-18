@@ -2,12 +2,17 @@ import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import Icon from '../Icon/Icon';
 import moment from 'moment';
+import _ from 'lodash';
 
 const timeFormat = 'HH:mm';
 const dateFormat = 'DD/MM/YY';
 
 @observer(['appStore', 'appProviders'])
 class OHEList extends Component {
+  constructor(props) {
+    super(props);
+    this.renderOpenHouseEvent = this.renderOpenHouseEvent.bind(this);
+  }
 
   componentDidMount() {
     this.props.appProviders.oheProvider.loadListingEvents(this.props.listing.id);
@@ -20,8 +25,21 @@ class OHEList extends Component {
     const timeLabel = `${start.format(timeFormat)} - ${end.format(timeFormat)}`;
     const dateLabel = start.format(dateFormat);
 
+    let onClickFunction = () => this.props.appProviders.authProvider.showLoginModal();
+    let callToActionText = 'לחץ לאישור הגעה במועד זה';
+    if (this.props.appStore.authStore.isLoggedIn) {
+      const user = this.props.appStore.authStore.getProfile();
+      const usersOwnRegistration = _.find(openHouseEvent.registrations, { registered_user_id: user.dorbel_user_id });
+      if (usersOwnRegistration) {
+        onClickFunction = () => this.props.appProviders.oheProvider.unregisterForEvent(usersOwnRegistration);
+        callToActionText = 'הינך רשומ/ה לארוע זה. לחצ/י לביטול';
+      } else {
+        onClickFunction = () => this.props.appProviders.oheProvider.registerForEvent(openHouseEvent);
+      }
+    }
+
     return (
-      <a key={index} href="#" className="list-group-item" data-toggle="modal" data-target="#modal-signup">
+      <a key={index} href="#" className="list-group-item" data-toggle="modal" data-target="#modal-signup" onClick={onClickFunction}>
         <div className="row">
           <div className="dorbel-icon-calendar pull-right">
             <Icon iconName="dorbel_icon_calendar" />
@@ -31,7 +49,7 @@ class OHEList extends Component {
             <span className="date">{dateLabel}</span>
             <br className="visible-lg" />
             <i className="hidden-lg">&nbsp;</i>
-            <span className="hidden-xs">לחץ לאישור הגעה במועד זה</span>
+            <span className="hidden-xs">{callToActionText}</span>
           </div>
           <div className="dorbel-icon-arrow fa fa-chevron-left pull-left"></div>
         </div>
@@ -41,8 +59,7 @@ class OHEList extends Component {
 
   render() {
     const { listing } = this.props;
-    const openHouseEvents = this.props.appStore.oheStore.oheByListingId.get(this.props.listing.id) || [];
-    const profile = this.props.appStore.authStore.getProfile();
+    const openHouseEvents = this.props.appStore.oheStore.oheByListingId.get(this.props.listing.id) || [];    
     const currentUrl = 'https://app.dorbel.com/apartments/' + listing.id;
 
     return (
@@ -72,12 +89,8 @@ class OHEList extends Component {
                 {openHouseEvents.map(this.renderOpenHouseEvent)}
                 <div href="#" className="list-group-item owner-container text-center">                 
                   <h5>
-                  { listing.publishing_user_type === 'landlord' ?
-                   <span>בעל הנכס</span>
-                    :
-                    <span>דייר יוצא</span>
-                  }
-                  <span>: {profile.user_metadata.first_name}</span>
+                  <span>{ listing.publishing_user_type === 'landlord' ? 'בעל הנכס' : 'דייר יוצא' }</span>
+                  <span>: { listing.publishing_username || 'אנונימי' }</span>
                   </h5>
                 </div>
               </div>

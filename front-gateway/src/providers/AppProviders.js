@@ -13,12 +13,12 @@ import CloudinaryProvider from './CloudinaryProvider';
 const isServer = !global.window;
 
 class AppProviders {
-  constructor(appStore) {
+  constructor(appStore, router) {
     if (!isServer) {
       if (!window.dorbelConfig.AUTH0_FRONT_CLIENT_ID || !window.dorbelConfig.AUTH0_DOMAIN) {
         throw new Error('must set auth0 env vars');
       }
-      this.authProvider = new AuthProvider(window.dorbelConfig.AUTH0_FRONT_CLIENT_ID, window.dorbelConfig.AUTH0_DOMAIN, appStore.authStore);
+      this.authProvider = new AuthProvider(window.dorbelConfig.AUTH0_FRONT_CLIENT_ID, window.dorbelConfig.AUTH0_DOMAIN, appStore.authStore, router);
     }
 
     this.cloudinaryProvider = new CloudinaryProvider();
