@@ -24,6 +24,10 @@ function getFakeListing() {
         city_id: 1,
         city: {
           city_name: 'תל אביב'
+        },
+        neighborhood_id: 1,
+        neighborhood: {
+          neighborhood_name: 'צהלה'
         }
       }
     },

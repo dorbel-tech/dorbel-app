@@ -98,7 +98,7 @@ function getListingsForApartment(apartment, listingQuery) {
   const includeNeighborhood = {
     model: models.neighborhood,
     where: {
-      id: apartment.building.neighborhood.id
+      id: apartment.building.neighborhood.neighborhood_id
     }
   };
 
