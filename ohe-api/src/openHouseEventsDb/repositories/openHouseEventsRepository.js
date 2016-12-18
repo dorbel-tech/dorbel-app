@@ -9,8 +9,7 @@ const findInclude = [
 function* find(eventId) {
   return yield models.open_house_event.findOne({
     where: {
-      id: eventId,
-      is_active: true
+      id: eventId
     },
     include: findInclude
   });
