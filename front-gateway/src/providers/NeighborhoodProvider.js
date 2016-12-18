@@ -12,7 +12,7 @@ class NeighborhoodProvider {
 
   loadNeighborhoodByCityId(id) {
     return this.apiProvider.fetch('/api/apartments/v1/neighborhoods/' + id)
-      .then(action(neighborhoods => this.appStore.neighborhoodStore.neighborhoods = neighborhoods));
+      .then(action('getNeighborhoods', neighborhoods => this.appStore.neighborhoodStore.neighborhoodsByCityId.set(id, neighborhoods)));
   }
 }
 

@@ -1,15 +1,13 @@
-import { observable } from 'mobx';
+import { observable, asMap } from 'mobx';
 
 export default class NeighborhoodStore {
-  @observable neighborhoods;
+  @observable neighborhoodsByCityId;
 
-  constructor(initialState) {
-    this.neighborhoods = initialState ? initialState.neighborhoods : [];
+  constructor() {
+    this.neighborhoodsByCityId = asMap({});
   }
 
   toJson() {
-    return {
-      neighborhoods: this.neighborhoods
-    };
+    return {};
   }
 }

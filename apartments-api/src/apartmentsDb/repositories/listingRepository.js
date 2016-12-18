@@ -52,6 +52,8 @@ function* create(listing) {
   });
   if (!neighborhood) { throw new Error('did not find neighborhood');} 
 
+  if (city.id !== neighborhood.city_id) { throw new Error('neighborhood doesnt match city'); }
+
   listing.apartment.building.city_id = city.id;
   listing.apartment.building.neighborhood_id = neighborhood.id;  
   const building = yield buildingRepository.findOrCreate(listing.apartment.building);

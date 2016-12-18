@@ -7,12 +7,18 @@ import FRC from 'formsy-react-components';
  
 @observer(['appStore', 'appProviders'])
 class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
+  constructor(props) {
+    super(props);
+    this.getNeighborhoods = this.getNeighborhoods.bind(this);
+  }
+  
   componentDidMount() {
     if (this.props.appStore.cityStore.cities.length === 0) {
       this.props.appProviders.cityProvider.loadCities();
     }
-    if (this.props.appStore.neighborhoodStore.neighborhoods.length === 0) {
-      this.getNeghborhoods('apartment.building.city.id', '1');
+    
+    if (this.props.appStore.neighborhoodStore.neighborhoodsByCityId.size === 0) {
+      this.getNeighborhoods('apartment.building.city.id', '1');
     }
 
     if (this.props.appStore.newListingStore.formValues) {
@@ -30,9 +36,8 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
     }
   }
 
-  getNeghborhoods(name, value) {
+  getNeighborhoods(name, value) {
     this.props.appProviders.neighborhoodProvider.loadNeighborhoodByCityId(value);
-    this.fillNeighborhoods();
   }
 
   fillCities() {
@@ -42,9 +47,10 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
       [ { value: 0, label: 'טוען...' } ];
   }
 
-  fillNeighborhoods() {
-    const neighborhoods = this.props.appStore.neighborhoodStore.neighborhoods;
-    return neighborhoods.length ?  neighborhoods.map(neighborhood => (
+  fillNeighborhoods(cityId) {
+    const neighborhoodsByCityId = this.props.appStore.neighborhoodStore.neighborhoodsByCityId;
+    const neighborhoods = neighborhoodsByCityId.get(cityId);
+    return neighborhoods ?  neighborhoods.map(neighborhood => (
       { value: neighborhood.id, label: neighborhood.neighborhood_name })) : 
       [ { label: 'טוען...' } ];    
   }
@@ -52,7 +58,7 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
   render() {
     const { newListingStore } = this.props.appStore;
     const citySelectorOptions = this.fillCities();
-    const neighborhoodSelectorOptions = this.fillNeighborhoods();
+    const neighborhoodSelectorOptions = this.fillNeighborhoods(newListingStore.formValues['apartment.building.city.id']);
       
     const roomOptions = newListingStore.roomOptions.slice(0);
     if (!newListingStore.formValues.rooms) { roomOptions.unshift({ label: 'בחר'}); }
@@ -78,7 +84,7 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
               <div className="form-section-headline">כתובת</div>
               <div className="row">
                 <div className="col-md-6">
-                  <FRC.Select name="apartment.building.city.id" label="עיר" options={citySelectorOptions} value={citySelectorOptions[0].value} onChange={this.getNeghborhoods} required/>
+                  <FRC.Select name="apartment.building.city.id" label="עיר" options={citySelectorOptions} value={citySelectorOptions[0].value} onChange={this.getNeighborhoods} required/>
                 </div>
                 <div className="col-md-6">
                   <FRC.Select name="apartment.building.neighborhood.id" label="שכונה" options={neighborhoodSelectorOptions} value={neighborhoodSelectorOptions[0].value} required/>
@@ -128,12 +134,12 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
                 <FRC.Checkbox name="apartment.building.elevator" label="מעלית" rowClassName="checkbox-inline"/>
                 <FRC.Checkbox name="apartment.sun_heated_boiler" label="דוד שמש" rowClassName="checkbox-inline"/>
                 <FRC.Checkbox name="apartment.pets" label='מותר בע"ח' rowClassName="checkbox-inline"/>
-                <FRC.Checkbox name="roommates" label='אפשר שוטפים' rowClassName="checkbox-inline"/>
+                <FRC.Checkbox name="roommates" label='אפשר שותפים' rowClassName="checkbox-inline"/>
                 <FRC.Checkbox name="apartment.air_conditioning" label="מזגן" rowClassName="checkbox-inline"/>
                 <FRC.Checkbox name="apartment.balcony" label="מרפסת" rowClassName="checkbox-inline"/>
                 <FRC.Checkbox name="apartment.security_bars" label="סורגים" rowClassName="checkbox-inline"/>
                 <FRC.Checkbox name="apartment.parquet_floor" label="פרקט" rowClassName="checkbox-inline"/>
-                <FRC.Checkbox name="roommate_needed" label='דרוש שוטף/ה' rowClassName="checkbox-inline"/>
+                <FRC.Checkbox name="roommate_needed" label='דרוש שותף/ה' rowClassName="checkbox-inline"/>
               </div>
             </div>
 
