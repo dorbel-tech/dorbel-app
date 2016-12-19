@@ -51,7 +51,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
               <FRC.Input name="user.email" label="מייל" type="email" value={profile.email} validations="isEmail" validationError="כתובת מייל לא תקינה" required/>
             </div>
             <div className="col-md-6">
-              <FRC.Input name="user.phone" label="טלפון" type="number" value={profile.phone} validationError="מספר טלפון לא תקין" required/>
+              <FRC.Input name="user.phone" label="טלפון" value={profile.phone} validationError="מספר טלפון לא תקין" required/>
             </div>                
           </div>
           <div className="row">

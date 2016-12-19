@@ -25,7 +25,9 @@ function startRouter(appStore) {
     '/login': () => appStore.setView(Login),
     '/apartments': () => appStore.setView(Apartments),
     '/apartments/new_form': () => appStore.setView(UploadApartmentForm),
-    '/apartments/:apartmentId/ohe/:oheId/:action': (apartmentId, oheId, action) => appStore.setView(Apartment, { apartmentId, oheId, action }),
+    // TODO : can this look better with nested routes ? 
+    '/apartments/:apartmentId/:action/:oheId': (apartmentId, action, oheId) => appStore.setView(Apartment, { apartmentId, action, oheId }),
+    '/apartments/:apartmentId/:action': (apartmentId, action) => appStore.setView(Apartment, { apartmentId, action }),
     '/apartments/:apartmentId': (apartmentId) => appStore.setView(Apartment, { apartmentId }),
     '/profile': [
       checkAuth,

@@ -1,15 +1,18 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
+import { Row } from 'react-bootstrap';
 import Icon from '../Icon/Icon';
 
 import OHERegisterModal from './OHERegisterModal';
+import FollowListingModal from './FollowListingModal';
 
 @observer(['appStore', 'appProviders', 'router'])
 class OHEList extends Component {
   constructor(props) {
     super(props);
-    this.renderOpenHouseEvent = this.renderOpenHouseEvent.bind(this);
     this.state = { oheForModal: null };
+    this.renderOpenHouseEvent = this.renderOpenHouseEvent.bind(this);
+    this.followListing = this.followListing.bind(this);
   }
 
   componentDidMount() {
@@ -20,17 +23,17 @@ class OHEList extends Component {
     const { router } = this.props;
     const currentRoute = router.getRoute().join('/');
     
-    let action = 'register';    
+    let action = 'ohe-register';    
     let callToActionText = 'לחץ לאישור הגעה במועד זה';
     if (openHouseEvent.usersOwnRegistration) {
-      action = 'unregister';
+      action = 'ohe-unregister';
       callToActionText = 'הינך רשומ/ה לארוע זה. לחצ/י לביטול';
     }
 
-    let onClickFunction = () => router.setRoute(`/${currentRoute}/ohe/${openHouseEvent.id}/${action}`);
+    let onClickFunction = () => router.setRoute(`/${currentRoute}/${action}/${openHouseEvent.id}`);
 
     return (
-      <a key={openHouseEvent.id} href="#" className="list-group-item" data-toggle="modal" data-target="#modal-signup" onClick={onClickFunction}>
+      <a key={openHouseEvent.id} href="#" className="list-group-item" onClick={onClickFunction}>
         <div className="row">
           <div className="dorbel-icon-calendar pull-right">
             <Icon iconName="dorbel_icon_calendar" />
@@ -48,12 +51,19 @@ class OHEList extends Component {
     );
   }
 
+  followListing() {
+    const { router } = this.props;
+    const currentRoute = router.getRoute().join('/');
+    router.setRoute(`/${currentRoute}/follow`);
+  }
+
   render() {
-    const { listing, router, oheId, appStore } = this.props;
+    const { action, listing, router, oheId, appStore } = this.props;
     const openHouseEvents = this.props.appStore.oheStore.oheByListingId(listing.id);    
     const currentUrl = 'https://app.dorbel.com/apartments/' + listing.id;
     const oheForModal = oheId ? appStore.oheStore.oheById.get(oheId) : null;
     const closeModal = () => router.setRoute('/apartments/' + listing.id);
+    const listingForModal = action === 'follow' ? listing : null;
 
     return (
       <div className="container">
@@ -80,6 +90,22 @@ class OHEList extends Component {
               <div className="list-group apt-choose-date-container">
                 <h5 className="text-center apt-choose-date-title">בחר במועד לביקור</h5>
                 {openHouseEvents.map(this.renderOpenHouseEvent)}
+
+                <a href="#" className="list-group-item" onClick={this.followListing}>
+                  <Row>
+                    <div className="dorbel-icon-calendar pull-right">
+                      <Icon iconName="icon-dorbel-icon-master_icon-calendar-plus" />
+                    </div>
+                    <div className="date-and-time pull-right">
+                      <span>אהבתי, אבל לא אצליח להגיע</span>
+                      <br className="visible-lg" />
+                      <i className="hidden-lg">&nbsp;</i>
+                      <span className="hidden-xs">קבל/י עדכונים על מועדים עתידיים</span>
+                    </div>
+                    <div className="dorbel-icon-arrow fa fa-chevron-left pull-left"></div>
+                  </Row>
+                </a>
+
                 <div href="#" className="list-group-item owner-container text-center">                 
                   <h5>
                   <span>{ listing.publishing_user_type === 'landlord' ? 'בעל הנכס' : 'דייר יוצא' }</span>
@@ -92,6 +118,7 @@ class OHEList extends Component {
           </div>
         </div>
         <OHERegisterModal ohe={oheForModal} onClose={closeModal} action={this.props.action} />
+        <FollowListingModal listing={listingForModal} onClose={closeModal} action={this.props.action} />
       </div>
     );
   }

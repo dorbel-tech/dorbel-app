@@ -170,10 +170,12 @@ class OHERegisterModal extends React.Component {
       return null;
     } else if (this.state.successfullyRegistered) {
       return this.renderSuccessModal(profile);
-    } else if (this.props.action === 'unregister') {
+    } else if (this.props.action === 'ohe-unregister') {
       return this.renderUnregisterForm(ohe, profile);
-    } else {
+    } else if (this.props.action === 'ohe-register') {
       return this.renderRegisterForm(ohe, profile);
+    } else {
+      return null;
     }
   }
 }

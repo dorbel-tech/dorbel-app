@@ -15,6 +15,8 @@ class OheProvider {
     this.enrichOhe = this.enrichOhe.bind(this);
   }
 
+  // Open house events
+
   loadListingEvents(id) {    
     return this.apiProvider.fetch('/api/ohe/v1/events/by-listing/' + id)
       .then(openHouseEvents => openHouseEvents.map(this.enrichOhe))
@@ -63,6 +65,20 @@ class OheProvider {
       const user = this.appStore.authStore.getProfile();
       openHouseEvent.usersOwnRegistration = _.find(openHouseEvent.registrations, { registered_user_id: user.dorbel_user_id });
     }
+  }
+
+  // Follow listing
+
+  follow(listing) {
+    return this.apiProvider.fetch('/api/ohe/v1/follower', {
+      method: 'POST',
+      data : {
+        listing_id: listing.id
+      }
+    })
+    .then(() => {
+      // TODO : add to store      
+    });
   }
 
 }
