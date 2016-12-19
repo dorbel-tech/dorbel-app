@@ -2,8 +2,8 @@ import React from 'react';
 import { observer } from 'mobx-react';
 import UploadApartmentBaseStep from './UploadApartmentBaseStep';
 import DatePicker from '~/components/DatePicker/DatePicker';
-import formHelper from './formHelper';
-import FRC from 'formsy-react-components';
+import FormWrapper from '~/components/FormWrapper/FormWrapper';
+
 
 @observer(['appStore', 'appProviders'])
 class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
@@ -32,6 +32,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
   renderUserDetails() {
     const { authStore } = this.props.appStore;
     const { authProvider } = this.props.appProviders;
+    const FRC = FormWrapper.FRC;
 
     if (authStore.isLoggedIn) {
       const profile = authStore.getProfile();
@@ -39,10 +40,10 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
         <div>
           <div className="row">
             <div className="col-md-6">
-              <FRC.Input name="user.firstname" label="שם פרטי" value={profile.given_name} required/>
+              <FRC.Input name="user.firstname" label="שם פרטי" value={profile.first_name} required/>
             </div>
             <div className="col-md-6">
-              <FRC.Input name="user.lastname" label="שם משפחה" value={profile.family_name} required/>
+              <FRC.Input name="user.lastname" label="שם משפחה" value={profile.last_name} required/>
             </div>                
           </div>
           <div className="row">
@@ -50,7 +51,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
               <FRC.Input name="user.email" label="מייל" type="email" value={profile.email} validations="isEmail" validationError="כתובת מייל לא תקינה" required/>
             </div>
             <div className="col-md-6">
-              <FRC.Input name="user.phone" label="טלפון" type="number" validationError="מספר טלפון לא תקין" required/>
+              <FRC.Input name="user.phone" label="טלפון" type="number" value={profile.phone} validationError="מספר טלפון לא תקין" required/>
             </div>                
           </div>
           <div className="row">
@@ -68,6 +69,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
   
   render() {
     let { newListingStore, authStore } = this.props.appStore;
+    const FRC = FormWrapper.FRC;
 
     return (
       <div className="container-fluid upload-apt-wrapper">
@@ -83,7 +85,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
           <img src="https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/upload-apt-form/icon-signup-card.svg" alt="" />
         </div>
         <div className="col-md-5 upload-apt-left-container open-house-event-step">
-          <formHelper.FormWrapper layout="vertical" onChange={this.handleChanges} ref="form">
+          <FormWrapper.Wrapper layout="vertical" onChange={this.handleChanges} ref="form">
             <div className="row form-section">
               <div className="form-section-headline">מועדי ביקור בדירה</div>
               <div className="form-group">
@@ -109,7 +111,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
               <div className="form-section-headline">פרטי משתמש</div>              
               {this.renderUserDetails()}                            
             </div>
-          </formHelper.FormWrapper>
+          </FormWrapper.Wrapper>
 
         <div className="form-nav bottom col-lg-5 col-md-5 col-sm-12 col-xs-12">
           <span onClick={this.clickBack.bind(this)}><i className="open-house-event-previous-step fa fa-arrow-circle-o-right fa-2x" aria-hidden="true"></i>&nbsp; שלב קודם</span>

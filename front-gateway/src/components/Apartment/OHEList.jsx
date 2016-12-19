@@ -1,15 +1,10 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import Icon from '../Icon/Icon';
-import moment from 'moment';
-import _ from 'lodash';
 
 import OHERegisterModal from './OHERegisterModal';
 
-const timeFormat = 'HH:mm';
-const dateFormat = 'DD/MM/YY';
-
-@observer(['appStore', 'appProviders'])
+@observer(['appStore', 'appProviders', 'router'])
 class OHEList extends Component {
   constructor(props) {
     super(props);
@@ -21,35 +16,28 @@ class OHEList extends Component {
     this.props.appProviders.oheProvider.loadListingEvents(this.props.listing.id);
   }
 
-  renderOpenHouseEvent(openHouseEvent, index) {
-    const start = moment(openHouseEvent.start_time);
-    const end = moment(openHouseEvent.end_time);
-
-    const timeLabel = `${start.format(timeFormat)} - ${end.format(timeFormat)}`;
-    const dateLabel = start.format(dateFormat);
-
-    let onClickFunction = () => this.props.appProviders.authProvider.showLoginModal();
+  renderOpenHouseEvent(openHouseEvent)  {
+    const { router } = this.props;
+    const currentRoute = router.getRoute().join('/');
+    
+    let action = 'register';    
     let callToActionText = 'לחץ לאישור הגעה במועד זה';
-    if (this.props.appStore.authStore.isLoggedIn) {
-      const user = this.props.appStore.authStore.getProfile();
-      const usersOwnRegistration = _.find(openHouseEvent.registrations, { registered_user_id: user.dorbel_user_id });
-      if (usersOwnRegistration) {
-        onClickFunction = () => this.props.appProviders.oheProvider.unregisterForEvent(usersOwnRegistration);
-        callToActionText = 'הינך רשומ/ה לארוע זה. לחצ/י לביטול';
-      } else {
-        onClickFunction = () => this.setState({ oheForModal: openHouseEvent });
-      }
+    if (openHouseEvent.usersOwnRegistration) {
+      action = 'unregister';
+      callToActionText = 'הינך רשומ/ה לארוע זה. לחצ/י לביטול';
     }
 
+    let onClickFunction = () => router.setRoute(`/${currentRoute}/ohe/${openHouseEvent.id}/${action}`);
+
     return (
-      <a key={index} href="#" className="list-group-item" data-toggle="modal" data-target="#modal-signup" onClick={onClickFunction}>
+      <a key={openHouseEvent.id} href="#" className="list-group-item" data-toggle="modal" data-target="#modal-signup" onClick={onClickFunction}>
         <div className="row">
           <div className="dorbel-icon-calendar pull-right">
             <Icon iconName="dorbel_icon_calendar" />
           </div>
           <div className="date-and-time pull-right">
-            <span className="time">{timeLabel}</span>&nbsp;|&nbsp;
-            <span className="date">{dateLabel}</span>
+            <span className="time">{openHouseEvent.timeLabel}</span>&nbsp;|&nbsp;
+            <span className="date">{openHouseEvent.dateLabel}</span>
             <br className="visible-lg" />
             <i className="hidden-lg">&nbsp;</i>
             <span className="hidden-xs">{callToActionText}</span>
@@ -61,9 +49,11 @@ class OHEList extends Component {
   }
 
   render() {
-    const { listing } = this.props;
-    const openHouseEvents = this.props.appStore.oheStore.oheByListingId.get(this.props.listing.id) || [];    
+    const { listing, router, oheId, appStore } = this.props;
+    const openHouseEvents = this.props.appStore.oheStore.oheByListingId(listing.id);    
     const currentUrl = 'https://app.dorbel.com/apartments/' + listing.id;
+    const oheForModal = oheId ? appStore.oheStore.oheById.get(oheId) : null;
+    const closeModal = () => router.setRoute('/apartments/' + listing.id);
 
     return (
       <div className="container">
@@ -101,7 +91,7 @@ class OHEList extends Component {
             </div>
           </div>
         </div>
-        <OHERegisterModal ohe={this.state.oheForModal} onClose={() => this.setState({oheForModal: null })} />
+        <OHERegisterModal ohe={oheForModal} onClose={closeModal} action={this.props.action} />
       </div>
     );
   }
@@ -110,7 +100,10 @@ class OHEList extends Component {
 OHEList.wrappedComponent.propTypes = {
   listing: React.PropTypes.object.isRequired,
   appProviders: React.PropTypes.object,
-  appStore: React.PropTypes.object
+  appStore: React.PropTypes.object,
+  router: React.PropTypes.object,
+  oheId: React.PropTypes.string,
+  action: React.PropTypes.string
 };
 
 export default OHEList;

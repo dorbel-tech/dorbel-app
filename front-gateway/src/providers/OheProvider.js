@@ -2,17 +2,23 @@
  * Open House Events Provider communicates with the OHE API
  */
 'use strict';
-import { action } from 'mobx';
+import moment from 'moment';
+import _ from 'lodash';
+
+const timeFormat = 'HH:mm';
+const dateFormat = 'DD/MM/YY';
 
 class OheProvider {
   constructor(appStore, apiProvider) {
     this.appStore = appStore;
     this.apiProvider = apiProvider;
+    this.enrichOhe = this.enrichOhe.bind(this);
   }
 
   loadListingEvents(id) {    
     return this.apiProvider.fetch('/api/ohe/v1/events/by-listing/' + id)
-      .then(action('load-listing-events', openHouseEvents => this.appStore.oheStore.add(openHouseEvents)));
+      .then(openHouseEvents => openHouseEvents.map(this.enrichOhe))
+      .then(openHouseEvents => this.appStore.oheStore.add(openHouseEvents));
   }
 
   registerForEvent(event) {
@@ -23,7 +29,9 @@ class OheProvider {
       }
     })
     .then(registration => {
-      this.appStore.oheStore.oheById.get(event.id).registrations.push(registration);
+      const ohe = this.appStore.oheStore.oheById.get(event.id);
+      ohe.registrations.push(registration);
+      this.setUsersOwnRegistration(ohe);
     });
   }
 
@@ -32,10 +40,31 @@ class OheProvider {
       method: 'DELETE'
     })
     .then(() => {
-      const event = this.appStore.oheStore.oheById.get(registration.open_house_event_id);
-      event.registrations.remove(registration);
+      const ohe = this.appStore.oheStore.oheById.get(registration.open_house_event_id);
+      ohe.registrations.remove(registration);
+      this.setUsersOwnRegistration(ohe);
     });
   }
+
+  enrichOhe(openHouseEvent) {
+    const start = moment(openHouseEvent.start_time);
+    const end = moment(openHouseEvent.end_time);
+
+    openHouseEvent.timeLabel = `${start.format(timeFormat)} - ${end.format(timeFormat)}`;
+    openHouseEvent.dateLabel = start.format(dateFormat);
+
+    this.setUsersOwnRegistration(openHouseEvent);
+
+    return openHouseEvent;
+  }
+
+  setUsersOwnRegistration(openHouseEvent) {
+    if (this.appStore.authStore.isLoggedIn) {
+      const user = this.appStore.authStore.getProfile();
+      openHouseEvent.usersOwnRegistration = _.find(openHouseEvent.registrations, { registered_user_id: user.dorbel_user_id });
+    }
+  }
+
 }
 
 module.exports = OheProvider;

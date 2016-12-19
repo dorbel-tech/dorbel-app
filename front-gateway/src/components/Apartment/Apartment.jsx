@@ -90,7 +90,7 @@ class Apartment extends Component {
     return (
       <div>
         {this.renderImageGallery(listing)}
-        <OHEList listing={listing} />
+        <OHEList listing={listing} oheId={this.props.oheId} action={this.props.action} />
         <div className="container-fluid apt-headline-container">
           <div className="container">
             <div className="row">
@@ -123,7 +123,9 @@ class Apartment extends Component {
 Apartment.wrappedComponent.propTypes = {
   apartmentId: React.PropTypes.string.isRequired,
   appProviders: React.PropTypes.object,
-  appStore: React.PropTypes.object
+  appStore: React.PropTypes.object,
+  oheId: React.PropTypes.string,
+  action: React.PropTypes.string
 };
 
 export default Apartment;

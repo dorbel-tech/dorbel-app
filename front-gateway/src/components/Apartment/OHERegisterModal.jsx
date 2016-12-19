@@ -1,74 +1,151 @@
 import React from 'react';
-import { Modal } from 'react-bootstrap';
+import { Row, Col, Modal, Button, Glyphicon } from 'react-bootstrap';
+import { observer } from 'mobx-react';
+import Icon from '../Icon/Icon';
+import FormWrapper from '~/components/FormWrapper/FormWrapper';
 
+const FRC = FormWrapper.FRC;
+
+@observer(['appStore', 'appProviders'])
 class OHERegisterModal extends React.Component {
   constructor(props) {
     super(props);
+    this.state = { successfullyRegistered: false };
+    // TODO : stop this chaos and use https://github.com/andreypopp/autobind-decorator
     this.close = this.close.bind(this);
+    this.register = this.register.bind(this);
+    this.unregister = this.unregister.bind(this);
+  }
+
+  register() {
+    const formsy = this.refs.form.refs.formsy; 
+    const { ohe, appProviders } = this.props;
+
+    if (formsy.state.isValid) {
+      appProviders.oheProvider.registerForEvent(ohe);
+      this.setState({ successfullyRegistered: true });
+    } else {
+      formsy.submit(); // will trigger validation messages
+    }
+  }
+
+  unregister() {
+    const { ohe, appProviders } = this.props;
+    appProviders.oheProvider.unregisterForEvent(ohe.usersOwnRegistration);
+    this.close();
   }
 
   close() {
     if (this.props.onClose) {
       this.props.onClose();
+      this.setState({ successfullyRegistered: false });
     }
   }
 
-  render() {
-    const ohe = this.props.ohe;
-    if (!ohe) { return null; }
+  renderSuccessModal(profile) {
+    return (
+      <Modal show={true}>
+        <Modal.Header closeButton onHide={this.close}>          
+          <Modal.Title>
+            <Glyphicon className="huge-glyph" glyph="ok-circle" />
+            ההרשמה בוצעה בהצלחה!
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="text-center">
+          <Row>
+            <p>
+              הכתובת המדויקת תשלח אליכם במייל בדקות הקרובות.<br /><br />              
+              פרטי התקשורת אליהם נשלחה ההודעה:<br />
+              מייל: {profile.email}<br />
+              מספר נייד: {profile.phone}<br /><br />
+              במידה והתעוררה בעיה כלשהי אנא&nbsp;
+              <a href="mailto:homesupport@dorbel.com">צרו קשר</a>
+              .
+            </p>
+          </Row>
+          <Row>
+            <Button onClick={this.close} bsStyle="primary" bsSize="large" >אחלה!</Button>
+          </Row>
+        </Modal.Body>      
+      </Modal>
+    );
+  }
 
+  renderUnregisterForm(ohe, profile) {
+    return (
+      <Modal show={true}>
+        <Modal.Header closeButton onHide={this.close}>
+          <Modal.Title>ביטול הגעה לביקור</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="text-center">
+          <Row>
+            <p>
+              היי {profile.first_name}, <br/>
+              האם את/ה בטוח/ה שברצונך לבטל את הביקור ?
+            </p>
+          </Row>
+          <Row>
+            <Col md={6}>
+              <Button onClick={this.close} bsStyle="info" block>אגיע לביקור</Button>
+            </Col>
+            <Col md={6}>
+              <Button onClick={this.unregister} bsStyle="danger" block>בטל את הגעתי</Button>
+            </Col>
+          </Row>
+        </Modal.Body>
+      </Modal>
+    );
+  }
+
+  renderRegisterForm(ohe, profile) {
     return (
       <Modal show={true}>
         <Modal.Header closeButton onHide={this.close}>
           <Modal.Title>אנו שמחים שבחרתם להגיע לביקור בנכס :)</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <div className="row ">
-            <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6 modal-date ">
-              <svg className="pull-left">
-                <use xlinkHref="assets/svg/images.svg#dorbel_icon_calendar"></use>
-              </svg>
-              <div className="pull-left">
-                <span>&nbsp</span>
-                <span className="hidden-xs">תאריך:</span>
-                <span>16/5/15</span>
+          <Row>
+            <Col lg={6} md={6} sm={6} xs={6} className="modal-date">
+              <Icon className="pull-right" iconName="dorbel_icon_calendar" />
+              <div className="pull-right">
+                <span className="hidden-xs">&nbsp;תאריך:&nbsp;</span>
+                <span>{ohe.dateLabel}</span>
               </div>
-            </div>
-            <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6 modal-time">
-              <svg className="pull-left">
-                <use xlinkHref="assets/svg/images.svg#dorbel_icon_clock"></use>
-              </svg>
-              <div className="pull-left">
-                <span>&nbsp</span>
-                <span className="hidden-xs">שעה:</span>
-                <span>18:00 - 19:30</span>
+            </Col>
+            <Col lg={6} md={6} sm={6} xs={6} className="modal-time">
+              <Icon className="pull-right" iconName="dorbel_icon_clock" />
+              <div className="pull-right">                
+                <span className="hidden-xs">&nbsp;שעה:&nbsp;</span>
+                <span>{ohe.timeLabel}</span>
               </div>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-md-6 ">
-              <p>
-                  לאישור ההגעה לדירה ולקבלת הכתובת המדויקת אנא התחברו על מנת שנדע למי לצפות.
-              </p>
-            </div>
-            <div className="col-md-6 modal-reassurance">
-              <p>
-                פרטיותכם יקרה לנו! לא יעשה כל שימוש אחר בפרטיכם. אנו מבקשים פרטי קשר על מנת שנוכל לעדכן על שינויים במידת הצורך.
-              </p>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-md-6">
-              <a className="btn btn-block dorbel-rtl btn-social btn-facebook" data-toggle="modal" data-target="#modal-signup-facebook">
-                <i className="fa fa-facebook"></i> הרשמו עם פייסבוק
-              </a>
-            </div>
-            <div className="col-md-6">
-              <a className="btn btn-block btn-default dorbel-rtl" data-toggle="modal" data-target="#modal-signup-email">
-                <i className="fa fa-envelope-o">&nbsp</i> הרשם באמצעות מייל
-              </a>
-            </div>
-          </div>
+            </Col>
+          </Row>
+          <Row>
+            <Col md={6}>
+              <p>לאישור ההגעה לדירה ולקבלת הכתובת המדויקת אנא התחברו על מנת שנדע למי לצפות.</p>
+            </Col>
+            <Col md={6} className="small-text">
+              <p>פרטיותכם יקרה לנו! לא יעשה כל שימוש אחר בפרטיכם. אנו מבקשים פרטי קשר על מנת שנוכל לעדכן על שינויים במידת הצורך.</p>
+            </Col>
+          </Row>
+          <FormWrapper.Wrapper layout="elementOnly" onChange={this.handleChanges} ref="form">
+            <Row>
+              <Col md={6}>
+                <FRC.Input name="user.firstname" placeholder="שם פרטי" value={profile.first_name} required/>
+              </Col>
+              <Col md={6}>
+                <FRC.Input name="user.phone" placeholder="טלפון" value={profile.phone} validationError="מספר טלפון לא תקין" required/>
+              </Col>
+            </Row>
+            <Row>
+              <Col md={6}>
+                <FRC.Input name="user.email" placeholder="מייל" type="email" value={profile.email} validations="isEmail" validationError="כתובת מייל לא תקינה" required/>
+              </Col>
+              <Col md={6}>
+                <Button bsStyle="success" block onClick={this.register}>המשך</Button>
+              </Col>
+            </Row>
+          </FormWrapper.Wrapper>
         </Modal.Body>
         <Modal.Footer>
           <div className="text-center">
@@ -81,11 +158,32 @@ class OHERegisterModal extends React.Component {
       </Modal>
     );
   }
+
+  render() {
+    const { ohe, appStore, appProviders } = this.props;
+    const profile = appStore.authStore.getProfile();    
+    
+    if (!ohe) { 
+      return null; 
+    } else if (!appStore.authStore.isLoggedIn) {
+      appProviders.authProvider.showLoginModal();
+      return null;
+    } else if (this.state.successfullyRegistered) {
+      return this.renderSuccessModal(profile);
+    } else if (this.props.action === 'unregister') {
+      return this.renderUnregisterForm(ohe, profile);
+    } else {
+      return this.renderRegisterForm(ohe, profile);
+    }
+  }
 }
 
-OHERegisterModal.propTypes = {
+OHERegisterModal.wrappedComponent.propTypes = {
+  appProviders: React.PropTypes.object,
+  appStore: React.PropTypes.object,
   ohe: React.PropTypes.object,
-  onClose: React.PropTypes.func
+  onClose: React.PropTypes.func,
+  action: React.PropTypes.string
 };
 
 export default OHERegisterModal;
