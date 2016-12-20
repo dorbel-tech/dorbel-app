@@ -89,7 +89,8 @@ function* update(openHouseEvent) {
     old_comments: existingEvent.comments,
     new_start_time: start,
     new_end_time: end,
-    new_comments: openHouseEvent.comments
+    new_comments: openHouseEvent.comments,
+    user_uuid: existingEvent.publishing_user_id
   });
 
   return result;
@@ -106,7 +107,8 @@ function* remove(eventId) {
     event_id: existingEvent.id,
     start_time: existingEvent.start_time,
     end_time: existingEvent.end_time,
-    comments: existingEvent.comments    
+    comments: existingEvent.comments,
+    user_uuid: existingEvent.publishing_user_id
   });
 
   return result;
