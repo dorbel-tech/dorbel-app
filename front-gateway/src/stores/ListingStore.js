@@ -1,5 +1,4 @@
 import { observable, asMap, computed } from 'mobx';
-import _ from 'lodash';
 import autobind from 'react-autobind';
 
 export default class ListingStore {
