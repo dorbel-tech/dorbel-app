@@ -69,6 +69,20 @@ class OheProvider {
 
   // Follow listing
 
+  getFollowsForListing(listing) {
+    return this.apiProvider.fetch('/api/ohe/v1/followers/by-listing/' + listing.id)
+    .then(followers => {
+      let usersFollowDetails = null;
+      
+      if (this.appStore.authStore.isLoggedIn) {
+        const user = this.appStore.authStore.getProfile();
+        usersFollowDetails = _.find(followers, { following_user_id: user.dorbel_user_id });       
+      }
+
+      this.appStore.oheStore.usersFollowsByListingId.set(listing.id, usersFollowDetails);        
+    });
+  }
+
   follow(listing) {
     return this.apiProvider.fetch('/api/ohe/v1/follower', {
       method: 'POST',
@@ -76,11 +90,15 @@ class OheProvider {
         listing_id: listing.id
       }
     })
-    .then(() => {
-      // TODO : add to store      
-    });
+    .then(followDetails => this.appStore.oheStore.usersFollowsByListingId.set(listing.id, followDetails));
   }
 
+  unfollow(followDetails) {
+    return this.apiProvider.fetch('/api/ohe/v1/follower/' + followDetails.id, {
+      method: 'DELETE'
+    })
+    .then(() => this.appStore.oheStore.usersFollowsByListingId.set(followDetails.listing_id, null));    
+  }
 }
 
 module.exports = OheProvider;

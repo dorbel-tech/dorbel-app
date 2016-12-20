@@ -2,6 +2,7 @@ import React from 'react';
 import { Row, Modal, Button, Col } from 'react-bootstrap';
 import { observer } from 'mobx-react';
 import FormWrapper from '~/components/FormWrapper/FormWrapper';
+import autobind from 'react-autobind';
 
 const FRC = FormWrapper.FRC;
 
@@ -10,9 +11,7 @@ class FollowListingModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = { successfullyFollowed: false };
-    this.close = this.close.bind(this);
-    this.follow = this.follow.bind(this);
-    this.follow = this.follow.bind(this);
+    autobind(this);
   }
 
   follow() {
@@ -57,7 +56,9 @@ class FollowListingModal extends React.Component {
     );
   }
 
-  renderFollowForm(listing, profile) {
+  renderFollowForm() {
+    const { listing, appStore } = this.props;
+    const profile = appStore.authStore.getProfile();   
     return (
       <Modal show={true}>
         <Modal.Header closeButton onHide={this.close}>
@@ -67,7 +68,7 @@ class FollowListingModal extends React.Component {
           <Row className='text-center'>
             <Col xs={8} xsOffset={2} >
               <p>הזינו את כתובת המייל שלכם בכדי לקבל עדכון במידה ויפורסמו מועדים נוספים לדירה זו:</p>
-              <FormWrapper.Wrapper layout="elementOnly" onChange={this.handleChanges} ref="form">
+              <FormWrapper.Wrapper layout="elementOnly" ref="form">
                 <FRC.Input name="user.email" placeholder="מייל" type="email" value={profile.email} validations="isEmail" validationError="כתובת מייל לא תקינה" required/>
                 <br/>
                 <Button bsStyle="success" onClick={this.follow}>עדכנו אותי!</Button>
@@ -84,21 +85,54 @@ class FollowListingModal extends React.Component {
     );
   }
 
+  renderUnfollowSuccess() {
+    const { listing, appProviders } = this.props;
+    const usersFollowDetails = this.props.appStore.oheStore.usersFollowsByListingId.get(listing.id);
+
+    if (usersFollowDetails) {
+      appProviders.oheProvider.unfollow(usersFollowDetails);
+    }
+    // show success modal anyway
+    return (
+      <Modal show={true}>
+        <Modal.Header closeButton onHide={this.close}>
+          <Modal.Title>בקשתכם התקבלה</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>          
+          <Row className='text-center'>
+            <Col xs={8} xsOffset={2} >
+              <p>כתובתכם הוסרה מרשימת התפוצה</p>
+              <Button bsStyle="success" onClick={this.close}>סגור</Button>              
+            </Col>
+          </Row>
+        </Modal.Body>
+        <Modal.Footer>
+          <div className="text-center">
+            לשאלות נוספות ויצירת קשר בנוגע לדירה שלחו לנו מייל: <a href="mailto:homesupport@dorbel.com?Subject=Hello%20again" target="_top">homesupport@dorbel.com</a>
+          </div>          
+        </Modal.Footer>
+      </Modal>
+    );
+  }
+
   render() {
-    const { action, listing, appProviders, appStore } = this.props;
-    const profile = appStore.authStore.getProfile();    
+    const { action, appProviders, appStore } = this.props;
     
-    if (!listing) {
-      return null; 
-    } else if (!appStore.authStore.isLoggedIn) {
+    let renderFunc = () => null;
+
+    if (this.state.successfullyFollowed) {
+      renderFunc = this.renderFollowSuccess;
+    } else if (action === 'follow') {
+      renderFunc = this.renderFollowForm;
+    } else if (action === 'unfollow') {
+      renderFunc = this.renderUnfollowSuccess;
+    } 
+
+    if (!appStore.authStore.isLoggedIn) {
       appProviders.authProvider.showLoginModal();
       return null;
-    } else if (this.state.successfullyFollowed) {
-      return this.renderFollowSuccess();
-    } else if (action === 'follow') {
-      return this.renderFollowForm(listing, profile);
     } else {
-      return null;
+      return renderFunc();
     }
   }
 }

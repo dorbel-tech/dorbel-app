@@ -2,10 +2,12 @@ import { observable, asMap } from 'mobx';
 
 export default class OheStore {
   @observable oheById;
+  @observable usersFollowsByListingId;
 
   constructor(initialState) {    
     initialState = initialState || {};
     this.oheById = asMap(initialState.oheById || {});
+    this.usersFollowsByListingId = asMap({});
   }
 
   oheByListingId(listing_id) {

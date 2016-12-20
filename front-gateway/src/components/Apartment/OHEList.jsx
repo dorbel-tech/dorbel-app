@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import { Row } from 'react-bootstrap';
+import autobind from 'react-autobind';
 import Icon from '../Icon/Icon';
 
 import OHERegisterModal from './OHERegisterModal';
@@ -11,59 +12,79 @@ class OHEList extends Component {
   constructor(props) {
     super(props);
     this.state = { oheForModal: null };
-    this.renderOpenHouseEvent = this.renderOpenHouseEvent.bind(this);
-    this.followListing = this.followListing.bind(this);
+    autobind(this);
   }
 
   componentDidMount() {
     this.props.appProviders.oheProvider.loadListingEvents(this.props.listing.id);
+    this.props.appProviders.oheProvider.getFollowsForListing(this.props.listing);
   }
 
-  renderOpenHouseEvent(openHouseEvent)  {
+  renderListItem(params) {
     const { router } = this.props;
     const currentRoute = router.getRoute().join('/');
-    
-    let action = 'ohe-register';    
-    let callToActionText = 'לחץ לאישור הגעה במועד זה';
-    if (openHouseEvent.usersOwnRegistration) {
-      action = 'ohe-unregister';
-      callToActionText = 'הינך רשומ/ה לארוע זה. לחצ/י לביטול';
-    }
-
-    let onClickFunction = () => router.setRoute(`/${currentRoute}/${action}/${openHouseEvent.id}`);
+    const onClickFunction = () => router.setRoute(`/${currentRoute}/${params.onClickRoute}`);
 
     return (
-      <a key={openHouseEvent.id} href="#" className="list-group-item" onClick={onClickFunction}>
-        <div className="row">
+      <a key={params.key} href="#" className="list-group-item" onClick={onClickFunction}>
+        <Row>
           <div className="dorbel-icon-calendar pull-right">
-            <Icon iconName="dorbel_icon_calendar" />
+            <Icon iconName={params.iconName} />
           </div>
           <div className="date-and-time pull-right">
-            <span className="time">{openHouseEvent.timeLabel}</span>&nbsp;|&nbsp;
-            <span className="date">{openHouseEvent.dateLabel}</span>
+            <span >{params.itemText}</span>
             <br className="visible-lg" />
             <i className="hidden-lg">&nbsp;</i>
-            <span className="hidden-xs">{callToActionText}</span>
+            <span className="hidden-xs">{params.callToActionText}</span>
           </div>
           <div className="dorbel-icon-arrow fa fa-chevron-left pull-left"></div>
-        </div>
+        </Row>
     </a>
     );
   }
 
-  followListing() {
-    const { router } = this.props;
-    const currentRoute = router.getRoute().join('/');
-    router.setRoute(`/${currentRoute}/follow`);
+  renderOpenHouseEvent(openHouseEvent)  {
+    let action = 'ohe-register';    
+    let callToActionText = 'לחצו לאישור הגעה במועד זה';
+    if (openHouseEvent.usersOwnRegistration) {
+      action = 'ohe-unregister';
+      callToActionText = 'נרשמתם לארוע זה. לחצו לביטול';
+    }
+
+    return this.renderListItem({
+      onClickRoute: `${action}/${openHouseEvent.id}`,
+      key: openHouseEvent.id,
+      iconName: 'dorbel_icon_calendar',
+      itemText: `${openHouseEvent.timeLabel} | ${openHouseEvent.dateLabel}`,
+      callToActionText
+    });
+  }
+
+  renderFollowItem(listing) {
+    let action = 'follow';
+    let itemText = 'אהבנו, אבל לא נצליח להגיע';
+    let callToActionText = 'קבלו עדכונים על מועדים עתידיים';
+    const userIsFollowing = this.props.appStore.oheStore.usersFollowsByListingId.get(listing.id);
+
+    if (userIsFollowing) {
+      action = 'unfollow';
+      itemText = 'אתם עוקבים אחרי דירה זו';
+      callToActionText = 'לחצו להסרה מרשימת העדכונים';
+    }
+
+    return this.renderListItem({
+      itemText, callToActionText,
+      iconName: 'icon-dorbel-icon-master_icon-calendar-plus',
+      onClickRoute: action
+    });
   }
 
   render() {
-    const { action, listing, router, oheId, appStore } = this.props;
+    const { listing, router, oheId, appStore } = this.props;
     const openHouseEvents = this.props.appStore.oheStore.oheByListingId(listing.id);    
     const currentUrl = 'https://app.dorbel.com/apartments/' + listing.id;
     const oheForModal = oheId ? appStore.oheStore.oheById.get(oheId) : null;
     const closeModal = () => router.setRoute('/apartments/' + listing.id);
-    const listingForModal = action === 'follow' ? listing : null;
 
     return (
       <div className="container">
@@ -90,22 +111,7 @@ class OHEList extends Component {
               <div className="list-group apt-choose-date-container">
                 <h5 className="text-center apt-choose-date-title">בחר במועד לביקור</h5>
                 {openHouseEvents.map(this.renderOpenHouseEvent)}
-
-                <a href="#" className="list-group-item" onClick={this.followListing}>
-                  <Row>
-                    <div className="dorbel-icon-calendar pull-right">
-                      <Icon iconName="icon-dorbel-icon-master_icon-calendar-plus" />
-                    </div>
-                    <div className="date-and-time pull-right">
-                      <span>אהבתי, אבל לא אצליח להגיע</span>
-                      <br className="visible-lg" />
-                      <i className="hidden-lg">&nbsp;</i>
-                      <span className="hidden-xs">קבל/י עדכונים על מועדים עתידיים</span>
-                    </div>
-                    <div className="dorbel-icon-arrow fa fa-chevron-left pull-left"></div>
-                  </Row>
-                </a>
-
+                {this.renderFollowItem(listing)}
                 <div href="#" className="list-group-item owner-container text-center">                 
                   <h5>
                   <span>{ listing.publishing_user_type === 'landlord' ? 'בעל הנכס' : 'דייר יוצא' }</span>
@@ -118,7 +124,7 @@ class OHEList extends Component {
           </div>
         </div>
         <OHERegisterModal ohe={oheForModal} onClose={closeModal} action={this.props.action} />
-        <FollowListingModal listing={listingForModal} onClose={closeModal} action={this.props.action} />
+        <FollowListingModal listing={listing} onClose={closeModal} action={this.props.action} />
       </div>
     );
   }

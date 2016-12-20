@@ -81,7 +81,7 @@ class OHERegisterModal extends React.Component {
           <Row>
             <p>
               היי {profile.first_name}, <br/>
-              האם את/ה בטוח/ה שברצונך לבטל את הביקור ?
+              האם אתם בטוחים שברצונכם לבטל את הביקור ?
             </p>
           </Row>
           <Row>
@@ -89,7 +89,7 @@ class OHERegisterModal extends React.Component {
               <Button onClick={this.close} bsStyle="info" block>אגיע לביקור</Button>
             </Col>
             <Col md={6}>
-              <Button onClick={this.unregister} bsStyle="danger" block>בטל את הגעתי</Button>
+              <Button onClick={this.unregister} bsStyle="danger" block>בטלו את הגעתי</Button>
             </Col>
           </Row>
         </Modal.Body>

@@ -11,7 +11,7 @@ describe('ApartmentsProvider', function () {
       fetch: stub().resolves(this.mockApartments)
     };
     this.appStoreMock = {
-      apartmentStore: {}
+      listingStore: {}
     };
 
     this.apartmentsProvider = new ApartmentsProvider(this.appStoreMock, this.apiProviderMock);
@@ -19,7 +19,7 @@ describe('ApartmentsProvider', function () {
 
   it('should call API to load apartments and save them to store', function () {
     return this.apartmentsProvider.loadApartments()
-    .then(() => expect(this.appStoreMock.apartmentStore.apartments).toBe(this.mockApartments));
+    .then(() => expect(this.appStoreMock.listingStore.apartments).toBe(this.mockApartments));
   });
 
 });
