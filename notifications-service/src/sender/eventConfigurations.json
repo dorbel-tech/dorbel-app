@@ -1,25 +1,25 @@
 [
   {
     "eventType": "APARTMENT_CREATED",
-    "notificationType": "added apartment"
+    "notificationType": "new_apartment_submitted"
   },
   { 
     "eventType": "OHE_CREATED",
-    "notificationType": "added open house event"
+    "notificationType": "open_house_event_added"
   },
   {
     "eventType": "OHE_CREATED",
-    "notificationType": "ohe added to followed listing",
+    "notificationType": "ohe_added_to_followed_listing",
     "dataRetrieval": [ "getListingFollowers" ]
   },
   {
     "eventType": "OHE_REGISTERED",
-    "notificationType": "signed up for ohe",
+    "notificationType": "registered_for_ohe",
     "dataRetrieval": [ "getListingInfo", "getOheInfo" ]
   },
   {
     "eventType": "OHE_DELETED",
-    "notificationType": "OHE I was signed up for was cancelled",
+    "notificationType": "OHE_I_was_signed_up_for_was_cancelled",
     "dataRetrieval": [ "getListingInfo", "getOheRegisteredUsers" ]
   }
 ]
