@@ -1,6 +1,6 @@
 {
   "name": "dorbel-front",
-  "version": "0.0.39",
+  "version": "0.0.41",
   "description": "Front end application for dorbel",
   "main": "index.js",
   "scripts": {
