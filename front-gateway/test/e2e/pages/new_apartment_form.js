@@ -19,7 +19,7 @@ module.exports = {
       selector: '.apartment-details-step',
       elements: {
         city: {
-          selector: 'select[name="apartment.building.city.city_name"]'
+          selector: 'select[name="apartment.building.city.id"]'
         },
         street: {
           selector: 'input[name="apartment.building.street_name"]'
@@ -44,9 +44,6 @@ module.exports = {
         },
         apartmentRooms: {
           selector: 'select[name="apartment.rooms"]'
-        },
-        roomates: {
-          selector: 'input[name="roomates"]'
         },
         description: {
           selector: 'textarea[name="description"]'
@@ -199,7 +196,6 @@ module.exports = {
         .setValue('@buildingFloors', '3')
         .setValue('@apartmentSize', '50')
         .setValue('@apartmentRooms', '2')
-        .setValue('@roomates', '2')
         .setValue('@description', 'דויד המלך עובד כאן')
         .click('@parking')
         .click('@elevator')
@@ -234,16 +230,16 @@ module.exports = {
         .setValue('@eventDate', '')
         .setValue('@eventStartTime', '08:00')
         .setValue('@eventEndTime', '09:00')
-        .setValue('@comments', 'דויד גם מגיע');
+        .setValue('@comments', 'We are coming');
 
       this.section.openHouseEvent.assert.visible('@eventDateCalendar');
       return this;
     },
     fillUserDetailsFields: function () {
       this.section.openHouseEvent
-        .setValue('@firstName', 'דויד')
-        .setValue('@lastName', 'וירצר')
-        .setValue('@email', 'poison77@gmail.com')
+        .setValue('@firstName', 'Test')
+        .setValue('@lastName', 'Tester')
+        .setValue('@email', 'teser@test.com')
         .setValue('@phoneNumber', '9999999');
 
       return this;
