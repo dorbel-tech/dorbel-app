@@ -13,9 +13,13 @@ let nightwatch_config = {
     default: {
       desiredCapabilities: {
         'build': 'nightwatch-browserstack',
-        'browserstack.user': process.env.BROWSERSTACK_USERNAME || 'davidvirtser1',
-        'browserstack.key': process.env.BROWSERSTACK_ACCESS_KEY || '426qzKmzkZckXaHey3kr',
-        'browser': 'chrome',
+        'browserstack.user': process.env.BROWSERSTACK_USERNAME,
+        'browserstack.key': process.env.BROWSERSTACK_ACCESS_KEY,
+        'os': 'Windows',
+        'os_version': '10',
+        'browser': 'Chrome',
+        'browser_version': '55.0',
+        'resolution': '1024x768'
         'browserstack.debug': true,
       }
     }

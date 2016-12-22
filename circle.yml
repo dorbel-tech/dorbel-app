@@ -23,6 +23,8 @@ machine:
     APARTMENTS_API_URL: https://www.mock.mock/mock
     OHE_API_URL: https://www.mock.mock/mock
     FRONT_GATEWAY_URL: http://front-gateway-staging.eu-west-1.elasticbeanstalk.com
+    BROWSERSTACK_USERNAME: davidvirtser1
+    BROWSERSTACK_ACCESS_KEY: 426qzKmzkZckXaHey3kr
   services:
     - mysql
     - redis
