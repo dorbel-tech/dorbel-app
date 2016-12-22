@@ -19,7 +19,7 @@ let nightwatch_config = {
         'os_version': '10',
         'browser': 'Chrome',
         'browser_version': '55.0',
-        'resolution': '1024x768',
+        'resolution': '1280x1024',
         'browserstack.debug': true,
       }
     }
