@@ -2,6 +2,14 @@
 version: '2'
 services:
 
+  db:
+    ports:
+      - '3306:3306'
+
+  cache:
+    ports:
+      - '6379:6379'
+      
   apartments-api:
     ports:
       - '5858:5858'
