@@ -7,6 +7,7 @@ function getDateString() {
 
 function getFakeListing() {
   return {
+    status: 'listed',
     monthly_rent: faker.random.number(),
     lease_start: getDateString(),
     lease_end: getDateString(),
@@ -22,7 +23,11 @@ function getFakeListing() {
         house_number: '192',
         city_id: 1,
         city: {
-          city_name: 'תל אביב'
+          id: 1
+        },
+        neighborhood_id: 1,
+        neighborhood: {
+          id: 1
         }
       }
     },

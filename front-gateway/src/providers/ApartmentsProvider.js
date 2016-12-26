@@ -14,13 +14,13 @@ class ApartmentsProvider {
   }
 
   loadApartments() {
-    return this.apiProvider.fetch('/api/v1/listings')
-      .then(action(apartments => this.appStore.apartmentStore.apartments = apartments));
+    return this.apiProvider.fetch('/api/apartments/v1/listings')
+      .then(this.appStore.listingStore.add);
   }
 
-  loadSingleApartment(id) {    
-    return this.apiProvider.fetch('/api/v1/listings/' + id)
-      .then(action('load-single-apartment', apartment => this.appStore.apartmentStore.apartmentsById.set(id,apartment)));
+  loadFullListingDetails(id) {
+    return this.apiProvider.fetch('/api/apartments/v1/listings/' + id)
+      .then(action('load-single-apartment', apartment => this.appStore.listingStore.listingsById.set(id,apartment)));
   }
 
   mapUploadApartmentFormToCreateListing(formValues) {
@@ -36,7 +36,7 @@ class ApartmentsProvider {
 
   uploadApartment(formValues) {
     const listing = this.mapUploadApartmentFormToCreateListing(formValues);
-    return this.apiProvider.fetch('/api/v1/listings', { method: 'POST', data: listing });
+    return this.apiProvider.fetch('/api/apartments/v1/listings', { method: 'POST', data: listing });
   }
 
   setTimeFromString(dateString, timeString) {

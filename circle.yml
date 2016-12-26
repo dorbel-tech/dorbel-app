@@ -20,6 +20,11 @@ machine:
     AUTH0_DOMAIN: dorbel-dev.eu.auth0.com
     AUTH0_API_CLIENT_ID: 6LbnsQrAVSEk8MPpZzcwvkze5G5fAc7q
     AUTH0_API_CLIENT_SECRET: eNxH29niwPQ8VZH4o9kcUP9-VBZnkT_j5_azdKNyArt1WVfh_JxAs_PlG05UDPHC
+    APARTMENTS_API_URL: https://www.mock.mock/mock
+    OHE_API_URL: https://www.mock.mock/mock
+    FRONT_GATEWAY_URL: http://front-gateway-staging.eu-west-1.elasticbeanstalk.com
+    BROWSERSTACK_USERNAME: davidvirtser1
+    BROWSERSTACK_ACCESS_KEY: 426qzKmzkZckXaHey3kr
   services:
     - mysql
     - redis
@@ -49,7 +54,7 @@ test:
     - cd apartments-api && yarn run test:integration
     - cd front-gateway && yarn run lint
     - cd front-gateway && yarn test 
-    - cd front-gateway && yarn run test:e2e 
+    # - cd front-gateway && yarn run test:e2e 
     - cd notifications-service && yarn run lint
     - cd notifications-service && yarn test 
     - cd notifications-service && yarn run test:integration
@@ -68,4 +73,5 @@ deployment:
       - yarn run deploy apartments-api stage
       - yarn run deploy front-gateway stage
       - yarn run deploy notifications-service stage
-      - yarn run deploy ohe-api stage    
+      - yarn run deploy ohe-api stage
+      - cd front-gateway && yarn run test:e2e:browserstack

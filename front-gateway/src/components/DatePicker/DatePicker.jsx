@@ -10,7 +10,10 @@ const dateFormat = moment.localeData()._longDateFormat.L;
 class DatePicker extends Component {
   constructor(props) {
     super(props);
-    this.state = { dateValue: this.props.value || moment().format() }; // today
+    this.state = {
+      dateValue: this.props.value || moment().format(),
+      name: this.props.name
+    }; // today
   }
 
   componentDidMount() {
@@ -23,14 +26,15 @@ class DatePicker extends Component {
     this.setState({ dateValue });
     if (this.props.onChange) {
       // We want just date as string
-      this.props.onChange(dateValue.substring(10,0)); 
+      this.props.onChange(dateValue.substring(10, 0));
     }
   }
 
   render() {
     return (
       <ReactBootstrapDatePicker
-        value={this.state.dateValue} 
+        value={this.state.dateValue}
+        name={this.state.name}
         showClearButton={false}
         monthLabels={monthLabels}
         dayLabels={weekdayLabels}
@@ -39,14 +43,15 @@ class DatePicker extends Component {
         previousButtonElement=">"
         nextButtonElement="<"
         onChange={this.handleChange.bind(this)}
-      />
+        />
     );
   }
 }
 
 DatePicker.propTypes = {
   onChange: React.PropTypes.func,
-  value: React.PropTypes.string
+  value: React.PropTypes.string,
+  name: React.PropTypes.string
 };
 
 export default DatePicker;

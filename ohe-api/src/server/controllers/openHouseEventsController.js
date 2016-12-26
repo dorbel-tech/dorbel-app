@@ -6,7 +6,7 @@ const openHouseEventsFinderService = require('../../services/openHouseEventsFind
 
 function* get() {
   const id = this.params.id;
-  logger.debug({event_id: id}, 'Getting  open house event...');
+  logger.debug({event_id: id}, 'Getting open house event...');
   const result = yield openHouseEventsFinderService.find(id);
   logger.info({event_id: id}, 'Open house event found');
   this.response.status = 200;

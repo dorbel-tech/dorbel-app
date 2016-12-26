@@ -7,7 +7,7 @@ services:
       - '5858:5858'
     volumes:
       - ./apartments-api:/home/nodejs/app
-      - /home/nodejs/app/node_modules
+      - /home/nodejs/app/node_modules/
       # - ../dorbel-shared:/home/nodejs/app/node_modules/dorbel-shared
     environment:
       NODE_ENV: ${NODE_ENV}
@@ -19,8 +19,8 @@ services:
       - '8888:8888'
     volumes:
       - ./front-gateway:/home/nodejs/app
-      - /home/nodejs/app/node_modules
-      - /home/nodejs/app/public/build
+      - /home/nodejs/app/node_modules/
+      - /home/nodejs/app/public/build/
       # - ../dorbel-shared:/home/nodejs/app/node_modules/dorbel-shared
     environment:
       NODE_ENV: ${NODE_ENV}
@@ -31,7 +31,7 @@ services:
       - '5861:5861'
     volumes:
       - ./notifications-service:/home/nodejs/app
-      - /home/nodejs/app/node_modules
+      - /home/nodejs/app/node_modules/
       # - ../dorbel-shared:/home/nodejs/app/node_modules/dorbel-shared
     environment:
       NODE_ENV: ${NODE_ENV}          
@@ -42,7 +42,7 @@ services:
       - '5860:5860'
     volumes:
       - ./ohe-api:/home/nodejs/app
-      - /home/nodejs/app/node_modules
+      - /home/nodejs/app/node_modules/
       # - ../dorbel-shared:/home/nodejs/app/node_modules/dorbel-shared
     environment:
       NODE_ENV: ${NODE_ENV}

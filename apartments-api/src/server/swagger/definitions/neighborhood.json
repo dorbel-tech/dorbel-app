@@ -1,0 +1,10 @@
+{
+  "Neighborhood": {
+    "type": "object",
+    "properties": {
+      "neighborhood_name": {
+        "type": "string"
+      }
+    }
+  }
+}

@@ -3,44 +3,30 @@ import shared from 'dorbel-shared';
 import proxy from 'koa-proxy';
 
 const logger = shared.logger.getLogger(module);
-const apiPrefix = '/api';
 
-function getApiDocs() {
-  return ['APARTMENTS_API_URL', 'OHE_API_URL']
-    .map(urlKey => {
-      const url = shared.config.get(urlKey);
-      if (!url) {
-        logger.error({ urlKey }, 'missing back end url key for proxy');
-        return;
-      }
-
-      return shared.utils.waitForConnection({ path: url })
-        .then(() => fetch(url + '/swagger'))
-        .then(res => res.json())
-        .then(res => ({
-          url, basePath: res.basePath, paths: Object.keys(res.paths), title: res.info.title
-        }));
-    })
-    .filter(res => !!res); // just the ones that turned into promises
-}
-
-function escapseSlashes(path) {
-  return path.replace(/\//, '\\/');
-}
+/* Definition of all grateway API urls and their prefixes in front-gateway proxy.
+ * For example:
+ *  apartments API oiginal route http://localhost:3000/v1/listings
+ *  will be accessible from front-gateway as: http://localhost:3001/api/apartments/v1/listings
+ */
+const apisConfig = [{
+  url: 'APARTMENTS_API_URL',
+  prefix: 'apartments'
+}, {
+  url: 'OHE_API_URL',
+  prefix: 'ohe'
+}];
 
 function* loadProxy(app) {
   logger.info('loading proxy');
-  const swaggerDocs = yield Promise.all(getApiDocs());
 
-  swaggerDocs.forEach(doc => {
-    // TODO : dynamic values will also need to be escaped (e.g. /apartments/:apartmentId)
-    logger.debug({ url: doc.url, app: doc.title }, 'loading proxy for backend API');
-    const paths = doc.paths.map(escapseSlashes).join('|');
-    const pattern = `^\\${apiPrefix}\\${doc.basePath}(?:${paths})`;
+  apisConfig.forEach(apiConfig => {
+    logger.debug(apiConfig, 'loading proxy for backend API');
+    const pattern = new RegExp(`^\/api\/${apiConfig.prefix}`);
     app.use(proxy({
-      host:  doc.url,
-      match: new RegExp(pattern),
-      map: (path) => path.replace(apiPrefix, '')
+      host: shared.config.get(apiConfig.url),
+      match: pattern,
+      map: (path) => path.replace(pattern, '')
     }));
   });
 }
@@ -48,4 +34,3 @@ function* loadProxy(app) {
 module.exports = {
   loadProxy
 };
-

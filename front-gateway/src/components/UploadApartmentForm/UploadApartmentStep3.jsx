@@ -2,17 +2,15 @@ import React from 'react';
 import { observer } from 'mobx-react';
 import UploadApartmentBaseStep from './UploadApartmentBaseStep';
 import DatePicker from '~/components/DatePicker/DatePicker';
-import formHelper from './formHelper';
-import FRC from 'formsy-react-components';
+import FormWrapper from '~/components/FormWrapper/FormWrapper';
+
 
 @observer(['appStore', 'appProviders'])
 class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
 
   componentDidMount() {
-    if (this.props.appStore.newListingStore.formValues) {
-      // load form with existing values
-      this.refs.form.refs.formsy.reset(this.props.appStore.newListingStore.formValues);
-    }
+    // load form with existing values
+    this.refs.form.refs.formsy.reset(this.props.appStore.newListingStore.formValues);
   }
 
   getHourOptions(hoursArray) {
@@ -32,30 +30,30 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
   renderUserDetails() {
     const { authStore } = this.props.appStore;
     const { authProvider } = this.props.appProviders;
+    const FRC = FormWrapper.FRC;
 
     if (authStore.isLoggedIn) {
-      const profile = authStore.getProfile();
       return (
         <div>
           <div className="row">
             <div className="col-md-6">
-              <FRC.Input name="user.firstname" label="שם פרטי" value={profile.given_name} required/>
+              <FRC.Input name="user.firstname" label="שם פרטי" required/>
             </div>
             <div className="col-md-6">
-              <FRC.Input name="user.lastname" label="שם משפחה" value={profile.family_name} required/>
+              <FRC.Input name="user.lastname" label="שם משפחה" required/>
             </div>                
           </div>
           <div className="row">
             <div className="col-md-6">
-              <FRC.Input name="user.email" label="מייל" type="email" value={profile.email} validations="isEmail" validationError="כתובת מייל לא תקינה" required/>
+              <FRC.Input name="user.email" label="מייל" type="email" validations="isEmail" validationError="כתובת מייל לא תקינה" required/>
             </div>
             <div className="col-md-6">
-              <FRC.Input name="user.phone" label="טלפון" type="number" validationError="מספר טלפון לא תקין" required/>
+              <FRC.Input name="user.phone" label="טלפון" validationError="מספר טלפון לא תקין" required/>
             </div>                
           </div>
           <div className="row">
             <div className="col-md-12">
-              <FRC.RadioGroup name="publishing_user_type" type="inline" label="הגדר אותי במודעה כ:" value="landlord"              
+              <FRC.RadioGroup name="publishing_user_type" type="inline" label="הגדר אותי במודעה כ:"
                 options={[{label:'בעל הדירה', value:'landlord'},{label:'הדייר הנוכחי',value:'tenant'}]} />
             </div>
           </div>              
@@ -68,6 +66,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
   
   render() {
     let { newListingStore, authStore } = this.props.appStore;
+    const FRC = FormWrapper.FRC;
 
     return (
       <div className="container-fluid upload-apt-wrapper">
@@ -75,21 +74,20 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
           <div className="text">
             <h1>מועדי ביקור ופרטי קשר</h1>
             <ul>
-              <li>בחרו מועד ביקור אליו דיירים יוכלו להירשם ולהגיע לביקור בדירה</li>
-              <li>אנו ממליצים לבחור מועדים בשעות העקב או בסופ״שׁ, אז דיירים יותר פנויים</li>
-              <li>מלאו את פרטיכם על מנת שתוכלו לקבל עדכונים לגבי כמות המבקרים שנרשמו</li>
-              <li>פרטיותכם יקרה לנו. פרטיכם ישמשו ליצירת קשר ולעדכונים הנוגעים לתהליך בלבד</li>
+              <li>בחרו מועד אליו דיירים יוכלו להירשם ולהגיע לביקור בדירה</li>
+              <li>מומלץ לבחור בשעות הבוקר/ערב או בסופ״ש - אז דיירים יותר פנויים</li>
+              <li>פרטיכם ישמשו לעדכון לגבי כמות המבקרים שנרשמו ועדכונים הנוגעים לתהליך בלבד!</li>
             </ul>
           </div>
           <img src="https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/upload-apt-form/icon-signup-card.svg" alt="" />
         </div>
-        <div className="col-md-5 upload-apt-left-container">
-          <formHelper.FormWrapper layout="vertical" onChange={this.handleChanges} ref="form">
+        <div className="col-md-5 upload-apt-left-container open-house-event-step">
+          <FormWrapper.Wrapper layout="vertical" onChange={this.handleChanges} ref="form">
             <div className="row form-section">
               <div className="form-section-headline">מועדי ביקור בדירה</div>
               <div className="form-group">
                 <label>תאריך</label>
-                <DatePicker value={this.props.appStore.newListingStore.formValues.open_house_event_date} onChange={this.handleChange.bind(this, 'open_house_event_date')} />              
+                <DatePicker name="ohe-date" value={this.props.appStore.newListingStore.formValues.open_house_event_date} onChange={this.handleChange.bind(this, 'open_house_event_date')} />              
               </div>
               <div className="row">
                 <div className="col-md-6">
@@ -110,10 +108,10 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
               <div className="form-section-headline">פרטי משתמש</div>              
               {this.renderUserDetails()}                            
             </div>
-          </formHelper.FormWrapper>
+          </FormWrapper.Wrapper>
 
         <div className="form-nav bottom col-lg-5 col-md-5 col-sm-12 col-xs-12">
-          <span onClick={this.clickBack.bind(this)}><i className="fa fa-arrow-circle-o-right fa-2x" aria-hidden="true"></i>&nbsp; שלב קודם</span>
+          <span onClick={this.clickBack.bind(this)}><i className="open-house-event-previous-step fa fa-arrow-circle-o-right fa-2x" aria-hidden="true"></i>&nbsp; שלב קודם</span>
           <span>3/3</span>
           <button onClick={this.clickNext.bind(this)} disabled={!authStore.isLoggedIn} className="btn btn-lg btn-default btn-submit dorbel-btn">שליחה וסיום</button>
         </div>

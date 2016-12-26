@@ -21,7 +21,7 @@ class Header extends Component {
             </div>
             <div id="navbar" className="navbar-collapse collapse">
                 <form className="navbar-form navbar-left">
-                  <NavLink className="btn btn-success" to="/apartments/new_form" >השכר נכס בבעלותך</NavLink>
+                  <NavLink className="btn btn-success add-apartment-button" to="/apartments/new_form" >השכר נכס בבעלותך</NavLink>
                 </form>
             </div>
           </div>

@@ -5,9 +5,6 @@
       "city_name": {
         "type": "string"
       }
-    },
-    "required": [
-      "city_name"
-    ]
+    }
   }
 }

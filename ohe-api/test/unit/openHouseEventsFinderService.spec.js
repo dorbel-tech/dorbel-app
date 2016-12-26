@@ -5,7 +5,7 @@ const __ = require('hamjest');
 const faker = require('../shared/fakeObjectGenerator');
 var sinon = require('sinon');
 
-describe('Open House Event Service', function () {
+describe('Open House Event Finder Service', function () {
 
   before(function () {
     this.openHouseEventsRepositoryMock = {};
@@ -47,7 +47,7 @@ describe('Open House Event Service', function () {
 
   describe('Find Open House Events By Listing', function () {
 
-    it('should retun all events given a listing id', function* () {
+    it('should return all events given a listing id', function* () {
       let existingEvents = [faker.generateEvent({
         id: 1,
         is_active: false
@@ -58,13 +58,13 @@ describe('Open House Event Service', function () {
       __.assertThat(existingEvents, __.is(existingEventsResponse));
     });
 
-    it('should retun an empty array given a no events for listing id', function* () {
+    it('should return an empty array given a no events for listing id', function* () {
       let existingEvents = [];
       this.openHouseEventsRepositoryMock.findByListingId = sinon.stub().resolves(existingEvents);
 
       let existingEventsResponse = yield this.service.findByListing(1);
       __.assertThat(existingEvents, __.is(existingEventsResponse));
-    });
+    });    
   });
 
 });

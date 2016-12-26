@@ -45,12 +45,17 @@ function* create(listing) {
   const city = yield models.city.findOne({
     where: listing.apartment.building.city
   });
+  if (!city) { throw new Error('did not find city');}
 
-  if (!city) {
-    throw new Error('did not find city');
-  }
+  const neighborhood = yield models.neighborhood.findOne({
+    where: listing.apartment.building.neighborhood
+  });
+  if (!neighborhood) { throw new Error('did not find neighborhood');} 
+
+  if (city.id !== neighborhood.city_id) { throw new Error('neighborhood doesnt match city'); }
 
   listing.apartment.building.city_id = city.id;
+  listing.apartment.building.neighborhood_id = neighborhood.id;  
   const building = yield buildingRepository.findOrCreate(listing.apartment.building);
 
   const apartment = yield apartmentRepository.findOrCreate(
@@ -64,6 +69,7 @@ function* create(listing) {
   let savedListing = yield newListing.save();
 
   building.city = city;
+  building.neighborhood = neighborhood;
   apartment.building = building;
   savedListing.apartment = apartment;
 
@@ -77,13 +83,26 @@ function* create(listing) {
   return savedListing;
 }
 
+function* updateStatus(listing, status) {
+  return yield listing.update({
+    status: status
+  });
+}
+
 function getListingsForApartment(apartment, listingQuery) {
-  const includeCity = [{
+  const includeCity = {
     model: models.city,
     where: {
-      city_name: apartment.building.city.city_name
+      id: apartment.building.city.city_id
     }
-  }];
+  };
+
+  const includeNeighborhood = {
+    model: models.neighborhood,
+    where: {
+      id: apartment.building.neighborhood.neighborhood_id
+    }
+  };
 
   const includeBuildings = [{
     model: models.building,
@@ -91,7 +110,7 @@ function getListingsForApartment(apartment, listingQuery) {
       street_name: apartment.building.street_name,
       house_number: apartment.building.house_number
     },
-    include: includeCity
+    include:[includeCity, includeNeighborhood]
   }];
 
   const includeApartment = [{
@@ -112,6 +131,7 @@ function getListingsForApartment(apartment, listingQuery) {
 module.exports = {
   list,
   create,
+  updateStatus,
   getListingsForApartment,
   getById
 };

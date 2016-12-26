@@ -16,7 +16,10 @@ function define(sequelize, DataTypes) {
       type: DataTypes.DECIMAL(10, 2),
       allowNull: false
     },
-    roommates: DataTypes.ENUM('allowed', 'disallowed'),
+    roommates: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    },
     property_tax: {
       type: DataTypes.DECIMAL(10, 2),
       comment: 'ארנונה לחודשיים'
@@ -36,10 +39,13 @@ function define(sequelize, DataTypes) {
     publishing_user_id: {
       type: DataTypes.UUID,
       allowNull: false
-    }, // this is just to audit who created the listing
+    },
     publishing_user_type: {
       type: DataTypes.ENUM('landlord', 'tenant'),
       allowNull: false
+    },
+    publishing_username: {
+      type: DataTypes.VIRTUAL
     },
     roommate_needed: {
       type: DataTypes.BOOLEAN,

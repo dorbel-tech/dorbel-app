@@ -43,18 +43,17 @@ class UploadApartmentStep1 extends UploadApartmentBaseStep.wrappedComponent {
         <div className="col-md-7 upload-apt-right-container">
           <div>
             <div className="text">
-              <h1>מועדי ביקור ופרטי קשר</h1>
+              <h1>תמונות של הדירה</h1>
+              <p>אנא השקיעו בתמונות (צלמו לרוחב) וחסכו לעצמכם שאלות מיותרות</p>
               <ul>
-                <li>בחרו מועד ביקור אליו דיירים יוכלו להירשם ולהגיע לביקור בדירה</li>
-                <li>אנו ממליצים לבחור מועדים בשעות העקב או בסופ״שׁ, אז דיירים יותר פנויים</li>
-                <li>מלאו את פרטיכם על מנת שתוכלו לקבל עדכונים לגבי כמות המבקרים שנרשמו</li>
-                <li>פרטיותכם יקרה לנו. פרטיכם ישמשו ליצירת קשר ולעדכונים הנוגעים לתהליך בלבד</li>
+                <li>וודאו שהחדר מסודר</li>
+                <li>טיפ: צלמו כל חדר מ-2 זויות (כולל מטבח, מרפסת וכו׳)</li>
               </ul>
             </div>
             <img src="https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/upload-apt-form/icon-signup-photos.svg" alt="Upload photos" />
           </div>
         </div>
-        <div className="col-md-5 upload-apt-left-container">
+        <div className="col-md-5 upload-apt-left-container apartment-pictures-step">
           <div className="photos-upload" >
             <form>
               <div className="row thumbs">
@@ -69,7 +68,7 @@ class UploadApartmentStep1 extends UploadApartmentBaseStep.wrappedComponent {
             <div className="form-nav bottom col-lg-5 col-md-5 col-sm-12 col-xs-12">
               <span></span>
               <span>1/3</span>
-              <span onClick={this.clickNext.bind(this)}>שלב הבא &nbsp;<i className="fa fa-arrow-circle-o-left fa-2x" aria-hidden="true"></i></span>
+              <span onClick={this.clickNext.bind(this)}>שלב הבא &nbsp;<i className="apartment-pictures-next-step fa fa-arrow-circle-o-left fa-2x" aria-hidden="true"></i></span>
             </div>
           </div>
         </div>

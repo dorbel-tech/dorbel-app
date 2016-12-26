@@ -2,6 +2,9 @@
   "Listing": {
     "type": "object",
     "properties": {
+      "status": {
+        "type": "string"
+      },
       "monthly_rent": {
         "type": "integer"
       },
@@ -22,6 +25,9 @@
           "landlord",
           "tenant"
         ]
+      },
+      "publishing_username": {
+        "type": "string"
       },
       "apartment": {
         "$ref": "#/definitions/Apartment"

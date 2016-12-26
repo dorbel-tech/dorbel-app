@@ -2,6 +2,7 @@
 const errors = require('./domainErrors');
 const notificationService = require('./notificationService');
 const openHouseEventsFinderService = require('./openHouseEventsFinderService');
+const oheRegistrationService = require('./openHouseEventRegistrationsService');
 const openHouseEventsRepository = require('../openHouseEventsDb/repositories/openHouseEventsRepository');
 const moment = require('moment');
 require('moment-range');
@@ -54,7 +55,7 @@ function* create(openHouseEvent) {
     start_time: start,
     end_time: end,
     comments: openHouseEvent.comments,
-    publishing_user_id: openHouseEvent.publishing_user_id
+    user_uuid: openHouseEvent.publishing_user_id
   });
 
   return newEvent;
@@ -89,7 +90,8 @@ function* update(openHouseEvent) {
     old_comments: existingEvent.comments,
     new_start_time: start,
     new_end_time: end,
-    new_comments: openHouseEvent.comments
+    new_comments: openHouseEvent.comments,
+    user_uuid: existingEvent.publishing_user_id
   });
 
   return result;
@@ -106,14 +108,24 @@ function* remove(eventId) {
     event_id: existingEvent.id,
     start_time: existingEvent.start_time,
     end_time: existingEvent.end_time,
-    comments: existingEvent.comments    
+    comments: existingEvent.comments,
+    user_uuid: existingEvent.publishing_user_id
   });
 
   return result;
 }
 
+function* findByListing(listing_id) {
+  const events = yield openHouseEventsFinderService.findByListing(listing_id);
+  return events.map(event => {
+    event.isOpenForRegistration = oheRegistrationService.isEventOpenForRegistrations(event);
+    return event;
+  });
+}
+
 module.exports = {
   create,
   update,
-  remove
+  remove,
+  findByListing
 };

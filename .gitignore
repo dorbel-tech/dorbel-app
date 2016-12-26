@@ -46,3 +46,4 @@ jspm_packages
 
 # E2E Test Results
 front-gateway/test/e2e/reports
+front-gateway/bin/chromedriver
