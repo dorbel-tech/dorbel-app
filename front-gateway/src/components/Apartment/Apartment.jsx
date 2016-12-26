@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import { Nav, NavItem } from 'react-bootstrap';
 import { observer } from 'mobx-react';
+import autobind from 'react-autobind';
+import _ from 'lodash';
 import svgIcons from '~/assets/images/images.sprite.svg';
 import ApartmentAmenities from './ApartmentAmenities.jsx';
 import OHEList from './OHEList.jsx';
+import OHEManager from '~/components/OHEManager/OHEManager';
 import './Apartment.scss';
 
 const Flickity = global.window ? require('react-flickity-component')(React) : 'div';
@@ -17,20 +20,18 @@ const flickityOptions = {
 };
 
 const tabs = [
-  { eventKey: 'publishing', title: 'פרסום' },
-  { eventKey: 'open_house_events', title: 'מועדי ביקור' }
+  { action: '', title: 'מודעת הדירה' },
+  { action: 'events', title: 'הרשמות למועדי ביקור' }
 ];
 
-@observer(['appStore', 'appProviders'])
+@observer(['appStore', 'appProviders', 'router'])
 class Apartment extends Component {
   static behindHeader = true;
 
   constructor(props) {
     super(props);
-    this.state = { activeTab: tabs[0].eventKey };
-    this.changeTab = this.changeTab.bind(this);
+    autobind(this);
   }
-  
 
   componentDidMount() {
     this.props.appProviders.apartmentsProvider.loadFullListingDetails(this.props.apartmentId);
@@ -94,9 +95,11 @@ class Apartment extends Component {
     const { authStore } = this.props.appStore;
     const profile = authStore.getProfile();     
     if (listing.publishing_user_id === profile.dorbel_user_id) {
+      const activeTab = _.find(tabs, { action: this.props.action }) || tabs[0];
+
       return (
-        <Nav bsStyle="tabs" activeKey={tabs[0].eventKey} onSelect={this.changeTab}>
-          {tabs.map(tab => <NavItem key={tab.eventKey} eventKey={tab.eventKey}>{tab.title}</NavItem>)}
+        <Nav bsStyle="tabs" activeKey={activeTab.action} onSelect={this.changeTab}>
+          {tabs.map(tab => <NavItem key={tab.action} eventKey={tab.action}>{tab.title}</NavItem>)}
         </Nav>
       );
     } else {
@@ -104,8 +107,9 @@ class Apartment extends Component {
     }
   }
 
-  changeTab(tabKey) {
-    this.setState({ activeTab: tabKey });
+  changeTab(action) {
+    let actionRoute = action ? `/${action}` : '';
+    this.props.router.setRoute(`/apartments/${this.props.apartmentId}${actionRoute}`);
   }
 
   render() {
@@ -119,43 +123,47 @@ class Apartment extends Component {
     const title = listing.title || `דירת ${listing.apartment.rooms} חד׳ ברח׳ ${listing.apartment.building.street_name}`;
 
     let tabContent;
-    switch (this.state.activeTab) {
-      case 'open_house_events' : 
-        tabContent = (<div>WOW so many events</div>);
+    switch (this.props.action) {
+      case 'events' : 
+        tabContent = (<OHEManager listing={listing} />);
         break;
-      case 'publishing' :
       default: 
-        tabContent = this.renderListingDescription(listing);
+        // TODO : move to a different file
+        tabContent = (
+          <div>
+            <OHEList listing={listing} oheId={this.props.oheId} action={this.props.action} />
+            <div className="container-fluid apt-headline-container">
+              <div className="container">
+                <div className="row">
+                  <div className="col-md-9">
+                    <h2>{title}</h2>
+                  </div>
+                </div>
+              </div>
+            </div>        
+            <div className="container-fluid apt-highlights-container">
+              <div className="container">
+                <div className="row">
+                  <div className="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+                    <ul className="row">
+                      {this.renderInfoBox(listing.apartment.building.street_name + ', ' + listing.apartment.building.city.city_name, 'dorbel_icon_location')}
+                      {this.renderInfoBox(listing.apartment.rooms + ' חדרים', 'dorbel_icon_bed')}
+                      {this.renderInfoBox(listing.apartment.size + ' מ"ר', 'dorbel_icon_ruler')}
+                      {this.renderInfoBox(this.getFloorLabel(listing.apartment), 'dorbel_icon_stairs')}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>        
+            {this.renderListingDescription(listing)}
+          </div>
+        );
     }
     
     return (
       <div>
         {this.renderImageGallery(listing)}
-        <OHEList listing={listing} oheId={this.props.oheId} action={this.props.action} />
-        <div className="container-fluid apt-headline-container">
-          <div className="container">
-            <div className="row">
-              <div className="col-md-9">
-                <h2>{title}</h2>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="container-fluid apt-highlights-container">
-          <div className="container">
-            <div className="row">
-              <div className="col-lg-9 col-md-12 col-sm-12 col-xs-12">
-                <ul className="row">
-                  {this.renderInfoBox(listing.apartment.building.street_name + ', ' + listing.apartment.building.city.city_name, 'dorbel_icon_location')}
-                  {this.renderInfoBox(listing.apartment.rooms + ' חדרים', 'dorbel_icon_bed')}
-                  {this.renderInfoBox(listing.apartment.size + ' מ"ר', 'dorbel_icon_ruler')}
-                  {this.renderInfoBox(this.getFloorLabel(listing.apartment), 'dorbel_icon_stairs')}
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-        {this.renderListingMenu(listing)}
+        {this.renderListingMenu(listing)}        
         {tabContent}
       </div>
     );
@@ -166,6 +174,7 @@ Apartment.wrappedComponent.propTypes = {
   apartmentId: React.PropTypes.string.isRequired,
   appProviders: React.PropTypes.object,
   appStore: React.PropTypes.object,
+  router: React.PropTypes.object,
   oheId: React.PropTypes.string,
   action: React.PropTypes.string
 };
