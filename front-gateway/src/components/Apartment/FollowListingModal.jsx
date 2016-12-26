@@ -117,18 +117,15 @@ class FollowListingModal extends React.Component {
 
   render() {
     const { action, appProviders, appStore } = this.props;
-    
-    let renderFunc = () => null;
+    const allowedActions = {
+      follow: this.state.successfullyFollowed ? this.renderFollowSuccess : this.renderFollowForm,
+      unfollow: this.renderUnfollowSuccess
+    };
+    const renderFunc = allowedActions[action];
 
-    if (this.state.successfullyFollowed) {
-      renderFunc = this.renderFollowSuccess;
-    } else if (action === 'follow') {
-      renderFunc = this.renderFollowForm;
-    } else if (action === 'unfollow') {
-      renderFunc = this.renderUnfollowSuccess;
-    } 
-
-    if (!appStore.authStore.isLoggedIn) {
+    if (!renderFunc) {
+      return null;
+    } else if (!appStore.authStore.isLoggedIn) {
       appProviders.authProvider.showLoginModal();
       return null;
     } else {

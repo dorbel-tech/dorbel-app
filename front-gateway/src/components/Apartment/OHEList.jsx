@@ -23,10 +23,16 @@ class OHEList extends Component {
   renderListItem(params) {
     const { router } = this.props;
     const currentRoute = router.getRoute().join('/');
-    const onClickFunction = () => router.setRoute(`/${currentRoute}/${params.onClickRoute}`);
+    let className = 'list-group-item';
+    let onClickFunction = () => router.setRoute(`/${currentRoute}/${params.onClickRoute}`);
+
+    if (params.isDisabled) {
+      onClickFunction = null;
+      className += ' disabled';
+    }
 
     return (
-      <a key={params.key} href="#" className="list-group-item" onClick={onClickFunction}>
+      <a key={params.key} href="#" className={className} onClick={onClickFunction}>
         <Row>
           <div className="dorbel-icon-calendar pull-right">
             <Icon iconName={params.iconName} />
@@ -51,11 +57,16 @@ class OHEList extends Component {
       callToActionText = 'נרשמתם לארוע זה. לחצו לביטול';
     }
 
+    if (!openHouseEvent.isOpenForRegistration) {
+      callToActionText = 'מועד זה עבר';
+    }
+
     return this.renderListItem({
       onClickRoute: `${action}/${openHouseEvent.id}`,
       key: openHouseEvent.id,
       iconName: 'dorbel_icon_calendar',
       itemText: `${openHouseEvent.timeLabel} | ${openHouseEvent.dateLabel}`,
+      isDisabled: !openHouseEvent.isOpenForRegistration,
       callToActionText
     });
   }

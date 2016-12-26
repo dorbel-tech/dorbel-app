@@ -20,12 +20,12 @@ export default class AppStore {
   @observable routeParams: {[id: string]: string};
 
   constructor(initialState = {}) {
+    this.authStore = new AuthStore();
     this.listingStore = new ListingStore(initialState.listingStore);
     this.oheStore = new OheStore(initialState.oheStore);
     this.cityStore = new CityStore(initialState.cityStore);
     this.neighborhoodStore = new NeighborhoodStore(initialState.neighborhoodStore);
-    this.authStore = new AuthStore();
-    this.newListingStore = new NewListingStore();
+    this.newListingStore = new NewListingStore(this.authStore);
   }
 
   @action setView(route, params) {

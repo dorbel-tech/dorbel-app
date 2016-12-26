@@ -25,7 +25,6 @@ class Apartment extends Component {
 
   renderImageGallery(apartment) {
     return (
-
       <header className="apt-header">
         <div className="container-fluid">
           <div className="row">
