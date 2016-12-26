@@ -3,7 +3,7 @@ function DomainValidationError(name, data, message) {
   this.name = name;
   this.message = message;
   this.data = data;
-  this.statusCode = 400;
+  this.status = 400;
 }
 
 function DomainNotFoundError(name, data, message) {
@@ -11,7 +11,7 @@ function DomainNotFoundError(name, data, message) {
   this.name = name;
   this.message = message;
   this.data = data;
-  this.statusCode = 404;
+  this.status = 404;
 }
 
 DomainValidationError.prototype = Error.prototype;

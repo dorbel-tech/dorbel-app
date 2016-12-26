@@ -2,6 +2,7 @@
 const errors = require('./domainErrors');
 const notificationService = require('./notificationService');
 const openHouseEventsFinderService = require('./openHouseEventsFinderService');
+const oheRegistrationService = require('./openHouseEventRegistrationsService');
 const openHouseEventsRepository = require('../openHouseEventsDb/repositories/openHouseEventsRepository');
 const moment = require('moment');
 require('moment-range');
@@ -114,8 +115,17 @@ function* remove(eventId) {
   return result;
 }
 
+function* findByListing(listing_id) {
+  const events = yield openHouseEventsFinderService.findByListing(listing_id);
+  return events.map(event => {
+    event.isOpenForRegistration = oheRegistrationService.isEventOpenForRegistrations(event);
+    return event;
+  });
+}
+
 module.exports = {
   create,
   update,
-  remove
+  remove,
+  findByListing
 };

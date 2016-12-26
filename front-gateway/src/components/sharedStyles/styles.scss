@@ -91,3 +91,28 @@ body {
 .app-content-with-header {
   padding: 60px 0px 0px 0px;
 }
+
+.small-text {
+  font-size: 12px;
+  color: #777777;
+}
+
+.modal-title {
+  font-weight: 600;
+  text-align: center;
+}
+
+.modal-footer {
+  font-size: 12px;
+  color: #777777;
+  line-height: 1.59999996;
+}
+
+.modal-body .row:not(:first-child) {
+  padding-top: 20px;
+}
+
+.huge-glyph {
+  font-size: 150px;
+  display: block;
+}

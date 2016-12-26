@@ -25,5 +25,6 @@ const FormWrapper = React.createClass({
 });
 
 module.exports = {
-  FormWrapper
+  Wrapper: FormWrapper,
+  FRC
 };

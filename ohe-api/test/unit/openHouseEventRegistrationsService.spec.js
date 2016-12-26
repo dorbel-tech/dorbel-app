@@ -1,10 +1,11 @@
 'use strict';
 const mockRequire = require('mock-require');
 const __ = require('hamjest');
+const sinon = require('sinon');
+const moment = require('moment');
 const faker = require('../shared/fakeObjectGenerator');
 const notificationService = require('../../src/services/notificationService');
-var sinon = require('sinon');
-let fakeUserId = '00000000-0000-0000-0000-000000000001';
+const fakeUserId = '00000000-0000-0000-0000-000000000001';
 
 describe('Open House Event Registration Service', function () {
 
@@ -32,10 +33,7 @@ describe('Open House Event Registration Service', function () {
   describe('Register To Open House Event', function () {
 
     it('should register a user to an event', function* () {
-      this.openHouseEventsFinderServiceMock.find = sinon.stub().resolves(faker.generateEvent({
-        id: 1,
-        is_active: true
-      }));
+      this.openHouseEventsFinderServiceMock.find = sinon.stub().resolves(faker.generateEvent());
 
       this.repositoryMock.createRegistration = sinon.stub().resolves(true);
 
@@ -61,9 +59,7 @@ describe('Open House Event Registration Service', function () {
     });
 
     it('should fail when user registers to an event more than once', function* () {
-      this.openHouseEventsFinderServiceMock.find = sinon.stub().resolves(faker.generateEvent({
-        id: 1,
-        is_active: true,
+      this.openHouseEventsFinderServiceMock.find = sinon.stub().resolves(faker.generateEvent({        
         registrations: [
           { open_house_event_id: 1, registered_user_id: fakeUserId, is_active: true }
         ]
@@ -80,6 +76,23 @@ describe('Open House Event Registration Service', function () {
         __.assertThat(this.sendNotification.callCount, __.is(0));
       }
     });
+
+    it('should fail to register to an event with no registeries that starts is in the next hour', function * () {
+      this.openHouseEventsFinderServiceMock.find = sinon.stub().resolves(faker.generateEvent({
+        start_time: moment().add(40, 'minutes'),
+        end_time: moment().add(2, 'hours')
+      }));
+      
+      try {
+        yield this.service.register(1, fakeUserId);
+        __.assertThat('code', __.is('not reached'));
+      }
+      catch (error) {
+        __.assertThat(error.message, __.is('event is not open for registration'));
+        __.assertThat(this.sendNotification.callCount, __.is(0));
+      }
+    });
+
   });
 
   describe('UnRegister an Open House Event', function () {

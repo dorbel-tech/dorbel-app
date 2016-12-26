@@ -9,8 +9,8 @@ import AppProviders from '~/providers/AppProviders';
 
 function injectStores(initialState) {
   const appStore = new AppStore(initialState);
-  const appProviders = new AppProviders(appStore);
   const router = startRouter(appStore);
+  const appProviders = new AppProviders(appStore, router);
 
   const app = (
     <Provider appStore={appStore} router={router} appProviders={appProviders}>

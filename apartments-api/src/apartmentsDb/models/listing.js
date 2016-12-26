@@ -39,10 +39,13 @@ function define(sequelize, DataTypes) {
     publishing_user_id: {
       type: DataTypes.UUID,
       allowNull: false
-    }, // this is just to audit who created the listing
+    },
     publishing_user_type: {
       type: DataTypes.ENUM('landlord', 'tenant'),
       allowNull: false
+    },
+    publishing_username: {
+      type: DataTypes.VIRTUAL
     },
     roommate_needed: {
       type: DataTypes.BOOLEAN,
