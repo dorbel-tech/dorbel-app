@@ -2,8 +2,7 @@ import React from 'react';
 import { observer } from 'mobx-react';
 import UploadApartmentBaseStep from './UploadApartmentBaseStep';
 import DatePicker from '~/components/DatePicker/DatePicker';
-import formHelper from './formHelper';
-import FRC from 'formsy-react-components';
+import FormWrapper from '~/components/FormWrapper/FormWrapper';
  
 @observer(['appStore', 'appProviders'])
 class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
@@ -59,6 +58,7 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
     const { newListingStore } = this.props.appStore;
     const citySelectorOptions = this.fillCities();
     const neighborhoodSelectorOptions = this.fillNeighborhoods(newListingStore.formValues['apartment.building.city.id']);
+    const FRC = FormWrapper.FRC;
       
     const roomOptions = newListingStore.roomOptions.slice(0);
     if (!newListingStore.formValues.rooms) { roomOptions.unshift({ label: 'בחר'}); }
@@ -78,7 +78,7 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
         </div>
 
         <div className="col-md-5 upload-apt-left-container apartment-details-step">
-          <formHelper.FormWrapper layout="vertical" onChange={this.handleChanges} ref="form">
+          <FormWrapper.Wrapper layout="vertical" onChange={this.handleChanges} ref="form">
 
             <div className="row form-section">
               <div className="form-section-headline">כתובת</div>
@@ -166,7 +166,7 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
               </div>
             </div>
 
-          </formHelper.FormWrapper>
+          </FormWrapper.Wrapper>
           
           <div className="form-nav bottom col-lg-5 col-md-5 col-sm-12 col-xs-12">
             <span onClick={this.clickBack}>

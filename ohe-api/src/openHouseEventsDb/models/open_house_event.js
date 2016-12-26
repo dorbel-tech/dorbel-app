@@ -24,6 +24,9 @@ function define(sequelize, DataTypes) {
     is_active: {
       type: DataTypes.BOOLEAN,
       allowNull: false
+    },
+    isOpenForRegistration: {
+      type: DataTypes.VIRTUAL
     }
   }, {
     classMethods: {

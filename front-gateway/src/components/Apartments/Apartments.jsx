@@ -5,20 +5,17 @@ import NavLink from '~/components/NavLink';
 @observer(['appStore', 'appProviders'])
 class Apartments extends Component {
   componentDidMount() {
-    const { appProviders, appStore } = this.props;
-    if (appStore.apartmentStore.apartments.length === 0) {
-      appProviders.apartmentsProvider.loadApartments();
-    }
+    this.props.appProviders.apartmentsProvider.loadApartments();
   }
 
   render() {    
-    const { apartmentStore } = this.props.appStore;
+    const { listingStore } = this.props.appStore;
 
     return (
       <div>
         <h2>Apartments</h2>
         <ul>
-          {apartmentStore.apartments.map(apt =>
+          {listingStore.apartments.map(apt =>
             <li key={apt.id}><NavLink to={'/apartments/' + apt.id}>{apt.street_name} {apt.house_number} - {apt.apt_number}</NavLink></li>
           )}
         </ul>

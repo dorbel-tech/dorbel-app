@@ -15,12 +15,12 @@ class ApartmentsProvider {
 
   loadApartments() {
     return this.apiProvider.fetch('/api/apartments/v1/listings')
-      .then(action(apartments => this.appStore.apartmentStore.apartments = apartments));
+      .then(this.appStore.listingStore.add);
   }
 
-  loadSingleApartment(id) {    
+  loadFullListingDetails(id) {
     return this.apiProvider.fetch('/api/apartments/v1/listings/' + id)
-      .then(action('load-single-apartment', apartment => this.appStore.apartmentStore.apartmentsById.set(id,apartment)));
+      .then(action('load-single-apartment', apartment => this.appStore.listingStore.listingsById.set(id,apartment)));
   }
 
   mapUploadApartmentFormToCreateListing(formValues) {

@@ -13,11 +13,14 @@ function getFakeUser() {
 
 function generateEvent(variant) {
   return _.extend({
+    id: 1,
     listing_id: 1,
-    start_time: moment().add(-5, 'hours'),
-    end_time: moment().add(-3, 'hours'),
+    is_active: true,
+    start_time: moment().add(5, 'hours'),
+    end_time: moment().add(6, 'hours'),
     comments: 'בדיקה',
-    publishing_user_id: fakeUserId
+    publishing_user_id: fakeUserId,
+    registrations: []
   }, variant);
 }
 
