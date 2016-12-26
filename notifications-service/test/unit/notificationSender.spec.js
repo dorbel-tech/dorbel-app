@@ -7,7 +7,7 @@ describe('Notification Sender', function() {
   const mockRequire = require('mock-require');
   const shared = require('dorbel-shared');
 
-  const segmentClientMock = shared.utils.analytics.track = sinon.stub();
+  const segmentClientMock = sinon.spy(shared.utils.analytics, 'track');
 
   const dataRetrievalMock = {
     getAdditonalData: sinon.stub().resolves({})
@@ -40,7 +40,6 @@ describe('Notification Sender', function() {
   };
 
   before(function() {
-    mockRequire('dorbel-shared', shared); 
     mockRequire('../../src/sender/dataRetrieval', dataRetrievalMock);
     mockRequire('../../src/sender/eventConfigurations.json', [
       simpleEvent, multipleEvent1, multipleEvent2, eventWithDataRetrieval
