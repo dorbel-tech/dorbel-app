@@ -101,7 +101,9 @@ function* getById(id) {
   const listing = yield listingRepository.getById(id);
   if (listing) {
     const publishingUser = yield userManagement.getUserDetails(listing.publishing_user_id);  
-    listing.publishing_username = _.get(publishingUser, 'user_metadata.first_name') || publishingUser.given_name;  
+    if (publishingUser) {
+      listing.publishing_username = _.get(publishingUser, 'user_metadata.first_name') || publishingUser.given_name;  
+    }
   }
   return listing;
 }
