@@ -48,7 +48,6 @@ test:
     - cd apartments-api && yarn run test:integration
     - cd front-gateway && yarn run lint
     - cd front-gateway && yarn test 
-    # - cd front-gateway && yarn run test:e2e 
     - cd notifications-service && yarn run lint
     - cd notifications-service && yarn test 
     - cd notifications-service && yarn run test:integration
@@ -57,15 +56,15 @@ test:
     - cd ohe-api && yarn test 
     - cd ohe-api && yarn run test:integration
 
-deployment:
-  staging:
-    branch: develop
-    commands:  
-      - sudo apt-get update
-      - sudo apt-get install python2.7-dev
-      - sudo pip install awsebcli
-      - yarn run deploy apartments-api stage
-      - yarn run deploy front-gateway stage
-      - yarn run deploy notifications-service stage
-      - yarn run deploy ohe-api stage
-      - cd front-gateway && yarn run test:e2e:browserstack
+# deployment:
+#   staging:
+#     branch: develop
+#     commands:  
+#       - sudo apt-get update
+#       - sudo apt-get install python2.7-dev
+#       - sudo pip install awsebcli
+#       - yarn run deploy apartments-api stage
+#       - yarn run deploy front-gateway stage
+#       - yarn run deploy notifications-service stage
+#       - yarn run deploy ohe-api stage
+#       - cd front-gateway && yarn run test:e2e:browserstack
