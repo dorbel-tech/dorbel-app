@@ -1,6 +1,6 @@
 {
   "PORT": 3000,
-  "LOG_LEVEL": "error",
+  "LOG_LEVEL": "info",
   "RDS_HOSTNAME": "127.0.0.1",
   "RDS_DB_NAME": "apartments",
   "RDS_USERNAME": "root",

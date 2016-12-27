@@ -97,6 +97,21 @@ amdefine@>=0.0.4:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/amdefine/-/amdefine-1.0.1.tgz#4a5282ac164729e93619bcfd3ad151f817ce91f5"
 
+analytics-node@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/analytics-node/-/analytics-node-2.1.0.tgz#f2bb60ab450327ecdbc5fbc42cfeaa4a96e3b00a"
+  dependencies:
+    clone "~0.1.17"
+    commander "^2.9.0"
+    component-type "~1.0.0"
+    crypto-token "^1.0.1"
+    debug "^2.2.0"
+    join-component "~1.0.0"
+    lodash "~2.4.1"
+    superagent "^1.4.0"
+    superagent-proxy "^1.0.0"
+    superagent-retry "^0.5.1"
+
 ansi-escapes@^1.1.0, ansi-escapes@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/ansi-escapes/-/ansi-escapes-1.4.0.tgz#d3a8a83b319aa67793662b13e761c7911422306e"
@@ -1252,7 +1267,7 @@ camelcase@^1.0.2, camelcase@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/camelcase/-/camelcase-1.2.1.tgz#9bb5304d2e0b56698b2c758b08a3eaa9daa58a39"
 
-camelcase@^2.0.0, camelcase@^2.0.1:
+camelcase@^2.0.0:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/camelcase/-/camelcase-2.1.1.tgz#7c1d16d679a1bbe59ca02cacecfb011e201f5a1f"
 
@@ -1425,7 +1440,7 @@ cliui@^2.1.0:
     right-align "^0.1.1"
     wordwrap "0.0.2"
 
-cliui@^3.0.3, cliui@^3.2.0:
+cliui@^3.2.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/cliui/-/cliui-3.2.0.tgz#120601537a916d29940f934da3b48d585a39213d"
   dependencies:
@@ -1436,6 +1451,10 @@ cliui@^3.0.3, cliui@^3.2.0:
 clone@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/clone/-/clone-1.0.2.tgz#260b7a99ebb1edfe247538175f783243cb19d149"
+
+clone@~0.1.17:
+  version "0.1.19"
+  resolved "https://registry.yarnpkg.com/clone/-/clone-0.1.19.tgz#613fb68639b26a494ac53253e15b1a6bd88ada85"
 
 co-from-stream@0.0.0:
   version "0.0.0"
@@ -1565,6 +1584,10 @@ commoner@~0.10.3:
 component-emitter@~1.2.0:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/component-emitter/-/component-emitter-1.2.1.tgz#137918d6d78283f7df7a6b7c5a63e140e69425e6"
+
+component-type@~1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/component-type/-/component-type-1.0.0.tgz#1ed8812e32dd65099d433570757f111ea3d3d871"
 
 composition@^2.1.1:
   version "2.3.0"
@@ -1729,6 +1752,10 @@ crypto-browserify@~3.2.6:
     pbkdf2-compat "2.0.1"
     ripemd160 "0.2.0"
     sha.js "2.2.6"
+
+crypto-token@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/crypto-token/-/crypto-token-1.0.1.tgz#27c6482faf3b63c2f5da11577f8304346fe797a5"
 
 css-color-names@0.0.4:
   version "0.0.4"
@@ -2053,10 +2080,11 @@ domutils@1.5, domutils@1.5.1, domutils@^1.5.1:
     dom-serializer "0"
     domelementtype "1"
 
-"dorbel-shared@git://github.com/dorbel-tech/dorbel-shared#v0.4.34":
-  version "0.4.34"
-  resolved "git://github.com/dorbel-tech/dorbel-shared#fc1e2c296e5a6af97efae862c1f3d61b36774077"
+"dorbel-shared@git://github.com/dorbel-tech/dorbel-shared#v0.4.37":
+  version "0.4.37"
+  resolved "git://github.com/dorbel-tech/dorbel-shared#bd51599040ebe80d86291e24a8b42b2ec122534c"
   dependencies:
+    analytics-node "^2.1.0"
     auth0 "^2.5.0"
     bluebird "^3.4.6"
     bunyan "~1.8.1"
@@ -3819,6 +3847,10 @@ jodid25519@^1.0.0:
   dependencies:
     jsbn "~0.1.0"
 
+join-component@~1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/join-component/-/join-component-1.0.0.tgz#cd2b2321c054be54e493815436b0ddc28a44235c"
+
 js-base64@^2.1.9:
   version "2.1.9"
   resolved "https://registry.yarnpkg.com/js-base64/-/js-base64-2.1.9.tgz#f0e80ae039a4bd654b5f281fc93f04a914a7fcce"
@@ -4318,6 +4350,10 @@ lodash@4.16.2:
 lodash@4.16.6, lodash@^4.0.0, lodash@^4.13.1, lodash@^4.14.0, lodash@^4.15.0, lodash@^4.16.2, lodash@^4.16.4, lodash@^4.2.0, lodash@^4.3.0, lodash@~4.16.3, lodash@~4.16.4:
   version "4.16.6"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.16.6.tgz#d22c9ac660288f3843e16ba7d2b5d06cca27d777"
+
+lodash@~2.4.1:
+  version "2.4.2"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-2.4.2.tgz#fadd834b9683073da179b3eae6d9c0d15053f73e"
 
 lodash@~3.5.0:
   version "3.5.0"
@@ -5482,7 +5518,7 @@ proxy-addr@~1.1.2:
     forwarded "~0.1.0"
     ipaddr.js "1.1.1"
 
-proxy-agent@>=2.0.0:
+proxy-agent@2, proxy-agent@>=2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/proxy-agent/-/proxy-agent-2.0.0.tgz#57eb5347aa805d74ec681cb25649dba39c933499"
   dependencies:
@@ -5992,17 +6028,17 @@ right-align@^0.1.1:
   dependencies:
     align-text "^0.1.1"
 
-rimraf@2, rimraf@~2.4.0:
-  version "2.4.5"
-  resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-2.4.5.tgz#ee710ce5d93a8fdb856fb5ea8ff0e2d75934b2da"
-  dependencies:
-    glob "^6.0.1"
-
-rimraf@^2.0.3, rimraf@^2.2.8, rimraf@^2.4.3, rimraf@^2.4.4, rimraf@~2.5.1, rimraf@~2.5.4:
+rimraf@2, rimraf@^2.0.3, rimraf@^2.2.8, rimraf@^2.4.3, rimraf@^2.4.4, rimraf@~2.5.1, rimraf@~2.5.4:
   version "2.5.4"
   resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-2.5.4.tgz#96800093cbf1a0c86bd95b4625467535c29dfa04"
   dependencies:
     glob "^7.0.5"
+
+rimraf@~2.4.0:
+  version "2.4.5"
+  resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-2.4.5.tgz#ee710ce5d93a8fdb856fb5ea8ff0e2d75934b2da"
+  dependencies:
+    glob "^6.0.1"
 
 ripemd160@0.2.0:
   version "0.2.0"
@@ -6060,11 +6096,11 @@ satisfaction@^3.0.0:
     lodash "4.16.2"
     semver "5.3.0"
 
-sax@1.1.5, sax@>=0.6.0:
+sax@1.1.5:
   version "1.1.5"
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.1.5.tgz#1da50a8d00cdecd59405659f5ff85349fe773743"
 
-sax@^1.1.4, sax@~1.2.1:
+sax@>=0.6.0, sax@^1.1.4, sax@~1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.1.tgz#7b8e656190b228e81a66aea748480d828cd2d37a"
 
@@ -6474,6 +6510,17 @@ style-loader@^0.13.1:
   resolved "https://registry.yarnpkg.com/style-loader/-/style-loader-0.13.1.tgz#468280efbc0473023cd3a6cd56e33b5a1d7fc3a9"
   dependencies:
     loader-utils "^0.2.7"
+
+superagent-proxy@^1.0.0:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/superagent-proxy/-/superagent-proxy-1.0.2.tgz#92d3660578f618ed43a82cf8cac799fe2938ba2d"
+  dependencies:
+    debug "2"
+    proxy-agent "2"
+
+superagent-retry@^0.5.1:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/superagent-retry/-/superagent-retry-0.5.1.tgz#6797e863db3875ca673b51314a28f1d98e0c8b1a"
 
 superagent@^1.4.0:
   version "1.8.4"
@@ -7060,7 +7107,7 @@ window-size@0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/window-size/-/window-size-0.1.0.tgz#5438cd2ea93b202efa3a19fe8887aee7c94f9c9d"
 
-window-size@^0.1.2, window-size@^0.1.4:
+window-size@^0.1.2:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/window-size/-/window-size-0.1.4.tgz#f8e1aa1ee5a53ec5bf151ffa09742a6ad7697876"
 
@@ -7178,16 +7225,15 @@ yargs-parser@^3.2.0:
     camelcase "^3.0.0"
     lodash.assign "^4.1.0"
 
-yargs@^3.19.0:
-  version "3.32.0"
-  resolved "https://registry.yarnpkg.com/yargs/-/yargs-3.32.0.tgz#03088e9ebf9e756b69751611d2a5ef591482c995"
+yargs@^3.19.0, yargs@~3.27.0:
+  version "3.27.0"
+  resolved "https://registry.yarnpkg.com/yargs/-/yargs-3.27.0.tgz#21205469316e939131d59f2da0c6d7f98221ea40"
   dependencies:
-    camelcase "^2.0.1"
-    cliui "^3.0.3"
-    decamelize "^1.1.1"
+    camelcase "^1.2.1"
+    cliui "^2.1.0"
+    decamelize "^1.0.0"
     os-locale "^1.4.0"
-    string-width "^1.0.1"
-    window-size "^0.1.4"
+    window-size "^0.1.2"
     y18n "^3.2.0"
 
 yargs@^4.7.1:
@@ -7236,14 +7282,3 @@ yargs@~3.10.0:
     cliui "^2.1.0"
     decamelize "^1.0.0"
     window-size "0.1.0"
-
-yargs@~3.27.0:
-  version "3.27.0"
-  resolved "https://registry.yarnpkg.com/yargs/-/yargs-3.27.0.tgz#21205469316e939131d59f2da0c6d7f98221ea40"
-  dependencies:
-    camelcase "^1.2.1"
-    cliui "^2.1.0"
-    decamelize "^1.0.0"
-    os-locale "^1.4.0"
-    window-size "^0.1.2"
-    y18n "^3.2.0"

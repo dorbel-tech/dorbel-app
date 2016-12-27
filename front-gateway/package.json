@@ -1,6 +1,6 @@
 {
   "name": "dorbel-front",
-  "version": "0.0.39",
+  "version": "0.0.40",
   "description": "Front end application for dorbel",
   "main": "index.js",
   "scripts": {
@@ -37,7 +37,7 @@
     "co": "^4.6.0",
     "css-loader": "^0.25.0",
     "director": "^1.2.8",
-    "dorbel-shared": "git://github.com/dorbel-tech/dorbel-shared#v0.4.34",
+    "dorbel-shared": "git://github.com/dorbel-tech/dorbel-shared#v0.4.37",
     "ejs": "^2.5.2",
     "enzyme": "^2.5.1",
     "es6-promisify": "^5.0.0",
