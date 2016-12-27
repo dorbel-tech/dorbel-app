@@ -12,7 +12,6 @@ import './Apartment.scss';
 const Flickity = global.window ? require('react-flickity-component')(React) : 'div';
 
 const flickityOptions = {  
-  initialIndex: 2,
   cellAlign: 'left',
   wrapAround: true,
   rightToLeft: true,

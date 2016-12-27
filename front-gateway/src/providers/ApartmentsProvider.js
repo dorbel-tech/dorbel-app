@@ -4,7 +4,6 @@
 'use strict';
 import { action } from 'mobx';
 import _ from 'lodash';
-import moment from 'moment';
 
 class ApartmentsProvider {
   constructor(appStore, apiProvider, cloudinaryProvider) {
@@ -37,10 +36,6 @@ class ApartmentsProvider {
   uploadApartment(formValues) {
     const listing = this.mapUploadApartmentFormToCreateListing(formValues);
     return this.apiProvider.fetch('/api/apartments/v1/listings', { method: 'POST', data: listing });
-  }
-
-  setTimeFromString(dateString, timeString) {
-    return moment(dateString + 'T' + timeString + ':00.000Z').toJSON();    
   }
 
   @action

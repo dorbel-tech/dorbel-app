@@ -36,7 +36,7 @@ class OHEManager extends React.Component {
             {openHouseEvents.map(ohe => <OHECard key={ohe.id} ohe={ohe} />)}
           </Row>
         </Col>
-        <AddOHEModal show={this.state.showAddOheModal} onClose={() => this.toggleAddModal(false)}/>
+        <AddOHEModal listing={listing} show={this.state.showAddOheModal} onClose={() => this.toggleAddModal(false)}/>
       </Grid>
     );
   }

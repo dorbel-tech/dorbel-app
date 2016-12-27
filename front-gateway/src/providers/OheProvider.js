@@ -15,37 +15,24 @@ class OheProvider {
     this.enrichOhe = this.enrichOhe.bind(this);
   }
 
+  fetch(path, options) {
+    return this.apiProvider.fetch('/api/ohe/v1/' + path, options);
+  }
+
   // Open house events
 
   loadListingEvents(id) {    
-    return this.apiProvider.fetch('/api/ohe/v1/events/by-listing/' + id)
+    return this.fetch('events/by-listing/' + id)
       .then(openHouseEvents => openHouseEvents.map(this.enrichOhe))
       .then(openHouseEvents => this.appStore.oheStore.add(openHouseEvents));
   }
 
-  registerForEvent(event) {
-    return this.apiProvider.fetch('/api/ohe/v1/event/registration', {
+  createOhe(data) {
+    return this.fetch('event', {
       method: 'POST',
-      data : {
-        open_house_event_id: event.id
-      }
+      data
     })
-    .then(registration => {
-      const ohe = this.appStore.oheStore.oheById.get(event.id);
-      ohe.registrations.push(registration);
-      this.setUsersOwnRegistration(ohe);
-    });
-  }
-
-  unregisterForEvent(registration) {
-    return this.apiProvider.fetch('/api/ohe/v1/event/registration/' + registration.id, {
-      method: 'DELETE'
-    })
-    .then(() => {
-      const ohe = this.appStore.oheStore.oheById.get(registration.open_house_event_id);
-      ohe.registrations.remove(registration);
-      this.setUsersOwnRegistration(ohe);
-    });
+    .then(ohe => this.appStore.oheStore.add([ this.enrichOhe(ohe) ]));
   }
 
   enrichOhe(openHouseEvent) {
@@ -60,6 +47,34 @@ class OheProvider {
     return openHouseEvent;
   }
 
+  // Registrations
+
+  registerForEvent(event) {
+    return this.fetch('event/registration', {
+      method: 'POST',
+      data : {
+        open_house_event_id: event.id
+      }
+    })
+    .then(registration => {
+      const ohe = this.appStore.oheStore.oheById.get(event.id);
+      ohe.registrations.push(registration);
+      this.setUsersOwnRegistration(ohe);
+    });
+  }
+
+  unregisterForEvent(registration) {
+    return this.fetch('event/registration/' + registration.id, {
+      method: 'DELETE'
+    })
+    .then(() => {
+      const ohe = this.appStore.oheStore.oheById.get(registration.open_house_event_id);
+      ohe.registrations.remove(registration);
+      this.setUsersOwnRegistration(ohe);
+    });
+  }
+
+  // TODO : should come from backend
   setUsersOwnRegistration(openHouseEvent) {
     if (this.appStore.authStore.isLoggedIn) {
       const user = this.appStore.authStore.getProfile();
@@ -70,7 +85,7 @@ class OheProvider {
   // Follow listing
 
   getFollowsForListing(listing) {
-    return this.apiProvider.fetch('/api/ohe/v1/followers/by-listing/' + listing.id)
+    return this.fetch('followers/by-listing/' + listing.id)
     .then(followers => {
       let usersFollowDetails = null;
       
@@ -84,7 +99,7 @@ class OheProvider {
   }
 
   follow(listing) {
-    return this.apiProvider.fetch('/api/ohe/v1/follower', {
+    return this.fetch('follower', {
       method: 'POST',
       data : {
         listing_id: listing.id
@@ -94,7 +109,7 @@ class OheProvider {
   }
 
   unfollow(followDetails) {
-    return this.apiProvider.fetch('/api/ohe/v1/follower/' + followDetails.id, {
+    return this.fetch('follower/' + followDetails.id, {
       method: 'DELETE'
     })
     .then(() => this.appStore.oheStore.usersFollowsByListingId.set(followDetails.listing_id, null));    

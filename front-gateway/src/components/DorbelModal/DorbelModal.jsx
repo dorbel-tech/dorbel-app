@@ -16,16 +16,20 @@ class DorbelModal extends React.Component {
 
   render() {
     return (
-      <Modal show={this.props.show}>
+      <Modal show={this.props.show} bsSize={this.props.modalSize}>
         <Modal.Header closeButton onHide={this.close}>
           <Modal.Title>{this.props.title}</Modal.Title>
         </Modal.Header>
-        <Modal.Body className="text-center">          
+        <Modal.Body>          
           {this.props.body}
         </Modal.Body>
-        <Modal.Footer className="text-center">
-          {this.props.footer}
-        </Modal.Footer>
+        { 
+          this.props.footer ? 
+          (<Modal.Footer className="text-center">
+            {this.props.footer}
+          </Modal.Footer>)
+          : null 
+        }
       </Modal>
     );
   }
@@ -36,7 +40,8 @@ DorbelModal.propTypes = {
   title: React.PropTypes.any,
   body: React.PropTypes.any,
   footer: React.PropTypes.any,
-  onClose: React.PropTypes.func
+  onClose: React.PropTypes.func,
+  modalSize: React.PropTypes.oneOf(['small', 'large'])
 };
 
 export default DorbelModal;
