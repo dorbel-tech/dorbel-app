@@ -508,6 +508,12 @@ builtin-modules@^1.0.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/builtin-modules/-/builtin-modules-1.1.1.tgz#270f076c5a72c02f5b65a47df94c5fe3a278892f"
 
+bunyan-logentries@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/bunyan-logentries/-/bunyan-logentries-1.2.0.tgz#c6d13540cd29771d6a65829fdf90f97e0563e768"
+  dependencies:
+    le_node "^1.1.1"
+
 bunyan@^1.8.1, bunyan@~1.8.1:
   version "1.8.5"
   resolved "https://registry.yarnpkg.com/bunyan/-/bunyan-1.8.5.tgz#0d619e83005fb89070f5f47982fc1bf00600878a"
@@ -1093,17 +1099,17 @@ doctrine@^1.2.2:
     esutils "^2.0.2"
     isarray "^1.0.0"
 
-"dorbel-shared@git://github.com/dorbel-tech/dorbel-shared#v0.4.38":
-  version "0.4.38"
-  resolved "git://github.com/dorbel-tech/dorbel-shared#219dcb78258b48de12d5225c908e6e90bec549ef"
+"dorbel-shared@git://github.com/dorbel-tech/dorbel-shared#v0.4.39":
+  version "0.4.39"
+  resolved "git://github.com/dorbel-tech/dorbel-shared#2025091a028bcebb7a1d0b1880f365c4886455ee"
   dependencies:
     analytics-node "^2.1.0"
     auth0 "^2.5.0"
     bluebird "^3.4.6"
     bunyan "~1.8.1"
+    bunyan-logentries "^1.2.0"
     es6-promisify "^5.0.0"
     jwt-decode "^2.1.0"
-    le_node "1.6.7"
     lodash "~4.16.3"
     nconf "~0.8.4"
     newrelic "1.31.0"
@@ -2693,9 +2699,9 @@ lcid@^1.0.0:
   dependencies:
     invert-kv "^1.0.0"
 
-le_node@1.6.7:
-  version "1.6.7"
-  resolved "https://registry.yarnpkg.com/le_node/-/le_node-1.6.7.tgz#c8b59451b42c88785acbaa83999597266511c5c8"
+le_node@^1.1.1:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/le_node/-/le_node-1.7.0.tgz#104e634cb4f0be5fd7060348837def6133a8b297"
   dependencies:
     babel-runtime "6.6.1"
     codependency "0.1.4"
