@@ -1,12 +1,13 @@
 'use strict';
+const _ = require('lodash');
+const moment = require('moment');
 const shared = require('dorbel-shared');
+const listingRepository = require('../apartmentsDb/repositories/listingRepository');
+const geoService = require('./geoService');
+const oheApiClient = require('./oheApiClient');
 const config = shared.config;
 const messageBus = shared.utils.messageBus;
-const listingRepository = require('../apartmentsDb/repositories/listingRepository');
-const moment = require('moment');
-const geoService = require('./geoService');
 const userManagement = shared.utils.userManagement;
-const oheApiClient = require('./oheApiClient');
 
 // TODO : move this to dorbel-shared
 function CustomError(code, message) {
@@ -96,9 +97,20 @@ function normalizePhone(phone) {
   }
 }
 
+function* getById(id) {
+  const listing = yield listingRepository.getById(id);
+  if (listing) {
+    const publishingUser = yield userManagement.getUserDetails(listing.publishing_user_id);  
+    if (publishingUser) {
+      listing.publishing_username = _.get(publishingUser, 'user_metadata.first_name') || publishingUser.given_name;  
+    }
+  }
+  return listing;
+}
+
 module.exports = {
   create,
   updateStatus,
-  list: listingRepository.list,
-  getById: listingRepository.getById
+  getById,
+  list: listingRepository.list
 };

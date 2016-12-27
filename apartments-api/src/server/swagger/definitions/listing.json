@@ -26,6 +26,9 @@
           "tenant"
         ]
       },
+      "publishing_username": {
+        "type": "string"
+      },
       "apartment": {
         "$ref": "#/definitions/Apartment"
       },

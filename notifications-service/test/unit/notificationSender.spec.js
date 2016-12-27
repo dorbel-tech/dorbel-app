@@ -5,10 +5,9 @@ describe('Notification Sender', function() {
   const sinon = require('sinon');
   const promisify = require('es6-promisify');
   const mockRequire = require('mock-require');
+  const shared = require('dorbel-shared');
 
-  const segmentClientMock = {
-    track: sinon.stub()
-  };
+  const segmentClientMock = sinon.spy(shared.utils.analytics, 'track');
 
   const dataRetrievalMock = {
     getAdditonalData: sinon.stub().resolves({})
@@ -41,7 +40,6 @@ describe('Notification Sender', function() {
   };
 
   before(function() {
-    mockRequire('../../src/sender/segmentClient', segmentClientMock); 
     mockRequire('../../src/sender/dataRetrieval', dataRetrievalMock);
     mockRequire('../../src/sender/eventConfigurations.json', [
       simpleEvent, multipleEvent1, multipleEvent2, eventWithDataRetrieval
@@ -56,7 +54,7 @@ describe('Notification Sender', function() {
   });
 
   afterEach(() => {
-    segmentClientMock.track.reset();
+    segmentClientMock.reset();
     dataRetrievalMock.getAdditonalData.reset();
   });
 
@@ -64,7 +62,7 @@ describe('Notification Sender', function() {
 
   it('should schedule a simple event', function* () {
     yield this.handleMessage({ eventType: simpleEvent.eventType });
-    __.assertThat(segmentClientMock.track.args[0], __.contains(
+    __.assertThat(segmentClientMock.args[0], __.contains(
       __.is(defaultEventPayload.user_uuid),
       __.is(simpleEvent.notificationType),
       __.hasProperties(defaultEventPayload)
@@ -73,10 +71,10 @@ describe('Notification Sender', function() {
   
   it('should schedule multiple notifications for same event', function* () {
     yield this.handleMessage({ eventType: multipleEvent1.eventType });
-    __.assertThat(segmentClientMock.track.args[0][1], // first call second argument
+    __.assertThat(segmentClientMock.args[0][1], // first call second argument
       __.is(multipleEvent1.notificationType)
     );
-    __.assertThat(segmentClientMock.track.args[1][1], // second call second argument
+    __.assertThat(segmentClientMock.args[1][1], // second call second argument
       __.is(multipleEvent2.notificationType)
     );
   });
@@ -86,7 +84,7 @@ describe('Notification Sender', function() {
     const extraData = { fried: 'bacon' };
     dataRetrievalMock.getAdditonalData = sinon.stub().resolves(extraData);
     yield this.handleMessage({ eventType: eventWithDataRetrieval.eventType });
-    __.assertThat(segmentClientMock.track.args[0][2], // first call third argument 
+    __.assertThat(segmentClientMock.args[0][2], // first call third argument 
       __.hasProperties(extraData)
     );
   });
