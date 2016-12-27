@@ -1,6 +1,6 @@
 branch-defaults:
   default:
-    environment: apartments-api-develop
+    environment: apartments-api-test
     group_suffix: null
 global:
   application_name: apartments-api

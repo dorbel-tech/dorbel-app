@@ -1,6 +1,6 @@
 branch-defaults:
   default:
-    environment: notifications-service-develop
+    environment: notifications-service-test
 environment-defaults:
   notifications-service-develop:
     branch: null
