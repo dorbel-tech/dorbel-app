@@ -1,6 +1,6 @@
 {
   "PORT": 3003,
-  "LOG_LEVEL": "error",
+  "LOG_LEVEL": "info",
   "RDS_HOSTNAME": "127.0.0.1",
   "RDS_DB_NAME": "open_house_events",
   "RDS_USERNAME": "root",
