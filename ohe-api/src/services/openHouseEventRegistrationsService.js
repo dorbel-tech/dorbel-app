@@ -79,5 +79,6 @@ function isUserRegisteredToEvent(event, userId) {
 module.exports = {
   register,
   unregister,
-  isEventOpenForRegistrations
+  isEventOpenForRegistrations,
+  isUserRegisteredToEvent
 };

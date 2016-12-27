@@ -116,3 +116,7 @@ body {
   font-size: 150px;
   display: block;
 }
+
+table.vertical-middle > tbody > tr > td {
+  vertical-align: middle;
+}

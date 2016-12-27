@@ -3,6 +3,7 @@ import { observer } from 'mobx-react';
 import { Grid, Row, Col, Button } from 'react-bootstrap';
 import OHECard from './OHECard';
 import AddOHEModal from './AddOHEModal';
+import moment from 'moment';
 
 import autobind from 'react-autobind';
 
@@ -25,15 +26,28 @@ class OHEManager extends React.Component {
     const { listing } = this.props;
     const openHouseEvents = this.props.appStore.oheStore.oheByListingId(listing.id);        
 
+    const comingEvents = openHouseEvents.filter(event => moment(event.end_time).isAfter(Date.now()));
+    const passedEvents = openHouseEvents.filter(event => moment(event.end_time).isBefore(Date.now()));
+
     return (
       <Grid fluid={true} className="apt-info-container">
         <Col xs={10} xsOffset={1} >
           <Row>
-            <span>מועדי ביקור הבאים</span>
             <Button onClick={() => this.toggleAddModal(true)} className="pull-left">+ הוסף מועד</Button>
+            <h3>מועדי ביקור הבאים</h3>
           </Row>
           <Row>
-            {openHouseEvents.map(ohe => <OHECard key={ohe.id} ohe={ohe} />)}
+            { comingEvents.length ? 
+                comingEvents.map(ohe => <OHECard key={ohe.id} ohe={ohe} />) :
+                <h4>אין ביקורים קרובים</h4> }
+          </Row>
+          <Row>
+            <h3>מועדי ביקור שחלפו</h3>
+          </Row>
+          <Row>
+            { passedEvents.length ? 
+                passedEvents.map(ohe => <OHECard key={ohe.id} ohe={ohe} />) :
+                <h4>אין ביקורים שחלפו</h4> }            
           </Row>
         </Col>
         <AddOHEModal listing={listing} show={this.state.showAddOheModal} onClose={() => this.toggleAddModal(false)}/>

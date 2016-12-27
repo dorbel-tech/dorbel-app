@@ -42,8 +42,6 @@ class OheProvider {
     openHouseEvent.timeLabel = `${start.format(timeFormat)} - ${end.format(timeFormat)}`;
     openHouseEvent.dateLabel = start.format(dateFormat);
 
-    this.setUsersOwnRegistration(openHouseEvent);
-
     return openHouseEvent;
   }
 
@@ -58,8 +56,7 @@ class OheProvider {
     })
     .then(registration => {
       const ohe = this.appStore.oheStore.oheById.get(event.id);
-      ohe.registrations.push(registration);
-      this.setUsersOwnRegistration(ohe);
+      ohe.usersOwnRegistration = registration;
     });
   }
 
@@ -69,19 +66,10 @@ class OheProvider {
     })
     .then(() => {
       const ohe = this.appStore.oheStore.oheById.get(registration.open_house_event_id);
-      ohe.registrations.remove(registration);
-      this.setUsersOwnRegistration(ohe);
+      ohe.usersOwnRegistration = undefined;      
     });
   }
-
-  // TODO : should come from backend
-  setUsersOwnRegistration(openHouseEvent) {
-    if (this.appStore.authStore.isLoggedIn) {
-      const user = this.appStore.authStore.getProfile();
-      openHouseEvent.usersOwnRegistration = _.find(openHouseEvent.registrations, { registered_user_id: user.dorbel_user_id });
-    }
-  }
-
+  
   // Follow listing
 
   getFollowsForListing(listing) {
