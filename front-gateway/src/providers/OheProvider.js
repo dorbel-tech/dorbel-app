@@ -49,8 +49,8 @@ class OheProvider {
   }
 
   enrichOhe(openHouseEvent) {
-    const start = moment(openHouseEvent.start_time);
-    const end = moment(openHouseEvent.end_time);
+    const start = moment.utc(openHouseEvent.start_time);
+    const end = moment.utc(openHouseEvent.end_time);
 
     openHouseEvent.timeLabel = `${start.format(timeFormat)} - ${end.format(timeFormat)}`;
     openHouseEvent.dateLabel = start.format(dateFormat);
