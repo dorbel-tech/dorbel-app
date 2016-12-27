@@ -9,7 +9,6 @@
       "address": "localhost",
       "restart": true,
       "sourceMaps": true,
-      "outDir": null,
       "localRoot": "${workspaceRoot}/apartments-api",
       "remoteRoot": "."
     },
@@ -23,8 +22,7 @@
       "runtimeExecutable": "npm",
       "runtimeArgs": [ ],
       "console": "internalConsole",
-      "sourceMaps": true,
-      "outDir": null
+      "sourceMaps": true
     },
     {
       "name": "apartments-api#integration-tests",
@@ -36,8 +34,7 @@
       "runtimeExecutable": "npm",
       "runtimeArgs": [ ],
       "console": "internalConsole",
-      "sourceMaps": true,
-      "outDir": null
+      "sourceMaps": true
     },
     {
       "name": "front-gateway",
@@ -53,8 +50,7 @@
       "runtimeArgs": [ "--nolazy" ],
       "env": { "NODE_ENV": "development" },
       "console": "internalConsole",
-      "sourceMaps": true,
-      "outDir": null
+      "sourceMaps": true
     },
     {
       "name": "notifications-service#attach",
@@ -64,7 +60,6 @@
       "address": "localhost",
       "restart": true,
       "sourceMaps": true,
-      "outDir": null,
       "localRoot": "${workspaceRoot}/notifications-service",
       "remoteRoot": "."
     },
@@ -76,7 +71,6 @@
       "address": "localhost",
       "restart": true,
       "sourceMaps": true,
-      "outDir": null,
       "localRoot": "${workspaceRoot}/ohe-api",
       "remoteRoot": "."
     }

@@ -204,21 +204,22 @@ describe('Open House Event Service', function () {
 
     it('should fail updated event is overlapping existing events (starts during an existing event)', function* () {
       let originalEvent = faker.generateEvent({
-        id: 1
+        start_time: moment().add(4, 'hours').toISOString(),
+        end_time: moment().add(6, 'hours').toISOString()
       });
 
       this.openHouseEventsFinderServiceMock.find = sinon.stub().resolves(originalEvent);
 
-      let anotherEvent = faker.generateEvent({
+      let overlappingEvent = faker.generateEvent({
         id: 2,
-        start_time: moment().add(-6, 'hours').toISOString(),
-        end_time: moment().add(-4, 'hours').toISOString(),
+        start_time: moment().add(5, 'hours').toISOString(),
+        end_time: moment().add(7, 'hours').toISOString()
       });
 
       this.openHouseEventsFinderServiceMock.findByListing = sinon.stub().resolves([originalEvent]);
 
       try {
-        yield this.service.update(anotherEvent);
+        yield this.service.update(overlappingEvent);
         __.assertThat('code', __.is('not reached'));
       }
       catch (error) {
@@ -229,21 +230,22 @@ describe('Open House Event Service', function () {
 
     it('should fail updated event is overlapping existing events (ends during an existing event)', function* () {
       let originalEvent = faker.generateEvent({
-        id: 1
+        start_time: moment().add(5, 'hours').toISOString(),
+        end_time: moment().add(7, 'hours').toISOString()
       });
 
       this.openHouseEventsFinderServiceMock.find = sinon.stub().resolves(originalEvent);
 
-      let anotherEvent = faker.generateEvent({
+      let overlappingEvent = faker.generateEvent({
         id: 2,
-        start_time: moment().add(-4, 'hours').toISOString(),
-        end_time: moment().add(-2, 'hours').toISOString(),
+        start_time: moment().add(4, 'hours').toISOString(),
+        end_time: moment().add(6, 'hours').toISOString()
       });
 
       this.openHouseEventsFinderServiceMock.findByListing = sinon.stub().resolves([originalEvent]);
 
       try {
-        yield this.service.update(anotherEvent);
+        yield this.service.update(overlappingEvent);
         __.assertThat('code', __.is('not reached'));
       }
       catch (error) {

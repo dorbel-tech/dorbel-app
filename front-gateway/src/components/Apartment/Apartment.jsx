@@ -7,7 +7,8 @@ import './Apartment.scss';
 
 const Flickity = global.window ? require('react-flickity-component')(React) : 'div';
 
-const flickityOptions = {
+const flickityOptions = {  
+  initialIndex: 2,
   cellAlign: 'left',
   wrapAround: true,
   rightToLeft: true,
@@ -19,12 +20,11 @@ class Apartment extends Component {
   static behindHeader = true;
 
   componentDidMount() {
-    this.props.appProviders.apartmentsProvider.loadSingleApartment(this.props.apartmentId);
+    this.props.appProviders.apartmentsProvider.loadFullListingDetails(this.props.apartmentId);
   }
 
   renderImageGallery(apartment) {
     return (
-
       <header className="apt-header">
         <div className="container-fluid">
           <div className="row">
@@ -79,9 +79,9 @@ class Apartment extends Component {
 
   render() {
     // TODO : mixup between listing and apartment here !!!
-    const listing = this.props.appStore.apartmentStore.apartmentsById.get(this.props.apartmentId);
+    const listing = this.props.appStore.listingStore.listingsById.get(this.props.apartmentId);
 
-    if (!listing) {
+    if (!listing || !listing.apartment) {
       return (<div><h4>Loading...</h4></div>);  
     }
 
@@ -90,7 +90,7 @@ class Apartment extends Component {
     return (
       <div>
         {this.renderImageGallery(listing)}
-        <OHEList listing={listing} />
+        <OHEList listing={listing} oheId={this.props.oheId} action={this.props.action} />
         <div className="container-fluid apt-headline-container">
           <div className="container">
             <div className="row">
@@ -123,7 +123,9 @@ class Apartment extends Component {
 Apartment.wrappedComponent.propTypes = {
   apartmentId: React.PropTypes.string.isRequired,
   appProviders: React.PropTypes.object,
-  appStore: React.PropTypes.object
+  appStore: React.PropTypes.object,
+  oheId: React.PropTypes.string,
+  action: React.PropTypes.string
 };
 
 export default Apartment;

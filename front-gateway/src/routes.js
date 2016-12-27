@@ -25,7 +25,10 @@ function startRouter(appStore) {
     '/login': () => appStore.setView(Login),
     '/apartments': () => appStore.setView(Apartments),
     '/apartments/new_form': () => appStore.setView(UploadApartmentForm),
-    '/apartments/:apartmentId': (id) => appStore.setView(Apartment, { apartmentId: id }),
+    // TODO : can this look better with nested routes ? 
+    '/apartments/:apartmentId/:action/:oheId': (apartmentId, action, oheId) => appStore.setView(Apartment, { apartmentId, action, oheId }),
+    '/apartments/:apartmentId/:action': (apartmentId, action) => appStore.setView(Apartment, { apartmentId, action }),
+    '/apartments/:apartmentId': (apartmentId) => appStore.setView(Apartment, { apartmentId }),
     '/profile': [
       checkAuth,
       () => appStore.setView(Profile)
@@ -45,11 +48,12 @@ function startRouter(appStore) {
     // bug fix for https://github.com/flatiron/director/issues/312
     const oldSetRoute = router.setRoute;
     router.setRoute = function () {
+      const origAgrs = arguments;
       if (window.onpopstate) {
-        oldSetRoute.apply(router, arguments);
+        oldSetRoute.apply(router, origAgrs);
       } else {
-        setTimeout(function () {
-          router.setRoute.apply(router, arguments);
+        setTimeout(() => {
+          router.setRoute.apply(router, origAgrs);
         }, 10);
       }
     };

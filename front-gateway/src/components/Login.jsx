@@ -11,18 +11,19 @@ export class Login extends React.Component {
 
   componentDidMount() {
     const { appProviders, appStore } = this.props;
-    if (!appStore.authStore.isLoggedIn) {
+    const isLoggingIn = window.location.hash.indexOf('access_token') > -1;
+    if (!appStore.authStore.isLoggedIn && !isLoggingIn) {
       appProviders.authProvider.showLoginModal();
     }
   }
 
   render() {
-    const { appStore } = this.props;
+    const { appProviders, appStore } = this.props;
     if (appStore.authStore.isLoggedIn) {
       return (
         <div>
           <h2>Already logged in</h2>
-          <button onClick={appStore.authStore.logout}>Log out</button>
+          <button onClick={appProviders.authProvider.logout}>Log out</button>
         </div>
       );
     } else {

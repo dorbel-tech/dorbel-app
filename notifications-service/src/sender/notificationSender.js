@@ -6,7 +6,7 @@
 const shared = require('dorbel-shared');
 const logger = shared.logger.getLogger(module);
 const dataRetrieval = require('./dataRetrieval');
-const segmentClient = require('./segmentClient');
+const analytics = shared.utils.analytics;
 
 
 // TODO : move out of application code
@@ -28,7 +28,7 @@ function sendEvent(eventConfig, eventData) {
     const trackedEventData = Object.assign({}, eventData, additonalData);
 
     return Promise.all(
-      recipients.map(recipient => segmentClient.track(recipient, eventConfig.notificationType, trackedEventData))
+      recipients.map(recipient => analytics.track(recipient, eventConfig.notificationType, trackedEventData))
     );
   });  
 }

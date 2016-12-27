@@ -14,8 +14,8 @@ describe('Open House Events API Integration', function () {
     describe('GET', function () {
       it('should find an open house event', function* () {
         const ohe = {
-          start_time: moment().add(-2, 'hours').toISOString(),
-          end_time: moment().add(-1, 'hours').toISOString(),
+          start_time: moment().add(12, 'hours').toISOString(),
+          end_time: moment().add(13, 'hours').toISOString(),
           listing_id: faker.getRandomNumber(),
           publishing_user_id: faker.getFakeUser().id
         };
@@ -33,7 +33,7 @@ describe('Open House Events API Integration', function () {
       });
 
       it('should return an error for non existing event', function* () {
-        yield this.apiClient.findEvent(9999999).expect(500).end();
+        yield this.apiClient.findEvent(9999999).expect(404).end();
       });
 
     });
@@ -74,7 +74,7 @@ describe('Open House Events API Integration', function () {
           listing_id: faker.getRandomNumber(),
           publishing_user_id: faker.getFakeUser().id
         };
-        yield this.apiClient.updateEvent(ohe).expect(500).end();
+        yield this.apiClient.updateEvent(ohe).expect(404).end();
       });
     });
 
@@ -92,7 +92,7 @@ describe('Open House Events API Integration', function () {
       });
 
       it('should return an error for non existing event', function* () {
-        yield this.apiClient.deleteEvent(9999999).expect(500).end();
+        yield this.apiClient.deleteEvent(9999999).expect(404).end();
       });
     });
   });

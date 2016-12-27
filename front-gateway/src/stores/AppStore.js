@@ -1,5 +1,5 @@
 'use strict';
-import ApartmentStore from '~/stores/ApartmentStore';
+import ListingStore from '~/stores/ListingStore';
 import OheStore from '~/stores/OheStore';
 import CityStore from '~/stores/CityStore';
 import NeighborhoodStore from '~/stores/NeighborhoodStore';
@@ -9,7 +9,7 @@ import { observable, action } from 'mobx';
 
 // A wrapper for all the stores that the application uses
 export default class AppStore {
-  apartmentStore: ApartmentStore;
+  listingStore: ListingStore;
   oheStore: OheStore;
   authStore: AuthStore;
   cityStore: CityStore;
@@ -20,12 +20,12 @@ export default class AppStore {
   @observable routeParams: {[id: string]: string};
 
   constructor(initialState = {}) {
-    this.apartmentStore = new ApartmentStore(initialState.apartmentStore);
+    this.authStore = new AuthStore();
+    this.listingStore = new ListingStore(initialState.listingStore);
     this.oheStore = new OheStore(initialState.oheStore);
     this.cityStore = new CityStore(initialState.cityStore);
     this.neighborhoodStore = new NeighborhoodStore(initialState.neighborhoodStore);
-    this.authStore = new AuthStore();
-    this.newListingStore = new NewListingStore();
+    this.newListingStore = new NewListingStore(this.authStore);
   }
 
   @action setView(route, params) {
@@ -35,7 +35,7 @@ export default class AppStore {
 
   toJson() {
     return {
-      apartmentStore: this.apartmentStore.toJson(),
+      listingStore: this.listingStore.toJson(),
       oheStore: this.oheStore.toJson(),
       cityStore: this.cityStore.toJson(),
       neighborhoodStore: this.neighborhoodStore.toJson() 

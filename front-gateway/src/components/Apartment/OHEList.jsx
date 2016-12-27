@@ -1,49 +1,101 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
+import { Row } from 'react-bootstrap';
+import autobind from 'react-autobind';
 import Icon from '../Icon/Icon';
-import moment from 'moment';
 
-const timeFormat = 'HH:mm';
-const dateFormat = 'DD/MM/YY';
+import OHERegisterModal from './OHERegisterModal';
+import FollowListingModal from './FollowListingModal';
 
-@observer(['appStore', 'appProviders'])
+@observer(['appStore', 'appProviders', 'router'])
 class OHEList extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { oheForModal: null };
+    autobind(this);
+  }
 
   componentDidMount() {
     this.props.appProviders.oheProvider.loadListingEvents(this.props.listing.id);
+    this.props.appProviders.oheProvider.getFollowsForListing(this.props.listing);
   }
 
-  renderOpenHouseEvent(openHouseEvent, index) {
-    const start = moment(openHouseEvent.start_time);
-    const end = moment(openHouseEvent.end_time);
+  renderListItem(params) {
+    const { router } = this.props;
+    const currentRoute = router.getRoute().join('/');
+    let className = 'list-group-item';
+    let onClickFunction = () => router.setRoute(`/${currentRoute}/${params.onClickRoute}`);
 
-    const timeLabel = `${start.format(timeFormat)} - ${end.format(timeFormat)}`;
-    const dateLabel = start.format(dateFormat);
+    if (params.isDisabled) {
+      onClickFunction = null;
+      className += ' disabled';
+    }
 
     return (
-      <a key={index} href="#" className="list-group-item" data-toggle="modal" data-target="#modal-signup">
-        <div className="row">
+      <a key={params.key} href="#" className={className} onClick={onClickFunction}>
+        <Row>
           <div className="dorbel-icon-calendar pull-right">
-            <Icon iconName="dorbel_icon_calendar" />
+            <Icon iconName={params.iconName} />
           </div>
           <div className="date-and-time pull-right">
-            <span className="time">{timeLabel}</span>&nbsp;|&nbsp;
-            <span className="date">{dateLabel}</span>
+            <span >{params.itemText}</span>
             <br className="visible-lg" />
             <i className="hidden-lg">&nbsp;</i>
-            <span className="hidden-xs">לחץ לאישור הגעה במועד זה</span>
+            <span className="hidden-xs">{params.callToActionText}</span>
           </div>
           <div className="dorbel-icon-arrow fa fa-chevron-left pull-left"></div>
-        </div>
+        </Row>
     </a>
     );
   }
 
+  renderOpenHouseEvent(openHouseEvent)  {
+    let action = 'ohe-register';    
+    let callToActionText = 'לחצו לאישור הגעה במועד זה';
+    if (openHouseEvent.usersOwnRegistration) {
+      action = 'ohe-unregister';
+      callToActionText = 'נרשמתם לארוע זה. לחצו לביטול';
+    }
+
+    if (!openHouseEvent.isOpenForRegistration) {
+      callToActionText = 'מועד זה עבר';
+    }
+
+    return this.renderListItem({
+      onClickRoute: `${action}/${openHouseEvent.id}`,
+      key: openHouseEvent.id,
+      iconName: 'dorbel_icon_calendar',
+      itemText: `${openHouseEvent.timeLabel} | ${openHouseEvent.dateLabel}`,
+      isDisabled: !openHouseEvent.isOpenForRegistration,
+      callToActionText
+    });
+  }
+
+  renderFollowItem(listing) {
+    let action = 'follow';
+    let itemText = 'אהבנו, אבל לא נצליח להגיע';
+    let callToActionText = 'קבלו עדכונים על מועדים עתידיים';
+    const userIsFollowing = this.props.appStore.oheStore.usersFollowsByListingId.get(listing.id);
+
+    if (userIsFollowing) {
+      action = 'unfollow';
+      itemText = 'אתם עוקבים אחרי דירה זו';
+      callToActionText = 'לחצו להסרה מרשימת העדכונים';
+    }
+
+    return this.renderListItem({
+      itemText, callToActionText,
+      iconName: 'icon-dorbel-icon-master_icon-calendar-plus',
+      onClickRoute: action
+    });
+  }
+
   render() {
-    const { listing } = this.props;
-    const openHouseEvents = this.props.appStore.oheStore.oheByListingId.get(this.props.listing.id) || [];
-    const profile = this.props.appStore.authStore.getProfile();
+    const { listing, router, oheId, appStore } = this.props;
+    const openHouseEvents = this.props.appStore.oheStore.oheByListingId(listing.id);    
     const currentUrl = 'https://app.dorbel.com/apartments/' + listing.id;
+    const oheForModal = oheId ? appStore.oheStore.oheById.get(oheId) : null;
+    const closeModal = () => router.setRoute('/apartments/' + listing.id);
 
     return (
       <div className="container">
@@ -70,14 +122,11 @@ class OHEList extends Component {
               <div className="list-group apt-choose-date-container">
                 <h5 className="text-center apt-choose-date-title">בחר במועד לביקור</h5>
                 {openHouseEvents.map(this.renderOpenHouseEvent)}
+                {this.renderFollowItem(listing)}
                 <div href="#" className="list-group-item owner-container text-center">                 
                   <h5>
-                  { listing.publishing_user_type === 'landlord' ?
-                   <span>בעל הנכס</span>
-                    :
-                    <span>דייר יוצא</span>
-                  }
-                  <span>: {profile.user_metadata.first_name}</span>
+                  <span>{ listing.publishing_user_type === 'landlord' ? 'בעל הנכס' : 'דייר יוצא' }</span>
+                  <span>: { listing.publishing_username || 'אנונימי' }</span>
                   </h5>
                 </div>
               </div>
@@ -85,6 +134,8 @@ class OHEList extends Component {
             </div>
           </div>
         </div>
+        <OHERegisterModal ohe={oheForModal} onClose={closeModal} action={this.props.action} />
+        <FollowListingModal listing={listing} onClose={closeModal} action={this.props.action} />
       </div>
     );
   }
@@ -93,7 +144,10 @@ class OHEList extends Component {
 OHEList.wrappedComponent.propTypes = {
   listing: React.PropTypes.object.isRequired,
   appProviders: React.PropTypes.object,
-  appStore: React.PropTypes.object
+  appStore: React.PropTypes.object,
+  router: React.PropTypes.object,
+  oheId: React.PropTypes.string,
+  action: React.PropTypes.string
 };
 
 export default OHEList;
