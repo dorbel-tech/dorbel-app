@@ -4,7 +4,6 @@ const moment = require('moment');
 const shared = require('dorbel-shared');
 const listingRepository = require('../apartmentsDb/repositories/listingRepository');
 const geoService = require('./geoService');
-const oheApiClient = require('./oheApiClient');
 const config = shared.config;
 const messageBus = shared.utils.messageBus;
 const userManagement = shared.utils.userManagement;
@@ -49,10 +48,6 @@ function* create(listing) {
       phone: normalizedPhone
     }
   });
-
-  // TODO: Move ths call to client side.
-  oheApiClient.createOpenHouseEvent(createdListing, listing);
-
 
   // Publish event trigger message to SNS for notifications dispatching.
   if (config.get('NOTIFICATIONS_SNS_TOPIC_ARN')) {

@@ -6,10 +6,11 @@ import { action } from 'mobx';
 import _ from 'lodash';
 
 class ApartmentsProvider {
-  constructor(appStore, apiProvider, cloudinaryProvider) {
+  constructor(appStore, providers) {
     this.appStore = appStore;
-    this.apiProvider = apiProvider;
-    this.cloudinaryProvider = cloudinaryProvider;
+    this.apiProvider = providers.api;
+    this.cloudinaryProvider = providers.cloudinary;
+    this.oheProvider = providers.ohe;
   }
 
   loadApartments() {
@@ -34,8 +35,9 @@ class ApartmentsProvider {
   }
 
   uploadApartment(formValues) {
-    const listing = this.mapUploadApartmentFormToCreateListing(formValues);
-    return this.apiProvider.fetch('/api/apartments/v1/listings', { method: 'POST', data: listing });
+    const listing = this.mapUploadApartmentFormToCreateListing(formValues);    
+    return this.apiProvider.fetch('/api/apartments/v1/listings', { method: 'POST', data: listing })
+      .then(newListing => this.oheProvider.createOhe(Object.assign({ listing_id: newListing.id }, formValues.open_house_event)));
   }
 
   @action

@@ -4,6 +4,8 @@ const logger = shared.logger.getLogger(module);
 const NodeGeocoder = require('node-geocoder');
 let geoCoderInstance = null;
 
+// TODO : separate 'services' from 'providers' ? 
+
 // NodeGeocoder client singleton class.
 class Geo{  
   constructor() {

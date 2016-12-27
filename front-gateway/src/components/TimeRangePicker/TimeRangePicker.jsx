@@ -58,9 +58,11 @@ class TimeRangePicker extends React.Component {
   render() {
     return (
       <div>
-        <Row className="form-group">
-          <label>תאריך הביקור</label>
-          <DatePicker name="ohe-date" onChange={this.dateChange} />              
+        <Row>
+          <Col md={12} className="form-group">
+            <label>תאריך הביקור</label>
+            <DatePicker name="ohe-date" onChange={this.dateChange} />              
+          </Col>
         </Row>
         <Row>
           <Col md={6}>
