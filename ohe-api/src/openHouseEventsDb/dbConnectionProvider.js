@@ -6,6 +6,8 @@ const modelLoader = require('./models');
 const config = shared.config;
 const MY_SQL_PORT = 3306;
 
+Sequelize.ValidationError.prototype.status = 400; // for http response
+
 module.exports.connect = function* connect() {
   yield shared.utils.waitForConnection({ host: config.get('RDS_HOSTNAME'), port: MY_SQL_PORT });
 

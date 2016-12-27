@@ -22,6 +22,9 @@ machine:
     AUTH0_API_CLIENT_SECRET: eNxH29niwPQ8VZH4o9kcUP9-VBZnkT_j5_azdKNyArt1WVfh_JxAs_PlG05UDPHC
     APARTMENTS_API_URL: https://www.mock.mock/mock
     OHE_API_URL: https://www.mock.mock/mock
+    FRONT_GATEWAY_URL: http://front-gateway-staging.eu-west-1.elasticbeanstalk.com
+    BROWSERSTACK_USERNAME: davidvirtser1
+    BROWSERSTACK_ACCESS_KEY: 426qzKmzkZckXaHey3kr
   services:
     - mysql
     - redis
@@ -70,4 +73,5 @@ deployment:
       - yarn run deploy apartments-api stage
       - yarn run deploy front-gateway stage
       - yarn run deploy notifications-service stage
-      - yarn run deploy ohe-api stage    
+      - yarn run deploy ohe-api stage
+      - cd front-gateway && yarn run test:e2e:browserstack

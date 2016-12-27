@@ -152,13 +152,6 @@
           "in": "path",
           "type":"integer",
           "required": true
-        },
-        {
-          "name": "x-user-profile",
-          "in": "header",
-          "required": true,
-          "type": "string",
-          "description": "Stringified JSON object with the user's profile information"
         }
       ],
       "tags": [
