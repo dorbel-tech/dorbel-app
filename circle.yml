@@ -10,13 +10,7 @@ machine:
     AWS_DEFAULT_REGION: eu-west-1
     AWS_REGION: eu-west-1
     NOTIFICATIONS_SNS_TOPIC_ARN: arn:aws:sns:eu-west-1:168720412882:notifications-ci
-    NOTIFICATIONS_EMAIL_SQS_QUEUE_URL: https://sqs.eu-west-1.amazonaws.com/168720412882/notifications-ci-email
-    NOTIFICATIONS_SMS_SQS_QUEUE_URL: https://sqs.eu-west-1.amazonaws.com/168720412882/notifications-ci-sms		     
     NOTIFICATIONS_APP_EVENTS_SQS_QUEUE_URL: https://sqs.eu-west-1.amazonaws.com/168720412882/notifications-ci-app-events
-    MANDRILL_API_KEY: 1234567890
-    TWILIO_ACCOUNT_SID: 1234567890
-    TWILIO_AUTH_TOKEN: 1234567890
-    TWILIO_PHONE_NUMBER: 1234567890
     AUTH0_DOMAIN: dorbel-dev.eu.auth0.com
     AUTH0_API_CLIENT_ID: 6LbnsQrAVSEk8MPpZzcwvkze5G5fAc7q
     AUTH0_API_CLIENT_SECRET: eNxH29niwPQ8VZH4o9kcUP9-VBZnkT_j5_azdKNyArt1WVfh_JxAs_PlG05UDPHC
@@ -54,7 +48,6 @@ test:
     - cd apartments-api && yarn run test:integration
     - cd front-gateway && yarn run lint
     - cd front-gateway && yarn test 
-    # - cd front-gateway && yarn run test:e2e 
     - cd notifications-service && yarn run lint
     - cd notifications-service && yarn test 
     - cd notifications-service && yarn run test:integration
@@ -63,15 +56,15 @@ test:
     - cd ohe-api && yarn test 
     - cd ohe-api && yarn run test:integration
 
-deployment:
-  staging:
-    branch: develop
-    commands:  
-      - sudo apt-get update
-      - sudo apt-get install python2.7-dev
-      - sudo pip install awsebcli
-      - yarn run deploy apartments-api stage
-      - yarn run deploy front-gateway stage
-      - yarn run deploy notifications-service stage
-      - yarn run deploy ohe-api stage
-      - cd front-gateway && yarn run test:e2e:browserstack
+# deployment:
+#   staging:
+#     branch: develop
+#     commands:  
+#       - sudo apt-get update
+#       - sudo apt-get install python2.7-dev
+#       - sudo pip install awsebcli
+#       - yarn run deploy apartments-api stage
+#       - yarn run deploy front-gateway stage
+#       - yarn run deploy notifications-service stage
+#       - yarn run deploy ohe-api stage
+#       - cd front-gateway && yarn run test:e2e:browserstack
