@@ -131,4 +131,4 @@ services:
     links:
       - db
     environment:
-      DATABASE_URL: mysql://${MYSQL_ROOT_USER}:${MYSQL_ROOT_PASSWORD}@db:3306/${MYSQL_ROOT_PASSWORD}
+      DATABASE_URL: mysql://${MYSQL_ROOT_USER}:${MYSQL_ROOT_PASSWORD}@db:3306/${MYSQL_DATABASE_APT}
