@@ -1,0 +1,37 @@
+{
+    "/listings/related/{listingId}": {
+        "get": {
+            "summary": "Get related listings",
+            "description": "Get related listings with all their details",
+            "parameters": [
+                {
+                    "name": "listingId",
+                    "in": "path",
+                    "description": "id of listing",
+                    "type": "integer",
+                    "required": true
+                }
+            ],
+            "tags": [
+                "relatedListingController"
+            ],
+            "responses": {
+                "200": {
+                    "description": "An array of related listings",
+                    "schema": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/definitions/Listing"
+                        }
+                    }
+                },
+                "default": {
+                    "description": "Unexpected error",
+                    "schema": {
+                        "$ref": "#/definitions/Error"
+                    }
+                }
+            }
+        }
+    }
+}
