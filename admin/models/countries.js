@@ -6,12 +6,16 @@ module.exports = (sequelize, DataTypes) => {
   var Model = sequelize.define('countries', {
     country_name: {
       type: DataTypes.STRING,
+      allowNull: false,
+      unique: true
     },
     currency: {
       type: DataTypes.STRING,
+      allowNull: false
     },
     size_unit: {
       type: DataTypes.STRING,
+      allowNull: false
     },
     created_at: {
       type: DataTypes.DATE,
@@ -21,7 +25,8 @@ module.exports = (sequelize, DataTypes) => {
     },
   }, {
     classMethods: {
-      associate: () => {
+      associate: models => {
+          Model.hasMany(models.cities);
       }
     },
     tableName: 'countries',

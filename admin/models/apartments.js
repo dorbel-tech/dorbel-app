@@ -5,50 +5,44 @@ module.exports = (sequelize, DataTypes) => {
 
   var Model = sequelize.define('apartments', {
     apt_number: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING
     },
     size: {
       type: DataTypes.INTEGER,
+      allowNull: false
     },
     rooms: {
-      type: DataTypes.DOUBLE,
+      type: DataTypes.DECIMAL(3, 1),
+      allowNull: false
     },
     floor: {
       type: DataTypes.INTEGER,
+      allowNull: false
     },
-    parking: {
-      type: DataTypes.INTEGER,
-    },
-    sun_heated_boiler: {
-      type: DataTypes.INTEGER,
-    },
-    pets: {
-      type: DataTypes.INTEGER,
-    },
-    air_conditioning: {
-      type: DataTypes.INTEGER,
-    },
-    balcony: {
-      type: DataTypes.INTEGER,
-    },
-    security_bars: {
-      type: DataTypes.INTEGER,
-    },
-    parquet_floor: {
-      type: DataTypes.INTEGER,
-    },
-    building_id: {
-      type: DataTypes.INTEGER,
-    },
+    parking: DataTypes.BOOLEAN,
+    sun_heated_boiler: DataTypes.BOOLEAN,
+    pets: DataTypes.BOOLEAN,
+    air_conditioning: DataTypes.BOOLEAN,
+    balcony: DataTypes.BOOLEAN,
+    security_bars: DataTypes.BOOLEAN,
+    parquet_floor: DataTypes.BOOLEAN,
     created_at: {
       type: DataTypes.DATE,
     },
     updated_at: {
       type: DataTypes.DATE,
-    },
+    },    
   }, {
     classMethods: {
-      associate: () => {
+      associate: models => {
+        const options = {
+          foreignKey: {
+            allowNull: false
+          },
+          onDelete: 'CASCADE'
+        };
+        models.apartments.belongsTo(models.buildings, options);
+        Model.hasOne(models.listings);
       }
     },
     tableName: 'apartments',

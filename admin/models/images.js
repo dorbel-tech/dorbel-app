@@ -6,6 +6,11 @@ module.exports = (sequelize, DataTypes) => {
   var Model = sequelize.define('images', {
     url: {
       type: DataTypes.STRING,
+      allowNull: false,
+      unique: true
+    },
+    display_order: {
+      type: DataTypes.FLOAT
     },
     listing_id: {
       type: DataTypes.INTEGER,
@@ -18,8 +23,12 @@ module.exports = (sequelize, DataTypes) => {
     },
   }, {
     classMethods: {
-      associate: () => {
-      }
+      associate: models => models.images.belongsTo(models.listings, {
+        foreignKey: {
+          allowNull: false
+        },
+        onDelete: 'CASCADE'
+      })
     },
     tableName: 'images',
     underscored: true,

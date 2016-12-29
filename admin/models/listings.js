@@ -5,37 +5,53 @@ module.exports = (sequelize, DataTypes) => {
 
   var Model = sequelize.define('listings', {
     title: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING
     },
-    description: {
-      type: DataTypes.STRING,
+    description: DataTypes.STRING,
+    status: {
+      type: DataTypes.ENUM,
+      values: ['pending', 'listed', 'rented', 'unlisted'],
+      allowNull: false,
+      defaultValue: 'pending'
     },
     monthly_rent: {
-      type: DataTypes.DOUBLE,
+      type: DataTypes.DECIMAL(10, 2),
+      allowNull: false
     },
     roommates: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
     },
     property_tax: {
-      type: DataTypes.DOUBLE,
+      type: DataTypes.DECIMAL(10, 2),
+      comment: 'ארנונה לחודשיים'
     },
     board_fee: {
-      type: DataTypes.DOUBLE,
+      type: DataTypes.DECIMAL(10, 2),
+      comment: 'ועד בית'
     },
     lease_start: {
       type: DataTypes.DATE,
+      allowNull: false
     },
     lease_end: {
       type: DataTypes.DATE,
+      allowNull: false
     },
     publishing_user_id: {
-      type: DataTypes.STRING,
+      type: DataTypes.UUID,
+      allowNull: false
+    },
+    publishing_user_type: {
+      type: DataTypes.ENUM('landlord', 'tenant'),
+      allowNull: false
+    },
+    publishing_username: {
+      type: DataTypes.VIRTUAL
     },
     roommate_needed: {
-      type: DataTypes.INTEGER,
-    },
-    apartment_id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
     },
     created_at: {
       type: DataTypes.DATE,
@@ -45,7 +61,14 @@ module.exports = (sequelize, DataTypes) => {
     },
   }, {
     classMethods: {
-      associate: () => {
+      associate: models => {
+        Model.belongsTo(models.apartments, {
+          foreignKey: {
+            allowNull: false
+          },
+          onDelete: 'CASCADE'
+        });
+        Model.hasMany(models.images);        
       }
     },
     tableName: 'listings',
