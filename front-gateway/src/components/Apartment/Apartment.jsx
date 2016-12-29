@@ -3,11 +3,12 @@ import { observer } from 'mobx-react';
 import svgIcons from '~/assets/images/images.sprite.svg';
 import ApartmentAmenities from './ApartmentAmenities.jsx';
 import OHEList from './OHEList.jsx';
+import ApartmentLocation from '../MapWrapper/MapWrapper.jsx';
 import './Apartment.scss';
 
 const Flickity = global.window ? require('react-flickity-component')(React) : 'div';
 
-const flickityOptions = {  
+const flickityOptions = {
   initialIndex: 2,
   cellAlign: 'left',
   wrapAround: true,
@@ -29,8 +30,8 @@ class Apartment extends Component {
         <div className="container-fluid">
           <div className="row">
             <Flickity options={flickityOptions} >
-              {apartment.images.map((image, index) => 
-                <img key={index} src={image.url.replace('upload','upload/h_500')}/>
+              {apartment.images.map((image, index) =>
+                <img key={index} src={image.url.replace('upload', 'upload/h_500')} />
               )}
             </Flickity>
           </div>
@@ -77,16 +78,28 @@ class Apartment extends Component {
     );
   }
 
+  renderListingLocation(geolocation) {
+    if (geolocation) {
+      return (
+        <div className="row">
+          <div className="container-fluid">
+            <ApartmentLocation geo={geolocation} />
+          </div>
+        </div>
+      );
+    }
+  }
+
   render() {
     // TODO : mixup between listing and apartment here !!!
     const listing = this.props.appStore.listingStore.listingsById.get(this.props.apartmentId);
 
     if (!listing || !listing.apartment) {
-      return (<div><h4>Loading...</h4></div>);  
+      return (<div><h4>Loading...</h4></div>);
     }
 
     const title = listing.title || `דירת ${listing.apartment.rooms} חד׳ ברח׳ ${listing.apartment.building.street_name}`;
-    
+
     return (
       <div>
         {this.renderImageGallery(listing)}
@@ -115,6 +128,7 @@ class Apartment extends Component {
           </div>
         </div>
         {this.renderListingDescription(listing)}
+        {this.renderListingLocation(listing.apartment.building.geolocation)}
       </div>
     );
   }
