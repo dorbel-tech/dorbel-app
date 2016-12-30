@@ -50,6 +50,7 @@
     "file-loader": "0.9.0",
     "formsy-react": "0.18.1",
     "formsy-react-components": "0.8.1",
+    "google-map-react": "^0.22.0",
     "ignore-styles": "^5.0.1",
     "isomorphic-fetch": "^2.2.1",
     "jest": "^16.0.2",

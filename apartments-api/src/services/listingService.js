@@ -108,9 +108,19 @@ function* getById(id) {
   return listing;
 }
 
+function* getRelated(listingId) {
+  let relatedListings = [];
+  const listing = yield listingRepository.getById(listingId);
+  if (listing) {
+    relatedListings = yield listingRepository.getRelatedByCity(listingId, listing.apartment.building.city_id, 3);
+  }
+  return relatedListings;
+}
+
 module.exports = {
   create,
   updateStatus,
   getById,
+  getRelated,
   list: listingRepository.list
 };
