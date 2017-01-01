@@ -115,11 +115,7 @@ function* getRelated(listingId, numOfItems) {
   // Verify that the listing exists
   if (listing) {
     let allRelatedListings = yield listingRepository.getRelatedByCity(listingId, listing.apartment.building.city_id);
-    
-    // Get n unique, random listings from array if larger than requested size
-    retRelatedListings =
-      (allRelatedListings.length > numOfItems) ? 
-        _.sampleSize(allRelatedListings, numOfItems) : allRelatedListings;
+    retRelatedListings = _.sampleSize(allRelatedListings, numOfItems);
   }
 
   return retRelatedListings;
