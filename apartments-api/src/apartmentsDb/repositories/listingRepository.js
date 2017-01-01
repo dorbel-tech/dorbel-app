@@ -128,7 +128,7 @@ function getListingsForApartment(apartment, listingQuery) {
   });
 }
 
-function getRelatedByCity(listingId, cityId, numOfItems) {
+function getRelatedByCity(listingId, cityId) {
   return models.listing.findAll({
     where: {
       status: 'listed',
@@ -144,7 +144,6 @@ function getRelatedByCity(listingId, cityId, numOfItems) {
         attributes: ['city_id']
       }
     },
-    limit: numOfItems,
     raw: true, // readonly get - no need for full sequlize instances
   });
 }

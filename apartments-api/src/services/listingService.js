@@ -14,7 +14,7 @@ function CustomError(code, message) {
   let error = new Error(message);
   error.status = code;
   return error;
-} 
+}
 
 function* create(listing) {
   const existingOpenListingForApartment = yield listingRepository.getListingsForApartment(
@@ -31,7 +31,7 @@ function* create(listing) {
   }
 
   // In case that roomate is needed, the listing should allow roommates.
-  if(listing.roommate_needed) {
+  if (listing.roommate_needed) {
     listing.roommates = true;
   }
 
@@ -100,22 +100,31 @@ function normalizePhone(phone) {
 function* getById(id) {
   const listing = yield listingRepository.getById(id);
   if (listing) {
-    const publishingUser = yield userManagement.getUserDetails(listing.publishing_user_id);  
+    const publishingUser = yield userManagement.getUserDetails(listing.publishing_user_id);
     if (publishingUser) {
-      listing.publishing_username = _.get(publishingUser, 'user_metadata.first_name') || publishingUser.given_name;  
+      listing.publishing_username = _.get(publishingUser, 'user_metadata.first_name') || publishingUser.given_name;
     }
   }
   return listing;
 }
 
-function* getRelated(listingId) {
-  let relatedListings = [];
+function* getRelated(listingId, numOfItems) {
+  let retRelatedListings = [];
   const listing = yield listingRepository.getById(listingId);
+
+  // Verify that the listing exists
   if (listing) {
-    relatedListings = yield listingRepository.getRelatedByCity(listingId, listing.apartment.building.city_id, 3);
+    let allRelatedListings = yield listingRepository.getRelatedByCity(listingId, listing.apartment.building.city_id);
+    
+    // Get n unique, random listings from array if larger than requested size
+    retRelatedListings =
+      (allRelatedListings.length > numOfItems) ? 
+        _.sampleSize(allRelatedListings, numOfItems) : allRelatedListings;
   }
-  return relatedListings;
+
+  return retRelatedListings;
 }
+
 
 module.exports = {
   create,
