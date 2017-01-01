@@ -6,7 +6,7 @@ const listingService = require('../../services/listingService');
 
 function* get() {
   const listingId = parseInt(this.params.listingId);
-  this.response.body = yield listingService.getRelated(listingId);
+  this.response.body = yield listingService.getRelated(listingId, 3);
 }
 
 module.exports = {
