@@ -144,7 +144,6 @@ function getRelatedByCity(listingId, cityId) {
         attributes: ['city_id']
       }
     },
-    raw: true, // readonly get - no need for full sequlize instances
   });
 }
 
