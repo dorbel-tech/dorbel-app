@@ -6,7 +6,7 @@ const helper = require('./repositoryHelper');
 const apartmentRepository = require('./apartmentRepository');
 const buildingRepository = require('./buildingRepository');
 
-function list(query, options) {
+function list(query, options={}) {
   return models.listing.findAll({
     where: query,
     include: [{
