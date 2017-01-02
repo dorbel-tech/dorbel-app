@@ -19,8 +19,12 @@ class ApartmentsProvider {
   }
 
   loadFullListingDetails(id) {
-    return this.apiProvider.fetch('/api/apartments/v1/listings/' + id)
-      .then(action('load-single-apartment', apartment => this.appStore.listingStore.listingsById.set(id,apartment)));
+    return Promise.all([
+      this.apiProvider.fetch('/api/apartments/v1/listings/' + id)
+        .then(action('load-single-apartment', apartment => this.appStore.listingStore.listingsById.set(id,apartment))),
+      this.oheProvider.loadListingEvents(id),
+      this.oheProvider.getFollowsForListing(id)
+    ]);
   }
 
   mapUploadApartmentFormToCreateListing(formValues) {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Nav, NavItem } from 'react-bootstrap';
+import { Grid, Row, Nav, NavItem } from 'react-bootstrap';
 import { observer } from 'mobx-react';
 import autobind from 'react-autobind';
 import _ from 'lodash';
@@ -93,13 +93,18 @@ class Apartment extends Component {
   renderListingMenu(listing) {
     const { authStore } = this.props.appStore;
     const profile = authStore.getProfile();     
-    if (listing.publishing_user_id === profile.dorbel_user_id) {
+    const userIsListingPublisher = listing.publishing_user_id === profile.dorbel_user_id;
+    if (userIsListingPublisher) {
       const activeTab = _.find(tabs, { action: this.props.action }) || tabs[0];
 
       return (
-        <Nav bsStyle="tabs" activeKey={activeTab.action} onSelect={this.changeTab}>
-          {tabs.map(tab => <NavItem key={tab.action} eventKey={tab.action}>{tab.title}</NavItem>)}
-        </Nav>
+        <Grid>
+          <Row>
+            <Nav bsStyle="tabs" activeKey={activeTab.action} onSelect={this.changeTab}>
+              {tabs.map(tab => <NavItem key={tab.action} eventKey={tab.action}>{tab.title}</NavItem>)}
+            </Nav>
+          </Row>
+        </Grid>
       );
     } else {
       return null;

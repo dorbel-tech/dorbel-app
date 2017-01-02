@@ -72,8 +72,8 @@ class OheProvider {
   
   // Follow listing
 
-  getFollowsForListing(listing) {
-    return this.fetch('followers/by-listing/' + listing.id)
+  getFollowsForListing(listing_id) {
+    return this.fetch('followers/by-listing/' + listing_id)
     .then(followers => {
       let usersFollowDetails = null;
       
@@ -82,7 +82,7 @@ class OheProvider {
         usersFollowDetails = _.find(followers, { following_user_id: user.dorbel_user_id });       
       }
 
-      this.appStore.oheStore.usersFollowsByListingId.set(listing.id, usersFollowDetails);        
+      this.appStore.oheStore.usersFollowsByListingId.set(listing_id, usersFollowDetails);        
     });
   }
 
