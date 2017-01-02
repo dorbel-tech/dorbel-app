@@ -8,6 +8,7 @@ import ApartmentAmenities from './ApartmentAmenities.jsx';
 import OHEList from './OHEList.jsx';
 import OHEManager from '~/components/OHEManager/OHEManager';
 import ApartmentLocation from '../MapWrapper/MapWrapper.jsx';
+import RelatedListings from '../RelatedListings/RelatedListings.jsx';
 import './Apartment.scss';
 
 const Flickity = global.window ? require('react-flickity-component')(React) : 'div';
@@ -128,6 +129,12 @@ class Apartment extends Component {
         </div>
       );
     }
+  }
+
+  renderRelatedListings(listing){
+    return (
+      <RelatedListings listingId={listing.id} />
+    );
   }
 
   render() {

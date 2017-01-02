@@ -34,7 +34,7 @@ function getById(id) {
         include: [models.city, models.neighborhood]
       }]
     },
-      models.image
+    models.image
     ]
   });
 }
@@ -45,17 +45,17 @@ function* create(listing) {
   const city = yield models.city.findOne({
     where: listing.apartment.building.city
   });
-  if (!city) { throw new Error('did not find city');}
+  if (!city) { throw new Error('did not find city'); }
 
   const neighborhood = yield models.neighborhood.findOne({
     where: listing.apartment.building.neighborhood
   });
-  if (!neighborhood) { throw new Error('did not find neighborhood');} 
+  if (!neighborhood) { throw new Error('did not find neighborhood'); }
 
   if (city.id !== neighborhood.city_id) { throw new Error('neighborhood doesnt match city'); }
 
   listing.apartment.building.city_id = city.id;
-  listing.apartment.building.neighborhood_id = neighborhood.id;  
+  listing.apartment.building.neighborhood_id = neighborhood.id;
   const building = yield buildingRepository.findOrCreate(listing.apartment.building);
 
   const apartment = yield apartmentRepository.findOrCreate(
@@ -110,7 +110,7 @@ function getListingsForApartment(apartment, listingQuery) {
       street_name: apartment.building.street_name,
       house_number: apartment.building.house_number
     },
-    include:[includeCity, includeNeighborhood]
+    include: [includeCity, includeNeighborhood]
   }];
 
   const includeApartment = [{
@@ -136,14 +136,20 @@ function getRelatedByCity(listingId, cityId) {
         id: listingId
       }
     },
-    include: {
+    include: [{ model: models.image },
+    {
       model: models.apartment,
       include: {
         model: models.building,
         where: { city_id: cityId },
-        attributes: ['city_id']
+        attributes: ['street_name'],
+        include: {
+          model: models.city,
+          where: { id: cityId },
+          attributes: ['city_name']
+        }
       }
-    },
+    }]
   });
 }
 

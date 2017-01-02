@@ -10,6 +10,7 @@ import OheProvider from './OheProvider';
 import CityProvider from './CityProvider';
 import NeighborhoodProvider from './NeighborhoodProvider';
 import CloudinaryProvider from './CloudinaryProvider';
+import RelatedListingsProvider from './RelatedListingsProvider';
 
 const isServer = !global.window;
 

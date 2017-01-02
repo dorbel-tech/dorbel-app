@@ -1,13 +1,14 @@
 'use strict';
 
 class RelatedListingsProvider {
-  constructor(apiProvider) {
+  constructor(appStore, apiProvider) {
+    this.appStore = appStore;
     this.apiProvider = apiProvider;
   }
 
-  get(listingId) {
+  getRelatedListings(listingId) {
     return this.apiProvider.fetch('/api/apartments/v1/listings/related/'+listingId)
-      .then(this.appStore.relatedListingsStore.add);
+      .then(listings => this.appStore.relatedListingsStore.add(listings));
   }
 }
 
