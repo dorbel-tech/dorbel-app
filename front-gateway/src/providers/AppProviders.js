@@ -10,6 +10,7 @@ import OheProvider from './OheProvider';
 import CityProvider from './CityProvider';
 import NeighborhoodProvider from './NeighborhoodProvider';
 import CloudinaryProvider from './CloudinaryProvider';
+import RelatedListingsProvider from './RelatedListingsProvider';
 
 const isServer = !global.window;
 
@@ -25,7 +26,8 @@ class AppProviders {
     this.cloudinaryProvider = new CloudinaryProvider();
 
     this.apiProvider = new ApiProvider(appStore);
-    this.apartmentsProvider = new ApartmentsProvider(appStore, this.apiProvider, this.cloudinaryProvider);
+    this.RelatedListingsProvider = new RelatedListingsProvider(appStore, this.apiProvider);
+    this.apartmentsProvider = new ApartmentsProvider(appStore, this.apiProvider, this.cloudinaryProvider, RelatedListingsProvider);
     this.oheProvider = new OheProvider(appStore, this.apiProvider);
     this.cityProvider = new CityProvider(appStore, this.apiProvider);
     this.neighborhoodProvider = new NeighborhoodProvider(appStore, this.apiProvider);

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './Listing.scss';
 
 class Listing extends Component {
 
@@ -7,7 +8,8 @@ class Listing extends Component {
             <div className="col-lg-4 col-md-4 col-sm-6">
                 <a href="#" className="thumbnail apt-thumb-container-single pull-right">
                     <div className="apt-thumb-apt-image">
-                        <img src="assets/images/apt-hero-01.jpg" alt="..." />
+                        <img src={this.props.data.images[0] ? 
+                            this.props.data.images[0].url : ''} alt="..." />
                     </div>
                     <div className="apt-thumb-apt-bottom-strip">
                         <ul>
@@ -21,7 +23,7 @@ class Listing extends Component {
                     </div>
                     <div className="caption">
                         <h4>{this.props.data.title}</h4>
-                        <span>, תל אביב</span>
+                        <span>{this.props.data.apartment.building.street_name}, תל אביב</span>
                     </div>
                 </a>
             </div>

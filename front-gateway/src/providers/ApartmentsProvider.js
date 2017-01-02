@@ -7,10 +7,11 @@ import _ from 'lodash';
 import moment from 'moment';
 
 class ApartmentsProvider {
-  constructor(appStore, apiProvider, cloudinaryProvider) {
+  constructor(appStore, apiProvider, cloudinaryProvider, relatedListingsProvider) {
     this.appStore = appStore;
     this.apiProvider = apiProvider;
     this.cloudinaryProvider = cloudinaryProvider;
+    this.relatedListingsProvider = relatedListingsProvider;
   }
 
   loadApartments() {
