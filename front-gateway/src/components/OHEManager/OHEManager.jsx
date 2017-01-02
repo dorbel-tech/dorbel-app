@@ -23,7 +23,14 @@ class OHEManager extends React.Component {
   }
 
   render() {
-    const { listing } = this.props;
+    const { listing, appStore, appProviders } = this.props;
+    
+    if (!appStore.authStore.isLoggedIn) {
+      // This view will not be accessable by guest users and if a user got directed here directly (from email link) he should be given the login screen
+      appProviders.authProvider.showLoginModal();
+      return null;
+    }
+
     const openHouseEvents = this.props.appStore.oheStore.oheByListingId(listing.id);        
 
     const comingEvents = openHouseEvents.filter(event => moment(event.end_time).isAfter(Date.now()));
