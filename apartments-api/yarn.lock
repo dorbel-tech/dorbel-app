@@ -514,6 +514,12 @@ bunyan-logentries@^1.2.0:
   dependencies:
     le_node "^1.1.1"
 
+bunyan-sumologic@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/bunyan-sumologic/-/bunyan-sumologic-1.0.1.tgz#4ef9ad212bd93680c5dec3f0a1de91375cb17333"
+  dependencies:
+    request "^2.75.0"
+
 bunyan@^1.8.1, bunyan@~1.8.1:
   version "1.8.5"
   resolved "https://registry.yarnpkg.com/bunyan/-/bunyan-1.8.5.tgz#0d619e83005fb89070f5f47982fc1bf00600878a"
@@ -1099,15 +1105,16 @@ doctrine@^1.2.2:
     esutils "^2.0.2"
     isarray "^1.0.0"
 
-"dorbel-shared@git://github.com/dorbel-tech/dorbel-shared#v0.4.39":
-  version "0.4.39"
-  resolved "git://github.com/dorbel-tech/dorbel-shared#2025091a028bcebb7a1d0b1880f365c4886455ee"
+"dorbel-shared@git://github.com/dorbel-tech/dorbel-shared#vv0.4.41":
+  version "0.4.41"
+  resolved "git://github.com/dorbel-tech/dorbel-shared#02f912d224218be1e04ed9566ded9644a81389a0"
   dependencies:
     analytics-node "^2.1.0"
     auth0 "^2.5.0"
     bluebird "^3.4.6"
     bunyan "~1.8.1"
     bunyan-logentries "^1.2.0"
+    bunyan-sumologic "^1.0.1"
     es6-promisify "^5.0.0"
     jwt-decode "^2.1.0"
     lodash "~4.16.3"
