@@ -55,3 +55,10 @@ services:
     environment:
       NODE_ENV: ${NODE_ENV}
     command: bash -c "./scripts/wait-for-it.sh db:3306 --timeout=180 && yarn run start:dev"
+
+  admin:
+    volumes:
+      - ./admin:/home/nodejs/app
+      - /home/nodejs/app/node_modules/
+    environment:
+      NODE_ENV: ${NODE_ENV}

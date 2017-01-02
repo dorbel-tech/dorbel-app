@@ -119,3 +119,18 @@ services:
       AWS_REGION: ${AWS_REGION}
       NOTIFICATIONS_SNS_TOPIC_ARN: ${NOTIFICATIONS_SNS_TOPIC_ARN}
       SEGMENT_IO_WRITE_KEY: ${SEGMENT_IO_WRITE_KEY}
+    
+  admin:
+    build:
+      context: admin
+    image: dorbel/admin
+    ports:
+      - '3004:3004'
+    depends_on:
+      - db
+    links:
+      - db
+    environment:
+      DATABASE_URL: mysql://${MYSQL_ROOT_USER}:${MYSQL_ROOT_PASSWORD}@db:3306/${MYSQL_DATABASE_APT}
+      FOREST_AUTH_SECRET: ${FOREST_AUTH_SECRET}
+      FOREST_ENV_SECRET: ${FOREST_ENV_SECRET}
