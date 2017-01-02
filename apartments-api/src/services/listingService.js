@@ -103,24 +103,9 @@ function* getById(id) {
   return listing;
 }
 
-function* getRelated(listingId, numOfItems) {
-  let retRelatedListings = [];
-  const listing = yield listingRepository.getById(listingId);
-
-  // Verify that the listing exists
-  if (listing) {
-    let allRelatedListings = yield listingRepository.getRelatedByCity(listingId, listing.apartment.building.city_id);
-    retRelatedListings = _.sampleSize(allRelatedListings, numOfItems);
-  }
-
-  return retRelatedListings;
-}
-
-
 module.exports = {
   create,
   updateStatus,
   getById,
-  getRelated,
   list: listingRepository.list
 };

@@ -6,19 +6,25 @@ const helper = require('./repositoryHelper');
 const apartmentRepository = require('./apartmentRepository');
 const buildingRepository = require('./buildingRepository');
 
-function list(query) {
+function list(query, options) {
   return models.listing.findAll({
     where: query,
     include: [{
       model: models.apartment,
-      include: models.building
+      include: {
+        model: models.building,
+        where: options.buildingQuery ? options.buildingQuery : {},
+      }
+    },{
+      model: models.image
     }],
     raw: true, // readonly get - no need for full sequlize instances
     fieldMap: {
       'apartment.building.street_name': 'street_name',
       'apartment.building.house_number': 'house_number',
       'apartment.apt_number': 'apt_number'
-    }
+    },
+    limit: options.limit
   });
 }
 
@@ -128,36 +134,10 @@ function getListingsForApartment(apartment, listingQuery) {
   });
 }
 
-function getRelatedByCity(listingId, cityId) {
-  return models.listing.findAll({
-    where: {
-      status: 'listed',
-      $not: {
-        id: listingId
-      }
-    },
-    include: [{ model: models.image },
-    {
-      model: models.apartment,
-      include: {
-        model: models.building,
-        where: { city_id: cityId },
-        attributes: ['street_name'],
-        include: {
-          model: models.city,
-          where: { id: cityId },
-          attributes: ['city_name']
-        }
-      }
-    }]
-  });
-}
-
 module.exports = {
   list,
   create,
   updateStatus,
   getListingsForApartment,
-  getById,
-  getRelatedByCity
+  getById
 };
