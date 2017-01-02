@@ -3,7 +3,6 @@ const shared = require('dorbel-shared');
 const errors = require('./domainErrors');
 const notificationService = require('./notificationService');
 const openHouseEventsFinderService = require('./openHouseEventsFinderService');
-const oheRegistrationService = require('./openHouseEventRegistrationsService');
 const openHouseEventsRepository = require('../openHouseEventsDb/repositories/openHouseEventsRepository');
 const _ = require('lodash');
 const moment = require('moment');

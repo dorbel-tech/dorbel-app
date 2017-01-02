@@ -1,6 +1,5 @@
 'use strict';
 const _ = require('lodash');
-const moment = require('moment');
 const errors = require('./domainErrors');
 const notificationService = require('./notificationService');
 const openHouseEventsFinderService = require('./openHouseEventsFinderService');
