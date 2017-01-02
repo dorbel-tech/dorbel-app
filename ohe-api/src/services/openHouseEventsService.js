@@ -123,9 +123,8 @@ function* findByListing(listing_id, user) {
 
   events = events.map(event => {
     event = event.toJSON(); // getting rid of sequelize wrapper
-    event.isOpenForRegistration = oheRegistrationService.isEventOpenForRegistrations(event);
 
-    if (user) { // any user
+    if (user) { // any user      
       // includes the user own registration so he will know he registered and also how to un-register
       event.usersOwnRegistration = _.find(event.registrations, { registered_user_id: user.id });
     }

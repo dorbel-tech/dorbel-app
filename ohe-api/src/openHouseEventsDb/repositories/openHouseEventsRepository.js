@@ -21,7 +21,8 @@ function* findByListingId(listing_id) {
       listing_id: listing_id,
       is_active: true
     },
-    include: findInclude
+    include: findInclude,
+    order: 'start_time'
   });
 }
 

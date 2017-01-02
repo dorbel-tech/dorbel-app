@@ -1,4 +1,5 @@
 import { observable, asMap } from 'mobx';
+import _ from 'lodash';
 
 export default class OheStore {
   @observable oheById;
@@ -17,7 +18,7 @@ export default class OheStore {
         result.push(ohe);
       }
     }
-    return result;
+    return _.sortBy(result, 'start_time');
   }
 
   add(openHouseEvents) {

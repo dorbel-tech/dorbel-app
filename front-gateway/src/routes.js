@@ -58,6 +58,12 @@ function startRouter(appStore) {
       }
     };
 
+    router.goUpOneLevel = function () {
+      const currentRoute = router.getRoute();
+      currentRoute.pop();
+      router.setRoute('/' + currentRoute.join('/'));
+    };
+
     router.init();
   } else {
     router.configure({

@@ -6,15 +6,13 @@ const notificationService = require('./notificationService');
 const openHouseEventsFinderService = require('./openHouseEventsFinderService');
 const repository = require('../openHouseEventsDb/repositories/openHouseEventRegistrationsRepository');
 
-const CLOSE_EVENT_IF_TOO_SOON_AND_NO_REGISTRATIONS_MINUTES = 90;
-
 function* register(event_id, user_id) {
   let existingEvent = yield openHouseEventsFinderService.find(event_id);
   let errorMessage;
 
   if (isUserRegisteredToEvent(existingEvent, user_id)) {
     errorMessage = 'user already registered to this event';
-  } else if (!isEventOpenForRegistrations(existingEvent)) {
+  } else if (!existingEvent.isOpenForRegistration) {
     errorMessage = 'event is not open for registration';
   }
 
@@ -59,14 +57,6 @@ function* unregister(registrationId) {
   return result;
 }
 
-function isEventOpenForRegistrations(event) {
-  if (event.registrations.length === 0 && moment().add(CLOSE_EVENT_IF_TOO_SOON_AND_NO_REGISTRATIONS_MINUTES, 'minutes').isAfter(event.start_time)) {
-    return false;
-  }
-  
-  return true;
-}
-
 function isUserRegisteredToEvent(event, userId) {
   if (event.registrations) {
     let userIsRegistered = _.find(event.registrations, { registered_user_id: userId });
@@ -79,6 +69,5 @@ function isUserRegisteredToEvent(event, userId) {
 module.exports = {
   register,
   unregister,
-  isEventOpenForRegistrations,
   isUserRegisteredToEvent
 };
