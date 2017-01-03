@@ -1,5 +1,5 @@
 {
-    "/listings/related/{listingId}": {
+    "/listings/{listingId}/related": {
         "get": {
             "summary": "Get related listings",
             "description": "Get related listings with all their details",

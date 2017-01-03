@@ -9,9 +9,10 @@ class RelatedListings extends Component {
     super(props);
     this.state = { relatedListings: [] };
   }
-  
+
   componentDidMount() {
-    this.props.appProviders.apiProvider.fetch('/api/apartments/v1/listings/related/' + this.props.listingId)
+    const listingId = this.props.listingId;
+    this.props.appProviders.apartmentsProvider.getRelatedListings(listingId)
       .then(relatedListings => {
         if (relatedListings) {
           this.setState({
@@ -31,7 +32,7 @@ class RelatedListings extends Component {
             <h5>נכסים דומים</h5>
             <div className="row">
               {
-                this.state.relatedListings.map((listing) => <Listing data={listing} key={listing.id} />)
+                this.state.relatedListings.map((listing) => <Listing listing={listing} key={listing.id} />)
               }
             </div>
           </div>
