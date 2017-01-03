@@ -34,7 +34,7 @@ class RelatedListings extends Component {
                 this.state.relatedListings.map((listing) => <Listing data={listing} key={listing.id} />)
               }
             </div>
-          </div >
+          </div>
         </div>
       );
     }
