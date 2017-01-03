@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import './ListingThumbnail.scss';
+import { Col } from 'react-bootstrap';
 
 class Listing extends Component {
-
   render() {
     return (
-            <div className="col-lg-4 col-md-4 col-sm-6">
-                <a href={'/apartments/'+this.props.data.id} className="thumbnail apt-thumb-container-single pull-right">
+            <Col lg={4} md={4} sm={6}>
+                <a href={'/apartments/' + this.props.data.id} className="thumbnail apt-thumb-container-single pull-right">
                     <div className="apt-thumb-apt-image">
                         <img src={this.props.data.images[0] ?
                             this.props.data.images[0].url : ''} alt="..." />
@@ -28,13 +28,13 @@ class Listing extends Component {
                         </span>
                     </div>
                 </a>
-            </div>
+            </Col>
     );
   }
 }
 
 Listing.propTypes = {
-  data: React.PropTypes.object.isRequired,
+    data: React.PropTypes.object.isRequired,
 };
 
 
