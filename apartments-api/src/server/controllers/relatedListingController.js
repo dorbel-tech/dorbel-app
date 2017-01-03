@@ -10,7 +10,7 @@ function* get() {
 
   // Verify that the listing exists
   if (listing) {
-
+    const numOfItems = 3;
     const listingQuery = {
       status: 'listed',
       $not: {
@@ -22,7 +22,8 @@ function* get() {
       buildingQuery: {
         city_id: listing.apartment.building.city_id
       },
-      limit: 3 //TODO: move to config
+      limit: numOfItems,
+      order: 'created_at DESC'
     };
 
     this.response.body = yield listingService.list(listingQuery, options);

@@ -1,9 +1,9 @@
 'use strict';
 import { stub, spy } from 'sinon';
 require('sinon-as-promised');
-import ApartmentsProvider from './ApartmentsProvider';
+import listingsProvider from './listingsProvider';
 
-describe('ApartmentsProvider', function () {
+describe('listingsProvider', function () {
 
   beforeAll(function () {
     this.mockApartments = [ 123, 456 ];
@@ -16,11 +16,11 @@ describe('ApartmentsProvider', function () {
       }
     };
 
-    this.apartmentsProvider = new ApartmentsProvider(this.appStoreMock, this.apiProviderMock);
+    this.listingsProvider = new listingsProvider(this.appStoreMock, this.apiProviderMock);
   });
 
   it('should call API to load apartments and save them to store', function () {
-    return this.apartmentsProvider.loadApartments()
+    return this.listingsProvider.loadApartments()
     .then(() => expect(this.appStoreMock.listingStore.add.args[0][0]).toBe(this.mockApartments));
   });
 

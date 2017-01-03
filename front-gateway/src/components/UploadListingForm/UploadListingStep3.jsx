@@ -1,12 +1,12 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import UploadApartmentBaseStep from './UploadApartmentBaseStep';
+import UploadListingBaseStep from './UploadListingBaseStep';
 import DatePicker from '~/components/DatePicker/DatePicker';
 import FormWrapper from '~/components/FormWrapper/FormWrapper';
 
 
 @observer(['appStore', 'appProviders'])
-class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
+class UploadApartmentStep3 extends UploadListingBaseStep.wrappedComponent {
 
   componentDidMount() {
     // load form with existing values

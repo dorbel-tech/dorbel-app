@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { action } from 'mobx';
 import { observer } from 'mobx-react';
-import './UploadApartmentForm.scss';
+import './UploadListingForm.scss';
 
 const steps = [
-  'UploadApartmentStep1',
-  'UploadApartmentStep2',
-  'UploadApartmentStep3'
+  'UploadListingStep1',
+  'UploadListingStep2',
+  'UploadListingStep3'
 ].map(stepName => require('./' + stepName).default);
 
 @observer(['appStore', 'appProviders', 'router'])
@@ -17,7 +17,7 @@ class UploadApartmentForm extends Component {
   nextStep() {
     let { newListingStore }  = this.props.appStore;        
     if (newListingStore.stepNumber === steps.length - 1) { // last step
-      this.props.appProviders.apartmentsProvider.uploadApartment(newListingStore.formValues)
+      this.props.appProviders.listingsProvider.uploadApartment(newListingStore.formValues)
       .then(() => this.props.router.setRoute('/apartments'))
       .catch(() => alert('upload failed'));
     } else {

@@ -1,30 +1,29 @@
 /**
- * ApartmentsProvider communicates with the Apartments API
+ * listingsProvider communicates with the Apartments API
  */
 'use strict';
 import { action } from 'mobx';
 import _ from 'lodash';
 import moment from 'moment';
 
-class ApartmentsProvider {
-  constructor(appStore, apiProvider, cloudinaryProvider, relatedListingsProvider) {
+class ListingsProvider {
+  constructor(appStore, apiProvider, cloudinaryProvider) {
     this.appStore = appStore;
     this.apiProvider = apiProvider;
     this.cloudinaryProvider = cloudinaryProvider;
-    this.relatedListingsProvider = relatedListingsProvider;
   }
 
-  loadApartments() {
+  loadListings() {
     return this.apiProvider.fetch('/api/apartments/v1/listings')
       .then(this.appStore.listingStore.add);
   }
 
   loadFullListingDetails(id) {
     return this.apiProvider.fetch('/api/apartments/v1/listings/' + id)
-      .then(action('load-single-apartment', apartment => this.appStore.listingStore.listingsById.set(id,apartment)));
+      .then(action('load-single-listing', listing => this.appStore.listingStore.listingsById.set(id,listing)));
   }
 
-  mapUploadApartmentFormToCreateListing(formValues) {
+  mapUploadListingFormToCreateListing(formValues) {
     let listing = {};
     // this is so we can use nested structure in our form attributes
     Object.keys(formValues).filter(key => formValues.hasOwnProperty(key)).forEach(key => _.set(listing, key, formValues[key]));
@@ -36,7 +35,7 @@ class ApartmentsProvider {
   }
 
   uploadApartment(formValues) {
-    const listing = this.mapUploadApartmentFormToCreateListing(formValues);
+    const listing = this.mapUploadListingFormToCreateListing(formValues);
     return this.apiProvider.fetch('/api/apartments/v1/listings', { method: 'POST', data: listing });
   }
 
@@ -72,4 +71,4 @@ class ApartmentsProvider {
   }
 }
 
-module.exports = ApartmentsProvider;
+module.exports = ListingsProvider;

@@ -5,7 +5,6 @@ import CityStore from '~/stores/CityStore';
 import NeighborhoodStore from '~/stores/NeighborhoodStore';
 import AuthStore from '~/stores/AuthStore';
 import NewListingStore from '~/stores/NewListingStore';
-import relatedListingsStore from '~/stores/RelatedListingsStore';
 import { observable, action } from 'mobx';
 
 // A wrapper for all the stores that the application uses
@@ -15,7 +14,6 @@ export default class AppStore {
   authStore: AuthStore;
   cityStore: CityStore;
   neighborhoodStore: NeighborhoodStore;
-  relatedListingsStore: relatedListingsStore;
 
   // routing params
   @observable currentView: string;
@@ -28,7 +26,6 @@ export default class AppStore {
     this.cityStore = new CityStore(initialState.cityStore);
     this.neighborhoodStore = new NeighborhoodStore(initialState.neighborhoodStore);
     this.newListingStore = new NewListingStore(this.authStore);
-    this.relatedListingsStore = new relatedListingsStore(initialState.relatedListingsStore);
   }
 
   @action setView(route, params) {
