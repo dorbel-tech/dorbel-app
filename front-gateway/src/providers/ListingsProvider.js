@@ -1,16 +1,16 @@
 /**
- * listingsProvider communicates with the Apartments API
+ * ListingsProvider communicates with the Apartments API
  */
 'use strict';
 import { action } from 'mobx';
 import _ from 'lodash';
-import moment from 'moment';
 
 class ListingsProvider {
-  constructor(appStore, apiProvider, cloudinaryProvider) {
+  constructor(appStore, providers) {
     this.appStore = appStore;
-    this.apiProvider = apiProvider;
-    this.cloudinaryProvider = cloudinaryProvider;
+    this.apiProvider = providers.api;
+    this.cloudinaryProvider = providers.cloudinary;
+    this.oheProvider = providers.ohe;
   }
 
   loadListings() {
@@ -19,11 +19,15 @@ class ListingsProvider {
   }
 
   loadFullListingDetails(id) {
-    return this.apiProvider.fetch('/api/apartments/v1/listings/' + id)
-      .then(action('load-single-listing', listing => this.appStore.listingStore.listingsById.set(id,listing)));
+    return Promise.all([
+      this.apiProvider.fetch('/api/apartments/v1/listings/' + id)
+        .then(action('load-single-apartment', apartment => this.appStore.listingStore.listingsById.set(id,apartment))),
+      this.oheProvider.loadListingEvents(id),
+      this.oheProvider.getFollowsForListing(id)
+    ]);
   }
 
-  mapUploadListingFormToCreateListing(formValues) {
+  mapUploadApartmentFormToCreateListing(formValues) {
     let listing = {};
     // this is so we can use nested structure in our form attributes
     Object.keys(formValues).filter(key => formValues.hasOwnProperty(key)).forEach(key => _.set(listing, key, formValues[key]));
@@ -35,12 +39,9 @@ class ListingsProvider {
   }
 
   uploadApartment(formValues) {
-    const listing = this.mapUploadListingFormToCreateListing(formValues);
-    return this.apiProvider.fetch('/api/apartments/v1/listings', { method: 'POST', data: listing });
-  }
-
-  setTimeFromString(dateString, timeString) {
-    return moment(dateString + 'T' + timeString + ':00.000Z').toJSON();    
+    const listing = this.mapUploadApartmentFormToCreateListing(formValues);    
+    return this.apiProvider.fetch('/api/apartments/v1/listings', { method: 'POST', data: listing })
+      .then(newListing => this.oheProvider.createOhe(Object.assign({ listing_id: newListing.id }, formValues.open_house_event)));
   }
 
   @action

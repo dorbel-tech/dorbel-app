@@ -27,7 +27,7 @@ const tabs = [
 ];
 
 @observer(['appStore', 'appProviders', 'router'])
-class Apartment extends Component {
+class Listing extends Component {
   static behindHeader = true;
 
   constructor(props) {
@@ -36,7 +36,7 @@ class Apartment extends Component {
   }
 
   componentDidMount() {
-    this.props.appProviders.apartmentsProvider.loadFullListingDetails(this.props.apartmentId);
+    this.props.appProviders.listingsProvider.loadFullListingDetails(this.props.apartmentId);
   }
 
   renderImageGallery(apartment) {
@@ -196,7 +196,7 @@ class Apartment extends Component {
   }
 }
 
-Apartment.wrappedComponent.propTypes = {
+Listing.wrappedComponent.propTypes = {
   apartmentId: React.PropTypes.string.isRequired,
   appProviders: React.PropTypes.object,
   appStore: React.PropTypes.object,
@@ -205,5 +205,5 @@ Apartment.wrappedComponent.propTypes = {
   action: React.PropTypes.string
 };
 
-export default Apartment;
+export default Listing;
 
