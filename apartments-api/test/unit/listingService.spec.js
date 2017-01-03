@@ -11,7 +11,8 @@ describe('Listing Service', function () {
     this.mockListing = { list: 'ing' };
     this.listingRepositoryMock = {
       create: sinon.stub().resolves(this.mockListing),
-      getListingsForApartment: sinon.stub().resolves([])
+      getListingsForApartment: sinon.stub().resolves([]),
+      listingStatuses: [ 'pending', 'rented']
     };
     mockRequire('../../src/apartmentsDb/repositories/listingRepository', this.listingRepositoryMock);
     this.listingService = require('../../src/services/listingService');
@@ -58,11 +59,10 @@ describe('Listing Service', function () {
   describe('Update Listing Status', function () {
     it('should update status for an existing listing', function* () {
       const listing = faker.getFakeListing();
-      const user = 'user';
+      const user = { id: listing.publishing_user_id };
       const updatedListing = Object.assign({}, listing, { status: 'rented' });
-
+      listing.update = sinon.stub().resolves(updatedListing);
       this.listingRepositoryMock.getById = sinon.stub().resolves(listing);
-      this.listingRepositoryMock.updateStatus = sinon.stub().resolves(updatedListing);
 
       const result = yield this.listingService.updateStatus(listing.id, user, 'rented');
 
@@ -73,11 +73,14 @@ describe('Listing Service', function () {
       this.listingRepositoryMock.getById = sinon.stub().resolves(undefined);
 
       try {
-        yield this.listingService.updateStatus(1, 'rented');
+        yield this.listingService.updateStatus(1, {}, 'rented');
         __.assertThat('code', __.is('not reached'));
       }
       catch (error) {
-        __.assertThat(error.message, __.is('listing "1" does not exist'));
+        __.assertThat(error, __.hasProperties({
+          message: 'listing not found',
+          status: 404
+        }));
       }
     });
   });

@@ -66,16 +66,16 @@ function* create(listing) {
 
 function* updateStatus(listingId, user, status) {
   let listing = yield listingRepository.getById(listingId);
-  const currentStatus = listing.status;
-
-  if (listing == undefined) {
+  
+  if (!listing) {
     throw new CustomError(404, 'listing not found');
   } else if (user.role !== 'admin' && listing.publishing_user_id !== user.id) {
     throw new CustomError(403, 'unauthorized to edit this listing');
   } else if (getPossibleStatuses(listing, user).indexOf(status) < 0) {
     throw new CustomError(403, 'unauthorized to change this listing to status ' + status);
   }
-    
+  
+  const currentStatus = listing.status;  
   const result = yield listing.update({ status });
 
   if (config.get('NOTIFICATIONS_SNS_TOPIC_ARN')) {
