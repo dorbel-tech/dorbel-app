@@ -51,7 +51,7 @@ describe('Listing Followers Service', function () {
       const result = yield this.service.follow(1, fakeUserId);
       __.assertThat(result, __.is(true));
       __.assertThat(this.sendNotification.calledOnce, __.is(true));
-      __.assertThat(this.sendNotification.getCall(0).args[0], __.is(notificationService.eventType.OHE_FOLLOWED);
+      __.assertThat(this.sendNotification.getCall(0).args[0], __.is(notificationService.eventType.OHE_FOLLOWED));
     });
 
     it('should enable a user to follow a listing given listing has followers, but not this user', function* () {
