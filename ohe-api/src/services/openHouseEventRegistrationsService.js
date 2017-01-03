@@ -47,8 +47,10 @@ function* unregister(registrationId) {
   existingRegistration.is_active = false;
 
   const result = yield repository.updateRegistration(existingRegistration);
+  let existingEvent = yield openHouseEventsFinderService.find(existingRegistration.open_house_event_id);
 
   notificationService.send(notificationService.eventType.OHE_UNREGISTERED, {
+    listing_id: existingEvent.listing_id,
     event_id: existingRegistration.id,
     user_uuid: existingRegistration.registered_user_id
   });

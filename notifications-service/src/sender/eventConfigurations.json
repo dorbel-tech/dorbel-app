@@ -1,25 +1,54 @@
 [
   {
     "eventType": "APARTMENT_CREATED",
-    "notificationType": "new_apartment_submitted"
+    "notificationType": "apartment_created"
+  },
+  {
+    "eventType": "APARTMENT_LISTED",
+    "notificationType": "apartment_listed"
+  },
+  {
+    "eventType": "APARTMENT_UNLISTED",
+    "notificationType": "apartment_unlisted"
+  },
+  {
+    "eventType": "APARTMENT_RENTED",
+    "notificationType": "apartment_rented"
   },
   { 
     "eventType": "OHE_CREATED",
-    "notificationType": "open_house_event_added"
+    "notificationType": "ohe_created"
   },
-  {
+  { 
     "eventType": "OHE_CREATED",
-    "notificationType": "ohe_added_to_followed_listing",
+    "notificationType": "ohe_created_notify_followers",
     "dataRetrieval": [ "getListingFollowers" ]
   },
   {
-    "eventType": "OHE_REGISTERED",
-    "notificationType": "registered_for_ohe",
-    "dataRetrieval": [ "getListingInfo", "getOheInfo" ]
+    "eventType": "OHE_UPDATED",
+    "notificationType": "ohe_updated"
   },
   {
     "eventType": "OHE_DELETED",
-    "notificationType": "OHE_I_was_signed_up_for_was_cancelled",
+    "notificationType": "ohe_cancelled_notify_registered_users",
     "dataRetrieval": [ "getListingInfo", "getOheRegisteredUsers" ]
+  },
+  {
+    "eventType": "OHE_REGISTERED",
+    "notificationType": "ohe_registered",
+    "dataRetrieval": [ "getListingInfo", "getOheInfo" ]
+  },
+  {
+    "eventType": "OHE_UNREGISTERED",
+    "notificationType": "ohe_unregistered",
+    "dataRetrieval": [ "getListingInfo", "getOheInfo" ]
+  },
+  {
+    "eventType": "OHE_FOLLOWED",
+    "notificationType": "ohe_followed"
+  },
+  {
+    "eventType": "OHE_UNFOLLOWED",
+    "notificationType": "ohe_unfollowed"
   }
 ]
