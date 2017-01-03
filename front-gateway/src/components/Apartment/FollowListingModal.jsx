@@ -87,26 +87,22 @@ class FollowListingModal extends React.Component {
 
   renderUnfollowSuccess() {
     const { listing, appProviders } = this.props;
-    
-    const close = () => {
-      const usersFollowDetails = this.props.appStore.oheStore.usersFollowsByListingId.get(listing.id);
-      if (usersFollowDetails) {
-        appProviders.oheProvider.unfollow(usersFollowDetails);
-      }
-      this.close();
-    };
+    const usersFollowDetails = this.props.appStore.oheStore.usersFollowsByListingId.get(listing.id);
 
+    if (usersFollowDetails) {
+      appProviders.oheProvider.unfollow(usersFollowDetails);
+    }
     // show success modal anyway
     return (
       <Modal show={true}>
-        <Modal.Header closeButton onHide={close}>
+        <Modal.Header closeButton onHide={this.close}>
           <Modal.Title>בקשתכם התקבלה</Modal.Title>
         </Modal.Header>
         <Modal.Body>          
           <Row className='text-center'>
             <Col xs={8} xsOffset={2} >
               <p>כתובתכם הוסרה מרשימת התפוצה</p>
-              <Button bsStyle="success" onClick={close}>סגור</Button>              
+              <Button bsStyle="success" onClick={this.close}>סגור</Button>              
             </Col>
           </Row>
         </Modal.Body>

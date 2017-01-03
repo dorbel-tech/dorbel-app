@@ -4,13 +4,13 @@
 'use strict';
 import { action } from 'mobx';
 import _ from 'lodash';
+import moment from 'moment';
 
 class ApartmentsProvider {
-  constructor(appStore, providers) {
+  constructor(appStore, apiProvider, cloudinaryProvider) {
     this.appStore = appStore;
-    this.apiProvider = providers.api;
-    this.cloudinaryProvider = providers.cloudinary;
-    this.oheProvider = providers.ohe;
+    this.apiProvider = apiProvider;
+    this.cloudinaryProvider = cloudinaryProvider;
   }
 
   loadApartments() {
@@ -19,12 +19,8 @@ class ApartmentsProvider {
   }
 
   loadFullListingDetails(id) {
-    return Promise.all([
-      this.apiProvider.fetch('/api/apartments/v1/listings/' + id)
-        .then(action('load-single-apartment', apartment => this.appStore.listingStore.listingsById.set(id,apartment))),
-      this.oheProvider.loadListingEvents(id),
-      this.oheProvider.getFollowsForListing(id)
-    ]);
+    return this.apiProvider.fetch('/api/apartments/v1/listings/' + id)
+      .then(action('load-single-apartment', apartment => this.appStore.listingStore.listingsById.set(id,apartment)));
   }
 
   mapUploadApartmentFormToCreateListing(formValues) {
@@ -39,9 +35,12 @@ class ApartmentsProvider {
   }
 
   uploadApartment(formValues) {
-    const listing = this.mapUploadApartmentFormToCreateListing(formValues);    
-    return this.apiProvider.fetch('/api/apartments/v1/listings', { method: 'POST', data: listing })
-      .then(newListing => this.oheProvider.createOhe(Object.assign({ listing_id: newListing.id }, formValues.open_house_event)));
+    const listing = this.mapUploadApartmentFormToCreateListing(formValues);
+    return this.apiProvider.fetch('/api/apartments/v1/listings', { method: 'POST', data: listing });
+  }
+
+  setTimeFromString(dateString, timeString) {
+    return moment(dateString + 'T' + timeString + ':00.000Z').toJSON();    
   }
 
   @action

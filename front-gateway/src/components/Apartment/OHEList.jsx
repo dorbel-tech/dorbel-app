@@ -15,6 +15,11 @@ class OHEList extends Component {
     autobind(this);
   }
 
+  componentDidMount() {
+    this.props.appProviders.oheProvider.loadListingEvents(this.props.listing.id);
+    this.props.appProviders.oheProvider.getFollowsForListing(this.props.listing);
+  }
+
   renderListItem(params) {
     const { router } = this.props;
     const currentRoute = router.getRoute().join('/');

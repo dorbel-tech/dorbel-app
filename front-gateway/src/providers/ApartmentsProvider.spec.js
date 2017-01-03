@@ -7,10 +7,8 @@ describe('ApartmentsProvider', function () {
 
   beforeAll(function () {
     this.mockApartments = [ 123, 456 ];
-    this.providersMock = {
-      api: {
-        fetch: stub().resolves(this.mockApartments)
-      }
+    this.apiProviderMock = {
+      fetch: stub().resolves(this.mockApartments)
     };
     this.appStoreMock = {
       listingStore: {
@@ -18,7 +16,7 @@ describe('ApartmentsProvider', function () {
       }
     };
 
-    this.apartmentsProvider = new ApartmentsProvider(this.appStoreMock, this.providersMock);
+    this.apartmentsProvider = new ApartmentsProvider(this.appStoreMock, this.apiProviderMock);
   });
 
   it('should call API to load apartments and save them to store', function () {
