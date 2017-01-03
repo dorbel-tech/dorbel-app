@@ -6,25 +6,23 @@ const helper = require('./repositoryHelper');
 const apartmentRepository = require('./apartmentRepository');
 const buildingRepository = require('./buildingRepository');
 
-function list(query, options={}) {
+function list(query, options = {}) {
   return models.listing.findAll({
     where: query,
     include: [{
       model: models.apartment,
       include: {
         model: models.building,
+        include: {
+          model: models.city
+        },
         where: options.buildingQuery ? options.buildingQuery : {},
-      }
-    },{
-      model: models.image
-    }],
-    raw: true, // readonly get - no need for full sequlize instances
-    fieldMap: {
-      'apartment.building.street_name': 'street_name',
-      'apartment.building.house_number': 'house_number',
-      'apartment.apt_number': 'apt_number'
-    },
-    limit: options.limit
+      },
+      required: true
+    }, models.image
+    ],
+    limit: options.limit,
+    order: options.order
   });
 }
 

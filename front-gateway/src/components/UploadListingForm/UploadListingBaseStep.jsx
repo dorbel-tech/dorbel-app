@@ -3,7 +3,7 @@ import { action } from 'mobx';
 import { observer } from 'mobx-react';
 
 @observer(['appStore', 'appProviders'])
-class UploadApartmentBaseStep extends Component {
+class UploadListingBaseStep extends Component {
   constructor(props) {
     super(props);
     this.state = { formValues: {} };
@@ -34,10 +34,10 @@ class UploadApartmentBaseStep extends Component {
   }
 }
 
-UploadApartmentBaseStep.wrappedComponent.propTypes = {
+UploadListingBaseStep.wrappedComponent.propTypes = {
   onClickNext: React.PropTypes.func,
   onClickBack: React.PropTypes.func,
   appStore: React.PropTypes.object
 };
 
-export default UploadApartmentBaseStep;
+export default UploadListingBaseStep;

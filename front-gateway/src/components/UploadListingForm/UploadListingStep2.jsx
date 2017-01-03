@@ -1,11 +1,11 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import UploadApartmentBaseStep from './UploadApartmentBaseStep';
+import UploadListingBaseStep from './UploadListingBaseStep';
 import DatePicker from '~/components/DatePicker/DatePicker';
 import FormWrapper from '~/components/FormWrapper/FormWrapper';
  
 @observer(['appStore', 'appProviders'])
-class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
+class UploadApartmentStep2 extends UploadListingBaseStep.wrappedComponent {
   constructor(props) {
     super(props);
     this.getNeighborhoods = this.getNeighborhoods.bind(this);

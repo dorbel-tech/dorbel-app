@@ -5,12 +5,11 @@
 'use strict';
 import AuthProvider from './AuthProvider';
 import ApiProvider from './ApiProvider';
-import ApartmentsProvider from './ApartmentsProvider';
+import ListingsProvider from './ListingsProvider';
 import OheProvider from './OheProvider';
 import CityProvider from './CityProvider';
 import NeighborhoodProvider from './NeighborhoodProvider';
 import CloudinaryProvider from './CloudinaryProvider';
-import RelatedListingsProvider from './RelatedListingsProvider';
 
 const isServer = !global.window;
 
