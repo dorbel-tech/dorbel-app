@@ -34,7 +34,6 @@ describe('Open House Event Registration Service', function () {
 
     it('should register a user to an event', function* () {
       this.openHouseEventsFinderServiceMock.find = sinon.stub().resolves(faker.generateEvent());
-
       this.repositoryMock.createRegistration = sinon.stub().resolves(true);
 
       const registrationResponse = yield this.service.register(1, fakeUserId);
@@ -98,7 +97,6 @@ describe('Open House Event Registration Service', function () {
 
     it('should unregister a user from an event', function* () {
       this.repositoryMock.findRegistration = sinon.stub().resolves(faker.generateRegistration());
-
       this.repositoryMock.updateRegistration = sinon.stub().resolves(faker.generateRegistration({
         is_active: false
       }));
@@ -110,10 +108,10 @@ describe('Open House Event Registration Service', function () {
     });
 
     it('should fail when the event a user tries to unregister does not exists in db', function* () {
-      this.openHouseEventsFinderServiceMock.find = sinon.stub().resolves(null);
+      this.openHouseEventsFinderServiceMock.find = sinon.stub().resolves(faker.generateEvent());
 
       try {
-        yield this.service.unregister(1, fakeUserId);
+        yield this.service.unregister(0, fakeUserId);
       }
       catch (error) {
         __.assertThat(error.message, __.is('event does not exist'));

@@ -13,7 +13,7 @@ const analytics = shared.utils.analytics;
 const eventConfigurations = require('./eventConfigurations.json');
 
 function handleMessage(payload) {
-  logger.debug(payload, 'handeling app event');
+  logger.debug({ payload }, 'handeling app event');
   return Promise.all( 
     eventConfigurations
       .filter(eventConfig => eventConfig.eventType === payload.eventType)
@@ -22,13 +22,18 @@ function handleMessage(payload) {
 }
 
 function sendEvent(eventConfig, eventData) {
+  logger.debug({eventConfig, eventData}, 'sendEvent');
   return dataRetrieval.getAdditonalData(eventConfig, eventData)
   .then(additonalData => {
+    logger.debug({eventConfig, eventData, additonalData}, 'Got additional data');
     const recipients = additonalData.customRecipients || [ eventData.user_uuid ];    
     const trackedEventData = Object.assign({}, eventData, additonalData);
 
     return Promise.all(
-      recipients.map(recipient => analytics.track(recipient, eventConfig.notificationType, trackedEventData))
+      recipients.map(recipient => { 
+        logger.debug({ recipient, eventConfig, trackedEventData}, 'Tracking sent to Segment');
+        return analytics.track(recipient, eventConfig.notificationType, trackedEventData);
+      })
     );
   });  
 }
@@ -40,7 +45,10 @@ function handleMessageWrapper(handleFunc, message, done) {
   
   handleFunc(messageDataPayload)
     .then(() => done())
-    .catch(err => done(err));
+    .catch(err => {
+      logger.error(err, 'Handling message error');
+      done(err);
+    });
 }
 
 module.exports = {

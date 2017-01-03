@@ -10,7 +10,6 @@ function send(messageType, data) {
     logger.debug(data, 'notification not sent for %s - topic is undefined', messageType);
     return;
   }
-
   messageBus.publish(topic, messageType, data);
 }
 
