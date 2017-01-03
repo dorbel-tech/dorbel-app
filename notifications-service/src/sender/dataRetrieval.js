@@ -23,7 +23,6 @@ const dataRetrievalFunctions = {
     return request.get(`${OHE_API}/v1/followers/by-listing/${eventData.listing_id}`, { json: true })
     .then(response => { 
       // this notification will be sent to all the users who followed a listing to get notified on new OHE
-      logger.debug({response}, 'got listing followers');
       return { customRecipients: response
         .filter(follower => follower.is_active)
         .map(follower => follower.following_user_id)
@@ -42,7 +41,6 @@ const dataRetrievalFunctions = {
     return getOheInfo(eventData.event_id)
     .then(response => {
       // this notification will be sent to the users registered to the OHE 
-      logger.debug({response}, 'got registered users');
       return { customRecipients: response.registrations
         .filter(registration => registration.is_active)
         .map(registration => registration.registered_user_id) 
