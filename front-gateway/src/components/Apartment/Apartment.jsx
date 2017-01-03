@@ -4,6 +4,7 @@ import svgIcons from '~/assets/images/images.sprite.svg';
 import ApartmentAmenities from './ApartmentAmenities.jsx';
 import OHEList from './OHEList.jsx';
 import ApartmentLocation from '../MapWrapper/MapWrapper.jsx';
+import RelatedListings from '../RelatedListings/RelatedListings.jsx';
 import './Apartment.scss';
 
 const Flickity = global.window ? require('react-flickity-component')(React) : 'div';
@@ -90,6 +91,12 @@ class Apartment extends Component {
     }
   }
 
+  renderRelatedListings(listing){
+    return(
+      <RelatedListings listingId={listing.id} />
+    );
+  }
+
   render() {
     // TODO : mixup between listing and apartment here !!!
     const listing = this.props.appStore.listingStore.listingsById.get(this.props.apartmentId);
@@ -129,6 +136,7 @@ class Apartment extends Component {
         </div>
         {this.renderListingDescription(listing)}
         {this.renderListingLocation(listing.apartment.building.geolocation)}
+        {this.renderRelatedListings(listing)}
       </div>
     );
   }

@@ -1,16 +1,16 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 import Dropzone from 'react-dropzone';
-import UploadListingBaseStep from './UploadListingBaseStep';
+import UploadApartmentBaseStep from './UploadApartmentBaseStep';
 
 @observer(['appProviders', 'appStore'])
-class UploadApartmentStep1 extends UploadListingBaseStep.wrappedComponent {
+class UploadApartmentStep1 extends UploadApartmentBaseStep.wrappedComponent {
   onChooseFile(acceptedFiles) {
-    this.props.appProviders.listingsProvider.uploadImage(acceptedFiles[0]); // expecting only one file each time      
+    this.props.appProviders.apartmentsProvider.uploadImage(acceptedFiles[0]); // expecting only one file each time      
   }
 
   renderImage(image, index) {
-    const { listingsProvider } = this.props.appProviders;
+    const { apartmentsProvider } = this.props.appProviders;
     const progressPct = Math.round(image.progress * 100) + '%';  
     const progressBarStyle = { width: progressPct };
 
@@ -22,7 +22,7 @@ class UploadApartmentStep1 extends UploadListingBaseStep.wrappedComponent {
       </div>
     );
 
-    const deleteButton = (<div><a href="#" className="remove-image" onClick={() => listingsProvider.deleteImage(image)} >הסרה</a></div>);
+    const deleteButton = (<div><a href="#" className="remove-image" onClick={() => apartmentsProvider.deleteImage(image)} >הסרה</a></div>);
 
     return (
       <div key={index} className="image col-md-4 thumb">

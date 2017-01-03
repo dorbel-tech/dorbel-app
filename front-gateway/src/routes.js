@@ -2,12 +2,12 @@ import director from 'director';
 // import { autorun } from 'mobx';
 
 import About from '~/components/About/About';
-import Listings from '~/components/Listings/Listings';
-import Listing from '~/components/Listing/Listing';
+import Apartments from '~/components/Apartments/Apartments';
+import Apartment from '~/components/Apartment/Apartment';
 import Home from '~/components/Home';
 import Login from '~/components/Login';
 import Profile from '~/components/Profile';
-import UploadListingForm from '~/components/UploadListingForm/UploadListingForm';
+import UploadApartmentForm from '~/components/UploadApartmentForm/UploadApartmentForm';
 
 function startRouter(appStore) {
   function checkAuth() {
@@ -23,12 +23,12 @@ function startRouter(appStore) {
     '/': () => appStore.setView(Home),
     '/about': () => appStore.setView(About),
     '/login': () => appStore.setView(Login),
-    '/apartments': () => appStore.setView(Listings),
-    '/apartments/new_form': () => appStore.setView(UploadListingForm),
+    '/apartments': () => appStore.setView(Apartments),
+    '/apartments/new_form': () => appStore.setView(UploadApartmentForm),
     // TODO : can this look better with nested routes ? 
-    '/apartments/:apartmentId/:action/:oheId': (apartmentId, action, oheId) => appStore.setView(Listing, { apartmentId, action, oheId }),
-    '/apartments/:apartmentId/:action': (apartmentId, action) => appStore.setView(Listing, { apartmentId, action }),
-    '/apartments/:apartmentId': (apartmentId) => appStore.setView(Listing, { apartmentId }),
+    '/apartments/:apartmentId/:action/:oheId': (apartmentId, action, oheId) => appStore.setView(Apartment, { apartmentId, action, oheId }),
+    '/apartments/:apartmentId/:action': (apartmentId, action) => appStore.setView(Apartment, { apartmentId, action }),
+    '/apartments/:apartmentId': (apartmentId) => appStore.setView(Apartment, { apartmentId }),
     '/profile': [
       checkAuth,
       () => appStore.setView(Profile)

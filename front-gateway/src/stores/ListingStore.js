@@ -8,7 +8,7 @@ export default class ListingStore {
     autobind(this);
   }
 
-  @computed get listings() {
+  @computed get apartments() {
     return this.listingsById.values();
   }
 
