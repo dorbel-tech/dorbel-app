@@ -28,7 +28,10 @@ function sendEvent(eventConfig, eventData) {
     const trackedEventData = Object.assign({}, eventData, additonalData);
 
     return Promise.all(
-      recipients.map(recipient => analytics.track(recipient, eventConfig.notificationType, trackedEventData))
+      recipients.map(recipient => { 
+        logger.debug(recipient, eventConfig.notificationType, trackedEventData, 'Tracking sent to Segment');
+        analytics.track(recipient, eventConfig.notificationType, trackedEventData);
+      })
     );
   });  
 }

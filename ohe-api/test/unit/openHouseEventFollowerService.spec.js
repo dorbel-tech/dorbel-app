@@ -51,7 +51,7 @@ describe('Listing Followers Service', function () {
       const result = yield this.service.follow(1, fakeUserId);
       __.assertThat(result, __.is(true));
       __.assertThat(this.sendNotification.calledOnce, __.is(true));
-      __.assertThat(this.sendNotification.getCall(0).args[0], __.is(notificationService.eventType.OHE_FOLLOW));
+      __.assertThat(this.sendNotification.getCall(0).args[0], __.is(notificationService.eventType.OHE_FOLLOWED);
     });
 
     it('should enable a user to follow a listing given listing has followers, but not this user', function* () {
@@ -66,7 +66,7 @@ describe('Listing Followers Service', function () {
       const result = yield this.service.follow(1, fakeUserId);
       __.assertThat(result, __.is(true));
       __.assertThat(this.sendNotification.calledOnce, __.is(true));
-      __.assertThat(this.sendNotification.getCall(0).args[0], __.is(notificationService.eventType.OHE_FOLLOW));
+      __.assertThat(this.sendNotification.getCall(0).args[0], __.is(notificationService.eventType.OHE_FOLLOWED));
     });
 
     it('should fail when user tries to follow an event more than once', function* () {
@@ -99,7 +99,7 @@ describe('Listing Followers Service', function () {
       const result = yield this.service.unfollow(1, fakeUserId);
       __.assertThat(result.is_active, __.is(false));
       __.assertThat(this.sendNotification.calledOnce, __.is(true));
-      __.assertThat(this.sendNotification.getCall(0).args[0], __.is(notificationService.eventType.OHE_UNFOLLOW));
+      __.assertThat(this.sendNotification.getCall(0).args[0], __.is(notificationService.eventType.OHE_UNFOLLOWED));
     });
 
     it('should fail when the event a user tries to unfollow does not exists in db', function* () {

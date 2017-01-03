@@ -18,9 +18,14 @@ function getOheInfo(oheId) {
 }
 
 const dataRetrievalFunctions = { 
-  // getListingFollowers: (eventData) => {
-  //   return { customRecipients : [...] };
-  // },
+  getListingFollowers: eventData => {
+    return request.get(`${OHE_API}/v1/followers/by-listing/${eventData.listing_id}`, { json: true })
+    .then(response => ({ 
+      customRecipients: response.followers
+        .filter(follower => follower.is_active)
+        .map(follower => follower.following_user_id) 
+    }));
+  },
   getListingInfo: eventData => {
     return request.get(`${APT_API}/v1/listings/${eventData.listing_id}`, { json: true })
     .then(response => ({ listing : response }));
