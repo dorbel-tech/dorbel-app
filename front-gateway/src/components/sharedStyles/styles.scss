@@ -120,3 +120,13 @@ body {
 table.vertical-middle > tbody > tr > td {
   vertical-align: middle;
 }
+
+/* navbar changes - so bottom border will be across the Navbar and only on the Nav components */
+nav.in-page-nav {
+  border-bottom: 1px solid #dddddd;
+  margin-bottom: 0px;
+}
+
+ul.nav.nav-tabs.navbar-nav {
+  border-bottom: 0px solid transparent;
+}

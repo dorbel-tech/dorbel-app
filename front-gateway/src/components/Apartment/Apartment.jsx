@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { Grid, Row, Nav, NavItem } from 'react-bootstrap';
 import { observer } from 'mobx-react';
 import autobind from 'react-autobind';
-import _ from 'lodash';
 import svgIcons from '~/assets/images/images.sprite.svg';
 import ApartmentAmenities from './ApartmentAmenities.jsx';
 import OHEList from './OHEList.jsx';
+import ListingMenu from './ListingMenu.jsx';
 import OHEManager from '~/components/OHEManager/OHEManager';
 import ApartmentLocation from '../MapWrapper/MapWrapper.jsx';
 import './Apartment.scss';
@@ -13,17 +12,11 @@ import './Apartment.scss';
 const Flickity = global.window ? require('react-flickity-component')(React) : 'div';
 
 const flickityOptions = {
-  initialIndex: 2,
   cellAlign: 'left',
   wrapAround: true,
   rightToLeft: true,
   pageDots: false
 };
-
-const tabs = [
-  { action: '', title: 'מודעת הדירה' },
-  { action: 'events', title: 'הרשמות למועדי ביקור' }
-];
 
 @observer(['appStore', 'appProviders', 'router'])
 class Apartment extends Component {
@@ -39,6 +32,8 @@ class Apartment extends Component {
   }
 
   renderImageGallery(apartment) {
+    flickityOptions.initialIndex = apartment.images.length;
+
     return (
       <header className="apt-header">
         <div className="container-fluid">
@@ -92,32 +87,6 @@ class Apartment extends Component {
     );
   }
 
-  renderListingMenu(listing) {
-    const { authStore } = this.props.appStore;
-    const profile = authStore.getProfile();     
-    const userIsListingPublisher = listing.publishing_user_id === profile.dorbel_user_id;
-    if (userIsListingPublisher) {
-      const activeTab = _.find(tabs, { action: this.props.action }) || tabs[0];
-
-      return (
-        <Grid>
-          <Row>
-            <Nav bsStyle="tabs" activeKey={activeTab.action} onSelect={this.changeTab}>
-              {tabs.map(tab => <NavItem key={tab.action} eventKey={tab.action}>{tab.title}</NavItem>)}
-            </Nav>
-          </Row>
-        </Grid>
-      );
-    } else {
-      return null;
-    }
-  }
-
-  changeTab(action) {
-    let actionRoute = action ? `/${action}` : '';
-    this.props.router.setRoute(`/apartments/${this.props.apartmentId}${actionRoute}`);
-  }
-
   renderListingLocation(geolocation) {
     if (geolocation) {
       return (
@@ -132,7 +101,8 @@ class Apartment extends Component {
 
   render() {
     // TODO : mixup between listing and apartment here !!!
-    const listing = this.props.appStore.listingStore.listingsById.get(this.props.apartmentId);
+    const { appStore, action } = this.props;
+    const listing = appStore.listingStore.listingsById.get(this.props.apartmentId);
 
     if (!listing || !listing.apartment) {
       return (<div><h4>Loading...</h4></div>);
@@ -141,7 +111,7 @@ class Apartment extends Component {
     const title = listing.title || `דירת ${listing.apartment.rooms} חד׳ ברח׳ ${listing.apartment.building.street_name}`;
 
     let tabContent;
-    switch (this.props.action) {
+    switch (action) {
       case 'events' : 
         tabContent = (<OHEManager listing={listing} />);
         break;
@@ -182,7 +152,7 @@ class Apartment extends Component {
     return (
       <div>
         {this.renderImageGallery(listing)}
-        {this.renderListingMenu(listing)}        
+        <ListingMenu listing={listing} currentAction={action} />        
         {tabContent}
       </div>
     );

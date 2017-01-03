@@ -70,6 +70,14 @@ class ApartmentsProvider {
     this.appStore.newListingStore.formValues.images.remove(image);
     return this.cloudinaryProvider.deleteImage(image);      
   }
+
+  updateListingStatus(listingId, status) {
+    return this.apiProvider.fetch('/api/apartments/v1/listings/' + listingId, { method: 'PATCH', data: { status } })
+    .then(() => {
+      let listing = this.appStore.listingStore.listingsById.get(listingId);
+      listing.status = status;
+    });
+  }
 }
 
 module.exports = ApartmentsProvider;
