@@ -1,9 +1,8 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 import UploadApartmentBaseStep from './UploadApartmentBaseStep';
-import DatePicker from '~/components/DatePicker/DatePicker';
 import FormWrapper from '~/components/FormWrapper/FormWrapper';
-
+import TimeRangePicker from '~/components/TimeRangePicker/TimeRangePicker';
 
 @observer(['appStore', 'appProviders'])
 class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
@@ -65,7 +64,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
   }
   
   render() {
-    let { newListingStore, authStore } = this.props.appStore;
+    let { authStore } = this.props.appStore;
     const FRC = FormWrapper.FRC;
 
     return (
@@ -85,21 +84,10 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
           <FormWrapper.Wrapper layout="vertical" onChange={this.handleChanges} ref="form">
             <div className="row form-section">
               <div className="form-section-headline">מועדי ביקור בדירה</div>
-              <div className="form-group">
-                <label>תאריך</label>
-                <DatePicker name="ohe-date" value={this.props.appStore.newListingStore.formValues.open_house_event_date} onChange={this.handleChange.bind(this, 'open_house_event_date')} />              
-              </div>
-              <div className="row">
-                <div className="col-md-6">
-                  <FRC.Select name="open_house_event_start_time" label="שעת התחלת ביקור" required options={this.getHourOptions(newListingStore.hours)} />
-                </div>
-                <div className="col-md-6">
-                  <FRC.Select name="open_house_event_end_time" label="שעת סיום ביקור" required options={this.getHourOptions(newListingStore.endHours)} />
-                </div>
-              </div>
+              <TimeRangePicker onChange={this.handleChange.bind(this, 'open_house_event')} />
               <div className="row">
                 <div className="col-md-12">
-                  <FRC.Textarea name="open_house_event_comments" rows={3} label="הכוונה לדירה בבניין (אם צריך)" />
+                  <FRC.Textarea name="open_house_event.comments" rows={3} label="הכוונה לדירה בבניין (אם צריך)" />
                 </div>
               </div>
             </div>

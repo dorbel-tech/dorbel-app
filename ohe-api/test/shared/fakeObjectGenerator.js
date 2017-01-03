@@ -20,6 +20,7 @@ function generateEvent(variant) {
     end_time: moment().add(6, 'hours'),
     comments: 'בדיקה',
     publishing_user_id: fakeUserId,
+    isOpenForRegistration: true,
     registrations: []
   }, variant);
 }

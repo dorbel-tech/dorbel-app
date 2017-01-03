@@ -77,10 +77,9 @@ describe('Open House Event Registration Service', function () {
       }
     });
 
-    it('should fail to register to an event with no registeries that starts is in the next hour', function * () {
+    it('should fail to register to an event that is not open for registration', function * () {
       this.openHouseEventsFinderServiceMock.find = sinon.stub().resolves(faker.generateEvent({
-        start_time: moment().add(40, 'minutes'),
-        end_time: moment().add(2, 'hours')
+        isOpenForRegistration: false
       }));
       
       try {

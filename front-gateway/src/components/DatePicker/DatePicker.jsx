@@ -11,9 +11,9 @@ class DatePicker extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      dateValue: this.props.value || moment().format(),
+      dateValue: this.props.value || moment().add(1, 'days').format(), // tommorrow
       name: this.props.name
-    }; // today
+    }; 
   }
 
   componentDidMount() {

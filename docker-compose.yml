@@ -24,17 +24,14 @@ services:
       - '3000:3000'
     depends_on:
       - db
-      - ohe-api
     links:
       - db
-      - ohe-api
       - cache
     environment:
       RDS_HOSTNAME: db
       RDS_DB_NAME: ${MYSQL_DATABASE_APT}
       RDS_USERNAME: ${MYSQL_ROOT_USER}
       RDS_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      OHE_API_URL: http://ohe-api:3003
       REDIS_HOST: cache
       AUTH0_DOMAIN: ${AUTH0_DOMAIN}
       AUTH0_API_CLIENT_ID: ${AUTH0_API_CLIENT_ID}
@@ -114,6 +111,9 @@ services:
       RDS_USERNAME: ${MYSQL_ROOT_USER}
       RDS_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       REDIS_HOST: cache     
+      AUTH0_DOMAIN: ${AUTH0_DOMAIN}
+      AUTH0_API_CLIENT_ID: ${AUTH0_API_CLIENT_ID}
+      AUTH0_API_CLIENT_SECRET: ${AUTH0_API_CLIENT_SECRET}
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
       AWS_REGION: ${AWS_REGION}
