@@ -15,16 +15,41 @@ class OheProvider {
     this.enrichOhe = this.enrichOhe.bind(this);
   }
 
+  fetch(path, options) {
+    return this.apiProvider.fetch('/api/ohe/v1/' + path, options);
+  }
+
   // Open house events
 
   loadListingEvents(id) {    
-    return this.apiProvider.fetch('/api/ohe/v1/events/by-listing/' + id)
+    return this.fetch('events/by-listing/' + id)
       .then(openHouseEvents => openHouseEvents.map(this.enrichOhe))
       .then(openHouseEvents => this.appStore.oheStore.add(openHouseEvents));
   }
 
+  createOhe(data) {
+    return this.fetch('event', {
+      method: 'POST',
+      data
+    })
+    .then(ohe => this.appStore.oheStore.add([ this.enrichOhe(ohe) ]));
+  }
+
+  enrichOhe(openHouseEvent) {
+    // Parse utc but use local time after that
+    const start = moment.utc(openHouseEvent.start_time).local();
+    const end = moment.utc(openHouseEvent.end_time).local();
+
+    openHouseEvent.timeLabel = `${start.format(timeFormat)} - ${end.format(timeFormat)}`;
+    openHouseEvent.dateLabel = start.format(dateFormat);
+
+    return openHouseEvent;
+  }
+
+  // Registrations
+
   registerForEvent(event) {
-    return this.apiProvider.fetch('/api/ohe/v1/event/registration', {
+    return this.fetch('event/registration', {
       method: 'POST',
       data : {
         open_house_event_id: event.id
@@ -32,45 +57,24 @@ class OheProvider {
     })
     .then(registration => {
       const ohe = this.appStore.oheStore.oheById.get(event.id);
-      ohe.registrations.push(registration);
-      this.setUsersOwnRegistration(ohe);
+      ohe.usersOwnRegistration = registration;
     });
   }
 
   unregisterForEvent(registration) {
-    return this.apiProvider.fetch('/api/ohe/v1/event/registration/' + registration.id, {
+    return this.fetch('event/registration/' + registration.id, {
       method: 'DELETE'
     })
     .then(() => {
       const ohe = this.appStore.oheStore.oheById.get(registration.open_house_event_id);
-      ohe.registrations.remove(registration);
-      this.setUsersOwnRegistration(ohe);
+      ohe.usersOwnRegistration = undefined;      
     });
   }
-
-  enrichOhe(openHouseEvent) {
-    const start = moment.utc(openHouseEvent.start_time);
-    const end = moment.utc(openHouseEvent.end_time);
-
-    openHouseEvent.timeLabel = `${start.format(timeFormat)} - ${end.format(timeFormat)}`;
-    openHouseEvent.dateLabel = start.format(dateFormat);
-
-    this.setUsersOwnRegistration(openHouseEvent);
-
-    return openHouseEvent;
-  }
-
-  setUsersOwnRegistration(openHouseEvent) {
-    if (this.appStore.authStore.isLoggedIn) {
-      const user = this.appStore.authStore.getProfile();
-      openHouseEvent.usersOwnRegistration = _.find(openHouseEvent.registrations, { registered_user_id: user.dorbel_user_id });
-    }
-  }
-
+  
   // Follow listing
 
-  getFollowsForListing(listing) {
-    return this.apiProvider.fetch('/api/ohe/v1/followers/by-listing/' + listing.id)
+  getFollowsForListing(listing_id) {
+    return this.fetch('followers/by-listing/' + listing_id)
     .then(followers => {
       let usersFollowDetails = null;
       
@@ -79,12 +83,12 @@ class OheProvider {
         usersFollowDetails = _.find(followers, { following_user_id: user.dorbel_user_id });       
       }
 
-      this.appStore.oheStore.usersFollowsByListingId.set(listing.id, usersFollowDetails);        
+      this.appStore.oheStore.usersFollowsByListingId.set(listing_id, usersFollowDetails);        
     });
   }
 
   follow(listing) {
-    return this.apiProvider.fetch('/api/ohe/v1/follower', {
+    return this.fetch('follower', {
       method: 'POST',
       data : {
         listing_id: listing.id
@@ -94,7 +98,7 @@ class OheProvider {
   }
 
   unfollow(followDetails) {
-    return this.apiProvider.fetch('/api/ohe/v1/follower/' + followDetails.id, {
+    return this.fetch('follower/' + followDetails.id, {
       method: 'DELETE'
     })
     .then(() => this.appStore.oheStore.usersFollowsByListingId.set(followDetails.listing_id, null));    

@@ -15,6 +15,7 @@ function* get() {
 
 function* post() {
   const data = this.request.body;
+  data.publishing_user_id = this.request.user.id;  
   logger.debug({data}, 'Creating new open house event...');
   const result = yield openHouseEventsService.create(data);
   logger.info({event_id: result.id}, 'Open house event created');

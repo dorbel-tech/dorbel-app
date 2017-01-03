@@ -1,9 +1,10 @@
 'use strict';
+const shared = require('dorbel-shared');
 const errors = require('./domainErrors');
 const notificationService = require('./notificationService');
 const openHouseEventsFinderService = require('./openHouseEventsFinderService');
-const oheRegistrationService = require('./openHouseEventRegistrationsService');
 const openHouseEventsRepository = require('../openHouseEventsDb/repositories/openHouseEventsRepository');
+const _ = require('lodash');
 const moment = require('moment');
 require('moment-range');
 
@@ -115,12 +116,35 @@ function* remove(eventId) {
   return result;
 }
 
-function* findByListing(listing_id) {
-  const events = yield openHouseEventsFinderService.findByListing(listing_id);
-  return events.map(event => {
-    event.isOpenForRegistration = oheRegistrationService.isEventOpenForRegistrations(event);
+function* findByListing(listing_id, user) {
+  let events = yield openHouseEventsFinderService.findByListing(listing_id);
+  let promises = [];
+
+  events = events.map(event => {
+    event = event.toJSON(); // getting rid of sequelize wrapper
+
+    if (user) { // any user      
+      // includes the user own registration so he will know he registered and also how to un-register
+      event.usersOwnRegistration = _.find(event.registrations, { registered_user_id: user.id });
+    }
+
+    if (user && user.id === event.publishing_user_id) { // publishing user
+      // get all the data about the registrations
+      event.registrations.forEach(registration => {
+        const promiseForUser = shared.utils.userManagement.getPublicProfile(registration.registered_user_id)
+          .then(user => registration.user = user);
+        promises.push(promiseForUser);
+      });
+    } else {
+      // only publisher can get registrations info
+      event.registrations = undefined; 
+    }
+    
     return event;
   });
+
+  yield promises; // wait for it
+  return events;
 }
 
 module.exports = {

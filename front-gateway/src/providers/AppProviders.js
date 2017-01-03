@@ -25,8 +25,9 @@ class AppProviders {
     this.cloudinaryProvider = new CloudinaryProvider();
 
     this.apiProvider = new ApiProvider(appStore);
-    this.apartmentsProvider = new ApartmentsProvider(appStore, this.apiProvider, this.cloudinaryProvider);
     this.oheProvider = new OheProvider(appStore, this.apiProvider);
+    this.apartmentsProvider = new ApartmentsProvider(appStore, 
+      { api: this.apiProvider, cloudinary: this.cloudinaryProvider, ohe: this.oheProvider });
     this.cityProvider = new CityProvider(appStore, this.apiProvider);
     this.neighborhoodProvider = new NeighborhoodProvider(appStore, this.apiProvider);
   }
