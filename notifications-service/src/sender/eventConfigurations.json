@@ -30,7 +30,7 @@
   },
   {
     "eventType": "OHE_DELETED",
-    "notificationType": "ohe_cancelled",
+    "notificationType": "ohe_cancelled_notify_registered_users",
     "dataRetrieval": [ "getListingInfo", "getOheRegisteredUsers" ]
   },
   {
