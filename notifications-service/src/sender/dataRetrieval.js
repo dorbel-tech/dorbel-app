@@ -45,7 +45,7 @@ const dataRetrievalFunctions = {
       response.registrationsCount = response.registrations.length;
       return {
         ohe: response,
-        customRecipients: [ response.listing.publishing_user_id ]
+        customRecipients: [ response.publishing_user_id ]
       };
     });
   },
@@ -69,7 +69,6 @@ function getAdditonalData(eventConfig, eventData) {
     .map(retrivelFunctionName => dataRetrievalFunctions[retrivelFunctionName](eventData)) // run the functions 
   ) 
   .then(results => { 
-    logger.debug({eventConfig, eventData, results}, 'getAdditonalData results');
     // all results are returned as one object, duplicate keys will be prioritizing according to the order in eventConfig.dataRetrieval  
     return results.reduce((prev, current) => Object.assign(prev, current), {}); 
   }); 
