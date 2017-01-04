@@ -32,7 +32,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
   }
 
   onCloseSuccessModal() {
-    this.props.router.setRoute('/apartments');
+    this.props.router.setRoute('/');
   }
 
   renderUserDetails() {
