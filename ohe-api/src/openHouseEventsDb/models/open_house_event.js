@@ -34,7 +34,10 @@ function define(sequelize, DataTypes) {
         if (moment().isAfter(this.start_time)) { // event has passed
           return false;
         }
-        
+        else if (this.registrations.length >= this.max_attendies){
+          return false;
+        }
+
         const noRegistrations = !this.registrations || this.registrations.length === 0;
         const eventTooSoon = moment().add(CLOSE_EVENT_IF_TOO_SOON_AND_NO_REGISTRATIONS_MINUTES, 'minutes').isAfter(this.start_time);
         if (noRegistrations && eventTooSoon) {
@@ -43,6 +46,10 @@ function define(sequelize, DataTypes) {
         
         return true;  
       }
+    },
+    max_attendies: {
+      type: DataTypes.INTEGER,
+      allowNull: false
     }
   }, {
     classMethods: {
