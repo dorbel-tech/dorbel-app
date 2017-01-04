@@ -5,8 +5,6 @@
 'use strict'; 
 const request = require('request-promise'); 
 const shared = require('dorbel-shared');
-const logger = shared.logger.getLogger(module);
-
 const APT_API = shared.config.get('APARTMENTS_API_URL');
 const OHE_API = shared.config.get('OHE_API_URL');
 
@@ -37,6 +35,18 @@ const dataRetrievalFunctions = {
     return getOheInfo(eventData.event_id)
     .then(response => ({ ohe: response }));
   },
+  getOheInfoForLandlord: eventData => {
+    return getOheInfo(eventData.event_id)
+    .then(response => { 
+      // Manually adding registrationsCount to trigger email sending to apartment owner 
+      // only for the first registered user to OHE.
+      response.registrationsCount = response.registrations.length;
+      return {
+        ohe: response,
+        customRecipients: [ response.publishing_user_id ]
+      };
+    });
+  },
   getOheRegisteredUsers: eventData => {
     return getOheInfo(eventData.event_id)
     .then(response => {
@@ -57,7 +67,6 @@ function getAdditonalData(eventConfig, eventData) {
     .map(retrivelFunctionName => dataRetrievalFunctions[retrivelFunctionName](eventData)) // run the functions 
   ) 
   .then(results => { 
-    logger.debug({eventConfig, eventData, results}, 'getAdditonalData results');
     // all results are returned as one object, duplicate keys will be prioritizing according to the order in eventConfig.dataRetrieval  
     return results.reduce((prev, current) => Object.assign(prev, current), {}); 
   }); 
