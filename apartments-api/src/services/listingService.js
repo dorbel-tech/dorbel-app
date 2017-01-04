@@ -107,7 +107,6 @@ function* getRelatedListings(listingId, limit) {
 
   const listing = yield listingRepository.getById(listingId);
   if (listing) { // Verify that the listing exists
-
     const listingQuery = {
       status: 'listed',
       $not: {
@@ -125,7 +124,6 @@ function* getRelatedListings(listingId, limit) {
 
     return listingRepository.list(listingQuery, options);
   }
-
   else {
     throw new CustomError(400, 'listing "' + listingId + '" does not exist');
   }
