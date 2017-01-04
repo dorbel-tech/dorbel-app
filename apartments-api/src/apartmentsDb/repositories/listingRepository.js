@@ -9,6 +9,7 @@ const buildingRepository = require('./buildingRepository');
 function list(query, options = {}) {
   return models.listing.findAll({
     where: query,
+
     include: [{
       model: models.apartment,
       include: {
@@ -19,8 +20,8 @@ function list(query, options = {}) {
         where: options.buildingQuery ? options.buildingQuery : {},
       },
       required: true
-    }, models.image
-    ],
+    }, models.image],
+
     limit: options.limit,
     order: options.order
   });
