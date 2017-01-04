@@ -39,6 +39,11 @@
     "dataRetrieval": [ "getListingInfo", "getOheInfo" ]
   },
   {
+    "eventType": "OHE_REGISTERED",
+    "notificationType": "ohe_first_registered_notify_landlord",
+    "dataRetrieval": [ "getListingInfo", "getOheInfoForLandlord" ]
+  },  
+  {
     "eventType": "OHE_UNREGISTERED",
     "notificationType": "ohe_unregistered",
     "dataRetrieval": [ "getListingInfo", "getOheInfo" ]

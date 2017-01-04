@@ -37,6 +37,18 @@ const dataRetrievalFunctions = {
     return getOheInfo(eventData.event_id)
     .then(response => ({ ohe: response }));
   },
+  getOheInfoForLandlord: eventData => {
+    return getOheInfo(eventData.event_id)
+    .then(response => { 
+      // Manually adding registrationsCount to trigger email sending to apartment owner 
+      // only for the first registered user to OHE.
+      response.registrationsCount = response.registrations.length;
+      return {
+        ohe: response,
+        customRecipients: [ response.listing.publishing_user_id ]
+      };
+    });
+  },
   getOheRegisteredUsers: eventData => {
     return getOheInfo(eventData.event_id)
     .then(response => {
