@@ -6,6 +6,7 @@
     "first": "scripts/first_time_install.sh",
     "start": "scripts/env.sh start",
     "stop": "scripts/env.sh stop",
+    "test": "scripts/run_all_tests.sh",
     "deploy": "scripts/deploy.sh",
     "deploy:test": "scripts/deploy_all.sh",
     "upgrade:shared": "scripts/upgrade_shared.sh"
