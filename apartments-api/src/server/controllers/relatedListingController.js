@@ -3,8 +3,8 @@ const listingService = require('../../services/listingService');
 
 function* get() {
   const listingId = parseInt(this.params.listingId);
-  const numOfItemsLimit = 3;
-  const relatedListings = yield listingService.getRelatedListings(listingId, numOfItemsLimit);
+  const NUMBER_OF_ITEMS = 3;
+  const relatedListings = yield listingService.getRelatedListings(listingId, NUMBER_OF_ITEMS);
   
   if(relatedListings){
     this.response.body = relatedListings;
