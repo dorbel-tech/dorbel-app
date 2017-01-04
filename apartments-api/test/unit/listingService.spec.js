@@ -82,4 +82,24 @@ describe('Listing Service', function () {
     });
   });
 
+  describe('Get related listings', function () {
+    it('should throw error if listingId isn\'t resolved by repository', function* () {
+      this.listingRepositoryMock.getById = sinon.stub().resolves(undefined);
+
+      try {
+        yield this.listingService.getRelatedListings(666);
+        __.assertThat('code', __.is('not reached'));
+      }
+      catch (error) {
+        __.assertThat(error.message, __.is('listing "666" does not exist'));
+      }
+    });
+
+    it('should return an array if ID resolved by repository', function* () {
+      this.listingRepositoryMock.getById = sinon.stub().resolves(faker.getFakeListing());
+      this.listingRepositoryMock.list = sinon.stub().resolves([]);
+      const relatedListings = yield this.listingService.getRelatedListings(1);
+      __.assertThat(Array.isArray(relatedListings), __.is(true));
+    });
+  });
 });

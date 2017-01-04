@@ -105,7 +105,7 @@ function* getById(id) {
 
 function* getRelatedListings(listingId, limit) {
 
-  const listing = yield getById(listingId);
+  const listing = yield listingRepository.getById(listingId);
   if (listing) { // Verify that the listing exists
 
     const listingQuery = {
@@ -124,6 +124,10 @@ function* getRelatedListings(listingId, limit) {
     };
 
     return listingRepository.list(listingQuery, options);
+  }
+
+  else {
+    throw new CustomError(400, 'listing "' + listingId + '" does not exist');
   }
 }
 
