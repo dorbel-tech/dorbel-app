@@ -1,10 +1,12 @@
 import React from 'react';
+import DorbelModal from '~/components/DorbelModal/DorbelModal';
+import { Button } from 'react-bootstrap';
 import { observer } from 'mobx-react';
 import UploadApartmentBaseStep from './UploadApartmentBaseStep';
 import FormWrapper from '~/components/FormWrapper/FormWrapper';
 import TimeRangePicker from '~/components/TimeRangePicker/TimeRangePicker';
 
-@observer(['appStore', 'appProviders'])
+@observer(['appStore', 'appProviders', 'router'])
 class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
 
   componentDidMount() {
@@ -16,7 +18,6 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
     return hoursArray.map((hour) => ({ label:hour }));
   }
 
-
   clickNext() {
     const formsy = this.refs.form.refs.formsy; 
     if (formsy.state.isValid) {
@@ -25,6 +26,14 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
       formsy.submit(); // will trigger validation messages
     }
   }  
+
+  showSuccessModal() {
+    this.props.showSuccessModal = true;
+  }
+
+  onCloseSuccessModal() {
+    this.props.router.setRoute('/apartments');
+  }
 
   renderUserDetails() {
     const { authStore } = this.props.appStore;
@@ -98,13 +107,35 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
             </div>
           </FormWrapper.Wrapper>
 
-        <div className="form-nav bottom col-lg-5 col-md-5 col-sm-12 col-xs-12">
-          <span onClick={this.clickBack.bind(this)}><i className="open-house-event-previous-step fa fa-arrow-circle-o-right fa-2x" aria-hidden="true"></i>&nbsp; שלב קודם</span>
-          <span>3/3</span>
-          <button onClick={this.clickNext.bind(this)} disabled={!authStore.isLoggedIn} className="btn btn-lg btn-default btn-submit dorbel-btn">שליחה וסיום</button>
+          <div className="form-nav bottom col-lg-5 col-md-5 col-sm-12 col-xs-12">
+            <span onClick={this.clickBack.bind(this)}><i className="open-house-event-previous-step fa fa-arrow-circle-o-right fa-2x" aria-hidden="true"></i>&nbsp; שלב קודם</span>
+            <span>3/3</span>
+            <button onClick={this.clickNext.bind(this)} disabled={!authStore.isLoggedIn} className="btn btn-lg btn-default btn-submit dorbel-btn">שליחה וסיום</button>
+          </div>
         </div>
-      </div>
-    </div>      
+        <DorbelModal 
+          show={this.props.showSuccessModal}
+          onClose={this.onCloseSuccessModal.bind(this)}
+          title="העלאת הדירה הושלמה!"
+          body={
+            <div className="text-center">
+              <p>
+                תהליך העלאת פרטי הדירה הושלם בהצלחה.<br/>
+                מודעתכם נמצאת כרגע בתהליך אישור. ברגע שהמודעה תעלה לאתר,
+                יישלח אליכם עדכון במייל ובהודעת טקסט. במידה ויהיה צורך,
+                ניצור עמכם קשר לפני כן.
+              </p>
+              <p>
+                תודה ויום נעים!<br/>
+                צוות dorbel
+              </p>
+              <p>
+                <Button bsStyle="info" onClick={this.onCloseSuccessModal.bind(this)}>סגור</Button>
+              </p>
+            </div>
+          }
+        />
+      </div>      
     );
   }
 }
