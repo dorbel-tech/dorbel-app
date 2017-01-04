@@ -5,8 +5,6 @@
 'use strict'; 
 const request = require('request-promise'); 
 const shared = require('dorbel-shared');
-const logger = shared.logger.getLogger(module);
-
 const APT_API = shared.config.get('APARTMENTS_API_URL');
 const OHE_API = shared.config.get('OHE_API_URL');
 
