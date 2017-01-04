@@ -103,9 +103,34 @@ function* getById(id) {
   return listing;
 }
 
+function* getRelatedListings(listingId, limit) {
+
+  const listing = yield getById(listingId);
+  if (listing) { // Verify that the listing exists
+
+    const listingQuery = {
+      status: 'listed',
+      $not: {
+        id: listingId
+      }
+    };
+
+    const options = {
+      buildingQuery: {
+        city_id: listing.apartment.building.city_id
+      },
+      limit: limit,
+      order: 'created_at DESC'
+    };
+
+    return listingRepository.list(listingQuery, options);
+  }
+}
+
 module.exports = {
   create,
   updateStatus,
   getById,
-  list: listingRepository.list
+  getRelatedListings,
+  list: listingRepository.list,
 };

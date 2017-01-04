@@ -3,28 +3,12 @@ const listingService = require('../../services/listingService');
 
 function* get() {
   const listingId = parseInt(this.params.listingId);
-  const listing = yield listingService.getById(listingId);
-
-  // Verify that the listing exists
-  if (listing) {
-    const numOfItems = 3;
-    const listingQuery = {
-      status: 'listed',
-      $not: {
-        id: listingId
-      }
-    };
-
-    const options = {
-      buildingQuery: {
-        city_id: listing.apartment.building.city_id
-      },
-      limit: numOfItems,
-      order: 'created_at DESC'
-    };
-
-    this.response.body = yield listingService.list(listingQuery, options);
-  }
+  const numOfItemsLimit = 3;
+  const relatedListings = yield listingService.getRelatedListings(listingId, numOfItemsLimit);
+  
+  if(relatedListings){
+    this.response.body = relatedListings;
+  } // Will return 404 if the listingId doesn't exist in the DB
 }
 
 module.exports = {
