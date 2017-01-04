@@ -31,14 +31,15 @@ function getById(id) {
     where: {
       id
     },
-    include: [{
-      model: models.apartment,
-      include: [{
-        model: models.building,
-        include: [models.city, models.neighborhood]
-      }]
-    },
-    models.image
+    include: [
+      {
+        model: models.apartment,
+        include: [{
+          model: models.building,
+          include: [models.city, models.neighborhood]
+        }]
+      },
+      models.image
     ]
   });
 }
