@@ -8,6 +8,7 @@ import ApartmentAmenities from './ApartmentAmenities.jsx';
 import OHEList from './OHEList.jsx';
 import OHEManager from '~/components/OHEManager/OHEManager';
 import ApartmentLocation from '../MapWrapper/MapWrapper.jsx';
+import RelatedListings from '../RelatedListings/RelatedListings.jsx';
 import './Apartment.scss';
 
 const Flickity = global.window ? require('react-flickity-component')(React) : 'div';
@@ -32,6 +33,13 @@ class Apartment extends Component {
   constructor(props) {
     super(props);
     autobind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.apartmentId != nextProps.apartmentId) {
+      this.props = nextProps;
+      this.componentDidMount();
+    }
   }
 
   componentDidMount() {
@@ -94,7 +102,7 @@ class Apartment extends Component {
 
   renderListingMenu(listing) {
     const { authStore } = this.props.appStore;
-    const profile = authStore.getProfile();     
+    const profile = authStore.getProfile();
     const userIsListingPublisher = listing.publishing_user_id === profile.dorbel_user_id;
     if (userIsListingPublisher) {
       const activeTab = _.find(tabs, { action: this.props.action }) || tabs[0];
@@ -130,6 +138,12 @@ class Apartment extends Component {
     }
   }
 
+  renderRelatedListings(listingId) {
+    return (
+      <RelatedListings listingId={listingId} />
+    );
+  }
+
   render() {
     // TODO : mixup between listing and apartment here !!!
     const listing = this.props.appStore.listingStore.listingsById.get(this.props.apartmentId);
@@ -142,10 +156,10 @@ class Apartment extends Component {
 
     let tabContent;
     switch (this.props.action) {
-      case 'events' : 
+      case 'events':
         tabContent = (<OHEManager listing={listing} />);
         break;
-      default: 
+      default:
         // TODO : move to a different file
         tabContent = (
           <div>
@@ -158,7 +172,7 @@ class Apartment extends Component {
                   </div>
                 </div>
               </div>
-            </div>        
+            </div>
             <div className="container-fluid apt-highlights-container">
               <div className="container">
                 <div className="row">
@@ -172,17 +186,18 @@ class Apartment extends Component {
                   </div>
                 </div>
               </div>
-            </div>        
+            </div>
             {this.renderListingDescription(listing)}
-            {this.renderListingLocation(listing.apartment.building.geolocation)}            
+            {this.renderListingLocation(listing.apartment.building.geolocation)}
+            {this.renderRelatedListings(listing.id)}
           </div>
         );
     }
-    
+
     return (
       <div>
         {this.renderImageGallery(listing)}
-        {this.renderListingMenu(listing)}        
+        {this.renderListingMenu(listing)}
         {tabContent}
       </div>
     );
@@ -199,4 +214,3 @@ Apartment.wrappedComponent.propTypes = {
 };
 
 export default Apartment;
-
