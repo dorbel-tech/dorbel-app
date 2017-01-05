@@ -6,7 +6,7 @@ const ohe = {
   start_time: moment().add(12, 'hours').toISOString(),
   end_time: moment().add(13, 'hours').toISOString(),
   listing_id: faker.getRandomNumber(),
-  publishing_user_id: faker.getFakeUser().user_id
+  publishing_user_id: faker.getFakeUser().id
 };
 
 describe('Open House Events Registration API Integration', function () {
@@ -20,11 +20,11 @@ describe('Open House Events Registration API Integration', function () {
     describe('POST', function () {
       it('should create a new registation', function* () {
         const response = yield this.apiClient.createNewEvent(ohe).expect(201).end();
-        yield this.apiClient.createNewRegistration(response.body.id, faker.getFakeUser()).expect(201).end();
+        yield this.apiClient.createNewRegistration(response.body.id, { user_id: faker.getFakeUser().id }).expect(201).end();
       });
 
       it('return an error for non existing event', function* () {
-        yield this.apiClient.createNewRegistration(0, faker.getFakeUser()).expect(404).end();
+        yield this.apiClient.createNewRegistration(0, { user_id: faker.getFakeUser().id }).expect(404).end();
       });
 
     });
@@ -32,7 +32,7 @@ describe('Open House Events Registration API Integration', function () {
     describe('DELETE', function () {
       it('should delete a registation', function* () {
         const response = yield this.apiClient.createNewEvent(ohe).expect(201).end();
-        const registrationResponse = yield this.apiClient.createNewRegistration(response.body.id, faker.getFakeUser()).expect(201).end();
+        const registrationResponse = yield this.apiClient.createNewRegistration(response.body.id, { user_id: faker.getFakeUser().id }).expect(201).end();
         yield this.apiClient.deleteRegistration(registrationResponse.body.id).expect(200).end();
       });
 

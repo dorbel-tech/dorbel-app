@@ -10,7 +10,7 @@ function getOhe(listingId, startsIn) {
     start_time: moment().add(startsIn, 'hours').toISOString(),
     end_time: moment().add(startsIn + 1, 'hours').toISOString(),
     listing_id: listingId,
-    publishing_user_id: faker.getFakeUser().user_id
+    publishing_user_id: faker.getFakeUser().id
   };
 }
 

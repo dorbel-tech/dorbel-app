@@ -6,9 +6,8 @@ const fakeUserId = '00000000-0000-0000-0000-000000000001';
 
 function getFakeUser() {
   return {
-    user_id: faker.random.uuid(),
-    email: faker.internet.email(),
-    firstname: 'Tester'
+    id: faker.random.uuid(),
+    email: faker.internet.email()
   };
 }
 
