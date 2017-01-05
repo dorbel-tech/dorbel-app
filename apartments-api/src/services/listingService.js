@@ -7,6 +7,7 @@ const geoService = require('./geoService');
 const config = shared.config;
 const messageBus = shared.utils.messageBus;
 const userManagement = shared.utils.userManagement;
+const generic = shared.utils.generic;
 
 // TODO : move this to dorbel-shared
 function CustomError(code, message) {
@@ -37,15 +38,13 @@ function* create(listing) {
   let modifiedListing = yield geoService.setGeoLocation(listing);
   let createdListing = yield listingRepository.create(modifiedListing);
 
-  // Update user phone number in auth0.
-  let normalizedPhone = normalizePhone(listing.user.phone);
   // TODO: Update user details can be done on client using user token.
   userManagement.updateUserDetails(createdListing.publishing_user_id, {
     user_metadata: {
       first_name: listing.user.firstname,
       last_name: listing.user.lastname,
       email: listing.user.email,
-      phone: normalizedPhone
+      phone: generic.normalizePhone(listing.user.phone)
     }
   });
 
@@ -54,7 +53,7 @@ function* create(listing) {
     messageBus.publish(config.get('NOTIFICATIONS_SNS_TOPIC_ARN'), messageBus.eventType.APARTMENT_CREATED, {
       user_uuid: createdListing.publishing_user_id,
       user_email: listing.user.email,
-      user_phone: normalizedPhone,
+      user_phone: generic.normalizePhone(listing.user.phone),
       user_first_name: listing.user.firstname,
       user_last_name: listing.user.lastname,
       apartment_id: createdListing.apartment_id
@@ -82,14 +81,6 @@ function* updateStatus(listingId, userId, status) {
   }
 
   return result;
-}
-
-function normalizePhone(phone) {
-  if (phone.startsWith('0')) {
-    return '+972' + phone.substring(1).replace(/[-+()]/g, ''); // remove trailing zero, remove special chars.
-  } else {
-    return phone;
-  }
 }
 
 function* getById(id) {

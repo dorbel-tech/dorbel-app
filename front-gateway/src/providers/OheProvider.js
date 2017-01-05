@@ -48,11 +48,12 @@ class OheProvider {
 
   // Registrations
 
-  registerForEvent(event) {
+  registerForEvent(event, user) {
     return this.fetch('event/registration', {
       method: 'POST',
       data : {
-        open_house_event_id: event.id
+        open_house_event_id: event.id,
+        user_details: user
       }
     })
     .then(registration => {
