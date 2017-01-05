@@ -6,8 +6,8 @@ const listingRepository = require('../apartmentsDb/repositories/listingRepositor
 const geoService = require('./geoService');
 const config = shared.config;
 const messageBus = shared.utils.messageBus;
-const userManagement = shared.utils.userManagement;
 const generic = shared.utils.generic;
+const userManagement = shared.utils.userManagement;
 
 // TODO : move this to dorbel-shared
 function CustomError(code, message) {

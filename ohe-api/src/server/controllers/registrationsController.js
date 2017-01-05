@@ -5,7 +5,7 @@ const service = require('../../services/openHouseEventRegistrationsService');
 
 function* post() {
   const eventId= this.request.body.open_house_event_id;
-  const user = this.request.body.user_details;
+  let user = this.request.body.user_details;
   user.user_id = this.request.user.id;
   logger.debug({event_id: eventId, registered_user_id: user.userId}, 'Registering to an open house event...');
   

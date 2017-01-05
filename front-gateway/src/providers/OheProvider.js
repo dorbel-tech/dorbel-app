@@ -88,11 +88,12 @@ class OheProvider {
     });
   }
 
-  follow(listing) {
+  follow(listing, user) {
     return this.fetch('follower', {
       method: 'POST',
       data : {
-        listing_id: listing.id
+        listing_id: listing.id,
+        user_details: user
       }
     })
     .then(followDetails => this.appStore.oheStore.usersFollowsByListingId.set(listing.id, followDetails));
