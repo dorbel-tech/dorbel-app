@@ -4,6 +4,7 @@ const __ = require('hamjest');
 const sinon = require('sinon');
 const faker = require('../shared/fakeObjectGenerator');
 const notificationService = require('../../src/services/notificationService');
+const shared = require('dorbel-shared');
 const fakeUserId = '00000000-0000-0000-0000-000000000001';
 
 describe('Open House Event Registration Service', function () {
@@ -14,7 +15,7 @@ describe('Open House Event Registration Service', function () {
     this.openHouseEventsFinderServiceMock = {};
     mockRequire('../../src/services/openHouseEventsFinderService', this.openHouseEventsFinderServiceMock);
     this.service = require('../../src/services/openHouseEventRegistrationsService');
-
+    sinon.stub(shared.utils.userManagement, 'updateUserDetails');
   });
 
   beforeEach(function () {

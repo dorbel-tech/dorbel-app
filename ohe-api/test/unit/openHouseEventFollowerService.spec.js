@@ -3,8 +3,9 @@ const mockRequire = require('mock-require');
 const __ = require('hamjest');
 const faker = require('../shared/fakeObjectGenerator');
 const notificationService = require('../../src/services/notificationService');
-var sinon = require('sinon');
-let fakeUserId = '00000000-0000-0000-0000-000000000001';
+const shared = require('dorbel-shared');
+const sinon = require('sinon');
+const fakeUserId = '00000000-0000-0000-0000-000000000001';
 
 describe('Listing Followers Service', function () {
 
@@ -12,6 +13,7 @@ describe('Listing Followers Service', function () {
     this.repositoryMock = {};
     mockRequire('../../src/openHouseEventsDb/repositories/openHouseEventFollowersRepository', this.repositoryMock);
     this.service = require('../../src/services/openHouseEventFollowersService');
+    sinon.stub(shared.utils.userManagement, 'updateUserDetails');
   });
 
   beforeEach(function () {
@@ -75,9 +77,10 @@ describe('Listing Followers Service', function () {
       ]);
 
       this.repositoryMock.createFollower = sinon.stub().resolves(true);
+      let fakeUser = faker.getFakeUser();
 
       try {
-        yield this.service.follow(1, fakeUserId);
+        yield this.service.follow(1, { user_id: fakeUser.id, email: fakeUser.email });
         __.assertThat('code', __.is('not reached'));
       }
       catch (error) {
