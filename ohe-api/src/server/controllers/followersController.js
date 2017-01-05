@@ -18,7 +18,7 @@ function* post() {
   user.user_id = this.request.user.id;
   logger.debug({ listing_id: listingId, following_user_id: user.user_id }, 'Following a listing...');
 
-  let result = yield service.follow(listingId, user);
+  const result = yield service.follow(listingId, user);
   logger.info({ listing_id: listingId, following_user_id: user.user_id, followId: result.id }, 'Follower created');
   this.response.status = 201;
   this.response.body = result;
