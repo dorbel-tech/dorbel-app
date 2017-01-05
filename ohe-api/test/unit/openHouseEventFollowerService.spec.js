@@ -3,9 +3,9 @@ const mockRequire = require('mock-require');
 const __ = require('hamjest');
 const faker = require('../shared/fakeObjectGenerator');
 const notificationService = require('../../src/services/notificationService');
-const shared = require('dorbel-shared');
 const sinon = require('sinon');
-const fakeUserId = '00000000-0000-0000-0000-000000000001';
+const shared = require('dorbel-shared');
+const fakeUser = { user_id: faker.fakeUserId };
 
 describe('Listing Followers Service', function () {
 
@@ -50,7 +50,7 @@ describe('Listing Followers Service', function () {
       this.repositoryMock.findByListingId = sinon.stub().resolves(null);
       this.repositoryMock.createFollower = sinon.stub().resolves(true);
 
-      const result = yield this.service.follow(1, fakeUserId);
+      const result = yield this.service.follow(1, fakeUser);
       __.assertThat(result, __.is(true));
       __.assertThat(this.sendNotification.calledOnce, __.is(true));
       __.assertThat(this.sendNotification.getCall(0).args[0], __.is(notificationService.eventType.OHE_FOLLOWED));
@@ -65,7 +65,7 @@ describe('Listing Followers Service', function () {
 
       this.repositoryMock.createFollower = sinon.stub().resolves(true);
 
-      const result = yield this.service.follow(1, fakeUserId);
+      const result = yield this.service.follow(1, fakeUser);
       __.assertThat(result, __.is(true));
       __.assertThat(this.sendNotification.calledOnce, __.is(true));
       __.assertThat(this.sendNotification.getCall(0).args[0], __.is(notificationService.eventType.OHE_FOLLOWED));
@@ -73,14 +73,13 @@ describe('Listing Followers Service', function () {
 
     it('should fail when user tries to follow an event more than once', function* () {
       this.repositoryMock.findByListingId = sinon.stub().resolves([
-        { listing_id: 1, following_user_id: fakeUserId, is_active: true }
+        { listing_id: 1, following_user_id: faker.fakeUserId, is_active: true }
       ]);
 
       this.repositoryMock.createFollower = sinon.stub().resolves(true);
-      let fakeUser = faker.getFakeUser();
 
       try {
-        yield this.service.follow(1, { user_id: fakeUser.id, email: fakeUser.email });
+        yield this.service.follow(1, fakeUser);
         __.assertThat('code', __.is('not reached'));
       }
       catch (error) {
@@ -99,7 +98,7 @@ describe('Listing Followers Service', function () {
         is_active: false
       }));
 
-      const result = yield this.service.unfollow(1, fakeUserId);
+      const result = yield this.service.unfollow(1, faker.fakeUserId);
       __.assertThat(result.is_active, __.is(false));
       __.assertThat(this.sendNotification.calledOnce, __.is(true));
       __.assertThat(this.sendNotification.getCall(0).args[0], __.is(notificationService.eventType.OHE_UNFOLLOWED));
@@ -109,7 +108,7 @@ describe('Listing Followers Service', function () {
       this.repositoryMock.find = sinon.stub().resolves(null);
 
       try {
-        yield this.service.unfollow(1, fakeUserId);
+        yield this.service.unfollow(1, faker.fakeUserId);
       }
       catch (error) {
         __.assertThat(error.message, __.is('event does not exist'));

@@ -50,6 +50,7 @@ function getRandomNumber() {
 }
 
 module.exports = {
+  fakeUserId,
   getFakeUser,
   generateEvent,
   generateRegistration,
