@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import Listing from '../ListingThumbnail/ListingThumbnail.jsx';
+import '../ListingThumbnail/ListingThumbnail.scss';
 
 @observer(['appProviders'])
 class RelatedListings extends Component {
@@ -22,6 +23,13 @@ class RelatedListings extends Component {
       });
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.listingId != nextProps.listingId) {
+      this.props = nextProps;
+      this.componentDidMount();
+    }
+  }
+
   render() {
     const relatedListings = this.state.relatedListings;
 
@@ -29,7 +37,7 @@ class RelatedListings extends Component {
       return (
         <div className="container-fluid apt-thumb-container">
           <div className="container">
-            <h5>נכסים דומים</h5>
+            <h4>נכסים דומים</h4>
             <div className="row">
               {
                 this.state.relatedListings.map((listing) => <Listing listing={listing} key={listing.id} />)

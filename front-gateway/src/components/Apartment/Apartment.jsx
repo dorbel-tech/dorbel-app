@@ -35,6 +35,13 @@ class Apartment extends Component {
     autobind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.apartmentId != nextProps.apartmentId) {
+      this.props = nextProps;
+      this.componentDidMount();
+    }
+  }
+
   componentDidMount() {
     this.props.appProviders.apartmentsProvider.loadFullListingDetails(this.props.apartmentId);
   }

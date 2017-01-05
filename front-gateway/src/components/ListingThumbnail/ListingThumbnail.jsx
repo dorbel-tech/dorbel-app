@@ -3,9 +3,11 @@ import './ListingThumbnail.scss';
 import { Col } from 'react-bootstrap';
 import NavLink from '~/components/NavLink';
 
-class Listing extends Component {
+class ListingThumbnail extends Component {
   render() {
     const { listing } = this.props;
+    const title = listing.title || `דירת ${listing.apartment.rooms} חד׳ ברח׳ ${listing.apartment.building.street_name}`;
+
     return (
         <Col lg={4} md={4} sm={6}>
             <NavLink to={'/apartments/' + listing.id} className="thumbnail apt-thumb-container-single pull-right">
@@ -24,7 +26,7 @@ class Listing extends Component {
 
                     </div>
                     <div className="caption">
-                        <h4>{listing.title}</h4>
+                        <h4>{title}</h4>
                         <span>
                             {listing.apartment.building.street_name},{listing.apartment.building.city.city_name}
                         </span>
@@ -35,11 +37,11 @@ class Listing extends Component {
   }
 }
 
-Listing.propTypes = {
+ListingThumbnail.propTypes = {
   listing: React.PropTypes.object.isRequired,
 };
 
-export default Listing;
+export default ListingThumbnail;
 
 
 
