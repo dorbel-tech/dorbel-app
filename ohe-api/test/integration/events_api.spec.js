@@ -17,7 +17,7 @@ describe('Open House Events API Integration', function () {
           start_time: moment().add(12, 'hours').toISOString(),
           end_time: moment().add(13, 'hours').toISOString(),
           listing_id: faker.getRandomNumber(),
-          publishing_user_id: faker.getFakeUser().id
+          publishing_user_id: faker.getFakeUser().user_id
         };
         const newEventReponse = yield this.apiClient.createNewEvent(ohe).expect(201).end();
         const newEvent = newEventReponse.body;
@@ -33,7 +33,7 @@ describe('Open House Events API Integration', function () {
       });
 
       it('should return an error for non existing event', function* () {
-        yield this.apiClient.findEvent(9999999).expect(404).end();
+        yield this.apiClient.findEvent(0).expect(404).end();
       });
 
     });
@@ -44,7 +44,7 @@ describe('Open House Events API Integration', function () {
           start_time: moment().add(-2, 'hours').toISOString(),
           end_time: moment().add(-1, 'hours').toISOString(),
           listing_id: faker.getRandomNumber(),
-          publishing_user_id: faker.getFakeUser().id
+          publishing_user_id: faker.getFakeUser().user_id
         };
         yield this.apiClient.createNewEvent(ohe).expect(201).end();
 
@@ -57,7 +57,7 @@ describe('Open House Events API Integration', function () {
           start_time: moment().add(-2, 'hours').toISOString(),
           end_time: moment().add(-1, 'hours').toISOString(),
           listing_id: faker.getRandomNumber(),
-          publishing_user_id: faker.getFakeUser().id
+          publishing_user_id: faker.getFakeUser().user_id
         };
         const newEventReponse = yield this.apiClient.createNewEvent(ohe).expect(201).end();
         let newEvent = newEventReponse.body;
@@ -72,7 +72,7 @@ describe('Open House Events API Integration', function () {
           start_time: moment().add(-2, 'hours').toISOString(),
           end_time: moment().add(-1, 'hours').toISOString(),
           listing_id: faker.getRandomNumber(),
-          publishing_user_id: faker.getFakeUser().id
+          publishing_user_id: faker.getFakeUser().user_id
         };
         yield this.apiClient.updateEvent(ohe).expect(404).end();
       });
@@ -84,7 +84,7 @@ describe('Open House Events API Integration', function () {
           start_time: moment().add(-2, 'hours').toISOString(),
           end_time: moment().add(-1, 'hours').toISOString(),
           listing_id: faker.getRandomNumber(),
-          publishing_user_id: faker.getFakeUser().id
+          publishing_user_id: faker.getFakeUser().user_id
         };
         const newEventReponse = yield this.apiClient.createNewEvent(ohe).expect(201).end();
         let newEvent = newEventReponse.body;
@@ -92,7 +92,7 @@ describe('Open House Events API Integration', function () {
       });
 
       it('should return an error for non existing event', function* () {
-        yield this.apiClient.deleteEvent(9999999).expect(404).end();
+        yield this.apiClient.deleteEvent(0).expect(404).end();
       });
     });
   });

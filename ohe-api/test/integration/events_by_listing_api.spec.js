@@ -10,7 +10,7 @@ function getOhe(listingId, startsIn) {
     start_time: moment().add(startsIn, 'hours').toISOString(),
     end_time: moment().add(startsIn + 1, 'hours').toISOString(),
     listing_id: listingId,
-    publishing_user_id: faker.getFakeUser().id
+    publishing_user_id: faker.getFakeUser().user_id
   };
 }
 
@@ -35,7 +35,7 @@ describe('Open House Events By Listing API Integration', function () {
       });
 
       it('should return an empty array given no events per listing id', function* () {
-        const response = yield this.apiClient.findEventsByListing(9999999).expect(200).end();
+        const response = yield this.apiClient.findEventsByListing(0).expect(200).end();
         __.assertThat(response.body.length, __.is(0));
       });
 
