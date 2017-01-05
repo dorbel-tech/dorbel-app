@@ -70,6 +70,10 @@ class ApartmentsProvider {
     this.appStore.newListingStore.formValues.images.remove(image);
     return this.cloudinaryProvider.deleteImage(image);      
   }
+
+  getRelatedListings(listingId){
+    return this.apiProvider.fetch('/api/apartments/v1/listings/'+listingId+'/related/');
+  }
 }
 
 module.exports = ApartmentsProvider;

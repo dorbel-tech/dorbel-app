@@ -13,7 +13,7 @@ function CustomError(code, message) {
   let error = new Error(message);
   error.status = code;
   return error;
-} 
+}
 
 function* create(listing) {
   const existingOpenListingForApartment = yield listingRepository.getListingsForApartment(
@@ -30,7 +30,7 @@ function* create(listing) {
   }
 
   // In case that roomate is needed, the listing should allow roommates.
-  if(listing.roommate_needed) {
+  if (listing.roommate_needed) {
     listing.roommates = true;
   }
 
@@ -95,17 +95,44 @@ function normalizePhone(phone) {
 function* getById(id) {
   const listing = yield listingRepository.getById(id);
   if (listing) {
-    const publishingUser = yield userManagement.getUserDetails(listing.publishing_user_id);  
+    const publishingUser = yield userManagement.getUserDetails(listing.publishing_user_id);
     if (publishingUser) {
-      listing.publishing_username = _.get(publishingUser, 'user_metadata.first_name') || publishingUser.given_name;  
+      listing.publishing_username = _.get(publishingUser, 'user_metadata.first_name') || publishingUser.given_name;
     }
   }
   return listing;
+}
+
+function* getRelatedListings(listingId, limit) {
+
+  const listing = yield listingRepository.getById(listingId);
+  if (listing) { // Verify that the listing exists
+    const listingQuery = {
+      status: 'listed',
+      $not: {
+        id: listingId
+      }
+    };
+
+    const options = {
+      buildingQuery: {
+        city_id: listing.apartment.building.city_id
+      },
+      limit: limit,
+      order: 'created_at DESC'
+    };
+
+    return listingRepository.list(listingQuery, options);
+  }
+  else {
+    throw new CustomError(400, 'listing "' + listingId + '" does not exist');
+  }
 }
 
 module.exports = {
   create,
   updateStatus,
   getById,
-  list: listingRepository.list
+  getRelatedListings,
+  list: listingRepository.list,
 };
