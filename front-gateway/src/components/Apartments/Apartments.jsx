@@ -13,12 +13,35 @@ class Apartments extends Component {
 
     return (
       <div>
-        <h2>Apartments</h2>
-        <ul>
-          {listingStore.apartments.map(apt =>
-            <li key={apt.id}><NavLink to={'/apartments/' + apt.id}>{apt.street_name} {apt.house_number} - {apt.apt_number}</NavLink></li>
-          )}
-        </ul>
+        {listingStore.apartments.map(apt =>
+          <div key={apt.id} class="col-lg-4 col-md-6 col-sm-6 col-xs-12 clearfix">
+            <a href="/apartments/{apt.id}" class="thumbnail search-result-container-single pull-right">
+              <div class="triangle">
+                <svg>
+
+                </svg>
+                <span><i>&nbsp&nbsp</i>ריקה</span>
+              </div>
+              <div class="result-apt-image">
+                <img src={apt.image_url} alt="..."/>
+              </div>
+              <div class="search-result-apt-bottom-strip">
+                <ul>
+                  <li>{apt.monthly_rent} ₪</li>
+                  <span>|</span>
+                  <li>{apt.size} מ״ר</li>
+                  <span>|</span>
+                  <li>{apt.rooms} חד׳</li>
+                </ul>
+              </div>
+              <div class="caption">
+                <h4>{apt.description}</h4>
+                <span>{apt.street_name} {apt.house_number} - {apt.apt_number}</span>
+              </div>
+            </a>
+          </div>
+        )}
+
         {this.props.children}
       </div>
     );
