@@ -9,7 +9,7 @@ const steps = [
   'UploadApartmentStep3'
 ].map(stepName => require('./' + stepName).default);
 
-@observer(['appStore', 'appProviders', 'router'])
+@observer(['appStore', 'appProviders'])
 class UploadApartmentForm extends Component {
   static hideFooter = true;
 
@@ -18,7 +18,7 @@ class UploadApartmentForm extends Component {
     let { newListingStore }  = this.props.appStore;        
     if (newListingStore.stepNumber === steps.length - 1) { // last step
       this.props.appProviders.apartmentsProvider.uploadApartment(newListingStore.formValues)
-      .then(() => this.props.router.setRoute('/apartments'))
+      .then(() => this.setState({ showSuccessModal: true }))
       .catch(() => alert('upload failed'));
     } else {
       newListingStore.stepNumber++;
@@ -31,17 +31,17 @@ class UploadApartmentForm extends Component {
   }
 
   render() {
+    const showSuccessModal = this.state && this.state.showSuccessModal;
     const activeStep = {
       step: steps[this.props.appStore.newListingStore.stepNumber]
     };
-    return <activeStep.step onClickNext={this.nextStep.bind(this)} onClickBack={this.prevStep.bind(this)} />;
+    return <activeStep.step showSuccessModal={showSuccessModal} onClickNext={this.nextStep.bind(this)} onClickBack={this.prevStep.bind(this)} />;
   }
 }
 
 UploadApartmentForm.wrappedComponent.propTypes = {
   appStore: React.PropTypes.object,
-  appProviders: React.PropTypes.object,
-  router: React.PropTypes.object
+  appProviders: React.PropTypes.object
 };
 
 export default UploadApartmentForm;
