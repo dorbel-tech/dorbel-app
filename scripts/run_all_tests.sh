@@ -15,9 +15,10 @@ docker-compose run front-gateway  yarn run test
 
 RED='\033[1;31m'
 GREEN='\033[1;32m'
- 
-if [ $? -eq 0 ]; then
-  printf "${GREEN}All tests passed.\n"
+RC=$?; 
+
+if [[[ $RC != 0 ]]; then
+  printf "${RED}Some tests failed.\n"  
 else
-  printf "${RED}Some tests failed.\n"
+  printf "${GREEN}All tests passed.\n"
 fi
