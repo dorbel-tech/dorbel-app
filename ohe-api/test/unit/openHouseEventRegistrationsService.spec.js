@@ -2,7 +2,6 @@
 const mockRequire = require('mock-require');
 const __ = require('hamjest');
 const sinon = require('sinon');
-const moment = require('moment');
 const faker = require('../shared/fakeObjectGenerator');
 const notificationService = require('../../src/services/notificationService');
 const fakeUserId = '00000000-0000-0000-0000-000000000001';
