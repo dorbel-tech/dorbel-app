@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Col, Grid, Row } from 'react-bootstrap';
+import { Col, Grid, MenuItem, Row, SplitButton } from 'react-bootstrap';
 import { observer } from 'mobx-react';
 import ListingThumbnail from '../ListingThumbnail/ListingThumbnail.jsx';
 import NavLink from '~/components/NavLink';
@@ -10,30 +10,25 @@ import './Apartments.scss';
 class Apartments extends Component {
   componentDidMount() {
     this.props.appProviders.apartmentsProvider.loadApartments();
+    this.props.appProviders.cityProvider.loadCities();
   }
 
   render() {
-    const { listingStore } = this.props.appStore;
+    const { listingStore, cityStore } = this.props.appStore;
+    const apartments = listingStore.apartments.length ? listingStore.apartments : [];
+    const cities = cityStore.cities.length ? cityStore.cities : [{city_id: 0, city_name: 'טוען...'}];
 
     return (
     <Grid fluid>
       <Row>
         <Col lg={3} md={4} className="search-widget-wrapper">
           <Row className="search-widget-container">
-            <div className="btn-group city-picker">
-                <i data-toggle="modal" data-target="#modal-city-promise">i</i>
-                <button type="button" className="btn btn-default input-addon-right">
-                    <h4 className="active-city"><span>עיר:</span> תל אביב</h4></button>
-                <button type="button" className="btn btn-default dropdown-toggle input-addon-left" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" disabled>
-                    <span className="caret"></span>
-                    <span className="sr-only">Toggle Dropdown</span>
-                </button>
-                <ul className="dropdown-menu">
-                    <li><a href="#">ירושלים</a></li>
-                    <li><a href="#">באר שבע</a></li>
-                    <li><a href="#">שעריים</a></li>
-                </ul>
-            </div>
+            <Col xs={10} xsOffset={1} className="btn-group city-picker">
+              <i data-toggle="modal" data-target="#modal-city-promise">i</i>
+              <SplitButton title={cities[0].city_name} key={cities[0].city_id}>
+                {cities.map(city => <MenuItem key={city.city_id} eventKey={city.city_id}>{city.city_name}</MenuItem>)}
+              </SplitButton>
+            </Col>
             <Col xs={10} xsOffset={1} className="cost-slider">
               <h5 className="text-center">בחר טווח מחירים</h5>
               <div id="costRange"></div>
@@ -49,12 +44,12 @@ class Apartments extends Component {
           </Row>
           <Row className="search-switches-container text-center">
             <Col xs={6}>
-              <label>דירות ריקות &nbsp</label>
-              <input type="checkbox" name="entire-apt-switch" checked/>
+              <label>דירות ריקות</label>
+              <input type="checkbox" name="entire-apt-switch"/>
             </Col>
             <Col xs={6}>
-              <label> דירות שותפים &nbsp</label>
-              <input type="checkbox" name="roomates-apt-switch" checked/>
+              <label> דירות שותפים</label>
+              <input type="checkbox" name="roomates-apt-switch"/>
             </Col>
           </Row>
           <Row className="search-amenities-container">
@@ -116,7 +111,7 @@ class Apartments extends Component {
         </Col>
         <Col lg={9} md={8} className="search-results-wrapper">
           <Row className="search-results-container-list">
-            {listingStore.apartments.map(listing => <ListingThumbnail listing={listing} key={listing.id} />)}
+            {apartments.map(listing => <ListingThumbnail listing={listing} key={listing.id} />)}
           </Row>
         </Col>
       </Row>
