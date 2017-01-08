@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { Col, Grid, Row } from 'react-bootstrap';
 import { observer } from 'mobx-react';
+import ListingThumbnail from '../ListingThumbnail/ListingThumbnail.jsx';
 import NavLink from '~/components/NavLink';
+
 import './Apartments.scss';
 
 @observer(['appStore', 'appProviders'])
@@ -114,38 +116,7 @@ class Apartments extends Component {
         </Col>
         <Col lg={9} md={8} className="search-results-wrapper">
           <Row className="search-results-container-list">
-            {listingStore.apartments.map(listing => {
-              var apt = listing.apartment;
-              var building = apt.building;
-              var image_url = listing.images.length > 0 ? listing.images[0].url : '';
-
-              return  <Col key={listing.id} lg={4} sm={6} xs={12} className="clearfix">
-                        <a href="/apartments/{listing.id}" className="thumbnail search-result-container-single pull-right">
-                          <div className="triangle">
-                            <svg viewBox="-28 30 70 70">
-                              <path className="st0" d="M-28 30l70 70V30h-70z" fill="#F09B0A"/>
-                            </svg>
-                            <span><i>&nbsp&nbsp</i>ריקה</span>
-                          </div>
-                          <div className="result-apt-image">
-                            <img src={image_url} alt="..."/>
-                          </div>
-                          <div className="search-result-apt-bottom-strip">
-                            <ul>
-                              <li>{listing.monthly_rent} ₪</li>
-                              <span>|</span>
-                              <li>{apt.size} מ״ר</li>
-                              <span>|</span>
-                              <li>{apt.rooms} חד׳</li>
-                            </ul>
-                          </div>
-                          <div className="caption">
-                            <h4>{listing.description}</h4>
-                            <span>{building.street_name} {building.house_number} - {apt.apt_number}</span>
-                          </div>
-                        </a>
-                      </Col>
-            })}
+            {listingStore.apartments.map(listing => <ListingThumbnail listing={listing} key={listing.id} />)}
           </Row>
         </Col>
       </Row>

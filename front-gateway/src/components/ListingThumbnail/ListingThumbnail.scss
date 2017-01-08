@@ -51,6 +51,7 @@
 .apt-thumb-apt-image {
     img {
         @include border-top-radius(3px);
+        height: 191px;
         overflow: hidden;
         width: 100%;
     }
