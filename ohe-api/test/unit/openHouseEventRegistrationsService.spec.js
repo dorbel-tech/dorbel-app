@@ -108,6 +108,25 @@ describe('Open House Event Registration Service', function () {
         __.assertThat(this.sendNotification.callCount, __.is(0));
       }
     });
+
+    it('should fail when user registers an event with full capacity', function* () {
+      this.openHouseEventsFinderServiceMock.find = sinon.stub().resolves(faker.generateEvent({
+        registrations: [{ open_house_event_id: 1, registered_user_id: fakeUserId, is_active: true }],
+        start_time: moment().add(90, 'minutes'),
+        max_attendies: 1
+      }));
+
+      this.repositoryMock.createRegistration = sinon.stub().resolves(true);
+
+      try {
+        yield this.service.register(1, 2);
+        __.assertThat('code', __.is('not reached'));
+      }
+      catch (error) {
+        __.assertThat(error.message, __.is('event is full'));
+        __.assertThat(this.sendNotification.callCount, __.is(0));
+      }
+    });
   });
 
   describe('UnRegister an Open House Event', function () {
