@@ -44,9 +44,6 @@ class AddOHEInput extends React.Component {
   }
 
   maxAttendiesChange(attendiesField, value) {
-    if (!value) {
-      value = 15;
-    }
     this.setState({ max_attendies: parseInt(value) }, this.fireChange);
   }
 
@@ -98,7 +95,7 @@ class AddOHEInput extends React.Component {
               label="מקסימום נרשמים"
               value={this.state.max_attendies}
               min={1}
-              onBlur={this.maxAttendiesChange}
+              onChange={this.maxAttendiesChange}
               required />
           </Col>
         </Row>

@@ -8,7 +8,7 @@ import Icon from '../Icon/Icon';
 import OHERegisterModal from './OHERegisterModal';
 import FollowListingModal from './FollowListingModal';
 
-const CLOSE_EVENT_IF_TOO_SOON_AND_NO_REGISTRATIONS_MINUTES = 90;
+const CLOSE_EVENT_IF_TOO_CLOSE = 90;
 
 @observer(['appStore', 'appProviders', 'router'])
 class OHEList extends Component {
@@ -55,7 +55,7 @@ class OHEList extends Component {
       key: openHouseEvent.id,
       iconName: 'dorbel_icon_calendar',
       itemText: `${openHouseEvent.timeLabel} | ${openHouseEvent.dateLabel}`,
-      isDisabled: !openHouseEvent.isOpenForRegistration,
+      isDisabled: OHEConfig.isDisabled,
       callToActionText: OHEConfig.callToActionText
     });
   }
@@ -63,30 +63,28 @@ class OHEList extends Component {
   getOHEConfiguration(openHouseEvent) {
     const OHEStartTimeUTC = moment.utc(openHouseEvent.start_time);
     const oheConfig = {
-      isDisabled: true,
+      isDisabled: false,
       callToActionText: 'לחצו לאישור הגעה במועד זה',
       action: 'ohe-register'
     };
 
     if (moment().isAfter(OHEStartTimeUTC)) { // event has passed
-      oheConfig.isDisabled = false;
+      oheConfig.isDisabled = true;
       oheConfig.callToActionText = 'מועד זה עבר';
       oheConfig.action = '';
-    }
+    } 
     else if (openHouseEvent.usersOwnRegistration) { // user is registered to OHE
-      oheConfig.isDisabled = false;
       oheConfig.action = 'ohe-unregister';
       oheConfig.callToActionText = 'נרשמתם לארוע זה. לחצו לביטול';
-    }
+    } 
     else if (openHouseEvent.num_of_registrations >= openHouseEvent.max_attendies) { // no available spots
-      oheConfig.isDisabled = false;
+      oheConfig.isDisabled = true;
       oheConfig.action = '';
       oheConfig.callToActionText = 'לא נותרו מקומות פנויים לארוע זה';
-    }
+    } 
     else if (openHouseEvent.num_of_registrations === 0) { // 0 registrations and too close to event
-      const eventTooSoon = moment().add(CLOSE_EVENT_IF_TOO_SOON_AND_NO_REGISTRATIONS_MINUTES, 'minutes').isAfter(OHEStartTimeUTC);
-      if (eventTooSoon) { 
-        oheConfig.isDisabled = false;
+      const eventTooSoon = moment().add(CLOSE_EVENT_IF_TOO_CLOSE, 'minutes').isAfter(OHEStartTimeUTC);
+      if (eventTooSoon) {
         oheConfig.action = ''; // TODO: POPUP
         oheConfig.callToActionText = 'האירוע קרוב מדי (טקסט זמני)'; //TODO: get appropriate text
       }

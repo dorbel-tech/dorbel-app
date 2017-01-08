@@ -1,30 +1,25 @@
 'use strict';
 const _ = require('lodash');
+const moment = require('moment');
 const errors = require('./domainErrors');
 const notificationService = require('./notificationService');
 const openHouseEventsFinderService = require('./openHouseEventsFinderService');
 const repository = require('../openHouseEventsDb/repositories/openHouseEventRegistrationsRepository');
 
+const CLOSE_EVENT_IF_TOO_CLOSE = 90;
+
 function* register(event_id, user_id) {
   let existingEvent = yield openHouseEventsFinderService.find(event_id);
-  let errorMessage;
 
-  if (isUserRegisteredToEvent(existingEvent, user_id)) {
-    errorMessage = 'user already registered to this event';
-  } else if (!existingEvent.isOpenForRegistration) {
-    errorMessage = 'event is not open for registration';
-  }
-
-  if (errorMessage) {
-    throw new errors.DomainValidationError('OpenHouseEventRegistrationValidationError',
-      { event_id, registered_user_id: user_id }, errorMessage);
-  }
+  validateEventRegistration(existingEvent, user_id); // will throw error if validation fails
 
   const registration = {
     open_house_event_id: event_id,
     registered_user_id: user_id,
     is_active: true
   };
+
+
 
   const result = yield repository.createRegistration(registration);
 
@@ -65,6 +60,31 @@ function isUserRegisteredToEvent(event, userId) {
   }
 
   return false;
+}
+
+function validateEventRegistration(event, user_id) {
+  let errorMessage;
+
+  if (isUserRegisteredToEvent(event, user_id)) {
+    errorMessage = 'user already registered to this event';
+  } 
+  else if (moment().isAfter(event.start_time)) {
+    errorMessage = 'cannot register to past event';
+  } 
+  else if (event.num_of_registrations >= event.max_attendies) {
+    errorMessage = 'event is full';
+  } 
+  else if (event.num_of_registrations === 0) { // 0 registrations and too close to event
+    const eventTooSoon = moment().add(CLOSE_EVENT_IF_TOO_CLOSE, 'minutes').isAfter(event.start_time);
+    if (eventTooSoon) {
+      errorMessage = 'to late to register';
+    }
+  }
+
+  if (errorMessage) {
+    throw new errors.DomainValidationError('OpenHouseEventRegistrationValidationError',
+      { event_id: event.id, registered_user_id: user_id }, errorMessage);
+  }
 }
 
 module.exports = {
