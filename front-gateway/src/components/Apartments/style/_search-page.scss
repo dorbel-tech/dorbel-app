@@ -40,7 +40,6 @@
     .dropdown-toggle {
         line-height: $line-height-computed*2;
     }
-    position: fixed !important;
     overflow-y: auto;
     max-height: 100%;
     @media (max-width: $screen-sm-max) {
