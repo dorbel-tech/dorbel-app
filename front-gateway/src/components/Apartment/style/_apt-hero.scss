@@ -1,5 +1,12 @@
 .apt-header {
-    background: $brand-white;
+    background: $brand-primary;
+    position: relative;
+    margin-bottom: 10px;
+    height: 500px;
+
+    @media (max-width: $screen-xs-min) {
+        height: 300px !important;
+    }       
 }
 
 .navbar {
@@ -13,23 +20,12 @@
     }
 }
 
-.apt-gallery {
-    height: 700px;
-    @media (max-width: 1440px) {
-        height: 500px;
-    }
-    @media (max-width: $screen-xs-min) {
-        height: 300px;
-    }
-    
-}
-
-.gallery-cell {
-    height: 100%;
-    img {
-        height: 100%;
-        padding-right: 2px;
-    }
+.sliderBoxes {
+   img {
+      height: 100%;
+      // padding-right: 2px;
+      border-right: 2px solid white;
+   }
 }
 
 .flickity-page-dots {

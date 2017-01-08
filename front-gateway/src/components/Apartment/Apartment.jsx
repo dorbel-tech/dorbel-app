@@ -14,10 +14,8 @@ import './Apartment.scss';
 const Flickity = global.window ? require('react-flickity-component')(React) : 'div';
 
 const flickityOptions = {
-  initialIndex: 2,
   cellAlign: 'left',
-  wrapAround: true,
-  rightToLeft: true,
+  contain: true,
   pageDots: false
 };
 
@@ -51,9 +49,9 @@ class Apartment extends Component {
       <header className="apt-header">
         <div className="container-fluid">
           <div className="row">
-            <Flickity options={flickityOptions} >
+            <Flickity classname="carousel" options={flickityOptions} >
               {apartment.images.map((image, index) =>
-                <img key={index} src={image.url.replace('upload', 'upload/h_500')} />
+                <div className="sliderBoxes"><img key={index} src={image.url.replace('upload', 'upload/h_500')} /></div>
               )}
             </Flickity>
           </div>
