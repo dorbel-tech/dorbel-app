@@ -1,11 +1,11 @@
 'use strict';
-describe('Open House Events API Integration', function () {
-  const ApiClient = require('./apiClient.js');
-  const __ = require('hamjest');
-  const _ = require('lodash');
-  const moment = require('moment');
-  const faker = require('../shared/fakeObjectGenerator');
+const ApiClient = require('./apiClient.js');
+const __ = require('hamjest');
+const _ = require('lodash');
+const moment = require('moment');
+const faker = require('../shared/fakeObjectGenerator');
 
+describe('Open House Events API Integration', function () {
   before(function* () {
     this.apiClient = yield ApiClient.init(faker.getFakeUser());
   });
@@ -22,7 +22,7 @@ describe('Open House Events API Integration', function () {
         const newEventReponse = yield this.apiClient.createNewEvent(ohe).expect(201).end();
         const newEvent = newEventReponse.body;
 
-        yield this.apiClient.createNewRegistration(newEvent.id).expect(201).end();
+        yield this.apiClient.createNewRegistration(newEvent.id, faker.getFakeUser()).expect(201).end();
         yield this.apiClient.findEvent(newEvent.id).expect(200).end();
         
         const existingEventResponse = yield this.apiClient.findEvent(newEvent.id).expect(200).end();
@@ -33,7 +33,7 @@ describe('Open House Events API Integration', function () {
       });
 
       it('should return an error for non existing event', function* () {
-        yield this.apiClient.findEvent(9999999).expect(404).end();
+        yield this.apiClient.findEvent(0).expect(404).end();
       });
 
     });
@@ -92,7 +92,7 @@ describe('Open House Events API Integration', function () {
       });
 
       it('should return an error for non existing event', function* () {
-        yield this.apiClient.deleteEvent(9999999).expect(404).end();
+        yield this.apiClient.deleteEvent(0).expect(404).end();
       });
     });
   });
