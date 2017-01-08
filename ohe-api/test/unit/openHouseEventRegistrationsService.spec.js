@@ -4,7 +4,8 @@ const __ = require('hamjest');
 const sinon = require('sinon');
 const faker = require('../shared/fakeObjectGenerator');
 const notificationService = require('../../src/services/notificationService');
-const fakeUserId = '00000000-0000-0000-0000-000000000001';
+const shared = require('dorbel-shared');
+const fakeUser = { user_id: faker.fakeUserId };
 
 describe('Open House Event Registration Service', function () {
 
@@ -14,7 +15,7 @@ describe('Open House Event Registration Service', function () {
     this.openHouseEventsFinderServiceMock = {};
     mockRequire('../../src/services/openHouseEventsFinderService', this.openHouseEventsFinderServiceMock);
     this.service = require('../../src/services/openHouseEventRegistrationsService');
-
+    sinon.stub(shared.utils.generic, 'normalizePhone');
   });
 
   beforeEach(function () {
@@ -35,7 +36,7 @@ describe('Open House Event Registration Service', function () {
       this.openHouseEventsFinderServiceMock.find = sinon.stub().resolves(faker.generateEvent());
       this.repositoryMock.createRegistration = sinon.stub().resolves(true);
 
-      const registrationResponse = yield this.service.register(1, fakeUserId);
+      const registrationResponse = yield this.service.register(1, fakeUser);
       __.assertThat(registrationResponse, __.is(true));
       __.assertThat(this.sendNotification.calledOnce, __.is(true));
       __.assertThat(this.sendNotification.getCall(0).args[0], __.is(notificationService.eventType.OHE_REGISTERED));
@@ -48,7 +49,7 @@ describe('Open House Event Registration Service', function () {
       let oheId = 1;
 
       try {
-        yield this.service.register(oheId);
+        yield this.service.register(oheId, fakeUser);
       }
       catch (error) {
         __.assertThat(error.message, __.is('Error'));
@@ -59,14 +60,14 @@ describe('Open House Event Registration Service', function () {
     it('should fail when user registers to an event more than once', function* () {
       this.openHouseEventsFinderServiceMock.find = sinon.stub().resolves(faker.generateEvent({        
         registrations: [
-          { open_house_event_id: 1, registered_user_id: fakeUserId, is_active: true }
+          { open_house_event_id: 1, registered_user_id: faker.fakeUserId, is_active: true }
         ]
       }));
 
       this.repositoryMock.createRegistration = sinon.stub().resolves(true);
 
       try {
-        yield this.service.register(1, fakeUserId);
+        yield this.service.register(1, fakeUser);
         __.assertThat('code', __.is('not reached'));
       }
       catch (error) {
@@ -81,7 +82,7 @@ describe('Open House Event Registration Service', function () {
       }));
       
       try {
-        yield this.service.register(1, fakeUserId);
+        yield this.service.register(1, fakeUser);
         __.assertThat('code', __.is('not reached'));
       }
       catch (error) {
@@ -100,7 +101,7 @@ describe('Open House Event Registration Service', function () {
         is_active: false
       }));
 
-      const registrationResponse = yield this.service.unregister(1, fakeUserId);
+      const registrationResponse = yield this.service.unregister(1, faker.fakeUserId);
       __.assertThat(registrationResponse.is_active, __.is(false));
       __.assertThat(this.sendNotification.calledOnce, __.is(true));
       __.assertThat(this.sendNotification.getCall(0).args[0], __.is(notificationService.eventType.OHE_UNREGISTERED));
@@ -110,7 +111,7 @@ describe('Open House Event Registration Service', function () {
       this.openHouseEventsFinderServiceMock.find = sinon.stub().resolves(faker.generateEvent());
 
       try {
-        yield this.service.unregister(0, fakeUserId);
+        yield this.service.unregister(0, faker.fakeUserId);
       }
       catch (error) {
         __.assertThat(error.message, __.is('event does not exist'));

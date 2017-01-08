@@ -19,7 +19,8 @@ class FollowListingModal extends React.Component {
     const { listing, appProviders } = this.props;
 
     if (formsy.state.isValid) {
-      appProviders.oheProvider.follow(listing);
+      let dataModel = formsy.getModel();
+      appProviders.oheProvider.follow(listing, dataModel.user);
       this.setState({ successfullyFollowed: true });
     } else {
       formsy.submit(); // will trigger validation messages
