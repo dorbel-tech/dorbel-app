@@ -1,0 +1,110 @@
+.search-results-container-list {
+    background-color: $gray-lighter;
+    // @include gradient-vertical($start-color: darken($gray-lighter, 2%), $end-color: $gray-lighter);
+    h5 {
+        font-weight: 600;
+        letter-spacing: 0.7px;
+        padding: 5px;
+    }
+}
+
+.search-result-container-single {
+    .triangle {
+        position: absolute;
+        svg {
+            width: 70px;
+            height: 70px;
+            opacity: 0.4;
+        }
+        top: 10px;
+        right: 0;
+        span{
+            transform: rotate(45deg);
+            transform-origin: center center;
+            display: block;
+            position: absolute;
+            color: $brand-white;
+            font-weight: 700;
+            top: 25%;
+            right: 5px;
+            text-align: center;
+            font-size: 12px;
+            // opacity: 0.8;
+        }
+    }
+    overflow: hidden;
+    position: relative;
+    transition: 0.1s;
+    background-color: transparent;
+    border: 0;
+    text-align: right;
+    padding: 10px;
+    &:hover {
+        text-decoration: none;
+        box-sizing: border-box;
+        transform: scale( 1.05);
+        background-color: transparent;
+        .search-result-apt-bottom-strip {
+            @include box-shadow(0px 4px 10px 1px rgba(0, 0, 0, 0.09));
+        }
+    }
+    .caption {
+        line-height: $line-height-small*0.2;
+        padding: 5px;
+        *:first-child {
+            font-weight: 600;
+            font-size: $font-size-large*0.9;
+            color: $brand-brown;
+        }
+        span {
+            font-size: $font-size-base;
+        }
+    }
+}
+
+.result-apt-image {
+    // height: 160px;
+    // overflow: hidden;
+    // @media (min-width: 1440px){
+    //     height: 202px;
+    // }
+    // @media (max-width: $screen-md-max) and (min-width: $screen-sm-min) {
+    //     height: 120px;
+    // }
+    img {
+        // position: relative;
+        // top: 50%;
+        // transform: translateY(-50%);  
+        overflow: hidden;
+        width: 100%;
+        @include border-top-radius(3px);
+    }
+}
+
+.search-result-apt-bottom-strip {
+    position: relative;
+    @include border-bottom-radius(3px);
+    background: $brand-white;
+    img {
+        position: absolute;
+        width: 70px;
+        border: 3px solid $brand-white;
+        top: -40px;
+        display: block;
+    }
+    ul {
+        margin: 0px;
+        padding: 20px;
+        list-style: none;
+        text-decoration: none;
+        line-height: 10px;
+        span {
+            color: darken($gray-lighter, 10%);
+        }
+        li {
+            display: inline;
+            color: $brand-brown;
+            padding: 5px;
+        }
+    }
+}
