@@ -16,7 +16,8 @@ class AddOHEInput extends React.Component {
     super(props);
     this.state = {
       start_time: hours[0],
-      end_time: hours[1]
+      end_time: hours[1],
+      max_attendies: 15
     };
     autobind(this);
   }
@@ -39,17 +40,14 @@ class AddOHEInput extends React.Component {
   }
 
   dateChange(value) {
-    if(!value){
-      value=15;
-    }
     this.setState({ date: value }, this.fireChange);
   }
 
-  maxAttendiesChange(value) {
-    if(!value){
+  maxAttendiesChange(attendiesField, value) {
+    if (!value) {
       value = 15;
     }
-    this.setState({ max_attendies: value });
+    this.setState({ max_attendies: parseInt(value) }, this.fireChange);
   }
 
   fireChange() {
@@ -57,6 +55,7 @@ class AddOHEInput extends React.Component {
       this.props.onChange({
         start_time: this.setTimeFromString(this.state.date, this.state.start_time),
         end_time: this.setTimeFromString(this.state.date, this.state.end_time),
+        max_attendies: this.state.max_attendies
       });
     }
   }
@@ -69,17 +68,9 @@ class AddOHEInput extends React.Component {
     return (
       <div>
         <Row>
-          <Col md={6} className="form-group">
+          <Col md={12} className="form-group">
             <label>תאריך הביקור</label>
             <DatePicker name="ohe-date" onChange={this.dateChange} />
-          </Col>
-          <Col md={6} className="form-group">
-            <FRC.Input name="ohe-max-attendies"
-              type="number"
-              label="מקסימום נרשמים"
-              value={this.state.max_attendies}
-              min={1}
-              onChange={this.maxAttendiesChange} />
           </Col>
         </Row>
         <Row>
@@ -98,6 +89,17 @@ class AddOHEInput extends React.Component {
               value={this.state.end_time}
               onChange={this.timeChange}
               />
+          </Col>
+        </Row>
+        <Row>
+          <Col md={12} className="form-group">
+            <FRC.Input name="max_attendies"
+              type="number"
+              label="מקסימום נרשמים"
+              value={this.state.max_attendies}
+              min={1}
+              onBlur={this.maxAttendiesChange}
+              required />
           </Col>
         </Row>
       </div>

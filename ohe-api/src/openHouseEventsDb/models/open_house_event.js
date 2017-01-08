@@ -1,6 +1,4 @@
 'use strict';
-const moment = require('moment');
-const CLOSE_EVENT_IF_TOO_SOON_AND_NO_REGISTRATIONS_MINUTES = 90;
 
 function define(sequelize, DataTypes) {
   return sequelize.define('open_house_event', {
@@ -10,6 +8,10 @@ function define(sequelize, DataTypes) {
     },
     end_time: {
       type: DataTypes.DATE,
+      allowNull: false
+    },
+    max_attendies: {
+      type: DataTypes.INTEGER,
       allowNull: false
     },
     comments: {
@@ -27,29 +29,11 @@ function define(sequelize, DataTypes) {
       type: DataTypes.BOOLEAN,
       allowNull: false
     },
-    isOpenForRegistration: {
+    num_of_registrations: {
       type: DataTypes.VIRTUAL,
-      get: function() {        
-        // TODO : should business logic be in the model definition ? 
-        if (moment().isAfter(this.start_time)) { // event has passed
-          return false;
-        }
-        else if (this.registrations.length >= this.max_attendies){
-          return false;
-        }
-
-        const noRegistrations = !this.registrations || this.registrations.length === 0;
-        const eventTooSoon = moment().add(CLOSE_EVENT_IF_TOO_SOON_AND_NO_REGISTRATIONS_MINUTES, 'minutes').isAfter(this.start_time);
-        if (noRegistrations && eventTooSoon) {
-          return false;
-        }
-        
-        return true;  
+      get: function () {
+        return (this.registrations) ? this.registrations.length : 0;
       }
-    },
-    max_attendies: {
-      type: DataTypes.INTEGER,
-      allowNull: false
     }
   }, {
     classMethods: {

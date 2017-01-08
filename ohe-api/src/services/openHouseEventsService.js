@@ -35,6 +35,7 @@ function* create(openHouseEvent) {
   const listing_id = parseInt(openHouseEvent.listing_id);
   const start = moment(openHouseEvent.start_time, moment.ISO_8601, true);
   const end = moment(openHouseEvent.end_time, moment.ISO_8601, true);
+  const max_attendies = parseInt(openHouseEvent.max_attendies);
 
   validateEventParamters(start, end);
 
@@ -48,6 +49,7 @@ function* create(openHouseEvent) {
     comments: openHouseEvent.comments,
     publishing_user_id: openHouseEvent.publishing_user_id,
     is_active: true,
+    max_attendies
   });
 
   notificationService.send(notificationService.eventType.OHE_CREATED, {
