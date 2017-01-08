@@ -77,12 +77,12 @@ class OHEList extends Component {
       oheConfig.action = 'ohe-unregister';
       oheConfig.callToActionText = 'נרשמתם לארוע זה. לחצו לביטול';
     } 
-    else if (openHouseEvent.num_of_registrations >= openHouseEvent.max_attendies) { // no available spots
+    else if (openHouseEvent.registrations.length >= openHouseEvent.max_attendies) { // no available spots
       oheConfig.isDisabled = true;
       oheConfig.action = '';
       oheConfig.callToActionText = 'לא נותרו מקומות פנויים לארוע זה';
     } 
-    else if (openHouseEvent.num_of_registrations === 0) { // 0 registrations and too close to event
+    else if (openHouseEvent.registrations.length === 0) { // 0 registrations and too close to event
       const eventTooSoon = moment().add(CLOSE_EVENT_IF_TOO_CLOSE, 'minutes').isAfter(OHEStartTimeUTC);
       if (eventTooSoon) {
         oheConfig.action = ''; // TODO: POPUP

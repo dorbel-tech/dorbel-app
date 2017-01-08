@@ -19,7 +19,8 @@ describe('Open House Events Registration API Integration', function () {
           start_time: moment().add(12, 'hours').toISOString(),
           end_time: moment().add(13, 'hours').toISOString(),
           listing_id: faker.getRandomNumber(),
-          publishing_user_id: faker.getFakeUser().id
+          publishing_user_id: faker.getFakeUser().id,
+          max_attendies: 15
         };
         const response = yield this.apiClient.createNewEvent(ohe).expect(201).end();
         yield this.apiClient.createNewRegistration(response.body.id).expect(201).end();
@@ -37,7 +38,8 @@ describe('Open House Events Registration API Integration', function () {
           start_time: moment().add(12, 'hours').toISOString(),
           end_time: moment().add(13, 'hours').toISOString(),
           listing_id: faker.getRandomNumber(),
-          publishing_user_id: faker.getFakeUser().id
+          publishing_user_id: faker.getFakeUser().id,
+          max_attendies: 15
         };
         const response = yield this.apiClient.createNewEvent(ohe).expect(201).end();
         const registrationResponse = yield this.apiClient.createNewRegistration(response.body.id).expect(201).end();

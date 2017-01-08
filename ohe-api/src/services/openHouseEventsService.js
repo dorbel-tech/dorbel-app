@@ -132,6 +132,7 @@ function* findByListing(listing_id, user) {
 
     if (user && user.id === event.publishing_user_id) { // publishing user
       // get all the data about the registrations
+      // *TODO*: move to seperate api call
       event.registrations.forEach(registration => {
         const promiseForUser = shared.utils.userManagement.getPublicProfile(registration.registered_user_id)
           .then(user => registration.user = user);
@@ -139,7 +140,7 @@ function* findByListing(listing_id, user) {
       });
     } else {
       // only publisher can get registrations info
-      event.registrations = undefined; 
+      event.registrations = new Array(event.registrations.length); 
     }
     
     return event;

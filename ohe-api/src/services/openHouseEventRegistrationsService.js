@@ -71,10 +71,10 @@ function validateEventRegistration(event, user_id) {
   else if (moment().isAfter(event.start_time)) {
     errorMessage = 'cannot register to past event';
   } 
-  else if (event.num_of_registrations >= event.max_attendies) {
+  else if (event.registrations.length >= event.max_attendies) {
     errorMessage = 'event is full';
   } 
-  else if (event.num_of_registrations === 0) { // 0 registrations and too close to event
+  else if (event.registrations.length === 0) { // 0 registrations and too close to event
     const eventTooSoon = moment().add(CLOSE_EVENT_IF_TOO_CLOSE, 'minutes').isAfter(event.start_time);
     if (eventTooSoon) {
       errorMessage = 'to late to register';

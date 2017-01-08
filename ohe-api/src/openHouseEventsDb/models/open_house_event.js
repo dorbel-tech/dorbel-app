@@ -29,12 +29,6 @@ function define(sequelize, DataTypes) {
       type: DataTypes.BOOLEAN,
       allowNull: false
     },
-    num_of_registrations: {
-      type: DataTypes.VIRTUAL,
-      get: function () {
-        return (this.registrations) ? this.registrations.length : 0;
-      }
-    }
   }, {
     classMethods: {
       associate: models => {

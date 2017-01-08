@@ -2,6 +2,7 @@
 const mockRequire = require('mock-require');
 const __ = require('hamjest');
 const sinon = require('sinon');
+const moment = require('moment');
 const faker = require('../shared/fakeObjectGenerator');
 const notificationService = require('../../src/services/notificationService');
 const fakeUserId = '00000000-0000-0000-0000-000000000001';
@@ -75,21 +76,38 @@ describe('Open House Event Registration Service', function () {
       }
     });
 
-    it('should fail to register to an event that is not open for registration', function * () {
+    it('should fail when user registers to a past event', function* () {
       this.openHouseEventsFinderServiceMock.find = sinon.stub().resolves(faker.generateEvent({
-        isOpenForRegistration: false
+        start_time: moment().add(-1, 'minutes')
       }));
-      
+      this.repositoryMock.createRegistration = sinon.stub().resolves(true);
       try {
         yield this.service.register(1, fakeUserId);
         __.assertThat('code', __.is('not reached'));
       }
       catch (error) {
-        __.assertThat(error.message, __.is('event is not open for registration'));
+        __.assertThat(error.message, __.is('cannot register to past event'));
         __.assertThat(this.sendNotification.callCount, __.is(0));
       }
     });
 
+    it('should fail when user registers to a past event', function* () {
+      this.openHouseEventsFinderServiceMock.find = sinon.stub().resolves(faker.generateEvent({
+        registrations: [],
+        start_time: moment().add(90, 'minutes')
+      }));
+
+      this.repositoryMock.createRegistration = sinon.stub().resolves(true);
+
+      try {
+        yield this.service.register(1, fakeUserId);
+        __.assertThat('code', __.is('not reached'));
+      }
+      catch (error) {
+        __.assertThat(error.message, __.is('to late to register'));
+        __.assertThat(this.sendNotification.callCount, __.is(0));
+      }
+    });
   });
 
   describe('UnRegister an Open House Event', function () {
