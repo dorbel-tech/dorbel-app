@@ -36,7 +36,7 @@ class MapWrapper extends Component {
 
           <RadiusMarker {...this.coords} />
         </GoogleMap>
-      </div >
+      </div>
     );
   }
 }
