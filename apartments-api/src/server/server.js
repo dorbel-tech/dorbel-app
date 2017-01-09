@@ -47,7 +47,7 @@ app.use(function* returnSwagger(next) {
 fleekRouter(app, {
   swagger: swaggerDoc,
   validate: true,
-  middleware: [ shared.middleware.swaggerModelValidator() ],
+  middleware: [ shared.middleware.swaggerModelValidator(), shared.middleware.optionalAuthenticate ],
   authenticate: shared.middleware.authenticate
 });
 

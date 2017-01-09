@@ -63,36 +63,63 @@ function* create(listing) {
   return createdListing;
 }
 
-function* updateStatus(listingId, userId, status) {
+function* updateStatus(listingId, user, status) {
   let listing = yield listingRepository.getById(listingId);
-  if (listing == undefined) {
-    throw new CustomError(400, 'listing "' + listingId + '" does not exist');
+  
+  if (!listing) {
+    throw new CustomError(404, 'listing not found');
+  } else if (user.role !== 'admin' && listing.publishing_user_id !== user.id) {
+    throw new CustomError(403, 'unauthorized to edit this listing');
+  } else if (getPossibleStatuses(listing, user).indexOf(status) < 0) {
+    throw new CustomError(403, 'unauthorized to change this listing to status ' + status);
   }
-  const lastStatus = listing.status;
-  const result = yield listingRepository.updateStatus(listing, status);
-  const messageBusEvent = messageBus.eventType['APARTMENT_' + status.toUpperCase()];
+  
+  const currentStatus = listing.status;  
+  const result = yield listing.update({ status });
 
   if (config.get('NOTIFICATIONS_SNS_TOPIC_ARN')) {
+    const messageBusEvent = messageBus.eventType['APARTMENT_' + status.toUpperCase()];
     messageBus.publish(config.get('NOTIFICATIONS_SNS_TOPIC_ARN'), messageBusEvent, {
-      user_uuid: userId,
+      user_uuid: listing.publishing_user_id,
       listing_id: listingId,
-      previous_status: lastStatus
+      previous_status: currentStatus
     });
   }
 
   return result;
 }
 
-function* getById(id) {
-  const listing = yield listingRepository.getById(id);
+function* getById(id, user) {
+  let listing = yield listingRepository.getById(id);
+  listing = listing.toJSON(); // discard SQLize object for adding ad-hoc properties
+
   if (listing) {
     const publishingUser = yield userManagement.getUserDetails(listing.publishing_user_id);
     if (publishingUser) {
       listing.publishing_username = _.get(publishingUser, 'user_metadata.first_name') || publishingUser.given_name;
     }
+
+    listing.meta = {
+      possibleStatuses: getPossibleStatuses(listing, user)
+    };
   }
   return listing;
 }
+
+function getPossibleStatuses(listing, user) {
+  let possibleStatuses = [];
+
+  if (user && user.role === 'admin') { // admin can change to all statuses
+    possibleStatuses = listingRepository.listingStatuses;
+  } else if (listing.status === 'pending' || !user) { // (not admin + pending) or anonymous - can't change at all    
+    possibleStatuses = [];
+  } else { // not admin + !pending - can change to anything EXCEPT pending
+    possibleStatuses = listingRepository.listingStatuses.filter(status => status != 'pending');
+  }
+
+  return possibleStatuses.filter(status => status !== listing.status); // exclude current status
+}
+
 
 function* getRelatedListings(listingId, limit) {
 
