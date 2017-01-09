@@ -89,14 +89,6 @@ function* updateStatus(listingId, user, status) {
   return result;
 }
 
-function normalizePhone(phone) {
-  if (phone.startsWith('0')) {
-    return '+972' + phone.substring(1).replace(/[-+()]/g, ''); // remove trailing zero, remove special chars.
-  } else {
-    return phone;
-  }
-}
-
 function* getById(id, user) {
   let listing = yield listingRepository.getById(id);
   listing = listing.toJSON(); // discard SQLize object for adding ad-hoc properties
