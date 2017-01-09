@@ -4,15 +4,15 @@ const logger = shared.logger.getLogger(module);
 const listingService = require('../../services/listingService');
 
 function* get() {
-  this.response.body = yield listingService.getById(this.params.listingId);
+  this.response.body = yield listingService.getById(this.params.listingId, this.request.user);
 }
 
 function* patch(){
   logger.debug('Patching listing...');
   const listingId = this.params.listingId;
-  const updatedData = this.request.body;
-  const userId = this.request.user.id;
-  const listing = yield listingService.updateStatus(listingId, userId, updatedData.status);
+  // TODO : only good for updating listing status 
+  const updatedData = this.request.body;  
+  const listing = yield listingService.updateStatus(listingId, this.request.user, updatedData.status);
   logger.info({listing_id: listingId, status: updatedData.status}, 'Listing status updated');
 
   this.response.status = 200;
