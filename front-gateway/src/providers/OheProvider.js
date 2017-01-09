@@ -51,6 +51,13 @@ class OheProvider {
     });
   }
 
+  deleteOhe(id) {
+    return this.fetch('event/' + id, { method: 'DELETE' })
+    .then(() => {
+      this.appStore.oheStore.oheById.delete(id);
+    });
+  }
+
   updateStoreWithOhe(ohe) {
     let oheArray = _.isArray(ohe) ? ohe : [ohe];
     return this.appStore.oheStore.add(oheArray.map(this.enrichOhe));

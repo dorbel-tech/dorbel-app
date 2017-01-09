@@ -111,8 +111,11 @@ function* update(id, openHouseEvent, user) {
   return result;
 }
 
-function* remove(eventId) {
+function* remove(eventId, user) {
   let existingEvent = yield openHouseEventsFinderService.find(eventId);
+
+  if (existingEvent.publishing_user_id !== user.id) { throw new errors.NotResourceOwnerError(); }
+
   existingEvent.is_active = false;
 
   const result = yield openHouseEventsRepository.update(existingEvent);

@@ -36,8 +36,9 @@ function* put() {
 
 function* remove() {
   const id = this.params.id;
+  const user = this.request.user;
   logger.debug({event_id: id}, 'Deleting open house event...');
-  yield openHouseEventsService.remove(id);
+  yield openHouseEventsService.remove(id, user);
   logger.info(id, 'Open house event deleted');
   this.response.status = 200;
 }

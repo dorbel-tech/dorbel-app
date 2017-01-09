@@ -2,6 +2,7 @@ import React from 'react';
 import { Table, Col, Button, Panel, Image, Dropdown, MenuItem } from 'react-bootstrap';
 import Icon from '~/components/Icon/Icon';
 import EditOHEModal from './EditOHEModal';
+import DeleteOHEModal from './DeleteOHEModal';
 import autobind from 'react-autobind';
 
 class OHECard extends React.Component { 
@@ -13,6 +14,10 @@ class OHECard extends React.Component {
 
   showEditModal(show) {
     this.setState({ showEditModal: show });
+  }
+
+  showDeleteModal(show) {
+    this.setState({ showDeleteModal: show });
   }
 
   renderOheMenu() {
@@ -28,7 +33,7 @@ class OHECard extends React.Component {
           </Dropdown.Toggle>
           <Dropdown.Menu className="dropdown-menu-left">
             <MenuItem onClick={() => this.showEditModal(true)}>עריכת מעוד ביקור</MenuItem>
-            <MenuItem>מחיקה</MenuItem>
+            <MenuItem onClick={() => this.showDeleteModal(true)}>מחיקה</MenuItem>
           </Dropdown.Menu>
         </Dropdown>      
       );
@@ -81,6 +86,7 @@ class OHECard extends React.Component {
           {this.renderRegistrations(ohe.registrations)}
         </Panel>
         <EditOHEModal ohe={ohe} show={this.state.showEditModal} onClose={() => this.showEditModal(false)}/>
+        <DeleteOHEModal ohe={ohe} show={this.state.showDeleteModal} onClose={() => this.showDeleteModal(false)}/>
       </div>
     );
   }
