@@ -61,7 +61,6 @@ class OHEList extends Component {
   }
 
   getOHEConfiguration(openHouseEvent) {
-    const OHEStartTimeUTC = moment.utc(openHouseEvent.start_time);
     const oheConfig = {
       isDisabled: false,
       callToActionText: 'לחצו לאישור הגעה במועד זה',
