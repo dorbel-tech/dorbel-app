@@ -8,7 +8,8 @@ const options = {
   panControl: false,
   mapTypeControl: false,
   scrollwheel: false,
-  disableDefaultUI: true
+  disableDefaultUI: true,
+  zoomControl: true
 };
 
 class MapWrapper extends Component {
@@ -25,13 +26,17 @@ class MapWrapper extends Component {
     return (
       <div className='mapWrapper'>
         <GoogleMap
+          bootstrapURLKeys={{
+            key: window.dorbelConfig.GOOGLE_MAPS_API_KEY,
+            language: 'he'
+          }}
           options={options}
           defaultCenter={this.coords}
           defaultZoom={15}>
-          
+
           <RadiusMarker {...this.coords} />
         </GoogleMap>
-      </div>
+      </div >
     );
   }
 }
