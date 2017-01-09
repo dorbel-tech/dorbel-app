@@ -3,6 +3,7 @@ import { Col, Grid, MenuItem, Row, SplitButton } from 'react-bootstrap';
 import { observer } from 'mobx-react';
 import ListingThumbnail from '../ListingThumbnail/ListingThumbnail.jsx';
 import NavLink from '~/components/NavLink';
+import Nouislider from 'react-nouislider';
 
 import './Apartments.scss';
 
@@ -17,6 +18,8 @@ class Apartments extends Component {
     const { listingStore, cityStore } = this.props.appStore;
     const apartments = listingStore.apartments.length ? listingStore.apartments : [];
     const cities = cityStore.cities.length ? cityStore.cities : [{city_id: 0, city_name: 'טוען...'}];
+    // TODO: Set selectedCity in the non default case.
+    const selectedCity = cities[0];
 
     return (
     <Grid fluid>
@@ -25,15 +28,21 @@ class Apartments extends Component {
           <Row className="search-widget-container">
             <Col xs={12} sm={10} smOffset={1}>
               <div className="city-picker">
-                <SplitButton bsSize="large" title={cities[0].city_name} key={cities[0].city_id}>
-                  {cities.map(city => <MenuItem key={city.city_id} eventKey={city.city_id}>{city.city_name}</MenuItem>)}
+                <SplitButton id="cityDropdown" bsSize="large" title={"עיר: " + selectedCity.city_name}>
+                  {cities.map(city => <MenuItem key={city.id} eventKey={city.id}>{city.city_name}</MenuItem>)}
                 </SplitButton>
                 <i data-toggle="modal" data-target="#modal-city-promise">i</i>
               </div>
             </Col>
             <Col xs={10} xsOffset={1} className="cost-slider">
               <h5 className="text-center">בחר טווח מחירים</h5>
-              <div id="costRange"></div>
+              <Nouislider id="costRange"
+                          range={{min: 0, max: 12000}}
+                          start={[0, 12000]}
+                          step={2000}
+                          pips={{mode: 'steps', density: 30}}
+                          connect={true}
+                          direction={"ltr"}/>
             </Col>
             <Col xs={10} xsOffset={1} className="roomsnum-slider">
               <h5 className="text-center">בחר מספר חדרים</h5>

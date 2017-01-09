@@ -74,6 +74,7 @@
     "react-dom": "~15.3.0",
     "react-dropzone": "3.7.3",
     "react-flickity-component": "0.1.0",
+    "react-nouislider": "^1.14.2",
     "sass-loader": "^4.0.2",
     "satisfaction": "^3.0.0",
     "sinon": "^1.17.6",
