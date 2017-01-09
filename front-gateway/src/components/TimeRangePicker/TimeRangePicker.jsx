@@ -14,10 +14,19 @@ const hours = [
 class TimeRangePicker extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      start_time: hours[0],
-      end_time: hours[1]
-    };
+    if (props.ohe) {
+      this.state = {
+        start_time: this.getTimeStringFromDate(props.ohe.start_time),
+        end_time: this.getTimeStringFromDate(props.ohe.end_time),
+        date: props.ohe.start_time
+      };
+    } else {
+      this.state = {
+        start_time: hours[0],
+        end_time: hours[1]
+      };
+    }
+    
     autobind(this);
   }
 
@@ -55,13 +64,17 @@ class TimeRangePicker extends React.Component {
     return moment(dateString + 'T' + timeString).toISOString();    
   }
 
+  getTimeStringFromDate(date) {
+    return moment.utc(date).local().format('HH:mm');
+  }
+
   render() {
     return (
       <div>
         <Row>
           <Col md={12} className="form-group">
             <label>תאריך הביקור</label>
-            <DatePicker name="ohe-date" onChange={this.dateChange} />              
+            <DatePicker name="ohe-date" onChange={this.dateChange} value={this.state.date} />              
           </Col>
         </Row>
         <Row>
@@ -88,7 +101,8 @@ class TimeRangePicker extends React.Component {
 }
 
 TimeRangePicker.propTypes = {
-  onChange: React.PropTypes.func
+  onChange: React.PropTypes.func,
+  ohe: React.PropTypes.object
 };
 
 export default TimeRangePicker;

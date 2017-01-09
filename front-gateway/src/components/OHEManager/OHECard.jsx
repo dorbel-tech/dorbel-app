@@ -1,8 +1,41 @@
 import React from 'react';
-import { Table, Col, Button, Panel, Image} from 'react-bootstrap';
+import { Table, Col, Button, Panel, Image, Dropdown, MenuItem } from 'react-bootstrap';
 import Icon from '~/components/Icon/Icon';
+import EditOHEModal from './EditOHEModal';
+import autobind from 'react-autobind';
 
 class OHECard extends React.Component { 
+  constructor(props) {
+    super(props);
+    this.state = {};
+    autobind(this);
+  }
+
+  showEditModal(show) {
+    this.setState({ showEditModal: show });
+  }
+
+  renderOheMenu() {
+    const { ohe, editable } = this.props;
+
+    if (!editable) {
+      return null;
+    } else {
+      return (        
+        <Dropdown id={ ohe.id + '_ohe_action' }>
+          <Dropdown.Toggle noCaret bsStyle="link">
+            <i className="fa fa-ellipsis-v" />
+          </Dropdown.Toggle>
+          <Dropdown.Menu className="dropdown-menu-left">
+            <MenuItem onClick={() => this.showEditModal(true)}>עריכת מעוד ביקור</MenuItem>
+            <MenuItem>מחיקה</MenuItem>
+          </Dropdown.Menu>
+        </Dropdown>      
+      );
+    }
+
+  }
+
   renderRegistrations(registrations) {
     if (!registrations) { return null; }
 
@@ -32,23 +65,30 @@ class OHECard extends React.Component {
     const numberOfActiveRegistrations = ohe.registrations ? ohe.registrations.filter(r => r.is_active).length : 0;
 
     return (
-      <Panel>
+      <div>
+        <Panel>
           <Col sm={3} >
             <Icon className="pull-right" iconName="dorbel_icon_calendar" />
             <span>{ohe.dateLabel}</span><br/>
             <span>{ohe.timeLabel}</span>
           </Col>
-          <Col sm={3} >
+          <Col sm={2} >
             <span>נרשמים לביקור({numberOfActiveRegistrations})</span>
-          </Col>          
+          </Col>  
+          <Col sm={1} className="pull-left">
+            {this.renderOheMenu()}
+          </Col>        
           {this.renderRegistrations(ohe.registrations)}
-      </Panel>
+        </Panel>
+        <EditOHEModal ohe={ohe} show={this.state.showEditModal} onClose={() => this.showEditModal(false)}/>
+      </div>
     );
   }
 }
 
 OHECard.propTypes = {
-  ohe: React.PropTypes.object.isRequired
+  ohe: React.PropTypes.object.isRequired,
+  editable: React.PropTypes.bool
 };
 
 export default OHECard;

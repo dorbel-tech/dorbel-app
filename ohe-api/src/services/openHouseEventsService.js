@@ -16,7 +16,7 @@ function validateEventParamters(start, end) {
   }
 }
 
-function validateEventIsNotOverlappingExistingEvents(existingListingEvents, listing_id, start, end) {
+function validateEventIsNotOverlappingExistingEvents(existingListingEvents, start, end) {
   if (!existingListingEvents) {
     return;
   }
@@ -39,7 +39,7 @@ function* create(openHouseEvent) {
   validateEventParamters(start, end);
 
   const existingListingEvents = yield openHouseEventsRepository.findByListingId(listing_id);
-  validateEventIsNotOverlappingExistingEvents(existingListingEvents, listing_id, start, end);
+  validateEventIsNotOverlappingExistingEvents(existingListingEvents, start, end);
 
   const newEvent = yield openHouseEventsRepository.create({
     start_time: start,
@@ -62,23 +62,20 @@ function* create(openHouseEvent) {
   return newEvent;
 }
 
-function* update(openHouseEvent) {
-  let existingEvent = yield openHouseEventsFinderService.find(openHouseEvent.id);
-
-  const listing_id = parseInt(openHouseEvent.listing_id);
+function* update(id, openHouseEvent) {
+  let existingEvent = yield openHouseEventsFinderService.find(id);
+  
   const start = moment(openHouseEvent.start_time, moment.ISO_8601, true);
   const end = moment(openHouseEvent.end_time, moment.ISO_8601, true);
   validateEventParamters(start, end);
 
-  const existingListingEvents = yield openHouseEventsFinderService.findByListing(listing_id);
-  const existingEventsWithoutCurrent = existingListingEvents.filter(function (existingEvent) {
-    return existingEvent.id != openHouseEvent.id;
-  });
+  const existingListingEvents = yield openHouseEventsFinderService.findByListing(existingEvent.listing_id);
+  const existingEventsWithoutCurrent = existingListingEvents.filter(existingEvent => existingEvent.id !== openHouseEvent.id);
 
-  validateEventIsNotOverlappingExistingEvents(existingEventsWithoutCurrent, listing_id, start, end);
+  validateEventIsNotOverlappingExistingEvents(existingEventsWithoutCurrent, start, end);
 
   existingEvent.start_time = start;
-  existingEvent.start_time = end;
+  existingEvent.end_time = end;
   existingEvent.comments = openHouseEvent.comments;
 
   const result = yield openHouseEventsRepository.update(existingEvent);

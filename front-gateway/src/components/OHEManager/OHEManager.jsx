@@ -47,7 +47,7 @@ class OHEManager extends React.Component {
           </Row>
           <Row>
             { comingEvents.length ? 
-                comingEvents.map(ohe => <OHECard key={ohe.id} ohe={ohe} />) :
+                comingEvents.map(ohe => <OHECard key={ohe.id} ohe={ohe} editable={true}/>) :
                 <h4>אין ביקורים קרובים</h4> }
           </Row>
           <Row>
