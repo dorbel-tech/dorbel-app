@@ -1,9 +1,17 @@
 @import "../sharedStyles/styles.scss";
-// @import "./style/_search-page.scss";
-// @import "./style/_search-results-list.scss";
+
+.search-widget-wrapper {
+  border-bottom: 1px solid #eeeeee;
+}
 
 .search-widget-container {
+  padding: 35px 0;
   text-align: center;
+
+  .city-picker {
+    display: inline-block;
+    position: relative;
+  }
 
   i {
     background-color: $brand-primary;
@@ -13,7 +21,7 @@
     display: block;
     font-family: 'georgia';
     height: 22px;
-    left: 0;
+    left: -15px;
     line-height: 22px;
     position: absolute;
     top: -10px;

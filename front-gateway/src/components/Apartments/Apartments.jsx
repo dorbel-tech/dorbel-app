@@ -23,8 +23,8 @@ class Apartments extends Component {
       <Row>
         <Col lg={3} md={4} className="search-widget-wrapper">
           <Row className="search-widget-container">
-            <Col xs={12} sm={10} smOffset={1} className="btn-group city-picker">
-              <div>
+            <Col xs={12} sm={10} smOffset={1}>
+              <div className="city-picker">
                 <SplitButton bsSize="large" title={cities[0].city_name} key={cities[0].city_id}>
                   {cities.map(city => <MenuItem key={city.city_id} eventKey={city.city_id}>{city.city_name}</MenuItem>)}
                 </SplitButton>
