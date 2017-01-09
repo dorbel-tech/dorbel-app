@@ -7,8 +7,9 @@ const openHouseEventsRepository = require('../openHouseEventsDb/repositories/ope
 const _ = require('lodash');
 const moment = require('moment');
 require('moment-range');
+const config = shared.config;
 
-const CLOSE_EVENT_IF_TOO_CLOSE = 90;
+const CLOSE_EVENT_IF_TOO_CLOSE = config.get('CLOSE_EVENT_IF_TOO_CLOSE');
 
 function validateEventParamters(start, end) {
   if (end.diff(start, 'minutes') < 30) {
@@ -126,11 +127,13 @@ function* findByListing(listing_id, user) {
 
   const userId = user ? user.id : undefined;
   events = events.map(event => {
-    const eventDto = convertEventModelToDTO(event.toJSON(), userId);
+    const eventJson = event.toJSON();
+    const eventDto = convertEventModelToDTO(eventJson, userId);
 
     if (userId == event.publishing_user_id) { // publishing user
       // get all the data about the registrations
       // *TODO*: move to seperate api call
+      eventDto.registrations = eventJson.registrations;
       eventDto.registrations.forEach(registration => {
         const promiseForUser = shared.utils.userManagement.getPublicProfile(registration.registered_user_id)
           .then(user => registration.user = user);
@@ -165,7 +168,6 @@ function convertEventModelToDTO(eventModel, userId) {
     end_time: eventModel.end_time,
     max_attendies: eventModel.max_attendies,
     comments: eventModel.comments,
-    registrations: eventModel.registrations,
     status: eventStatus,
   };
 }

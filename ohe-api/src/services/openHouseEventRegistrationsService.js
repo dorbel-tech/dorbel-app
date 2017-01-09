@@ -8,8 +8,9 @@ const repository = require('../openHouseEventsDb/repositories/openHouseEventRegi
 const shared = require('dorbel-shared');
 const userManagement = shared.utils.userManagement;
 const generic = shared.utils.generic;
+const config = shared.config;
 
-const CLOSE_EVENT_IF_TOO_CLOSE = 90;
+const CLOSE_EVENT_IF_TOO_CLOSE = config.get('CLOSE_EVENT_IF_TOO_CLOSE');
 
 function* register(event_id, user) {
   let existingEvent = yield openHouseEventsFinderService.find(event_id);

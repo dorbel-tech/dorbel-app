@@ -5,10 +5,11 @@ const sinon = require('sinon');
 const moment = require('moment');
 const faker = require('../shared/fakeObjectGenerator');
 const notificationService = require('../../src/services/notificationService');
-const shared = require('dorbel-shared');
+const shared = require('dorbel-shared'); 
 const fakeUser = { user_id: faker.fakeUserId };
+const config = shared.config; shared.config.setConfigFileFolder(__dirname+'/../../src/config/');
 
-const CLOSE_EVENT_IF_TOO_CLOSE = 90;
+const CLOSE_EVENT_IF_TOO_CLOSE = config.get('CLOSE_EVENT_IF_TOO_CLOSE');
 
 describe('Open House Event Registration Service', function () {
   before(function () {
@@ -60,7 +61,7 @@ describe('Open House Event Registration Service', function () {
     });
 
     it('should fail when user registers to an event more than once', function* () {
-      this.openHouseEventsFinderServiceMock.find = sinon.stub().resolves(faker.generateEvent({        
+      this.openHouseEventsFinderServiceMock.find = sinon.stub().resolves(faker.generateEvent({
         registrations: [
           { open_house_event_id: 1, registered_user_id: faker.fakeUserId, is_active: true }
         ]
