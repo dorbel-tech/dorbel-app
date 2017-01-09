@@ -130,9 +130,13 @@ class Apartments extends Component {
           </Row>
         </Col>
         <Col lg={9} md={8} className="search-results-wrapper">
-          <Row className="search-results-container-list">
-            {apartments.map(listing => <ListingThumbnail listing={listing} key={listing.id} />)}
-          </Row>
+          {apartments.length > 0 ?
+            <Row className="search-results-container-list">
+              {apartments.map(listing => <ListingThumbnail listing={listing} key={listing.id} />)}
+            </Row>
+          :
+            <h1 className="search-results-not-found">לא נמצאו תוצאות</h1>
+          }
         </Col>
       </Row>
     </Grid>

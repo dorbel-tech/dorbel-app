@@ -28,6 +28,12 @@
   }
 }
 
+.search-results-not-found {
+  @media (max-width: $screen-md-min) {
+    text-align: center;
+  }
+}
+
 // nouislider overrides
 .cost-slider {
   .noUi-connect {
