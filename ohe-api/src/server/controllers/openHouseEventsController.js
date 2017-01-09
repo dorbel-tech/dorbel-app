@@ -25,9 +25,10 @@ function* post() {
 
 function* put() {
   const data = this.request.body;
-  const id = this.params.id;
+  const id = parseInt(this.params.id);
+  const user = this.request.user;
   logger.debug({id, data}, 'Updating open house event...');
-  const result = yield openHouseEventsService.update(id, data);
+  const result = yield openHouseEventsService.update(id, data, user);
   logger.info({event_id: result.id}, 'Open house event updated');
   this.response.status = 200;
   this.response.body = result;

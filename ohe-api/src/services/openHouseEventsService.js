@@ -62,35 +62,51 @@ function* create(openHouseEvent) {
   return newEvent;
 }
 
-function* update(id, openHouseEvent) {
+function* update(id, openHouseEvent, user) {
   let existingEvent = yield openHouseEventsFinderService.find(id);
+
+  if (existingEvent.publishing_user_id !== user.id) { throw new errors.NotResourceOwnerError(); }
   
   const start = moment(openHouseEvent.start_time, moment.ISO_8601, true);
   const end = moment(openHouseEvent.end_time, moment.ISO_8601, true);
+
+  if (start.isSame(existingEvent.start_time) && end.isSame(existingEvent.end_time)) {
+    return existingEvent;
+  }
+
   validateEventParamters(start, end);
 
   const existingListingEvents = yield openHouseEventsFinderService.findByListing(existingEvent.listing_id);
-  const existingEventsWithoutCurrent = existingListingEvents.filter(existingEvent => existingEvent.id !== openHouseEvent.id);
+  const otherEvents = existingListingEvents.filter(otherEvent => otherEvent.id !== id && otherEvent.is_active);
+  validateEventIsNotOverlappingExistingEvents(otherEvents, start, end);
 
-  validateEventIsNotOverlappingExistingEvents(existingEventsWithoutCurrent, start, end);
+  const dayChanged = start.toDate().toDateString() !== existingEvent.start_time.toDateString();
 
   existingEvent.start_time = start;
-  existingEvent.end_time = end;
-  existingEvent.comments = openHouseEvent.comments;
+  existingEvent.end_time = end;  
 
-  const result = yield openHouseEventsRepository.update(existingEvent);
+  const result = (yield openHouseEventsRepository.update(existingEvent)).toJSON();
 
-  notificationService.send(notificationService.eventType.OHE_UPDATED, {
+  const notificationPayload = {
     listing_id: existingEvent.listing_id,
     event_id: existingEvent.id,
     old_start_time: existingEvent.start_time,
     old_end_time: existingEvent.end_time,
-    old_comments: existingEvent.comments,
     new_start_time: start,
     new_end_time: end,
-    new_comments: openHouseEvent.comments,
-    user_uuid: existingEvent.publishing_user_id
-  });
+    user_uuid: existingEvent.publishing_user_id,
+    dayChanged
+  };
+
+  if (dayChanged && existingEvent.registrations && existingEvent.registrations.length > 0) {
+    // we have to save a list of registered users because all of them are going to be un-registered and we need to notify them
+    notificationPayload.registeredUsers = existingEvent.registrations.map(registration => registration.registered_user_id);
+    // not waiting for this
+    existingEvent.registrations.forEach(registration => registration.update({ is_active: false }));    
+    result.registrations = [];
+  } 
+  
+  notificationService.send(notificationService.eventType.OHE_UPDATED, notificationPayload);
 
   return result;
 }

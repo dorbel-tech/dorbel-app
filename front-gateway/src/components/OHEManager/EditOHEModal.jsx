@@ -24,7 +24,14 @@ class EditOHEModal extends React.Component {
       end_time: this.state.end_time
     })
     .catch(() => alert('Edit failed'))
-    .then(() => this.props.onClose());
+    .then(this.close);
+  }
+
+  close() {
+    this.setState({ warningDismissed: false }); // reset the warning
+    if (this.props.onClose) { 
+      this.props.onClose(); 
+    }
   }
 
   renderWarning() {
@@ -42,7 +49,7 @@ class EditOHEModal extends React.Component {
           תשלח על כך עדכון לנרשמים ללא ביטול הביקור
         </p>
         <Button bsStyle="danger" onClick={() => this.setState({ warningDismissed: true })} block>עריכת מועד ביקור</Button>
-        <Button onClick={this.props.onClose} block>ביטול</Button>
+        <Button onClick={this.close} block>ביטול</Button>
       </div>
     );
   }
@@ -52,7 +59,7 @@ class EditOHEModal extends React.Component {
       <FormWrapper.Wrapper layout="vertical" ref="form">                        
         <TimeRangePicker onChange={this.timeChange} ohe={this.props.ohe} />
         <Button bsStyle="danger" onClick={this.submit} block>שמור</Button>
-        <Button onClick={this.props.onClose} block>ביטול</Button>
+        <Button onClick={this.close} block>ביטול</Button>
       </FormWrapper.Wrapper>
     );
   }
@@ -65,7 +72,7 @@ class EditOHEModal extends React.Component {
     return (
       <DorbelModal 
         show={this.props.show}
-        onClose={this.props.onClose}
+        onClose={this.close}
         modalSize="small"
         title="עריכת מועד ביקור"
         body={body}

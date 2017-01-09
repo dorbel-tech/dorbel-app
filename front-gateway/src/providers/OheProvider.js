@@ -40,7 +40,15 @@ class OheProvider {
       method: 'PUT',
       data
     })
-    .then(this.updateStoreWithOhe);
+    .then(updatedOhe => {
+      const oheInStore = this.appStore.oheStore.oheById.get(id);
+      Object.assign(oheInStore, data);
+      if (updatedOhe.registrations.length === 0) {
+        // registrations might be reset
+        oheInStore.registrations = [];
+      }
+      this.updateStoreWithOhe(oheInStore);
+    });
   }
 
   updateStoreWithOhe(ohe) {
