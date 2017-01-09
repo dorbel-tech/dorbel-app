@@ -148,13 +148,15 @@
   text-align: center;
 }
 
-#sizeRange,
-#costRange,
-#roomsRange {
-  position: relative;
-  height: 8px;
-  margin: 0 auto;
-  margin-bottom: 80px;
+.cost-slider,
+.roomsnum-slider,
+.size-slider {
+  > div {
+    position: relative;
+    height: 8px;
+    margin: 0 auto;
+    margin-bottom: 80px;
+  }
 }
 
 #value-span,

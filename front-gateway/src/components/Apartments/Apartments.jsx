@@ -36,8 +36,7 @@ class Apartments extends Component {
             </Col>
             <Col xs={10} xsOffset={1} className="cost-slider">
               <h5 className="text-center">בחר טווח מחירים</h5>
-              <Nouislider id="costRange"
-                          range={{min: 0, max: 12000}}
+              <Nouislider range={{min: 0, max: 12000}}
                           start={[0, 12000]}
                           step={2000}
                           pips={{mode: 'steps', density: 30}}
@@ -46,11 +45,21 @@ class Apartments extends Component {
             </Col>
             <Col xs={10} xsOffset={1} className="roomsnum-slider">
               <h5 className="text-center">בחר מספר חדרים</h5>
-              <div id="roomsRange"></div>
+              <Nouislider range={{min: 1, '25%': 2, '50%': 3, '75%': 4, max: 5}}
+                          start={[1, 5]}
+                          snap={true}
+                          pips={{mode: 'steps', density: 30}}
+                          connect={true}
+                          direction={"ltr"}/>
             </Col>
             <Col xs={10} xsOffset={1} className="size-slider">
               <h5 className="text-center">בחר גודל נכס (מ״ר)</h5>
-              <div id="sizeRange"></div>
+              <Nouislider range={{min: 0, '20%': 30, '40%': 60, '60%': 90, '80%': 110, max: 140}}
+                          start={[10, 140]}
+                          snap={true}
+                          pips={{mode: 'steps', density: 30}}
+                          connect={true}
+                          direction={"ltr"}/>
             </Col>
           </Row>
           <Row className="search-switches-container text-center">
