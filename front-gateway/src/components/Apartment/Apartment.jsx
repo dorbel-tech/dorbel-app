@@ -47,8 +47,8 @@ class Apartment extends Component {
           <div className="row">
             <Flickity classname="carousel" options={flickityOptions} >
               {apartment.images.map((image, index) =>
-                <div className="sliderBoxes">
-                  <img key={index} src={image.url.replace('upload', 'upload/h_500')} />
+                <div key={index} className="sliderBoxes">
+                  <img src={image.url.replace('upload', 'upload/h_500')} />
                 </div>
               )}
             </Flickity>
