@@ -8,8 +8,6 @@ import Icon from '../Icon/Icon';
 import OHERegisterModal from './OHERegisterModal';
 import FollowListingModal from './FollowListingModal';
 
-const CLOSE_EVENT_IF_TOO_CLOSE = 90;
-
 @observer(['appStore', 'appProviders', 'router'])
 class OHEList extends Component {
   constructor(props) {
