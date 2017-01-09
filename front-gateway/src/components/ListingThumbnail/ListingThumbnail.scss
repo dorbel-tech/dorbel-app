@@ -52,6 +52,7 @@
     img {
         @include border-top-radius(3px);
         height: 191px;
+        object-fit: cover;
         overflow: hidden;
         width: 100%;
     }

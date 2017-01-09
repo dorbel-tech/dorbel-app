@@ -1,3 +1,23 @@
 @import "../sharedStyles/styles.scss";
-@import "./style/_search-page.scss";
-@import "./style/_search-results-list.scss";
+// @import "./style/_search-page.scss";
+// @import "./style/_search-results-list.scss";
+
+.search-widget-container {
+  text-align: center;
+
+  i {
+    background-color: $brand-primary;
+    border-radius: 50%;
+    color: $brand-white;
+    cursor: pointer;
+    display: block;
+    font-family: 'georgia';
+    height: 22px;
+    left: 0;
+    line-height: 22px;
+    position: absolute;
+    top: -10px;
+    width: 22px;
+    z-index: 1;
+  }
+}
