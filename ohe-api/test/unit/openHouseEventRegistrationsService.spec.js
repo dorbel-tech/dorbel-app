@@ -8,8 +8,9 @@ const notificationService = require('../../src/services/notificationService');
 const shared = require('dorbel-shared');
 const fakeUser = { user_id: faker.fakeUserId };
 
-describe('Open House Event Registration Service', function () {
+const CLOSE_EVENT_IF_TOO_CLOSE = 90;
 
+describe('Open House Event Registration Service', function () {
   before(function () {
     this.repositoryMock = {};
     mockRequire('../../src/openHouseEventsDb/repositories/openHouseEventRegistrationsRepository', this.repositoryMock);
@@ -92,10 +93,10 @@ describe('Open House Event Registration Service', function () {
       }
     });
 
-    it('should fail when user registers to a past event', function* () {
+    it('should fail when user registers to an event that is to close (configurable) and with 0 attendies', function* () {
       this.openHouseEventsFinderServiceMock.find = sinon.stub().resolves(faker.generateEvent({
         registrations: [],
-        start_time: moment().add(90, 'minutes')
+        start_time: moment().add(CLOSE_EVENT_IF_TOO_CLOSE, 'minutes')
       }));
 
       this.repositoryMock.createRegistration = sinon.stub().resolves(true);

@@ -8,6 +8,8 @@ const _ = require('lodash');
 const moment = require('moment');
 require('moment-range');
 
+const CLOSE_EVENT_IF_TOO_CLOSE = 90;
+
 function validateEventParamters(start, end) {
   if (end.diff(start, 'minutes') < 30) {
     throw new errors.DomainValidationError('OpenHouseEventValidationError',
@@ -122,32 +124,50 @@ function* findByListing(listing_id, user) {
   let events = yield openHouseEventsFinderService.findByListing(listing_id);
   let promises = [];
 
+  const userId = user ? user.id : undefined;
   events = events.map(event => {
-    event = event.toJSON(); // getting rid of sequelize wrapper
+    const eventDto = convertEventModelToDTO(event.toJSON(), userId);
 
-    if (user) { // any user      
-      // includes the user own registration so he will know he registered and also how to un-register
-      event.usersOwnRegistration = _.find(event.registrations, { registered_user_id: user.id });
-    }
-
-    if (user && user.id === event.publishing_user_id) { // publishing user
+    if (userId == event.publishing_user_id) { // publishing user
       // get all the data about the registrations
       // *TODO*: move to seperate api call
-      event.registrations.forEach(registration => {
+      eventDto.registrations.forEach(registration => {
         const promiseForUser = shared.utils.userManagement.getPublicProfile(registration.registered_user_id)
           .then(user => registration.user = user);
         promises.push(promiseForUser);
       });
-    } else {
-      // only publisher can get registrations info
-      event.registrations = new Array(event.registrations.length); 
     }
-    
-    return event;
+
+    return eventDto;
   });
 
   yield promises; // wait for it
   return events;
+}
+
+function convertEventModelToDTO(eventModel, userId) {
+  let eventStatus = 'open';
+
+  if (moment().isAfter(eventModel.start_time)) {
+    eventStatus = 'expired';
+  } else if (userId && _.find(eventModel.registrations, { registered_user_id: userId })) {
+    eventStatus = 'registered';
+  } else if (eventModel.registrations.length >= eventModel.max_attendies) {
+    eventStatus = 'full';
+  } else if (eventModel.registrations.length === 0 && moment().add(CLOSE_EVENT_IF_TOO_CLOSE, 'minutes').isAfter(eventModel.start_time)) {
+    eventStatus = 'late';
+  }
+
+  return {
+    id: eventModel.id,
+    listing_id: eventModel.listing_id,
+    start_time: eventModel.start_time,
+    end_time: eventModel.end_time,
+    max_attendies: eventModel.max_attendies,
+    comments: eventModel.comments,
+    registrations: eventModel.registrations,
+    status: eventStatus,
+  };
 }
 
 module.exports = {

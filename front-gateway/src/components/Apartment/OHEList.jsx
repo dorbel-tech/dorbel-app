@@ -68,23 +68,28 @@ class OHEList extends Component {
       action: 'ohe-register'
     };
 
-    if (moment().isAfter(OHEStartTimeUTC)) { // event has passed
-      oheConfig.isDisabled = true;
-      oheConfig.callToActionText = 'מועד זה עבר';
-      oheConfig.action = '';
-    } 
-    else if (openHouseEvent.usersOwnRegistration) { // user is registered to OHE
-      oheConfig.action = 'ohe-unregister';
-      oheConfig.callToActionText = 'נרשמתם לארוע זה. לחצו לביטול';
-    } 
-    else if (openHouseEvent.registrations && openHouseEvent.registrations.length >= openHouseEvent.max_attendies) { // no available spots
-      oheConfig.isDisabled = true;
-      oheConfig.action = '';
-      oheConfig.callToActionText = 'לא נותרו מקומות פנויים לארוע זה';
-    } 
-    else if (openHouseEvent.registrations && openHouseEvent.registrations.length === 0) { // 0 registrations and too close to event
-      const eventTooSoon = moment().add(CLOSE_EVENT_IF_TOO_CLOSE, 'minutes').isAfter(OHEStartTimeUTC);
-      if (eventTooSoon) {
+    switch (openHouseEvent.status) {
+      case 'open': {
+        break;
+      }
+      case 'expired': {
+        oheConfig.isDisabled = true;
+        oheConfig.callToActionText = 'מועד זה עבר';
+        oheConfig.action = '';
+        break;
+      }
+      case 'full': {
+        oheConfig.isDisabled = true;
+        oheConfig.action = '';
+        oheConfig.callToActionText = 'לא נותרו מקומות פנויים לארוע זה';
+        break;
+      }
+      case 'registered': {
+        oheConfig.action = 'ohe-unregister';
+        oheConfig.callToActionText = 'נרשמתם לארוע זה. לחצו לביטול';
+        break;
+      }
+      case 'late': {
         oheConfig.action = ''; // TODO: POPUP
         oheConfig.callToActionText = 'האירוע קרוב מדי (טקסט זמני)'; //TODO: get appropriate text
       }
