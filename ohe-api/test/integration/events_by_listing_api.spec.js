@@ -36,7 +36,7 @@ describe('Open House Events By Listing API Integration', function () {
       });
 
       it('should return an empty array given no events per listing id', function* () {
-        const response = yield this.apiClient.findEventsByListing(9999999).expect(200).end();
+        const response = yield this.apiClient.findEventsByListing(0).expect(200).end();
         __.assertThat(response.body.length, __.is(0));
       });
     });

@@ -5,28 +5,38 @@ const errors = require('./domainErrors');
 const notificationService = require('./notificationService');
 const openHouseEventsFinderService = require('./openHouseEventsFinderService');
 const repository = require('../openHouseEventsDb/repositories/openHouseEventRegistrationsRepository');
+const shared = require('dorbel-shared');
+const userManagement = shared.utils.userManagement;
+const generic = shared.utils.generic;
 
 const CLOSE_EVENT_IF_TOO_CLOSE = 90;
 
-function* register(event_id, user_id) {
+function* register(event_id, user) {
   let existingEvent = yield openHouseEventsFinderService.find(event_id);
 
-  validateEventRegistration(existingEvent, user_id); // will throw error if validation fails
+  validateEventRegistration(existingEvent, user.user_id); // will throw error if validation fails
 
   const registration = {
     open_house_event_id: event_id,
-    registered_user_id: user_id,
+    registered_user_id: user.user_id,
     is_active: true
   };
 
-
-
   const result = yield repository.createRegistration(registration);
 
+  // TODO: Update user details can be done on client using user token.
+  userManagement.updateUserDetails(user.user_id, {
+    user_metadata: {
+      first_name: user.firstname,
+      email: user.email,
+      phone: generic.normalizePhone(user.phone)
+    }
+  });
+  
   notificationService.send(notificationService.eventType.OHE_REGISTERED, {
     listing_id: existingEvent.listing_id,
     event_id: existingEvent.id,
-    user_uuid: user_id
+    user_uuid: user.user_id
   });
 
   return result;

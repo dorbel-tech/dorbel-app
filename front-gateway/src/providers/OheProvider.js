@@ -48,11 +48,12 @@ class OheProvider {
 
   // Registrations
 
-  registerForEvent(event) {
+  registerForEvent(event, user) {
     return this.fetch('event/registration', {
       method: 'POST',
       data : {
-        open_house_event_id: event.id
+        open_house_event_id: event.id,
+        user_details: user
       }
     })
     .then(registration => {
@@ -87,11 +88,12 @@ class OheProvider {
     });
   }
 
-  follow(listing) {
+  follow(listing, user) {
     return this.fetch('follower', {
       method: 'POST',
       data : {
-        listing_id: listing.id
+        listing_id: listing.id,
+        user_details: user
       }
     })
     .then(followDetails => this.appStore.oheStore.usersFollowsByListingId.set(listing.id, followDetails));

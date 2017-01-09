@@ -43,11 +43,14 @@ class ApiClient {
       .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile));
   }
 
-  createNewRegistration(existingEventId) {
+  createNewRegistration(existingEventId, user) {
     return this.request
       .post('/v1/event/registration')
       .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile))
-      .send({'open_house_event_id': existingEventId});
+      .send({
+        open_house_event_id: existingEventId,
+        user_details: user
+      });
   }
 
   deleteRegistration(registrationId) {
@@ -61,11 +64,14 @@ class ApiClient {
       .get('/v1/followers/by-listing/' + listingId);
   }
 
-  createNewFollower(listingId) {
+  createNewFollower(listingId, user) {
     return this.request
       .post('/v1/follower')
       .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile))
-      .send({'listing_id': listingId});
+      .send({
+        listing_id: listingId,
+        user_details: user
+      });
   }
 
   deleteFollower(followId) {
