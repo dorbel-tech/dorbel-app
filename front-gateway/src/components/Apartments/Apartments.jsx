@@ -36,16 +36,25 @@ class Apartments extends Component {
             </Col>
             <Col xs={10} xsOffset={1} className="cost-slider">
               <h5 className="text-center">בחר טווח מחירים</h5>
-              <Nouislider range={{min: 0, max: 12000}}
-                          start={[0, 12000]}
-                          step={2000}
+              <Nouislider range={{min: 1000, max: 7000}}
+                          start={[1000, 7000]}
+                          step={1000}
                           pips={{mode: 'steps', density: 30}}
                           connect={true}
                           direction={"ltr"}/>
             </Col>
             <Col xs={10} xsOffset={1} className="roomsnum-slider">
               <h5 className="text-center">בחר מספר חדרים</h5>
-              <Nouislider range={{min: 1, '25%': 2, '50%': 3, '75%': 4, max: 5}}
+              <Nouislider range={{
+                                min: 1,
+                            '12.5%': 1.5,
+                              '25%': 2,
+                            '37.5%': 2.5,
+                              '50%': 3,
+                            '62.5%': 3.5,
+                              '75%': 4,
+                            '87.5%': 4.5,
+                                max: 5}}
                           start={[1, 5]}
                           snap={true}
                           pips={{mode: 'steps', density: 30}}
@@ -54,8 +63,8 @@ class Apartments extends Component {
             </Col>
             <Col xs={10} xsOffset={1} className="size-slider">
               <h5 className="text-center">בחר גודל נכס (מ״ר)</h5>
-              <Nouislider range={{min: 0, '20%': 30, '40%': 60, '60%': 90, '80%': 110, max: 140}}
-                          start={[10, 140]}
+              <Nouislider range={{min: 27, '20%': 40, '40%': 60, '60%': 80, '80%': 100, max: 120}}
+                          start={[27, 120]}
                           snap={true}
                           pips={{mode: 'steps', density: 30}}
                           connect={true}
