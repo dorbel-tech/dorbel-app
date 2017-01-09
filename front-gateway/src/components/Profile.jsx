@@ -20,18 +20,10 @@ export default class ProfileDetails extends React.Component {
         <div>
           <h3>Profile</h3>
           <p><strong>Name: </strong> 
-            {profile.user_metadata ?
-              <span>{profile.user_metadata.first_name}&nbsp;{profile.user_metadata.last_name}</span>
-              :
-              <span>{profile.name}</span>
-            }
+            <span>{profile.first_name}&nbsp;{profile.last_name}</span>
           </p>
           <p><strong>Email: </strong>
-            {profile.user_metadata ?
-              <span>{profile.user_metadata.email}</span>
-              :
-              <span>{profile.email}</span>
-            } 
+            <span>{profile.email}</span>
           </p>
           <p><strong>Created At:</strong> {profile.created_at}</p>
           <p><strong>Updated At:</strong> {profile.updated_at}</p>

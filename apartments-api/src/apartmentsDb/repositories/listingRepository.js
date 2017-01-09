@@ -6,19 +6,24 @@ const helper = require('./repositoryHelper');
 const apartmentRepository = require('./apartmentRepository');
 const buildingRepository = require('./buildingRepository');
 
-function list(query) {
+function list(query, options = {}) {
   return models.listing.findAll({
     where: query,
+
     include: [{
       model: models.apartment,
-      include: models.building
-    }],
-    raw: true, // readonly get - no need for full sequlize instances
-    fieldMap: {
-      'apartment.building.street_name': 'street_name',
-      'apartment.building.house_number': 'house_number',
-      'apartment.apt_number': 'apt_number'
-    }
+      include: {
+        model: models.building,
+        include: {
+          model: models.city
+        },
+        where: options.buildingQuery ? options.buildingQuery : {},
+      },
+      required: true
+    }, models.image],
+
+    limit: options.limit,
+    order: options.order
   });
 }
 
@@ -27,13 +32,14 @@ function getById(id) {
     where: {
       id
     },
-    include: [{
-      model: models.apartment,
-      include: [{
-        model: models.building,
-        include: [models.city, models.neighborhood]
-      }]
-    },
+    include: [
+      {
+        model: models.apartment,
+        include: [{
+          model: models.building,
+          include: [models.city, models.neighborhood]
+        }]
+      },
       models.image
     ]
   });
@@ -45,17 +51,17 @@ function* create(listing) {
   const city = yield models.city.findOne({
     where: listing.apartment.building.city
   });
-  if (!city) { throw new Error('did not find city');}
+  if (!city) { throw new Error('did not find city'); }
 
   const neighborhood = yield models.neighborhood.findOne({
     where: listing.apartment.building.neighborhood
   });
-  if (!neighborhood) { throw new Error('did not find neighborhood');} 
+  if (!neighborhood) { throw new Error('did not find neighborhood'); }
 
   if (city.id !== neighborhood.city_id) { throw new Error('neighborhood doesnt match city'); }
 
   listing.apartment.building.city_id = city.id;
-  listing.apartment.building.neighborhood_id = neighborhood.id;  
+  listing.apartment.building.neighborhood_id = neighborhood.id;
   const building = yield buildingRepository.findOrCreate(listing.apartment.building);
 
   const apartment = yield apartmentRepository.findOrCreate(
@@ -104,7 +110,7 @@ function getListingsForApartment(apartment, listingQuery) {
       street_name: apartment.building.street_name,
       house_number: apartment.building.house_number
     },
-    include:[includeCity, includeNeighborhood]
+    include: [includeCity, includeNeighborhood]
   }];
 
   const includeApartment = [{

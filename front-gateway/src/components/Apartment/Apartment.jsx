@@ -7,14 +7,14 @@ import OHEList from './OHEList.jsx';
 import ListingMenu from './ListingMenu.jsx';
 import OHEManager from '~/components/OHEManager/OHEManager';
 import ApartmentLocation from '../MapWrapper/MapWrapper.jsx';
+import RelatedListings from '../RelatedListings/RelatedListings.jsx';
 import './Apartment.scss';
 
 const Flickity = global.window ? require('react-flickity-component')(React) : 'div';
 
 const flickityOptions = {
   cellAlign: 'left',
-  wrapAround: true,
-  rightToLeft: true,
+  contain: true,
   pageDots: false
 };
 
@@ -25,6 +25,13 @@ class Apartment extends Component {
   constructor(props) {
     super(props);
     autobind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.apartmentId != nextProps.apartmentId) {
+      this.props = nextProps;
+      this.componentDidMount();
+    }
   }
 
   componentDidMount() {
@@ -38,9 +45,11 @@ class Apartment extends Component {
       <header className="apt-header">
         <div className="container-fluid">
           <div className="row">
-            <Flickity options={flickityOptions} >
+            <Flickity classname="carousel" options={flickityOptions} >
               {apartment.images.map((image, index) =>
-                <img key={index} src={image.url.replace('upload', 'upload/h_500')} />
+                <div className="sliderBoxes">
+                  <img key={index} src={image.url.replace('upload', 'upload/h_500')} />
+                </div>
               )}
             </Flickity>
           </div>
@@ -99,6 +108,12 @@ class Apartment extends Component {
     }
   }
 
+  renderRelatedListings(listingId) {
+    return (
+      <RelatedListings listingId={listingId} />
+    );
+  }
+
   render() {
     // TODO : mixup between listing and apartment here !!!
     const { appStore, action } = this.props;
@@ -115,7 +130,7 @@ class Apartment extends Component {
       case 'events' : 
         tabContent = (<OHEManager listing={listing} />);
         break;
-      default: 
+      default:
         // TODO : move to a different file
         tabContent = (
           <div>
@@ -128,7 +143,7 @@ class Apartment extends Component {
                   </div>
                 </div>
               </div>
-            </div>        
+            </div>
             <div className="container-fluid apt-highlights-container">
               <div className="container">
                 <div className="row">
@@ -142,13 +157,14 @@ class Apartment extends Component {
                   </div>
                 </div>
               </div>
-            </div>        
+            </div>
             {this.renderListingDescription(listing)}
-            {this.renderListingLocation(listing.apartment.building.geolocation)}            
+            {this.renderListingLocation(listing.apartment.building.geolocation)}
+            {this.renderRelatedListings(listing.id)}
           </div>
         );
     }
-    
+
     return (
       <div>
         {this.renderImageGallery(listing)}
@@ -169,4 +185,3 @@ Apartment.wrappedComponent.propTypes = {
 };
 
 export default Apartment;
-

@@ -78,6 +78,10 @@ class ApartmentsProvider {
       listing.status = status;
     });
   }
+
+  getRelatedListings(listingId){
+    return this.apiProvider.fetch('/api/apartments/v1/listings/'+listingId+'/related/');
+  }
 }
 
 module.exports = ApartmentsProvider;

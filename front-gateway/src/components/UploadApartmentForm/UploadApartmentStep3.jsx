@@ -1,10 +1,12 @@
 import React from 'react';
+import DorbelModal from '~/components/DorbelModal/DorbelModal';
+import { Button } from 'react-bootstrap';
 import { observer } from 'mobx-react';
 import UploadApartmentBaseStep from './UploadApartmentBaseStep';
 import FormWrapper from '~/components/FormWrapper/FormWrapper';
 import TimeRangePicker from '~/components/TimeRangePicker/TimeRangePicker';
 
-@observer(['appStore', 'appProviders'])
+@observer(['appStore', 'appProviders', 'router'])
 class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
 
   componentDidMount() {
@@ -16,7 +18,6 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
     return hoursArray.map((hour) => ({ label:hour }));
   }
 
-
   clickNext() {
     const formsy = this.refs.form.refs.formsy; 
     if (formsy.state.isValid) {
@@ -26,28 +27,38 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
     }
   }  
 
+  showSuccessModal() {
+    this.props.showSuccessModal = true;
+  }
+
+  onCloseSuccessModal() {
+    this.props.router.setRoute('/');
+  }
+
   renderUserDetails() {
     const { authStore } = this.props.appStore;
     const { authProvider } = this.props.appProviders;
     const FRC = FormWrapper.FRC;
 
     if (authStore.isLoggedIn) {
+      const profile = authStore.getProfile();
+      
       return (
         <div>
           <div className="row">
             <div className="col-md-6">
-              <FRC.Input name="user.firstname" label="שם פרטי" required/>
+              <FRC.Input name="user.firstname" label="שם פרטי" value={profile.first_name} required/>
             </div>
             <div className="col-md-6">
-              <FRC.Input name="user.lastname" label="שם משפחה" required/>
+              <FRC.Input name="user.lastname" label="שם משפחה" value={profile.last_name} required/>
             </div>                
           </div>
           <div className="row">
             <div className="col-md-6">
-              <FRC.Input name="user.email" label="מייל" type="email" validations="isEmail" validationError="כתובת מייל לא תקינה" required/>
+              <FRC.Input name="user.email" label="מייל" type="email" value={profile.email} validations="isEmail" validationError="כתובת מייל לא תקינה" required/>
             </div>
             <div className="col-md-6">
-              <FRC.Input name="user.phone" label="טלפון" validationError="מספר טלפון לא תקין" required/>
+              <FRC.Input name="user.phone" label="טלפון" value={profile.phone} validationError="מספר טלפון לא תקין" required/>
             </div>                
           </div>
           <div className="row">
@@ -98,13 +109,35 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
             </div>
           </FormWrapper.Wrapper>
 
-        <div className="form-nav bottom col-lg-5 col-md-5 col-sm-12 col-xs-12">
-          <span onClick={this.clickBack.bind(this)}><i className="open-house-event-previous-step fa fa-arrow-circle-o-right fa-2x" aria-hidden="true"></i>&nbsp; שלב קודם</span>
-          <span>3/3</span>
-          <button onClick={this.clickNext.bind(this)} disabled={!authStore.isLoggedIn} className="btn btn-lg btn-default btn-submit dorbel-btn">שליחה וסיום</button>
+          <div className="form-nav bottom col-lg-5 col-md-5 col-sm-12 col-xs-12">
+            <span onClick={this.clickBack.bind(this)}><i className="open-house-event-previous-step fa fa-arrow-circle-o-right fa-2x" aria-hidden="true"></i>&nbsp; שלב קודם</span>
+            <span>3/3</span>
+            <button onClick={this.clickNext.bind(this)} disabled={!authStore.isLoggedIn} className="btn btn-lg btn-default btn-submit dorbel-btn">שליחה וסיום</button>
+          </div>
         </div>
-      </div>
-    </div>      
+        <DorbelModal 
+          show={this.props.showSuccessModal}
+          onClose={this.onCloseSuccessModal.bind(this)}
+          title="העלאת הדירה הושלמה!"
+          body={
+            <div className="text-center">
+              <p>
+                תהליך העלאת פרטי הדירה הושלם בהצלחה.<br/>
+                מודעתכם נמצאת כרגע בתהליך אישור. ברגע שהמודעה תעלה לאתר,
+                יישלח אליכם עדכון במייל ובהודעת טקסט. במידה ויהיה צורך,
+                ניצור עמכם קשר לפני כן.
+              </p>
+              <p>
+                תודה ויום נעים!<br/>
+                צוות dorbel
+              </p>
+              <p>
+                <Button bsStyle="info" onClick={this.onCloseSuccessModal.bind(this)}>סגור</Button>
+              </p>
+            </div>
+          }
+        />
+      </div>      
     );
   }
 }

@@ -8,10 +8,20 @@ import NavLink from '../NavLink';
 describe('Apartments', function () {
 
   beforeAll(function () {
-    this.mockApartment = { id: 1, street_name: 'mock street', house_number: '3s', apt_number: 'h' };
+    this.mockApartment = {
+      id: 1,
+      apartment: {
+        id: 1,
+        apt_number: 'h',
+        building: {
+          street_name: 'mock street', house_number: '3s',
+        }
+      }
+    };
+
     this.appStoreMock = {
       listingStore: {
-        apartments: [ this.mockApartment ]
+        apartments: [this.mockApartment]
       }
     };
     this.appProvidersMock = {};
@@ -24,7 +34,7 @@ describe('Apartments', function () {
     expect(links.length).toBe(this.appStoreMock.listingStore.apartments.length);
     const firstLink = links.at(0);
     expect(firstLink.prop('to')).toBe('/apartments/' + this.mockApartment.id);
-    expect(firstLink.children().nodes.join('')).toBe(`${this.mockApartment.street_name} ${this.mockApartment.house_number} - ${this.mockApartment.apt_number}`);
+    expect(firstLink.children().nodes.join('')).toBe(`${this.mockApartment.apartment.building.street_name} ${this.mockApartment.apartment.building.house_number} - ${this.mockApartment.apartment.apt_number}`);
   });
 
 });

@@ -6,6 +6,7 @@ const listingRepository = require('../apartmentsDb/repositories/listingRepositor
 const geoService = require('./geoService');
 const config = shared.config;
 const messageBus = shared.utils.messageBus;
+const generic = shared.utils.generic;
 const userManagement = shared.utils.userManagement;
 
 // TODO : move this to dorbel-shared
@@ -13,7 +14,7 @@ function CustomError(code, message) {
   let error = new Error(message);
   error.status = code;
   return error;
-} 
+}
 
 function* create(listing) {
   const existingOpenListingForApartment = yield listingRepository.getListingsForApartment(
@@ -30,22 +31,20 @@ function* create(listing) {
   }
 
   // In case that roomate is needed, the listing should allow roommates.
-  if(listing.roommate_needed) {
+  if (listing.roommate_needed) {
     listing.roommates = true;
   }
 
   let modifiedListing = yield geoService.setGeoLocation(listing);
   let createdListing = yield listingRepository.create(modifiedListing);
 
-  // Update user phone number in auth0.
-  let normalizedPhone = normalizePhone(listing.user.phone);
   // TODO: Update user details can be done on client using user token.
   userManagement.updateUserDetails(createdListing.publishing_user_id, {
     user_metadata: {
       first_name: listing.user.firstname,
       last_name: listing.user.lastname,
       email: listing.user.email,
-      phone: normalizedPhone
+      phone: generic.normalizePhone(listing.user.phone)
     }
   });
 
@@ -54,7 +53,7 @@ function* create(listing) {
     messageBus.publish(config.get('NOTIFICATIONS_SNS_TOPIC_ARN'), messageBus.eventType.APARTMENT_CREATED, {
       user_uuid: createdListing.publishing_user_id,
       user_email: listing.user.email,
-      user_phone: normalizedPhone,
+      user_phone: generic.normalizePhone(listing.user.phone),
       user_first_name: listing.user.firstname,
       user_last_name: listing.user.lastname,
       apartment_id: createdListing.apartment_id
@@ -103,9 +102,9 @@ function* getById(id, user) {
   listing = listing.toJSON(); // discard SQLize object for adding ad-hoc properties
 
   if (listing) {
-    const publishingUser = yield userManagement.getUserDetails(listing.publishing_user_id);  
+    const publishingUser = yield userManagement.getUserDetails(listing.publishing_user_id);
     if (publishingUser) {
-      listing.publishing_username = _.get(publishingUser, 'user_metadata.first_name') || publishingUser.given_name;  
+      listing.publishing_username = _.get(publishingUser, 'user_metadata.first_name') || publishingUser.given_name;
     }
 
     listing.meta = {
@@ -130,9 +129,36 @@ function getPossibleStatuses(listing, user) {
 }
 
 
+function* getRelatedListings(listingId, limit) {
+
+  const listing = yield listingRepository.getById(listingId);
+  if (listing) { // Verify that the listing exists
+    const listingQuery = {
+      status: 'listed',
+      $not: {
+        id: listingId
+      }
+    };
+
+    const options = {
+      buildingQuery: {
+        city_id: listing.apartment.building.city_id
+      },
+      limit: limit,
+      order: 'created_at DESC'
+    };
+
+    return listingRepository.list(listingQuery, options);
+  }
+  else {
+    throw new CustomError(400, 'listing "' + listingId + '" does not exist');
+  }
+}
+
 module.exports = {
   create,
   updateStatus,
   getById,
-  list: listingRepository.list
+  getRelatedListings,
+  list: listingRepository.list,
 };

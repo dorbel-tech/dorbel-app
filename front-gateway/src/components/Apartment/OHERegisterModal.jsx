@@ -22,7 +22,8 @@ class OHERegisterModal extends React.Component {
     const { ohe, appProviders } = this.props;
 
     if (formsy.state.isValid) {
-      appProviders.oheProvider.registerForEvent(ohe);
+      let dataModel = formsy.getModel();
+      appProviders.oheProvider.registerForEvent(ohe, dataModel.user);
       this.setState({ successfullyRegistered: true });
     } else {
       formsy.submit(); // will trigger validation messages
