@@ -1,8 +1,8 @@
 .apt-header {
     background: $brand-primary;
-    position: relative;
-    margin-bottom: 10px;
     height: 500px;
+    margin-bottom: 10px;
+    position: relative;
 
     @media (max-width: $screen-xs-min) {
         height: 300px !important;
@@ -22,9 +22,8 @@
 
 .sliderBoxes {
    img {
-      height: 100%;
-      // padding-right: 2px;
       border-right: 2px solid white;
+      height: 100%;
    }
 }
 
