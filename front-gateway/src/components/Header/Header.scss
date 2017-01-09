@@ -2,8 +2,7 @@
 
 .navbar {
   transition: all 0.2s;
-  @include gradient-vertical(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0), 0%, 100%);
-  border: 0;
+  @include gradient-vertical(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0), 0%, 100%);  
   .navbar-brand {
     width: 100px;
     .dorbel-logo {
