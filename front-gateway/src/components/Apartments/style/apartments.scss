@@ -1,0 +1,157 @@
+.apartments-container {
+  background-color: $gray-lighter;
+}
+
+.search-widget-wrapper {
+  border-bottom: 1px solid $gray-lighter;
+}
+
+.search-widget-container {
+  background-color: $brand-white;
+  padding: 35px 0;
+  text-align: center;
+
+  .city-picker {
+    display: inline-block;
+    position: relative;
+  }
+
+  i {
+    background-color: $brand-primary;
+    border-radius: 50%;
+    color: $brand-white;
+    cursor: pointer;
+    display: block;
+    font-family: 'georgia';
+    height: 22px;
+    left: -15px;
+    line-height: 22px;
+    position: absolute;
+    top: -10px;
+    width: 22px;
+    z-index: 1;
+  }
+}
+
+.search-results-not-found {
+  @media (max-width: $screen-md-min) {
+    text-align: center;
+  }
+}
+
+// nouislider overrides
+.cost-slider {
+  .noUi-connect {
+    background-color: $brand-primary !important;
+  }
+  .noUi-value {
+    font-size: 12px;
+  }
+  .noUi-value-large {
+    color: $brand-primary;
+    font-size: 15px;
+    &:before {
+      color: $gray-light;
+      content: "₪";
+      font-size: 12px;
+    }
+    &:last-child:after {
+      color: $brand-success;
+      content: "+";
+    }
+  }
+}
+
+.roomsnum-slider {
+  .noUi-connect {
+    background-color: lighten($brand-primary, 20%) !important;
+  }
+  .noUi-value-large {
+    color: $brand-primary;
+    font-size: 16px;
+    &:last-child:after {
+      color: $gray-light;
+      font-size: 12px;
+    }
+    &:nth-child(2):after {
+      color: $gray-light;
+      font-size: 12px;
+    }
+  }
+}
+
+.size-slider {
+  .noUi-connect {
+    background-color: lighten($brand-primary, 40%) !important;
+  }
+  .noUi-value-large {
+    color: $brand-primary;
+    font-size: 12px;
+    &:last-child {
+      font-size: 16px;
+      &:after {
+        color: $brand-success;
+        content: "+";
+      }
+    }
+    &:nth-child(2) {
+      font-size: 16px;
+      &:after {
+        color: $gray-light;
+        font-size: 12px;
+      }
+    }
+  }
+}
+
+.noUi-target * {
+  direction: ltr;
+}
+
+.noUi-target {
+  height: 8px;
+}
+
+.noUi-value {
+  width: 70px !important;
+}
+
+.noUi-value-horizontal {
+  margin-left: -35px !important;
+}
+
+.noUi-marker {
+  width: 1px !important;
+}
+
+.noUi-handle {
+  background-color: $brand-white !important;
+  border: 1px solid lighten($gray-light, 30%) !important;
+  border-radius: 50% !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+  cursor: pointer !important;
+  &:hover {
+    cursor: hand !important;
+  }
+  height: 20px !important;
+  left: -10px !important;
+  top: -7px !important;
+  width: 20px !important;  
+  &:before {
+    display: none !important;
+  }
+  &:after {
+    display: none !important;
+  }
+}
+
+.cost-slider,
+.roomsnum-slider,
+.size-slider {
+  > div {
+    position: relative;
+    height: 8px;
+    margin: 0 auto;
+    margin-bottom: 80px;
+  }
+}
