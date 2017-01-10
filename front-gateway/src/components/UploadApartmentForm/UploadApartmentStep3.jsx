@@ -4,7 +4,7 @@ import { Button } from 'react-bootstrap';
 import { observer } from 'mobx-react';
 import UploadApartmentBaseStep from './UploadApartmentBaseStep';
 import FormWrapper from '~/components/FormWrapper/FormWrapper';
-import TimeRangePicker from '~/components/TimeRangePicker/TimeRangePicker';
+import AddOHEInput from '~/components/AddOHEInput/AddOHEInput';
 
 @observer(['appStore', 'appProviders', 'router'])
 class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
@@ -95,7 +95,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
           <FormWrapper.Wrapper layout="vertical" onChange={this.handleChanges} ref="form">
             <div className="row form-section">
               <div className="form-section-headline">מועדי ביקור בדירה</div>
-              <TimeRangePicker onChange={this.handleChange.bind(this, 'open_house_event')} />
+              <AddOHEInput onChange={this.handleChange.bind(this, 'open_house_event')} />
               <div className="row">
                 <div className="col-md-12">
                   <FRC.Textarea name="open_house_event.comments" rows={3} label="הכוונה לדירה בבניין (אם צריך)" />

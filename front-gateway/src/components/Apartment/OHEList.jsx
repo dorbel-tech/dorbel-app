@@ -44,26 +44,50 @@ class OHEList extends Component {
     );
   }
 
-  renderOpenHouseEvent(openHouseEvent)  {
-    let action = 'ohe-register';    
-    let callToActionText = 'לחצו לאישור הגעה במועד זה';
-    if (openHouseEvent.usersOwnRegistration) {
-      action = 'ohe-unregister';
-      callToActionText = 'נרשמתם לארוע זה. לחצו לביטול';
-    }
-
-    if (!openHouseEvent.isOpenForRegistration) {
-      callToActionText = 'מועד זה עבר';
-    }
+  renderOpenHouseEvent(openHouseEvent) {
+    const OHEConfig = this.getOHEConfiguration(openHouseEvent);
 
     return this.renderListItem({
-      onClickRoute: `${action}/${openHouseEvent.id}`,
+      onClickRoute: `${OHEConfig.action}/${openHouseEvent.id}`,
       key: openHouseEvent.id,
       iconName: 'dorbel_icon_calendar',
       itemText: `${openHouseEvent.timeLabel} | ${openHouseEvent.dateLabel}`,
-      isDisabled: !openHouseEvent.isOpenForRegistration,
-      callToActionText
+      isDisabled: OHEConfig.isDisabled,
+      callToActionText: OHEConfig.callToActionText
     });
+  }
+
+  getOHEConfiguration(openHouseEvent) {
+    const oheConfig = {
+      isDisabled: false,
+      callToActionText: 'לחצו לאישור הגעה במועד זה',
+      action: 'ohe-register'
+    };
+
+    switch (openHouseEvent.status) {
+      case 'open':
+        break;
+      case 'expired':
+        oheConfig.isDisabled = true;
+        oheConfig.callToActionText = 'מועד זה עבר';
+        oheConfig.action = '';
+        break;
+      case 'full': 
+        oheConfig.isDisabled = true;
+        oheConfig.action = '';
+        oheConfig.callToActionText = 'לא נותרו מקומות פנויים לארוע זה';
+        break;
+      case 'registered':
+        oheConfig.action = 'ohe-unregister';
+        oheConfig.callToActionText = 'נרשמתם לארוע זה. לחצו לביטול';
+        break;
+      case 'late': 
+        oheConfig.action = ''; // TODO: POPUP
+        oheConfig.callToActionText = 'האירוע קרוב מדי (טקסט זמני)'; //TODO: get appropriate text
+        break;
+    }
+
+    return oheConfig;
   }
 
   renderFollowItem(listing) {

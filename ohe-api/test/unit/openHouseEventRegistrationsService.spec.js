@@ -2,13 +2,16 @@
 const mockRequire = require('mock-require');
 const __ = require('hamjest');
 const sinon = require('sinon');
+const moment = require('moment');
 const faker = require('../shared/fakeObjectGenerator');
 const notificationService = require('../../src/services/notificationService');
-const shared = require('dorbel-shared');
+const shared = require('dorbel-shared'); 
 const fakeUser = { user_id: faker.fakeUserId };
+const config = shared.config; shared.config.setConfigFileFolder(__dirname+'/../../src/config/');
+
+const CLOSE_EVENT_IF_TOO_CLOSE = config.get('CLOSE_EVENT_IF_TOO_CLOSE');
 
 describe('Open House Event Registration Service', function () {
-
   before(function () {
     this.repositoryMock = {};
     mockRequire('../../src/openHouseEventsDb/repositories/openHouseEventRegistrationsRepository', this.repositoryMock);
@@ -58,7 +61,7 @@ describe('Open House Event Registration Service', function () {
     });
 
     it('should fail when user registers to an event more than once', function* () {
-      this.openHouseEventsFinderServiceMock.find = sinon.stub().resolves(faker.generateEvent({        
+      this.openHouseEventsFinderServiceMock.find = sinon.stub().resolves(faker.generateEvent({
         registrations: [
           { open_house_event_id: 1, registered_user_id: faker.fakeUserId, is_active: true }
         ]
@@ -76,21 +79,57 @@ describe('Open House Event Registration Service', function () {
       }
     });
 
-    it('should fail to register to an event that is not open for registration', function * () {
+    it('should fail when user registers to a past event', function* () {
       this.openHouseEventsFinderServiceMock.find = sinon.stub().resolves(faker.generateEvent({
-        isOpenForRegistration: false
+        start_time: moment().add(-1, 'minutes')
       }));
-      
+      this.repositoryMock.createRegistration = sinon.stub().resolves(true);
       try {
         yield this.service.register(1, fakeUser);
         __.assertThat('code', __.is('not reached'));
       }
       catch (error) {
-        __.assertThat(error.message, __.is('event is not open for registration'));
+        __.assertThat(error.message, __.is('cannot register to past event'));
         __.assertThat(this.sendNotification.callCount, __.is(0));
       }
     });
 
+    it('should fail when user registers to an event that is to close (configurable) and with 0 attendies', function* () {
+      this.openHouseEventsFinderServiceMock.find = sinon.stub().resolves(faker.generateEvent({
+        registrations: [],
+        start_time: moment().add(CLOSE_EVENT_IF_TOO_CLOSE, 'minutes')
+      }));
+
+      this.repositoryMock.createRegistration = sinon.stub().resolves(true);
+
+      try {
+        yield this.service.register(1, fakeUser);
+        __.assertThat('code', __.is('not reached'));
+      }
+      catch (error) {
+        __.assertThat(error.message, __.is('to late to register'));
+        __.assertThat(this.sendNotification.callCount, __.is(0));
+      }
+    });
+
+    it('should fail when user registers an event with full capacity', function* () {
+      this.openHouseEventsFinderServiceMock.find = sinon.stub().resolves(faker.generateEvent({
+        registrations: [{ open_house_event_id: 1, registered_user_id: fakeUser.user_id, is_active: true }],
+        start_time: moment().add(90, 'minutes'),
+        max_attendies: 1
+      }));
+
+      this.repositoryMock.createRegistration = sinon.stub().resolves(true);
+
+      try {
+        yield this.service.register(1, 2);
+        __.assertThat('code', __.is('not reached'));
+      }
+      catch (error) {
+        __.assertThat(error.message, __.is('event is full'));
+        __.assertThat(this.sendNotification.callCount, __.is(0));
+      }
+    });
   });
 
   describe('UnRegister an Open House Event', function () {
