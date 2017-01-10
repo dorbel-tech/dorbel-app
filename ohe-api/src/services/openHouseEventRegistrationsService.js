@@ -22,7 +22,7 @@ function* register(event_id, user) {
   };
 
   const result = yield repository.createRegistration(registration);
-  logger.info(result, 'Registrer to OHE');
+  logger.info(result, 'Register to OHE');
 
   // TODO: Update user details can be done on client using user token.
   userManagement.updateUserDetails(user.user_id, {
@@ -52,7 +52,7 @@ function* unregister(registrationId) {
   existingRegistration.is_active = false;
 
   const result = yield repository.updateRegistration(existingRegistration);
-  logger.info(result, 'Unregistrer to OHE');
+  logger.info(result, 'Unregister to OHE');
 
   let existingEvent = yield openHouseEventsFinderService.find(existingRegistration.open_house_event_id);
   notificationService.send(notificationService.eventType.OHE_UNREGISTERED, {

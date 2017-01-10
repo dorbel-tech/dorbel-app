@@ -37,7 +37,7 @@ function startMessageConsumers() {
 
 function* bootstrap() {
   yield db.connect();
-  startMessageConsumers(); // Starting notification messages consumers.  
+  startMessageConsumers();
   const server = require('./server/server'); // server should be required only after db connect finish
   return server.listen();
 }

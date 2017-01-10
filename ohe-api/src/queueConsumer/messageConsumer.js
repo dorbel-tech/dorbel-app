@@ -16,7 +16,6 @@ function handleMessage(message) {
         yield cancleOHEs(message.dataPayload.listing_id, message.dataPayload.user_uuid);
         break;  
       default:
-        logger.debug(message.eventType, 'Skipping message.');
         // In case that message requires no processing, skip it.        
         break;
     }  
