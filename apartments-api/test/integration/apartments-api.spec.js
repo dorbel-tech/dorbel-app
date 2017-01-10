@@ -63,4 +63,23 @@ describe('Apartments API Integration', function () {
       __.assertThat(response.body.status, __.is('rented'));
     });
   });
+
+  describe('/listings/{id}/related', function () {
+    before(function* () {
+      this.timeout(10000);
+      this.createdListings = [];
+      let numOfApartments = 5;
+      
+      for (let i = 0; i < numOfApartments; i++) {
+        const newListing = faker.getFakeListing();
+        const postReponse = yield this.apiClient.createListing(newListing).expect(201).end();
+        this.createdListings.push(postReponse.body);
+      }
+    });
+
+    it('should return exactly 3 listings', function* () {
+      const getResponse = yield this.apiClient.getRelatedListings(this.createdListings[0].id).expect(200).end();
+      __.assertThat(getResponse.body, __.hasSize(3));
+    });
+  });
 });
