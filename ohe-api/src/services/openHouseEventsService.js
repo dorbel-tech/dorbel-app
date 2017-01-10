@@ -76,7 +76,11 @@ function* update(id, openHouseEvent, user) {
   const start = moment(openHouseEvent.start_time, moment.ISO_8601, true);
   const end = moment(openHouseEvent.end_time, moment.ISO_8601, true);
 
-  if (start.isSame(existingEvent.start_time) && end.isSame(existingEvent.end_time)) {
+  const dayChanged = start.toDate().toDateString() !== existingEvent.start_time.toDateString();
+  const timeChanged = !start.isSame(existingEvent.start_time) || !end.isSame(existingEvent.end_time);
+  const attendeesChanged = existingEvent.max_attendies !== openHouseEvent.max_attendies;
+
+  if (!timeChanged && !attendeesChanged) {
     return existingEvent;
   }
 
@@ -86,30 +90,31 @@ function* update(id, openHouseEvent, user) {
   const otherEvents = existingListingEvents.filter(otherEvent => otherEvent.id !== id && otherEvent.is_active);
   validateEventIsNotOverlappingExistingEvents(otherEvents, start, end);
 
-  const dayChanged = start.toDate().toDateString() !== existingEvent.start_time.toDateString();
-
   existingEvent.start_time = start;
   existingEvent.end_time = end;  
+  existingEvent.max_attendies = openHouseEvent.max_attendies;
 
   let result = yield openHouseEventsRepository.update(existingEvent);
   if (result.toJSON) {
     result = result.toJSON();
   }
 
-  notificationService.send(notificationService.eventType.OHE_UPDATED, {
-    listing_id: existingEvent.listing_id,
-    event_id: existingEvent.id,
-    old_start_time: existingEvent.start_time,
-    old_end_time: existingEvent.end_time,
-    new_start_time: start,
-    new_end_time: end,
-    user_uuid: existingEvent.publishing_user_id,
-    day_changed: dayChanged,
-    // we have to save a list of registered users because they might be un-registered and we need to notify them
-    registered_users: existingEvent.registrations
-      .filter(registration => registration.is_active)
-      .map(registration => registration.registered_user_id)
-  });
+  if (timeChanged || dayChanged) {
+    notificationService.send(notificationService.eventType.OHE_UPDATED, {
+      listing_id: existingEvent.listing_id,
+      event_id: existingEvent.id,
+      old_start_time: existingEvent.start_time,
+      old_end_time: existingEvent.end_time,
+      new_start_time: start,
+      new_end_time: end,
+      user_uuid: existingEvent.publishing_user_id,
+      day_changed: dayChanged,
+      // we have to save a list of registered users because they might be un-registered and we need to notify them
+      registered_users: existingEvent.registrations
+        .filter(registration => registration.is_active)
+        .map(registration => registration.registered_user_id)
+    });
+  }
 
   if (dayChanged && existingEvent.registrations && existingEvent.registrations.length > 0) {
     // not waiting for this

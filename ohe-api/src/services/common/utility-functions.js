@@ -11,7 +11,7 @@ function calculateOHEStatus(oheModel, userId) { // userId is the registred userI
 
   if (moment().isAfter(oheModel.start_time)) {
     return 'expired';
-  } else if (userId && _.find(oheModel.registrations, {registered_user_id: userId})) {
+  } else if (userId && _.find(oheModel.registrations, { registered_user_id: userId, is_active: true })) {
     return 'registered';
   } else if (oheModel.registrations.length >= oheModel.max_attendies) {
     return 'full';

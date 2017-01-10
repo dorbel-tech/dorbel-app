@@ -2,7 +2,7 @@ import React from 'react';
 import DorbelModal from '~/components/DorbelModal/DorbelModal';
 import { Button } from 'react-bootstrap';
 import FormWrapper from '~/components/FormWrapper/FormWrapper';
-import TimeRangePicker from '~/components/TimeRangePicker/TimeRangePicker';
+import AddOHEInput from '~/components/AddOHEInput/AddOHEInput';
 import autobind from 'react-autobind';
 import { inject } from 'mobx-react';
 
@@ -21,7 +21,8 @@ class EditOHEModal extends React.Component {
   submit() {
     this.props.appProviders.oheProvider.updateOhe(this.props.ohe.id, {
       start_time: this.state.start_time,
-      end_time: this.state.end_time
+      end_time: this.state.end_time,
+      max_attendies: this.state.max_attendies
     })
     .catch(() => alert('Edit failed'))
     .then(this.close);
@@ -57,7 +58,7 @@ class EditOHEModal extends React.Component {
   renderEditForm() {
     return (
       <FormWrapper.Wrapper layout="vertical" ref="form">                        
-        <TimeRangePicker onChange={this.timeChange} ohe={this.props.ohe} />
+        <AddOHEInput onChange={this.timeChange} ohe={this.props.ohe} />
         <Button bsStyle="danger" onClick={this.submit} block>שמור</Button>
         <Button onClick={this.close} block>ביטול</Button>
       </FormWrapper.Wrapper>
