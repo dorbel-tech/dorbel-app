@@ -74,6 +74,7 @@
     "react-dom": "~15.3.0",
     "react-dropzone": "3.7.3",
     "react-flickity-component": "0.1.0",
+    "react-nouislider": "^1.14.2",
     "sass-loader": "^4.0.2",
     "satisfaction": "^3.0.0",
     "sinon": "^1.17.6",
@@ -82,6 +83,7 @@
     "svg-sprite-loader": "0.0.31",
     "url-loader": "0.5.7",
     "webpack": "^1.13.2",
+    "webpack-babel-jest": "^1.0.4",
     "xhr2": "^0.1.3"
   },
   "devDependencies": {
@@ -92,5 +94,8 @@
     "nodemon": "~1.11.0",
     "react-hot-loader": "^1.3.0",
     "webpack-dev-server": "^1.16.2"
+  },
+  "jest": {
+    "scriptPreprocessor": "<rootDir>/node_modules/webpack-babel-jest"
   }
 }

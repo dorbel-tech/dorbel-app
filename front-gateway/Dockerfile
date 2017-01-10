@@ -1,10 +1,6 @@
 # Image to pull.
 FROM kkarczmarczyk/node-yarn:6.9
 
-# Create non root user for better security + npm doesn't like root.
-RUN groupadd -r nodejs && useradd -m -r -g nodejs nodejs
-USER nodejs
-
 # Working directory environment variable.
 ENV WORKDIR="/home/nodejs/app/"
 
@@ -20,9 +16,7 @@ RUN yarn install
 COPY . $WORKDIR
 
 # Build client
-USER root
 RUN yarn run build
-USER nodejs
 
 # Open port
 EXPOSE 3001
