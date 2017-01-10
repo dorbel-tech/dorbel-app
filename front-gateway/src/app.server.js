@@ -10,7 +10,8 @@ function* renderApp() {
     NODE_ENV: config.get('NODE_ENV'),
     AUTH0_FRONT_CLIENT_ID: config.get('AUTH0_FRONT_CLIENT_ID'),
     AUTH0_DOMAIN: config.get('AUTH0_DOMAIN'),
-    CLOUDINARY_PARAMS: getCloudinaryParams()
+    CLOUDINARY_PARAMS: getCloudinaryParams(),
+    GOOGLE_MAPS_API_KEY: config.get('GOOGLE_MAPS_API_KEY')
   };
 
   const entryPoint = shared.injectStores();
