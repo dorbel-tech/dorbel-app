@@ -31,7 +31,7 @@ class Apartment extends Component {
   componentWillReceiveProps(nextProps) {
     if (this.props.apartmentId != nextProps.apartmentId) {
       this.props = nextProps;
-      this.componentDidMount();
+      this.props.appProviders.apartmentsProvider.loadFullListingDetails(this.props.apartmentId);
     }
   }
 
