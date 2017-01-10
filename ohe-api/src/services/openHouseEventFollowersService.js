@@ -3,6 +3,7 @@ const errors = require('./domainErrors');
 const notificationService = require('./notificationService');
 const repository = require('../openHouseEventsDb/repositories/openHouseEventFollowersRepository');
 const shared = require('dorbel-shared');
+const logger = shared.logger.getLogger(module);
 const userManagement = shared.utils.userManagement;
 
 function* getByListing(listingId){
@@ -30,6 +31,7 @@ function* follow(listingId, user) {
   };
 
   const result = yield repository.createFollower(follower);
+  logger.info(result, 'Listing was followed');
 
   // TODO: Update user details can be done on client using user token.
   userManagement.updateUserDetails(user.user_id, {
@@ -57,6 +59,7 @@ function* unfollow(followId) {
   existingFollower.is_active = false;
 
   const result = yield repository.updateFollower(existingFollower);
+  logger.info(result, 'Listing was unfollowed');
 
   notificationService.send(notificationService.eventType.OHE_UNFOLLOWED, {
     listing_id: existingFollower.listing_id,
