@@ -65,7 +65,7 @@ function* create(listing) {
 
 function* updateStatus(listingId, user, status) {
   let listing = yield listingRepository.getById(listingId);
-  
+
   if (!listing) {
     throw new CustomError(404, 'listing not found');
   } else if (user.role !== 'admin' && listing.publishing_user_id !== user.id) {
@@ -73,8 +73,8 @@ function* updateStatus(listingId, user, status) {
   } else if (getPossibleStatuses(listing, user).indexOf(status) < 0) {
     throw new CustomError(403, 'unauthorized to change this listing to status ' + status);
   }
-  
-  const currentStatus = listing.status;  
+
+  const currentStatus = listing.status;
   const result = yield listing.update({ status });
 
   if (config.get('NOTIFICATIONS_SNS_TOPIC_ARN')) {
@@ -87,6 +87,18 @@ function* updateStatus(listingId, user, status) {
   }
 
   return result;
+}
+
+function* getByFilter(listingFilter) {
+  const listingQuery = {
+
+  };
+
+  const options = {
+
+  };
+
+  return listingRepository.list(listingQuery, options);
 }
 
 function* getById(id, user) {
@@ -122,7 +134,6 @@ function getPossibleStatuses(listing, user) {
 
 
 function* getRelatedListings(listingId, limit) {
-
   const listing = yield listingRepository.getById(listingId);
   if (listing) { // Verify that the listing exists
     const listingQuery = {
@@ -150,7 +161,7 @@ function* getRelatedListings(listingId, limit) {
 module.exports = {
   create,
   updateStatus,
+  getByFilter,
   getById,
   getRelatedListings,
-  list: listingRepository.list,
 };

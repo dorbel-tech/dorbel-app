@@ -13,8 +13,9 @@ class ApartmentsProvider {
     this.oheProvider = providers.ohe;
   }
 
-  loadApartments() {
-    return this.apiProvider.fetch('/api/apartments/v1/listings')
+  loadApartments(query) {
+    const queryString = encodeURIComponent(JSON.stringify(query));
+    return this.apiProvider.fetch('/api/apartments/v1/listings?q=' + queryString)
       .then(this.appStore.listingStore.add);
   }
 
