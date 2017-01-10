@@ -134,7 +134,6 @@ class Apartments extends Component {
 }
 
 Apartments.wrappedComponent.propTypes = {
-  children: React.PropTypes.node,
   appStore: React.PropTypes.object.isRequired,
   appProviders: React.PropTypes.object.isRequired
 };

@@ -83,15 +83,20 @@
     "svg-sprite-loader": "0.0.31",
     "url-loader": "0.5.7",
     "webpack": "^1.13.2",
+    "webpack-babel-jest": "^1.0.4",
     "xhr2": "^0.1.3"
   },
   "devDependencies": {
     "babel-core": "^6.17.0",
     "bunyan": "^1.8.1",
     "eslint-loader": "^1.5.0",
+    "jest-cli": "*",
     "mobx-react-devtools": "4.2.10",
     "nodemon": "~1.11.0",
     "react-hot-loader": "^1.3.0",
     "webpack-dev-server": "^1.16.2"
+  },
+  "jest": {
+    "scriptPreprocessor": "<rootDir>/node_modules/webpack-babel-jest"
   }
 }
