@@ -25,13 +25,13 @@ function sendEvent(eventConfig, eventData) {
   logger.debug({eventConfig, eventData}, 'sendEvent');
   return dataRetrieval.getAdditonalData(eventConfig, eventData)
   .then(additonalData => {
-    logger.debug({eventConfig, eventData, additonalData}, 'Got additional data');
+    logger.trace({ eventConfig, eventData, additonalData }, 'Got additional data');
     const recipients = additonalData.customRecipients || [ eventData.user_uuid ];    
     const trackedEventData = Object.assign({}, eventData, additonalData);
 
     return Promise.all(
       recipients.map(recipient => { 
-        logger.debug({ recipient, eventConfig, trackedEventData}, 'Tracking sent to Segment');
+        logger.debug({ recipient, notificationType: eventConfig.notificationType }, 'Tracking sent to Segment');
         return analytics.track(recipient, eventConfig.notificationType, trackedEventData);
       })
     );

@@ -10,9 +10,10 @@ const generic = shared.utils.generic;
 
 function* register(event_id, user) {
   let existingEvent = yield openHouseEventsFinderService.find(event_id);
+  let usersOwnRegistration = existingEvent.registrations && _.find(existingEvent.registrations, { registered_user_id: user.user_id });    
   let errorMessage;
 
-  if (isUserRegisteredToEvent(existingEvent, user.user_id)) {
+  if (usersOwnRegistration && usersOwnRegistration.is_active) {
     errorMessage = 'user already registered to this event';
   } else if (!existingEvent.isOpenForRegistration) {
     errorMessage = 'event is not open for registration';
@@ -23,13 +24,20 @@ function* register(event_id, user) {
       { event_id, registered_user_id: user.user_id }, errorMessage);
   }
 
-  const registration = {
-    open_house_event_id: event_id,
-    registered_user_id: user.user_id,
-    is_active: true
-  };
+  let result;
 
-  const result = yield repository.createRegistration(registration);
+  if (usersOwnRegistration) {
+    usersOwnRegistration.is_active = true; 
+    result = yield repository.updateRegistration(usersOwnRegistration);
+  } else {
+    const registration = {
+      open_house_event_id: event_id,
+      registered_user_id: user.user_id,
+      is_active: true
+    };
+
+    result = yield repository.createRegistration(registration);
+  }
 
   // TODO: Update user details can be done on client using user token.
   userManagement.updateUserDetails(user.user_id, {
@@ -70,17 +78,7 @@ function* unregister(registrationId) {
   return result;
 }
 
-function isUserRegisteredToEvent(event, userId) {
-  if (event.registrations) {
-    let userIsRegistered = _.find(event.registrations, { registered_user_id: userId });
-    return !!userIsRegistered;
-  }
-
-  return false;
-}
-
 module.exports = {
   register,
-  unregister,
-  isUserRegisteredToEvent
+  unregister
 };

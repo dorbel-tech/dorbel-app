@@ -26,7 +26,8 @@
   },
   {
     "eventType": "OHE_UPDATED",
-    "notificationType": "ohe_updated"
+    "notificationType": "ohe_updated",
+    "dataRetrieval": [ "getOheRegisteredUsersFromEventInfo" ]
   },
   {
     "eventType": "OHE_DELETED",
