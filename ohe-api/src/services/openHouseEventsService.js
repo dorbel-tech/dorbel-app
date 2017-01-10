@@ -1,5 +1,6 @@
 'use strict';
 const shared = require('dorbel-shared');
+const logger = shared.logger.getLogger(module);
 const errors = require('./domainErrors');
 const notificationService = require('./notificationService');
 const openHouseEventsFinderService = require('./openHouseEventsFinderService');
@@ -49,6 +50,7 @@ function* create(openHouseEvent) {
     publishing_user_id: openHouseEvent.publishing_user_id,
     is_active: true,
   });
+  logger.info(newEvent, 'OHE created');
 
   notificationService.send(notificationService.eventType.OHE_CREATED, {
     listing_id: listing_id,
@@ -82,6 +84,7 @@ function* update(openHouseEvent) {
   existingEvent.comments = openHouseEvent.comments;
 
   const result = yield openHouseEventsRepository.update(existingEvent);
+  logger.info(result, 'OHE updated');
 
   notificationService.send(notificationService.eventType.OHE_UPDATED, {
     listing_id: existingEvent.listing_id,
@@ -103,6 +106,7 @@ function* remove(eventId) {
   existingEvent.is_active = false;
 
   const result = yield openHouseEventsRepository.update(existingEvent);
+  logger.info(result, 'OHE marked as inactive');
 
   notificationService.send(notificationService.eventType.OHE_DELETED, {
     listing_id: existingEvent.listing_id,
