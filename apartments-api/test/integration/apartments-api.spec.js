@@ -68,18 +68,35 @@ describe('Apartments API Integration', function () {
     before(function* () {
       this.timeout(10000);
       this.createdListings = [];
-      let numOfApartments = 5;
-      
+      const numOfApartments = 5;
+
       for (let i = 0; i < numOfApartments; i++) {
         const newListing = faker.getFakeListing();
         const postReponse = yield this.apiClient.createListing(newListing).expect(201).end();
         this.createdListings.push(postReponse.body);
       }
+
+      this.listingId = this.createdListings[0].id;
     });
 
     it('should return exactly 3 listings', function* () {
-      const getResponse = yield this.apiClient.getRelatedListings(this.createdListings[0].id).expect(200).end();
+      const getResponse = yield this.apiClient.getRelatedListings(this.listingId).expect(200).end();
       __.assertThat(getResponse.body, __.hasSize(3));
+    });
+
+    it('should not return the current/requested listing', function* () {
+      // Preperation: set the 2 last created listings' status to 'unlisted'
+      const idsToUnlist = _.map(_.takeRight(this.createdListings, 2), 'id');
+      const that = this;
+      _.each(idsToUnlist, function (id) {
+        that.apiClient.updateSingleListingStatus(id, { status: 'rented' }).expect(200).end();
+      });
+
+
+      const getResponse = yield this.apiClient.getRelatedListings(this.listingId).expect(200).end();
+      const responseIds = _.map(getResponse, 'id');
+
+      __.assertThat(responseIds, __.not(__.hasItem(this.listingId)));
     });
   });
 });
