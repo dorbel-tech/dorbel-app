@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import { Row } from 'react-bootstrap';
 import autobind from 'react-autobind';
-import moment from 'moment';
 import Icon from '../Icon/Icon';
 
 import OHERegisterModal from './OHERegisterModal';
@@ -66,30 +65,26 @@ class OHEList extends Component {
     };
 
     switch (openHouseEvent.status) {
-      case 'open': {
+      case 'open':
         break;
-      }
-      case 'expired': {
+      case 'expired':
         oheConfig.isDisabled = true;
         oheConfig.callToActionText = 'מועד זה עבר';
         oheConfig.action = '';
         break;
-      }
-      case 'full': {
+      case 'full': 
         oheConfig.isDisabled = true;
         oheConfig.action = '';
         oheConfig.callToActionText = 'לא נותרו מקומות פנויים לארוע זה';
         break;
-      }
-      case 'registered': {
+      case 'registered':
         oheConfig.action = 'ohe-unregister';
         oheConfig.callToActionText = 'נרשמתם לארוע זה. לחצו לביטול';
         break;
-      }
-      case 'late': {
+      case 'late': 
         oheConfig.action = ''; // TODO: POPUP
         oheConfig.callToActionText = 'האירוע קרוב מדי (טקסט זמני)'; //TODO: get appropriate text
-      }
+        break;
     }
 
     return oheConfig;

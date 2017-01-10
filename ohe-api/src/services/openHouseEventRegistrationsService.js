@@ -1,16 +1,13 @@
 'use strict';
 const _ = require('lodash');
-const moment = require('moment');
 const errors = require('./domainErrors');
 const notificationService = require('./notificationService');
 const openHouseEventsFinderService = require('./openHouseEventsFinderService');
 const repository = require('../openHouseEventsDb/repositories/openHouseEventRegistrationsRepository');
 const shared = require('dorbel-shared');
+const utilityFunctions = require('./common/utility-functions');
 const userManagement = shared.utils.userManagement;
 const generic = shared.utils.generic;
-const config = shared.config;
-
-const CLOSE_EVENT_IF_TOO_CLOSE = config.get('CLOSE_EVENT_IF_TOO_CLOSE');
 
 function* register(event_id, user) {
   let existingEvent = yield openHouseEventsFinderService.find(event_id);
@@ -33,7 +30,7 @@ function* register(event_id, user) {
       phone: generic.normalizePhone(user.phone)
     }
   });
-  
+
   notificationService.send(notificationService.eventType.OHE_REGISTERED, {
     listing_id: existingEvent.listing_id,
     event_id: existingEvent.id,
@@ -74,22 +71,24 @@ function isUserRegisteredToEvent(event, userId) {
 }
 
 function validateEventRegistration(event, user_id) {
+  const eventStatus = utilityFunctions.calculateOHEStatus(event, user_id);
+
   let errorMessage;
 
-  if (isUserRegisteredToEvent(event, user_id)) {
-    errorMessage = 'user already registered to this event';
-  } 
-  else if (moment().isAfter(event.start_time)) {
-    errorMessage = 'cannot register to past event';
-  } 
-  else if (event.registrations.length >= event.max_attendies) {
-    errorMessage = 'event is full';
-  } 
-  else if (event.registrations.length === 0) { // 0 registrations and too close to event
-    const eventTooSoon = moment().add(CLOSE_EVENT_IF_TOO_CLOSE, 'minutes').isAfter(event.start_time);
-    if (eventTooSoon) {
+  switch (eventStatus) {
+    case 'open':
+      break;
+    case 'expired':
+      errorMessage = 'cannot register to past event';
+      break;
+    case 'full':
+      errorMessage = 'event is full';
+      break;
+    case 'registered':
+      errorMessage = 'user already registered to this event';
+      break;
+    case 'late':
       errorMessage = 'to late to register';
-    }
   }
 
   if (errorMessage) {

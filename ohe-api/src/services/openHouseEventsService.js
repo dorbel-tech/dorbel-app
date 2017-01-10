@@ -1,21 +1,19 @@
 'use strict';
 const shared = require('dorbel-shared');
+const utilityFunctions = require('./common/utility-functions');
 const errors = require('./domainErrors');
 const notificationService = require('./notificationService');
 const openHouseEventsFinderService = require('./openHouseEventsFinderService');
 const openHouseEventsRepository = require('../openHouseEventsDb/repositories/openHouseEventsRepository');
-const _ = require('lodash');
 const moment = require('moment');
 require('moment-range');
-const config = shared.config;
-
-const CLOSE_EVENT_IF_TOO_CLOSE = config.get('CLOSE_EVENT_IF_TOO_CLOSE');
 
 function validateEventParamters(start, end) {
   if (end.diff(start, 'minutes') < 30) {
-    throw new errors.DomainValidationError('OpenHouseEventValidationError',
-      { start_time: start, end_time: end },
-      'open house event should be at least 30 minutes');
+    throw new errors.DomainValidationError('OpenHouseEventValidationError', {
+      start_time: start,
+      end_time: end
+    }, 'open house event should be at least 30 minutes');
   }
 }
 
@@ -23,14 +21,16 @@ function validateEventIsNotOverlappingExistingEvents(existingListingEvents, list
   if (!existingListingEvents) {
     return;
   }
-  existingListingEvents.forEach(function (existingEvent) {
-    const range = moment.range(existingEvent.start_time, existingEvent.end_time);
-    if (range.contains(start) || range.contains(end)) {
-      throw new errors.DomainValidationError('OpenHouseEventValidationError',
-        { start_time: start, end_time: end },
-        'new event is overlapping an existing event');
-    }
-  });
+  existingListingEvents
+    .forEach(function (existingEvent) {
+      const range = moment.range(existingEvent.start_time, existingEvent.end_time);
+      if (range.contains(start) || range.contains(end)) {
+        throw new errors.DomainValidationError('OpenHouseEventValidationError', {
+          start_time: start,
+          end_time: end
+        }, 'new event is overlapping an existing event');
+      }
+    });
 }
 
 function* create(openHouseEvent) {
@@ -126,13 +126,13 @@ function* findByListing(listing_id, user) {
   let promises = [];
 
   const userId = user ? user.id : undefined;
+
   events = events.map(event => {
     const eventJson = event.toJSON();
     const eventDto = convertEventModelToDTO(eventJson, userId);
 
     if (userId == event.publishing_user_id) { // publishing user
-      // get all the data about the registrations
-      // *TODO*: move to seperate api call
+      // get all the data about the registrations *TODO*: move to seperate api call
       eventDto.registrations = eventJson.registrations;
       eventDto.registrations.forEach(registration => {
         const promiseForUser = shared.utils.userManagement.getPublicProfile(registration.registered_user_id)
@@ -140,7 +140,6 @@ function* findByListing(listing_id, user) {
         promises.push(promiseForUser);
       });
     }
-
     return eventDto;
   });
 
@@ -149,18 +148,6 @@ function* findByListing(listing_id, user) {
 }
 
 function convertEventModelToDTO(eventModel, userId) {
-  let eventStatus = 'open';
-
-  if (moment().isAfter(eventModel.start_time)) {
-    eventStatus = 'expired';
-  } else if (userId && _.find(eventModel.registrations, { registered_user_id: userId })) {
-    eventStatus = 'registered';
-  } else if (eventModel.registrations.length >= eventModel.max_attendies) {
-    eventStatus = 'full';
-  } else if (eventModel.registrations.length === 0 && moment().add(CLOSE_EVENT_IF_TOO_CLOSE, 'minutes').isAfter(eventModel.start_time)) {
-    eventStatus = 'late';
-  }
-
   return {
     id: eventModel.id,
     listing_id: eventModel.listing_id,
@@ -168,7 +155,7 @@ function convertEventModelToDTO(eventModel, userId) {
     end_time: eventModel.end_time,
     max_attendies: eventModel.max_attendies,
     comments: eventModel.comments,
-    status: eventStatus,
+    status: utilityFunctions.calculateOHEStatus(eventModel, userId)
   };
 }
 
