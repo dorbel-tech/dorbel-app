@@ -32,7 +32,7 @@ class ApiClient {
 
   updateEvent(existingEvent) {
     return this.request
-      .put('/v1/event')
+      .put('/v1/event/' + existingEvent.id)
       .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile))
       .send(existingEvent);
   }
