@@ -36,3 +36,4 @@ services:
       AUTH0_DOMAIN: dorbel-dev.eu.auth0.com
       AUTH0_FRONT_CLIENT_ID: n0kP3YCZ0uOP0JBpGmrcYvBUwNtdApBL
       APARTMENTS_API_URL: 'http://apartments-api:3000'
+      GOOGLE_MAPS_API_KEY: AIzaSyBBrTZ2QuWj6YYcqYlgmybT9TlQh7zquAA
