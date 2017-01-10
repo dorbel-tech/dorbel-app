@@ -25,7 +25,7 @@ export default class AppStore {
     this.oheStore = new OheStore(initialState.oheStore);
     this.cityStore = new CityStore(initialState.cityStore);
     this.neighborhoodStore = new NeighborhoodStore(initialState.neighborhoodStore);
-    this.newListingStore = new NewListingStore();
+    this.newListingStore = new NewListingStore(this.authStore);
   }
 
   @action setView(route, params) {

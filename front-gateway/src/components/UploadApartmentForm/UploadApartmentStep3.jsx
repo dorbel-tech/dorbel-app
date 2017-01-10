@@ -4,7 +4,7 @@ import { Button } from 'react-bootstrap';
 import { observer } from 'mobx-react';
 import UploadApartmentBaseStep from './UploadApartmentBaseStep';
 import FormWrapper from '~/components/FormWrapper/FormWrapper';
-import TimeRangePicker from '~/components/TimeRangePicker/TimeRangePicker';
+import AddOHEInput from '~/components/AddOHEInput/AddOHEInput';
 
 @observer(['appStore', 'appProviders', 'router'])
 class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
@@ -41,24 +41,22 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
     const FRC = FormWrapper.FRC;
 
     if (authStore.isLoggedIn) {
-      const profile = authStore.getProfile();
-      
       return (
         <div>
           <div className="row">
             <div className="col-md-6">
-              <FRC.Input name="user.firstname" label="שם פרטי" value={profile.first_name} required/>
+              <FRC.Input name="user.firstname" label="שם פרטי" required/>
             </div>
             <div className="col-md-6">
-              <FRC.Input name="user.lastname" label="שם משפחה" value={profile.last_name} required/>
+              <FRC.Input name="user.lastname" label="שם משפחה" required/>
             </div>                
           </div>
           <div className="row">
             <div className="col-md-6">
-              <FRC.Input name="user.email" label="מייל" type="email" value={profile.email} validations="isEmail" validationError="כתובת מייל לא תקינה" required/>
+              <FRC.Input name="user.email" label="מייל" type="email" validations="isEmail" validationError="כתובת מייל לא תקינה" required/>
             </div>
             <div className="col-md-6">
-              <FRC.Input name="user.phone" label="טלפון" value={profile.phone} validationError="מספר טלפון לא תקין" required/>
+              <FRC.Input name="user.phone" label="טלפון" validationError="מספר טלפון לא תקין" required/>
             </div>                
           </div>
           <div className="row">
@@ -95,7 +93,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
           <FormWrapper.Wrapper layout="vertical" onChange={this.handleChanges} ref="form">
             <div className="row form-section">
               <div className="form-section-headline">מועדי ביקור בדירה</div>
-              <TimeRangePicker onChange={this.handleChange.bind(this, 'open_house_event')} />
+              <AddOHEInput onChange={this.handleChange.bind(this, 'open_house_event')} />
               <div className="row">
                 <div className="col-md-12">
                   <FRC.Textarea name="open_house_event.comments" rows={3} label="הכוונה לדירה בבניין (אם צריך)" />

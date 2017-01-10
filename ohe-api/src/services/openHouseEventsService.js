@@ -1,19 +1,20 @@
 'use strict';
 const shared = require('dorbel-shared');
+const utilityFunctions = require('./common/utility-functions');
 const errors = require('./domainErrors');
 const notificationService = require('./notificationService');
 const openHouseEventsFinderService = require('./openHouseEventsFinderService');
 const openHouseEventsRepository = require('../openHouseEventsDb/repositories/openHouseEventsRepository');
 const registrationRepository = require('../openHouseEventsDb/repositories/openHouseEventRegistrationsRepository');
-const _ = require('lodash');
 const moment = require('moment');
 require('moment-range');
 
 function validateEventParamters(start, end) {
   if (end.diff(start, 'minutes') < 30) {
-    throw new errors.DomainValidationError('OpenHouseEventValidationError',
-      { start_time: start, end_time: end },
-      'open house event should be at least 30 minutes');
+    throw new errors.DomainValidationError('OpenHouseEventValidationError', {
+      start_time: start,
+      end_time: end
+    }, 'open house event should be at least 30 minutes');
   }
 }
 
@@ -21,14 +22,16 @@ function validateEventIsNotOverlappingExistingEvents(existingListingEvents, star
   if (!existingListingEvents) {
     return;
   }
-  existingListingEvents.forEach(function (existingEvent) {
-    const range = moment.range(existingEvent.start_time, existingEvent.end_time);
-    if (range.contains(start) || range.contains(end)) {
-      throw new errors.DomainValidationError('OpenHouseEventValidationError',
-        { start_time: start, end_time: end },
-        'new event is overlapping an existing event');
-    }
-  });
+  existingListingEvents
+    .forEach(function (existingEvent) {
+      const range = moment.range(existingEvent.start_time, existingEvent.end_time);
+      if (range.contains(start) || range.contains(end)) {
+        throw new errors.DomainValidationError('OpenHouseEventValidationError', {
+          start_time: start,
+          end_time: end
+        }, 'new event is overlapping an existing event');
+      }
+    });
 }
 
 function* create(openHouseEvent) {
@@ -36,6 +39,7 @@ function* create(openHouseEvent) {
   const listing_id = parseInt(openHouseEvent.listing_id);
   const start = moment(openHouseEvent.start_time, moment.ISO_8601, true);
   const end = moment(openHouseEvent.end_time, moment.ISO_8601, true);
+  const max_attendies = parseInt(openHouseEvent.max_attendies);
 
   validateEventParamters(start, end);
 
@@ -49,6 +53,7 @@ function* create(openHouseEvent) {
     comments: openHouseEvent.comments,
     publishing_user_id: openHouseEvent.publishing_user_id,
     is_active: true,
+    max_attendies
   });
 
   notificationService.send(notificationService.eventType.OHE_CREATED, {
@@ -143,31 +148,38 @@ function* findByListing(listing_id, user) {
   let events = yield openHouseEventsFinderService.findByListing(listing_id);
   let promises = [];
 
+  const userId = user ? user.id : undefined;
+
   events = events.map(event => {
-    event = event.toJSON(); // getting rid of sequelize wrapper
+    const eventJson = event.toJSON();
+    const eventDto = convertEventModelToDTO(eventJson, userId);
 
-    if (user) { // any user      
-      // includes the user own registration so he will know he registered and also how to un-register
-      event.usersOwnRegistration = _.find(event.registrations, { registered_user_id: user.id });
-    }
-
-    if (user && user.id === event.publishing_user_id) { // publishing user
-      // get all the data about the registrations
-      event.registrations.forEach(registration => {
+    if (userId == event.publishing_user_id) { // publishing user
+      // get all the data about the registrations *TODO*: move to seperate api call
+      eventDto.registrations = eventJson.registrations;
+      eventDto.registrations.forEach(registration => {
         const promiseForUser = shared.utils.userManagement.getPublicProfile(registration.registered_user_id)
           .then(user => registration.user = user);
         promises.push(promiseForUser);
       });
-    } else {
-      // only publisher can get registrations info
-      event.registrations = undefined; 
     }
-    
-    return event;
+    return eventDto;
   });
 
   yield promises; // wait for it
   return events;
+}
+
+function convertEventModelToDTO(eventModel, userId) {
+  return {
+    id: eventModel.id,
+    listing_id: eventModel.listing_id,
+    start_time: eventModel.start_time,
+    end_time: eventModel.end_time,
+    max_attendies: eventModel.max_attendies,
+    comments: eventModel.comments,
+    status: utilityFunctions.calculateOHEStatus(eventModel, userId)
+  };
 }
 
 module.exports = {
