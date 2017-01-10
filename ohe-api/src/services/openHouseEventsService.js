@@ -91,7 +91,7 @@ function* update(id, openHouseEvent, user) {
     result = result.toJSON();
   }
 
-  const notificationPayload = {
+  notificationService.send(notificationService.eventType.OHE_UPDATED, {
     listing_id: existingEvent.listing_id,
     event_id: existingEvent.id,
     old_start_time: existingEvent.start_time,
@@ -99,12 +99,14 @@ function* update(id, openHouseEvent, user) {
     new_start_time: start,
     new_end_time: end,
     user_uuid: existingEvent.publishing_user_id,
-    dayChanged
-  };
+    day_changed: dayChanged,
+    // we have to save a list of registered users because they might be un-registered and we need to notify them
+    registered_users: existingEvent.registrations
+      .filter(registration => registration.is_active)
+      .map(registration => registration.registered_user_id)
+  });
 
   if (dayChanged && existingEvent.registrations && existingEvent.registrations.length > 0) {
-    // we have to save a list of registered users because all of them are going to be un-registered and we need to notify them
-    notificationPayload.registeredUsers = existingEvent.registrations.map(registration => registration.registered_user_id);
     // not waiting for this
     existingEvent.registrations.forEach(registration => {
       registration.is_active = false;
@@ -112,8 +114,6 @@ function* update(id, openHouseEvent, user) {
     });    
     result.registrations = [];
   }
-  
-  notificationService.send(notificationService.eventType.OHE_UPDATED, notificationPayload);
 
   return result;
 }

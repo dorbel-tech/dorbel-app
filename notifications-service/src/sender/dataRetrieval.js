@@ -56,6 +56,12 @@ const dataRetrievalFunctions = {
         .map(registration => registration.registered_user_id) 
       };
     });
+  },
+  getOheRegisteredUsersFromEventInfo: eventData => {
+    // some events already contain the registered user id's
+    return {
+      customRecipients: eventData.registered_users
+    };
   }
 }; 
  

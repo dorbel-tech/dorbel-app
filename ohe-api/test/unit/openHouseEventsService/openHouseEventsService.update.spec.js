@@ -9,12 +9,27 @@ const faker = require('../../shared/fakeObjectGenerator');
 const notificationService = require(src + 'services/notificationService');
 
 describe('Open House Event Service - update', function () {
+  
+  function* update (params) {
+    const originalEvent = faker.generateEvent(params.originalEvent);
+    const updateRequest = params.updateRequest;
+    const user = params.user || { id: originalEvent.publishing_user_id };
+
+    this.openHouseEventsFinderServiceMock.find = sinon.stub().resolves(originalEvent);
+    this.registrationsRepository.updateRegistration = sinon.stub();
+    this.openHouseEventsRepositoryMock.update = sinon.stub().resolves(Object.assign({}, originalEvent, updateRequest));
+
+    const updatedEvent = yield this.service.update(originalEvent.id, updateRequest, user);
+
+    return { originalEvent, updatedEvent };
+  }
 
   before(function () {
     mockRequire(src + 'openHouseEventsDb/repositories/openHouseEventsRepository', this.openHouseEventsRepositoryMock = {});
     mockRequire(src + 'services/openHouseEventsFinderService', this.openHouseEventsFinderServiceMock = {});
     mockRequire(src + 'openHouseEventsDb/repositories/openHouseEventRegistrationsRepository', this.registrationsRepository = {});
     this.service = require(src + 'services/openHouseEventsService');
+    this.update = update.bind(this);
   });
 
   beforeEach(function () {
@@ -26,6 +41,8 @@ describe('Open House Event Service - update', function () {
   });
 
   after(() => mockRequire.stopAll());
+
+  
 
   it('should update an existing event', function* () {
     let originalEvent = faker.generateEvent({ id: 1 });
@@ -188,13 +205,8 @@ describe('Open House Event Service - update', function () {
   });
 
   it('should fail when trying to update another users event', function* () {
-    const originalEvent = faker.generateEvent();
-    const updateRequest = { start_time: moment().add(-5, 'hours').toISOString() };
-    const user = { id: 'not-the-owner-id' };
-    this.openHouseEventsFinderServiceMock.find = sinon.stub().resolves(originalEvent);
-
     try {
-      yield this.service.update(originalEvent.id, updateRequest, user);
+      yield this.update({ user: { id: 'not-the-owner-id' } });
       __.assertThat('code', __.is('not reached'));
     }
     catch (error) {
@@ -204,52 +216,65 @@ describe('Open House Event Service - update', function () {
   });
 
   it('should clear registrations when ohe day is changed', function* () {
-    const originalEvent = faker.generateEvent({
-      registrations: [ faker.generateRegistration() ]
-    });
-
-    const updateRequest = { 
-      start_time: moment(originalEvent.start_time).add(-2, 'days').toISOString()
+    const params = {
+      originalEvent: { registrations: [ faker.generateRegistration() ] },
+      updateRequest: { start_time: moment().add(-2, 'days').toISOString() }
     };
 
-    this.openHouseEventsFinderServiceMock.find = sinon.stub().resolves(originalEvent);
-    this.registrationsRepository.updateRegistration = sinon.stub();
-    this.openHouseEventsRepositoryMock.update = sinon.stub().resolves(Object.assign({}, originalEvent, updateRequest));
-
-    const updatedEvent = yield this.service.update(originalEvent.id, updateRequest, { id: originalEvent.publishing_user_id });
-
-    __.assertThat(updatedEvent, __.hasProperties({
-      start_time: updateRequest.start_time,
+    const response = yield this.update(params);
+    
+    __.assertThat(response.updatedEvent, __.hasProperties({
+      start_time: params.updateRequest.start_time,
       registrations: []
-    }));
-    __.assertThat(this.sendNotification.getCall(0).args, __.contains(
-        notificationService.eventType.OHE_UPDATED,
-        __.hasProperty('dayChanged', true)
-    ));
+    }));    
   });
 
   it('should not clear registrations when only hour is changed', function* () {
-    const originalEvent = faker.generateEvent({
-      registrations: [ faker.generateRegistration() ]
-    });
-
-    const updateRequest = { 
-      start_time: moment(originalEvent.start_time).add(-2, 'hours').toISOString()
+    const params = {
+      originalEvent: { registrations: [ faker.generateRegistration() ] },
+      updateRequest: { start_time: moment().add(-2, 'hours').toISOString() }
     };
 
-    this.openHouseEventsFinderServiceMock.find = sinon.stub().resolves(originalEvent);
-    this.registrationsRepository.updateRegistration = sinon.stub();
-    this.openHouseEventsRepositoryMock.update = sinon.stub().resolves(Object.assign({}, originalEvent, updateRequest));
+    const response = yield this.update(params);
 
-    const updatedEvent = yield this.service.update(originalEvent.id, updateRequest, { id: originalEvent.publishing_user_id });
+    __.assertThat(response.updatedEvent, __.hasProperties({
+      start_time: params.updateRequest.start_time,
+      registrations: params.originalEvent.registrations
+    }));    
+  });
 
-    __.assertThat(updatedEvent, __.hasProperties({
-      start_time: updateRequest.start_time,
-      registrations: originalEvent.registrations
-    }));
-    __.assertThat(this.sendNotification.getCall(0).args, __.contains(
-        notificationService.eventType.OHE_UPDATED,
-        __.hasProperty('dayChanged', false)
+  it('should send OHE_UPDATED event with users who registered', function* () {
+    const registrations = [ faker.generateRegistration() ];
+    const params = {
+      originalEvent: { registrations },
+      updateRequest: { start_time: moment().add(-2, 'hours').toISOString() }
+    };
+
+    yield this.update(params);
+
+    const notificationCallArgs = this.sendNotification.getCall(0).args;
+
+    __.assertThat(notificationCallArgs, __.contains(
+      notificationService.eventType.OHE_UPDATED,
+      __.hasProperties({ 
+        registered_users: __.contains(registrations[0].registered_user_id),
+        day_changed: false
+      })
+    ));
+  });
+
+  it('should send OHE_UPDATED event notifying day was changed', function* () {
+    const params = {
+      updateRequest: { start_time: moment().add(-2, 'days').toISOString() }
+    };
+
+    yield this.update(params);
+
+    const notificationCallArgs = this.sendNotification.getCall(0).args;
+
+    __.assertThat(notificationCallArgs, __.contains(
+      notificationService.eventType.OHE_UPDATED,
+      __.hasProperty('day_changed', true)
     ));
   });
 
