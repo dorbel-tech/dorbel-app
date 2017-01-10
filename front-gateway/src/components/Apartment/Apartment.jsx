@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import autobind from 'react-autobind';
+import { Row } from 'react-bootstrap';
 import svgIcons from '~/assets/images/images.sprite.svg';
 import ApartmentAmenities from './ApartmentAmenities.jsx';
 import OHEList from './OHEList.jsx';
@@ -99,11 +100,9 @@ class Apartment extends Component {
   renderListingLocation(geolocation) {
     if (geolocation) {
       return (
-        <div className="row">
-          <div className="container-fluid">
-            <ApartmentLocation geo={geolocation} />
-          </div>
-        </div>
+        <Row fluid>
+          <ApartmentLocation geo={geolocation} />
+        </Row>
       );
     }
   }
@@ -127,7 +126,7 @@ class Apartment extends Component {
 
     let tabContent;
     switch (action) {
-      case 'events' : 
+      case 'events':
         tabContent = (<OHEManager listing={listing} />);
         break;
       default:
@@ -168,7 +167,7 @@ class Apartment extends Component {
     return (
       <div>
         {this.renderImageGallery(listing)}
-        <ListingMenu listing={listing} currentAction={action} />        
+        <ListingMenu listing={listing} currentAction={action} />
         {tabContent}
       </div>
     );

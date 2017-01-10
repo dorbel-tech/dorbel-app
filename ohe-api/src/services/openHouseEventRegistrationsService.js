@@ -5,24 +5,15 @@ const notificationService = require('./notificationService');
 const openHouseEventsFinderService = require('./openHouseEventsFinderService');
 const repository = require('../openHouseEventsDb/repositories/openHouseEventRegistrationsRepository');
 const shared = require('dorbel-shared');
-const logger = shared.logger.getLogger(module);
+const utilityFunctions = require('./common/utility-functions');
 const userManagement = shared.utils.userManagement;
 const generic = shared.utils.generic;
+const logger = shared.logger.getLogger(module);
 
 function* register(event_id, user) {
   let existingEvent = yield openHouseEventsFinderService.find(event_id);
-  let errorMessage;
 
-  if (isUserRegisteredToEvent(existingEvent, user.user_id)) {
-    errorMessage = 'user already registered to this event';
-  } else if (!existingEvent.isOpenForRegistration) {
-    errorMessage = 'event is not open for registration';
-  }
-
-  if (errorMessage) {
-    throw new errors.DomainValidationError('OpenHouseEventRegistrationValidationError',
-      { event_id, registered_user_id: user.user_id }, errorMessage);
-  }
+  validateEventRegistration(existingEvent, user.user_id); // will throw error if validation fails
 
   const registration = {
     open_house_event_id: event_id,
@@ -41,7 +32,7 @@ function* register(event_id, user) {
       phone: generic.normalizePhone(user.phone)
     }
   });
-  
+
   notificationService.send(notificationService.eventType.OHE_REGISTERED, {
     listing_id: existingEvent.listing_id,
     event_id: existingEvent.id,
@@ -80,6 +71,33 @@ function isUserRegisteredToEvent(event, userId) {
   }
 
   return false;
+}
+
+function validateEventRegistration(event, user_id) {
+  const eventStatus = utilityFunctions.calculateOHEStatus(event, user_id);
+
+  let errorMessage;
+
+  switch (eventStatus) {
+    case 'open':
+      break;
+    case 'expired':
+      errorMessage = 'cannot register to past event';
+      break;
+    case 'full':
+      errorMessage = 'event is full';
+      break;
+    case 'registered':
+      errorMessage = 'user already registered to this event';
+      break;
+    case 'late':
+      errorMessage = 'to late to register';
+  }
+
+  if (errorMessage) {
+    throw new errors.DomainValidationError('OpenHouseEventRegistrationValidationError',
+      { event_id: event.id, registered_user_id: user_id }, errorMessage);
+  }
 }
 
 module.exports = {
