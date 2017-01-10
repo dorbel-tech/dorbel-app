@@ -22,7 +22,7 @@ class Apartments extends Component {
 
     return (
       <Grid fluid>
-        <Row>
+        <Row className="apartments-container">
           <Col lg={3} md={4} className="search-widget-wrapper">
             <Row className="search-widget-container">
               <Col xs={12} sm={10} smOffset={1}>
@@ -46,13 +46,13 @@ class Apartments extends Component {
                 <h5 className="text-center">בחר מספר חדרים</h5>
                 <Nouislider range={{
                   min: 1,
-                  //'12.5%': 1.5,
+                  '12.5%': 1.5,
                   '25%': 2,
-                  //'37.5%': 2.5,
+                  '37.5%': 2.5,
                   '50%': 3,
-                  //'62.5%': 3.5,
+                  '62.5%': 3.5,
                   '75%': 4,
-                  //'87.5%': 4.5,
+                  '87.5%': 4.5,
                   max: 5
                 }}
                   start={[1, 5]}
@@ -65,7 +65,7 @@ class Apartments extends Component {
                   //   }
                   // }}
                   snap={true}
-                  pips={{ mode: 'steps', density: 30 }}
+                  pips={{ mode: 'values', values: [1, 2, 3, 4, 5], density: 30 }}
                   connect={true}
                   direction={'ltr'} />
               </Col>
