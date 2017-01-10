@@ -16,6 +16,7 @@ function DomainNotFoundError(name, data, message) {
 
 function NotResourceOwnerError() {
   Error.captureStackTrace(this, this.constructor);
+  this.message = 'requesting user is not the resource owner';
   this.status = 403;
 }
 

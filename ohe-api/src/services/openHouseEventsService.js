@@ -4,6 +4,7 @@ const errors = require('./domainErrors');
 const notificationService = require('./notificationService');
 const openHouseEventsFinderService = require('./openHouseEventsFinderService');
 const openHouseEventsRepository = require('../openHouseEventsDb/repositories/openHouseEventsRepository');
+const registrationRepository = require('../openHouseEventsDb/repositories/openHouseEventRegistrationsRepository');
 const _ = require('lodash');
 const moment = require('moment');
 require('moment-range');
@@ -85,7 +86,10 @@ function* update(id, openHouseEvent, user) {
   existingEvent.start_time = start;
   existingEvent.end_time = end;  
 
-  const result = (yield openHouseEventsRepository.update(existingEvent)).toJSON();
+  let result = yield openHouseEventsRepository.update(existingEvent);
+  if (result.toJSON) {
+    result = result.toJSON();
+  }
 
   const notificationPayload = {
     listing_id: existingEvent.listing_id,
@@ -102,9 +106,12 @@ function* update(id, openHouseEvent, user) {
     // we have to save a list of registered users because all of them are going to be un-registered and we need to notify them
     notificationPayload.registeredUsers = existingEvent.registrations.map(registration => registration.registered_user_id);
     // not waiting for this
-    existingEvent.registrations.forEach(registration => registration.update({ is_active: false }));    
+    existingEvent.registrations.forEach(registration => {
+      registration.is_active = false;
+      registrationRepository.updateRegistration(registration);
+    });    
     result.registrations = [];
-  } 
+  }
   
   notificationService.send(notificationService.eventType.OHE_UPDATED, notificationPayload);
 
