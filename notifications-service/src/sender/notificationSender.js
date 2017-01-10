@@ -7,7 +7,7 @@ const shared = require('dorbel-shared');
 const logger = shared.logger.getLogger(module);
 const dataRetrieval = require('./dataRetrieval');
 const analytics = shared.utils.analytics;
-
+const messageBus = shared.utils.messageBus;
 
 // TODO : move out of application code
 const eventConfigurations = require('./eventConfigurations.json');
@@ -38,19 +38,6 @@ function sendEvent(eventConfig, eventData) {
   });  
 }
 
-// TODO: this should go somewhere generic
-function handleMessageWrapper(handleFunc, message, done) {
-  const messageBody = JSON.parse(message.Body);
-  const messageDataPayload = JSON.parse(messageBody.Message);
-  
-  handleFunc(messageDataPayload)
-    .then(() => done())
-    .catch(err => {
-      logger.error(err, 'Handling message error');
-      done(err);
-    });
-}
-
 module.exports = {
-  handleMessage: handleMessageWrapper.bind(null, handleMessage)  
+  handleMessage: messageBus.handleMessageWrapper.bind(null, handleMessage)  
 };
