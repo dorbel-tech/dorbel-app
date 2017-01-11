@@ -14,7 +14,7 @@
             font-weight: 700;
             text-align: center;
             font-size: 15px;
-            max-width: 50px;
+            max-width: 60px;
             color: $brand-white;
             top: 30%;
             right: 20px;
@@ -22,15 +22,18 @@
         &.rented {
             border-top-color: rgba(0, 134, 255, 0.7);
         }
+        &.roommates {
+            border-top-color: rgba(240, 155, 10, 0.7);
+        }
+        &.unlisted {
+            border-top-color: rgba(45, 62, 80, 0.7)
+        }
         &.pending {
             border-top-color: rgba(155, 155, 155, 0.7);
             .badgeText {
                 top: 15%;
                 right: 10px;
             }
-        }
-        &.roommates {
-            border-top-color: rgba(240, 155, 10, 0.7);
         }
     }
 }
