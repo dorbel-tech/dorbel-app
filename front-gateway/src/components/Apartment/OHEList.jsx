@@ -145,7 +145,7 @@ class OHEList extends Component {
                 <div href="#" className="list-group-item owner-container text-center">                 
                   <h5>
                   <span>{ listing.publishing_user_type === 'landlord' ? 'בעל הנכס' : 'דייר יוצא' }</span>
-                  <span>: { listing.publishing_username || 'אנונימי' }</span>
+                  <span>: { listing.publishing_user_first_name || 'אנונימי' }</span>
                   </h5>
                 </div>
               </div>
