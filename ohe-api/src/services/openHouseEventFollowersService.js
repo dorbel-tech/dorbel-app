@@ -31,7 +31,7 @@ function* follow(listingId, user) {
   };
 
   const result = yield repository.createFollower(follower);
-  logger.info(result, 'Listing was followed');
+  logger.info({ user_id: user.user_id, listing_id: listingId}, 'Listing was followed');
 
   // TODO: Update user details can be done on client using user token.
   userManagement.updateUserDetails(user.user_id, {
@@ -59,7 +59,10 @@ function* unfollow(followId) {
   existingFollower.is_active = false;
 
   const result = yield repository.updateFollower(existingFollower);
-  logger.info(result, 'Listing was unfollowed');
+  logger.info({ 
+    user_id: existingFollower.following_user_id, 
+    listing_id: existingFollower.listing_id
+  }, 'Listing was unfollowed');
 
   notificationService.send(notificationService.eventType.OHE_UNFOLLOWED, {
     listing_id: existingFollower.listing_id,
