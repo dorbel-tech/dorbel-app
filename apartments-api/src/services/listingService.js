@@ -89,14 +89,17 @@ function* updateStatus(listingId, user, status) {
   return result;
 }
 
-function* getByFilter(listingFilter) {
+function* getByFilter(filterJSON) {
   const listingQuery = {
-
+    status: 'listed'
   };
+  //const listingQuery = Object.assign(JSON.parse(listingFilter), listingQueryDefaults);
 
-  const options = {
-
-  };
+  const filter = JSON.parse(filterJSON);
+  let options = {};
+  if (filter.city) {
+    options.cityQuery = {id: filter.city};
+  }
 
   return listingRepository.list(listingQuery, options);
 }

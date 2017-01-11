@@ -14,8 +14,8 @@ class ApartmentsProvider {
   }
 
   loadApartments(query) {
-    const queryString = encodeURIComponent(JSON.stringify(query));
-    return this.apiProvider.fetch('/api/apartments/v1/listings?q=' + queryString)
+    const q = encodeURIComponent(JSON.stringify(query || {}));
+    return this.apiProvider.fetch('/api/apartments/v1/listings?q=' + q)
       .then(this.appStore.listingStore.add);
   }
 

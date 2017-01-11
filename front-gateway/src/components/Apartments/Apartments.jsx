@@ -8,17 +8,25 @@ import './Apartments.scss';
 
 @observer(['appStore', 'appProviders'])
 class Apartments extends Component {
+  constructor(props) {
+    super(props);
+    //this.state = { relatedListings: [] };
+  }
+  
   componentDidMount() {
-    this.props.appProviders.apartmentsProvider.loadApartments();
     this.props.appProviders.cityProvider.loadCities();
   }
 
   render() {
     const { listingStore, cityStore } = this.props.appStore;
     const apartments = listingStore.apartments.length ? listingStore.apartments : [];
-    const cities = cityStore.cities.length ? cityStore.cities : [{ city_id: 0, city_name: 'טוען...' }];
+    const cities = cityStore.cities.length ? cityStore.cities : [{ id: -1, city_name: 'טוען...' }];
     // TODO: Set selectedCity in the non default case.
     const selectedCity = cities[0];
+
+    this.props.appProviders.apartmentsProvider.loadApartments({
+      city: selectedCity.id
+    });
 
     return (
       <Grid fluid>

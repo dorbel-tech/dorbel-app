@@ -15,9 +15,10 @@ function list(query, options = {}) {
       include: {
         model: models.building,
         include: {
-          model: models.city
+          model: models.city,
+          where: options.cityQuery || {}
         },
-        where: options.buildingQuery ? options.buildingQuery : {},
+        where: options.buildingQuery || {}
       },
       required: true
     }, models.image],
