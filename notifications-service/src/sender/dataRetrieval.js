@@ -40,7 +40,7 @@ const dataRetrievalFunctions = {
           listing.apartment.building.neighborhood = undefined;
           listing.images = undefined;
           return { listing };        
-      });
+        });
     });
   },
   getOheInfo: eventData => {
