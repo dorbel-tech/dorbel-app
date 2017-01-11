@@ -8,6 +8,7 @@ const shared = require('dorbel-shared');
 const utilityFunctions = require('./common/utility-functions');
 const userManagement = shared.utils.userManagement;
 const generic = shared.utils.generic;
+const logger = shared.logger.getLogger(module);
 
 function* register(event_id, user) {
   let existingEvent = yield openHouseEventsFinderService.find(event_id);
@@ -21,6 +22,7 @@ function* register(event_id, user) {
   };
 
   const result = yield repository.createRegistration(registration);
+  logger.info(result, 'Register to OHE');
 
   // TODO: Update user details can be done on client using user token.
   userManagement.updateUserDetails(user.user_id, {
@@ -50,8 +52,9 @@ function* unregister(registrationId) {
   existingRegistration.is_active = false;
 
   const result = yield repository.updateRegistration(existingRegistration);
-  let existingEvent = yield openHouseEventsFinderService.find(existingRegistration.open_house_event_id);
+  logger.info(result, 'Unregister to OHE');
 
+  let existingEvent = yield openHouseEventsFinderService.find(existingRegistration.open_house_event_id);
   notificationService.send(notificationService.eventType.OHE_UNREGISTERED, {
     listing_id: existingEvent.listing_id,
     event_id: existingRegistration.id,
