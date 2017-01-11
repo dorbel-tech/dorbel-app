@@ -10,23 +10,37 @@ import './Apartments.scss';
 class Apartments extends Component {
   constructor(props) {
     super(props);
-    //this.state = { relatedListings: [] };
+    this.state = { selectedCity: { id: -1, city_name: 'טוען...' } };
+
+    this.cities = [];
+
+    this.citySelectHandler = this.citySelectHandler.bind(this);
   }
   
   componentDidMount() {
     this.props.appProviders.cityProvider.loadCities();
   }
 
+  citySelectHandler(cityId) {
+    let city = this.cities.find(c => c.id === cityId);
+    this.setState({ selectedCity: city });
+  }
+
   render() {
     const { listingStore, cityStore } = this.props.appStore;
-    const apartments = listingStore.apartments.length ? listingStore.apartments : [];
-    const cities = cityStore.cities.length ? cityStore.cities : [{ id: -1, city_name: 'טוען...' }];
-    // TODO: Set selectedCity in the non default case.
-    const selectedCity = cities[0];
-
+    
+    // Handle cities and city selection.
+    if (cityStore.cities.length) {
+      this.cities = cityStore.cities;
+      if (this.state.selectedCity.id === -1) {
+        // UPDATE STATE selectedCity ???
+      }
+    }
+    // Handle apartments listings and filter.
     this.props.appProviders.apartmentsProvider.loadApartments({
-      city: selectedCity.id
+      city: this.state.selectedCity.id
     });
+    const apartments = listingStore.apartments.length ? listingStore.apartments : [];
 
     return (
       <Grid fluid>
@@ -35,8 +49,10 @@ class Apartments extends Component {
             <Row className="search-widget-container">
               <Col xs={12} sm={10} smOffset={1}>
                 <div className="city-picker">
-                  <SplitButton id="cityDropdown" bsSize="large" title={'עיר: ' + selectedCity.city_name}>
-                    {cities.map(city => <MenuItem key={city.id} eventKey={city.id}>{city.city_name}</MenuItem>)}
+                  <SplitButton id="cityDropdown" bsSize="large"
+                               title={'עיר: ' + this.state.selectedCity.city_name}
+                               onSelect={this.citySelectHandler}>
+                    {this.cities.map(city => <MenuItem key={city.id} eventKey={city.id}>{city.city_name}</MenuItem>)}
                   </SplitButton>
                   <i data-toggle="modal" data-target="#modal-city-promise">i</i>
                 </div>
