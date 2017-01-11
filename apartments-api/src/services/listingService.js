@@ -56,7 +56,7 @@ function* create(listing) {
       user_phone: generic.normalizePhone(listing.user.phone),
       user_first_name: listing.user.firstname,
       user_last_name: listing.user.lastname,
-      apartment_id: createdListing.apartment_id
+      listing_id: createdListing.id
     });
   }
 
@@ -111,7 +111,7 @@ function* getById(id, user) {
   if (listing) {
     const publishingUser = yield userManagement.getUserDetails(listing.publishing_user_id);
     if (publishingUser) {
-      listing.publishing_username = _.get(publishingUser, 'user_metadata.first_name') || publishingUser.given_name;
+      listing.publishing_user_first_name = _.get(publishingUser, 'user_metadata.first_name') || publishingUser.given_name;
     }
 
     listing.meta = {
