@@ -31,7 +31,7 @@ function* follow(listingId, user) {
   };
 
   const result = yield repository.createFollower(follower);
-  logger.info({ user_id: user.user_id, listing_id: listingId}, 'Listing was followed');
+  logger.info({ user_id: user.user_id, listing_id: listingId }, 'Listing was followed');
 
   // TODO: Update user details can be done on client using user token.
   userManagement.updateUserDetails(user.user_id, {
