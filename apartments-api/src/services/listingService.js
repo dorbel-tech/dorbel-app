@@ -98,7 +98,7 @@ function* getByFilter(filterJSON) {
   const filter = JSON.parse(filterJSON);
   let options = {};
   if (filter.city) {
-    options.cityQuery = {id: filter.city};
+    options.buildingQuery = {city_id: filter.city};
   }
 
   return listingRepository.list(listingQuery, options);

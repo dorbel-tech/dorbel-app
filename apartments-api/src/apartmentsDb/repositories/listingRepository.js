@@ -15,8 +15,7 @@ function list(query, options = {}) {
       include: {
         model: models.building,
         include: {
-          model: models.city,
-          where: options.cityQuery || {}
+          model: models.city
         },
         where: options.buildingQuery || {}
       },
