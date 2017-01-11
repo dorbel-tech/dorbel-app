@@ -98,5 +98,16 @@ describe('Apartments API Integration', function () {
 
       __.assertThat(responseIds, __.not(__.hasItem(this.listingId)));
     });
+
+    it('should return listings from the same city as the requested listing', function* () {
+      const getListingResponse = yield this.apiClient.getSingleListing(this.listingId).expect(200).end();
+      const cityId = getListingResponse.body.apartment.building.city_id;
+      
+      const getRelatedResponse = yield this.apiClient.getRelatedListings(this.listingId).expect(200).end();
+      const respCityIds = _.map(getRelatedResponse.body, function (listing) {
+        return listing.apartment.building.city_id;
+      });
+      __.assertThat(respCityIds, __.everyItem(__.is(cityId)));
+    });
   });
 });
