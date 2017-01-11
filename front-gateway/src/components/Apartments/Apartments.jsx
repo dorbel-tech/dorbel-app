@@ -24,22 +24,22 @@ class Apartments extends Component {
   citySelectHandler(cityId) {
     let city = this.cities.find(c => c.id === cityId);
     this.setState({ selectedCity: city });
+    
+    this.props.appProviders.apartmentsProvider.loadApartments({
+      city: cityId
+    });
   }
 
   render() {
     const { listingStore, cityStore } = this.props.appStore;
     
-    // Handle cities and city selection.
     if (cityStore.cities.length) {
       this.cities = cityStore.cities;
       if (this.state.selectedCity.id === -1) {
         // UPDATE STATE selectedCity ???
       }
     }
-    // Handle apartments listings and filter.
-    this.props.appProviders.apartmentsProvider.loadApartments({
-      city: this.state.selectedCity.id
-    });
+
     const apartments = listingStore.apartments.length ? listingStore.apartments : [];
 
     return (
