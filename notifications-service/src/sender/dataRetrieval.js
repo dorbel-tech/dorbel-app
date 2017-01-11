@@ -32,13 +32,14 @@ const dataRetrievalFunctions = {
   getListingInfo: eventData => {
     return request.get(`${APT_API}/v1/listings/${eventData.listing_id}`, { json: true })
     .then(listing => {
-      return userManagement.getUserDetails(listing.publishing_user_id).then(publishingUser => {
-        listing.publishing_user_email = _.get(publishingUser, 'user_metadata.email') || publishingUser.email;
-        // Reducing object
-        listing.apartment.building.city = undefined;
-        listing.apartment.building.neighborhood = undefined;
-        listing.images = undefined;
-        return { listing };        
+      return userManagement.getUserDetails(listing.publishing_user_id)
+        .then(publishingUser => {
+          listing.publishing_user_email = _.get(publishingUser, 'user_metadata.email') || publishingUser.email;
+          // Reducing object
+          listing.apartment.building.city = undefined;
+          listing.apartment.building.neighborhood = undefined;
+          listing.images = undefined;
+          return { listing };        
       });
     });
   },
@@ -82,7 +83,8 @@ function getAdditonalData(eventConfig, eventData) {
     .map(retrivelFunctionName => dataRetrievalFunctions[retrivelFunctionName](eventData)) // run the functions 
   ) 
   .then(results => { 
-    // all results are returned as one object, duplicate keys will be prioritizing according to the order in eventConfig.dataRetrieval  
+    // all results are returned as one object, duplicate keys will be 
+    // prioritizing according to the order in eventConfig.dataRetrieval  
     return results.reduce((prev, current) => Object.assign(prev, current), {}); 
   }); 
 } 
