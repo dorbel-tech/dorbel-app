@@ -25,6 +25,12 @@ export default class ProfileDetails extends React.Component {
           <p><strong>Email: </strong>
             <span>{profile.email}</span>
           </p>
+          <p><strong>Phone: </strong>
+            <span>{profile.phone}</span>
+          </p>          
+          <p><strong>Role: </strong>
+            <span>{profile.role}</span>
+          </p>          
           <p><strong>Created At:</strong> {profile.created_at}</p>
           <p><strong>Updated At:</strong> {profile.updated_at}</p>
         </div>

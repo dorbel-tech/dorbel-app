@@ -1,19 +1,23 @@
 [
   {
     "eventType": "APARTMENT_CREATED",
-    "notificationType": "apartment_created"
+    "notificationType": "apartment_created",
+    "dataRetrieval": [ "getListingInfo" ]
   },
   {
     "eventType": "APARTMENT_LISTED",
-    "notificationType": "apartment_listed"
+    "notificationType": "apartment_listed",
+    "dataRetrieval": [ "getListingInfo" ]
   },
   {
     "eventType": "APARTMENT_UNLISTED",
-    "notificationType": "apartment_unlisted"
+    "notificationType": "apartment_unlisted",
+    "dataRetrieval": [ "getListingInfo" ]
   },
   {
     "eventType": "APARTMENT_RENTED",
-    "notificationType": "apartment_rented"
+    "notificationType": "apartment_rented",
+    "dataRetrieval": [ "getListingInfo" ]
   },
   { 
     "eventType": "OHE_CREATED",

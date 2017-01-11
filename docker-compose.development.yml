@@ -2,6 +2,7 @@
 version: '2'
 services:
 
+  # Docker management portal, access it from http://localhost:9000
   portainer:
     image: portainer/portainer
     ports: 

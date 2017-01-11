@@ -54,12 +54,14 @@ class AuthProvider {
 
   mapAuth0Profile(auth0profile) {
     const user_metadata = auth0profile.user_metadata || {};
+    const app_metadata = auth0profile.app_metadata || {};
 
     return Object.assign({}, auth0profile, {
       first_name: user_metadata.first_name || auth0profile.given_name,
       last_name: user_metadata.last_name || auth0profile.family_name,
       email: user_metadata.email || auth0profile.email,
-      phone: user_metadata.phone,      
+      phone: user_metadata.phone,
+      role: app_metadata.role
     });
   }
 

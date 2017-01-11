@@ -56,7 +56,7 @@ function* create(listing) {
       user_phone: generic.normalizePhone(listing.user.phone),
       user_first_name: listing.user.firstname,
       user_last_name: listing.user.lastname,
-      apartment_id: createdListing.apartment_id
+      listing_id: createdListing.id
     });
   }
 
