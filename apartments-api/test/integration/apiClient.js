@@ -35,6 +35,10 @@ class ApiClient {
     return this.request.get('/v1/cities');
   }
 
+  getRelatedListings(id){
+    return this.request.get('/v1/listings/'+id+'/related');
+  }
+
   static * init(userProfile) {
     let request;
 
