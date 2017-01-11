@@ -36,7 +36,6 @@ const dataRetrievalFunctions = {
         .then(publishingUser => {
           listing.publishing_user_email = _.get(publishingUser, 'user_metadata.email') || publishingUser.email;
           // Reducing object size by removing unused data.
-          listing.apartment.building.city = undefined;
           listing.apartment.building.neighborhood = undefined;
           listing.images = undefined;
           return { listing };        
