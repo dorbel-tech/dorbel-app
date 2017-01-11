@@ -18,7 +18,7 @@ module.exports.connect = function* connect() {
         max: 10,
         min: 0
       },
-      logging: false,
+      logging: config.get('SHOW_SQL_QUERIES') || false,
       define: { // default definitions for models
         underscored: true,
         charset: 'utf8',
