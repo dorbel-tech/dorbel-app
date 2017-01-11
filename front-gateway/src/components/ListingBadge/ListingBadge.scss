@@ -1,0 +1,36 @@
+@import '../sharedStyles/styles.scss';
+.badgeContainer {
+    position: absolute;
+    z-index: 1;
+    .listingBadge {
+        width: 0;
+        height: 0;
+        border-top: 110px solid;
+        border-left: 110px solid transparent;
+        .badgeText {
+            transform: rotate(45deg);
+            transform-origin: center center;
+            position: absolute;
+            font-weight: 700;
+            text-align: center;
+            font-size: 15px;
+            max-width: 50px;
+            color: $brand-white;
+            top: 30%;
+            right: 20px;
+        }
+        &.rented {
+            border-top-color: rgba(0, 134, 255, 0.7);
+        }
+        &.pending {
+            border-top-color: rgba(155, 155, 155, 0.7);
+            .badgeText {
+                top: 15%;
+                right: 10px;
+            }
+        }
+        &.roommates {
+            border-top-color: rgba(240, 155, 10, 0.7);
+        }
+    }
+}
