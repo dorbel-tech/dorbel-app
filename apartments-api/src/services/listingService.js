@@ -90,12 +90,18 @@ function* updateStatus(listingId, user, status) {
 }
 
 function* getByFilter(filterJSON) {
-  const listingQuery = {
+  const filter = JSON.parse(filterJSON);
+
+  let listingQuery = {
     status: 'listed'
   };
   //const listingQuery = Object.assign(JSON.parse(listingFilter), listingQueryDefaults);
+  if (filter.mrs || filter.mre) {
+    listingQuery.monthly_rent = {};
+    listingQuery.monthly_rent.$gt = filter.mrs;
+    listingQuery.monthly_rent.$lt = filter.mre;
+  }
 
-  const filter = JSON.parse(filterJSON);
   let options = {};
   if (filter.city) {
     options.buildingQuery = {city_id: filter.city};

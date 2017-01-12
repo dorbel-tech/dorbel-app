@@ -10,11 +10,16 @@ import './Apartments.scss';
 class Apartments extends Component {
   constructor(props) {
     super(props);
-    this.state = { selectedCity: { id: -1, city_name: 'טוען...' } };
+    this.filterParams = {
+      cityId: -1,
+      mrs: 1000,
+      mre: 7000
+    };
 
     this.cities = [];
 
     this.citySelectHandler = this.citySelectHandler.bind(this);
+    this.mrSliderChangeHandler = this.mrSliderChangeHandler.bind(this);
   }
   
   componentDidMount() {
@@ -22,12 +27,27 @@ class Apartments extends Component {
   }
 
   citySelectHandler(cityId) {
-    let city = this.cities.find(c => c.id === cityId);
-    this.setState({ selectedCity: city });
-    
-    this.props.appProviders.apartmentsProvider.loadApartments({
-      city: cityId
-    });
+    this.filterParams.cityId = cityId;
+    this.reloadApartments();
+  }
+
+  mrSliderChangeHandler(mrStringArray, unused, monthly_rent) {
+    this.filterParams.mrs = monthly_rent[0];
+    this.filterParams.mre = monthly_rent[1];
+    this.reloadApartments();
+  }
+
+  reloadApartments() {
+    if (this.filterParams.cityId === -1) {
+      this.filterParams.cityId = this.cities[0].id;
+    }
+    let filterObj = {city: this.filterParams.cityId};
+    if (this.filterParams.monthly_rent !== [1000, 7000]) {
+      filterObj.mrs = this.filterParams.mrs === 1000 ? undefined : this.filterParams.mrs;
+      filterObj.mre = this.filterParams.mre === 7000 ? undefined : this.filterParams.mre;
+    }
+
+    this.props.appProviders.apartmentsProvider.loadApartments(filterObj);
   }
 
   render() {
@@ -35,10 +55,11 @@ class Apartments extends Component {
     
     if (cityStore.cities.length) {
       this.cities = cityStore.cities;
-      if (this.state.selectedCity.id === -1) {
-        // UPDATE STATE selectedCity ???
-      }
+      //this.reloadApartments();
     }
+
+    const city = this.cities.find(c => c.id === this.filterParams.cityId);
+    this.cityTitle = city ? city.city_name : 'טוען...';
 
     const apartments = listingStore.apartments.length ? listingStore.apartments : [];
 
@@ -50,7 +71,7 @@ class Apartments extends Component {
               <Col xs={12} sm={10} smOffset={1}>
                 <div className="city-picker">
                   <SplitButton id="cityDropdown" bsSize="large"
-                               title={'עיר: ' + this.state.selectedCity.city_name}
+                               title={'עיר: ' + this.cityTitle}
                                onSelect={this.citySelectHandler}>
                     {this.cities.map(city => <MenuItem key={city.id} eventKey={city.id}>{city.city_name}</MenuItem>)}
                   </SplitButton>
@@ -60,11 +81,12 @@ class Apartments extends Component {
               <Col xs={10} xsOffset={1} className="cost-slider">
                 <h5 className="text-center">בחר טווח מחירים</h5>
                 <Nouislider range={{ min: 1000, max: 7000 }}
-                  start={[1000, 7000]}
+                  start={[this.filterParams.mrs, this.filterParams.mre]}
                   step={1000}
                   pips={{ mode: 'steps', density: 30 }}
                   connect={true}
-                  direction={'ltr'} />
+                  direction={'ltr'}
+                  onChange={this.mrSliderChangeHandler} />
               </Col>
               <Col xs={10} xsOffset={1} className="roomsnum-slider">
                 <h5 className="text-center">בחר מספר חדרים</h5>
