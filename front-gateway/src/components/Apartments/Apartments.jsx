@@ -14,7 +14,13 @@ const DEFAULT_FILTER_PARAMS = {
   minRooms: 1,
   maxRooms: 5,
   minSize: 26,
-  maxSize: 120
+  maxSize: 120,
+  pet: false,
+  sb: false,
+  ac: false,
+  park: false,
+  balc: false,
+  elev: false
 };
 
 @observer(['appStore', 'appProviders'])
@@ -28,6 +34,7 @@ class Apartments extends Component {
 
     this.cities = [];
 
+    this.amenitiesChangeHandler = this.amenitiesChangeHandler.bind(this);
     this.citySelectHandler = this.citySelectHandler.bind(this);
     this.mrSliderChangeHandler = this.mrSliderChangeHandler.bind(this);
     this.roomsSliderChangeHandler = this.roomsSliderChangeHandler.bind(this);
@@ -73,6 +80,15 @@ class Apartments extends Component {
       this.filterObj[maxProp] = undefined;
     }
 
+    this.reloadApartments();
+  }
+
+  amenitiesChangeHandler(e) {
+    let stateChangesObj = {};
+    stateChangesObj[e.target.name] = e.target.checked;
+    this.setState(stateChangesObj);
+
+    this.filterObj[e.target.name] = e.target.checked ? true : undefined;
     this.reloadApartments();
   }
 
@@ -150,7 +166,7 @@ class Apartments extends Component {
                   direction={'ltr'} />
               </Col>
               <Col xs={10} xsOffset={1} className="size-slider">
-                <h5 className="text-center">בחר גודל נכס (מ״ר)</h5>
+                <h5 className="text-center">בחר גודל נכס (במ"ר)</h5>
                 <Nouislider onChange={this.sizeSliderChangeHandler}
                   range={{
                     min: DEFAULT_FILTER_PARAMS.minSize,
@@ -180,27 +196,30 @@ class Apartments extends Component {
               </Col>
             </Row>
             <Row className="search-amenities-container">
-              <Col xs={10} xsOffset={1}>
-                <h5 className="text-center"><b>צמצמו את החיפוש:</b></h5>
+              <Col xs={12}>
+                <h5 className="text-center"><b>צמצמו את החיפוש</b></h5>
                 <Col xs={4}>
-                  <Checkbox>
+                  <Checkbox name="park" checked={this.state.park} onChange={this.amenitiesChangeHandler}>
                     חניה
                   </Checkbox>
-                  <Checkbox>
+                  <Checkbox name="balc" checked={this.state.balc} onChange={this.amenitiesChangeHandler}>
                     מרפסת
                   </Checkbox>
                 </Col>
                 <Col xs={4}>
-                  <Checkbox>
-                    מרוהטת
+                  <Checkbox name="ac" checked={this.state.ac} onChange={this.amenitiesChangeHandler}>
+                    מזגן
                   </Checkbox>
-                  <Checkbox>
-                    בע״ח
+                  <Checkbox name="ele" checked={this.state.ele} onChange={this.amenitiesChangeHandler}>
+                    מעלית
                   </Checkbox>
                 </Col>
                 <Col xs={4}>
-                  <Checkbox>
-                    גינה
+                  <Checkbox name="pet" checked={this.state.pet} onChange={this.amenitiesChangeHandler}>
+                    מותר בע״ח
+                  </Checkbox>
+                  <Checkbox name="sb" checked={this.state.sb} onChange={this.amenitiesChangeHandler}>
+                    סורגים
                   </Checkbox>
                 </Col>
               </Col>

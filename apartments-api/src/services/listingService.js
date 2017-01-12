@@ -104,8 +104,12 @@ function* getByFilter(filterJSON) {
 
   let options = {};
   if (filter.city) {
-    options.buildingQuery = {city_id: filter.city};
+    _.set(options, 'buildingQuery.city_id', filter.city);
   }
+  if (filter.ele) {
+    _.set(options, 'buildingQuery.elevator', true);
+  }
+
   if (filter.minRooms) {
     _.set(options, 'apartmentQuery.rooms.$gte', filter.minRooms);
   }
@@ -117,6 +121,21 @@ function* getByFilter(filterJSON) {
   }
   if (filter.maxSize) {
     _.set(options, 'apartmentQuery.size.$lte', filter.maxSize);
+  }
+  if (filter.park) {
+    _.set(options, 'apartmentQuery.parking', true);
+  }
+  if (filter.balc) {
+    _.set(options, 'apartmentQuery.balcony', true);
+  }
+  if (filter.ac) {
+    _.set(options, 'apartmentQuery.air_conditioning', true);
+  }
+  if (filter.pet) {
+    _.set(options, 'apartmentQuery.pets', true);
+  }
+  if (filter.sb) {
+    _.set(options, 'apartmentQuery.security_bars', true);
   }
 
   return listingRepository.list(listingQuery, options);
