@@ -9,6 +9,9 @@ import './Apartments.scss';
 
 const DEFAULT_FILTER_PARAMS = {
   cityId: -1,
+  roomate: true,
+  empty: true,
+  room: true,
   mrs: 1000,
   mre: 7000,
   minRooms: 1,
@@ -37,6 +40,7 @@ class Apartments extends Component {
     this.amenitiesChangeHandler = this.amenitiesChangeHandler.bind(this);
     this.citySelectHandler = this.citySelectHandler.bind(this);
     this.mrSliderChangeHandler = this.mrSliderChangeHandler.bind(this);
+    this.roomateChangeHandler = this.roomateChangeHandler.bind(this);
     this.roomsSliderChangeHandler = this.roomsSliderChangeHandler.bind(this);
     this.sizeSliderChangeHandler = this.sizeSliderChangeHandler.bind(this);
   }
@@ -89,6 +93,26 @@ class Apartments extends Component {
     this.setState(stateChangesObj);
 
     this.filterObj[e.target.name] = e.target.checked ? true : undefined;
+    this.reloadApartments();
+  }
+
+  roomateChangeHandler(e) {
+    let stateChangesObj = {};
+    stateChangesObj[e.target.name] = e.target.checked;
+    this.setState(stateChangesObj);
+
+    this.filterObj.room = undefined;
+    this.filterObj.rs = undefined;
+    // We can't check the newly set state to be false directly,
+    // so we do a positive check.
+    if (e.target.name === 'roomate' && this.state.roomate) {
+      this.filterObj.room = 0;
+    } else if (e.target.name === 'room' && this.state.room) {
+      this.filterObj.room = 0;
+    } else if (e.target.name === 'empty' && this.state.empty) {
+      this.filterObj.rs = 0;
+    }
+
     this.reloadApartments();
   }
 
@@ -183,15 +207,26 @@ class Apartments extends Component {
                   direction={'ltr'} />
               </Col>
             </Row>
-            <Row className="search-switches-container text-center">
-              <Col xs={6}>
-                <Checkbox>
-                  דירות ריקות
+            <Row className="search-switches-container">
+              <Col xs={12}>
+                <Checkbox name="roomate" checked={this.state.roomate} onChange={this.roomateChangeHandler}>
+                  הציגו לי דירות לשותפים
                 </Checkbox>
               </Col>
               <Col xs={6}>
-                <Checkbox>
-                  דירות שותפים
+                <Checkbox name="empty"
+                  checked={this.state.empty}
+                  disabled={!this.state.roomate || !this.state.room}
+                  onChange={this.roomateChangeHandler}>
+                  דירות ריקות לשותפים
+                </Checkbox>
+              </Col>
+              <Col xs={6}>
+                <Checkbox name="room"
+                  checked={this.state.room}
+                  disabled={!this.state.roomate || !this.state.empty}
+                  onChange={this.roomateChangeHandler}>
+                  חדר בדירת שותפים
                 </Checkbox>
               </Col>
             </Row>
