@@ -1,42 +1,48 @@
 [
   {
     "eventType": "APARTMENT_CREATED",
-    "notificationType": "apartment_created"
+    "notificationType": "apartment_created",
+    "dataRetrieval": [ "getUserDetails", "getListingInfo" ]
   },
   {
     "eventType": "APARTMENT_LISTED",
-    "notificationType": "apartment_listed"
+    "notificationType": "apartment_listed",
+    "dataRetrieval": [ "getUserDetails", "getListingInfo" ]
   },
   {
     "eventType": "APARTMENT_UNLISTED",
-    "notificationType": "apartment_unlisted"
+    "notificationType": "apartment_unlisted",
+    "dataRetrieval": [ "getUserDetails", "getListingInfo" ]
   },
   {
     "eventType": "APARTMENT_RENTED",
-    "notificationType": "apartment_rented"
+    "notificationType": "apartment_rented",
+    "dataRetrieval": [ "getUserDetails", "getListingInfo" ]
   },
   { 
     "eventType": "OHE_CREATED",
-    "notificationType": "ohe_created"
+    "notificationType": "ohe_created",
+    "dataRetrieval": [ "getUserDetails", "getListingInfo", "getOheInfo" ]
   },
   { 
     "eventType": "OHE_CREATED",
     "notificationType": "ohe_created_notify_followers",
-    "dataRetrieval": [ "getListingFollowers" ]
+    "dataRetrieval": [ "getUserDetails", "getListingFollowers", "getOheInfo" ]
   },
   {
     "eventType": "OHE_UPDATED",
-    "notificationType": "ohe_updated"
+    "notificationType": "ohe_updated",
+    "dataRetrieval": [ "getUserDetails", "getListingInfo", "getOheInfo" ]
   },
   {
     "eventType": "OHE_DELETED",
     "notificationType": "ohe_cancelled_notify_registered_users",
-    "dataRetrieval": [ "getListingInfo", "getOheRegisteredUsers" ]
+    "dataRetrieval": [ "getUserDetails", "getListingInfo", "getOheRegisteredUsers" ]
   },
   {
     "eventType": "OHE_REGISTERED",
     "notificationType": "ohe_registered",
-    "dataRetrieval": [ "getListingInfo", "getOheInfo" ]
+    "dataRetrieval": [ "getUserDetails", "getListingInfo", "getOheInfo" ]
   },
   {
     "eventType": "OHE_REGISTERED",
@@ -46,11 +52,12 @@
   {
     "eventType": "OHE_UNREGISTERED",
     "notificationType": "ohe_unregistered",
-    "dataRetrieval": [ "getListingInfo", "getOheInfo" ]
+    "dataRetrieval": [ "getUserDetails", "getListingInfo", "getOheInfo"]
   },
   {
     "eventType": "OHE_FOLLOWED",
-    "notificationType": "ohe_followed"
+    "notificationType": "ohe_followed",
+    "dataRetrieval": [ "getUserDetails", "getListingInfo"]    
   },
   {
     "eventType": "OHE_UNFOLLOWED",
