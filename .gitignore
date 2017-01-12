@@ -49,4 +49,4 @@ front-gateway/test/e2e/reports
 front-gateway/bin/chromedriver
 
 # VSCode local-history extention folder
-.history
+/.history

@@ -112,9 +112,9 @@ function* getByFilter(filterJSON) {
 
 function* getById(id, user) {
   let listing = yield listingRepository.getById(id);
-  listing = listing.toJSON(); // discard SQLize object for adding ad-hoc properties
 
   if (listing) {
+    listing = listing.toJSON(); // discard SQLize object for adding ad-hoc properties
     const publishingUser = yield userManagement.getUserDetails(listing.publishing_user_id);
     if (publishingUser) {
       listing.publishing_user_first_name = _.get(publishingUser, 'user_metadata.first_name') || publishingUser.given_name;
