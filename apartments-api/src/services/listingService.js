@@ -65,7 +65,7 @@ function* create(listing) {
 
 function* updateStatus(listingId, user, status) {
   let listing = yield listingRepository.getById(listingId);
-  
+
   if (!listing) {
     throw new CustomError(404, 'listing not found');
   } else if (user.role !== 'admin' && listing.publishing_user_id !== user.id) {
@@ -73,8 +73,8 @@ function* updateStatus(listingId, user, status) {
   } else if (getPossibleStatuses(listing, user).indexOf(status) < 0) {
     throw new CustomError(403, 'unauthorized to change this listing to status ' + status);
   }
-  
-  const currentStatus = listing.status;  
+
+  const currentStatus = listing.status;
   const result = yield listing.update({ status });
 
   if (config.get('NOTIFICATIONS_SNS_TOPIC_ARN')) {
@@ -91,9 +91,9 @@ function* updateStatus(listingId, user, status) {
 
 function* getById(id, user) {
   let listing = yield listingRepository.getById(id);
-  listing = listing.toJSON(); // discard SQLize object for adding ad-hoc properties
 
   if (listing) {
+    listing = listing.toJSON(); // discard SQLize object for adding ad-hoc properties
     const publishingUser = yield userManagement.getUserDetails(listing.publishing_user_id);
     if (publishingUser) {
       listing.publishing_user_first_name = _.get(publishingUser, 'user_metadata.first_name') || publishingUser.given_name;
