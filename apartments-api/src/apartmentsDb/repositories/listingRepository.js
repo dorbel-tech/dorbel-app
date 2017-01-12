@@ -19,7 +19,8 @@ function list(query, options = {}) {
         },
         where: options.buildingQuery || {}
       },
-      required: true
+      required: true,
+      where: options.apartmentQuery || {}
     }, models.image],
 
     limit: options.limit,

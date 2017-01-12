@@ -95,16 +95,22 @@ function* getByFilter(filterJSON) {
   let listingQuery = {
     status: 'listed'
   };
-  //const listingQuery = Object.assign(JSON.parse(listingFilter), listingQueryDefaults);
-  if (filter.mrs || filter.mre) {
-    listingQuery.monthly_rent = {};
-    listingQuery.monthly_rent.$gt = filter.mrs;
-    listingQuery.monthly_rent.$lt = filter.mre;
+  if (filter.mrs) {
+    _.set(listingQuery, 'monthly_rent.$gte', filter.mrs);
+  }
+  if (filter.mre) {
+    _.set(listingQuery, 'monthly_rent.$lte', filter.mre);
   }
 
   let options = {};
   if (filter.city) {
     options.buildingQuery = {city_id: filter.city};
+  }
+  if (filter.minRooms) {
+    _.set(options, 'apartmentQuery.rooms.$gte', filter.minRooms);
+  }
+  if (filter.maxRooms) {
+    _.set(options, 'apartmentQuery.rooms.$lte', filter.maxRooms);
   }
 
   return listingRepository.list(listingQuery, options);
