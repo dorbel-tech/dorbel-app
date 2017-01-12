@@ -31,7 +31,6 @@ class ListingBadge extends Component {
           break;
       }
     }
-
     else if (this.props.listing.roommate_needed) {
       options.show = true;
       options.className = 'roommates';
