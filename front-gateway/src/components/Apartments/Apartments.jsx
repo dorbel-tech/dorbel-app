@@ -12,7 +12,9 @@ const DEFAULT_FILTER_PARAMS = {
   mrs: 1000,
   mre: 7000,
   minRooms: 1,
-  maxRooms: 5
+  maxRooms: 5,
+  minSize: 26,
+  maxSize: 120
 };
 
 @observer(['appStore', 'appProviders'])
@@ -22,13 +24,14 @@ class Apartments extends Component {
 
     this.state = Object.assign({}, DEFAULT_FILTER_PARAMS);
 
-    this.filterObj = {city: DEFAULT_FILTER_PARAMS.cityId};
+    this.filterObj = { city: DEFAULT_FILTER_PARAMS.cityId };
 
     this.cities = [];
 
     this.citySelectHandler = this.citySelectHandler.bind(this);
     this.mrSliderChangeHandler = this.mrSliderChangeHandler.bind(this);
     this.roomsSliderChangeHandler = this.roomsSliderChangeHandler.bind(this);
+    this.sizeSliderChangeHandler = this.sizeSliderChangeHandler.bind(this);
   }
 
   componentDidMount() {
@@ -36,38 +39,38 @@ class Apartments extends Component {
   }
 
   citySelectHandler(cityId) {
-    this.setState({cityId: cityId});
-    
+    this.setState({ cityId: cityId });
+
     this.filterObj.city = cityId;
     this.reloadApartments();
   }
 
   mrSliderChangeHandler(mrStringArray, unused, monthly_rent) {
-    this.setState({mrs: monthly_rent[0], mre: monthly_rent[1]});
-
-    if (monthly_rent !== [DEFAULT_FILTER_PARAMS.mrs, DEFAULT_FILTER_PARAMS.mre]) {
-      this.filterObj.mrs = monthly_rent[0] === DEFAULT_FILTER_PARAMS.mrs ?
-        undefined : monthly_rent[0];
-      this.filterObj.mre = monthly_rent[1] === DEFAULT_FILTER_PARAMS.mre ?
-        undefined : monthly_rent[1];
-    } else {
-      this.filterObj.mrs = undefined;
-      this.filterObj.mre = undefined;
-    }
-    this.reloadApartments();
+    this.sliderChangeHandler(monthly_rent, 'mrs', 'mre');
   }
 
   roomsSliderChangeHandler(roomsStringArray, unused, rooms) {
-    this.setState({minRooms: rooms[0], maxRooms: rooms[1]});
+    this.sliderChangeHandler(rooms, 'minRooms', 'maxRooms');
+  }
 
-    if (rooms !== [DEFAULT_FILTER_PARAMS.mrs, DEFAULT_FILTER_PARAMS.mre]) {
-      this.filterObj.minRooms = rooms[0] === DEFAULT_FILTER_PARAMS.minRooms ?
-        undefined : rooms[0];
-      this.filterObj.maxRooms = rooms[1] === DEFAULT_FILTER_PARAMS.maxRooms ?
-        undefined : rooms[1];
+  sizeSliderChangeHandler(sizeStringArray, unused, sizes) {
+    this.sliderChangeHandler(sizes, 'minSize', 'maxSize');
+  }
+
+  sliderChangeHandler(range, minProp, maxProp) {
+    let stateChangesObj = {};
+    stateChangesObj[minProp] = range[0];
+    stateChangesObj[maxProp] = range[1];
+    this.setState(stateChangesObj);
+
+    if (range !== [DEFAULT_FILTER_PARAMS[minProp], DEFAULT_FILTER_PARAMS[maxProp]]) {
+      this.filterObj[minProp] = range[0] === DEFAULT_FILTER_PARAMS[minProp] ?
+        undefined : range[0];
+      this.filterObj[maxProp] = range[1] === DEFAULT_FILTER_PARAMS[maxProp] ?
+        undefined : range[1];
     } else {
-      this.filterObj.minRooms = undefined;
-      this.filterObj.maxRooms = undefined;
+      this.filterObj[minProp] = undefined;
+      this.filterObj[maxProp] = undefined;
     }
 
     this.reloadApartments();
@@ -76,7 +79,7 @@ class Apartments extends Component {
   reloadApartments() {
     if (this.filterObj.city === DEFAULT_FILTER_PARAMS.cityId) {
       return;
-    } 
+    }
 
     this.props.appProviders.apartmentsProvider.loadApartments(this.filterObj);
   }
@@ -148,8 +151,16 @@ class Apartments extends Component {
               </Col>
               <Col xs={10} xsOffset={1} className="size-slider">
                 <h5 className="text-center">בחר גודל נכס (מ״ר)</h5>
-                <Nouislider range={{ min: 26, '20%': 40, '40%': 60, '60%': 80, '80%': 100, max: 120 }}
-                  start={[26, 120]}
+                <Nouislider onChange={this.sizeSliderChangeHandler}
+                  range={{
+                    min: DEFAULT_FILTER_PARAMS.minSize,
+                    '20%': 40,
+                    '40%': 60,
+                    '60%': 80,
+                    '80%': 100,
+                    max: DEFAULT_FILTER_PARAMS.maxSize
+                  }}
+                  start={[this.state.minSize, this.state.maxSize]}
                   snap={true}
                   pips={{ mode: 'steps', density: 30 }}
                   connect={true}

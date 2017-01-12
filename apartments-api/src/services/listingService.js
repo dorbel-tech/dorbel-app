@@ -112,6 +112,12 @@ function* getByFilter(filterJSON) {
   if (filter.maxRooms) {
     _.set(options, 'apartmentQuery.rooms.$lte', filter.maxRooms);
   }
+  if (filter.minSize) {
+    _.set(options, 'apartmentQuery.size.$gte', filter.minSize);
+  }
+  if (filter.maxSize) {
+    _.set(options, 'apartmentQuery.size.$lte', filter.maxSize);
+  }
 
   return listingRepository.list(listingQuery, options);
 }
