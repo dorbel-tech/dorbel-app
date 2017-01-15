@@ -23,7 +23,7 @@ class AddOHEModal extends React.Component {
     if (formsy.state.isValid) {
       this.props.appProviders.oheProvider.createOhe(this.state)
         .catch(() => {
-          alert('OHE not created');
+          this.props.appProviders.notificationProvider.add('Error', 'OHE not created');
         })
         .then(() => {
           if (this.props.onClose) {

@@ -21,5 +21,8 @@
     "eslint-plugin-flowtype": "^2.19.0",
     "eslint-plugin-jsx-a11y": "^2.2.3",
     "eslint-plugin-react": "^6.3.0"
+  },
+  "dependencies": {
+    "react-notification-system": "^0.2.11"
   }
 }
