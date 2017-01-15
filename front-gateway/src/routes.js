@@ -48,14 +48,23 @@ function startRouter(appStore) {
     // bug fix for https://github.com/flatiron/director/issues/312
     const oldSetRoute = router.setRoute;
     router.setRoute = function () {
-      const origAgrs = arguments;
-      if (window.onpopstate) {
+      const origAgrs = arguments;      
+      if (window.onpopstate) {        
         oldSetRoute.apply(router, origAgrs);
       } else {
         setTimeout(() => {
           router.setRoute.apply(router, origAgrs);
         }, 10);
       }
+
+      // Report page view analytics to Segment.
+      window.analytics.page({
+        path: origAgrs[0],
+        referrer: window.document.referrer,
+        search: window.location.search,
+        title: window.document.title,
+        url: window.location.href
+      });      
     };
 
     router.goUpOneLevel = function () {
