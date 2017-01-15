@@ -102,10 +102,10 @@ function* getByFilter(filterJSON) {
     _.set(listingQuery, 'monthly_rent.$lte', filter.mre);
   }
   if (filter.room === 0) {
-    listingQuery.roomate_needed = 0;
+    listingQuery.roommate_needed = 0;
   }
   if (filter.rs === 0) {
-    listingQuery.roomates = 0;
+    listingQuery.roommates = 0;
   }
 
   let options = {};
