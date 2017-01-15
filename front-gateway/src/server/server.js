@@ -30,12 +30,10 @@ function* runServer() {
   // Used for development only
   if (config.get('HOT_RELOAD_SERVER_PORT')) {
     const buildHost = 'http://localhost:' + config.get('HOT_RELOAD_SERVER_PORT');
-    const segment = config.get('SEGMENT_IO_WRITE_KEY');
 
     app.use(function* (next) {
       this.state = this.state || {};
       this.state.buildHost = buildHost;
-      this.state.segment = segment;
       yield next;
     });
 
@@ -44,6 +42,14 @@ function* runServer() {
       match: /^\/build\//,
     }));
   }
+  
+  const segment = config.get('SEGMENT_IO_WRITE_KEY');
+
+  // Adds locals param to use on server index.ejs view.
+  app.use(function* (next) {    
+    this.state.segment = segment;
+    yield next;
+  });
 
   app.use(serve(config.dir.public));
   app.use(shared.utils.userManagement.parseAuthToken);
