@@ -48,8 +48,8 @@ function startRouter(appStore) {
     // bug fix for https://github.com/flatiron/director/issues/312
     const oldSetRoute = router.setRoute;
     router.setRoute = function () {
-      const origAgrs = arguments;      
-      if (window.onpopstate) {        
+      const origAgrs = arguments;
+      if (window.onpopstate) {
         oldSetRoute.apply(router, origAgrs);
       } else {
         setTimeout(() => {
