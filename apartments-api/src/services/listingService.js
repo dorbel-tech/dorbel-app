@@ -22,7 +22,11 @@ function* create(listing) {
     { status: { $notIn: ['closed', 'rented'] } }
   );
   if (existingOpenListingForApartment && existingOpenListingForApartment.length) {
-    throw new CustomError(409, 'apartment already has an active listing');
+    throw new CustomError(409,
+      JSON.stringify({
+        error_code: 1,
+        message: 'apartment already has an active listing'
+      }));
   }
 
   if (listing.lease_start && !listing.lease_end) {

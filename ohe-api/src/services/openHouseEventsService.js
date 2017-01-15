@@ -29,7 +29,11 @@ function validateEventIsNotOverlappingExistingEvents(existingListingEvents, list
         throw new errors.DomainValidationError('OpenHouseEventValidationError', {
           start_time: start,
           end_time: end
-        }, 'new event is overlapping an existing event');
+        },
+          {
+            error_code: 2,
+            message: 'new event is overlapping an existing event'
+          });
       }
     });
 }

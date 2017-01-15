@@ -15,11 +15,11 @@ class UploadApartmentForm extends Component {
 
   @action
   nextStep() {
-    let { newListingStore }  = this.props.appStore;        
+    let { newListingStore } = this.props.appStore;
     if (newListingStore.stepNumber === steps.length - 1) { // last step
       this.props.appProviders.apartmentsProvider.uploadApartment(newListingStore.formValues)
-      .then(() => this.setState({ showSuccessModal: true }))
-      .catch(() => this.props.appProviders.notificationProvider.add('Error', 'Upload failed'));
+        .then(() => this.setState({ showSuccessModal: true }))
+        .catch((err) => this.handleUploadListingFailed(err));
     } else {
       newListingStore.stepNumber++;
     }
@@ -28,6 +28,26 @@ class UploadApartmentForm extends Component {
   @action
   prevStep() {
     this.props.appStore.newListingStore.stepNumber--;
+  }
+
+  handleUploadListingFailed(err) {
+    let errorMsg;
+    try {
+      const error = err.response.data;
+      switch (error.error_code) {
+        case 1:
+          errorMsg = error.message;
+          break;
+        default:
+          errorMsg = 'Upload failed';
+          break;
+      }
+    }
+    catch (err) {
+      errorMsg = 'Upload failed';
+    }
+
+    this.props.appProviders.notificationProvider.add('Error', errorMsg);
   }
 
   render() {

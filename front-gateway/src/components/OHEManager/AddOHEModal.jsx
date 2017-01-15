@@ -22,8 +22,8 @@ class AddOHEModal extends React.Component {
     const formsy = this.refs.form.refs.formsy;
     if (formsy.state.isValid) {
       this.props.appProviders.oheProvider.createOhe(this.state)
-        .catch(() => {
-          this.props.appProviders.notificationProvider.add('Error', 'OHE not created');
+        .catch((resp) => {
+          this.handleOHEAddError(resp);
         })
         .then(() => {
           if (this.props.onClose) {
@@ -34,6 +34,26 @@ class AddOHEModal extends React.Component {
       formsy.submit(); // will trigger validation messages
     }
 
+  }
+
+  handleOHEAddError(err) {
+    let errorMsg;
+    try {
+      const error = err.response.data;
+      switch (error.error_code) {
+        case 2:
+          errorMsg = error.message;
+          break;
+        default:
+          errorMsg = 'Open House Event wasn\'t created';
+          break;
+      }
+    }
+    catch (err) {
+      errorMsg = 'Open House Event wasn\'t created';
+    }
+
+    this.props.appProviders.notificationProvider.add('Error', errorMsg);
   }
 
   render() {
