@@ -90,7 +90,7 @@ function* updateStatus(listingId, user, status) {
 }
 
 function* getByFilter(filterJSON) {
-  const filter = JSON.parse(filterJSON);
+  const filter = filterJSON ? JSON.parse(filterJSON) : {};
 
   let listingQuery = {
     status: 'listed'
