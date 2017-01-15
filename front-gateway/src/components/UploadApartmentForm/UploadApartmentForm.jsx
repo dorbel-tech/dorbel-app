@@ -32,19 +32,14 @@ class UploadApartmentForm extends Component {
 
   handleUploadListingFailed(err) {
     let errorMsg;
-    try {
-      const error = err.response.data;
-      switch (error.error_code) {
-        case 1:
-          errorMsg = error.message;
-          break;
-        default:
-          errorMsg = 'Upload failed';
-          break;
-      }
-    }
-    catch (err) {
-      errorMsg = 'Upload failed';
+    const error = err.response.data;
+    switch (error.error_code) {
+      case 1:
+        errorMsg = error.message;
+        break;
+      default:
+        errorMsg = 'Upload failed';
+        break;
     }
 
     this.props.appProviders.notificationProvider.add('Error', errorMsg);

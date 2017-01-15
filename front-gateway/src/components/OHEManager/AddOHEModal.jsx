@@ -38,19 +38,14 @@ class AddOHEModal extends React.Component {
 
   handleOHEAddError(err) {
     let errorMsg;
-    try {
-      const error = err.response.data;
-      switch (error.error_code) {
-        case 2:
-          errorMsg = error.message;
-          break;
-        default:
-          errorMsg = 'Open House Event wasn\'t created';
-          break;
-      }
-    }
-    catch (err) {
-      errorMsg = 'Open House Event wasn\'t created';
+    const error = err.response.data;
+    switch (error.error_code) {
+      case 2:
+        errorMsg = error.message;
+        break;
+      default:
+        errorMsg = 'Open House Event wasn\'t created';
+        break;
     }
 
     this.props.appProviders.notificationProvider.add('Error', errorMsg);
