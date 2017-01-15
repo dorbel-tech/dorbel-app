@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Checkbox, Col, Grid, MenuItem, Row, SplitButton } from 'react-bootstrap';
+import autobind from 'react-autobind';
+import { Checkbox, Col, DropdownButton, Grid, MenuItem, Row } from 'react-bootstrap';
 import { observer } from 'mobx-react';
 import ListingThumbnail from '../ListingThumbnail/ListingThumbnail.jsx';
 import Nouislider from 'react-nouislider';
@@ -8,41 +9,34 @@ import _ from 'lodash';
 import './Apartments.scss';
 
 const DEFAULT_FILTER_PARAMS = {
-  cityId: -1,
-  roomate: true,
-  empty: true,
-  room: true,
-  mrs: 1000,
-  mre: 7000,
-  minRooms: 1,
-  maxRooms: 5,
-  minSize: 26,
-  maxSize: 120,
-  pet: false,
-  sb: false,
-  ac: false,
-  park: false,
-  balc: false,
-  elev: false
+  cityId: -1, // City selector default value.
+  roomate: true, // Roommate search checkbox default value.
+  empty: true, // Empty apartment for roommates checkbox default value.
+  room: true, // Roomate looking for roommate/s checkbox default value.
+  mrs: 1000, // Monthly rent slider start default value.
+  mre: 7000, // Monthly rent slider end default value.
+  minRooms: 1, // Rooms number slider start default value.
+  maxRooms: 5, // Rooms number slider end default value.
+  minSize: 26, // Apartment size slider start default value.
+  maxSize: 120, // Apartment size slider end default value.
+  ac: false, // Apartment with air conditioning checkbox default value.
+  balc: false, // Apartment with balcony checkbox default value.
+  elev: false, // Apartment with elevator checkbox default value.
+  park: false, // Apartment with parking checkbox default value.
+  pet: false // Apartment allowing pets checkbox default value.
 };
 
 @observer(['appStore', 'appProviders'])
 class Apartments extends Component {
   constructor(props) {
     super(props);
+    autobind(this);
 
     this.state = Object.assign({}, DEFAULT_FILTER_PARAMS);
 
     this.filterObj = { city: DEFAULT_FILTER_PARAMS.cityId };
 
     this.cities = [];
-
-    this.amenitiesChangeHandler = this.amenitiesChangeHandler.bind(this);
-    this.citySelectHandler = this.citySelectHandler.bind(this);
-    this.mrSliderChangeHandler = this.mrSliderChangeHandler.bind(this);
-    this.roomateChangeHandler = this.roomateChangeHandler.bind(this);
-    this.roomsSliderChangeHandler = this.roomsSliderChangeHandler.bind(this);
-    this.sizeSliderChangeHandler = this.sizeSliderChangeHandler.bind(this);
   }
 
   componentDidMount() {
@@ -143,14 +137,39 @@ class Apartments extends Component {
             <Row className="search-widget-container">
               <Col xs={12} sm={10} smOffset={1}>
                 <div className="city-picker">
-                  <SplitButton id="cityDropdown" bsSize="large"
+                  <DropdownButton id="cityDropdown" bsSize="large"
                     title={'עיר: ' + this.cityTitle}
                     onSelect={this.citySelectHandler}>
                     {this.cities.map(city => <MenuItem key={city.id} eventKey={city.id}>{city.city_name}</MenuItem>)}
-                  </SplitButton>
+                  </DropdownButton>
                   <i data-toggle="modal" data-target="#modal-city-promise">i</i>
                 </div>
               </Col>
+            </Row>
+            <Row className="search-switches-container">
+              <Col xs={12}>
+                <Checkbox name="roomate" checked={this.state.roomate} onChange={this.roomateChangeHandler}>
+                  הציגו לי דירות לשותפים
+                </Checkbox>
+              </Col>
+              <Col xs={6}>
+                <Checkbox name="empty"
+                  checked={this.state.empty}
+                  disabled={!this.state.roomate || !this.state.room}
+                  onChange={this.roomateChangeHandler}>
+                  דירות ריקות לשותפים
+                </Checkbox>
+              </Col>
+              <Col xs={6}>
+                <Checkbox name="room"
+                  checked={this.state.room}
+                  disabled={!this.state.roomate || !this.state.empty}
+                  onChange={this.roomateChangeHandler}>
+                  חדר בדירת שותפים
+                </Checkbox>
+              </Col>
+            </Row>
+            <Row className="search-widget-container">
               <Col xs={10} xsOffset={1} className="cost-slider">
                 <h5 className="text-center">בחר טווח מחירים</h5>
                 <Nouislider onChange={this.mrSliderChangeHandler}
@@ -207,29 +226,6 @@ class Apartments extends Component {
                   direction={'ltr'} />
               </Col>
             </Row>
-            <Row className="search-switches-container">
-              <Col xs={12}>
-                <Checkbox name="roomate" checked={this.state.roomate} onChange={this.roomateChangeHandler}>
-                  הציגו לי דירות לשותפים
-                </Checkbox>
-              </Col>
-              <Col xs={6}>
-                <Checkbox name="empty"
-                  checked={this.state.empty}
-                  disabled={!this.state.roomate || !this.state.room}
-                  onChange={this.roomateChangeHandler}>
-                  דירות ריקות לשותפים
-                </Checkbox>
-              </Col>
-              <Col xs={6}>
-                <Checkbox name="room"
-                  checked={this.state.room}
-                  disabled={!this.state.roomate || !this.state.empty}
-                  onChange={this.roomateChangeHandler}>
-                  חדר בדירת שותפים
-                </Checkbox>
-              </Col>
-            </Row>
             <Row className="search-amenities-container">
               <Col xs={12}>
                 <h5 className="text-center"><b>צמצמו את החיפוש</b></h5>
@@ -266,7 +262,9 @@ class Apartments extends Component {
                 {apartments.map(listing => <ListingThumbnail listing={listing} key={listing.id} />)}
               </Row>
               :
-              <h1 className="search-results-not-found">לא נמצאו תוצאות</h1>
+              <div className="search-results-not-found">הלוואי והייתה לנו דירה בדיוק כזו.<br />
+                כנראה שהייתם ספציפיים מדי - לא נמצאו דירות לחיפוש זה.<br />
+                נסו לשנות את הגדרות החיפוש</div>
             }
           </Col>
         </Row>

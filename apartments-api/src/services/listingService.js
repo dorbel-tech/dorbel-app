@@ -95,52 +95,53 @@ function* getByFilter(filterJSON) {
   let listingQuery = {
     status: 'listed'
   };
-  if (filter.mrs) {
+
+  if (filter.mrs) { // Listing monthly rent start.
     _.set(listingQuery, 'monthly_rent.$gte', filter.mrs);
   }
-  if (filter.mre) {
+  if (filter.mre) { // Listing monthly rent end.
     _.set(listingQuery, 'monthly_rent.$lte', filter.mre);
   }
-  if (filter.room === 0) {
+  if (filter.room === 0) { // Listing with a roomate (a roomate looking for roomate/s).
     listingQuery.roommate_needed = 0;
   }
-  if (filter.rs === 0) {
+  if (filter.rs === 0) { // Listing that allows roomate.
     listingQuery.roommates = 0;
   }
 
   let options = {};
-  if (filter.city) {
+  if (filter.city) { // Building city ID.
     _.set(options, 'buildingQuery.city_id', filter.city);
   }
-  if (filter.ele) {
+  if (filter.ele) { // Building has elevator.
     _.set(options, 'buildingQuery.elevator', true);
   }
 
-  if (filter.minRooms) {
+  if (filter.minRooms) { // Apartment minimum number of rooms.
     _.set(options, 'apartmentQuery.rooms.$gte', filter.minRooms);
   }
-  if (filter.maxRooms) {
+  if (filter.maxRooms) { // Apartment maximum number of rooms.
     _.set(options, 'apartmentQuery.rooms.$lte', filter.maxRooms);
   }
-  if (filter.minSize) {
+  if (filter.minSize) { // Apartment minimum size.
     _.set(options, 'apartmentQuery.size.$gte', filter.minSize);
   }
-  if (filter.maxSize) {
+  if (filter.maxSize) { // Apartment maximum size.
     _.set(options, 'apartmentQuery.size.$lte', filter.maxSize);
   }
-  if (filter.park) {
+  if (filter.park) { // Apartment has parking.
     _.set(options, 'apartmentQuery.parking', true);
   }
-  if (filter.balc) {
+  if (filter.balc) { // Apartment has balcony.
     _.set(options, 'apartmentQuery.balcony', true);
   }
-  if (filter.ac) {
+  if (filter.ac) { // Apartment has air conditioning.
     _.set(options, 'apartmentQuery.air_conditioning', true);
   }
-  if (filter.pet) {
+  if (filter.pet) { // Apartment allows pets.
     _.set(options, 'apartmentQuery.pets', true);
   }
-  if (filter.sb) {
+  if (filter.sb) { // Apartment has security bars.
     _.set(options, 'apartmentQuery.security_bars', true);
   }
 
