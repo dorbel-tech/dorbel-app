@@ -1,11 +1,11 @@
 /** 
  * This module provides data enrichment functions needed by the notification-sender 
- * To enrich more the different data needed by each notification type before it is sent 
+ * To enrich the different data needed by each notification type before it is sent 
  */ 
 'use strict'; 
 
 // Calendar invite ICS file building. 
-// Requies listing: {...}, ohe: {...} and user_profile: {...} objects in additonalData.
+// Requires listing: {...}, ohe: {...} and user_profile: {...} objects in additonalData.
 function buildCalendarInvite(additonalData, status) {
   const ICS = require('ics');
   const ics = new ICS();
