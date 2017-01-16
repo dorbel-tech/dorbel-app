@@ -135,15 +135,14 @@ class Apartments extends Component {
         <Row className="apartments-container">
           <Col lg={3} md={4} className="search-widget-wrapper">
             <Row className="search-widget-container">
-              <Col xs={12} sm={10} smOffset={1}>
-                <div className="city-picker">
-                  <DropdownButton id="cityDropdown" bsSize="large"
-                    title={'עיר: ' + this.cityTitle}
-                    onSelect={this.citySelectHandler}>
-                    {this.cities.map(city => <MenuItem key={city.id} eventKey={city.id}>{city.city_name}</MenuItem>)}
-                  </DropdownButton>
-                  <i data-toggle="modal" data-target="#modal-city-promise">i</i>
-                </div>
+              <Col className="city-picker-wrapper" xs={12} sm={10} smOffset={1}>
+                <DropdownButton id="cityDropdown" bsSize="large"
+                  className="city-picker"
+                  title={'עיר: ' + this.cityTitle}
+                  onSelect={this.citySelectHandler}>
+                  {this.cities.map(city => <MenuItem key={city.id} eventKey={city.id}>{city.city_name}</MenuItem>)}
+                </DropdownButton>
+                <i data-toggle="modal" data-target="#modal-city-promise">i</i>
               </Col>
             </Row>
             <Row className="search-switches-container">
