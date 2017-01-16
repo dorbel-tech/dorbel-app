@@ -45,7 +45,7 @@ function enrichAdditonalData(eventConfig, eventData, additonalData) {
     .map(enrichmentFunctionName => dataEnrichmentFunctions[enrichmentFunctionName](eventData, additonalData)) // run the functions 
   ) 
   .then(results => { 
-    // all results are returned as one object, duplicate keys will be 
+    // all results are returned as one object, duplicate keys will be removed
     // prioritizing according to the order in eventConfig.dataEnrichment  
     return results.reduce((prev, current) => Object.assign(prev, current), {}); 
   }); 
