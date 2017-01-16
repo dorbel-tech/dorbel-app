@@ -78,8 +78,8 @@ function getAdditonalData(eventConfig, eventData) {
   const dataRequired = eventConfig.dataRetrieval || [];   
   return Promise.all( 
     dataRequired 
-    .filter(retrivelFunctionName => dataRetrievalFunctions[retrivelFunctionName]) // only take ones that actually exist 
-    .map(retrivelFunctionName => dataRetrievalFunctions[retrivelFunctionName](eventData)) // run the functions 
+    .filter(retrivalFunctionName => dataRetrievalFunctions[retrivalFunctionName]) // only take ones that actually exist 
+    .map(retrivalFunctionName => dataRetrievalFunctions[retrivalFunctionName](eventData)) // run the functions 
   ) 
   .then(results => { 
     // all results are returned as one object, duplicate keys will be 
