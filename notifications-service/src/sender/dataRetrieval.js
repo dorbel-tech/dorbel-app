@@ -18,17 +18,11 @@ function getOheInfo(oheId) {
   return request.get(`${OHE_API}/v1/event/${oheId}`, { json: true });
 }
 
+function getListingFollowers(listingId) {
+  return request.get(`${OHE_API}/v1/followers/by-listing/${listingId}`, { json: true });
+}
+
 const dataRetrievalFunctions = { 
-  getListingFollowers: eventData => {
-    return request.get(`${OHE_API}/v1/followers/by-listing/${eventData.listing_id}`, { json: true })
-    .then(response => { 
-      // this notification will be sent to all the users who followed a listing to get notified on new OHE
-      return { customRecipients: response
-        .filter(follower => follower.is_active)
-        .map(follower => follower.following_user_id)
-      };
-    });
-  },
   getListingInfo: eventData => {
     return request.get(`${APT_API}/v1/listings/${eventData.listing_id}`, { json: true })
     .then(listing => {
@@ -58,13 +52,36 @@ const dataRetrievalFunctions = {
       };
     });
   },
-  getOheRegisteredUsers: eventData => {
+  sendToOheRegisteredUsers: eventData => {
     return getOheInfo(eventData.event_id)
     .then(response => {
       // this notification will be sent to the users registered to the OHE 
       return { customRecipients: response.registrations
         .filter(registration => registration.is_active)
         .map(registration => registration.registered_user_id) 
+      };
+    });
+  },
+  getListingOhesCount: eventData => {
+    return request.get(`${OHE_API}/v1/events/by-listing/${eventData.listing_id}`, { json: true })
+      .then(response => {
+        let ohesCount = response.length || 0;
+        return { ohesCount };
+      });
+  },
+  getListingFollowersCount: eventData => {
+    return getListingFollowers(eventData.listing_id)
+      .then(followers => {
+        return { followersCount: followers.length };
+      });
+  },
+  sendToListingFollowers: eventData => {
+    return getListingFollowers(eventData.listing_id)
+    .then(response => { 
+      // this notification will be sent to all the users who followed a listing to get notified on new OHE
+      return { customRecipients: response
+        .filter(follower => follower.is_active)
+        .map(follower => follower.following_user_id)
       };
     });
   },
