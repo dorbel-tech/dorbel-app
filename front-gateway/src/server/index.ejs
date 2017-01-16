@@ -1,25 +1,29 @@
 <!doctype html>
 <html>
   <head>
-    <title>dorbel - דירות להשכרה ללא תיווך שתשמחו לגור בהן</title>
+    <title><%= locals.meta.title %></title>
     <meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1' />
     <meta name="theme-color" content="#31124b" />
-    <meta name="description" content="השכרת דירות ללא תיווך. כל הפרטים שחשוב לדעת על הדירות בכדי לחסוך ביקורים מיותרים. בחרו מועד והירשמו לביקור בדירות בלחיצת כפתור."/>
+    <meta name="description" content="<%= locals.meta.description %>"/>
     <meta property="og:locale" content="he_IL" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="הדירות הכי שוות" />
-    <meta property="og:description" content="השכרת דירות ללא תיווך. כל הפרטים שחשוב לדעת על הדירות בכדי לחסוך ביקורים מיותרים. בחרו מועד והירשמו לביקור בדירות בלחיצת כפתור." />
+    <meta property="og:title" content="<%= locals.meta.title %>" />
+    <meta property="og:description" content="<%= locals.meta.description %>" />
     <meta property="og:url" content="https://www.dorbel.com/" />
     <meta property="og:site_name" content="dorbel" />
     <meta property="fb:app_id" content="1651579398444396" />
-    <meta property="og:image" content="https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/meta/homepage-middle-image.jpg" />
+    <meta property="og:image" content="<%= locals.meta.image %>" />
     <meta name="twitter:card" content="summary" />
-    <meta name="twitter:description" content="השכרת דירות ללא תיווך. כל הפרטים שחשוב לדעת על הדירות בכדי לחסוך ביקורים מיותרים. בחרו מועד והירשמו לביקור בדירות בלחיצת כפתור." />
-    <meta name="twitter:title" content="dorbel - דירות להשכרה ללא תיווך שתשמחו לגור בהן" />
-    <meta name="twitter:image" content="https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/meta/homepage-middle-image.jpg" />
+    <meta name="twitter:description" content="<%= locals.meta.description %>" />
+    <meta name="twitter:title" content="<%= locals.meta.title %>" />
+    <meta name="twitter:image" content="<%= locals.meta.image %>" />
     <meta name="apple-mobile-web-app-title" content="dorbel">
     <meta name="application-name" content="dorbel">
+    <link rel="icon" type="image/png" href="https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/favicon/favicon32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/favicon/favicon16.png" sizes="16x16">
+    <link rel="shortcut icon" href="https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/favicon/favicon.ico">
+
     <script>
         window.__INITIAL_STATE__ = <%- JSON.stringify(initialState) -%>;
         window.dorbelConfig = <%- JSON.stringify(envVars) -%>;
