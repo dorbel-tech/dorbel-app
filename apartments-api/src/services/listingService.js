@@ -11,8 +11,9 @@ const userManagement = shared.utils.userManagement;
 
 // TODO : move this to dorbel-shared
 function CustomError(code, message) {
-  let error = new Error(message);
+  let error = new Error();
   error.status = code;
+  error.message = message;
   return error;
 }
 
@@ -23,10 +24,10 @@ function* create(listing) {
   );
   if (existingOpenListingForApartment && existingOpenListingForApartment.length) {
     throw new CustomError(409,
-      JSON.stringify({
-        error_code: 1,
+      {
+        error_code: 101,
         message: 'apartment already has an active listing'
-      }));
+      });
   }
 
   if (listing.lease_start && !listing.lease_end) {
@@ -71,11 +72,20 @@ function* updateStatus(listingId, user, status) {
   let listing = yield listingRepository.getById(listingId);
 
   if (!listing) {
-    throw new CustomError(404, 'listing not found');
+    throw new CustomError(404, {
+      message: 'listing not found',
+      error_code: 102
+    });
   } else if (user.role !== 'admin' && listing.publishing_user_id !== user.id) {
-    throw new CustomError(403, 'unauthorized to edit this listing');
+    throw new CustomError(403, {
+      message: 'unauthorized to edit this listing',
+      error_code: 103
+    });
   } else if (getPossibleStatuses(listing, user).indexOf(status) < 0) {
-    throw new CustomError(403, 'unauthorized to change this listing to status ' + status);
+    throw new CustomError(403, {
+      message: 'unauthorized to change this listing to status ' + status,
+      error_code: 104
+    });
   }
 
   const currentStatus = listing.status;
@@ -147,7 +157,10 @@ function* getRelatedListings(listingId, limit) {
     return listingRepository.list(listingQuery, options);
   }
   else {
-    throw new CustomError(400, 'listing "' + listingId + '" does not exist');
+    throw new CustomError(404, {
+      message: 'listing not found',
+      error_code: 105
+    });
   }
 }
 

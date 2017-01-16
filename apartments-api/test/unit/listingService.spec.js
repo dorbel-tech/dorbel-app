@@ -52,7 +52,7 @@ describe('Listing Service', function () {
         __.assertThat('code', __.is('not reached'));
       }
       catch (error) {
-        __.assertThat(error.message, __.is('apartment already has an active listing'));
+        __.assertThat(error.message.error_code, __.is(101));
       }
     });
 
@@ -77,7 +77,10 @@ describe('Listing Service', function () {
       yield assertYieldedError(
         () => this.listingService.updateStatus(1, {}, 'rented'),
         __.hasProperties({
-          message: 'listing not found',
+          message: {
+            message: 'listing not found',
+            error_code: 102
+          },
           status: 404
         })
       );
@@ -86,14 +89,17 @@ describe('Listing Service', function () {
     it('should not allow updating someone else`s listing', function* () {
       this.listingRepositoryMock.getById = sinon.stub().resolves(faker.getFakeListing());
       const user = faker.getFakeUser();
-      
+
       yield assertYieldedError(
         () => this.listingService.updateStatus(1, user, 'rented'),
         __.hasProperties({
-          message: 'unauthorized to edit this listing',
+          message: {
+            message: 'unauthorized to edit this listing',
+            error_code: 103
+          },
           status: 403
         })
-      );      
+      );
     });
 
     it('should allow admin to update any listing', function* () {
@@ -116,7 +122,10 @@ describe('Listing Service', function () {
       yield assertYieldedError(
         () => this.listingService.updateStatus(1, user, 'listed'),
         __.hasProperties({
-          message: 'unauthorized to change this listing to status listed',
+          message: {
+            message: 'unauthorized to change this listing to status listed',
+            error_code: 104
+          },
           status: 403
         })
       );   
@@ -133,7 +142,10 @@ describe('Listing Service', function () {
         __.assertThat('code', __.is('not reached'));
       }
       catch (error) {
-        __.assertThat(error.message, __.is('listing "0" does not exist'));
+        __.assertThat(error.message, __.is({
+          message: 'listing not found',
+          error_code: 105
+        }));
       }
     });
 

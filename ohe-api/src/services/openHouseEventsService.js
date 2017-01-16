@@ -14,7 +14,11 @@ function validateEventParamters(start, end) {
     throw new errors.DomainValidationError('OpenHouseEventValidationError', {
       start_time: start,
       end_time: end
-    }, 'open house event should be at least 30 minutes');
+    },
+      {
+        message: 'open house event should be at least 30 minutes',
+        error_code: 201
+      });
   }
 }
 
@@ -26,12 +30,13 @@ function validateEventIsNotOverlappingExistingEvents(existingListingEvents, list
     .forEach(function (existingEvent) {
       const range = moment.range(existingEvent.start_time, existingEvent.end_time);
       if (range.contains(start) || range.contains(end)) {
-        throw new errors.DomainValidationError('OpenHouseEventValidationError', {
-          start_time: start,
-          end_time: end
-        },
+        throw new errors.DomainValidationError('OpenHouseEventValidationError',
           {
-            error_code: 2,
+            start_time: start,
+            end_time: end
+          },
+          {
+            error_code: 202,
             message: 'new event is overlapping an existing event'
           });
       }

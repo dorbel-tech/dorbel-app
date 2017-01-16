@@ -23,7 +23,11 @@ class AddOHEModal extends React.Component {
     if (formsy.state.isValid) {
       this.props.appProviders.oheProvider.createOhe(this.state)
         .catch((resp) => {
-          this.handleOHEAddError(resp);
+          const fallbackNotificationData = {
+            title: 'Error',
+            message: 'Open House Event wasn\'t created'
+          };
+          this.props.appProviders.notificationProvider.error(resp, fallbackNotificationData);
         })
         .then(() => {
           if (this.props.onClose) {
@@ -33,22 +37,6 @@ class AddOHEModal extends React.Component {
     } else {
       formsy.submit(); // will trigger validation messages
     }
-
-  }
-
-  handleOHEAddError(err) {
-    let errorMsg;
-    const error = err.response.data;
-    switch (error.error_code) {
-      case 2:
-        errorMsg = error.message;
-        break;
-      default:
-        errorMsg = 'Open House Event wasn\'t created';
-        break;
-    }
-
-    this.props.appProviders.notificationProvider.add('Error', errorMsg);
   }
 
   render() {
