@@ -68,7 +68,8 @@ services:
       CLOUDINARY_SECRET: ${CLOUDINARY_SECRET}
       CLOUDINARY_API_KEY: ${CLOUDINARY_API_KEY}
       GOOGLE_MAPS_API_KEY: ${GOOGLE_MAPS_API_KEY}
-  
+      SEGMENT_IO_WRITE_KEY: ${SEGMENT_IO_WRITE_KEY}
+
   notifications-service:
     build:
       context: notifications-service

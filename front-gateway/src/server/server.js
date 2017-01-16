@@ -42,6 +42,14 @@ function* runServer() {
       match: /^\/build\//,
     }));
   }
+  
+  const segment = config.get('SEGMENT_IO_WRITE_KEY');
+
+  // Adds locals param to use on server index.ejs view.
+  app.use(function* (next) {    
+    this.state.segment = segment;
+    yield next;
+  });
 
   app.use(serve(config.dir.public));
   app.use(shared.utils.userManagement.parseAuthToken);
