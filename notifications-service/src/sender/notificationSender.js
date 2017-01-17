@@ -7,6 +7,7 @@ const shared = require('dorbel-shared');
 const config = shared.config; 
 const logger = shared.logger.getLogger(module);
 const dataRetrieval = require('./dataRetrieval');
+const dataEnrichment = require('./dataEnrichment');
 const analytics = shared.utils.analytics;
 const messageBus = shared.utils.messageBus;
 
@@ -24,19 +25,22 @@ function handleMessage(payload) {
 
 function sendEvent(eventConfig, eventData) {
   logger.debug({eventConfig, eventData}, 'Prepering event for sendig');
-  return dataRetrieval.getAdditonalData(eventConfig, eventData)
-  .then(additonalData => {
-    const recipients = additonalData.customRecipients || [ eventData.user_uuid ];  
-    additonalData.website_url = config.get('FRONT_GATEWAY_URL') || 'https://app.dorbel.com';
-    const trackedEventData = Object.assign({}, eventData, additonalData);
-
-    return Promise.all(
-      recipients.map(recipient => { 
-        logger.debug({ recipient, eventConfig, trackedEventData}, 'Tracking event sent to Segment');
-        return analytics.track(recipient, eventConfig.notificationType, trackedEventData);
-      })
-    );
-  });  
+  return dataRetrieval.getAdditonalData(eventConfig, eventData)  
+    .then(additonalData => {
+      return dataEnrichment.enrichAdditonalData(eventConfig, eventData, additonalData)
+      .then(additonalEnrichedData => {
+        let dataObject = Object.assign({}, additonalData, additonalEnrichedData); // Merge objects.
+        const recipients = dataObject.customRecipients || [ eventData.user_uuid ];  
+        dataObject.website_url = config.get('FRONT_GATEWAY_URL') || 'https://app.dorbel.com';
+        const trackedEventData = Object.assign({}, eventData, dataObject);
+        return Promise.all(
+          recipients.map(recipient => { 
+            logger.debug({ recipient, eventConfig, trackedEventData}, 'Tracking event sent to Segment');
+            return analytics.track(recipient, eventConfig.notificationType, trackedEventData);
+          })
+        );
+      });  
+    });
 }
 
 module.exports = {
