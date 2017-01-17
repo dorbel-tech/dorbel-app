@@ -95,7 +95,9 @@ function* getByFilter(filterJSON) {
   if (filterJSON) {
     try {
       filter = JSON.parse(filterJSON);
-    } catch (e) {}
+    } catch (e) {
+      filter = {};
+    }
   }
 
   let listingQuery = {
