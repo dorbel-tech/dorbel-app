@@ -3,12 +3,12 @@
  * To enrich the different data needed by each notification type before it is sent 
  */ 
 'use strict'; 
+const ICS = require('ics');
+const ics = new ICS();
 
 // Calendar invite ICS file building. 
 // Requires listing: {...}, ohe: {...} and user_profile: {...} objects in additonalData.
 function buildCalendarInvite(additonalData, status) {
-  const ICS = require('ics');
-  const ics = new ICS();
   return ics.buildEvent({
     start: additonalData.ohe.start_time,
     end: additonalData.ohe.end_time,

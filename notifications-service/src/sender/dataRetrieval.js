@@ -1,5 +1,5 @@
 /** 
- * This module provides data retrivel functions needed by the notification-sender 
+ * This module provides data retrieval functions needed by the notification-sender 
  * To fetch the different data needed by each notification type before it is sent 
  */ 
 'use strict'; 
@@ -64,16 +64,11 @@ const dataRetrievalFunctions = {
   },
   getListingOhesCount: eventData => {
     return request.get(`${OHE_API}/v1/events/by-listing/${eventData.listing_id}`, { json: true })
-      .then(response => {
-        let ohesCount = response.length || 0;
-        return { ohesCount };
-      });
+      .then(response => ({ ohesCount: response.length || 0 }));
   },
   getListingFollowersCount: eventData => {
     return getListingFollowers(eventData.listing_id)
-      .then(followers => {
-        return { followersCount: followers.length };
-      });
+      .then(followers => ({ followersCount: followers.length }));
   },
   sendToListingFollowers: eventData => {
     return getListingFollowers(eventData.listing_id)
@@ -95,8 +90,8 @@ function getAdditonalData(eventConfig, eventData) {
   const dataRequired = eventConfig.dataRetrieval || [];   
   return Promise.all( 
     dataRequired 
-    .filter(retrivalFunctionName => dataRetrievalFunctions[retrivalFunctionName]) // only take ones that actually exist 
-    .map(retrivalFunctionName => dataRetrievalFunctions[retrivalFunctionName](eventData)) // run the functions 
+    .filter(retrievalFunctionName => dataRetrievalFunctions[retrievalFunctionName]) // only take ones that actually exist 
+    .map(retrievalFunctionName => dataRetrievalFunctions[retrievalFunctionName](eventData)) // run the functions 
   ) 
   .then(results => { 
     // all results are returned as one object, duplicate keys will be removed
