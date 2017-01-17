@@ -6,11 +6,12 @@ const sinon = require('sinon');
 
 const src = '../../../src/';
 const faker = require('../../shared/fakeObjectGenerator');
+const assertYieldedError = require('../../shared/assertYieldedError');
 const notificationService = require(src + 'services/notificationService');
 
 describe('Open House Event Service - update', function () {
-  
-  function* update (params) {
+
+  function* update(params) {
     const originalEvent = faker.generateEvent(params.originalEvent);
     const updateRequest = params.updateRequest;
     const user = params.user || { id: originalEvent.publishing_user_id };
@@ -42,7 +43,7 @@ describe('Open House Event Service - update', function () {
 
   after(() => mockRequire.stopAll());
 
-  
+
 
   it('should update an existing event', function* () {
     let originalEvent = faker.generateEvent({ id: 1 });
@@ -51,6 +52,7 @@ describe('Open House Event Service - update', function () {
     let updatedEvent = faker.generateEvent({
       id: originalEvent.id,
       listing_id: originalEvent.listing_id,
+      max_attendies: originalEvent.max_attendies + 2,
       start_time: moment().add(-2, 'hours'),
       end_time: moment().add(-1, 'hours'),
     });
@@ -58,8 +60,6 @@ describe('Open House Event Service - update', function () {
 
     let savedEvent = yield this.service.update(originalEvent.id, updatedEvent, { id: originalEvent.publishing_user_id });
     __.assertThat(savedEvent, __.is(updatedEvent));
-    __.assertThat(this.sendNotification.calledOnce, __.is(true));
-    __.assertThat(this.sendNotification.getCall(0).args[0], __.is(notificationService.eventType.OHE_UPDATED));
   });
 
   it('should fail when updated event id does not exists in db', function* () {
@@ -200,8 +200,6 @@ describe('Open House Event Service - update', function () {
 
     let savedEvent = yield this.service.update(originalEvent.id, updateRequest, { id: originalEvent.publishing_user_id });
     __.assertThat(savedEvent, __.hasProperties(updateRequest));
-    __.assertThat(this.sendNotification.calledOnce, __.is(true));
-    __.assertThat(this.sendNotification.getCall(0).args[0], __.is(notificationService.eventType.OHE_UPDATED));
   });
 
   it('should fail when trying to update another users event', function* () {
@@ -215,23 +213,24 @@ describe('Open House Event Service - update', function () {
     }
   });
 
-  it('should clear registrations when ohe day is changed', function* () {
+  it('should not all to change date', function* () {
     const params = {
-      originalEvent: { registrations: [ faker.generateRegistration() ] },
+      originalEvent: { registrations: [faker.generateRegistration()] },
       updateRequest: { start_time: moment().add(-2, 'days').toISOString() }
     };
 
-    const response = yield this.update(params);
-    
-    __.assertThat(response.updatedEvent, __.hasProperties({
-      start_time: params.updateRequest.start_time,
-      registrations: []
-    }));    
+    yield assertYieldedError(
+      () => this.update(params),
+      __.hasProperties({
+        message: 'not allowed to edit day',
+        status: 400
+      })
+    );
   });
 
   it('should not clear registrations when only hour is changed', function* () {
     const params = {
-      originalEvent: { registrations: [ faker.generateRegistration() ] },
+      originalEvent: { registrations: [faker.generateRegistration()] },
       updateRequest: { start_time: moment().add(-2, 'hours').toISOString() }
     };
 
@@ -240,42 +239,34 @@ describe('Open House Event Service - update', function () {
     __.assertThat(response.updatedEvent, __.hasProperties({
       start_time: params.updateRequest.start_time,
       registrations: params.originalEvent.registrations
-    }));    
+    }));
   });
 
-  it('should send OHE_UPDATED event with users who registered', function* () {
-    const registrations = [ faker.generateRegistration() ];
+  it('should send OHE_UPDATED event when time is changed', function* () {
+    const registrations = [faker.generateRegistration()];
     const params = {
       originalEvent: { registrations },
       updateRequest: { start_time: moment().add(-2, 'hours').toISOString() }
     };
 
-    yield this.update(params);
+    const response = yield this.update(params);
 
     const notificationCallArgs = this.sendNotification.getCall(0).args;
 
     __.assertThat(notificationCallArgs, __.contains(
       notificationService.eventType.OHE_UPDATED,
-      __.hasProperties({ 
-        registered_users: __.contains(registrations[0].registered_user_id),
-        day_changed: false
-      })
+      __.hasProperty('event_id', response.originalEvent.id)
     ));
   });
 
-  it('should send OHE_UPDATED event notifying day was changed', function* () {
+  it('should not send notification if time was not changed', function* () {
     const params = {
-      updateRequest: { start_time: moment().add(-2, 'days').toISOString() }
+      updateRequest: { max_attendees: 3 }
     };
 
     yield this.update(params);
 
-    const notificationCallArgs = this.sendNotification.getCall(0).args;
-
-    __.assertThat(notificationCallArgs, __.contains(
-      notificationService.eventType.OHE_UPDATED,
-      __.hasProperty('day_changed', true)
-    ));
+    __.assertThat(this.sendNotification.getCall(0), __.is(__.defined()));
   });
 
 });

@@ -30,8 +30,8 @@ class EditOHEModal extends React.Component {
 
   close() {
     this.setState({ warningDismissed: false }); // reset the warning
-    if (this.props.onClose) { 
-      this.props.onClose(); 
+    if (this.props.onClose) {
+      this.props.onClose();
     }
   }
 
@@ -41,13 +41,9 @@ class EditOHEModal extends React.Component {
         <h4>שימו לב!</h4>
         <p>
           ישנם דיירים שנרשמו לביקור במועד זה!
-          שינוי פרטי הביקור תבטל את הרשמת הדיירים.
+          שינוי שעות הביקור עשוי להשפיע על הגעת הנרשמים לביקור.
           <br/>
           האם אתם בטוחים שברצונכם להמשיך?
-        </p>
-        <p className="text-muted">
-          שינוי של שעת תחילת או סיום הביקור בלבד
-          תשלח על כך עדכון לנרשמים ללא ביטול הביקור
         </p>
         <Button bsStyle="danger" onClick={() => this.setState({ warningDismissed: true })} block>עריכת מועד ביקור</Button>
         <Button onClick={this.close} block>ביטול</Button>
@@ -57,7 +53,7 @@ class EditOHEModal extends React.Component {
 
   renderEditForm() {
     return (
-      <FormWrapper.Wrapper layout="vertical" ref="form">                        
+      <FormWrapper.Wrapper layout="vertical" ref="form">
         <AddOHEInput onChange={this.timeChange} ohe={this.props.ohe} />
         <Button bsStyle="danger" onClick={this.submit} block>שמור</Button>
         <Button onClick={this.close} block>ביטול</Button>
@@ -71,7 +67,7 @@ class EditOHEModal extends React.Component {
     const body = showWarning ? this.renderWarning() : this.renderEditForm();
 
     return (
-      <DorbelModal 
+      <DorbelModal
         show={this.props.show}
         onClose={this.close}
         modalSize="small"

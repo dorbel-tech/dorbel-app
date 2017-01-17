@@ -15,11 +15,11 @@
     "eventType": "APARTMENT_RENTED",
     "notificationType": "apartment_rented"
   },
-  { 
+  {
     "eventType": "OHE_CREATED",
     "notificationType": "ohe_created"
   },
-  { 
+  {
     "eventType": "OHE_CREATED",
     "notificationType": "ohe_created_notify_followers",
     "dataRetrieval": [ "getListingFollowers" ]
@@ -27,7 +27,7 @@
   {
     "eventType": "OHE_UPDATED",
     "notificationType": "ohe_updated",
-    "dataRetrieval": [ "getOheRegisteredUsersFromEventInfo" ]
+    "dataRetrieval": [ "getOheRegisteredUsers" ]
   },
   {
     "eventType": "OHE_DELETED",
@@ -43,7 +43,7 @@
     "eventType": "OHE_REGISTERED",
     "notificationType": "ohe_first_registered_notify_landlord",
     "dataRetrieval": [ "getListingInfo", "getOheInfoForLandlord" ]
-  },  
+  },
   {
     "eventType": "OHE_UNREGISTERED",
     "notificationType": "ohe_unregistered",

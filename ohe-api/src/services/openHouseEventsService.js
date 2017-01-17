@@ -6,7 +6,6 @@ const errors = require('./domainErrors');
 const notificationService = require('./notificationService');
 const openHouseEventsFinderService = require('./openHouseEventsFinderService');
 const openHouseEventsRepository = require('../openHouseEventsDb/repositories/openHouseEventsRepository');
-const registrationRepository = require('../openHouseEventsDb/repositories/openHouseEventRegistrationsRepository');
 const moment = require('moment');
 require('moment-range');
 
@@ -67,22 +66,27 @@ function* create(openHouseEvent) {
     user_uuid: openHouseEvent.publishing_user_id
   });
 
+
   return newEvent;
 }
 
-function* update(id, openHouseEvent, user) {
+function* update(id, updateRequest, user) {
   let existingEvent = yield openHouseEventsFinderService.find(id);
 
   if (existingEvent.publishing_user_id !== user.id) { throw new errors.NotResourceOwnerError(); }
-  
-  const start = moment(openHouseEvent.start_time, moment.ISO_8601, true);
-  const end = moment(openHouseEvent.end_time, moment.ISO_8601, true);
 
-  const dayChanged = start.toDate().toDateString() !== existingEvent.start_time.toDateString();
+  const start = moment(updateRequest.start_time || existingEvent.start_time, moment.ISO_8601, true);
+  const end = moment(updateRequest.end_time || existingEvent.end_time, moment.ISO_8601, true);
+
+  if (start.toDate().toDateString() !== existingEvent.start_time.toDateString() ||
+      end.toDate().toDateString() !== existingEvent.end_time.toDateString()) {
+    throw new errors.DomainValidationError('OpenHouseEventValidationError', {}, 'not allowed to edit day');
+  }
+
   const timeChanged = !start.isSame(existingEvent.start_time) || !end.isSame(existingEvent.end_time);
-  const attendeesChanged = existingEvent.max_attendies !== openHouseEvent.max_attendies;
 
-  if (!timeChanged && !attendeesChanged) {
+  if (!timeChanged && existingEvent.max_attendies === updateRequest.max_attendies) {
+    // no changed
     return existingEvent;
   }
 
@@ -93,8 +97,8 @@ function* update(id, openHouseEvent, user) {
   validateEventIsNotOverlappingExistingEvents(otherEvents, start, end);
 
   existingEvent.start_time = start;
-  existingEvent.end_time = end;  
-  existingEvent.max_attendies = openHouseEvent.max_attendies;
+  existingEvent.end_time = end;
+  existingEvent.max_attendies = updateRequest.max_attendies;
 
   let result = yield openHouseEventsRepository.update(existingEvent);
   if (result.toJSON) {
@@ -102,7 +106,7 @@ function* update(id, openHouseEvent, user) {
   }
   logger.info(result, 'OHE updated');
 
-  if (timeChanged || dayChanged) {
+  if (timeChanged) {
     notificationService.send(notificationService.eventType.OHE_UPDATED, {
       listing_id: existingEvent.listing_id,
       event_id: existingEvent.id,
@@ -110,22 +114,8 @@ function* update(id, openHouseEvent, user) {
       old_end_time: existingEvent.end_time,
       new_start_time: start,
       new_end_time: end,
-      user_uuid: existingEvent.publishing_user_id,
-      day_changed: dayChanged,
-      // we have to save a list of registered users because they might be un-registered and we need to notify them
-      registered_users: existingEvent.registrations
-        .filter(registration => registration.is_active)
-        .map(registration => registration.registered_user_id)
+      user_uuid: existingEvent.publishing_user_id
     });
-  }
-
-  if (dayChanged && existingEvent.registrations && existingEvent.registrations.length > 0) {
-    // not waiting for this
-    existingEvent.registrations.forEach(registration => {
-      registration.is_active = false;
-      registrationRepository.updateRegistration(registration);
-    });    
-    result.registrations = [];
   }
 
   return result;
