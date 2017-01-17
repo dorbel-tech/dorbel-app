@@ -22,9 +22,7 @@ class AddOHEModal extends React.Component {
     const formsy = this.refs.form.refs.formsy;
     if (formsy.state.isValid) {
       this.props.appProviders.oheProvider.createOhe(this.state)
-        .catch((err) => {
-          this.props.appProviders.notificationProvider.error(err);
-        })
+        .catch(this.props.appProviders.notificationProvider.error)
         .then(() => {
           if (this.props.onClose) {
             this.props.onClose(this.state);

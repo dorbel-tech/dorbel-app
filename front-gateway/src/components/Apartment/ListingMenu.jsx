@@ -27,13 +27,7 @@ export default class ListingMenu extends React.Component {
   changeStatus(newStatus) {
     const { listing, appProviders } = this.props;
     appProviders.apartmentsProvider.updateListingStatus(listing.id, newStatus)
-      .catch((resp) => {
-        const fallbackNotificationData = {
-          title: 'Error',
-          message: 'Open House Event wasn\'t created'
-        };
-        this.props.appProviders.notificationProvider.error(resp, fallbackNotificationData);
-      });
+      .catch(this.props.appProviders.notificationProvider.error);
   }
 
   renderStatusSelector() {
