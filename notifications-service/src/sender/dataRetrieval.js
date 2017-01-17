@@ -1,5 +1,5 @@
 /** 
- * This module provides data retrivel functions needed by the notification-sender 
+ * This module provides data retrieval functions needed by the notification-sender 
  * To fetch the different data needed by each notification type before it is sent 
  */ 
 'use strict'; 
@@ -18,17 +18,11 @@ function getOheInfo(oheId) {
   return request.get(`${OHE_API}/v1/event/${oheId}`, { json: true });
 }
 
-const dataRetrievalFunctions = {
-  getListingFollowers: eventData => {
-    return request.get(`${OHE_API}/v1/followers/by-listing/${eventData.listing_id}`, { json: true })
-    .then(response => {
-      // this notification will be sent to all the users who followed a listing to get notified on new OHE
-      return { customRecipients: response
-        .filter(follower => follower.is_active)
-        .map(follower => follower.following_user_id)
-      };
-    });
-  },
+function getListingFollowers(listingId) {
+  return request.get(`${OHE_API}/v1/followers/by-listing/${listingId}`, { json: true });
+}
+
+const dataRetrievalFunctions = { 
   getListingInfo: eventData => {
     return request.get(`${APT_API}/v1/listings/${eventData.listing_id}`, { json: true })
     .then(listing => {
@@ -58,13 +52,31 @@ const dataRetrievalFunctions = {
       };
     });
   },
-  getOheRegisteredUsers: eventData => {
+  sendToOheRegisteredUsers: eventData => {
     return getOheInfo(eventData.event_id)
     .then(response => {
       // this notification will be sent to the users registered to the OHE
       return { customRecipients: response.registrations
         .filter(registration => registration.is_active)
         .map(registration => registration.registered_user_id)
+      };
+    });
+  },
+  getListingOhesCount: eventData => {
+    return request.get(`${OHE_API}/v1/events/by-listing/${eventData.listing_id}`, { json: true })
+      .then(response => ({ ohesCount: response.length || 0 }));
+  },
+  getListingFollowersCount: eventData => {
+    return getListingFollowers(eventData.listing_id)
+      .then(followers => ({ followersCount: followers.length }));
+  },
+  sendToListingFollowers: eventData => {
+    return getListingFollowers(eventData.listing_id)
+    .then(response => { 
+      // this notification will be sent to all the users who followed a listing to get notified on new OHE
+      return { customRecipients: response
+        .filter(follower => follower.is_active)
+        .map(follower => follower.following_user_id)
       };
     });
   },
@@ -78,11 +90,11 @@ function getAdditonalData(eventConfig, eventData) {
   const dataRequired = eventConfig.dataRetrieval || [];   
   return Promise.all( 
     dataRequired 
-    .filter(retrivelFunctionName => dataRetrievalFunctions[retrivelFunctionName]) // only take ones that actually exist 
-    .map(retrivelFunctionName => dataRetrievalFunctions[retrivelFunctionName](eventData)) // run the functions 
+    .filter(retrievalFunctionName => dataRetrievalFunctions[retrievalFunctionName]) // only take ones that actually exist 
+    .map(retrievalFunctionName => dataRetrievalFunctions[retrievalFunctionName](eventData)) // run the functions 
   ) 
   .then(results => { 
-    // all results are returned as one object, duplicate keys will be 
+    // all results are returned as one object, duplicate keys will be removed
     // prioritizing according to the order in eventConfig.dataRetrieval  
     return results.reduce((prev, current) => Object.assign(prev, current), {}); 
   }); 

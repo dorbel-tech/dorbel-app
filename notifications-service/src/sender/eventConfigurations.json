@@ -12,37 +12,41 @@
   {
     "eventType": "APARTMENT_UNLISTED",
     "notificationType": "apartment_unlisted",
-    "dataRetrieval": [ "getUserDetails", "getListingInfo" ]
+    "dataRetrieval": [ "getUserDetails", "getListingInfo", "getListingOhesCount" ]
   },
   {
     "eventType": "APARTMENT_RENTED",
     "notificationType": "apartment_rented",
-    "dataRetrieval": [ "getUserDetails", "getListingInfo" ]
+    "dataRetrieval": [ "getUserDetails", "getListingInfo", "getListingOhesCount" ]
   },
   {
     "eventType": "OHE_CREATED",
     "notificationType": "ohe_created",
-    "dataRetrieval": [ "getUserDetails", "getListingInfo", "getOheInfo" ]
+    "dataRetrieval": [ "getUserDetails", "getListingInfo", "getOheInfo" ],
+    "dataEnrichment": [ "addCalendarInvite" ]
   },
   {
     "eventType": "OHE_CREATED",
     "notificationType": "ohe_created_notify_followers",
-    "dataRetrieval": [ "getUserDetails", "getListingFollowers", "getOheInfo" ]
+    "dataRetrieval": [ "getUserDetails", "getListingInfo", "getOheInfo", "sendToListingFollowers" ]
   },
   {
     "eventType": "OHE_UPDATED",
     "notificationType": "ohe_updated",
-    "dataRetrieval": [ "getOheRegisteredUsers", "getUserDetails", "getListingInfo", "getOheInfo" ]
+    "dataRetrieval": [ "getOheRegisteredUsers", "getUserDetails", "getListingInfo", "getOheInfo" ],
+    "dataEnrichment": [ "addCalendarInvite" ]
   },
   {
     "eventType": "OHE_DELETED",
     "notificationType": "ohe_cancelled_notify_registered_users",
-    "dataRetrieval": [ "getUserDetails", "getListingInfo", "getOheRegisteredUsers" ]
+    "dataRetrieval": [ "getUserDetails", "getListingInfo", "getOheInfo", "sendToOheRegisteredUsers" ],
+    "dataEnrichment": [ "cancelCalendarInvite" ]
   },
   {
     "eventType": "OHE_REGISTERED",
     "notificationType": "ohe_registered",
-    "dataRetrieval": [ "getUserDetails", "getListingInfo", "getOheInfo" ]
+    "dataRetrieval": [ "getUserDetails", "getListingInfo", "getOheInfo" ],
+    "dataEnrichment": [ "addCalendarInvite" ]
   },
   {
     "eventType": "OHE_REGISTERED",
@@ -52,12 +56,13 @@
   {
     "eventType": "OHE_UNREGISTERED",
     "notificationType": "ohe_unregistered",
-    "dataRetrieval": [ "getUserDetails", "getListingInfo", "getOheInfo"]
+    "dataRetrieval": [ "getUserDetails", "getListingInfo", "getOheInfo" ],
+    "dataEnrichment": [ "cancelCalendarInvite" ]
   },
   {
     "eventType": "OHE_FOLLOWED",
     "notificationType": "ohe_followed",
-    "dataRetrieval": [ "getUserDetails", "getListingInfo"]
+    "dataRetrieval": [ "getUserDetails", "getListingInfo", "getListingFollowersCount" ]
   },
   {
     "eventType": "OHE_UNFOLLOWED",
