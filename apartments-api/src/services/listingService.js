@@ -90,7 +90,13 @@ function* updateStatus(listingId, user, status) {
 }
 
 function* getByFilter(filterJSON) {
-  const filter = filterJSON ? JSON.parse(filterJSON) : {};
+  // TODO: Switch to regex test instead of try-catch.
+  let filter = {};
+  if (filterJSON) {
+    try {
+      filter = JSON.parse(filterJSON);
+    } catch (e) {}
+  }
 
   let listingQuery = {
     status: 'listed'
