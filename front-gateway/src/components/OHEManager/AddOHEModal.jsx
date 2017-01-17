@@ -22,12 +22,8 @@ class AddOHEModal extends React.Component {
     const formsy = this.refs.form.refs.formsy;
     if (formsy.state.isValid) {
       this.props.appProviders.oheProvider.createOhe(this.state)
-        .catch((resp) => {
-          const fallbackNotificationData = {
-            title: 'Error',
-            message: 'Open House Event wasn\'t created'
-          };
-          this.props.appProviders.notificationProvider.error(resp, fallbackNotificationData);
+        .catch((err) => {
+          this.props.appProviders.notificationProvider.error(err);
         })
         .then(() => {
           if (this.props.onClose) {

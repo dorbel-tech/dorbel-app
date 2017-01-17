@@ -19,12 +19,8 @@ class UploadApartmentForm extends Component {
     if (newListingStore.stepNumber === steps.length - 1) { // last step
       this.props.appProviders.apartmentsProvider.uploadApartment(newListingStore.formValues)
         .then(() => this.setState({ showSuccessModal: true }))
-        .catch((resp) => {
-          const fallbackNotificationData = {
-            title: 'Error',
-            message: 'Upload failed'
-          };
-          this.props.appProviders.notificationProvider.error(resp, fallbackNotificationData);
+        .catch((err) => {
+          this.props.appProviders.notificationProvider.error(err);
         });
     } else {
       newListingStore.stepNumber++;
