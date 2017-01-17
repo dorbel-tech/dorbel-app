@@ -26,7 +26,7 @@ function* create(listing) {
   }
 
   if (listing.lease_start && !listing.lease_end) {
-    // Upload form sends only lease_start so we default lease_end to after one year 
+    // Upload form sends only lease_start so we default lease_end to after one year
     listing.lease_end = moment(listing.lease_start).add(1, 'years').format('YYYY-MM-DD');
   }
 
@@ -89,7 +89,7 @@ function* updateStatus(listingId, user, status) {
   return result;
 }
 
-function* getByFilter(filterJSON) {
+function* getByFilter(filterJSON, user) {
   // TODO: Switch to regex test instead of try-catch.
   let filter = {};
   if (filterJSON) {
@@ -103,6 +103,11 @@ function* getByFilter(filterJSON) {
   let listingQuery = {
     status: 'listed'
   };
+
+  if (user && user.role === 'admin') {
+    listingQuery = {}; // admin can see all the statuses
+  }
+
   let options = {};
 
   var filterMapping = {
@@ -169,7 +174,7 @@ function getPossibleStatuses(listing, user) {
 
   if (user && user.role === 'admin') { // admin can change to all statuses
     possibleStatuses = listingRepository.listingStatuses;
-  } else if (listing.status === 'pending' || !user) { // (not admin + pending) or anonymous - can't change at all    
+  } else if (listing.status === 'pending' || !user) { // (not admin + pending) or anonymous - can't change at all
     possibleStatuses = [];
   } else { // not admin + !pending - can change to anything EXCEPT pending
     possibleStatuses = listingRepository.listingStatuses.filter(status => status != 'pending');
