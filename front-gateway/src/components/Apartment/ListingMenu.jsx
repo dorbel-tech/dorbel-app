@@ -25,9 +25,35 @@ export default class ListingMenu extends React.Component {
   }
 
   changeStatus(newStatus) {
-    const { listing, appProviders } = this.props;
-    appProviders.apartmentsProvider.updateListingStatus(listing.id, newStatus)
-      .catch(this.props.appProviders.notificationProvider.error);
+    const { listing, appStore, appProviders } = this.props;
+
+    const openHouseEvents = appStore.oheStore.oheByListingId(listing.id);
+    const listingHasActiveEvents = openHouseEvents.some(event => event.status !== 'expired');
+
+    let confirmation = Promise.resolve(true);
+
+    if (newStatus === 'rented' && listingHasActiveEvents) {
+      confirmation = appProviders.modalProvider.showConfirmationModal({
+        title: 'סימון הדירה כמושכרת',
+        heading: 'השכרתם את הדירה? בשעה טובה!',
+        body: 'שימו לב - למועדה זו מועדי ביקור פעילים. סימון הדירה כמושכרת יבטל את מועדי הביקור וישלח על כך עדכון לדיירים הרשומים, במידה וישנם.',
+        confirmButton: 'הדירה הושכרה',
+        confirmStyle: 'primary'
+      });
+    } else if (newStatus === 'unlisted' && listingHasActiveEvents) {
+      confirmation = appProviders.modalProvider.showConfirmationModal({
+        title: 'הפסקת פרסום המודעה',
+        heading: 'ברצונכם לעצור את פרסום המודעה?',
+        body: 'שימו לב - למועדה זו מועדי ביקור פעילים. השהיית המודעה תבטל את מועדי הביקור הקיימים ותשלח על כך עדכון לדיירים הרשומים, במידה וישנם.',
+        confirmButton: 'השהה מודעה'
+      });
+    }
+
+    confirmation.then(choice => {
+      if (choice) {
+        return appProviders.apartmentsProvider.updateListingStatus(listing.id, newStatus);
+      }
+    }).catch(this.props.appProviders.notificationProvider.error);
   }
 
   renderStatusSelector() {
@@ -57,16 +83,16 @@ export default class ListingMenu extends React.Component {
       </Navbar>
     );
   }
-  
+
   changeTab(relativeRoute) {
     const { router, listing } = this.props;
     let actionRoute = relativeRoute ? `/${relativeRoute}` : '';
     router.setRoute(`/apartments/${listing.id}${actionRoute}`);
   }
-  
+
   shouldMenuBeVisible() {
     const { appStore, listing } = this.props;
-    const profile = appStore.authStore.getProfile();     
+    const profile = appStore.authStore.getProfile();
     const userIsListingPublisher = listing.publishing_user_id === profile.dorbel_user_id;
     const userIsAdmin = profile.role === 'admin';
     return userIsListingPublisher || userIsAdmin;
@@ -75,7 +101,7 @@ export default class ListingMenu extends React.Component {
   render() {
     return this.shouldMenuBeVisible() ? this.renderMenu() : null;
   }
-  
+
 }
 
 ListingMenu.wrappedComponent.propTypes = {

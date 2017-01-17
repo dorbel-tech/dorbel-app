@@ -11,6 +11,7 @@ import CityProvider from './CityProvider';
 import NeighborhoodProvider from './NeighborhoodProvider';
 import CloudinaryProvider from './CloudinaryProvider';
 import NotificationProvider from './NotificationProvider';
+import ModalProvider from './ModalProvider';
 
 const isServer = !global.window;
 
@@ -27,12 +28,14 @@ class AppProviders {
 
     this.apiProvider = new ApiProvider(appStore);
     this.oheProvider = new OheProvider(appStore, this.apiProvider);
-    this.apartmentsProvider = new ApartmentsProvider(appStore, 
+    this.apartmentsProvider = new ApartmentsProvider(appStore,
       { api: this.apiProvider, cloudinary: this.cloudinaryProvider, ohe: this.oheProvider });
     this.cityProvider = new CityProvider(appStore, this.apiProvider);
     this.neighborhoodProvider = new NeighborhoodProvider(appStore, this.apiProvider);
     this.notificationProvider = new NotificationProvider();
+    this.modalProvider = new ModalProvider(appStore);
   }
 }
 
 module.exports = AppProviders;
+
