@@ -19,13 +19,13 @@
     "notificationType": "apartment_rented",
     "dataRetrieval": [ "getUserDetails", "getListingInfo", "getListingOhesCount" ]
   },
-  { 
+  {
     "eventType": "OHE_CREATED",
     "notificationType": "ohe_created",
     "dataRetrieval": [ "getUserDetails", "getListingInfo", "getOheInfo" ],
     "dataEnrichment": [ "addCalendarInvite" ]
   },
-  { 
+  {
     "eventType": "OHE_CREATED",
     "notificationType": "ohe_created_notify_followers",
     "dataRetrieval": [ "getUserDetails", "getListingInfo", "getOheInfo", "sendToListingFollowers" ]
@@ -33,7 +33,7 @@
   {
     "eventType": "OHE_UPDATED",
     "notificationType": "ohe_updated",
-    "dataRetrieval": [ "getUserDetails", "getListingInfo", "getOheInfo" ],
+    "dataRetrieval": [ "getOheRegisteredUsers", "getUserDetails", "getListingInfo", "getOheInfo" ],
     "dataEnrichment": [ "addCalendarInvite" ]
   },
   {
@@ -52,17 +52,17 @@
     "eventType": "OHE_REGISTERED",
     "notificationType": "ohe_first_registered_notify_landlord",
     "dataRetrieval": [ "getListingInfo", "getOheInfoForLandlord" ]
-  },  
+  },
   {
     "eventType": "OHE_UNREGISTERED",
     "notificationType": "ohe_unregistered",
     "dataRetrieval": [ "getUserDetails", "getListingInfo", "getOheInfo" ],
-    "dataEnrichment": [ "cancelCalendarInvite" ]    
+    "dataEnrichment": [ "cancelCalendarInvite" ]
   },
   {
     "eventType": "OHE_FOLLOWED",
     "notificationType": "ohe_followed",
-    "dataRetrieval": [ "getUserDetails", "getListingInfo", "getListingFollowersCount" ]    
+    "dataRetrieval": [ "getUserDetails", "getListingInfo", "getListingFollowersCount" ]
   },
   {
     "eventType": "OHE_UNFOLLOWED",

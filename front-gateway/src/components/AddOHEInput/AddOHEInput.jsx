@@ -14,11 +14,22 @@ const hours = [
 class AddOHEInput extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      start_time: hours[0],
-      end_time: hours[1],
-      max_attendies: 15
-    };
+
+    if (props.ohe) {
+      this.state = {
+        start_time: this.getTimeStringFromDate(props.ohe.start_time),
+        end_time: this.getTimeStringFromDate(props.ohe.end_time),
+        date: props.ohe.start_time,
+        max_attendies: props.ohe.max_attendies
+      };
+    } else {
+      this.state = {
+        start_time: hours[0],
+        end_time: hours[1],
+        max_attendies: 15
+      };
+    }
+
     autobind(this);
   }
 
@@ -61,13 +72,18 @@ class AddOHEInput extends React.Component {
     return moment(dateString + 'T' + timeString).toISOString();
   }
 
+
+  getTimeStringFromDate(date) {
+    return moment.utc(date).local().format('HH:mm');
+  }
+
   render() {
     return (
       <div>
         <Row>
           <Col md={12} className="form-group">
             <label>תאריך הביקור</label>
-            <DatePicker name="ohe-date" onChange={this.dateChange} />
+            <DatePicker name="ohe-date" onChange={this.dateChange} value={this.state.date} disabled={!!this.props.ohe} />
           </Col>
         </Row>
         <Row>
@@ -105,7 +121,8 @@ class AddOHEInput extends React.Component {
 }
 
 AddOHEInput.propTypes = {
-  onChange: React.PropTypes.func
+  onChange: React.PropTypes.func,
+  ohe: React.PropTypes.object
 };
 
 export default AddOHEInput;

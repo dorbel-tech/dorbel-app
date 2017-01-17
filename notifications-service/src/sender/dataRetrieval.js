@@ -42,8 +42,8 @@ const dataRetrievalFunctions = {
   },
   getOheInfoForLandlord: eventData => {
     return getOheInfo(eventData.event_id)
-    .then(response => { 
-      // Manually adding registrationsCount to trigger email sending to apartment owner 
+    .then(response => {
+      // Manually adding registrationsCount to trigger email sending to apartment owner
       // only for the first registered user to OHE.
       response.registrationsCount = response.registrations.length;
       return {
@@ -55,10 +55,10 @@ const dataRetrievalFunctions = {
   sendToOheRegisteredUsers: eventData => {
     return getOheInfo(eventData.event_id)
     .then(response => {
-      // this notification will be sent to the users registered to the OHE 
+      // this notification will be sent to the users registered to the OHE
       return { customRecipients: response.registrations
         .filter(registration => registration.is_active)
-        .map(registration => registration.registered_user_id) 
+        .map(registration => registration.registered_user_id)
       };
     });
   },
@@ -84,8 +84,8 @@ const dataRetrievalFunctions = {
     return userManagement.getPublicProfile(eventData.user_uuid)
       .then(userProfile => ({ user_profile: userProfile }));
   }
-}; 
- 
+};
+
 function getAdditonalData(eventConfig, eventData) {
   const dataRequired = eventConfig.dataRetrieval || [];   
   return Promise.all( 

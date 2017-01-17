@@ -13,16 +13,16 @@ class DatePicker extends Component {
     this.state = {
       dateValue: this.props.value || moment().add(1, 'days').format(), // tommorrow
       name: this.props.name
-    }; 
+    };
   }
 
   componentDidMount() {
-    // informing of setting the default value 
+    // informing of setting the default value
     this.handleChange(this.state.dateValue);
   }
 
   handleChange(dateValue) {
-    // ReactBootstrapDatePicker will return date-time as STRING 
+    // ReactBootstrapDatePicker will return date-time as STRING
     this.setState({ dateValue });
     if (this.props.onChange) {
       // We want just date as string
@@ -39,7 +39,8 @@ class DatePicker extends Component {
         monthLabels={monthLabels}
         dayLabels={weekdayLabels}
         dateFormat={dateFormat}
-        // these are revered because of RTL so need to be set 
+        disabled={this.props.disabled}
+        // these are revered because of RTL so need to be set
         previousButtonElement=">"
         nextButtonElement="<"
         onChange={this.handleChange.bind(this)}
@@ -51,7 +52,8 @@ class DatePicker extends Component {
 DatePicker.propTypes = {
   onChange: React.PropTypes.func,
   value: React.PropTypes.string,
-  name: React.PropTypes.string
+  name: React.PropTypes.string,
+  disabled: React.PropTypes.bool
 };
 
 export default DatePicker;

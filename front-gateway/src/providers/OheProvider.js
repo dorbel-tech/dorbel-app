@@ -4,6 +4,7 @@
 'use strict';
 import moment from 'moment';
 import _ from 'lodash';
+import autobind from 'react-autobind';
 
 const timeFormat = 'HH:mm';
 const dateFormat = 'DD/MM/YY';
@@ -12,7 +13,7 @@ class OheProvider {
   constructor(appStore, apiProvider) {
     this.appStore = appStore;
     this.apiProvider = apiProvider;
-    this.enrichOhe = this.enrichOhe.bind(this);
+    autobind(this);
   }
 
   fetch(path, options) {
@@ -21,10 +22,9 @@ class OheProvider {
 
   // Open house events
 
-  loadListingEvents(id) {    
+  loadListingEvents(id) {
     return this.fetch('events/by-listing/' + id)
-      .then(openHouseEvents => openHouseEvents.map(this.enrichOhe))
-      .then(openHouseEvents => this.appStore.oheStore.add(openHouseEvents));
+      .then(this.updateStoreWithOhe);
   }
 
   createOhe(data) {
@@ -32,7 +32,35 @@ class OheProvider {
       method: 'POST',
       data
     })
-    .then(ohe => this.appStore.oheStore.add([ this.enrichOhe(ohe) ]));
+    .then(this.updateStoreWithOhe);
+  }
+
+  updateOhe(id, data) {
+    return this.fetch('event/' + id, {
+      method: 'PUT',
+      data
+    })
+    .then(updatedOhe => {
+      const oheInStore = this.appStore.oheStore.oheById.get(id);
+      Object.assign(oheInStore, data);
+      if (updatedOhe.registrations.length === 0) {
+        // registrations might be reset
+        oheInStore.registrations = [];
+      }
+      this.updateStoreWithOhe(oheInStore);
+    });
+  }
+
+  deleteOhe(id) {
+    return this.fetch('event/' + id, { method: 'DELETE' })
+    .then(() => {
+      this.appStore.oheStore.oheById.delete(id);
+    });
+  }
+
+  updateStoreWithOhe(ohe) {
+    let oheArray = _.isArray(ohe) ? ohe : [ohe];
+    return this.appStore.oheStore.add(oheArray.map(this.enrichOhe));
   }
 
   enrichOhe(openHouseEvent) {
