@@ -5,9 +5,9 @@
       "description": "The Listing endpoint returns the available listings",
       "parameters": [
         {
-          "name": "city_name",
+          "name": "q",
           "in": "query",
-          "description": "City listing are in",
+          "description": "The listing filtering stringified JSON object",
           "type": "string"
         }
       ],

@@ -10,6 +10,7 @@ import OheProvider from './OheProvider';
 import CityProvider from './CityProvider';
 import NeighborhoodProvider from './NeighborhoodProvider';
 import CloudinaryProvider from './CloudinaryProvider';
+import NotificationProvider from './NotificationProvider';
 
 const isServer = !global.window;
 
@@ -30,6 +31,7 @@ class AppProviders {
       { api: this.apiProvider, cloudinary: this.cloudinaryProvider, ohe: this.oheProvider });
     this.cityProvider = new CityProvider(appStore, this.apiProvider);
     this.neighborhoodProvider = new NeighborhoodProvider(appStore, this.apiProvider);
+    this.notificationProvider = new NotificationProvider();
   }
 }
 
