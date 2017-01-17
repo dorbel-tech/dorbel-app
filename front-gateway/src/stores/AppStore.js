@@ -41,5 +41,4 @@ export default class AppStore {
       neighborhoodStore: this.neighborhoodStore.toJson() 
     };
   }
-
 }
