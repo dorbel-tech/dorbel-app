@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import AppHeader from '~/components/Header/Header';
 import AppFooter from '~/components/Footer/Footer';
+import Notifications from '~/components/Notifications/Notifications';
 import moment from 'moment';
 
 moment.locale('he'); // TODO : dynamic locale
@@ -26,6 +27,7 @@ class App extends Component {
         </div>
         <components.footer />
         <components.mobxDevTools />
+        <Notifications />
       </div>
     );
   }
