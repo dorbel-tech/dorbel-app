@@ -18,7 +18,7 @@ function validateEventParamters(start, end) {
   }
 }
 
-function validateEventIsNotOverlappingExistingEvents(existingListingEvents, start, end) {
+function validateEventOverlap(existingListingEvents, start, end) {
   if (!existingListingEvents) {
     return;
   }
@@ -44,7 +44,7 @@ function* create(openHouseEvent) {
   validateEventParamters(start, end);
 
   const existingListingEvents = yield openHouseEventsRepository.findByListingId(listing_id);
-  validateEventIsNotOverlappingExistingEvents(existingListingEvents, start, end);
+  validateEventOverlap(existingListingEvents, start, end);
 
   const newEvent = yield openHouseEventsRepository.create({
     start_time: start,
@@ -94,7 +94,7 @@ function* update(id, updateRequest, user) {
 
   const existingListingEvents = yield openHouseEventsFinderService.findByListing(existingEvent.listing_id);
   const otherEvents = existingListingEvents.filter(otherEvent => otherEvent.id !== id && otherEvent.is_active);
-  validateEventIsNotOverlappingExistingEvents(otherEvents, start, end);
+  validateEventOverlap(otherEvents, start, end);
 
   existingEvent.start_time = start;
   existingEvent.end_time = end;
