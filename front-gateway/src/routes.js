@@ -56,6 +56,15 @@ function startRouter(appStore) {
           router.setRoute.apply(router, origAgrs);
         }, 10);
       }
+
+      // Report page view analytics to Segment.
+      window.analytics.page({
+        path: origAgrs[0],
+        referrer: window.document.referrer,
+        search: window.location.search,
+        title: window.document.title,
+        url: window.location.href
+      });      
     };
 
     router.goUpOneLevel = function () {

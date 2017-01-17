@@ -33,19 +33,21 @@ function* register(event_id, user) {
 
   logger.info(result, 'Register to OHE');
 
+  let userMetadata = {
+    first_name: user.firstname,
+    email: user.email,
+    phone: generic.normalizePhone(user.phone)
+  };
   // TODO: Update user details can be done on client using user token.
   userManagement.updateUserDetails(user.user_id, {
-    user_metadata: {
-      first_name: user.firstname,
-      email: user.email,
-      phone: generic.normalizePhone(user.phone)
-    }
+    user_metadata: userMetadata
   });
 
   notificationService.send(notificationService.eventType.OHE_REGISTERED, {
     listing_id: existingEvent.listing_id,
     event_id: existingEvent.id,
-    user_uuid: user.user_id
+    user_uuid: user.user_id,
+    user_profile: userMetadata
   });
 
   return result;
@@ -61,7 +63,10 @@ function* unregister(registrationId) {
   existingRegistration.is_active = false;
 
   const result = yield repository.updateRegistration(existingRegistration);
-  logger.info(result, 'Unregister to OHE');
+  logger.info({ 
+    event_id: existingRegistration.open_house_event_id, 
+    user_id: existingRegistration.registered_user_id 
+  }, 'Unregister to OHE');
 
   let existingEvent = yield openHouseEventsFinderService.find(existingRegistration.open_house_event_id);
   notificationService.send(notificationService.eventType.OHE_UNREGISTERED, {
@@ -96,7 +101,7 @@ function validateEventRegistration(event, user_id) {
 
   if (errorMessage) {
     throw new errors.DomainValidationError('OpenHouseEventRegistrationValidationError',
-      { event_id: event.id, registered_user_id: user_id }, errorMessage);
+      { event_id: event.id, user_id: user_id }, errorMessage);
   }
 }
 

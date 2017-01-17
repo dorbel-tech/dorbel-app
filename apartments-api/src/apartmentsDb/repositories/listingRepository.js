@@ -17,9 +17,10 @@ function list(query, options = {}) {
         include: {
           model: models.city
         },
-        where: options.buildingQuery ? options.buildingQuery : {},
+        where: options.buildingQuery || {}
       },
-      required: true
+      required: true,
+      where: options.apartmentQuery || {}
     }, models.image],
 
     limit: options.limit,

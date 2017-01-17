@@ -9,6 +9,7 @@ import ListingMenu from './ListingMenu.jsx';
 import OHEManager from '~/components/OHEManager/OHEManager';
 import ApartmentLocation from '../MapWrapper/MapWrapper.jsx';
 import RelatedListings from '../RelatedListings/RelatedListings.jsx';
+import ListingBadge from '../ListingBadge/ListingBadge';
 import './Apartment.scss';
 
 const Flickity = global.window ? require('react-flickity-component')(React) : 'div';
@@ -46,6 +47,7 @@ class Apartment extends Component {
       <header className="apt-header">
         <div className="container-fluid">
           <div className="row">
+            <ListingBadge listing={apartment}/>
             <Flickity classname="carousel" options={flickityOptions} >
               {apartment.images.map((image, index) =>
                 <div key={index} className="sliderBoxes">

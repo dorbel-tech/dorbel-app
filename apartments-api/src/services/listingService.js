@@ -56,7 +56,7 @@ function* create(listing) {
       user_phone: generic.normalizePhone(listing.user.phone),
       user_first_name: listing.user.firstname,
       user_last_name: listing.user.lastname,
-      apartment_id: createdListing.apartment_id
+      listing_id: createdListing.id
     });
   }
 
@@ -65,7 +65,7 @@ function* create(listing) {
 
 function* updateStatus(listingId, user, status) {
   let listing = yield listingRepository.getById(listingId);
-  
+
   if (!listing) {
     throw new CustomError(404, 'listing not found');
   } else if (user.role !== 'admin' && listing.publishing_user_id !== user.id) {
@@ -73,8 +73,8 @@ function* updateStatus(listingId, user, status) {
   } else if (getPossibleStatuses(listing, user).indexOf(status) < 0) {
     throw new CustomError(403, 'unauthorized to change this listing to status ' + status);
   }
-  
-  const currentStatus = listing.status;  
+
+  const currentStatus = listing.status;
   const result = yield listing.update({ status });
 
   if (config.get('NOTIFICATIONS_SNS_TOPIC_ARN')) {
@@ -89,14 +89,72 @@ function* updateStatus(listingId, user, status) {
   return result;
 }
 
+function* getByFilter(filterJSON) {
+  // TODO: Switch to regex test instead of try-catch.
+  let filter = {};
+  if (filterJSON) {
+    try {
+      filter = JSON.parse(filterJSON);
+    } catch (e) {
+      filter = {};
+    }
+  }
+
+  let listingQuery = {
+    status: 'listed'
+  };
+  let options = {};
+
+  var filterMapping = {
+    // Listing monthly rent start.
+    mrs: { set: 'monthly_rent.$gte', target: listingQuery },
+    // Listing monthly rent end.
+    mre: { set: 'monthly_rent.$lte', target: listingQuery },
+    // Listing with a roomate (a roomate looking for roomate/s).
+    room: { set: 'monthly_rent.roommate_needed', target: listingQuery },
+    // Listing that allows roomate.
+    rs: { set: 'monthly_rent.roommates', target: listingQuery },
+    // Building city ID.
+    city: { set: 'buildingQuery.city_id' },
+    // Building has elevator.
+    ele: { set: 'buildingQuery.elevator', staticValue: true },
+    // Apartment minimum number of rooms.
+    minRooms: { set: 'apartmentQuery.rooms.$gte' },
+    // Apartment maximum number of rooms.
+    maxRooms: { set: 'apartmentQuery.rooms.$lte' },
+    // Apartment minimum size.
+    minSize: { set: 'apartmentQuery.size.$gte' },
+    // Apartment maximum size.
+    maxSize: { set: 'apartmentQuery.size.$lte' },
+    // Apartment has parking.
+    park: { set: 'apartmentQuery.parking', staticValue: true },
+    // Apartment has balcony.
+    balc: { set: 'apartmentQuery.balcony', staticValue: true },
+    // Apartment has air conditioning.
+    ac: { set: 'apartmentQuery.air_conditioning', staticValue: true },
+    // Apartment allows pets.
+    pet: { set: 'apartmentQuery.pets', staticValue: true },
+    // Apartment has security bars.
+    sb: { set: 'apartmentQuery.security_bars', staticValue: true }
+  };
+
+  Object.keys(filterMapping)
+    .filter(key => !!filter[key])
+    .forEach(key => _.set(filterMapping[key].target || options,
+      filterMapping[key].set,
+      filterMapping[key].staticValue || filter[key]));
+
+  return listingRepository.list(listingQuery, options);
+}
+
 function* getById(id, user) {
   let listing = yield listingRepository.getById(id);
-  listing = listing.toJSON(); // discard SQLize object for adding ad-hoc properties
 
   if (listing) {
+    listing = listing.toJSON(); // discard SQLize object for adding ad-hoc properties
     const publishingUser = yield userManagement.getUserDetails(listing.publishing_user_id);
     if (publishingUser) {
-      listing.publishing_username = _.get(publishingUser, 'user_metadata.first_name') || publishingUser.given_name;
+      listing.publishing_user_first_name = _.get(publishingUser, 'user_metadata.first_name') || publishingUser.given_name;
     }
 
     listing.meta = {
@@ -122,7 +180,6 @@ function getPossibleStatuses(listing, user) {
 
 
 function* getRelatedListings(listingId, limit) {
-
   const listing = yield listingRepository.getById(listingId);
   if (listing) { // Verify that the listing exists
     const listingQuery = {
@@ -150,7 +207,7 @@ function* getRelatedListings(listingId, limit) {
 module.exports = {
   create,
   updateStatus,
+  getByFilter,
   getById,
   getRelatedListings,
-  list: listingRepository.list,
 };
