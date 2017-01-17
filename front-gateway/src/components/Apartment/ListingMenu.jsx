@@ -11,10 +11,10 @@ const tabs = [
 ];
 
 const listingStatusLabels = {
-  pending: 'ממתינה לאישור',
-  listed: 'מפורסמת',
-  rented: 'הושכרה',
-  unlisted: 'לא פעילה'
+  pending: { label: 'ממתינה לאישור', actionLabel: 'החזר את הדירה להמתנה' },
+  listed: { label: 'מפורסמת', actionLabel: 'פרסם את הדירה' },
+  rented: { label: 'הושכרה', actionLabel: 'הדירה הושכרה' },
+  unlisted: { label: 'לא פעילה', actionLabel: 'השהה מודעה' }
 };
 
 @observer(['appStore', 'appProviders', 'router'])
@@ -32,13 +32,13 @@ export default class ListingMenu extends React.Component {
 
   renderStatusSelector() {
     const { listing } = this.props;
-    const currentStatus = listingStatusLabels[listing.status];
+    const currentStatus = listingStatusLabels[listing.status].label;
     const options = _.get(listing, 'meta.possibleStatuses') || [];
 
     return (
       <Nav bsStyle="tabs" onSelect={this.changeStatus} pullLeft>
         <NavDropdown title={currentStatus} id="nav-dropdown" disabled={options.length === 0}>
-          {options.map(status => <MenuItem key={status} eventKey={status}>{listingStatusLabels[status]}</MenuItem>)}              
+          {options.map(status => <MenuItem key={status} eventKey={status}>{listingStatusLabels[status].actionLabel}</MenuItem>)}
         </NavDropdown>
       </Nav>
     );
