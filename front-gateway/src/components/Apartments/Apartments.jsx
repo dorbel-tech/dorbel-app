@@ -217,7 +217,7 @@ class Apartments extends Component {
                 pips={{ mode: 'steps', density: 30 }}
                 connect={true}
                 direction={'ltr'} />
-                <i data-toggle="modal" data-target="#modal-city-promise">i</i>
+              <i data-toggle="modal" data-target="#modal-city-promise">i</i>
             </div>
           </div>
           <Grid fluid>
