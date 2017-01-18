@@ -27,7 +27,7 @@ export default class ListingMenu extends React.Component {
   changeStatus(newStatus) {
     const { listing, appProviders } = this.props;
     appProviders.apartmentsProvider.updateListingStatus(listing.id, newStatus)
-      .catch(this.props.appProviders.notificationProvider.error);
+      .catch((err) => this.props.appProviders.notificationProvider.error(err));
   }
 
   renderStatusSelector() {
