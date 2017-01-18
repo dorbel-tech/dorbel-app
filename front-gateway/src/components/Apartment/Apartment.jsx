@@ -115,7 +115,7 @@ class Apartment extends Component {
   renderListingLocation(geolocation) {
     if (geolocation) {
       return (
-        <Row className='fluid'>
+        <Row>
           <ApartmentLocation geo={geolocation} />
         </Row>
       );
@@ -136,7 +136,7 @@ class Apartment extends Component {
     if (this.state.isLoading) {
       return (
         <div className="loaderContainer">
-          <LoadingSpinner size={35}/>
+          <LoadingSpinner/>
         </div>
       );
     }
