@@ -9,7 +9,8 @@ function getFakeUser() {
     id: faker.random.uuid(),
     user_id: faker.random.uuid(),
     email: faker.internet.email(),
-    phone: getRandomNumber().toString()
+    phone: getRandomNumber().toString(),
+    role: 'user'
   };
 }
 

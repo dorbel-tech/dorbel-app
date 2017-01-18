@@ -63,8 +63,11 @@ const dataRetrievalFunctions = {
     });
   },
   getListingOhesCount: eventData => {
-    return request.get(`${OHE_API}/v1/events/by-listing/${eventData.listing_id}`, { json: true })
-      .then(response => ({ ohesCount: response.length || 0 }));
+    return userManagement.getPublicProfile(eventData.user_uuid)
+      .then(user => {
+        return request.get(`${OHE_API}/v1/events/by-listing/${eventData.listing_id}`, { user, json: true })
+          .then(response => ({ ohesCount: response.length || 0 }));
+      });
   },
   getListingFollowersCount: eventData => {
     return getListingFollowers(eventData.listing_id)
