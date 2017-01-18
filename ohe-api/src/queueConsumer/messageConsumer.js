@@ -4,7 +4,7 @@ const logger = shared.logger.getLogger(module);
 const messageBus = shared.utils.messageBus;
 const userManagement = shared.utils.userManagement;
 const oheEventService = require('../services/openHouseEventsService');
-const oheEventsFinderService = require('../service/openHouseEventsFinderService');
+const oheEventsFinderService = require('../services/openHouseEventsFinderService');
 const oheRegisterSercice = require('../services/openHouseEventRegistrationsService');
 const co = require('co');
 
@@ -43,8 +43,9 @@ function* unregisterUsers(eventId) {
 
   if (event.registrations) {
     for (let i=0; i< event.registrations.length; i++) {
-      const publishingUser = yield userManagement.getUserDetails(event.registrations[i].user_uuid);
-      const user = { id: event.registrations[i].user_uuid, role: publishingUser.role };
+      let userId = event.registrations[i].registered_user_id;
+      const publishingUser = yield userManagement.getUserDetails(userId);
+      const user = { id: userId, role: publishingUser.role };
       yield oheRegisterSercice.unregister(eventId, user);
     }
   }
