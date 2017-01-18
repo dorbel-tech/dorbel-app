@@ -117,20 +117,17 @@ class Apartments extends Component {
   reloadApartments() {
     if (this.filterObj.city !== DEFAULT_FILTER_PARAMS.cityId) {
       this.setState({ isLoading: true });
-      setTimeout(() => {
-        this.props.appProviders.apartmentsProvider.loadApartments(this.filterObj)
+      this.props.appProviders.apartmentsProvider.loadApartments(this.filterObj)
         .then(this.setState({ isLoading: false }));
-      }, 5000000);
-
     }
   }
 
   renderResults(apartments) {
     if (this.state.isLoading) {
-      return(
+      return (
         <div className="loaderContainer">
-        <LoadingSpinner />
-      </div>
+          <LoadingSpinner />
+        </div>
       );
     }
     else if (apartments.length > 0) {
