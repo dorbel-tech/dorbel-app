@@ -16,7 +16,7 @@ RUN yarn install
 COPY . $WORKDIR
 
 # Open port
-EXPOSE 3004
+EXPOSE 3005
 
 # Run node server.
 CMD [ "yarn", "start" ]
