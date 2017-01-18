@@ -1,5 +1,5 @@
 # Image to pull.
-FROM kkarczmarczyk/node-yarn:6.9
+FROM unfall24/yarn-node-alpine
 
 # Working directory environment variable.
 ENV WORKDIR="/home/nodejs/app/"
