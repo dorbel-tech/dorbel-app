@@ -1,5 +1,6 @@
 'use strict';
-const _ = require('lodash');
+const lget = require('lodash/get');
+const lset = require('lodash/set');
 const moment = require('moment');
 const shared = require('dorbel-shared');
 const listingRepository = require('../apartmentsDb/repositories/listingRepository');
@@ -140,7 +141,7 @@ function* getByFilter(filterJSON) {
 
   Object.keys(filterMapping)
     .filter(key => !!filter[key])
-    .forEach(key => _.set(filterMapping[key].target || options,
+    .forEach(key => lset(filterMapping[key].target || options,
       filterMapping[key].set,
       filterMapping[key].staticValue || filter[key]));
 
@@ -154,7 +155,7 @@ function* getById(id, user) {
     listing = listing.toJSON(); // discard SQLize object for adding ad-hoc properties
     const publishingUser = yield userManagement.getUserDetails(listing.publishing_user_id);
     if (publishingUser) {
-      listing.publishing_user_first_name = _.get(publishingUser, 'user_metadata.first_name') || publishingUser.given_name;
+      listing.publishing_user_first_name = lget(publishingUser, 'user_metadata.first_name') || publishingUser.given_name;
     }
 
     listing.meta = {
