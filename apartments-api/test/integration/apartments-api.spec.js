@@ -6,6 +6,7 @@ describe('Apartments API Integration', function () {
   const faker = require('../shared/fakeObjectGenerator');
 
   before(function* () {
+    this.timeout = (10000);
     this.apiClient = yield ApiClient.init(faker.getFakeUser());
   });
 
