@@ -6,6 +6,7 @@ const faker = require('../shared/fakeObjectGenerator');
 
 describe('Followers API Integration', function () {
   before(function* () {
+    this.timeout = (10000);
     this.apiClient = yield ApiClient.init(faker.getFakeUser());
   });
 

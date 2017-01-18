@@ -2092,9 +2092,9 @@ domutils@1.5, domutils@1.5.1, domutils@^1.5.1:
     dom-serializer "0"
     domelementtype "1"
 
-"dorbel-shared@git://github.com/dorbel-tech/dorbel-shared#v0.4.48":
-  version "0.4.48"
-  resolved "git://github.com/dorbel-tech/dorbel-shared#888740fd3048499d216e3c10be1fe23b4baac319"
+"dorbel-shared@git://github.com/dorbel-tech/dorbel-shared#v0.4.49":
+  version "0.4.49"
+  resolved "git://github.com/dorbel-tech/dorbel-shared#ef38738e8074035011cfaee97083e9afc3cb2cfc"
   dependencies:
     analytics-node "^2.1.0"
     auth0 "^2.5.0"
@@ -6142,11 +6142,11 @@ satisfaction@^3.0.0:
     lodash "4.16.2"
     semver "5.3.0"
 
-sax@1.1.5, sax@>=0.6.0:
+sax@1.1.5:
   version "1.1.5"
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.1.5.tgz#1da50a8d00cdecd59405659f5ff85349fe773743"
 
-sax@^1.1.4, sax@~1.2.1:
+sax@>=0.6.0, sax@^1.1.4, sax@~1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.1.tgz#7b8e656190b228e81a66aea748480d828cd2d37a"
 
