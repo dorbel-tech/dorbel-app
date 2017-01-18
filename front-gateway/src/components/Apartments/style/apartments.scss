@@ -5,7 +5,13 @@
 .apartments-filter-wrapper {
   padding: 39px 0;
 
+  @media (min-width: $screen-xs-min) {
+    margin: 0 auto;
+    width: 480px;
+  }
+
   @media (min-width: $screen-md-min) {
+    margin: 0;
     width: 361px;
   }
 }

@@ -4,7 +4,7 @@ import { Checkbox, Col, DropdownButton, Grid, MenuItem, Row } from 'react-bootst
 import { observer } from 'mobx-react';
 import ListingThumbnail from '../ListingThumbnail/ListingThumbnail.jsx';
 import Nouislider from 'react-nouislider';
-import _ from 'lodash';
+import { range } from 'lodash';
 
 import './Apartments.scss';
 
@@ -194,7 +194,7 @@ class Apartments extends Component {
                 snap={true}
                 pips={{
                   mode: 'values',
-                  values: _.range(DEFAULT_FILTER_PARAMS.minRooms,
+                  values: range(DEFAULT_FILTER_PARAMS.minRooms,
                     DEFAULT_FILTER_PARAMS.maxRooms + 1),
                   density: 30
                 }}
@@ -220,33 +220,35 @@ class Apartments extends Component {
                 <i data-toggle="modal" data-target="#modal-city-promise">i</i>
             </div>
           </div>
-          <Row className="apartments-filter-amenities-container">
-            <h5><b>צמצמו את החיפוש</b></h5>
-            <Col xs={4}>
-              <Checkbox name="park" checked={this.state.park} onChange={this.amenitiesChangeHandler}>
-                חניה
-              </Checkbox>
-              <Checkbox name="balc" checked={this.state.balc} onChange={this.amenitiesChangeHandler}>
-                מרפסת
-              </Checkbox>
-            </Col>
-            <Col xs={4}>
-              <Checkbox name="ac" checked={this.state.ac} onChange={this.amenitiesChangeHandler}>
-                מזגן
-              </Checkbox>
-              <Checkbox name="ele" checked={this.state.ele} onChange={this.amenitiesChangeHandler}>
-                מעלית
-              </Checkbox>
-            </Col>
-            <Col xs={4}>
-              <Checkbox name="pet" checked={this.state.pet} onChange={this.amenitiesChangeHandler}>
-                מותר בע״ח
-              </Checkbox>
-              <Checkbox name="sb" checked={this.state.sb} onChange={this.amenitiesChangeHandler}>
-                סורגים
-              </Checkbox>
-            </Col>
-          </Row>
+          <Grid fluid>
+            <Row className="apartments-filter-amenities-container">
+              <h5><b>צמצמו את החיפוש</b></h5>
+              <Col xs={4}>
+                <Checkbox name="park" checked={this.state.park} onChange={this.amenitiesChangeHandler}>
+                  חניה
+                </Checkbox>
+                <Checkbox name="balc" checked={this.state.balc} onChange={this.amenitiesChangeHandler}>
+                  מרפסת
+                </Checkbox>
+              </Col>
+              <Col xs={4}>
+                <Checkbox name="ac" checked={this.state.ac} onChange={this.amenitiesChangeHandler}>
+                  מזגן
+                </Checkbox>
+                <Checkbox name="ele" checked={this.state.ele} onChange={this.amenitiesChangeHandler}>
+                  מעלית
+                </Checkbox>
+              </Col>
+              <Col xs={4}>
+                <Checkbox name="pet" checked={this.state.pet} onChange={this.amenitiesChangeHandler}>
+                  מותר בע״ח
+                </Checkbox>
+                <Checkbox name="sb" checked={this.state.sb} onChange={this.amenitiesChangeHandler}>
+                  סורגים
+                </Checkbox>
+              </Col>
+            </Row>
+          </Grid>
         </div>
         <div className="apartments-results-wrapper">
           {apartments.length > 0 ?
