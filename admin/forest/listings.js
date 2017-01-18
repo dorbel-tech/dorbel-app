@@ -6,7 +6,7 @@ Liana.collection('listings', {
     field: 'listing_url',
     type: 'String',
     value: function (object) {
-      return 'https://app.dorbel.com/apartments/' + object.listing_id;
+      return 'https://app.dorbel.com/apartments/' + object.id;
     }
   }]
 });
