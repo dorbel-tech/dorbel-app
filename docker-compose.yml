@@ -126,10 +126,10 @@ services:
       OHE_API_EVENTS_SQS_QUEUE_URL: ${OHE_API_EVENTS_SQS_QUEUE_URL}
   
   # Admin apartments backoffice
-  admin-apartments:
+  admin:
     build:
       context: admin
-    image: dorbel/admin-apartments
+    image: dorbel/admin
     ports:
       - '3004:3004'
     depends_on:
