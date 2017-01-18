@@ -32,6 +32,7 @@ class OheProvider {
       method: 'POST',
       data
     })
+    .then((ohe) => ohe.registrations = []) // Added in order to resolve a bug in which EditOHEModal is rendered unnecessary and throws an error about registrations being undefined
     .then(this.updateStoreWithOhe);
   }
 
@@ -90,13 +91,9 @@ class OheProvider {
     });
   }
 
-  unregisterForEvent(registration) {
-    return this.fetch('event/registration/' + registration.id, {
+  unregisterForEvent(oheId) {
+    return this.fetch('event/registration/' + oheId, {
       method: 'DELETE'
-    })
-    .then(() => {
-      const ohe = this.appStore.oheStore.oheById.get(registration.open_house_event_id);
-      ohe.usersOwnRegistration = undefined;      
     });
   }
   
