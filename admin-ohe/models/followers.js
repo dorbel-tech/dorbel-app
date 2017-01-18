@@ -6,12 +6,15 @@ module.exports = (sequelize, DataTypes) => {
   var Model = sequelize.define('followers', {
     listing_id: {
       type: DataTypes.INTEGER,
+      allowNull: false
     },
     following_user_id: {
-      type: DataTypes.STRING,
+      type: DataTypes.UUID,
+      allowNull: false
     },
     is_active: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.BOOLEAN,
+      allowNull: false
     },
     created_at: {
       type: DataTypes.DATE,
