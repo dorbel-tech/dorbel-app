@@ -76,6 +76,7 @@
     "react-flickity-component": "0.1.0",
     "react-notification-system": "^0.2.11",
     "react-nouislider": "^1.14.2",
+    "react-spinkit": "^1.1.11",
     "sass-loader": "^4.0.2",
     "satisfaction": "^3.0.0",
     "sinon": "^1.17.6",
