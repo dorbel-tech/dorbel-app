@@ -12,17 +12,26 @@ const logger = shared.logger.getLogger(module);
 
 function* register(event_id, user) {
   let existingEvent = yield openHouseEventsFinderService.find(event_id);
+  let usersOwnRegistration = existingEvent.registrations && _.find(existingEvent.registrations, { registered_user_id: user.user_id });    
 
   validateEventRegistration(existingEvent, user.user_id); // will throw error if validation fails
 
-  const registration = {
-    open_house_event_id: event_id,
-    registered_user_id: user.user_id,
-    is_active: true
-  };
+  let result;
 
-  const result = yield repository.createRegistration(registration);
-  logger.info({ event_id: event_id, user_id: user.user_id }, 'Register to OHE');
+  if (usersOwnRegistration) {
+    usersOwnRegistration.is_active = true; // if we passed validation user's own registration is not active
+    result = yield repository.updateRegistration(usersOwnRegistration);
+  } else {
+    const registration = {
+      open_house_event_id: event_id,
+      registered_user_id: user.user_id,
+      is_active: true
+    };
+
+    result = yield repository.createRegistration(registration);
+  }
+
+  logger.info(result, 'Register to OHE');
 
   let userMetadata = {
     first_name: user.firstname,
@@ -69,15 +78,6 @@ function* unregister(registrationId) {
   return result;
 }
 
-function isUserRegisteredToEvent(event, userId) {
-  if (event.registrations) {
-    let userIsRegistered = _.find(event.registrations, { registered_user_id: userId });
-    return !!userIsRegistered;
-  }
-
-  return false;
-}
-
 function validateEventRegistration(event, user_id) {
   const eventStatus = utilityFunctions.calculateOHEStatus(event, user_id);
 
@@ -107,6 +107,5 @@ function validateEventRegistration(event, user_id) {
 
 module.exports = {
   register,
-  unregister,
-  isUserRegisteredToEvent
+  unregister
 };
