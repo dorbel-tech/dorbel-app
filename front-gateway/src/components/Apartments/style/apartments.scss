@@ -40,6 +40,8 @@
 
 .apartments-filter-switches-container {
   border-bottom: 1px solid $gray-lighter;
+  font-size: 13px;
+  line-height: $line-height-computed;
   padding: 48px 22px 26px;
 }
 
@@ -50,10 +52,14 @@
 
 .apartments-filter-sliders-container {
   border-bottom: 1px solid $gray-lighter;
+  font-size: 13px;
+  line-height: $line-height-computed;
   padding: 0 46px;
 }
 
 .apartments-filter-amenities-container {
+  font-size: 13px;
+  line-height: $line-height-computed;
   margin-right: 0 !important;
   padding-right: 22px;
   padding-top: 10px;

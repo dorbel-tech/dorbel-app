@@ -143,7 +143,7 @@ class Apartments extends Component {
           </div>
           <div className="apartments-filter-switches-container">
             <Checkbox name="roomate" checked={this.state.roomate} onChange={this.roomateChangeHandler}>
-              הציגו לי דירות לשותפים
+              <b>הציגו לי דירות לשותפים</b>
             </Checkbox>
             <div className="apartments-filter-switches-switch-wrapper">
               <Checkbox name="empty"
