@@ -1,69 +1,95 @@
 .apartments-container {
-  background-color: $gray-lighter;
+  position: relative;
 }
 
-.search-widget-wrapper {
-  background-color: $brand-white;
-  border-bottom: 1px solid $gray-lighter;
-}
-
-.search-widget-container {
-  padding: 35px 0;
-  text-align: center;
-
-  .city-picker-wrapper {
-    position: relative;
-
-    .city-picker {
-      height: 62px;
-      width: 285px;
-    }
-
-    i {
-      background-color: $brand-primary;
-      border-radius: 50%;
-      color: $brand-white;
-      cursor: pointer;
-      display: block;
-      font-family: 'georgia';
-      height: 22px;
-      left: -15px;
-      line-height: 22px;
-      position: absolute;
-      top: -10px;
-      width: 22px;
-      z-index: 9;
-    }
-  }
-}
-
-.search-switches-container {
-  border-bottom: 1px solid $gray-lighter;
-}
-
-.search-amenities-container > [class*='col-'] {
-  padding-left: 0;
-  padding-right: 0;
-}
-
-.search-results-wrapper {
-  text-align: center;
+.apartments-filter-wrapper {
+  padding: 39px 0;
 
   @media (min-width: $screen-md-min) {
-    display: table;
-    height: 700px;
+    width: 361px;
+  }
+}
+
+.apartments-results-wrapper {
+  background-color: $gray-lighter;
+
+  @media (min-width: $screen-md-min) {
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 361px;
+    top: 0;
+  }
+}
+
+.apartments-filter-city-container {
+  text-align: center;
+
+  .apartments-filter-city-dropdown {
+    height: 62px;
+    width: 285px;
+  }
+}
+
+.apartments-filter-switches-container {
+  border-bottom: 1px solid $gray-lighter;
+  padding: 48px 22px 26px;
+}
+
+.apartments-filter-switches-switch-wrapper {
+  display: inline-block;
+  width: 50%;
+}
+
+.apartments-filter-sliders-container {
+  border-bottom: 1px solid $gray-lighter;
+  padding: 0 46px;
+}
+
+.apartments-filter-amenities-container {
+  margin-right: 0 !important;
+  padding-right: 22px;
+  padding-top: 10px;
+
+  .checkbox {
+    padding-bottom: 15px;
   }
 
-  .search-results-not-found {
-    font-size: 15px;
-    line-height: 20px;
-    padding: 20px 0;
-    vertical-align: middle;
-
-    @media (min-width: $screen-md-min) {
-      display: table-cell;
-    }    
+  > [class*='col-'] {
+    padding-left: 0;
+    padding-right: 0;
   }
+}
+
+.apartments-results-not-found {
+  font-size: 15px;
+  text-align: center;
+  padding: 20px 0;
+
+  @media (min-width: $screen-md-min) {
+    padding: 300px 0;
+  }
+}
+
+.size-slider {
+  position: relative;
+}
+
+i {
+  background-color: $brand-primary;
+  border-radius: 50%;
+  color: $brand-white;
+  cursor: pointer;
+  display: none; // TODO: Implement modal (and restore display block).
+  font-family: 'georgia';
+  height: 16px;
+  left: -30px;
+  line-height: 14px;
+  position: absolute;
+  text-align: center;
+  top: 59px;
+  width: 14px;
+  z-index: 9;
 }
 
 // nouislider overrides
