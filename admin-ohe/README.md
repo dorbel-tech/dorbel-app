@@ -1,5 +1,5 @@
-# dorbel apartments admin dashboard
-> Serving as view over apartments DB.
+# dorbel ohe admin dashboard
+> Serving as view over open_house_events DB.
 
 > It was created using [Lumber](http://www.forestadmin.com/lumber) of the shelf product which is using [Forest Admin](http://www.forestadmin.com/) open source dashboard.
 
