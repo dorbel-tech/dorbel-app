@@ -25,8 +25,10 @@ function* post() {
 
 function* put() {
   const data = this.request.body;
-  logger.debug({data}, 'Updating open house event...');
-  const result = yield openHouseEventsService.update(data);
+  const id = parseInt(this.params.id);
+  const user = this.request.user;
+  logger.debug({id, data}, 'Updating open house event...');
+  const result = yield openHouseEventsService.update(id, data, user);
   logger.info({event_id: result.id}, 'Open house event updated');
   this.response.status = 200;
   this.response.body = result;
@@ -34,8 +36,9 @@ function* put() {
 
 function* remove() {
   const id = this.params.id;
+  const user = this.request.user;
   logger.debug({event_id: id}, 'Deleting open house event...');
-  yield openHouseEventsService.remove(id);
+  yield openHouseEventsService.remove(id, user);
   logger.info(id, 'Open house event deleted');
   this.response.status = 200;
 }

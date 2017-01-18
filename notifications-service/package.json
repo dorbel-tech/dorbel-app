@@ -28,6 +28,7 @@
     "faker": "^3.1.0",
     "fleek-router": "^1.2.5",
     "hamjest": "^2.13.0",
+    "ics": "^1.2.0",
     "koa": "^1.2.4",
     "koa-bodyparser": "^2.2.0",
     "lodash": "^4.16.3",

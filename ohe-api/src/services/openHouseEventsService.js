@@ -18,7 +18,7 @@ function validateEventParamters(start, end) {
   }
 }
 
-function validateEventIsNotOverlappingExistingEvents(existingListingEvents, listing_id, start, end) {
+function validateEventOverlap(existingListingEvents, start, end) {
   if (!existingListingEvents) {
     return;
   }
@@ -44,7 +44,7 @@ function* create(openHouseEvent) {
   validateEventParamters(start, end);
 
   const existingListingEvents = yield openHouseEventsRepository.findByListingId(listing_id);
-  validateEventIsNotOverlappingExistingEvents(existingListingEvents, listing_id, start, end);
+  validateEventOverlap(existingListingEvents, start, end);
 
   const newEvent = yield openHouseEventsRepository.create({
     start_time: start,
@@ -66,48 +66,63 @@ function* create(openHouseEvent) {
     user_uuid: openHouseEvent.publishing_user_id
   });
 
+
   return newEvent;
 }
 
-function* update(openHouseEvent) {
-  let existingEvent = yield openHouseEventsFinderService.find(openHouseEvent.id);
+function* update(id, updateRequest, user) {
+  let existingEvent = yield openHouseEventsFinderService.find(id);
 
-  const listing_id = parseInt(openHouseEvent.listing_id);
-  const start = moment(openHouseEvent.start_time, moment.ISO_8601, true);
-  const end = moment(openHouseEvent.end_time, moment.ISO_8601, true);
+  if (existingEvent.publishing_user_id !== user.id) { throw new errors.NotResourceOwnerError(); }
+
+  const start = moment(updateRequest.start_time || existingEvent.start_time, moment.ISO_8601, true);
+  const end = moment(updateRequest.end_time || existingEvent.end_time, moment.ISO_8601, true);
+
+  if (start.toDate().toDateString() !== existingEvent.start_time.toDateString() ||
+      end.toDate().toDateString() !== existingEvent.end_time.toDateString()) {
+    throw new errors.DomainValidationError('OpenHouseEventValidationError', {}, 'not allowed to edit day');
+  }
+
+  const timeChanged = !start.isSame(existingEvent.start_time) || !end.isSame(existingEvent.end_time);
+
+  if (!timeChanged && existingEvent.max_attendies === updateRequest.max_attendies) {
+    // no changed
+    return existingEvent;
+  }
+
   validateEventParamters(start, end);
 
-  const existingListingEvents = yield openHouseEventsFinderService.findByListing(listing_id);
-  const existingEventsWithoutCurrent = existingListingEvents.filter(function (existingEvent) {
-    return existingEvent.id != openHouseEvent.id;
-  });
-
-  validateEventIsNotOverlappingExistingEvents(existingEventsWithoutCurrent, listing_id, start, end);
+  const existingListingEvents = yield openHouseEventsFinderService.findByListing(existingEvent.listing_id);
+  const otherEvents = existingListingEvents.filter(otherEvent => otherEvent.id !== id && otherEvent.is_active);
+  validateEventOverlap(otherEvents, start, end);
 
   existingEvent.start_time = start;
-  existingEvent.start_time = end;
-  existingEvent.comments = openHouseEvent.comments;
+  existingEvent.end_time = end;
+  existingEvent.max_attendies = updateRequest.max_attendies;
 
   const result = yield openHouseEventsRepository.update(existingEvent);
   logger.info({ user_id: existingEvent.publishing_user_id, event_id: existingEvent.id }, 'OHE updated');
 
-  notificationService.send(notificationService.eventType.OHE_UPDATED, {
-    listing_id: existingEvent.listing_id,
-    event_id: existingEvent.id,
-    old_start_time: existingEvent.start_time,
-    old_end_time: existingEvent.end_time,
-    old_comments: existingEvent.comments,
-    new_start_time: start,
-    new_end_time: end,
-    new_comments: openHouseEvent.comments,
-    user_uuid: existingEvent.publishing_user_id
-  });
+  if (timeChanged) {
+    notificationService.send(notificationService.eventType.OHE_UPDATED, {
+      listing_id: existingEvent.listing_id,
+      event_id: existingEvent.id,
+      old_start_time: existingEvent.start_time,
+      old_end_time: existingEvent.end_time,
+      new_start_time: start,
+      new_end_time: end,
+      user_uuid: existingEvent.publishing_user_id
+    });
+  }
 
   return result;
 }
 
-function* remove(eventId) {
+function* remove(eventId, user) {
   let existingEvent = yield openHouseEventsFinderService.find(eventId);
+
+  if (existingEvent.publishing_user_id !== user.id) { throw new errors.NotResourceOwnerError(); }
+
   existingEvent.is_active = false;
 
   const result = yield openHouseEventsRepository.update(existingEvent);
@@ -135,7 +150,7 @@ function* findByListing(listing_id, user) {
     const eventJson = event.toJSON();
     const eventDto = convertEventModelToDTO(eventJson, userId);
 
-    if (userId == event.publishing_user_id) { // publishing user
+    if (userId == event.publishing_user_id || user.role === 'admin') { // publishing user
       // get all the data about the registrations *TODO*: move to seperate api call
       eventDto.registrations = eventJson.registrations;
       eventDto.registrations.forEach(registration => {
