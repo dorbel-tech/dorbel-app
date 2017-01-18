@@ -20,7 +20,6 @@ const swaggerBase = {
     'description': 'dorbel Service for the notifications domain',
     'version': '0.0.1'
   },
-  host: 'api.dorbel.com',
   schemes: [
     'https'
   ],
