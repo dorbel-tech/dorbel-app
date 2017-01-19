@@ -20,6 +20,7 @@ class AuthProvider {
     this.router = router;
     this.showLoginModal = this.showLoginModal.bind(this); 
     this.logout = this.logout.bind(this);
+    this.reportIdentifyAnalytics(this.authStore.getProfile());
   }
 
   afterAuthentication(authResult) {
@@ -47,7 +48,9 @@ class AuthProvider {
       if (error) {
         window.console.log('Error loading the Profile', error);
       } else {
-        this.authStore.setProfile(this.mapAuth0Profile(profile));
+        let mappedProfile = this.mapAuth0Profile(profile);
+        this.authStore.setProfile(mappedProfile);
+        this.reportIdentifyAnalytics(mappedProfile);
       }
     });
   }
@@ -81,6 +84,11 @@ class AuthProvider {
     this.authStore.logout();
     this.router.setRoute('/');
   }
+
+  reportIdentifyAnalytics(profile) {
+    // https://segment.com/docs/integrations/intercom/#identify
+    if (profile) { window.analytics.identify(profile.dorbel_user_id, profile); }
+  }  
 }
 
 module.exports = AuthProvider;
