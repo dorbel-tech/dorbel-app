@@ -31,7 +31,7 @@ function* register(event_id, user) {
     result = yield repository.createRegistration(registration);
   }
 
-  logger.info(result, 'Register to OHE');
+  logger.info({ event_id, user_id: user.user_id }, 'Register to OHE');
 
   let userMetadata = {
     first_name: user.firstname,
