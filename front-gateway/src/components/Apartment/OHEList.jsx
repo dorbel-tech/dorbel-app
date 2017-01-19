@@ -34,7 +34,7 @@ class OHEList extends Component {
             <Icon iconName={params.iconName} />
           </div>
           <div className="date-and-time pull-right">
-            <span >{params.itemText}</span>
+            <span className={params.highlightTitle ? 'highlight' : ''}>{params.itemText}</span>
             <br className="visible-lg" />
             <i className="hidden-lg">&nbsp;</i>
             <span className="hidden-xs">{params.callToActionText}</span>
@@ -106,7 +106,8 @@ class OHEList extends Component {
     return this.renderListItem({
       itemText, callToActionText,
       iconName: 'icon-dorbel-icon-master_icon-calendar-plus',
-      onClickRoute: action
+      onClickRoute: action,
+      highlightTitle: (action == 'follow')
     });
   }
 
