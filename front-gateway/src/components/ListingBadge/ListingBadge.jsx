@@ -57,12 +57,9 @@ class ListingBadge extends Component {
   }
 }
 
-ListingBadge.propTypes = {
+ListingBadge.wrappedComponent.propTypes = {
   appStore: React.PropTypes.object,
   listing: React.PropTypes.object.isRequired
 };
 
 export default ListingBadge;
-
-
-
