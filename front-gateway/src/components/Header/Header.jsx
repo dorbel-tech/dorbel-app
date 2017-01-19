@@ -18,11 +18,11 @@ class Header extends Component {
   }
 
   render() {
-    const { appProviders, appStore } = this.props;
-    const isLoggedIn = appStore.authStore.isLoggedIn ||
-      window.location.hash.indexOf('access_token') > -1;
+    const { authStore } = this.props.appStore;
+    const { authProvider } = this.props.appProviders;
+    const isLoggedIn = authStore.isLoggedIn;
 
-    const firstName = isLoggedIn ? appStore.authStore.getProfile().first_name : '';
+    const firstName = isLoggedIn ? authStore.profile.first_name : '';
 
     return (
       <Navbar className="header-navbar" collapseOnSelect fixedTop fluid inverse>
@@ -50,9 +50,9 @@ class Header extends Component {
           <Nav pullLeft>
             <NavItem>{ firstName }</NavItem>
             {isLoggedIn ?
-              <NavItem onClick={appProviders.authProvider.logout}>התנתק</NavItem>
+              <NavItem onClick={authProvider.logout}>התנתק</NavItem>
               :
-              <NavItem onClick={appProviders.authProvider.showLoginModal}>התחבר</NavItem>
+              <NavItem onClick={authProvider.showLoginModal}>התחבר</NavItem>
             }
           </Nav>
         </Navbar.Collapse>

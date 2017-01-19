@@ -22,6 +22,8 @@ class AppProviders {
         throw new Error('must set auth0 env vars');
       }
       this.authProvider = new AuthProvider(window.dorbelConfig.AUTH0_FRONT_CLIENT_ID, window.dorbelConfig.AUTH0_DOMAIN, appStore.authStore, router);
+    } else {
+      this.authProvider = {};
     }
 
     this.cloudinaryProvider = new CloudinaryProvider();
