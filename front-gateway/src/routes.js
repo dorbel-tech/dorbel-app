@@ -9,33 +9,61 @@ import Login from '~/components/Login';
 import Profile from '~/components/Profile';
 import UploadApartmentForm from '~/components/UploadApartmentForm/UploadApartmentForm';
 
-function startRouter(appStore) {
-  function checkAuth() {
-    var callback = arguments[arguments.length - 1];
-    if (appStore.authStore.isLoggedIn) {
-      return callback();
-    }
-    appStore.setView(Login);
-    callback(false);
+const routes = [
+  { route: '/', view: Home },
+  { route: '/about', view: About },
+  { route: '/login', view: Login },
+  { route: '/apartments', view: Apartments },
+  { route: '/apartments/new_form', view: UploadApartmentForm },
+  { route: '/apartments/:apartmentId/:action/:oheId', view: Apartment },
+  { route: '/apartments/:apartmentId/:action', view: Apartment },
+  { route: '/apartments/:apartmentId', view: Apartment },
+  { route: '/profile', view: Profile, requireLogin: true }
+];
+
+function checkAuth(appStore) {
+  var callback = arguments[arguments.length - 1];
+  if (appStore.authStore.isLoggedIn) {
+    return callback();
   }
+  appStore.setView(Login);
+  callback(false);
+}
 
-  const routes = {
-    '/': () => appStore.setView(Home),
-    '/about': () => appStore.setView(About),
-    '/login': () => appStore.setView(Login),
-    '/apartments': () => appStore.setView(Apartments),
-    '/apartments/new_form': () => appStore.setView(UploadApartmentForm),
-    // TODO : can this look better with nested routes ? 
-    '/apartments/:apartmentId/:action/:oheId': (apartmentId, action, oheId) => appStore.setView(Apartment, { apartmentId, action, oheId }),
-    '/apartments/:apartmentId/:action': (apartmentId, action) => appStore.setView(Apartment, { apartmentId, action }),
-    '/apartments/:apartmentId': (apartmentId) => appStore.setView(Apartment, { apartmentId }),
-    '/profile': [
-      checkAuth,
-      () => appStore.setView(Profile)
-    ]
-  };
+function setRoutes(router, appStore, appProviders) {
+  // TODO : this shouldn't take long but it shouldn't run on every request
+  // But I can't make it a singleton since appStore is different on every request
 
-  const router = new director.Router(routes);
+  routes.forEach(routeConfig => {
+    var routeParams = routeConfig.route.split('/').filter(routePart => routePart.charAt(0) === ':').map(routePart => routePart.substring(1));
+
+    const handleRoute = function() {
+      const callback = arguments[arguments.length - 1]; // last argument director sends is the callback
+      // the rest of the arguments are matched to the route params by order the appear
+      const routeProps = {};
+      routeParams.forEach((routeParam, index) => routeProps[routeParam] = arguments[index]);
+
+      appStore.setView(routeConfig.view, routeProps);
+
+      if (routeConfig.view.preRender) {
+        routeConfig.view.preRender(Object.assign({ router, appStore, appProviders }, routeProps))
+          .then(callback)
+          .catch((err) => {
+            console.error(err);
+            appStore.setView(Home); // TODO : set to error view ?
+            callback();
+          });
+      } else {
+        callback();
+      }
+    };
+
+    router.on(routeConfig.route, routeConfig.requireLogin ? [ checkAuth.bind(null, appStore), handleRoute ] : handleRoute);
+  });
+}
+
+function startRouter(appStore) {
+  const router = new director.Router();
 
   if (global.window) { // client side only
     router.configure({
@@ -64,7 +92,7 @@ function startRouter(appStore) {
         search: window.location.search,
         title: window.document.title,
         url: window.location.href
-      });      
+      });
     };
 
     router.goUpOneLevel = function () {
@@ -80,6 +108,10 @@ function startRouter(appStore) {
       async: true
     });
   }
+
+  router.setRoutes = function(appStore, appProviders) {
+    setRoutes(router, appStore, appProviders);
+  };
 
   return router;
 }

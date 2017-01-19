@@ -5,6 +5,11 @@ import shared from '~/app.shared';
 import { config } from 'dorbel-shared';
 import { getCloudinaryParams } from './server/cloudinaryConfigProvider';
 
+function setRoute(router, path) {
+  // this method is used to set the route in the server side and wait until it resolves
+  return new Promise(resolve => router.dispatch('on', path, resolve));
+}
+
 function* renderApp() {
   const envVars = {
     NODE_ENV: config.get('NODE_ENV'),
@@ -15,7 +20,7 @@ function* renderApp() {
   };
 
   const entryPoint = shared.injectStores();
-  entryPoint.router.dispatch('on', this.path);
+  yield setRoute(entryPoint.router, this.path);
   const initialState = entryPoint.appStore.toJson();
   const appHtml = renderToString(entryPoint.app);
   yield this.render('index', { appHtml, initialState, envVars });

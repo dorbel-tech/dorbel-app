@@ -11,6 +11,7 @@ function injectStores(initialState) {
   const appStore = new AppStore(initialState);
   const router = startRouter(appStore);
   const appProviders = new AppProviders(appStore, router);
+  router.setRoutes(appStore, appProviders);
 
   const app = (
     <Provider appStore={appStore} router={router} appProviders={appProviders}>

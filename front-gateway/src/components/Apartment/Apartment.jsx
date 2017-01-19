@@ -29,6 +29,10 @@ class Apartment extends Component {
     autobind(this);
   }
 
+  static preRender(props) {
+    return props.appProviders.apartmentsProvider.loadFullListingDetails(props.apartmentId);
+  }
+
   componentWillReceiveProps(nextProps) {
     if (this.props.apartmentId != nextProps.apartmentId) {
       this.props = nextProps;
