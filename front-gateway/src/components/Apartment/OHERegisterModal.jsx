@@ -48,7 +48,6 @@ class OHERegisterModal extends React.Component {
       <Modal show={true}>
         <Modal.Header closeButton onHide={this.close}>          
           <Modal.Title>
-            <Glyphicon className="huge-glyph" glyph="ok-circle" />
             ההרשמה בוצעה בהצלחה!
           </Modal.Title>
         </Modal.Header>
