@@ -180,7 +180,7 @@ function getPossibleStatuses(listing, user) {
 
 function* enrichListingResponse(listing, user) {
   if (listing) {
-    const enrichedListing = listing.toJSON(); // discard SQLize object for adding ad-hoc properties
+    const enrichedListing = listing.toJSON ? listing.toJSON() : _.cloneDeep(listing); // discard SQLize object for adding ad-hoc properties
 
     const publishingUser = yield userManagement.getUserDetails(listing.publishing_user_id);
     if (publishingUser) {
