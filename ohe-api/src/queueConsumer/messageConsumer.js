@@ -3,7 +3,9 @@ const shared = require('dorbel-shared');
 const logger = shared.logger.getLogger(module);
 const messageBus = shared.utils.messageBus;
 const userManagement = shared.utils.userManagement;
-const oheService = require('../services/openHouseEventsService');
+const oheEventService = require('../services/openHouseEventsService');
+const oheEventsFinderService = require('../services/openHouseEventsFinderService');
+const oheRegisterSercice = require('../services/openHouseEventRegistrationsService');
 const co = require('co');
 
 function handleMessage(message) {
@@ -16,6 +18,9 @@ function handleMessage(message) {
         // Cancel all active OHEs.
         yield cancleOHEs(message.dataPayload.listing_id, message.dataPayload.user_uuid);
         break;  
+      case 'OHE_DELETED':
+        yield unregisterUsers(message.dataPayload.event_id);
+        break;
       default:
         // In case that message requires no processing, skip it.        
         break;
@@ -26,9 +31,23 @@ function handleMessage(message) {
 function* cancleOHEs(listingId, user_uuid) {
   const publishingUser = yield userManagement.getUserDetails(user_uuid);
   const user = { id: user_uuid, role: publishingUser.role };
-  const result = yield oheService.findByListing(listingId, user);
-  for (let i=0; i< result.length; i++) {
-    yield oheService.remove(result[i].id, user);
+  const events = yield oheEventService.findByListing(listingId, user);
+
+  for (let i=0; i< events.length; i++) {
+    yield oheEventService.remove(events[i].id, user);
+  }
+}
+
+function* unregisterUsers(eventId) {
+  const event = yield oheEventsFinderService.find(eventId);
+
+  if (event.registrations) {
+    for (let i=0; i< event.registrations.length; i++) {
+      let userId = event.registrations[i].registered_user_id;
+      const publishingUser = yield userManagement.getUserDetails(userId);
+      const user = { id: userId, role: publishingUser.role };
+      yield oheRegisterSercice.unregister(eventId, user);
+    }
   }
 }
 

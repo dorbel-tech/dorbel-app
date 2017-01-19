@@ -1,4 +1,7 @@
 .apt-reserve-container {
+    a {
+        outline: none;
+    }
     width: 100%;
     @include box-shadow( 0px 0px 8px 2px rgba(0, 0, 0, 0.05));
     .shadow-wrapper {}
@@ -83,10 +86,10 @@
 .apt-choose-date-container {
     margin-bottom: 0px;
     .apt-choose-date-title {
-      background-color: #EA441A; 
-      margin: 0; 
-      padding: 10px 0px; 
-      color: #fff;
+        background-color: #EA441A;
+        margin: 0;
+        padding: 10px 0px;
+        color: #fff;
     }
     .list-group-item {
         &:first-child {

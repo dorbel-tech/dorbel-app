@@ -21,7 +21,6 @@ const swaggerBase = {
     'description': 'dorbel API for the open house events domain',
     'version': '0.0.1'
   },
-  host: 'api.dorbel.com',
   schemes: [
     'https'
   ],

@@ -21,7 +21,6 @@ const swaggerBase = {
     'description': 'dorbel API for the apartments domain',
     'version': '0.0.1'
   },
-  host: 'api.dorbel.com',
   schemes: [
     'https'
   ],
