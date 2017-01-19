@@ -33,8 +33,12 @@ class AuthProvider {
 
   reportIdentifyAnalytics() {
     // https://segment.com/docs/integrations/intercom/
-    const profile = this.authStore.getProfile();
-    window.analytics.identify(profile.dorbel_user_id, profile);    
+    let profile = window.localStorage.getItem('profile');
+
+    if (profile) {
+      profile = JSON.parse(profile);
+      window.analytics.identify(profile.dorbel_user_id, profile);    
+    }
   }
 
   recoverStateAfterLogin(stateString) {
