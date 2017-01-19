@@ -30,6 +30,11 @@ export default class NewListingStore {
     }
   }
 
+  reset(){
+    this.formValues = defaultFormValues;
+    this.stepNumber = 0;
+  }
+
   get roomOptions() {
     return roomOptions;
   }
