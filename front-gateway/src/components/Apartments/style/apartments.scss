@@ -95,22 +95,22 @@
   position: relative;
 }
 
-i {
-  background-color: $brand-primary;
-  border-radius: 50%;
-  color: $brand-white;
-  cursor: pointer;
-  display: none; // TODO: Implement modal (and restore display block).
-  font-family: 'georgia';
-  height: 16px;
-  left: -30px;
-  line-height: 14px;
-  position: absolute;
-  text-align: center;
-  top: 59px;
-  width: 14px;
-  z-index: 9;
-}
+// i {
+//   background-color: $brand-primary;
+//   border-radius: 50%;
+//   color: $brand-white;
+//   cursor: pointer;
+//   display: none; // TODO: Implement modal (and restore display block).
+//   font-family: 'georgia';
+//   height: 16px;
+//   left: -30px;
+//   line-height: 14px;
+//   position: absolute;
+//   text-align: center;
+//   top: 59px;
+//   width: 14px;
+//   z-index: 9;
+// }
 
 // nouislider overrides
 .cost-slider {
