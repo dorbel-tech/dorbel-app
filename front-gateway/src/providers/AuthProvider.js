@@ -28,6 +28,13 @@ class AuthProvider {
     if (authResult.state) {
       this.recoverStateAfterLogin(authResult.state);      
     }
+    this.reportIdentifyAnalytics();
+  }
+
+  reportIdentifyAnalytics() {
+    // https://segment.com/docs/integrations/intercom/
+    const profile = this.authStore.getProfile();
+    window.analytics.identify(profile.dorbel_user_id, profile);    
   }
 
   recoverStateAfterLogin(stateString) {
