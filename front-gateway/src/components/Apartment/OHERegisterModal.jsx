@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, Modal, Button, Glyphicon } from 'react-bootstrap';
+import { Row, Col, Modal, Button } from 'react-bootstrap';
 import { observer } from 'mobx-react';
 import Icon from '../Icon/Icon';
 import FormWrapper from '~/components/FormWrapper/FormWrapper';
