@@ -24,9 +24,22 @@ brew install awsebcli
 # Install Flow support
 brew install flow
 
+# For webpack hot reload to work on Mac
+npm install fsevents -g
+
+# Installing Docker
+brew install docker docker-machine docker-compose
+
+# Tap homebrew/completion to gain access to these
+brew tap homebrew/completions
+ 
+# Install completions for docker suite
+brew install docker-completion
+brew install docker-compose-completion
+brew install docker-machine-completion
+
 # Install software
 brew tap caskroom/cask
-brew cask install docker
 brew cask install google-chrome
 brew cask install iterm2
 brew cask install visual-studio-code

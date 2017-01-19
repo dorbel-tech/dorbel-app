@@ -17,8 +17,9 @@ function* post() {
 
 function* remove() {
   const id = this.params.id;
-  logger.debug({event_id: id}, 'Deleting registration...');
-  yield service.unregister(id);
+  const user = this.request.user;
+  logger.debug({event_id: id, registered_user_id: user.user_id}, 'Deleting registration...');
+  yield service.unregister(id, user);
   logger.info({event_id: id}, 'Registration deleted');
   this.response.status = 200;
 }
