@@ -20,7 +20,7 @@ class AuthProvider {
     this.router = router;
     this.showLoginModal = this.showLoginModal.bind(this); 
     this.logout = this.logout.bind(this);
-    this.reportIdentifyAnalytics(JSON.parse(window.localStorage.getItem('profile')));
+    this.reportIdentifyAnalytics(this.authStore.getProfile());
   }
 
   afterAuthentication(authResult) {
