@@ -98,6 +98,9 @@
     "webpack-dev-server": "^1.16.2"
   },
   "jest": {
-    "scriptPreprocessor": "<rootDir>/node_modules/webpack-babel-jest"
+    "scriptPreprocessor": "<rootDir>/node_modules/webpack-babel-jest",
+    "moduleNameMapper": {
+      "\\.(css|scss)$": "<rootDir>/test/style-mock.js"
+    }
   }
 }
