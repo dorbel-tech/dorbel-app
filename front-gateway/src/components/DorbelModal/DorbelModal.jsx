@@ -1,6 +1,7 @@
 import React from 'react';
 import { Modal } from 'react-bootstrap';
 import autobind from 'react-autobind';
+import { get } from 'lodash';
 
 class DorbelModal extends React.Component {
   constructor(props) {
@@ -9,26 +10,30 @@ class DorbelModal extends React.Component {
   }
 
   close() {
-    if (this.props.onClose) {
-      this.props.onClose();
+    const closeFunction = this.props.onClose || get(this.props, 'params.onClose');
+
+    if (closeFunction) {
+      closeFunction();
     }
   }
 
   render() {
+    const { modalSize, title, body, footer } = (this.props.params || this.props);
+
     return (
-      <Modal show={this.props.show} bsSize={this.props.modalSize}>
+      <Modal show={this.props.show} bsSize={modalSize}>
         <Modal.Header closeButton onHide={this.close}>
-          <Modal.Title>{this.props.title}</Modal.Title>
+          <Modal.Title>{title}</Modal.Title>
         </Modal.Header>
-        <Modal.Body>          
-          {this.props.body}
+        <Modal.Body>
+          {body}
         </Modal.Body>
-        { 
-          this.props.footer ? 
+        {
+          footer ?
           (<Modal.Footer className="text-center">
-            {this.props.footer}
+            {footer}
           </Modal.Footer>)
-          : null 
+          : null
         }
       </Modal>
     );
@@ -41,7 +46,8 @@ DorbelModal.propTypes = {
   body: React.PropTypes.any,
   footer: React.PropTypes.any,
   onClose: React.PropTypes.func,
-  modalSize: React.PropTypes.oneOf(['small', 'large'])
+  modalSize: React.PropTypes.oneOf(['small', 'large']),
+  params: React.PropTypes.any
 };
 
 export default DorbelModal;

@@ -3,6 +3,7 @@ import { observer } from 'mobx-react';
 import AppHeader from '~/components/Header/Header';
 import AppFooter from '~/components/Footer/Footer';
 import Notifications from '~/components/Notifications/Notifications';
+import DorbelModal from '~/components/DorbelModal/DorbelModal';
 import moment from 'moment';
 
 moment.locale('he'); // TODO : dynamic locale
@@ -15,7 +16,7 @@ class App extends Component {
       mobxDevTools: process.env.NODE_ENV === 'development' ? require('mobx-react-devtools').default : (() => null),
       footer: appStore.currentView.hideFooter ? (() => null) : AppFooter
     };
-    
+
     let viewClassName = appStore.currentView.behindHeader ? '' : 'app-content-with-header';
     if (appStore.currentView.hideFooter) { viewClassName += ' full-height'; }
 
@@ -28,6 +29,7 @@ class App extends Component {
         <components.footer />
         <components.mobxDevTools />
         <Notifications />
+        <DorbelModal show={appStore.showModal} params={appStore.modalParams}/>
       </div>
     );
   }

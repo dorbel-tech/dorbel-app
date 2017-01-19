@@ -1,4 +1,9 @@
+import autobind from 'react-autobind';
+
 export default class NotificationProvider {
+  constructor() {
+    autobind(this);
+  }
 
   notificationSystem;  // Initiated outside contsrtuctor through the Notification component
   // 3rd party module does't separate component from business logic...
