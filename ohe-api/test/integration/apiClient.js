@@ -53,9 +53,9 @@ class ApiClient {
       });
   }
 
-  deleteRegistration(registrationId) {
+  deleteRegistration(existingEventId) {
     return this.request
-      .delete('/v1/event/registration/' + registrationId)
+      .delete('/v1/event/registration/' + existingEventId)
       .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile));
   }
 
