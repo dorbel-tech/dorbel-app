@@ -32,7 +32,7 @@ class OHERegisterModal extends React.Component {
 
   unregister() {
     const { ohe, appProviders } = this.props;
-    appProviders.oheProvider.unregisterForEvent(ohe.id);
+    appProviders.oheProvider.unregisterForEvent(ohe);
     this.close();
   }
 

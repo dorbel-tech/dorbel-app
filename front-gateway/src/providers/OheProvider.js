@@ -85,18 +85,20 @@ class OheProvider {
         user_details: user
       }
     })
-    .then(registration => {
-      const ohe = this.appStore.oheStore.oheById.get(event.id);
-      ohe.usersOwnRegistration = registration;
-    });
+      .then(() => {
+        event.status = 'registered';
+      });
   }
 
-  unregisterForEvent(oheId) {
-    return this.fetch('event/registration/' + oheId, {
+  unregisterForEvent(event) {
+    return this.fetch('event/registration/' + event.id, {
       method: 'DELETE'
-    });
+    })
+      .then(() => {
+        event.status = 'open';
+      });
   }
-  
+
   // Follow listing
 
   getFollowsForListing(listing_id) {
