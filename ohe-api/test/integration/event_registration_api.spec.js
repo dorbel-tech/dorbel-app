@@ -41,8 +41,8 @@ describe('Open House Events Registration API Integration', function () {
           max_attendies: 15
         };
         const response = yield this.apiClient.createNewEvent(ohe).expect(201).end();
-        const registrationResponse = yield this.apiClient.createNewRegistration(response.body.id, faker.getFakeUser()).expect(201).end();
-        yield this.apiClient.deleteRegistration(registrationResponse.body.id).expect(200).end();
+        yield this.apiClient.createNewRegistration(response.body.id, faker.getFakeUser()).expect(201).end();
+        yield this.apiClient.deleteRegistration(response.body.id).expect(200).end();
       });
 
       it('should return an error for non existing registration', function* () {
