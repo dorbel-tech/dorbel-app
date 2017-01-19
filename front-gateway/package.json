@@ -76,6 +76,7 @@
     "react-flickity-component": "0.1.0",
     "react-notification-system": "^0.2.11",
     "react-nouislider": "^1.14.2",
+    "react-spinkit": "^1.1.11",
     "sass-loader": "^4.0.2",
     "satisfaction": "^3.0.0",
     "sinon": "^1.17.6",
@@ -97,6 +98,10 @@
     "webpack-dev-server": "^1.16.2"
   },
   "jest": {
-    "scriptPreprocessor": "<rootDir>/node_modules/webpack-babel-jest"
+    "scriptPreprocessor": "<rootDir>/node_modules/webpack-babel-jest",
+    "moduleNameMapper": {
+      "\\.(css|scss)$": "<rootDir>/test/style-mock.js"
+    }
   }
 }
+
