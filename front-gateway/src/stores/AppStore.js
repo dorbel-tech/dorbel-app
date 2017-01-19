@@ -18,6 +18,7 @@ export default class AppStore {
   // routing params
   @observable currentView: string;
   @observable routeParams: {[id: string]: string};
+  @observable showModal = false;
 
   constructor(initialState = {}) {
     this.authStore = new AuthStore();
@@ -38,7 +39,7 @@ export default class AppStore {
       listingStore: this.listingStore.toJson(),
       oheStore: this.oheStore.toJson(),
       cityStore: this.cityStore.toJson(),
-      neighborhoodStore: this.neighborhoodStore.toJson() 
+      neighborhoodStore: this.neighborhoodStore.toJson()
     };
   }
 }
