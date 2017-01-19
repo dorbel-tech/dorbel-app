@@ -2,10 +2,11 @@
 const db = require('../dbConnectionProvider');
 const models = db.models;
 
-function* findRegistration(registrationId) {
+function* findRegistration(oheId, userId) {
   return yield models.registration.findOne({
     where: {
-      id: registrationId,
+      open_house_event_id: oheId,
+      registered_user_id: userId,
       is_active: true
     }
   });
