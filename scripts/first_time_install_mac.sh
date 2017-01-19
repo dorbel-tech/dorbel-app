@@ -24,6 +24,9 @@ brew install awsebcli
 # Install Flow support
 brew install flow
 
+# For webpack hot reload to work on Mac
+npm install fsevents -g
+
 # Installing Docker
 brew install docker docker-machine docker-compose
 
