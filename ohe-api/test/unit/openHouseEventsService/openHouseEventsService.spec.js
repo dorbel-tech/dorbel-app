@@ -158,7 +158,7 @@ describe('Open House Event Service', function () {
       let thrown = false;
 
       try {
-        yield this.service.remove(1);
+        yield this.service.remove(1, faker.getFakeUser());
         __.assertThat('code', __.is('not reached'));
       }
       catch (error) {

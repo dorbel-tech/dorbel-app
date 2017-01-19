@@ -4,7 +4,7 @@ import { Checkbox, Col, DropdownButton, Grid, MenuItem, Row } from 'react-bootst
 import { observer } from 'mobx-react';
 import ListingThumbnail from '../ListingThumbnail/ListingThumbnail.jsx';
 import Nouislider from 'react-nouislider';
-import _ from 'lodash';
+import { range } from 'lodash';
 
 import './Apartments.scss';
 
@@ -131,143 +131,139 @@ class Apartments extends Component {
     const apartments = listingStore.apartments.length ? listingStore.apartments : [];
 
     return (
-      <Grid fluid>
-        <Row className="apartments-container">
-          <Col lg={3} md={4} className="search-widget-wrapper">
-            <Row className="search-widget-container">
-              <Col className="city-picker-wrapper" xs={12} sm={10} smOffset={1}>
-                <DropdownButton id="cityDropdown" bsSize="large"
-                  className="city-picker"
-                  title={'עיר: ' + this.cityTitle}
-                  onSelect={this.citySelectHandler}>
-                  {this.cities.map(city => <MenuItem key={city.id} eventKey={city.id}>{city.city_name}</MenuItem>)}
-                </DropdownButton>
-                <i data-toggle="modal" data-target="#modal-city-promise">i</i>
-              </Col>
-            </Row>
-            <Row className="search-switches-container">
-              <Col xs={12}>
-                <Checkbox name="roomate" checked={this.state.roomate} onChange={this.roomateChangeHandler}>
-                  הציגו לי דירות לשותפים
+      <div className="apartments-container">
+        <div className="apartments-filter-wrapper">
+          <div className="apartments-filter-city-container">
+            <DropdownButton id="cityDropdown" bsSize="large"
+              className="apartments-filter-city-dropdown"
+              title={'עיר: ' + this.cityTitle}
+              onSelect={this.citySelectHandler}>
+              {this.cities.map(city => <MenuItem key={city.id} eventKey={city.id}>{city.city_name}</MenuItem>)}
+            </DropdownButton>
+          </div>
+          <div className="apartments-filter-switches-container">
+            <Checkbox name="roomate" checked={this.state.roomate} onChange={this.roomateChangeHandler}>
+              <b>הציגו לי דירות לשותפים</b>
+            </Checkbox>
+            <div className="apartments-filter-switches-switch-wrapper">
+              <Checkbox name="empty"
+                checked={this.state.empty}
+                disabled={!this.state.roomate || !this.state.room}
+                onChange={this.roomateChangeHandler}>
+                דירות ריקות לשותפים
+              </Checkbox>
+            </div>
+            <div className="apartments-filter-switches-switch-wrapper">
+              <Checkbox name="room"
+                checked={this.state.room}
+                disabled={!this.state.roomate || !this.state.empty}
+                onChange={this.roomateChangeHandler}>
+                חדר בדירת שותפים
+              </Checkbox>
+            </div>
+          </div>
+          <div className="apartments-filter-sliders-container">
+            <div className="cost-slider">
+              <h5 className="text-center">בחר טווח מחירים</h5>
+              <Nouislider onChange={this.mrSliderChangeHandler}
+                range={{
+                  min: DEFAULT_FILTER_PARAMS.mrs,
+                  max: DEFAULT_FILTER_PARAMS.mre
+                }}
+                start={[this.state.mrs, this.state.mre]}
+                step={DEFAULT_FILTER_PARAMS.mrs}
+                pips={{ mode: 'steps', density: 30 }}
+                connect={true}
+                direction={'ltr'} />
+            </div>
+            <div className="roomsnum-slider">
+              <h5 className="text-center">בחר מספר חדרים</h5>
+              <Nouislider onChange={this.roomsSliderChangeHandler}
+                range={{
+                  min: DEFAULT_FILTER_PARAMS.minRooms,
+                  '12.5%': 1.5,
+                  '25%': 2,
+                  '37.5%': 2.5,
+                  '50%': 3,
+                  '62.5%': 3.5,
+                  '75%': 4,
+                  '87.5%': 4.5,
+                  max: DEFAULT_FILTER_PARAMS.maxRooms
+                }}
+                start={[this.state.minRooms, this.state.maxRooms]}
+                snap={true}
+                pips={{
+                  mode: 'values',
+                  values: range(DEFAULT_FILTER_PARAMS.minRooms,
+                    DEFAULT_FILTER_PARAMS.maxRooms + 1),
+                  density: 30
+                }}
+                connect={true}
+                direction={'ltr'} />
+            </div>
+            <div className="size-slider">
+              <h5 className="text-center">בחר גודל נכס (במ"ר)</h5>
+              <Nouislider onChange={this.sizeSliderChangeHandler}
+                range={{
+                  min: DEFAULT_FILTER_PARAMS.minSize,
+                  '20%': 40,
+                  '40%': 60,
+                  '60%': 80,
+                  '80%': 100,
+                  max: DEFAULT_FILTER_PARAMS.maxSize
+                }}
+                start={[this.state.minSize, this.state.maxSize]}
+                snap={true}
+                pips={{ mode: 'steps', density: 30 }}
+                connect={true}
+                direction={'ltr'} />
+              <i data-toggle="modal" data-target="#modal-city-promise">i</i>
+            </div>
+          </div>
+          <Grid fluid>
+            <Row className="apartments-filter-amenities-container">
+              <h5><b>צמצמו את החיפוש</b></h5>
+              <Col xs={4}>
+                <Checkbox name="park" checked={this.state.park} onChange={this.amenitiesChangeHandler}>
+                  חניה
+                </Checkbox>
+                <Checkbox name="balc" checked={this.state.balc} onChange={this.amenitiesChangeHandler}>
+                  מרפסת
                 </Checkbox>
               </Col>
-              <Col xs={6}>
-                <Checkbox name="empty"
-                  checked={this.state.empty}
-                  disabled={!this.state.roomate || !this.state.room}
-                  onChange={this.roomateChangeHandler}>
-                  דירות ריקות לשותפים
+              <Col xs={4}>
+                <Checkbox name="ac" checked={this.state.ac} onChange={this.amenitiesChangeHandler}>
+                  מזגן
+                </Checkbox>
+                <Checkbox name="ele" checked={this.state.ele} onChange={this.amenitiesChangeHandler}>
+                  מעלית
                 </Checkbox>
               </Col>
-              <Col xs={6}>
-                <Checkbox name="room"
-                  checked={this.state.room}
-                  disabled={!this.state.roomate || !this.state.empty}
-                  onChange={this.roomateChangeHandler}>
-                  חדר בדירת שותפים
+              <Col xs={4}>
+                <Checkbox name="pet" checked={this.state.pet} onChange={this.amenitiesChangeHandler}>
+                  מותר בע״ח
+                </Checkbox>
+                <Checkbox name="sb" checked={this.state.sb} onChange={this.amenitiesChangeHandler}>
+                  סורגים
                 </Checkbox>
               </Col>
             </Row>
-            <Row className="search-widget-container">
-              <Col xs={10} xsOffset={1} className="cost-slider">
-                <h5 className="text-center">בחר טווח מחירים</h5>
-                <Nouislider onChange={this.mrSliderChangeHandler}
-                  range={{
-                    min: DEFAULT_FILTER_PARAMS.mrs,
-                    max: DEFAULT_FILTER_PARAMS.mre
-                  }}
-                  start={[this.state.mrs, this.state.mre]}
-                  step={DEFAULT_FILTER_PARAMS.mrs}
-                  pips={{ mode: 'steps', density: 30 }}
-                  connect={true}
-                  direction={'ltr'} />
-              </Col>
-              <Col xs={10} xsOffset={1} className="roomsnum-slider">
-                <h5 className="text-center">בחר מספר חדרים</h5>
-                <Nouislider onChange={this.roomsSliderChangeHandler}
-                  range={{
-                    min: DEFAULT_FILTER_PARAMS.minRooms,
-                    '12.5%': 1.5,
-                    '25%': 2,
-                    '37.5%': 2.5,
-                    '50%': 3,
-                    '62.5%': 3.5,
-                    '75%': 4,
-                    '87.5%': 4.5,
-                    max: DEFAULT_FILTER_PARAMS.maxRooms
-                  }}
-                  start={[this.state.minRooms, this.state.maxRooms]}
-                  snap={true}
-                  pips={{
-                    mode: 'values',
-                    values: _.range(DEFAULT_FILTER_PARAMS.minRooms,
-                      DEFAULT_FILTER_PARAMS.maxRooms + 1),
-                    density: 30
-                  }}
-                  connect={true}
-                  direction={'ltr'} />
-              </Col>
-              <Col xs={10} xsOffset={1} className="size-slider">
-                <h5 className="text-center">בחר גודל נכס (במ"ר)</h5>
-                <Nouislider onChange={this.sizeSliderChangeHandler}
-                  range={{
-                    min: DEFAULT_FILTER_PARAMS.minSize,
-                    '20%': 40,
-                    '40%': 60,
-                    '60%': 80,
-                    '80%': 100,
-                    max: DEFAULT_FILTER_PARAMS.maxSize
-                  }}
-                  start={[this.state.minSize, this.state.maxSize]}
-                  snap={true}
-                  pips={{ mode: 'steps', density: 30 }}
-                  connect={true}
-                  direction={'ltr'} />
-              </Col>
-            </Row>
-            <Row className="search-amenities-container">
-              <Col xs={12}>
-                <h5 className="text-center"><b>צמצמו את החיפוש</b></h5>
-                <Col xs={4}>
-                  <Checkbox name="park" checked={this.state.park} onChange={this.amenitiesChangeHandler}>
-                    חניה
-                  </Checkbox>
-                  <Checkbox name="balc" checked={this.state.balc} onChange={this.amenitiesChangeHandler}>
-                    מרפסת
-                  </Checkbox>
-                </Col>
-                <Col xs={4}>
-                  <Checkbox name="ac" checked={this.state.ac} onChange={this.amenitiesChangeHandler}>
-                    מזגן
-                  </Checkbox>
-                  <Checkbox name="ele" checked={this.state.ele} onChange={this.amenitiesChangeHandler}>
-                    מעלית
-                  </Checkbox>
-                </Col>
-                <Col xs={4}>
-                  <Checkbox name="pet" checked={this.state.pet} onChange={this.amenitiesChangeHandler}>
-                    מותר בע״ח
-                  </Checkbox>
-                  <Checkbox name="sb" checked={this.state.sb} onChange={this.amenitiesChangeHandler}>
-                    סורגים
-                  </Checkbox>
-                </Col>
-              </Col>
-            </Row>
-          </Col>
-          <Col lg={9} md={8} className="search-results-wrapper">
-            {apartments.length > 0 ?
-              <Row className="search-results-container-list">
+          </Grid>
+        </div>
+        <div className="apartments-results-wrapper">
+          {apartments.length > 0 ?
+            <Grid fluid>
+              <Row className="apartments-results-container">
                 {apartments.map(listing => <ListingThumbnail listing={listing} key={listing.id} />)}
               </Row>
-              :
-              <div className="search-results-not-found">הלוואי והייתה לנו דירה בדיוק כזו.<br />
-                כנראה שהייתם ספציפיים מדי - לא נמצאו דירות לחיפוש זה.<br />
-                נסו לשנות את הגדרות החיפוש</div>
-            }
-          </Col>
-        </Row>
-      </Grid>
+            </Grid>
+            :
+            <div className="apartments-results-not-found">הלוואי והייתה לנו דירה בדיוק כזו.<br />
+              כנראה שהייתם ספציפיים מדי - לא נמצאו דירות לחיפוש זה.<br />
+              נסו לשנות את הגדרות החיפוש</div>
+          }
+        </div>
+      </div>
     );
   }
 }
