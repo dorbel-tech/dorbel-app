@@ -106,7 +106,7 @@ function* getByFilter(filterJSON, user) {
   };
 
   if (user && user.role === 'admin') {
-    listingQuery = {}; // admin can see all the statuses
+    listingQuery.status = undefined; // admin can see all the statuses
   }
 
   let options = {};
