@@ -53,11 +53,11 @@ function* register(event_id, user) {
   return result;
 }
 
-function* unregister(oheId, user) {
-  let existingRegistration = yield repository.findRegistration(oheId, user.id);
+function* unregister(event_id, user) {
+  let existingRegistration = yield repository.findRegistration(event_id, user.id);
   if (existingRegistration == undefined) {
     throw new errors.DomainNotFoundError('OpenHouseEventRegistrationNotFoundError',
-      { ohe_id: oheId, user_id: user.id },
+      { ohe_id: event_id, user_id: user.id },
       'registration does not exist');
   }
   existingRegistration.is_active = false;
