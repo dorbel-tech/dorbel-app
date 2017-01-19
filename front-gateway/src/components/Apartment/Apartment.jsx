@@ -47,9 +47,7 @@ class Apartment extends Component {
     if (!this.props.appStore.listingStore.listingsById.get(listingId)) {
       this.setState({ isLoading: true });
       this.props.appProviders.apartmentsProvider.loadFullListingDetails(listingId)
-        .then(() => {
-          this.setState({ isLoading: false });
-        });
+        .then(() => this.setState({ isLoading: false }));
     }
   }
 
