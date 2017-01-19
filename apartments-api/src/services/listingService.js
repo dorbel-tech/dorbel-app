@@ -87,7 +87,7 @@ function* updateStatus(listingId, user, status) {
     });
   }
 
-  return result;
+  return yield enrichListingResponse(result, user);
 }
 
 function* getByFilter(filterJSON, user) {
@@ -106,7 +106,7 @@ function* getByFilter(filterJSON, user) {
   };
 
   if (user && user.role === 'admin') {
-    listingQuery.status = undefined; // admin can see all the statuses
+    delete listingQuery.status; // admin can see all the statuses
   }
 
   let options = {};
@@ -155,33 +155,46 @@ function* getByFilter(filterJSON, user) {
 
 function* getById(id, user) {
   let listing = yield listingRepository.getById(id);
-
-  if (listing) {
-    listing = listing.toJSON(); // discard SQLize object for adding ad-hoc properties
-    const publishingUser = yield userManagement.getUserDetails(listing.publishing_user_id);
-    if (publishingUser) {
-      listing.publishing_user_first_name = _get(publishingUser, 'user_metadata.first_name') || publishingUser.given_name;
-    }
-
-    listing.meta = {
-      possibleStatuses: getPossibleStatuses(listing, user)
-    };
-  }
-  return listing;
+  return yield enrichListingResponse(listing, user);
 }
 
 function getPossibleStatuses(listing, user) {
   let possibleStatuses = [];
 
-  if (user && user.role === 'admin') { // admin can change to all statuses
-    possibleStatuses = listingRepository.listingStatuses;
-  } else if (listing.status === 'pending' || !user) { // (not admin + pending) or anonymous - can't change at all
+  if (!user) {
+    // anoymous
     possibleStatuses = [];
-  } else { // not admin + !pending - can change to anything EXCEPT pending
+  } else if (user.role === 'admin') {
+    // admin can change to all statuses
+    possibleStatuses = listingRepository.listingStatuses;
+  } else if (listing.publishing_user_id !== user.id) {
+    // not admin but not listing owner
+    possibleStatuses = [];
+  } else {
+    // listing owner can change to anything but pending
     possibleStatuses = listingRepository.listingStatuses.filter(status => status != 'pending');
   }
 
   return possibleStatuses.filter(status => status !== listing.status); // exclude current status
+}
+
+function* enrichListingResponse(listing, user) {
+  if (listing) {
+    const enrichedListing = listing.toJSON(); // discard SQLize object for adding ad-hoc properties
+
+    const publishingUser = yield userManagement.getUserDetails(listing.publishing_user_id);
+    if (publishingUser) {
+      enrichedListing.publishing_user_first_name = _get(publishingUser, 'user_metadata.first_name') || publishingUser.given_name;
+    }
+
+    enrichedListing.meta = {
+      possibleStatuses: getPossibleStatuses(listing, user)
+    };
+
+    return enrichedListing;
+  }
+
+  return listing;
 }
 
 
