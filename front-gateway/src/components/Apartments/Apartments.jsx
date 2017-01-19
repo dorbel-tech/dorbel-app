@@ -5,6 +5,7 @@ import { observer } from 'mobx-react';
 import ListingThumbnail from '../ListingThumbnail/ListingThumbnail.jsx';
 import Nouislider from 'react-nouislider';
 import { range } from 'lodash';
+import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 
 import './Apartments.scss';
 
@@ -32,7 +33,10 @@ class Apartments extends Component {
     super(props);
     autobind(this);
 
-    this.state = Object.assign({}, DEFAULT_FILTER_PARAMS);
+    this.state = {
+      isLoading: false
+    };
+    Object.assign(this.state, DEFAULT_FILTER_PARAMS);
 
     this.filterObj = { city: DEFAULT_FILTER_PARAMS.cityId };
 
@@ -111,12 +115,35 @@ class Apartments extends Component {
   }
 
   reloadApartments() {
-    if (this.filterObj.city === DEFAULT_FILTER_PARAMS.cityId) {
-      return;
+    if (this.filterObj.city !== DEFAULT_FILTER_PARAMS.cityId) {
+      this.setState({ isLoading: true });
+      this.props.appProviders.apartmentsProvider.loadApartments(this.filterObj)
+        .then(this.setState({ isLoading: false }));
     }
-
-    this.props.appProviders.apartmentsProvider.loadApartments(this.filterObj);
   }
+
+  renderResults(apartments) {
+    if (this.state.isLoading) {
+      return (
+        <div className="loaderContainer">
+          <LoadingSpinner />
+        </div>
+      );
+    }
+    else if (apartments.length > 0) {
+      return (<Grid fluid>
+        <Row className="apartments-results-container">
+          {apartments.map(listing => <ListingThumbnail listing={listing} key={listing.id} />)}
+        </Row>
+      </Grid>);
+    }
+    else {
+      return (<div className="apartments-results-not-found">הלוואי והייתה לנו דירה בדיוק כזו.<br />
+        כנראה שהייתם ספציפיים מדי - לא נמצאו דירות לחיפוש זה.<br />
+        נסו לשנות את הגדרות החיפוש</div>);
+    }
+  }
+
 
   render() {
     const { listingStore, cityStore } = this.props.appStore;
@@ -251,17 +278,7 @@ class Apartments extends Component {
           </Grid>
         </div>
         <div className="apartments-results-wrapper">
-          {apartments.length > 0 ?
-            <Grid fluid>
-              <Row className="apartments-results-container">
-                {apartments.map(listing => <ListingThumbnail listing={listing} key={listing.id} />)}
-              </Row>
-            </Grid>
-            :
-            <div className="apartments-results-not-found">הלוואי והייתה לנו דירה בדיוק כזו.<br />
-              כנראה שהייתם ספציפיים מדי - לא נמצאו דירות לחיפוש זה.<br />
-              נסו לשנות את הגדרות החיפוש</div>
-          }
+          {this.renderResults(apartments)}
         </div>
       </div>
     );
