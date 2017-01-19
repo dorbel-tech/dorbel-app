@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
+import _ from 'lodash';
 import { Row } from 'react-bootstrap';
 import autobind from 'react-autobind';
 import Icon from '../Icon/Icon';
@@ -109,9 +110,15 @@ class OHEList extends Component {
     });
   }
 
+  filterOHEsToDisplay(ohes) {
+    const lastExpiredIndex = _.lastIndexOf(ohes, (item) => (item.status == 'expired'));
+    return lastExpiredIndex ?
+      ohes.slice(lastExpiredIndex-1) : ohes;
+  }
+
   render() {
     const { listing, router, oheId, appStore } = this.props;
-    const openHouseEvents = this.props.appStore.oheStore.oheByListingId(listing.id);    
+    const openHouseEvents = this.filterOHEsToDisplay(this.props.appStore.oheStore.oheByListingId(listing.id));
     const currentUrl = 'https://app.dorbel.com/apartments/' + listing.id;
     const oheForModal = oheId ? appStore.oheStore.oheById.get(oheId) : null;
     const closeModal = () => router.setRoute('/apartments/' + listing.id);
