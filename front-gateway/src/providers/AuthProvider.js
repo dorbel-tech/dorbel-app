@@ -20,6 +20,7 @@ class AuthProvider {
     this.router = router;
     this.showLoginModal = this.showLoginModal.bind(this); 
     this.logout = this.logout.bind(this);
+    this.reportIdentifyAnalytics(JSON.parse(window.localStorage.getItem('profile')));
   }
 
   afterAuthentication(authResult) {
@@ -49,7 +50,7 @@ class AuthProvider {
       } else {
         let mappedProfile = this.mapAuth0Profile(profile);
         this.authStore.setProfile(mappedProfile);
-        window.reportIdentifyAnalytics(mappedProfile);
+        this.reportIdentifyAnalytics(mappedProfile);
       }
     });
   }
@@ -83,6 +84,11 @@ class AuthProvider {
     this.authStore.logout();
     this.router.setRoute('/');
   }
+
+  reportIdentifyAnalytics(profile) {
+    // https://segment.com/docs/integrations/intercom/#identify
+    if (profile) { window.analytics.identify(profile.dorbel_user_id, profile); }
+  }  
 }
 
 module.exports = AuthProvider;
