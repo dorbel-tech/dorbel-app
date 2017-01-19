@@ -28,7 +28,7 @@ class AuthProvider {
     this.getProfile(authResult);
     if (authResult.state) {
       this.recoverStateAfterLogin(authResult.state);      
-    }    
+    }
   }
 
   recoverStateAfterLogin(stateString) {
