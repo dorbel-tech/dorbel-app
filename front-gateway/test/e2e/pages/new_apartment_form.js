@@ -245,5 +245,3 @@ module.exports = {
     }
   }]
 };
-
-
