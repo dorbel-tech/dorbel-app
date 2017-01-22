@@ -21,8 +21,9 @@ class Header extends Component {
     const { authStore } = this.props.appStore;
     const { authProvider } = this.props.appProviders;
     const isLoggedIn = authStore.isLoggedIn;
+    const profile = authStore.profile || {};
 
-    const firstName = isLoggedIn ? authStore.profile.first_name : '';
+    const firstName = profile.first_name || '';
 
     return (
       <Navbar className="header-navbar" collapseOnSelect fixedTop fluid inverse>
@@ -47,12 +48,17 @@ class Header extends Component {
             <NavItem onClick={() => this.routeTo('/apartments/new_form')}
               href="/apartments/new_form">פרסמו דירה</NavItem>
           </Nav>
-          <Nav pullLeft>
-            <NavItem>{ firstName }</NavItem>
+          <Nav pullLeft className="header-navbar-profile">
+            <NavItem>
+              <img src={profile.picture} className="header-navbar-profile-image"/>
+            </NavItem>
+            <NavItem className="header-navbar-profile-text">{ firstName }</NavItem>
             {isLoggedIn ?
-              <NavItem onClick={authProvider.logout}>התנתק</NavItem>
+              <NavItem onClick={authProvider.logout}
+                  className="header-navbar-profile-login-text">התנתק</NavItem>
               :
-              <NavItem onClick={authProvider.showLoginModal}>התחבר</NavItem>
+              <NavItem onClick={authProvider.showLoginModal}
+                  className="header-navbar-profile-login-text"></NavItem>
             }
           </Nav>
         </Navbar.Collapse>
