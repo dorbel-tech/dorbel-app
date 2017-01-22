@@ -1,6 +1,5 @@
 'use strict';
-const _get = require('lodash/get');
-const _set = require('lodash/set');
+const _ = require('lodash');
 const moment = require('moment');
 const shared = require('dorbel-shared');
 const listingRepository = require('../apartmentsDb/repositories/listingRepository');
@@ -27,7 +26,7 @@ function* create(listing) {
   }
 
   if (listing.lease_start && !listing.lease_end) {
-    // Upload form sends only lease_start so we default lease_end to after one year 
+    // Upload form sends only lease_start so we default lease_end to after one year
     listing.lease_end = moment(listing.lease_start).add(1, 'years').format('YYYY-MM-DD');
   }
 
@@ -87,10 +86,10 @@ function* updateStatus(listingId, user, status) {
     });
   }
 
-  return result;
+  return yield enrichListingResponse(result, user);
 }
 
-function* getByFilter(filterJSON) {
+function* getByFilter(filterJSON, user) {
   // TODO: Switch to regex test instead of try-catch.
   let filter = {};
   if (filterJSON) {
@@ -104,6 +103,11 @@ function* getByFilter(filterJSON) {
   let listingQuery = {
     status: 'listed'
   };
+
+  if (user && user.role === 'admin') {
+    delete listingQuery.status; // admin can see all the statuses
+  }
+
   let options = {};
 
   var filterMapping = {
@@ -141,7 +145,7 @@ function* getByFilter(filterJSON) {
 
   Object.keys(filterMapping)
     .filter(key => !!filter[key])
-    .forEach(key => _set(filterMapping[key].target || options,
+    .forEach(key => _.set(filterMapping[key].target || options,
       filterMapping[key].set,
       filterMapping[key].staticValue || filter[key]));
 
@@ -150,33 +154,46 @@ function* getByFilter(filterJSON) {
 
 function* getById(id, user) {
   let listing = yield listingRepository.getById(id);
-
-  if (listing) {
-    listing = listing.toJSON(); // discard SQLize object for adding ad-hoc properties
-    const publishingUser = yield userManagement.getUserDetails(listing.publishing_user_id);
-    if (publishingUser) {
-      listing.publishing_user_first_name = _get(publishingUser, 'user_metadata.first_name') || publishingUser.given_name;
-    }
-
-    listing.meta = {
-      possibleStatuses: getPossibleStatuses(listing, user)
-    };
-  }
-  return listing;
+  return yield enrichListingResponse(listing, user);
 }
 
 function getPossibleStatuses(listing, user) {
   let possibleStatuses = [];
 
-  if (user && user.role === 'admin') { // admin can change to all statuses
-    possibleStatuses = listingRepository.listingStatuses;
-  } else if (listing.status === 'pending' || !user) { // (not admin + pending) or anonymous - can't change at all    
+  if (!user) {
+    // anoymous
     possibleStatuses = [];
-  } else { // not admin + !pending - can change to anything EXCEPT pending
+  } else if (user.role === 'admin') {
+    // admin can change to all statuses
+    possibleStatuses = listingRepository.listingStatuses;
+  } else if (listing.publishing_user_id !== user.id) {
+    // not admin but not listing owner
+    possibleStatuses = [];
+  } else {
+    // listing owner can change to anything but pending
     possibleStatuses = listingRepository.listingStatuses.filter(status => status != 'pending');
   }
 
   return possibleStatuses.filter(status => status !== listing.status); // exclude current status
+}
+
+function* enrichListingResponse(listing, user) {
+  if (listing) {
+    const enrichedListing = listing.toJSON ? listing.toJSON() : _.cloneDeep(listing); // discard SQLize object for adding ad-hoc properties
+
+    const publishingUser = yield userManagement.getUserDetails(listing.publishing_user_id);
+    if (publishingUser) {
+      enrichedListing.publishing_user_first_name = _.get(publishingUser, 'user_metadata.first_name') || publishingUser.given_name;
+    }
+
+    enrichedListing.meta = {
+      possibleStatuses: getPossibleStatuses(listing, user)
+    };
+
+    return enrichedListing;
+  }
+
+  return listing;
 }
 
 
