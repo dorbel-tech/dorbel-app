@@ -25,6 +25,8 @@ class Header extends Component {
 
     const firstName = profile.first_name || '';
 
+    const externalURL = 'https://www.dorbel.com/pages/';
+
     return (
       <Navbar className="header-navbar" collapseOnSelect fixedTop fluid inverse>
         <Navbar.Header>
@@ -37,12 +39,12 @@ class Header extends Component {
         </Navbar.Header>
         <Navbar.Collapse>
           <Nav>
-            <NavItem onClick={() => this.routeTo('https://www.dorbel.com/pages/about_us')}
-              href="https://www.dorbel.com/pages/about_us">מי אנחנו</NavItem>
-            <NavItem onClick={() => this.routeTo('https://www.dorbel.com/pages/owner')}
-              href="https://www.dorbel.com/pages/owner">בעלי דירות</NavItem>
-            <NavItem onClick={() => this.routeTo('https://www.dorbel.com/pages/שירותים-לבעלי-דירות')}
-              href="https://www.dorbel.com/pages/שירותים-לבעלי-דירות">שירותים לבעלי דירות</NavItem>
+            <NavItem onClick={() => this.routeTo(externalURL + 'about_us')}
+              href={externalURL + 'about_us'}>מי אנחנו</NavItem>
+            <NavItem onClick={() => this.routeTo(externalURL + 'owner')}
+              href={externalURL + 'owner'}>בעלי דירות</NavItem>
+            <NavItem onClick={() => this.routeTo(externalURL + 'שירותים-לבעלי-דירות')}
+              href={externalURL + 'שירותים-לבעלי-דירות'}>שירותים לבעלי דירות</NavItem>
             <NavItem onClick={() => this.routeTo('/apartments')}
               href="/apartments">מצאו דירה</NavItem>
             <NavItem onClick={() => this.routeTo('/apartments/new_form')}
@@ -58,7 +60,7 @@ class Header extends Component {
                   className="header-navbar-profile-login-text">התנתק</NavItem>
               :
               <NavItem onClick={authProvider.showLoginModal}
-                  className="header-navbar-profile-login-text"></NavItem>
+                  className="header-navbar-profile-login-text">התחבר</NavItem>
             }
           </Nav>
         </Navbar.Collapse>

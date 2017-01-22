@@ -25,6 +25,10 @@
 
 .header-navbar-profile {
   background-color: rgba(238,238,238,0.2);
+
+  > li {
+    display: inline-block;
+  }
 }
 
 .header-navbar-profile-image {
@@ -41,4 +45,12 @@
 
 .header-navbar-profile-login-text {
   text-decoration: underline !important;
+}
+
+// React bootstrap override.
+.navbar-inverse .navbar-toggle {
+  &:hover,
+  &:focus {
+    background-color: transparent;
+  }
 }
