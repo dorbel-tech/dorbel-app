@@ -14,9 +14,9 @@ let nightwatch_config = {
   test_settings: {
     default: {
       desiredCapabilities: {
-        platform: 'WINDOWS',
+        platform: 'WIN8',
         browser: 'IE',
-        browser_version: 10,
+        browser_version: 11,
         resolution: '1280x1024'
       }
     }
