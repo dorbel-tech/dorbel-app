@@ -103,13 +103,10 @@ module.exports = {
           selector: '#calendar'
         },
         eventStartTime: {
-          selector: 'select[name="open_house_event_start_time"]'
+          selector: 'select[name="start_time"]'
         },
         eventEndTime: {
-          selector: 'select[name="open_house_event_end_time"]'
-        },
-        comments: {
-          selector: 'textarea[name="open_house_event_comments"]'
+          selector: 'select[name="end_time"]'
         },
         firstName: {
           selector: 'input[name="user.firstname"]'
@@ -227,8 +224,7 @@ module.exports = {
       this.section.openHouseEvent
         .setValue('@eventDate', '')
         .setValue('@eventStartTime', '08:00')
-        .setValue('@eventEndTime', '09:00')
-        .setValue('@comments', 'We are coming');
+        .setValue('@eventEndTime', '09:00');
 
       this.section.openHouseEvent.assert.visible('@eventDateCalendar');
       return this;
