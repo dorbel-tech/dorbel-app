@@ -12,7 +12,7 @@ class AuthProvider {
         primaryColor: '#31124b'
       },
       languageDictionary: {
-        title: 'Welcome'
+        title: 'הרשמו על מנת לשמור את פרטיכם ולקבלת עדכונים הנוגעים לתהליך'
       }
     });
     this.lock.on('authenticated', this.afterAuthentication.bind(this));
