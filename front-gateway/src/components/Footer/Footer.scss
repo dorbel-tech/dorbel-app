@@ -4,8 +4,7 @@
 .footer-container {
   background-color: $brand-primary;
   color: $brand-white;
-  font-size: 11px;
-  padding: 50px 15px;
+  padding: 95px;
 
   @media (max-width: $screen-xs-max) {
     display: none;
@@ -14,8 +13,23 @@
 
 .footer-logo-col {
   font-size: 13px;
+  line-height: $line-height-computed;
+  padding: 6px 10px;
+  position: relative;
+
+  > a {
+    position: absolute;
+    top: -45px;
+  }
 }
 
 .footer-logo-image {
   width: 70px;
+}
+
+.footer-links-col > a {
+  color: $brand-white;
+  display: block;
+  font-size: 11px;
+  line-height: 30px;
 }

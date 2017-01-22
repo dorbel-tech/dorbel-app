@@ -9,14 +9,55 @@ export default class Footer extends React.Component {
     return (
       <Grid className="footer-container" fluid>
         <Row>
-          <Col xsHidden smHidden md={3} className="footer-logo-col">
+          <Col smHidden md={3} className="footer-logo-col">
             <NavLink to="/">
               <img className="footer-logo-image" alt="Dorbel"
-                  src="https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/logo/dorbel_logo_white.svg" />
+                src="https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/logo/dorbel_logo_white.svg" />
             </NavLink>
             <div>
-            AMOS
+              מערכת לניהול והשכרת דירות ונכסים, המאפשרת לנהל את כל התהליכים בקלות ואונליין.
             </div>
+          </Col>
+          <Col sm={3} md={3} className="footer-links-col">
+            <NavLink to="/">
+              דף הבית
+            </NavLink>
+            <NavLink to="/">
+              מי אנחנו
+            </NavLink>
+            <NavLink to="/">
+              בעלי דירות
+            </NavLink>
+            <NavLink to="/">
+              שירותים לבעלי דירות
+            </NavLink>
+          </Col>
+          <Col sm={3} md={2} className="footer-links-col">
+            <NavLink to="/">
+              שאלות נפוצות
+            </NavLink>
+            <NavLink to="/">
+              הבלוג שלנו
+            </NavLink>
+            <NavLink to="/">
+              מדיניות פרטיות
+            </NavLink>
+            <NavLink to="/">
+              תנאי שימוש
+            </NavLink>
+          </Col>
+          <Col sm={3} md={2} className="footer-links-col">
+            <NavLink to="/">
+              בואו לעבוד איתנו
+            </NavLink>
+            <NavLink to="/">
+              צור קשר
+            </NavLink>
+          </Col>
+          <Col sm={3} md={2} className="footer-links-col">
+            <NavLink to="/">
+              עקבו אחרינו :)
+            </NavLink>
           </Col>
         </Row>
       </Grid>
