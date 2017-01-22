@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
+import _ from 'lodash';
 import { Row } from 'react-bootstrap';
 import autobind from 'react-autobind';
 import Icon from '../Icon/Icon';
@@ -33,7 +34,7 @@ class OHEList extends Component {
             <Icon iconName={params.iconName} />
           </div>
           <div className="date-and-time pull-right">
-            <span >{params.itemText}</span>
+            <span className={params.highlightTitle ? 'highlight' : ''}>{params.itemText}</span>
             <br className="visible-lg" />
             <i className="hidden-lg">&nbsp;</i>
             <span className="hidden-xs">{params.callToActionText}</span>
@@ -105,13 +106,20 @@ class OHEList extends Component {
     return this.renderListItem({
       itemText, callToActionText,
       iconName: 'icon-dorbel-icon-master_icon-calendar-plus',
-      onClickRoute: action
+      onClickRoute: action,
+      highlightTitle: (action == 'follow')
     });
+  }
+
+  filterOHEsToDisplay(ohes) {
+    const lastExpiredIndex = _.lastIndexOf(ohes, (item) => (item.status == 'expired'));
+    return lastExpiredIndex ?
+      ohes.slice(lastExpiredIndex-1) : ohes;
   }
 
   render() {
     const { listing, router, oheId, appStore } = this.props;
-    const openHouseEvents = this.props.appStore.oheStore.oheByListingId(listing.id);    
+    const openHouseEvents = this.filterOHEsToDisplay(this.props.appStore.oheStore.oheByListingId(listing.id));
     const currentUrl = 'https://app.dorbel.com/apartments/' + listing.id;
     const oheForModal = oheId ? appStore.oheStore.oheById.get(oheId) : null;
     const closeModal = () => router.setRoute('/apartments/' + listing.id);
