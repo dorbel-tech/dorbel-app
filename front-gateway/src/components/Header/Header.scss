@@ -1,7 +1,5 @@
 @import "../sharedStyles/variables.scss";
-
-//@import "../sharedStyles/bsvars.scss";
-//@include gradient-vertical(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0), 0%, 100%);  
+@import "../sharedStyles/bsvars.scss";
 
 .header-navbar {
   background: linear-gradient(90deg, #5F2982 0%, $brand-primary 100%) !important;
@@ -21,6 +19,12 @@
   color: $brand-white;
   font-size: 13px;
   line-height: 37px;
+}
+
+@media (max-width: $screen-sm-max) {
+  .header-navbar-owner-services-navitem {
+    display: none !important;
+  }
 }
 
 .header-navbar-profile {
