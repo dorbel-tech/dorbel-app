@@ -24,8 +24,8 @@ class AddOHEInput extends React.Component {
       };
     } else {
       this.state = {
-        start_time: hours[0],
-        end_time: hours[1],
+        start_time: hours[24],
+        end_time: hours[25],
         max_attendies: 15
       };
     }
