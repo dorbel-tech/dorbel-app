@@ -75,10 +75,8 @@ class Apartment extends Component {
   renderInfoBox(title, svgName) {
     return (
       <li className="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-        <a href="">
-          <svg><use xlinkHref={svgIcons + '_' + svgName} /></svg>
-          <div>{title}</div>
-        </a>
+        <svg><use xlinkHref={svgIcons + '_' + svgName} /></svg>
+        <div>{title}</div>
       </li>
     );
   }

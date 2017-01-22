@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, Modal, Button, Glyphicon } from 'react-bootstrap';
+import { Row, Col, Modal, Button } from 'react-bootstrap';
 import { observer } from 'mobx-react';
 import Icon from '../Icon/Icon';
 import FormWrapper from '~/components/FormWrapper/FormWrapper';
@@ -48,7 +48,6 @@ class OHERegisterModal extends React.Component {
       <Modal show={true}>
         <Modal.Header closeButton onHide={this.close}>          
           <Modal.Title>
-            <Glyphicon className="huge-glyph" glyph="ok-circle" />
             ההרשמה בוצעה בהצלחה!
           </Modal.Title>
         </Modal.Header>
