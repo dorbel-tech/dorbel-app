@@ -72,6 +72,3 @@ Header.wrappedComponent.propTypes = {
 };
 
 export default Header;
-
-
-

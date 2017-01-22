@@ -91,4 +91,3 @@ class AuthProvider {
 }
 
 module.exports = AuthProvider;
-
