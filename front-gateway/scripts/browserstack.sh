@@ -5,12 +5,12 @@
 if [[ ! -f "./BrowserStackLocal" ]]; then
     if [[ "$(uname)" == "Darwin" ]]; then
         # Do something under Mac OS X platform        
-        apt-get update
-        apt-get install unzip
         wget https://www.browserstack.com/browserstack-local/BrowserStackLocal-darwin-x64.zip
         unzip BrowserStackLocal-darwin-x64.zip
     elif [[ "$(expr substr $(uname -s) 1 5)" == "Linux" ]]; then
         # Do something under GNU/Linux platform
+        apt-get update
+        apt-get install unzip
         wget http://www.browserstack.com/browserstack-local/BrowserStackLocal-linux-x64.zip
         unzip BrowserStackLocal-linux-x64.zip
     fi
