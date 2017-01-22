@@ -14,12 +14,6 @@ module.exports = {
     },
     submit: {
       selector: 'button.auth0-lock-submit'
-    },
-    approve: {
-      selector: 'button.auth0-lock-social-button.auth0-lock-social-big-button:first-of-type > div.auth0-lock-social-button-text'
-    },
-    addNewApartmentLink: {
-      selector: 'a.add-apartment-button'
     }
   },
   commands: [{
@@ -36,10 +30,7 @@ module.exports = {
         .waitForElementVisible('@emailField', 10000)
         .setValue('@emailField', 'e2e-user@dorbel.com')
         .setValue('@passwordField', 'JZ0PZ5NUcKlsez7lfQpN')
-        .click('@submit')
-        .waitForElementVisible('@approve', 10000)
-        .click('@approve')
-        .waitForElementNotPresent('@approve',10000);
+        .click('@submit');
     }
   }]
 };
