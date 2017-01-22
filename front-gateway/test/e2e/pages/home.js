@@ -31,15 +31,15 @@ module.exports = {
     },    
     signInAsTestUser: function () {
       return this
-        .waitForElementVisible('body', 1000)
+        .waitForElementVisible('body', 10000)
         .click('@loginLink')
-        .waitForElementVisible('@emailField', 5000)
+        .waitForElementVisible('@emailField', 10000)
         .setValue('@emailField', 'e2e-user@dorbel.com')
         .setValue('@passwordField', 'JZ0PZ5NUcKlsez7lfQpN')
         .click('@submit')
-        .waitForElementVisible('@approve', 5000)
+        .waitForElementVisible('@approve', 10000)
         .click('@approve')
-        .waitForElementNotPresent('@approve',5000);
+        .waitForElementNotPresent('@approve',10000);
     }
   }]
 };

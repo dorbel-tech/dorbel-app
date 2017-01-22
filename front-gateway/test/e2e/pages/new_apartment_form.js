@@ -138,7 +138,7 @@ module.exports = {
     navigateToApartmentPictureSection: function () {
       this
         .navigate()
-        .waitForElementVisible('body', 5000);
+        .waitForElementVisible('body', 10000);
       this.expect.section('@apartmentPictures').to.be.visible;
       return this;
     },
