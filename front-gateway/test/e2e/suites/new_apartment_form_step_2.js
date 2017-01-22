@@ -8,6 +8,7 @@ function login(browser) {
 module.exports = {
   beforeEach: function (browser) {
     home = browser.page.home();
+    home.resizeDesktop(browser);
     newApartmentForm = browser.page.new_apartment_form();
   },
   'should go back from apartment details to previous screen': function (browser) {

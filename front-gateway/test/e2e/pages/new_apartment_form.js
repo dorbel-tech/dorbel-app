@@ -1,10 +1,8 @@
-
-
 module.exports = {
 
   url: function(){
     var baseUrl =  process.env.FRONT_GATEWAY_URL || 'http://localhost:3001';
-    return baseUrl+ '/apartments/new_form';
+    return baseUrl + '/apartments/new_form';
   },
   sections: {
     apartmentPictures: {

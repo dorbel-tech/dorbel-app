@@ -23,6 +23,12 @@ module.exports = {
     }
   },
   commands: [{
+    resizeDesktop: function(browser) {
+      browser.resizeWindow(1280, 1024);
+    },
+    resizeMobile: function(browser) {
+      browser.resizeWindow(320, 800);
+    },    
     signInAsTestUser: function () {
       return this
         .waitForElementVisible('body', 1000)
