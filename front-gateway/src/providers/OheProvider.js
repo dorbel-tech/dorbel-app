@@ -69,7 +69,7 @@ class OheProvider {
     const start = moment.utc(openHouseEvent.start_time).local();
     const end = moment.utc(openHouseEvent.end_time).local();
 
-    openHouseEvent.timeLabel = `${start.format(timeFormat)} - ${end.format(timeFormat)}`;
+    openHouseEvent.timeLabel = `${end.format(timeFormat)} - ${start.format(timeFormat)}`;
     openHouseEvent.dateLabel = start.format(dateFormat);
 
     return openHouseEvent;

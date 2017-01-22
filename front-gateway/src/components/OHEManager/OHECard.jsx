@@ -78,7 +78,7 @@ class OHECard extends React.Component {
             <span>{ohe.timeLabel}</span>
           </Col>
           <Col sm={2} >
-            <span>נרשמים לביקור({numberOfActiveRegistrations})</span>
+            <span>נרשמים לביקור ({numberOfActiveRegistrations})</span>
           </Col>  
           <Col sm={1} className="pull-left">
             {this.renderOheMenu()}

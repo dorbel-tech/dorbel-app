@@ -134,11 +134,11 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
                 <FRC.Checkbox name="apartment.building.elevator" label="מעלית" rowClassName="checkbox-inline"/>
                 <FRC.Checkbox name="apartment.sun_heated_boiler" label="דוד שמש" rowClassName="checkbox-inline"/>
                 <FRC.Checkbox name="apartment.pets" label='מותר בע"ח' rowClassName="checkbox-inline"/>
-                <FRC.Checkbox name="roommates" label='אפשר שותפים' rowClassName="checkbox-inline"/>
                 <FRC.Checkbox name="apartment.air_conditioning" label="מזגן" rowClassName="checkbox-inline"/>
                 <FRC.Checkbox name="apartment.balcony" label="מרפסת" rowClassName="checkbox-inline"/>
                 <FRC.Checkbox name="apartment.security_bars" label="סורגים" rowClassName="checkbox-inline"/>
                 <FRC.Checkbox name="apartment.parquet_floor" label="פרקט" rowClassName="checkbox-inline"/>
+                <FRC.Checkbox name="roommates" label='אפשר שותפים' rowClassName="checkbox-inline"/>
                 <FRC.Checkbox name="roommate_needed" label='דרוש שותף/ה' rowClassName="checkbox-inline"/>
               </div>
             </div>
