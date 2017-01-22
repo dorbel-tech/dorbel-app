@@ -50,3 +50,6 @@ front-gateway/bin/chromedriver
 
 # VSCode local-history extention folder
 /.history
+
+# IntelliJ Idea
+/.idea/
