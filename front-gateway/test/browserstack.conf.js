@@ -21,6 +21,8 @@ let nightwatch_config = {
         'browser_version': '55.0',
         'resolution': '1280x1024',
         'browserstack.debug': true,
+        'browserstack.local': true,
+        'browserstack.localIdentifier': process.env.NODE_ENV
       }
     }
   }
