@@ -22,13 +22,6 @@ export default class AuthStore {
 
   getToken() {
     return this.idToken || localStorage.getItem('id_token');
-
-    if (this.idToken) {
-      return this.idToken;
-    }
-
-    this.idToken = localStorage.getItem('id_token');
-    return this.idToken;
   }
 
   isTokenNotExpired(token) {
