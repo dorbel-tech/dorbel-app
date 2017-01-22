@@ -1,3 +1,5 @@
+require('browserstack-automate').Nightwatch();
+
 let nightwatch_config = {
   src_folders : ['test/e2e'],
   output_folder : 'test/e2e/reports',
@@ -12,17 +14,10 @@ let nightwatch_config = {
   test_settings: {
     default: {
       desiredCapabilities: {
-        'build': 'nightwatch-browserstack',
-        'browserstack.user': process.env.BROWSERSTACK_USER,
-        'browserstack.key': process.env.BROWSERSTACK_KEY,
-        'os': 'Windows',
-        'os_version': '10',
-        'browser': 'Chrome',
-        'browser_version': '55.0',
-        'resolution': '1280x1024',
-        'browserstack.debug': true,
-        'browserstack.local': true,
-        'browserstack.localIdentifier': process.env.NODE_ENV
+        platform: 'WINDOWS',
+        browser: 'IE',
+        browser_version: 10,
+        resolution: '1280x1024'
       }
     }
   }
