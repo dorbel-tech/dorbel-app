@@ -18,7 +18,7 @@ export default class Footer extends React.Component {
               מערכת לניהול והשכרת דירות ונכסים, המאפשרת לנהל את כל התהליכים בקלות ואונליין.
             </div>
           </Col>
-          <Col sm={3} md={3} className="footer-links-col">
+          <Col sm={3} md={2} mdOffset={1} className="footer-links-col">
             <NavLink to="/">
               דף הבית
             </NavLink>
