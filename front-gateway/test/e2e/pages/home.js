@@ -29,10 +29,10 @@ module.exports = {
     },    
     signInAsTestUser: function () {
       return this
-        .waitForElementVisible('body', 10000)
-        .waitForElementVisible('@loginLink', 10000)
+        .waitForElementVisible('body')
+        .waitForElementVisible('@loginLink')
         .click('@loginLink')
-        .waitForElementVisible('@emailField', 10000)
+        .waitForElementVisible('@emailField')
         .setValue('@emailField', 'e2e-user@dorbel.com')
         .setValue('@passwordField', 'JZ0PZ5NUcKlsez7lfQpN')
         .click('@submit')

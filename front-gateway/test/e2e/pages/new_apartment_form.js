@@ -141,8 +141,8 @@ module.exports = {
     }
   },
   commands: [{
-    navigateToApartmentPictureSection: function () {            
-      this        
+    navigateToApartmentPictureSection: function () {
+      this
         .navigate()
         .waitForElementVisible('body');
       this.expect.section('@apartmentPictures').to.be.visible;
@@ -211,7 +211,6 @@ module.exports = {
         .setValue('@monthlyRent', '1000')
         .setValue('@propertyTax', '1000')
         .setValue('@boardFee', '1000');
-
       this.section.apartmentDetails.assert.visible('@entranceDateCalendar');
       return this;
     },
@@ -220,7 +219,6 @@ module.exports = {
         .setValue('@eventDate', '')
         .setValue('@eventStartTime', '08:00')
         .setValue('@eventEndTime', '09:00');
-
       this.section.openHouseEvent.assert.visible('@eventDateCalendar');
       return this;
     },
@@ -230,7 +228,6 @@ module.exports = {
         .clearValue('@lastName')
         .clearValue('@email')
         .clearValue('@phoneNumber');
-
       return this;
     },
     fillUserDetailsFields: function () {
@@ -239,7 +236,6 @@ module.exports = {
         .setValue('@lastName', 'Tester')
         .setValue('@email', 'teser@test.com')
         .setValue('@phoneNumber', '9999999');
-
       return this;
     },
     submitNewApartmentForm: function () {

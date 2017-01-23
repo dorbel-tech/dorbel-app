@@ -1,5 +1,4 @@
 public/build/*.*
-BrowserStackLocal*
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
