@@ -39,7 +39,9 @@ describe('Followers API Integration', function () {
         };
         const response = yield this.apiClient.createNewEvent(ohe).expect(201).end();
         const follower = faker.getFakeUser();
-        const registrationResponse = yield this.apiClient.createNewFollower(response.body.id, follower).expect(201).end();
+        const registrationResponse =
+          yield this.apiClient.createNewFollower(response.body.id, follower).expect(201).end();
+          
         yield this.apiClient.deleteFollower(registrationResponse.body.id, follower).expect(200).end();
       });
 

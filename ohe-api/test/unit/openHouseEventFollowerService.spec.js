@@ -92,7 +92,8 @@ describe('Listing Followers Service', function () {
   describe('Unfollow An Open House Event', function () {
 
     it('should unfollow a user from an event', function* () {
-      this.repositoryMock.findFollower = sinon.stub().resolves(faker.generateFollower({following_user_id: fakeUser.id}));
+      this.repositoryMock.findFollower =
+        sinon.stub().resolves(faker.generateFollower({ following_user_id: fakeUser.id }));
 
       this.repositoryMock.updateFollower = sinon.stub().resolves(faker.generateFollower({
         is_active: false
@@ -120,7 +121,6 @@ describe('Listing Followers Service', function () {
       const follower = faker.generateFollower();
       follower.id = 1;
       this.repositoryMock.findFollower = sinon.stub().resolves(follower);
-
 
       try {
         yield this.service.unfollow(1, fakeUser);

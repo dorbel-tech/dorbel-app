@@ -36,7 +36,7 @@ function validateEventOverlap(existingListingEvents, start, end) {
 
 function* create(openHouseEvent, user) {
 
-  if (user.role !== 'admin' && openHouseEvent.publishing_user_id != user.id) {
+  if (user.role !== 'admin' && openHouseEvent.publishing_user_id !== user.id) {
     throw new errors.NotResourceOwnerError();
   }
 
@@ -77,7 +77,7 @@ function* create(openHouseEvent, user) {
 function* update(id, updateRequest, user) {
   let existingEvent = yield openHouseEventsFinderService.find(id);
 
-  if (user.role !== 'admin' && existingEvent.publishing_user_id != user.id) {
+  if (user.role !== 'admin' && existingEvent.publishing_user_id !== user.id) {
     throw new errors.NotResourceOwnerError();
   }
 
@@ -127,7 +127,9 @@ function* update(id, updateRequest, user) {
 function* remove(eventId, user) {
   let existingEvent = yield openHouseEventsFinderService.find(eventId);
 
-  if (user.role !== 'admin' && existingEvent.publishing_user_id !== user.id) { throw new errors.NotResourceOwnerError(); }
+  if (user.role !== 'admin' && existingEvent.publishing_user_id !== user.id) { 
+    throw new errors.NotResourceOwnerError(); 
+  }
 
   existingEvent.is_active = false;
 
