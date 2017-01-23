@@ -24,7 +24,7 @@ class OHEManager extends React.Component {
 
   render() {
     const { listing, appStore, appProviders, router } = this.props;
-    const user = appStore.authStore.getProfile();
+    const user = appStore.authStore.profile;
 
     if (!appStore.authStore.isLoggedIn) {
       // This view will not be accessable by guest users and if a user got directed here directly (from email link) he should be given the login screen
@@ -48,20 +48,20 @@ class OHEManager extends React.Component {
             <h3>מועדי ביקור הבאים</h3>
           </Row>
           <Row>
-            { comingEvents.length ?
-                comingEvents.map(ohe => <OHECard key={ohe.id} ohe={ohe} editable={true}/>) :
-                <h4>אין ביקורים קרובים</h4> }
+            {comingEvents.length ?
+              comingEvents.map(ohe => <OHECard key={ohe.id} ohe={ohe} editable={true} />) :
+              <h4>אין ביקורים קרובים</h4>}
           </Row>
           <Row>
             <h3>מועדי ביקור שחלפו</h3>
           </Row>
           <Row>
-            { passedEvents.length ?
-                passedEvents.map(ohe => <OHECard key={ohe.id} ohe={ohe} />) :
-                <h4>אין ביקורים שחלפו</h4> }
+            {passedEvents.length ?
+              passedEvents.map(ohe => <OHECard key={ohe.id} ohe={ohe} />) :
+              <h4>אין ביקורים שחלפו</h4>}
           </Row>
         </Col>
-        <AddOHEModal listing={listing} show={this.state.showAddOheModal} onClose={() => this.toggleAddModal(false)}/>
+        <AddOHEModal listing={listing} show={this.state.showAddOheModal} onClose={() => this.toggleAddModal(false)} />
       </Grid>
     );
   }

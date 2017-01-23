@@ -18,7 +18,7 @@ class OHERegisterModal extends React.Component {
   }
 
   register() {
-    const formsy = this.refs.form.refs.formsy; 
+    const formsy = this.refs.form.refs.formsy;
     const { ohe, appProviders } = this.props;
 
     if (formsy.state.isValid) {
@@ -46,7 +46,7 @@ class OHERegisterModal extends React.Component {
   renderSuccessModal(profile) {
     return (
       <Modal show={true}>
-        <Modal.Header closeButton onHide={this.close}>          
+        <Modal.Header closeButton onHide={this.close}>
           <Modal.Title>
             ההרשמה בוצעה בהצלחה!
           </Modal.Title>
@@ -54,7 +54,7 @@ class OHERegisterModal extends React.Component {
         <Modal.Body className="text-center">
           <Row>
             <p>
-              הכתובת המדויקת תשלח אליכם במייל בדקות הקרובות.<br /><br />              
+              הכתובת המדויקת תשלח אליכם במייל בדקות הקרובות.<br /><br />
               פרטי התקשורת אליהם נשלחה ההודעה:<br />
               מייל: {profile.email}<br />
               מספר נייד: {profile.phone}<br /><br />
@@ -66,7 +66,7 @@ class OHERegisterModal extends React.Component {
           <Row>
             <Button onClick={this.close} bsStyle="primary" bsSize="large" >אחלה!</Button>
           </Row>
-        </Modal.Body>      
+        </Modal.Body>
       </Modal>
     );
   }
@@ -80,7 +80,7 @@ class OHERegisterModal extends React.Component {
         <Modal.Body className="text-center">
           <Row>
             <p>
-              היי {profile.first_name}, <br/>
+              היי {profile.first_name}, <br />
               האם אתם בטוחים שברצונכם לבטל את הביקור ?
             </p>
           </Row>
@@ -114,7 +114,7 @@ class OHERegisterModal extends React.Component {
             </Col>
             <Col lg={6} md={6} sm={6} xs={6} className="modal-time">
               <Icon className="pull-right" iconName="dorbel_icon_clock" />
-              <div className="pull-right">                
+              <div className="pull-right">
                 <span className="hidden-xs">&nbsp;שעה:&nbsp;</span>
                 <span>{ohe.timeLabel}</span>
               </div>
@@ -131,15 +131,15 @@ class OHERegisterModal extends React.Component {
           <FormWrapper.Wrapper layout="elementOnly" onChange={this.handleChanges} ref="form">
             <Row>
               <Col md={6}>
-                <FRC.Input name="user.firstname" placeholder="שם פרטי" value={profile.first_name} required/>
+                <FRC.Input name="user.firstname" placeholder="שם פרטי" value={profile.first_name} required />
               </Col>
               <Col md={6}>
-                <FRC.Input name="user.phone" placeholder="טלפון" value={profile.phone} validationError="מספר טלפון לא תקין" required/>
+                <FRC.Input name="user.phone" placeholder="טלפון" value={profile.phone} validationError="מספר טלפון לא תקין" required />
               </Col>
             </Row>
             <Row>
               <Col md={6}>
-                <FRC.Input name="user.email" placeholder="מייל" type="email" value={profile.email} validations="isEmail" validationError="כתובת מייל לא תקינה" required/>
+                <FRC.Input name="user.email" placeholder="מייל" type="email" value={profile.email} validations="isEmail" validationError="כתובת מייל לא תקינה" required />
               </Col>
               <Col md={6}>
                 <Button bsStyle="success" block onClick={this.register}>המשך</Button>
@@ -161,10 +161,10 @@ class OHERegisterModal extends React.Component {
 
   render() {
     const { ohe, appStore, appProviders } = this.props;
-    const profile = appStore.authStore.getProfile();    
-    
-    if (!ohe) { 
-      return null; 
+    const profile = appStore.authStore.profile;
+
+    if (!ohe || !profile) {
+      return null;
     } else if (!appStore.authStore.isLoggedIn) {
       appProviders.authProvider.showLoginModal();
       return null;
