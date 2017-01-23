@@ -22,23 +22,29 @@ export default class Footer extends React.Component {
           </Col>
           <Col sm={3} md={2} mdOffset={1} className="footer-links-col">
             <NavLink to="/">דף הבית</NavLink>
-            <NavLink to={externalURL + 'about_us'}>מי אנחנו</NavLink>
-            <NavLink to={externalURL + 'owner'}>בעלי דירות</NavLink>
-            <NavLink to={externalURL + 'שירותים-לבעלי-דירות'}>
+            <a href={externalURL + 'about_us'}>מי אנחנו</a>
+            <a href={externalURL + 'owner'}>בעלי דירות</a>
+            <a href={externalURL + 'שירותים-לבעלי-דירות'}>
               שירותים לבעלי דירות
-            </NavLink>
+            </a>
           </Col>
           <Col sm={3} md={2} className="footer-links-col">
-            <NavLink to={externalURL + 'faq'}>שאלות נפוצות</NavLink>
-            <NavLink to="https://www.dorbel.com/blog">הבלוג שלנו</NavLink>
-            <NavLink to={externalURL + 'privacy_policy'}>מדיניות פרטיות</NavLink>
-            <NavLink to={externalURL + 'terms'}>תנאי שימוש</NavLink>
+            <a href={externalURL + 'faq'}>שאלות נפוצות</a>
+            <a href="https://www.dorbel.com/blog">הבלוג שלנו</a>
+            <a href={externalURL + 'privacy_policy'}>מדיניות פרטיות</a>
+            <a href={externalURL + 'terms'}>תנאי שימוש</a>
           </Col>
           <Col sm={3} md={2} className="footer-links-col">
-            <NavLink to={externalURL + 'career'}>בואו לעבוד איתנו</NavLink>
+            <a href={externalURL + 'career'}>בואו לעבוד איתנו</a>
           </Col>
           <Col sm={3} md={2} className="footer-links-col">
-            <NavLink to="/">עקבו אחרינו :)</NavLink>
+            <a>עקבו אחרינו :)</a>
+            <div>
+              <a href="https://www.facebook.com/dorbel.home">
+                <i className="footer-links-follow-i fa fa-facebook-square" aria-hidden="true"></i></a>
+              <a href="https://www.linkedin.com/company/dorbel">
+                <i className="footer-links-follow-i fa fa-linkedin-square" aria-hidden="true"></i></a>
+            </div>
           </Col>
         </Row>
       </Grid>

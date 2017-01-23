@@ -14,12 +14,8 @@ class NavLink extends Component {
   }
 
   routeTo(link) {
-    if (link[0] === '/') {
-      if (this.props.router.setRoute) {
-        this.props.router.setRoute(link);
-      }
-    } else if (location) {
-      location.href = link;
+    if (this.props.router.setRoute) {
+      this.props.router.setRoute(link);
     }
   }
 }
