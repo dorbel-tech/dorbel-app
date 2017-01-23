@@ -2,7 +2,7 @@
 import React from 'react';
 import { Provider } from 'mobx-react';
 import App from '~/components/App';
-import { startRouter } from '~/routes';
+import { startRouter } from '~/router';
 import AppStore from '~/stores/AppStore';
 import AppProviders from '~/providers/AppProviders';
 
