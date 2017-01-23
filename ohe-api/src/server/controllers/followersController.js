@@ -27,7 +27,7 @@ function* post() {
 function* remove() {
   const id = this.params.id;
   logger.debug({ followId: id }, 'Unfollow a listing...');
-  yield service.unfollow(this.params.id);
+  yield service.unfollow(this.params.id, this.user);
   logger.info(id, 'Unfollow completed');
   this.response.status = 200;
 }

@@ -48,19 +48,25 @@ function* follow(listingId, user) {
   return result;
 }
 
-function* unfollow(followId) {
+function* unfollow(followId, user) {
   let existingFollower = yield repository.findFollower(followId);
   if (existingFollower == undefined) {
     throw new errors.DomainNotFoundError('OpenHouseEventFollowerNotFoundError',
       { follow_id: followId },
       'follower does not exist');
   }
-  
+
+  if (existingFollower.following_user_id != user.id) {
+    throw new errors.DomainValidationError('OpenHouseEventFollowerValidationError',
+      { follow_id: followId, following_user_id: user.user_id },
+      'cannot unfollow as another user');
+  }
+
   existingFollower.is_active = false;
 
   const result = yield repository.updateFollower(existingFollower);
-  logger.info({ 
-    user_id: existingFollower.following_user_id, 
+  logger.info({
+    user_id: existingFollower.following_user_id,
     listing_id: existingFollower.listing_id
   }, 'Listing was unfollowed');
 

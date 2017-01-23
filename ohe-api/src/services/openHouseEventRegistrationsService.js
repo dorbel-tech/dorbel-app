@@ -60,6 +60,11 @@ function* unregister(event_id, user) {
       { ohe_id: event_id, user_id: user.id },
       'registration does not exist');
   }
+
+  if (existingRegistration.registered_user_id != user.id) {
+    throw new errors.NotResourceOwnerError();
+  }
+
   existingRegistration.is_active = false;
 
   const result = yield repository.updateRegistration(existingRegistration);

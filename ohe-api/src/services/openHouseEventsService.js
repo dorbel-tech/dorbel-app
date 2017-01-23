@@ -34,7 +34,11 @@ function validateEventOverlap(existingListingEvents, start, end) {
     });
 }
 
-function* create(openHouseEvent) {
+function* create(openHouseEvent, user) {
+
+  if (user.role !== 'admin' && openHouseEvent.publishing_user_id != user.id) {
+    throw new errors.NotResourceOwnerError();
+  }
 
   const listing_id = parseInt(openHouseEvent.listing_id);
   const start = moment(openHouseEvent.start_time, moment.ISO_8601, true);
@@ -73,7 +77,9 @@ function* create(openHouseEvent) {
 function* update(id, updateRequest, user) {
   let existingEvent = yield openHouseEventsFinderService.find(id);
 
-  if (existingEvent.publishing_user_id !== user.id) { throw new errors.NotResourceOwnerError(); }
+  if (user.role !== 'admin' && existingEvent.publishing_user_id != user.id) {
+    throw new errors.NotResourceOwnerError();
+  }
 
   const start = moment(updateRequest.start_time || existingEvent.start_time, moment.ISO_8601, true);
   const end = moment(updateRequest.end_time || existingEvent.end_time, moment.ISO_8601, true);
@@ -121,7 +127,7 @@ function* update(id, updateRequest, user) {
 function* remove(eventId, user) {
   let existingEvent = yield openHouseEventsFinderService.find(eventId);
 
-  if (existingEvent.publishing_user_id !== user.id) { throw new errors.NotResourceOwnerError(); }
+  if (user.role !== 'admin' && existingEvent.publishing_user_id !== user.id) { throw new errors.NotResourceOwnerError(); }
 
   existingEvent.is_active = false;
 

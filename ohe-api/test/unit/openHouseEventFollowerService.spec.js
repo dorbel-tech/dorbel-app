@@ -92,13 +92,13 @@ describe('Listing Followers Service', function () {
   describe('Unfollow An Open House Event', function () {
 
     it('should unfollow a user from an event', function* () {
-      this.repositoryMock.findFollower = sinon.stub().resolves(faker.generateFollower());
+      this.repositoryMock.findFollower = sinon.stub().resolves(faker.generateFollower({following_user_id: fakeUser.id}));
 
       this.repositoryMock.updateFollower = sinon.stub().resolves(faker.generateFollower({
         is_active: false
       }));
 
-      const result = yield this.service.unfollow(1, faker.fakeUserId);
+      const result = yield this.service.unfollow(1, fakeUser);
       __.assertThat(result.is_active, __.is(false));
       __.assertThat(this.sendNotification.calledOnce, __.is(true));
       __.assertThat(this.sendNotification.getCall(0).args[0], __.is(notificationService.eventType.OHE_UNFOLLOWED));
@@ -108,10 +108,25 @@ describe('Listing Followers Service', function () {
       this.repositoryMock.find = sinon.stub().resolves(null);
 
       try {
-        yield this.service.unfollow(1, faker.fakeUserId);
+        yield this.service.unfollow(1, fakeUser);
       }
       catch (error) {
         __.assertThat(error.message, __.is('event does not exist'));
+        __.assertThat(this.sendNotification.callCount, __.is(0));
+      }
+    });
+
+    it('should not allow to unfollow as another user', function* () {
+      const follower = faker.generateFollower();
+      follower.id = 1;
+      this.repositoryMock.findFollower = sinon.stub().resolves(follower);
+
+
+      try {
+        yield this.service.unfollow(1, fakeUser);
+      }
+      catch (error) {
+        __.assertThat(error.message, __.is('cannot unfollow as another user'));
         __.assertThat(this.sendNotification.callCount, __.is(0));
       }
     });
