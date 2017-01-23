@@ -1,10 +1,8 @@
-
-
 module.exports = {
 
   url: function(){
     var baseUrl =  process.env.FRONT_GATEWAY_URL || 'http://localhost:3001';
-    return baseUrl+ '/apartments/new_form';
+    return baseUrl + '/apartments/new_form';
   },
   sections: {
     apartmentPictures: {
@@ -20,6 +18,9 @@ module.exports = {
       elements: {
         city: {
           selector: 'select[name="apartment.building.city.id"]'
+        },
+        neighbourhood: {
+          selector: 'select[name="apartment.building.neighborhood.id"]'
         },
         street: {
           selector: 'input[name="apartment.building.street_name"]'
@@ -105,13 +106,10 @@ module.exports = {
           selector: '#calendar'
         },
         eventStartTime: {
-          selector: 'select[name="open_house_event_start_time"]'
+          selector: 'select[name="start_time"]'
         },
         eventEndTime: {
-          selector: 'select[name="open_house_event_end_time"]'
-        },
-        comments: {
-          selector: 'textarea[name="open_house_event_comments"]'
+          selector: 'select[name="end_time"]'
         },
         firstName: {
           selector: 'input[name="user.firstname"]'
@@ -132,18 +130,21 @@ module.exports = {
           selector: 'i.open-house-event-previous-step'
         }
       }
-    }
-  },
-  elements: {
-    addNewApartmentLink: {
-      selector: 'a.add-apartment-button'
+    },
+    successModal: {
+      selector: '.modal-dialog',
+      elements: {
+        successTitle: {
+          selector: '.modal-header > h4'
+        }
+      }
     }
   },
   commands: [{
     navigateToApartmentPictureSection: function () {
       this
         .navigate()
-        .waitForElementVisible('body', 5000);
+        .waitForElementVisible('body');
       this.expect.section('@apartmentPictures').to.be.visible;
       return this;
     },
@@ -187,7 +188,6 @@ module.exports = {
     },
     fillApartmentDetailsAllFields: function () {
       this.section.apartmentDetails
-        .setValue('@city', 'הרצליה')
         .setValue('@street', 'רוטשילד')
         .setValue('@houseNumber', '129')
         .setValue('@apartmentNumber', '1')
@@ -197,6 +197,8 @@ module.exports = {
         .setValue('@apartmentSize', '50')
         .setValue('@apartmentRooms', '2')
         .setValue('@description', 'דויד המלך עובד כאן')
+        .setValue('@city', 'הרצליה')
+        .setValue('@neighbourhood', 'גורדון')
         .click('@parking')
         .click('@elevator')
         .click('@sunHeaterBoiler')
@@ -209,30 +211,23 @@ module.exports = {
         .setValue('@monthlyRent', '1000')
         .setValue('@propertyTax', '1000')
         .setValue('@boardFee', '1000');
-
       this.section.apartmentDetails.assert.visible('@entranceDateCalendar');
-      return this;
-    },
-    fillApartmentDetailsRequiredFields: function () {
-      this.section.apartmentDetails
-        .setValue('@city', 'הרצליה')
-        .setValue('@street', 'רוטשילד')
-        .setValue('@houseNumber', '129')
-        .setValue('@apartmentNumber', '1')
-        .setValue('@apartmentFloor', '1')
-        .setValue('@apartmentSize', '50')
-        .setValue('@apartmentRooms', '2')
-        .setValue('@monthlyRent', '1000');
       return this;
     },
     fillOpenHouseEventDetailsAllFields: function () {
       this.section.openHouseEvent
         .setValue('@eventDate', '')
         .setValue('@eventStartTime', '08:00')
-        .setValue('@eventEndTime', '09:00')
-        .setValue('@comments', 'We are coming');
-
+        .setValue('@eventEndTime', '09:00');
       this.section.openHouseEvent.assert.visible('@eventDateCalendar');
+      return this;
+    },
+    clearUserDetailsFields: function () {      
+      this.section.openHouseEvent        
+        .clearValue('@firstName')
+        .clearValue('@lastName')
+        .clearValue('@email')
+        .clearValue('@phoneNumber');
       return this;
     },
     fillUserDetailsFields: function () {
@@ -241,15 +236,21 @@ module.exports = {
         .setValue('@lastName', 'Tester')
         .setValue('@email', 'teser@test.com')
         .setValue('@phoneNumber', '9999999');
-
       return this;
     },
     submitNewApartmentForm: function () {
-      this.section.openHouseEvent
-        .click('@submit');
+      this.section.openHouseEvent.click('@submit');
+      return this;
+    },
+    confirmSubmitSuccess: function () {
+      this.expect.section('@successModal').to.be.visible;
+      this.section.successModal
+        .waitForText('@successTitle', (text) => ( text === 'העלאת הדירה הושלמה!' ));
+      return this;
+    },
+    confirmSubmitError: function () {
+      this.expect.section('@successModal').to.not.be.present;
       return this;
     }
   }]
 };
-
-
