@@ -5,7 +5,7 @@ machine:
     RDS_HOSTNAME: 127.0.0.1
     RDS_DB_NAME: circle_test
     RDS_USERNAME: ubuntu
-    RDS_PASSWORD: 
+    RDS_PASSWORD:
     REDIS_HOST: 127.0.0.1
     AWS_DEFAULT_REGION: eu-west-1
     AWS_REGION: eu-west-1
@@ -41,25 +41,26 @@ dependencies:
 
 test:
   override:
-    - cd apartments-api && yarn run lint 
+    - cd apartments-api && yarn run lint
     - cd apartments-api && yarn run db:migrate
     - cd apartments-api && yarn run db:seed
     - cd apartments-api && yarn test
     - cd apartments-api && yarn run test:integration
     - cd front-gateway && yarn run lint
-    - cd front-gateway && yarn test 
+    - cd front-gateway && yarn test
+    - cd front-gateway && yarn test:integration
     - cd notifications-service && yarn run lint
-    - cd notifications-service && yarn test 
+    - cd notifications-service && yarn test
     - cd notifications-service && yarn run test:integration
     - cd ohe-api && yarn run lint
     - cd ohe-api && yarn run db:migrate
-    - cd ohe-api && yarn test 
+    - cd ohe-api && yarn test
     - cd ohe-api && yarn run test:integration
 
 # deployment:
 #   staging:
 #     branch: develop
-#     commands:  
+#     commands:
 #       - sudo apt-get update
 #       - sudo apt-get install python2.7-dev
 #       - sudo pip install awsebcli

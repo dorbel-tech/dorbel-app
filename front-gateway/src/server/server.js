@@ -55,11 +55,19 @@ function* runServer() {
 
   app.use(renderApp);
 
-  app.listen(port, () => {
-    logger.info({ version: process.env.npm_package_version, env: config.get('NODE_ENV'), port }, 'Server started');
+  return new Promise((resolve, reject) => {
+    let server = app.listen(port, function () {
+      logger.info({ version: process.env.npm_package_version, env: config.get('NODE_ENV'), port }, 'Server started');
+      resolve(server);
+    })
+    .on('error', reject);
   });
 }
 
 if (require.main === module) {
   co(runServer).catch(err => logger.error(err));
 }
+
+module.exports = {
+  runServer
+};
