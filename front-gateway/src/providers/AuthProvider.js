@@ -82,7 +82,6 @@ class AuthProvider {
 
   logout() {
     this.authStore.logout();
-    this.router.setRoute('/');
   }
 
   reportIdentifyAnalytics(profile) {
@@ -92,4 +91,3 @@ class AuthProvider {
 }
 
 module.exports = AuthProvider;
-

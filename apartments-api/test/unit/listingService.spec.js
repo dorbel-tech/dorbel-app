@@ -68,7 +68,7 @@ describe('Listing Service', function () {
 
       const result = yield this.listingService.updateStatus(listing.id, user, 'rented');
 
-      __.assertThat(result, __.is(updatedListing));
+      __.assertThat(result, __.hasProperties(updatedListing));
     });
 
     it('should throw when update status given no listing found', function* () {
@@ -86,14 +86,14 @@ describe('Listing Service', function () {
     it('should not allow updating someone else`s listing', function* () {
       this.listingRepositoryMock.getById = sinon.stub().resolves(faker.getFakeListing());
       const user = faker.getFakeUser();
-      
+
       yield assertYieldedError(
         () => this.listingService.updateStatus(1, user, 'rented'),
         __.hasProperties({
           message: 'unauthorized to edit this listing',
           status: 403
         })
-      );      
+      );
     });
 
     it('should allow admin to update any listing', function* () {
@@ -105,21 +105,21 @@ describe('Listing Service', function () {
 
       const result = yield this.listingService.updateStatus(listing.id, user, 'rented');
 
-      __.assertThat(result, __.is(updatedListing));
+      __.assertThat(result, __.hasProperties(updatedListing));
     });
 
     it('should not allow owner to update a pending listing`s status', function* () {
       const listing = Object.assign(faker.getFakeListing(), { status: 'pending' });
       this.listingRepositoryMock.getById = sinon.stub().resolves(listing);
       const user = { id: listing.publishing_user_id };
-    
+
       yield assertYieldedError(
         () => this.listingService.updateStatus(1, user, 'listed'),
         __.hasProperties({
           message: 'unauthorized to change this listing to status listed',
           status: 403
         })
-      );   
+      );
     });
 
   });

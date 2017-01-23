@@ -71,7 +71,7 @@ class EditOHEModal extends React.Component {
         show={this.props.show}
         onClose={this.close}
         modalSize="small"
-        title="עריכת מועד ביקור"
+        title="עריכה"
         body={body}
       />
     );

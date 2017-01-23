@@ -10,6 +10,7 @@ import OHEManager from '~/components/OHEManager/OHEManager';
 import ApartmentLocation from '../MapWrapper/MapWrapper.jsx';
 import RelatedListings from '../RelatedListings/RelatedListings.jsx';
 import ListingBadge from '../ListingBadge/ListingBadge';
+import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 import moment from 'moment';
 import './Apartment.scss';
 
@@ -27,18 +28,28 @@ class Apartment extends Component {
 
   constructor(props) {
     super(props);
+    this.state = { isLoading: false };
     autobind(this);
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.apartmentId != nextProps.apartmentId) {
       this.props = nextProps;
-      this.props.appProviders.apartmentsProvider.loadFullListingDetails(this.props.apartmentId);
+      this.loadFullListingDetails();
     }
   }
 
-  componentDidMount() {
-    this.props.appProviders.apartmentsProvider.loadFullListingDetails(this.props.apartmentId);
+  componentWillMount() {
+    this.loadFullListingDetails();
+  }
+
+  loadFullListingDetails() {
+    let listingId = this.props.apartmentId;
+    if (!this.props.appStore.listingStore.listingsById.get(listingId)) {
+      this.setState({ isLoading: true });
+      this.props.appProviders.apartmentsProvider.loadFullListingDetails(listingId)
+        .then(() => this.setState({ isLoading: false }));
+    }
   }
 
   renderImageGallery(apartment) {
@@ -48,7 +59,7 @@ class Apartment extends Component {
       <header className="apt-header">
         <div className="container-fluid">
           <div className="row">
-            <ListingBadge listing={apartment}/>
+            <ListingBadge listing={apartment} />
             <Flickity classname="carousel" options={flickityOptions} >
               {apartment.images.map((image, index) =>
                 <div key={index} className="sliderBoxes">
@@ -65,10 +76,8 @@ class Apartment extends Component {
   renderInfoBox(title, svgName) {
     return (
       <li className="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-        <a href="">
-          <svg><use xlinkHref={svgIcons + '_' + svgName} /></svg>
-          <div>{title}</div>
-        </a>
+        <svg><use xlinkHref={svgIcons + '_' + svgName} /></svg>
+        <div>{title}</div>
       </li>
     );
   }
@@ -124,7 +133,7 @@ class Apartment extends Component {
   renderListingLocation(geolocation) {
     if (geolocation) {
       return (
-        <Row fluid>
+        <Row>
           <ApartmentLocation geo={geolocation} />
         </Row>
       );
@@ -142,8 +151,12 @@ class Apartment extends Component {
     const { appStore, action } = this.props;
     const listing = appStore.listingStore.listingsById.get(this.props.apartmentId);
 
-    if (!listing || !listing.apartment) {
-      return (<div><h4>Loading...</h4></div>);
+    if (this.state.isLoading) {
+      return (
+        <div className="loaderContainer">
+          <LoadingSpinner/>
+        </div>
+      );
     }
 
     const title = listing.title || `דירת ${listing.apartment.rooms} חד׳ ברח׳ ${listing.apartment.building.street_name}`;
@@ -197,6 +210,7 @@ class Apartment extends Component {
     );
   }
 }
+
 
 Apartment.wrappedComponent.propTypes = {
   apartmentId: React.PropTypes.string.isRequired,
