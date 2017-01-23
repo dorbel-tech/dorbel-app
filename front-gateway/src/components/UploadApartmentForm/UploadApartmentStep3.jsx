@@ -32,6 +32,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
   }
 
   onCloseSuccessModal() {
+    this.props.appStore.newListingStore.reset();
     this.props.router.setRoute('/');
   }
 

@@ -5,7 +5,7 @@ const listingService = require('../../services/listingService');
 const _ = require('lodash');
 
 function* get() {
-  this.response.body = yield listingService.getByFilter(this.request.query.q);
+  this.response.body = yield listingService.getByFilter(this.request.query.q, this.request.user);
 }
 
 function* post() {

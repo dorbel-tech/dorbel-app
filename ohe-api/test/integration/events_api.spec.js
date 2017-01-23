@@ -65,8 +65,9 @@ describe('Open House Events API Integration', function () {
         };
         const newEventReponse = yield this.apiClient.createNewEvent(ohe).expect(201).end();
         let newEvent = newEventReponse.body;
-        newEvent.start_time = moment().add(-10, 'hours').toISOString();
-        newEvent.start_time = moment().add(-9, 'hours').toISOString();
+        newEvent.start_time = moment().add(1, 'hours').toISOString();
+        newEvent.end_time = moment().add(2, 'hours').toISOString();
+        newEvent.max_attendies = 30;
         yield this.apiClient.updateEvent(newEvent).expect(200).end();
       });
 

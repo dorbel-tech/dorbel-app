@@ -59,7 +59,7 @@ class UploadApartmentStep1 extends UploadApartmentBaseStep.wrappedComponent {
               <div className="row thumbs">
                 <Dropzone className="col-md-4 thumb" multiple={false} onDrop={this.onChooseFile.bind(this)}>
                   <div className="thumb-inner add">
-                    <span className="add-photo">הוסף תמונה</span>
+                    <span className="add-photo">הוסף תמונה +</span>
                   </div>
                 </Dropzone>
                 {images.map(this.renderImage.bind(this))}

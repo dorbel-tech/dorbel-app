@@ -82,9 +82,10 @@ class ApartmentsProvider {
 
   updateListingStatus(listingId, status) {
     return this.apiProvider.fetch('/api/apartments/v1/listings/' + listingId, { method: 'PATCH', data: { status } })
-    .then(() => {
+    .then((res) => {
       let listing = this.appStore.listingStore.listingsById.get(listingId);
       listing.status = status;
+      _.set(listing, 'meta.possibleStatuses', _.get(res, 'meta.possibleStatuses'));
     });
   }
 

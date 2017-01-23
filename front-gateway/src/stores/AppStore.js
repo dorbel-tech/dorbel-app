@@ -18,6 +18,7 @@ export default class AppStore {
   // routing params
   @observable currentView: string;
   @observable routeParams: {[id: string]: string};
+  @observable showModal = false;
 
   metaData = {
     title: 'dorbel - דירות להשכרה ללא תיווך שתשמחו לגור בהן',

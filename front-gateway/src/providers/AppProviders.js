@@ -11,6 +11,7 @@ import CityProvider from './CityProvider';
 import NeighborhoodProvider from './NeighborhoodProvider';
 import CloudinaryProvider from './CloudinaryProvider';
 import NotificationProvider from './NotificationProvider';
+import ModalProvider from './ModalProvider';
 
 const isServer = !global.window;
 
@@ -21,18 +22,22 @@ class AppProviders {
         throw new Error('must set auth0 env vars');
       }
       this.authProvider = new AuthProvider(window.dorbelConfig.AUTH0_FRONT_CLIENT_ID, window.dorbelConfig.AUTH0_DOMAIN, appStore.authStore, router);
+    } else {
+      this.authProvider = {};
     }
 
     this.cloudinaryProvider = new CloudinaryProvider();
 
     this.apiProvider = new ApiProvider(appStore);
     this.oheProvider = new OheProvider(appStore, this.apiProvider);
-    this.apartmentsProvider = new ApartmentsProvider(appStore, 
+    this.apartmentsProvider = new ApartmentsProvider(appStore,
       { api: this.apiProvider, cloudinary: this.cloudinaryProvider, ohe: this.oheProvider });
     this.cityProvider = new CityProvider(appStore, this.apiProvider);
     this.neighborhoodProvider = new NeighborhoodProvider(appStore, this.apiProvider);
     this.notificationProvider = new NotificationProvider();
+    this.modalProvider = new ModalProvider(appStore);
   }
 }
 
 module.exports = AppProviders;
+

@@ -9,6 +9,7 @@ import ImageCarousel from './ImageCarousel.jsx';
 import OHEManager from '~/components/OHEManager/OHEManager';
 import ApartmentLocation from '../MapWrapper/MapWrapper.jsx';
 import RelatedListings from '../RelatedListings/RelatedListings.jsx';
+import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 import './Apartment.scss';
 
 @observer(['appStore', 'appProviders', 'router'])
@@ -17,6 +18,7 @@ class Apartment extends Component {
 
   constructor(props) {
     super(props);
+    this.state = { isLoading: false };
     autobind(this);
   }
 
@@ -27,22 +29,29 @@ class Apartment extends Component {
   componentWillReceiveProps(nextProps) {
     if (this.props.apartmentId != nextProps.apartmentId) {
       this.props = nextProps;
-      this.props.appProviders.apartmentsProvider.loadFullListingDetails(this.props.apartmentId);
+      this.loadFullListingDetails();
     }
   }
 
-  componentDidMount() {
-    this.props.appProviders.apartmentsProvider.loadFullListingDetails(this.props.apartmentId);
+  componentWillMount() {
+    this.loadFullListingDetails();
+  }
+
+  loadFullListingDetails() {
+    let listingId = this.props.apartmentId;
+    if (!this.props.appStore.listingStore.listingsById.get(listingId)) {
+      this.setState({ isLoading: true });
+      this.props.appProviders.apartmentsProvider.loadFullListingDetails(listingId)
+        .then(() => this.setState({ isLoading: false }));
+    }
   }
 
   renderInfoBox(title, svgName) {
     // TODO : use Icon component
     return (
       <li className="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-        <a href="">
           <svg><use xlinkHref={'#' + svgName} /></svg>
           <div>{title}</div>
-        </a>
       </li>
     );
   }
@@ -77,7 +86,7 @@ class Apartment extends Component {
   renderListingLocation(geolocation) {
     if (geolocation) {
       return (
-        <Row fluid>
+        <Row>
           <ApartmentLocation geo={geolocation} />
         </Row>
       );
@@ -95,8 +104,12 @@ class Apartment extends Component {
     const { appStore, action } = this.props;
     const listing = appStore.listingStore.listingsById.get(this.props.apartmentId);
 
-    if (!listing || !listing.apartment) {
-      return (<div><h4>Loading...</h4></div>);
+    if (this.state.isLoading) {
+      return (
+        <div className="loaderContainer">
+          <LoadingSpinner/>
+        </div>
+      );
     }
 
 
@@ -150,6 +163,7 @@ class Apartment extends Component {
     );
   }
 }
+
 
 Apartment.wrappedComponent.propTypes = {
   apartmentId: React.PropTypes.string.isRequired,
