@@ -53,7 +53,7 @@ class Header extends Component {
           <Navbar.Toggle />
         </Navbar.Header>
         <Navbar.Collapse>
-          <Nav>
+          <Nav className="header-navbar-links">
             <NavItem onClick={this.redirect} href={externalURL + 'about_us'}>
               מי אנחנו</NavItem>
             <NavItem onClick={this.redirect} href={externalURL + 'owner'}>
