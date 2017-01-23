@@ -14,9 +14,8 @@ function* get() {
 
 function* post() {
   const listingId = this.request.body.listing_id;
-  let user = this.request.body.user_details;
-  user.user_id = this.request.user.id;
-  logger.debug({ listing_id: listingId, following_user_id: user.user_id }, 'Following a listing...');
+  let user = this.request.user;
+  logger.debug({ listing_id: listingId, user }, 'Following a listing...');
 
   const result = yield service.follow(listingId, user);
   logger.info({ listing_id: listingId, following_user_id: user.user_id, followId: result.id }, 'Follower created');
@@ -27,7 +26,7 @@ function* post() {
 function* remove() {
   const id = this.params.id;
   logger.debug({ followId: id }, 'Unfollow a listing...');
-  yield service.unfollow(this.params.id, this.user);
+  yield service.unfollow(this.params.id, this.request.user);
   logger.info(id, 'Unfollow completed');
   this.response.status = 200;
 }
