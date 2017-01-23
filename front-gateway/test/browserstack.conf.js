@@ -4,6 +4,9 @@ let nightwatch_config = {
   src_folders : ['test/e2e/suites'],
   output_folder : 'test/e2e/reports',
   page_objects_path : 'test/e2e/pages',
+  globals_path : 'test/e2e_test_globals.js',
+  custom_commands_path : 'node_modules/nightwatch-custom-commands-assertions/js/commands',
+  custom_assertions_path : 'node_modules/nightwatch-custom-commands-assertions/js/assertions',
 
   selenium : {
     start_process : false,

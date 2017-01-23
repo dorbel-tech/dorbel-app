@@ -19,6 +19,9 @@ module.exports = {
         city: {
           selector: 'select[name="apartment.building.city.id"]'
         },
+        neighbourhood: {
+          selector: 'select[name="apartment.building.neighborhood.id"]'
+        },
         street: {
           selector: 'input[name="apartment.building.street_name"]'
         },
@@ -131,16 +134,18 @@ module.exports = {
     successModal: {
       selector: '.modal-dialog',
       elements: {
-        okButton: 'button'
+        successTitle: {
+          selector: '.modal-header > h4'
+        }
       }
     }
   },
   commands: [{
-    navigateToApartmentPictureSection: function () {
-      this
+    navigateToApartmentPictureSection: function () {            
+      this        
         .navigate()
-        .waitForElementVisible('body', 10000);
-      this.expect.section('@apartmentPictures').to.be.visible.after(10000);
+        .waitForElementVisible('body');
+      this.expect.section('@apartmentPictures').to.be.visible;
       return this;
     },
     navigateToApartmentDetailsSection: function () {
@@ -158,32 +163,31 @@ module.exports = {
     },
     goFromApartmentPicturesToApartmentDetails: function () {
       this.section.apartmentPictures.click('@nextStep');
-      this.expect.section('@apartmentDetails').to.be.visible.after(10000);
+      this.expect.section('@apartmentDetails').to.be.visible;
       return this;
     },
     goFromApartmentDetailsApartmentPictures: function () {
       this.section.apartmentDetails.click('@previousStep');
-      this.expect.section('@apartmentPictures').to.be.visible.after(10000);
+      this.expect.section('@apartmentPictures').to.be.visible;
       return this;
     },
     goFromApartmentDetailsToOpenHouseEvent: function () {
       this.section.apartmentDetails.click('@nextStep');
-      this.expect.section('@openHouseEvent').to.be.visible.after(10000);
+      this.expect.section('@openHouseEvent').to.be.visible;
       return this;
     },
     goFromApartmentDetailsToOpenHouseEventAndFail: function () {
       this.section.apartmentDetails.click('@nextStep');
-      this.expect.section('@openHouseEvent').to.not.be.present.after(10000);
+      this.expect.section('@openHouseEvent').to.not.be.present;
       return this;
     },
     goFromOpenHouseEventToApartmentDetails: function () {
       this.section.openHouseEvent.click('@previousStep');
-      this.expect.section('@apartmentDetails').to.be.visible.after(10000);
+      this.expect.section('@apartmentDetails').to.be.visible;
       return this;
     },
     fillApartmentDetailsAllFields: function () {
       this.section.apartmentDetails
-        .setValue('@city', 'הרצליה')
         .setValue('@street', 'רוטשילד')
         .setValue('@houseNumber', '129')
         .setValue('@apartmentNumber', '1')
@@ -193,6 +197,8 @@ module.exports = {
         .setValue('@apartmentSize', '50')
         .setValue('@apartmentRooms', '2')
         .setValue('@description', 'דויד המלך עובד כאן')
+        .setValue('@city', 'הרצליה')
+        .setValue('@neighbourhood', 'גורדון')
         .click('@parking')
         .click('@elevator')
         .click('@sunHeaterBoiler')
@@ -218,8 +224,8 @@ module.exports = {
       this.section.openHouseEvent.assert.visible('@eventDateCalendar');
       return this;
     },
-    clearUserDetailsFields: function () {
-      this.section.openHouseEvent
+    clearUserDetailsFields: function () {      
+      this.section.openHouseEvent        
         .clearValue('@firstName')
         .clearValue('@lastName')
         .clearValue('@email')
@@ -241,12 +247,13 @@ module.exports = {
       return this;
     },
     confirmSubmitSuccess: function () {
-      this.expect.section('@successModal').to.be.visible.after(10000);
-      this.section.successModal.click('@okButton');
+      this.expect.section('@successModal').to.be.visible;
+      this.section.successModal
+        .waitForText('@successTitle', (text) => ( text === 'העלאת הדירה הושלמה!' ));
       return this;
     },
     confirmSubmitError: function () {
-      this.expect.section('@successModal').to.not.be.present.after(10000);
+      this.expect.section('@successModal').to.not.be.present;
       return this;
     }
   }]

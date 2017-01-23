@@ -1,7 +1,7 @@
 var home,
   newApartmentForm;
 
-function login(browser) {
+function login() {
   home.navigate().signInAsTestUser();
 }
 
@@ -11,48 +11,35 @@ module.exports = {
     home.resizeDesktop(browser);
     newApartmentForm = browser.page.new_apartment_form();
   },
-  // 'should go back from apartment details to previous screen': function (browser) {
-  //   newApartmentForm
-  //     .navigateToApartmentDetailsSection()
-  //     .goFromApartmentDetailsApartmentPictures();
+  'should go back from apartment details to previous screen': function (browser) {
+    newApartmentForm
+      .navigateToApartmentDetailsSection()
+      .goFromApartmentDetailsApartmentPictures();
 
-  //   browser.end();
-  // },
-  // 'should fill all apartment details fields as logged in user': function (browser) {
-  //   login();
-
-  //   newApartmentForm
-  //     .navigateToApartmentDetailsSection()
-  //     .fillApartmentDetailsAllFields()
-  //     .goFromApartmentDetailsToOpenHouseEvent();
-
-  //   browser.end();
-  // },
-  // 'should show validation errors when apartment details required fields not filled as logged in user': function (browser) {
-  //   login();
-
-  //   newApartmentForm
-  //     .navigateToApartmentDetailsSection()
-  //     .goFromApartmentDetailsToOpenHouseEventAndFail();
-
-  //   browser.end();
-  // },
-  // 'should go back from event details to previous screen': function (browser) {
-  //   newApartmentForm
-  //     .navigateToOpenHouseEventSection()
-  //     .goFromOpenHouseEventToApartmentDetails();
-
-  //   browser.end();
-  // },
-  'should show validation errors when user details required fields not filled as logged in user': function (browser) {
-    login();
-
+    browser.end();
+  },
+  'should go back from event details to previous screen': function (browser) {
     newApartmentForm
       .navigateToOpenHouseEventSection()
+      .goFromOpenHouseEventToApartmentDetails();
+
+    browser.end();
+  },  
+  'should show validation errors when apartment details required fields not filled as logged in user': function (browser) {
+    newApartmentForm
+      .navigateToApartmentDetailsSection()
+      .goFromApartmentDetailsToOpenHouseEventAndFail();
+
+    browser.end();
+  },
+  'should show validation errors when user details required fields not filled as logged in user': function (browser) {
+    login();    
+
+    newApartmentForm.navigateToOpenHouseEventSection();
+    newApartmentForm
       .clearUserDetailsFields()
       .submitNewApartmentForm()
-      .confirmSubmitSuccess()
-      .confirmSubmitError();
+      .confirmSubmitError(); 
 
     browser.end();
   },
@@ -60,11 +47,9 @@ module.exports = {
     login();
 
     newApartmentForm
-      // TODO: Missing upload image functionality.
+      // TODO: Still missing upload image functionality.
       .navigateToOpenHouseEventSection()
       .fillOpenHouseEventDetailsAllFields()
-      .clearUserDetailsFields()
-      .fillUserDetailsFields()
       .submitNewApartmentForm()
       .confirmSubmitSuccess();
 

@@ -19,6 +19,8 @@ You'll need to run two terminals
 1. One for the the complete environment (project root) - ``yarn start``
 2. One for the test console (under front-gateway folder) - ``yarn run test:e2e``
 
+We are using nightwatch custom commands: https://github.com/maxgalbu/nightwatch-custom-commands-assertions
+
 To run tests in Browserstack - https://www.browserstack.com/automate/nightwatch-integration:
 1. Running on public URL, specify it in FRONT_GATEWAY_URL env var and run - ``yarn run test:e2e:browserstack``
 2. Running on local URL, run - ``yarn run test:e2e:browserstack:local``
