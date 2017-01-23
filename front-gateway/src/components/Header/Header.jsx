@@ -6,9 +6,22 @@ import './Header.scss';
 
 @observer(['appProviders', 'appStore', 'router'])
 class Header extends Component {
+  constructor(props) {
+    super(props);
+
+    this.redirect = this.redirect.bind(this);
+  }
+
   static propTypes = {
     appProviders: T.object,
     appStore: T.object
+  }
+
+  redirect(e) {
+    const href = e.target.href;
+    if (location) {
+      location.href = href;
+    }
   }
 
   routeTo(link) {
@@ -32,39 +45,42 @@ class Header extends Component {
         <Navbar.Header>
           <Navbar.Brand>
             <a onClick={() => this.routeTo('/')}
-                className="header-navbar-logo-anchor">
-              <img src="https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/logo/dorbel_logo_white.svg" alt="Dorbel" />
+              className="header-navbar-logo-anchor">
+              <img src="https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/logo/dorbel_logo_white.svg"
+                alt="Dorbel" />
             </a>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>
         <Navbar.Collapse>
           <Nav>
-            <NavItem onClick={() => this.routeTo(externalURL + 'about_us')}
-                href={externalURL + 'about_us'}>מי אנחנו</NavItem>
-            <NavItem onClick={() => this.routeTo(externalURL + 'owner')}
-                href={externalURL + 'owner'}>בעלי דירות</NavItem>
+            <NavItem onClick={this.redirect} href={externalURL + 'about_us'}>
+              מי אנחנו</NavItem>
+            <NavItem onClick={this.redirect} href={externalURL + 'owner'}>
+              בעלי דירות</NavItem>
             <NavItem className="header-navbar-owner-services-navitem"
-                onClick={() => this.routeTo(externalURL + 'שירותים-לבעלי-דירות')}
-                href={externalURL + 'שירותים-לבעלי-דירות'}>שירותים לבעלי דירות</NavItem>
+              onClick={this.redirect}
+              href={externalURL + 'שירותים-לבעלי-דירות'}>שירותים לבעלי דירות</NavItem>
             <NavItem onClick={() => this.routeTo('/apartments')}
-                href="/apartments">מצאו דירה</NavItem>
+              href="/apartments">מצאו דירה</NavItem>
             <NavItem onClick={() => this.routeTo('/apartments/new_form')}
-                href="/apartments/new_form">פרסמו דירה</NavItem>
+              href="/apartments/new_form">פרסמו דירה</NavItem>
           </Nav>
-          <Nav pullLeft className="header-navbar-profile">
-            <NavItem>
-              <img src={profile.picture} className="header-navbar-profile-image"/>
-            </NavItem>
-            <NavItem className="header-navbar-profile-text">{ firstName }</NavItem>
-            {isLoggedIn ?
+          {isLoggedIn ?
+            <Nav pullLeft className="header-navbar-profile">
+              <NavItem>
+                <img src={profile.picture} className="header-navbar-profile-image" />
+              </NavItem>
+              <NavItem className="header-navbar-profile-text">{firstName}</NavItem>
               <NavItem onClick={authProvider.logout}
-                  className="header-navbar-profile-login-text">התנתק</NavItem>
-              :
+                className="header-navbar-profile-login-text">התנתק</NavItem>
+            </Nav>
+            :
+            <Nav pullLeft className="header-navbar-profile">
               <NavItem onClick={authProvider.showLoginModal}
-                  className="header-navbar-profile-login-text">התחבר</NavItem>
-            }
-          </Nav>
+                className="header-navbar-profile-login-text">התחבר</NavItem>
+            </Nav>
+          }
         </Navbar.Collapse>
       </Navbar>
     );

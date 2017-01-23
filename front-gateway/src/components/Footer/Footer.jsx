@@ -6,6 +6,8 @@ import './Footer.scss';
 
 export default class Footer extends React.Component {
   render() {
+    const externalURL = 'https://www.dorbel.com/pages/';
+
     return (
       <Grid className="footer-container" fluid>
         <Row>
@@ -19,45 +21,24 @@ export default class Footer extends React.Component {
             </div>
           </Col>
           <Col sm={3} md={2} mdOffset={1} className="footer-links-col">
-            <NavLink to="/">
-              דף הבית
-            </NavLink>
-            <NavLink to="/">
-              מי אנחנו
-            </NavLink>
-            <NavLink to="/">
-              בעלי דירות
-            </NavLink>
-            <NavLink to="/">
+            <NavLink to="/">דף הבית</NavLink>
+            <NavLink to={externalURL + 'about_us'}>מי אנחנו</NavLink>
+            <NavLink to={externalURL + 'owner'}>בעלי דירות</NavLink>
+            <NavLink to={externalURL + 'שירותים-לבעלי-דירות'}>
               שירותים לבעלי דירות
             </NavLink>
           </Col>
           <Col sm={3} md={2} className="footer-links-col">
-            <NavLink to="/">
-              שאלות נפוצות
-            </NavLink>
-            <NavLink to="/">
-              הבלוג שלנו
-            </NavLink>
-            <NavLink to="/">
-              מדיניות פרטיות
-            </NavLink>
-            <NavLink to="/">
-              תנאי שימוש
-            </NavLink>
+            <NavLink to={externalURL + 'faq'}>שאלות נפוצות</NavLink>
+            <NavLink to="https://www.dorbel.com/blog">הבלוג שלנו</NavLink>
+            <NavLink to={externalURL + 'privacy_policy'}>מדיניות פרטיות</NavLink>
+            <NavLink to={externalURL + 'terms'}>תנאי שימוש</NavLink>
           </Col>
           <Col sm={3} md={2} className="footer-links-col">
-            <NavLink to="/">
-              בואו לעבוד איתנו
-            </NavLink>
-            <NavLink to="/">
-              צור קשר
-            </NavLink>
+            <NavLink to={externalURL + 'career'}>בואו לעבוד איתנו</NavLink>
           </Col>
           <Col sm={3} md={2} className="footer-links-col">
-            <NavLink to="/">
-              עקבו אחרינו :)
-            </NavLink>
+            <NavLink to="/">עקבו אחרינו :)</NavLink>
           </Col>
         </Row>
       </Grid>
