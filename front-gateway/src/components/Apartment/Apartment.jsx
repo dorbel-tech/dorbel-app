@@ -10,6 +10,7 @@ import OHEManager from '~/components/OHEManager/OHEManager';
 import ApartmentLocation from '../MapWrapper/MapWrapper.jsx';
 import RelatedListings from '../RelatedListings/RelatedListings.jsx';
 import ListingBadge from '../ListingBadge/ListingBadge';
+import moment from 'moment';
 import './Apartment.scss';
 
 const Flickity = global.window ? require('react-flickity-component')(React) : 'div';
@@ -79,11 +80,23 @@ class Apartment extends Component {
     return label;
   }
 
+  getDate(date) {
+    return moment.utc(date).local().format('DD/MM/YY');
+  }
+
   renderListingDescription(listing) {
     return (
       <div className="container-fluid apt-info-container">
         <div className="container">
           <div className="col-lg-9">
+            <div className="row property-desc">
+              <div className="col-md-2">
+                <h5>תאריך כניסה</h5>
+              </div>
+              <div className="col-md-10">
+                <p>{this.getDate(listing.lease_start)}</p>
+              </div>
+            </div>
             <div className="row property-desc">
               <div className="col-md-2">
                 <h5>תאור הנכס</h5>
@@ -93,6 +106,15 @@ class Apartment extends Component {
               </div>
             </div>
             <ApartmentAmenities listing={listing} />
+            <div className="row property-desc">
+              <div className="col-md-2">
+                <h5>פרטי תשלום</h5>
+              </div>
+              <div className="col-md-10">
+                <p>{listing.property_tax} ארנונה:</p>
+                <p>{listing.board_fee} ועד הבית:</p>  
+              </div>
+            </div>
           </div>
         </div>
       </div>
