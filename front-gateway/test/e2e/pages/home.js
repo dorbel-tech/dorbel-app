@@ -1,10 +1,11 @@
 module.exports = {
+
   url: function(){
     return process.env.FRONT_GATEWAY_URL || 'http://localhost:3001';
   },
   elements: {
     loginLink:{
-      selector: '.login-link'
+      selector: '.header-navbar-profile-login-text'
     },
     emailField: {
       selector: '.auth0-lock-input-email input[name=email]'
@@ -15,25 +16,27 @@ module.exports = {
     submit: {
       selector: 'button.auth0-lock-submit'
     },
-    approve: {
-      selector: 'button.auth0-lock-social-button.auth0-lock-social-big-button:first-of-type > div.auth0-lock-social-button-text'
-    },
-    addNewApartmentLink: {
-      selector: 'a.add-apartment-button'
+    loggedInName: {
+      selector: '.header-navbar-profile-text a'
     }
   },
   commands: [{
+    resizeDesktop: function(browser) {
+      browser.resizeWindow(1280, 1024);
+    },
+    resizeMobile: function(browser) {
+      browser.resizeWindow(320, 800);
+    },    
     signInAsTestUser: function () {
       return this
-        .waitForElementVisible('body', 1000)
+        .waitForElementVisible('body')
+        .waitForElementVisible('@loginLink')
         .click('@loginLink')
-        .waitForElementVisible('@emailField', 5000)
+        .waitForElementVisible('@emailField')
         .setValue('@emailField', 'e2e-user@dorbel.com')
         .setValue('@passwordField', 'JZ0PZ5NUcKlsez7lfQpN')
         .click('@submit')
-        .waitForElementVisible('@approve', 5000)
-        .click('@approve')
-        .waitForElementNotPresent('@approve',5000);
+        .waitForText('@loggedInName', (text) => ( text === 'Test' ));
     }
   }]
 };

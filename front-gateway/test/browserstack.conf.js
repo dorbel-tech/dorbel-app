@@ -1,7 +1,12 @@
+require('browserstack-automate').Nightwatch();
+
 let nightwatch_config = {
-  src_folders : ['test/e2e'],
+  src_folders : ['test/e2e/suites'],
   output_folder : 'test/e2e/reports',
   page_objects_path : 'test/e2e/pages',
+  globals_path : 'test/e2e_test_globals.js',
+  custom_commands_path : 'node_modules/nightwatch-custom-commands-assertions/js/commands',
+  custom_assertions_path : 'node_modules/nightwatch-custom-commands-assertions/js/assertions',
 
   selenium : {
     start_process : false,
@@ -12,15 +17,12 @@ let nightwatch_config = {
   test_settings: {
     default: {
       desiredCapabilities: {
-        'build': 'nightwatch-browserstack',
-        'browserstack.user': process.env.BROWSERSTACK_USERNAME,
-        'browserstack.key': process.env.BROWSERSTACK_ACCESS_KEY,
-        'os': 'Windows',
-        'os_version': '10',
-        'browser': 'Chrome',
-        'browser_version': '55.0',
-        'resolution': '1280x1024',
-        'browserstack.debug': true,
+        project: 'dorbel-front-gateway',
+        platform: 'WIN8',
+        browser: 'Chrome',
+        browser_version: 55,
+        resolution: '1280x1024',
+        'browserstack.debug': true
       }
     }
   }
