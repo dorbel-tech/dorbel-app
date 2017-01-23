@@ -1,30 +1,60 @@
 @import "../sharedStyles/variables.scss";
 @import "../sharedStyles/bsvars.scss";
 
-.navbar {
-  transition: all 0.2s;
-  @include gradient-vertical(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0), 0%, 100%);  
+.header-navbar {
+  background: linear-gradient(90deg, #5F2982 0%, $brand-primary 100%) !important;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.34);
+
   .navbar-brand {
-    width: 100px;
-    .dorbel-logo {
-      background: url('~assets/images/dorbel_logo.svg') no-repeat right center;
-      line-height: $line-height-computed*1.2;
-      margin: 0;
-    }
+    padding: 25px 15px;
   }
 }
 
-.navbar-shrink {
-  background-color: $brand-white;
-  background-image: none;
-  @include box-shadow(0px 2px 2px 0px rgba(0, 0, 0, 0.2));
+.header-navbar-logo-anchor {
+  width: 100px;
 }
 
-.navbar-right {
-  a {
-    padding: 10px 20px;
-    @include box-shadow(0px 2px 2px 0px rgba(0, 0, 0, 0.2));
-    color: $gray-base;
-    font-weight: 600;
+// React bootstrap override.
+.navbar-inverse .navbar-nav > li > a {
+  color: $brand-white;
+  font-size: 13px;
+  line-height: 37px;
+}
+
+@media (max-width: $screen-sm-max) {
+  .header-navbar-owner-services-navitem {
+    display: none !important;
+  }
+}
+
+.header-navbar-profile {
+  background-color: rgba(238,238,238,0.2);
+
+  > li {
+    display: inline-block;
+  }
+}
+
+.header-navbar-profile-image {
+  border-radius: 50%;
+  width: 35px;
+}
+
+.header-navbar-profile-text,
+.header-navbar-profile-login-text {
+  > a {
+    font-size: 14px !important;
+  }
+}
+
+.header-navbar-profile-login-text {
+  text-decoration: underline !important;
+}
+
+// React bootstrap override.
+.navbar-inverse .navbar-toggle {
+  &:hover,
+  &:focus {
+    background-color: transparent;
   }
 }
