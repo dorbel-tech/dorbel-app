@@ -81,7 +81,6 @@
     "sinon": "^1.17.6",
     "sinon-as-promised": "^4.0.2",
     "style-loader": "^0.13.1",
-    "svg-sprite-loader": "0.0.31",
     "url-loader": "0.5.7",
     "webpack": "^1.13.2",
     "webpack-babel-jest": "^1.0.4",

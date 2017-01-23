@@ -19,6 +19,12 @@ export default class AppStore {
   @observable currentView: string;
   @observable routeParams: {[id: string]: string};
 
+  metaData = {
+    title: 'dorbel - דירות להשכרה ללא תיווך שתשמחו לגור בהן',
+    description: 'השכרת דירות ללא תיווך. כל הפרטים שחשוב לדעת על הדירות בכדי לחסוך ביקורים מיותרים. בחרו מועד והירשמו לביקור בדירות בלחיצת כפתור.',
+    image: 'https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/meta/homepage-middle-image.jpg'
+  };
+
   constructor(initialState = {}) {
     this.authStore = new AuthStore();
     this.listingStore = new ListingStore(initialState.listingStore);
@@ -38,7 +44,7 @@ export default class AppStore {
       listingStore: this.listingStore.toJson(),
       oheStore: this.oheStore.toJson(),
       cityStore: this.cityStore.toJson(),
-      neighborhoodStore: this.neighborhoodStore.toJson() 
+      neighborhoodStore: this.neighborhoodStore.toJson()
     };
   }
 }

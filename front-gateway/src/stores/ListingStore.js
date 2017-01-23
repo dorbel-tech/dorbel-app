@@ -4,8 +4,8 @@ import autobind from 'react-autobind';
 export default class ListingStore {
   @observable listingsById;
 
-  constructor(initialState) {
-    this.listingsById = asMap(initialState || {});
+  constructor(initialState = {}) {
+    this.listingsById = asMap(initialState.listingsById || {});
     autobind(this);
   }
 

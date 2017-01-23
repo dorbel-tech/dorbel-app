@@ -45,11 +45,10 @@ function setRoutes(router, appStore, appProviders) {
 
       appStore.setView(routeConfig.view, routeProps);
 
-      if (routeConfig.view.preRender) {
-        routeConfig.view.preRender(Object.assign({ router, appStore, appProviders }, routeProps))
+      if (routeConfig.view.serverPreRender) {
+        routeConfig.view.serverPreRender(Object.assign({ router, appStore, appProviders }, routeProps))
           .then(callback)
-          .catch((err) => {
-            console.error(err);
+          .catch(() => {
             appStore.setView(Home); // TODO : set to error view ?
             callback();
           });
@@ -65,7 +64,7 @@ function setRoutes(router, appStore, appProviders) {
 function startRouter(appStore) {
   const router = new director.Router();
 
-  if (global.window) { // client side only
+  if (process.env.IS_CLIENT) {
     router.configure({
       notfound: () => appStore.setView(Home),
       html5history: true,

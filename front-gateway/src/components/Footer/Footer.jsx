@@ -1,5 +1,5 @@
 import React from 'react';
-import './Footer.scss'; 
+import './Footer.scss';
 
 export default class Footer extends React.Component {
   render() {
@@ -48,7 +48,7 @@ export default class Footer extends React.Component {
             <div className="col-md-4">
               <a href="">
                 <svg>
-                  <use xlinkHref="assets/svg/images.svg#dorbel_logo"></use>
+                  <use xlinkHref="#dorbel_logo"></use>
                 </svg>
               </a>
             </div>

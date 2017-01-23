@@ -7,7 +7,7 @@ const localStorage = (global.window) ? global.window.localStorage : { getItem: n
 
 class AuthStore {
   get isLoggedIn() {
-    const token = this.getToken();     
+    const token = this.getToken();
     return token && this.isTokenNotExpired(token);
   }
 
@@ -21,7 +21,7 @@ class AuthStore {
 
   isTokenNotExpired(token) {
     const valid = jwtDecode(token).exp > (Date.now() / 1000);
-    if (!valid) { this.logout(); } 
+    if (!valid) { this.logout(); }
     return valid;
   }
 

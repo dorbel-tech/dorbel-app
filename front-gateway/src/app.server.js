@@ -19,9 +19,15 @@ function* renderApp() {
     GOOGLE_MAPS_API_KEY: config.get('GOOGLE_MAPS_API_KEY')
   };
 
-  const entryPoint = shared.injectStores();
+  this.state = this.state || {};
+  this.state.segment = config.get('SEGMENT_IO_WRITE_KEY'); // segment key is not part of env vars but is used when rendering index.ejs
+
+  const entryPoint = shared.createAppEntryPoint();
+  // set route will also trigger any data-fetching needed for the requested route
   yield setRoute(entryPoint.router, this.path);
+  // the stores are now filled with any data that was fetched
   const initialState = entryPoint.appStore.toJson();
+  this.state.meta = entryPoint.appStore.metaData;
   const appHtml = renderToString(entryPoint.app);
   yield this.render('index', { appHtml, initialState, envVars });
 }

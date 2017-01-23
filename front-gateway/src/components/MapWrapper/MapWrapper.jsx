@@ -27,7 +27,7 @@ class MapWrapper extends Component {
       <div className='mapWrapper'>
         <GoogleMap
           bootstrapURLKeys={{
-            key: window.dorbelConfig.GOOGLE_MAPS_API_KEY,
+            key: process.env.GOOGLE_MAPS_API_KEY,
             language: 'he'
           }}
           options={options}
