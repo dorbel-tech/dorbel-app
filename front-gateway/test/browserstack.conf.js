@@ -1,7 +1,7 @@
 require('browserstack-automate').Nightwatch();
 
 let nightwatch_config = {
-  src_folders : ['test/e2e'],
+  src_folders : ['test/e2e/suites'],
   output_folder : 'test/e2e/reports',
   page_objects_path : 'test/e2e/pages',
 
@@ -14,10 +14,12 @@ let nightwatch_config = {
   test_settings: {
     default: {
       desiredCapabilities: {
+        project: 'dorbel-front-gateway',
         platform: 'WIN8',
-        browser: 'IE',
-        browser_version: 11,
-        resolution: '1280x1024'
+        browser: 'Chrome',
+        browser_version: 55,
+        resolution: '1280x1024',
+        'browserstack.debug': true
       }
     }
   }

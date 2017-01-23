@@ -15,6 +15,9 @@ module.exports = {
     submit: {
       selector: 'button.auth0-lock-submit'
     }
+    // approve: {
+    //   selector: 'button.auth0-lock-social-button.auth0-lock-social-big-button:first-of-type > div.auth0-lock-social-button-text'
+    // }
   },
   commands: [{
     resizeDesktop: function(browser) {
@@ -26,11 +29,13 @@ module.exports = {
     signInAsTestUser: function () {
       return this
         .waitForElementVisible('body', 10000)
+        .waitForElementVisible('@loginLink', 10000)
         .click('@loginLink')
         .waitForElementVisible('@emailField', 10000)
         .setValue('@emailField', 'e2e-user@dorbel.com')
         .setValue('@passwordField', 'JZ0PZ5NUcKlsez7lfQpN')
-        .click('@submit');
+        .click('@submit')
+        // .waitForElementNotPresent('@approve',10000);
     }
   }]
 };
