@@ -163,7 +163,7 @@ class OHERegisterModal extends React.Component {
     const { ohe, appStore, appProviders } = this.props;
     const profile = appStore.authStore.profile;
 
-    if (!ohe || !profile) {
+    if (!ohe) {
       return null;
     } else if (!appStore.authStore.isLoggedIn) {
       appProviders.authProvider.showLoginModal();
