@@ -4,7 +4,7 @@ import { Row, Col } from 'react-bootstrap';
 import autobind from 'react-autobind';
 import DatePicker from '~/components/DatePicker/DatePicker';
 import moment from 'moment';
-import utils from '../providers/utils';
+import utils from '../../providers/utils';
 
 const hours = [
   '07:00', '07:30', '08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30',
