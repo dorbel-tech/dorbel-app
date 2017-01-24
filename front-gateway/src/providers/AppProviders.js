@@ -12,6 +12,7 @@ import NeighborhoodProvider from './NeighborhoodProvider';
 import CloudinaryProvider from './CloudinaryProvider';
 import NotificationProvider from './NotificationProvider';
 import ModalProvider from './ModalProvider';
+import utils from './utils';
 
 const isServer = !global.window;
 
@@ -36,6 +37,7 @@ class AppProviders {
     this.neighborhoodProvider = new NeighborhoodProvider(appStore, this.apiProvider);
     this.notificationProvider = new NotificationProvider();
     this.modalProvider = new ModalProvider(appStore);
+    this.utils = utils;
   }
 }
 

@@ -43,8 +43,7 @@ let Config = {
   },
   module: {
     loaders: [
-      { test: /\.sprite\.svg$/, loader: 'svg-sprite' },
-      { test: /\.woff2?$|\.ttf$|\.eot$|\.svg$/, exclude: /\.sprite\.svg$/, loader: 'file' },
+      { test: /\.woff2?$|\.ttf$|\.eot$|\.svg$/, loader: 'file' },
       { test: /\.jsx?$/, loader: reactLoader, exclude: /node_modules/, },
       { test: /\.(css|scss)$/, loader: ExtractTextPlugin.extract('style', 'css?sourceMap!sass', 'sass?sourceMap') },
       { test: /\.png$/, loader: 'url-loader?limit=100000' },
@@ -53,7 +52,11 @@ let Config = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+      // these two are replaced with 'hard coded' values because it affects the build result
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+      'process.env.IS_CLIENT': JSON.stringify(true),
+      // the rest of the times the client will look for the env vars in window.dorbelConfig (defined in app.server.js)
+      'process.env' : 'window.dorbelConfig'
     }),
     new ExtractTextPlugin('bundle.css')
   ].concat(plugins),

@@ -147,7 +147,7 @@ describe('Open House Event Service - update', function () {
       __.assertThat('code', __.is('not reached'));
     }
     catch (error) {
-      __.assertThat(error.message, __.is('new event is overlapping an existing event'));
+      __.assertThat(error.message, __.is('כבר קיים מועד ביקור בתאריך ובשעה שבחרתם. אנא בחרו תאריך ו/או שעה אחרים'));
       __.assertThat(this.sendNotification.callCount, __.is(0));
     }
   });
@@ -173,7 +173,7 @@ describe('Open House Event Service - update', function () {
       __.assertThat('code', __.is('not reached'));
     }
     catch (error) {
-      __.assertThat(error.message, __.is('new event is overlapping an existing event'));
+      __.assertThat(error.message, __.is('כבר קיים מועד ביקור בתאריך ובשעה שבחרתם. אנא בחרו תאריך ו/או שעה אחרים'));
       __.assertThat(this.sendNotification.callCount, __.is(0));
     }
   });
@@ -199,7 +199,7 @@ describe('Open House Event Service - update', function () {
       __.assertThat('code', __.is('not reached'));
     }
     catch (error) {
-      __.assertThat(error.message, __.is('new event is overlapping an existing event'));
+      __.assertThat(error.message, __.is('כבר קיים מועד ביקור בתאריך ובשעה שבחרתם. אנא בחרו תאריך ו/או שעה אחרים'));
       __.assertThat(this.sendNotification.callCount, __.is(0));
     }
   });

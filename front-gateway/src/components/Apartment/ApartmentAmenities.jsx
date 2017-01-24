@@ -46,7 +46,7 @@ export default class ApartmentAmenities extends Component {
     return (
       <div className="row property-amenities">
         <div className="col-lg-2 col-sm-2 col-xs-12">
-          <h5>תאור הנכס</h5>
+          <h5>פרטי הדירה</h5>
         </div>
         {this.renderAmentites(amenitiesLeft, listing)}
         {this.renderAmentites(amenitiesRight, listing)}

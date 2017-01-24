@@ -34,7 +34,7 @@ function getFakeListing() {
     open_house_event_date: getDateString(),
     open_house_event_start_time: '07:00',
     open_house_event_end_time: '07:30',
-    images: [{ url: faker.internet.url() }],
+    images: [{ url: 'http://lorempixel.com/1000/500/?' + faker.random.number(9999) }],
     user: {
       phone: '123456789'
     }

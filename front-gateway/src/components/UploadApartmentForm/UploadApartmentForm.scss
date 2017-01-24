@@ -170,6 +170,19 @@
         }
       }
     }
+    .step-btn {
+        font-style: normal;
+        padding-bottom: 4px;
+        padding-top: 6px;
+        display: block;
+        background-color: #1cb039;
+        border: transparent;
+        color: #fff;
+    }
+    .apartment-pictures-next-step,
+    .apartment-details-next-step {
+      vertical-align: middle;
+    }
   }
 }
 
