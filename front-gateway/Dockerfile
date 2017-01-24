@@ -1,5 +1,5 @@
 # Image to pull.
-FROM kkarczmarczyk/node-yarn:6.9
+FROM dorbel/alpine-node-yarn-git
 
 # Working directory environment variable.
 ENV WORKDIR="/home/nodejs/app/"
