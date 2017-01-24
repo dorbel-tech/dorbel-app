@@ -7,13 +7,29 @@ class AuthProvider {
         redirectUrl: window.location.origin + '/login',
         responseType: 'token'
       },
+      initialScreen: 'signUp',
       theme: {
         logo: 'http://res.cloudinary.com/dorbel/image/upload/c_scale,h_58,w_58/v1477485453/dorbel_logo_2_1_uvvf3j.png',
         primaryColor: '#31124b'
       },
       languageDictionary: {
-        title: 'Welcome'
-      }
+        title: 'הרשמו לזיהוי קל בהמשך ולעדכונים חשובים בלבד',
+        welcome: 'היי %s!',
+        signUpWithLabel: '%s',
+        signupTitle: 'הרשמה',
+        signUpLabel: 'הרשמה',
+        signUpSubmitLabel: 'הרשמה',
+        loginLabel: 'כניסה',
+        loginSubmitLabel: 'כניסה',
+        loginWithLabel: '%s',
+        databaseAlternativeSignUpInstructions: 'או',
+        databaseEnterpriseAlternativeLoginInstructions: 'או',
+        forgotPasswordAction: 'שכחתם סיסמא?',
+        forgotPasswordInstructions: 'הכניסו את כתובת המייל שלכם. אנו נשלח אליכם מייל לאיפוס סיסמא.',
+        forgotPasswordSubmitLabel: 'שלח',
+        signUpTerms: ' אני מסכים/ה <a href="https://www.dorbel.com/pages/terms" target="_blank">לתנאי השימוש </a><a href="https://www.dorbel.com/pages/privacy_policy" target="_blank">ומדיניות הפרטיות</a>',
+      },
+      mustAcceptTerms: true
     });
     this.lock.on('authenticated', this.afterAuthentication.bind(this));
     this.authStore = authStore;
