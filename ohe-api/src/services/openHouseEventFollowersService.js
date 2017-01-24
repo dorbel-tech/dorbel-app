@@ -56,11 +56,7 @@ function* unfollow(followId, user) {
       'follower does not exist');
   }
 
-  if (existingFollower.following_user_id != user.id) {
-    throw new errors.DomainValidationError('OpenHouseEventFollowerValidationError',
-      { follow_id: followId, following_user_id: user.user_id },
-      'cannot unfollow as another user');
-  }
+  utilityFunctions.validateResourceOwnership(existingFollower.following_user_id, user);
 
   existingFollower.is_active = false;
 

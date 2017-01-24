@@ -73,7 +73,7 @@ describe('Listing Followers Service', function () {
 
     it('should fail when user tries to follow an event more than once', function* () {
       this.repositoryMock.findByListingId = sinon.stub().resolves([
-        { listing_id: 1, following_user_id: faker.fakeUserId, is_active: true }
+        { listing_id: 1, following_user_id: fakeUser.id, is_active: true }
       ]);
 
       this.repositoryMock.createFollower = sinon.stub().resolves(true);
@@ -126,7 +126,7 @@ describe('Listing Followers Service', function () {
         yield this.service.unfollow(1, fakeUser);
       }
       catch (error) {
-        __.assertThat(error.message, __.is('cannot unfollow as another user'));
+        __.assertThat(error.message, __.is('requesting user is not the resource owner'));
         __.assertThat(this.sendNotification.callCount, __.is(0));
       }
     });

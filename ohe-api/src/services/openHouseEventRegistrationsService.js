@@ -61,16 +61,14 @@ function* unregister(event_id, user) {
       'registration does not exist');
   }
 
-  if (existingRegistration.registered_user_id != user.id) {
-    throw new errors.NotResourceOwnerError();
-  }
+  utilityFunctions.validateResourceOwnership(existingRegistration.registered_user_id, user);
 
   existingRegistration.is_active = false;
 
   const result = yield repository.updateRegistration(existingRegistration);
-  logger.info({ 
-    event_id: existingRegistration.open_house_event_id, 
-    user_id: existingRegistration.registered_user_id 
+  logger.info({
+    event_id: existingRegistration.open_house_event_id,
+    user_id: existingRegistration.registered_user_id
   }, 'Unregister to OHE');
 
   let existingEvent = yield openHouseEventsFinderService.find(existingRegistration.open_house_event_id);
