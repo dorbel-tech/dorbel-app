@@ -2,9 +2,10 @@ import { observable, asMap, computed } from 'mobx';
 import autobind from 'react-autobind';
 
 export default class ListingStore {
-  @observable listingsById = asMap({});
+  @observable listingsById;
 
-  constructor() {
+  constructor(initialState = {}) {
+    this.listingsById = asMap(initialState.listingsById || {});
     autobind(this);
   }
 
@@ -25,6 +26,8 @@ export default class ListingStore {
   }
 
   toJson() {
-    return { };
+    return {
+      listingsById: this.listingsById
+    };
   }
 }
