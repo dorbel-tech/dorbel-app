@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class CloudinaryImage extends Component {
 
   getSrcUrl() {
-    let optionsStr = 'c_fit';
+    let optionsStr = 'c_fit,q_auto,e_improve';
     if (this.props.height) {
       optionsStr += ',h_' + this.props.height;
     }
@@ -15,15 +15,10 @@ class CloudinaryImage extends Component {
   }
 
   render() {
-
-
     return (
       <img className={this.props.className} src={this.getSrcUrl()} />
     );
   }
-
-
-
 }
 
 CloudinaryImage.propTypes = {
