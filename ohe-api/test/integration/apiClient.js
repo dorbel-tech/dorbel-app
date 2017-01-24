@@ -64,20 +64,19 @@ class ApiClient {
       .get('/v1/followers/by-listing/' + listingId);
   }
 
-  createNewFollower(listingId, user) {
+  createNewFollower(listingId, follower) {
     return this.request
       .post('/v1/follower')
-      .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile))
+      .set(USER_PROFILE_HEADER, JSON.stringify(follower))
       .send({
-        listing_id: listingId,
-        user_details: user
+        listing_id: listingId
       });
   }
 
-  deleteFollower(followId) {
+  deleteFollower(followId, follower) {
     return this.request
       .delete('/v1/follower/' + followId)
-      .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile));
+      .set(USER_PROFILE_HEADER, JSON.stringify(follower));
   }
 
   static * init(userProfile) {
