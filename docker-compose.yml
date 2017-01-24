@@ -126,8 +126,8 @@ services:
       NOTIFICATIONS_SNS_TOPIC_ARN: ${NOTIFICATIONS_SNS_TOPIC_ARN}
       SEGMENT_IO_WRITE_KEY: ${SEGMENT_IO_WRITE_KEY}
       OHE_API_EVENTS_SQS_QUEUE_URL: ${OHE_API_EVENTS_SQS_QUEUE_URL}
-
-  # Admin apartments backoffice
+  
+  # # Admin apartments backoffice
   # admin:
   #   build:
   #     context: admin

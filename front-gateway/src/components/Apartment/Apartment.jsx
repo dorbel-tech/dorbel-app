@@ -69,6 +69,14 @@ class Apartment extends Component {
           <div className="col-lg-9">
             <div className="row property-desc">
               <div className="col-md-2">
+                <h5>תאריך כניסה</h5>
+              </div>
+              <div className="col-md-10">
+                <p>{this.props.appProviders.utils.formatDate(listing.lease_start)}</p>
+              </div>
+            </div>
+            <div className="row property-desc">
+              <div className="col-md-2">
                 <h5>תאור הנכס</h5>
               </div>
               <div className="col-md-10">
@@ -76,6 +84,15 @@ class Apartment extends Component {
               </div>
             </div>
             <ApartmentAmenities listing={listing} />
+            <div className="row property-desc">
+              <div className="col-md-2">
+                <h5>פרטי תשלום</h5>
+              </div>
+              <div className="col-md-10">
+                <p>{listing.property_tax} ארנונה:</p>
+                <p>{listing.board_fee} ועד הבית:</p>  
+              </div>
+            </div>
           </div>
         </div>
       </div>
