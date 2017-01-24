@@ -3,10 +3,10 @@
 
 .header-navbar {
   background: linear-gradient(90deg, #5F2982 0%, $brand-primary 100%) !important;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.34);
+  box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.3);
 
   .navbar-brand {
-    padding: 25px 15px;
+    padding: 17px 15px;
   }
 }
 
@@ -18,7 +18,13 @@
 .navbar-inverse .navbar-nav > li > a {
   color: $brand-white;
   font-size: 13px;
-  line-height: 37px;
+  line-height: 34px;
+  padding-bottom: 12px;
+  padding-top: 13px;
+}
+
+.header-navbar-links > a:hover {
+  opacity: 0.7;
 }
 
 @media (max-width: $screen-sm-max) {
@@ -29,6 +35,12 @@
 
 .header-navbar-profile {
   background-color: rgba(238,238,238,0.2);
+  padding: 0 15px;
+
+  @media (max-width: $screen-xs-max) {
+    margin: 0 -15px;
+    padding: 0;
+  }
 
   > li {
     display: inline-block;

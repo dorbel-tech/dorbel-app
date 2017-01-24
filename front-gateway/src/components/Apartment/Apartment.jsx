@@ -11,6 +11,7 @@ import ApartmentLocation from '../MapWrapper/MapWrapper.jsx';
 import RelatedListings from '../RelatedListings/RelatedListings.jsx';
 import ListingBadge from '../ListingBadge/ListingBadge';
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
+import CloudinaryImage from '../CloudinaryImage/CloudinaryImage';
 import moment from 'moment';
 import './Apartment.scss';
 
@@ -24,7 +25,6 @@ const flickityOptions = {
 
 @observer(['appStore', 'appProviders', 'router'])
 class Apartment extends Component {
-  static behindHeader = true;
 
   constructor(props) {
     super(props);
@@ -63,7 +63,7 @@ class Apartment extends Component {
             <Flickity classname="carousel" options={flickityOptions} >
               {apartment.images.map((image, index) =>
                 <div key={index} className="sliderBoxes">
-                  <img src={image.url.replace('upload', 'upload/h_500')} />
+                  <CloudinaryImage src={image.url} height={500} />
                 </div>
               )}
             </Flickity>
