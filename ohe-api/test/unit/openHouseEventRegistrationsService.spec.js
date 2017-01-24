@@ -135,25 +135,39 @@ describe('Open House Event Registration Service', function () {
   describe('UnRegister an Open House Event', function () {
 
     it('should unregister a user from an event', function* () {
-      this.repositoryMock.findRegistration = sinon.stub().resolves(faker.generateRegistration());
+      let registration = faker.generateRegistration();
+      this.repositoryMock.findRegistration = sinon.stub().resolves(registration);
       this.repositoryMock.updateRegistration = sinon.stub().resolves(faker.generateRegistration({
         is_active: false
       }));
 
-      const registrationResponse = yield this.service.unregister(1, faker.fakeUserId);
+      const registrationResponse = yield this.service.unregister(1, { id: faker.fakeUserId });
       __.assertThat(registrationResponse.is_active, __.is(false));
       __.assertThat(this.sendNotification.calledOnce, __.is(true));
       __.assertThat(this.sendNotification.getCall(0).args[0], __.is(notificationService.eventType.OHE_UNREGISTERED));
     });
 
     it('should fail when the event a user tries to unregister does not exists in db', function* () {
-      this.openHouseEventsFinderServiceMock.find = sinon.stub().resolves(faker.generateEvent());
+      this.repositoryMock.findRegistration = sinon.stub().resolves(undefined);
 
       try {
-        yield this.service.unregister(0, faker.fakeUserId);
+        yield this.service.unregister(0, faker.getFakeUser());
       }
       catch (error) {
-        __.assertThat(error.message, __.is('event does not exist'));
+        __.assertThat(error.message, __.is('registration does not exist'));
+        __.assertThat(this.sendNotification.callCount, __.is(0));
+      }
+    });
+
+    it('should fail to unregister as another user to an event', function* () {
+      let registration = faker.generateRegistration();
+      this.repositoryMock.findRegistration = sinon.stub().resolves(registration);
+
+      try {
+        yield this.service.unregister(registration.open_house_event_id, faker.getFakeUser());
+      }
+      catch (error) {
+        __.assertThat(error.message, __.is('requesting user is not the resource owner'));
         __.assertThat(this.sendNotification.callCount, __.is(0));
       }
     });

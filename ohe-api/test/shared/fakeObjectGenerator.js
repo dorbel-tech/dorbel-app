@@ -4,14 +4,15 @@ const _ = require('lodash');
 const moment = require('moment');
 const fakeUserId = '00000000-0000-0000-0000-000000000001';
 
-function getFakeUser() {
-  return {
-    id: faker.random.uuid(),
-    user_id: faker.random.uuid(),
+function getFakeUser(variant) {
+  let randUuid = faker.random.uuid();
+  return _.extend({
+    id: randUuid,
+    user_id: randUuid,
     email: faker.internet.email(),
     phone: getRandomNumber().toString(),
     role: 'user'
-  };
+  }, variant);
 }
 
 function generateEvent(variant) {
@@ -32,7 +33,7 @@ function generateEvent(variant) {
 function generateRegistration(variant) {
   return _.extend({
     id: 1,
-    eventId: 1,
+    open_house_event_id: 1,
     registered_user_id: fakeUserId,
     is_active: true
   }, variant);
@@ -41,7 +42,7 @@ function generateRegistration(variant) {
 function generateFollower(variant) {
   return _.extend({
     id: 1,
-    eventId: 1,
+    listing_id: 1,
     following_user_id: fakeUserId,
     is_active: true
   }, variant);
