@@ -29,7 +29,7 @@ function validateEventOverlap(existingListingEvents, start, end) {
         throw new errors.DomainValidationError('OpenHouseEventValidationError', {
           start_time: start,
           end_time: end
-        }, 'new event is overlapping an existing event');
+        }, 'כבר קיים מועד ביקור בתאריך ובשעה שבחרתם. אנא בחרו תאריך ו/או שעה אחרים');
       }
     });
 }
