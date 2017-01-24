@@ -2107,9 +2107,9 @@ domutils@1.5, domutils@1.5.1, domutils@^1.5.1:
     dom-serializer "0"
     domelementtype "1"
 
-"dorbel-shared@git://github.com/dorbel-tech/dorbel-shared#v0.4.49":
-  version "0.4.49"
-  resolved "git://github.com/dorbel-tech/dorbel-shared#ef38738e8074035011cfaee97083e9afc3cb2cfc"
+"dorbel-shared@git://github.com/dorbel-tech/dorbel-shared#v0.4.50":
+  version "0.4.50"
+  resolved "git://github.com/dorbel-tech/dorbel-shared#abb7b553d72329ac3ac44065af85d3c2ffbccd39"
   dependencies:
     analytics-node "^2.1.0"
     auth0 "^2.5.0"
@@ -2117,7 +2117,9 @@ domutils@1.5, domutils@1.5.1, domutils@^1.5.1:
     bunyan "~1.8.1"
     bunyan-logentries "^1.2.0"
     bunyan-sumologic "^1.0.1"
+    co "^4.6.0"
     es6-promisify "^5.0.0"
+    http-graceful-shutdown "^1.0.6"
     jwt-decode "^2.1.0"
     lodash "~4.16.3"
     nconf "~0.8.4"
@@ -2128,6 +2130,7 @@ domutils@1.5, domutils@1.5.1, domutils@^1.5.1:
     sns.js "1.0.2"
     sqs-consumer "3.4.0"
     swagger-model-validator "~2.1.2"
+    throng "^4.0.0"
 
 dot-case@^1.1.0:
   version "1.1.2"
@@ -3196,6 +3199,13 @@ http-errors@~1.4.0:
   dependencies:
     inherits "2.0.1"
     statuses ">= 1.2.1 < 2"
+
+http-graceful-shutdown@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/http-graceful-shutdown/-/http-graceful-shutdown-1.0.6.tgz#26314e3e1ca812f1acba243d05cbc0965a8f17f6"
+  dependencies:
+    debug "^2.2.0"
+    lodash "^4.1.0"
 
 http-proxy-agent@1:
   version "1.0.0"
@@ -4396,7 +4406,7 @@ lodash@4.16.2:
   version "4.16.2"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.16.2.tgz#3e626db827048a699281a8a125226326cfc0e652"
 
-lodash@4.16.6, lodash@^4.0.0, lodash@^4.13.1, lodash@^4.14.0, lodash@^4.15.0, lodash@^4.16.2, lodash@^4.16.4, lodash@^4.2.0, lodash@^4.3.0, lodash@~4.16.3, lodash@~4.16.4:
+lodash@4.16.6, lodash@^4.0.0, lodash@^4.1.0, lodash@^4.13.1, lodash@^4.14.0, lodash@^4.15.0, lodash@^4.16.2, lodash@^4.16.4, lodash@^4.2.0, lodash@^4.3.0, lodash@~4.16.3, lodash@~4.16.4:
   version "4.16.6"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.16.6.tgz#d22c9ac660288f3843e16ba7d2b5d06cca27d777"
 
@@ -6760,6 +6770,12 @@ thenify-all@^1.0.0:
 throat@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/throat/-/throat-3.0.0.tgz#e7c64c867cbb3845f10877642f7b60055b8ec0d6"
+
+throng@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/throng/-/throng-4.0.0.tgz#983c6ba1993b58eae859998aa687ffe88df84c17"
+  dependencies:
+    lodash.defaults "^4.0.1"
 
 through@2, through@^2.3.6, through@~2.3, through@~2.3.1, through@~2.3.8:
   version "2.3.8"
