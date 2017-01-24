@@ -72,7 +72,7 @@ class UploadApartmentStep1 extends UploadApartmentBaseStep.wrappedComponent {
               <span className="next-step" onClick={this.clickNext.bind(this)}>
                 <div className="btn step-btn">
                   שלב הבא &nbsp;
-                  <i className="apartment-details-next-step fa fa-arrow-circle-o-left fa-2x" aria-hidden="true"></i>
+                  <i className="apartment-pictures-next-step fa fa-arrow-circle-o-left fa-2x" aria-hidden="true"></i>
                 </div>
               </span>
             </div>

@@ -4,8 +4,11 @@ module.exports = {
     return process.env.FRONT_GATEWAY_URL || 'http://localhost:3001';
   },
   elements: {
-    loginLink:{
+    loginLink: {
       selector: '.header-navbar-profile-login-text'
+    },
+    loginTab: {
+      selector: '.auth0-lock-tabs > li > a'
     },
     emailField: {
       selector: '.auth0-lock-input-email input[name=email]'
@@ -17,7 +20,7 @@ module.exports = {
       selector: 'button.auth0-lock-submit'
     },
     loggedInName: {
-      selector: '.header-navbar-profile-text a'
+      selector: '.header-navbar-profile-text'
     }
   },
   commands: [{
@@ -32,11 +35,12 @@ module.exports = {
         .waitForElementVisible('body')
         .waitForElementVisible('@loginLink')
         .click('@loginLink')
-        .waitForElementVisible('@emailField')
+        .waitForElementVisible('@loginTab')
+        .click('@loginTab')        
         .setValue('@emailField', 'e2e-user@dorbel.com')
         .setValue('@passwordField', 'JZ0PZ5NUcKlsez7lfQpN')
         .click('@submit')
-        .waitForText('@loggedInName', (text) => ( text === 'Test' ));
+        .waitForElementVisible('@loggedInName');
     }
   }]
 };
