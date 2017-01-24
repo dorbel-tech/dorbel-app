@@ -7,7 +7,7 @@ class NavLink extends Component {
   render() {
     const to = this.props.to;
     return (
-      <a href="#" onClick={() => this.routeTo(to)} className={this.props.className}>
+      <a href={to} onClick={() => this.routeTo(to)} className={this.props.className}>
         {this.props.children}
       </a>
     );

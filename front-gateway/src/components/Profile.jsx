@@ -10,7 +10,9 @@ export default class ProfileDetails extends React.Component {
 
   render() {
     const { appStore } = this.props;
-    const profile = appStore.authStore.getProfile();
+    const profile = appStore.authStore.profile;
+
+    if (!profile) { return null; }
 
     return (
       <div>
@@ -19,7 +21,7 @@ export default class ProfileDetails extends React.Component {
         </div>
         <div>
           <h3>Profile</h3>
-          <p><strong>Name: </strong> 
+          <p><strong>Name: </strong>
             <span>{profile.first_name}&nbsp;{profile.last_name}</span>
           </p>
           <p><strong>Email: </strong>
@@ -27,10 +29,10 @@ export default class ProfileDetails extends React.Component {
           </p>
           <p><strong>Phone: </strong>
             <span>{profile.phone}</span>
-          </p>          
+          </p>
           <p><strong>Role: </strong>
             <span>{profile.role}</span>
-          </p>          
+          </p>
           <p><strong>Created At:</strong> {profile.created_at}</p>
           <p><strong>Updated At:</strong> {profile.updated_at}</p>
         </div>

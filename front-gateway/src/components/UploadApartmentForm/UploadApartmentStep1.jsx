@@ -1,6 +1,7 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 import Dropzone from 'react-dropzone';
+import CloudinaryImage from '../CloudinaryImage/CloudinaryImage';
 import UploadApartmentBaseStep from './UploadApartmentBaseStep';
 
 @observer(['appProviders', 'appStore'])
@@ -28,7 +29,7 @@ class UploadApartmentStep1 extends UploadApartmentBaseStep.wrappedComponent {
       <div key={index} className="image col-md-4 thumb">
         <div className="thumb-inner">
           <label className="uploaded-image">
-            <img className="img-full" height="190" width="340" src={image.src} />
+            <CloudinaryImage className="img-full" src={image.src} height={120} />
             {image.complete ? deleteButton : progressBar}
           </label>
         </div>
