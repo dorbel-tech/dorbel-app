@@ -4,6 +4,7 @@ import { Row, Col } from 'react-bootstrap';
 import autobind from 'react-autobind';
 import DatePicker from '~/components/DatePicker/DatePicker';
 import moment from 'moment';
+import utils from '../providers/utils';
 
 const hours = [
   '07:00', '07:30', '08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30',
@@ -17,8 +18,8 @@ class AddOHEInput extends React.Component {
 
     if (props.ohe) {
       this.state = {
-        start_time: this.getTimeStringFromDate(props.ohe.start_time),
-        end_time: this.getTimeStringFromDate(props.ohe.end_time),
+        start_time: utils.formatTime(props.ohe.start_time),
+        end_time: utils.formatTime(props.ohe.end_time),
         date: props.ohe.start_time,
         max_attendies: props.ohe.max_attendies
       };
@@ -70,11 +71,6 @@ class AddOHEInput extends React.Component {
 
   setTimeFromString(dateString, timeString) {
     return moment(dateString + 'T' + timeString).toISOString();
-  }
-
-
-  getTimeStringFromDate(date) {
-    return moment.utc(date).local().format('HH:mm');
   }
 
   render() {

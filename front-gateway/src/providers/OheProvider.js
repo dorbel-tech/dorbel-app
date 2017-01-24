@@ -2,12 +2,9 @@
  * Open House Events Provider communicates with the OHE API
  */
 'use strict';
-import moment from 'moment';
 import _ from 'lodash';
 import autobind from 'react-autobind';
-
-const timeFormat = 'HH:mm';
-const dateFormat = 'DD/MM/YY';
+import utils from './utils';
 
 class OheProvider {
   constructor(appStore, apiProvider) {
@@ -65,12 +62,8 @@ class OheProvider {
   }
 
   enrichOhe(openHouseEvent) {
-    // Parse utc but use local time after that
-    const start = moment.utc(openHouseEvent.start_time).local();
-    const end = moment.utc(openHouseEvent.end_time).local();
-
-    openHouseEvent.timeLabel = `${end.format(timeFormat)} - ${start.format(timeFormat)}`;
-    openHouseEvent.dateLabel = start.format(dateFormat);
+    openHouseEvent.timeLabel = `${utils.formatTime(openHouseEvent.end_time)} - ${utils.formatTime(openHouseEvent.start_time)}`;
+    openHouseEvent.dateLabel = utils.formatDate(openHouseEvent.start_time);
 
     return openHouseEvent;
   }

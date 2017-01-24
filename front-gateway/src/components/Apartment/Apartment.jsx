@@ -12,7 +12,6 @@ import RelatedListings from '../RelatedListings/RelatedListings.jsx';
 import ListingBadge from '../ListingBadge/ListingBadge';
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 import CloudinaryImage from '../CloudinaryImage/CloudinaryImage';
-import moment from 'moment';
 import './Apartment.scss';
 
 const Flickity = global.window ? require('react-flickity-component')(React) : 'div';
@@ -89,10 +88,6 @@ class Apartment extends Component {
     return label;
   }
 
-  getDate(date) {
-    return moment.utc(date).local().format('DD/MM/YY');
-  }
-
   renderListingDescription(listing) {
     return (
       <div className="container-fluid apt-info-container">
@@ -103,7 +98,7 @@ class Apartment extends Component {
                 <h5>תאריך כניסה</h5>
               </div>
               <div className="col-md-10">
-                <p>{this.getDate(listing.lease_start)}</p>
+                <p>{this.props.appProviders.utils.formatDate(listing.lease_start)}</p>
               </div>
             </div>
             <div className="row property-desc">
