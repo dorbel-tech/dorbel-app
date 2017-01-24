@@ -1,6 +1,7 @@
 'use strict';
 import React from 'react';
 import ListingBadge from '../ListingBadge/ListingBadge';
+import CloudinaryImage from '../CloudinaryImage/CloudinaryImage';
 
 let Flickity = 'div';
 let carouselClass = 'fixed-carousel';
@@ -29,7 +30,7 @@ export default class ImageCarousel extends React.Component {
             <Flickity className={carouselClass} options={flickityOptions} >
               {listing.images.map((image, index) =>
                 <div key={index} className="sliderBoxes">
-                  <img src={image.url.replace('upload', 'upload/h_500')} />
+                  <CloudinaryImage src={image.url} height={500} />
                 </div>
               )}
             </Flickity>
