@@ -13,7 +13,8 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
   
   componentDidMount() {
     if (this.props.appStore.cityStore.cities.length === 0) {
-      this.props.appProviders.cityProvider.loadCities();
+      this.props.appProviders.cityProvider.loadCities()
+        .then((cities)=> this.fillNeighborhoods(cities[0].id));
     }
     
     if (this.props.appStore.neighborhoodStore.neighborhoodsByCityId.size === 0) {
