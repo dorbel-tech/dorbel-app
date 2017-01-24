@@ -1,5 +1,6 @@
 'use strict';
 const moment = require('moment');
+const tk = require('timekeeper');
 const mockRequire = require('mock-require');
 const __ = require('hamjest');
 const sinon = require('sinon');
@@ -31,6 +32,7 @@ describe('Open House Event Service - update', function () {
     mockRequire(src + 'openHouseEventsDb/repositories/openHouseEventRegistrationsRepository', this.registrationsRepository = {});
     this.service = require(src + 'services/openHouseEventsService');
     this.update = update.bind(this);
+    tk.freeze(moment().startOf('day').unix());
   });
 
   beforeEach(function () {
