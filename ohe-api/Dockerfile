@@ -1,5 +1,5 @@
 # Image to pull.
-FROM dorbel/alpine-node-yarn-git
+FROM dorbel/alpine-node
 
 # Working directory environment variable.
 ENV WORKDIR="/home/nodejs/app/"
@@ -10,7 +10,7 @@ WORKDIR $WORKDIR
 
 # Install dependencies before to cache node_modules.
 COPY package.json yarn.lock $WORKDIR
-RUN yarn install --pure-lockfile
+RUN yarn install
 
 # Copy all files from host to container.
 COPY . $WORKDIR
