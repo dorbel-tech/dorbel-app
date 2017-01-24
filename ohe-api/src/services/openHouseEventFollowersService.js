@@ -5,6 +5,7 @@ const repository = require('../openHouseEventsDb/repositories/openHouseEventFoll
 const shared = require('dorbel-shared');
 const logger = shared.logger.getLogger(module);
 const userManagement = shared.utils.userManagement;
+const utilityFunctions = require('./common/utility-functions');
 
 function* getByListing(listingId){
   return yield repository.findByListingId(listingId);
