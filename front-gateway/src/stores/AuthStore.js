@@ -11,7 +11,7 @@ export default class AuthStore {
   @observable profile;
 
   get isLoggedIn() {
-    const token = this.getToken();     
+    const token = this.getToken();
     return token && this.isTokenNotExpired(token);
   }
 
@@ -26,7 +26,7 @@ export default class AuthStore {
 
   isTokenNotExpired(token) {
     const valid = jwtDecode(token).exp > (Date.now() / 1000);
-    if (!valid) { this.logout(); } 
+    if (!valid) { this.logout(); }
     return valid;
   }
 

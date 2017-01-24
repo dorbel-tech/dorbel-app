@@ -22,10 +22,23 @@ class ApartmentsProvider {
   loadFullListingDetails(id) {
     return Promise.all([
       this.apiProvider.fetch('/api/apartments/v1/listings/' + id)
-        .then(action('load-single-apartment', apartment => this.appStore.listingStore.listingsById.set(id,apartment))),
+        .then(listing => {
+          listing.title = listing.title || `דירת ${listing.apartment.rooms} חד׳ ברח׳ ${listing.apartment.building.street_name}`;
+          this.appStore.listingStore.listingsById.set(id, listing);
+          this.appStore.metaData = _.defaults(this.getListingMetadata(listing), this.appStore.metaData);
+        }),
       this.oheProvider.loadListingEvents(id),
       this.oheProvider.getFollowsForListing(id)
     ]);
+  }
+
+  getListingMetadata(listing) {
+    return {
+      description: listing.description,
+      title: listing.title,
+      image: (listing.images && listing.images.length > 0) ? listing.images[0].url : undefined,
+      url: process.env.FRONT_GATEWAY_URL + '/apartments/' + listing.id
+    };
   }
 
   mapUploadApartmentFormToCreateListing(formValues) {

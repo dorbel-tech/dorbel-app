@@ -5,7 +5,7 @@ services:
   # Docker management portal, access it from http://localhost:9000
   portainer:
     image: portainer/portainer
-    ports: 
+    ports:
       - 9000:9000
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
@@ -17,7 +17,7 @@ services:
   cache:
     ports:
       - '6379:6379'
-      
+
   apartments-api:
     ports:
       - '5858:5858'
@@ -40,8 +40,8 @@ services:
       # - ../dorbel-shared:/home/nodejs/app/node_modules/dorbel-shared
     environment:
       NODE_ENV: ${NODE_ENV}
-    command: bash -c "yarn run build:dev& yarn run start:dev" 
-  
+    command: bash -c "yarn run build:dev& yarn run start:dev"
+
   notifications-service:
     ports:
       - '5861:5861'
@@ -50,8 +50,8 @@ services:
       - /home/nodejs/app/node_modules/
       # - ../dorbel-shared:/home/nodejs/app/node_modules/dorbel-shared
     environment:
-      NODE_ENV: ${NODE_ENV}          
-    command: yarn run start:dev  
+      NODE_ENV: ${NODE_ENV}
+    command: yarn run start:dev
 
   ohe-api:
     ports:

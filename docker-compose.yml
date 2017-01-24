@@ -21,7 +21,7 @@ services:
   apartments-api:
     build:
       context: apartments-api
-    image: dorbel/apartments-api 
+    image: dorbel/apartments-api
     ports:
       - '3000:3000'
     depends_on:
@@ -61,7 +61,7 @@ services:
     environment:
       APARTMENTS_API_URL: http://apartments-api:3000
       FRONT_GATEWAY_URL: http://front-gateway:3001
-      OHE_API_URL: http://ohe-api:3003      
+      OHE_API_URL: http://ohe-api:3003
       REDIS_HOST: cache
       AUTH0_DOMAIN: ${AUTH0_DOMAIN}
       AUTH0_FRONT_CLIENT_ID: ${AUTH0_FRONT_CLIENT_ID}
@@ -116,7 +116,7 @@ services:
       RDS_DB_NAME: ${MYSQL_DATABASE_OHE}
       RDS_USERNAME: ${MYSQL_ROOT_USER}
       RDS_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      REDIS_HOST: cache     
+      REDIS_HOST: cache
       AUTH0_DOMAIN: ${AUTH0_DOMAIN}
       AUTH0_API_CLIENT_ID: ${AUTH0_API_CLIENT_ID}
       AUTH0_API_CLIENT_SECRET: ${AUTH0_API_CLIENT_SECRET}

@@ -42,20 +42,6 @@ function* runServer() {
       match: /^\/build\//,
     }));
   }
-  
-  const segment = config.get('SEGMENT_IO_WRITE_KEY');
-  const metaData = {
-    title: 'dorbel - דירות להשכרה ללא תיווך שתשמחו לגור בהן',
-    description: 'השכרת דירות ללא תיווך. כל הפרטים שחשוב לדעת על הדירות בכדי לחסוך ביקורים מיותרים. בחרו מועד והירשמו לביקור בדירות בלחיצת כפתור.',
-    image: 'https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/meta/homepage-middle-image.jpg'
-  };
-
-  // Adds locals param to use on server index.ejs view.
-  app.use(function* (next) {    
-    this.state.segment = segment;
-    this.state.meta = metaData;
-    yield next;
-  });
 
   app.use(serve(config.dir.public));
   app.use(shared.utils.userManagement.parseAuthToken);
@@ -69,11 +55,19 @@ function* runServer() {
 
   app.use(renderApp);
 
-  app.listen(port, () => {
-    logger.info({ version: process.env.npm_package_version, env: config.get('NODE_ENV'), port }, 'Server started');
+  return new Promise((resolve, reject) => {
+    let server = app.listen(port, function () {
+      logger.info({ version: process.env.npm_package_version, env: config.get('NODE_ENV'), port }, 'Server started');
+      resolve(server);
+    })
+    .on('error', reject);
   });
 }
 
 if (require.main === module) {
   co(runServer).catch(err => logger.error(err));
 }
+
+module.exports = {
+  runServer
+};

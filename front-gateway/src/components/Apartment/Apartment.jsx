@@ -2,25 +2,15 @@ import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import autobind from 'react-autobind';
 import { Row } from 'react-bootstrap';
-import svgIcons from '~/assets/images/images.sprite.svg';
 import ApartmentAmenities from './ApartmentAmenities.jsx';
 import OHEList from './OHEList.jsx';
 import ListingMenu from './ListingMenu.jsx';
+import ImageCarousel from './ImageCarousel.jsx';
 import OHEManager from '~/components/OHEManager/OHEManager';
 import ApartmentLocation from '../MapWrapper/MapWrapper.jsx';
 import RelatedListings from '../RelatedListings/RelatedListings.jsx';
-import ListingBadge from '../ListingBadge/ListingBadge';
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
-import CloudinaryImage from '../CloudinaryImage/CloudinaryImage';
 import './Apartment.scss';
-
-const Flickity = global.window ? require('react-flickity-component')(React) : 'div';
-
-const flickityOptions = {
-  cellAlign: 'left',
-  contain: true,
-  pageDots: false
-};
 
 @observer(['appStore', 'appProviders', 'router'])
 class Apartment extends Component {
@@ -29,6 +19,10 @@ class Apartment extends Component {
     super(props);
     this.state = { isLoading: false };
     autobind(this);
+  }
+
+  static serverPreRender(props) {
+    return props.appProviders.apartmentsProvider.loadFullListingDetails(props.apartmentId);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -51,32 +45,12 @@ class Apartment extends Component {
     }
   }
 
-  renderImageGallery(apartment) {
-    flickityOptions.initialIndex = apartment.images.length;
-
-    return (
-      <header className="apt-header">
-        <div className="container-fluid">
-          <div className="row">
-            <ListingBadge listing={apartment} />
-            <Flickity classname="carousel" options={flickityOptions} >
-              {apartment.images.map((image, index) =>
-                <div key={index} className="sliderBoxes">
-                  <CloudinaryImage src={image.url} height={500} />
-                </div>
-              )}
-            </Flickity>
-          </div>
-        </div>
-      </header>
-    );
-  }
-
   renderInfoBox(title, svgName) {
+    // TODO : use Icon component
     return (
       <li className="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-        <svg><use xlinkHref={svgIcons + '_' + svgName} /></svg>
-        <div>{title}</div>
+          <svg><use xlinkHref={'#' + svgName} /></svg>
+          <div>{title}</div>
       </li>
     );
   }
@@ -154,7 +128,7 @@ class Apartment extends Component {
       );
     }
 
-    const title = listing.title || `דירת ${listing.apartment.rooms} חד׳ ברח׳ ${listing.apartment.building.street_name}`;
+
 
     let tabContent;
     switch (action) {
@@ -170,7 +144,7 @@ class Apartment extends Component {
               <div className="container">
                 <div className="row">
                   <div className="col-md-9">
-                    <h2>{title}</h2>
+                    <h2>{listing.title}</h2>
                   </div>
                 </div>
               </div>
@@ -198,7 +172,7 @@ class Apartment extends Component {
 
     return (
       <div>
-        {this.renderImageGallery(listing)}
+        <ImageCarousel listing={listing} />
         <ListingMenu listing={listing} currentAction={action} />
         {tabContent}
       </div>
