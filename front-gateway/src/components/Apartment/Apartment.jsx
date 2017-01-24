@@ -14,7 +14,6 @@ import './Apartment.scss';
 
 @observer(['appStore', 'appProviders', 'router'])
 class Apartment extends Component {
-  static behindHeader = true;
 
   constructor(props) {
     super(props);
