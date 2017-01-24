@@ -3,7 +3,6 @@ import koa from 'koa';
 import serve from 'koa-static';
 import compress from 'koa-compress';
 import koa_ejs from 'koa-ejs';
-import co from 'co';
 import 'isomorphic-fetch'; // polyfill fetch for nodejs
 import config from '~/config';
 import shared from 'dorbel-shared';
@@ -42,7 +41,7 @@ function* runServer() {
       match: /^\/build\//,
     }));
   }
-  
+
   const segment = config.get('SEGMENT_IO_WRITE_KEY');
   const metaData = {
     title: 'dorbel - דירות להשכרה ללא תיווך שתשמחו לגור בהן',
@@ -51,7 +50,7 @@ function* runServer() {
   };
 
   // Adds locals param to use on server index.ejs view.
-  app.use(function* (next) {    
+  app.use(function* (next) {
     this.state.segment = segment;
     this.state.meta = metaData;
     yield next;
@@ -69,11 +68,15 @@ function* runServer() {
 
   app.use(renderApp);
 
-  app.listen(port, () => {
-    logger.info({ version: process.env.npm_package_version, env: config.get('NODE_ENV'), port }, 'Server started');
+  return new Promise((resolve, reject) => {
+    let server = app.listen(port, function () {
+      logger.info({ version: process.env.npm_package_version, env: config.get('NODE_ENV'), port }, 'Server started');
+      resolve(server);
+    })
+    .on('error', reject);
   });
 }
 
 if (require.main === module) {
-  co(runServer).catch(err => logger.error(err));
+  shared.utils.serverRunner.startCluster(runServer);
 }
