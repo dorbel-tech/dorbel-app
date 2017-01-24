@@ -31,13 +31,11 @@ a {
 }
 
 .dorbel-btn {
-    padding: 15px 25px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    font-size: 14px;
+    font-weight: bold;
     font-size: $font-size-base;
-    &.disabled {
-        background-color: $gray-light;
-        @include box-shadow(inset 0px -2px 0px 0px rgba(255, 255, 255, 0.2), inset 0px 2px 3px 0px rgba(0, 0, 0, 0.19));
-        border: 0;
-    }
 }
 
 body {
