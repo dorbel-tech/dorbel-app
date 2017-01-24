@@ -16,7 +16,7 @@ RUN yarn install --pure-lockfile
 COPY . $WORKDIR
 
 # Open port
-EXPOSE 3003alpine-node-yarn-git
+EXPOSE 3003
 
 # Run node server.
 CMD [ "yarn", "start" ]
