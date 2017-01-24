@@ -5,6 +5,7 @@ const __ = require('hamjest');
 
 describe('Front Gateway API Integration', function () {
   before(function * () {
+    this.timeout(10000);
     this.apiClient = yield ApiClient.init();
   });
 
