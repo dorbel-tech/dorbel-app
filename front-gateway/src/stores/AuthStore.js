@@ -38,7 +38,6 @@ export default class AuthStore {
   updateProfile(profile) {
     Object.assign(this.profile.user_metadata, profile);
     Object.assign(this.profile, profile);
-    this.profile.name = profile.email || this.profile.email;
     
     this.setProfile(this.profile);
   }
