@@ -1,6 +1,5 @@
 # Image to pull.
-# FROM dorbel/alpine-node
-FROM kkarczmarczyk/node-yarn:6.9
+FROM dorbel/alpine-node
 
 # Working directory environment variable.
 ENV WORKDIR="/home/nodejs/app/"
@@ -8,6 +7,10 @@ ENV WORKDIR="/home/nodejs/app/"
 # Create working directory in container.
 RUN mkdir -p $WORKDIR
 WORKDIR $WORKDIR
+
+# Temporary solution to fix node-sass problem.
+# Remove it after resolution - https://github.com/sass/node-sass/issues/1868
+RUN apk add --no-cache python=2.7.12-r0 make gcc g++
 
 # Install dependencies before to cache node_modules.
 COPY package.json yarn.lock $WORKDIR
