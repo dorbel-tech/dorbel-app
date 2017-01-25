@@ -42,14 +42,17 @@ class ApartmentsProvider {
   }
 
   uploadApartment(listing) {
+    let createdListing;
     return this.apiProvider.fetch('/api/apartments/v1/listings', { method: 'POST', data: listing })
-      .then(newListing => this.oheProvider.createOhe(Object.assign({ listing_id: newListing.id }, listing.open_house_event)))
-      .then(this.appStore.authStore.updateProfile({
+      .then((newListing) => createdListing = newListing)
+      .then(() => this.oheProvider.createOhe(Object.assign({ listing_id: createdListing.id }, listing.open_house_event)))
+      .then(() => this.appStore.authStore.updateProfile({
         first_name: listing.user.firstname,
         last_name: listing.user.lastname,
         phone: listing.user.phone,
         email: listing.user.email
-      }));
+      }))
+      .then(() => { return createdListing; });
   }
 
   @action
