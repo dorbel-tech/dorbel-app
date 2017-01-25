@@ -9,7 +9,6 @@ import UploadApartmentForm from '~/components/UploadApartmentForm/UploadApartmen
 
 const routes = [
   { route: '/', view: Home },
-  { route: '/about', view: About },
   { route: '/login', view: Login },
   { route: '/apartments', view: Apartments },
   { route: '/apartments/new_form', view: UploadApartmentForm },
