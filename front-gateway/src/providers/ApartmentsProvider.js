@@ -41,21 +41,15 @@ class ApartmentsProvider {
     };
   }
 
-  mapUploadApartmentFormToCreateListing(formValues) {
-    let listing = {};
-    // this is so we can use nested structure in our form attributes
-    Object.keys(formValues).filter(key => formValues.hasOwnProperty(key)).forEach(key => _.set(listing, key, formValues[key]));
-    listing.images = formValues.images.map((cloudinaryImage, index) => ({
-      url: cloudinaryImage.secure_url, display_order: index
-    }));
-
-    return listing;
-  }
-
-  uploadApartment(formValues) {
-    const listing = this.mapUploadApartmentFormToCreateListing(formValues);
+  uploadApartment(listing) {
     return this.apiProvider.fetch('/api/apartments/v1/listings', { method: 'POST', data: listing })
-      .then(newListing => this.oheProvider.createOhe(Object.assign({ listing_id: newListing.id }, formValues.open_house_event)));
+      .then(newListing => this.oheProvider.createOhe(Object.assign({ listing_id: newListing.id }, listing.open_house_event)))
+      .then(this.appStore.authStore.updateProfile({
+        first_name: listing.user.firstname,
+        last_name: listing.user.lastname,
+        phone: listing.user.phone,
+        email: listing.user.email
+      }));
   }
 
   @action

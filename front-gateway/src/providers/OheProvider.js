@@ -79,6 +79,11 @@ class OheProvider {
       }
     })
       .then(() => {
+        this.appStore.authStore.updateProfile({
+          first_name: user.firstname,
+          phone: user.phone,
+          email: user.email
+        });
         event.status = 'registered';
       });
   }
@@ -116,7 +121,8 @@ class OheProvider {
         user_details: user
       }
     })
-    .then(followDetails => this.appStore.oheStore.usersFollowsByListingId.set(listing.id, followDetails));
+    .then(followDetails => this.appStore.oheStore.usersFollowsByListingId.set(listing.id, followDetails))
+    .then(this.appStore.authStore.updateProfile({ email: user.email }));
   }
 
   unfollow(followDetails) {
