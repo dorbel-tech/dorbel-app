@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { action } from 'mobx';
 import { observer } from 'mobx-react';
+import _ from 'lodash';
 import './UploadApartmentForm.scss';
 
 const steps = [
@@ -13,12 +14,18 @@ const steps = [
 class UploadApartmentForm extends Component {
   static hideFooter = true;
 
+  constructor(props){
+    super(props);
+    this.state = {};
+  }
+
   @action
   nextStep() {
     let { newListingStore } = this.props.appStore;
     if (newListingStore.stepNumber === steps.length - 1) { // last step
-      this.props.appProviders.apartmentsProvider.uploadApartment(newListingStore.formValues)
-        .then(() => this.setState({ showSuccessModal: true }))
+      let listing = this.mapUploadApartmentFormToCreateListing(newListingStore.formValues);
+      this.props.appProviders.apartmentsProvider.uploadApartment(listing)
+        .then((uploadApartmentResp) => { this.setState({ showSuccessModal: true, createdListingId: uploadApartmentResp.id }); })
         .catch((err) => this.props.appProviders.notificationProvider.error(err));
     } else {
       newListingStore.stepNumber++;
@@ -30,12 +37,24 @@ class UploadApartmentForm extends Component {
     this.props.appStore.newListingStore.stepNumber--;
   }
 
+  mapUploadApartmentFormToCreateListing(formValues) {
+    let listing = {};
+    // this is so we can use nested structure in our form attributes
+    Object.keys(formValues).filter(key => formValues.hasOwnProperty(key)).forEach(key => _.set(listing, key, formValues[key]));
+    listing.images = formValues.images.map((cloudinaryImage, index) => ({
+      url: cloudinaryImage.secure_url, display_order: index
+    }));
+
+    return listing;
+  }
+
   render() {
-    const showSuccessModal = this.state && this.state.showSuccessModal;
+    const showSuccessModal = this.state.showSuccessModal;
+    const createdListingId = this.state.createdListingId;
     const activeStep = {
       step: steps[this.props.appStore.newListingStore.stepNumber]
     };
-    return <activeStep.step showSuccessModal={showSuccessModal} onClickNext={this.nextStep.bind(this)} onClickBack={this.prevStep.bind(this)} />;
+    return <activeStep.step showSuccessModal={showSuccessModal} createdListingId={createdListingId} onClickNext={this.nextStep.bind(this)} onClickBack={this.prevStep.bind(this)} />;
   }
 }
 

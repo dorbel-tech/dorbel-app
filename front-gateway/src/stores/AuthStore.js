@@ -4,7 +4,7 @@ import jwtDecode from 'jwt-decode';
 
 const noop = () => { };
 // mocking localStorage on the server side - must be better way to do this ...
-const localStorage = (global.window) ? global.window.localStorage : { getItem: noop, setItem: noop, removeItem: noop };
+const localStorage = (global.window) ? global.window.localStorage : { getItem: noop, setItem: noop, removeItem: noop, clear: noop };
 
 export default class AuthStore {
   @observable idToken;
@@ -35,6 +35,13 @@ export default class AuthStore {
     localStorage.setItem('profile', JSON.stringify(profile));
   }
 
+  updateProfile(profile) {
+    Object.assign(this.profile.user_metadata, profile);
+    Object.assign(this.profile, profile);
+    
+    this.setProfile(this.profile);
+  }
+
   getProfile() {
     if (this.profile) {
       return this.profile;
@@ -53,3 +60,4 @@ export default class AuthStore {
     localStorage.removeItem('profile');
   }
 }
+

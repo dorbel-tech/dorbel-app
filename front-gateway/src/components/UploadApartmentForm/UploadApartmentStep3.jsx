@@ -25,15 +25,11 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
     } else {
       formsy.submit(); // will trigger validation messages
     }
-  }  
-
-  showSuccessModal() {
-    this.props.showSuccessModal = true;
   }
 
   onCloseSuccessModal() {
     this.props.appStore.newListingStore.reset();
-    this.props.router.setRoute('/');
+    this.props.router.setRoute('/apartments/' + this.props.createdListingId);
   }
 
   renderUserDetails() {
