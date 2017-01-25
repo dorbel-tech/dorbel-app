@@ -2,6 +2,7 @@ import React from 'react';
 import DorbelModal from '~/components/DorbelModal/DorbelModal';
 import { Button } from 'react-bootstrap';
 import { observer } from 'mobx-react';
+import _ from 'lodash';
 import UploadApartmentBaseStep from './UploadApartmentBaseStep';
 import FormWrapper from '~/components/FormWrapper/FormWrapper';
 import AddOHEInput from '~/components/AddOHEInput/AddOHEInput';
@@ -19,12 +20,16 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
   }
 
   clickNext() {
-    const formsy = this.refs.form.refs.formsy; 
+    const formsy = this.refs.form.refs.formsy;
     if (formsy.state.isValid) {
       super.clickNext();
     } else {
-      formsy.submit(); // will trigger validation messages
+      this.props.onValidationError(formsy);
     }
+  }
+
+  showSuccessModal() {
+    this.props.showSuccessModal = true;
   }
 
   onCloseSuccessModal() {
