@@ -29,7 +29,7 @@ class UploadApartmentStep1 extends UploadApartmentBaseStep.wrappedComponent {
       <div key={index} className="image col-md-4 thumb">
         <div className="thumb-inner">
           <label className="uploaded-image">
-            <CloudinaryImage className="img-full" src={image.src} height={120} />
+            <CloudinaryImage className="img-full" src={image.src} width={180} />
             {image.complete ? deleteButton : progressBar}
           </label>
         </div>

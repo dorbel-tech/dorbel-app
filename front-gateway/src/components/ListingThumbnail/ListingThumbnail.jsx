@@ -17,7 +17,7 @@ class ListingThumbnail extends Component {
         <NavLink to={'/apartments/' + listing.id} className="thumbnail apt-thumb-container-single pull-right">
           <ListingBadge listing={listing} />
           <div className="apt-thumb-apt-image">
-            <CloudinaryImage src={imageURL} height={190} />
+            <CloudinaryImage src={imageURL} height={500} />
           </div>
           <div className="apt-thumb-apt-bottom-strip">
             <ul>
