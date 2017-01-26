@@ -56,7 +56,9 @@ class AddOHEInput extends React.Component {
   }
 
   maxAttendiesChange(attendiesField, value) {
-    this.setState({ max_attendies: parseInt(value) }, this.fireChange);
+    if (value) {
+      this.setState({ max_attendies: parseInt(value) }, this.fireChange);
+    }
   }
 
   fireChange() {
