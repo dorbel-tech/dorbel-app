@@ -5,6 +5,7 @@ import autobind from 'react-autobind';
 import DatePicker from '~/components/DatePicker/DatePicker';
 import moment from 'moment';
 import utils from '../../providers/utils';
+import './AddOHEInput.scss';
 
 const hours = [
   '07:00', '07:30', '08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30',
@@ -27,7 +28,8 @@ class AddOHEInput extends React.Component {
       this.state = {
         start_time: hours[24],
         end_time: hours[25],
-        max_attendies: 15
+        max_attendies: 15,
+        error: undefined
       };
     }
 
@@ -52,29 +54,53 @@ class AddOHEInput extends React.Component {
       newState.end_time = hours[hours.indexOf(newState.start_time) + 1];
     }
 
-    this.setState(newState, this.fireChange);
+    this.setState(newState, this.validate);
+  }
+  dateChange(value) {
+    this.setState({ date: value }, this.validate);
   }
 
-  dateChange(value) {
-    this.setState({ date: value }, this.fireChange);
+  validate() {
+    const now = moment();
+    const selectedTime = moment(new Date(this.state.date + ' ' + this.state.start_time));
+    let error;
+    if (now > selectedTime) {
+      error = 'לא ניתן לקבוע ביקור במועד שחלף';
+    }
+    else if (now >= selectedTime.add(-90, 'm')) {
+      error = 'מועד הביקור קרוב מדי';
+    }
+
+    this.setState({ error: error }, this.fireChange);
+
   }
 
   maxAttendiesChange(attendiesField, value) {
-    this.setState({ max_attendies: parseInt(value) }, this.fireChange);
+    this.setState({ max_attendies: parseInt(value) }, this.validate);
   }
 
   fireChange() {
-    if (this.props.onChange) {
-      this.props.onChange({
-        start_time: this.setTimeFromString(this.state.date, this.state.start_time),
-        end_time: this.setTimeFromString(this.state.date, this.state.end_time),
-        max_attendies: this.state.max_attendies
-      });
-    }
+    this.props.onChange({
+      start_time: this.setTimeFromString(this.state.date, this.state.start_time),
+      end_time: this.setTimeFromString(this.state.date, this.state.end_time),
+      max_attendies: this.state.max_attendies,
+      error: this.state.error
+    });
   }
 
   setTimeFromString(dateString, timeString) {
     return moment(dateString + 'T' + timeString).toISOString();
+  }
+
+  renderError() {
+    return this.state.error ?
+      <div>
+        <span className="error">
+          {this.state.error}
+        </span>
+      </div>
+      :
+      null;
   }
 
   render() {
@@ -115,6 +141,7 @@ class AddOHEInput extends React.Component {
               required />
           </Col>
         </Row>
+        {this.renderError()}
       </div>
     );
   }

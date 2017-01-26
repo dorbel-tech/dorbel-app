@@ -14,7 +14,7 @@ class AddOHEModal extends React.Component {
     autobind(this);
   }
 
-  timeChange(values) {
+  onChange(values) {
     this.setState(values);
   }
 
@@ -42,8 +42,8 @@ class AddOHEModal extends React.Component {
         title="הוספת מועד חדש"
         body={
           <FormWrapper.Wrapper layout="vertical" ref="form">
-            <AddOHEInput onChange={this.timeChange} />
-            <Button bsStyle="success" onClick={this.submit} block>אישור</Button>
+            <AddOHEInput onChange={this.onChange} />
+            <Button bsStyle="success" onClick={this.submit} disabled={this.state.error} block>אישור</Button>
           </FormWrapper.Wrapper>
         }
       />
