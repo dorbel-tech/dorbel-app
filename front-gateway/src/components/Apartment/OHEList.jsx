@@ -115,7 +115,7 @@ class OHEList extends Component {
 
   filterOHEsToDisplay(ohes) {
     const lastExpiredIndex = _.findLastIndex(ohes, { status: 'expired'});
-    return (lastExpiredIndex > -1) ? ohes.slice(lastExpiredIndex) : ohes;
+    return lastExpiredIndex > -1 ? ohes.slice(lastExpiredIndex) : ohes;
   }
 
   render() {
