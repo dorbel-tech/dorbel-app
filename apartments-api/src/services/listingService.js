@@ -226,6 +226,7 @@ function* getRelatedListings(listingId, limit) {
   }
   else {
     logger.error({listingId}, 'Cant get related listings for not existing listing');
+    throw new CustomError(400, 'listing does not exist');
   }
 }
 
