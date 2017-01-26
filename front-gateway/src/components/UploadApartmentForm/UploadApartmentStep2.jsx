@@ -32,7 +32,7 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
     if (formsy.state.isValid) {
       super.clickNext();
     } else {
-      formsy.submit(); // will trigger validation messages
+      this.props.onValidationError(formsy);
     }
   }
 

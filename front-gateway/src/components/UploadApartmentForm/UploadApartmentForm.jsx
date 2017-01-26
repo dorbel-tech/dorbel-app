@@ -48,13 +48,24 @@ class UploadApartmentForm extends Component {
     return listing;
   }
 
+  scrollToFirstError(formsy) {
+    formsy.submit(); // will trigger validation messages
+    
+    // Find first invalid input and scroll to it 
+    const input = _.find(formsy.inputs, (input) => {
+      return !input.isValid();
+    });
+    input.element.focus();
+  }
+
   render() {
     const showSuccessModal = this.state.showSuccessModal;
     const createdListingId = this.state.createdListingId;
     const activeStep = {
       step: steps[this.props.appStore.newListingStore.stepNumber]
     };
-    return <activeStep.step showSuccessModal={showSuccessModal} createdListingId={createdListingId} onClickNext={this.nextStep.bind(this)} onClickBack={this.prevStep.bind(this)} />;
+    return <activeStep.step showSuccessModal={showSuccessModal} onClickNext={this.nextStep.bind(this)}
+      onClickBack={this.prevStep.bind(this)} onValidationError={this.scrollToFirstError.bind(this)} createdListingId={createdListingId}/>;
   }
 }
 
