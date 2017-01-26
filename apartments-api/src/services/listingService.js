@@ -156,7 +156,15 @@ function* getByFilter(filterJSON, user) {
 
 function* getById(id, user) {
   let listing = yield listingRepository.getById(id);
-  return yield enrichListingResponse(listing, user);
+  const pending = listing.status === 'pending';
+
+  // If apartment is not in status pending, show it to everyone.
+  // Pending listing will be displayed to user who is listing publisher or admins only.
+  if (!pending || (user && (listing.publishing_user_id === user.id || user.role === 'admin'))) {
+    return yield enrichListingResponse(listing, user);      
+  } else {
+    throw new CustomError(404, 'User is not admin or publisher of listingId ' + listing.id);
+  }
 }
 
 function getPossibleStatuses(listing, user) {
