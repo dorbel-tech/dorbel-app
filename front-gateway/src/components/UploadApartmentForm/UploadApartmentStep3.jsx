@@ -28,10 +28,6 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
     }
   }
 
-  showSuccessModal() {
-    this.props.showSuccessModal = true;
-  }
-
   onCloseSuccessModal() {
     this.props.appStore.newListingStore.reset();
     this.props.router.setRoute('/apartments/' + this.props.createdListingId);

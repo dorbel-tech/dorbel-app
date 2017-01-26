@@ -55,7 +55,7 @@ class UploadApartmentForm extends Component {
     const input = _.find(formsy.inputs, (input) => {
       return !input.isValid();
     });
-    input.element.parentElement.scrollIntoView();
+    input.element.focus();
   }
 
   render() {
@@ -65,7 +65,7 @@ class UploadApartmentForm extends Component {
       step: steps[this.props.appStore.newListingStore.stepNumber]
     };
     return <activeStep.step showSuccessModal={showSuccessModal} onClickNext={this.nextStep.bind(this)}
-      onClickBack={this.prevStep.bind(this)} onValidationError={this.scrollToFirstError.bind(this)} />;
+      onClickBack={this.prevStep.bind(this)} onValidationError={this.scrollToFirstError.bind(this)} createdListingId={createdListingId}/>;
   }
 }
 
