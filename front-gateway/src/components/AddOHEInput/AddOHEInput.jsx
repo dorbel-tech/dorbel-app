@@ -9,7 +9,7 @@ import utils from '../../providers/utils';
 const hours = [
   '07:00', '07:30', '08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30',
   '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30',
-  '19:00', '19:30', '20:00', '20:30', '21:00', '21:30', '22:00', '22:30', '23:00', '23:30', '24:00'
+  '19:00', '19:30', '20:00', '20:30', '21:00', '21:30', '22:00', '22:30', '23:00'
 ];
 
 class AddOHEInput extends React.Component {
@@ -36,6 +36,10 @@ class AddOHEInput extends React.Component {
 
   getHourOptions(hoursArray) {
     return hoursArray.map((hour) => ({ label: hour }));
+  }
+
+  getStartHours() {
+    return hours.slice(0, -1);
   }
 
   getEndHours() {
@@ -86,7 +90,7 @@ class AddOHEInput extends React.Component {
           <Col md={6}>
             <FRC.Select name="start_time"
               label="שעת התחלה"
-              options={this.getHourOptions(hours)}
+              options={this.getHourOptions(this.getStartHours())}
               value={this.state.start_time}
               onChange={this.timeChange}
               />
