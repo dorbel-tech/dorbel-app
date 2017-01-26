@@ -1,5 +1,6 @@
 'use strict';
 const moment = require('moment');
+const tk = require('timekeeper');
 const mockRequire = require('mock-require');
 const __ = require('hamjest');
 const sinon = require('sinon');
@@ -31,6 +32,7 @@ describe('Open House Event Service - update', function () {
     mockRequire(src + 'openHouseEventsDb/repositories/openHouseEventRegistrationsRepository', this.registrationsRepository = {});
     this.service = require(src + 'services/openHouseEventsService');
     this.update = update.bind(this);
+    tk.freeze(moment().startOf('day').unix());
   });
 
   beforeEach(function () {
@@ -42,8 +44,6 @@ describe('Open House Event Service - update', function () {
   });
 
   after(() => mockRequire.stopAll());
-
-
 
   it('should update an existing event', function* () {
     let originalEvent = faker.generateEvent({ id: 1 });
@@ -60,6 +60,29 @@ describe('Open House Event Service - update', function () {
 
     let savedEvent = yield this.service.update(originalEvent.id, updatedEvent, { id: originalEvent.publishing_user_id });
     __.assertThat(savedEvent, __.is(updatedEvent));
+  });
+
+  it('should update an existing event as admin', function* () {
+    let originalEvent = faker.generateEvent();
+    let updatedEvent = faker.generateEvent({ max_attendies: 22 });
+    this.openHouseEventsFinderServiceMock.find = sinon.stub().resolves(originalEvent);
+    this.openHouseEventsFinderServiceMock.findByListing = sinon.stub().resolves([originalEvent]);
+
+    let updateRequest = {
+      start_time: updatedEvent.start_time,
+      end_time: updatedEvent.end_time,
+      max_attendies: updatedEvent.max_attendies
+    };
+
+    this.openHouseEventsRepositoryMock.update = sinon.stub().resolves(updatedEvent);
+
+    let fakeAdmin = faker.getFakeUser({
+      role: 'admin'
+    });
+
+    let updateEventResponse = yield this.service.update(originalEvent.id, updateRequest, fakeAdmin);
+
+    __.assertThat(updatedEvent, __.is(updateEventResponse));
   });
 
   it('should fail when updated event id does not exists in db', function* () {
@@ -126,7 +149,7 @@ describe('Open House Event Service - update', function () {
       __.assertThat('code', __.is('not reached'));
     }
     catch (error) {
-      __.assertThat(error.message, __.is('new event is overlapping an existing event'));
+      __.assertThat(error.message, __.is('כבר קיים מועד ביקור בתאריך ובשעה שבחרתם. אנא בחרו תאריך ו/או שעה אחרים'));
       __.assertThat(this.sendNotification.callCount, __.is(0));
     }
   });
@@ -152,7 +175,7 @@ describe('Open House Event Service - update', function () {
       __.assertThat('code', __.is('not reached'));
     }
     catch (error) {
-      __.assertThat(error.message, __.is('new event is overlapping an existing event'));
+      __.assertThat(error.message, __.is('כבר קיים מועד ביקור בתאריך ובשעה שבחרתם. אנא בחרו תאריך ו/או שעה אחרים'));
       __.assertThat(this.sendNotification.callCount, __.is(0));
     }
   });
@@ -178,7 +201,7 @@ describe('Open House Event Service - update', function () {
       __.assertThat('code', __.is('not reached'));
     }
     catch (error) {
-      __.assertThat(error.message, __.is('new event is overlapping an existing event'));
+      __.assertThat(error.message, __.is('כבר קיים מועד ביקור בתאריך ובשעה שבחרתם. אנא בחרו תאריך ו/או שעה אחרים'));
       __.assertThat(this.sendNotification.callCount, __.is(0));
     }
   });

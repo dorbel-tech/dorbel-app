@@ -1,6 +1,7 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 import Dropzone from 'react-dropzone';
+import CloudinaryImage from '../CloudinaryImage/CloudinaryImage';
 import UploadApartmentBaseStep from './UploadApartmentBaseStep';
 
 @observer(['appProviders', 'appStore'])
@@ -28,7 +29,7 @@ class UploadApartmentStep1 extends UploadApartmentBaseStep.wrappedComponent {
       <div key={index} className="image col-md-4 thumb">
         <div className="thumb-inner">
           <label className="uploaded-image">
-            <img className="img-full" height="190" width="340" src={image.src} />
+            <CloudinaryImage className="img-full" src={image.src} width={180} />
             {image.complete ? deleteButton : progressBar}
           </label>
         </div>
@@ -68,7 +69,12 @@ class UploadApartmentStep1 extends UploadApartmentBaseStep.wrappedComponent {
             <div className="form-nav bottom col-lg-5 col-md-5 col-sm-12 col-xs-12">
               <span></span>
               <span>1/3</span>
-              <span onClick={this.clickNext.bind(this)}>שלב הבא &nbsp;<i className="apartment-pictures-next-step fa fa-arrow-circle-o-left fa-2x" aria-hidden="true"></i></span>
+              <span className="next-step" onClick={this.clickNext.bind(this)}>
+                <div className="btn step-btn">
+                  שלב הבא &nbsp;
+                  <i className="apartment-pictures-next-step fa fa-arrow-circle-o-left fa-2x" aria-hidden="true"></i>
+                </div>
+              </span>
             </div>
           </div>
         </div>

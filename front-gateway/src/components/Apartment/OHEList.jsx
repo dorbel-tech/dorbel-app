@@ -18,9 +18,11 @@ class OHEList extends Component {
 
   renderListItem(params) {
     const { router } = this.props;
-    const currentRoute = router.getRoute().join('/');
     let className = 'list-group-item';
-    let onClickFunction = () => router.setRoute(`/${currentRoute}/${params.onClickRoute}`);
+    let onClickFunction = () => {
+      const currentRoute = router.getRoute().join('/');
+      router.setRoute(`/${currentRoute}/${params.onClickRoute}`);
+    };
 
     if (params.isDisabled) {
       onClickFunction = null;
@@ -73,7 +75,7 @@ class OHEList extends Component {
         oheConfig.callToActionText = 'מועד זה עבר';
         oheConfig.action = '';
         break;
-      case 'full': 
+      case 'full':
         oheConfig.isDisabled = true;
         oheConfig.action = '';
         oheConfig.callToActionText = 'לא נותרו מקומות פנויים לארוע זה';
@@ -82,7 +84,7 @@ class OHEList extends Component {
         oheConfig.action = 'ohe-unregister';
         oheConfig.callToActionText = 'נרשמתם לארוע זה. לחצו לביטול';
         break;
-      case 'late': 
+      case 'late':
         oheConfig.action = ''; // TODO: POPUP
         oheConfig.callToActionText = 'האירוע קרוב מדי (טקסט זמני)'; //TODO: get appropriate text
         break;
@@ -130,8 +132,8 @@ class OHEList extends Component {
       <div className="container">
         <div className="row">
           <div className="col-lg-3 col-md-12 pull-left-lg">
-            <div className="apt-reserve-container">              
-              
+            <div className="apt-reserve-container">
+
               <div className="price-container">
                 <div className="row">
                   <div className="price pull-right">{listing.monthly_rent}<span className="currency"> ₪</span></div>
@@ -152,7 +154,7 @@ class OHEList extends Component {
                 <h5 className="text-center apt-choose-date-title">בחר במועד לביקור</h5>
                 {openHouseEvents.map(this.renderOpenHouseEvent)}
                 {this.renderFollowItem(listing)}
-                <div href="#" className="list-group-item owner-container text-center">                 
+                <div href="#" className="list-group-item owner-container text-center">
                   <h5>
                   <span>{ listing.publishing_user_type === 'landlord' ? 'בעל הנכס' : 'דייר יוצא' }</span>
                   <span>: { listing.publishing_user_first_name || 'אנונימי' }</span>

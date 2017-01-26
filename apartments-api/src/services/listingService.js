@@ -108,7 +108,9 @@ function* getByFilter(filterJSON, user) {
     delete listingQuery.status; // admin can see all the statuses
   }
 
-  let options = {};
+  let options = {
+    order: [['created_at', 'DESC']]
+  };
 
   var filterMapping = {
     // Listing monthly rent start.

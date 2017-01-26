@@ -42,11 +42,11 @@
     "sinon": "^1.17.6",
     "sinon-as-promised": "^4.0.2",
     "sqlite3": "^3.1.8",
-    "supertest": "^1.2.0"
+    "supertest": "^1.2.0",
+    "timekeeper": "^1.0.0"
   },
   "devDependencies": {
     "bunyan": "^1.8.1",
-    "flow-bin": "0.33.0",
     "nodemon": "^1.10.2",
     "satisfaction": "^3.0.0"
   }

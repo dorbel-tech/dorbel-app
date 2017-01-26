@@ -1,9 +1,5 @@
 # Image to pull.
-FROM kkarczmarczyk/node-yarn:6.9
-
-# Create non root user for better security + npm doesn't like root.
-RUN groupadd -r nodejs && useradd -m -r -g nodejs nodejs
-USER nodejs
+FROM dorbel/alpine-node
 
 # Working directory environment variable.
 ENV WORKDIR="/home/nodejs/app/"
@@ -14,7 +10,7 @@ WORKDIR $WORKDIR
 
 # Install dependencies before to cache node_modules.
 COPY package.json yarn.lock $WORKDIR
-RUN yarn install
+RUN yarn install --pure-lockfile && yarn cache clean
 
 # Copy all files from host to container.
 COPY . $WORKDIR

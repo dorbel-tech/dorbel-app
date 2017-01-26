@@ -40,6 +40,7 @@ describe('Open House Event Service', function () {
 
     it('should create a new event', function* () {
       let newEvent = faker.generateEvent();
+      let user = faker.getFakeUser({ id: newEvent.publishing_user_id, user_id: newEvent.publishing_user_id });
 
       this.openHouseEventsRepositoryMock.findByListingId = sinon.stub().resolves([]);
 
@@ -48,10 +49,47 @@ describe('Open House Event Service', function () {
         is_active: true
       }));
 
-      let savedEvent = yield this.service.create(newEvent);
+      let savedEvent = yield this.service.create(newEvent, user);
       assertSpecificProperties(newEvent, savedEvent, ['listing_id', 'start_time', 'end_time']);
       __.assertThat(this.sendNotification.calledOnce, __.is(true));
       __.assertThat(this.sendNotification.getCall(0).args[0], __.is(notificationService.eventType.OHE_CREATED));
+    });
+
+    it('should create a new event as admin', function* () {
+      let newEvent = faker.generateEvent();
+      let admin = faker.getFakeUser({ role: 'admin' });
+
+      this.openHouseEventsRepositoryMock.findByListingId = sinon.stub().resolves([]);
+
+      this.openHouseEventsRepositoryMock.create = sinon.stub().resolves(faker.generateEvent({
+        id: 1,
+        is_active: true
+      }));
+
+      let savedEvent = yield this.service.create(newEvent, admin);
+      assertSpecificProperties(newEvent, savedEvent, ['listing_id', 'start_time', 'end_time']);
+      __.assertThat(this.sendNotification.calledOnce, __.is(true));
+      __.assertThat(this.sendNotification.getCall(0).args[0], __.is(notificationService.eventType.OHE_CREATED));
+    });
+
+    it('should not create a new event for another user', function* () {
+      let newEvent = faker.generateEvent();
+      let otherUser = faker.getFakeUser();
+
+      this.openHouseEventsRepositoryMock.findByListingId = sinon.stub().resolves([]);
+
+      this.openHouseEventsRepositoryMock.create = sinon.stub().resolves(faker.generateEvent({
+        id: 1,
+        is_active: true
+      }));
+
+      try {
+        yield this.service.create(newEvent, otherUser);
+      }
+      catch (error) {
+        __.assertThat(error.message, __.is('requesting user is not the resource owner'));
+        __.assertThat(this.sendNotification.callCount, __.is(0));
+      }
     });
 
     it('should fail when end time is less than 30 minutes after start time', function* () {
@@ -60,8 +98,13 @@ describe('Open House Event Service', function () {
         end_time: moment().add(29, 'minutes').toISOString()
       });
 
+      let user = faker.getFakeUser({
+        id: ohe.publishing_user_id,
+        user_id: ohe.publishing_user_id
+      });
+
       try {
-        yield this.service.create(ohe);
+        yield this.service.create(ohe, user);
         __.assertThat('code', __.is('not reached'));
       }
       catch (error) {
@@ -76,6 +119,11 @@ describe('Open House Event Service', function () {
         end_time: moment().add(-5, 'hours').toISOString()
       });
 
+      let user = faker.getFakeUser({
+        id: ohe.publishing_user_id,
+        user_id: ohe.publishing_user_id
+      });
+
       this.openHouseEventsRepositoryMock.findByListingId = sinon.stub().resolves([faker.generateEvent({
         listing_id: 2,
         start_time: moment().add(-20, 'hours').toISOString(),
@@ -83,11 +131,11 @@ describe('Open House Event Service', function () {
       })]);
 
       try {
-        yield this.service.create(ohe);
+        yield this.service.create(ohe, user);
         __.assertThat('code', __.is('not reached'));
       }
       catch (error) {
-        __.assertThat(error.message, __.is('new event is overlapping an existing event'));
+        __.assertThat(error.message, __.is('כבר קיים מועד ביקור בתאריך ובשעה שבחרתם. אנא בחרו תאריך ו/או שעה אחרים'));
         __.assertThat(this.sendNotification.callCount, __.is(0));
       }
     });
@@ -98,6 +146,11 @@ describe('Open House Event Service', function () {
         end_time: moment().add(-15, 'hours').toISOString()
       });
 
+      let user = faker.getFakeUser({
+        id: ohe.publishing_user_id,
+        user_id: ohe.publishing_user_id
+      });
+
       this.openHouseEventsRepositoryMock.findByListingId = sinon.stub().resolves([faker.generateEvent({
         listing_id: 2,
         start_time: moment().add(-20, 'hours').toISOString(),
@@ -105,11 +158,11 @@ describe('Open House Event Service', function () {
       })]);
 
       try {
-        yield this.service.create(ohe);
+        yield this.service.create(ohe, user);
         __.assertThat('code', __.is('not reached'));
       }
       catch (error) {
-        __.assertThat(error.message, __.is('new event is overlapping an existing event'));
+        __.assertThat(error.message, __.is('כבר קיים מועד ביקור בתאריך ובשעה שבחרתם. אנא בחרו תאריך ו/או שעה אחרים'));
         __.assertThat(this.sendNotification.callCount, __.is(0));
       }
     });
@@ -120,6 +173,11 @@ describe('Open House Event Service', function () {
         end_time: moment().add(-15, 'hours').toISOString()
       });
 
+      let user = faker.getFakeUser({
+        id: ohe.publishing_user_id,
+        user_id: ohe.publishing_user_id
+      });
+
       this.openHouseEventsRepositoryMock.findByListingId = sinon.stub().resolves([faker.generateEvent({
         listing_id: 2,
         start_time: moment().add(-20, 'hours').toISOString(),
@@ -127,11 +185,11 @@ describe('Open House Event Service', function () {
       })]);
 
       try {
-        yield this.service.create(ohe);
+        yield this.service.create(ohe, user);
         __.assertThat('code', __.is('not reached'));
       }
       catch (error) {
-        __.assertThat(error.message, __.is('new event is overlapping an existing event'));
+        __.assertThat(error.message, __.is('כבר קיים מועד ביקור בתאריך ובשעה שבחרתם. אנא בחרו תאריך ו/או שעה אחרים'));
         __.assertThat(this.sendNotification.callCount, __.is(0));
       }
     });
@@ -150,6 +208,37 @@ describe('Open House Event Service', function () {
       __.assertThat(deletedEvent, __.is(deleteEventResponse));
       __.assertThat(this.sendNotification.calledOnce, __.is(true));
       __.assertThat(this.sendNotification.getCall(0).args[0], __.is(notificationService.eventType.OHE_DELETED));
+    });
+
+    it('should remove an existing event as admin (set as not active)', function* () {
+      let originalEvent = faker.generateEvent();
+      this.openHouseEventsFinderServiceMock.find = sinon.stub().resolves(originalEvent);
+
+      let deletedEvent = faker.generateEvent({ is_active: false });
+      this.openHouseEventsRepositoryMock.update = sinon.stub().resolves(deletedEvent);
+
+      let fakeAdmin = faker.getFakeUser({ role: 'admin' });
+
+      let deleteEventResponse = yield this.service.remove(originalEvent.id, fakeAdmin);
+      __.assertThat(deletedEvent, __.is(deleteEventResponse));
+      __.assertThat(this.sendNotification.calledOnce, __.is(true));
+      __.assertThat(this.sendNotification.getCall(0).args[0], __.is(notificationService.eventType.OHE_DELETED));
+    });
+
+    it('should fail to remove an existing event as another user (set as not active)', function* () {
+      let originalEvent = faker.generateEvent();
+      this.openHouseEventsFinderServiceMock.find = sinon.stub().resolves(originalEvent);
+
+      let deletedEvent = faker.generateEvent({ is_active: false });
+      this.openHouseEventsRepositoryMock.update = sinon.stub().resolves(deletedEvent);
+
+      try {
+        yield this.service.remove(originalEvent.id, faker.getFakeUser());
+      }
+      catch (error) {
+        __.assertThat(error.message, __.is('requesting user is not the resource owner'));
+        __.assertThat(this.sendNotification.callCount, __.is(0));
+      }
     });
 
     it('should fail when deleted event id does not exists in db', function* () {

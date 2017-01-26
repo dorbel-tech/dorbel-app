@@ -4,6 +4,7 @@ $dir: rtl;
 @import "./rtl.scss";
 @import "./fonts.scss";
 @import url('https://cdnjs.cloudflare.com/ajax/libs/flickity/2.0.5/flickity.min.css');
+@import "./auth0.scss";
 
 *,html,body{
   box-sizing: border-box !important;
@@ -30,13 +31,11 @@ a {
 }
 
 .dorbel-btn {
-    padding: 15px 25px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    font-size: 14px;
+    font-weight: bold;
     font-size: $font-size-base;
-    &.disabled {
-        background-color: $gray-light;
-        @include box-shadow(inset 0px -2px 0px 0px rgba(255, 255, 255, 0.2), inset 0px 2px 3px 0px rgba(0, 0, 0, 0.19));
-        border: 0;
-    }
 }
 
 body {
@@ -88,7 +87,7 @@ body {
 }
 
 .app-content-with-header {
-  padding: 77px 0px 0px 0px;
+  padding: 60px 0 0 0;
 }
 
 .small-text {

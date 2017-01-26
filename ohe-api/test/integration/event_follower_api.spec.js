@@ -38,12 +38,16 @@ describe('Followers API Integration', function () {
           max_attendies: 15
         };
         const response = yield this.apiClient.createNewEvent(ohe).expect(201).end();
-        const registrationResponse = yield this.apiClient.createNewFollower(response.body.id, faker.getFakeUser()).expect(201).end();
-        yield this.apiClient.deleteFollower(registrationResponse.body.id).expect(200).end();
+        const follower = faker.getFakeUser();
+        const registrationResponse =
+          yield this.apiClient.createNewFollower(response.body.id, follower).expect(201).end();
+          
+        yield this.apiClient.deleteFollower(registrationResponse.body.id, follower).expect(200).end();
       });
 
       it('should return an error for non existing follow', function* () {
-        yield this.apiClient.deleteFollower(0).expect(404).end();
+        const follower = faker.getFakeUser();
+        yield this.apiClient.deleteFollower(0, follower).expect(404).end();
       });
 
     });

@@ -29,12 +29,14 @@ function validateEventOverlap(existingListingEvents, start, end) {
         throw new errors.DomainValidationError('OpenHouseEventValidationError', {
           start_time: start,
           end_time: end
-        }, 'new event is overlapping an existing event');
+        }, 'כבר קיים מועד ביקור בתאריך ובשעה שבחרתם. אנא בחרו תאריך ו/או שעה אחרים');
       }
     });
 }
 
-function* create(openHouseEvent) {
+function* create(openHouseEvent, user) {
+
+  utilityFunctions.validateResourceOwnership(openHouseEvent.publishing_user_id, user);
 
   const listing_id = parseInt(openHouseEvent.listing_id);
   const start = moment(openHouseEvent.start_time, moment.ISO_8601, true);
@@ -73,7 +75,7 @@ function* create(openHouseEvent) {
 function* update(id, updateRequest, user) {
   let existingEvent = yield openHouseEventsFinderService.find(id);
 
-  if (existingEvent.publishing_user_id !== user.id) { throw new errors.NotResourceOwnerError(); }
+  utilityFunctions.validateResourceOwnership(existingEvent.publishing_user_id, user);
 
   const start = moment(updateRequest.start_time || existingEvent.start_time, moment.ISO_8601, true);
   const end = moment(updateRequest.end_time || existingEvent.end_time, moment.ISO_8601, true);
@@ -121,7 +123,7 @@ function* update(id, updateRequest, user) {
 function* remove(eventId, user) {
   let existingEvent = yield openHouseEventsFinderService.find(eventId);
 
-  if (existingEvent.publishing_user_id !== user.id) { throw new errors.NotResourceOwnerError(); }
+  utilityFunctions.validateResourceOwnership(existingEvent.publishing_user_id, user);
 
   existingEvent.is_active = false;
 

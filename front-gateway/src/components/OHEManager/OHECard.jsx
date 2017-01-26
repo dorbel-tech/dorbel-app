@@ -4,6 +4,7 @@ import Icon from '~/components/Icon/Icon';
 import EditOHEModal from './EditOHEModal';
 import DeleteOHEModal from './DeleteOHEModal';
 import autobind from 'react-autobind';
+import './OHECard.scss';
 
 class OHECard extends React.Component { 
   constructor(props) {
@@ -70,7 +71,7 @@ class OHECard extends React.Component {
     const numberOfActiveRegistrations = ohe.registrations ? ohe.registrations.filter(r => r.is_active).length : 0;
 
     return (
-      <div>
+      <div className="ohe-card-row">
         <Panel>
           <Col sm={3} >
             <Icon className="pull-right" iconName="dorbel_icon_calendar" />
@@ -78,7 +79,7 @@ class OHECard extends React.Component {
             <span>{ohe.timeLabel}</span>
           </Col>
           <Col sm={2} >
-            <span>נרשמים לביקור ({numberOfActiveRegistrations})</span>
+            <span className={(numberOfActiveRegistrations === 0 ? 'ohe-no-visits' : '')}>נרשמים לביקור ({numberOfActiveRegistrations})</span>
           </Col>  
           <Col sm={1} className="pull-left">
             {this.renderOheMenu()}

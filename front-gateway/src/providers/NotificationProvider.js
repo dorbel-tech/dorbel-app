@@ -13,12 +13,12 @@ export default class NotificationProvider {
     const message = resp.response.data;
 
     this.notificationSystem.addNotification({
-      title: 'Error',
+      title: '',
       message: message,
       level: 'error',
       dismissible: options.dismissible || false,
       autoDismiss: options.autoDismiss || 5,
-      position: options.position || 'tl'
+      position: options.position || 'bl'
     });
   }
 }

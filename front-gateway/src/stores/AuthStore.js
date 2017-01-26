@@ -4,14 +4,14 @@ import jwtDecode from 'jwt-decode';
 
 const noop = () => { };
 // mocking localStorage on the server side - must be better way to do this ...
-const localStorage = (global.window) ? global.window.localStorage : { getItem: noop, setItem: noop, removeItem: noop };
+const localStorage = (global.window) ? global.window.localStorage : { getItem: noop, setItem: noop, removeItem: noop, clear: noop };
 
 export default class AuthStore {
   @observable idToken;
   @observable profile;
 
   get isLoggedIn() {
-    const token = this.getToken();     
+    const token = this.getToken();
     return token && this.isTokenNotExpired(token);
   }
 
@@ -26,13 +26,20 @@ export default class AuthStore {
 
   isTokenNotExpired(token) {
     const valid = jwtDecode(token).exp > (Date.now() / 1000);
-    if (!valid) { this.logout(); } 
+    if (!valid) { this.logout(); }
     return valid;
   }
 
   setProfile(profile) {
     this.profile = profile;
     localStorage.setItem('profile', JSON.stringify(profile));
+  }
+
+  updateProfile(profile) {
+    Object.assign(this.profile.user_metadata, profile);
+    Object.assign(this.profile, profile);
+    
+    this.setProfile(this.profile);
   }
 
   getProfile() {
@@ -53,3 +60,4 @@ export default class AuthStore {
     localStorage.removeItem('profile');
   }
 }
+

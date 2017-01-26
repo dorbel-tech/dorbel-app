@@ -3,6 +3,7 @@ import './ListingThumbnail.scss';
 import { Col } from 'react-bootstrap';
 import NavLink from '~/components/NavLink';
 import ListingBadge from '../ListingBadge/ListingBadge';
+import CloudinaryImage from '../CloudinaryImage/CloudinaryImage';
 
 class ListingThumbnail extends Component {
   render() {
@@ -16,7 +17,7 @@ class ListingThumbnail extends Component {
         <NavLink to={'/apartments/' + listing.id} className="thumbnail apt-thumb-container-single pull-right">
           <ListingBadge listing={listing} />
           <div className="apt-thumb-apt-image">
-            <img src={imageURL} />
+            <CloudinaryImage src={imageURL} height={500} />
           </div>
           <div className="apt-thumb-apt-bottom-strip">
             <ul>
