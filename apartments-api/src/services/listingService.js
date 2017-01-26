@@ -163,7 +163,7 @@ function* getById(id, user) {
   if (!pending || (user && (listing.publishing_user_id === user.id || user.role === 'admin'))) {
     return yield enrichListingResponse(listing, user);      
   } else {
-    throw new CustomError(404, 'User is not admin or publisher of listingId ' + listing.id);
+    throw new CustomError(404, 'Cant show pending listing. User is not admin or publisher of listingId ' + listing.id);
   }
 }
 
