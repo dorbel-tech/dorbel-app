@@ -1,6 +1,6 @@
 'use strict';
 import director from 'director';
-import { routingTable, login, home } from './routes';
+import { routingTable, login, errorPage } from './routes';
 
 function checkAuth(appStore) {
   var callback = arguments[arguments.length - 1];
@@ -30,7 +30,7 @@ function setRoutes(router, appStore, appProviders) {
         routeConfig.view.serverPreRender(Object.assign({ router, appStore, appProviders }, routeProps))
           .then(callback)
           .catch(() => {
-            appStore.setView(home); // TODO : set to error view ?
+            appStore.setView(errorPage, routeProps);
             callback();
           });
       } else {
@@ -47,7 +47,7 @@ function startRouter(appStore) {
 
   if (process.env.IS_CLIENT) {
     router.configure({
-      notfound: () => appStore.setView(home),
+      notfound: (routeProps) => appStore.setView(errorPage, routeProps),
       html5history: true,
       async: true,
       convert_hash_in_init: false // required for auth0 callback
@@ -84,7 +84,7 @@ function startRouter(appStore) {
     router.init();
   } else {
     router.configure({
-      notfound: () => appStore.setView(home),
+      notfound: (routeProps) => appStore.setView(errorPage, routeProps),
       async: true
     });
   }
