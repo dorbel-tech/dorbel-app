@@ -8,20 +8,14 @@ class ErrorPage extends Component {
     this.error400 = props.errorId < 500;
   }
 
-
   getErrorTitle() {
-    if (this.error400) {
-      return 'שגיאה ' + this.props.errorId + ' - העמוד לא נמצא';
-    } else {
-      return 'שגיאה ' + this.props.errorId + ' (שם לא רע לשגיאה)';
-    }  
+    return  this.error400 ? 'שגיאה ' + this.props.errorId + ' - העמוד לא נמצא' :
+              'שגיאה ' + this.props.errorId + ' (שם לא רע לשגיאה)';
   }
-  getErrorUrl() {
-    if (this.error400) {
-      return 'https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/errors/400-error.png';
-    } else {
-      return 'https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/errors/500-error.png';
-    }
+  getErrorImage() {
+    let errImageUrl = 'https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/errors/';
+    let errImageFile =  this.error400 ? '400-error.png' : '500-error.png';
+    return errImageUrl + errImageFile;
   }
   render() {
     return (
@@ -36,7 +30,7 @@ class ErrorPage extends Component {
         )}
 
         <br />
-        <img src={this.getErrorUrl()} />
+        <img src={this.getErrorImage()} />
       </div>
     );
   }

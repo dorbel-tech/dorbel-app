@@ -37,11 +37,10 @@ a {
 }
 
 .dorbel-btn {
+  font-size: $font-size-base;
+  font-weight: bold;
   padding-bottom: 10px;
   padding-top: 10px;
-  font-size: 14px;
-  font-weight: bold;
-  font-size: $font-size-base;
 }
 
 .sweet-alert {
@@ -72,9 +71,7 @@ a {
     font-size: 0;
     line-height: 0;
     background: linear-gradient(to bottom right, rgba(255, 101, 100, 0.4) 0%, rgba(255, 101, 100, 0) 50%, rgba(255, 101, 100, 0) 100%), linear-gradient(to top right, rgba(40, 0, 215, 0) 0%, rgba(40, 0, 215, 0) 50%, rgba(40, 0, 215, 0.4) 100%), linear-gradient(transparent 5%, rgba(0, 0, 0, 0.8) 100%);
-    ;
-    ;
-    -pie-background: -pie-linear-gradient(135deg, rgba(255, 101, 100, 0.4) 0%, rgba(255, 101, 100, 0) 50%, rgba(255, 101, 100, 0) 100%), -pie-linear-gradient(45deg, rgba(40, 0, 215, 0) 0%, rgba(40, 0, 215, 0) 50%, rgba(40, 0, 215, 0.4) 100%), -pie-linear-gradient(transparent 5%, rgba(0, 0, 0, 0.8) 100%);
+    -pie-background: -pie-linear-gradient(135deg, rgba(255, 101, 100, 0.4) 0%, rgba(255, 101, 100, 0) 50%, rgba(255, 101, 100, 0) 100%), -pie-linear-gradient(45deg, rgba(40, 0, 215, 0) 0%, rgba(40, 0, 215, 0) 50%, rgba(40, 0, 215, 0.4) 100%), -pie-linear-gradient(transparent 5%, rgba(0, 0, 0, 0.100%));
     content: "gradient mask for lede image";
     position: absolute;
     top: 0;
@@ -118,9 +115,7 @@ table.vertical-middle>tbody>tr>td {
   vertical-align: middle;
 }
 
-
 /* navbar changes - so bottom border will be across the Navbar and only on the Nav components */
-
 nav.in-page-nav {
   border-bottom: 1px solid #dddddd;
   margin-bottom: 0px;

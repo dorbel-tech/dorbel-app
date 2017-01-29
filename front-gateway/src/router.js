@@ -29,7 +29,7 @@ function setRoutes(router, appStore, appProviders) {
       if (routeConfig.view.serverPreRender) {
         routeConfig.view.serverPreRender(Object.assign({ router, appStore, appProviders }, routeProps))
           .then(callback)
-          .catch(() => {    
+          .catch(() => {
             appStore.setView(errorPage, { errorId: 404 });
             callback();
           });
