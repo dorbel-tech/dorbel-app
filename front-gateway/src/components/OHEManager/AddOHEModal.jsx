@@ -43,7 +43,7 @@ class AddOHEModal extends React.Component {
         body={
           <FormWrapper.Wrapper layout="vertical" ref="form">
             <AddOHEInput onChange={this.onChange} />
-            <Button bsStyle="success" onClick={this.submit} disabled={this.state.error} block>אישור</Button>
+            <Button bsStyle="success" onClick={this.submit} disabled={this.state.error ? true : false} block>אישור</Button>
           </FormWrapper.Wrapper>
         }
       />
