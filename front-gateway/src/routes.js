@@ -10,9 +10,9 @@ const routes = [
   { route: '/login', view: Login },
   { route: '/apartments', view: Apartments },
   { route: '/apartments/new_form', view: UploadApartmentForm },
-  { route: '/apartments/:apartmentId/:action/:oheId', view: Apartment },
-  { route: '/apartments/:apartmentId/:action', view: Apartment },
   { route: '/apartments/:apartmentId', view: Apartment },
+  { route: '/apartments/:apartmentId/:action', view: Apartment, requireLogin: true },
+  { route: '/apartments/:apartmentId/:action/:oheId', view: Apartment, requireLogin: true }
 ];
 
 module.exports = {
