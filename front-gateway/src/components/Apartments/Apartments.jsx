@@ -27,7 +27,7 @@ const DEFAULT_FILTER_PARAMS = {
   pet: false // Apartment allowing pets checkbox default value.
 };
 
-@observer(['appStore', 'appProviders'])
+@observer(['appStore', 'appProviders', 'router'])
 class Apartments extends Component {
   static hideFooter = true;
   constructor(props) {
@@ -35,21 +35,22 @@ class Apartments extends Component {
     autobind(this);
 
     this.state = {
-      isLoading: false
+      isLoading: true
     };
     Object.assign(this.state, DEFAULT_FILTER_PARAMS);
 
-    this.filterObj = { city: DEFAULT_FILTER_PARAMS.cityId };
+    this.filterObj = { city: this.props.cityId || DEFAULT_FILTER_PARAMS.cityId };
 
     this.cities = [];
   }
 
   componentDidMount() {
     this.props.appProviders.cityProvider.loadCities();
+    this.reloadApartments();
   }
 
   citySelectHandler(cityId) {
-    this.setState({ cityId: cityId });
+    this.props.router.setRoute('/apartments/find/' + cityId);
 
     this.filterObj.city = cityId;
     this.reloadApartments();
@@ -117,9 +118,8 @@ class Apartments extends Component {
 
   reloadApartments() {
     if (this.filterObj.city !== DEFAULT_FILTER_PARAMS.cityId) {
-      this.setState({ isLoading: true });
       this.props.appProviders.apartmentsProvider.loadApartments(this.filterObj)
-        .then(this.setState({ isLoading: false }));
+          .then(this.setState({ isLoading: false }));
     }
   }
 
@@ -153,7 +153,8 @@ class Apartments extends Component {
       this.cities = cityStore.cities;
     }
 
-    const city = this.cities.find(c => c.id === this.state.cityId);
+    const cityId = this.props.cityId || 1;
+    const city = this.cities.find(c => c.id == cityId);
     this.cityTitle = city ? city.city_name : 'טוען...';
 
     const apartments = listingStore.apartments.length ? listingStore.apartments : [];
@@ -287,7 +288,9 @@ class Apartments extends Component {
 
 Apartments.wrappedComponent.propTypes = {
   appStore: React.PropTypes.object.isRequired,
-  appProviders: React.PropTypes.object.isRequired
+  appProviders: React.PropTypes.object.isRequired,
+  cityId: React.PropTypes.string,
+  router: React.PropTypes.object
 };
 
 export default Apartments;
