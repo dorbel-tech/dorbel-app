@@ -21,7 +21,7 @@ class OheProvider {
 
   loadListingEvents(id) {
     return this.fetch('events/by-listing/' + id)
-      .then(this.updateStoreWithOhe);
+      .then((ohes) => this.updateStoreWithOhe(ohes));
   }
 
   createOhe(data) {
@@ -29,8 +29,11 @@ class OheProvider {
       method: 'POST',
       data
     })
-    .then((ohe) => ohe.registrations = []) // Added in order to resolve a bug in which EditOHEModal is rendered unnecessary and throws an error about registrations being undefined
-    .then(this.updateStoreWithOhe);
+    .then((ohe) => { 
+      // Added in order to resolve a bug in which EditOHEModal is rendered unnecessary and throws an error about registrations being undefined
+      ohe.registrations = [];
+      this.updateStoreWithOhe(ohe);
+    }); 
   }
 
   updateOhe(id, data) {
