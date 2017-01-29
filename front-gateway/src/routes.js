@@ -9,7 +9,7 @@ const routes = [
   { route: '/', view: Home },
   { route: '/login', view: Login },
   { route: '/apartments/find', view: Apartments },
-  { route: '/apartments/find/:cityId', view: Apartments },
+  { route: '/apartments/find/:city', view: Apartments },
   { route: '/apartments/new_form', view: UploadApartmentForm },
   { route: '/apartments/:apartmentId', view: Apartment },
   { route: '/apartments/:apartmentId/:action', view: Apartment, requireLogin: true },

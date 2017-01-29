@@ -10,7 +10,7 @@ import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 import './Apartments.scss';
 
 const DEFAULT_FILTER_PARAMS = {
-  cityId: -1, // City selector default value.
+  city: -1, // City selector default value.
   roomate: true, // Roommate search checkbox default value.
   empty: true, // Empty apartment for roommates checkbox default value.
   room: true, // Roomate looking for roommate/s checkbox default value.
@@ -39,17 +39,24 @@ class Apartments extends Component {
     };
     Object.assign(this.state, DEFAULT_FILTER_PARAMS);
 
-    this.filterObj = { city: this.props.cityId || DEFAULT_FILTER_PARAMS.cityId };
+    this.filterObj = { city: this.props.city || DEFAULT_FILTER_PARAMS.city };
 
     this.cities = [];
   }
 
   componentDidMount() {
-    this.props.appProviders.cityProvider.loadCities();
-    this.reloadApartments();
+    this.props.appProviders.cityProvider.loadCities()
+      .then(() => {
+        this.cities = this.props.appStore.cityStore.cities;
+        if (!this.props.city) {
+          this.filterObj.city = this.cities[0].id;
+        }
+        this.reloadApartments();
+      });
   }
 
   citySelectHandler(cityId) {
+    this.setState({ isLoading: true });
     this.props.router.setRoute('/apartments/find/' + cityId);
 
     this.filterObj.city = cityId;
@@ -70,6 +77,7 @@ class Apartments extends Component {
 
   sliderChangeHandler(range, minProp, maxProp) {
     let stateChangesObj = {};
+    stateChangesObj.isLoading = true;
     stateChangesObj[minProp] = range[0];
     stateChangesObj[maxProp] = range[1];
     this.setState(stateChangesObj);
@@ -89,6 +97,7 @@ class Apartments extends Component {
 
   amenitiesChangeHandler(e) {
     let stateChangesObj = {};
+    stateChangesObj.isLoading = true;
     stateChangesObj[e.target.name] = e.target.checked;
     this.setState(stateChangesObj);
 
@@ -98,6 +107,7 @@ class Apartments extends Component {
 
   roomateChangeHandler(e) {
     let stateChangesObj = {};
+    stateChangesObj.isLoading = true;
     stateChangesObj[e.target.name] = e.target.checked;
     this.setState(stateChangesObj);
 
@@ -117,9 +127,9 @@ class Apartments extends Component {
   }
 
   reloadApartments() {
-    if (this.filterObj.city !== DEFAULT_FILTER_PARAMS.cityId) {
+    if (this.filterObj.city !== DEFAULT_FILTER_PARAMS.city) {
       this.props.appProviders.apartmentsProvider.loadApartments(this.filterObj)
-          .then(this.setState({ isLoading: false }));
+        .then(this.setState({ isLoading: false }));
     }
   }
 
@@ -130,30 +140,22 @@ class Apartments extends Component {
           <LoadingSpinner />
         </div>
       );
-    }
-    else if (apartments.length > 0) {
+    } else if (apartments.length > 0) {
       return (<Grid fluid>
         <Row className="apartments-results-container">
           {apartments.map(listing => <ListingThumbnail listing={listing} key={listing.id} />)}
         </Row>
       </Grid>);
-    }
-    else {
+    } else {
       return (<div className="apartments-results-not-found">הלוואי והייתה לנו דירה בדיוק כזו.<br />
         כנראה שהייתם ספציפיים מדי - לא נמצאו דירות לחיפוש זה.<br />
         נסו לשנות את הגדרות החיפוש</div>);
     }
   }
 
-
   render() {
-    const { listingStore, cityStore } = this.props.appStore;
-
-    if (cityStore.cities.length) {
-      this.cities = cityStore.cities;
-    }
-
-    const cityId = this.props.cityId || 1;
+    const listingStore = this.props.appStore.listingStore;
+    const cityId = this.props.city || 1;
     const city = this.cities.find(c => c.id == cityId);
     this.cityTitle = city ? city.city_name : 'טוען...';
 
@@ -289,7 +291,7 @@ class Apartments extends Component {
 Apartments.wrappedComponent.propTypes = {
   appStore: React.PropTypes.object.isRequired,
   appProviders: React.PropTypes.object.isRequired,
-  cityId: React.PropTypes.string,
+  city: React.PropTypes.string,
   router: React.PropTypes.object
 };
 
