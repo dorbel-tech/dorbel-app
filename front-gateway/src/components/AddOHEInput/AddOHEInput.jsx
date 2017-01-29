@@ -66,8 +66,7 @@ class AddOHEInput extends React.Component {
     let error;
     if (now > selectedTime) {
       error = 'לא ניתן לקבוע ביקור במועד שחלף';
-    }
-    else if (now >= selectedTime.add(-90, 'm')) {
+    } else if (now >= selectedTime.add(-90, 'm')) {
       error = 'מועד הביקור קרוב מדי';
     }
 
@@ -95,7 +94,7 @@ class AddOHEInput extends React.Component {
   renderError() {
     return this.state.error ?
       <div>
-        <span className="error">
+        <span className="ohe-form-error">
           {this.state.error}
         </span>
       </div>
