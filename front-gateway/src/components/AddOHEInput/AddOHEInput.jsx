@@ -65,8 +65,10 @@ class AddOHEInput extends React.Component {
     const selectedTime = moment(new Date(this.state.date + ' ' + this.state.start_time));
     let error;
     if (now > selectedTime) {
+      // the selected time is earlier than the current time
       error = 'לא ניתן לקבוע ביקור במועד שחלף';
     } else if (now >= selectedTime.add(-90, 'm')) {
+      // selected time -90 minutes is earlier than the current time
       error = 'מועד הביקור קרוב מדי';
     }
 
