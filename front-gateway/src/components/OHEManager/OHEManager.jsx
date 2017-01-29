@@ -44,7 +44,7 @@ class OHEManager extends React.Component {
       <Grid fluid={true} className="apt-info-container">
         <Col xs={10} xsOffset={1} >
           <Row>
-            <Button onClick={() => this.toggleAddModal(true)} className="pull-left">+ הוסף מועד</Button>
+            <Button onClick={() => this.toggleAddModal(true)} className="pull-left">הוסף מועד +</Button>
             <h3>מועדי ביקור הבאים</h3>
           </Row>
           <Row>
