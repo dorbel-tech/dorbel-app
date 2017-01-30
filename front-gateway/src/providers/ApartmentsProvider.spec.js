@@ -14,7 +14,8 @@ describe('ApartmentsProvider', function () {
     };
     this.appStoreMock = {
       listingStore: {
-        add: spy()
+        add: spy(),
+        listingsById: {clear: spy()}
       }
     };
 
@@ -25,5 +26,4 @@ describe('ApartmentsProvider', function () {
     return this.apartmentsProvider.loadApartments()
       .then(() => expect(this.appStoreMock.listingStore.add.args[0][0]).toBe(this.mockApartments));
   });
-
 });
