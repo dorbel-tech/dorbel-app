@@ -6,6 +6,17 @@ const helper = require('./repositoryHelper');
 const apartmentRepository = require('./apartmentRepository');
 const buildingRepository = require('./buildingRepository');
 
+const fullListingDataInclude = [
+  {
+    model: models.apartment,
+    include: [{
+      model: models.building,
+      include: [models.city, models.neighborhood]
+    }]
+  },
+  models.image
+];
+
 function list(query, options = {}) {
   return models.listing.findAll({
     where: query,
@@ -33,16 +44,17 @@ function getById(id) {
     where: {
       id
     },
-    include: [
-      {
-        model: models.apartment,
-        include: [{
-          model: models.building,
-          include: [models.city, models.neighborhood]
-        }]
-      },
-      models.image
-    ]
+    include: fullListingDataInclude
+  });
+}
+
+// TODO: unify byId and bySlug
+function getBySlug(slug) {
+  return models.listing.findOne({
+    where: {
+      slug
+    },
+    include: fullListingDataInclude
   });
 }
 
@@ -134,5 +146,6 @@ module.exports = {
   create,
   getListingsForApartment,
   getById,
+  getBySlug,
   listingStatuses: models.listing.attributes.status.values
 };

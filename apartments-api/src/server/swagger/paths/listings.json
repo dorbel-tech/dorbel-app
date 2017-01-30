@@ -71,13 +71,13 @@
       }
     }
   },
-  "/listings/{listingQueryString}" : {
-    "get": {  
+  "/listings/{listingQueryParam}": {
+    "get": {
       "summary": "Get a single listing",
       "description": "Get a single listing with all it's details",
       "parameters": [
         {
-          "name": "listingQueryString",
+          "name": "listingQueryParam",
           "in": "path",
           "description": "{id} of listing or {id}-{slug}",
           "type": "string",
@@ -101,8 +101,10 @@
           }
         }
       }
-    },
-    "patch": {  
+    }
+  },
+  "/listings/{listingId}": {
+    "patch": {
       "summary": "Patches a single listing",
       "description": "Patches a single listing with all it's details",
       "parameters": [

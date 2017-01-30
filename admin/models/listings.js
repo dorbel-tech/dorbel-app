@@ -53,6 +53,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.BOOLEAN,
       defaultValue: false
     },
+    slug: {
+      type: DataTypes.STRING,
+      defaultValue: null
+    }
     created_at: {
       type: DataTypes.DATE,
     },
