@@ -3,6 +3,7 @@ import { Row, Col, Modal, Button } from 'react-bootstrap';
 import { observer } from 'mobx-react';
 import Icon from '../Icon/Icon';
 import FormWrapper from '~/components/FormWrapper/FormWrapper';
+import './OHERegisterModal.scss';
 
 const FRC = FormWrapper.FRC;
 
@@ -99,7 +100,7 @@ class OHERegisterModal extends React.Component {
 
   renderRegisterForm(ohe, profile) {
     return (
-      <Modal show={true}>
+      <Modal className="oheRegisterModal" show={true}>
         <Modal.Header closeButton onHide={this.close}>
           <Modal.Title>אנו שמחים שבחרתם להגיע לביקור בנכס :)</Modal.Title>
         </Modal.Header>
@@ -130,15 +131,15 @@ class OHERegisterModal extends React.Component {
           </Row>
           <FormWrapper.Wrapper layout="elementOnly" onChange={this.handleChanges} ref="form">
             <Row>
-              <Col md={6}>
+              <Col md={6} className="oheModalInput">
                 <FRC.Input name="user.firstname" placeholder="שם פרטי" value={profile.first_name} required />
               </Col>
-              <Col md={6}>
+              <Col md={6} className="oheModalInput">
                 <FRC.Input name="user.phone" placeholder="טלפון" value={profile.phone} validationError="מספר טלפון לא תקין" required />
               </Col>
             </Row>
             <Row>
-              <Col md={6}>
+              <Col md={6} className="oheModalInput">
                 <FRC.Input name="user.email" placeholder="מייל" type="email" value={profile.email} validations="isEmail" validationError="כתובת מייל לא תקינה" required />
               </Col>
               <Col md={6}>
@@ -151,7 +152,7 @@ class OHERegisterModal extends React.Component {
           <div className="text-center">
             לשאלות נוספות ויצירת קשר בנוגע לדירה שלחו לנו מייל: <a href="mailto:homesupport@dorbel.com?Subject=Hello%20again" target="_top">homesupport@dorbel.com</a>
           </div>
-          <div className="text-center">
+          <div className="text-center terms">
             בהרשמה לביקור בנכס, אני מסכים/ה <a href="#" target="_blank">לתנאי השירות</a>
           </div>
         </Modal.Footer>
