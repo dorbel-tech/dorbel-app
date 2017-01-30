@@ -159,17 +159,16 @@ function* getByFilter(filterJSON, user) {
 function* getById(id, user) {
   let listing = yield listingRepository.getById(id);
   const isPending = listing.status === 'pending';
-  
+
   // TODO: Fix the server rendering error with user object not existing there. The only solution to SSR with auth is cookies. 
   //  We could save the user's token to a cookie and try to parse it on the server as a fallback from the authentication header or something like that.
   const isPublishingUserOrAdmin = user && permissionsService.isPublishingUserOrAdmin(user, listing);
 
-  // If apartment is not in status pending, show it to everyone.
   // Pending listing will be displayed to user who is listing publisher or admins only.
-  if (!isPending || isPublishingUserOrAdmin) {
-    return yield enrichListingResponse(listing, user);      
-  } else {
+  if (isPending && !isPublishingUserOrAdmin) {
     throw new CustomError(404, 'Cant show pending listing. User is not admin or publisher of listingId ' + listing.id);
+  } else {
+    return yield enrichListingResponse(listing, user);      
   }
 }
 
