@@ -58,7 +58,7 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
   render() {
     const { newListingStore } = this.props.appStore;
     const citySelectorOptions = this.fillCities();
-    const neighborhoodSelectorOptions = this.fillNeighborhoods(newListingStore.formValues['apartment.building.city.id']);
+    const neighborhoodSelectorOptions = this.fillNeighborhoods(newListingStore.formValues['apartment.building.city.id'] || citySelectorOptions[0].value);
     const FRC = FormWrapper.FRC;
       
     const roomOptions = newListingStore.roomOptions.slice(0);

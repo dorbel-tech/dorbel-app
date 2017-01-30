@@ -22,12 +22,12 @@ export class Login extends React.Component {
     if (appStore.authStore.isLoggedIn) {
       return (
         <div>
-          <h2>Already logged in</h2>
-          <button onClick={appProviders.authProvider.logout}>Log out</button>
+          <h3>כבר מחובר</h3>
+          <button onClick={appProviders.authProvider.logout}>להתנתק</button>
         </div>
-      );
+      );      
     } else {
-      return <h2>Log in</h2>;
+      return <h3>מתחבר...</h3>;
     }
   }
 }
