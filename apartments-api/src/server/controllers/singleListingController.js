@@ -4,10 +4,10 @@ const logger = shared.logger.getLogger(module);
 const listingService = require('../../services/listingService');
 
 function* get() {
-  const listingId = parseInt(this.params.listingQueryParam);
+  const listingId = parseInt(this.params.listingIdOrSlug);
 
   if (isNaN(listingId)) {
-    this.response.body = yield listingService.getBySlug(this.params.listingQueryParam, this.request.user);
+    this.response.body = yield listingService.getBySlug(this.params.listingIdOrSlug, this.request.user);
   }
   else {
     this.response.body = yield listingService.getById(listingId, this.request.user);

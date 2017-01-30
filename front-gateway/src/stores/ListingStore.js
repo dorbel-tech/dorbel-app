@@ -35,13 +35,7 @@ export default class ListingStore {
     // TODO: Remove the clear and use the computed apartments to filter the view.
     this.listingsById.clear();
     this.listingsBySlug.clear();
-    listings
-      .forEach(listing => {
-        this.listingsById.set(listing.id, listing);
-        if (listing.slug) {
-          this.listingsBySlug.set(listing.slug, listing);
-        }
-      });
+    listings.forEach(this.add);
   }
 
   update(listingId, updates) {

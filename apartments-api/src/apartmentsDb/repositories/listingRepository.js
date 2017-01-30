@@ -39,21 +39,9 @@ function list(query, options = {}) {
   });
 }
 
-function getById(id) {
+function getOneListing(where) {
   return models.listing.findOne({
-    where: {
-      id
-    },
-    include: fullListingDataInclude
-  });
-}
-
-// TODO: unify byId and bySlug
-function getBySlug(slug) {
-  return models.listing.findOne({
-    where: {
-      slug
-    },
+    where,
     include: fullListingDataInclude
   });
 }
@@ -145,7 +133,7 @@ module.exports = {
   list,
   create,
   getListingsForApartment,
-  getById,
-  getBySlug,
+  getById: id => getOneListing({ id }),
+  getBySlug: slug => getOneListing({ slug }),
   listingStatuses: models.listing.attributes.status.values
 };
