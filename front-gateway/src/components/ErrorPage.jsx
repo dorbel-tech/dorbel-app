@@ -37,7 +37,7 @@ class ErrorPage extends Component {
 }
 
 ErrorPage.wrappedComponent.propTypes = {
-  errorId: React.PropTypes.string
+  errorId: React.PropTypes.number
 };
 
 export default ErrorPage;

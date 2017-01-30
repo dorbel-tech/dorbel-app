@@ -30,7 +30,7 @@ function setRoutes(router, appStore, appProviders) {
         routeConfig.view.serverPreRender(Object.assign({ router, appStore, appProviders }, routeProps))
           .then(callback)
           .catch(() => {
-            appStore.setView(errorPage, { errorId: 404 });
+            appStore.setView(errorPage, { errorId: 500 }); // TODO: Catch real server error code and pass it here.
             callback();
           });
       } else {
@@ -47,7 +47,7 @@ function startRouter(appStore) {
 
   if (process.env.IS_CLIENT) {
     router.configure({
-      notfound: () => appStore.setView(errorPage, { errorId: 404 }),
+      notfound: callback => notFound(appStore, callback),
       html5history: true,
       async: true,
       convert_hash_in_init: false // required for auth0 callback
@@ -84,7 +84,7 @@ function startRouter(appStore) {
     router.init();
   } else {
     router.configure({
-      notfound: () => appStore.setView(errorPage, { errorId: 404 }),
+      notfound: callback => notFound(appStore, callback),
       async: true
     });
   }
@@ -94,6 +94,11 @@ function startRouter(appStore) {
   };
 
   return router;
+}
+
+function notFound(appStore, callback) {
+  appStore.setView(errorPage, { errorId: 404 });
+  callback();
 }
 
 module.exports = {
