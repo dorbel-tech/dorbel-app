@@ -11,7 +11,6 @@ function isPublishingUserOrAdmin(user, listing) {
 }
 
 module.exports = {
-  isAdmin: userManagement.isUserAdmin,
   isPublishingUser,
   isPublishingUserOrAdmin
 };

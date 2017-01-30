@@ -106,7 +106,7 @@ function* getByFilter(filterJSON, user) {
     status: 'listed'
   };
 
-  if (user && permissionsService.isAdmin(user)) {
+  if (user && userManagement.isUserAdmin(user)) {
     delete listingQuery.status; // admin can see all the statuses
   }
 
@@ -159,14 +159,14 @@ function* getByFilter(filterJSON, user) {
 function* getById(id, user) {
   let listing = yield listingRepository.getById(id);
   const isPending = listing.status === 'pending';
-  const isPublishingUserOrAdmin = permissionsService.isPublishingUserOrAdmin(user, listing);
+  
+  // TODO: Fix the server rendering error with user object not existing there. The only solution to SSR with auth is cookies. 
+  //  We could save the user's token to a cookie and try to parse it on the server as a fallback from the authentication header or something like that.
+  const isPublishingUserOrAdmin = user && permissionsService.isPublishingUserOrAdmin(user, listing);
 
-  /* If apartment is not in status pending, show it to everyone.
-   * Pending listing will be displayed to user who is listing publisher or admins only.
-   * TODO: Fix the server rendering error with user object not existing there. The only solution to SSR with auth is cookies. 
-   * We could save the user's token to a cookie and try to parse it on the server as a fallback from the authentication header or something like that.
-   */
-  if (!isPending || (user && isPublishingUserOrAdmin)) {
+  // If apartment is not in status pending, show it to everyone.
+  // Pending listing will be displayed to user who is listing publisher or admins only.
+  if (!isPending || isPublishingUserOrAdmin) {
     return yield enrichListingResponse(listing, user);      
   } else {
     throw new CustomError(404, 'Cant show pending listing. User is not admin or publisher of listingId ' + listing.id);
@@ -179,7 +179,7 @@ function getPossibleStatuses(listing, user) {
   if (!user) {
     // anoymous
     possibleStatuses = [];
-  } else if (permissionsService.isAdmin(user)) {
+  } else if (userManagement.isUserAdmin(user)) {
     // admin can change to all statuses
     possibleStatuses = listingRepository.listingStatuses;
   } else if (listing.publishing_user_id !== user.id) {
