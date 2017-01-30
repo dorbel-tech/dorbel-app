@@ -76,11 +76,11 @@ class Apartments extends Component {
   }
 
   sliderChangeHandler(range, minProp, maxProp) {
-    let stateChangesObj = {};
-    stateChangesObj.isLoading = true;
-    stateChangesObj[minProp] = range[0];
-    stateChangesObj[maxProp] = range[1];
-    this.setState(stateChangesObj);
+    this.setState({
+      isLoading: true,
+      [minProp]: range[0],
+      [maxProp]: range[1]
+    });
 
     if (range !== [DEFAULT_FILTER_PARAMS[minProp], DEFAULT_FILTER_PARAMS[maxProp]]) {
       this.filterObj[minProp] = range[0] === DEFAULT_FILTER_PARAMS[minProp] ?
@@ -96,20 +96,20 @@ class Apartments extends Component {
   }
 
   amenitiesChangeHandler(e) {
-    let stateChangesObj = {};
-    stateChangesObj.isLoading = true;
-    stateChangesObj[e.target.name] = e.target.checked;
-    this.setState(stateChangesObj);
+    this.setState({
+      isLoading: true,
+      [e.target.name]: e.target.checked
+    });
 
     this.filterObj[e.target.name] = e.target.checked ? true : undefined;
     this.reloadApartments();
   }
 
   roomateChangeHandler(e) {
-    let stateChangesObj = {};
-    stateChangesObj.isLoading = true;
-    stateChangesObj[e.target.name] = e.target.checked;
-    this.setState(stateChangesObj);
+    this.setState({
+      isLoading: true,
+      [e.target.name]: e.target.checked
+    });
 
     delete this.filterObj.room;
     delete this.filterObj.rs;
