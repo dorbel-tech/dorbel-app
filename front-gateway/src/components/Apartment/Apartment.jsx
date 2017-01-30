@@ -128,8 +128,6 @@ class Apartment extends Component {
       );
     }
 
-
-
     let tabContent;
     switch (action) {
       case 'events':
