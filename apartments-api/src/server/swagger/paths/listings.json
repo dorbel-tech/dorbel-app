@@ -71,7 +71,7 @@
       }
     }
   },
-  "/listings/{listingId}" : {
+  "/listings/{listingQueryString}" : {
     "get": {  
       "summary": "Get a single listing",
       "description": "Get a single listing with all it's details",

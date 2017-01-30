@@ -4,7 +4,7 @@ const logger = shared.logger.getLogger(module);
 const listingService = require('../../services/listingService');
 
 function* get() {
-  this.response.body = yield listingService.getById(this.params.listingId, this.request.user);
+  this.response.body = yield listingService.getById(this.params.listingQueryString, this.request.user);
 }
 
 function* patch(){
