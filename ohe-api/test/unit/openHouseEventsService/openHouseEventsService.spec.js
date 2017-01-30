@@ -108,7 +108,7 @@ describe('Open House Event Service', function () {
         __.assertThat('code', __.is('not reached'));
       }
       catch (error) {
-        __.assertThat(error.message, __.is('open house event should be at least 30 minutes'));
+        __.assertThat(error.message, __.is('מינימום זמן לביקור הוא 30 דקות'));
         __.assertThat(this.sendNotification.callCount, __.is(0));
       }
     });
