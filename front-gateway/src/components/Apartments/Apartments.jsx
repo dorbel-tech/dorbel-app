@@ -39,7 +39,7 @@ class Apartments extends Component {
     };
     Object.assign(this.state, DEFAULT_FILTER_PARAMS);
 
-    this.filterObj = this.props.city ? { city: this.props.city } : {}};
+    this.filterObj = this.props.city ? { city: this.props.city } : {};
 
     this.cities = [{id: 0, city_name: 'כולם'}];
   }
