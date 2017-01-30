@@ -41,7 +41,7 @@ class Apartments extends Component {
 
     this.filterObj = this.props.city ? { city: this.props.city } : {};
 
-    this.cities = [{id: 0, city_name: 'כולם'}];
+    this.cities = [{key: 0, id: 0, city_name: 'כולם'}];
   }
 
   componentDidMount() {
