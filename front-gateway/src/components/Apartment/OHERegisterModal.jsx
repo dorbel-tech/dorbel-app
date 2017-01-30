@@ -152,9 +152,6 @@ class OHERegisterModal extends React.Component {
           <div className="text-center">
             לשאלות נוספות ויצירת קשר בנוגע לדירה שלחו לנו מייל: <a href="mailto:homesupport@dorbel.com?Subject=Hello%20again" target="_top">homesupport@dorbel.com</a>
           </div>
-          <div className="text-center terms">
-            בהרשמה לביקור בנכס, אני מסכים/ה <a href="#" target="_blank">לתנאי השירות</a>
-          </div>
         </Modal.Footer>
       </Modal>
     );
