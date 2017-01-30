@@ -44,7 +44,7 @@ class Apartments extends Component {
     this.state = {
       isLoading: true
     };
-    Object.assign(this.state, DEFAULT_FILTER_PARAMS);
+    Object.assign(this.state, DEFAULT_FILTER_PARAMS, this.filterObj);
   }
 
   componentDidMount() {
