@@ -71,16 +71,16 @@
       }
     }
   },
-  "/listings/{listingId}" : {
+  "/listings/{listingQueryString}" : {
     "get": {  
       "summary": "Get a single listing",
       "description": "Get a single listing with all it's details",
       "parameters": [
         {
-          "name": "listingId",
+          "name": "listingQueryString",
           "in": "path",
-          "description": "id of listing",
-          "type": "integer",
+          "description": "{id} of listing or {id}-{slug}",
+          "type": "string",
           "required": true
         }
       ],

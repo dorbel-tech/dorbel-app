@@ -154,9 +154,28 @@ function* getByFilter(filterJSON, user) {
   return listingRepository.list(listingQuery, options);
 }
 
-function* getById(id, user) {
-  let listing = yield listingRepository.getById(id);
+function* getById(idWithSlug, user) {
+  const idAndSlugObj = parseIdWithSlug(idWithSlug);
+  const requestedId = idAndSlugObj.id;
+  const requestedSlug = idAndSlugObj.slug;
+
+  if (isNaN(requestedId)) {
+    throw new CustomError(400, 'bad request');
+  }
+  let listing = yield listingRepository.getById(requestedId);
+  if (requestedSlug && listing.slug !== requestedSlug) {
+    throw new CustomError(400, 'illegal slug');
+  }
+  
   return yield enrichListingResponse(listing, user);
+}
+
+function parseIdWithSlug(idWithSlug) {
+  let queryArr = idWithSlug.split('-');
+  return {
+    id: parseInt(queryArr[0]),
+    slug: queryArr.slice(1, queryArr.length).join('-')
+  };
 }
 
 function getPossibleStatuses(listing, user) {

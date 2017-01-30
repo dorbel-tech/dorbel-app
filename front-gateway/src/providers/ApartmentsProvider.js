@@ -37,8 +37,14 @@ class ApartmentsProvider {
       description: listing.description,
       title: listing.title,
       image: (listing.images && listing.images.length > 0) ? listing.images[0].url : undefined,
-      url: process.env.FRONT_GATEWAY_URL + '/apartments/' + listing.id
+      url: this.getCanonicalUrl(listing)
     };
+  }
+
+  getCanonicalUrl(listing) {
+    let listingUrl = process.env.FRONT_GATEWAY_URL + '/apartments/' + listing.id;
+    return (listing.slug) ?
+      listingUrl + '-' + listing.slug : listingUrl;
   }
 
   uploadApartment(listing) {
