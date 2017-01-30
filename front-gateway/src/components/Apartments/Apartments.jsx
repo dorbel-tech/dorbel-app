@@ -10,7 +10,7 @@ import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 import './Apartments.scss';
 
 const DEFAULT_FILTER_PARAMS = {
-  city: -1, // City selector default value.
+  city: 0, // City selector default value.
   roomate: true, // Roommate search checkbox default value.
   empty: true, // Empty apartment for roommates checkbox default value.
   room: true, // Roomate looking for roommate/s checkbox default value.
@@ -39,20 +39,15 @@ class Apartments extends Component {
     };
     Object.assign(this.state, DEFAULT_FILTER_PARAMS);
 
-    this.filterObj = { city: this.props.city || DEFAULT_FILTER_PARAMS.city };
+    this.filterObj = this.props.city ? { city: this.props.city } : {}};
 
-    this.cities = [];
+    this.cities = [{id: 0, city_name: 'כולם'}];
   }
 
   componentDidMount() {
     this.props.appProviders.cityProvider.loadCities()
-      .then(() => {
-        this.cities = this.props.appStore.cityStore.cities;
-        if (!this.props.city) {
-          this.filterObj.city = this.cities[0].id;
-        }
-        this.reloadApartments();
-      });
+      .then(this.cities = this.cities.concat(this.props.appStore.cityStore.cities));
+    this.reloadApartments();
   }
 
   citySelectHandler(cityId) {
@@ -155,7 +150,7 @@ class Apartments extends Component {
 
   render() {
     const listingStore = this.props.appStore.listingStore;
-    const cityId = this.props.city || 1;
+    const cityId = this.props.city || 0;
     const city = this.cities.find(c => c.id == cityId);
     this.cityTitle = city ? city.city_name : 'טוען...';
 
