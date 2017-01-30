@@ -27,19 +27,24 @@ const DEFAULT_FILTER_PARAMS = {
   pet: false // Apartment allowing pets checkbox default value.
 };
 
-@observer(['appStore', 'appProviders', 'router'])
+@observer(['appStore', 'appProviders'])
 class Apartments extends Component {
   static hideFooter = true;
   constructor(props) {
     super(props);
     autobind(this);
 
+    // TODO: Switch to regex test instead of try-catch.
+    try {
+      this.filterObj = JSON.parse(decodeURIComponent(location.search.replace(/^\?q=|.*&q=([^&#]*)&.*/, '$1')));
+    } catch (e) {
+      this.filterObj = {};
+    }
+
     this.state = {
       isLoading: true
     };
     Object.assign(this.state, DEFAULT_FILTER_PARAMS);
-
-    this.filterObj = this.props.city ? { city: this.props.city } : {};
   }
 
   componentDidMount() {
@@ -50,10 +55,8 @@ class Apartments extends Component {
   citySelectHandler(cityId) {
     this.setState({ isLoading: true });
     if (cityId === 0) {
-      this.props.router.setRoute('/apartments/find');
       this.filterObj.city = undefined;
     } else {
-      this.props.router.setRoute('/apartments/find/' + cityId);
       this.filterObj.city = cityId;
     }
 
@@ -124,10 +127,17 @@ class Apartments extends Component {
   }
 
   reloadApartments() {
-    if (this.filterObj.city !== DEFAULT_FILTER_PARAMS.city) {
-      this.props.appProviders.apartmentsProvider.loadApartments(this.filterObj)
-        .then(this.setState({ isLoading: false }));
+    const search = Object.keys(this.filterObj).length === 0 ? '' :
+        '?q=' + encodeURIComponent(JSON.stringify(this.filterObj));
+
+    //const search = location.search.replace(/.*(q=[^&#]*)&.*/, q);
+
+    if (location.search !== search) {
+      location.search = search;
     }
+
+    this.props.appProviders.apartmentsProvider.loadApartments(this.filterObj)
+      .then(this.setState({ isLoading: false }));
   }
 
   renderResults(apartments) {
@@ -153,7 +163,7 @@ class Apartments extends Component {
   render() {
     const { cityStore, listingStore } = this.props.appStore;
     const cities = cityStore.cities.length ? cityStore.cities : [];
-    const cityId = this.props.city || 0;
+    const cityId = this.filterObj.city || 0;
     if (cityId === 0) {
       this.cityTitle = 'כל הערים';
     } else {
@@ -293,9 +303,7 @@ class Apartments extends Component {
 
 Apartments.wrappedComponent.propTypes = {
   appStore: React.PropTypes.object.isRequired,
-  appProviders: React.PropTypes.object.isRequired,
-  city: React.PropTypes.string,
-  router: React.PropTypes.object
+  appProviders: React.PropTypes.object.isRequired
 };
 
 export default Apartments;

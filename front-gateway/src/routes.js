@@ -8,8 +8,7 @@ import UploadApartmentForm from '~/components/UploadApartmentForm/UploadApartmen
 const routes = [
   { route: '/', view: Home },
   { route: '/login', view: Login },
-  { route: '/apartments/find', view: Apartments },
-  { route: '/apartments/find/:city', view: Apartments },
+  { route: '/apartments', view: Apartments },
   { route: '/apartments/new_form', view: UploadApartmentForm },
   { route: '/apartments/:apartmentId', view: Apartment },
   { route: '/apartments/:apartmentId/:action', view: Apartment, requireLogin: true },
