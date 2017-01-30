@@ -19,21 +19,17 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
   }
 
   clickNext() {
-    const formsy = this.refs.form.refs.formsy; 
+    const formsy = this.refs.form.refs.formsy;
     if (formsy.state.isValid) {
       super.clickNext();
     } else {
-      formsy.submit(); // will trigger validation messages
+      this.props.onValidationError(formsy);
     }
-  }  
-
-  showSuccessModal() {
-    this.props.showSuccessModal = true;
   }
 
   onCloseSuccessModal() {
     this.props.appStore.newListingStore.reset();
-    this.props.router.setRoute('/');
+    this.props.router.setRoute('/apartments/' + this.props.createdListingId);
   }
 
   renderUserDetails() {
