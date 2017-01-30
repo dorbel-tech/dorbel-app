@@ -15,13 +15,6 @@ function* runServer() {
   const app = koa();
   const port = config.get('PORT');
 
-  // Catch all uncaught exceptions and write to log.
-  // TODO: Move to dorbel-shared.
-  process.on('uncaughtException', function(err) {
-    logger.error(err);
-    process.exit(1);
-  });
-
   app.use(shared.middleware.errorHandler());
   app.use(shared.middleware.requestLogger());
   app.use(compress());
