@@ -7,7 +7,7 @@ function isPublishingUser(user, listing) {
 }
 
 function isPublishingUserOrAdmin(user, listing) {
-  return isPublishingUser(user, listing) || userManagement.userManagement.isUserAdmin(user);
+  return isPublishingUser(user, listing) || userManagement.isUserAdmin(user);
 }
 
 module.exports = {
