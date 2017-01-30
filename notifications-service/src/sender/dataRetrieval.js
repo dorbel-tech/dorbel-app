@@ -12,25 +12,25 @@ const OHE_API = shared.config.get('OHE_API_URL');
 
 // Creating special notification service dummy user to handle data retrival from service in order to pass user validation checks.
 const notificationServiceUser = { id: '10000000-0000-0000-0000-000000000000', role: 'admin' };
-const requestObject = { headers: { 'x-user-profile': JSON.stringify(notificationServiceUser) }, json: true };
+const requestOptions = { headers: { 'x-user-profile': JSON.stringify(notificationServiceUser) }, json: true };
 
 if (!APT_API || !OHE_API) {
   throw new Error('Missing API Urls in config');
 }
 
 function getOheInfo(oheId) {
-  return request.get(`${OHE_API}/v1/event/${oheId}`, requestObject);
+  return request.get(`${OHE_API}/v1/event/${oheId}`, requestOptions);
 }
 
 function getListingFollowers(listingId) {
-  return request.get(`${OHE_API}/v1/followers/by-listing/${listingId}`, requestObject);
+  return request.get(`${OHE_API}/v1/followers/by-listing/${listingId}`, requestOptions);
 }
 
 const dataRetrievalFunctions = { 
   getListingInfo: eventData => {
     return userManagement.getUserDetails(eventData.user_uuid)
       .then(publishingUser => {
-        return request.get(`${APT_API}/v1/listings/${eventData.listing_id}`, requestObject)
+        return request.get(`${APT_API}/v1/listings/${eventData.listing_id}`, requestOptions)
           .then(listing => {
             listing.publishing_user_email = _.get(publishingUser, 'user_metadata.email') || publishingUser.email;
             // Reducing object size by removing unused data.
@@ -67,7 +67,7 @@ const dataRetrievalFunctions = {
     });
   },
   getListingOhesCount: eventData => {
-    return request.get(`${OHE_API}/v1/events/by-listing/${eventData.listing_id}`, requestObject)
+    return request.get(`${OHE_API}/v1/events/by-listing/${eventData.listing_id}`, requestOptions)
       .then(response => ({ ohesCount: response.length || 0 }));
   },
   getListingFollowersCount: eventData => {
