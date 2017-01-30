@@ -14,7 +14,7 @@ function validateEventParamters(start, end) {
     throw new errors.DomainValidationError('OpenHouseEventValidationError', {
       start_time: start,
       end_time: end
-    }, 'open house event should be at least 30 minutes');
+    }, 'מינימום זמן לביקור הוא 30 דקות');
   }
 }
 
