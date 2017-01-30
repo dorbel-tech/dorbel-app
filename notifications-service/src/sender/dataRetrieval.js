@@ -30,7 +30,6 @@ const dataRetrievalFunctions = {
   getListingInfo: eventData => {
     return userManagement.getUserDetails(eventData.user_uuid)
       .then(publishingUser => {
-        let user = { id: eventData.user_uuid, role: publishingUser.role };
         return request.get(`${APT_API}/v1/listings/${eventData.listing_id}`, requestObject)
           .then(listing => {
             listing.publishing_user_email = _.get(publishingUser, 'user_metadata.email') || publishingUser.email;
@@ -68,12 +67,8 @@ const dataRetrievalFunctions = {
     });
   },
   getListingOhesCount: eventData => {
-    return userManagement.getPublicProfile(eventData.user_uuid)
-      .then(publicUser => {
-        let user = { id: eventData.user_uuid, role: publicUser.role };
-        return request.get(`${OHE_API}/v1/events/by-listing/${eventData.listing_id}`, requestObject)
-          .then(response => ({ ohesCount: response.length || 0 }));
-      });
+    return request.get(`${OHE_API}/v1/events/by-listing/${eventData.listing_id}`, requestObject)
+      .then(response => ({ ohesCount: response.length || 0 }));
   },
   getListingFollowersCount: eventData => {
     return getListingFollowers(eventData.listing_id)
