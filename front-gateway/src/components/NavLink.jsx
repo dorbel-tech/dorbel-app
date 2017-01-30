@@ -7,15 +7,17 @@ class NavLink extends Component {
   render() {
     const to = this.props.to;
     return (
-      <a href={to} onClick={() => this.routeTo(to)} className={this.props.className}>
+      <a href={to} onClick={(event) => this.routeTo(event, to)} className={this.props.className}>
         {this.props.children}
       </a>
     );
   }
 
-  routeTo(link) {
+  routeTo(event, link) {
     if (this.props.router.setRoute) {
       this.props.router.setRoute(link);
+      event.preventDefault(); // cancel the event so we don't get a reload
+      return false;
     }
   }
 }
