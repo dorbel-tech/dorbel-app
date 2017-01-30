@@ -9,6 +9,7 @@ const logger = shared.logger.getLogger(module);
 const messageBus = shared.utils.messageBus;
 const generic = shared.utils.generic;
 const userManagement = shared.utils.userManagement;
+const permissionsService = require('./permissionsService');
 
 // TODO : move this to dorbel-shared
 function CustomError(code, message) {
@@ -67,11 +68,12 @@ function* create(listing) {
 
 function* updateStatus(listingId, user, status) {
   let listing = yield listingRepository.getById(listingId);
+  const isPublishingUserOrAdmin = permissionsService.isPublishingUserOrAdmin(user, listing);
 
   if (!listing) {
     logger.error({listingId}, 'Listing wasnt found');
     throw new CustomError(404, 'הדירה לא נמצאה');
-  } else if (user.role !== 'admin' && listing.publishing_user_id !== user.id) {
+  } else if (!isPublishingUserOrAdmin) {
     logger.error({listingId}, 'You cant update that listing');
     throw new CustomError(403, 'אין באפשרותך לערוך דירה זו');
   } else if (getPossibleStatuses(listing, user).indexOf(status) < 0) {
@@ -109,7 +111,7 @@ function* getByFilter(filterJSON, user) {
     status: 'listed'
   };
 
-  if (user && user.role === 'admin') {
+  if (user && userManagement.isUserAdmin(user)) {
     delete listingQuery.status; // admin can see all the statuses
   }
 
@@ -161,7 +163,18 @@ function* getByFilter(filterJSON, user) {
 
 function* getById(id, user) {
   let listing = yield listingRepository.getById(id);
-  return yield enrichListingResponse(listing, user);
+  const isPending = listing.status === 'pending';
+
+  // TODO: Fix the server rendering error with user object not existing there. The only solution to SSR with auth is cookies. 
+  //  We could save the user's token to a cookie and try to parse it on the server as a fallback from the authentication header or something like that.
+  const isPublishingUserOrAdmin = user && permissionsService.isPublishingUserOrAdmin(user, listing);
+
+  // Pending listing will be displayed to user who is listing publisher or admins only.
+  if (isPending && !isPublishingUserOrAdmin) {
+    throw new CustomError(404, 'Cant show pending listing. User is not admin or publisher of listingId ' + listing.id);
+  } else {
+    return yield enrichListingResponse(listing, user);      
+  }
 }
 
 function getPossibleStatuses(listing, user) {
@@ -170,7 +183,7 @@ function getPossibleStatuses(listing, user) {
   if (!user) {
     // anoymous
     possibleStatuses = [];
-  } else if (user.role === 'admin') {
+  } else if (userManagement.isUserAdmin(user)) {
     // admin can change to all statuses
     possibleStatuses = listingRepository.listingStatuses;
   } else if (listing.publishing_user_id !== user.id) {
@@ -202,7 +215,6 @@ function* enrichListingResponse(listing, user) {
 
   return listing;
 }
-
 
 function* getRelatedListings(listingId, limit) {
   const listing = yield listingRepository.getById(listingId);
