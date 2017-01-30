@@ -8,6 +8,7 @@ const config = shared.config;
 const messageBus = shared.utils.messageBus;
 const generic = shared.utils.generic;
 const userManagement = shared.utils.userManagement;
+const permissionsService = require('./permissionsService');
 
 // TODO : move this to dorbel-shared
 function CustomError(code, message) {
@@ -65,10 +66,11 @@ function* create(listing) {
 
 function* updateStatus(listingId, user, status) {
   let listing = yield listingRepository.getById(listingId);
+  const isPublishingUserOrAdmin = permissionsService.isPublishingUserOrAdmin(user, listing);
 
   if (!listing) {
     throw new CustomError(404, 'listing not found');
-  } else if (user.role !== 'admin' && listing.publishing_user_id !== user.id) {
+  } else if (!isPublishingUserOrAdmin) {
     throw new CustomError(403, 'unauthorized to edit this listing');
   } else if (getPossibleStatuses(listing, user).indexOf(status) < 0) {
     throw new CustomError(403, 'unauthorized to change this listing to status ' + status);
@@ -104,7 +106,7 @@ function* getByFilter(filterJSON, user) {
     status: 'listed'
   };
 
-  if (user && user.role === 'admin') {
+  if (user && permissionsService.isAdmin(user)) {
     delete listingQuery.status; // admin can see all the statuses
   }
 
@@ -156,11 +158,15 @@ function* getByFilter(filterJSON, user) {
 
 function* getById(id, user) {
   let listing = yield listingRepository.getById(id);
-  const pending = listing.status === 'pending';
+  const isPending = listing.status === 'pending';
+  const isPublishingUserOrAdmin = permissionsService.isPublishingUserOrAdmin(user, listing);
 
-  // If apartment is not in status pending, show it to everyone.
-  // Pending listing will be displayed to user who is listing publisher or admins only.
-  if (!pending || (user && (listing.publishing_user_id === user.id || user.role === 'admin'))) {
+  /* If apartment is not in status pending, show it to everyone.
+   * Pending listing will be displayed to user who is listing publisher or admins only.
+   * TODO: Fix the server rendering error with user object not existing there. The only solution to SSR with auth is cookies. 
+   * We could save the user's token to a cookie and try to parse it on the server as a fallback from the authentication header or something like that.
+   */
+  if (!isPending || (user && isPublishingUserOrAdmin)) {
     return yield enrichListingResponse(listing, user);      
   } else {
     throw new CustomError(404, 'Cant show pending listing. User is not admin or publisher of listingId ' + listing.id);
@@ -173,7 +179,7 @@ function getPossibleStatuses(listing, user) {
   if (!user) {
     // anoymous
     possibleStatuses = [];
-  } else if (user.role === 'admin') {
+  } else if (permissionsService.isAdmin(user)) {
     // admin can change to all statuses
     possibleStatuses = listingRepository.listingStatuses;
   } else if (listing.publishing_user_id !== user.id) {
@@ -205,7 +211,6 @@ function* enrichListingResponse(listing, user) {
 
   return listing;
 }
-
 
 function* getRelatedListings(listingId, limit) {
   const listing = yield listingRepository.getById(listingId);
