@@ -40,21 +40,23 @@ class Apartments extends Component {
     Object.assign(this.state, DEFAULT_FILTER_PARAMS);
 
     this.filterObj = this.props.city ? { city: this.props.city } : {};
-
-    this.cities = [];
   }
 
   componentDidMount() {
-    this.props.appProviders.cityProvider.loadCities()
-      .then(this.cities = this.props.appStore.cityStore.cities);
+    this.props.appProviders.cityProvider.loadCities();
     this.reloadApartments();
   }
 
   citySelectHandler(cityId) {
     this.setState({ isLoading: true });
-    this.props.router.setRoute('/apartments/find/' + cityId);
+    if (cityId === 0) {
+      this.props.router.setRoute('/apartments/find');
+      this.filterObj.city = undefined;
+    } else {
+      this.props.router.setRoute('/apartments/find/' + cityId);
+      this.filterObj.city = cityId;
+    }
 
-    this.filterObj.city = cityId;
     this.reloadApartments();
   }
 
@@ -149,12 +151,13 @@ class Apartments extends Component {
   }
 
   render() {
-    const listingStore = this.props.appStore.listingStore;
+    const { cityStore, listingStore } = this.props.appStore;
+    const cities = cityStore.cities.length ? cityStore.cities : [];
     const cityId = this.props.city || 0;
     if (cityId === 0) {
       this.cityTitle = 'כל הערים';
     } else {
-      const city = this.cities.find(c => c.id == cityId);
+      const city = cities.find(c => c.id == cityId);
       this.cityTitle = city ? city.city_name : 'טוען...';
     }
 
@@ -169,7 +172,7 @@ class Apartments extends Component {
               title={'עיר: ' + this.cityTitle}
               onSelect={this.citySelectHandler}>
               <MenuItem eventKey={0}>כל הערים</MenuItem>
-              {this.cities.map(city => <MenuItem key={city.id} eventKey={city.id}>{city.city_name}</MenuItem>)}
+              {cities.map(city => <MenuItem key={city.id} eventKey={city.id}>{city.city_name}</MenuItem>)}
             </DropdownButton>
           </div>
           <div className="apartments-filter-switches-container">
