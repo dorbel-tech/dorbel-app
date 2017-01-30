@@ -41,12 +41,12 @@ class Apartments extends Component {
 
     this.filterObj = this.props.city ? { city: this.props.city } : {};
 
-    this.cities = [{key: 0, id: 0, city_name: 'כולם'}];
+    this.cities = [];
   }
 
   componentDidMount() {
     this.props.appProviders.cityProvider.loadCities()
-      .then(this.cities = this.cities.concat(this.props.appStore.cityStore.cities));
+      .then(this.cities = this.props.appStore.cityStore.cities);
     this.reloadApartments();
   }
 
@@ -151,8 +151,12 @@ class Apartments extends Component {
   render() {
     const listingStore = this.props.appStore.listingStore;
     const cityId = this.props.city || 0;
-    const city = this.cities.find(c => c.id == cityId);
-    this.cityTitle = city ? city.city_name : 'טוען...';
+    if (cityId === 0) {
+      this.cityTitle = 'כל הערים';
+    } else {
+      const city = this.cities.find(c => c.id == cityId);
+      this.cityTitle = city ? city.city_name : 'טוען...';
+    }
 
     const apartments = listingStore.apartments.length ? listingStore.apartments : [];
 
@@ -164,6 +168,7 @@ class Apartments extends Component {
               className="apartments-filter-city-dropdown"
               title={'עיר: ' + this.cityTitle}
               onSelect={this.citySelectHandler}>
+              <MenuItem eventKey={0}>כל הערים</MenuItem>
               {this.cities.map(city => <MenuItem key={city.id} eventKey={city.id}>{city.city_name}</MenuItem>)}
             </DropdownButton>
           </div>
