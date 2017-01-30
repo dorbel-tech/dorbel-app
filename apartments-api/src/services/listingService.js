@@ -5,6 +5,7 @@ const shared = require('dorbel-shared');
 const listingRepository = require('../apartmentsDb/repositories/listingRepository');
 const geoService = require('./geoService');
 const config = shared.config;
+const logger = shared.logger.getLogger(module);
 const messageBus = shared.utils.messageBus;
 const generic = shared.utils.generic;
 const userManagement = shared.utils.userManagement;
@@ -22,7 +23,8 @@ function* create(listing) {
     { status: { $notIn: ['closed', 'rented'] } }
   );
   if (existingOpenListingForApartment && existingOpenListingForApartment.length) {
-    throw new CustomError(409, 'apartment already has an active listing');
+    logger.error(existingOpenListingForApartment, 'Listing already exists');
+    throw new CustomError(409, 'הדירה שלך כבר קיימת במערכת');
   }
 
   if (listing.lease_start && !listing.lease_end) {
@@ -67,11 +69,14 @@ function* updateStatus(listingId, user, status) {
   let listing = yield listingRepository.getById(listingId);
 
   if (!listing) {
-    throw new CustomError(404, 'listing not found');
+    logger.error({listingId}, 'Listing wasnt found');
+    throw new CustomError(404, 'הדירה לא נמצאה');
   } else if (user.role !== 'admin' && listing.publishing_user_id !== user.id) {
-    throw new CustomError(403, 'unauthorized to edit this listing');
+    logger.error({listingId}, 'You cant update that listing');
+    throw new CustomError(403, 'אין באפשרותך לערוך דירה זו');
   } else if (getPossibleStatuses(listing, user).indexOf(status) < 0) {
-    throw new CustomError(403, 'unauthorized to change this listing to status ' + status);
+    logger.error({listingId}, 'You cant update this listing status');
+    throw new CustomError(403, 'אין באפשרותך לשנות את סטטוס הדירה ל ' + status);
   }
 
   const currentStatus = listing.status;
@@ -220,7 +225,8 @@ function* getRelatedListings(listingId, limit) {
     return listingRepository.list(listingQuery, options);
   }
   else {
-    throw new CustomError(400, 'listing "' + listingId + '" does not exist');
+    logger.error({listingId}, 'Cant get related listings for not existing listing');
+    throw new CustomError(400, 'listing does not exist');
   }
 }
 
