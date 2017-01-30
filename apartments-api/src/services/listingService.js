@@ -5,9 +5,11 @@ const shared = require('dorbel-shared');
 const listingRepository = require('../apartmentsDb/repositories/listingRepository');
 const geoService = require('./geoService');
 const config = shared.config;
+const logger = shared.logger.getLogger(module);
 const messageBus = shared.utils.messageBus;
 const generic = shared.utils.generic;
 const userManagement = shared.utils.userManagement;
+const permissionsService = require('./permissionsService');
 
 // TODO : move this to dorbel-shared
 function CustomError(code, message) {
@@ -22,7 +24,8 @@ function* create(listing) {
     { status: { $notIn: ['closed', 'rented'] } }
   );
   if (existingOpenListingForApartment && existingOpenListingForApartment.length) {
-    throw new CustomError(409, 'apartment already has an active listing');
+    logger.error(existingOpenListingForApartment, 'Listing already exists');
+    throw new CustomError(409, 'הדירה שלך כבר קיימת במערכת');
   }
 
   if (listing.lease_start && !listing.lease_end) {
@@ -65,13 +68,17 @@ function* create(listing) {
 
 function* updateStatus(listingId, user, status) {
   let listing = yield listingRepository.getById(listingId);
+  const isPublishingUserOrAdmin = permissionsService.isPublishingUserOrAdmin(user, listing);
 
   if (!listing) {
-    throw new CustomError(404, 'listing not found');
-  } else if (user.role !== 'admin' && listing.publishing_user_id !== user.id) {
-    throw new CustomError(403, 'unauthorized to edit this listing');
+    logger.error({listingId}, 'Listing wasnt found');
+    throw new CustomError(404, 'הדירה לא נמצאה');
+  } else if (!isPublishingUserOrAdmin) {
+    logger.error({listingId}, 'You cant update that listing');
+    throw new CustomError(403, 'אין באפשרותך לערוך דירה זו');
   } else if (getPossibleStatuses(listing, user).indexOf(status) < 0) {
-    throw new CustomError(403, 'unauthorized to change this listing to status ' + status);
+    logger.error({listingId}, 'You cant update this listing status');
+    throw new CustomError(403, 'אין באפשרותך לשנות את סטטוס הדירה ל ' + status);
   }
 
   const currentStatus = listing.status;
@@ -104,7 +111,7 @@ function* getByFilter(filterJSON, user) {
     status: 'listed'
   };
 
-  if (user && user.role === 'admin') {
+  if (user && userManagement.isUserAdmin(user)) {
     delete listingQuery.status; // admin can see all the statuses
   }
 
@@ -156,7 +163,18 @@ function* getByFilter(filterJSON, user) {
 
 function* getById(id, user) {
   let listing = yield listingRepository.getById(id);
-  return yield enrichListingResponse(listing, user);
+  const isPending = listing.status === 'pending';
+
+  // TODO: Fix the server rendering error with user object not existing there. The only solution to SSR with auth is cookies. 
+  //  We could save the user's token to a cookie and try to parse it on the server as a fallback from the authentication header or something like that.
+  const isPublishingUserOrAdmin = user && permissionsService.isPublishingUserOrAdmin(user, listing);
+
+  // Pending listing will be displayed to user who is listing publisher or admins only.
+  if (isPending && !isPublishingUserOrAdmin) {
+    throw new CustomError(404, 'Cant show pending listing. User is not admin or publisher of listingId ' + listing.id);
+  } else {
+    return yield enrichListingResponse(listing, user);      
+  }
 }
 
 function getPossibleStatuses(listing, user) {
@@ -165,7 +183,7 @@ function getPossibleStatuses(listing, user) {
   if (!user) {
     // anoymous
     possibleStatuses = [];
-  } else if (user.role === 'admin') {
+  } else if (userManagement.isUserAdmin(user)) {
     // admin can change to all statuses
     possibleStatuses = listingRepository.listingStatuses;
   } else if (listing.publishing_user_id !== user.id) {
@@ -198,7 +216,6 @@ function* enrichListingResponse(listing, user) {
   return listing;
 }
 
-
 function* getRelatedListings(listingId, limit) {
   const listing = yield listingRepository.getById(listingId);
   if (listing) { // Verify that the listing exists
@@ -220,7 +237,8 @@ function* getRelatedListings(listingId, limit) {
     return listingRepository.list(listingQuery, options);
   }
   else {
-    throw new CustomError(400, 'listing "' + listingId + '" does not exist');
+    logger.error({listingId}, 'Cant get related listings for not existing listing');
+    throw new CustomError(400, 'listing does not exist');
   }
 }
 
