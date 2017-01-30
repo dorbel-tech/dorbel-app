@@ -24,13 +24,15 @@ class UploadApartmentBaseStep extends Component {
     }
   }
 
-  handleChange(key, value) {    
+  handleChange(key, value) {
     this.handleChanges({ [key] : value });
   }
 
   @action
   handleChanges(changes) {
-    this.props.appStore.newListingStore.formValues = Object.assign(this.props.appStore.newListingStore.formValues, changes);    
+    const { newListingStore } = this.props.appStore;
+    newListingStore.formValues = Object.assign(newListingStore.formValues, changes);
+    newListingStore.saveStore();
   }
 }
 

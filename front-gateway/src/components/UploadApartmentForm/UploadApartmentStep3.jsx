@@ -1,7 +1,8 @@
 import React from 'react';
 import DorbelModal from '~/components/DorbelModal/DorbelModal';
-import { Button } from 'react-bootstrap';
+import { Button, Col } from 'react-bootstrap';
 import { observer } from 'mobx-react';
+import _ from 'lodash';
 import UploadApartmentBaseStep from './UploadApartmentBaseStep';
 import FormWrapper from '~/components/FormWrapper/FormWrapper';
 import AddOHEInput from '~/components/AddOHEInput/AddOHEInput';
@@ -46,7 +47,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
             </div>
             <div className="col-md-6">
               <FRC.Input name="user.lastname" label="שם משפחה" required/>
-            </div>                
+            </div>
           </div>
           <div className="row">
             <div className="col-md-6">
@@ -54,23 +55,28 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
             </div>
             <div className="col-md-6">
               <FRC.Input name="user.phone" label="טלפון" validationError="מספר טלפון לא תקין" required/>
-            </div>                
+            </div>
           </div>
           <div className="row">
             <div className="col-md-12">
               <FRC.RadioGroup name="publishing_user_type" type="inline" label="הגדר אותי במודעה כ:"
                 options={[{label:'בעל הדירה', value:'landlord'},{label:'הדייר הנוכחי',value:'tenant'}]} />
             </div>
-          </div>              
+          </div>
         </div>
       );
     } else {
-      return (<button onClick={authProvider.showLoginModal}>הכנס למערכת על מנת להשלים את הטופס</button>);
+      return (
+        <Col sm={6}>
+          <Button bsStyle="success" block onClick={authProvider.showLoginModal}>וידוא פרטי קשר</Button>
+        </Col>
+      );
     }
   }
-  
+
   render() {
-    let { authStore } = this.props.appStore;
+    const { authStore, newListingStore } = this.props.appStore;
+    const existingOhe = _.get(newListingStore, 'formValues.open_house_event');
     const FRC = FormWrapper.FRC;
 
     return (
@@ -90,7 +96,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
           <FormWrapper.Wrapper layout="vertical" onChange={this.handleChanges} ref="form">
             <div className="row form-section">
               <div className="form-section-headline">מועדי ביקור בדירה</div>
-              <AddOHEInput onChange={this.handleChange.bind(this, 'open_house_event')} />
+              <AddOHEInput onChange={this.handleChange.bind(this, 'open_house_event')} ohe={existingOhe} mode="new" />
               <div className="row">
                 <div className="col-md-12">
                   <FRC.Textarea name="open_house_event.comments" rows={3} label="הכוונה לדירה בבניין (אם צריך)" />
@@ -99,18 +105,20 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
             </div>
 
             <div className="row form-section">
-              <div className="form-section-headline">פרטי משתמש</div>              
-              {this.renderUserDetails()}                            
+              <div className="form-section-headline">פרטי קשר</div>
+              {this.renderUserDetails()}
             </div>
           </FormWrapper.Wrapper>
 
           <div className="form-nav bottom col-lg-5 col-md-5 col-sm-12 col-xs-12">
             <span onClick={this.clickBack.bind(this)}><i className="open-house-event-previous-step fa fa-arrow-circle-o-right fa-2x" aria-hidden="true"></i>&nbsp; שלב קודם</span>
             <span>3/3</span>
-            <button onClick={this.clickNext.bind(this)} disabled={!authStore.isLoggedIn} className="btn btn-lg btn-default btn-submit dorbel-btn">שליחה וסיום</button>
+            <Button onClick={this.clickNext.bind(this)}
+              bsStyle={authStore.isLoggedIn ? 'success' : 'default'}
+              disabled={!authStore.isLoggedIn} >שליחה וסיום</Button>
           </div>
         </div>
-        <DorbelModal 
+        <DorbelModal
           show={this.props.showSuccessModal}
           onClose={this.onCloseSuccessModal.bind(this)}
           title="העלאת הדירה הושלמה!"
@@ -132,7 +140,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
             </div>
           }
         />
-      </div>      
+      </div>
     );
   }
 }

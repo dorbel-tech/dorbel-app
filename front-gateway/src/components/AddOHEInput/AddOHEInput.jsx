@@ -110,7 +110,7 @@ class AddOHEInput extends React.Component {
         <Row>
           <Col md={12} className="form-group">
             <label>תאריך הביקור</label>
-            <DatePicker name="ohe-date" onChange={this.dateChange} value={this.state.date} disabled={!!this.props.ohe} />
+            <DatePicker name="ohe-date" onChange={this.dateChange} value={this.state.date} disabled={this.props.mode !== 'new'} />
           </Col>
         </Row>
         <Row>
@@ -150,7 +150,8 @@ class AddOHEInput extends React.Component {
 
 AddOHEInput.propTypes = {
   onChange: React.PropTypes.func,
-  ohe: React.PropTypes.object
+  ohe: React.PropTypes.object,
+  mode: React.PropTypes.string
 };
 
 export default AddOHEInput;
