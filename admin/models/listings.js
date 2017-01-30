@@ -56,7 +56,7 @@ module.exports = (sequelize, DataTypes) => {
     slug: {
       type: DataTypes.STRING,
       defaultValue: null
-    }
+    },
     created_at: {
       type: DataTypes.DATE,
     },
@@ -76,8 +76,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     tableName: 'listings',
-    underscored: true,
-    
+    underscored: true    
   });
 
   return Model;
