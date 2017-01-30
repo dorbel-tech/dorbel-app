@@ -49,12 +49,21 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
     }
   }
 
+  getNeighborhoodValue(options) {
+    var storedValue = this.props.appStore.newListingStore.formValues['apartment.building.neighborhood.id'];
+    if (storedValue && options.find(option => option.value === storedValue)) {
+      return storedValue;
+    } else {
+      return options[0].value;
+    }
+  }
+
   render() {
     const { newListingStore } = this.props.appStore;
     const citySelectorOptions = this.getCityOptions();
     const citySelectorValue = newListingStore.formValues['apartment.building.city.id'] || citySelectorOptions[0].value;
     const neighborhoodSelectorOptions = this.getNeighborhoodOptions(citySelectorValue);
-    const neighborhoodSelectorValue = newListingStore.formValues['apartment.building.neighborhood.id'] || neighborhoodSelectorOptions[0].value;
+    const neighborhoodSelectorValue = this.getNeighborhoodValue(neighborhoodSelectorOptions);
     const FRC = FormWrapper.FRC;
 
     const roomOptions = newListingStore.roomOptions.slice(0);
