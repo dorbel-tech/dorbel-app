@@ -72,7 +72,7 @@ describe('Listing Service', function () {
     });
 
     it('should throw when update status given no listing found', function* () {
-      this.listingRepositoryMock.getById = sinon.stub().resolves(undefined);
+      this.listingRepositoryMock.getById = sinon.stub().resolves(0);
 
       yield assertYieldedError(
         () => this.listingService.updateStatus(1, {}, 'rented'),
