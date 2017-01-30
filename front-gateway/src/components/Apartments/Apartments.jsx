@@ -55,7 +55,7 @@ class Apartments extends Component {
   citySelectHandler(cityId) {
     this.setState({ isLoading: true });
     if (cityId === 0) {
-      this.filterObj.city = undefined;
+      delete this.filterObj.city;
     } else {
       this.filterObj.city = cityId;
     }
@@ -88,8 +88,8 @@ class Apartments extends Component {
       this.filterObj[maxProp] = range[1] === DEFAULT_FILTER_PARAMS[maxProp] ?
         undefined : range[1];
     } else {
-      this.filterObj[minProp] = undefined;
-      this.filterObj[maxProp] = undefined;
+      delete this.filterObj[minProp];
+      delete this.filterObj[maxProp];
     }
 
     this.reloadApartments();
@@ -111,8 +111,8 @@ class Apartments extends Component {
     stateChangesObj[e.target.name] = e.target.checked;
     this.setState(stateChangesObj);
 
-    this.filterObj.room = undefined;
-    this.filterObj.rs = undefined;
+    delete this.filterObj.room;
+    delete this.filterObj.rs;
     // We can't check the newly set state to be false directly,
     // so we do a positive check.
     if (e.target.name === 'roomate' && this.state.roomate) {

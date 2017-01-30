@@ -14,6 +14,9 @@ class ApartmentsProvider {
   }
 
   loadApartments(query) {
+    // TODO: Remove the clear and use the computed apartments to filter the view.
+    this.appStore.listingStore.listingsById.clear();
+
     const q = encodeURIComponent(JSON.stringify(query || {}));
     return this.apiProvider.fetch('/api/apartments/v1/listings?q=' + q)
       .then(this.appStore.listingStore.add);
