@@ -130,11 +130,8 @@ class Apartments extends Component {
     const search = Object.keys(this.filterObj).length === 0 ? '' :
         '?q=' + encodeURIComponent(JSON.stringify(this.filterObj));
 
-    //const search = location.search.replace(/.*(q=[^&#]*)&.*/, q);
-
-    if (location.search !== search) {
-      location.search = search;
-    }
+    const title = document ? document.title : '';
+    history.pushState(this.filterObj, title, search);
 
     this.props.appProviders.apartmentsProvider.loadApartments(this.filterObj)
       .then(this.setState({ isLoading: false }));
