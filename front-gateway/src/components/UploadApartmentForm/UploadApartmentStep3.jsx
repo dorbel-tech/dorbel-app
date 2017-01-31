@@ -11,7 +11,7 @@ import AddOHEInput from '~/components/AddOHEInput/AddOHEInput';
 class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
 
   componentDidMount() {
-    // load form with existing values
+    // load form with existing values from store
     this.refs.form.refs.formsy.reset(this.props.appStore.newListingStore.formValues);
   }
 
@@ -22,6 +22,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
   clickNext() {
     const formsy = this.refs.form.refs.formsy;
     if (formsy.state.isValid) {
+      this.props.appStore.newListingStore.updateFormValues(this.refs.form.refs.formsy.getCurrentValues());
       super.clickNext();
     } else {
       this.props.onValidationError(formsy);

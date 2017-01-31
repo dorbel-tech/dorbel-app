@@ -30,9 +30,7 @@ class UploadApartmentBaseStep extends Component {
 
   @action
   handleChanges(changes) {
-    const { newListingStore } = this.props.appStore;
-    newListingStore.formValues = Object.assign(newListingStore.formValues, changes);
-    newListingStore.saveStore();
+    this.props.appStore.newListingStore.updateFormValues(changes);
   }
 }
 

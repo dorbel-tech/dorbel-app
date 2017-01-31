@@ -13,15 +13,14 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
   }
 
   componentDidMount() {
-    if (this.props.appStore.newListingStore.formValues) {
-      // load form with existing values
-      this.refs.form.refs.formsy.reset(this.props.appStore.newListingStore.formValues);
-    }
+    // load form with existing values from store
+    this.refs.form.refs.formsy.reset(this.props.appStore.newListingStore.formValues);
   }
 
   clickNext() {
     const formsy = this.refs.form.refs.formsy;
     if (formsy.state.isValid) {
+      this.props.appStore.newListingStore.updateFormValues(this.refs.form.refs.formsy.getCurrentValues());
       super.clickNext();
     } else {
       this.props.onValidationError(formsy);

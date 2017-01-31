@@ -12,7 +12,7 @@ const roomOptions = _.range(1, 11, 0.5).map(num => ({ value: num, label: num }))
 
 const defaultFormValues = {
   images: [],
-  'apartment.building.city.id': 0, // we have to initialize this so Mobx will re-render the form when it changes
+  'apartment.building.city.id': 1, // we have to initialize this so Mobx will re-render the form when it changes
   publishing_user_type: 'landlord'
 };
 
@@ -40,6 +40,11 @@ export default class NewListingStore {
 
   get roomOptions() {
     return roomOptions;
+  }
+
+  updateFormValues(newFormValues) {
+    this.formValues = Object.assign(this.formValues, newFormValues);
+    this.saveStore();
   }
 
   saveStore() {

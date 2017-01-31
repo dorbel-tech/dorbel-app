@@ -29,9 +29,12 @@ export default class AuthStore {
     }
 
     if (idToken) {
-      const tokenExpiryTime = jwtDecode(idToken).exp * 1000;
-      const tokenTimer = max([0, tokenExpiryTime - Date.now()]); //token might already be expired
-      this.logoutTimer = setTimeout(this.logout, tokenTimer);
+      const tokenExpiryTime = jwtDecode(idToken).exp;
+      const tokenExpiryTimeInMs = tokenExpiryTime * 1000;
+      const durationUntilExpiryInMs = tokenExpiryTimeInMs - Date.now();
+      // token might already be expired and then the duration is negative
+      const logoutTimerDelay = max([0, durationUntilExpiryInMs]);
+      this.logoutTimer = setTimeout(this.logout, logoutTimerDelay);
     }
   }
 
