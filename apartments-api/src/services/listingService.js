@@ -190,7 +190,7 @@ function getPossibleStatuses(listing, user) {
       // admin can change to all statuses
       possibleStatuses = listingRepository.listingStatuses;
     }
-    else if (listing.publishing_user_id === user.id && listing.status !== 'pending') {
+    else if (permissionsService.isPublishingUser(user, listing) && listing.status !== 'pending') {
       // listing owner can change to anything but pending, unless tho listing is pending
       possibleStatuses = listingRepository.listingStatuses.filter(status => status != 'pending');
     }
