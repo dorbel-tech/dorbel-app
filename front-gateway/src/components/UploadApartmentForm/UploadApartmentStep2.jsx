@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button } from 'react-bootstrap';
 import { observer } from 'mobx-react';
 import autobind from 'react-autobind';
 import UploadApartmentBaseStep from './UploadApartmentBaseStep';
@@ -180,10 +181,10 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
             </span>
             <span>2/3</span>
             <span className="next-step" onClick={this.clickNext}>
-              <div className="btn step-btn">
+              <Button bsStyle="success" className="step-btn">
                 שלב הבא &nbsp;
                 <i className="apartment-details-next-step fa fa-arrow-circle-o-left fa-2x" aria-hidden="true"></i>
-              </div>
+              </Button>
             </span>
           </div>
 

@@ -118,7 +118,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
           <div className="form-nav bottom col-lg-5 col-md-5 col-sm-12 col-xs-12">
             <span onClick={this.clickBack.bind(this)}><i className="open-house-event-previous-step fa fa-arrow-circle-o-right fa-2x" aria-hidden="true"></i>&nbsp; שלב קודם</span>
             <span>3/3</span>
-            <Button onClick={this.clickNext.bind(this)}
+            <Button onClick={this.clickNext.bind(this)} className="step-btn"
               bsStyle={authStore.isLoggedIn ? 'success' : 'default'}
               disabled={!authStore.isLoggedIn} >שליחה וסיום</Button>
           </div>

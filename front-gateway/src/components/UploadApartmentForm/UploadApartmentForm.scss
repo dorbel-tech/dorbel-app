@@ -171,13 +171,15 @@
       }
     }
     .step-btn {
-        font-style: normal;
-        padding-bottom: 4px;
-        padding-top: 6px;
-        display: block;
-        background-color: #1cb039;
-        border: transparent;
-        color: #fff;
+      background-color: #1cb039;
+      border: transparent;
+      color: #fff;
+      display: block;
+      font-style: normal;
+      min-height: 38px;
+      min-width: 130px;
+      padding-bottom: 4px;
+      padding-top: 6px;
     }
     .apartment-pictures-next-step,
     .apartment-details-next-step {
