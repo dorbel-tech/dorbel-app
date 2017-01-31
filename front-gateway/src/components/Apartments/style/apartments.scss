@@ -37,6 +37,10 @@
   }
 }
 
+.apartments-results-container {
+  background-color: $gray-lighter;
+}
+
 .apartments-filter-city-container {
   text-align: center;
 
@@ -150,6 +154,10 @@
     &:nth-child(2):after {
       color: $gray-light;
       font-size: 12px;
+    }
+    &:last-child:after {
+      color: $brand-success;
+      content: "+";
     }
   }
 }
