@@ -1,5 +1,4 @@
 'use strict';
-const co = require('co');
 const shared = require('dorbel-shared');
 const config = shared.config; config.setConfigFileFolder(__dirname + '/config'); // load config from file before anything else
 const logger = shared.logger.getLogger(module);
@@ -15,10 +14,7 @@ function* bootstrap() {
 }
 
 if (require.main === module) {
-  co(bootstrap).catch(ex => {
-    logger.error(ex.stack || ex, 'failed to bootstrap application');
-    process.exit(-1);
-  });
+  shared.utils.serverRunner.startCluster(bootstrap);
 }
 
 module.exports = {

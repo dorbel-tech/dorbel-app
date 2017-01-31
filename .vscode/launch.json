@@ -37,20 +37,15 @@
       "sourceMaps": true
     },
     {
-      "name": "front-gateway",
+      "name": "front-gateway#attach",
       "type": "node",
-      "cwd": "${workspaceRoot}/front-gateway",
-      "request": "launch",
-      "program": "${workspaceRoot}/front-gateway/src/server/server.js",
-      "stopOnEntry": false,
-      "args": [ ],
-      "preLaunchTask": null,
+      "request": "attach",
       "port": 5859,
-      "runtimeExecutable": "${workspaceRoot}/front-gateway/scripts/debug.sh",
-      "runtimeArgs": [ "--nolazy" ],
-      "env": { "NODE_ENV": "development" },
-      "console": "internalConsole",
-      "sourceMaps": true
+      "address": "localhost",
+      "restart": true,
+      "sourceMaps": true,
+      "localRoot": "${workspaceRoot}/front-gateway",
+      "remoteRoot": "."
     },
     {
       "name": "notifications-service#attach",

@@ -4,7 +4,6 @@ require('sinon-as-promised');
 import ApartmentsProvider from './ApartmentsProvider';
 
 describe('ApartmentsProvider', function () {
-
   beforeAll(function () {
     this.mockApartments = [123, 456];
     this.providersMock = {
@@ -25,5 +24,4 @@ describe('ApartmentsProvider', function () {
     return this.apartmentsProvider.loadApartments()
       .then(() => expect(this.appStoreMock.listingStore.clearAndSet.args[0][0]).toBe(this.mockApartments));
   });
-
 });

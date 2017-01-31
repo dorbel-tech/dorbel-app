@@ -30,7 +30,6 @@ class ApartmentsProvider {
           this.oheProvider.getFollowsForListing(listing.id)
         ]);
       });
-
   }
 
   getListingMetadata(listing) {
