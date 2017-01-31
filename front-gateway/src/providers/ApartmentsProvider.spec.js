@@ -13,8 +13,7 @@ describe('ApartmentsProvider', function () {
     };
     this.appStoreMock = {
       listingStore: {
-        add: spy(),
-        listingsById: {clear: spy()}
+        clearAndSet: spy()
       }
     };
 
@@ -23,6 +22,6 @@ describe('ApartmentsProvider', function () {
 
   it('should call API to load apartments and save them to store', function () {
     return this.apartmentsProvider.loadApartments()
-      .then(() => expect(this.appStoreMock.listingStore.add.args[0][0]).toBe(this.mockApartments));
+      .then(() => expect(this.appStoreMock.listingStore.clearAndSet.args[0][0]).toBe(this.mockApartments));
   });
 });

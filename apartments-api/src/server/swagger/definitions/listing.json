@@ -37,6 +37,9 @@
         "items": {
           "$ref": "#/definitions/Image"
         }
+      },
+      "slug": {
+        "type": "string"
       }
     },
     "required": [

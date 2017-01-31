@@ -14,7 +14,7 @@ class ListingThumbnail extends Component {
 
     return (
       <Col lg={4} sm={6} xs={12}>
-        <NavLink to={'/apartments/' + listing.id} className="thumbnail apt-thumb-container-single pull-right">
+        <NavLink to={'/apartments/' + (listing.slug || listing.id)} className="thumbnail apt-thumb-container-single pull-right">
           <ListingBadge listing={listing} />
           <div className="apt-thumb-apt-image">
             <CloudinaryImage src={imageURL} height={500} />
