@@ -102,7 +102,7 @@ class Apartment extends Component {
   renderListingLocation(geolocation) {
     if (geolocation) {
       return (
-        <Row>
+        <Row className="container-fluid">
           <ApartmentLocation geo={geolocation} />
         </Row>
       );
