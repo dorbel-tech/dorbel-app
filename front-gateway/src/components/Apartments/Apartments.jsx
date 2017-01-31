@@ -185,7 +185,10 @@ class Apartments extends Component {
             </DropdownButton>
           </div>
           <div className="apartments-filter-switches-container">
-            <Checkbox name="roomate" checked={this.state.roomate} onChange={this.roomateChangeHandler}>
+            <Checkbox name="roomate"
+              checked={this.state.roomate}
+              className="apartments-filter-switches-show-rommates-switch"
+              onChange={this.roomateChangeHandler}>
               <b>הציגו לי דירות לשותפים</b>
             </Checkbox>
             <div className="apartments-filter-switches-switch-wrapper">
