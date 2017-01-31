@@ -50,6 +50,10 @@ function define(sequelize, DataTypes) {
     roommate_needed: {
       type: DataTypes.BOOLEAN,
       defaultValue: false
+    },
+    slug: {
+      type: DataTypes.STRING,
+      defaultValue: null
     }
   }, {
     classMethods: {

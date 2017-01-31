@@ -52,7 +52,7 @@ describe('Listing Service', function () {
         __.assertThat('code', __.is('not reached'));
       }
       catch (error) {
-        __.assertThat(error.message, __.is('apartment already has an active listing'));
+        __.assertThat(error.message, __.is('הדירה שלך כבר קיימת במערכת'));
       }
     });
 
@@ -72,12 +72,12 @@ describe('Listing Service', function () {
     });
 
     it('should throw when update status given no listing found', function* () {
-      this.listingRepositoryMock.getById = sinon.stub().resolves(undefined);
+      this.listingRepositoryMock.getById = sinon.stub().resolves(0);
 
       yield assertYieldedError(
         () => this.listingService.updateStatus(1, {}, 'rented'),
         __.hasProperties({
-          message: 'listing not found',
+          message: 'הדירה לא נמצאה',
           status: 404
         })
       );
@@ -90,7 +90,7 @@ describe('Listing Service', function () {
       yield assertYieldedError(
         () => this.listingService.updateStatus(1, user, 'rented'),
         __.hasProperties({
-          message: 'unauthorized to edit this listing',
+          message: 'אין באפשרותך לערוך דירה זו',
           status: 403
         })
       );
@@ -116,7 +116,7 @@ describe('Listing Service', function () {
       yield assertYieldedError(
         () => this.listingService.updateStatus(1, user, 'listed'),
         __.hasProperties({
-          message: 'unauthorized to change this listing to status listed',
+          message: 'אין באפשרותך לשנות את סטטוס הדירה ל listed',
           status: 403
         })
       );
@@ -133,7 +133,7 @@ describe('Listing Service', function () {
         __.assertThat('code', __.is('not reached'));
       }
       catch (error) {
-        __.assertThat(error.message, __.is('listing "0" does not exist'));
+        __.assertThat(error.message, __.is('listing does not exist'));
       }
     });
 

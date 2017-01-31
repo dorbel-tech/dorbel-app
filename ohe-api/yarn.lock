@@ -1105,9 +1105,9 @@ doctrine@^1.2.2:
     esutils "^2.0.2"
     isarray "^1.0.0"
 
-"dorbel-shared@git://github.com/dorbel-tech/dorbel-shared#v0.4.49":
-  version "0.4.49"
-  resolved "git://github.com/dorbel-tech/dorbel-shared#ef38738e8074035011cfaee97083e9afc3cb2cfc"
+"dorbel-shared@git://github.com/dorbel-tech/dorbel-shared#v0.4.51":
+  version "0.4.51"
+  resolved "git://github.com/dorbel-tech/dorbel-shared#0990284c63a8252aa02234d7ac048069c0093427"
   dependencies:
     analytics-node "^2.1.0"
     auth0 "^2.5.0"
@@ -1115,7 +1115,9 @@ doctrine@^1.2.2:
     bunyan "~1.8.1"
     bunyan-logentries "^1.2.0"
     bunyan-sumologic "^1.0.1"
+    co "^4.6.0"
     es6-promisify "^5.0.0"
+    http-graceful-shutdown "^1.0.6"
     jwt-decode "^2.1.0"
     lodash "~4.16.3"
     nconf "~0.8.4"
@@ -1126,6 +1128,7 @@ doctrine@^1.2.2:
     sns.js "1.0.2"
     sqs-consumer "3.4.0"
     swagger-model-validator "~2.1.2"
+    throng "^4.0.0"
 
 dot-case@^1.1.0:
   version "1.1.2"
@@ -2145,6 +2148,13 @@ http-errors@~1.4.0:
     inherits "2.0.1"
     statuses ">= 1.2.1 < 2"
 
+http-graceful-shutdown@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/http-graceful-shutdown/-/http-graceful-shutdown-1.0.6.tgz#26314e3e1ca812f1acba243d05cbc0965a8f17f6"
+  dependencies:
+    debug "^2.2.0"
+    lodash "^4.1.0"
+
 http-proxy-agent@1:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/http-proxy-agent/-/http-proxy-agent-1.0.0.tgz#cc1ce38e453bf984a0f7702d2dd59c73d081284a"
@@ -2836,6 +2846,10 @@ lodash.defaults@^3.1.2:
     lodash.assign "^3.0.0"
     lodash.restparam "^3.0.0"
 
+lodash.defaults@^4.0.1:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/lodash.defaults/-/lodash.defaults-4.2.0.tgz#d09178716ffea4dde9e5fb7b37f6f0802274580c"
+
 lodash.escape@^3.0.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/lodash.escape/-/lodash.escape-3.2.0.tgz#995ee0dc18c1b48cc92effae71a10aab5b487698"
@@ -2927,7 +2941,7 @@ lodash@^3.10.0, lodash@^3.10.1, lodash@^3.8.0, lodash@^3.9.1:
   version "3.10.1"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-3.10.1.tgz#5bf45e8e49ba4189e17d482789dfd15bd140b7b6"
 
-lodash@^4.0.0, lodash@^4.12.0, lodash@^4.13.1, lodash@^4.14.0, lodash@^4.15.0, lodash@^4.16.3, lodash@^4.2.0, lodash@^4.3.0:
+lodash@^4.0.0, lodash@^4.1.0, lodash@^4.12.0, lodash@^4.13.1, lodash@^4.14.0, lodash@^4.15.0, lodash@^4.16.3, lodash@^4.2.0, lodash@^4.3.0:
   version "4.17.2"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.2.tgz#34a3055babe04ce42467b607d700072c7ff6bf42"
 
@@ -4567,6 +4581,12 @@ terraformer@~1.0.5:
 text-table@~0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
+
+throng@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/throng/-/throng-4.0.0.tgz#983c6ba1993b58eae859998aa687ffe88df84c17"
+  dependencies:
+    lodash.defaults "^4.0.1"
 
 through2@^0.6.1:
   version "0.6.5"

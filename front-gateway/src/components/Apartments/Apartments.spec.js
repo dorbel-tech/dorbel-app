@@ -31,6 +31,7 @@ describe('Apartments', function () {
 
   it('should render apartment from store', function () {
     const wrapper = shallow(<Apartments.wrappedComponent appStore={this.appStoreMock} appProviders={this.appProvidersMock} />);
+    wrapper.setState({isLoading: false});
 
     const thumbnails = wrapper.find(ListingThumbnail);
     expect(thumbnails.length).toBe(this.appStoreMock.listingStore.apartments.length);
