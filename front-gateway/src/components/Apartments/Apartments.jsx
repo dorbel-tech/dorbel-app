@@ -29,8 +29,6 @@ const DEFAULT_FILTER_PARAMS = {
 
 @observer(['appStore', 'appProviders'])
 class Apartments extends Component {
-  static hideFooter = true;
-
   constructor(props) {
     super(props);
     autobind(this);

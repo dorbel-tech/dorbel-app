@@ -1,5 +1,4 @@
 .apartments-container {
-  height: 100%;
   position: relative;
 }
 
@@ -19,6 +18,7 @@
 
 .apartments-results-wrapper {
   background-color: $gray-lighter;
+  overflow: auto;
   padding-top: 39px;
 
   @media (min-width: $screen-md-min) {
