@@ -16,20 +16,20 @@ class ApartmentsProvider {
   loadApartments(query) {
     const q = encodeURIComponent(JSON.stringify(query || {}));
     return this.apiProvider.fetch('/api/apartments/v1/listings?q=' + q)
-      .then(this.appStore.listingStore.add);
+      .then(this.appStore.listingStore.clearAndSet);
   }
 
-  loadFullListingDetails(id) {
-    return Promise.all([
-      this.apiProvider.fetch('/api/apartments/v1/listings/' + id)
-        .then(listing => {
-          listing.title = listing.title || `דירת ${listing.apartment.rooms} חד׳ ברח׳ ${listing.apartment.building.street_name}`;
-          this.appStore.listingStore.listingsById.set(id, listing);
-          this.appStore.metaData = _.defaults(this.getListingMetadata(listing), this.appStore.metaData);
-        }),
-      this.oheProvider.loadListingEvents(id),
-      this.oheProvider.getFollowsForListing(id)
-    ]);
+  loadFullListingDetails(idOrSlug) {
+    return this.apiProvider.fetch('/api/apartments/v1/listings/' + idOrSlug)
+      .then(listing => {
+        listing.title = listing.title || `דירת ${listing.apartment.rooms} חד׳ ברח׳ ${listing.apartment.building.street_name}`;
+        this.appStore.listingStore.add(listing);
+        this.appStore.metaData = _.defaults(this.getListingMetadata(listing), this.appStore.metaData);
+        return Promise.all([
+          this.oheProvider.loadListingEvents(listing.id),
+          this.oheProvider.getFollowsForListing(listing.id)
+        ]);
+      });
   }
 
   getListingMetadata(listing) {
@@ -37,8 +37,13 @@ class ApartmentsProvider {
       description: listing.description,
       title: listing.title,
       image: (listing.images && listing.images.length > 0) ? listing.images[0].url : undefined,
-      url: process.env.FRONT_GATEWAY_URL + '/apartments/' + listing.id
+      url: this.getCanonicalUrl(listing)
     };
+  }
+
+  getCanonicalUrl(listing) {
+    let listingUrl = process.env.FRONT_GATEWAY_URL + '/apartments/';
+    return listingUrl += listing.slug || listing.id;
   }
 
   uploadApartment(listing) {

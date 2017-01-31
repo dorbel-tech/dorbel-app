@@ -5,11 +5,11 @@ var moment = require('moment');
 const shared = require('dorbel-shared');
 const config = shared.config;
 const errors = require('../domainErrors');
+const userManagement = shared.utils.userManagement;
 
 const CLOSE_EVENT_IF_TOO_CLOSE = config.get('CLOSE_EVENT_IF_TOO_CLOSE');
 
 function calculateOHEStatus(oheModel, userId) { // userId is the registred userId, not the creator of the listing
-
   if (moment().isAfter(oheModel.start_time)) {
     return 'expired';
   } else if (userId && _.find(oheModel.registrations, { registered_user_id: userId, is_active: true })) {
@@ -24,7 +24,7 @@ function calculateOHEStatus(oheModel, userId) { // userId is the registred userI
 }
 
 function validateResourceOwnership(resourceOwnerId, user) {
-  if (!user || (user.role !== 'admin' && resourceOwnerId != user.id)) {
+  if (!user || (!userManagement.isUserAdmin(user) && resourceOwnerId != user.id)) {
     throw new errors.NotResourceOwnerError();
   }
 }

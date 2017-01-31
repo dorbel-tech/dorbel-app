@@ -45,15 +45,21 @@ describe('Apartments API Integration', function () {
     });
   });
 
-  describe('/listings/{id}', function () {
+  describe('/listings/{idOrSlug}', function () {
     before(function* () {
       const newListing = faker.getFakeListing();
       const postReponse = yield this.apiClient.createListing(newListing).expect(201).end();
       this.createdListing = postReponse.body;
     });
 
-    it('should return a single listing', function* () {
+    it('should return a single listing by id', function* () {
       const getResponse = yield this.apiClient.getSingleListing(this.createdListing.id).expect(200).end();
+      // TODO : this is a very shallow check
+      __.assertThat(getResponse.body, __.hasProperties(this.createdListing));
+    });
+
+    it('should return a single listing by slug', function* () {
+      const getResponse = yield this.apiClient.getSingleListing(this.createdListing.slug).expect(200).end();
       // TODO : this is a very shallow check
       __.assertThat(getResponse.body, __.hasProperties(this.createdListing));
     });
@@ -102,7 +108,7 @@ describe('Apartments API Integration', function () {
     it('should return listings from the same city as the requested listing', function* () {
       const getListingResponse = yield this.apiClient.getSingleListing(this.listingId).expect(200).end();
       const cityId = getListingResponse.body.apartment.building.city_id;
-      
+
       const getRelatedResponse = yield this.apiClient.getRelatedListings(this.listingId).expect(200).end();
       const respCityIds = _.map(getRelatedResponse.body, function (listing) {
         return listing.apartment.building.city_id;

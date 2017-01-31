@@ -2202,9 +2202,9 @@ domutils@1.5.1, domutils@^1.5.1:
     dom-serializer "0"
     domelementtype "1"
 
-"dorbel-shared@git://github.com/dorbel-tech/dorbel-shared#v0.4.50":
-  version "0.4.50"
-  resolved "git://github.com/dorbel-tech/dorbel-shared#abb7b553d72329ac3ac44065af85d3c2ffbccd39"
+"dorbel-shared@git://github.com/dorbel-tech/dorbel-shared#v0.4.51":
+  version "0.4.51"
+  resolved "git://github.com/dorbel-tech/dorbel-shared#0990284c63a8252aa02234d7ac048069c0093427"
   dependencies:
     analytics-node "^2.1.0"
     auth0 "^2.5.0"
