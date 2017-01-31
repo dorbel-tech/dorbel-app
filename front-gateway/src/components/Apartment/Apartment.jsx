@@ -38,7 +38,7 @@ class Apartment extends Component {
 
   loadFullListingDetails() {
     let listingId = this.props.apartmentId;
-    if (!this.props.appStore.listingStore.listingsById.get(listingId)) {
+    if (!this.props.appStore.listingStore.get(listingId)) {
       this.setState({ isLoading: true });
       this.props.appProviders.apartmentsProvider.loadFullListingDetails(listingId)
         .then(() => this.setState({ isLoading: false }));
@@ -118,7 +118,7 @@ class Apartment extends Component {
   render() {
     // TODO : mixup between listing and apartment here !!!
     const { appStore, action } = this.props;
-    const listing = appStore.listingStore.listingsById.get(this.props.apartmentId);
+    const listing = appStore.listingStore.get(this.props.apartmentId);
 
     if (this.state.isLoading) {
       return (

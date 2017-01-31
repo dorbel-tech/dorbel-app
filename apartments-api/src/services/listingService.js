@@ -177,6 +177,11 @@ function* getById(id, user) {
   }
 }
 
+function* getBySlug(slug, user) {
+  let listing = yield listingRepository.getBySlug(slug);
+  return yield enrichListingResponse(listing, user);
+}
+
 function getPossibleStatuses(listing, user) {
   let possibleStatuses = [];
 
@@ -247,5 +252,6 @@ module.exports = {
   updateStatus,
   getByFilter,
   getById,
+  getBySlug,
   getRelatedListings,
 };
