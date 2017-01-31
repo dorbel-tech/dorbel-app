@@ -4,6 +4,7 @@
 import _ from 'lodash';
 import { observable, autorun } from 'mobx';
 import autobind from 'react-autobind';
+import localStorageHelper from './localStorageHelper';
 
 const localStorageKey = 'newListingStoreState';
 
@@ -26,27 +27,7 @@ export default class NewListingStore {
       this.reset();
     }
 
-    autorun(this.loadUserDetails);
     autorun(this.saveStore);
-  }
-
-  loadUserDetails() {
-    if (this.authStore.profile) {
-      const profile = this.authStore.profile;
-      Object.assign(this.formValues, {
-        'user.firstname': profile.first_name,
-        'user.lastname': profile.last_name,
-        'user.email': profile.email,
-        'user.phone': profile.phone
-      });
-    } else if (this.formValues['user.email'] && !this.authStore.profile) {
-      Object.assign(this.formValues, {
-        'user.firstname': '',
-        'user.lastname': '',
-        'user.email': '',
-        'user.phone': ''
-      });
-    }
   }
 
   reset() {
@@ -62,25 +43,14 @@ export default class NewListingStore {
   }
 
   saveStore() {
-    if (process.env.IS_CLIENT) {
-      localStorage.setItem(localStorageKey, JSON.stringify(this.toJson()));
-    }
+    localStorageHelper.setItem(localStorageKey, this.toJson());
   }
 
   attemptRestoreState() {
-    if (process.env.IS_CLIENT) {
-      const savedStore = localStorage.getItem(localStorageKey);
-      if (savedStore) {
-        try {
-          const previousState = JSON.parse(savedStore);
-          Object.assign(this, previousState);
-          return true;
-        }
-        catch (ex) {
-          // item localStorage is not good
-          localStorage.removeItem(localStorageKey);
-        }
-      }
+    const previousState = localStorageHelper.getItem(localStorageKey);
+    if (previousState) {
+      Object.assign(this, previousState);
+      return true;
     }
   }
 

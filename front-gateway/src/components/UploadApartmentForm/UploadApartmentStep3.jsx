@@ -39,27 +39,31 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
     const FRC = FormWrapper.FRC;
 
     if (authStore.isLoggedIn) {
+      // setting this up specificially because somehow it gets lost when logging in
+      const publishing_user_type = this.props.appStore.newListingStore.formValues.publishing_user_type;
+
       return (
         <div>
           <div className="row">
             <div className="col-md-6">
-              <FRC.Input name="user.firstname" label="שם פרטי" required/>
+              <FRC.Input name="user.firstname" label="שם פרטי" value={authStore.profile.first_name} required/>
             </div>
             <div className="col-md-6">
-              <FRC.Input name="user.lastname" label="שם משפחה" required/>
+              <FRC.Input name="user.lastname" label="שם משפחה" value={authStore.profile.last_name} required/>
             </div>
           </div>
           <div className="row">
             <div className="col-md-6">
-              <FRC.Input name="user.email" label="מייל" type="email" validations="isEmail" validationError="כתובת מייל לא תקינה" required/>
+              <FRC.Input name="user.email" label="מייל" value={authStore.profile.email}
+                type="email" validations="isEmail" validationError="כתובת מייל לא תקינה" required/>
             </div>
             <div className="col-md-6">
-              <FRC.Input name="user.phone" label="טלפון" validationError="מספר טלפון לא תקין" required/>
+              <FRC.Input name="user.phone" label="טלפון" value={authStore.profile.phone} validationError="מספר טלפון לא תקין" required/>
             </div>
           </div>
           <div className="row">
             <div className="col-md-12">
-              <FRC.RadioGroup name="publishing_user_type" type="inline" label="הגדר אותי במודעה כ:"
+              <FRC.RadioGroup name="publishing_user_type" value={publishing_user_type} type="inline" label="הגדר אותי במודעה כ:"
                 options={[{label:'בעל הדירה', value:'landlord'},{label:'הדייר הנוכחי',value:'tenant'}]} />
             </div>
           </div>

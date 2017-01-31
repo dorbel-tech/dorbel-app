@@ -1,63 +1,55 @@
 'use strict';
-import { observable } from 'mobx';
+import { observable, computed } from 'mobx';
+import { max } from 'lodash';
 import jwtDecode from 'jwt-decode';
+import localStorageHelper from './localStorageHelper';
 
-const noop = () => { };
-// mocking localStorage on the server side - must be better way to do this ...
-const localStorage = (global.window) ? global.window.localStorage : { getItem: noop, setItem: noop, removeItem: noop, clear: noop };
+const ID_TOKEN_KEY = 'id_token';
+const PROFILE_KEY = 'profile';
 
 export default class AuthStore {
-  @observable idToken;
-  @observable profile;
+  @observable idToken = null;
+  @observable profile = null;
 
-  get isLoggedIn() {
-    const token = this.getToken();
-    return token && this.isTokenNotExpired(token);
+  constructor() {
+    this.setToken(localStorageHelper.getItem(ID_TOKEN_KEY));
+    this.setProfile(localStorageHelper.getItem(PROFILE_KEY));
+  }
+
+  @computed get isLoggedIn() {
+    return this.idToken && this.profile;
   }
 
   setToken(idToken) {
     this.idToken = idToken;
-    localStorage.setItem('id_token', idToken);
-  }
+    localStorageHelper.setItem(ID_TOKEN_KEY, idToken);
 
-  getToken() {
-    return this.idToken || localStorage.getItem('id_token');
-  }
+    if (this.logoutTimer) {
+      clearTimeout(this.logoutTimer);
+    }
 
-  isTokenNotExpired(token) {
-    const valid = jwtDecode(token).exp > (Date.now() / 1000);
-    if (!valid) { this.logout(); }
-    return valid;
+    if (idToken) {
+      const tokenExpiryTime = jwtDecode(idToken).exp * 1000;
+      const tokenTimer = max([0, tokenExpiryTime - Date.now()]); //token might already be expired
+      this.logoutTimer = setTimeout(this.logout, tokenTimer);
+    }
   }
 
   setProfile(profile) {
     this.profile = profile;
-    localStorage.setItem('profile', JSON.stringify(profile));
+    localStorageHelper.setItem(PROFILE_KEY, profile);
   }
 
   updateProfile(profile) {
-    Object.assign(this.profile.user_metadata, profile);
+    Object.assign(this.profile.user_metadata, profile.user_metadata);
     Object.assign(this.profile, profile);
-    
+
     this.setProfile(this.profile);
   }
 
-  getProfile() {
-    if (this.profile) {
-      return this.profile;
-    }
-
-    const profile = localStorage.getItem('profile');
-    this.profile = profile ? JSON.parse(profile) : undefined;
-    return this.profile;
-  }
-
   logout() {
-    this.idToken = undefined;
-    this.profile = undefined;
-
-    localStorage.removeItem('id_token');
-    localStorage.removeItem('profile');
+    this.setToken(null);
+    this.setProfile(null);
   }
 }
 
