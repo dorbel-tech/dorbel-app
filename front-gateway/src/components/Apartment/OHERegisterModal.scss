@@ -1,0 +1,14 @@
+@import "../sharedStyles/bsvars.scss";
+    
+.oheRegisterModal {
+  .close {
+    padding-right: 10px;
+  }
+  
+  @media (max-width: $screen-md-min) {
+    .oheModalInput {
+        padding-bottom: 5px;
+    }
+  }
+}
+  
