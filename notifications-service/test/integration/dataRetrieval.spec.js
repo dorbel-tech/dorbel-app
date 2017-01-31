@@ -20,11 +20,12 @@ describe('Data Retrieval Integration', function () {
       dataRetrieval: ['getListingInfo']
     };
     const eventData = {
-      user_uuid: '',
-      listing_id: ''
+      user_uuid: staticUser.id,
+      listing_id: 1
     };
     const results = yield this.dataRetrieval.getAdditonalData(eventConfig, eventData);
-  });
 
+    __.assertThat(results.listing, __.hasProperties({ id: 1, publishing_user_email: staticUser.email }));
+  });
 
 });
