@@ -4,7 +4,6 @@ require('sinon-as-promised');
 import ApartmentsProvider from './ApartmentsProvider';
 
 describe('ApartmentsProvider', function () {
-
   beforeAll(function () {
     this.mockApartments = [123, 456];
     this.providersMock = {
