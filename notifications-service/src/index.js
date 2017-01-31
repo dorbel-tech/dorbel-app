@@ -1,7 +1,6 @@
 'use strict';
-const co = require('co');
 const shared = require('dorbel-shared');
-const config = shared.config; 
+const config = shared.config;
 const path = require('path'); config.setConfigFileFolder(path.join(__dirname, '/config')); // load config from file before anything else
 const logger = shared.logger.getLogger(module);
 const notificationSender = require('./sender/notificationSender');
@@ -15,7 +14,7 @@ logger.info({
 function startMessageConsumers() {
   logger.info('Begin consuming messages from SQS queue');
   const appEventsConsumers = messageBus.consume.start(
-    config.get('NOTIFICATIONS_APP_EVENTS_SQS_QUEUE_URL'), 
+    config.get('NOTIFICATIONS_APP_EVENTS_SQS_QUEUE_URL'),
     notificationSender.handleMessage);
 
   process.on('exit', function (code) {
@@ -36,10 +35,7 @@ function* bootstrap() {
 }
 
 if (require.main === module) {
-  co(bootstrap).catch(ex => {
-    logger.error(ex.stack || ex, 'failed to bootstrap application');
-    process.exit(-1);
-  });
+  shared.utils.serverRunner.startCluster(bootstrap);
 }
 
 module.exports = {
