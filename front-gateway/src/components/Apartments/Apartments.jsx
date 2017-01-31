@@ -30,6 +30,7 @@ const DEFAULT_FILTER_PARAMS = {
 @observer(['appStore', 'appProviders'])
 class Apartments extends Component {
   static hideFooter = true;
+
   constructor(props) {
     super(props);
     autobind(this);
@@ -151,7 +152,8 @@ class Apartments extends Component {
         </Row>
       </Grid>);
     } else {
-      return (<div className="apartments-results-not-found">הלוואי והייתה לנו דירה בדיוק כזו.<br />
+      return (<div className="apartments-results-not-found">
+      <b className="apartments-results-not-found-title">הלוואי והייתה לנו דירה בדיוק כזו.</b><br />
         כנראה שהייתם ספציפיים מדי - לא נמצאו דירות לחיפוש זה.<br />
         נסו לשנות את הגדרות החיפוש</div>);
     }
@@ -205,7 +207,7 @@ class Apartments extends Component {
           </div>
           <div className="apartments-filter-sliders-container">
             <div className="cost-slider">
-              <h5 className="text-center">בחר טווח מחירים</h5>
+              <h5 className="text-center">טווח מחירים</h5>
               <Nouislider onChange={this.mrSliderChangeHandler}
                 range={{
                   min: DEFAULT_FILTER_PARAMS.mrs,
@@ -218,7 +220,7 @@ class Apartments extends Component {
                 direction={'ltr'} />
             </div>
             <div className="roomsnum-slider">
-              <h5 className="text-center">בחר מספר חדרים</h5>
+              <h5 className="text-center">מספר חדרים</h5>
               <Nouislider onChange={this.roomsSliderChangeHandler}
                 range={{
                   min: DEFAULT_FILTER_PARAMS.minRooms,
@@ -243,7 +245,7 @@ class Apartments extends Component {
                 direction={'ltr'} />
             </div>
             <div className="size-slider">
-              <h5 className="text-center">בחר גודל נכס (במ"ר)</h5>
+              <h5 className="text-center">גודל נכס (במ"ר)</h5>
               <Nouislider onChange={this.sizeSliderChangeHandler}
                 range={{
                   min: DEFAULT_FILTER_PARAMS.minSize,

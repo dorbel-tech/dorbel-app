@@ -52,13 +52,14 @@
 
 .apartments-filter-switches-container {
   border-bottom: 1px solid $gray-lighter;
-  font-size: 13px;
+  font-size: 15px;
   line-height: $line-height-computed;
   padding: 48px 22px 26px;
 }
 
 .apartments-filter-switches-switch-wrapper {
   display: inline-block;
+  font-size: 13px;
   width: 50%;
 }
 
@@ -66,7 +67,7 @@
   border-bottom: 1px solid $gray-lighter;
   font-size: 13px;
   line-height: $line-height-computed;
-  padding: 0 46px;
+  padding: 24px 46px 0;
 }
 
 .apartments-filter-amenities-container {
@@ -94,6 +95,10 @@
   @media (min-width: $screen-md-min) {
     padding: 300px 0;
   }
+}
+
+.apartments-results-not-found-title {
+  font-size: 17px;
 }
 
 .size-slider {
