@@ -37,7 +37,8 @@ function getFakeListing() {
     images: [{ url: 'http://lorempixel.com/1000/500/?' + faker.random.number(9999) }],
     user: {
       phone: '123456789'
-    }
+    },
+    slug: 'test-listing' + faker.random.uuid() // This field has a unique constraint
   };
 }
 

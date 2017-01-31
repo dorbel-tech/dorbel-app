@@ -6,18 +6,36 @@ export default class ListingStore {
 
   constructor(initialState = {}) {
     this.listingsById = asMap(initialState.listingsById || {});
+    this.listingsBySlug = asMap(initialState.listingsBySlug || {});
     autobind(this);
+  }
+
+  get(idOrSlug){
+    const id = parseInt(idOrSlug);
+    if(isNaN(id)){
+      return this.listingsBySlug.get(idOrSlug);
+    }
+    else{
+      return this.listingsById.get(id);
+    }
+  }
+
+  add(listing) {
+    this.listingsById.set(listing.id, listing);
+    if (listing.slug) {
+      this.listingsBySlug.set(listing.slug, listing);
+    }
   }
 
   @computed get apartments() {
     return this.listingsById.values();
   }
 
-  add(listings) {
+  clearAndSet(listings) {
     // TODO: Remove the clear and use the computed apartments to filter the view.
     this.listingsById.clear();
-    listings
-      .forEach(listing => this.listingsById.set(listing.id, listing));
+    this.listingsBySlug.clear();
+    listings.forEach(this.add);
   }
 
   update(listingId, updates) {
@@ -27,7 +45,8 @@ export default class ListingStore {
 
   toJson() {
     return {
-      listingsById: this.listingsById
+      listingsById: this.listingsById,
+      listingsBySlug: this.listingsBySlug
     };
   }
 }
