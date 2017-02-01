@@ -1,5 +1,4 @@
 'use strict';
-const moment = require('moment');
 const mockRequire = require('mock-require');
 const __ = require('hamjest');
 const faker = require('../shared/fakeObjectGenerator');
