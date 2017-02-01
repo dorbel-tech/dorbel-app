@@ -1,6 +1,7 @@
 import React from 'react';
-import { observer } from 'mobx-react';
+import { Col, Grid, Row } from 'react-bootstrap';
 import Dropzone from 'react-dropzone';
+import { observer } from 'mobx-react';
 import CloudinaryImage from '../CloudinaryImage/CloudinaryImage';
 import UploadApartmentBaseStep from './UploadApartmentBaseStep';
 
@@ -40,10 +41,10 @@ class UploadApartmentStep1 extends UploadApartmentBaseStep.wrappedComponent {
     const images = this.props.appStore.newListingStore.formValues.images;
 
     return (
-      <div className="container-fluid upload-apt-wrapper">
-        <div className="col-md-7 upload-apt-right-container">
-          <div>
-            <div className="text">
+      <Grid fluid className="upload-apt-wrapper">
+        <Col md={7} className="upload-apt-right-container">
+          <div className="upload-apt-right-container-text-wrapper">
+            <div className="upload-apt-right-container-text-container">
               <h1>תמונות של הדירה</h1>
               <p>אנא השקיעו בתמונות (צלמו לרוחב) וחסכו לעצמכם שאלות מיותרות</p>
               <ul>
@@ -51,20 +52,20 @@ class UploadApartmentStep1 extends UploadApartmentBaseStep.wrappedComponent {
                 <li>טיפ: צלמו כל חדר מ-2 זויות (כולל מטבח, מרפסת וכו׳)</li>
               </ul>
             </div>
-            <img src="https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/upload-apt-form/icon-signup-photos.svg" alt="Upload photos" />
           </div>
-        </div>
-        <div className="col-md-5 upload-apt-left-container apartment-pictures-step">
+          <img src="https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/upload-apt-form/icon-signup-photos.svg" alt="Upload photos" />
+        </Col>
+        <Col md={5} className="upload-apt-left-container apartment-pictures-step">
           <div className="photos-upload" >
             <form>
-              <div className="row thumbs">
+              <Row className="thumbs">
                 <Dropzone className="col-md-4 thumb" multiple={false} onDrop={this.onChooseFile.bind(this)}>
                   <div className="thumb-inner add">
                     <span className="add-photo">הוסף תמונה +</span>
                   </div>
                 </Dropzone>
                 {images.map(this.renderImage.bind(this))}
-              </div>
+              </Row>
             </form>
             <div className="form-nav bottom col-lg-5 col-md-5 col-sm-12 col-xs-12">
               <span></span>
@@ -77,8 +78,8 @@ class UploadApartmentStep1 extends UploadApartmentBaseStep.wrappedComponent {
               </span>
             </div>
           </div>
-        </div>
-      </div>
+        </Col>
+      </Grid>
     );
   }
 }
