@@ -9,6 +9,7 @@ const assertYieldedError = require('../shared/assertYieldedError');
 describe('Listing Service', function () {
 
   before(function () {
+    this.timeout(10000);
     this.mockListing = { list: 'ing' };
     this.listingRepositoryMock = {
       create: sinon.stub().resolves(this.mockListing),

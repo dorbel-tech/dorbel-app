@@ -1,5 +1,4 @@
 'use strict';
-const moment = require('moment');
 const mockRequire = require('mock-require');
 const __ = require('hamjest');
 const faker = require('../shared/fakeObjectGenerator');
@@ -8,6 +7,7 @@ var sinon = require('sinon');
 describe('Open House Event Finder Service', function () {
 
   before(function () {
+    this.timeout(10000);
     this.openHouseEventsRepositoryMock = {};
     mockRequire('../../src/openHouseEventsDb/repositories/openHouseEventsRepository', this.openHouseEventsRepositoryMock);
     this.service = require('../../src/services/openHouseEventsFinderService');

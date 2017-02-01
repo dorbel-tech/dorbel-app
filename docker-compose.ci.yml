@@ -1,0 +1,9 @@
+# This file is meant to extend docker-compose.yml for ci environment
+version: '2'
+services:
+
+  apartments-api:
+    command: bash -c "./scripts/wait-for-it.sh db:3306 --timeout=180 && yarn run start"
+
+  ohe-api:
+    command: bash -c "./scripts/wait-for-it.sh db:3306 --timeout=180 && yarn run start"
