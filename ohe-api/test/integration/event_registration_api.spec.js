@@ -4,7 +4,6 @@ const moment = require('moment');
 const faker = require('../shared/fakeObjectGenerator');
 
 describe('Open House Events Registration API Integration', function () {
-
   before(function* () {
     this.timeout = (10000);
     this.apiClient = yield ApiClient.init(faker.getFakeUser());
