@@ -5,7 +5,6 @@ var faker = require('../shared/fakeObjectGenerator');
 
 describe('Listing Repository', function () {
   before(function * () {
-    this.timeout(10000);    
     yield inMemoryDb.connect();
     this.listingRepo = require('../../src/apartmentsDb/repositories/listingRepository');
   });

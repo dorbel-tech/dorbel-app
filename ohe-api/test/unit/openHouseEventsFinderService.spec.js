@@ -7,7 +7,6 @@ var sinon = require('sinon');
 describe('Open House Event Finder Service', function () {
 
   before(function () {
-    this.timeout(10000);
     this.openHouseEventsRepositoryMock = {};
     mockRequire('../../src/openHouseEventsDb/repositories/openHouseEventsRepository', this.openHouseEventsRepositoryMock);
     this.service = require('../../src/services/openHouseEventsFinderService');

@@ -10,9 +10,11 @@ docker-compose exec ohe-api yarn run test:integration &&
 docker-compose exec notifications-service yarn run lint &&
 docker-compose exec notifications-service yarn run test &&
 docker-compose exec notifications-service yarn run test:integration &&
-docker-compose exec front-gateway  yarn run lint &&
-docker-compose exec front-gateway  yarn run test
+docker-compose exec front-gateway yarn run lint &&
+docker-compose exec front-gateway yarn run test &&
+docker-compose exec front-gateway yarn run test:integration
 
+LINE WRAP ON
 RED='\033[1;31m'
 GREEN='\033[1;32m'
 RC=$?; 
