@@ -16,15 +16,13 @@ function getOhe(listingId, startsIn) {
 }
 
 describe('Open House Events By Listing API Integration', function () {
-
   before(function* () {
+    this.timeout(10000);
     this.apiClient = yield ApiClient.init(faker.getFakeUser());
   });
 
   describe('/events/by-listing/', function () {
-
     describe('GET', function () {
-      
       it('should get all events per listing id', function* () {
         const listingId = faker.getRandomNumber();
         const ohe1 = getOhe(listingId, -2);
