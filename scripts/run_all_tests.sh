@@ -1,17 +1,17 @@
 #!/bin/bash
-# A script to run all services tests in Docker containers, just like in CI.
+# A script to exec all services tests in Docker containers, just like in CI.
 
-docker-compose run apartments-api yarn run lint &&
-docker-compose run apartments-api yarn run test &&
-docker-compose run apartments-api yarn run test:integration &&
-docker-compose run ohe-api yarn run lint &&
-docker-compose run ohe-api yarn run test &&
-docker-compose run ohe-api yarn run test:integration &&
-docker-compose run notifications-service yarn run lint &&
-docker-compose run notifications-service yarn run test &&
-docker-compose run notifications-service yarn run test:integration &&
-docker-compose run front-gateway  yarn run lint &&
-docker-compose run front-gateway  yarn run test
+docker-compose exec apartments-api yarn run lint &&
+docker-compose exec apartments-api yarn run test &&
+docker-compose exec apartments-api yarn run test:integration &&
+docker-compose exec ohe-api yarn run lint &&
+docker-compose exec ohe-api yarn run test &&
+docker-compose exec ohe-api yarn run test:integration &&
+docker-compose exec notifications-service yarn run lint &&
+docker-compose exec notifications-service yarn run test &&
+docker-compose exec notifications-service yarn run test:integration &&
+docker-compose exec front-gateway  yarn run lint &&
+docker-compose exec front-gateway  yarn run test
 
 RED='\033[1;31m'
 GREEN='\033[1;32m'
