@@ -7,3 +7,4 @@ services:
 
   ohe-api:
     command: bash -c "./scripts/wait-for-it.sh db:3306 --timeout=180 && yarn run start"
+    
