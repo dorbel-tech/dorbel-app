@@ -1,5 +1,4 @@
 .apartments-container {
-  height: 100%;
   position: relative;
 }
 
@@ -19,6 +18,7 @@
 
 .apartments-results-wrapper {
   background-color: $gray-lighter;
+  overflow: auto;
   padding-top: 39px;
 
   @media (min-width: $screen-md-min) {
@@ -37,6 +37,10 @@
   }
 }
 
+.apartments-results-container {
+  background-color: $gray-lighter;
+}
+
 .apartments-filter-city-container {
   text-align: center;
 
@@ -48,13 +52,18 @@
 
 .apartments-filter-switches-container {
   border-bottom: 1px solid $gray-lighter;
-  font-size: 13px;
+  font-size: 15px;
   line-height: $line-height-computed;
   padding: 48px 22px 26px;
 }
 
+.apartments-filter-switches-show-rommates-switch {
+  margin-bottom: 3px;
+}
+
 .apartments-filter-switches-switch-wrapper {
   display: inline-block;
+  font-size: 13px;
   width: 50%;
 }
 
@@ -62,7 +71,7 @@
   border-bottom: 1px solid $gray-lighter;
   font-size: 13px;
   line-height: $line-height-computed;
-  padding: 0 46px;
+  padding: 24px 46px 0;
 }
 
 .apartments-filter-amenities-container {
@@ -90,6 +99,10 @@
   @media (min-width: $screen-md-min) {
     padding: 300px 0;
   }
+}
+
+.apartments-results-not-found-title {
+  font-size: 17px;
 }
 
 .size-slider {
@@ -124,11 +137,13 @@
   .noUi-value-large {
     color: $brand-primary;
     font-size: 15px;
+
     &:before {
       color: $gray-light;
       content: "₪";
       font-size: 12px;
     }
+
     &:last-child:after {
       color: $brand-success;
       content: "+";
@@ -143,13 +158,10 @@
   .noUi-value-large {
     color: $brand-primary;
     font-size: 16px;
+
     &:last-child:after {
-      color: $gray-light;
-      font-size: 12px;
-    }
-    &:nth-child(2):after {
-      color: $gray-light;
-      font-size: 12px;
+      color: $brand-success;
+      content: "+";
     }
   }
 }
@@ -163,13 +175,16 @@
     font-size: 12px;
     &:last-child {
       font-size: 16px;
+
       &:after {
         color: $brand-success;
         content: "+";
       }
     }
+
     &:nth-child(2) {
       font-size: 16px;
+
       &:after {
         color: $gray-light;
         font-size: 12px;
