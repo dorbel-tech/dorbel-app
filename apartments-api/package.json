@@ -6,7 +6,7 @@
   "scripts": {
     "db:migrate": "sequelize db:migrate",
     "db:seed": "sequelize db:seed:all",
-    "prestart": "yarn run db:migrate; yarn run db:seed",
+    "prestart": "./scripts/wait-for-it.sh db:3306 --timeout=180 && yarn run db:migrate; yarn run db:seed",
     "start": "babel-node src/index",
     "start:dev": "yarn run db:migrate; yarn run db:seed && nodemon --exec babel-node --debug=5858 src/index | bunyan -o short",
     "test": "yarn run test:unit",
