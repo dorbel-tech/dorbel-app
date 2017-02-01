@@ -14,7 +14,7 @@
     "test:e2e": "nightwatch",
     "test:e2e:browserstack": "RUN_ON_BSTACK=true nightwatch -c test/browserstack.conf.js",
     "test:e2e:browserstack:local": "BSTACK_LOCAL=true yarn run test:e2e:browserstack",
-    "test:integration": "mocha --compilers js:babel-register test/integration/before-tests.js test/integration/**/*.js",
+    "test:integration": "mocha --timeout 10000 --compilers js:babel-register test/integration/before-tests.js test/integration/**/*.js",
     "lint": "eslint --ext .jsx,.js -f table src",
     "check": "satisfaction-status || yarn install"
   },
