@@ -31,7 +31,7 @@ class ListingThumbnail extends Component {
           <div className="caption">
             <h4>{title}</h4>
             <span>
-              {listing.apartment.building.street_name},{listing.apartment.building.city.city_name}
+              {listing.apartment.building.street_name}, {listing.apartment.building.city.city_name}
             </span>
           </div>
         </NavLink>
