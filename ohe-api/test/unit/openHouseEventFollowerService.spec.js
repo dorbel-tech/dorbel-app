@@ -10,6 +10,7 @@ const fakeUser = { user_id: faker.fakeUserId };
 describe('Listing Followers Service', function () {
 
   before(function () {
+    this.timeout(10000);
     this.repositoryMock = {};
     mockRequire('../../src/openHouseEventsDb/repositories/openHouseEventFollowersRepository', this.repositoryMock);
     this.service = require('../../src/services/openHouseEventFollowersService');

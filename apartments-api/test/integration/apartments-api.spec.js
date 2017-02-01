@@ -6,6 +6,7 @@ describe('Apartments API Integration', function () {
   const faker = require('../shared/fakeObjectGenerator');
 
   before(function* () {
+    this.timeout(10000);
     this.apiClient = yield ApiClient.init(faker.getFakeUser());
   });
 
@@ -22,7 +23,6 @@ describe('Apartments API Integration', function () {
 
   describe('/listings', function() {
     it('should add listing and return it', function* () {
-      this.timeout(10000);
       const newListing = faker.getFakeListing();
 
       yield this.apiClient.createListing(newListing).expect(201).end();
@@ -72,7 +72,6 @@ describe('Apartments API Integration', function () {
 
   describe('/listings/{id}/related', function () {
     before(function* () {
-      this.timeout(10000);
       this.createdListings = [];
       const numOfApartments = 5;
 

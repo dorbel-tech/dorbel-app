@@ -13,6 +13,7 @@ const CLOSE_EVENT_IF_TOO_CLOSE = config.get('CLOSE_EVENT_IF_TOO_CLOSE');
 
 describe('Open House Event Registration Service', function () {
   before(function () {
+    this.timeout(10000);
     this.repositoryMock = {};
     mockRequire('../../src/openHouseEventsDb/repositories/openHouseEventRegistrationsRepository', this.repositoryMock);
     this.openHouseEventsFinderServiceMock = {};
