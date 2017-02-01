@@ -6,8 +6,7 @@
   "scripts": {
     "db:migrate": "sequelize db:migrate",
     "db:seed": "sequelize db:seed:all",
-    "prestart": "yarn run db:migrate",
-    "start": "babel-node src/index",
+    "start": "yarn run db:migrate && babel-node src/index",
     "start:dev": "yarn run db:migrate && nodemon --exec babel-node --debug=5860 src/index | bunyan -o short",
     "test": "yarn run test:unit",
     "test:unit": "mocha --compilers js:babel-register test/shared/before-tests.js test/unit/*.spec.js test/unit/**/*.spec.js",
