@@ -74,7 +74,7 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
 
         <div className="col-md-7 upload-apt-right-container">
           <div className="text">
-            <h1>מלאו את הפרטים של הדירה שלכם!</h1>
+            <h1>מלאו את הפרטים של הדירה שלכם</h1>
             <ul>
               <li>הקפידו למלא את כל הפרטים</li>
               <li>דייקו בפרטים בכדי למנוע ביקורים מיותרים</li>

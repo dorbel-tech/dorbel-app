@@ -28,6 +28,15 @@ class AuthProvider {
         forgotPasswordInstructions: 'הכניסו את כתובת המייל שלכם. אנו נשלח אליכם מייל לאיפוס סיסמא.',
         forgotPasswordSubmitLabel: 'שלח',
         signUpTerms: ' אני מסכים/ה <a href="https://www.dorbel.com/pages/terms" target="_blank">לתנאי השימוש </a><a href="https://www.dorbel.com/pages/privacy_policy" target="_blank">ומדיניות הפרטיות</a>',
+        signUp: {
+          user_exists: 'כתובת מייל קיימת, לחצו על ״כניסה״ ונסו שנית',
+        },
+        login: {
+          'lock.invalid_email_password': 'מייל זה לא קיים, לחצו על כפתור הרשמה והרשמו לאתר',
+        },
+        success: {
+          forgotPassword: 'מייל לאיפוס ססמתך נשלח אלייך זה עתה',
+        }
       },
       mustAcceptTerms: true
     });

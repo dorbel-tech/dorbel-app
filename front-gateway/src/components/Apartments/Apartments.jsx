@@ -111,7 +111,6 @@ class Apartments extends Component {
     });
 
     delete this.filterObj.room;
-    delete this.filterObj.rs;
     // We can't check the newly set state to be false directly,
     // so we do a positive check.
     if (e.target.name === 'roomate' && this.state.roomate) {
@@ -119,7 +118,7 @@ class Apartments extends Component {
     } else if (e.target.name === 'room' && this.state.room) {
       this.filterObj.room = 0;
     } else if (e.target.name === 'empty' && this.state.empty) {
-      this.filterObj.rs = 0;
+      this.filterObj.room = 1;
     }
 
     this.reloadApartments();

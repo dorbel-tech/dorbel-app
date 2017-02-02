@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import autobind from 'react-autobind';
-import { Row } from 'react-bootstrap';
+import { Grid, Row } from 'react-bootstrap';
 import ApartmentAmenities from './ApartmentAmenities.jsx';
 import OHEList from './OHEList.jsx';
 import ListingMenu from './ListingMenu.jsx';
@@ -102,9 +102,11 @@ class Apartment extends Component {
   renderListingLocation(geolocation) {
     if (geolocation) {
       return (
-        <Row>
-          <ApartmentLocation geo={geolocation} />
-        </Row>
+        <Grid className="container-fluid">
+          <Row >
+            <ApartmentLocation geo={geolocation} />
+          </Row>
+        </Grid>
       );
     }
   }
