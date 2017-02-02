@@ -36,7 +36,11 @@ class ApartmentsProvider {
     return {
       description: listing.description,
       title: listing.title,
-      image: (listing.images && listing.images.length > 0) ? listing.images[0].url : undefined,
+      image: {
+        url: (listing.images && listing.images.length > 0) ? listing.images[0].url : undefined,
+        width: 1200,
+        height: 630
+      },
       url: this.getCanonicalUrl(listing)
     };
   }
