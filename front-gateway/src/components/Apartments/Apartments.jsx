@@ -140,21 +140,18 @@ class Apartments extends Component {
     const apartments = listingStore.apartments.length ? listingStore.apartments : [];
 
     if (apartments.length > 0) {
-      console.log('a');
       return (<Grid fluid>
         <Row className="apartments-results-container">
           {apartments.map(listing => <ListingThumbnail listing={listing} key={listing.id} />)}
         </Row>
       </Grid>);
     } else if (!this.filterChanged || this.props.appStore.listingStore.isLoading) {
-      console.log('b');
       return (
         <div className="loaderContainer">
           <LoadingSpinner />
         </div>
       );
     } else {
-      console.log('c');
       return (<div className="apartments-results-not-found">
       <b className="apartments-results-not-found-title">הלוואי והייתה לנו דירה בדיוק כזו.</b><br />
         כנראה שהייתם ספציפיים מדי - לא נמצאו דירות לחיפוש זה.<br />
