@@ -34,9 +34,9 @@ class ApiProvider {
       ...options
     })
     .then((res) => {
-        this.appStore.isLoading = false;
-        return res.data;
-      });
+      this.appStore.isLoading = false;
+      return res.data;
+    });
   }
 }
 
