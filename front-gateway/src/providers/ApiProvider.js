@@ -23,7 +23,7 @@ class ApiProvider {
     };
 
     if (this.appStore.authStore.isLoggedIn) {
-      headers['Authorization'] = 'Bearer ' + this.appStore.authStore.getToken();
+      headers['Authorization'] = 'Bearer ' + this.appStore.authStore.idToken;
     }
 
     return axios({

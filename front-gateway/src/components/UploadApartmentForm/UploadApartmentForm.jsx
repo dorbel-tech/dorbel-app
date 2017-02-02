@@ -22,6 +22,7 @@ class UploadApartmentForm extends Component {
   @action
   nextStep() {
     let { newListingStore } = this.props.appStore;
+
     if (newListingStore.stepNumber === steps.length - 1) { // last step
       let listing = this.mapUploadApartmentFormToCreateListing(newListingStore.formValues);
       this.props.appProviders.apartmentsProvider.uploadApartment(listing)
@@ -34,7 +35,8 @@ class UploadApartmentForm extends Component {
 
   @action
   prevStep() {
-    this.props.appStore.newListingStore.stepNumber--;
+    let { newListingStore } = this.props.appStore;
+    newListingStore.stepNumber--;
   }
 
   mapUploadApartmentFormToCreateListing(formValues) {
@@ -50,8 +52,8 @@ class UploadApartmentForm extends Component {
 
   scrollToFirstError(formsy) {
     formsy.submit(); // will trigger validation messages
-    
-    // Find first invalid input and scroll to it 
+
+    // Find first invalid input and scroll to it
     const input = _.find(formsy.inputs, (input) => {
       return !input.isValid();
     });

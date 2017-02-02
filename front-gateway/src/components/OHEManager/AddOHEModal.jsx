@@ -42,7 +42,7 @@ class AddOHEModal extends React.Component {
         title="הוספת מועד חדש"
         body={
           <FormWrapper.Wrapper layout="vertical" ref="form">
-            <AddOHEInput onChange={this.onChange} />
+            <AddOHEInput onChange={this.onChange} mode="new"/>
             <Button bsStyle="success" onClick={this.submit} disabled={this.state.error ? true : false} block>אישור</Button>
           </FormWrapper.Wrapper>
         }

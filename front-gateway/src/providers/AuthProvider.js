@@ -43,16 +43,16 @@ class AuthProvider {
     this.lock.on('authenticated', this.afterAuthentication.bind(this));
     this.authStore = authStore;
     this.router = router;
-    this.showLoginModal = this.showLoginModal.bind(this); 
+    this.showLoginModal = this.showLoginModal.bind(this);
     this.logout = this.logout.bind(this);
-    this.reportIdentifyAnalytics(this.authStore.getProfile());
+    this.reportIdentifyAnalytics(this.authStore.profile);
   }
 
   afterAuthentication(authResult) {
     this.authStore.setToken(authResult.idToken);
     this.getProfile(authResult);
     if (authResult.state) {
-      this.recoverStateAfterLogin(authResult.state);      
+      this.recoverStateAfterLogin(authResult.state);
     }
   }
 
@@ -112,7 +112,7 @@ class AuthProvider {
   reportIdentifyAnalytics(profile) {
     // https://segment.com/docs/integrations/intercom/#identify
     if (profile) { window.analytics.identify(profile.dorbel_user_id, profile); }
-  }  
+  }
 }
 
 module.exports = AuthProvider;
