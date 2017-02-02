@@ -11,9 +11,9 @@ import './Apartments.scss';
 
 const DEFAULT_FILTER_PARAMS = {
   city: 0, // City selector default value.
-  roomate: true, // Roommate search checkbox default value.
+  roommate: true, // Roommate search checkbox default value.
   empty: true, // Empty apartment for roommates checkbox default value.
-  room: true, // Roomate looking for roommate/s checkbox default value.
+  room: true, // Roommate looking for roommate/s checkbox default value.
   mrs: 1000, // Monthly rent slider start default value.
   mre: 7000, // Monthly rent slider end default value.
   minRooms: 1, // Rooms number slider start default value.
@@ -42,6 +42,12 @@ class Apartments extends Component {
 
     this.filterChanged = false;
     this.state = Object.assign({}, DEFAULT_FILTER_PARAMS, this.filterObj);
+
+    // Adjust roommates checkboxes state when provided with roommates data from
+    // the query params (location.search).
+    if (this.filterObj.room) {
+      this.state.empty = false;
+    }
   }
 
   componentDidMount() {
@@ -80,7 +86,8 @@ class Apartments extends Component {
       [maxProp]: range[1]
     });
 
-    if (range !== [DEFAULT_FILTER_PARAMS[minProp], DEFAULT_FILTER_PARAMS[maxProp]]) {
+    if (range[0] !== DEFAULT_FILTER_PARAMS[minProp] ||
+        range[1] !== DEFAULT_FILTER_PARAMS[maxProp]) {
       this.filterObj[minProp] = range[0] === DEFAULT_FILTER_PARAMS[minProp] ?
         undefined : range[0];
       this.filterObj[maxProp] = range[1] === DEFAULT_FILTER_PARAMS[maxProp] ?
@@ -101,14 +108,14 @@ class Apartments extends Component {
     this.reloadApartments();
   }
 
-  roomateChangeHandler(e) {
+  roommateChangeHandler(e) {
     this.filterChanged = true;
     this.setState({[e.target.name]: e.target.checked});
 
     delete this.filterObj.room;
     // We can't check the newly set state to be false directly,
     // so we do a positive check.
-    if (e.target.name === 'roomate' && this.state.roomate) {
+    if (e.target.name === 'roommate' && this.state.roommate) {
       this.filterObj.room = 0;
     } else if (e.target.name === 'room' && this.state.room) {
       this.filterObj.room = 0;
@@ -120,10 +127,9 @@ class Apartments extends Component {
   }
 
   reloadApartments() {
-    const search = Object.keys(this.filterObj).length === 0 ? '' :
-        '?q=' + encodeURIComponent(JSON.stringify(this.filterObj));
-
+    const search = '?q=' + encodeURIComponent(JSON.stringify(this.filterObj));
     const title = document ? document.title : '';
+
     history.pushState(this.filterObj, title, search);
 
     this.props.appProviders.apartmentsProvider.loadApartments(this.filterObj);
@@ -176,25 +182,25 @@ class Apartments extends Component {
             </DropdownButton>
           </div>
           <div className="apartments-filter-switches-container">
-            <Checkbox name="roomate"
-              checked={this.state.roomate}
+            <Checkbox name="roommate"
+              checked={this.state.roommate}
               className="apartments-filter-switches-show-rommates-switch"
-              onChange={this.roomateChangeHandler}>
+              onChange={this.roommateChangeHandler}>
               <b>הציגו לי דירות לשותפים</b>
             </Checkbox>
             <div className="apartments-filter-switches-switch-wrapper">
               <Checkbox name="empty"
                 checked={this.state.empty}
-                disabled={!this.state.roomate || !this.state.room}
-                onChange={this.roomateChangeHandler}>
+                disabled={!this.state.roommate || !this.state.room}
+                onChange={this.roommateChangeHandler}>
                 דירות ריקות לשותפים
               </Checkbox>
             </div>
             <div className="apartments-filter-switches-switch-wrapper">
               <Checkbox name="room"
                 checked={this.state.room}
-                disabled={!this.state.roomate || !this.state.empty}
-                onChange={this.roomateChangeHandler}>
+                disabled={!this.state.roommate || !this.state.empty}
+                onChange={this.roommateChangeHandler}>
                 חדר בדירת שותפים
               </Checkbox>
             </div>
