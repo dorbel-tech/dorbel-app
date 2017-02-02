@@ -17,23 +17,40 @@
 // React bootstrap override.
 .navbar-inverse .navbar-nav > li > a {
   color: $brand-white;
-  font-size: 13px;
-  line-height: 34px;
+  font-size: 14px;
   padding-bottom: 12px;
   padding-top: 13px;
-}
 
+  @media (min-width: $screen-sm-min) {
+    line-height: 34px;
+  }
+}
 @media (min-width: $screen-sm-min) {
   .header-navbar-links .btn-publish {
-      background-color: #00b3e5;
-      border-radius: 4px;
-      margin: 10px 0px;
-      height: 40px;
+    background-color: #00b3e5;
+    border-radius: 4px;
+    margin: 10px 0px;
+    height: 40px;
 
-      > a {
-        line-height: normal !important;
-      }
+    > a {
+      line-height: normal !important;
+    }
   }
+}
+
+@media (max-width: $screen-sm-min) {
+  .btn-publish > a {
+    color: $brand-white !important;
+    background-color: #00b3e5;    
+  }
+  .navbar-collapse {
+    background-color: $brand-white;
+  }  
+  .navbar-inverse .navbar-nav > li > a {
+    color: $gray-dark;
+    font-size: 16px;
+  }
+
 }
 
 .header-navbar-links > a:hover {
@@ -51,6 +68,8 @@
   padding: 0 15px;
 
   @media (max-width: $screen-xs-max) {
+    border-top: 1px solid #cecece;
+    font-size: 16px;
     margin: 0 -15px;
     padding: 0;
   }
@@ -68,7 +87,7 @@
 .header-navbar-profile-text,
 .header-navbar-profile-login-text {
   > a {
-    font-size: 14px !important;
+    font-size: 16px !important;
   }
 }
 
