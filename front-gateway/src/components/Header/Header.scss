@@ -23,6 +23,19 @@
   padding-top: 13px;
 }
 
+@media (min-width: $screen-sm-min) {
+  .header-navbar-links .btnPublish {
+      background-color: #00b3e5;
+      border-radius: 4px;
+      margin: 10px 0px;
+      height: 40px;
+
+      > a {
+        line-height: normal !important;
+      }
+  }
+}
+
 .header-navbar-links > a:hover {
   opacity: 0.7;
 }
