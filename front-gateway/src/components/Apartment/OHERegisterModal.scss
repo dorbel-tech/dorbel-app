@@ -1,19 +1,19 @@
 @import "../sharedStyles/bsvars.scss";
     
-.oheRegisterModal {
+.ohe-register-modal {
   .close {
     padding-right: 10px;
   }
   
-  .oheRegisterSubmit{
+  .ohe-register-submit{
     margin-top: 24px;
   } 
 
   @media (max-width: $screen-md-min) {
-    .oheModalInput {
+    .ohe-modal-input {
         padding-bottom: 5px;
     }
-    .oheRegisterSubmit{
+    .ohe-register-submit{
         margin-top: 0;
     } 
   }
