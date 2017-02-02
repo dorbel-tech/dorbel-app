@@ -5,10 +5,17 @@
     padding-right: 10px;
   }
   
+  .oheRegisterSubmit{
+    margin-top: 24px;
+  } 
+
   @media (max-width: $screen-md-min) {
     .oheModalInput {
         padding-bottom: 5px;
     }
+    .oheRegisterSubmit{
+        margin-top: 0;
+    } 
   }
 }
   

@@ -129,20 +129,18 @@ class OHERegisterModal extends React.Component {
               <p>פרטיותכם יקרה לנו! לא יעשה כל שימוש אחר בפרטיכם. אנו מבקשים פרטי קשר על מנת שנוכל לעדכן על שינויים במידת הצורך.</p>
             </Col>
           </Row>
-          <FormWrapper.Wrapper layout="elementOnly" onChange={this.handleChanges} ref="form">
+          <FormWrapper.Wrapper layout="horizonal" onChange={this.handleChanges} ref="form">
             <Row>
               <Col md={6} className="oheModalInput">
-                <FRC.Input name="user.firstname" placeholder="שם פרטי" value={profile.first_name} required />
+                <FRC.Input name="user.firstname" label="שם פרטי" value={profile.first_name} required />
               </Col>
               <Col md={6} className="oheModalInput">
-                <FRC.Input name="user.phone" placeholder="טלפון" value={profile.phone} validationError="מספר טלפון לא תקין" required />
+                <FRC.Input name="user.phone" label="טלפון" value={profile.phone} validationError="מספר טלפון לא תקין" required />
               </Col>
-            </Row>
-            <Row>
               <Col md={6} className="oheModalInput">
-                <FRC.Input name="user.email" placeholder="מייל" type="email" value={profile.email} validations="isEmail" validationError="כתובת מייל לא תקינה" required />
+                <FRC.Input name="user.email" label="מייל" type="email" value={profile.email} validations="isEmail" validationError="כתובת מייל לא תקינה" required />
               </Col>
-              <Col md={6}>
+              <Col md={6} className="oheRegisterSubmit">
                 <Button bsStyle="success" block onClick={this.register}>המשך</Button>
               </Col>
             </Row>
