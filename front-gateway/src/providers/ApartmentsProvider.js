@@ -54,7 +54,11 @@ class ApartmentsProvider {
     let createdListing;
     return this.apiProvider.fetch('/api/apartments/v1/listings', { method: 'POST', data: listing })
       .then((newListing) => createdListing = newListing)
-      .then(() => this.oheProvider.createOhe(Object.assign({ listing_id: createdListing.id }, listing.open_house_event)))
+      .then(() => { // TODO: move OHE creation to pub/sub messages on background
+        try {
+          this.oheProvider.createOhe(Object.assign({ listing_id: createdListing.id }, listing.open_house_event));
+        } catch (err) { /*eslint-disable eslint-enable*/ }
+      })
       .then(() => this.appStore.authStore.updateProfile({
         first_name: listing.user.firstname,
         last_name: listing.user.lastname,
