@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, Grid, Row } from 'react-bootstrap';
+import { Button, Col, Grid, Row } from 'react-bootstrap';
 import Dropzone from 'react-dropzone';
 import { observer } from 'mobx-react';
 import CloudinaryImage from '../CloudinaryImage/CloudinaryImage';
@@ -71,10 +71,10 @@ class UploadApartmentStep1 extends UploadApartmentBaseStep.wrappedComponent {
               <span></span>
               <span>1/3</span>
               <span className="next-step" onClick={this.clickNext.bind(this)}>
-                <div className="btn step-btn">
+                <Button bsStyle="success" className="step-btn">
                   שלב הבא &nbsp;
                   <i className="apartment-pictures-next-step fa fa-arrow-circle-o-left fa-2x" aria-hidden="true"></i>
-                </div>
+                </Button>
               </span>
             </div>
           </div>

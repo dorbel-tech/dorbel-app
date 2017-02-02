@@ -2,6 +2,7 @@
 @import "../sharedStyles/bsvars.scss";
 
 .upload-apt-wrapper {
+  background-color: $gray-lighter;
   height: 100%;
   padding: 0;
   button {
@@ -102,45 +103,66 @@
 
 .upload-apt-right-container {
   @include gradient-directional($start-color: #8D48C5, $end-color: #9078CC, $deg: 45deg);
-  color: $brand-white;
-  display: table;
-  height: 100%;
-
-  >img {
-    bottom: 60px;
-    left: 40px;
-    position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  color: #fff;
+  .text {
+    text-align: right;
   }
-}
 
-.upload-apt-right-container-text-wrapper {
-  display: table-cell;
-  text-align: center;
-  vertical-align: middle;
-}
+  @media (min-width: $screen-md-min) {
+    height: 100%;
 
-.upload-apt-right-container-text-container {
-  display: inline-block;
-  margin-top: -80px;
-  text-align: right;
-
-  >h1 {
-    font-weight: 900;
+    h1 {
+        margin-top: -80px;
+        font-weight: 900;
+    }
+    img {
+      position: absolute;
+      bottom: 60px;
+      left: 40px;
+    }
   }
-  >ul {
-    font-size: $font-size-large*0.9;
-    list-style-position: inside !important;
+
+  @media (max-width: $screen-md-min) {
+    padding-bottom: 10px;
+
+    h1 {
+      font-weight: 400;
+    }
+  }
+
+  ul {
     opacity: 0.8;
+    list-style-position: inside !important;
+    font-size: $font-size-large*0.9;
     padding: 0;
   }
+
 }
 
 .upload-apt-left-container {
-  padding: 10px 80px 10px 40px!important;
-  height: 100%;
   background-color: $gray-lighter;
-  overflow-y: auto;
-  overflow-x: hidden;
+
+  @media (min-width: $screen-md-min) {
+    padding: 10px 80px 10px 40px!important;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  @media (max-width: $screen-md-min) {
+    padding: 10px 60px 10px 40px!important;
+    margin-bottom: 70px;
+    overflow-x: hidden;
+    overflow-y: hidden;
+
+    &.apartment-pictures-step {
+      padding-right: 40px !important;
+    }
+  }
 
   &_photosUpload {
     padding: 15px 30px !important;
@@ -177,13 +199,15 @@
       }
     }
     .step-btn {
-        font-style: normal;
-        padding-bottom: 4px;
-        padding-top: 6px;
-        display: block;
-        background-color: #1cb039;
-        border: transparent;
-        color: #fff;
+      background-color: #1cb039;
+      border: transparent;
+      color: #fff;
+      display: block;
+      font-style: normal;
+      min-height: 38px;
+      min-width: 130px;
+      padding-bottom: 4px;
+      padding-top: 6px;
     }
     .apartment-pictures-next-step,
     .apartment-details-next-step {

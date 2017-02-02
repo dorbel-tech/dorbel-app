@@ -1,66 +1,71 @@
 import React from 'react';
+import { Button } from 'react-bootstrap';
 import { observer } from 'mobx-react';
+import autobind from 'react-autobind';
 import UploadApartmentBaseStep from './UploadApartmentBaseStep';
 import DatePicker from '~/components/DatePicker/DatePicker';
 import FormWrapper from '~/components/FormWrapper/FormWrapper';
- 
+
 @observer(['appStore', 'appProviders'])
 class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
   constructor(props) {
     super(props);
-    this.getNeighborhoods = this.getNeighborhoods.bind(this);
+    autobind(this);
   }
-  
-  componentDidMount() {
-    if (this.props.appStore.cityStore.cities.length === 0) {
-      this.props.appProviders.cityProvider.loadCities()
-        .then((cities)=> this.fillNeighborhoods(cities[0].id));
-    }
-    
-    if (this.props.appStore.neighborhoodStore.neighborhoodsByCityId.size === 0) {
-      this.getNeighborhoods('apartment.building.city.id', '1');
-    }
 
-    if (this.props.appStore.newListingStore.formValues) {
-      // load form with existing values
-      this.refs.form.refs.formsy.reset(this.props.appStore.newListingStore.formValues);
-    }
+  componentDidMount() {
+    // load form with existing values from store
+    this.refs.form.refs.formsy.reset(this.props.appStore.newListingStore.formValues);
   }
 
   clickNext() {
-    const formsy = this.refs.form.refs.formsy; 
+    const formsy = this.refs.form.refs.formsy;
     if (formsy.state.isValid) {
+      this.props.appStore.newListingStore.updateFormValues(this.refs.form.refs.formsy.getCurrentValues());
       super.clickNext();
     } else {
       this.props.onValidationError(formsy);
     }
   }
 
-  getNeighborhoods(name, value) {
-    this.props.appProviders.neighborhoodProvider.loadNeighborhoodByCityId(value);
-  }
-
-  fillCities() {
+  getCityOptions() {
     const cities = this.props.appStore.cityStore.cities;
-    return cities.length ? cities.map(city => (
-      { value: city.id, label: city.city_name })) : 
-      [ { value: 0, label: 'טוען...' } ];
+    if (cities.length) {
+      return cities.map(city => ({ value: city.id, label: city.city_name }));
+    } else {
+      this.props.appProviders.cityProvider.loadCities();
+      return [ { value: 0, label: 'טוען...' } ];
+    }
   }
 
-  fillNeighborhoods(cityId) {
+  getNeighborhoodOptions(cityId) {
     const neighborhoodsByCityId = this.props.appStore.neighborhoodStore.neighborhoodsByCityId;
     const neighborhoods = neighborhoodsByCityId.get(cityId);
-    return neighborhoods ?  neighborhoods.map(neighborhood => (
-      { value: neighborhood.id, label: neighborhood.neighborhood_name })) : 
-      [ { label: 'טוען...' } ];    
+    if (neighborhoods) {
+      return neighborhoods.map(neighborhood => ({ value: neighborhood.id, label: neighborhood.neighborhood_name }));
+    } else {
+      this.props.appProviders.neighborhoodProvider.loadNeighborhoodByCityId(cityId);
+      return [ { label: 'טוען...' } ];
+    }
+  }
+
+  getNeighborhoodValue(options) {
+    var storedValue = this.props.appStore.newListingStore.formValues['apartment.building.neighborhood.id'];
+    if (storedValue && options.find(option => option.value === storedValue)) {
+      return storedValue;
+    } else {
+      return options[0].value;
+    }
   }
 
   render() {
     const { newListingStore } = this.props.appStore;
-    const citySelectorOptions = this.fillCities();
-    const neighborhoodSelectorOptions = this.fillNeighborhoods(newListingStore.formValues['apartment.building.city.id'] || citySelectorOptions[0].value);
+    const citySelectorOptions = this.getCityOptions();
+    const citySelectorValue = newListingStore.formValues['apartment.building.city.id'] || citySelectorOptions[0].value;
+    const neighborhoodSelectorOptions = this.getNeighborhoodOptions(citySelectorValue);
+    const neighborhoodSelectorValue = this.getNeighborhoodValue(neighborhoodSelectorOptions);
     const FRC = FormWrapper.FRC;
-      
+
     const roomOptions = newListingStore.roomOptions.slice(0);
     if (!newListingStore.formValues.rooms) { roomOptions.unshift({ label: 'בחר'}); }
 
@@ -69,7 +74,7 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
 
         <div className="col-md-7 upload-apt-right-container">
           <div className="text">
-            <h1>מלאו את הפרטים של הדירה המעיפה שלכם!</h1>
+            <h1>מלאו את הפרטים של הדירה שלכם</h1>
             <ul>
               <li>הקפידו למלא את כל הפרטים</li>
               <li>דייקו בפרטים בכדי למנוע ביקורים מיותרים</li>
@@ -85,10 +90,10 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
               <div className="form-section-headline">כתובת</div>
               <div className="row">
                 <div className="col-md-6">
-                  <FRC.Select name="apartment.building.city.id" label="עיר" options={citySelectorOptions} value={citySelectorOptions[0].value} onChange={this.getNeighborhoods} required/>
+                  <FRC.Select name="apartment.building.city.id" label="עיר" options={citySelectorOptions} value={citySelectorValue} required/>
                 </div>
                 <div className="col-md-6">
-                  <FRC.Select name="apartment.building.neighborhood.id" label="שכונה" options={neighborhoodSelectorOptions} value={neighborhoodSelectorOptions[0].value} required/>
+                  <FRC.Select name="apartment.building.neighborhood.id" label="שכונה" options={neighborhoodSelectorOptions} value={neighborhoodSelectorValue} required/>
                 </div>
               </div>
               <div className="row">
@@ -150,8 +155,8 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>תאריך כניסה לדירה</label>
-                    <DatePicker name="apartment.entrance-date" value={this.props.appStore.newListingStore.formValues.lease_start} onChange={this.handleChange.bind(this, 'lease_start')} />                    
-                  </div> 
+                    <DatePicker name="apartment.entrance-date" value={this.props.appStore.newListingStore.formValues.lease_start} onChange={this.handleChange.bind(this, 'lease_start')} />
+                  </div>
                 </div>
                 <div className="col-md-6">
                   <FRC.Input name="monthly_rent" label='שכ"ד לחודש' type="number" required />
@@ -159,16 +164,16 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
               </div>
               <div className="row">
                 <div className="col-md-6">
-                  <FRC.Input name="property_tax" label="ארנונה לחודשיים" type="number" /> 
+                  <FRC.Input name="property_tax" label="ארנונה לחודשיים" type="number" />
                 </div>
                 <div className="col-md-6">
-                  <FRC.Input name="board_fee" label="ועד בית לחודש" type="number" /> 
+                  <FRC.Input name="board_fee" label="ועד בית לחודש" type="number" />
                 </div>
               </div>
             </div>
 
           </FormWrapper.Wrapper>
-          
+
           <div className="form-nav bottom col-lg-5 col-md-5 col-sm-12 col-xs-12">
             <span onClick={this.clickBack}>
               <i className="apartment-details-previous-step fa fa-arrow-circle-o-right fa-2x" aria-hidden="true"></i>
@@ -176,12 +181,12 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
             </span>
             <span>2/3</span>
             <span className="next-step" onClick={this.clickNext}>
-              <div className="btn step-btn">
+              <Button bsStyle="success" className="step-btn">
                 שלב הבא &nbsp;
                 <i className="apartment-details-next-step fa fa-arrow-circle-o-left fa-2x" aria-hidden="true"></i>
-              </div>
+              </Button>
             </span>
-          </div> 
+          </div>
 
         </div>
       </div>

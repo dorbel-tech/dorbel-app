@@ -125,9 +125,7 @@ function* getByFilter(filterJSON, user) {
     // Listing monthly rent end.
     mre: { set: 'monthly_rent.$lte', target: listingQuery },
     // Listing with a roomate (a roomate looking for roomate/s).
-    room: { set: 'monthly_rent.roommate_needed', target: listingQuery },
-    // Listing that allows roomate.
-    rs: { set: 'monthly_rent.roommates', target: listingQuery },
+    room: { set: 'roommate_needed', target: listingQuery },
     // Building city ID.
     city: { set: 'buildingQuery.city_id' },
     // Building has elevator.
@@ -153,7 +151,7 @@ function* getByFilter(filterJSON, user) {
   };
 
   Object.keys(filterMapping)
-    .filter(key => !!filter[key])
+    .filter(key => filter.hasOwnProperty(key))
     .forEach(key => _.set(filterMapping[key].target || options,
       filterMapping[key].set,
       filterMapping[key].staticValue || filter[key]));

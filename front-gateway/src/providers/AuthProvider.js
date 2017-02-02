@@ -28,22 +28,31 @@ class AuthProvider {
         forgotPasswordInstructions: 'הכניסו את כתובת המייל שלכם. אנו נשלח אליכם מייל לאיפוס סיסמא.',
         forgotPasswordSubmitLabel: 'שלח',
         signUpTerms: ' אני מסכים/ה <a href="https://www.dorbel.com/pages/terms" target="_blank">לתנאי השימוש </a><a href="https://www.dorbel.com/pages/privacy_policy" target="_blank">ומדיניות הפרטיות</a>',
+        signUp: {
+          user_exists: 'כתובת מייל קיימת, לחצו על ״כניסה״ ונסו שנית',
+        },
+        login: {
+          'lock.invalid_email_password': 'מייל זה לא קיים, לחצו על כפתור הרשמה והרשמו לאתר',
+        },
+        success: {
+          forgotPassword: 'מייל לאיפוס ססמתך נשלח אלייך זה עתה',
+        }
       },
       mustAcceptTerms: true
     });
     this.lock.on('authenticated', this.afterAuthentication.bind(this));
     this.authStore = authStore;
     this.router = router;
-    this.showLoginModal = this.showLoginModal.bind(this); 
+    this.showLoginModal = this.showLoginModal.bind(this);
     this.logout = this.logout.bind(this);
-    this.reportIdentifyAnalytics(this.authStore.getProfile());
+    this.reportIdentifyAnalytics(this.authStore.profile);
   }
 
   afterAuthentication(authResult) {
     this.authStore.setToken(authResult.idToken);
     this.getProfile(authResult);
     if (authResult.state) {
-      this.recoverStateAfterLogin(authResult.state);      
+      this.recoverStateAfterLogin(authResult.state);
     }
   }
 
@@ -103,7 +112,7 @@ class AuthProvider {
   reportIdentifyAnalytics(profile) {
     // https://segment.com/docs/integrations/intercom/#identify
     if (profile) { window.analytics.identify(profile.dorbel_user_id, profile); }
-  }  
+  }
 }
 
 module.exports = AuthProvider;

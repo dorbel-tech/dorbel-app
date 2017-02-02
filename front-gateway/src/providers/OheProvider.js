@@ -29,11 +29,11 @@ class OheProvider {
       method: 'POST',
       data
     })
-    .then((ohe) => { 
+    .then((ohe) => {
       // Added in order to resolve a bug in which EditOHEModal is rendered unnecessary and throws an error about registrations being undefined
       ohe.registrations = [];
       this.updateStoreWithOhe(ohe);
-    }); 
+    });
   }
 
   updateOhe(id, data) {
@@ -106,13 +106,13 @@ class OheProvider {
     return this.fetch('followers/by-listing/' + listing_id)
     .then(followers => {
       let usersFollowDetails = null;
-      
+
       if (this.appStore.authStore.isLoggedIn) {
-        const user = this.appStore.authStore.getProfile();
-        usersFollowDetails = _.find(followers, { following_user_id: user.dorbel_user_id });       
+        const user = this.appStore.authStore.profile;
+        usersFollowDetails = _.find(followers, { following_user_id: user.dorbel_user_id });
       }
 
-      this.appStore.oheStore.usersFollowsByListingId.set(listing_id, usersFollowDetails);        
+      this.appStore.oheStore.usersFollowsByListingId.set(listing_id, usersFollowDetails);
     });
   }
 
@@ -132,7 +132,7 @@ class OheProvider {
     return this.fetch('follower/' + followDetails.id, {
       method: 'DELETE'
     })
-    .then(() => this.appStore.oheStore.usersFollowsByListingId.set(followDetails.listing_id, null));    
+    .then(() => this.appStore.oheStore.usersFollowsByListingId.set(followDetails.listing_id, null));
   }
 }
 

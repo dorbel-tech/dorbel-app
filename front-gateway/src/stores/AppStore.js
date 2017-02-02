@@ -23,7 +23,11 @@ export default class AppStore {
   metaData = {
     title: 'dorbel - דירות להשכרה ללא תיווך שתשמחו לגור בהן',
     description: 'השכרת דירות ללא תיווך. כל הפרטים שחשוב לדעת על הדירות בכדי לחסוך ביקורים מיותרים. בחרו מועד והירשמו לביקור בדירות בלחיצת כפתור.',
-    image: 'https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/meta/homepage-middle-image.jpg',
+    image: {
+      url:'https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/meta/homepage-middle-image.jpg',
+      width: 1093,
+      height: 320
+    },
     url: process.env.FRONT_GATEWAY_URL
   };
 
