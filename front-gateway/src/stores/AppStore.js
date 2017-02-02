@@ -20,8 +20,6 @@ export default class AppStore {
   @observable routeParams: {[id: string]: string};
   @observable showModal = false;
 
-  @observable isLoading = false;
-
   metaData = {
     title: 'dorbel - דירות להשכרה ללא תיווך שתשמחו לגור בהן',
     description: 'השכרת דירות ללא תיווך. כל הפרטים שחשוב לדעת על הדירות בכדי לחסוך ביקורים מיותרים. בחרו מועד והירשמו לביקור בדירות בלחיצת כפתור.',

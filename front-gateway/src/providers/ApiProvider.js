@@ -17,8 +17,6 @@ class ApiProvider {
   }
 
   fetch(url, options){
-    this.appStore.isLoading = true;
-
     const headers = {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
@@ -33,10 +31,7 @@ class ApiProvider {
       headers,
       ...options
     })
-    .then((res) => {
-      this.appStore.isLoading = false;
-      return res.data;
-    });
+    .then(res => res.data);
   }
 }
 

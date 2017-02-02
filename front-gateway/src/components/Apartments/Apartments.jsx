@@ -135,20 +135,26 @@ class Apartments extends Component {
     this.props.appProviders.apartmentsProvider.loadApartments(this.filterObj);
   }
 
-  renderResults(apartments) {
+  renderResults() {
+    const { listingStore } = this.props.appStore;
+    const apartments = listingStore.apartments.length ? listingStore.apartments : [];
+
     if (apartments.length > 0) {
+      console.log('a');
       return (<Grid fluid>
         <Row className="apartments-results-container">
           {apartments.map(listing => <ListingThumbnail listing={listing} key={listing.id} />)}
         </Row>
       </Grid>);
-    } else if (!this.filterChanged || this.props.appStore.isLoading) {
+    } else if (!this.filterChanged || this.props.appStore.listingStore.isLoading) {
+      console.log('b');
       return (
         <div className="loaderContainer">
           <LoadingSpinner />
         </div>
       );
     } else {
+      console.log('c');
       return (<div className="apartments-results-not-found">
       <b className="apartments-results-not-found-title">הלוואי והייתה לנו דירה בדיוק כזו.</b><br />
         כנראה שהייתם ספציפיים מדי - לא נמצאו דירות לחיפוש זה.<br />
@@ -157,7 +163,7 @@ class Apartments extends Component {
   }
 
   render() {
-    const { cityStore, listingStore } = this.props.appStore;
+    const { cityStore } = this.props.appStore;
     const cities = cityStore.cities.length ? cityStore.cities : [];
     const cityId = this.filterObj.city || 0;
     if (cityId === 0) {
@@ -166,8 +172,6 @@ class Apartments extends Component {
       const city = cities.find(c => c.id == cityId);
       this.cityTitle = city ? city.city_name : 'טוען...';
     }
-
-    const apartments = listingStore.apartments.length ? listingStore.apartments : [];
 
     return (
       <div className="apartments-container">
@@ -293,7 +297,7 @@ class Apartments extends Component {
           </Grid>
         </div>
         <div className="apartments-results-wrapper">
-          {this.renderResults(apartments)}
+          {this.renderResults()}
         </div>
       </div>
     );

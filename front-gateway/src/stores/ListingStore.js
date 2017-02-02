@@ -3,6 +3,7 @@ import autobind from 'react-autobind';
 
 export default class ListingStore {
   @observable listingsById;
+  @observable isLoading = false;
 
   constructor(initialState = {}) {
     this.listingsById = asMap(initialState.listingsById || {});
@@ -36,6 +37,8 @@ export default class ListingStore {
     this.listingsById.clear();
     this.listingsBySlug.clear();
     listings.forEach(this.add);
+
+    this.isLoading = false;
   }
 
   update(listingId, updates) {
