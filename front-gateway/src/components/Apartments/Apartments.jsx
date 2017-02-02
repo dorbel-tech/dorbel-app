@@ -40,10 +40,8 @@ class Apartments extends Component {
       this.filterObj = {};
     }
 
-    this.state = {
-      isLoading: true
-    };
-    Object.assign(this.state, DEFAULT_FILTER_PARAMS, this.filterObj);
+    this.filterChanged = false;
+    this.state = Object.assign({}, DEFAULT_FILTER_PARAMS, this.filterObj);
   }
 
   componentDidMount() {
@@ -52,7 +50,8 @@ class Apartments extends Component {
   }
 
   citySelectHandler(cityId) {
-    this.setState({ isLoading: true });
+    this.filterChanged = true;
+
     if (cityId === 0) {
       delete this.filterObj.city;
     } else {
@@ -75,8 +74,8 @@ class Apartments extends Component {
   }
 
   sliderChangeHandler(range, minProp, maxProp) {
+    this.filterChanged = true;
     this.setState({
-      isLoading: true,
       [minProp]: range[0],
       [maxProp]: range[1]
     });
@@ -95,20 +94,16 @@ class Apartments extends Component {
   }
 
   amenitiesChangeHandler(e) {
-    this.setState({
-      isLoading: true,
-      [e.target.name]: e.target.checked
-    });
+    this.filterChanged = true;
+    this.setState({[e.target.name]: e.target.checked});
 
     this.filterObj[e.target.name] = e.target.checked ? true : undefined;
     this.reloadApartments();
   }
 
   roomateChangeHandler(e) {
-    this.setState({
-      isLoading: true,
-      [e.target.name]: e.target.checked
-    });
+    this.filterChanged = true;
+    this.setState({[e.target.name]: e.target.checked});
 
     delete this.filterObj.room;
     // We can't check the newly set state to be false directly,
@@ -131,23 +126,22 @@ class Apartments extends Component {
     const title = document ? document.title : '';
     history.pushState(this.filterObj, title, search);
 
-    this.props.appProviders.apartmentsProvider.loadApartments(this.filterObj)
-      .then(this.setState({ isLoading: false }));
+    this.props.appProviders.apartmentsProvider.loadApartments(this.filterObj);
   }
 
   renderResults(apartments) {
-    if (this.state.isLoading) {
-      return (
-        <div className="loaderContainer">
-          <LoadingSpinner />
-        </div>
-      );
-    } else if (apartments.length > 0) {
+    if (apartments.length > 0) {
       return (<Grid fluid>
         <Row className="apartments-results-container">
           {apartments.map(listing => <ListingThumbnail listing={listing} key={listing.id} />)}
         </Row>
       </Grid>);
+    } else if (!this.filterChanged || this.props.appStore.isLoading) {
+      return (
+        <div className="loaderContainer">
+          <LoadingSpinner />
+        </div>
+      );
     } else {
       return (<div className="apartments-results-not-found">
       <b className="apartments-results-not-found-title">הלוואי והייתה לנו דירה בדיוק כזו.</b><br />
