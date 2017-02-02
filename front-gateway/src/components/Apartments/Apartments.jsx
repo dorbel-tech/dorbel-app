@@ -46,7 +46,7 @@ class Apartments extends Component {
     // Adjust roommates checkboxes state when provided with roommates data from
     // the query params (location.search).
     if (this.filterObj.room) {
-      this.state.empty = false;
+      this.setState({empty: false});
     }
   }
 
