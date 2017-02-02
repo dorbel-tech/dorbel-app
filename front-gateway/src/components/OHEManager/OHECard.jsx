@@ -33,7 +33,7 @@ class OHECard extends React.Component {
             <i className="fa fa-ellipsis-v" />
           </Dropdown.Toggle>
           <Dropdown.Menu className="dropdown-menu-left">
-            <MenuItem onClick={() => this.showEditModal(true)}>עריכת מעוד ביקור</MenuItem>
+            <MenuItem onClick={() => this.showEditModal(true)}>עריכת מועד ביקור</MenuItem>
             <MenuItem onClick={() => this.showDeleteModal(true)}>מחיקה</MenuItem>
           </Dropdown.Menu>
         </Dropdown>      
