@@ -62,7 +62,7 @@ class Header extends Component {
               onClick={this.redirect}
               href={externalURL + 'שירותים-לבעלי-דירות'}>שירותים לבעלי דירות</NavItem>
             <NavItem onClick={() => this.routeTo('/apartments')}
-              href="/apartments">מצאו דירה</NavItem>            
+              href="/apartments">מצאו דירה</NavItem>
             <NavItem className="btnPublish" onClick={() => this.routeTo('/apartments/new_form')}
               href="/apartments/new_form">פרסמו דירה</NavItem>
           </Nav>
