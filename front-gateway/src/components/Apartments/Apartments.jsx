@@ -57,7 +57,6 @@ class Apartments extends Component {
 
   citySelectHandler(cityId) {
     this.filterChanged = true;
-
     if (cityId === 0) {
       delete this.filterObj.city;
     } else {
