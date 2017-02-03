@@ -138,14 +138,15 @@ class Apartments extends Component {
   renderResults() {
     const { listingStore } = this.props.appStore;
     const apartments = listingStore.apartments.length ? listingStore.apartments : [];
+    const isLoading = this.props.appStore.listingStore.isLoading;
 
-    if (apartments.length > 0) {
+    if (!isLoading && apartments.length > 0) {
       return (<Grid fluid>
         <Row className="apartments-results-container">
           {apartments.map(listing => <ListingThumbnail listing={listing} key={listing.id} />)}
         </Row>
       </Grid>);
-    } else if (!this.filterChanged || this.props.appStore.listingStore.isLoading) {
+    } else if (!this.filterChanged || isLoading) {
       return (
         <div className="loaderContainer">
           <LoadingSpinner />
