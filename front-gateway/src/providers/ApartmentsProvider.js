@@ -14,7 +14,9 @@ class ApartmentsProvider {
   }
 
   loadApartments(query) {
+    this.appStore.listingStore.isLoading = true;
     const q = encodeURIComponent(JSON.stringify(query || {}));
+
     return this.apiProvider.fetch('/api/apartments/v1/listings?q=' + q)
       .then(this.appStore.listingStore.clearAndSet);
   }
