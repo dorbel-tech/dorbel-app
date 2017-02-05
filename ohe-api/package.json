@@ -1,5 +1,5 @@
 {
-  "name": "dorbel-ohe-api",
+  "name": "ohe-api",
   "version": "0.0.63",
   "description": "API for dorbel open house events",
   "main": "src/index.js",

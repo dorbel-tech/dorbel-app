@@ -148,7 +148,7 @@ class OHEList extends Component {
               </div>
 
               <div className="list-group apt-choose-date-container">
-                <h5 className="text-center apt-choose-date-title">בחר במועד לביקור</h5>
+                <h5 className="text-center apt-choose-date-title">בחרו מועד לביקור</h5>
                 {openHouseEvents.map(this.renderOpenHouseEvent)}
                 {this.renderFollowItem(listing)}
                 <div href="#" className="list-group-item owner-container text-center">
