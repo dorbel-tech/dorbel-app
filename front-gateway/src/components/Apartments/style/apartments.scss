@@ -4,10 +4,11 @@
 }
 
 .apartments-filter-toggle-container {
+  left: 100px;
   position: fixed;
+  right: 100px;
   text-align: center;
   top: 15px;
-  width: 100%;
   z-index: 1099;
 
   @media (min-width: $screen-sm-min) {
