@@ -1,5 +1,5 @@
 {
-  "name": "dorbel-notifications-service",
+  "name": "notifications-service",
   "version": "0.0.26",
   "description": "Worker to process notifications messages from SQS and dispatch using Email or SMS",
   "main": "src/index.js",
