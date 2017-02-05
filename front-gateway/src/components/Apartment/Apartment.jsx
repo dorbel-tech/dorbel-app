@@ -10,6 +10,7 @@ import OHEManager from '~/components/OHEManager/OHEManager';
 import ApartmentLocation from '../MapWrapper/MapWrapper.jsx';
 import RelatedListings from '../RelatedListings/RelatedListings.jsx';
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
+import utils from '../../providers/utils';
 import './Apartment.scss';
 
 @observer(['appStore', 'appProviders', 'router'])
@@ -144,7 +145,7 @@ class Apartment extends Component {
               <div className="container">
                 <div className="row">
                   <div className="col-md-9">
-                    <h2>{listing.title}</h2>
+                    <h2>{utils.getListingTitle(listing)}</h2>
                   </div>
                 </div>
               </div>

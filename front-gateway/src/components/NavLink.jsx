@@ -16,7 +16,8 @@ class NavLink extends Component {
   routeTo(event, link) {
     if (this.props.router.setRoute) {
       this.props.router.setRoute(link);
-      event.preventDefault(); // cancel the event so we don't get a reload
+      window.scrollTo(0, 0); // scroll to top, otherwise after click to other route, user stuck on same position.
+      event.preventDefault(); // cancel the event so we don't get a reload.
       return false;
     }
   }
