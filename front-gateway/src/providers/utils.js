@@ -15,7 +15,12 @@ function formatDate(date) {
   return moment.utc(date).local().format(dateFormat);
 }
 
+function getListingTitle(listing) {
+  return listing.title || `דירת ${listing.apartment.rooms} חד׳ ברח׳ ${listing.apartment.building.street_name}`;  
+}
+
 module.exports = {
   formatTime,
-  formatDate
+  formatDate,
+  getListingTitle
 };
