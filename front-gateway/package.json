@@ -1,5 +1,5 @@
 {
-  "name": "dorbel-front",
+  "name": "front-gateway",
   "version": "0.0.52",
   "description": "Front end application for dorbel",
   "main": "index.js",
