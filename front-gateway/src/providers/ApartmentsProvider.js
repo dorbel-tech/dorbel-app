@@ -4,6 +4,7 @@
 'use strict';
 import { action } from 'mobx';
 import _ from 'lodash';
+import utils from './utils';
 
 class ApartmentsProvider {
   constructor(appStore, providers) {
@@ -22,7 +23,7 @@ class ApartmentsProvider {
   loadFullListingDetails(idOrSlug) {
     return this.apiProvider.fetch('/api/apartments/v1/listings/' + idOrSlug)
       .then(listing => {
-        listing.title = listing.title || `דירת ${listing.apartment.rooms} חד׳ ברח׳ ${listing.apartment.building.street_name}`;
+        listing.title = utils.getListingTitle(listing);
         this.appStore.listingStore.add(listing);
         this.appStore.metaData = _.defaults(this.getListingMetadata(listing), this.appStore.metaData);
         return Promise.all([
