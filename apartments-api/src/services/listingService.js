@@ -115,6 +115,10 @@ function* getByFilter(filterJSON, user) {
     delete listingQuery.status; // admin can see all the statuses
   }
 
+  if (filter.city === '*') {
+    _.unset(filter, 'city');
+  }
+
   let options = {
     order: [['created_at', 'DESC']]
   };
