@@ -154,10 +154,10 @@ class Apartments extends Component {
     return <div>
       <div className="apartments-filter-toggle-container">
         <Button onClick={this.toggleHideFilter}>
-        סנן תוצאות
+          סנן תוצאות
         </Button>
       </div>
-      <div className={"apartments-filter-wrapper" + (this.state.hideFilter ? " hideFilter" : "")}>
+      <div className={'apartments-filter-wrapper' + (this.state.hideFilter ? ' hideFilter' : '')}>
         <div className="apartments-filter-city-container">
           <DropdownButton id="cityDropdown" bsSize="large"
             className="apartments-filter-city-dropdown"
@@ -278,7 +278,7 @@ class Apartments extends Component {
           </Row>
         </Grid>
       </div>
-    </div>
+    </div>;
   }
 
   renderResults() {
