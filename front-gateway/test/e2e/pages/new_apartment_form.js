@@ -124,7 +124,7 @@ module.exports = {
           selector: 'input[name="user.phone"]'
         },
         submit: {
-          selector: 'button.btn-submit'
+          selector: 'button.step-btn'
         },
         previousStep: {
           selector: 'i.open-house-event-previous-step'

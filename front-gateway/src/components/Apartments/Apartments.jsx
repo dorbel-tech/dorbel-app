@@ -11,9 +11,9 @@ import './Apartments.scss';
 
 const DEFAULT_FILTER_PARAMS = {
   city: 0, // City selector default value.
-  roomate: true, // Roommate search checkbox default value.
+  roommate: true, // Roommate search checkbox default value.
   empty: true, // Empty apartment for roommates checkbox default value.
-  room: true, // Roomate looking for roommate/s checkbox default value.
+  room: true, // Roommate looking for roommate/s checkbox default value.
   mrs: 1000, // Monthly rent slider start default value.
   mre: 7000, // Monthly rent slider end default value.
   minRooms: 1, // Rooms number slider start default value.
@@ -40,10 +40,14 @@ class Apartments extends Component {
       this.filterObj = {};
     }
 
-    this.state = {
-      isLoading: true
-    };
-    Object.assign(this.state, DEFAULT_FILTER_PARAMS, this.filterObj);
+    this.filterChanged = false;
+    this.state = Object.assign({}, DEFAULT_FILTER_PARAMS, this.filterObj);
+
+    // Adjust roommates checkboxes state when provided with roommates data from
+    // the query params (location.search).
+    if (this.filterObj.room) {
+      this.setState({empty: false});
+    }
   }
 
   componentDidMount() {
@@ -52,7 +56,7 @@ class Apartments extends Component {
   }
 
   citySelectHandler(cityId) {
-    this.setState({ isLoading: true });
+    this.filterChanged = true;
     if (cityId === 0) {
       delete this.filterObj.city;
     } else {
@@ -75,13 +79,14 @@ class Apartments extends Component {
   }
 
   sliderChangeHandler(range, minProp, maxProp) {
+    this.filterChanged = true;
     this.setState({
-      isLoading: true,
       [minProp]: range[0],
       [maxProp]: range[1]
     });
 
-    if (range !== [DEFAULT_FILTER_PARAMS[minProp], DEFAULT_FILTER_PARAMS[maxProp]]) {
+    if (range[0] !== DEFAULT_FILTER_PARAMS[minProp] ||
+        range[1] !== DEFAULT_FILTER_PARAMS[maxProp]) {
       this.filterObj[minProp] = range[0] === DEFAULT_FILTER_PARAMS[minProp] ?
         undefined : range[0];
       this.filterObj[maxProp] = range[1] === DEFAULT_FILTER_PARAMS[maxProp] ?
@@ -95,25 +100,21 @@ class Apartments extends Component {
   }
 
   amenitiesChangeHandler(e) {
-    this.setState({
-      isLoading: true,
-      [e.target.name]: e.target.checked
-    });
+    this.filterChanged = true;
+    this.setState({[e.target.name]: e.target.checked});
 
     this.filterObj[e.target.name] = e.target.checked ? true : undefined;
     this.reloadApartments();
   }
 
-  roomateChangeHandler(e) {
-    this.setState({
-      isLoading: true,
-      [e.target.name]: e.target.checked
-    });
+  roommateChangeHandler(e) {
+    this.filterChanged = true;
+    this.setState({[e.target.name]: e.target.checked});
 
     delete this.filterObj.room;
     // We can't check the newly set state to be false directly,
     // so we do a positive check.
-    if (e.target.name === 'roomate' && this.state.roomate) {
+    if (e.target.name === 'roommate' && this.state.roommate) {
       this.filterObj.room = 0;
     } else if (e.target.name === 'room' && this.state.room) {
       this.filterObj.room = 0;
@@ -125,29 +126,31 @@ class Apartments extends Component {
   }
 
   reloadApartments() {
-    const search = Object.keys(this.filterObj).length === 0 ? '' :
-        '?q=' + encodeURIComponent(JSON.stringify(this.filterObj));
-
+    const search = '?q=' + encodeURIComponent(JSON.stringify(this.filterObj));
     const title = document ? document.title : '';
+
     history.pushState(this.filterObj, title, search);
 
-    this.props.appProviders.apartmentsProvider.loadApartments(this.filterObj)
-      .then(this.setState({ isLoading: false }));
+    this.props.appProviders.apartmentsProvider.loadApartments(this.filterObj);
   }
 
-  renderResults(apartments) {
-    if (this.state.isLoading) {
-      return (
-        <div className="loaderContainer">
-          <LoadingSpinner />
-        </div>
-      );
-    } else if (apartments.length > 0) {
+  renderResults() {
+    const { listingStore } = this.props.appStore;
+    const apartments = listingStore.apartments.length ? listingStore.apartments : [];
+    const isLoading = this.props.appStore.listingStore.isLoading;
+
+    if (!isLoading && apartments.length > 0) {
       return (<Grid fluid>
         <Row className="apartments-results-container">
           {apartments.map(listing => <ListingThumbnail listing={listing} key={listing.id} />)}
         </Row>
       </Grid>);
+    } else if (!this.filterChanged || isLoading) {
+      return (
+        <div className="loaderContainer">
+          <LoadingSpinner />
+        </div>
+      );
     } else {
       return (<div className="apartments-results-not-found">
       <b className="apartments-results-not-found-title">הלוואי והייתה לנו דירה בדיוק כזו.</b><br />
@@ -157,7 +160,7 @@ class Apartments extends Component {
   }
 
   render() {
-    const { cityStore, listingStore } = this.props.appStore;
+    const { cityStore } = this.props.appStore;
     const cities = cityStore.cities.length ? cityStore.cities : [];
     const cityId = this.filterObj.city || 0;
     if (cityId === 0) {
@@ -166,8 +169,6 @@ class Apartments extends Component {
       const city = cities.find(c => c.id == cityId);
       this.cityTitle = city ? city.city_name : 'טוען...';
     }
-
-    const apartments = listingStore.apartments.length ? listingStore.apartments : [];
 
     return (
       <div className="apartments-container">
@@ -182,25 +183,25 @@ class Apartments extends Component {
             </DropdownButton>
           </div>
           <div className="apartments-filter-switches-container">
-            <Checkbox name="roomate"
-              checked={this.state.roomate}
+            <Checkbox name="roommate"
+              checked={this.state.roommate}
               className="apartments-filter-switches-show-rommates-switch"
-              onChange={this.roomateChangeHandler}>
+              onChange={this.roommateChangeHandler}>
               <b>הציגו לי דירות לשותפים</b>
             </Checkbox>
             <div className="apartments-filter-switches-switch-wrapper">
               <Checkbox name="empty"
                 checked={this.state.empty}
-                disabled={!this.state.roomate || !this.state.room}
-                onChange={this.roomateChangeHandler}>
+                disabled={!this.state.roommate || !this.state.room}
+                onChange={this.roommateChangeHandler}>
                 דירות ריקות לשותפים
               </Checkbox>
             </div>
             <div className="apartments-filter-switches-switch-wrapper">
               <Checkbox name="room"
                 checked={this.state.room}
-                disabled={!this.state.roomate || !this.state.empty}
-                onChange={this.roomateChangeHandler}>
+                disabled={!this.state.roommate || !this.state.empty}
+                onChange={this.roommateChangeHandler}>
                 חדר בדירת שותפים
               </Checkbox>
             </div>
@@ -293,7 +294,7 @@ class Apartments extends Component {
           </Grid>
         </div>
         <div className="apartments-results-wrapper">
-          {this.renderResults(apartments)}
+          {this.renderResults()}
         </div>
       </div>
     );
