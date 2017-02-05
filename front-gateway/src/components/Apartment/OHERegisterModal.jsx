@@ -100,7 +100,7 @@ class OHERegisterModal extends React.Component {
 
   renderRegisterForm(ohe, profile) {
     return (
-      <Modal className="oheRegisterModal" show={true}>
+      <Modal className="ohe-register-modal" show={true}>
         <Modal.Header closeButton onHide={this.close}>
           <Modal.Title>אנו שמחים שבחרתם להגיע לביקור בנכס :)</Modal.Title>
         </Modal.Header>
@@ -129,20 +129,18 @@ class OHERegisterModal extends React.Component {
               <p>פרטיותכם יקרה לנו! לא יעשה כל שימוש אחר בפרטיכם. אנו מבקשים פרטי קשר על מנת שנוכל לעדכן על שינויים במידת הצורך.</p>
             </Col>
           </Row>
-          <FormWrapper.Wrapper layout="elementOnly" onChange={this.handleChanges} ref="form">
+          <FormWrapper.Wrapper layout="horizonal" onChange={this.handleChanges} ref="form">
             <Row>
-              <Col md={6} className="oheModalInput">
-                <FRC.Input name="user.firstname" placeholder="שם פרטי" value={profile.first_name} required />
+              <Col md={6} className="ohe-modal-input">
+                <FRC.Input name="user.firstname" label="שם פרטי" value={profile.first_name} required />
               </Col>
-              <Col md={6} className="oheModalInput">
-                <FRC.Input name="user.phone" placeholder="טלפון" value={profile.phone} validationError="מספר טלפון לא תקין" required />
+              <Col md={6} className="ohe-modal-input">
+                <FRC.Input name="user.phone" label="טלפון" value={profile.phone} validationError="מספר טלפון לא תקין" required />
               </Col>
-            </Row>
-            <Row>
-              <Col md={6} className="oheModalInput">
-                <FRC.Input name="user.email" placeholder="מייל" type="email" value={profile.email} validations="isEmail" validationError="כתובת מייל לא תקינה" required />
+              <Col md={6} className="ohe-modal-input">
+                <FRC.Input name="user.email" label="מייל" type="email" value={profile.email} validations="isEmail" validationError="כתובת מייל לא תקינה" required />
               </Col>
-              <Col md={6}>
+              <Col md={6} className="ohe-register-submit">
                 <Button bsStyle="success" block onClick={this.register}>המשך</Button>
               </Col>
             </Row>
