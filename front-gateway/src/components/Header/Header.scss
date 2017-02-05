@@ -38,7 +38,7 @@
   }
 }
 
-@media (max-width: $screen-sm-min) {
+@media (max-width: $screen-xs-max) {
   .btn-publish > a {
     color: $brand-white !important;
     background-color: #00b3e5;    
