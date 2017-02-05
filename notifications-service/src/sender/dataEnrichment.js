@@ -15,7 +15,7 @@ function buildCalendarInvite(additonalData, status) {
     title: 'ביקור בדירה ברח׳ ' + additonalData.listing.apartment.building.street_name,
     location: additonalData.listing.apartment.building.street_name + ' ' + additonalData.listing.apartment.building.house_number + ', ' + additonalData.listing.apartment.building.city.city_name,
     description: 'הזמן שלכם ושל בעלי הדירה חשוב לנו, לכן במידה ומשהו משתנה ואינכם יכולים להגיע לביקור, אנא בטלו הגעתכם. אבל חבל, מי יודע, אולי זו תהיה האחת בשבילכם.',
-    url: 'https://www.dorbel.com/apartments/' + additonalData.listing.id,
+    url: 'https://app.dorbel.com/apartments/' + additonalData.listing.id,
     status: status,
     attendees: [
       { email: additonalData.user_profile.email },
@@ -31,7 +31,7 @@ const dataEnrichmentFunctions = {
   },
   // Create calendar invitate cancelation for OHE related types of events
   cancelCalendarInvite: (eventData, additonalData) => {
-    let calInvite = buildCalendarInvite(additonalData, 'canceled');
+    let calInvite = buildCalendarInvite(additonalData, 'cancelled');
     return { attachments: { 'event.ics': calInvite } }; // Adding calendar event attachment.
   }
 }; 
