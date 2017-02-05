@@ -4,11 +4,11 @@ import { Col } from 'react-bootstrap';
 import NavLink from '~/components/NavLink';
 import ListingBadge from '../ListingBadge/ListingBadge';
 import CloudinaryImage from '../CloudinaryImage/CloudinaryImage';
+import utils from '../../providers/utils';
 
 class ListingThumbnail extends Component {
   render() {
     const { listing } = this.props;
-    const title = listing.title || `דירת ${listing.apartment.rooms} חד׳ ברח׳ ${listing.apartment.building.street_name}`;
     // TODO: Make sure the image URL points to the primary image URL (by order).
     const imageURL = listing.images.length ? listing.images[0].url : '';
 
@@ -29,7 +29,7 @@ class ListingThumbnail extends Component {
             </ul>
           </div>
           <div className="caption">
-            <h4>{title}</h4>
+            <h4>{utils.getListingTitle(listing)}</h4>
             <span>
               {listing.apartment.building.street_name}, {listing.apartment.building.city.city_name}
             </span>

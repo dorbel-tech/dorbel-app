@@ -34,7 +34,7 @@ export default class AuthStore {
       const durationUntilExpiryInMs = tokenExpiryTimeInMs - Date.now();
       // token might already be expired and then the duration is negative
       const logoutTimerDelay = max([0, durationUntilExpiryInMs]);
-      this.logoutTimer = setTimeout(this.logout, logoutTimerDelay);
+      this.logoutTimer = setTimeout(() => { this.logout(); }, logoutTimerDelay);
     }
   }
 
