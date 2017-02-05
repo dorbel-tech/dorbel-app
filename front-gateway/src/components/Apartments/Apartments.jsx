@@ -10,7 +10,7 @@ import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 import './Apartments.scss';
 
 const DEFAULT_FILTER_PARAMS = {
-  city: 0, // City selector default value.
+  city: 1, // City selector default value.
   roommate: true, // Roommate search checkbox default value.
   empty: true, // Empty apartment for roommates checkbox default value.
   room: true, // Roommate looking for roommate/s checkbox default value.
@@ -57,11 +57,7 @@ class Apartments extends Component {
 
   citySelectHandler(cityId) {
     this.filterChanged = true;
-    if (cityId === 0) {
-      delete this.filterObj.city;
-    } else {
-      this.filterObj.city = cityId;
-    }
+    this.filterObj.city = cityId;
 
     this.reloadApartments();
   }
@@ -126,6 +122,10 @@ class Apartments extends Component {
   }
 
   reloadApartments() {
+    if (!this.filterObj.city) {
+      this.filterObj.city = DEFAULT_FILTER_PARAMS.city;
+    }
+
     const search = '?q=' + encodeURIComponent(JSON.stringify(this.filterObj));
     const title = document ? document.title : '';
 
@@ -141,10 +141,10 @@ class Apartments extends Component {
   renderFilter() {
     const { cityStore } = this.props.appStore;
     const cities = cityStore.cities.length ? cityStore.cities : [];
-    const cityId = this.filterObj.city || 0;
+    const cityId = this.filterObj.city || DEFAULT_FILTER_PARAMS.city;
 
     let cityTitle;
-    if (cityId === 0) {
+    if (cityId === '*') {
       cityTitle = 'כל הערים';
     } else {
       const city = cities.find(c => c.id == cityId);
@@ -163,7 +163,7 @@ class Apartments extends Component {
             className="apartments-filter-city-dropdown"
             title={'עיר: ' + cityTitle}
             onSelect={this.citySelectHandler}>
-            <MenuItem eventKey={0}>כל הערים</MenuItem>
+            <MenuItem eventKey={'*'}>כל הערים</MenuItem>
             {cities.map(city => <MenuItem key={city.id} eventKey={city.id}>{city.city_name}</MenuItem>)}
           </DropdownButton>
         </div>
