@@ -1,9 +1,29 @@
 .apartments-container {
+  height: 100%;
   position: relative;
+}
+
+.apartments-filter-toggle-container {
+  left: 100px;
+  position: fixed;
+  right: 100px;
+  text-align: center;
+  top: 15px;
+  z-index: 1099;
+
+  @media (min-width: $screen-sm-min) {
+    display: none;
+  }
 }
 
 .apartments-filter-wrapper {
   padding: 39px 0;
+
+  @media (max-width: $screen-xs-max) {
+    &.hideFilter {
+      display: none;
+    }
+  }
 
   @media (min-width: $screen-xs-min) {
     margin: 0 auto;
@@ -18,6 +38,7 @@
 
 .apartments-results-wrapper {
   background-color: $gray-lighter;
+  height: 100%;
   overflow: auto;
   padding-top: 39px;
 
