@@ -5,12 +5,10 @@
 'use strict'; 
 const ICS = require('ics');
 const ics = new ICS();
-const moment = require('moment');
+const moment = require('moment-timezone');
 
 function convertDate(date) {
-  console.log('====> date before:', date);
-  console.log('====> date after:', moment(date).tz('Asia/Jerusalem').format());
-  return moment(date).tz('Asia/Jerusalem').format();
+  return moment(date).tz('Asia/Jerusalem').format('YYYY-MM-DD HH:mm');
 }
 
 // Calendar invite ICS file building. 
