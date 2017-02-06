@@ -53,7 +53,8 @@ export default class ListingMenu extends React.Component {
       if (choice) {
         return appProviders.apartmentsProvider.updateListingStatus(listing.id, newStatus);
       }
-    }).catch(this.props.appProviders.notificationProvider.error);
+    }).catch((err) => this.props.appProviders.notificationProvider.error(err));
+
   }
 
   renderStatusSelector() {
