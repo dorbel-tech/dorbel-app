@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
+import _ from 'lodash';
 
 let isWorking = false;
-class CustomSubmitButton extends Component {
+
+class SubmitButton extends Component {
 
   handleClick(e) {
     e.preventDefault();
@@ -16,21 +18,20 @@ class CustomSubmitButton extends Component {
           isWorking = false;
         });
     }
-    else {
-      console.log('detected double click');
-    }
   }
 
   render() {
-    let { onClickPromise, ...rest } = this.props;
+    // Remove this component's PropTypes to prevent 'Unknown prop' warning
+    const cleanProps = _.pickBy(this.props, (value, key) => !SubmitButton.propTypes[key]);
+
     return (
-      <Button {... rest} onClick={this.handleClick.bind(this)} />
+      <Button {...cleanProps} onClick={this.handleClick.bind(this)} />
     );
   }
 }
 
-CustomSubmitButton.propTypes = {
+SubmitButton.propTypes = {
   onClickPromise: React.PropTypes.func
 };
 
-export default CustomSubmitButton;
+export default SubmitButton;
