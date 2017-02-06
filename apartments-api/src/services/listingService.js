@@ -71,13 +71,13 @@ function* updateStatus(listingId, user, status) {
   const isPublishingUserOrAdmin = permissionsService.isPublishingUserOrAdmin(user, listing);
 
   if (!listing) {
-    logger.error({listingId}, 'Listing wasnt found');
+    logger.error({ listingId }, 'Listing wasnt found');
     throw new CustomError(404, 'הדירה לא נמצאה');
   } else if (!isPublishingUserOrAdmin) {
-    logger.error({listingId}, 'You cant update that listing');
+    logger.error({ listingId }, 'You cant update that listing');
     throw new CustomError(403, 'אין באפשרותך לערוך דירה זו');
   } else if (getPossibleStatuses(listing, user).indexOf(status) < 0) {
-    logger.error({listingId}, 'You cant update this listing status');
+    logger.error({ listingId }, 'You cant update this listing status');
     throw new CustomError(403, 'אין באפשרותך לשנות את סטטוס הדירה ל ' + status);
   }
 
@@ -113,6 +113,10 @@ function* getByFilter(filterJSON, user) {
 
   if (user && userManagement.isUserAdmin(user)) {
     delete listingQuery.status; // admin can see all the statuses
+  }
+
+  if (filter.city === '*') {
+    _.unset(filter, 'city');
   }
 
   let options = {
@@ -176,7 +180,7 @@ function* getById(id, user) {
   if (isPending && !isPublishingUserOrAdmin) {
     throw new CustomError(502, 'Cant show pending listing. User is not admin or publisher of listingId ' + listing.id);
   } else {
-    return yield enrichListingResponse(listing, user);      
+    return yield enrichListingResponse(listing, user);
   }
 }
 

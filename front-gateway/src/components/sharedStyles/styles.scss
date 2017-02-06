@@ -52,7 +52,6 @@ a {
     font-weight: bold;
   }
   @media (max-width: $screen-xs-min) {
-    // height: 100% !important;
     padding: 5px 20px !important;
   }
   .confirm {
@@ -89,6 +88,10 @@ a {
 
 .app-content-with-header {
   padding: 60px 0 0 0;
+
+  @media (max-width: $screen-xs-max) {
+    height: 100%;
+  }
 }
 
 .small-text {
