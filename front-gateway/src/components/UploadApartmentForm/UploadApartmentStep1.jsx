@@ -56,7 +56,7 @@ class UploadApartmentStep1 extends UploadApartmentBaseStep.wrappedComponent {
           <img src="https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/upload-apt-form/icon-signup-photos.svg" alt="Upload photos" />
         </Col>
         <Col md={5} className="upload-apt-left-container apartment-pictures-step">
-          <div className="photos-upload" >
+          <div className="photos-upload">
             <form>
               <Row className="thumbs">
                 <Dropzone className="col-md-4 thumb" multiple={false} onDrop={this.onChooseFile.bind(this)}>
