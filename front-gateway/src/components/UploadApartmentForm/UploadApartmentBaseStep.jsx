@@ -14,7 +14,7 @@ class UploadApartmentBaseStep extends Component {
 
   clickNext() {
     if (this.props.onClickNext) {
-      this.props.onClickNext();
+      return this.props.onClickNext();
     }
   }
 

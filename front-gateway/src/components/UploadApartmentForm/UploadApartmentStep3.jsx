@@ -5,6 +5,7 @@ import { observer } from 'mobx-react';
 import _ from 'lodash';
 import UploadApartmentBaseStep from './UploadApartmentBaseStep';
 import FormWrapper from '~/components/FormWrapper/FormWrapper';
+import SubmitButton from '~/components/SubmitButton/SubmitButton';
 import AddOHEInput from '~/components/AddOHEInput/AddOHEInput';
 
 @observer(['appStore', 'appProviders', 'router'])
@@ -23,7 +24,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
     const formsy = this.refs.form.refs.formsy;
     if (formsy.state.isValid) {
       this.props.appStore.newListingStore.updateFormValues(this.refs.form.refs.formsy.getCurrentValues());
-      super.clickNext();
+      return super.clickNext();
     } else {
       this.props.onValidationError(formsy);
     }
@@ -118,9 +119,9 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
           <div className="form-nav bottom col-lg-5 col-md-5 col-sm-12 col-xs-12">
             <span onClick={this.clickBack.bind(this)}><i className="open-house-event-previous-step fa fa-arrow-circle-o-right fa-2x" aria-hidden="true"></i>&nbsp; שלב קודם</span>
             <span>3/3</span>
-            <Button onClick={this.clickNext.bind(this)} className="step-btn"
+            <SubmitButton onClickPromise={this.clickNext.bind(this)} className="step-btn"
               bsStyle={authStore.isLoggedIn ? 'success' : 'default'}
-              disabled={!authStore.isLoggedIn} >שליחה וסיום</Button>
+              disabled={!authStore.isLoggedIn} >שליחה וסיום</SubmitButton>
           </div>
         </div>
         <DorbelModal
