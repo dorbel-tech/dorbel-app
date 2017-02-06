@@ -496,9 +496,9 @@ builtin-modules@^1.0.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/builtin-modules/-/builtin-modules-1.1.1.tgz#270f076c5a72c02f5b65a47df94c5fe3a278892f"
 
-bunyan-sumologic@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/bunyan-sumologic/-/bunyan-sumologic-1.0.1.tgz#4ef9ad212bd93680c5dec3f0a1de91375cb17333"
+bunyan-sumologic@avnersorek/bunyan-sumologic:
+  version "1.1.0"
+  resolved "https://codeload.github.com/avnersorek/bunyan-sumologic/tar.gz/1b240e430d533a03f8d70a21935a9169d28c0362"
   dependencies:
     request "^2.75.0"
 
@@ -1081,20 +1081,20 @@ doctrine@^1.2.2:
     esutils "^2.0.2"
     isarray "^1.0.0"
 
-"dorbel-shared@git://github.com/dorbel-tech/dorbel-shared#v0.4.58":
-  version "0.4.58"
-  resolved "git://github.com/dorbel-tech/dorbel-shared#a2c52c961880b6d4d569cae1630ff2ad75d0d08f"
+"dorbel-shared@git://github.com/dorbel-tech/dorbel-shared#v0.4.59":
+  version "0.4.59"
+  resolved "git://github.com/dorbel-tech/dorbel-shared#0dd5e9f433d7884fcf345a9df6e7df36b77cfb5b"
   dependencies:
     analytics-node "^2.1.0"
     auth0 "^2.5.0"
     bluebird "^3.4.6"
     bunyan "~1.8.1"
-    bunyan-sumologic "^1.0.1"
+    bunyan-sumologic avnersorek/bunyan-sumologic
     co "^4.6.0"
     es6-promisify "^5.0.0"
-    http-graceful-shutdown "^1.0.6"
     jwt-decode "^2.1.0"
     lodash "~4.16.3"
+    mock-require "^2.0.1"
     nconf "~0.8.4"
     newrelic "1.31.0"
     redis "^2.6.3"
@@ -2123,13 +2123,6 @@ http-errors@~1.4.0:
     inherits "2.0.1"
     statuses ">= 1.2.1 < 2"
 
-http-graceful-shutdown@^1.0.6:
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/http-graceful-shutdown/-/http-graceful-shutdown-1.0.6.tgz#26314e3e1ca812f1acba243d05cbc0965a8f17f6"
-  dependencies:
-    debug "^2.2.0"
-    lodash "^4.1.0"
-
 http-proxy-agent@1:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/http-proxy-agent/-/http-proxy-agent-1.0.0.tgz#cc1ce38e453bf984a0f7702d2dd59c73d081284a"
@@ -2901,7 +2894,7 @@ lodash@^3.10.0, lodash@^3.10.1, lodash@^3.8.0, lodash@^3.9.1:
   version "3.10.1"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-3.10.1.tgz#5bf45e8e49ba4189e17d482789dfd15bd140b7b6"
 
-lodash@^4.0.0, lodash@^4.1.0, lodash@^4.12.0, lodash@^4.13.1, lodash@^4.14.0, lodash@^4.15.0, lodash@^4.16.3, lodash@^4.2.0, lodash@^4.3.0:
+lodash@^4.0.0, lodash@^4.12.0, lodash@^4.13.1, lodash@^4.14.0, lodash@^4.15.0, lodash@^4.16.3, lodash@^4.2.0, lodash@^4.3.0:
   version "4.17.2"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.2.tgz#34a3055babe04ce42467b607d700072c7ff6bf42"
 
@@ -3150,6 +3143,12 @@ mocha@^3.1.0:
 mock-require@^1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/mock-require/-/mock-require-1.3.0.tgz#826144952e504762f8e6924aa8f639465d1d7a24"
+  dependencies:
+    caller-id "^0.1.0"
+
+mock-require@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/mock-require/-/mock-require-2.0.1.tgz#7b0ebc79b8af5dfb1e9caefeb977804e71d2e004"
   dependencies:
     caller-id "^0.1.0"
 
