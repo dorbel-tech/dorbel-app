@@ -5,13 +5,20 @@
 'use strict'; 
 const ICS = require('ics');
 const ics = new ICS();
+const moment = require('moment');
+
+function convertDate(date) {
+  console.log('====> date before:', date);
+  console.log('====> date after:', moment(date).tz('Asia/Jerusalem').format());
+  return moment(date).tz('Asia/Jerusalem').format();
+}
 
 // Calendar invite ICS file building. 
 // Requires listing: {...}, ohe: {...} and user_profile: {...} objects in additonalData.
 function buildCalendarInvite(additonalData, status) {
   return ics.buildEvent({
-    start: additonalData.ohe.start_time,
-    end: additonalData.ohe.end_time,
+    start: convertDate(additonalData.ohe.start_time),
+    end: convertDate(additonalData.ohe.end_time),
     title: 'ביקור בדירה ברח׳ ' + additonalData.listing.apartment.building.street_name,
     location: additonalData.listing.apartment.building.street_name + ' ' + additonalData.listing.apartment.building.house_number + ', ' + additonalData.listing.apartment.building.city.city_name,
     description: 'הזמן שלכם ושל בעלי הדירה חשוב לנו, לכן במידה ומשהו משתנה ואינכם יכולים להגיע לביקור, אנא בטלו הגעתכם. אבל חבל, מי יודע, אולי זו תהיה האחת בשבילכם.',
