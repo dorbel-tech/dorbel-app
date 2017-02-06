@@ -108,15 +108,17 @@
 }
 
 .date-and-time {
-    @media (max-width: $screen-lg-min) {
-        padding: 12px 10px 0px 15px;
-    }
-    span {
-        &:last-child {
-            font-size: $font-size-small;
-            color: lighten($gray-light, 10%);
-        }
-    }
+  @media (max-width: $screen-lg-min) {
+    padding: 12px 10px 0 15px;
+  }
+  span:last-child {
+    color: lighten($gray-light, 10%);
+    font-size: $font-size-small;
+  }
+}
+
+.ohe-list-open-action-text {
+  color: #3cb878 !important;
 }
 
 .owner-container {
@@ -148,7 +150,7 @@
     border-radius: 4px;
     color: #3398db;
     cursor: pointer;
-    padding: 6px;
+    padding: 6px 24px;
     width: 250px;
 
     &:hover {

@@ -18,6 +18,7 @@ class OHEList extends Component {
 
   renderListItem(params) {
     const { router } = this.props;
+    const callToActionTextClass = params.callToActionTextClass || '';
     let className = 'list-group-item';
     let onClickFunction = () => {
       const currentRoute = router.getRoute().join('/');
@@ -39,7 +40,7 @@ class OHEList extends Component {
             <span className={params.highlightTitle ? 'highlight' : ''}>{params.itemText}</span>
             <br className="visible-lg" />
             <i className="hidden-lg">&nbsp;</i>
-            <span className={'hidden-xs ' + params.callToActionTextClass || ''}>{params.callToActionText}</span>
+            <span className={'hidden-xs ' + callToActionTextClass}>{params.callToActionText}</span>
           </div>
           <div className="dorbel-icon-arrow fa fa-chevron-left pull-left"></div>
         </Row>
@@ -56,7 +57,8 @@ class OHEList extends Component {
       iconName: 'dorbel_icon_calendar',
       itemText: `${openHouseEvent.timeLabel} | ${openHouseEvent.dateLabel}`,
       isDisabled: OHEConfig.isDisabled,
-      callToActionText: OHEConfig.callToActionText
+      callToActionText: OHEConfig.callToActionText,
+      callToActionTextClass: OHEConfig.callToActionTextClass
     });
   }
 
@@ -69,6 +71,7 @@ class OHEList extends Component {
 
     switch (openHouseEvent.status) {
       case 'open':
+        oheConfig.callToActionTextClass = 'ohe-list-open-action-text';
         break;
       case 'expired':
         oheConfig.isDisabled = true;
