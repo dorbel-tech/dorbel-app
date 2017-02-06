@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import _ from 'lodash';
-import { Button, Row } from 'react-bootstrap';
+import { Row } from 'react-bootstrap';
 import autobind from 'react-autobind';
 import Icon from '../Icon/Icon';
 
@@ -39,7 +39,7 @@ class OHEList extends Component {
             <span className={params.highlightTitle ? 'highlight' : ''}>{params.itemText}</span>
             <br className="visible-lg" />
             <i className="hidden-lg">&nbsp;</i>
-            <span className="hidden-xs">{params.callToActionText}</span>
+            <span className={'hidden-xs ' + params.callToActionTextClass || ''}>{params.callToActionText}</span>
           </div>
           <div className="dorbel-icon-arrow fa fa-chevron-left pull-left"></div>
         </Row>
@@ -109,9 +109,9 @@ class OHEList extends Component {
       callToActionText = 'לחצו להסרה מרשימת העדכונים';
     }
 
-    return <Button className="follow-action" onClick={onClickFunction}>
+    return <span className="follow-action" onClick={onClickFunction}>
       {callToActionText}
-    </Button>;
+    </span>;
   }
 
   filterOHEsToDisplay(ohes) {
