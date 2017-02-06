@@ -7,18 +7,28 @@ import UploadApartmentBaseStep from './UploadApartmentBaseStep';
 
 @observer(['appProviders', 'appStore'])
 class UploadApartmentStep1 extends UploadApartmentBaseStep.wrappedComponent {
+
+  constructor(props) {
+    super(props);
+    this.uploadImagePromises = [];
+    this.state = { isReadyForNextStep: true };
+  }
+
   onChooseFile(acceptedFiles) {
-    this.props.appProviders.apartmentsProvider.uploadImage(acceptedFiles[0]); // expecting only one file each time      
+    this.setState({ isReadyForNextStep: false });
+    let uploadPromise = this.props.appProviders.apartmentsProvider.uploadImage(acceptedFiles[0]); // expecting only one file each time    
+    this.uploadImagePromises.push(uploadPromise);
+    Promise.all(this.uploadImagePromises).then(this.setState({ isReadyForNextStep: true }));
   }
 
   renderImage(image, index) {
     const { apartmentsProvider } = this.props.appProviders;
-    const progressPct = Math.round(image.progress * 100) + '%';  
+    const progressPct = Math.round(image.progress * 100) + '%';
     const progressBarStyle = { width: progressPct };
 
     const progressBar = (
       <div className="progress">
-        <div className="progress-bar" style={ progressBarStyle }>
+        <div className="progress-bar" style={progressBarStyle}>
           {progressPct}
         </div>
       </div>
@@ -71,7 +81,7 @@ class UploadApartmentStep1 extends UploadApartmentBaseStep.wrappedComponent {
               <span></span>
               <span>1/3</span>
               <span className="next-step" onClick={this.clickNext.bind(this)}>
-                <Button bsStyle="success" className="step-btn">
+                <Button bsStyle="success" className="step-btn" disabled={!this.state.isReadyForNextStep}>
                   שלב הבא &nbsp;
                   <i className="apartment-pictures-next-step fa fa-arrow-circle-o-left fa-2x" aria-hidden="true"></i>
                 </Button>
