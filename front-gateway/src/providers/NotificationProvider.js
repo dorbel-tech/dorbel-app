@@ -10,7 +10,7 @@ export default class NotificationProvider {
 
   error(resp, options = {}) {
 
-    const message = resp.response ? resp.response.data : 'Generic error';
+    const message = resp.response ? resp.response.data : 'אופס, משהו השתבש. תנסו שנית נאוחר יותר.';
 
     this.notificationSystem.addNotification({
       title: '',
