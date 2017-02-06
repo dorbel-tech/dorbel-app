@@ -3,40 +3,38 @@
  * To enrich the different data needed by each notification type before it is sent 
  */ 
 'use strict'; 
-const ICS = require('ics');
-const ics = new ICS();
-const moment = require('moment-timezone');
+var ical = require('ical-generator');
+const tzName = 'Asia/Jerusalem';
 
-function convertDate(date) {
-  return moment(date).tz('Asia/Jerusalem').format('YYYY-MM-DD HH:mm');
-}
 
 // Calendar invite ICS file building. 
 // Requires listing: {...}, ohe: {...} and user_profile: {...} objects in additonalData.
-function buildCalendarInvite(additonalData, status) {
-  return ics.buildEvent({
-    start: convertDate(additonalData.ohe.start_time),
-    end: convertDate(additonalData.ohe.end_time),
-    title: 'ביקור בדירה ברח׳ ' + additonalData.listing.apartment.building.street_name,
+function buildCalendarInvite(additonalData, method) {
+  let cal = ical({domain: 'dorbel.com', timezone: tzName});
+  let event = cal.createEvent({
+    organizer: 'dorbel <homesupport@dorbel.com>',
+    start: additonalData.ohe.start_time,
+    end: additonalData.ohe.end_time,
+    summary: 'ביקור בדירה ברח׳ ' + additonalData.listing.apartment.building.street_name,
     location: additonalData.listing.apartment.building.street_name + ' ' + additonalData.listing.apartment.building.house_number + ', ' + additonalData.listing.apartment.building.city.city_name,
     description: 'הזמן שלכם ושל בעלי הדירה חשוב לנו, לכן במידה ומשהו משתנה ואינכם יכולים להגיע לביקור, אנא בטלו הגעתכם. אבל חבל, מי יודע, אולי זו תהיה האחת בשבילכם.',
     url: 'https://app.dorbel.com/apartments/' + additonalData.listing.id,
-    status: status,
-    attendees: [
-      { email: additonalData.user_profile.email },
-    ]      
+    method: method,
+    status: method === 'publish' ? 'confirmed' : 'cancelled'
   });
+  event.createAttendee({ email: additonalData.user_profile.email, status: 'accepted' });
+  return cal.toString();
 }
 
 const dataEnrichmentFunctions = { 
   // Create calendar invitation for OHE related types of events
   addCalendarInvite: (eventData, additonalData) => {
-    let calInvite = buildCalendarInvite(additonalData, 'confirmed');
+    let calInvite = buildCalendarInvite(additonalData, 'publish');
     return { attachments: { 'event.ics': calInvite } }; // Adding calendar event attachment.
   },
   // Create calendar invitate cancelation for OHE related types of events
   cancelCalendarInvite: (eventData, additonalData) => {
-    let calInvite = buildCalendarInvite(additonalData, 'cancelled');
+    let calInvite = buildCalendarInvite(additonalData, 'cancel');
     return { attachments: { 'event.ics': calInvite } }; // Adding calendar event attachment.
   }
 }; 
