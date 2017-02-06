@@ -6,8 +6,7 @@ module.exports = (sequelize, DataTypes) => {
   var Model = sequelize.define('images', {
     url: {
       type: DataTypes.STRING,
-      allowNull: false,
-      unique: true
+      allowNull: false
     },
     display_order: {
       type: DataTypes.FLOAT
