@@ -73,7 +73,7 @@ function* create(openHouseEvent, user) {
 }
 
 function* update(id, updateRequest, user) {
-  let existingEvent = yield openHouseEventsFinderService.find(id);
+  const existingEvent = yield openHouseEventsFinderService.find(id);
 
   utilityFunctions.validateResourceOwnership(existingEvent.publishing_user_id, user);
 
@@ -98,22 +98,23 @@ function* update(id, updateRequest, user) {
   const otherEvents = existingListingEvents.filter(otherEvent => otherEvent.id !== id && otherEvent.is_active);
   validateEventOverlap(otherEvents, start, end);
 
-  existingEvent.start_time = start;
-  existingEvent.end_time = end;
-  existingEvent.max_attendies = updateRequest.max_attendies;
+  let updatedEvent = existingEvent;
+  updatedEvent.start_time = start;
+  updatedEvent.end_time = end;
+  updatedEvent.max_attendies = updateRequest.max_attendies;
 
-  const result = yield openHouseEventsRepository.update(existingEvent);
-  logger.info({ user_id: existingEvent.publishing_user_id, event_id: existingEvent.id }, 'OHE updated');
+  const result = yield openHouseEventsRepository.update(updatedEvent);
+  logger.info({ user_id: updatedEvent.publishing_user_id, event_id: updatedEvent.id }, 'OHE updated');
 
   if (timeChanged) {
     notificationService.send(notificationService.eventType.OHE_UPDATED, {
-      listing_id: existingEvent.listing_id,
-      event_id: existingEvent.id,
+      listing_id: updatedEvent.listing_id,
+      event_id: updatedEvent.id,
       old_start_time: existingEvent.start_time,
       old_end_time: existingEvent.end_time,
-      new_start_time: start,
-      new_end_time: end,
-      user_uuid: existingEvent.publishing_user_id
+      new_start_time: updatedEvent.start_time,
+      new_end_time: updatedEvent.end_time,
+      user_uuid: updatedEvent.publishing_user_id
     });
   }
 
