@@ -68,7 +68,7 @@ class UploadApartmentStep1 extends UploadApartmentBaseStep.wrappedComponent {
                 {images.map(this.renderImage.bind(this))}
               </Row>
             </form>
-            <div className="form-nav bottom col-lg-5 col-md-5 col-sm-12 col-xs-12">
+            <Col xs={12} md={7} className="form-nav bottom">
               <span></span>
               <span>1/3</span>
               <span className="next-step" onClick={this.clickNext.bind(this)}>
@@ -77,7 +77,7 @@ class UploadApartmentStep1 extends UploadApartmentBaseStep.wrappedComponent {
                   <i className="apartment-pictures-next-step fa fa-arrow-circle-o-left fa-2x" aria-hidden="true"></i>
                 </Button>
               </span>
-            </div>
+            </Col>
           </div>
         </Col>
       </Grid>
