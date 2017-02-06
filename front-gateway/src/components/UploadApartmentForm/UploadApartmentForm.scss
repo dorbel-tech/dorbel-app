@@ -108,9 +108,9 @@
     }
   }
 
-  @media (max-width: $screen-xs-max) {
+  @media (max-width: $screen-sm-max) {
     >img {
-      width: 240px;
+      height: 100px;
     }
   }
 
@@ -155,13 +155,13 @@
   >.form-vertical {
     padding-right: 8%;
 
-    @media (min-width: $screen-sm-min) {
-      padding-right: 7%;
-    }
+/*    @media (max-width: $screen-xs-max) {
+      padding: 0;
 
-    @media (min-width: $screen-md-min) {
-      padding-right: 6%;
-    }
+      .form-section-headline {
+        display: none;
+      }
+    }*/
   }
 
   @media (min-width: $screen-md-min) {
