@@ -62,8 +62,8 @@ function* create(openHouseEvent, user) {
   notificationService.send(notificationService.eventType.OHE_CREATED, {
     listing_id: listing_id,
     event_id: newEvent.id,
-    start_time: start,
-    end_time: end,
+    start_time: openHouseEvent.start_time,
+    end_time: openHouseEvent.end_time,
     comments: openHouseEvent.comments,
     user_uuid: openHouseEvent.publishing_user_id
   });
