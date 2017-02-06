@@ -42,7 +42,7 @@ class UploadApartmentStep1 extends UploadApartmentBaseStep.wrappedComponent {
 
     return (
       <Grid fluid className="upload-apt-wrapper">
-        <Col md={6} className="upload-apt-right-container">
+        <Col md={5} className="upload-apt-right-container">
           <div className="upload-apt-right-container-text-wrapper">
             <div className="upload-apt-right-container-text-container">
               <h1>תמונות של הדירה</h1>
@@ -56,7 +56,7 @@ class UploadApartmentStep1 extends UploadApartmentBaseStep.wrappedComponent {
           <img src="https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/upload-apt-form/icon-signup-photos.svg" alt="Upload photos" />
         </Col>
 
-        <Col md={6} className="upload-apt-left-container apartment-pictures-step">
+        <Col md={7} className="upload-apt-left-container apartment-pictures-step">
           <div className="photos-upload">
             <form>
               <Row className="thumbs">
