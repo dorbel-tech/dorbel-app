@@ -3,20 +3,13 @@ const koa = require('koa');
 const fleekRouter = require('fleek-router');
 const bodyParser = require('koa-bodyparser');
 const shared = require('dorbel-shared');
-const config = shared.config; 
+const config = shared.config;
 const logger = shared.logger.getLogger(module);
 const swaggerDoc = require('./swagger/swagger');
 const app = koa();
 
 const port: number = config.get('PORT');
 const env = process.env.NODE_ENV;
-
-// Catch all uncaught exceptions and write to log.
-// TODO: Move to dorbel-shared.
-process.on('uncaughtException', function(err) {
-  logger.error(err);
-  process.exit(1);
-});
 
 app.use(shared.middleware.errorHandler());
 app.use(shared.middleware.requestLogger());

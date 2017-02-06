@@ -17,11 +17,6 @@ function startMessageConsumers() {
     appEventsConsumers.stop();
     process.exit(code);
   });
-
-  // Ctrl-C exit
-  process.on('SIGINT', function () {
-    process.exit(0);
-  });
 }
 
 function* bootstrap() {
