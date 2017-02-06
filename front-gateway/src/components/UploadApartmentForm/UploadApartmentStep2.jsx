@@ -71,10 +71,10 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
 
     return (
       <Grid fluid className="upload-apt-wrapper">
-        <Col md={7} className="upload-apt-right-container">
+        <Col md={5} className="upload-apt-right-container">
           <div className="upload-apt-right-container-text-wrapper">
             <div className="upload-apt-right-container-text-container">
-              <h1>מלאו את הפרטים של הדירה שלכם</h1>
+              <h1>מלאו את פרטי הדירה</h1>
               <ul>
                 <li>הקפידו למלא את כל הפרטים</li>
                 <li>דייקו בפרטים בכדי למנוע ביקורים מיותרים</li>
@@ -84,7 +84,7 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
           <img src="https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/upload-apt-form/icon-signup-folder.svg" alt="" />
         </Col>
 
-        <Col md={5} className="upload-apt-left-container apartment-details-step">
+        <Col md={7} className="upload-apt-left-container apartment-details-step">
           <FormWrapper.Wrapper layout="vertical" onChange={this.handleChanges} ref="form">
             <Row className="form-section">
               <div className="form-section-headline">כתובת</div>
@@ -174,7 +174,7 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
 
           </FormWrapper.Wrapper>
 
-          <Col xs={12} md={5} className="form-nav bottom">
+          <Col xs={12} md={7} className="form-nav bottom">
             <span onClick={this.clickBack}>
               <i className="apartment-details-previous-step fa fa-arrow-circle-o-right fa-2x" aria-hidden="true"></i>
               &nbsp; שלב קודם
