@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import _ from 'lodash';
 
 const amenitiesLeft = [
-  { path: 'apartment.building.elevator', icon:'lift', label: 'מעלית' },
-  { path: 'apartment.security_bars', icon:'bars', label: 'סורגים בחלונות' },
-  { path: 'apartment.pets', icon:'dog', label: 'בע״ח: מותר' },
-  { path: 'apartment.parquet_floor', icon:'parquet', label: 'פרקט' },
+  { path: 'apartment.building.elevator', icon: 'lift', label: 'מעלית' },
+  { path: 'apartment.security_bars', icon: 'bars', label: 'סורגים בחלונות' },
+  { path: 'apartment.pets', icon: 'dog', label: 'בע״ח: מותר' },
+  { path: 'apartment.parquet_floor', icon: 'parquet', label: 'פרקט' },
   { path: 'roommates', icon: 'roommates', label: 'מתאימה לשותפים' }
 ];
 
@@ -20,7 +20,7 @@ export default class ApartmentAmenities extends Component {
   renderAmentites(amenities, listing) {
     const amenityList = amenities
       .filter(amenity => _.get(listing, amenity.path))
-      .map((amenity, index) => (<li key={index}><img src={'https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/amenities/icon-' + amenity.icon + '.svg'}/>{amenity.label}</li>));
+      .map((amenity, index) => (<li key={index}><img src={'https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/amenities/icon-' + amenity.icon + '.svg'} />{amenity.label}</li>));
 
     return (
       <div className="col-lg-5 col-sm-5 col-xs-6">
@@ -30,7 +30,7 @@ export default class ApartmentAmenities extends Component {
       </div>
     );
   }
-  
+
   render() {
     const { listing } = this.props;
 
