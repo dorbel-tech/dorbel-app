@@ -125,7 +125,8 @@ class OHEList extends Component {
   render() {
     const { listing, router, oheId, appStore } = this.props;
     const openHouseEvents = this.filterOHEsToDisplay(this.props.appStore.oheStore.oheByListingId(listing.id));
-    const currentUrl = 'https://app.dorbel.com/apartments/' + listing.id;
+    const website_url = process.env.FRONT_GATEWAY_URL || 'https://app.dorbel.com';
+    const currentUrl = website_url + '/apartments/' + listing.id;
     const oheForModal = oheId ? appStore.oheStore.oheById.get(oheId) : null;
     const closeModal = () => router.setRoute('/apartments/' + listing.id);
 
