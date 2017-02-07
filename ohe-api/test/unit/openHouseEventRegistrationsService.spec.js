@@ -5,7 +5,7 @@ const sinon = require('sinon');
 const moment = require('moment');
 const faker = require('../shared/fakeObjectGenerator');
 const notificationService = require('../../src/services/notificationService');
-const shared = require('dorbel-shared'); 
+const shared = require('dorbel-shared');
 const fakeUser = { user_id: faker.fakeUserId };
 const config = shared.config; shared.config.setConfigFileFolder(__dirname+'/../../src/config/');
 
@@ -97,7 +97,7 @@ describe('Open House Event Registration Service', function () {
     it('should fail when user registers to an event that is to close (configurable) and with 0 attendies', function* () {
       this.openHouseEventsFinderServiceMock.find = sinon.stub().resolves(faker.generateEvent({
         registrations: [],
-        start_time: moment().add(CLOSE_EVENT_IF_TOO_CLOSE, 'minutes')
+        start_time: moment().add(CLOSE_EVENT_IF_TOO_CLOSE - 1, 'minutes')
       }));
 
       this.repositoryMock.createRegistration = sinon.stub().resolves(true);
