@@ -133,7 +133,7 @@ describe('Listing Service', function () {
         __.assertThat('code', __.is('not reached'));
       }
       catch (error) {
-        __.assertThat(error.message, __.is('listing does not exist'));
+        __.assertThat(error.message, __.is('Failed to get related listings. Listing does not exists. litingId: 0'));
       }
     });
 

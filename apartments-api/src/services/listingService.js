@@ -167,7 +167,7 @@ function* getById(id, user) {
   let listing = yield listingRepository.getById(id);
 
   if (!listing) {
-    throw new CustomError(404, 'Listing does not exists. litingId: ' + id);      
+    throw new CustomError(404, 'Cant get listing by Id. Listing does not exists. litingId: ' + id);      
   }
 
   const isPending = listing.status === 'pending';
@@ -227,28 +227,27 @@ function* enrichListingResponse(listing, user) {
 
 function* getRelatedListings(listingId, limit) {
   const listing = yield listingRepository.getById(listingId);
-  if (listing) { // Verify that the listing exists
-    const listingQuery = {
-      status: 'listed',
-      $not: {
-        id: listingId
-      }
-    };
 
-    const options = {
-      buildingQuery: {
-        city_id: listing.apartment.building.city_id
-      },
-      limit: limit,
-      order: 'created_at DESC'
-    };
+  if (!listing) { // Verify that the listing exists
+    throw new CustomError(404, 'Failed to get related listings. Listing does not exists. litingId: ' + listingId);
+  }
 
-    return listingRepository.list(listingQuery, options);
-  }
-  else {
-    logger.error({listingId}, 'Cant get related listings for not existing listing');
-    throw new CustomError(404, 'Listing does not exist');
-  }
+  const listingQuery = {
+    status: 'listed',
+    $not: {
+      id: listingId
+    }
+  };
+
+  const options = {
+    buildingQuery: {
+      city_id: listing.apartment.building.city_id
+    },
+    limit: limit,
+    order: 'created_at DESC'
+  };
+
+  return listingRepository.list(listingQuery, options);
 }
 
 module.exports = {
