@@ -13,7 +13,7 @@ const config = shared.config;
 const defaultParams = {
   upload_preset: 'default',
   return_delete_token: '1',
-  tags: 'directly_uploaded'
+  tags: 'directly_uploaded,' + config.get('NODE_ENV')
 };
 
 function getCloudinaryParams() {

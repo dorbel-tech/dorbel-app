@@ -15,7 +15,7 @@ class CloudinaryProvider {
     _.each(this.params, (value, key) => formData.append(key, value));
     formData.append('file', file);
 
-    return axios.post(baseUrl + 'auto/upload', formData, { onUploadProgress })
+    return axios.post(baseUrl + 'image/upload', formData, { onUploadProgress })
     .then(res => res.data);      
   }
 
