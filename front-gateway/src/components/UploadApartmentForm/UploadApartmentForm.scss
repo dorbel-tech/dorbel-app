@@ -148,12 +148,6 @@
     list-style-position: inside !important;
     opacity: 0.8;
     padding: 0;
-
-    >li:before {
-        content: "";
-        display: inline-block;
-        margin-right: -10px;
-    }
   }
 }
 
