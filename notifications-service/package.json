@@ -13,7 +13,7 @@
     "check": "satisfaction-status || yarn install"
   },
   "dependencies": {
-    "babel-cli": "^6.16.0",
+    "babel-cli": "^6.22.2",
     "babel-eslint": "^7.0.0",
     "babel-plugin-transform-flow-strip-types": "^6.14.0",
     "babel-register": "^6.16.3",
