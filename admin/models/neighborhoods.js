@@ -35,6 +35,10 @@ module.exports = (sequelize, DataTypes) => {
         Model.hasMany(models.buildings);
       }
     },
+    indexes: [{
+      fields: ['city_id', 'neighborhood_name'],
+      unique: true
+    }],
     tableName: 'neighborhoods',
     underscored: true,
     
