@@ -16,7 +16,8 @@ function* renderApp() {
     AUTH0_FRONT_CLIENT_ID: config.get('AUTH0_FRONT_CLIENT_ID'),
     AUTH0_DOMAIN: config.get('AUTH0_DOMAIN'),
     CLOUDINARY_PARAMS: getCloudinaryParams(),
-    GOOGLE_MAPS_API_KEY: config.get('GOOGLE_MAPS_API_KEY')
+    GOOGLE_MAPS_API_KEY: config.get('GOOGLE_MAPS_API_KEY'),
+    FRONT_GATEWAY_URL: config.get('FRONT_GATEWAY_URL')
   };
 
   this.state = this.state || {};
