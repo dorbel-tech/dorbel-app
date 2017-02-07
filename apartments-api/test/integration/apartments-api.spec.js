@@ -48,6 +48,8 @@ describe('Apartments API Integration', function () {
     before(function* () {
       const newListing = faker.getFakeListing();
       const postReponse = yield this.apiClient.createListing(newListing).expect(201).end();
+      delete postReponse.body.lease_end;
+      delete postReponse.body.updated_at;
       this.createdListing = postReponse.body;
     });
 
