@@ -6,7 +6,6 @@
 var ical = require('ical-generator');
 const tzName = 'Asia/Jerusalem';
 
-
 // Calendar invite ICS file building. 
 // Requires listing: {...}, ohe: {...} and user_profile: {...} objects in additonalData.
 function buildCalendarInvite(additonalData, method) {

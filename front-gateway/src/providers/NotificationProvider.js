@@ -10,7 +10,7 @@ export default class NotificationProvider {
 
   error(resp, options = {}) {
 
-    const message = resp.response ? resp.response.data : 'אופס, משהו השתבש. תנסו שנית נאוחר יותר.';
+    const message = resp.response ? resp.response.data : 'אופס, משהו השתבש. נסו שנית מאוחר יותר.';
 
     this.notificationSystem.addNotification({
       title: '',

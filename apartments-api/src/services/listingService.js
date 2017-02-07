@@ -178,7 +178,7 @@ function* getById(id, user) {
 
   // Pending listing will be displayed to user who is listing publisher or admins only.
   if (isPending && !isPublishingUserOrAdmin) {
-    throw new CustomError(403, 'Cant show pending listing. User is not admin or publisher of listingId ' + listing.id);
+    throw new CustomError(403, 'Cant show pending listing. User is a publisher of listingId ' + listing.id);
   } else {
     return yield enrichListingResponse(listing, user);
   }
@@ -247,7 +247,7 @@ function* getRelatedListings(listingId, limit) {
   }
   else {
     logger.error({listingId}, 'Cant get related listings for not existing listing');
-    throw new CustomError(404, 'listing does not exist');
+    throw new CustomError(404, 'Listing does not exist');
   }
 }
 
