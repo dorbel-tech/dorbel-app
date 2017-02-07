@@ -165,6 +165,11 @@ function* getByFilter(filterJSON, user) {
 
 function* getById(id, user) {
   let listing = yield listingRepository.getById(id);
+
+  if (!listing) {
+    throw new CustomError(404, 'Cant get listing by Id. Listing does not exists. litingId: ' + id);      
+  }
+
   const isPending = listing.status === 'pending';
 
   // TODO: Fix the server rendering error with user object not existing there. The only solution to SSR with auth is cookies. 
@@ -173,7 +178,7 @@ function* getById(id, user) {
 
   // Pending listing will be displayed to user who is listing publisher or admins only.
   if (isPending && !isPublishingUserOrAdmin) {
-    throw new CustomError(404, 'Cant show pending listing. User is not admin or publisher of listingId ' + listing.id);
+    throw new CustomError(403, 'Cant show pending listing. User is a publisher of listingId ' + listing.id);
   } else {
     return yield enrichListingResponse(listing, user);
   }
@@ -222,28 +227,27 @@ function* enrichListingResponse(listing, user) {
 
 function* getRelatedListings(listingId, limit) {
   const listing = yield listingRepository.getById(listingId);
-  if (listing) { // Verify that the listing exists
-    const listingQuery = {
-      status: 'listed',
-      $not: {
-        id: listingId
-      }
-    };
 
-    const options = {
-      buildingQuery: {
-        city_id: listing.apartment.building.city_id
-      },
-      limit: limit,
-      order: 'created_at DESC'
-    };
+  if (!listing) { // Verify that the listing exists
+    throw new CustomError(404, 'Failed to get related listings. Listing does not exists. litingId: ' + listingId);
+  }
 
-    return listingRepository.list(listingQuery, options);
-  }
-  else {
-    logger.error({ listingId }, 'Cant get related listings for not existing listing');
-    throw new CustomError(400, 'listing does not exist');
-  }
+  const listingQuery = {
+    status: 'listed',
+    $not: {
+      id: listingId
+    }
+  };
+
+  const options = {
+    buildingQuery: {
+      city_id: listing.apartment.building.city_id
+    },
+    limit: limit,
+    order: 'created_at DESC'
+  };
+
+  return listingRepository.list(listingQuery, options);
 }
 
 module.exports = {

@@ -4,8 +4,7 @@ function define(sequelize, DataTypes) {
   return sequelize.define('image', {
     url: {
       type: DataTypes.STRING,
-      allowNull: false,
-      unique: true
+      allowNull: false
     },
     display_order: {
       type: DataTypes.FLOAT

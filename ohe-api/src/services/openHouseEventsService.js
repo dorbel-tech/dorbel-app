@@ -62,8 +62,8 @@ function* create(openHouseEvent, user) {
   notificationService.send(notificationService.eventType.OHE_CREATED, {
     listing_id: listing_id,
     event_id: newEvent.id,
-    start_time: start,
-    end_time: end,
+    start_time: openHouseEvent.start_time,
+    end_time: openHouseEvent.end_time,
     comments: openHouseEvent.comments,
     user_uuid: openHouseEvent.publishing_user_id
   });
@@ -73,7 +73,9 @@ function* create(openHouseEvent, user) {
 }
 
 function* update(id, updateRequest, user) {
-  let existingEvent = yield openHouseEventsFinderService.find(id);
+  const existingEvent = yield openHouseEventsFinderService.find(id);
+  const old_start_time = existingEvent.start_time;
+  const old_end_time = existingEvent.end_time;
 
   utilityFunctions.validateResourceOwnership(existingEvent.publishing_user_id, user);
 
@@ -109,10 +111,8 @@ function* update(id, updateRequest, user) {
     notificationService.send(notificationService.eventType.OHE_UPDATED, {
       listing_id: existingEvent.listing_id,
       event_id: existingEvent.id,
-      old_start_time: existingEvent.start_time,
-      old_end_time: existingEvent.end_time,
-      new_start_time: start,
-      new_end_time: end,
+      old_start_time: old_start_time,
+      old_end_time: old_end_time,
       user_uuid: existingEvent.publishing_user_id
     });
   }
