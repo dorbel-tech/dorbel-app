@@ -6,8 +6,7 @@ module.exports = (sequelize, DataTypes) => {
   var Model = sequelize.define('neighborhoods', {
     neighborhood_name: {
       type: DataTypes.STRING,
-      allowNull: false,
-      unique: true
+      allowNull: false
     },
     is_active: {
       type: DataTypes.BOOLEAN,
@@ -35,6 +34,10 @@ module.exports = (sequelize, DataTypes) => {
         Model.hasMany(models.buildings);
       }
     },
+    indexes: [{
+      fields: ['city_id', 'neighborhood_name'],
+      unique: true
+    }],
     tableName: 'neighborhoods',
     underscored: true,
     

@@ -4,8 +4,7 @@ function define(sequelize, DataTypes) {
   return sequelize.define('neighborhood', {
     neighborhood_name: {
       type: DataTypes.STRING,
-      allowNull: false,
-      unique: true
+      allowNull: false
     },
     is_active: {
       type: DataTypes.BOOLEAN,
@@ -23,7 +22,11 @@ function define(sequelize, DataTypes) {
         },
         onDelete: 'CASCADE'
       })
-    }
+    },
+    indexes: [{
+      fields: ['city_id', 'neighborhood_name'],
+      unique: true
+    }]
   });
 }
 
