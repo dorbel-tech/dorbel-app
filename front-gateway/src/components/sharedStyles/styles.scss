@@ -96,7 +96,7 @@ a {
 
 .small-text {
   font-size: 12px;
-  color: #777777;
+  color: $gray-light;
 }
 
 .modal-title {
@@ -106,7 +106,7 @@ a {
 
 .modal-footer {
   font-size: 12px;
-  color: #777777;
+  color: $gray-light;
   line-height: 1.59999996;
 }
 
@@ -116,6 +116,16 @@ a {
 
 table.vertical-middle>tbody>tr>td {
   vertical-align: middle;
+}
+
+/* React bootstrap date picker */
+.react-bootstrap-date-picker-custom-control {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  color: $gray;
+  height: 33px;
+  padding: 6px 12px;
+  width: 100%;
 }
 
 /* navbar changes - so bottom border will be across the Navbar and only on the Nav components */

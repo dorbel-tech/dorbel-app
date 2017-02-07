@@ -310,7 +310,7 @@ babel-helpers@^6.22.0:
     babel-runtime "^6.22.0"
     babel-template "^6.22.0"
 
-babel-messages@^6.22.0:
+babel-messages@^6.22.0, babel-messages@^6.8.0:
   version "6.22.0"
   resolved "https://registry.yarnpkg.com/babel-messages/-/babel-messages-6.22.0.tgz#36066a214f1217e4ed4164867669ecb39e3ea575"
   dependencies:
@@ -347,7 +347,7 @@ babel-register@^6.16.3, babel-register@^6.22.0:
     mkdirp "^0.5.1"
     source-map-support "^0.4.2"
 
-babel-runtime@^6.22.0:
+babel-runtime@^6.22.0, babel-runtime@^6.9.0, babel-runtime@^6.9.1:
   version "6.22.0"
   resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.22.0.tgz#1cf8b4ac67c77a4ddb0db2ae1f74de52ac4ca611"
   dependencies:
@@ -401,7 +401,7 @@ babel-types@^6.15.0:
     lodash "^4.2.0"
     to-fast-properties "^1.0.1"
 
-babel-types@^6.22.0:
+babel-types@^6.19.0, babel-types@^6.22.0:
   version "6.22.0"
   resolved "https://registry.yarnpkg.com/babel-types/-/babel-types-6.22.0.tgz#2a447e8d0ea25d2512409e4175479fd78cc8b1db"
   dependencies:
@@ -999,9 +999,9 @@ doctrine@^1.2.2:
     esutils "^2.0.2"
     isarray "^1.0.0"
 
-"dorbel-shared@git://github.com/dorbel-tech/dorbel-shared#v0.4.59":
-  version "0.4.59"
-  resolved "git://github.com/dorbel-tech/dorbel-shared#0dd5e9f433d7884fcf345a9df6e7df36b77cfb5b"
+"dorbel-shared@git://github.com/dorbel-tech/dorbel-shared#v0.4.60":
+  version "0.4.60"
+  resolved "git://github.com/dorbel-tech/dorbel-shared#cf09f6de6f4cc85d6941ec96c934a688d5c2e8ef"
   dependencies:
     analytics-node "^2.1.0"
     auth0 "^2.5.0"
@@ -1018,6 +1018,7 @@ doctrine@^1.2.2:
     redis "^2.6.3"
     request "^2.79.0"
     request-promise "^4.1.1"
+    sinon-as-promised "^4.0.2"
     sns.js "1.0.2"
     sqs-consumer "3.4.0"
     swagger-model-validator "~2.1.2"
