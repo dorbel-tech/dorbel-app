@@ -33,6 +33,11 @@ class DatePicker extends Component {
   render() {
     return (
       <ReactBootstrapDatePicker
+        customControl={
+          // The readOnly attribute prevents mobile devices
+          // from popping up the keyboard on input touch.
+          <input readOnly className="react-bootstrap-date-picker-custom-control" />
+        }
         value={this.state.dateValue}
         name={this.state.name}
         showClearButton={false}
@@ -44,7 +49,7 @@ class DatePicker extends Component {
         previousButtonElement=">"
         nextButtonElement="<"
         onChange={this.handleChange.bind(this)}
-        />
+      />
     );
   }
 }
