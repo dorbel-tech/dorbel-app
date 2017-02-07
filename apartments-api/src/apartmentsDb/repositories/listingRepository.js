@@ -5,34 +5,58 @@ const _ = require('lodash');
 const helper = require('./repositoryHelper');
 const apartmentRepository = require('./apartmentRepository');
 const buildingRepository = require('./buildingRepository');
+const listingAttributes = { exclude: [ 'lease_end', 'updated_at' ] };
+const apartmentAttributes = { exclude: [ 'created_at', 'updated_at' ] };
+const buildingAttributes = { exclude: [ 'created_at', 'updated_at' ] };
+const cityAttributes = [ 'id', 'city_name' ];
+const neighborhoodAttributes = [ 'id', 'neighborhood_name', 'city_id' ];
+const imageAttributes = { exclude: [ 'created_at', 'updated_at' ] };
 
 const fullListingDataInclude = [
   {
     model: models.apartment,
+    attributes: apartmentAttributes,
     include: [{
       model: models.building,
-      include: [models.city, models.neighborhood]
+      attributes: buildingAttributes,
+      include: [{
+        model: models.city,
+        attributes: cityAttributes
+      }, {
+        model: models.neighborhood,
+        attributes: neighborhoodAttributes
+      }]
     }]
   },
-  models.image
+  { 
+    model: models.image,
+    attributes: imageAttributes
+  }
 ];
 
 function list(query, options = {}) {
   return models.listing.findAll({
+    attributes: listingAttributes,
     where: query,
-
     include: [{
       model: models.apartment,
+      attributes: apartmentAttributes,
       include: {
         model: models.building,
+        attributes: buildingAttributes,
         include: {
-          model: models.city
+          model: models.city,
+          attributes: cityAttributes
         },
         where: options.buildingQuery || {}
       },
       required: true,
       where: options.apartmentQuery || {}
-    }, models.image],
+    }, 
+    {
+      model: models.image,
+      attributes: imageAttributes
+    }],
 
     limit: options.limit,
     order: options.order
@@ -41,6 +65,7 @@ function list(query, options = {}) {
 
 function getOneListing(where) {
   return models.listing.findOne({
+    attributes: listingAttributes,
     where,
     include: fullListingDataInclude
   });
@@ -93,6 +118,7 @@ function* create(listing) {
 function getListingsForApartment(apartment, listingQuery) {
   const includeCity = {
     model: models.city,
+    attributes: cityAttributes,
     where: {
       id: apartment.building.city.city_id
     }
@@ -100,6 +126,7 @@ function getListingsForApartment(apartment, listingQuery) {
 
   const includeNeighborhood = {
     model: models.neighborhood,
+    attributes: neighborhoodAttributes,
     where: {
       id: apartment.building.neighborhood.neighborhood_id
     }
@@ -107,6 +134,7 @@ function getListingsForApartment(apartment, listingQuery) {
 
   const includeBuildings = [{
     model: models.building,
+    attributes: buildingAttributes,
     where: {
       street_name: apartment.building.street_name,
       house_number: apartment.building.house_number
@@ -116,6 +144,7 @@ function getListingsForApartment(apartment, listingQuery) {
 
   const includeApartment = [{
     model: models.apartment,
+    attributes: apartmentAttributes,
     where: {
       apt_number: apartment.apt_number
     },
@@ -123,6 +152,7 @@ function getListingsForApartment(apartment, listingQuery) {
   }];
 
   return models.listing.findAll({
+    attributes: listingAttributes,
     where: listingQuery,
     include: includeApartment,
     raw: true
