@@ -1,7 +1,7 @@
 import React from 'react';
-import { Button } from 'react-bootstrap';
-import { observer } from 'mobx-react';
+import { Button, Col, Grid, Row } from 'react-bootstrap';
 import Dropzone from 'react-dropzone';
+import { observer } from 'mobx-react';
 import CloudinaryImage from '../CloudinaryImage/CloudinaryImage';
 import UploadApartmentBaseStep from './UploadApartmentBaseStep';
 
@@ -11,7 +11,7 @@ class UploadApartmentStep1 extends UploadApartmentBaseStep.wrappedComponent {
   constructor(props) {
     super(props);
     this.state = { isReadyForNextStep: true };
-    this.uploadImagePromises = [];    
+    this.uploadImagePromises = [];
   }
 
   onChooseFile(acceptedFiles) {
@@ -23,12 +23,12 @@ class UploadApartmentStep1 extends UploadApartmentBaseStep.wrappedComponent {
 
   renderImage(image, index) {
     const { apartmentsProvider } = this.props.appProviders;
-    const progressPct = Math.round(image.progress * 100) + '%';  
+    const progressPct = Math.round(image.progress * 100) + '%';
     const progressBarStyle = { width: progressPct };
 
     const progressBar = (
       <div className="progress">
-        <div className="progress-bar" style={ progressBarStyle }>
+        <div className="progress-bar" style={progressBarStyle}>
           {progressPct}
         </div>
       </div>
@@ -51,34 +51,34 @@ class UploadApartmentStep1 extends UploadApartmentBaseStep.wrappedComponent {
     const images = this.props.appStore.newListingStore.formValues.images;
 
     return (
-      <div className="container-fluid upload-apt-wrapper">
-        <div className="col-md-7 upload-apt-right-container">
-          <div>
-            <div className="text">
+      <Grid fluid className="upload-apt-wrapper">
+        <Col md={5} className="upload-apt-right-container">
+          <div className="upload-apt-right-container-text-wrapper">
+            <div className="upload-apt-right-container-text-container">
               <h1>תמונות של הדירה</h1>
-              <p>אנא השקיעו בתמונות (צלמו לרוחב) וחסכו לעצמכם שאלות מיותרות</p>
               <ul>
                 <li>וודאו שהחדר מסודר</li>
-                <li>טיפ: צלמו כל חדר מ-2 זויות (כולל מטבח, מרפסת וכו׳)</li>
+                <li>השתדלו לצלם כל חדר לרוחב ומ-2 זויות</li>
+                <li>תמונות טובות יחסכו לכם שאלות מיותרות</li>
               </ul>
             </div>
-            <img src="https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/upload-apt-form/icon-signup-photos.svg" alt="Upload photos" />
           </div>
-        </div>
-        <div className="col-md-5 upload-apt-left-container apartment-pictures-step">
-          <div className="photos-upload" >
+          <img src="https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/upload-apt-form/icon-signup-photos.svg" alt="Upload photos" />
+        </Col>
+
+        <Col md={7} className="upload-apt-left-container apartment-pictures-step">
+          <div className="photos-upload">
             <form>
-              <div className="row thumbs">
+              <Row className="thumbs">
                 <Dropzone className="col-md-4 thumb" multiple={false} onDrop={this.onChooseFile.bind(this)}>
                   <div className="thumb-inner add">
                     <span className="add-photo">הוסף תמונה +</span>
                   </div>
                 </Dropzone>
                 {images.map(this.renderImage.bind(this))}
-              </div>
+              </Row>
             </form>
-            <div className="form-nav bottom col-lg-5 col-md-5 col-sm-12 col-xs-12">
-              <span></span>
+            <Col xs={12} md={7} className="form-nav bottom">
               <span>1/3</span>
               <span className="next-step" onClick={this.clickNext.bind(this)}>
                 <Button bsStyle="success" className="step-btn" disabled={!this.state.isReadyForNextStep}>
@@ -86,10 +86,10 @@ class UploadApartmentStep1 extends UploadApartmentBaseStep.wrappedComponent {
                   <i className="apartment-pictures-next-step fa fa-arrow-circle-o-left fa-2x" aria-hidden="true"></i>
                 </Button>
               </span>
-            </div>
+            </Col>
           </div>
-        </div>
-      </div>
+        </Col>
+      </Grid>
     );
   }
 }

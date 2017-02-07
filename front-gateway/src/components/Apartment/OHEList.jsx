@@ -18,6 +18,7 @@ class OHEList extends Component {
 
   renderListItem(params) {
     const { router } = this.props;
+    const callToActionTextClass = params.callToActionTextClass || '';
     let className = 'list-group-item';
     let onClickFunction = () => {
       const currentRoute = router.getRoute().join('/');
@@ -39,11 +40,11 @@ class OHEList extends Component {
             <span className={params.highlightTitle ? 'highlight' : ''}>{params.itemText}</span>
             <br className="visible-lg" />
             <i className="hidden-lg">&nbsp;</i>
-            <span className="hidden-xs">{params.callToActionText}</span>
+            <span className={'hidden-xs ' + callToActionTextClass}>{params.callToActionText}</span>
           </div>
           <div className="dorbel-icon-arrow fa fa-chevron-left pull-left"></div>
         </Row>
-    </a>
+      </a>
     );
   }
 
@@ -56,19 +57,21 @@ class OHEList extends Component {
       iconName: 'dorbel_icon_calendar',
       itemText: `${openHouseEvent.timeLabel} | ${openHouseEvent.dateLabel}`,
       isDisabled: OHEConfig.isDisabled,
-      callToActionText: OHEConfig.callToActionText
+      callToActionText: OHEConfig.callToActionText,
+      callToActionTextClass: OHEConfig.callToActionTextClass
     });
   }
 
   getOHEConfiguration(openHouseEvent) {
     const oheConfig = {
       isDisabled: false,
-      callToActionText: 'לחצו לאישור הגעה במועד זה',
+      callToActionText: 'הרשמו לביקור',
       action: 'ohe-register'
     };
 
     switch (openHouseEvent.status) {
       case 'open':
+        oheConfig.callToActionTextClass = 'ohe-list-open-action-text';
         break;
       case 'expired':
         oheConfig.isDisabled = true;
@@ -94,27 +97,28 @@ class OHEList extends Component {
   }
 
   renderFollowItem(listing) {
+    const { router } = this.props;
+    let onClickFunction = () => {
+      const currentRoute = router.getRoute().join('/');
+      router.setRoute(`/${currentRoute}/${action}`);
+    };
+
     let action = 'follow';
-    let itemText = 'אהבנו, אבל לא נצליח להגיע';
     let callToActionText = 'קבלו עדכונים על מועדים עתידיים';
     const userIsFollowing = this.props.appStore.oheStore.usersFollowsByListingId.get(listing.id);
 
     if (userIsFollowing) {
       action = 'unfollow';
-      itemText = 'אתם עוקבים אחרי דירה זו';
       callToActionText = 'לחצו להסרה מרשימת העדכונים';
     }
 
-    return this.renderListItem({
-      itemText, callToActionText,
-      iconName: 'icon-dorbel-icon-master_icon-calendar-plus',
-      onClickRoute: action,
-      highlightTitle: (action == 'follow')
-    });
+    return <span className="follow-action" onClick={onClickFunction}>
+      {callToActionText}
+    </span>;
   }
 
   filterOHEsToDisplay(ohes) {
-    const lastExpiredIndex = _.findLastIndex(ohes, { status: 'expired'});
+    const lastExpiredIndex = _.findLastIndex(ohes, { status: 'expired' });
     return lastExpiredIndex > -1 ? ohes.slice(lastExpiredIndex) : ohes;
   }
 
@@ -131,7 +135,6 @@ class OHEList extends Component {
         <div className="row">
           <div className="col-lg-3 col-md-12 pull-left-lg">
             <div className="apt-reserve-container">
-
               <div className="price-container">
                 <div className="row">
                   <div className="price pull-right">{listing.monthly_rent}<span className="currency"> ₪</span></div>
@@ -145,21 +148,18 @@ class OHEList extends Component {
                     <a href={'https://www.facebook.com/dialog/send?app_id=1651579398444396&link=' + currentUrl + '&redirect_uri=' + currentUrl}><Icon iconName="dorbel-icon-social-fbmsg" /></a>
                   </div>
                 </div>
-                <div className="chupchik visible-lg"></div>
               </div>
-
               <div className="list-group apt-choose-date-container">
                 <h5 className="text-center apt-choose-date-title">בחרו מועד לביקור</h5>
                 {openHouseEvents.map(this.renderOpenHouseEvent)}
-                {this.renderFollowItem(listing)}
                 <div href="#" className="list-group-item owner-container text-center">
+                  {this.renderFollowItem(listing)}
                   <h5>
-                  <span>{ listing.publishing_user_type === 'landlord' ? 'בעל הנכס' : 'דייר יוצא' }</span>
-                  <span>: { listing.publishing_user_first_name || 'אנונימי' }</span>
+                    <span>{listing.publishing_user_type === 'landlord' ? 'בעל הנכס' : 'דייר יוצא'}</span>
+                    <span>: {listing.publishing_user_first_name || 'אנונימי'}</span>
                   </h5>
                 </div>
               </div>
-
             </div>
           </div>
         </div>
