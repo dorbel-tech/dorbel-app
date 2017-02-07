@@ -63,7 +63,7 @@ class EditOHEModal extends React.Component {
 
   render() {
     const { ohe } = this.props;
-    const showWarning = ohe.registrations.length > 0 && !this.state.warningDismissed;
+    const showWarning = ohe.registrations && ohe.registrations.length > 0 && !this.state.warningDismissed;
     const body = showWarning ? this.renderWarning() : this.renderEditForm();
 
     return (
