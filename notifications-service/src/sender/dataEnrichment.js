@@ -3,8 +3,7 @@
  * To enrich the different data needed by each notification type before it is sent 
  */ 
 'use strict'; 
-const shared = require('dorbel-shared');
-const config = shared.config;
+const config = require('dorbel-shared').config;
 var ical = require('ical-generator');
 const tzName = 'Asia/Jerusalem';
 const website_url = config.get('FRONT_GATEWAY_URL') || 'https://app.dorbel.com';
