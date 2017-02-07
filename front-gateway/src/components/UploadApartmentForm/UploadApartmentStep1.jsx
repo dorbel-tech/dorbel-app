@@ -69,7 +69,6 @@ class UploadApartmentStep1 extends UploadApartmentBaseStep.wrappedComponent {
               </Row>
             </form>
             <Col xs={12} md={7} className="form-nav bottom">
-              <span></span>
               <span>1/3</span>
               <span className="next-step" onClick={this.clickNext.bind(this)}>
                 <Button bsStyle="success" className="step-btn">

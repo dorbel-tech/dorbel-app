@@ -195,36 +195,49 @@
 }
 
 .form-nav.bottom {
-  align-items: center;
   background-color: #fff;
   border-top: 1px solid lighten($gray-base, 60%);
   bottom: 0;
   box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.1);
-  display: flex;
-  justify-content: space-between;
+  height: 69px;
   left: 0;
   padding: 15px;
   position: fixed;
+  text-align: center;
   z-index: 999;
 
-  span {
-    display: flex;
-    align-items: center;
-    &:first-child,
-    &:last-child {
-      cursor: pointer;
-      opacity: 0.8;
-      &:hover {
-        opacity: 1;
-      }
+  >span {
+    display: inline-block;
+    line-height: 38px;
+  }
+
+  .prev-step,
+  .next-step {
+    cursor: pointer;
+    opacity: 0.8;
+    &:hover {
+      opacity: 1;
     }
+  }
+
+  .prev-step {
+    float: right;
+
+    >i {
+      vertical-align: middle;
+    }
+  }
+
+  .next-step {
+    float: left;
   }
 
   .step-btn {
     background-color: #1cb039;
     border: transparent;
     color: #fff;
-    display: block;
+    display: inline-block;
+    float: left;
     font-style: normal;
     min-height: 38px;
     min-width: 130px;

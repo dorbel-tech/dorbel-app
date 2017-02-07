@@ -175,7 +175,7 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
           </FormWrapper.Wrapper>
 
           <Col xs={12} md={7} className="form-nav bottom">
-            <span onClick={this.clickBack}>
+            <span className="prev-step" onClick={this.clickBack}>
               <i className="apartment-details-previous-step fa fa-arrow-circle-o-right fa-2x" aria-hidden="true"></i>
               &nbsp; שלב קודם
             </span>
