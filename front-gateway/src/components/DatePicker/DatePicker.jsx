@@ -33,6 +33,9 @@ class DatePicker extends Component {
   render() {
     return (
       <ReactBootstrapDatePicker
+        customControl={
+          <input readOnly className="react-bootstrap-date-picker-custom-control"/>
+        }
         value={this.state.dateValue}
         name={this.state.name}
         showClearButton={false}
