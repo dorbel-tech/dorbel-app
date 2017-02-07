@@ -34,7 +34,7 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
       return cities.map(city => ({ value: city.id, label: city.city_name }));
     } else {
       this.props.appProviders.cityProvider.loadCities();
-      return [ { value: 0, label: 'טוען...' } ];
+      return [{ value: 0, label: 'טוען...' }];
     }
   }
 
@@ -45,7 +45,7 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
       return neighborhoods.map(neighborhood => ({ value: neighborhood.id, label: neighborhood.neighborhood_name }));
     } else {
       this.props.appProviders.neighborhoodProvider.loadNeighborhoodByCityId(cityId);
-      return [ { label: 'טוען...' } ];
+      return [{ label: 'טוען...' }];
     }
   }
 
@@ -67,7 +67,7 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
     const FRC = FormWrapper.FRC;
 
     const roomOptions = newListingStore.roomOptions.slice(0);
-    if (!newListingStore.formValues.rooms) { roomOptions.unshift({ label: 'בחר'}); }
+    if (!newListingStore.formValues.rooms) { roomOptions.unshift({ label: 'בחר' }); }
 
     return (
       <Grid fluid className="upload-apt-wrapper">
@@ -90,10 +90,10 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
               <div className="form-section-headline">כתובת</div>
               <Row>
                 <Col md={6}>
-                  <FRC.Select name="apartment.building.city.id" label="עיר" options={citySelectorOptions} value={citySelectorValue} required/>
+                  <FRC.Select name="apartment.building.city.id" label="עיר" options={citySelectorOptions} value={citySelectorValue} required />
                 </Col>
                 <Col md={6}>
-                  <FRC.Select name="apartment.building.neighborhood.id" label="שכונה" options={neighborhoodSelectorOptions} value={neighborhoodSelectorValue} required/>
+                  <FRC.Select name="apartment.building.neighborhood.id" label="שכונה" options={neighborhoodSelectorOptions} value={neighborhoodSelectorValue} required />
                 </Col>
               </Row>
               <Row>
@@ -136,16 +136,16 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
                 </Col>
               </Row>
               <Row>
-                <FRC.Checkbox name="apartment.parking" label="חנייה" rowClassName="checkbox-inline"/>
-                <FRC.Checkbox name="apartment.building.elevator" label="מעלית" rowClassName="checkbox-inline"/>
-                <FRC.Checkbox name="apartment.sun_heated_boiler" label="דוד שמש" rowClassName="checkbox-inline"/>
-                <FRC.Checkbox name="apartment.pets" label='מותר בע"ח' rowClassName="checkbox-inline"/>
-                <FRC.Checkbox name="apartment.air_conditioning" label="מזגן" rowClassName="checkbox-inline"/>
-                <FRC.Checkbox name="apartment.balcony" label="מרפסת" rowClassName="checkbox-inline"/>
-                <FRC.Checkbox name="apartment.security_bars" label="סורגים" rowClassName="checkbox-inline"/>
-                <FRC.Checkbox name="apartment.parquet_floor" label="פרקט" rowClassName="checkbox-inline"/>
-                <FRC.Checkbox name="roommates" label='אפשר שותפים' rowClassName="checkbox-inline"/>
-                <FRC.Checkbox name="roommate_needed" label='דרוש שותף/ה' rowClassName="checkbox-inline"/>
+                <FRC.Checkbox name="apartment.parking" label="חנייה" rowClassName="checkbox-inline" />
+                <FRC.Checkbox name="apartment.building.elevator" label="מעלית" rowClassName="checkbox-inline" />
+                <FRC.Checkbox name="apartment.sun_heated_boiler" label="דוד שמש" rowClassName="checkbox-inline" />
+                <FRC.Checkbox name="apartment.pets" label='מותר בע"ח' rowClassName="checkbox-inline" />
+                <FRC.Checkbox name="apartment.air_conditioning" label="מזגן" rowClassName="checkbox-inline" />
+                <FRC.Checkbox name="apartment.balcony" label="מרפסת" rowClassName="checkbox-inline" />
+                <FRC.Checkbox name="apartment.security_bars" label="סורגים" rowClassName="checkbox-inline" />
+                <FRC.Checkbox name="apartment.parquet_floor" label="פרקט" rowClassName="checkbox-inline" />
+                <FRC.Checkbox name="roommates" label='אפשר שותפים' rowClassName="checkbox-inline" />
+                <FRC.Checkbox name="roommate_needed" label='דרוש שותף/ה' rowClassName="checkbox-inline" />
               </Row>
             </Row>
 

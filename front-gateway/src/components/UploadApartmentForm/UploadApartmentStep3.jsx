@@ -16,7 +16,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
   }
 
   getHourOptions(hoursArray) {
-    return hoursArray.map((hour) => ({ label:hour }));
+    return hoursArray.map((hour) => ({ label: hour }));
   }
 
   clickNext() {
@@ -47,25 +47,25 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
         <div>
           <Row>
             <Col md={6}>
-              <FRC.Input name="user.firstname" label="שם פרטי" value={authStore.profile.first_name} required/>
+              <FRC.Input name="user.firstname" label="שם פרטי" value={authStore.profile.first_name} required />
             </Col>
             <Col md={6}>
-              <FRC.Input name="user.lastname" label="שם משפחה" value={authStore.profile.last_name} required/>
+              <FRC.Input name="user.lastname" label="שם משפחה" value={authStore.profile.last_name} required />
             </Col>
           </Row>
           <Row>
             <Col md={6}>
               <FRC.Input name="user.email" label="מייל" value={authStore.profile.email}
-                type="email" validations="isEmail" validationError="כתובת מייל לא תקינה" required/>
+                type="email" validations="isEmail" validationError="כתובת מייל לא תקינה" required />
             </Col>
             <Col md={6}>
-              <FRC.Input name="user.phone" label="טלפון" value={authStore.profile.phone} validationError="מספר טלפון לא תקין" required/>
+              <FRC.Input name="user.phone" label="טלפון" value={authStore.profile.phone} validationError="מספר טלפון לא תקין" required />
             </Col>
           </Row>
           <Row>
             <Col md={6}>
               <FRC.RadioGroup name="publishing_user_type" value={publishing_user_type} type="inline" label="הגדר אותי במודעה כ:"
-                options={[{label:'בעל הדירה', value:'landlord'},{label:'הדייר הנוכחי',value:'tenant'}]} />
+                options={[{ label: 'בעל הדירה', value: 'landlord' }, { label: 'הדייר הנוכחי', value: 'tenant' }]} />
             </Col>
           </Row>
         </div>
@@ -135,13 +135,13 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
           body={
             <div className="text-center">
               <p>
-                תהליך העלאת פרטי הדירה הושלם בהצלחה.<br/>
+                תהליך העלאת פרטי הדירה הושלם בהצלחה.<br />
                 מודעתכם נמצאת כרגע בתהליך אישור. ברגע שהמודעה תעלה לאתר,
                 יישלח אליכם עדכון במייל ובהודעת טקסט. במידה ויהיה צורך,
                 ניצור עמכם קשר לפני כן.
               </p>
               <p>
-                תודה ויום נעים!<br/>
+                תודה ויום נעים!<br />
                 צוות dorbel
               </p>
               <p>

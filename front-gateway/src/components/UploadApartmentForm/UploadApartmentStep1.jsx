@@ -11,7 +11,7 @@ class UploadApartmentStep1 extends UploadApartmentBaseStep.wrappedComponent {
   constructor(props) {
     super(props);
     this.state = { isReadyForNextStep: true };
-    this.uploadImagePromises = [];    
+    this.uploadImagePromises = [];
   }
 
   onChooseFile(acceptedFiles) {
@@ -23,12 +23,12 @@ class UploadApartmentStep1 extends UploadApartmentBaseStep.wrappedComponent {
 
   renderImage(image, index) {
     const { apartmentsProvider } = this.props.appProviders;
-    const progressPct = Math.round(image.progress * 100) + '%';  
+    const progressPct = Math.round(image.progress * 100) + '%';
     const progressBarStyle = { width: progressPct };
 
     const progressBar = (
       <div className="progress">
-        <div className="progress-bar" style={ progressBarStyle }>
+        <div className="progress-bar" style={progressBarStyle}>
           {progressPct}
         </div>
       </div>
