@@ -21,7 +21,7 @@ if [ ! -z "$2" ]; then
     stage)
       ENV_NAME="${SERVICE_NAME}-staging" ;;
     prod)
-      ENV_NAME="${SERVICE_NAME}-production" ;;
+      ENV_NAME="${SERVICE_NAME}-prod" ;;
     *)
       ;;
   esac
