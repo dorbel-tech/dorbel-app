@@ -77,7 +77,7 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
               <h1>מלאו את פרטי הדירה</h1>
               <ul>
                 <li>הקפידו למלא את כל הפרטים</li>
-                <li>דייקו בפרטים בכדי למנוע ביקורים מיותרים</li>
+                <li>תיאור מלא יעזור למנוע ביקורים מיותרים</li>
               </ul>
             </div>
           </div>

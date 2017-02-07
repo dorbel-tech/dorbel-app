@@ -110,7 +110,7 @@
 
   @media (max-width: $screen-sm-max) {
     >img {
-      height: 100px;
+      height: 60px;
     }
   }
 
@@ -138,6 +138,9 @@
     @media (max-width: $screen-sm-max) {
       font-weight: 400;
     }
+    @media (max-width: $screen-xs-max) {
+      font-size: 34px;
+    }
   }
 
   >ul {
@@ -145,6 +148,12 @@
     list-style-position: inside !important;
     opacity: 0.8;
     padding: 0;
+
+    >li:before {
+        content: "";
+        display: inline-block;
+        margin-right: -10px;
+    }
   }
 }
 

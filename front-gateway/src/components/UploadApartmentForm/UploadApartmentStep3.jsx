@@ -89,11 +89,11 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
         <Col md={5} className="upload-apt-right-container">
           <div className="upload-apt-right-container-text-wrapper">
             <div className="upload-apt-right-container-text-container">
-              <h1>מועדי ביקור ופרטי קשר</h1>
+              <h1>מועד ביקור ופרטי קשר</h1>
               <ul>
-                <li>בחרו מועד אליו דיירים יוכלו להירשם ולהגיע לביקור בדירה</li>
-                <li>מומלץ לבחור בשעות הבוקר/ערב או בסופ״ש - אז דיירים יותר פנויים</li>
-                <li>פרטיכם ישמשו לעדכון לגבי כמות המבקרים שנרשמו ועדכונים הנוגעים לתהליך בלבד!</li>
+                <li>בחרו מועד לדיירים לביקור בדירה</li>
+                <li>מומלץ לקבוע ביקור בשעות הבוקר/ערב</li>
+                <li>פרטי הקשר שלכם ישמשו לעדכונים חשובים בלבד!</li>
               </ul>
             </div>
           </div>
