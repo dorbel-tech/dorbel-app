@@ -7,7 +7,7 @@ module.exports = {
       'neighborhoods',
       ['city_id', 'neighborhood_name'],
       {
-        indexName: 'neighborhoods_index',
+        indexName: 'unique_city_neighborhood_name',
         indicesType: 'UNIQUE'
       }
     );    
