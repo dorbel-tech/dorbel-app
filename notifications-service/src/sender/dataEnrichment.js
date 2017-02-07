@@ -4,7 +4,7 @@
  */ 
 'use strict'; 
 const config = require('dorbel-shared').config;
-var ical = require('ical-generator');
+const ical = require('ical-generator');
 const tzName = 'Asia/Jerusalem';
 const website_url = config.get('FRONT_GATEWAY_URL') || 'https://app.dorbel.com';
 
