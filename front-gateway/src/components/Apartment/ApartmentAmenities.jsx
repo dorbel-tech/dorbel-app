@@ -1,35 +1,26 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
 
-// TODO: everything commented out is not supported yet
 const amenitiesLeft = [
-  { path: 'apartment.building.elevator', icon:'lift', label: 'מעלית' },
-  { path: 'apartment.security_bars', icon:'bars', label: 'סורגים בחלונות' },
-  { path: 'apartment.pets', icon:'dog', label: 'בע״ח: מותר' },
-  // { path: '', icon:'partners', label: 'מתאימה לשותפים' },
-  // { path: '', icon:'alarm', label: 'אינטרקום' },
-  { path: 'apartment.parquet_floor', icon:'parquet', label: 'פרקט' },
-  // { path: '', icon:'nature', label: 'גינה בבניין' },
-  // { path: '', icon:'laundry', label: 'הכנה למכונת כביסה' },
-  // { path: '', icon:'house', label: 'ממ״ד' }
+  { path: 'apartment.building.elevator', icon: 'lift', label: 'מעלית' },
+  { path: 'apartment.security_bars', icon: 'bars', label: 'סורגים בחלונות' },
+  { path: 'apartment.pets', icon: 'dog', label: 'בע״ח: מותר' },
+  { path: 'apartment.parquet_floor', icon: 'parquet', label: 'פרקט' },
+  { path: 'roommates', icon: 'roommates', label: 'מתאימה לשותפים' }
 ];
 
 const amenitiesRight = [
   { path: 'apartment.parking', icon: 'parking', label: 'חנייה' },
   { path: 'apartment.air_conditioning', icon: 'ac', label: 'מזגן' },
   { path: 'apartment.sun_heated_boiler', icon: 'solar', label: 'דוד שמש' },
-  { path: 'apartment.balcony', icon: 'balcony', label: 'מרפסת' },
-  // { path: '', icon: 'disabled', label: 'נגישות לנכים' },
-  // { path: '', icon: 'arrow', label: 'תקרות גבוהות' },
-  // { path: '', icon: 'wardrobe', label: 'ארון קיר' },
-  // { path: '', icon: 'package', label: 'מחסן' }
+  { path: 'apartment.balcony', icon: 'balcony', label: 'מרפסת' }
 ];
 
 export default class ApartmentAmenities extends Component {
   renderAmentites(amenities, listing) {
     const amenityList = amenities
       .filter(amenity => _.get(listing, amenity.path))
-      .map((amenity, index) => (<li key={index}><img src={'https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/amenities/icon-' + amenity.icon + '.svg'}/>{amenity.label}</li>));
+      .map((amenity, index) => (<li key={index}><img src={'https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/amenities/icon-' + amenity.icon + '.svg'} />{amenity.label}</li>));
 
     return (
       <div className="col-lg-5 col-sm-5 col-xs-6">
@@ -39,7 +30,7 @@ export default class ApartmentAmenities extends Component {
       </div>
     );
   }
-  
+
   render() {
     const { listing } = this.props;
 
