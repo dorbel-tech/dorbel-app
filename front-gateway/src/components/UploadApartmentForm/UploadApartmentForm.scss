@@ -148,6 +148,21 @@
     list-style-position: inside !important;
     opacity: 0.8;
     padding: 0;
+    width: 298px;
+
+    >li:before {
+      content: "";
+      display: inline-block;
+      margin-right: -7px;
+    }
+
+    &.upload-apt-right-container-step3-text-ul {
+      width: 356px;
+
+      @media (max-width: 383px) {
+        width: auto;
+      }
+    }
   }
 }
 

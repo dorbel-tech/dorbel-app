@@ -90,7 +90,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
           <div className="upload-apt-right-container-text-wrapper">
             <div className="upload-apt-right-container-text-container">
               <h1>מועד ביקור ופרטי קשר</h1>
-              <ul>
+              <ul className="upload-apt-right-container-step3-text-ul">
                 <li>בחרו מועד לדיירים לביקור בדירה</li>
                 <li>מומלץ לקבוע ביקור בשעות הבוקר/ערב</li>
                 <li>פרטי הקשר שלכם ישמשו לעדכונים חשובים בלבד!</li>
