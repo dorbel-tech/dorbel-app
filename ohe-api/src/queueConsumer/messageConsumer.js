@@ -8,6 +8,9 @@ const oheEventsFinderService = require('../services/openHouseEventsFinderService
 const oheRegisterSercice = require('../services/openHouseEventRegistrationsService');
 const co = require('co');
 
+// Creating special notification service dummy user to handle data retrival from service in order to pass user validation checks.
+const oheServiceUser = { id: '20000000-0000-0000-0000-000000000000', role: 'admin' };
+
 function handleMessage(message) {
   logger.debug('handleMessage', message);
 
@@ -16,7 +19,7 @@ function handleMessage(message) {
       case 'APARTMENT_UNLISTED':
       case 'APARTMENT_RENTED':
         // Cancel all active OHEs.
-        yield cancleOHEs(message.dataPayload.listing_id, message.dataPayload.user_uuid);
+        yield cancleOHEs(message.dataPayload.listing_id);
         break;  
       case 'OHE_DELETED':
         yield unregisterUsers(message.dataPayload.event_id);
@@ -28,13 +31,11 @@ function handleMessage(message) {
   });
 }
 
-function* cancleOHEs(listingId, user_uuid) {
-  const publishingUser = yield userManagement.getUserDetails(user_uuid);
-  const user = { id: user_uuid, role: publishingUser.role };
-  const events = yield oheEventService.findByListing(listingId, user);
+function* cancleOHEs(listingId) {
+  const events = yield oheEventService.findByListing(listingId, oheServiceUser);
 
   for (let i=0; i< events.length; i++) {
-    yield oheEventService.remove(events[i].id, user);
+    yield oheEventService.remove(events[i].id, oheServiceUser);
   }
 }
 
