@@ -123,10 +123,10 @@ class OHERegisterModal extends React.Component {
           </Row>
           <Row>
             <Col md={6}>
-              <p>לאישור ההגעה לדירה ולקבלת הכתובת המדויקת אנא התחברו על מנת שנדע למי לצפות.</p>
+              <p>הרשמו לביקור על מנת לקבל את הכתובת המדוייקת ובכדי שבעל הדירה ידע למי לצפות.</p>
             </Col>
             <Col md={6} className="small-text">
-              <p>פרטיותכם יקרה לנו! לא יעשה כל שימוש אחר בפרטיכם. אנו מבקשים פרטי קשר על מנת שנוכל לעדכן על שינויים במידת הצורך.</p>
+              <p>פרטי הקשר שלכם ישמשו לעדכונים חשובים בלבד!</p>
             </Col>
           </Row>
           <FormWrapper.Wrapper layout="horizonal" onChange={this.handleChanges} ref="form">

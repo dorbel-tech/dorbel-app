@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     display_order: {
       type: DataTypes.FLOAT
-    },  
+    },
     created_at: {
       type: DataTypes.DATE,
     },
