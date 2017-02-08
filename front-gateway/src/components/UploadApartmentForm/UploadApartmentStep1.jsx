@@ -23,12 +23,12 @@ class UploadApartmentStep1 extends UploadApartmentBaseStep.wrappedComponent {
 
   renderImage(image, index) {
     const { apartmentsProvider } = this.props.appProviders;
-    const progressPct = Math.round(image.progress * 100) + '%';
+    const progressPct = Math.round(image.progress * 100) + '%';  
     const progressBarStyle = { width: progressPct };
 
     const progressBar = (
       <div className="progress">
-        <div className="progress-bar" style={progressBarStyle}>
+        <div className="progress-bar" style={ progressBarStyle }>
           {progressPct}
         </div>
       </div>
@@ -81,7 +81,7 @@ class UploadApartmentStep1 extends UploadApartmentBaseStep.wrappedComponent {
             <Col xs={12} md={7} className="form-nav bottom">
               <span>1/3</span>
               <span className="next-step" onClick={this.clickNext.bind(this)}>
-                <Button bsStyle="success" className="step-btn" disabled={!this.state.isReadyForNextStep}>
+                <Button bsStyle="success" className="step-btn">
                   שלב הבא &nbsp;
                   <i className="apartment-pictures-next-step fa fa-arrow-circle-o-left fa-2x" aria-hidden="true"></i>
                 </Button>

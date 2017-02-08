@@ -1,5 +1,5 @@
 import React from 'react';
-import { FRC } from '~/components/FormWrapper/FormWrapper';
+import { FRC, Formsy, HOC } from '~/components/FormWrapper/FormWrapper';
 import { Row, Col } from 'react-bootstrap';
 import autobind from 'react-autobind';
 import DatePicker from '~/components/DatePicker/DatePicker';
@@ -12,6 +12,10 @@ const hours = [
   '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00', '18:30',
   '19:00', '19:30', '20:00', '20:30', '21:00', '21:30', '22:00', '22:30', '23:00'
 ];
+
+Formsy.addValidationRule('oheValidation', (values, value) => {
+  return value ? !value.error : false;
+});
 
 class AddOHEInput extends React.Component {
   constructor(props) {
@@ -56,6 +60,7 @@ class AddOHEInput extends React.Component {
 
     this.setState(newState, this.validate);
   }
+
   dateChange(value) {
     this.setState({ date: value }, this.validate);
   }
@@ -73,7 +78,6 @@ class AddOHEInput extends React.Component {
     }
 
     this.setState({ error: error }, this.fireChange);
-
   }
 
   maxAttendiesChange(attendiesField, value) {
@@ -81,12 +85,15 @@ class AddOHEInput extends React.Component {
   }
 
   fireChange() {
-    this.props.onChange({
+    const ohe = {
       start_time: this.setTimeFromString(this.state.date, this.state.start_time),
       end_time: this.setTimeFromString(this.state.date, this.state.end_time),
       max_attendies: this.state.max_attendies,
       error: this.state.error
-    });
+    };
+
+    this.props.setValue(ohe);
+    this.props.onChange(ohe);
   }
 
   setTimeFromString(dateString, timeString) {
@@ -110,7 +117,7 @@ class AddOHEInput extends React.Component {
         <Row>
           <Col md={12} className="form-group">
             <label>תאריך הביקור</label>
-            <DatePicker name="ohe-date" onChange={this.dateChange} value={this.state.date} disabled={this.props.mode !== 'new'} />
+            <DatePicker onChange={this.dateChange} value={this.state.date} disabled={this.props.mode !== 'new'} />
           </Col>
         </Row>
         <Row>
@@ -120,7 +127,7 @@ class AddOHEInput extends React.Component {
               options={this.getHourOptions(this.getStartHours())}
               value={this.state.start_time}
               onChange={this.timeChange}
-              />
+            />
           </Col>
           <Col md={6}>
             <FRC.Select name="end_time"
@@ -128,7 +135,7 @@ class AddOHEInput extends React.Component {
               options={this.getHourOptions(this.getEndHours())}
               value={this.state.end_time}
               onChange={this.timeChange}
-              />
+            />
           </Col>
         </Row>
         <Row>
@@ -151,7 +158,8 @@ class AddOHEInput extends React.Component {
 AddOHEInput.propTypes = {
   onChange: React.PropTypes.func,
   ohe: React.PropTypes.object,
-  mode: React.PropTypes.string
+  mode: React.PropTypes.string,
+  setValue: React.PropTypes.func
 };
 
-export default AddOHEInput;
+export default HOC(AddOHEInput);

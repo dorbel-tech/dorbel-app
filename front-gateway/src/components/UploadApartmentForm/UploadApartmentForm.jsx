@@ -14,21 +14,25 @@ const steps = [
 class UploadApartmentForm extends Component {
   static hideFooter = true;
 
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {};
   }
 
-  @action
   nextStep() {
     let { newListingStore } = this.props.appStore;
 
-    if (newListingStore.stepNumber === steps.length - 1) { // last step
+    if (newListingStore.stepNumber === steps.length - 1) { // last 
       let listing = this.mapUploadApartmentFormToCreateListing(newListingStore.formValues);
-      this.props.appProviders.apartmentsProvider.uploadApartment(listing)
-        .then((uploadApartmentResp) => { this.setState({ showSuccessModal: true, createdListingId: uploadApartmentResp.id }); })
-        .catch((err) => this.props.appProviders.notificationProvider.error(err));
-    } else {
+      return this.props.appProviders.apartmentsProvider.uploadApartment(listing)
+        .then((uploadApartmentResp) => {
+          this.setState({ showSuccessModal: true, createdListingId: uploadApartmentResp.id });
+        })
+        .catch((err) => {
+          this.props.appProviders.notificationProvider.error(err);
+        });
+    }
+    else {
       newListingStore.stepNumber++;
     }
   }
@@ -57,7 +61,10 @@ class UploadApartmentForm extends Component {
     const input = _.find(formsy.inputs, (input) => {
       return !input.isValid();
     });
-    input.element.focus();
+
+    if (input.element) {
+      input.element.focus();
+    }
   }
 
   render() {
@@ -67,7 +74,7 @@ class UploadApartmentForm extends Component {
       step: steps[this.props.appStore.newListingStore.stepNumber]
     };
     return <activeStep.step showSuccessModal={showSuccessModal} onClickNext={this.nextStep.bind(this)}
-      onClickBack={this.prevStep.bind(this)} onValidationError={this.scrollToFirstError.bind(this)} createdListingId={createdListingId}/>;
+      onClickBack={this.prevStep.bind(this)} onValidationError={this.scrollToFirstError.bind(this)} createdListingId={createdListingId} />;
   }
 }
 
