@@ -2,6 +2,7 @@
  * General utils modeule
  */
 'use strict';
+import _ from 'lodash';
 import moment from 'moment';
 
 const timeFormat = 'HH:mm';
@@ -19,8 +20,13 @@ function getListingTitle(listing) {
   return listing.title || `דירת ${listing.apartment.rooms} חד׳ ברח׳ ${listing.apartment.building.street_name}`;  
 }
 
+function sortListingImages(listing) {
+  return listing.images.length ? _.orderBy(listing.images, ['display_order']) : [];
+}
+
 module.exports = {
   formatTime,
   formatDate,
-  getListingTitle
+  getListingTitle,
+  sortListingImages
 };

@@ -129,7 +129,7 @@ class OHERegisterModal extends React.Component {
               <p>פרטי הקשר שלכם ישמשו לעדכונים חשובים בלבד!</p>
             </Col>
           </Row>
-          <FormWrapper.Wrapper layout="horizonal" onChange={this.handleChanges} ref="form">
+          <FormWrapper.Wrapper layout="vertical" onChange={this.handleChanges} ref="form">
             <Row>
               <Col md={6} className="ohe-modal-input">
                 <FRC.Input name="user.firstname" label="שם פרטי" value={profile.first_name} required />
