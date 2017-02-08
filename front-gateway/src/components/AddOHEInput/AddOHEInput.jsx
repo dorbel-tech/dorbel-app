@@ -117,7 +117,7 @@ class AddOHEInput extends React.Component {
         <Row>
           <Col md={12} className="form-group">
             <label>תאריך הביקור</label>
-            <DatePicker onChange={this.dateChange} value={this.state.date} disabled={this.props.mode !== 'new'} />
+            <DatePicker name="ohe-date" onChange={this.dateChange} value={this.state.date} disabled={this.props.mode !== 'new'} />
           </Col>
         </Row>
         <Row>
