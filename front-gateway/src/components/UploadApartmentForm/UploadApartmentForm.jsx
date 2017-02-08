@@ -23,20 +23,16 @@ class UploadApartmentForm extends Component {
     let { newListingStore } = this.props.appStore;
 
     if (newListingStore.stepNumber === steps.length - 1) { // last 
-      return new Promise((resolve, reject) => {
-        let listing = this.mapUploadApartmentFormToCreateListing(newListingStore.formValues);
-        this.props.appProviders.apartmentsProvider.uploadApartment(listing)
-          .then((uploadApartmentResp) => {
-            this.setState({ showSuccessModal: true, createdListingId: uploadApartmentResp.id });
-            resolve();
-          })
-          .catch((err) => {
-            this.props.appProviders.notificationProvider.error(err);
-            reject();
-          });
-      });
-
-    } else {
+      let listing = this.mapUploadApartmentFormToCreateListing(newListingStore.formValues);
+      return this.props.appProviders.apartmentsProvider.uploadApartment(listing)
+        .then((uploadApartmentResp) => {
+          this.setState({ showSuccessModal: true, createdListingId: uploadApartmentResp.id });
+        })
+        .catch((err) => {
+          this.props.appProviders.notificationProvider.error(err);
+        });
+    }
+    else {
       newListingStore.stepNumber++;
     }
   }
@@ -65,7 +61,7 @@ class UploadApartmentForm extends Component {
     const input = _.find(formsy.inputs, (input) => {
       return !input.isValid();
     });
-    
+
     if (input.element) {
       input.element.focus();
     }
