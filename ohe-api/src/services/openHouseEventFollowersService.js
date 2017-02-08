@@ -39,7 +39,7 @@ function* follow(listingId, user) {
     user_metadata: {
       email: user.email
     }
-  });  
+  });
 
   notificationService.send(notificationService.eventType.OHE_FOLLOWED, {
     listing_id: listingId,
