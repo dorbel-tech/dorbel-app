@@ -1,6 +1,6 @@
 {
   "name": "front-gateway",
-  "version": "0.0.52",
+  "version": "0.0.53",
   "description": "Front end application for dorbel",
   "main": "index.js",
   "scripts": {
