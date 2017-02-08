@@ -35,11 +35,11 @@ function* follow(listingId, user) {
   logger.info({ user_id: user.id, listing_id: listingId }, 'Listing was followed');
 
   // TODO: Update user details can be done on client using user token.
-  userManagement.updateUserDetails(user.user_id, {
+  userManagement.updateUserDetails(user.id, {
     user_metadata: {
       email: user.email
     }
-  });  
+  });
 
   notificationService.send(notificationService.eventType.OHE_FOLLOWED, {
     listing_id: listingId,
