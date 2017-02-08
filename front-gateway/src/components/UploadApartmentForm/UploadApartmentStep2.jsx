@@ -127,25 +127,25 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
                   <FRC.Input value="" name="apartment.size" label="גודל הדירה" type="number" required />
                 </Col>
                 <Col md={6}>
-                  <FRC.Select name="apartment.rooms" label="מספר חדרים" required options={roomOptions} />
+                  <FRC.Select value="" name="apartment.rooms" label="מספר חדרים" required options={roomOptions} />
                 </Col>
               </Row>
               <Row>
                 <Col md={12}>
-                  <FRC.Textarea name="description" rows={3} label="מידע נוסף ותיאור הדירה" />
+                  <FRC.Textarea value="" name="description" rows={3} label="מידע נוסף ותיאור הדירה" />
                 </Col>
               </Row>
               <Row>
-                <FRC.Checkbox name="apartment.parking" label="חנייה" rowClassName="checkbox-inline" />
-                <FRC.Checkbox name="apartment.building.elevator" label="מעלית" rowClassName="checkbox-inline" />
-                <FRC.Checkbox name="apartment.sun_heated_boiler" label="דוד שמש" rowClassName="checkbox-inline" />
-                <FRC.Checkbox name="apartment.pets" label='מותר בע"ח' rowClassName="checkbox-inline" />
-                <FRC.Checkbox name="apartment.air_conditioning" label="מזגן" rowClassName="checkbox-inline" />
-                <FRC.Checkbox name="apartment.balcony" label="מרפסת" rowClassName="checkbox-inline" />
-                <FRC.Checkbox name="apartment.security_bars" label="סורגים" rowClassName="checkbox-inline" />
-                <FRC.Checkbox name="apartment.parquet_floor" label="פרקט" rowClassName="checkbox-inline" />
-                <FRC.Checkbox name="roommates" label='אפשר שותפים' rowClassName="checkbox-inline" />
-                <FRC.Checkbox name="roommate_needed" label='דרוש שותף/ה' rowClassName="checkbox-inline" />
+                <FRC.Checkbox value="" name="apartment.parking" label="חנייה" rowClassName="checkbox-inline" />
+                <FRC.Checkbox value="" name="apartment.building.elevator" label="מעלית" rowClassName="checkbox-inline" />
+                <FRC.Checkbox value="" name="apartment.sun_heated_boiler" label="דוד שמש" rowClassName="checkbox-inline" />
+                <FRC.Checkbox value="" name="apartment.pets" label='מותר בע"ח' rowClassName="checkbox-inline" />
+                <FRC.Checkbox value="" name="apartment.air_conditioning" label="מזגן" rowClassName="checkbox-inline" />
+                <FRC.Checkbox value="" name="apartment.balcony" label="מרפסת" rowClassName="checkbox-inline" />
+                <FRC.Checkbox value="" name="apartment.security_bars" label="סורגים" rowClassName="checkbox-inline" />
+                <FRC.Checkbox value="" name="apartment.parquet_floor" label="פרקט" rowClassName="checkbox-inline" />
+                <FRC.Checkbox value="" name="roommates" label='אפשר שותפים' rowClassName="checkbox-inline" />
+                <FRC.Checkbox value="" name="roommate_needed" label='דרוש שותף/ה' rowClassName="checkbox-inline" />
               </Row>
             </Row>
 
@@ -159,15 +159,15 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
                   </div>
                 </Col>
                 <Col md={6}>
-                  <FRC.Input name="monthly_rent" label="שכר דירה לחודש" type="number" required />
+                  <FRC.Input value="" name="monthly_rent" label="שכר דירה לחודש" type="number" required />
                 </Col>
               </Row>
               <Row>
                 <Col md={6}>
-                  <FRC.Input name="property_tax" label="ארנונה לחודשיים" type="number" />
+                  <FRC.Input value="" name="property_tax" label="ארנונה לחודשיים" type="number" />
                 </Col>
                 <Col md={6}>
-                  <FRC.Input name="board_fee" label="ועד בית לחודש" type="number" />
+                  <FRC.Input value="" name="board_fee" label="ועד בית לחודש" type="number" />
                 </Col>
               </Row>
             </Row>
