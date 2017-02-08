@@ -1,4 +1,6 @@
 'use strict';
+import promisify from 'es6-promisify';
+
 class AuthProvider {
   constructor(clientId, domain, authStore, router) {
     const Auth0Lock = require('auth0-lock').default; // can only be required on client side
@@ -50,10 +52,12 @@ class AuthProvider {
 
   afterAuthentication(authResult) {
     this.authStore.setToken(authResult.idToken);
-    this.getProfile(authResult);
-    if (authResult.state) {
-      this.recoverStateAfterLogin(authResult.state);
-    }
+    this.getProfile(authResult)
+    .then(() => { // wait until profile is set because our previous state might depend on it
+      if (authResult.state) {
+        this.recoverStateAfterLogin(authResult.state);
+      }
+    });
   }
 
   recoverStateAfterLogin(stateString) {
@@ -69,14 +73,15 @@ class AuthProvider {
 
   getProfile(authResult) {
     // DEPRECATION NOTICE: This method will be soon deprecated, use `getUserInfo` instead
-    this.lock.getProfile(authResult.idToken, (error, profile) => {
-      if (error) {
-        window.console.log('Error loading the Profile', error);
-      } else {
-        let mappedProfile = this.mapAuth0Profile(profile);
-        this.authStore.setProfile(mappedProfile);
-        this.reportIdentifyAnalytics(mappedProfile);
-      }
+    return promisify(this.lock.getProfile, this.lock)(authResult.idToken)
+    .then(profile => {
+      let mappedProfile = this.mapAuth0Profile(profile);
+      this.authStore.setProfile(mappedProfile);
+      this.reportIdentifyAnalytics(mappedProfile);
+    })
+    .catch(error => {
+      window.console.log('Error loading the Profile', error);
+      throw error;
     });
   }
 
