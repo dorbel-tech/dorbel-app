@@ -153,7 +153,8 @@ function* findByListing(listing_id, user) {
     const eventDto = convertEventModelToDTO(eventJson, userId);
 
     if (userId == event.publishing_user_id || (user && userManagement.isUserAdmin(user))) { // publishing user
-      // get all the data about the registrations *TODO*: move to seperate api call
+      // get all the data about the registrations
+      // TODO: move to seperate api call
       eventDto.registrations = eventJson.registrations;
       eventDto.registrations.forEach(registration => {
         const promiseForUser = shared.utils.userManagement.getPublicProfile(registration.registered_user_id)
