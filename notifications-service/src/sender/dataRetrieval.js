@@ -18,6 +18,10 @@ if (!APT_API || !OHE_API) {
   throw new Error('Missing API Urls in config');
 }
 
+function getListingInfo(listingId) {
+  return request.get(`${APT_API}/v1/listings/${listingId}`, requestOptions);
+}
+
 function getOheInfo(oheId) {
   return request.get(`${OHE_API}/v1/event/${oheId}`, requestOptions);
 }
@@ -30,7 +34,7 @@ const dataRetrievalFunctions = {
   getListingInfo: eventData => {
     return userManagement.getUserDetails(eventData.user_uuid)
       .then(publishingUser => {
-        return request.get(`${APT_API}/v1/listings/${eventData.listing_id}`, requestOptions)
+        return getListingInfo(eventData.listing_id)
           .then(listing => {
             listing.publishing_user_email = _.get(publishingUser, 'user_metadata.email') || publishingUser.email;
             // Reducing object size by removing unused data.
@@ -72,7 +76,15 @@ const dataRetrievalFunctions = {
   },
   getListingFollowersCount: eventData => {
     return getListingFollowers(eventData.listing_id)
-      .then(followers => ({ followersCount: followers.length }));
+      .then(followers => { 
+        return getListingInfo(eventData.listing_id)
+        .then(listing => {
+          return {
+            customRecipients: [ listing.publishing_user_id ],          
+            followersCount: followers.length 
+          };
+        });
+      });
   },
   sendToListingFollowers: eventData => {
     return getListingFollowers(eventData.listing_id)
