@@ -2,21 +2,25 @@ import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
 import _ from 'lodash';
 
-let isWorking = false;
-
 class SubmitButton extends Component {
+  
+  constructor(props) {
+    super(props);
+    this.isWorking = false;
+  }
 
   handleClick(e) {
     e.preventDefault();
-    if (!isWorking) {
-      isWorking = true;
-      this.props.onClickPromise()
-        .then(() => {
-          isWorking = false;
-        })
-        .catch(() => {
-          isWorking = false;
-        });
+    if (!this.isWorking) {
+      this.isWorking = true;
+      let retVal = this.props.onClick();
+      if (retVal && retVal.then) {
+        retVal.then(() => this.isWorking = false);
+        retVal.catch(() => this.isWorking = false);
+      }
+      else {
+        this.isWorking = false;
+      }
     }
   }
 
@@ -31,7 +35,7 @@ class SubmitButton extends Component {
 }
 
 SubmitButton.propTypes = {
-  onClickPromise: React.PropTypes.func
+  onClick: React.PropTypes.func
 };
 
 export default SubmitButton;

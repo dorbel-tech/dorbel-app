@@ -5,8 +5,8 @@ import { observer } from 'mobx-react';
 import _ from 'lodash';
 import UploadApartmentBaseStep from './UploadApartmentBaseStep';
 import FormWrapper from '~/components/FormWrapper/FormWrapper';
-import SubmitButton from '~/components/SubmitButton/SubmitButton';
 import AddOHEInput from '~/components/AddOHEInput/AddOHEInput';
+import SubmitButton from '~/components/SubmitButton/SubmitButton';
 
 @observer(['appStore', 'appProviders', 'router'])
 class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
@@ -24,7 +24,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
     const formsy = this.refs.form.refs.formsy;
     if (formsy.state.isValid) {
       this.props.appStore.newListingStore.updateFormValues(this.refs.form.refs.formsy.getCurrentValues());
-      return super.clickNext();
+      super.clickNext();
     } else {
       this.props.onValidationError(formsy);
     }
@@ -105,7 +105,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
           <FormWrapper.Wrapper layout="vertical" onChange={this.handleChanges} ref="form">
             <Row className="form-section">
               <div className="form-section-headline">מועדי ביקור בדירה</div>
-              <AddOHEInput onChange={this.handleChange.bind(this, 'open_house_event')} ohe={existingOhe} mode="new" />
+              <AddOHEInput validations="oheValidation" name="ohe" onChange={this.handleChange.bind(this, 'open_house_event')} ohe={existingOhe} mode="new" />
               <Row>
                 <Col md={12}>
                   <FRC.Textarea name="open_house_event.comments" rows={3} label="הכוונה לדירה בבניין (אם צריך)" />
@@ -124,11 +124,11 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
               <i className="open-house-event-previous-step fa fa-arrow-circle-o-right fa-2x" aria-hidden="true"></i>&nbsp; שלב קודם
             </span>
             <span>3/3</span>
-            <SubmitButton onClickPromise={this.clickNext.bind(this)} className="step-btn"
+            <SubmitButton onClick={this.clickNext.bind(this)} className="step-btn"
               bsStyle={authStore.isLoggedIn ? 'success' : 'default'}
               disabled={!authStore.isLoggedIn} >שליחה וסיום</SubmitButton>
-          </div>
-        </div>
+          </Col>
+        </Col>
         <DorbelModal
           show={this.props.showSuccessModal}
           onClose={this.onCloseSuccessModal.bind(this)}

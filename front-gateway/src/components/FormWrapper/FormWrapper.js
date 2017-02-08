@@ -1,7 +1,7 @@
 'use strict';
 import React from 'react';
 import FRC from 'formsy-react-components';
-import Formsy from 'formsy-react';
+import Formsy, { HOC } from 'formsy-react';
 import _ from 'lodash';
 
 const FormWrapper = React.createClass({
@@ -26,5 +26,7 @@ const FormWrapper = React.createClass({
 
 module.exports = {
   Wrapper: FormWrapper,
-  FRC
+  Formsy,
+  FRC,
+  HOC
 };

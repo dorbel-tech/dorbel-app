@@ -65,7 +65,10 @@ class UploadApartmentForm extends Component {
     const input = _.find(formsy.inputs, (input) => {
       return !input.isValid();
     });
-    input.element.focus();
+    
+    if (input.element) {
+      input.element.focus();
+    }
   }
 
   render() {
