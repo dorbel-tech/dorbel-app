@@ -4,10 +4,12 @@ import Apartment from '~/components/Apartment/Apartment';
 import Home from '~/components/Home';
 import ErrorPage from '~/components/ErrorPage';
 import Login from '~/components/Login';
+import Health from '~/components/Health';
 import UploadApartmentForm from '~/components/UploadApartmentForm/UploadApartmentForm';
 
 const routes = [
   { route: '/', view: Home },
+  { route: '/health', view: Health },
   { route: '/login', view: Login },
   { route: '/apartments', view: Apartments },
   { route: '/apartments/new_form', view: UploadApartmentForm },
