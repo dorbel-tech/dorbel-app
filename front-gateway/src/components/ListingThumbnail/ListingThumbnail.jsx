@@ -9,8 +9,8 @@ import utils from '../../providers/utils';
 class ListingThumbnail extends Component {
   render() {
     const { listing } = this.props;
-    // TODO: Make sure the image URL points to the primary image URL (by order).
-    const imageURL = listing.images.length ? listing.images[0].url : '';
+    const sortedListingImages = utils.sortListingImages(listing);
+    const imageURL = sortedListingImages.length ? sortedListingImages[0].url : '';
 
     return (
       <Col lg={4} sm={6} xs={12}>
