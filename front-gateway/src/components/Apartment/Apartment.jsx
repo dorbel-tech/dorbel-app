@@ -90,8 +90,8 @@ class Apartment extends Component {
                 <h5>פרטי תשלום</h5>
               </div>
               <div className="col-md-10">
-                <p>{listing.property_tax} ארנונה:</p>
-                <p>{listing.board_fee} ועד הבית:</p>  
+                <p>ארנונה: {listing.property_tax}</p>
+                <p>ועד הבית: {listing.board_fee}</p>  
               </div>
             </div>
           </div>
