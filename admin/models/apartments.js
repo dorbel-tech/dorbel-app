@@ -42,7 +42,6 @@ module.exports = (sequelize, DataTypes) => {
           onDelete: 'CASCADE'
         };
         models.apartments.belongsTo(models.buildings, options);
-        Model.hasOne(models.listings);
       }
     },
     tableName: 'apartments',
