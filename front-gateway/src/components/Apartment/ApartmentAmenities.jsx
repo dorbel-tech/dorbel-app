@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Col, Row } from 'react-bootstrap';
 import _ from 'lodash';
 
 const amenitiesLeft = [
@@ -17,17 +18,17 @@ const amenitiesRight = [
 ];
 
 export default class ApartmentAmenities extends Component {
-  renderAmentites(amenities, listing) {
+  renderAmentites(amenities, listing, xsCols) {
     const amenityList = amenities
       .filter(amenity => _.get(listing, amenity.path))
       .map((amenity, index) => (<li key={index}><img src={'https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/amenities/icon-' + amenity.icon + '.svg'} />{amenity.label}</li>));
 
     return (
-      <div className="col-lg-5 col-sm-5 col-xs-6">
+      <Col sm={5} xs={xsCols} className="property-amenities-col">
         <ul>
           {amenityList}
         </ul>
-      </div>
+      </Col>
     );
   }
 
@@ -35,13 +36,13 @@ export default class ApartmentAmenities extends Component {
     const { listing } = this.props;
 
     return (
-      <div className="row property-amenities">
-        <div className="col-lg-2 col-sm-2 col-xs-12">
+      <Row className="property-amenities">
+        <Col sm={2}>
           <h5>פרטי הדירה</h5>
-        </div>
-        {this.renderAmentites(amenitiesLeft, listing)}
-        {this.renderAmentites(amenitiesRight, listing)}
-      </div>
+        </Col>
+        {this.renderAmentites(amenitiesLeft, listing, 7)}
+        {this.renderAmentites(amenitiesRight, listing, 5)}
+      </Row>
     );
   }
 }
