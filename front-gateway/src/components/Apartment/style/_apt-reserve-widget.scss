@@ -54,6 +54,29 @@
             height: 20px;
             vertical-align: middle;
         }
+        .padding {
+            padding: 0px 15px;
+        }
+        @media (min-width: $screen-sm-max) {
+            .fb-messenger-desktop,
+            .email {
+                display: inline;
+            }
+            .fb-messenger-mobile,
+            .whatsapp {
+                display: none;
+            }
+        }
+        @media (max-width: $screen-sm-max) {
+            .fb-messenger-desktop,
+            .email {
+                display: none;
+            }
+            .fb-messenger-mobile,
+            .whatsapp {
+                display: inline;
+            }
+        }
     }
     .social-share-wrapper {
         background: $brand-white;

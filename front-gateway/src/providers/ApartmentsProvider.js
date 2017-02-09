@@ -36,11 +36,14 @@ class ApartmentsProvider {
   }
 
   getListingMetadata(listing) {
+    const sortedListingImages = utils.sortListingImages(listing);
+    const imageURL = sortedListingImages.length ? sortedListingImages[0].url : undefined;
+
     return {
       description: listing.description,
       title: listing.title,
       image: {
-        url: (listing.images && listing.images.length > 0) ? listing.images[0].url : undefined,
+        url: imageURL,
         width: 1200,
         height: 630
       },
