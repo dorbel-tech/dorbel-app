@@ -38,9 +38,8 @@ class OHEList extends Component {
           </div>
           <div className="date-and-time pull-right">
             <span className={params.highlightTitle ? 'highlight' : ''}>{params.itemText}</span>
-            <br className="visible-lg" />
-            <i className="hidden-lg">&nbsp;</i>
-            <span className={'hidden-xs ' + callToActionTextClass}>{params.callToActionText}</span>
+            <br/>
+            <span className={callToActionTextClass}>{params.callToActionText}</span>
           </div>
           <div className="dorbel-icon-arrow fa fa-chevron-left pull-left"></div>
         </Row>
