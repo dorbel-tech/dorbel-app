@@ -1,6 +1,6 @@
 branch-defaults:
   default:
-    environment: admin-ohe-test
+    environment: admin-ohe-staging
     group_suffix: null
 global:
   application_name: admin-ohe
