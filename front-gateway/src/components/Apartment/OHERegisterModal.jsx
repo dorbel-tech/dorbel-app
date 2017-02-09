@@ -106,14 +106,14 @@ class OHERegisterModal extends React.Component {
         </Modal.Header>
         <Modal.Body>
           <Row>
-            <Col lg={6} md={6} sm={6} xs={6} className="modal-date">
+            <Col xs={6} className="modal-date">
               <Icon className="pull-right" iconName="dorbel_icon_calendar" />
               <div className="pull-right">
                 <span className="hidden-xs">&nbsp;תאריך:&nbsp;</span>
                 <span>{ohe.dateLabel}</span>
               </div>
             </Col>
-            <Col lg={6} md={6} sm={6} xs={6} className="modal-time">
+            <Col xs={6} className="modal-time">
               <Icon className="pull-right" iconName="dorbel_icon_clock" />
               <div className="pull-right">
                 <span className="hidden-xs">&nbsp;שעה:&nbsp;</span>
@@ -132,13 +132,13 @@ class OHERegisterModal extends React.Component {
           <FormWrapper.Wrapper layout="vertical" onChange={this.handleChanges} ref="form">
             <Row>
               <Col md={6} className="ohe-modal-input">
-                <FRC.Input name="user.firstname" label="שם פרטי" value={profile.first_name} required />
+                <FRC.Input layout="vertical" name="user.firstname" label="שם פרטי" value={profile.first_name} required />
               </Col>
               <Col md={6} className="ohe-modal-input">
-                <FRC.Input name="user.phone" label="טלפון" value={profile.phone} validationError="מספר טלפון לא תקין" required />
+                <FRC.Input layout="vertical" name="user.phone" label="טלפון" value={profile.phone} validationError="מספר טלפון לא תקין" required />
               </Col>
               <Col md={6} className="ohe-modal-input">
-                <FRC.Input name="user.email" label="מייל" type="email" value={profile.email} validations="isEmail" validationError="כתובת מייל לא תקינה" required />
+                <FRC.Input layout="vertical" name="user.email" label="מייל" type="email" value={profile.email} validations="isEmail" validationError="כתובת מייל לא תקינה" required />
               </Col>
               <Col md={6} className="ohe-register-submit">
                 <Button bsStyle="success" block onClick={this.register}>המשך</Button>
