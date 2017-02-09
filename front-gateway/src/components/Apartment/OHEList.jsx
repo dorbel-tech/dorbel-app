@@ -38,7 +38,7 @@ class OHEList extends Component {
           </div>
           <div className="date-and-time pull-right">
             <span className={params.highlightTitle ? 'highlight' : ''}>{params.itemText}</span>
-            <br/>
+            <br />
             <span className={callToActionTextClass}>{params.callToActionText}</span>
           </div>
           <div className="dorbel-icon-arrow fa fa-chevron-left pull-left"></div>
@@ -136,8 +136,8 @@ class OHEList extends Component {
             <div className="apt-reserve-container">
               <div className="price-container">
                 <div className="row">
-                  <div className="price pull-right">{listing.monthly_rent}<span className="currency"> ₪</span></div>
-                  <div className="price-desc pull-left">לחודש</div>
+                  <div className="price">{listing.monthly_rent}</div>
+                  <div className="price-desc"> ₪ / לחודש</div>
                 </div>
                 <div className="row social-share-wrapper">
                   <div className="social-share-container text-center">

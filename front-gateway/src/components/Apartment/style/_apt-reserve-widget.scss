@@ -34,8 +34,7 @@
         line-height: $line-height-small;
         transform: rotate(10deg);
     }
-
-    .highlight{
+    .highlight {
         color: #EA441A;
     }
 }
@@ -92,14 +91,14 @@
     }
     background: $gray-dark;
     color: $brand-white;
-    padding: 6px 40px 0px 40px;
-    .price,
-    .fee {
+    padding: 6px 40px 0;
+    .price {
+        display: inline;
         font-size: ceil($font-size-large*1.2);
     }
     .price-desc {
+        display: inline;
         line-height: $line-height-large*2.2;
-        opacity: 0.5;
     }
 }
 
@@ -131,55 +130,53 @@
 }
 
 .date-and-time {
-  @media (max-width: $screen-lg-min) {
-    padding: 12px 10px 0 15px;
-  }
-  span:last-child {
-    color: lighten($gray-light, 10%);
-    font-size: $font-size-small;
-  }
+    @media (max-width: $screen-lg-min) {
+        padding: 12px 10px 0 15px;
+    }
+    span:last-child {
+        color: lighten($gray-light, 10%);
+        font-size: $font-size-small;
+    }
 }
 
 .ohe-list-open-action-text {
-  color: #3cb878 !important;
+    color: #3cb878 !important;
 }
 
 .owner-container {
-  padding: 40px 0 20px;
-  text-align: center;
-
-  img {
-    width: 100%;
-  }
-  i {
-    position: absolute;
-    font-family: Georgia, serif;
-    display: block;
-    top: 0px;
-    right: 0px;
-    background-color: $brand-success;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    line-height: 29px;
-    color: $brand-white;
-  }
-  h5 {
-    padding-top: 15px;
-    line-height: $line-height-computed*0.7;
-  }
-  .follow-action {
-    border: 1px solid #3398db;
-    border-radius: 4px;
-    color: #3398db;
-    cursor: pointer;
-    padding: 6px 24px;
-    width: 250px;
-
-    &:hover {
-      background-color: #3398db;
-      border-color: #3398db;
-      color: $brand-white;
+    padding: 40px 0 20px;
+    text-align: center;
+    img {
+        width: 100%;
     }
-  }
+    i {
+        position: absolute;
+        font-family: Georgia, serif;
+        display: block;
+        top: 0px;
+        right: 0px;
+        background-color: $brand-success;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        line-height: 29px;
+        color: $brand-white;
+    }
+    h5 {
+        padding-top: 15px;
+        line-height: $line-height-computed*0.7;
+    }
+    .follow-action {
+        border: 1px solid #3398db;
+        border-radius: 4px;
+        color: #3398db;
+        cursor: pointer;
+        padding: 6px 24px;
+        width: 250px;
+        &:hover {
+            background-color: #3398db;
+            border-color: #3398db;
+            color: $brand-white;
+        }
+    }
 }
