@@ -21,6 +21,10 @@
     display: none;
 }
 
+.location-container{
+    background-color: lighten($gray-lighter, 2%);
+}
+
 .loaderContainer {
     align-items: center;
     display: flex;
