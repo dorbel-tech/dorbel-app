@@ -62,7 +62,7 @@ export default class ListingMenu extends React.Component {
     const options = _.get(listing, 'meta.possibleStatuses') || [];
 
     return (
-      <Nav bsStyle="tabs" onSelect={this.changeStatus} pullLeft>
+      <Nav bsStyle="tabs" className="listing-menu-status-selector" onSelect={this.changeStatus} pullLeft>
         <NavDropdown title={currentStatus} id="nav-dropdown" disabled={options.length === 0}>
           {options.map(status => <MenuItem key={status} eventKey={status}>{listingStatusLabels[status].actionLabel}</MenuItem>)}
         </NavDropdown>
@@ -75,7 +75,7 @@ export default class ListingMenu extends React.Component {
     const activeTab = _.find(tabs, { relativeRoute: currentAction }) || tabs[0];
 
     return (
-      <Navbar className="in-page-nav">
+      <Navbar className="listing-menu-tabs">
         <Nav bsStyle="tabs" activeKey={activeTab.relativeRoute} onSelect={this.changeTab}>
           {tabs.map(tab => <NavItem key={tab.relativeRoute} eventKey={tab.relativeRoute}>{tab.title}</NavItem>)}
         </Nav>

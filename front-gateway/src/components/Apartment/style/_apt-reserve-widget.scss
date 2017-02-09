@@ -39,6 +39,29 @@
     }
 }
 
+.listing-menu-tabs {
+  border-bottom: 1px solid #dddddd;
+  margin-bottom: 0px;
+
+  @media (max-width: $screen-xs-max) {
+    border: none;
+    min-height: 41px;
+
+    .navbar-nav {
+      margin: 0;
+    }
+  }
+}
+
+.listing-menu-status-selector {
+  @media (max-width: $screen-xs-max) {
+    left: 20px;
+    position: absolute;
+    top: 55px;
+    z-index: 2;
+  }
+}
+
 .price-container {
     .social-share-container {
         border-bottom: 1px solid #eee;
