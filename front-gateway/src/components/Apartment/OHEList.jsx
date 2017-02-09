@@ -143,8 +143,9 @@ class OHEList extends Component {
                 <div className="row social-share-wrapper">
                   <div className="social-share-container text-center">
                     <span>שתפו את הדירה</span>&nbsp;&nbsp;&nbsp;&nbsp;
-                    <a className="fa fa-facebook-square" href={'https://www.facebook.com/sharer.php?u=' + currentUrl} target="_blank"></a>&nbsp;&nbsp;&nbsp;&nbsp;
-                    <a className="fa fa-envelope" href={'mailto:?subject=Great%20apartment%20from%20dorbel&amp;body=' + currentUrl}></a>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a className="fa fa-facebook-square" href={'https://www.facebook.com/sharer.php?u=' + currentUrl} target="_blank"></a>
+                    <a className="padding email fa fa-envelope" href={'mailto:?subject=Great%20apartment%20from%20dorbel&amp;body=' + currentUrl}></a>
+                    <a className="padding whatsapp fa fa-whatsapp" href="whatsapp://send" data-href={currentUrl} data-text=""></a>
                     <a href={'https://www.facebook.com/dialog/send?app_id=1651579398444396&link=' + currentUrl + '&redirect_uri=' + currentUrl}><Icon iconName="dorbel-icon-social-fbmsg" /></a>
                   </div>
                 </div>

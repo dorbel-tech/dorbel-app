@@ -54,6 +54,25 @@
             height: 20px;
             vertical-align: middle;
         }
+        .padding {
+            padding: 0px 15px;
+        }
+        @media (min-width: $screen-sm-max) {
+            .email {
+                display: inline;
+            }
+            .whatsapp {
+                display: none;
+            }
+        }
+        @media (max-width: $screen-sm-max) {
+            .email {
+                display: none;
+            }
+            .whatsapp {
+                display: inline;
+            }
+        }
     }
     .social-share-wrapper {
         background: $brand-white;
