@@ -22,6 +22,7 @@ function handleMessage(message) {
         yield cancleOHEs(message.dataPayload.listing_id);
         break;  
       case 'OHE_DELETED':
+        // Unregister users but don't send them notification.
         yield unregisterUsers(message.dataPayload.event_id);
         break;
       default:
@@ -47,7 +48,7 @@ function* unregisterUsers(eventId) {
       let userId = event.registrations[i].registered_user_id;
       const publishingUser = yield userManagement.getUserDetails(userId);
       const user = { id: userId, role: publishingUser.role };
-      yield oheRegisterSercice.unregister(eventId, user);
+      yield oheRegisterSercice.unregister(eventId, user, false);
     }
   }
 }
