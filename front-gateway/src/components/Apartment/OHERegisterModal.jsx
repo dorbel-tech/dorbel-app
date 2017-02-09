@@ -86,10 +86,10 @@ class OHERegisterModal extends React.Component {
             </p>
           </Row>
           <Row>
-            <Col md={6}>
+            <Col md={6} className="ohe-unregister-modal-button-col">
               <Button onClick={this.close} bsStyle="info" block>אגיע לביקור</Button>
             </Col>
-            <Col md={6}>
+            <Col md={6} className="ohe-unregister-modal-button-col">
               <Button onClick={this.unregister} bsStyle="danger" block>בטלו את הגעתי</Button>
             </Col>
           </Row>
