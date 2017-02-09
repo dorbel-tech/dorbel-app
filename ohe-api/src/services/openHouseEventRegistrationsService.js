@@ -53,7 +53,7 @@ function* register(event_id, user) {
   return result;
 }
 
-function* unregister(event_id, user) {
+function* unregister(event_id, user, sendNotification = true) {
   let existingRegistration = yield repository.findRegistration(event_id, user.id);
   if (existingRegistration == undefined) {
     throw new errors.DomainNotFoundError('OpenHouseEventRegistrationNotFoundError',
@@ -71,12 +71,14 @@ function* unregister(event_id, user) {
     user_id: existingRegistration.registered_user_id
   }, 'Unregister to OHE');
 
-  let existingEvent = yield openHouseEventsFinderService.find(existingRegistration.open_house_event_id);
-  notificationService.send(notificationService.eventType.OHE_UNREGISTERED, {
-    listing_id: existingEvent.listing_id,
-    event_id: existingRegistration.id,
-    user_uuid: existingRegistration.registered_user_id
-  });
+  if (sendNotification) {
+    let existingEvent = yield openHouseEventsFinderService.find(existingRegistration.open_house_event_id);
+    notificationService.send(notificationService.eventType.OHE_UNREGISTERED, {
+      listing_id: existingEvent.listing_id,
+      event_id: existingRegistration.id,
+      user_uuid: existingRegistration.registered_user_id
+    });
+  }
 
   return result;
 }

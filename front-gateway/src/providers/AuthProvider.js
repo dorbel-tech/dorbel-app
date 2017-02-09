@@ -39,8 +39,7 @@ class AuthProvider {
         success: {
           forgotPassword: 'מייל לאיפוס ססמתך נשלח אלייך זה עתה',
         }
-      },
-      mustAcceptTerms: true
+      }
     });
     this.lock.on('authenticated', this.afterAuthentication.bind(this));
     this.authStore = authStore;

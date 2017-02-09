@@ -495,9 +495,9 @@ buffer@4.9.1:
     ieee754 "^1.1.4"
     isarray "^1.0.0"
 
-bunyan-sumologic@avnersorek/bunyan-sumologic:
-  version "1.1.0"
-  resolved "https://codeload.github.com/avnersorek/bunyan-sumologic/tar.gz/1b240e430d533a03f8d70a21935a9169d28c0362"
+bunyan-sumologic@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/bunyan-sumologic/-/bunyan-sumologic-1.2.0.tgz#77c090acaf0372d95707e124fa7c5d02b4172662"
   dependencies:
     request "^2.75.0"
 
@@ -999,15 +999,15 @@ doctrine@^1.2.2:
     esutils "^2.0.2"
     isarray "^1.0.0"
 
-"dorbel-shared@git://github.com/dorbel-tech/dorbel-shared#v0.4.63":
-  version "0.4.63"
-  resolved "git://github.com/dorbel-tech/dorbel-shared#ff69c95a212d462ec4130e72a69ac95ddb9e4007"
+"dorbel-shared@git://github.com/dorbel-tech/dorbel-shared#v0.4.64":
+  version "0.4.64"
+  resolved "git://github.com/dorbel-tech/dorbel-shared#b1d0d78083e3e67a33a2ee3a9daebf735e0801a9"
   dependencies:
     analytics-node "^2.1.0"
     auth0 "^2.5.0"
     bluebird "^3.4.6"
     bunyan "~1.8.1"
-    bunyan-sumologic avnersorek/bunyan-sumologic
+    bunyan-sumologic "^1.2.0"
     co "^4.6.0"
     es6-promisify "^5.0.0"
     jwt-decode "^2.1.0"
