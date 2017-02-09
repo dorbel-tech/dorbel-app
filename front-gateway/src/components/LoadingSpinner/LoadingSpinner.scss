@@ -1,4 +1,22 @@
-.spinner{
+@import '../sharedStyles/bsvars.scss';
+
+.loaderContainer {
+  align-items: center;
+  display: flex;
+  height: 100%;
+
+  @media (min-width: $screen-lg-min) {
+      min-height: 575px;
+  }
+  @media (min-width: $screen-md-min) {
+      min-height: 245px;
+  }
+  @media (min-width: $screen-xs-min) {
+      min-height: 200px;
+  }
+}
+
+.spinner {
   height: 55px;
   width: 55px;
   margin: 0 auto;
