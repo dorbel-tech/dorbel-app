@@ -54,7 +54,7 @@ class EditOHEModal extends React.Component {
   renderEditForm() {
     return (
       <FormWrapper.Wrapper layout="vertical" ref="form">
-        <AddOHEInput onChange={this.timeChange} ohe={this.props.ohe} />
+        <AddOHEInput name="ohe" onChange={this.timeChange} ohe={this.props.ohe} />
         <Button bsStyle="danger" onClick={this.submit} block>שמור</Button>
         <Button onClick={this.close} block>ביטול</Button>
       </FormWrapper.Wrapper>
