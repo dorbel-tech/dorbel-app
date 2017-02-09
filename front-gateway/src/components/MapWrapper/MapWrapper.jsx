@@ -53,11 +53,16 @@ class MapWrapper extends Component {
   }
 
   render() {
-    return (
-      <div className='mapWrapper'>
-        {this.renderMap()}
-      </div>
-    );
+    if (process.env.IS_CLIENT) {
+      return (
+        <div className='mapWrapper'>
+          {this.renderMap()}
+        </div>
+      );
+    }
+    else {
+      return null;
+    }
   }
 }
 
