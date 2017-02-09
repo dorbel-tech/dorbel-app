@@ -5,6 +5,7 @@
   padding-top: 40px;
   padding-bottom: 40px;
   background-color: $gray-lighter;
+
   h5 {
     font-weight: 600;
     letter-spacing: 0.7px;
@@ -13,72 +14,86 @@
 }
 
 .apt-thumb-container-single {
-  margin-bottom: 40px;
-  transition: 0.1s;
   background-color: $gray-lighter;
-  text-align: right;
+  margin-bottom: 40px;
   padding: 0px;
+  text-align: right;
   width: 100%;
+
+  @media (min-width: $screen-md-min) {
+    transition: 0.1s;
+  }
+
   &:hover {
     text-decoration: none;
-    transform: scale(1.03);
+
+    @media (min-width: $screen-md-min) {
+      transform: scale(1.03);
+    }
+
     .apt-thumb-apt-image {
       object-fit: cover;
       filter: drop-shadow(0px 31px 17px rgba(0, 0, 0, 0.05)) !important;
     }
   }
+
   &:active {
     border: 1px solid transparent !important;
   }
+
   .caption {
     line-height: $line-height-small*0.2;
     padding: 5px;
     background-color: $gray-lighter;
+
     *:first-child {
       font-weight: 600;
       font-size: $font-size-large*0.9;
       color: $brand-brown;
     }
+
     span {
       font-size: $font-size-base;
     }
   }
 }
 
-.apt-thumb-apt-image {
-  img {
-    @include border-top-radius(3px);
-    height: 190px;
-    object-fit: cover;
-    overflow: hidden;
-    width: 100%;
-  }
+.apt-thumb-apt-image img {
+  @include border-top-radius(3px);
+  height: 190px;
+  object-fit: cover;
+  overflow: hidden;
+  width: 100%;
 }
 
 .apt-thumb-apt-bottom-strip {
-  position: relative;
   @include border-bottom-radius(3px);
   background: $brand-white;
+  position: relative;
+
   img {
-    position: absolute;
-    width: 70px;
     border: 3px solid $brand-white;
-    top: -40px;
     display: block;
     left: 20px;
+    position: absolute;
+    top: -40px;
+    width: 70px;
   }
+
   ul {
+    line-height: 10px;
+    list-style: none;
     margin: 0px;
     padding: 20px;
-    list-style: none;
     text-decoration: none;
-    line-height: 10px;
+
     span {
       color: darken($gray-lighter, 10%);
     }
+
     li {
-      display: inline;
       color: $brand-brown;
+      display: inline;
       padding: 5px;
     }
   }
