@@ -1327,9 +1327,9 @@ builtin-modules@^1.0.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/builtin-modules/-/builtin-modules-1.1.1.tgz#270f076c5a72c02f5b65a47df94c5fe3a278892f"
 
-bunyan-sumologic@avnersorek/bunyan-sumologic:
-  version "1.1.0"
-  resolved "https://codeload.github.com/avnersorek/bunyan-sumologic/tar.gz/1b240e430d533a03f8d70a21935a9169d28c0362"
+bunyan-sumologic@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/bunyan-sumologic/-/bunyan-sumologic-1.2.0.tgz#77c090acaf0372d95707e124fa7c5d02b4172662"
   dependencies:
     request "^2.75.0"
 
@@ -2185,15 +2185,15 @@ domutils@1.5.1, domutils@^1.5.1:
     dom-serializer "0"
     domelementtype "1"
 
-"dorbel-shared@git://github.com/dorbel-tech/dorbel-shared#v0.4.63":
-  version "0.4.63"
-  resolved "git://github.com/dorbel-tech/dorbel-shared#ff69c95a212d462ec4130e72a69ac95ddb9e4007"
+"dorbel-shared@git://github.com/dorbel-tech/dorbel-shared#v0.4.64":
+  version "0.4.64"
+  resolved "git://github.com/dorbel-tech/dorbel-shared#b1d0d78083e3e67a33a2ee3a9daebf735e0801a9"
   dependencies:
     analytics-node "^2.1.0"
     auth0 "^2.5.0"
     bluebird "^3.4.6"
     bunyan "~1.8.1"
-    bunyan-sumologic avnersorek/bunyan-sumologic
+    bunyan-sumologic "^1.2.0"
     co "^4.6.0"
     es6-promisify "^5.0.0"
     jwt-decode "^2.1.0"
@@ -6264,11 +6264,11 @@ satisfaction@^3.0.0:
     lodash "4.16.2"
     semver "5.3.0"
 
-sax@1.1.5, sax@>=0.6.0:
+sax@1.1.5:
   version "1.1.5"
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.1.5.tgz#1da50a8d00cdecd59405659f5ff85349fe773743"
 
-sax@^1.1.4, sax@~1.2.1:
+sax@>=0.6.0, sax@^1.1.4, sax@~1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.1.tgz#7b8e656190b228e81a66aea748480d828cd2d37a"
 
