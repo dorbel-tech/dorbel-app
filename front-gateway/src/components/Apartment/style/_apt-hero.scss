@@ -24,6 +24,8 @@
 .loaderContainer {
     align-items: center;
     display: flex;
+    height: 100%;
+
     @media (min-width: $screen-lg-min) {
         min-height: 575px;
     }
