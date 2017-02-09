@@ -3,6 +3,7 @@ import { observable, computed } from 'mobx';
 import { max } from 'lodash';
 import jwtDecode from 'jwt-decode';
 import localStorageHelper from './localStorageHelper';
+import NewListingStore from './NewListingStore';
 
 const ID_TOKEN_KEY = 'id_token';
 const PROFILE_KEY = 'profile';
@@ -13,7 +14,8 @@ export default class AuthStore {
 
   constructor() {
     this.setToken(localStorageHelper.getItem(ID_TOKEN_KEY));
-    this.setProfile(localStorageHelper.getItem(PROFILE_KEY));
+    this.setProfile(localStorageHelper.getItem(PROFILE_KEY));    
+    this.newListingStore = new NewListingStore(this);
   }
 
   @computed get isLoggedIn() {
@@ -51,6 +53,7 @@ export default class AuthStore {
   logout() {
     this.setToken(null);
     this.setProfile(null);
+    this.newListingStore.reset();
   }
 }
 
