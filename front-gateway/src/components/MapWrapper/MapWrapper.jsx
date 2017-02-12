@@ -9,7 +9,7 @@ const options = {
   mapTypeControl: false,
   scrollwheel: false,
   disableDefaultUI: true,
-  zoomControl: true
+  zoomControl: true,
 };
 
 class MapWrapper extends Component {
@@ -22,9 +22,21 @@ class MapWrapper extends Component {
     };
   }
 
-  render() {
-    return (
-      <div className='mapWrapper'>
+  isTouchDevice() {
+    return 'ontouchstart' in document.documentElement;
+  }
+
+  renderMap() {
+    if (this.isTouchDevice()) {
+      const positionStr = `${this.coords.lat},${this.coords.lng}`;
+      return (
+        <div className="map-image-container">
+          <img src={`https://maps.googleapis.com/maps/api/staticmap?center=${positionStr}&size=640x400&markers=color:purple|${positionStr}&language=he&zoom=15&key=${process.env.GOOGLE_MAPS_API_KEY}`} />
+        </div>
+      );
+    }
+    else {
+      return (
         <GoogleMap
           bootstrapURLKeys={{
             key: process.env.GOOGLE_MAPS_API_KEY,
@@ -36,8 +48,21 @@ class MapWrapper extends Component {
 
           <RadiusMarker {...this.coords} />
         </GoogleMap>
-      </div>
-    );
+      );
+    }
+  }
+
+  render() {
+    if (process.env.IS_CLIENT) {
+      return (
+        <div className='mapWrapper'>
+          {this.renderMap()}
+        </div>
+      );
+    }
+    else {
+      return null;
+    }
   }
 }
 
