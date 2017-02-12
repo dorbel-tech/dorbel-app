@@ -1,5 +1,6 @@
 {
   "PORT":3001,
   "LOG_LEVEL": "info",
-  "NEW_RELIC_ENABLED": "False"
+  "NEW_RELIC_ENABLED": "False",
+  "TRACE_ENABLED": "False"  
 }
