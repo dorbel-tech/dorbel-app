@@ -14,7 +14,7 @@ export default class ListingStore {
   get(idOrSlug){
     const id = parseInt(idOrSlug);
     if(isNaN(id)){
-      return this.listingsBySlug.get(decodeURI(idOrSlug));
+      return this.listingsBySlug.get(decodeURIComponent(idOrSlug));
     }
     else{
       return this.listingsById.get(id);
@@ -24,7 +24,7 @@ export default class ListingStore {
   add(listing) {
     this.listingsById.set(listing.id, listing);
     if (listing.slug) {
-      this.listingsBySlug.set(decodeURI(listing.slug), listing);
+      this.listingsBySlug.set(listing.slug, listing);
     }
   }
 
