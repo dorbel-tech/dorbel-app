@@ -3,21 +3,22 @@ const ApiClient = require('./apiClient.js');
 const __ = require('hamjest');
 const moment = require('moment');
 const faker = require('../shared/fakeObjectGenerator');
+const fakeUser = faker.getFakeUser();
 
 function getOhe(listingId, startsIn) {
   return {
     start_time: moment().add(startsIn, 'hours').toISOString(),
     end_time: moment().add(startsIn + 1, 'hours').toISOString(),
     listing_id: listingId,
-    publishing_user_id: faker.getFakeUser().id,
-    listing_publishing_user_id: faker.getFakeUser().id,
+    publishing_user_id: fakeUser.id,
+    listing_publishing_user_id: fakeUser.id,
     max_attendies: 15
   };
 }
 
 describe('Open House Events By Listing API Integration', function () {
   before(function* () {
-    this.apiClient = yield ApiClient.init(faker.getFakeUser());
+    this.apiClient = yield ApiClient.init(fakeUser);
   });
 
   describe('/events/by-listing/', function () {

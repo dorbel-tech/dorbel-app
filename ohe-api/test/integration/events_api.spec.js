@@ -18,14 +18,14 @@ describe('Open House Events API Integration', function () {
           start_time: moment().add(12, 'hours').toISOString(),
           end_time: moment().add(13, 'hours').toISOString(),
           listing_id: faker.getRandomNumber(),
-          publishing_user_id: faker.getFakeUser().id,
-          listing_publishing_user_id: faker.getFakeUser().id,
+          publishing_user_id: fakeUser.id,
+          listing_publishing_user_id: fakeUser.id,
           max_attendies: 15
         };
         const newEventReponse = yield this.apiClient.createNewEvent(ohe).expect(201).end();
         const newEvent = newEventReponse.body;
 
-        yield this.apiClient.createNewRegistration(newEvent.id, faker.getFakeUser()).expect(201).end();
+        yield this.apiClient.createNewRegistration(newEvent.id, fakeUser).expect(201).end();
         yield this.apiClient.findEvent(newEvent.id).expect(200).end();
         
         const existingEventResponse = yield this.apiClient.findEvent(newEvent.id).expect(200).end();
@@ -47,8 +47,8 @@ describe('Open House Events API Integration', function () {
           start_time: moment().add(-2, 'hours').toISOString(),
           end_time: moment().add(-1, 'hours').toISOString(),
           listing_id: faker.getRandomNumber(),
-          publishing_user_id: faker.getFakeUser().id,
-          listing_publishing_user_id: faker.getFakeUser().id,
+          publishing_user_id: fakeUser.id,
+          listing_publishing_user_id: fakeUser.id,
           max_attendies: 15
         };
         yield this.apiClient.createNewEvent(ohe).expect(201).end();
@@ -80,8 +80,8 @@ describe('Open House Events API Integration', function () {
           start_time: moment().add(-2, 'hours').toISOString(),
           end_time: moment().add(-1, 'hours').toISOString(),
           listing_id: faker.getRandomNumber(),
-          publishing_user_id: faker.getFakeUser().id,
-          listing_publishing_user_id: faker.getFakeUser().id,
+          publishing_user_id: fakeUser.id,
+          listing_publishing_user_id: fakeUser.id,
           max_attendies: 15
         };
         yield this.apiClient.updateEvent(ohe).expect(404).end();
