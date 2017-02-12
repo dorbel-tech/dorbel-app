@@ -1,4 +1,11 @@
 .mapWrapper {
+  height: 400px;
+  width: 100%;
+
+  .map-image-container {
+    display: flex;
+    justify-content: center;
     height: 400px;
-    width: 100%;
+    overflow: hidden;
+  }
 }
