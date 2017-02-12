@@ -32,11 +32,11 @@ function getListingFollowers(listingId) {
 
 const dataRetrievalFunctions = { 
   getListingInfo: eventData => {
-    return userManagement.getUserDetails(eventData.user_uuid)
-      .then(publishingUser => {
-        return getListingInfo(eventData.listing_id)
-          .then(listing => {
-            listing.publishing_user_email = _.get(publishingUser, 'user_metadata.email') || publishingUser.email;
+    return getListingInfo(eventData.listing_id)
+      .then(listing => {
+        return userManagement.getUserDetails(listing.publishing_user_id)
+          .then(listingUser => {
+            listing.publishing_user_email = _.get(listingUser, 'user_metadata.email') || listingUser.email;
             // Reducing object size by removing unused data.
             listing.apartment.building.neighborhood = undefined;
             listing.images = undefined;

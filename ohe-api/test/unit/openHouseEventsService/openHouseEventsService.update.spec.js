@@ -208,13 +208,13 @@ describe('Open House Event Service - update', function () {
 
   it('should exclude the updated event when checking for overlap', function* () {
     let originalEvent = faker.generateEvent({
-      start_time: moment().add(-6, 'hours').toDate(),
-      end_time: moment().add(-2, 'hours').toDate()
+      start_time: moment('20170101').add(-6, 'hours').toDate(),
+      end_time: moment('20170101').add(-2, 'hours').toDate()
     });
 
     const updateRequest = {
-      start_time: moment().add(-5, 'hours').toISOString(),
-      end_time: moment().add(-2, 'hours').toISOString()
+      start_time: moment('20170101').add(-5, 'hours').toISOString(),
+      end_time: moment('20170101').add(-2, 'hours').toISOString()
     };
 
     this.openHouseEventsFinderServiceMock.find = sinon.stub().resolves(originalEvent);

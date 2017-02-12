@@ -53,11 +53,11 @@ function* create(openHouseEvent, user) {
     end_time: end,
     listing_id: listing_id,
     comments: openHouseEvent.comments,
-    publishing_user_id: openHouseEvent.publishing_user_id,
+    publishing_user_id: openHouseEvent.listing_publishing_user_id,
     is_active: true,
     max_attendies
   });
-  logger.info({ user_id: openHouseEvent.publishing_user_id, event_id: newEvent.id }, 'OHE created');
+  logger.info({ user_id: openHouseEvent.listing_publishing_user_id, event_id: newEvent.id }, 'OHE created');
 
   notificationService.send(notificationService.eventType.OHE_CREATED, {
     listing_id: listing_id,
@@ -65,7 +65,7 @@ function* create(openHouseEvent, user) {
     start_time: openHouseEvent.start_time,
     end_time: openHouseEvent.end_time,
     comments: openHouseEvent.comments,
-    user_uuid: openHouseEvent.publishing_user_id
+    user_uuid: openHouseEvent.listing_publishing_user_id
   });
 
 
@@ -152,12 +152,12 @@ function* findByListing(listing_id, user) {
     const eventJson = event.toJSON();
     const eventDto = convertEventModelToDTO(eventJson, userId);
 
-    if (userId == event.publishing_user_id || (user && userManagement.isUserAdmin(user))) { // publishing user
+    if (userId === event.publishing_user_id || (user && userManagement.isUserAdmin(user))) { // publishing user
       // get all the data about the registrations
       // TODO: move to seperate api call
       eventDto.registrations = eventJson.registrations;
       eventDto.registrations.forEach(registration => {
-        const promiseForUser = shared.utils.userManagement.getPublicProfile(registration.registered_user_id)
+        const promiseForUser = userManagement.getPublicProfile(registration.registered_user_id)
           .then(user => registration.user = user);
         promises.push(promiseForUser);
       });
