@@ -24,7 +24,7 @@ class EditOHEModal extends React.Component {
       end_time: this.state.end_time,
       max_attendies: this.state.max_attendies
     })
-    .catch(() => alert('Edit failed'))
+    .catch((err) => this.props.appProviders.notificationProvider.error(err))
     .then(this.close);
   }
 
