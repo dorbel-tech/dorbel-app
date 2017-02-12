@@ -1,7 +1,6 @@
 'use strict';
 const ApiClient = require('./apiClient.js');
 const __ = require('hamjest');
-const _ = require('lodash');
 const moment = require('moment');
 const faker = require('../shared/fakeObjectGenerator');
 
