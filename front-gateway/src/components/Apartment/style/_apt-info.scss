@@ -1,9 +1,11 @@
 .apt-info-container {
     background-color: lighten($gray-lighter, 2%);
     padding-left: 60px;
-    @media (max-width: $screen-xs-min) {
-      padding-left: 0px;
+
+    @media (max-width: $screen-xs-max) {
+      padding-left: 15px;
     }
+
     .row {
         padding-top: 40px;
         padding-bottom: 30px;
@@ -11,6 +13,15 @@
         &:last-child{
             border-bottom: none;
         }
+
+      @media (max-width: $screen-xs-max) {
+        padding-top: 10px;
+        padding-bottom: 10px;
+
+        &:first-child h3 {
+          margin-top: 70px;
+        }
+      }
     }
     h5 {
         margin: 0px;

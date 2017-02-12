@@ -79,7 +79,7 @@ export default class ListingMenu extends React.Component {
         <Nav bsStyle="tabs" activeKey={activeTab.relativeRoute} onSelect={this.changeTab}>
           {tabs.map(tab => <NavItem key={tab.relativeRoute} eventKey={tab.relativeRoute}>{tab.title}</NavItem>)}
         </Nav>
-        {this.renderStatusSelector()}
+        {currentAction === 'events' ? '' : this.renderStatusSelector()}
       </Navbar>
     );
   }
