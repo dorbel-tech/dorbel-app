@@ -134,8 +134,8 @@ class OHEList extends Component {
         <div className="row">
           <div className="col-lg-3 col-md-12 pull-left-lg">
             <div className="apt-reserve-container">
-              <div className="price-container">
-                <div className="row">
+              <div className="apt-box-container">
+                <div className="row price-container">
                   <div className="price">{listing.monthly_rent}</div>
                   <div className="price-desc"> ₪ / לחודש</div>
                 </div>

@@ -49,20 +49,43 @@
 
     .navbar-nav {
       margin: 0;
+
+      >li>a {
+        margin: 0;
+      }
     }
   }
 }
 
 .listing-menu-status-selector {
   @media (max-width: $screen-xs-max) {
-    left: 20px;
+    right: 20px;
     position: absolute;
-    top: 55px;
+    top: 47px;
     z-index: 2;
+
+    >li>a {
+      border: none;
+      color: $brand-white !important;
+      height: 42px;
+    }
+
+    .dropdown-menu {
+      background-color: $gray-lighter !important;
+      >li>a {
+        padding: 5px 15px !important;
+      }
+    }
   }
 }
 
-.price-container {
+.apt-box-container {
+  @media (max-width: $screen-xs-max) {
+    .price-container {
+      text-align: left;
+    }
+  }
+
     .social-share-container {
         border-bottom: 1px solid #eee;
         padding: 9px 5px;
