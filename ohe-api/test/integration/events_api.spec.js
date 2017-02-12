@@ -19,6 +19,7 @@ describe('Open House Events API Integration', function () {
           end_time: moment().add(13, 'hours').toISOString(),
           listing_id: faker.getRandomNumber(),
           publishing_user_id: faker.getFakeUser().id,
+          listing_publishing_user_id: faker.getFakeUser().id,
           max_attendies: 15
         };
         const newEventReponse = yield this.apiClient.createNewEvent(ohe).expect(201).end();
@@ -47,6 +48,7 @@ describe('Open House Events API Integration', function () {
           end_time: moment().add(-1, 'hours').toISOString(),
           listing_id: faker.getRandomNumber(),
           publishing_user_id: faker.getFakeUser().id,
+          listing_publishing_user_id: faker.getFakeUser().id,
           max_attendies: 15
         };
         yield this.apiClient.createNewEvent(ohe).expect(201).end();
@@ -61,6 +63,7 @@ describe('Open House Events API Integration', function () {
           end_time: moment().add(-1, 'hours').toISOString(),
           listing_id: faker.getRandomNumber(),
           publishing_user_id: faker.getFakeUser().id,
+          listing_publishing_user_id: faker.getFakeUser().id,
           max_attendies: 15
         };
         const newEventReponse = yield this.apiClient.createNewEvent(ohe).expect(201).end();
@@ -78,6 +81,7 @@ describe('Open House Events API Integration', function () {
           end_time: moment().add(-1, 'hours').toISOString(),
           listing_id: faker.getRandomNumber(),
           publishing_user_id: faker.getFakeUser().id,
+          listing_publishing_user_id: faker.getFakeUser().id,
           max_attendies: 15
         };
         yield this.apiClient.updateEvent(ohe).expect(404).end();
@@ -91,6 +95,7 @@ describe('Open House Events API Integration', function () {
           end_time: moment().add(-1, 'hours').toISOString(),
           listing_id: faker.getRandomNumber(),
           publishing_user_id: faker.getFakeUser().id,
+          listing_publishing_user_id: faker.getFakeUser().id,
           max_attendies: 15
         };
         const newEventReponse = yield this.apiClient.createNewEvent(ohe).expect(201).end();
