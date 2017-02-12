@@ -4,11 +4,12 @@ const __ = require('hamjest');
 const _ = require('lodash');
 const moment = require('moment');
 const faker = require('../shared/fakeObjectGenerator');
+const fakeUser = faker.getFakeUser();
 
 describe('Open House Events API Integration', function () {
   before(function* () {
     this.timeout = (10000);
-    this.apiClient = yield ApiClient.init(faker.getFakeUser());
+    this.apiClient = yield ApiClient.init(fakeUser);
   });
 
   describe('/event', function () {
@@ -62,8 +63,8 @@ describe('Open House Events API Integration', function () {
           start_time: moment().add(-2, 'hours').toISOString(),
           end_time: moment().add(-1, 'hours').toISOString(),
           listing_id: faker.getRandomNumber(),
-          publishing_user_id: faker.getFakeUser().id,
-          listing_publishing_user_id: faker.getFakeUser().id,
+          publishing_user_id: fakeUser.id,
+          listing_publishing_user_id: fakeUser.id,
           max_attendies: 15
         };
         const newEventReponse = yield this.apiClient.createNewEvent(ohe).expect(201).end();
@@ -94,8 +95,8 @@ describe('Open House Events API Integration', function () {
           start_time: moment().add(-2, 'hours').toISOString(),
           end_time: moment().add(-1, 'hours').toISOString(),
           listing_id: faker.getRandomNumber(),
-          publishing_user_id: faker.getFakeUser().id,
-          listing_publishing_user_id: faker.getFakeUser().id,
+          publishing_user_id: fakeUser.id,
+          listing_publishing_user_id: fakeUser.id,
           max_attendies: 15
         };
         const newEventReponse = yield this.apiClient.createNewEvent(ohe).expect(201).end();
