@@ -2071,7 +2071,7 @@ date-now@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/date-now/-/date-now-0.1.4.tgz#eaf439fd4d4848ad74e5cc7dbef200672b9e345b"
 
-debug@*, debug@2, debug@^2.1.0, debug@^2.1.1, debug@^2.2.0:
+debug@*, debug@2, debug@^2.1.1, debug@^2.2.0:
   version "2.3.3"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.3.3.tgz#40c453e67e6e13c901ddec317af8986cda9eff8c"
   dependencies:
@@ -2089,7 +2089,7 @@ debug@2.2.0, debug@~2.2.0:
   dependencies:
     ms "0.7.1"
 
-debug@2.6.0:
+debug@2.6.0, debug@^2.1.0:
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.0.tgz#bc596bcabe7617f11d9fa15361eded5608b8499b"
   dependencies:
@@ -2251,9 +2251,9 @@ domutils@1.5.1, domutils@^1.5.1:
     dom-serializer "0"
     domelementtype "1"
 
-"dorbel-shared@git://github.com/dorbel-tech/dorbel-shared#v0.4.66":
-  version "0.4.66"
-  resolved "git://github.com/dorbel-tech/dorbel-shared#b2748dcb7344e735dde840ef7f6bcac9c25e0940"
+"dorbel-shared@git://github.com/dorbel-tech/dorbel-shared#v0.4.67":
+  version "0.4.67"
+  resolved "git://github.com/dorbel-tech/dorbel-shared#e865ecea6bf9affc6f509034bbbdfe8b588bb9b7"
   dependencies:
     "@risingstack/trace" "^3.2.2"
     analytics-node "^2.1.0"
