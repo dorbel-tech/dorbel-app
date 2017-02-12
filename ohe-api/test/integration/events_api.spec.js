@@ -4,6 +4,7 @@ const __ = require('hamjest');
 const moment = require('moment');
 const faker = require('../shared/fakeObjectGenerator');
 const fakeUser = faker.getFakeUser();
+const today = moment().hours(0).minutes(0).seconds(0).add(1, 'days');
 
 describe('Open House Events API Integration', function () {
   before(function* () {
@@ -15,8 +16,8 @@ describe('Open House Events API Integration', function () {
     describe('GET', function () {
       it('should find an open house event', function* () {
         const ohe = {
-          start_time: moment().add(12, 'hours').toISOString(),
-          end_time: moment().add(13, 'hours').toISOString(),
+          start_time: today.add(12, 'hours').toISOString(),
+          end_time: today.add(13, 'hours').toISOString(),
           listing_id: faker.getRandomNumber(),
           publishing_user_id: fakeUser.id,
           listing_publishing_user_id: fakeUser.id,
@@ -44,8 +45,8 @@ describe('Open House Events API Integration', function () {
     describe('POST', function () {
       it('should create a new open house event', function* () {
         const ohe = {
-          start_time: moment().add(-2, 'hours').toISOString(),
-          end_time: moment().add(-1, 'hours').toISOString(),
+          start_time: today.add(7, 'hours').toISOString(),
+          end_time: today.add(8, 'hours').toISOString(),
           listing_id: faker.getRandomNumber(),
           publishing_user_id: fakeUser.id,
           listing_publishing_user_id: fakeUser.id,
@@ -59,8 +60,8 @@ describe('Open House Events API Integration', function () {
     describe('PUT', function () {
       it('should update an existing open house event', function* () {
         const ohe = {
-          start_time: moment().add(-2, 'hours').toISOString(),
-          end_time: moment().add(-1, 'hours').toISOString(),
+          start_time: today.add(9, 'hours').toISOString(),
+          end_time: today.add(10, 'hours').toISOString(),
           listing_id: faker.getRandomNumber(),
           publishing_user_id: fakeUser.id,
           listing_publishing_user_id: fakeUser.id,
@@ -68,8 +69,6 @@ describe('Open House Events API Integration', function () {
         };
         const newEventReponse = yield this.apiClient.createNewEvent(ohe).expect(201).end();
         let newEvent = newEventReponse.body;
-        newEvent.start_time = moment().add(1, 'hours').toISOString();
-        newEvent.end_time = moment().add(2, 'hours').toISOString();
         newEvent.max_attendies = 30;
         yield this.apiClient.updateEvent(newEvent).expect(200).end();
       });
@@ -77,8 +76,8 @@ describe('Open House Events API Integration', function () {
       it('should return an error for non existing event', function* () {
         const ohe = {
           id: 9999999,
-          start_time: moment().add(-2, 'hours').toISOString(),
-          end_time: moment().add(-1, 'hours').toISOString(),
+          start_time: today.add(11, 'hours').toISOString(),
+          end_time: today.add(12, 'hours').toISOString(),
           listing_id: faker.getRandomNumber(),
           publishing_user_id: fakeUser.id,
           listing_publishing_user_id: fakeUser.id,
@@ -91,8 +90,8 @@ describe('Open House Events API Integration', function () {
     describe('DELETE', function () {
       it('should delete an existing open house event', function* () {
         const ohe = {
-          start_time: moment().add(-2, 'hours').toISOString(),
-          end_time: moment().add(-1, 'hours').toISOString(),
+          start_time: today.add(13, 'hours').toISOString(),
+          end_time: today.add(14, 'hours').toISOString(),
           listing_id: faker.getRandomNumber(),
           publishing_user_id: fakeUser.id,
           listing_publishing_user_id: fakeUser.id,

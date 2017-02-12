@@ -4,6 +4,7 @@ const __ = require('hamjest');
 const moment = require('moment');
 const faker = require('../shared/fakeObjectGenerator');
 const fakeUser = faker.getFakeUser();
+const today = moment().hours(0).minutes(0).seconds(0).add(1, 'days');
 
 describe('Followers API Integration', function () {
   before(function* () {
@@ -32,8 +33,8 @@ describe('Followers API Integration', function () {
     describe('DELETE', function () {
       it('should delete a follower', function* () {
         const ohe = {
-          start_time: moment().add(-2, 'hours').toISOString(),
-          end_time: moment().add(-1, 'hours').toISOString(),
+          start_time: today.add(1, 'hours').toISOString(),
+          end_time: today.add(2, 'hours').toISOString(),
           listing_id: faker.getRandomNumber(),
           publishing_user_id: fakeUser.id,
           listing_publishing_user_id: fakeUser.id,

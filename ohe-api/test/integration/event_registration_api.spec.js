@@ -3,7 +3,7 @@ const ApiClient = require('./apiClient.js');
 const moment = require('moment');
 const faker = require('../shared/fakeObjectGenerator');
 const fakeUser = faker.getFakeUser();
-
+const today = moment().hours(0).minutes(0).seconds(0).add(1, 'days');
 describe('Open House Events Registration API Integration', function () {
   before(function* () {
     this.timeout = (10000);
@@ -15,8 +15,8 @@ describe('Open House Events Registration API Integration', function () {
     describe('POST', function () {
       it('should create a new registation', function* () {
         const ohe = {
-          start_time: moment().add(12, 'hours').toISOString(),
-          end_time: moment().add(13, 'hours').toISOString(),
+          start_time: today.add(3, 'hours').toISOString(),
+          end_time: today.add(4, 'hours').toISOString(),
           listing_id: faker.getRandomNumber(),
           publishing_user_id: fakeUser.id,
           listing_publishing_user_id: fakeUser.id,          
@@ -35,8 +35,8 @@ describe('Open House Events Registration API Integration', function () {
     describe('DELETE', function () {
       it('should delete a registation', function* () {
         const ohe = {
-          start_time: moment().add(12, 'hours').toISOString(),
-          end_time: moment().add(13, 'hours').toISOString(),
+          start_time: today.add(5, 'hours').toISOString(),
+          end_time: today.add(6, 'hours').toISOString(),
           listing_id: faker.getRandomNumber(),
           publishing_user_id: fakeUser.id,
           listing_publishing_user_id: fakeUser.id,
