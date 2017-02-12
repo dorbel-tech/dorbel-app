@@ -38,7 +38,7 @@ class Header extends Component {
 
     const firstName = profile.first_name || '';
 
-    const externalURL = 'https://www.dorbel.com/';
+    const externalURL = 'https://www.dorbel.com';
 
     return (
       <Navbar className="header-navbar" collapseOnSelect fixedTop fluid inverse>
@@ -54,13 +54,13 @@ class Header extends Component {
         </Navbar.Header>
         <Navbar.Collapse>
           <Nav className="header-navbar-links">
-            <NavItem onClick={this.redirect} href={externalURL + 'pages/about_us'}>
+            <NavItem onClick={this.redirect} href={externalURL + '/pages/about_us'}>
               מי אנחנו</NavItem>
-            <NavItem onClick={this.redirect} href={externalURL + 'pages/owner'}>
+            <NavItem onClick={this.redirect} href={externalURL + '/pages/owner'}>
               בעלי דירות</NavItem>
             <NavItem className="header-navbar-owner-services-navitem"
               onClick={this.redirect}
-              href={externalURL + 'pages/שירותים-לבעלי-דירות'}>שירותים לבעלי דירות</NavItem>
+              href={externalURL + '/pages/services'}>שירותים-לבעלי-דירות</NavItem>
             <NavItem onClick={() => this.routeTo('/apartments')}
               href="/apartments">מצאו דירה</NavItem>
             <NavItem className="btn-publish" onClick={() => this.routeTo('/apartments/new_form')}
