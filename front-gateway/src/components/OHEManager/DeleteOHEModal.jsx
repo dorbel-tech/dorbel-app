@@ -13,7 +13,8 @@ class DeleteOHEModal extends React.Component {
 
   submit() {
     this.props.appProviders.oheProvider.deleteOhe(this.props.ohe.id)
-    .catch(() => alert('Delete failed'));
+    .catch((err) => this.props.appProviders.notificationProvider.error(err));
+
     // we don't need to close the modal because the ohe will be removed from the store
   }
 

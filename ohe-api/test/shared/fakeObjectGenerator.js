@@ -25,6 +25,7 @@ function generateEvent(variant) {
     comments: 'בדיקה',
     max_attendies: 7,
     publishing_user_id: fakeUserId,
+    listing_publishing_user_id: fakeUserId,
     isOpenForRegistration: true,
     registrations: []
   }, variant);

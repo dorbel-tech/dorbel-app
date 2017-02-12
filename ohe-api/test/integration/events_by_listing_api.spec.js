@@ -1,7 +1,6 @@
 'use strict';
 const ApiClient = require('./apiClient.js');
 const __ = require('hamjest');
-const _ = require('lodash');
 const moment = require('moment');
 const faker = require('../shared/fakeObjectGenerator');
 
@@ -11,6 +10,7 @@ function getOhe(listingId, startsIn) {
     end_time: moment().add(startsIn + 1, 'hours').toISOString(),
     listing_id: listingId,
     publishing_user_id: faker.getFakeUser().id,
+    listing_publishing_user_id: faker.getFakeUser().id,
     max_attendies: 15
   };
 }
