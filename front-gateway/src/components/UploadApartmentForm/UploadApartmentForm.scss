@@ -172,14 +172,6 @@
 
   >.form-vertical {
     padding-right: 8%;
-
-/*    @media (max-width: $screen-xs-max) {
-      padding: 0;
-
-      .form-section-headline {
-        display: none;
-      }
-    }*/
   }
 
   @media (min-width: $screen-md-min) {
@@ -192,6 +184,10 @@
     margin-bottom: 70px;
     overflow-x: hidden;
     overflow-y: hidden;
+
+    >.form-vertical {
+      padding-bottom: 70px;
+    }
   }
 
   &_photosUpload {

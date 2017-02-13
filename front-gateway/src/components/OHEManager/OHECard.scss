@@ -30,10 +30,11 @@
 
     .ohe-card-user-table {
       .ohe-card-user-table-row {
-        position: relative;
+        border-bottom: 1px solid $gray-lighter;
       }
 
       td {
+        border: none;
         display: inline-block;
       }
 
@@ -53,14 +54,13 @@
       }
 
       .ohe-card-user-phone-cell {
-        bottom: 32px;
-        position: absolute;
-        right: 57px;
+        margin-right: -62px;
+        vertical-align: bottom;
       }
 
       .ohe-card-user-links-cell {
-        bottom: 19px;
-        left: -11px;
+        left: -12px;
+        padding-top: 18px;
         position: absolute;
       }
     }
