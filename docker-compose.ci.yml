@@ -4,6 +4,23 @@ services:
 
   apartments-api:
     command: bash -c "./scripts/wait-for-it.sh db:3306 --timeout=180 && yarn run start"
+    environment:
+      NODE_ENV: ${NODE_ENV}
+      SUMOLOGIC_COLLECTOR: ${SUMOLOGIC_COLLECTOR}
+
+  front-gateway:
+    environment:
+      NODE_ENV: ${NODE_ENV}
+      SUMOLOGIC_COLLECTOR: ${SUMOLOGIC_COLLECTOR}
+
+  notifications-service:
+    environment:
+      NODE_ENV: ${NODE_ENV}
+      SUMOLOGIC_COLLECTOR: ${SUMOLOGIC_COLLECTOR}
 
   ohe-api:
     command: bash -c "./scripts/wait-for-it.sh db:3306 --timeout=180 && yarn run start"
+    environment:
+      NODE_ENV: ${NODE_ENV}
+      SUMOLOGIC_COLLECTOR: ${SUMOLOGIC_COLLECTOR}
+      
