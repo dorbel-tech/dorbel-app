@@ -38,7 +38,7 @@ class OHEList extends Component {
           </div>
           <div className="date-and-time pull-right">
             <span className={params.highlightTitle ? 'highlight' : ''}>{params.itemText}</span>
-            <br/>
+            <br />
             <span className={callToActionTextClass}>{params.callToActionText}</span>
           </div>
           <div className="dorbel-icon-arrow fa fa-chevron-left pull-left"></div>
@@ -54,7 +54,7 @@ class OHEList extends Component {
       onClickRoute: `${OHEConfig.action}/${openHouseEvent.id}`,
       key: openHouseEvent.id,
       iconName: 'dorbel_icon_calendar',
-      itemText: `${openHouseEvent.timeLabel} | ${openHouseEvent.dateLabel}`,
+      itemText: `${openHouseEvent.timeLabel} | ${openHouseEvent.dateLabel} - ${openHouseEvent.dayLabel}` + '\'',
       isDisabled: OHEConfig.isDisabled,
       callToActionText: OHEConfig.callToActionText,
       callToActionTextClass: OHEConfig.callToActionTextClass
@@ -134,10 +134,10 @@ class OHEList extends Component {
         <div className="row">
           <div className="col-lg-3 col-md-12 pull-left-lg">
             <div className="apt-reserve-container">
-              <div className="price-container">
-                <div className="row">
-                  <div className="price pull-right">{listing.monthly_rent}<span className="currency"> ₪</span></div>
-                  <div className="price-desc pull-left">לחודש</div>
+              <div className="apt-box-container">
+                <div className="row price-container">
+                  <div className="price">{listing.monthly_rent}</div>
+                  <div className="price-desc"> ₪ / לחודש</div>
                 </div>
                 <div className="row social-share-wrapper">
                   <div className="social-share-container text-center">
