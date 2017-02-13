@@ -3,7 +3,6 @@ const coSupertest = require('co-supertest');
 const config = require('../../src/config');
 const net = require('net');
 
-
 function attemptConnection(port, host) {
   return new Promise((resolve, reject) => {
     net.connect(port, host)

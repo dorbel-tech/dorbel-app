@@ -1,14 +1,44 @@
 'use strict';
-
-const app = require('../../src/index.js');
 const coSupertest = require('co-supertest');
-
+const net = require('net');
 const USER_PROFILE_HEADER = 'x-user-profile';
+
+function attemptConnection(port, host) {
+  return new Promise((resolve, reject) => {
+    net.connect(port, host)
+      .once('connect', resolve)
+      .once('error', reject);
+  });
+}
 
 class ApiClient {
   constructor(request, userProfile) {
     this.request = request;
     this.userProfile = userProfile;
+  }
+
+  static * init() {
+    let request;
+
+    const serverHost = '127.0.0.1';
+    const serverPort = config.get('PORT');
+
+    try {
+      // try a running server first
+      yield attemptConnection(serverPort, serverHost);
+      request = coSupertest(`${serverHost}:${serverPort}`);
+    }
+    catch (err) {
+      if (err.code === 'ECONNREFUSED') { // server is not up
+        const app = require('../../src/index.js');
+        let server = yield app.runServer();
+        request = coSupertest.agent(server);
+      } else {
+        throw err;
+      }
+    }
+
+    return new ApiClient(request);
   }
 
   findEventsByListing(listingId) {
@@ -77,24 +107,6 @@ class ApiClient {
     return this.request
       .delete('/v1/follower/' + followId)
       .set(USER_PROFILE_HEADER, JSON.stringify(follower));
-  }
-
-  static * init(userProfile) {
-    let request;
-
-    try {
-      let server = yield app.bootstrap();
-      request = coSupertest.agent(server);
-    }
-    catch (err) {
-      if (err.code === 'EADDRINUSE') { // server is already up
-        request = coSupertest('localhost:' + err.port);
-      } else {
-        throw err;
-      }
-    }
-
-    return new ApiClient(request, userProfile);
   }
 }
 
