@@ -35,8 +35,8 @@ function validateEventOverlap(existingListingEvents, start, end) {
 }
 
 function* create(openHouseEvent, user) {
-
-  utilityFunctions.validateResourceOwnership(openHouseEvent.publishing_user_id, user);
+  const userId = openHouseEvent.listing_publishing_user_id || openHouseEvent.publishing_user_id;
+  utilityFunctions.validateResourceOwnership(userId, user);
 
   const listing_id = parseInt(openHouseEvent.listing_id);
   const start = moment(openHouseEvent.start_time, moment.ISO_8601, true);
@@ -53,11 +53,11 @@ function* create(openHouseEvent, user) {
     end_time: end,
     listing_id: listing_id,
     comments: openHouseEvent.comments,
-    publishing_user_id: openHouseEvent.listing_publishing_user_id,
+    publishing_user_id: userId,
     is_active: true,
     max_attendies
   });
-  logger.info({ user_id: openHouseEvent.listing_publishing_user_id, event_id: newEvent.id }, 'OHE created');
+  logger.info({ user_id: userId, event_id: newEvent.id }, 'OHE created');
 
   notificationService.send(notificationService.eventType.OHE_CREATED, {
     listing_id: listing_id,
@@ -65,7 +65,7 @@ function* create(openHouseEvent, user) {
     start_time: openHouseEvent.start_time,
     end_time: openHouseEvent.end_time,
     comments: openHouseEvent.comments,
-    user_uuid: openHouseEvent.listing_publishing_user_id
+    user_uuid: userId
   });
 
 

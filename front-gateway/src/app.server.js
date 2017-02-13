@@ -11,6 +11,12 @@ function setRoute(router, path) {
 }
 
 function* renderApp() {
+  // Redirecting from root to main website.
+  if (config.get('NODE_ENV') === 'production' && this.path === '/') {
+    this.status = 301;
+    this.redirect('https://www.dorbel.com');
+  }
+
   const envVars = {
     NODE_ENV: config.get('NODE_ENV'),
     AUTH0_FRONT_CLIENT_ID: config.get('AUTH0_FRONT_CLIENT_ID'),
