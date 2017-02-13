@@ -54,7 +54,7 @@ class OHEList extends Component {
       onClickRoute: `${OHEConfig.action}/${openHouseEvent.id}`,
       key: openHouseEvent.id,
       iconName: 'dorbel_icon_calendar',
-      itemText: `${openHouseEvent.timeLabel} | ${openHouseEvent.dateLabel} - ${openHouseEvent.dayLabel}` + "'",
+      itemText: `${openHouseEvent.timeLabel} | ${openHouseEvent.dateLabel} - ${openHouseEvent.dayLabel}` + '\'',
       isDisabled: OHEConfig.isDisabled,
       callToActionText: OHEConfig.callToActionText,
       callToActionTextClass: OHEConfig.callToActionTextClass

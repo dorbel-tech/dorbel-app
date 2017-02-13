@@ -75,7 +75,7 @@ class OHECard extends React.Component {
         <Panel>
           <Col xs={6}>
             <Icon className="ohe-card-row-icon pull-right" iconName="dorbel_icon_calendar" />
-            <span className="ohe-card-row-date">{ohe.dateLabel} - {ohe.dayLabel + "'"}</span><br />
+            <span className="ohe-card-row-date">{ohe.dateLabel} - {ohe.dayLabel + '\''}</span><br />
             <span className="ohe-card-row-time">{ohe.timeLabel}</span>
           </Col>
           <Col xs={6} className="ohe-card-row-reg-num-col">
