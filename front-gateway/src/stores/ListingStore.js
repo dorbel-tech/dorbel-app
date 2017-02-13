@@ -14,7 +14,7 @@ export default class ListingStore {
   get(idOrSlug){
     const id = parseInt(idOrSlug);
     if(isNaN(id)){
-      return this.listingsBySlug.get(idOrSlug);
+      return this.listingsBySlug.get(decodeURIComponent(idOrSlug));
     }
     else{
       return this.listingsById.get(id);
