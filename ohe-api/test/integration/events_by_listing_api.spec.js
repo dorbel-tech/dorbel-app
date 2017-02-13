@@ -19,6 +19,7 @@ function getOhe(listingId, startsIn) {
 
 describe('Open House Events By Listing API Integration', function () {
   before(function* () {
+    this.timeout = (10000);
     this.apiClient = yield ApiClient.init(fakeUser);
   });
 
