@@ -39,7 +39,9 @@
 .apartments-results-wrapper {
   background-color: $gray-lighter;
   height: 100%;
-  overflow: auto;
+  overflow-x: auto;
+  overflow-y: scroll; /* has to be scroll, not auto */
+  -webkit-overflow-scrolling: touch;
   padding-top: 39px;
 
   @media (min-width: $screen-md-min) {
