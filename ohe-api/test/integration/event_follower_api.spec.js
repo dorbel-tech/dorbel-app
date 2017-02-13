@@ -50,7 +50,7 @@ describe('Followers API Integration', function () {
 
       it('should return an error for non existing follow', function* () {
         const follower = fakeUser;
-        yield this.apiClient.deleteFollower(0, follower).expect(404).end();
+        yield this.apiClient.deleteFollower(999999, follower).expect(404).end();
       });
 
     });

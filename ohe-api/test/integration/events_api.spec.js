@@ -37,7 +37,7 @@ describe('Open House Events API Integration', function () {
       });
 
       it('should return an error for non existing event', function* () {
-        yield this.apiClient.findEvent(0).expect(404).end();
+        yield this.apiClient.findEvent(999999).expect(404).end();
       });
 
     });
@@ -103,8 +103,7 @@ describe('Open House Events API Integration', function () {
       });
 
       it('should return an error for non existing event', function* () {
-        console.log('WUT???????????????????????????????????????', fakeUser);
-        yield this.apiClient.deleteEvent(0).expect(404).end();
+        yield this.apiClient.deleteEvent(999999).expect(404).end();
       });
     });
   });
