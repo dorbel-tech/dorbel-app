@@ -1,13 +1,80 @@
+@import "../sharedStyles/bsvars.scss";
+
 .ohe-card-row {
   padding-bottom: 10px;
+  position: relative;
+
+  .ohe-card-user-image-cell>img {
+    width: 50px;
+  }
+
+  .ohe-card-user-status-cell {
+    color: #3cb878;
+  }
+
+  @media (max-width: $screen-xs-max) {
+    .panel-body {
+      padding: 15px 0;
+    }
+    .ohe-card-row-icon {
+      width: 15px;
+    }
+    .ohe-card-row-date,
+    .ohe-card-row-time {
+      padding-right: 10px;
+    }
+    .ohe-card-row-reg-num-col {
+      color: #979797;
+      padding-right: 0;
+    }
+
+    .ohe-card-user-table {
+      .ohe-card-user-table-row {
+        position: relative;
+      }
+
+      td {
+        display: inline-block;
+      }
+
+      .ohe-card-user-image-cell>img {
+        width: 40px;
+      }
+
+      .ohe-card-user-name-cell {
+        padding-top: 6px;
+        vertical-align: top;
+      }
+
+      .ohe-card-user-status-cell {
+        float: left;
+        padding-top: 6px;
+        vertical-align: top;
+      }
+
+      .ohe-card-user-phone-cell {
+        bottom: 32px;
+        position: absolute;
+        right: 57px;
+      }
+
+      .ohe-card-user-links-cell {
+        bottom: 19px;
+        left: -11px;
+        position: absolute;
+      }
+    }
+  }
 }
 
 .ohe-no-visits {
   color: #cecece;
 }
 
-.table > tbody > tr > td.ohe-card-user-image-cell {
-  padding-right: 30px;
+.ohe-card-menu {
+  left: 0;
+  position: absolute;
+  top: 10px;
 }
 
 .ohe-card-facebook {

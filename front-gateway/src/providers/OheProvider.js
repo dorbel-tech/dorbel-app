@@ -67,6 +67,7 @@ class OheProvider {
   enrichOhe(openHouseEvent) {
     openHouseEvent.timeLabel = `${utils.formatTime(openHouseEvent.end_time)} - ${utils.formatTime(openHouseEvent.start_time)}`;
     openHouseEvent.dateLabel = utils.formatDate(openHouseEvent.start_time);
+    openHouseEvent.dayLabel = utils.formatDay(openHouseEvent.start_time);
 
     return openHouseEvent;
   }
