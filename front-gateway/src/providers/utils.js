@@ -7,6 +7,7 @@ import moment from 'moment';
 
 const timeFormat = 'HH:mm';
 const dateFormat = 'DD/MM/YY';
+const dayFormat = 'dd';
 
 function formatTime(date) {
   return moment.utc(date).local().format(timeFormat);
@@ -14,6 +15,10 @@ function formatTime(date) {
 
 function formatDate(date) {
   return moment.utc(date).local().format(dateFormat);
+}
+
+function formatDay(date) {
+  return moment.utc(date).local().format(dayFormat);
 }
 
 function getListingTitle(listing) {
@@ -27,6 +32,7 @@ function sortListingImages(listing) {
 module.exports = {
   formatTime,
   formatDate,
+  formatDay,
   getListingTitle,
   sortListingImages
 };

@@ -40,22 +40,21 @@ class OHECard extends React.Component {
         </Dropdown>
       );
     }
-
   }
 
   renderRegistrations(registrations) {
     if (!registrations) { return null; }
 
     return (
-      <Table fill responsive className="vertical-middle">
+      <Table fill className="vertical-middle ohe-card-user-table">
         <tbody>
           {registrations.map(registration => (
-            <tr key={registration.id}>
-              <td className="ohe-card-user-image-cell"><Image src={registration.user.picture} width="50px" circle /></td>
-              <td>{registration.user.first_name} {registration.user.last_name}</td>
-              <td>{registration.is_active ? 'מתכוון להגיע' : 'הגעה בוטלה'}</td>
-              <td>{registration.user.phone || ' '}</td>
-              <td>
+            <tr key={registration.id} className="ohe-card-user-table-row">
+              <td className="ohe-card-user-image-cell"><Image src={registration.user.picture} circle /></td>
+              <td className="ohe-card-user-name-cell">{registration.user.first_name} {registration.user.last_name}</td>
+              <td className="ohe-card-user-status-cell">{registration.is_active ? 'מתכוון להגיע' : 'הגעה בוטלה'}</td>
+              <td className="ohe-card-user-phone-cell">{registration.user.phone || ' '}</td>
+              <td className="ohe-card-user-links-cell">
                 <Button href={registration.user.facebook_link} disabled={!registration.user.facebook_link} bsStyle="link" target="_blank">
                   <i className={'fa fa-2x fa-facebook-square ' + (registration.user.facebook_link ? '' : 'ohe-card-facebook')}></i>
                 </Button>
@@ -74,17 +73,17 @@ class OHECard extends React.Component {
     return (
       <div className="ohe-card-row">
         <Panel>
-          <Col sm={3} >
-            <Icon className="pull-right" iconName="dorbel_icon_calendar" />
-            <span>{ohe.dateLabel}</span><br />
-            <span>{ohe.timeLabel}</span>
+          <Col xs={6}>
+            <Icon className="ohe-card-row-icon pull-right" iconName="dorbel_icon_calendar" />
+            <span className="ohe-card-row-date">{ohe.dateLabel} - {ohe.dayLabel + '\''}</span><br />
+            <span className="ohe-card-row-time">{ohe.timeLabel}</span>
           </Col>
-          <Col sm={2} >
+          <Col xs={6} className="ohe-card-row-reg-num-col">
             <span className={(numberOfActiveRegistrations === 0 ? 'ohe-no-visits' : '')}>נרשמים לביקור ({numberOfActiveRegistrations})</span>
           </Col>
-          <Col sm={1} className="pull-left">
+          <div className="ohe-card-menu">
             {this.renderOheMenu()}
-          </Col>
+          </div>
           {this.renderRegistrations(ohe.registrations)}
         </Panel>
         <EditOHEModal ohe={ohe} show={this.state.showEditModal} onClose={() => this.showEditModal(false)} />
