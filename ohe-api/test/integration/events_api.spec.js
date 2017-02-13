@@ -75,7 +75,7 @@ describe('Open House Events API Integration', function () {
 
       it('should return an error for non existing event', function* () {
         const ohe = {
-          id: 9999999,
+          id: 0,
           start_time: today.add(11, 'hours').toISOString(),
           end_time: today.add(12, 'hours').toISOString(),
           listing_id: faker.getRandomNumber(),
