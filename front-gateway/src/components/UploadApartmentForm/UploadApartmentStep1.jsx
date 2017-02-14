@@ -16,14 +16,14 @@ class UploadApartmentStep1 extends UploadApartmentBaseStep.wrappedComponent {
 
   onChooseFile(acceptedFiles) {
     this.setState({ isReadyForNextStep: false });
-    let uploadPromise = this.props.appProviders.apartmentsProvider.uploadImage(acceptedFiles[0]); // expecting only one file each time    
-    this.uploadImagePromises.push(uploadPromise);
+    let uploadPromises = acceptedFiles.map(file => this.props.appProviders.apartmentsProvider.uploadImage(file));
+    this.uploadImagePromises = this.uploadImagePromises.concat(uploadPromises);
     Promise.all(this.uploadImagePromises).then(() => this.setState({ isReadyForNextStep: true }));
   }
 
   renderImage(image, index) {
     const { apartmentsProvider } = this.props.appProviders;
-    const progressPct = Math.round(image.progress * 100) + '%';  
+    const progressPct = Math.round(image.progress * 100) + '%';
     const progressBarStyle = { width: progressPct };
 
     const progressBar = (
@@ -70,7 +70,7 @@ class UploadApartmentStep1 extends UploadApartmentBaseStep.wrappedComponent {
           <div className="photos-upload">
             <form>
               <Row className="thumbs">
-                <Dropzone className="col-md-4 thumb" multiple={false} onDrop={this.onChooseFile.bind(this)}>
+                <Dropzone className="col-md-4 thumb" multiple={true} onDrop={this.onChooseFile.bind(this)}>
                   <div className="thumb-inner add">
                     <span className="add-photo">הוסף תמונה +</span>
                   </div>
