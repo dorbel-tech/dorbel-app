@@ -30,6 +30,7 @@ function* renderApp() {
   this.state.segment = config.get('SEGMENT_IO_WRITE_KEY'); // segment key is not part of env vars but is used when rendering index.ejs
 
   const entryPoint = shared.createAppEntryPoint();
+  yield entryPoint.appProviders.authProvider.loginWithCookie(this.cookies);
   // set route will also trigger any data-fetching needed for the requested route
   yield setRoute(entryPoint.router, this.path);
   // the stores are now filled with any data that was fetched

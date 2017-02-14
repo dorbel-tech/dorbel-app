@@ -1814,6 +1814,10 @@ cookiejar@2.0.6, cookiejar@^2.0.6:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/cookiejar/-/cookiejar-2.0.6.tgz#0abf356ad00d1c5a219d88d44518046dd026acfe"
 
+cookies.js@madmurphy/cookies.js:
+  version "1.0.0"
+  resolved "https://codeload.github.com/madmurphy/cookies.js/tar.gz/8b9a3c5558de5a7f85113a2180b578ab7bbb9c03"
+
 cookies@~0.6.1:
   version "0.6.2"
   resolved "https://registry.yarnpkg.com/cookies/-/cookies-0.6.2.tgz#6ac1b052895208e8fc4c4f5f86a9ed31b9cb5ccf"
@@ -2185,9 +2189,9 @@ domutils@1.5.1, domutils@^1.5.1:
     dom-serializer "0"
     domelementtype "1"
 
-"dorbel-shared@git://github.com/dorbel-tech/dorbel-shared#v0.4.70":
-  version "0.4.70"
-  resolved "git://github.com/dorbel-tech/dorbel-shared#e64a90ccd55627362b5851f069f6baffc831e554"
+"dorbel-shared@git://github.com/dorbel-tech/dorbel-shared#v0.4.72":
+  version "0.4.72"
+  resolved "git://github.com/dorbel-tech/dorbel-shared#dde3d4928f943ef5ad53f0705b6d13fa15137ca3"
   dependencies:
     analytics-node "^2.1.0"
     auth0 "^2.5.0"
