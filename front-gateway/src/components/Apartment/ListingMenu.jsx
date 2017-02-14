@@ -7,7 +7,7 @@ import _ from 'lodash';
 
 const tabs = [
   { relativeRoute: '', title: 'מודעת הדירה' },
-  { relativeRoute: 'events', title: 'הרשמות למועדי ביקור' }
+  { relativeRoute: 'events', title: 'מועדי ביקור' }
 ];
 
 const listingStatusLabels = {
