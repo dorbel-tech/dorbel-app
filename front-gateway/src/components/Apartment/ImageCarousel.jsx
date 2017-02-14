@@ -21,7 +21,6 @@ const flickityOptions = {
 export default class ImageCarousel extends React.Component {
   render() {
     const { listing } = this.props;
-    flickityOptions.initialIndex = listing.images.length;
     const sortedListingImages = utils.sortListingImages(listing);
 
     return (
@@ -29,9 +28,9 @@ export default class ImageCarousel extends React.Component {
         <div className="container-fluid">
           <div className="row">
             <ListingBadge listing={listing}/>
-            <Flickity className={carouselClass} options={flickityOptions} >
+            <Flickity key={listing.id + '_flickity'} className={carouselClass} options={flickityOptions} >
               {sortedListingImages.map((image, index) =>
-                <div key={index} className="sliderBoxes">
+                <div key={listing.id + '_' + index} className="sliderBoxes">
                   <CloudinaryImage src={image.url} height={500} />
                 </div>
               )}
