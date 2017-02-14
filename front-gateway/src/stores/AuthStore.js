@@ -13,9 +13,9 @@ export default class AuthStore {
   @observable idToken = null;
   @observable profile = null;
 
-  constructor() {
-    this.setToken(localStorageHelper.getItem(ID_TOKEN_KEY));
-    this.setProfile(localStorageHelper.getItem(PROFILE_KEY));
+  constructor(initialState = {}) {
+    this.setToken(localStorageHelper.getItem(ID_TOKEN_KEY) || initialState.idToken);
+    this.setProfile(localStorageHelper.getItem(PROFILE_KEY) || initialState.profile);
     this.newListingStore = new NewListingStore(this);
   }
 
@@ -58,5 +58,12 @@ export default class AuthStore {
     this.setToken(null);
     this.setProfile(null);
     this.newListingStore.reset();
+  }
+
+  toJson() {
+    return {
+      idToken: this.idToken,
+      profile: this.profile
+    };
   }
 }
