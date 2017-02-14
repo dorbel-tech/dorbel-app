@@ -18,8 +18,7 @@ if (process.env.NODE_ENV === 'development') {
   };
   reactLoader = 'react-hot!babel-loader';
   publicPath = `http://localhost:${devServer.port}/build/`;
-}
-else {
+} else {
   plugins = [
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.OccurrenceOrderPlugin(),

@@ -6,7 +6,7 @@
   "scripts": {
     "clean": "rm -rf ./public/build",
     "start": "babel-node src/server/server.js",
-    "build": "yarn run clean; webpack",
+    "build": "yarn run clean; NODE_ENV=production webpack",
     "start:dev": "yarn run check; nodemon --exec babel-node --debug=5859 src/server/server.js | bunyan -o short",
     "build:dev": "NODE_ENV=development webpack-dev-server --content-base public -ds --config webpack.config.js --host 0.0.0.0 --colors --inline --no-info",
     "test": "yarn run test:unit",
