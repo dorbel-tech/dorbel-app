@@ -39,6 +39,7 @@
     "browserstack-automate": "^1.0.1",
     "chromedriver": "^2.25.3",
     "co": "^4.6.0",
+    "cookies.js": "madmurphy/cookies.js",
     "css-loader": "^0.26.1",
     "director": "^1.2.8",
     "dorbel-shared": "git://github.com/dorbel-tech/dorbel-shared#v0.4.70",

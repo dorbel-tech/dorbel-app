@@ -3,6 +3,7 @@ import { observable, computed } from 'mobx';
 import { max } from 'lodash';
 import jwtDecode from 'jwt-decode';
 import localStorageHelper from './localStorageHelper';
+import cookieStorageHelper from './cookieStorageHelper';
 import NewListingStore from './NewListingStore';
 
 const ID_TOKEN_KEY = 'id_token';
@@ -14,7 +15,7 @@ export default class AuthStore {
 
   constructor() {
     this.setToken(localStorageHelper.getItem(ID_TOKEN_KEY));
-    this.setProfile(localStorageHelper.getItem(PROFILE_KEY));    
+    this.setProfile(localStorageHelper.getItem(PROFILE_KEY));
     this.newListingStore = new NewListingStore(this);
   }
 
@@ -25,6 +26,7 @@ export default class AuthStore {
   setToken(idToken) {
     this.idToken = idToken;
     localStorageHelper.setItem(ID_TOKEN_KEY, idToken);
+    cookieStorageHelper.setItem(ID_TOKEN_KEY, idToken);
 
     if (this.logoutTimer) {
       clearTimeout(this.logoutTimer);
@@ -37,6 +39,8 @@ export default class AuthStore {
       // token might already be expired and then the duration is negative
       const logoutTimerDelay = max([0, durationUntilExpiryInMs]);
       this.logoutTimer = setTimeout(() => { this.logout(); }, logoutTimerDelay);
+      // update expiry on cookieStorageHelper
+      cookieStorageHelper.setItem(ID_TOKEN_KEY, idToken, new Date(tokenExpiryTimeInMs));
     }
   }
 
@@ -56,4 +60,3 @@ export default class AuthStore {
     this.newListingStore.reset();
   }
 }
-
