@@ -36,12 +36,11 @@
   }
 }
 
-.sliderBoxes {
-  img {
-    border-right: 2px solid white;
-    height: 500px;
-    @media (max-width: $screen-xs-min) {
-      height: 300px;
-    }
+.sliderBoxes img {
+  border-right: 2px solid white;
+  height: 500px;
+
+  @media (max-width: $screen-xs-min) {
+    height: 300px;
   }
 }

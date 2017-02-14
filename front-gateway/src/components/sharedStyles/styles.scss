@@ -99,6 +99,11 @@ a {
   color: $gray-light;
 }
 
+.modal-header .close {
+  left: 10px;
+  position: absolute;
+}
+
 .modal-title {
   font-weight: 600;
   text-align: center;

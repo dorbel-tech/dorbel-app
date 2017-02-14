@@ -66,7 +66,7 @@ class FollowListingModal extends React.Component {
     return (
       <Modal show={true}>
         <Modal.Header closeButton onHide={this.close}>
-          <Modal.Title>אהבתם את הדירה ב{listing.apartment.building.street_name} אבל לא נוח לכם להגיע ?</Modal.Title>
+          <Modal.Title>אהבתם את הדירה ב{listing.apartment.building.street_name} אבל לא נוח לכם להגיע?</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Row className='text-center'>
