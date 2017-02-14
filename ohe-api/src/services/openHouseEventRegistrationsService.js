@@ -64,20 +64,24 @@ function* unregister(event_id, user, sendNotification = true) {
   utilityFunctions.validateResourceOwnership(existingRegistration.registered_user_id, user);
 
   existingRegistration.is_active = false;
-
   const result = yield repository.updateRegistration(existingRegistration);
+
   logger.info({
     event_id: existingRegistration.open_house_event_id,
     user_id: existingRegistration.registered_user_id
   }, 'Unregister to OHE');
 
+  // We unregister all users when event was canceled and don't want to notify all users about this action that wasn't done by them.
   if (sendNotification) {
     let existingEvent = yield openHouseEventsFinderService.find(existingRegistration.open_house_event_id);
-    notificationService.send(notificationService.eventType.OHE_UNREGISTERED, {
-      listing_id: existingEvent.listing_id,
-      event_id: existingRegistration.id,
-      user_uuid: existingRegistration.registered_user_id
-    });
+    
+    if (existingEvent) {
+      notificationService.send(notificationService.eventType.OHE_UNREGISTERED, {
+        listing_id: existingEvent.listing_id,
+        event_id: existingEvent.id,
+        user_uuid: existingRegistration.registered_user_id
+      });
+    }
   }
 
   return result;
