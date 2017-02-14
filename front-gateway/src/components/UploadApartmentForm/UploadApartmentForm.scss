@@ -168,6 +168,7 @@
 
 .upload-apt-left-container {
   background-color: $gray-lighter;
+  overflow-x: hidden;
   padding: 10px 40px;
 
   >.form-vertical {
@@ -176,24 +177,19 @@
 
   @media (min-width: $screen-md-min) {
     height: 100%;
-    overflow-x: hidden;
     overflow-y: auto;
   }
 
   @media (max-width: $screen-sm-max) {
     margin-bottom: 70px;
-    overflow-x: hidden;
     overflow-y: hidden;
 
+    >.photos-upload,
     >.form-vertical {
       padding-bottom: 70px;
     }
   }
 
-  &_photosUpload {
-    padding: 15px 30px !important;
-  }
-  
   .checkbox-inline {
     margin: 0px;
   }
