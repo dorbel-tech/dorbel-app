@@ -32,9 +32,7 @@
         bottom: -35px;
         color: $brand-success;
         line-height: $line-height-small;
-        -ms-transform: rotate(10deg);
-        -webkit-transform: rotate(10deg);
-        transform: rotate(10deg);
+        @include rotate(10deg);
     }
     .highlight {
         color: #EA441A;
