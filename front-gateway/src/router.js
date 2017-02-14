@@ -49,6 +49,7 @@ function startRouter(appStore) {
     router.configure({
       notfound: callback => notFound(appStore, callback),
       html5history: true,
+      strict: false,
       async: true,
       convert_hash_in_init: false // required for auth0 callback
     });
