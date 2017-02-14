@@ -71,6 +71,7 @@ function* unregister(event_id, user, sendNotification = true) {
     user_id: existingRegistration.registered_user_id
   }, 'Unregister to OHE');
 
+  // We unregister all users when event was canceled and don't want to notify all users about this action that wasn't done by them.
   if (sendNotification) {
     let existingEvent = yield openHouseEventsFinderService.find(existingRegistration.open_house_event_id);
     
