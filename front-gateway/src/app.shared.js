@@ -18,7 +18,7 @@ function createAppEntryPoint(initialState) {
     </Provider>
   );
 
-  return { app, appStore, router };
+  return { app, appStore, router, appProviders };
 }
 
 module.exports = {

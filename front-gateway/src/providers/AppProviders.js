@@ -3,7 +3,6 @@
  * Providers should supply data to the stores, but not store any data themselves
  */
 'use strict';
-import AuthProvider from './AuthProvider';
 import ApiProvider from './ApiProvider';
 import ApartmentsProvider from './ApartmentsProvider';
 import OheProvider from './OheProvider';
@@ -14,21 +13,23 @@ import NotificationProvider from './NotificationProvider';
 import ModalProvider from './ModalProvider';
 import utils from './utils';
 
-const isServer = !global.window;
+function loadAuthProvider(appStore, router) {
+  if (process.env.IS_CLIENT) {
+    if (!window.dorbelConfig.AUTH0_FRONT_CLIENT_ID || !window.dorbelConfig.AUTH0_DOMAIN) {
+      throw new Error('must set auth0 env vars');
+    }
+    const ClientAuthProvider = require('./auth/AuthProvider.client');
+    return  new ClientAuthProvider(window.dorbelConfig.AUTH0_FRONT_CLIENT_ID, window.dorbelConfig.AUTH0_DOMAIN, appStore.authStore, router);
+  } else {
+    const ServerAuthProvider = require('./auth/AuthProvider.server');
+    return  new ServerAuthProvider(appStore.authStore);
+  }
+}
 
 class AppProviders {
   constructor(appStore, router) {
-    if (!isServer) {
-      if (!window.dorbelConfig.AUTH0_FRONT_CLIENT_ID || !window.dorbelConfig.AUTH0_DOMAIN) {
-        throw new Error('must set auth0 env vars');
-      }
-      this.authProvider = new AuthProvider(window.dorbelConfig.AUTH0_FRONT_CLIENT_ID, window.dorbelConfig.AUTH0_DOMAIN, appStore.authStore, router);
-    } else {
-      this.authProvider = {};
-    }
-
+    this.authProvider = loadAuthProvider(appStore, router);
     this.cloudinaryProvider = new CloudinaryProvider();
-
     this.apiProvider = new ApiProvider(appStore);
     this.oheProvider = new OheProvider(appStore, this.apiProvider);
     this.apartmentsProvider = new ApartmentsProvider(appStore,
