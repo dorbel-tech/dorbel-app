@@ -18,7 +18,7 @@ function buildCalendarInvite(additonalData, method) {
     end: additonalData.ohe.end_time,
     summary: 'ביקור בדירה ברח׳ ' + additonalData.listing.apartment.building.street_name,
     location: additonalData.listing.apartment.building.street_name + ' ' + additonalData.listing.apartment.building.house_number + ', ' + additonalData.listing.apartment.building.city.city_name,
-    description: 'הזמן שלכם ושל בעלי הדירה חשוב לנו, לכן במידה ומשהו משתנה ואינכם יכולים להגיע לביקור, אנא בטלו הגעתכם. אבל חבל, מי יודע, אולי זו תהיה האחת בשבילכם.',
+    description: 'הזמן שלכם ושל בעלי הדירה חשוב לנו, לכן במידה ומשהו משתנה ואינכם יכולים להגיע לביקור, אנא בטלו הגעתכם.',
     url: website_url + '/apartments/' + additonalData.listing.id,
     method: method,
     status: method === 'publish' ? 'confirmed' : 'cancelled'
