@@ -26,7 +26,7 @@ function setRoutes(router, appStore, appProviders) {
 
       appStore.setView(routeConfig.view, routeProps);
 
-      if (routeConfig.view.serverPreRender) {
+      if (appProviders.isServer && routeConfig.view.serverPreRender) {
         routeConfig.view.serverPreRender(Object.assign({ router, appStore, appProviders }, routeProps))
           .then(callback)
           .catch(() => {
