@@ -10,7 +10,11 @@
         border-left: 110px solid transparent;
         opacity: 0.7;
         .badgeText {
+            -ms-transform: rotate(45deg);
+            -webkit-transform: rotate(45deg);
             transform: rotate(45deg);
+            -ms-transform-origin: center center;
+            -webkit-transform-origin: center center;
             transform-origin: center center;
             position: absolute;
             font-weight: 700;
