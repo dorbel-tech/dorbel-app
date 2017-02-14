@@ -32,7 +32,7 @@ export default class AppStore {
   };
 
   constructor(initialState = {}) {
-    this.authStore = new AuthStore();
+    this.authStore = new AuthStore(initialState.authStore);
     this.listingStore = new ListingStore(initialState.listingStore);
     this.oheStore = new OheStore(initialState.oheStore);
     this.cityStore = new CityStore(initialState.cityStore);
@@ -50,7 +50,8 @@ export default class AppStore {
       listingStore: this.listingStore.toJson(),
       oheStore: this.oheStore.toJson(),
       cityStore: this.cityStore.toJson(),
-      neighborhoodStore: this.neighborhoodStore.toJson()
+      neighborhoodStore: this.neighborhoodStore.toJson(),
+      authStore: this.authStore.toJson()
     };
   }
 }
