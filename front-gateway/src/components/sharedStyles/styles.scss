@@ -99,8 +99,9 @@ a {
   color: $gray-light;
 }
 
-.modal-header {
-  padding: 15px;
+.modal-header .close {
+  left: 10px;
+  position: absolute;
 }
 
 .modal-title {
