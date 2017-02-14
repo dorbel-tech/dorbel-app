@@ -5,7 +5,7 @@ const oheService = require('../../services/openHouseEventsService');
 
 function* get() {
   const listingId = this.params.id;
-  logger.debug({ listingId, user: this.request.user }, 'Getting open house events for listing...');
+  logger.debug({ listingId }, 'Getting open house events for listing...');
   const result = yield oheService.findByListing(listingId, this.request.user);
   logger.info({ listingId, eventCount: result.length }, 'Open house events for listing found');
   this.response.status = 200;
