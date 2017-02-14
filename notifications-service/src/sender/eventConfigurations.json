@@ -33,7 +33,7 @@
   {
     "eventType": "OHE_UPDATED",
     "notificationType": "ohe_updated",
-    "dataRetrieval": [ "getOheRegisteredUsers", "getUserDetails", "getListingInfo", "getOheInfo" ],
+    "dataRetrieval": [ "getUserDetails", "getListingInfo", "getOheInfo", "sendToOheRegisteredUsers" ],
     "dataEnrichment": [ "addCalendarInvite" ]
   },
   {
