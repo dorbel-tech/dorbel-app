@@ -26,7 +26,6 @@ export default class AuthStore {
   setToken(idToken) {
     this.idToken = idToken;
     localStorageHelper.setItem(ID_TOKEN_KEY, idToken);
-    cookieStorageHelper.setItem(ID_TOKEN_KEY, idToken);
 
     if (this.logoutTimer) {
       clearTimeout(this.logoutTimer);
@@ -41,6 +40,8 @@ export default class AuthStore {
       this.logoutTimer = setTimeout(() => { this.logout(); }, logoutTimerDelay);
       // update expiry on cookieStorageHelper
       cookieStorageHelper.setItem(ID_TOKEN_KEY, idToken, new Date(tokenExpiryTimeInMs));
+    } else {
+      cookieStorageHelper.removeItem(ID_TOKEN_KEY);
     }
   }
 
