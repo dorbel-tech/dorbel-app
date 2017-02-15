@@ -19,13 +19,17 @@ class Header extends Component {
 
   redirect(e) {
     const href = e.target.href;
-    if (location) {
+    if (e.ctrlKey && window) {
+      window.open(href);
+    } else if (location) {
       location.href = href;
     }
   }
 
-  routeTo(link) {
-    if (this.props.router.setRoute) {
+  routeTo(e, link) {
+    if (e.ctrlKey && window) {
+      window.open(link);
+    } else if (this.props.router.setRoute) {
       this.props.router.setRoute(link);
     }
   }
@@ -61,9 +65,9 @@ class Header extends Component {
             <NavItem className="header-navbar-owner-services-navitem"
               onClick={this.redirect}
               href={externalURL + '/pages/services'}>שירותים-לבעלי-דירות</NavItem>
-            <NavItem onClick={() => this.routeTo('/apartments')}
+            <NavItem onClick={(e) => this.routeTo(e, '/apartments')}
               href="/apartments">מצאו דירה</NavItem>
-            <NavItem className="btn-publish" onClick={() => this.routeTo('/apartments/new_form')}
+            <NavItem className="btn-publish" onClick={(e) => this.routeTo(e, '/apartments/new_form')}
               href="/apartments/new_form">פרסמו דירה</NavItem>
           </Nav>
           {isLoggedIn ?
