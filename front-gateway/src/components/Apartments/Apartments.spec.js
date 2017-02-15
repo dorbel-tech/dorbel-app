@@ -19,6 +19,7 @@ describe('Apartments', function () {
     };
 
     this.appStoreMock = {
+      authStore: {},
       listingStore: {
         apartments: [this.mockApartment]
       },
