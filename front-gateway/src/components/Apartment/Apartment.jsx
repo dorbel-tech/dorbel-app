@@ -39,19 +39,17 @@ class Apartment extends Component {
 
   loadFullListingDetails() {
     let listingId = this.props.apartmentId;
-    if (!this.props.appStore.listingStore.get(listingId)) {
-      this.setState({ isLoading: true });
-      this.props.appProviders.apartmentsProvider.loadFullListingDetails(listingId)
-        .then(() => this.setState({ isLoading: false }));
-    }
+    this.setState({ isLoading: true });
+    this.props.appProviders.apartmentsProvider.loadFullListingDetails(listingId)
+      .then(() => this.setState({ isLoading: false }));
   }
 
   renderInfoBox(title, svgName) {
     // TODO : use Icon component
     return (
       <li className="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-          <svg><use xlinkHref={'#' + svgName} /></svg>
-          <div>{title}</div>
+        <svg><use xlinkHref={'#' + svgName} /></svg>
+        <div>{title}</div>
       </li>
     );
   }
@@ -91,7 +89,7 @@ class Apartment extends Component {
               </div>
               <div className="col-md-10">
                 <p>ארנונה: {listing.property_tax}</p>
-                <p>ועד הבית: {listing.board_fee}</p>  
+                <p>ועד הבית: {listing.board_fee}</p>
               </div>
             </div>
           </div>
@@ -126,7 +124,7 @@ class Apartment extends Component {
     if (this.state.isLoading) {
       return (
         <div className="loaderContainer">
-          <LoadingSpinner/>
+          <LoadingSpinner />
         </div>
       );
     }
