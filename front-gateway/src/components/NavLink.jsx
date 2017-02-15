@@ -7,17 +7,17 @@ class NavLink extends Component {
   render() {
     const to = this.props.to;
     return (
-      <a href={to} onClick={(event) => this.routeTo(event, to)} className={this.props.className}>
+      <a href={to} onClick={(e) => this.routeTo(e, to)} className={this.props.className}>
         {this.props.children}
       </a>
     );
   }
 
-  routeTo(event, link) {
-    if (this.props.router.setRoute) {
+  routeTo(e, link) {
+    if (!(e.metaKey || e.ctrlKey) && this.props.router.setRoute) {
       this.props.router.setRoute(link);
       window.scrollTo(0, 0); // scroll to top, otherwise after click to other route, user stuck on same position.
-      event.preventDefault(); // cancel the event so we don't get a reload.
+      e.preventDefault(); // cancel the event so we don't get a reload.
       return false;
     }
   }

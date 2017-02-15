@@ -78,19 +78,6 @@
   }
 }
 
-.form-section-headline {
-  opacity: 0.5;
-  position: absolute;
-  right: -56.5%;
-  text-align: center;
-  top: 50%;
-  -webkit-transform: rotate(90deg) translateX(-50%);
-  -ms-transform: rotate(90deg) translateX(-50%);
-  transform: rotate(90deg);
-  white-space: nowrap;
-  width: 100%;
-}
-
 .upload-apt-right-container {
   @include gradient-directional($start-color: #8D48C5, $end-color: #9078CC, $deg: 45deg);
   color: $brand-white;
@@ -166,23 +153,49 @@
   }
 }
 
+.form-section-headline {
+  opacity: 0.5;
+  text-align: center;
+  white-space: nowrap;
+  width: 100%;
+}
+
 .upload-apt-left-container {
   background-color: $gray-lighter;
   overflow-x: hidden;
   padding: 10px 40px;
 
-  >.form-vertical {
-    padding-right: 8%;
+  >.form-vertical input{
+    font-size: 16px;
   }
 
   @media (min-width: $screen-md-min) {
     height: 100%;
     overflow-y: auto;
+
+    >.form-vertical {
+      padding-right: 8%;
+    }
+
+    .form-section-headline {
+      @include rotate(90deg);
+      position: absolute;
+      right: -56.5%;
+      top: 50%;
+    }
   }
 
   @media (max-width: $screen-sm-max) {
     margin-bottom: 70px;
     overflow-y: hidden;
+
+    .form-section-headline {
+      padding-bottom: 15px;
+    }
+
+    >.form-vertical {
+      padding-top: 10px;
+    }
 
     >.photos-upload,
     >.form-vertical {
