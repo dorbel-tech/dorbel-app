@@ -60,7 +60,7 @@ class Header extends Component {
               בעלי דירות</NavItem>
             <NavItem className="header-navbar-owner-services-navitem"
               onClick={this.redirect}
-              href={externalURL + '/pages/services'}>שירותים-לבעלי-דירות</NavItem>
+              href={externalURL + '/pages/services'}>שירותים לבעלי דירות</NavItem>
             <NavItem onClick={() => this.routeTo('/apartments')}
               href="/apartments">מצאו דירה</NavItem>
             <NavItem className="btn-publish" onClick={() => this.routeTo('/apartments/new_form')}
