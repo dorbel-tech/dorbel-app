@@ -1132,9 +1132,9 @@ doctrine@^1.2.2:
     esutils "^2.0.2"
     isarray "^1.0.0"
 
-"dorbel-shared@git://github.com/dorbel-tech/dorbel-shared#v1.0.7":
-  version "1.0.7"
-  resolved "git://github.com/dorbel-tech/dorbel-shared#7e64980c7a550a068aebbda90fa2b7a32cfdffae"
+"dorbel-shared@git://github.com/dorbel-tech/dorbel-shared#v1.0.8":
+  version "1.0.8"
+  resolved "git://github.com/dorbel-tech/dorbel-shared#368af2cc6637fde99bbb39f5c28c232fc9d8a159"
   dependencies:
     analytics-node "^2.1.0"
     auth0 "^2.5.0"
