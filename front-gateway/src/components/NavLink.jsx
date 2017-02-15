@@ -17,7 +17,7 @@ class NavLink extends Component {
     if (!(e.metaKey || e.ctrlKey) && this.props.router.setRoute) {
       this.props.router.setRoute(link);
       window.scrollTo(0, 0); // scroll to top, otherwise after click to other route, user stuck on same position.
-      event.preventDefault(); // cancel the event so we don't get a reload.
+      e.preventDefault(); // cancel the event so we don't get a reload.
       return false;
     }
   }
