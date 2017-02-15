@@ -19,7 +19,7 @@ class Header extends Component {
 
   redirect(e) {
     const href = e.target.href;
-    if (e.ctrlKey && window) {
+    if ((e.metaKey || e.ctrlKey) && window) {
       window.open(href);
     } else if (location) {
       location.href = href;
@@ -27,7 +27,7 @@ class Header extends Component {
   }
 
   routeTo(e, link) {
-    if (e.ctrlKey && window) {
+    if ((e.metaKey || e.ctrlKey) && window) {
       window.open(link);
     } else if (this.props.router.setRoute) {
       this.props.router.setRoute(link);
