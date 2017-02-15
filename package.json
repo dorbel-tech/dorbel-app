@@ -9,7 +9,8 @@
     "test": "scripts/run_all_tests.sh",
     "deploy": "scripts/deploy.sh",
     "deploy:test": "scripts/deploy_all.sh",
-    "upgrade:shared": "scripts/upgrade_shared.sh"
+    "upgrade:shared": "scripts/upgrade_shared.sh",
+    "clean:versions": "scripts/clean_versions.sh"
   },
   "repository": {
     "type": "git",
