@@ -113,6 +113,15 @@ function* getByFilter(filterJSON, user) {
 
   if (user && userManagement.isUserAdmin(user)) {
     delete listingQuery.status; // admin can see all the statuses
+
+    let filteredStatuses = [];
+    filter.pending === false && filteredStatuses.push('pending');
+    filter.listed === false && filteredStatuses.push('listed');
+    filter.rented === false && filteredStatuses.push('rented');
+    filter.unlisted === false && filteredStatuses.push('unlisted');
+
+    // Check if admin filtered statuses manually.
+    filteredStatuses.length && (listingQuery.status = {$notIn: filteredStatuses});
   }
 
   if (filter.city === '*') {

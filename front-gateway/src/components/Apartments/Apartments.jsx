@@ -10,6 +10,12 @@ import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 import './Apartments.scss';
 
 const DEFAULT_FILTER_PARAMS = {
+  // Admin filter default values.
+  listed: true,
+  pending: true,
+  rented: true,
+  unlisted: true,
+
   city: 1, // City selector default value.
   roommate: true, // Roommate search checkbox default value.
   empty: true, // Empty apartment for roommates checkbox default value.
@@ -95,11 +101,15 @@ class Apartments extends Component {
     this.reloadApartments();
   }
 
-  amenitiesChangeHandler(e) {
+  adminFilterChangeHandler(e) {
+    this.checkboxChangeHandler(e, false);
+  }
+
+  checkboxChangeHandler(e, falseOption) {
     this.filterChanged = true;
     this.setState({ [e.target.name]: e.target.checked });
 
-    this.filterObj[e.target.name] = e.target.checked ? true : undefined;
+    this.filterObj[e.target.name] = e.target.checked ? true : falseOption;
     this.reloadApartments();
   }
 
@@ -138,6 +148,41 @@ class Apartments extends Component {
     this.setState({ hideFilter: !this.state.hideFilter });
   }
 
+  renderAdminFilter() {
+    const { authStore } = this.props.appStore;
+    const profile = authStore.profile;
+    const userIsAdmin = profile && profile.role === 'admin';
+
+    if (userIsAdmin) {
+      return <div className="apartments-filter-switches-container">
+        <Checkbox name="pending"
+          checked={this.state.pending}
+          className="apartments-filter-admin-switch"
+          onChange={this.adminFilterChangeHandler}>
+          ממתינה לאישור
+        </Checkbox>
+        <Checkbox name="listed"
+          checked={this.state.listed}
+          className="apartments-filter-admin-switch"
+          onChange={this.adminFilterChangeHandler}>
+          מפורסמת
+        </Checkbox>
+        <Checkbox name="rented"
+          checked={this.state.rented}
+          className="apartments-filter-admin-switch"
+          onChange={this.adminFilterChangeHandler}>
+          הושכרה
+        </Checkbox>
+        <Checkbox name="unlisted"
+          checked={this.state.unlisted}
+          className="apartments-filter-admin-switch"
+          onChange={this.adminFilterChangeHandler}>
+          לא פעילה
+        </Checkbox>
+      </div>;
+    }
+  }
+
   renderFilter() {
     const { cityStore } = this.props.appStore;
     const cities = cityStore.cities.length ? cityStore.cities : [];
@@ -167,6 +212,7 @@ class Apartments extends Component {
             {cities.map(city => <MenuItem key={city.id} eventKey={city.id}>{city.city_name}</MenuItem>)}
           </DropdownButton>
         </div>
+        {this.renderAdminFilter()}
         <div className="apartments-filter-switches-container">
           <Checkbox name="roommate"
             checked={this.state.roommate}
@@ -252,26 +298,26 @@ class Apartments extends Component {
           <Row className="apartments-filter-amenities-container">
             <h5><b>צמצמו את החיפוש</b></h5>
             <Col xs={4}>
-              <Checkbox name="park" checked={this.state.park} onChange={this.amenitiesChangeHandler}>
+              <Checkbox name="park" checked={this.state.park} onChange={this.checkboxChangeHandler}>
                 חניה
                 </Checkbox>
-              <Checkbox name="balc" checked={this.state.balc} onChange={this.amenitiesChangeHandler}>
+              <Checkbox name="balc" checked={this.state.balc} onChange={this.checkboxChangeHandler}>
                 מרפסת
                 </Checkbox>
             </Col>
             <Col xs={4}>
-              <Checkbox name="ac" checked={this.state.ac} onChange={this.amenitiesChangeHandler}>
+              <Checkbox name="ac" checked={this.state.ac} onChange={this.checkboxChangeHandler}>
                 מזגן
                 </Checkbox>
-              <Checkbox name="ele" checked={this.state.ele} onChange={this.amenitiesChangeHandler}>
+              <Checkbox name="ele" checked={this.state.ele} onChange={this.checkboxChangeHandler}>
                 מעלית
                 </Checkbox>
             </Col>
             <Col xs={4}>
-              <Checkbox name="pet" checked={this.state.pet} onChange={this.amenitiesChangeHandler}>
+              <Checkbox name="pet" checked={this.state.pet} onChange={this.checkboxChangeHandler}>
                 מותר בע״ח
                 </Checkbox>
-              <Checkbox name="sb" checked={this.state.sb} onChange={this.amenitiesChangeHandler}>
+              <Checkbox name="sb" checked={this.state.sb} onChange={this.checkboxChangeHandler}>
                 סורגים
                 </Checkbox>
             </Col>
