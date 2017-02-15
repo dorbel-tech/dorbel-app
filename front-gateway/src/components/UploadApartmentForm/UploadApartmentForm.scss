@@ -165,6 +165,10 @@
   overflow-x: hidden;
   padding: 10px 40px;
 
+  >.form-vertical input{
+    font-size: 16px;
+  }
+
   @media (min-width: $screen-md-min) {
     height: 100%;
     overflow-y: auto;
