@@ -1,3 +1,4 @@
+@import "../sharedStyles/bsvars.scss";
 @import "../sharedStyles/variables.scss";
 
 .badgeContainer {
@@ -10,8 +11,8 @@
         border-left: 110px solid transparent;
         opacity: 0.7;
         .badgeText {
-            transform: rotate(45deg);
-            transform-origin: center center;
+            @include rotate(45deg);
+            @include transform-origin(center center);
             position: absolute;
             font-weight: 700;
             text-align: center;
