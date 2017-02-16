@@ -11,6 +11,7 @@ import { renderApp } from '~/app.server';
 import { getBuildOutputs } from './buildOutputs';
 
 const logger = shared.logger.getLogger(module);
+const STATIC_FILE_MAX_AGE_MS = 31536000 * 1000; // http://stackoverflow.com/questions/7071763/max-value-for-cache-control-header-in-http
 
 function* runServer() {
   const app = koa();
@@ -20,7 +21,7 @@ function* runServer() {
   app.use(shared.middleware.requestLogger());
   app.use(compress());
   getBuildOutputs(app);
-  app.use(serve(config.dir.public));
+  app.use(serve(config.dir.public, { maxage: STATIC_FILE_MAX_AGE_MS }));
   app.use(shared.utils.userManagement.parseAuthToken);
   yield apiProxy.loadProxy(app);
 
