@@ -12,12 +12,11 @@ export default class ListingStore {
   }
 
   get(idOrSlug){
-    const id = parseInt(idOrSlug);
-    if(isNaN(id)){
-      return this.listingsBySlug.get(decodeURIComponent(idOrSlug));
+    if(isNaN(idOrSlug)){
+      return this.listingsBySlug.get(unescape(decodeURIComponent(idOrSlug)));
     }
     else{
-      return this.listingsById.get(id);
+      return this.listingsById.get(idOrSlug);
     }
   }
 
