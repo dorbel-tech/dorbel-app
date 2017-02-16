@@ -112,6 +112,7 @@ function* getByFilter(filterJSON, user) {
   };
 
   if (user && userManagement.isUserAdmin(user)) {
+    // Special check for default admin statuses filter.
     filter.listed = filter.hasOwnProperty('listed') ? filter.listed : true;
 
     const filteredStatuses = listingRepository.listingStatuses.filter(
