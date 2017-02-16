@@ -155,6 +155,7 @@ class Apartments extends Component {
 
     if (userIsAdmin) {
       return <div className="apartments-filter-switches-container">
+        <h5><b>הצג דירות בסטטוס</b></h5>
         <Checkbox name="pending"
           checked={this.state.pending}
           className="apartments-filter-admin-switch"
