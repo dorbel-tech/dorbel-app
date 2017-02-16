@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class CloudinaryImage extends Component {
 
   getSrcUrl() {
-    let optionsStr = 'c_fit,q_auto,e_improve';
+    let optionsStr = 'c_fit,f_auto,q_auto,e_improve';
     if (this.props.height) {
       optionsStr += ',h_' + this.props.height;
     }
