@@ -4,13 +4,14 @@ const logger = shared.logger.getLogger(module);
 const listingService = require('../../services/listingService');
 
 function* get() {
-  const listingId = parseInt(this.params.listingIdOrSlug);
+  const listingIdOrSlug = this.params.listingIdOrSlug;
+  const isSlug = isNaN(listingIdOrSlug);
 
-  if (isNaN(listingId)) {
-    this.response.body = yield listingService.getBySlug(this.params.listingIdOrSlug, this.request.user);
+  if (isSlug) {
+    this.response.body = yield listingService.getBySlug(listingIdOrSlug, this.request.user);
   }
   else {
-    this.response.body = yield listingService.getById(listingId, this.request.user);
+    this.response.body = yield listingService.getById(listingIdOrSlug, this.request.user);
   }
 }
 
