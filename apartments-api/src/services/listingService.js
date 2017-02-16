@@ -112,7 +112,19 @@ function* getByFilter(filterJSON, user) {
   };
 
   if (user && userManagement.isUserAdmin(user)) {
-    delete listingQuery.status; // admin can see all the statuses
+    // Special check for default admin statuses filter.
+    filter.listed = filter.hasOwnProperty('listed') ? filter.listed : true;
+
+    const filteredStatuses = listingRepository.listingStatuses.filter(
+      status => !filter[status]
+    );
+
+    // Check if admin filtered statuses manually.
+    if (filteredStatuses.length === 0) {
+      delete listingQuery.status;
+    } else {
+      listingQuery.status = { $notIn: filteredStatuses };
+    }
   }
 
   if (filter.city === '*') {
@@ -167,7 +179,7 @@ function* getById(id, user) {
   let listing = yield listingRepository.getById(id);
 
   if (!listing) {
-    throw new CustomError(404, 'Cant get listing by Id. Listing does not exists. litingId: ' + id);      
+    throw new CustomError(404, 'Cant get listing by Id. Listing does not exists. litingId: ' + id);
   }
 
   const isPending = listing.status === 'pending';
