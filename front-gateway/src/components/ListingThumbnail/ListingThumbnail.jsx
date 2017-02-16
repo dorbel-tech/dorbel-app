@@ -8,7 +8,7 @@ import utils from '../../providers/utils';
 
 class ListingThumbnail extends Component {
   getListingPath(listing) {
-    return listing.slug ? escape(listing.slug) : listing.id;
+    return listing.slug ? escape(encodeURIComponent(unescape(listing.slug))) : listing.id;
   }
 
   render() {
