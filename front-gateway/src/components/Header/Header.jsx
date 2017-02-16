@@ -51,7 +51,7 @@ class Header extends Component {
             <a href={externalURL}
               className="header-navbar-logo-anchor">
               <img src="https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/logo/dorbel_logo_white.svg"
-                alt="Dorbel" />
+                alt="Dorbel" className="header-logo-image"/>
             </a>
           </Navbar.Brand>
           <Navbar.Toggle />
