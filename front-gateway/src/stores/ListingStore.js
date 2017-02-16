@@ -13,7 +13,7 @@ export default class ListingStore {
 
   get(idOrSlug){
     if(isNaN(idOrSlug)){
-      return this.listingsBySlug.get(decodeURIComponent(idOrSlug));
+      return this.listingsBySlug.get(unescape(idOrSlug));
     }
     else{
       return this.listingsById.get(idOrSlug);
