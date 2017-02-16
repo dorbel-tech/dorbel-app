@@ -80,6 +80,14 @@
   padding: 48px 22px 26px;
 }
 
+.apartments-filter-admin-switch {
+  display: inline-block;
+
+  &:nth-child(even) {
+    width: 158px;
+  }
+}
+
 .apartments-filter-switches-show-rommates-switch {
   margin-bottom: 3px;
 }
