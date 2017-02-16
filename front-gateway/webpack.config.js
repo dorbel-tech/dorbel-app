@@ -1,7 +1,9 @@
 'use strict';
 const webpack = require('webpack');
 const path = require('path');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const ManifestPlugin = require('webpack-manifest-plugin');
+const WebpackMd5Hash = require('webpack-md5-hash');
 const config = require('./src/config');
 const dir = config.dir;
 
@@ -9,6 +11,8 @@ let plugins = [];
 let devServer = undefined;
 let reactLoader = 'babel-loader';
 let publicPath = '';
+let jsBundleFileName = 'bundle.[chunkhash]';
+let cssBundleFileName = 'bundle.[contenthash]';
 
 if (process.env.NODE_ENV === 'development') {
   devServer = {
@@ -18,11 +22,14 @@ if (process.env.NODE_ENV === 'development') {
   };
   reactLoader = 'react-hot!babel-loader';
   publicPath = `http://localhost:${devServer.port}/build/`;
+  jsBundleFileName = cssBundleFileName = 'bundle'; // remove hashes in dev
 } else {
   plugins = [
+    new WebpackMd5Hash(),
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.optimize.UglifyJsPlugin()
+    new webpack.optimize.UglifyJsPlugin(),
+    new ManifestPlugin(),
   ];
 }
 
@@ -33,7 +40,7 @@ let Config = {
   ],
   output: {
     path: path.join(dir.public, 'build'),
-    filename: 'bundle.js',
+    filename: jsBundleFileName + '.js',
     publicPath
   },
   resolve: {
@@ -57,7 +64,7 @@ let Config = {
       // the rest of the times the client will look for the env vars in window.dorbelConfig (defined in app.server.js)
       'process.env' : 'window.dorbelConfig'
     }),
-    new ExtractTextPlugin('bundle.css')
+    new ExtractTextPlugin(cssBundleFileName + '.css')
   ].concat(plugins),
   devServer
 };

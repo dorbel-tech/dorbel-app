@@ -8,8 +8,10 @@ import config from '~/config';
 import shared from 'dorbel-shared';
 import apiProxy from '~/server/apiProxy';
 import { renderApp } from '~/app.server';
+import { getBuildOutputs } from './buildOutputs';
 
 const logger = shared.logger.getLogger(module);
+const STATIC_FILE_MAX_AGE_MS = 31536000 * 1000; // http://stackoverflow.com/questions/7071763/max-value-for-cache-control-header-in-http
 
 function* runServer() {
   const app = koa();
@@ -18,24 +20,8 @@ function* runServer() {
   app.use(shared.middleware.errorHandler());
   app.use(shared.middleware.requestLogger());
   app.use(compress());
-
-  // Used for development only
-  if (config.get('HOT_RELOAD_SERVER_PORT')) {
-    const buildHost = 'http://localhost:' + config.get('HOT_RELOAD_SERVER_PORT');
-
-    app.use(function* (next) {
-      this.state = this.state || {};
-      this.state.buildHost = buildHost;
-      yield next;
-    });
-
-    app.use(require('koa-proxy')({
-      host: buildHost,
-      match: /^\/build\//,
-    }));
-  }
-
-  app.use(serve(config.dir.public));
+  getBuildOutputs(app);
+  app.use(serve(config.dir.public, { maxage: STATIC_FILE_MAX_AGE_MS }));
   app.use(shared.utils.userManagement.parseAuthToken);
   yield apiProxy.loadProxy(app);
 
