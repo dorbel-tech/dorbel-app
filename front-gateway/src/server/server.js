@@ -8,6 +8,7 @@ import config from '~/config';
 import shared from 'dorbel-shared';
 import apiProxy from '~/server/apiProxy';
 import { renderApp } from '~/app.server';
+import { getBuildOutputs } from './buildOutputs';
 
 const logger = shared.logger.getLogger(module);
 
@@ -18,23 +19,7 @@ function* runServer() {
   app.use(shared.middleware.errorHandler());
   app.use(shared.middleware.requestLogger());
   app.use(compress());
-
-  // Used for development only
-  if (config.get('HOT_RELOAD_SERVER_PORT')) {
-    const buildHost = 'http://localhost:' + config.get('HOT_RELOAD_SERVER_PORT');
-
-    app.use(function* (next) {
-      this.state = this.state || {};
-      this.state.buildHost = buildHost;
-      yield next;
-    });
-
-    app.use(require('koa-proxy')({
-      host: buildHost,
-      match: /^\/build\//,
-    }));
-  }
-
+  getBuildOutputs(app);
   app.use(serve(config.dir.public));
   app.use(shared.utils.userManagement.parseAuthToken);
   yield apiProxy.loadProxy(app);
