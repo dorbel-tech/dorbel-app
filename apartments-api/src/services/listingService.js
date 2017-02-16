@@ -112,16 +112,18 @@ function* getByFilter(filterJSON, user) {
   };
 
   if (user && userManagement.isUserAdmin(user)) {
-    delete listingQuery.status; // admin can see all the statuses
+    filter.listed = filter.hasOwnProperty('listed') ? filter.listed : true;
 
-    let filteredStatuses = [];
-    filter.pending === false && filteredStatuses.push('pending');
-    filter.listed === false && filteredStatuses.push('listed');
-    filter.rented === false && filteredStatuses.push('rented');
-    filter.unlisted === false && filteredStatuses.push('unlisted');
+    const filteredStatuses = listingRepository.listingStatuses.filter(
+      status => !filter[status]
+    );
 
     // Check if admin filtered statuses manually.
-    filteredStatuses.length && (listingQuery.status = {$notIn: filteredStatuses});
+    if (filteredStatuses.length === 0) {
+      delete listingQuery.status;
+    } else {
+      listingQuery.status = { $notIn: filteredStatuses };
+    }
   }
 
   if (filter.city === '*') {
@@ -176,7 +178,7 @@ function* getById(id, user) {
   let listing = yield listingRepository.getById(id);
 
   if (!listing) {
-    throw new CustomError(404, 'Cant get listing by Id. Listing does not exists. litingId: ' + id);      
+    throw new CustomError(404, 'Cant get listing by Id. Listing does not exists. litingId: ' + id);
   }
 
   const isPending = listing.status === 'pending';

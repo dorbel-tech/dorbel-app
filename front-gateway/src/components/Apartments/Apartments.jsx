@@ -12,9 +12,9 @@ import './Apartments.scss';
 const DEFAULT_FILTER_PARAMS = {
   // Admin filter default values.
   listed: true,
-  pending: true,
-  rented: true,
-  unlisted: true,
+  pending: false,
+  rented: false,
+  unlisted: false,
 
   city: 1, // City selector default value.
   roommate: true, // Roommate search checkbox default value.
