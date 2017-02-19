@@ -1,4 +1,5 @@
 @import '../sharedStyles/bsvars.scss';
+@import '../sharedStyles/variables.scss';
 
 .loaderContainer {
   align-items: center;
@@ -20,4 +21,8 @@
   height: 55px;
   width: 55px;
   margin: 0 auto;
+
+  div {
+    background-color: $brand-primary;
+  }
 }
