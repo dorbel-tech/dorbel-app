@@ -20,16 +20,22 @@ if (process.env.NODE_ENV === 'development') {
     port: config.get('HOT_RELOAD_SERVER_PORT'),
     inline: true
   };
-  reactLoader = 'react-hot!babel-loader';
+  reactLoader = 'react-hot-loader!babel-loader';
   publicPath = `http://localhost:${devServer.port}/build/`;
   jsBundleFileName = cssBundleFileName = 'bundle'; // remove hashes in dev
 } else {
   plugins = [
     new WebpackMd5Hash(),
-    new webpack.optimize.DedupePlugin(),
-    new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.optimize.UglifyJsPlugin(),
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: true
+      },
+      sourceMap: true
+    }),
     new ManifestPlugin(),
+    new webpack.LoaderOptionsPlugin({
+      minimize: true
+    })
   ];
 }
 
@@ -44,16 +50,16 @@ let Config = {
     publicPath
   },
   resolve: {
-    root: dir.src,
-    extensions: ['', '.js', '.jsx', '.json'],
+    modules: [path.resolve(__dirname, "src"), "node_modules"],
+    extensions: ['.js', '.jsx', '.json'],
   },
   module: {
-    loaders: [
-      { test: /\.woff2?$|\.ttf$|\.eot$|\.svg$/, loader: 'file' },
-      { test: /\.jsx?$/, loader: reactLoader, exclude: /node_modules/, },
-      { test: /\.(css|scss)$/, loader: ExtractTextPlugin.extract('style', 'css?sourceMap!sass') },
-      { test: /\.png$/, loader: 'url-loader?limit=100000' },
-      { test: /\.jpg$/, loader: 'file-loader' }
+    rules: [
+      { test: /\.woff2?$|\.ttf$|\.eot$|\.svg$/, use: 'file-loader' },
+      { test: /\.jsx?$/, use: reactLoader, exclude: /node_modules/, },
+      { test: /\.(css|scss)$/, use: ExtractTextPlugin.extract('style-loader', 'css-loader?sourceMap!sass') },
+      { test: /\.png$/, use: 'url-loader?limit=100000' },
+      { test: /\.jpg$/, use: 'file-loader' }
     ],
   },
   plugins: [
