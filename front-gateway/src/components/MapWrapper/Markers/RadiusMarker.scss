@@ -10,18 +10,14 @@ $SIZE: 80px;
 }
 
 .radiusMarker {
-    width: $SIZE;
-    height: $SIZE;
-    background-color: black;
-    border-radius: 50%;
-    opacity: 0.4;
-    left: -($SIZE/2);
-    top: -($SIZE/2);
-    position: absolute;
-
-    &.map-image-marker {
-
-    }
+  width: $SIZE;
+  height: $SIZE;
+  background-color: black;
+  border-radius: 50%;
+  opacity: 0.4;
+  left: -($SIZE/2);
+  top: -($SIZE/2);
+  position: absolute;
 }
 
     
