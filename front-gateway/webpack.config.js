@@ -57,7 +57,10 @@ let Config = {
     rules: [
       { test: /\.woff2?$|\.ttf$|\.eot$|\.svg$/, use: 'file-loader' },
       { test: /\.jsx?$/, use: reactLoader, exclude: /node_modules/, },
-      { test: /\.(css|scss)$/, use: ExtractTextPlugin.extract('style-loader', 'css-loader?sourceMap!sass') },
+      { test: /\.(css|scss)$/, use: ExtractTextPlugin.extract({
+        fallback: 'style-loader',
+        use: 'css-loader?sourceMap!sass'
+      })},
       { test: /\.png$/, use: 'url-loader?limit=100000' },
       { test: /\.jpg$/, use: 'file-loader' }
     ],
