@@ -17,6 +17,12 @@ function* renderApp() {
     this.redirect('https://www.dorbel.com');
   }
 
+  // Old apartment submit form to new one redirect.
+  if (this.path === '/apartments/new') {
+    this.status = 301;
+    this.redirect('https://app.dorbel.com/apartments/new_form');
+  }
+
   const envVars = {
     NODE_ENV: config.get('NODE_ENV'),
     AUTH0_FRONT_CLIENT_ID: config.get('AUTH0_FRONT_CLIENT_ID'),

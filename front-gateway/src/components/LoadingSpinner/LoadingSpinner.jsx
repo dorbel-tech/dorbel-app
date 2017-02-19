@@ -6,7 +6,7 @@ import './LoadingSpinner.scss';
 class LoadingSpinner extends Component {
   render() {
     return (
-      <Spinner spinnerName="circle" noFadeIn />
+      <Spinner spinnerName="three-bounce" noFadeIn />
     );
   }
 }
