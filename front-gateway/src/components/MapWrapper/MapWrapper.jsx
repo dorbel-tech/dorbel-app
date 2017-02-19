@@ -29,9 +29,10 @@ class MapWrapper extends Component {
   renderMap() {
     if (this.isTouchDevice()) {
       const positionStr = `${this.coords.lat},${this.coords.lng}`;
+      const iconURL = 'https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/radiusMarker/map-radius.png';
       return (
         <div className="map-image-container">
-          <img src={`https://maps.googleapis.com/maps/api/staticmap?center=${positionStr}&size=640x400&markers=color:purple|${positionStr}&language=he&zoom=15&key=${process.env.GOOGLE_MAPS_API_KEY}`} />
+          <img src={`https://maps.googleapis.com/maps/api/staticmap?center=${positionStr}&size=640x400&markers=anchor:center|icon:${iconURL}|${positionStr}&language=he&zoom=15&key=${process.env.GOOGLE_MAPS_API_KEY}`} />
         </div>
       );
     }
