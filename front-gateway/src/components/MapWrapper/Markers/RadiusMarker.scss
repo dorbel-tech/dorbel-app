@@ -1,5 +1,14 @@
 $SIZE: 80px;
 
+.map-image-container{
+  .radiusMarker {
+    left: auto;
+    top: auto;
+    align-self: center;
+    z-index: 1;
+  }
+}
+
 .radiusMarker {
     width: $SIZE;
     height: $SIZE;
@@ -9,4 +18,10 @@ $SIZE: 80px;
     left: -($SIZE/2);
     top: -($SIZE/2);
     position: absolute;
+
+    &.map-image-marker {
+
+    }
 }
+
+    

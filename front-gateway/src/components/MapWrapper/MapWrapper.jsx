@@ -31,7 +31,8 @@ class MapWrapper extends Component {
       const positionStr = `${this.coords.lat},${this.coords.lng}`;
       return (
         <div className="map-image-container">
-          <img src={`https://maps.googleapis.com/maps/api/staticmap?center=${positionStr}&size=640x400&markers=color:purple|${positionStr}&language=he&zoom=15&key=${process.env.GOOGLE_MAPS_API_KEY}`} />
+          <RadiusMarker/>
+          <img src={`https://maps.googleapis.com/maps/api/staticmap?center=${positionStr}&size=640x400&language=he&zoom=15&key=${process.env.GOOGLE_MAPS_API_KEY}`} />
         </div>
       );
     }
