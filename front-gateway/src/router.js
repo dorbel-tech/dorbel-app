@@ -1,14 +1,14 @@
 'use strict';
 import director from 'director';
-import { routingTable, login, errorPage } from './routes';
+import { routingTable, errorPage } from './routes';
 
-function checkAuth(appStore) {
-  var callback = arguments[arguments.length - 1];
+function checkAuth(appStore, appProviders) {
   if (appStore.authStore.isLoggedIn) {
+    const callback = arguments[arguments.length - 1];
     return callback();
+  } else {
+    appProviders.authProvider.showLoginModal();
   }
-  appStore.setView(login);
-  callback(false);
 }
 
 function setRoutes(router, appStore, appProviders) {
@@ -38,7 +38,7 @@ function setRoutes(router, appStore, appProviders) {
       }
     };
 
-    router.on(routeConfig.route, routeConfig.requireLogin ? [ checkAuth.bind(null, appStore), handleRoute ] : handleRoute);
+    router.on(routeConfig.route, routeConfig.requireLogin ? [ checkAuth.bind(null, appStore, appProviders), handleRoute ] : handleRoute);
   });
 }
 
