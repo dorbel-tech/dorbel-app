@@ -1,13 +1,13 @@
 'use strict';
 import director from 'director';
-import { routingTable, login, errorPage } from './routes';
+import { routingTable, errorPage } from './routes';
 
 function checkAuth(appStore, appProviders) {
   if (appStore.authStore.isLoggedIn) {
     const callback = arguments[arguments.length - 1];
     return callback();
   } else {
-    appProviders.authProvider.showLoginModal()
+    appProviders.authProvider.showLoginModal();
   }
 }
 
