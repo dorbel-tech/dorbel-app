@@ -20,7 +20,7 @@ if (process.env.NODE_ENV === 'development') {
     port: config.get('HOT_RELOAD_SERVER_PORT'),
     inline: true
   };
-  reactLoader = 'react-hot-loader!babel-loader';
+  reactLoader = ['react-hot-loader', 'babel-loader'];
   publicPath = `http://localhost:${devServer.port}/build/`;
   jsBundleFileName = cssBundleFileName = 'bundle'; // remove hashes in dev
 } else {
@@ -59,7 +59,7 @@ let Config = {
       { test: /\.jsx?$/, use: reactLoader, exclude: /node_modules/, },
       { test: /\.(css|scss)$/, use: ExtractTextPlugin.extract({
         fallback: 'style-loader',
-        use: 'css-loader?sourceMap!sass'
+        use: ['css-loader?sourceMap', 'sass-loader']
       })},
       { test: /\.png$/, use: 'url-loader?limit=100000' },
       { test: /\.jpg$/, use: 'file-loader' }
