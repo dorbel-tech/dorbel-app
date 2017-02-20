@@ -24,7 +24,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
     const formsy = this.refs.form.refs.formsy;
     if (formsy.state.isValid) {
       this.props.appStore.newListingStore.updateFormValues(this.refs.form.refs.formsy.getCurrentValues());
-      super.clickNext();
+      return super.clickNext();
     } else {
       this.props.onValidationError(formsy);
     }
