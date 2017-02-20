@@ -3,24 +3,28 @@ import { Button } from 'react-bootstrap';
 import _ from 'lodash';
 
 class SubmitButton extends Component {
-  
+
   constructor(props) {
     super(props);
-    this.isWorking = false;
+    this.state = { isWorking: false };
   }
 
   handleClick(e) {
     e.preventDefault();
-    if (!this.isWorking) {
-      this.isWorking = true;
+    
+    if (!this.state.isWorking) {
+      this.setState({ isWorking: true });
       let retVal = this.props.onClick();
       if (retVal && retVal.then) {
-        retVal.then(() => this.isWorking = false);
-        retVal.catch(() => this.isWorking = false);
+        retVal.then(() => this.setState({ isWorking: false }));
+        retVal.catch(() => this.setState({ isWorking: false }));
       }
       else {
-        this.isWorking = false;
+        this.setState({ isWorking: false });
       }
+    }
+    else {
+      this.setState({ isWorking: false });
     }
   }
 
@@ -29,7 +33,7 @@ class SubmitButton extends Component {
     const cleanProps = _.pickBy(this.props, (value, key) => !SubmitButton.propTypes[key]);
 
     return (
-      <Button {...cleanProps} onClick={this.handleClick.bind(this)} />
+      <Button {...cleanProps} disabled={this.state.isWorking} onClick={this.handleClick.bind(this)} />
     );
   }
 }
