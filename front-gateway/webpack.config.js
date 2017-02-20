@@ -14,6 +14,9 @@ let publicPath = '';
 let jsBundleFileName = 'bundle.[chunkhash]';
 let cssBundleFileName = 'bundle.[contenthash]';
 
+console.log('************* ********* ****************');
+process.env.NODE_ENV = 'development';
+
 if (process.env.NODE_ENV === 'development') {
   devServer = {
     host: 'localhost',
@@ -50,7 +53,7 @@ let Config = {
     publicPath
   },
   resolve: {
-    modules: [path.resolve(__dirname, "src"), "node_modules"],
+    modules: [dir.src],
     extensions: ['.js', '.jsx', '.json'],
   },
   module: {
