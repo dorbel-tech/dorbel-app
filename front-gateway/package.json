@@ -114,6 +114,9 @@
     "scriptPreprocessor": "<rootDir>/node_modules/webpack-babel-jest",
     "moduleNameMapper": {
       "\\.(css|scss)$": "<rootDir>/test/style-mock.js"
-    }
+    },
+    "collectCoverage": true,
+    "collectCoverageFrom": ["**/*.{js,jsx}", "!**/node_modules/**", "!**/vendor/**"],
+    "coverageDirectory": "<rootDir>/test/coverage"
   }
 }
