@@ -31,7 +31,7 @@ class OHEList extends Component {
     }
 
     return (
-      <a key={params.key} href="" className={className} onClick={onClickFunction}>
+      <a key={params.key} className={className} onClick={onClickFunction}>
         <Row>
           <div className="dorbel-icon-calendar pull-right">
             <Icon iconName={params.iconName} />
