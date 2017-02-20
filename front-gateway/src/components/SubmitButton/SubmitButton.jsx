@@ -3,7 +3,6 @@ import { Button } from 'react-bootstrap';
 import _ from 'lodash';
 
 class SubmitButton extends Component {
-
   constructor(props) {
     super(props);
     this.state = { isWorking: false };
