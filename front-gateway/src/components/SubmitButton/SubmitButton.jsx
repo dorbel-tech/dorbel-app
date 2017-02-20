@@ -10,21 +10,23 @@ class SubmitButton extends Component {
 
   handleClick(e) {
     e.preventDefault();
-    
     if (!this.state.isWorking) {
-      this.setState({ isWorking: true });
+      this.setIsWorking(true);
+      
       let retVal = this.props.onClick();
       if (retVal && retVal.then) {
-        retVal.then(() => this.setState({ isWorking: false }));
-        retVal.catch(() => this.setState({ isWorking: false }));
+        retVal.then(this.setIsWorking(false));
+        retVal.catch(this.setIsWorking(false));
+      } else {
+        this.setIsWorking(false);
       }
-      else {
-        this.setState({ isWorking: false });
-      }
+    } else {
+      this.setIsWorking(false);
     }
-    else {
-      this.setState({ isWorking: false });
-    }
+  }
+
+  setIsWorking(isWorking) {
+    this.setState({ isWorking });
   }
 
   render() {
