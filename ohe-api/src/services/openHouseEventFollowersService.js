@@ -3,6 +3,7 @@ const errors = require('./domainErrors');
 const notificationService = require('./notificationService');
 const repository = require('../openHouseEventsDb/repositories/openHouseEventFollowersRepository');
 const shared = require('dorbel-shared');
+const config = shared.config;
 const logger = shared.logger.getLogger(module);
 const userManagement = shared.utils.userManagement;
 const utilityFunctions = require('./common/utility-functions');
@@ -42,6 +43,7 @@ function* follow(listingId, user) {
   });
 
   notificationService.send(notificationService.eventType.OHE_FOLLOWED, {
+    _listing_url: config.get('FRONT_GATEWAY_URL') + '/apartments/' + listingId,    
     listing_id: listingId,
     user_uuid: user.id
   });
@@ -68,6 +70,7 @@ function* unfollow(followId, user) {
   }, 'Listing was unfollowed');
 
   notificationService.send(notificationService.eventType.OHE_UNFOLLOWED, {
+    _listing_url: config.get('FRONT_GATEWAY_URL') + '/apartments/' + existingFollower.listing_id,    
     listing_id: existingFollower.listing_id,
     user_uuid: existingFollower.following_user_id
   });
