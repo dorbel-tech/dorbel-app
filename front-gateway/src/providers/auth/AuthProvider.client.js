@@ -6,11 +6,18 @@ class AuthProvider {
   constructor(clientId, domain, authStore, router) {
     this.lock = auth0.initLock(clientId, domain);
     this.lock.on('authenticated', this.afterAuthentication.bind(this));
+    this.lock.on('hide', this.hideHandler.bind(this));
     this.authStore = authStore;
     this.router = router;
     this.showLoginModal = this.showLoginModal.bind(this);
     this.logout = this.logout.bind(this);
     this.reportIdentifyAnalytics(this.authStore.profile);
+  }
+
+  hideHandler() {
+    if (this.backOnHide) {
+      history.back();
+    }
   }
 
   afterAuthentication(authResult) {
@@ -48,7 +55,8 @@ class AuthProvider {
     });
   }
 
-  showLoginModal() {
+  showLoginModal(backOnHide) {
+    this.backOnHide = backOnHide === true;
     this.lock.show({
       auth: {
         params: {
