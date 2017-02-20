@@ -179,12 +179,16 @@
 }
 
 .date-and-time {
+  cursor: pointer;
+
   @media (max-width: $screen-lg-min) {
     padding: 12px 10px 0 15px;
   }
+
   @media (max-width: $screen-xs-max) {
     padding: 12px 0 0 15px;
   }
+
   span:last-child {
     color: lighten($gray-light, 10%);
     font-size: $font-size-small;
