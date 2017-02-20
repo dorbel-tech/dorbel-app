@@ -116,7 +116,7 @@
       "\\.(css|scss)$": "<rootDir>/test/style-mock.js"
     },
     "collectCoverage": true,
-    "collectCoverageFrom": ["**/*.{js,jsx}", "!**/node_modules/**", "!**/vendor/**"],
+    "collectCoverageFrom": ["src/**/*.{js,jsx}"],
     "coverageDirectory": "<rootDir>/test/coverage"
   }
 }
