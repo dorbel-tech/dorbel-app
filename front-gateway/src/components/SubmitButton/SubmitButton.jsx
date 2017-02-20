@@ -3,22 +3,23 @@ import { Button } from 'react-bootstrap';
 import _ from 'lodash';
 
 class SubmitButton extends Component {
-
+  
   constructor(props) {
     super(props);
-    this.state = { isWorking: false };
+    this.isWorking = false;
   }
 
-  handleClick() {
-    if (!this.state.isWorking) {
-      this.setState({ isWorking: true });
+  handleClick(e) {
+    e.preventDefault();
+    if (!this.isWorking) {
+      this.isWorking = true;
       let retVal = this.props.onClick();
       if (retVal && retVal.then) {
-        retVal.then(() => this.setState({ isWorking: false }));
-        retVal.catch(() => this.setState({ isWorking: false }));
+        retVal.then(() => this.isWorking = false);
+        retVal.catch(() => this.isWorking = false);
       }
       else {
-        this.setState({ isWorking: false });
+        this.isWorking = false;
       }
     }
   }
