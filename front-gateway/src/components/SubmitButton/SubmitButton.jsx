@@ -12,11 +12,10 @@ class SubmitButton extends Component {
     e.preventDefault();
     if (!this.state.isWorking) {
       this.setIsWorking(true);
-      
       let retVal = this.props.onClick();
       if (retVal && retVal.then) {
-        retVal.then(this.setIsWorking(false));
-        retVal.catch(this.setIsWorking(false));
+        retVal.then(() => this.setIsWorking(false));
+        retVal.catch(() => this.setIsWorking(false));
       } else {
         this.setIsWorking(false);
       }
