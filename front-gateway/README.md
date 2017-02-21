@@ -14,6 +14,10 @@ You'll need to run two terminals
 1. ``yarn run build``
 2. ``yarn start``
 
+## Running the unit tests
+1. ``yarn test:unit:codecov``
+2. You can now check out the [coverage report](https://codecov.io/gh/dorbel-tech/dorbel-app)
+
 ## Running the e2e tests
 You'll need to run two terminals
 1. One for the the complete environment (project root) - ``yarn start``

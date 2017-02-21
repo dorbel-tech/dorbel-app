@@ -5,9 +5,13 @@ import React from 'react';
 import Apartments from './Apartments';
 import ListingThumbnail from '../ListingThumbnail/ListingThumbnail';
 
-describe('Apartments', function () {
-  beforeAll(function () {
-    this.mockApartment = {
+describe('Apartments', () => {
+  let appProvidersMock;
+  let appStoreMock;
+  let mockApartment;
+
+  beforeAll(() => {
+    mockApartment = {
       id: 1,
       apartment: {
         id: 1,
@@ -18,10 +22,10 @@ describe('Apartments', function () {
       }
     };
 
-    this.appStoreMock = {
+    appStoreMock = {
       authStore: {},
       listingStore: {
-        apartments: [this.mockApartment]
+        apartments: [mockApartment]
       },
       cityStore: {
         cities: []
@@ -30,16 +34,16 @@ describe('Apartments', function () {
         title: 'should change'
       }
     };
-    this.appProvidersMock = {};
+    appProvidersMock = {};
   });
 
-  it('should render apartment from store', function () {
-    const wrapper = shallow(<Apartments.wrappedComponent appStore={this.appStoreMock} appProviders={this.appProvidersMock} />);
+  it('should render apartment from store', () => {
+    const wrapper = shallow(<Apartments.wrappedComponent appStore={appStoreMock} appProviders={appProvidersMock} />);
 
     const thumbnails = wrapper.find(ListingThumbnail);
-    expect(thumbnails.length).toBe(this.appStoreMock.listingStore.apartments.length);
+    expect(thumbnails.length).toBe(appStoreMock.listingStore.apartments.length);
     const firstThumbnail = thumbnails.at(0);
-    expect(firstThumbnail.prop('listing')).toBe(this.mockApartment);
+    expect(firstThumbnail.prop('listing')).toBe(mockApartment);
   });
 
   it('should set title in metadata', function () {
