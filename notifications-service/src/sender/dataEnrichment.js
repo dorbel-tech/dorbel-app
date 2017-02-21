@@ -3,10 +3,11 @@
  * To enrich the different data needed by each notification type before it is sent 
  */ 
 'use strict'; 
-const config = require('dorbel-shared').config;
+const shared = require('dorbel-shared');
 const ical = require('ical-generator');
 const tzName = 'Asia/Jerusalem';
-const website_url = config.get('FRONT_GATEWAY_URL') || 'https://app.dorbel.com';
+const generic = shared.utils.generic;
+
 
 // Calendar invite ICS file building. 
 // Requires listing: {...}, ohe: {...} and user_profile: {...} objects in additonalData.
@@ -19,7 +20,7 @@ function buildCalendarInvite(additonalData, method) {
     summary: 'ביקור בדירה ברח׳ ' + additonalData.listing.apartment.building.street_name,
     location: additonalData.listing.apartment.building.street_name + ' ' + additonalData.listing.apartment.building.house_number + ', ' + additonalData.listing.apartment.building.city.city_name,
     description: 'הזמן שלכם ושל בעלי הדירה חשוב לנו, לכן במידה ומשהו משתנה ואינכם יכולים להגיע לביקור, אנא בטלו הגעתכם.',
-    url: website_url + '/apartments/' + additonalData.listing.id,
+    url: generic.getListingUrl(additonalData.listing.id),
     method: method,
     status: method === 'publish' ? 'confirmed' : 'cancelled'
   });
