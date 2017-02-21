@@ -10,7 +10,7 @@
     "start:dev": "nodemon --exec babel-node --debug=5859 src/server/server.js | bunyan -o short",
     "build:dev": "NODE_ENV=development webpack-dev-server --content-base public -ds --config webpack.config.js --host 0.0.0.0 --colors --inline --no-info",
     "test": "yarn run test:unit",
-    "test:unit": "jest",
+    "test:unit": "jest && codecov -t d5d2f1f7-150d-4990-a466-029830f6a8f8",
     "test:e2e": "nightwatch",
     "test:e2e:browserstack": "RUN_ON_BSTACK=true nightwatch -c test/browserstack.conf.js",
     "test:e2e:browserstack:local": "BSTACK_LOCAL=true yarn run test:e2e:browserstack",
@@ -39,6 +39,7 @@
     "browserstack-automate": "^1.0.1",
     "chromedriver": "^2.25.3",
     "co": "^4.6.0",
+    "codecov": "^1.0.1",
     "cookies.js": "madmurphy/cookies.js",
     "css-loader": "^0.26.1",
     "director": "^1.2.8",
@@ -111,8 +112,13 @@
     "webpack-dev-server": "^1.16.2"
   },
   "jest": {
-    "moduleFileExtensions": ["js", "jsx"],
-    "moduleDirectories": ["node_modules"],
+    "moduleFileExtensions": [
+      "js",
+      "jsx"
+    ],
+    "moduleDirectories": [
+      "node_modules"
+    ],
     "moduleNameMapper": {
       "\\.(css|scss)$": "<rootDir>/test/style-mock.js"
     },
