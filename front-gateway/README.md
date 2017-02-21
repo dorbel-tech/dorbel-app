@@ -16,7 +16,7 @@ You'll need to run two terminals
 
 ## Running the unit tests
 1. ``yarn test:unit``
-2. You can now check out the [coverage report](test/coverage/lcov-report/index.html)
+2. You can now check out the [coverage report](https://codecov.io/gh/dorbel-tech/dorbel-app)
 
 ## Running the e2e tests
 You'll need to run two terminals
