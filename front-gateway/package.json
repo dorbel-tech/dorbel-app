@@ -11,6 +11,7 @@
     "build:dev": "NODE_ENV=development webpack-dev-server --content-base public -ds --config webpack.config.js --host 0.0.0.0 --colors --inline --no-info",
     "test": "yarn run test:unit",
     "test:unit": "jest",
+    "test:unit:codecov": "jest && codecov -t d5d2f1f7-150d-4990-a466-029830f6a8f8",
     "test:e2e": "nightwatch",
     "test:e2e:browserstack": "RUN_ON_BSTACK=true nightwatch -c test/browserstack.conf.js",
     "test:e2e:browserstack:local": "BSTACK_LOCAL=true yarn run test:e2e:browserstack",
@@ -26,12 +27,12 @@
     "axios": "0.15.2",
     "babel-cli": "^6.22.2",
     "babel-eslint": "^7.0.0",
-    "babel-jest": "^16.0.0",
+    "babel-jest": "^18.0.0",
     "babel-loader": "^6.2.5",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "babel-polyfill": "^6.16.0",
-    "babel-preset-es2015": "^6.16.0",
-    "babel-preset-react": "^6.16.0",
+    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-react": "^6.23.0",
     "babel-preset-stage-1": "^6.16.0",
     "babel-root-import": "^4.1.3",
     "babel-traverse": "6.19.0",
@@ -39,12 +40,13 @@
     "browserstack-automate": "^1.0.1",
     "chromedriver": "^2.25.3",
     "co": "^4.6.0",
+    "codecov": "^1.0.1",
     "cookies.js": "madmurphy/cookies.js",
     "css-loader": "^0.26.1",
     "director": "^1.2.8",
     "dorbel-shared": "git://github.com/dorbel-tech/dorbel-shared#v1.0.15",
     "ejs": "^2.5.2",
-    "enzyme": "^2.5.1",
+    "enzyme": "^2.7.1",
     "es6-promisify": "^5.0.0",
     "eslint": "^3.7.1",
     "eslint-plugin-flowtype": "^2.19.0",
@@ -57,7 +59,7 @@
     "google-map-react": "^0.22.3",
     "ignore-styles": "^5.0.1",
     "isomorphic-fetch": "^2.2.1",
-    "jest": "^16.0.2",
+    "jest": "^18.1.0",
     "jwt-decode": "2.1.0",
     "koa": "^1.2.4",
     "koa-compress": "^1.0.9",
@@ -111,9 +113,20 @@
     "webpack-dev-server": "^1.16.2"
   },
   "jest": {
-    "scriptPreprocessor": "<rootDir>/node_modules/webpack-babel-jest",
+    "moduleFileExtensions": [
+      "js",
+      "jsx"
+    ],
+    "moduleDirectories": [
+      "node_modules"
+    ],
     "moduleNameMapper": {
       "\\.(css|scss)$": "<rootDir>/test/style-mock.js"
-    }
+    },
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx}"
+    ],
+    "coverageDirectory": "<rootDir>/test/coverage"
   }
 }
