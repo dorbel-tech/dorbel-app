@@ -14,22 +14,13 @@ export default class AppStore {
   authStore: AuthStore;
   cityStore: CityStore;
   neighborhoodStore: NeighborhoodStore;
+  metaData = {}; // used for SSR page meta data
 
   // routing params
   @observable currentView: string;
   @observable routeParams: {[id: string]: string};
   @observable showModal = false;
 
-  metaData = {
-    title: 'dorbel - דירות להשכרה ללא תיווך שתשמחו לגור בהן',
-    description: 'השכרת דירות ללא תיווך. כל הפרטים שחשוב לדעת על הדירות בכדי לחסוך ביקורים מיותרים. בחרו מועד והירשמו לביקור בדירות בלחיצת כפתור.',
-    image: {
-      url:'https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/meta/homepage-middle-image.jpg',
-      width: 1093,
-      height: 320
-    },
-    url: process.env.FRONT_GATEWAY_URL
-  };
 
   constructor(initialState = {}) {
     this.authStore = new AuthStore(initialState.authStore);
