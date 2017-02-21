@@ -47,7 +47,7 @@ describe('Apartments', () => {
   });
 
   it('should set title in metadata', function () {
-    shallow(<Apartments.wrappedComponent appStore={this.appStoreMock} appProviders={this.appProvidersMock} />);
-    expect(this.appStoreMock.metaData.title).not.toBe('should change');
+    shallow(<Apartments.wrappedComponent appStore={appStoreMock} appProviders={appProvidersMock} />);
+    expect(appStoreMock.metaData.title).not.toBe('should change');
   });
 });
