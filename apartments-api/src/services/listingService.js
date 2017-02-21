@@ -54,7 +54,7 @@ function* create(listing) {
   // Publish event trigger message to SNS for notifications dispatching.
   if (config.get('NOTIFICATIONS_SNS_TOPIC_ARN')) {
     messageBus.publish(config.get('NOTIFICATIONS_SNS_TOPIC_ARN'), messageBus.eventType.APARTMENT_CREATED, {
-      _listing_url: config.get('FRONT_GATEWAY_URL') + '/apartments/' + createdListing.id,
+      _listing_url: generic.getListingUrl(createdListing.id),
       user_uuid: createdListing.publishing_user_id,
       user_email: listing.user.email,
       user_phone: generic.normalizePhone(listing.user.phone),
@@ -88,7 +88,7 @@ function* updateStatus(listingId, user, status) {
   if (config.get('NOTIFICATIONS_SNS_TOPIC_ARN')) {
     const messageBusEvent = messageBus.eventType['APARTMENT_' + status.toUpperCase()];
     messageBus.publish(config.get('NOTIFICATIONS_SNS_TOPIC_ARN'), messageBusEvent, {
-      _listing_url: config.get('FRONT_GATEWAY_URL') + '/apartments/' + listingId,
+      _listing_url: generic.getListingUrl(listingId),
       listing_id: listingId,
       previous_status: currentStatus,
       user_uuid: listing.publishing_user_id,

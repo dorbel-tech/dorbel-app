@@ -5,7 +5,6 @@ const notificationService = require('./notificationService');
 const openHouseEventsFinderService = require('./openHouseEventsFinderService');
 const repository = require('../openHouseEventsDb/repositories/openHouseEventRegistrationsRepository');
 const shared = require('dorbel-shared');
-const config = shared.config;
 const utilityFunctions = require('./common/utility-functions');
 const userManagement = shared.utils.userManagement;
 const generic = shared.utils.generic;
@@ -45,7 +44,7 @@ function* register(event_id, user) {
   });
 
   notificationService.send(notificationService.eventType.OHE_REGISTERED, {
-    _listing_url: config.get('FRONT_GATEWAY_URL') + '/apartments/' + existingEvent.listing_id,    
+    _listing_url: generic.getListingUrl(existingEvent.listing_id),
     listing_id: existingEvent.listing_id,
     event_id: existingEvent.id,
     user_uuid: user.user_id,
@@ -79,7 +78,7 @@ function* unregister(event_id, user, sendNotification = true) {
     
     if (existingEvent) {
       notificationService.send(notificationService.eventType.OHE_UNREGISTERED, {
-        _listing_url: config.get('FRONT_GATEWAY_URL') + '/apartments/' + existingEvent.listing_id,    
+        _listing_url: generic.getListingUrl(existingEvent.listing_id),
         listing_id: existingEvent.listing_id,
         event_id: existingEvent.id,
         user_uuid: existingRegistration.registered_user_id
