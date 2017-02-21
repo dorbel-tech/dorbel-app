@@ -1,27 +1,35 @@
 'use strict';
 import { stub, spy } from 'sinon';
 require('sinon-as-promised');
+
 import ApartmentsProvider from './ApartmentsProvider';
 
-describe('ApartmentsProvider', function () {
-  beforeAll(function () {
-    this.mockApartments = [123, 456];
-    this.providersMock = {
+describe('ApartmentsProvider', () => {
+  let apartmentsProvider;
+  let appStoreMock;
+  let mockApartments;
+  let providersMock;
+
+  beforeAll(() => {
+    mockApartments = [123, 456];
+
+    providersMock = {
       api: {
-        fetch: stub().resolves(this.mockApartments)
+        fetch: stub().resolves(mockApartments)
       }
     };
-    this.appStoreMock = {
+
+    appStoreMock = {
       listingStore: {
         clearAndSet: spy()
       }
     };
 
-    this.apartmentsProvider = new ApartmentsProvider(this.appStoreMock, this.providersMock);
+    apartmentsProvider = new ApartmentsProvider(appStoreMock, providersMock);
   });
 
-  it('should call API to load apartments and save them to store', function () {
-    return this.apartmentsProvider.loadApartments()
-      .then(() => expect(this.appStoreMock.listingStore.clearAndSet.args[0][0]).toBe(this.mockApartments));
+  it('should call API to load apartments and save them to store', () => {
+    return apartmentsProvider.loadApartments()
+      .then(() => expect(appStoreMock.listingStore.clearAndSet.args[0][0]).toBe(mockApartments));
   });
 });

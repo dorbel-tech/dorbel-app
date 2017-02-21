@@ -1,7 +1,6 @@
 # This file is meant to extend docker-compose.yml for ci environment
 version: '2'
 services:
-
   apartments-api:
     command: bash -c "./scripts/wait-for-it.sh db:3306 --timeout=180 && yarn run start"
     environment:
@@ -12,6 +11,14 @@ services:
     environment:
       NODE_ENV: ${NODE_ENV}
       SUMOLOGIC_COLLECTOR: ${SUMOLOGIC_COLLECTOR}
+      SEMAPHORE: ${SEMAPHORE}
+      CI: ${CI}
+      BRANCH_NAME: ${BRANCH_NAME}
+      SEMAPHORE_BUILD_NUMBER: ${SEMAPHORE_BUILD_NUMBER}
+      SEMAPHORE_CURRENT_THREAD: ${SEMAPHORE_CURRENT_THREAD}
+      SEMAPHORE_REPO_SLUG: ${SEMAPHORE_REPO_SLUG}
+      REVISION: ${REVISION}
+      SEMAPHORE_TRIGGER_SOURCE: ${SEMAPHORE_TRIGGER_SOURCE}
 
   notifications-service:
     environment:
@@ -23,4 +30,3 @@ services:
     environment:
       NODE_ENV: ${NODE_ENV}
       SUMOLOGIC_COLLECTOR: ${SUMOLOGIC_COLLECTOR}
-      
