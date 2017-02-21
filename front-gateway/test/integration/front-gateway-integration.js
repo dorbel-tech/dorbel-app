@@ -45,7 +45,6 @@ describe('Front Gateway API Integration', function () {
       const listingData = yield apiClient.get('/api/apartments/v1/listings/1');
       yield assertUrls('/apartments/1', `/apartments/${listingData.body.slug}`);
     });
-
   });
 
   it('should forward request to apartments API', function * () {

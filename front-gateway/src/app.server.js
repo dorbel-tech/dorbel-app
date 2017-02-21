@@ -16,7 +16,7 @@ function setRequestRenderState(context, appStore) {
   context.state = context.state || {};
   context.state.segment = config.get('SEGMENT_IO_WRITE_KEY'); // segment key is not part of env vars but is used when rendering index.ejs
   context.state.meta = _.defaults(appStore.metaData, {
-    title: 'dorbel - דירות להשכרה ללא תיווך שתשמחו לגור בהן',
+    title: 'dorbel - מערכת לניהול והשכרת דירות ללא תיווך',
     description: 'השכרת דירות ללא תיווך. כל הפרטים שחשוב לדעת על הדירות בכדי לחסוך ביקורים מיותרים. בחרו מועד והירשמו לביקור בדירות בלחיצת כפתור.',
     image: {
       url:'https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/meta/homepage-middle-image.jpg',
