@@ -33,7 +33,7 @@ class SubmitButton extends Component {
     const cleanProps = _.pickBy(this.props, (value, key) => !SubmitButton.propTypes[key]);
 
     return (
-      <Button {...cleanProps} disabled={this.state.isWorking} onClick={this.handleClick.bind(this)} />
+      <Button {...cleanProps} disabled={this.state.isWorking || cleanProps.disabled} onClick={this.handleClick.bind(this)} />
     );
   }
 }
