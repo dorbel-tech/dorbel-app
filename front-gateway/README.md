@@ -14,6 +14,10 @@ You'll need to run two terminals
 1. ``yarn run build``
 2. ``yarn start``
 
+## Running the unit tests
+1. ``yarn test:unit``
+2. You can now check out the [coverage report](test/coverage/lcov-report/index.html)
+
 ## Running the e2e tests
 You'll need to run two terminals
 1. One for the the complete environment (project root) - ``yarn start``
