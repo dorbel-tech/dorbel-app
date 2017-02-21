@@ -41,7 +41,7 @@ function * buildTestSeed() {
 
   yield db.models.listing.upsert({
     id: 1,
-    title: 'אחלה דירה',
+    title: 'דירה לבדיקה',
     description: 'הדירה של הבדיקות האוטומטיות',
     status: 'listed',
     monthly_rent: 5500,
