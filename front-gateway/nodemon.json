@@ -3,7 +3,8 @@
     "NODE_ENV": "development"
   },
   "ignore": [
-    "public/build"
+    "public/build",
+    "test"
   ],
   "ext": "js json ejs"
 }
