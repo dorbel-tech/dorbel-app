@@ -8,7 +8,6 @@ const openHouseEventsFinderService = require('./openHouseEventsFinderService');
 const openHouseEventsRepository = require('../openHouseEventsDb/repositories/openHouseEventsRepository');
 const moment = require('moment'); require('moment-range');
 const userManagement = shared.utils.userManagement;
-const generic = shared.utils.generic;
 
 function validateEventParamters(start, end) {
   if (end.diff(start, 'minutes') < 30) {
@@ -61,7 +60,6 @@ function* create(openHouseEvent, user) {
   logger.info({ user_id: userId, event_id: newEvent.id }, 'OHE created');
 
   notificationService.send(notificationService.eventType.OHE_CREATED, {
-    _listing_url: generic.getListingUrl(listing_id),
     listing_id: listing_id,
     event_id: newEvent.id,
     start_time: openHouseEvent.start_time,
@@ -111,7 +109,6 @@ function* update(id, updateRequest, user) {
 
   if (timeChanged) {
     notificationService.send(notificationService.eventType.OHE_UPDATED, {
-      _listing_url: generic.getListingUrl(existingEvent.listing_id),
       listing_id: existingEvent.listing_id,
       event_id: existingEvent.id,
       old_start_time: old_start_time,
@@ -134,7 +131,6 @@ function* remove(eventId, user) {
   logger.info({ user_id: existingEvent.publishing_user_id, event_id: existingEvent.id }, 'OHE marked as inactive');
 
   notificationService.send(notificationService.eventType.OHE_DELETED, {
-    _listing_url: generic.getListingUrl(existingEvent.listing_id),
     listing_id: existingEvent.listing_id,
     event_id: existingEvent.id,
     start_time: existingEvent.start_time,

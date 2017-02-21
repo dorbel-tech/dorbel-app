@@ -44,7 +44,6 @@ function* register(event_id, user) {
   });
 
   notificationService.send(notificationService.eventType.OHE_REGISTERED, {
-    _listing_url: generic.getListingUrl(existingEvent.listing_id),
     listing_id: existingEvent.listing_id,
     event_id: existingEvent.id,
     user_uuid: user.user_id,
@@ -78,7 +77,6 @@ function* unregister(event_id, user, sendNotification = true) {
     
     if (existingEvent) {
       notificationService.send(notificationService.eventType.OHE_UNREGISTERED, {
-        _listing_url: generic.getListingUrl(existingEvent.listing_id),
         listing_id: existingEvent.listing_id,
         event_id: existingEvent.id,
         user_uuid: existingRegistration.registered_user_id
