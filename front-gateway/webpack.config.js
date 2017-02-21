@@ -14,9 +14,6 @@ let publicPath = '';
 let jsBundleFileName = 'bundle.[chunkhash]';
 let cssBundleFileName = 'bundle.[contenthash]';
 
-console.log('************* ********* ****************');
-process.env.NODE_ENV = 'development';
-
 if (process.env.NODE_ENV === 'development') {
   devServer = {
     host: 'localhost',
@@ -53,7 +50,9 @@ let Config = {
     publicPath
   },
   resolve: {
-    modules: [dir.src],
+    // http://stackoverflow.com/questions/41981735/webpack-2-director-router-is-not-working-after-compilation-process
+    mainFields: ['browserify', 'browser', 'module', 'main'],
+    modules: [dir.src, 'node_modules'],
     extensions: ['.js', '.jsx', '.json'],
   },
   module: {

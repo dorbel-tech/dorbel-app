@@ -36,7 +36,7 @@ services:
       # - ../dorbel-shared:/home/nodejs/app/node_modules/dorbel-shared
     environment:
       NODE_ENV: ${NODE_ENV}
-    command: bash -c "yarn run build:dev& yarn run start:dev"
+    command: bash -c "yarn run build:dev & yarn run start:dev"
 
   notifications-service:
     ports:
