@@ -1,0 +1,5 @@
+codecov:
+  archive:
+    uploads: false
+fixes:
+  "::front-gateway/"
