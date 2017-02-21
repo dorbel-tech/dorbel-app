@@ -8,6 +8,7 @@
 'use strict';
 const co = require('co');
 const db = require('../dbConnectionProvider');
+const logger = require('dorbel-shared').logger.getLogger(module);
 
 function * buildTestSeed() {
   yield db.connect();
@@ -58,6 +59,6 @@ function * buildTestSeed() {
 
 if (require.main === module) {
   co(buildTestSeed)
-  .then(() => console.log('test seed completed'))
-  .catch(err => console.error('test seed failed', err));
+  .then(() => logger.info('test seed completed'))
+  .catch(err => logger.error('test seed failed', err));
 }
