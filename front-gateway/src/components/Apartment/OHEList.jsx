@@ -87,8 +87,9 @@ class OHEList extends Component {
         oheConfig.callToActionText = 'נרשמתם לארוע זה. לחצו לביטול';
         break;
       case 'late':
-        oheConfig.action = ''; // TODO: POPUP
-        oheConfig.callToActionText = 'האירוע קרוב מדי (טקסט זמני)'; //TODO: get appropriate text
+        oheConfig.isDisabled = true;
+        oheConfig.action = '';
+        oheConfig.callToActionText = 'האירוע קרוב מדי';
         break;
     }
 
