@@ -144,7 +144,7 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
                 <FRC.Checkbox name="apartment.balcony" label="מרפסת" rowClassName="checkbox-inline" />
                 <FRC.Checkbox name="apartment.security_bars" label="סורגים" rowClassName="checkbox-inline" />
                 <FRC.Checkbox name="apartment.parquet_floor" label="פרקט" rowClassName="checkbox-inline" />
-                <FRC.Checkbox name="roommates" label='אפשר שותפים' rowClassName="checkbox-inline" />
+                <FRC.Checkbox name="roommates" label='מתאימה לשותפים' rowClassName="checkbox-inline" />
                 <FRC.Checkbox name="roommate_needed" label='דרוש שותף/ה' rowClassName="checkbox-inline" />
               </Row>
             </Row>
