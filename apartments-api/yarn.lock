@@ -1132,9 +1132,9 @@ doctrine@^1.2.2:
     esutils "^2.0.2"
     isarray "^1.0.0"
 
-"dorbel-shared@git://github.com/dorbel-tech/dorbel-shared#v1.0.10":
-  version "1.0.10"
-  resolved "git://github.com/dorbel-tech/dorbel-shared#4ffd7aec60633bcbb8f6ab8cf4afc6048d581622"
+"dorbel-shared@git://github.com/dorbel-tech/dorbel-shared#v1.0.13":
+  version "1.0.13"
+  resolved "git://github.com/dorbel-tech/dorbel-shared#f5359a80f66e2badf448bfd942e76cb0a6b6e94e"
   dependencies:
     analytics-node "^2.1.0"
     auth0 "^2.5.0"
@@ -1157,6 +1157,7 @@ doctrine@^1.2.2:
     sqs-consumer "3.4.0"
     swagger-model-validator "~2.1.2"
     throng "^4.0.0"
+    uuid "^3.0.1"
 
 dot-case@^1.1.0:
   version "1.1.2"
@@ -4808,6 +4809,10 @@ uuid@3.0.0, uuid@^3.0.0:
 uuid@^2.0.1:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-2.0.3.tgz#67e2e863797215530dff318e5bf9dcebfd47b21a"
+
+uuid@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.0.1.tgz#6544bba2dfda8c1cf17e629a3a305e2bb1fee6c1"
 
 v8flags@^2.0.10, v8flags@^2.0.2:
   version "2.0.11"
