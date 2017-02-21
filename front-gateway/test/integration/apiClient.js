@@ -2,7 +2,7 @@
 const coSupertest = require('co-supertest');
 const config = require('../../src/config');
 const net = require('net');
-
+const cheerio = require('cheerio');
 
 function attemptConnection(port, host) {
   return new Promise((resolve, reject) => {
@@ -41,17 +41,24 @@ class ApiClient {
     return new ApiClient(request);
   }
 
-  getHomepage() {
-    return this.request.get('/');
+  extendCheerioOutput($html) {
+    $html.getMetaTag = function (id) {
+      return $html(`meta[property="${id}"]`).attr('content');
+    };
+
+    return $html;
   }
 
-  getApartment(id) {
-    return this.request.get('/apartments/' + id);
+  get(url) {
+    return this.request.get(url);
   }
 
-  getCities() {
-    return this.request.get('/api/apartments/v1/cities');
+  * getHtml (url) {
+    const response = yield this.get(url);
+    const $html = cheerio.load(response.text);
+    return this.extendCheerioOutput($html);
   }
+
 }
 
 module.exports = ApiClient;

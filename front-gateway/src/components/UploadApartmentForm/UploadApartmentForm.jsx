@@ -17,12 +17,13 @@ class UploadApartmentForm extends Component {
   constructor(props) {
     super(props);
     this.state = {};
+    props.appStore.metaData.title = 'dorbel - פרסמו דירה להשכרה תוך 2 דק׳';
   }
 
   nextStep() {
     let { newListingStore } = this.props.appStore;
 
-    if (newListingStore.stepNumber === steps.length - 1) { // last 
+    if (newListingStore.stepNumber === steps.length - 1) { // last
       let listing = this.mapUploadApartmentFormToCreateListing(newListingStore.formValues);
       return this.props.appProviders.apartmentsProvider.uploadApartment(listing)
         .then((uploadApartmentResp) => {
