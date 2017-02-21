@@ -55,6 +55,12 @@ function * buildTestSeed() {
     apartment_id: 1,
     slug: 'best-apt-test'
   });
+
+  yield db.models.image.create({
+    url: 'http://lorempixel.com/1000/500/?' + Math.round(Math.random() * 10000),
+    display_order: 0,
+    listing_id: 1
+  });
 }
 
 if (require.main === module) {
