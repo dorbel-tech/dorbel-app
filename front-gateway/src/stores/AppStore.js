@@ -5,7 +5,7 @@ import CityStore from '~/stores/CityStore';
 import NeighborhoodStore from '~/stores/NeighborhoodStore';
 import AuthStore from '~/stores/AuthStore';
 import NewListingStore from '~/stores/NewListingStore';
-import { observable, action } from 'mobx';
+import { observable, action, autorun } from 'mobx';
 
 // A wrapper for all the stores that the application uses
 export default class AppStore {
@@ -15,21 +15,12 @@ export default class AppStore {
   cityStore: CityStore;
   neighborhoodStore: NeighborhoodStore;
 
+
   // routing params
   @observable currentView: string;
   @observable routeParams: {[id: string]: string};
   @observable showModal = false;
-
-  metaData = {
-    title: 'dorbel - דירות להשכרה ללא תיווך שתשמחו לגור בהן',
-    description: 'השכרת דירות ללא תיווך. כל הפרטים שחשוב לדעת על הדירות בכדי לחסוך ביקורים מיותרים. בחרו מועד והירשמו לביקור בדירות בלחיצת כפתור.',
-    image: {
-      url:'https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/meta/homepage-middle-image.jpg',
-      width: 1093,
-      height: 320
-    },
-    url: process.env.FRONT_GATEWAY_URL
-  };
+  @observable metaData = { title: undefined }; // used for SSR page meta data
 
   constructor(initialState = {}) {
     this.authStore = new AuthStore(initialState.authStore);
@@ -38,6 +29,14 @@ export default class AppStore {
     this.cityStore = new CityStore(initialState.cityStore);
     this.neighborhoodStore = new NeighborhoodStore(initialState.neighborhoodStore);
     this.newListingStore = new NewListingStore(this.authStore);
+    this.metaData = initialState.metaData || {};
+
+    autorun(() => {
+      // this is for changing the document title on the client side
+      if (process.env.IS_CLIENT && this.metaData.title) {
+        document.title = this.metaData.title;
+      }
+    });
   }
 
   @action setView(route, params) {
@@ -51,7 +50,8 @@ export default class AppStore {
       oheStore: this.oheStore.toJson(),
       cityStore: this.cityStore.toJson(),
       neighborhoodStore: this.neighborhoodStore.toJson(),
-      authStore: this.authStore.toJson()
+      authStore: this.authStore.toJson(),
+      metaData: this.metaData
     };
   }
 }

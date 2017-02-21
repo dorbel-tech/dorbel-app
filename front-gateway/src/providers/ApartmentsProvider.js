@@ -41,7 +41,7 @@ class ApartmentsProvider {
 
     return {
       description: listing.description,
-      title: listing.title,
+      title: 'dorbel - ' + listing.title,
       image: {
         url: imageURL,
         width: 1200,
