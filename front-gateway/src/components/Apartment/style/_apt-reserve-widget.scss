@@ -163,6 +163,12 @@
         &:first-child {
             @include border-top-radius(0px);
         }
+
+        &:not(.disabled){
+            .date-and-time {
+                cursor: pointer;
+            }
+        }        
     }
     .dorbel-icon-calendar {
         font-size: $font-size-large;
@@ -179,8 +185,6 @@
 }
 
 .date-and-time {
-  cursor: pointer;
-
   @media (max-width: $screen-lg-min) {
     padding: 12px 10px 0 15px;
   }
