@@ -22,7 +22,9 @@ if (process.env.NODE_ENV === 'development') {
   };
   reactLoader = ['react-hot-loader', 'babel-loader'];
   publicPath = `http://localhost:${devServer.port}/build/`;
-  jsBundleFileName = cssBundleFileName = 'bundle'; // remove hashes in dev
+
+  // remove hashes in dev
+  jsBundleFileName = cssBundleFileName = 'bundle';
 } else {
   plugins = [
     new WebpackMd5Hash(),
