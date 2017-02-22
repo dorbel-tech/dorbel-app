@@ -60,5 +60,13 @@ describe('Front Gateway API Integration', function () {
     }));
   });
 
+  it('should redirect /apartments/wierd\'Slug to /apartments/weirdSlug', function * () {
+    const response = yield apiClient.get('/apartments/weird\'Slug');
+    __.assertThat(response, __.hasProperties({
+      statusCode: 301,
+      headers: __.hasProperty('location', 'https://app.dorbel.com/apartments/weirdSlug')
+    }));
+  });
+  
 });
 

@@ -53,7 +53,11 @@ function define(sequelize, DataTypes) {
     },
     slug: {
       type: DataTypes.STRING,
-      defaultValue: null
+      defaultValue: null,
+      set: function (val) {
+        const dataValue = val ? val.replace(/'/g, '') : null;
+        this.setDataValue('slug', dataValue);
+      }
     }
   }, {
     classMethods: {
