@@ -8,7 +8,7 @@
     "start": "babel-node src/server/server.js",
     "build": "yarn run clean; NODE_ENV=production webpack",
     "start:dev": "nodemon --exec babel-node --debug=5859 src/server/server.js | bunyan -o short",
-    "build:dev": "NODE_ENV=development webpack-dev-server --content-base public -ds --config webpack.config.js --host 0.0.0.0 --colors --inline --no-info",
+    "build:dev": "NODE_ENV=development webpack-dev-server --content-base public -d --config webpack.config.js --host 0.0.0.0 --colors --inline --no-info",
     "test": "yarn run test:unit",
     "test:unit": "jest",
     "test:unit:codecov": "jest && codecov -t d5d2f1f7-150d-4990-a466-029830f6a8f8",
@@ -28,9 +28,9 @@
     "babel-cli": "^6.22.2",
     "babel-eslint": "^7.0.0",
     "babel-jest": "18.0.0",
-    "babel-loader": "^6.2.5",
+    "babel-loader": "6.3.2",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
-    "babel-polyfill": "^6.16.0",
+    "babel-polyfill": "6.23.0",
     "babel-preset-es2015": "6.22.0",
     "babel-preset-react": "6.23.0",
     "babel-preset-stage-1": "^6.16.0",
@@ -52,7 +52,7 @@
     "eslint-plugin-flowtype": "^2.19.0",
     "eslint-plugin-jsx-a11y": "^2.2.3",
     "eslint-plugin-react": "^6.3.0",
-    "extract-text-webpack-plugin": "1.0.1",
+    "extract-text-webpack-plugin": "beta",
     "file-loader": "0.9.0",
     "formsy-react": "^0.19.2",
     "formsy-react-components": "^0.10.1",
@@ -90,7 +90,7 @@
     "sinon-as-promised": "^4.0.2",
     "style-loader": "^0.13.1",
     "url-loader": "0.5.7",
-    "webpack": "^1.13.2",
+    "webpack": "2.2.1",
     "webpack-babel-jest": "^1.0.4",
     "webpack-manifest-plugin": "^1.1.0",
     "webpack-md5-hash": "^0.0.5",
@@ -110,7 +110,7 @@
     "nodemon": "~1.11.0",
     "react-hot-loader": "^1.3.0",
     "supertest": "^2.0.1",
-    "webpack-dev-server": "^1.16.2"
+    "webpack-dev-server": "2.3.0"
   },
   "jest": {
     "moduleFileExtensions": [
