@@ -29,6 +29,9 @@ describe('Apartments', () => {
       },
       cityStore: {
         cities: []
+      },
+      metaData: {
+        title: 'should change'
       }
     };
     appProvidersMock = {};
@@ -41,5 +44,10 @@ describe('Apartments', () => {
     expect(thumbnails.length).toBe(appStoreMock.listingStore.apartments.length);
     const firstThumbnail = thumbnails.at(0);
     expect(firstThumbnail.prop('listing')).toBe(mockApartment);
+  });
+
+  it('should set title in metadata', () => {
+    shallow(<Apartments.wrappedComponent appStore={appStoreMock} appProviders={appProvidersMock} />);
+    expect(appStoreMock.metaData.title).not.toBe('should change');
   });
 });

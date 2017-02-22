@@ -36,7 +36,7 @@ const DEFAULT_FILTER_PARAMS = {
 @observer(['appStore', 'appProviders'])
 class Apartments extends Component {
   static hideFooter = true;
-  
+
   constructor(props) {
     super(props);
     autobind(this);
@@ -56,6 +56,8 @@ class Apartments extends Component {
     if (this.filterObj.room) {
       this.setState({ empty: false });
     }
+
+    this.props.appStore.metaData.title = 'dorbel - דירות שתשמחו לגור בהן. ללא תיווך';
   }
 
   componentDidMount() {
