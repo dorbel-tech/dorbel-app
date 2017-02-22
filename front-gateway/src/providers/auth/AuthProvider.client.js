@@ -63,7 +63,8 @@ class AuthProvider {
           // this state is used in recoverStateAfterLogin
           state: JSON.stringify({
             pathname: window.location.pathname
-          })
+          }),
+          scope: 'openid'
         }
       }
     });
