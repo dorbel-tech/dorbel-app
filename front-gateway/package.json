@@ -52,6 +52,7 @@
     "eslint-plugin-flowtype": "^2.19.0",
     "eslint-plugin-jsx-a11y": "^2.2.3",
     "eslint-plugin-react": "^6.3.0",
+    // TODO: Check for stable release: https://webpack.js.org/guides/migrating/#extracttextwebpackplugin-breaking-change
     "extract-text-webpack-plugin": "beta",
     "file-loader": "0.9.0",
     "formsy-react": "^0.19.2",
