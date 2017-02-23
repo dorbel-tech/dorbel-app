@@ -9,7 +9,7 @@ const options = {
   mapTypeControl: false,
   scrollwheel: false,
   disableDefaultUI: true,
-  zoomControl: true,
+  // zoomControl: true,
 };
 
 class MapWrapper extends Component {
