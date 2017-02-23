@@ -9,6 +9,7 @@
 const co = require('co');
 const db = require('../dbConnectionProvider');
 const logger = require('dorbel-shared').logger.getLogger(module);
+const TEST_USER_ID = '23821212-6191-4fda-b3e3-fdb8bf69a95d';
 
 function * buildTestSeed() {
   yield db.connect();
@@ -50,7 +51,7 @@ function * buildTestSeed() {
     board_fee: 120,
     lease_start: new Date(),
     lease_end: new Date(),
-    publishing_user_id: '10000000-0000-0000-0000-000000000000',
+    publishing_user_id: TEST_USER_ID,
     publishing_user_type: 'landlord',
     apartment_id: 1,
     slug: 'best-apt-test'
