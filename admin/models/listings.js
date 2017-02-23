@@ -58,6 +58,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       defaultValue: null,
       set: function (val) {
+        // URL encode slug, remove apostrophe and lowercase to keep the slug url friendly and consistent
         this.setDataValue('slug', normalizeSlug(val, true));
       }
     },
