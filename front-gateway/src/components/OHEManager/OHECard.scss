@@ -4,7 +4,7 @@
   padding-bottom: 10px;
   position: relative;
 
-  .ohe-card-user-image-cell>img {
+  .ohe-card-user-image-cell > img {
     width: 50px;
   }
 
@@ -16,13 +16,16 @@
     .panel-body {
       padding: 15px 0;
     }
+
     .ohe-card-row-icon {
       width: 15px;
     }
+
     .ohe-card-row-date,
     .ohe-card-row-time {
       padding-right: 10px;
     }
+
     .ohe-card-row-reg-num-col {
       color: #979797;
       padding-right: 0;
@@ -38,7 +41,7 @@
         display: inline-block;
       }
 
-      .ohe-card-user-image-cell>img {
+      .ohe-card-user-image-cell > img {
         width: 40px;
       }
 

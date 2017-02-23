@@ -16,7 +16,7 @@
 .apt-thumb-container-single {
   background-color: $gray-lighter;
   margin-bottom: 40px;
-  padding: 0px;
+  padding: 0;
   text-align: right;
   width: 100%;
 
@@ -33,7 +33,7 @@
 
     .apt-thumb-apt-image {
       object-fit: cover;
-      filter: drop-shadow(0px 31px 17px rgba(0, 0, 0, 0.05)) !important;
+      filter: drop-shadow(0 31px 17px rgba(0, 0, 0, 0.05)) !important;
     }
   }
 
@@ -60,6 +60,7 @@
 
 .apt-thumb-apt-image img {
   @include border-top-radius(3px);
+
   height: 190px;
   object-fit: cover;
   overflow: hidden;
@@ -68,6 +69,7 @@
 
 .apt-thumb-apt-bottom-strip {
   @include border-bottom-radius(3px);
+
   background: $brand-white;
   position: relative;
 
@@ -83,7 +85,7 @@
   ul {
     line-height: 10px;
     list-style: none;
-    margin: 0px;
+    margin: 0;
     padding: 20px;
     text-decoration: none;
 

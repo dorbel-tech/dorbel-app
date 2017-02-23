@@ -1,12 +1,12 @@
 $SIZE: 80px;
 
 .radiusMarker {
-    width: $SIZE;
-    height: $SIZE;
-    background-color: black;
-    border-radius: 50%;
-    opacity: 0.4;
-    left: -($SIZE/2);
-    top: -($SIZE/2);
-    position: absolute;
+  background-color: black;
+  border-radius: 50%;
+  height: $SIZE;
+  left: -($SIZE / 2);
+  opacity: 0.4;
+  position: absolute;
+  top: -($SIZE / 2);
+  width: $SIZE;
 }

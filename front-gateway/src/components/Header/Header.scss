@@ -2,7 +2,7 @@
 @import "../sharedStyles/bsvars.scss";
 
 .header-navbar {
-  background: linear-gradient(90deg, #5F2982 0%, $brand-primary 100%) !important;
+  background: linear-gradient(90deg, #5f2982 0%, $brand-primary 100%) !important;
   box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.3);
 
   .navbar-brand {
@@ -30,11 +30,12 @@
     line-height: 34px;
   }
 }
+
 @media (min-width: $screen-sm-min) {
   .header-navbar-links .btn-publish {
     background-color: #00b3e5;
     border-radius: 4px;
-    margin: 10px 0px;
+    margin: 10px 0;
     height: 40px;
 
     > a {
@@ -46,16 +47,17 @@
 @media (max-width: $screen-xs-max) {
   .btn-publish > a {
     color: $brand-white !important;
-    background-color: #00b3e5;    
+    background-color: #00b3e5;
   }
+
   .navbar-collapse {
     background-color: $brand-white;
-  }  
+  }
+
   .navbar-inverse .navbar-nav > li > a {
     color: $gray-dark;
     font-size: 16px;
   }
-
 }
 
 .header-navbar-links > a:hover {
@@ -69,7 +71,7 @@
 }
 
 .header-navbar-profile {
-  background-color: rgba(238,238,238,0.2);
+  background-color: rgba(238, 238, 238, 0.2);
   padding: 0 15px;
 
   @media (max-width: $screen-xs-max) {

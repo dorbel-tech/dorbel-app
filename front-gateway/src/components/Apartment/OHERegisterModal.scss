@@ -1,21 +1,22 @@
 @import "../sharedStyles/bsvars.scss";
-    
+
 .ohe-register-modal {
   .close {
     padding-right: 10px;
   }
 
-  .ohe-register-submit{
+  .ohe-register-submit {
     margin-top: 24px;
-  } 
+  }
 
   @media (max-width: $screen-md-min) {
     .ohe-modal-input {
       padding-bottom: 5px;
     }
+
     .ohe-register-submit {
       margin-top: 0;
-    } 
+    }
   }
 
   @media (max-width: $screen-xs-max) {
@@ -32,4 +33,3 @@
 .ohe-unregister-modal-button-col {
   padding: 10px 10px 5px;
 }
-  

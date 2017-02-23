@@ -1,12 +1,13 @@
 @import "../sharedStyles/variables.scss";
 
 .apt-thumb-container {
-    padding-top: 40px;
-    padding-bottom: 40px;
-    background-color: $gray-lighter;
-    h5 {
-        font-weight: 600;
-        letter-spacing: 0.7px;
-        padding: 5px;
-    }
+  background-color: $gray-lighter;
+  padding-top: 40px;
+  padding-bottom: 40px;
+
+  h5 {
+    font-weight: 600;
+    letter-spacing: 0.7px;
+    padding: 5px;
+  }
 }
