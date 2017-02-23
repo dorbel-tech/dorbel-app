@@ -1,4 +1,5 @@
 $dir: rtl;
+
 @import './variables.scss';
 @import "~bootstrap-sass-directional/assets/stylesheets/_bootstrap.scss";
 @import "./rtl.scss";
@@ -31,6 +32,7 @@ a {
   &:hover {
     text-decoration: none !important;
   }
+
   &:hover {
     color: $brand-success;
   }
@@ -47,47 +49,28 @@ a {
   font-family: "Arimo";
   font-size: $font-size-small;
   padding: 20px 40px !important;
-  @include box-shadow(0px 2px 2px 0px rgba(0, 0, 0, 0.2));
+
+  @include box-shadow(0 2px 2px 0 rgba(0, 0, 0, 0.2));
+
   a {
     font-weight: bold;
   }
+
   @media (max-width: $screen-xs-min) {
     padding: 5px 20px !important;
   }
+
   .confirm {
-    margin: 20px 0px;
+    margin: 20px 0;
   }
+
   hr {
     display: none;
   }
 }
 
-.search-header {
-  background: url('~assets/images/telaviv-test2.jpg') center center;
-  &:after {
-    overflow: hidden;
-    text-indent: -9999rem;
-    font-size: 0;
-    line-height: 0;
-    background: linear-gradient(to bottom right, rgba(255, 101, 100, 0.4) 0%, rgba(255, 101, 100, 0) 50%, rgba(255, 101, 100, 0) 100%), linear-gradient(to top right, rgba(40, 0, 215, 0) 0%, rgba(40, 0, 215, 0) 50%, rgba(40, 0, 215, 0.4) 100%), linear-gradient(transparent 5%, rgba(0, 0, 0, 0.8) 100%);
-    -pie-background: -pie-linear-gradient(135deg, rgba(255, 101, 100, 0.4) 0%, rgba(255, 101, 100, 0) 50%, rgba(255, 101, 100, 0) 100%), -pie-linear-gradient(45deg, rgba(40, 0, 215, 0) 0%, rgba(40, 0, 215, 0) 50%, rgba(40, 0, 215, 0.4) 100%), -pie-linear-gradient(transparent 5%, rgba(0, 0, 0, 0.100%));
-    content: "gradient mask for lede image";
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-  }
-  padding: 120px 0px;
-  h1 {
-    color: $brand-white;
-    font-weight: 700;
-    font-size: $font-size-large*3;
-  }
-}
-
 .app-content-with-header {
-  padding: 60px 0 0 0;
+  padding: 60px 0 0;
 
   @media (max-width: $screen-xs-max) {
     height: 100%;
@@ -119,7 +102,7 @@ a {
   padding-top: 20px;
 }
 
-table.vertical-middle>tbody>tr>td {
+table.vertical-middle > tbody > tr > td {
   vertical-align: middle;
 }
 
@@ -140,10 +123,10 @@ textarea {
 
 /* navbar changes - so bottom border will be across the Navbar and only on the Nav components */
 ul.nav.nav-tabs.navbar-nav {
-  border-bottom: 0px solid transparent;
+  border-bottom: 0 solid transparent;
 }
 
 .error-page {
   text-align: center;
-  padding: 10px 0px;
+  padding: 10px 0;
 }

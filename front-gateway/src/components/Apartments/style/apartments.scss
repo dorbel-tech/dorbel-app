@@ -162,20 +162,22 @@
   .noUi-connect {
     background-color: $brand-primary !important;
   }
+
   .noUi-value {
     font-size: 12px;
   }
+
   .noUi-value-large {
     color: $brand-primary;
     font-size: 15px;
 
-    &:before {
+    &::before {
       color: $gray-light;
       content: "₪";
       font-size: 12px;
     }
 
-    &:last-child:after {
+    &:last-child::after {
       color: $brand-success;
       content: "+";
     }
@@ -186,11 +188,12 @@
   .noUi-connect {
     background-color: lighten($brand-primary, 20%) !important;
   }
+
   .noUi-value-large {
     color: $brand-primary;
     font-size: 16px;
 
-    &:last-child:after {
+    &:last-child::after {
       color: $brand-success;
       content: "+";
     }
@@ -201,13 +204,15 @@
   .noUi-connect {
     background-color: lighten($brand-primary, 40%) !important;
   }
+
   .noUi-value-large {
     color: $brand-primary;
     font-size: 12px;
+
     &:last-child {
       font-size: 16px;
 
-      &:after {
+      &::after {
         color: $brand-success;
         content: "+";
       }
@@ -216,7 +221,7 @@
     &:nth-child(2) {
       font-size: 16px;
 
-      &:after {
+      &::after {
         color: $gray-light;
         font-size: 12px;
       }
@@ -250,17 +255,20 @@
   border-radius: 50% !important;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
   cursor: pointer !important;
-  &:hover {
-    cursor: hand !important;
-  }
   height: 19.6px !important;
   left: -10px !important;
   top: -9px !important;
-  width: 19.6px !important;  
-  &:before {
+  width: 19.6px !important;
+
+  &:hover {
+    cursor: hand !important;
+  }
+
+  &::before {
     display: none !important;
   }
-  &:after {
+
+  &::after {
     display: none !important;
   }
 }

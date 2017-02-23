@@ -15,6 +15,7 @@
     .badgeText {
       @include rotate(45deg);
       @include transform-origin(center center);
+
       color: $brand-white;
       font-size: 15px;
       font-weight: 700;
@@ -26,19 +27,19 @@
     }
 
     &.rented {
-      border-top-color: #0086FF;
+      border-top-color: #0086ff;
     }
 
     &.roommates {
-      border-top-color: #F09B0A;
+      border-top-color: #f09b0a;
     }
 
     &.unlisted {
-      border-top-color: #2D3E50;
+      border-top-color: #2d3e50;
     }
 
     &.pending {
-      border-top-color: #9B9B9B;
+      border-top-color: #9b9b9b;
     }
 
     &.unlisted,
