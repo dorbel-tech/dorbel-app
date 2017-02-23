@@ -24,7 +24,7 @@ describe('Data Retrieval Integration', function () {
     };
   });
 
-  xit('should get-Listing-Info', function* () {
+  it('should get-Listing-Info', function* () {
     const listingInfo = yield this.retrieve('getListingInfo', {
       user_uuid: fixtures.staticUser.id,
       listing_id: fixtures.listing_id
