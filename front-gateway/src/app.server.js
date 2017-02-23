@@ -3,7 +3,7 @@ import { renderToString } from 'react-dom/server';
 import 'ignore-styles';
 import _ from 'lodash';
 import shared from '~/app.shared';
-import { config } from 'dorbel-shared';
+import { config, utils } from 'dorbel-shared';
 import { getCloudinaryParams } from './server/cloudinaryConfigProvider';
 
 function setRoute(router, path) {
@@ -19,7 +19,7 @@ function setRequestRenderState(context, appStore) {
     title: 'dorbel - מערכת לניהול והשכרת דירות ללא תיווך',
     description: 'השכרת דירות ללא תיווך. כל הפרטים שחשוב לדעת על הדירות בכדי לחסוך ביקורים מיותרים. בחרו מועד והירשמו לביקור בדירות בלחיצת כפתור.',
     image: {
-      url:'https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/meta/homepage-middle-image.jpg',
+      url: 'https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/meta/homepage-middle-image.jpg',
       width: 1093,
       height: 320
     },
@@ -38,6 +38,16 @@ function* renderApp() {
   if (this.path === '/apartments/new') {
     this.status = 301;
     return this.redirect('https://app.dorbel.com/apartments/new_form');
+  }
+
+  // redirect in case slug has an apostrophe
+  // TODO: remove once all listings with apostrophe are unlisted
+  if (this.path.match(/\/apartments\//) && (this.path.includes('\'') || this.path.includes('%27'))) {
+    let pathArr = this.path.split('/');
+    const normalizedSlug = decodeURIComponent(utils.generic.normalizeSlug(pathArr[pathArr.length -1]));
+    
+    this.status = 301;
+    return this.redirect('https://app.dorbel.com/apartments/' + normalizedSlug);
   }
 
   const envVars = {
