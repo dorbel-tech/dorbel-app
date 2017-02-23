@@ -5,7 +5,7 @@ function define(sequelize, DataTypes) {
     title: {
       type: DataTypes.STRING
     },
-    description: DataTypes.STRING,
+    description: DataTypes.STRING(500),
     status: {
       type: DataTypes.ENUM,
       values: ['pending', 'listed', 'rented', 'unlisted'],
