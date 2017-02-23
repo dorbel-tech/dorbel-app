@@ -60,28 +60,28 @@ describe('Front Gateway API Integration', function () {
     }));
   });
 
-  it('should not redirect /apartments/123', function* () {
+  it('should display url without slug', function* () {
     const response = yield apiClient.get('/apartments/123');
     __.assertThat(response, __.hasProperties({
       statusCode: 200,
     }));
   });
 
-  it('should not redirect /apartments/slug', function* () {
+  it('should display page with text slug', function* () {
     const response = yield apiClient.get('/apartments/Slug');
     __.assertThat(response, __.hasProperties({
       statusCode: 200,
     }));
   });
 
-  it('should not redirect /apartments/123-slug', function* () {
+  it('should display page with number and text slug', function* () {
     const response = yield apiClient.get('/apartments/123-slug');
     __.assertThat(response, __.hasProperties({
       statusCode: 200,
     }));
   });
 
-  it('should not redirect /apartments/123-slug slug', function* () {
+  it('"should display page url with space in slug', function* () {
     const response = yield apiClient.get('/apartments/123-slug slug');
     __.assertThat(response, __.hasProperties({
       statusCode: 200,
