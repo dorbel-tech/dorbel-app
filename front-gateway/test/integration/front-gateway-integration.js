@@ -95,6 +95,5 @@ describe('Front Gateway API Integration', function () {
       headers: __.hasProperty('location', encodeURI('https://app.dorbel.com/apartments/123-SlUG With capss'))
     }));
   });
-
 });
 
