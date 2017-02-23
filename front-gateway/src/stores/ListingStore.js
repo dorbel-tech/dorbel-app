@@ -23,7 +23,7 @@ export default class ListingStore {
   add(listing) {
     this.listingsById.set(listing.id, listing);
     if (listing.slug) {
-      this.listingsBySlug.set(encodeURIComponent(listing.slug), listing);
+      this.listingsBySlug.set(listing.slug, listing);
     }
   }
 

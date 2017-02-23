@@ -64,6 +64,7 @@ services:
   #   volumes:
   #     - ./admin:/home/nodejs/app
   #     - /home/nodejs/app/node_modules/
+  #     - ../dorbel-shared:/home/nodejs/app/node_modules/dorbel-shared
   #   environment:
   #     NODE_ENV: ${NODE_ENV}
 

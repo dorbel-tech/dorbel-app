@@ -8,7 +8,8 @@ function* get() {
   const isSlug = isNaN(listingIdOrSlug);
 
   if (isSlug) {
-    this.response.body = yield listingService.getBySlug(listingIdOrSlug, this.request.user);
+    const encodedSlug = shared.utils.generic.normalizeSlug(listingIdOrSlug);
+    this.response.body = yield listingService.getBySlug(encodedSlug, this.request.user);
   }
   else {
     this.response.body = yield listingService.getById(listingIdOrSlug, this.request.user);

@@ -3,7 +3,7 @@ import { renderToString } from 'react-dom/server';
 import 'ignore-styles';
 import _ from 'lodash';
 import shared from '~/app.shared';
-import { config } from 'dorbel-shared';
+import { config, utils } from 'dorbel-shared';
 import { getCloudinaryParams } from './server/cloudinaryConfigProvider';
 
 function setRoute(router, path) {
@@ -42,10 +42,12 @@ function* renderApp() {
 
   // redirect in case slug has an apostrophe
   // TODO: remove once all listings with apostrophe are unlisted
-  if (this.path.match(/\/apartments\//) && ((this.path.match(/.[']/)) || (this.path.match(/.[%27]/)))) {
-    const newPath = this.path.replace('\'', '').replace('%27', '');
+  if (this.path.match(/\/apartments\//) && (this.path.includes('\'') || this.path.includes('%27'))) {
+    let pathArr = this.path.split('/');
+    const normalizedSlug = decodeURIComponent(utils.generic.normalizeSlug(pathArr[pathArr.length -1]));
+    
     this.status = 301;
-    return this.redirect('https://app.dorbel.com' + newPath);
+    return this.redirect('https://app.dorbel.com/apartments/' + normalizedSlug);
   }
 
   const envVars = {
