@@ -37,6 +37,7 @@ const dataRetrievalFunctions = {
         return userManagement.getUserDetails(listing.publishing_user_id)
           .then(listingUser => {
             listing.publishing_user_email = _.get(listingUser, 'user_metadata.email') || listingUser.email;
+            listing.publishing_user_phone = _.get(listingUser, 'user_metadata.phone') || listingUser.phone;
             // Reducing object size by removing unused data.
             listing.apartment.building.neighborhood = undefined;
             listing.images = undefined;
