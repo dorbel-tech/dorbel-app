@@ -1,4 +1,5 @@
 'use strict';
+const normalizeSlug = require('dorbel-shared').utils.generic.normalizeSlug;
 
 module.exports = (sequelize, DataTypes) => {
   let models = sequelize.models;
@@ -57,8 +58,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       defaultValue: null,
       set: function (val) {
-        const dataValue = val ? val.replace(/'/g, '') : null;
-        this.setDataValue('slug', dataValue);
+        this.setDataValue('slug', normalizeSlug(val, true));
       }
     },
     created_at: {
@@ -67,21 +67,22 @@ module.exports = (sequelize, DataTypes) => {
     updated_at: {
       type: DataTypes.DATE,
     },
-  }, {
-    classMethods: {
-      associate: models => {
-        Model.belongsTo(models.apartments, {
-          foreignKey: {
-            allowNull: false
-          },
-          onDelete: 'CASCADE'
-        });
-        Model.hasMany(models.images);        
-      }
-    },
-    tableName: 'listings',
-    underscored: true    
-  });
+  },
+    {
+      classMethods: {
+        associate: models => {
+          Model.belongsTo(models.apartments, {
+            foreignKey: {
+              allowNull: false
+            },
+            onDelete: 'CASCADE'
+          });
+          Model.hasMany(models.images);
+        }
+      },
+      tableName: 'listings',
+      underscored: true
+    });
 
   return Model;
 };
