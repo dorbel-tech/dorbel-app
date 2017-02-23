@@ -81,14 +81,14 @@ describe('Front Gateway API Integration', function () {
     }));
   });
 
-  it('"should display page url with space in slug', function* () {
+  it('should display page url with space in slug', function* () {
     const response = yield apiClient.get('/apartments/123-slug slug');
     __.assertThat(response, __.hasProperties({
       statusCode: 200,
     }));
   });
 
-  it('should redirect url with apostrophe /apartments/123-SlUG With caps\'s to /123-SlUG With capss and not lowercase the url', function* () {
+  it('should redirect url with apostrophe, spaces, caps and not lowercase the url', function* () {
     const response = yield apiClient.get('/apartments/123-SlUG With caps\'s');
     __.assertThat(response, __.hasProperties({
       statusCode: 301,
