@@ -4,12 +4,12 @@ const __ = require('hamjest');
 
 describe('Front Gateway API Integration', function () {
   let apiClient;
-  before(function * () {
+  before(function* () {
     apiClient = yield ApiClient.init();
   });
 
-  describe('Meta tags', function() {
-    function * assertUrls(url, expectedUrl) {
+  describe('Meta tags', function () {
+    function* assertUrls(url, expectedUrl) {
       const $apartmentsPage = yield apiClient.getHtml(url);
       const urlTag = $apartmentsPage.getMetaTag('og:url');
       const canonTag = $apartmentsPage('link[rel="canonical"]').attr('href');
@@ -18,7 +18,7 @@ describe('Front Gateway API Integration', function () {
       __.assertThat(canonTag, __.endsWith(expectedUrl || url));
     }
 
-    it('should render apartment page meta tags differently than homepage', function * () {
+    it('should render apartment page meta tags differently than homepage', function* () {
       const $homepage = yield apiClient.getHtml('/');
 
       const homepageTitle = $homepage.getMetaTag('og:title');
@@ -33,26 +33,26 @@ describe('Front Gateway API Integration', function () {
       __.assertThat(apartmentPageImage, __.not(__.equalTo(homepageImage)));
     });
 
-    it('should render apartments page urls with own url', function * () {
+    it('should render apartments page urls with own url', function* () {
       yield assertUrls('/apartments');
     });
 
-    it('should render new apartment form urls with own url', function * () {
+    it('should render new apartment form urls with own url', function* () {
       yield assertUrls('/apartments/new_form');
     });
 
-    it('should render apartment urls with slug', function * () {
+    it('should render apartment urls with slug', function* () {
       const listingData = yield apiClient.get('/api/apartments/v1/listings/1');
       yield assertUrls('/apartments/1', `/apartments/${listingData.body.slug}`);
     });
   });
 
-  it('should forward request to apartments API', function * () {
+  it('should forward request to apartments API', function* () {
     const response = yield apiClient.get('/api/apartments/v1/cities');
     __.assertThat(response.body, __.is(__.array()));
   });
 
-  it('should redirect /apartments/new to /apartments/new_form', function * () {
+  it('should redirect /apartments/new to /apartments/new_form', function* () {
     const response = yield apiClient.get('/apartments/new');
     __.assertThat(response, __.hasProperties({
       statusCode: 301,
@@ -60,5 +60,40 @@ describe('Front Gateway API Integration', function () {
     }));
   });
 
+  it('should display url without slug', function* () {
+    const response = yield apiClient.get('/apartments/123');
+    __.assertThat(response, __.hasProperties({
+      statusCode: 200,
+    }));
+  });
+
+  it('should display page with text slug', function* () {
+    const response = yield apiClient.get('/apartments/Slug');
+    __.assertThat(response, __.hasProperties({
+      statusCode: 200,
+    }));
+  });
+
+  it('should display page with number and text slug', function* () {
+    const response = yield apiClient.get('/apartments/123-slug');
+    __.assertThat(response, __.hasProperties({
+      statusCode: 200,
+    }));
+  });
+
+  it('should display page url with space in slug', function* () {
+    const response = yield apiClient.get('/apartments/123-slug slug');
+    __.assertThat(response, __.hasProperties({
+      statusCode: 200,
+    }));
+  });
+
+  it('should redirect url with apostrophe, spaces, caps and not lowercase the url', function* () {
+    const response = yield apiClient.get('/apartments/123-SlUG With caps\'s');
+    __.assertThat(response, __.hasProperties({
+      statusCode: 301,
+      headers: __.hasProperty('location', encodeURI('https://app.dorbel.com/apartments/123-SlUG With capss'))
+    }));
+  });
 });
 

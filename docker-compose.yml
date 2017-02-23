@@ -138,7 +138,7 @@ services:
       FRONT_GATEWAY_URL: ${FRONT_GATEWAY_URL}
       LOG_LEVEL: ${LOG_LEVEL}
 
-  # # Admin apartments backoffice
+  # Admin apartments backoffice
   # admin:
   #   build:
   #     context: admin
@@ -155,7 +155,7 @@ services:
   #     FOREST_ENV_SECRET: ${FOREST_APARTMENTS_ENV_SECRET}
   #     FRONT_GATEWAY_URL: ${FRONT_GATEWAY_URL}
 
-  # # Admin ohe backoffice
+  # Admin ohe backoffice
   # admin-ohe:
   #   build:
   #     context: admin
