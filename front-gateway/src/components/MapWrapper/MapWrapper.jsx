@@ -9,7 +9,7 @@ const options = {
   mapTypeControl: false,
   scrollwheel: false,
   disableDefaultUI: true,
-  zoomControl: true,
+  // zoomControl: true, // disabled to prevent percise zooming into location which we don't want to expose.
 };
 
 class MapWrapper extends Component {

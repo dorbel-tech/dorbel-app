@@ -8,7 +8,7 @@ const moment = require('moment');
 // This is meh, but until we have a CI-environment-seed (or something) it's the best I can do
 const fixtures = {
   staticUser : {
-    id: '96271bc9-6801-4ea5-8680-b3e29eafce0d',
+    id: '23821212-6191-4fda-b3e3-fdb8bf69a95d',
     email: 'test@test.com'
   },
   listing_id: 1,

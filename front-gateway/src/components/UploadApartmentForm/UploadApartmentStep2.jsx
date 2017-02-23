@@ -132,7 +132,7 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
               </Row>
               <Row>
                 <Col md={12}>
-                  <FRC.Textarea name="description" rows={3} label="מידע נוסף ותיאור הדירה" maxLength="250"/>
+                  <FRC.Textarea name="description" rows={3} label="מידע נוסף ותיאור הדירה" maxLength="500"/>
                 </Col>
               </Row>
               <Row>
