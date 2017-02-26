@@ -5,7 +5,7 @@
   padding: 40px 0;
   background-color: $brand-white;
   border-radius: 4px 4px 0 0;
-  box-shadow: 0 2px 15px 0 rgba(0,0,0,0.1);
+  box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.1);
 
   h5 {
     font-weight: 600;
@@ -58,7 +58,7 @@
 }
 
 .apt-thumb-sub-text {
-  color: #9B9B9B;
+  color: #9b9b9b;
   font-size: 11px;
 }
 
@@ -67,7 +67,7 @@
   padding: 15px;
 
   .apt-thumb-details-title {
-    color: #4D4D4D;
+    color: #4d4d4d;
     font-size: 18px;
     height: 23px;
     line-height: 21px;
@@ -76,18 +76,21 @@
     text-overflow: ellipsis;
     white-space: nowrap;
   }
+
   .apt-thumb-details-address {
-    color: #4A4A4A;
+    color: #4a4a4a;
     font-size: 13px;
   }
+
   .apt-thumb-details-extra {
-    color: #4D4D4D;
+    color: #4d4d4d;
     font-size: 13px;
     padding-top: 15px;
 
     .apt-thumb-details-extra-rooms {
       padding-right: 13px;
     }
+
     .apt-thumb-details-extra-date {
       color: $gray-dark;
       float: left;
