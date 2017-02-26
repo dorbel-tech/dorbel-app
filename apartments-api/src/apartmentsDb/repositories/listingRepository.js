@@ -36,33 +36,38 @@ const fullListingDataInclude = [
 
 function list(query, options = {}) {
   return models.listing.findAll({
-    attributes: listingAttributes,
+    attributes: ['id', 'slug', 'title', 'monthly_rent', 'roommate_needed', 'lease_start', 'status'],
     where: query,
     include: [{
       model: models.apartment,
-      attributes: apartmentAttributes,
+      attributes: ['size', 'rooms'],
       include: {
         model: models.building,
-        attributes: buildingAttributes,
-        include: [{
-          model: models.city,
-          attributes: cityAttributes
-        }, {
-          model: models.neighborhood,
-          attributes: neighborhoodAttributes
-        }],
+        attributes: ['street_name'],
+        include: [
+          {
+            model: models.city,
+            attributes: ['id', 'city_name']
+          },
+          {
+            model: models.neighborhood,
+            attributes: ['neighborhood_name']
+          },
+        ],
         where: options.buildingQuery || {}
       },
       required: true,
       where: options.apartmentQuery || {}
-    }, 
+    },
     {
       model: models.image,
-      attributes: imageAttributes
+      // all attributes are selected to resolve: https://github.com/sequelize/sequelize/issues/4694#issuecomment-215745576
+      order: 'display_order ASC',
+      limit: 1,
     }],
 
     limit: options.limit,
-    order: options.order
+    order: options.order ? 'listing.' + options.order : undefined // workaround to prevent ambiguous field on order by
   });
 }
 
