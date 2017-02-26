@@ -44,10 +44,13 @@ function list(query, options = {}) {
       include: {
         model: models.building,
         attributes: buildingAttributes,
-        include: {
+        include: [{
           model: models.city,
           attributes: cityAttributes
-        },
+        }, {
+          model: models.neighborhood,
+          attributes: neighborhoodAttributes
+        }],
         where: options.buildingQuery || {}
       },
       required: true,

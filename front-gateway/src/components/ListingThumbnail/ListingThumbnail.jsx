@@ -15,28 +15,37 @@ class ListingThumbnail extends Component {
     const { listing } = this.props;
     const sortedListingImages = utils.sortListingImages(listing);
     const imageURL = sortedListingImages.length ? sortedListingImages[0].url : '';
+    const building = listing.apartment.building;
+    const areaDescriptionPrefix = building.neighborhood.neighborhood_name === 'אחר' ? '' : building.neighborhood.neighborhood_name + ', ';
+    const areaDescription = areaDescriptionPrefix + building.city.city_name;
 
     return (
       <Col lg={4} sm={6} xs={12}>
-        <NavLink to={'/apartments/' + this.getListingPath(listing)} className="thumbnail apt-thumb-container-single pull-right">
+        <NavLink to={'/apartments/' + this.getListingPath(listing)}
+                 className="thumbnail apt-thumb-container apt-thumb-container-single pull-right">
           <ListingBadge listing={listing} />
           <div className="apt-thumb-apt-image">
             <CloudinaryImage src={imageURL} height={500} />
           </div>
-          <div className="apt-thumb-apt-bottom-strip">
-            <ul>
-              <li>{listing.monthly_rent} ₪</li>
-              <span>|</span>
-              <li>{listing.apartment.size} מ״ר</li>
-              <span>|</span>
-              <li>{listing.apartment.rooms} חדרים</li>
-            </ul>
+          <div className="apt-thumb-details">
+            <div className="apt-thumb-details-title">
+              {utils.getListingTitle(listing)}
+            </div>
+            <div className="apt-thumb-details-address">
+              {areaDescription}
+            </div>
+            <div className="apt-thumb-details-extra">
+              <span>
+                {listing.apartment.size}</span><span className="apt-thumb-sub-text"> מ״ר</span>
+              <span className="apt-thumb-details-extra-rooms">
+                {listing.apartment.rooms}</span><span className="apt-thumb-sub-text"> חד'</span>
+              <span className="apt-thumb-details-extra-date">
+                <span className="apt-thumb-sub-text">תאריך כניסה </span>
+                {utils.formatDate(listing.lease_start)}</span>
+            </div>
           </div>
-          <div className="caption">
-            <h4>{utils.getListingTitle(listing)}</h4>
-            <span>
-              {listing.apartment.building.street_name}, {listing.apartment.building.city.city_name}
-            </span>
+          <div className="apt-thumb-caption">
+            {listing.monthly_rent}<span className="apt-thumb-sub-text"> ₪</span>
           </div>
         </NavLink>
       </Col>
@@ -49,6 +58,3 @@ ListingThumbnail.propTypes = {
 };
 
 export default ListingThumbnail;
-
-
-
