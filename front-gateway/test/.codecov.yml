@@ -1,6 +1,3 @@
-codecov:
-  archive:
-    uploads: false
 comment:
   require_changes: yes
 fixes:
