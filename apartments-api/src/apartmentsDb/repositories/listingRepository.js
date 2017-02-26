@@ -36,7 +36,7 @@ const fullListingDataInclude = [
 
 function list(query, options = {}) {
   return models.listing.findAll({
-    attributes: ['id', 'slug', 'title', 'monthly_rent', 'roommate_needed', 'status'],
+    attributes: ['id', 'slug', 'title', 'monthly_rent', 'roommate_needed', 'lease_start', 'status'],
     where: query,
     include: [{
       model: models.apartment,
@@ -44,10 +44,16 @@ function list(query, options = {}) {
       include: {
         model: models.building,
         attributes: ['street_name'],
-        include: {
-          model: models.city,
-          attributes: ['city_name']
-        },
+        include: [
+          {
+            model: models.city,
+            attributes: ['id', 'city_name']
+          },
+          {
+            model: models.neighborhood,
+            attributes: ['neighborhood_name']
+          },
+        ],
         where: options.buildingQuery || {}
       },
       required: true,
