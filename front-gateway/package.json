@@ -131,6 +131,6 @@
       "src/**/*.{js,jsx}"
     ],
     "coverageDirectory": "<rootDir>/test/coverage",
-    "coverageReporters": ["lcov", "text-summary"]
+    "coverageReporters": ["lcov", "text"]
   }
 }
