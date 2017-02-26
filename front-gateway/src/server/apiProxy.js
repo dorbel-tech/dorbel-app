@@ -21,7 +21,7 @@ function* loadProxy(app) {
   logger.info('loading proxy');
 
   apisConfig.forEach(apiConfig => {
-    logger.debug(apiConfig, 'loading proxy for backend API');
+    logger.info(apiConfig, 'loading proxy for backend API');
     const pattern = new RegExp(`^\/api\/${apiConfig.prefix}`);
     app.use(proxy({
       host: shared.config.get(apiConfig.url),

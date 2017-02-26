@@ -38,6 +38,9 @@ function* register(event_id, user) {
     email: user.email,
     phone: generic.normalizePhone(user.phone)
   };
+
+  logger.debug({ user_id: user.user_id, userMetadata }, 'Before calling updateUserDetails');
+
   // TODO: Update user details can be done on client using user token.
   userManagement.updateUserDetails(user.user_id, {
     user_metadata: userMetadata
