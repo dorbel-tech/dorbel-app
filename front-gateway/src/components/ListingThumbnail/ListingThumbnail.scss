@@ -80,6 +80,9 @@
   .apt-thumb-details-address {
     color: #4a4a4a;
     font-size: 13px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .apt-thumb-details-extra {
