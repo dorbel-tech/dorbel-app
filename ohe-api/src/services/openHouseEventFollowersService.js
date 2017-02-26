@@ -20,7 +20,7 @@ function* follow(listingId, user) {
 
     if (alreadyFollow.length) {
       throw new errors.DomainValidationError('OpenHouseEventFollowerValidationError',
-        { listing_id: listingId, following_user_id: user.id },
+        { listing_id: listingId, user_uuid: user.id },
         'user already follows this listing');
     }
   }
@@ -32,7 +32,7 @@ function* follow(listingId, user) {
   };
 
   const result = yield repository.createFollower(follower);
-  logger.info({ user_id: user.id, listing_id: listingId }, 'Listing was followed');
+  logger.info({ listing_id: listingId, user_uuid: user.id }, 'Listing was followed');
 
   // TODO: Update user details can be done on client using user token.
   userManagement.updateUserDetails(user.id, {
@@ -63,8 +63,8 @@ function* unfollow(followId, user) {
 
   const result = yield repository.updateFollower(existingFollower);
   logger.info({
-    user_id: existingFollower.following_user_id,
-    listing_id: existingFollower.listing_id
+    listing_id: existingFollower.listing_id,
+    user_uuid: existingFollower.following_user_id
   }, 'Listing was unfollowed');
 
   notificationService.send(notificationService.eventType.OHE_UNFOLLOWED, {
