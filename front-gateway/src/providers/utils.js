@@ -22,7 +22,7 @@ function formatDay(date) {
 }
 
 function getListingTitle(listing) {
-  return listing.title || `דירת ${listing.apartment.rooms} חד׳ ברח׳ ${listing.apartment.building.street_name}`;  
+  return listing.title || `דירת ${listing.apartment.rooms} חד׳ ב${listing.apartment.building.street_name}`;  
 }
 
 function sortListingImages(listing) {
