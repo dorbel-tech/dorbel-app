@@ -57,7 +57,7 @@ function* create(openHouseEvent, user) {
     is_active: true,
     max_attendies
   });
-  logger.info({ user_id: userId, event_id: newEvent.id }, 'OHE created');
+  logger.info({ user_uuid: userId, event_id: newEvent.id }, 'OHE created');
 
   notificationService.send(notificationService.eventType.OHE_CREATED, {
     listing_id: listing_id,
@@ -105,7 +105,7 @@ function* update(id, updateRequest, user) {
   existingEvent.max_attendies = updateRequest.max_attendies;
 
   const result = yield openHouseEventsRepository.update(existingEvent);
-  logger.info({ user_id: existingEvent.publishing_user_id, event_id: existingEvent.id }, 'OHE updated');
+  logger.info({ user_uuid: existingEvent.publishing_user_id, event_id: existingEvent.id }, 'OHE updated');
 
   if (timeChanged) {
     notificationService.send(notificationService.eventType.OHE_UPDATED, {
@@ -128,7 +128,7 @@ function* remove(eventId, user) {
   existingEvent.is_active = false;
 
   const result = yield openHouseEventsRepository.update(existingEvent);
-  logger.info({ user_id: existingEvent.publishing_user_id, event_id: existingEvent.id }, 'OHE marked as inactive');
+  logger.info({ user_uuid: existingEvent.publishing_user_id, event_id: existingEvent.id }, 'OHE marked as inactive');
 
   notificationService.send(notificationService.eventType.OHE_DELETED, {
     listing_id: existingEvent.listing_id,
