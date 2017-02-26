@@ -20,7 +20,7 @@ services:
     volumes:
       - ./apartments-api:/home/nodejs/app
       - /home/nodejs/app/node_modules/
-      - ../dorbel-shared:/home/nodejs/app/node_modules/dorbel-shared
+      # - ../dorbel-shared:/home/nodejs/app/node_modules/dorbel-shared
     environment:
       NODE_ENV: ${NODE_ENV}
     command: bash -c "./scripts/wait-for-it.sh db:3306 --timeout=180 && yarn run start:dev"
@@ -33,7 +33,7 @@ services:
       - ./front-gateway:/home/nodejs/app
       - /home/nodejs/app/node_modules/
       - /home/nodejs/app/public/build/
-      - ../dorbel-shared:/home/nodejs/app/node_modules/dorbel-shared
+      # - ../dorbel-shared:/home/nodejs/app/node_modules/dorbel-shared
     environment:
       NODE_ENV: ${NODE_ENV}
     command: bash -c "yarn run build:dev & yarn run start:dev"
@@ -44,7 +44,7 @@ services:
     volumes:
       - ./notifications-service:/home/nodejs/app
       - /home/nodejs/app/node_modules/
-      - ../dorbel-shared:/home/nodejs/app/node_modules/dorbel-shared
+      # - ../dorbel-shared:/home/nodejs/app/node_modules/dorbel-shared
     environment:
       NODE_ENV: ${NODE_ENV}
     command: yarn run start:dev
@@ -55,7 +55,7 @@ services:
     volumes:
       - ./ohe-api:/home/nodejs/app
       - /home/nodejs/app/node_modules/
-      - ../dorbel-shared:/home/nodejs/app/node_modules/dorbel-shared
+      # - ../dorbel-shared:/home/nodejs/app/node_modules/dorbel-shared
     environment:
       NODE_ENV: ${NODE_ENV}
     command: bash -c "./scripts/wait-for-it.sh db:3306 --timeout=180 && yarn run start:dev"
