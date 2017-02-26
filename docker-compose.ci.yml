@@ -8,17 +8,11 @@ services:
       SUMOLOGIC_COLLECTOR: ${SUMOLOGIC_COLLECTOR}
 
   front-gateway:
+    volumes:
+      - ./front-gateway-shared:/shared
     environment:
       NODE_ENV: ${NODE_ENV}
       SUMOLOGIC_COLLECTOR: ${SUMOLOGIC_COLLECTOR}
-      SEMAPHORE: ${SEMAPHORE}
-      CI: ${CI}
-      BRANCH_NAME: ${BRANCH_NAME}
-      SEMAPHORE_BUILD_NUMBER: ${SEMAPHORE_BUILD_NUMBER}
-      SEMAPHORE_CURRENT_THREAD: ${SEMAPHORE_CURRENT_THREAD}
-      SEMAPHORE_REPO_SLUG: ${SEMAPHORE_REPO_SLUG}
-      REVISION: ${REVISION}
-      SEMAPHORE_TRIGGER_SOURCE: ${SEMAPHORE_TRIGGER_SOURCE}
 
   notifications-service:
     environment:

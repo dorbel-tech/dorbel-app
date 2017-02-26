@@ -1,4 +1,4 @@
-# dorbel-app [![Build Status](https://semaphoreci.com/api/v1/projects/78cea21f-8a7d-49bb-8c39-e295a1d255c4/1110717/badge.svg)](https://semaphoreci.com/dorbel-tech/dorbel-app)
+# dorbel-app [![Build Status](https://semaphoreci.com/api/v1/projects/78cea21f-8a7d-49bb-8c39-e295a1d255c4/1110717/badge.svg)](https://semaphoreci.com/dorbel-tech/dorbel-app) [![codecov](https://codecov.io/gh/dorbel-tech/dorbel-app/branch/develop/graph/badge.svg?token=dPOkDsTyym)](https://codecov.io/gh/dorbel-tech/dorbel-app)
 
 > dorbel new generation node.js app
 
