@@ -14,14 +14,6 @@ class ApartmentsProvider {
     this.oheProvider = providers.ohe;
   }
 
-  loadApartments(query) {
-    this.appStore.listingStore.isLoading = true;
-    const q = encodeURIComponent(JSON.stringify(query || {}));
-
-    return this.apiProvider.fetch('/api/apartments/v1/listings?q=' + q)
-      .then(this.appStore.listingStore.clearAndSet);
-  }
-
   loadFullListingDetails(idOrSlug) {
     return this.apiProvider.fetch('/api/apartments/v1/listings/' + idOrSlug)
       .then(listing => {
@@ -110,9 +102,6 @@ class ApartmentsProvider {
     });
   }
 
-  getRelatedListings(listingId){
-    return this.apiProvider.fetch('/api/apartments/v1/listings/'+listingId+'/related/');
-  }
 }
 
 module.exports = ApartmentsProvider;
