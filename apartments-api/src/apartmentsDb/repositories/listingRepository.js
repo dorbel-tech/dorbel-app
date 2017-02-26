@@ -36,7 +36,7 @@ const fullListingDataInclude = [
 
 function list(query, options = {}) {
   return models.listing.findAll({
-    attributes: ['id', 'slug', 'title', 'monthly_rent', 'roommate_needed'],
+    attributes: ['id', 'slug', 'title', 'monthly_rent', 'roommate_needed', 'status'],
     where: query,
     include: [{
       model: models.apartment,
@@ -55,13 +55,13 @@ function list(query, options = {}) {
     },
     {
       model: models.image,
-      attributes: ['url', 'display_order'], // display order was added to resolve: https://github.com/sequelize/sequelize/issues/4694#issuecomment-215745576
-      order: 'display_order DESC',
+      // all attributes are selected to resolve: https://github.com/sequelize/sequelize/issues/4694#issuecomment-215745576
+      order: 'display_order ASC',
       limit: 1,
     }],
 
     limit: options.limit,
-    order: options.order
+    order: options.order ? 'listing.' + options.order : undefined // workaround to prevent ambiguous field on order by
   });
 }
 
