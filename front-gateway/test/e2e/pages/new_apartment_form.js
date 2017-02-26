@@ -144,8 +144,7 @@ module.exports = {
     navigateToApartmentPictureSection: function () {
       this
         .navigate()
-        .waitForElementVisible('body');
-      this.expect.section('@apartmentPictures').to.be.visible;
+        .waitForElementVisible('body');      
       return this;
     },
     navigateToApartmentDetailsSection: function () {
@@ -163,27 +162,18 @@ module.exports = {
     },
     goFromApartmentPicturesToApartmentDetails: function () {
       this.section.apartmentPictures.click('@nextStep');
-      this.expect.section('@apartmentDetails').to.be.visible;
       return this;
     },
-    goFromApartmentDetailsApartmentPictures: function () {
+    goFromApartmentDetailsToApartmentPictures: function () {
       this.section.apartmentDetails.click('@previousStep');
-      this.expect.section('@apartmentPictures').to.be.visible;
       return this;
     },
     goFromApartmentDetailsToOpenHouseEvent: function () {
-      this.section.apartmentDetails.click('@nextStep');
-      this.expect.section('@openHouseEvent').to.be.visible;
-      return this;
-    },
-    goFromApartmentDetailsToOpenHouseEventAndFail: function () {
-      this.section.apartmentDetails.click('@nextStep');
-      this.expect.section('@openHouseEvent').to.not.be.present;
+      this.section.apartmentDetails.click('@nextStep');      
       return this;
     },
     goFromOpenHouseEventToApartmentDetails: function () {
-      this.section.openHouseEvent.click('@previousStep');
-      this.expect.section('@apartmentDetails').to.be.visible;
+      this.section.openHouseEvent.click('@previousStep');      
       return this;
     },
     fillApartmentDetailsAllFields: function () {
@@ -211,7 +201,6 @@ module.exports = {
         .setValue('@monthlyRent', '1000')
         .setValue('@propertyTax', '1000')
         .setValue('@boardFee', '1000');
-      this.section.apartmentDetails.assert.visible('@entranceDateCalendar');
       return this;
     },
     fillOpenHouseEventDetailsAllFields: function () {
@@ -219,7 +208,6 @@ module.exports = {
         .setValue('@eventDate', '')
         .setValue('@eventStartTime', '08:00')
         .setValue('@eventEndTime', '09:00');
-      this.section.openHouseEvent.assert.visible('@eventDateCalendar');
       return this;
     },
     clearUserDetailsFields: function () {      
@@ -240,16 +228,6 @@ module.exports = {
     },
     submitNewApartmentForm: function () {
       this.section.openHouseEvent.click('@submit');
-      return this;
-    },
-    confirmSubmitSuccess: function () {
-      this.expect.section('@successModal').to.be.visible;
-      this.section.successModal
-        .waitForText('@successTitle', (text) => ( text === 'העלאת הדירה הושלמה!' ));
-      return this;
-    },
-    confirmSubmitError: function () {
-      this.expect.section('@successModal').to.not.be.present;
       return this;
     }
   }]
