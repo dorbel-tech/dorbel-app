@@ -14,45 +14,43 @@ module.exports = {
   'should go back from apartment details to previous screen': function (browser) {
     newApartmentForm
       .navigateToApartmentDetailsSection()
-      .goFromApartmentDetailsApartmentPictures();
-
+      .goFromApartmentDetailsToApartmentPictures()
+      .expect.section('@apartmentPictures').to.be.visible;
     browser.end();
   },
   'should go back from event details to previous screen': function (browser) {
     newApartmentForm
       .navigateToOpenHouseEventSection()
-      .goFromOpenHouseEventToApartmentDetails();
-
+      .goFromOpenHouseEventToApartmentDetails()
+      .expect.section('@apartmentDetails').to.be.visible;
     browser.end();
   },  
-  'should show validation errors when apartment details required fields not filled as logged in user': function (browser) {
+  'should fail to go to step3 as user details in step2 were not filled': function (browser) {
     newApartmentForm
       .navigateToApartmentDetailsSection()
-      .goFromApartmentDetailsToOpenHouseEventAndFail();
-
+      .goFromApartmentDetailsToOpenHouseEvent()
+      .expect.section('@openHouseEvent').to.not.be.present;
     browser.end();
   },
-  'should show validation errors when user details required fields not filled as logged in user': function (browser) {
+  'should fail to submit a new apartment because of mising user details': function (browser) {
     login();    
-
-    newApartmentForm.navigateToOpenHouseEventSection();
     newApartmentForm
+      .navigateToOpenHouseEventSection()
       .clearUserDetailsFields()
       .submitNewApartmentForm()
-      .confirmSubmitError(); 
-
+      .expect.section('@successModal').to.not.be.present;
     browser.end();
   },
-  'should fill all event details fields as logged in user': function (browser) {
+  'should successfully submit a new apartment': function (browser) {
     login();
-
     newApartmentForm
-      // TODO: Still missing upload image functionality.
+      // TODO: Add upload image functionality.
       .navigateToOpenHouseEventSection()
       .fillOpenHouseEventDetailsAllFields()
-      .submitNewApartmentForm()
-      .confirmSubmitSuccess();
-
+      .submitNewApartmentForm()      
+      .expect.section('@successModal').to.be.visible;
+    newApartmentForm
+      .section.successModal.waitForText('@successTitle', (text) => ( text === 'העלאת הדירה הושלמה!' ));
     browser.end();
   }  
 };
