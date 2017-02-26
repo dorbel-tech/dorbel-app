@@ -111,7 +111,7 @@ describe('Apartments API Integration', function () {
 
       const getRelatedResponse = yield this.apiClient.getRelatedListings(this.listingId).expect(200).end();
       const respCityIds = _.map(getRelatedResponse.body, function (listing) {
-        return listing.apartment.building.city_id;
+        return listing.apartment.building.city.id;
       });
       __.assertThat(respCityIds, __.everyItem(__.is(cityId)));
     });
