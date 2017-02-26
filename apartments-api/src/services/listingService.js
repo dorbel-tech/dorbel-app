@@ -52,16 +52,14 @@ function* create(listing) {
   });
 
   // Publish event trigger message to SNS for notifications dispatching.
-  if (config.get('NOTIFICATIONS_SNS_TOPIC_ARN')) {
-    messageBus.publish(config.get('NOTIFICATIONS_SNS_TOPIC_ARN'), messageBus.eventType.APARTMENT_CREATED, {
-      listing_id: createdListing.id,
-      user_uuid: createdListing.publishing_user_id,
-      user_email: listing.user.email,
-      user_phone: generic.normalizePhone(listing.user.phone),
-      user_first_name: listing.user.firstname,
-      user_last_name: listing.user.lastname
-    });
-  }
+  messageBus.publish(config.get('NOTIFICATIONS_SNS_TOPIC_ARN'), messageBus.eventType.APARTMENT_CREATED, {
+    listing_id: createdListing.id,
+    user_uuid: createdListing.publishing_user_id,
+    user_email: listing.user.email,
+    user_phone: generic.normalizePhone(listing.user.phone),
+    user_first_name: listing.user.firstname,
+    user_last_name: listing.user.lastname
+  });
 
   return createdListing;
 }
