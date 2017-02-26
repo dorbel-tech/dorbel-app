@@ -1,53 +1,35 @@
-@import "../sharedStyles/bsvars.scss";
 @import "../sharedStyles/variables.scss";
 
-.badgeContainer {
+.listingBadge {
+  background-color: #67269D;
+  border-radius: 100px 0 0 100px;
+  box-shadow: 0 2px 10px 0 rgba(0,0,0,0.2);
+  height: 25px;
   position: absolute;
+  width: 84px;
   z-index: 1;
 
-  .listingBadge {
-    border-left: 110px solid transparent;
-    border-top: 110px solid;
-    height: 0;
-    opacity: 0.7;
-    width: 0;
+  .badgeText {
+    color: $brand-white;
+    font-size: 13px;
+    font-weight: 700;
+    max-width: 60px;
+    text-align: center;
+  }
 
-    .badgeText {
-      @include rotate(45deg);
-      @include transform-origin(center center);
+  &.rented {
+    background-color: #0086ff;
+  }
 
-      color: $brand-white;
-      font-size: 15px;
-      font-weight: 700;
-      max-width: 60px;
-      position: absolute;
-      right: 20px;
-      text-align: center;
-      top: 30%;
-    }
+  &.roommates {
+    background-color: #f09b0a;
+  }
 
-    &.rented {
-      border-top-color: #0086ff;
-    }
+  &.unlisted {
+    background-color: #2d3e50;
+  }
 
-    &.roommates {
-      border-top-color: #f09b0a;
-    }
-
-    &.unlisted {
-      border-top-color: #2d3e50;
-    }
-
-    &.pending {
-      border-top-color: #9b9b9b;
-    }
-
-    &.unlisted,
-    &.pending {
-      .badgeText {
-        top: 15%;
-        right: 10px;
-      }
-    }
+  &.pending {
+    background-color: #9b9b9b;
   }
 }

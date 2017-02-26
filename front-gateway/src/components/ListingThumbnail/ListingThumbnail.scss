@@ -19,6 +19,10 @@
   text-align: right;
   width: 100%;
 
+  .listingBadge {
+    top: 150px;
+  }
+
   @media (min-width: $screen-md-min) {
     transition: 0.1s;
   }
