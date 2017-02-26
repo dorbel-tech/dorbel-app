@@ -130,7 +130,7 @@ function* getByFilter(filterJSON, user) {
   }
 
   let options = {
-    order: [['created_at', 'DESC']]
+    order: 'created_at DESC'
   };
 
   var filterMapping = {
