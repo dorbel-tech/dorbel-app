@@ -268,7 +268,7 @@ function getSortOption(sortStr) {
       return 'created_at DESC';
     
     default:
-      return 'created_at DESC';
+      return 'lease_start ASC';
   }
 }
 
