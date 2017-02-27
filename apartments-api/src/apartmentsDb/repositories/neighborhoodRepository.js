@@ -6,7 +6,8 @@ function getByCityId(city_id) {
   return models.neighborhood.findAll({
     where: {
       city_id: city_id
-    }
+    },
+    raw: true
   });
 }
 
