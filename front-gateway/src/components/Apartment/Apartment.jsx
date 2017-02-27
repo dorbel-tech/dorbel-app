@@ -39,9 +39,11 @@ class Apartment extends Component {
 
   loadFullListingDetails() {
     let listingId = this.props.apartmentId;
-    this.setState({ isLoading: true });
-    this.props.appProviders.apartmentsProvider.loadFullListingDetails(listingId)
-      .then(() => this.setState({ isLoading: false }));
+    if (!this.props.appStore.listingStore.get(listingId)) {
+      this.setState({ isLoading: true });
+      this.props.appProviders.apartmentsProvider.loadFullListingDetails(listingId)
+        .then(() => this.setState({ isLoading: false }));
+    }
   }
 
   renderInfoBox(title, svgName) {

@@ -8,10 +8,10 @@ import ListingThumbnail from '../ListingThumbnail/ListingThumbnail';
 describe('Apartments', () => {
   let appProvidersMock;
   let appStoreMock;
-  let mockApartment;
+  let mockResults;
 
   beforeAll(() => {
-    mockApartment = {
+    mockResults = {
       id: 1,
       apartment: {
         id: 1,
@@ -24,8 +24,8 @@ describe('Apartments', () => {
 
     appStoreMock = {
       authStore: {},
-      listingStore: {
-        apartments: [mockApartment]
+      searchStore: {
+        searchResults: [mockResults]
       },
       cityStore: {
         cities: []
@@ -41,9 +41,9 @@ describe('Apartments', () => {
     const wrapper = shallow(<Apartments.wrappedComponent appStore={appStoreMock} appProviders={appProvidersMock} />);
 
     const thumbnails = wrapper.find(ListingThumbnail);
-    expect(thumbnails.length).toBe(appStoreMock.listingStore.apartments.length);
+    expect(thumbnails.length).toBe(appStoreMock.searchStore.searchResults.length);
     const firstThumbnail = thumbnails.at(0);
-    expect(firstThumbnail.prop('listing')).toBe(mockApartment);
+    expect(firstThumbnail.prop('listing')).toBe(mockResults);
   });
 
   it('should set title in metadata', () => {

@@ -5,6 +5,7 @@ import CityStore from '~/stores/CityStore';
 import NeighborhoodStore from '~/stores/NeighborhoodStore';
 import AuthStore from '~/stores/AuthStore';
 import NewListingStore from '~/stores/NewListingStore';
+import SearchStore from '~/stores/SearchStore';
 import { observable, action, autorun } from 'mobx';
 
 // A wrapper for all the stores that the application uses
@@ -29,6 +30,7 @@ export default class AppStore {
     this.cityStore = new CityStore(initialState.cityStore);
     this.neighborhoodStore = new NeighborhoodStore(initialState.neighborhoodStore);
     this.newListingStore = new NewListingStore(this.authStore);
+    this.searchStore = new SearchStore(initialState.searchStore);
     this.metaData = initialState.metaData || {};
 
     autorun(() => {
