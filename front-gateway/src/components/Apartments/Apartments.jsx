@@ -40,7 +40,7 @@ class Apartments extends Component {
   constructor(props) {
     super(props);
     autobind(this);
-
+    this.state = { isLoading: false };
     // TODO: Switch to regex test instead of try-catch.
     try {
       this.filterObj = JSON.parse(decodeURIComponent(location.search.replace(/^\?q=|.*&q=([^&#]*)&.*/, '$1')));
@@ -136,6 +136,8 @@ class Apartments extends Component {
   }
 
   reloadApartments() {
+    this.setState({ isLoading: true });
+
     if (!this.filterObj.city) {
       this.filterObj.city = DEFAULT_FILTER_PARAMS.city;
     }
@@ -145,7 +147,8 @@ class Apartments extends Component {
 
     history.pushState(this.filterObj, title, search);
 
-    this.props.appProviders.apartmentsProvider.loadApartments(this.filterObj);
+    this.props.appProviders.searchProvider.search(this.filterObj)
+      .then(() => { this.setState({ isLoading: false }); });
   }
 
   toggleHideFilter() {
@@ -333,17 +336,16 @@ class Apartments extends Component {
   }
 
   renderResults() {
-    const { listingStore } = this.props.appStore;
-    const apartments = listingStore.apartments.length ? listingStore.apartments : [];
-    const isLoading = this.props.appStore.listingStore.isLoading;
+    const { searchStore } = this.props.appStore;
+    const results = searchStore.searchResults.length ? searchStore.searchResults : [];
 
-    if (!isLoading && apartments.length > 0) {
+    if (!this.state.isLoading && results.length > 0) {
       return (<Grid fluid>
         <Row className="apartments-results-container">
-          {apartments.map(listing => <ListingThumbnail listing={listing} key={listing.id} />)}
+          {results.map(listing => <ListingThumbnail listing={listing} key={listing.id} />)}
         </Row>
       </Grid>);
-    } else if (!this.filterChanged || isLoading) {
+    } else if (!this.filterChanged || this.state.isLoading) {
       return (
         <div className="loaderContainer">
           <LoadingSpinner />

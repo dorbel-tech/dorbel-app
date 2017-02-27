@@ -14,14 +14,6 @@ class ApartmentsProvider {
     this.oheProvider = providers.ohe;
   }
 
-  loadApartments(query) {
-    this.appStore.listingStore.isLoading = true;
-    const q = encodeURIComponent(JSON.stringify(query || {}));
-
-    return this.apiProvider.fetch('/api/apartments/v1/listings?q=' + q)
-      .then(this.appStore.listingStore.clearAndSet);
-  }
-
   loadFullListingDetails(idOrSlug) {
     return this.apiProvider.fetch('/api/apartments/v1/listings/' + idOrSlug)
       .then(listing => {
@@ -85,7 +77,7 @@ class ApartmentsProvider {
     return this.cloudinaryProvider.upload(file, onProgress)
     .then(action('image-upload-done', uploadedImage => {
       image.complete = true;
-      image.src = `http://res.cloudinary.com/dorbel/${uploadedImage.resource_type}/${uploadedImage.type}/v${uploadedImage.version}/${uploadedImage.public_id}.${uploadedImage.format}`;
+      image.src = `https://res.cloudinary.com/dorbel/${uploadedImage.resource_type}/${uploadedImage.type}/v${uploadedImage.version}/${uploadedImage.public_id}.${uploadedImage.format}`;
       image.delete_token = uploadedImage.delete_token;
       image.secure_url = uploadedImage.secure_url;
       return uploadedImage;
@@ -110,9 +102,6 @@ class ApartmentsProvider {
     });
   }
 
-  getRelatedListings(listingId){
-    return this.apiProvider.fetch('/api/apartments/v1/listings/'+listingId+'/related/');
-  }
 }
 
 module.exports = ApartmentsProvider;
