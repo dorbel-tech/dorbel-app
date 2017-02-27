@@ -13,7 +13,7 @@ class RelatedListings extends Component {
 
   componentDidMount() {
     const listingId = this.props.listingId;
-    this.props.appProviders.apartmentsProvider.getRelatedListings(listingId)
+    this.props.appProviders.searchProvider.getRelatedListings(listingId)
       .then(relatedListings => {
         if (relatedListings) {
           this.setState({
