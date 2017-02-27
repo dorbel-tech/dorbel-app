@@ -7,6 +7,12 @@
   @media (max-width: $screen-xs-min) {
     height: 300px;
   }
+
+  .listingBadge {
+    border-radius: 100px;
+    min-width: 190px;
+    top: 485px;
+  }
 }
 
 .fixed-carousel {
