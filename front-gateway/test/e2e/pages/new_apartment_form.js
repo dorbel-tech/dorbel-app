@@ -1,8 +1,8 @@
-var helper = require('./helper');
+var baseUrl = require('./helper').url();
 
 module.exports = {
   url: function(){
-    return helper.url() + '/apartments/new_form';
+    return baseUrl + '/apartments/gnew_form';
   },
   sections: {
     apartmentPictures: {

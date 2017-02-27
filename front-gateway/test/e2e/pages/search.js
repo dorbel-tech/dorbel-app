@@ -1,8 +1,8 @@
-var helper;
+var baseUrl = require('./helper').url();
 
 module.exports = {
-  url: function(){    
-    return helper.url() + '/apartments';
+  url: function(){
+    return baseUrl + '/apartments';
   },
   elements: {
     city: {
