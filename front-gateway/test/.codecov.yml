@@ -2,3 +2,6 @@ comment:
   require_changes: yes
 fixes:
   - "::front-gateway/"
+parsers:
+  javascript:
+    enable_partials: yes

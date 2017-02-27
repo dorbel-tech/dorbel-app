@@ -17,11 +17,15 @@ services:
       SUMOLOGIC_COLLECTOR: ${SUMOLOGIC_COLLECTOR}
 
   notifications-service:
+    volumes:
+      - ./notifications-service-shared:/shared
     environment:
       NODE_ENV: ${NODE_ENV}
       SUMOLOGIC_COLLECTOR: ${SUMOLOGIC_COLLECTOR}
 
   ohe-api:
+    volumes:
+      - ./ohe-api-shared:/shared
     command: bash -c "./scripts/wait-for-it.sh db:3306 --timeout=180 && yarn run start"
     environment:
       NODE_ENV: ${NODE_ENV}

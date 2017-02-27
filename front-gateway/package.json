@@ -130,7 +130,6 @@
     "collectCoverageFrom": [
       "src/**/*.{js,jsx}"
     ],
-    "coverageDirectory": "<rootDir>/test/coverage",
-    "coverageReporters": ["lcov", "text"]
+    "coverageDirectory": "<rootDir>/test/coverage"
   }
 }
