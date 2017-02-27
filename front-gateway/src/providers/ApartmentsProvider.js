@@ -85,7 +85,7 @@ class ApartmentsProvider {
     return this.cloudinaryProvider.upload(file, onProgress)
     .then(action('image-upload-done', uploadedImage => {
       image.complete = true;
-      image.src = `http://res.cloudinary.com/dorbel/${uploadedImage.resource_type}/${uploadedImage.type}/v${uploadedImage.version}/${uploadedImage.public_id}.${uploadedImage.format}`;
+      image.src = `https://res.cloudinary.com/dorbel/${uploadedImage.resource_type}/${uploadedImage.type}/v${uploadedImage.version}/${uploadedImage.public_id}.${uploadedImage.format}`;
       image.delete_token = uploadedImage.delete_token;
       image.secure_url = uploadedImage.secure_url;
       return uploadedImage;
