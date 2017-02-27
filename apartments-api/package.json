@@ -55,7 +55,7 @@
   },
   "nyc": {
     "reporter": [
-      "lcov"
+      "json"
     ],
     "report-dir": "./test/coverage"
   }
