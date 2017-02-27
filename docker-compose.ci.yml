@@ -2,6 +2,8 @@
 version: '2'
 services:
   apartments-api:
+    volumes:
+      - ./apartments-api-shared:/shared
     command: bash -c "./scripts/wait-for-it.sh db:3306 --timeout=180 && yarn run start"
     environment:
       NODE_ENV: ${NODE_ENV}
