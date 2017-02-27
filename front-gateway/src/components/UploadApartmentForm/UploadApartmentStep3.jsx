@@ -84,6 +84,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
     const { authStore, newListingStore } = this.props.appStore;
     const existingOhe = _.get(newListingStore, 'formValues.open_house_event');
     const FRC = FormWrapper.FRC;
+    let createdListingIdAttr = {'data-attr': this.props.createdListingId};
 
     return (
       <Grid fluid className="upload-apt-wrapper">
@@ -134,7 +135,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
           onClose={this.onCloseSuccessModal.bind(this)}
           title="העלאת הדירה הושלמה!"
           body={
-            <div className="text-center">
+            <div className="text-center" {...createdListingIdAttr}>
               <p>
                 תהליך העלאת פרטי הדירה הושלם בהצלחה.<br />
                 מודעתכם נמצאת כרגע בתהליך אישור. ברגע שהמודעה תעלה לאתר,
@@ -149,7 +150,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
                 <Button bsStyle="info" onClick={this.onCloseSuccessModal.bind(this)}>סגור</Button>
               </p>
             </div>
-          }
+          }          
         />
       </Grid>
     );
