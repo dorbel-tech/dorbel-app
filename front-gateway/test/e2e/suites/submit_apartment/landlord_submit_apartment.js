@@ -1,14 +1,14 @@
-var home,
+var helper,
   newApartmentForm;
 
 function login() {
-  home.navigate().signInAsTestUser();
+  helper.navigate().signInAsTestUser(false);
 }
 
 module.exports = {
   beforeEach: function (browser) {
-    home = browser.page.home();
-    home.resizeDesktop(browser);
+    helper = browser.page.helper();
+    helper.resizeDesktop(browser);
     newApartmentForm = browser.page.new_apartment_form();
   },
   'should go back from apartment details to previous screen': function (browser) {
