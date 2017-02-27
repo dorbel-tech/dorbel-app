@@ -1,3 +1,4 @@
+var common = require('../common');
 var baseUrl = require('./helper').url();
 
 module.exports = {
@@ -136,6 +137,9 @@ module.exports = {
       elements: {
         successTitle: {
           selector: '.modal-header > h4'
+        },
+        listingId: {
+          selector: '.modal-body .text-center'
         }
       }
     }
@@ -178,14 +182,14 @@ module.exports = {
     },
     fillApartmentDetailsAllFields: function () {
       this.section.apartmentDetails
-        .setValue('@street', 'רוטשילד')
-        .setValue('@houseNumber', '129')
-        .setValue('@apartmentNumber', '1')
+        .setValue('@street', 'כצנלסון')
+        .setValue('@houseNumber', common.getBigRandomNumber())
+        .setValue('@apartmentNumber', common.getBigRandomNumber())
         .setValue('@buildingEntrance', 'א')
-        .setValue('@apartmentFloor', '1')
-        .setValue('@buildingFloors', '3')
-        .setValue('@apartmentSize', '50')
-        .setValue('@apartmentRooms', '2')
+        .setValue('@apartmentFloor', common.getSmallRandomNumber())
+        .setValue('@buildingFloors', common.getSmallRandomNumber())
+        .setValue('@apartmentSize', common.getBigRandomNumber())
+        .setValue('@apartmentRooms', common.getSmallRandomNumber())
         .setValue('@description', 'דויד המלך עובד כאן')
         .setValue('@city', 'הרצליה')
         .setValue('@neighbourhood', 'גורדון')
@@ -228,6 +232,14 @@ module.exports = {
     },
     submitNewApartmentForm: function () {
       this.section.openHouseEvent.click('@submit');
+      return this;
+    },
+    fillAndSubmitNewApartmentForm: function () {
+      this
+        // TODO: Add upload image functionality.
+        .navigateToOpenHouseEventSection()
+        .fillOpenHouseEventDetailsAllFields()
+        .submitNewApartmentForm();
       return this;
     }
   }]

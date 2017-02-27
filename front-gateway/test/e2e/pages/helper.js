@@ -16,7 +16,7 @@ module.exports = {
       selector: '.header-navbar-profile-login-text'
     },
     loginTab: {
-      selector: '.auth0-lock-tabs > li > a'
+      selector: '.auth0-lock-tabs > li :not(.auth0-lock-tabs-current)'
     },
     emailField: {
       selector: '.auth0-lock-input-email input[name=email]'
@@ -37,7 +37,7 @@ module.exports = {
     },
     resizeMobile: function(browser) {
       browser.resizeWindow(320, 800);
-    },    
+    },
     signInAsTestUser: function (isAdmin = false) {
       const user = isAdmin ? E2E_USER_ADMIN : E2E_USER;
       return this
@@ -50,6 +50,12 @@ module.exports = {
         .setValue('@passwordField', user.password)
         .click('@submit')
         .waitForElementVisible('@loggedInName');
+    },
+    signOut: function () {
+      return this
+        .waitForElementVisible('body')
+        .waitForElementVisible('@loginLink')
+        .click('@loginLink');        
     }
   }]
 };

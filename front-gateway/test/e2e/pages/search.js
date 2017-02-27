@@ -4,14 +4,19 @@ module.exports = {
   url: function(){
     return baseUrl + '/apartments';
   },
-  elements: {
-    city: {
-      selector: '.header-navbar-profile-login-text'
+  sections: {
+    searchFilter: {
+      selector: '.apartments-filter-wrapper',
+      elements: {
+        city: {
+          selector: '#cityDropdown'
+        }
+      }
     }
   },
   commands: [{  
-    selectCity: function(browser) {
-      browser.resizeWindow(1280, 1024);
+    selectCity: function() {
+      return this.section.searchFilter.getValue('@city');
     },
   }]
 };
