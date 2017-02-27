@@ -8,10 +8,27 @@
     height: 300px;
   }
 
-  .listingBadge {
-    border-radius: 100px;
-    min-width: 190px;
-    top: 485px;
+  .apt-header-badge-container {
+    position: absolute;
+    text-align: center;
+    top: 487px;
+    width: 100%;
+
+    .listingBadge {
+      border-radius: 100px;
+      display: inline-block;
+      width: 190px;
+      top: 485px;
+    }
+
+    @media (max-width: $screen-xs-min) {
+      text-align: right;
+      top: 100px;
+
+      .listingBadge {
+        border-radius: 100px 0 0 100px;
+      }
+    }
   }
 }
 
