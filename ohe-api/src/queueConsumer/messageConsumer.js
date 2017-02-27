@@ -12,7 +12,7 @@ const co = require('co');
 const oheServiceUser = { id: '20000000-0000-0000-0000-000000000000', role: 'admin' };
 
 function handleMessage(message) {
-  logger.debug('handleMessage', message);
+  logger.debug(message, 'handleMessage');
 
   return co(function *() {
     switch (message.eventType) {
