@@ -130,7 +130,7 @@ function* getByFilter(filterJSON, user) {
   }
 
   let options = {
-    order: getSortOption(filter.sort) + ' DESC'
+    order: getSortOption(filter.sort)
   };
 
   var filterMapping = {
@@ -265,9 +265,9 @@ function getSortOption(sortStr) {
     case 'publish_date':
       return 'created_at';
     case 'lease_start':
-      return 'lease_start';
+      return 'lease_start ASC';
     default:
-      return 'created_at';
+      return 'created_at DESC';
   }
 }
 
