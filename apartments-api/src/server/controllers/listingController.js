@@ -9,7 +9,7 @@ function* get() {
 }
 
 function* post() {
-  logger.debug('Creating listing...');
+  logger.debug('Creating new listing...');
   let newApartment = this.request.body;
   newApartment.publishing_user_id = this.request.user.id;
   // TODO : this does find-or-create - we should return an error if the apartment already exists
@@ -18,7 +18,7 @@ function* post() {
   logger.info({ 
     listing_ud: logObject.id,
     user_uuid: logObject.publishing_user_id
-  }, 'Listing created');
+  }, 'New listing created');
 
   this.response.status = 201;
   this.response.body = createdListing;
