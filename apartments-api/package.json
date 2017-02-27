@@ -29,6 +29,7 @@
     "eslint-plugin-flowtype": "^2.19.0",
     "faker": "^3.1.0",
     "fleek-router": "^1.2.5",
+    "googleapis": "^17.1.0",
     "hamjest": "^2.13.0",
     "koa": "^1.2.4",
     "koa-bodyparser": "^2.2.0",
