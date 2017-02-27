@@ -13,6 +13,7 @@
     text-align: center;
     top: 487px;
     width: 100%;
+    z-index: 1;
 
     .listingBadge {
       border-radius: 100px;
@@ -21,12 +22,56 @@
       top: 485px;
     }
 
-    @media (max-width: $screen-xs-min) {
+    @media (max-width: $screen-md-max) {
       text-align: right;
-      top: 100px;
+      top: 0;
 
       .listingBadge {
-        border-radius: 100px 0 0 100px;
+        background: transparent;
+        border-left: 110px solid transparent;
+        border-radius: 0;
+        border-top: 110px solid;
+        box-shadow: none;
+        opacity: 0.7;
+        padding: 0;
+        width: 0;
+
+        .badgeText {
+          @include rotate(45deg);
+          @include transform-origin(center center);
+
+          font-size: 15px;
+          font-weight: 700;
+          max-width: 60px;
+          position: absolute;
+          right: 20px;
+          text-align: center;
+          top: 30%;
+        }
+
+        &.rented {
+          border-top-color: #0086ff;
+        }
+
+        &.roommates {
+          border-top-color: #f09b0a;
+        }
+
+        &.unlisted {
+          border-top-color: #2d3e50;
+        }
+
+        &.pending {
+          border-top-color: #9b9b9b;
+        }
+
+        &.unlisted,
+        &.pending {
+          .badgeText {
+            top: 15%;
+            right: 10px;
+          }
+        }
       }
     }
   }
