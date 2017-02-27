@@ -48,9 +48,8 @@
     "satisfaction": "^3.0.0"
   },
   "nyc": {
-    "reporter": [
-      "json"
-    ],
+    "reporter": ["json"],
+    "include": ["src/**/*.{js}"],
     "report-dir": "./test/coverage"
   }
 }
