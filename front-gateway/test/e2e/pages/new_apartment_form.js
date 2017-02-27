@@ -2,7 +2,7 @@ var baseUrl = require('./helper').url();
 
 module.exports = {
   url: function(){
-    return baseUrl + '/apartments/gnew_form';
+    return baseUrl + '/apartments/new_form';
   },
   sections: {
     apartmentPictures: {
