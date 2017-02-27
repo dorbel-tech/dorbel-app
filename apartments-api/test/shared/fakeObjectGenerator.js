@@ -42,11 +42,11 @@ function getFakeListing() {
   };
 }
 
-function getFakeUser() {
-  return {
+function getFakeUser(variant) {
+  return Object.assign({
     id: faker.random.uuid(),
     email: faker.internet.email()
-  };
+  }, variant);
 }
 
 module.exports = {
