@@ -11,6 +11,8 @@ import NeighborhoodProvider from './NeighborhoodProvider';
 import CloudinaryProvider from './CloudinaryProvider';
 import NotificationProvider from './NotificationProvider';
 import ModalProvider from './ModalProvider';
+import SearchProvider from './SearchProvider';
+
 import utils from './utils';
 
 function loadAuthProvider(appStore, router) {
@@ -38,6 +40,7 @@ class AppProviders {
     this.neighborhoodProvider = new NeighborhoodProvider(appStore, this.apiProvider);
     this.notificationProvider = new NotificationProvider();
     this.modalProvider = new ModalProvider(appStore);
+    this.searchProvider = new SearchProvider(appStore, this.apiProvider);
     this.utils = utils;
   }
 }
