@@ -262,10 +262,11 @@ function* getRelatedListings(listingId, limit) {
 
 function getSortOption(sortStr) {
   switch (sortStr) {
-    case 'publish_date':
-      return 'created_at DESC';
     case 'lease_start':
       return 'lease_start ASC';
+    case 'publish_date':
+      return 'created_at DESC';
+    
     default:
       return 'created_at DESC';
   }
