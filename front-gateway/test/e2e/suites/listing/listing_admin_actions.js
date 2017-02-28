@@ -1,14 +1,14 @@
-var helper,
+var home,
   newApartmentForm,
   listing,
   listingId;
 
 function login(isAdmin = false) {
-  helper.navigate().signInAsTestUser(isAdmin);
+  home.navigate().signInAsTestUser(isAdmin);
 }
 
 function logout() {
-  helper.signOut();
+  home.signOut();
 }
 
 function submitApartment() {
@@ -25,8 +25,8 @@ function submitApartment() {
 
 module.exports = {
   beforeEach: function (browser) {
-    helper = browser.page.helper();
-    helper.resizeDesktop(browser);
+    home = browser.page.home();
+    home.resizeDesktop(browser);
     newApartmentForm = browser.page.new_apartment_form();
     listing = browser.page.listing();
   },

@@ -1,5 +1,5 @@
 const common = require('../common');
-const baseUrl = require('./helper').url();
+const baseUrl = require('./home').url();
 
 module.exports = {
   url: function(){

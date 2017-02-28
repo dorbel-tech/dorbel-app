@@ -1,5 +1,5 @@
 const util = require('util');
-const baseUrl = require('./helper').url();
+const baseUrl = require('./home').url();
 
 module.exports = {
   url: function(listingId){

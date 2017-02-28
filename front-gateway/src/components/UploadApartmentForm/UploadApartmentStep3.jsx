@@ -150,7 +150,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
                 <Button bsStyle="info" onClick={this.onCloseSuccessModal.bind(this)}>סגור</Button>
               </p>
             </div>
-          }          
+          }
         />
       </Grid>
     );

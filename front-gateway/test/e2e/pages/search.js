@@ -1,4 +1,4 @@
-var baseUrl = require('./helper').url();
+var baseUrl = require('./home').url();
 
 module.exports = {
   url: function(){
