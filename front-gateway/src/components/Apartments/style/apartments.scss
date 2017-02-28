@@ -76,11 +76,11 @@
   }
 }
 
-.apartments-filter-switches-container {
+.apartments-filter-group-container {
   border-bottom: 1px solid $gray-lighter;
   font-size: 15px;
   line-height: $line-height-computed;
-  padding: 48px 22px 26px;
+  padding: 22px 22px 26px;
 }
 
 .apartments-filter-admin-switch {
@@ -91,11 +91,11 @@
   }
 }
 
-.apartments-filter-switches-show-rommates-switch {
+.apartments-filter-switch-group-header {
   margin-bottom: 3px;
 }
 
-.apartments-filter-switches-switch-wrapper {
+.apartments-filter-input-wrapper {
   display: inline-block;
   font-size: 13px;
   width: 50%;

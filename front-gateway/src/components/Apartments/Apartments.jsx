@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import autobind from 'react-autobind';
-import { Button, Checkbox, Col, DropdownButton, Grid, MenuItem, Row } from 'react-bootstrap';
+import { Button, Checkbox, Radio, Col, DropdownButton, Grid, MenuItem, Row } from 'react-bootstrap';
 import { observer } from 'mobx-react';
 import ListingThumbnail from '../ListingThumbnail/ListingThumbnail.jsx';
 import Nouislider from 'react-nouislider';
@@ -135,6 +135,13 @@ class Apartments extends Component {
     this.reloadApartments();
   }
 
+  sortChangeHandler(e) {
+    this.filterChanged = true;
+    this.filterObj.sort = e.target.value;
+
+    this.reloadApartments();
+  }
+
   reloadApartments() {
     this.setState({ isLoading: true });
 
@@ -161,7 +168,7 @@ class Apartments extends Component {
     const userIsAdmin = profile && profile.role === 'admin';
 
     if (userIsAdmin) {
-      return <div className="apartments-filter-switches-container">
+      return <div className="apartments-filter-group-container">
         <h5><b>הצג דירות בסטטוס</b></h5>
         <Checkbox name="pending"
           checked={this.state.pending}
@@ -189,6 +196,28 @@ class Apartments extends Component {
         </Checkbox>
       </div>;
     }
+  }
+
+  renderSort() {
+    return (
+      <div className="sort-container apartments-filter-group-container">
+        <div className="apartments-filter-switch-group-headersort-header">
+          <b>סדר לפי</b>
+        </div>
+        <div className="sort-options">
+          <div className="apartments-filter-input-wrapper">
+            <Radio value="lease_start" checked={this.filterObj.sort === 'lease_start' || !this.filterObj.sort} onChange={this.sortChangeHandler}>
+              תאריך כניסה
+            </Radio>
+          </div>
+          <div className="apartments-filter-input-wrapper">
+            <Radio value="publish_date" checked={this.filterObj.sort === 'publish_date'} onChange={this.sortChangeHandler}>
+              תאריך פרסום
+              </Radio>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   renderFilter() {
@@ -221,14 +250,15 @@ class Apartments extends Component {
           </DropdownButton>
         </div>
         {this.renderAdminFilter()}
-        <div className="apartments-filter-switches-container">
+        {this.renderSort()}
+        <div className="apartments-filter-group-container">
           <Checkbox name="roommate"
             checked={this.state.roommate}
-            className="apartments-filter-switches-show-rommates-switch"
+            className="apartments-filter-switch-group-header"
             onChange={this.roommateChangeHandler}>
             <b>הציגו לי דירות לשותפים</b>
           </Checkbox>
-          <div className="apartments-filter-switches-switch-wrapper">
+          <div className="apartments-filter-input-wrapper">
             <Checkbox name="empty"
               checked={this.state.empty}
               disabled={!this.state.roommate || !this.state.room}
@@ -236,7 +266,7 @@ class Apartments extends Component {
               דירות ריקות לשותפים
               </Checkbox>
           </div>
-          <div className="apartments-filter-switches-switch-wrapper">
+          <div className="apartments-filter-input-wrapper">
             <Checkbox name="room"
               checked={this.state.room}
               disabled={!this.state.roommate || !this.state.empty}
