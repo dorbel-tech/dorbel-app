@@ -26,7 +26,7 @@ describe('SearchProvider', () => {
     searchProvider = new SearchProvider(appStoreMock, apiProviderMock);
   });
 
-  it('should call API to load apartments and save them to store', () => {
+  it('should call API to load search results and save them to store', () => {
     return searchProvider.search()
       .then(() => expect(appStoreMock.searchStore.searchResults).toBe(mockSearchResults));
   });

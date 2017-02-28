@@ -25,9 +25,11 @@ export default class ImageCarousel extends React.Component {
 
     return (
       <header className="apt-header">
+        <div className="apt-header-badge-container">
+          <ListingBadge listing={listing}/>
+        </div>
         <div className="container-fluid">
           <div className="row">
-            <ListingBadge listing={listing}/>
             <Flickity key={listing.id + '_flickity'} className={carouselClass} options={flickityOptions} >
               {sortedListingImages.map((image, index) =>
                 <div key={listing.id + '_' + index} className="sliderBoxes">

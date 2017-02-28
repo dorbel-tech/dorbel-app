@@ -1,5 +1,5 @@
 'use strict';
-import Apartments from '~/components/Apartments/Apartments';
+import Search from '~/components/Search/Search';
 import Apartment from '~/components/Apartment/Apartment';
 import Home from '~/components/Home';
 import ErrorPage from '~/components/ErrorPage';
@@ -11,7 +11,7 @@ const routes = [
   { route: '/', view: Home },
   { route: '/health', view: Health },
   { route: '/login', view: Login },
-  { route: '/apartments', view: Apartments },
+  { route: '/apartments', view: Search },
   { route: '/apartments/new_form', view: UploadApartmentForm },
   { route: '/apartments/:apartmentId', view: Apartment },
   { route: '/apartments/:apartmentId/:action', view: Apartment, requireLogin: true },

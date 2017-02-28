@@ -130,7 +130,7 @@ function* getByFilter(filterJSON, user) {
   }
 
   let options = {
-    order: 'created_at DESC'
+    order: getSortOption(filter.sort)
   };
 
   var filterMapping = {
@@ -258,6 +258,18 @@ function* getRelatedListings(listingId, limit) {
   };
 
   return listingRepository.list(listingQuery, options);
+}
+
+function getSortOption(sortStr) {
+  switch (sortStr) {
+    case 'lease_start':
+      return 'lease_start ASC';
+    case 'publish_date':
+      return 'created_at DESC';
+    
+    default:
+      return 'lease_start ASC';
+  }
 }
 
 module.exports = {

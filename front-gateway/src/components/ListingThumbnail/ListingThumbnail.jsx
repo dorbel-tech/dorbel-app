@@ -11,6 +11,11 @@ class ListingThumbnail extends Component {
     return listing.slug || listing.id;
   }
 
+  getListingDateStr(listing) {
+    return new Date(listing.lease_start) <= Date.now() ?
+      'מיידי' : utils.formatDate(listing.lease_start);
+  }
+
   render() {
     const { listing } = this.props;
     const sortedListingImages = utils.sortListingImages(listing);
@@ -22,7 +27,7 @@ class ListingThumbnail extends Component {
     return (
       <Col lg={4} sm={6} xs={12}>
         <NavLink to={'/apartments/' + this.getListingPath(listing)}
-                 className="thumbnail apt-thumb-container apt-thumb-container-single pull-right">
+          className="thumbnail apt-thumb-container apt-thumb-container-single pull-right">
           <ListingBadge listing={listing} />
           <div className="apt-thumb-apt-image">
             <CloudinaryImage src={imageURL} height={500} />
@@ -41,7 +46,8 @@ class ListingThumbnail extends Component {
                 {listing.apartment.rooms}</span><span className="apt-thumb-sub-text"> חד'</span>
               <span className="apt-thumb-details-extra-date">
                 <span className="apt-thumb-sub-text">תאריך כניסה </span>
-                {utils.formatDate(listing.lease_start)}</span>
+                {this.getListingDateStr(listing)}
+              </span>
             </div>
           </div>
           <div className="apt-thumb-caption">
