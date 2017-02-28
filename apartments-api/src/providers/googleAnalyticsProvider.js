@@ -1,41 +1,72 @@
+'use strict';
 const google = require('googleapis');
+const shared = require('dorbel-shared');
+const moment = require('moment');
 
-const key = require('/home/avner/Downloads/dorbel-a7733f097cf8.json');
+const logger = shared.logger.getLogger(module);
+const config = shared.config;
 
-var jwtClient = new google.auth.JWT(
-  key.client_email,
-  null,
-  key.private_key,
-  ['https://www.googleapis.com/auth/analytics'],
-  null
-);
+let ga;
 
-var ga = google.analytics('v3');
+const gaAuthScope = ['https://www.googleapis.com/auth/analytics.readonly'];
 
-var opts = {
-  ids: 'ga:138157029',
-  metrics: 'ga:pageviews',
-  'start-date':'2017-02-01',
-  'end-date':'2017-03-01',
-  filters: 'ga:pagePath==/apartments/1', // https://developers.google.com/analytics/devguides/reporting/core/v3/reference#filters
-  auth: jwtClient
-};
+function init() {
+  const googleAnalyticsID = config.get('GOOGLE_ANALYTICS_ID');
+  const serviceEmail = config.get('GOOGLE_API_SERVICE_EMAIL');
+  const serviceKey = config.get('GOOGLE_API_SERVICE_KEY');
 
-jwtClient.authorize(function (err, tokens) {
-  if (err) {
-    console.log('error on auth', err);
-    return;
+  if (!googleAnalyticsID || !serviceEmail || !serviceKey) {
+    logger.warn('Missing Environment keys for Google Analytics provider');
+    return Promise.reject();
   }
 
-  ga.data.ga.get(opts,
-  function (err, resp) {
-    if (err) {
-      console.log('error on data get', err);
-      return;
-    }
+  const jwtClient = new google.auth.JWT(serviceEmail, null, serviceKey, gaAuthScope, null);
 
-    console.log(resp.rows[0][0], 'pageviews');
+  ga = google.analytics({
+    version: 'v3',
+    auth: jwtClient
   });
-});
 
+  return new Promise((resolve, reject) => {
+    jwtClient.authorize(function (err) {
+      if (err) {
+        logger.error('error on google auth', err);
+        reject(err);
+      } else {
+        resolve();
+      }
+    });
+  });
+}
 
+function getPageViews(urls) {
+  if (!ga) {
+    return Promise.reject();
+  }
+
+  var opts = {
+    ids: config.get('GOOGLE_ANALYTICS_ID'),
+    metrics: 'ga:pageviews',
+    'start-date': '2017-01-01',
+    'end-date': moment().format('YYYY-MM-DD')
+  };
+
+  // https://developers.google.com/analytics/devguides/reporting/core/v3/reference#filters
+  opts.filters = urls.map(url => `ga:pagePath==${url}`).join(',');
+
+  return new Promise((resolve, reject) => {
+    ga.data.ga.get(opts, (err, resp) => {
+      if (err) {
+        return reject(err);
+      }
+
+      console.log(resp.rows, 'pageviews');
+      resolve(resp);
+    });
+  });
+}
+
+module.exports = {
+  init,
+  getPageViews
+};
