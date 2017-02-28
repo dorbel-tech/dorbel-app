@@ -1,15 +1,15 @@
-.apartments-wrapper {
+.search-wrapper {
   height: 100%;
   position: relative;
 }
 
-.apartments-container {
+.search-container {
   @media (min-width: $screen-md-min) {
     background-color: $gray-lighter;
   }
 }
 
-.apartments-filter-toggle-container {
+.search-filter-toggle-container {
   left: 100px;
   position: fixed;
   right: 100px;
@@ -22,7 +22,7 @@
   }
 }
 
-.apartments-filter-wrapper {
+.search-filter-wrapper {
   background-color: $brand-white;
   padding: 39px 0;
 
@@ -43,7 +43,7 @@
   }
 }
 
-.apartments-results-wrapper {
+.search-results-wrapper {
   background-color: $gray-lighter;
   height: 100%;
   overflow: auto;
@@ -67,23 +67,23 @@
   }
 }
 
-.apartments-filter-city-container {
+.search-filter-city-container {
   text-align: center;
 
-  .apartments-filter-city-dropdown {
+  .search-filter-city-dropdown {
     height: 62px;
     width: 285px;
   }
 }
 
-.apartments-filter-group-container {
+.search-filter-group-container {
   border-bottom: 1px solid $gray-lighter;
   font-size: 15px;
   line-height: $line-height-computed;
   padding: 22px 22px 26px;
 }
 
-.apartments-filter-admin-switch {
+.search-filter-admin-switch {
   display: inline-block;
 
   &:nth-child(even) {
@@ -91,24 +91,24 @@
   }
 }
 
-.apartments-filter-switch-group-header {
+.search-filter-switch-group-header {
   margin-bottom: 3px;
 }
 
-.apartments-filter-input-wrapper {
+.search-filter-input-wrapper {
   display: inline-block;
   font-size: 13px;
   width: 50%;
 }
 
-.apartments-filter-sliders-container {
+.search-filter-sliders-container {
   border-bottom: 1px solid $gray-lighter;
   font-size: 13px;
   line-height: $line-height-computed;
   padding: 24px 46px 0;
 }
 
-.apartments-filter-amenities-container {
+.search-filter-amenities-container {
   font-size: 13px;
   line-height: $line-height-computed;
   margin-right: 0 !important;
@@ -125,7 +125,7 @@
   }
 }
 
-.apartments-results-not-found {
+.search-results-not-found {
   font-size: 15px;
   text-align: center;
   padding: 20px 0;
@@ -135,7 +135,7 @@
   }
 }
 
-.apartments-results-not-found-title {
+.search-results-not-found-title {
   font-size: 17px;
 }
 
