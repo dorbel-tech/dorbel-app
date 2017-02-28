@@ -1,5 +1,5 @@
-var common = require('../common');
-var baseUrl = require('./helper').url();
+const common = require('../common');
+const baseUrl = require('./helper').url();
 
 module.exports = {
   url: function(){
@@ -183,12 +183,12 @@ module.exports = {
     fillApartmentDetailsAllFields: function () {
       this.section.apartmentDetails
         .setValue('@street', 'כצנלסון')
-        .setValue('@houseNumber', common.getBigRandomNumber())
-        .setValue('@apartmentNumber', common.getBigRandomNumber())
+        .setValue('@houseNumber', common.getMediumRandomNumber())
+        .setValue('@apartmentNumber', common.getMediumRandomNumber())
         .setValue('@buildingEntrance', 'א')
         .setValue('@apartmentFloor', common.getSmallRandomNumber())
         .setValue('@buildingFloors', common.getSmallRandomNumber())
-        .setValue('@apartmentSize', common.getBigRandomNumber())
+        .setValue('@apartmentSize', common.getMediumRandomNumber())
         .setValue('@apartmentRooms', common.getSmallRandomNumber())
         .setValue('@description', 'דויד המלך עובד כאן')
         .setValue('@city', 'הרצליה')
@@ -202,9 +202,9 @@ module.exports = {
         .click('@securityBars')
         .click('@parquetFloor')
         .setValue('@entranceDate', '')
-        .setValue('@monthlyRent', '1000')
-        .setValue('@propertyTax', '1000')
-        .setValue('@boardFee', '1000');
+        .setValue('@monthlyRent', common.getBigRandomNumber())
+        .setValue('@propertyTax', common.getBigRandomNumber())
+        .setValue('@boardFee', common.getBigRandomNumber());
       return this;
     },
     fillOpenHouseEventDetailsAllFields: function () {
