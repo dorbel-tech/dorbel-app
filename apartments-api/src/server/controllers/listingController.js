@@ -9,12 +9,16 @@ function* get() {
 }
 
 function* post() {
-  logger.debug('Creating listing...');
+  logger.debug('Creating new listing...');
   let newApartment = this.request.body;
   newApartment.publishing_user_id = this.request.user.id;
   // TODO : this does find-or-create - we should return an error if the apartment already exists
   let createdListing = yield listingService.create(newApartment);
-  logger.info(_.pick(createdListing, ['id', 'apartment_id', 'publishing_user_id']), 'Listing created');
+  let logObject = _.pick(createdListing, ['id', 'publishing_user_id']);
+  logger.info({ 
+    listing_ud: logObject.id,
+    user_uuid: logObject.publishing_user_id
+  }, 'New listing created');
 
   this.response.status = 201;
   this.response.body = createdListing;

@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import autobind from 'react-autobind';
-import { Button, Checkbox, Col, DropdownButton, Grid, MenuItem, Row } from 'react-bootstrap';
+import { Button, Checkbox, Radio, Col, DropdownButton, Grid, MenuItem, Row } from 'react-bootstrap';
 import { observer } from 'mobx-react';
 import ListingThumbnail from '../ListingThumbnail/ListingThumbnail.jsx';
 import Nouislider from 'react-nouislider';
 import { range } from 'lodash';
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 
-import './Apartments.scss';
+import './Search.scss';
 
 const DEFAULT_FILTER_PARAMS = {
   // Admin filter default values.
@@ -34,13 +34,13 @@ const DEFAULT_FILTER_PARAMS = {
 };
 
 @observer(['appStore', 'appProviders'])
-class Apartments extends Component {
+class Search extends Component {
   static hideFooter = true;
 
   constructor(props) {
     super(props);
     autobind(this);
-
+    this.state = { isLoading: false };
     // TODO: Switch to regex test instead of try-catch.
     try {
       this.filterObj = JSON.parse(decodeURIComponent(location.search.replace(/^\?q=|.*&q=([^&#]*)&.*/, '$1')));
@@ -62,14 +62,14 @@ class Apartments extends Component {
 
   componentDidMount() {
     this.props.appProviders.cityProvider.loadCities();
-    this.reloadApartments();
+    this.reloadResults();
   }
 
   citySelectHandler(cityId) {
     this.filterChanged = true;
     this.filterObj.city = cityId;
 
-    this.reloadApartments();
+    this.reloadResults();
   }
 
   mrSliderChangeHandler(mrStringArray, unused, monthly_rent) {
@@ -102,7 +102,7 @@ class Apartments extends Component {
       delete this.filterObj[maxProp];
     }
 
-    this.reloadApartments();
+    this.reloadResults();
   }
 
   adminFilterChangeHandler(e) {
@@ -114,7 +114,7 @@ class Apartments extends Component {
     this.setState({ [e.target.name]: e.target.checked });
 
     this.filterObj[e.target.name] = e.target.checked ? true : falseOption;
-    this.reloadApartments();
+    this.reloadResults();
   }
 
   roommateChangeHandler(e) {
@@ -132,10 +132,19 @@ class Apartments extends Component {
       this.filterObj.room = 1;
     }
 
-    this.reloadApartments();
+    this.reloadResults();
   }
 
-  reloadApartments() {
+  sortChangeHandler(e) {
+    this.filterChanged = true;
+    this.filterObj.sort = e.target.value;
+
+    this.reloadResults();
+  }
+
+  reloadResults() {
+    this.setState({ isLoading: true });
+
     if (!this.filterObj.city) {
       this.filterObj.city = DEFAULT_FILTER_PARAMS.city;
     }
@@ -145,7 +154,8 @@ class Apartments extends Component {
 
     history.pushState(this.filterObj, title, search);
 
-    this.props.appProviders.apartmentsProvider.loadApartments(this.filterObj);
+    this.props.appProviders.searchProvider.search(this.filterObj)
+      .then(() => { this.setState({ isLoading: false }); });
   }
 
   toggleHideFilter() {
@@ -158,34 +168,56 @@ class Apartments extends Component {
     const userIsAdmin = profile && profile.role === 'admin';
 
     if (userIsAdmin) {
-      return <div className="apartments-filter-switches-container">
+      return <div className="search-filter-group-container">
         <h5><b>הצג דירות בסטטוס</b></h5>
         <Checkbox name="pending"
           checked={this.state.pending}
-          className="apartments-filter-admin-switch"
+          className="search-filter-admin-switch"
           onChange={this.adminFilterChangeHandler}>
           ממתינה לאישור
         </Checkbox>
         <Checkbox name="listed"
           checked={this.state.listed}
-          className="apartments-filter-admin-switch"
+          className="search-filter-admin-switch"
           onChange={this.adminFilterChangeHandler}>
           מפורסמת
         </Checkbox>
         <Checkbox name="rented"
           checked={this.state.rented}
-          className="apartments-filter-admin-switch"
+          className="search-filter-admin-switch"
           onChange={this.adminFilterChangeHandler}>
           הושכרה
         </Checkbox>
         <Checkbox name="unlisted"
           checked={this.state.unlisted}
-          className="apartments-filter-admin-switch"
+          className="search-filter-admin-switch"
           onChange={this.adminFilterChangeHandler}>
           לא פעילה
         </Checkbox>
       </div>;
     }
+  }
+
+  renderSort() {
+    return (
+      <div className="sort-container search-filter-group-container">
+        <div className="search-filter-switch-group-headersort-header">
+          <b>סדר לפי</b>
+        </div>
+        <div className="sort-options">
+          <div className="search-filter-input-wrapper">
+            <Radio value="lease_start" checked={this.filterObj.sort === 'lease_start' || !this.filterObj.sort} onChange={this.sortChangeHandler}>
+              תאריך כניסה
+            </Radio>
+          </div>
+          <div className="search-filter-input-wrapper">
+            <Radio value="publish_date" checked={this.filterObj.sort === 'publish_date'} onChange={this.sortChangeHandler}>
+              תאריך פרסום
+              </Radio>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   renderFilter() {
@@ -201,16 +233,16 @@ class Apartments extends Component {
       cityTitle = city ? city.city_name : 'טוען...';
     }
 
-    return <div>
-      <div className="apartments-filter-toggle-container">
+    return <div className="search-container">
+      <div className="search-filter-toggle-container">
         <Button onClick={this.toggleHideFilter}>
           סנן תוצאות
         </Button>
       </div>
-      <div className={'apartments-filter-wrapper' + (this.state.hideFilter ? ' hideFilter' : '')}>
-        <div className="apartments-filter-city-container">
+      <div className={'search-filter-wrapper' + (this.state.hideFilter ? ' hideFilter' : '')}>
+        <div className="search-filter-city-container">
           <DropdownButton id="cityDropdown" bsSize="large"
-            className="apartments-filter-city-dropdown"
+            className="search-filter-city-dropdown"
             title={'עיר: ' + cityTitle}
             onSelect={this.citySelectHandler}>
             <MenuItem eventKey={'*'}>כל הערים</MenuItem>
@@ -218,14 +250,15 @@ class Apartments extends Component {
           </DropdownButton>
         </div>
         {this.renderAdminFilter()}
-        <div className="apartments-filter-switches-container">
+        {this.renderSort()}
+        <div className="search-filter-group-container">
           <Checkbox name="roommate"
             checked={this.state.roommate}
-            className="apartments-filter-switches-show-rommates-switch"
+            className="search-filter-switch-group-header"
             onChange={this.roommateChangeHandler}>
             <b>הציגו לי דירות לשותפים</b>
           </Checkbox>
-          <div className="apartments-filter-switches-switch-wrapper">
+          <div className="search-filter-input-wrapper">
             <Checkbox name="empty"
               checked={this.state.empty}
               disabled={!this.state.roommate || !this.state.room}
@@ -233,7 +266,7 @@ class Apartments extends Component {
               דירות ריקות לשותפים
               </Checkbox>
           </div>
-          <div className="apartments-filter-switches-switch-wrapper">
+          <div className="search-filter-input-wrapper">
             <Checkbox name="room"
               checked={this.state.room}
               disabled={!this.state.roommate || !this.state.empty}
@@ -242,7 +275,7 @@ class Apartments extends Component {
               </Checkbox>
           </div>
         </div>
-        <div className="apartments-filter-sliders-container">
+        <div className="search-filter-sliders-container">
           <div className="cost-slider">
             <h5 className="text-center">טווח מחירים</h5>
             <Nouislider onChange={this.mrSliderChangeHandler}
@@ -300,7 +333,7 @@ class Apartments extends Component {
           </div>
         </div>
         <Grid fluid>
-          <Row className="apartments-filter-amenities-container">
+          <Row className="search-filter-amenities-container">
             <h5><b>צמצמו את החיפוש</b></h5>
             <Col xs={4}>
               <Checkbox name="park" checked={this.state.park} onChange={this.checkboxChangeHandler}>
@@ -333,25 +366,24 @@ class Apartments extends Component {
   }
 
   renderResults() {
-    const { listingStore } = this.props.appStore;
-    const apartments = listingStore.apartments.length ? listingStore.apartments : [];
-    const isLoading = this.props.appStore.listingStore.isLoading;
+    const { searchStore } = this.props.appStore;
+    const results = searchStore.searchResults.length ? searchStore.searchResults : [];
 
-    if (!isLoading && apartments.length > 0) {
+    if (!this.state.isLoading && results.length > 0) {
       return (<Grid fluid>
-        <Row className="apartments-results-container">
-          {apartments.map(listing => <ListingThumbnail listing={listing} key={listing.id} />)}
+        <Row>
+          {results.map(listing => <ListingThumbnail listing={listing} key={listing.id} />)}
         </Row>
       </Grid>);
-    } else if (!this.filterChanged || isLoading) {
+    } else if (!this.filterChanged || this.state.isLoading) {
       return (
         <div className="loaderContainer">
           <LoadingSpinner />
         </div>
       );
     } else {
-      return (<div className="apartments-results-not-found">
-        <b className="apartments-results-not-found-title">הלוואי והייתה לנו דירה בדיוק כזו.</b><br />
+      return (<div className="search-results-not-found">
+        <b className="search-results-not-found-title">הלוואי והייתה לנו דירה בדיוק כזו.</b><br />
         כנראה שהייתם ספציפיים מדי - לא נמצאו דירות לחיפוש זה.<br />
         נסו לשנות את הגדרות החיפוש</div>);
     }
@@ -359,9 +391,9 @@ class Apartments extends Component {
 
   render() {
     return (
-      <div className="apartments-container">
+      <div className="search-wrapper">
         {this.renderFilter()}
-        <div className="apartments-results-wrapper">
+        <div className="search-results-wrapper">
           {this.renderResults()}
         </div>
       </div>
@@ -369,9 +401,9 @@ class Apartments extends Component {
   }
 }
 
-Apartments.wrappedComponent.propTypes = {
+Search.wrappedComponent.propTypes = {
   appStore: React.PropTypes.object.isRequired,
   appProviders: React.PropTypes.object.isRequired
 };
 
-export default Apartments;
+export default Search;

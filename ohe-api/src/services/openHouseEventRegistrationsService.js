@@ -31,7 +31,7 @@ function* register(event_id, user) {
     result = yield repository.createRegistration(registration);
   }
 
-  logger.info({ event_id, user_id: user.user_id }, 'Register to OHE');
+  logger.info({ event_id, user_uuid: user.user_id }, 'Register to OHE');
 
   let userMetadata = {
     first_name: user.firstname,
@@ -39,7 +39,7 @@ function* register(event_id, user) {
     phone: generic.normalizePhone(user.phone)
   };
 
-  logger.debug({ user_id: user.user_id, userMetadata }, 'Before calling updateUserDetails');
+  logger.debug({ user_uuid: user.user_id, userMetadata }, 'Before calling updateUserDetails');
 
   // TODO: Update user details can be done on client using user token.
   userManagement.updateUserDetails(user.user_id, {
@@ -60,7 +60,7 @@ function* unregister(event_id, user, sendNotification = true) {
   let existingRegistration = yield repository.findRegistration(event_id, user.id);
   if (existingRegistration == undefined) {
     throw new errors.DomainNotFoundError('OpenHouseEventRegistrationNotFoundError',
-      { ohe_id: event_id, user_id: user.id },
+      { ohe_id: event_id, user_uuid: user.id },
       'registration does not exist');
   }
 
@@ -71,7 +71,7 @@ function* unregister(event_id, user, sendNotification = true) {
 
   logger.info({
     event_id: existingRegistration.open_house_event_id,
-    user_id: existingRegistration.registered_user_id
+    user_uuid: existingRegistration.registered_user_id
   }, 'Unregister to OHE');
 
   // We unregister all users when event was canceled and don't want to notify all users about this action that wasn't done by them.
@@ -113,7 +113,7 @@ function validateEventRegistration(event, user_id) {
 
   if (errorMessage) {
     throw new errors.DomainValidationError('OpenHouseEventRegistrationValidationError',
-      { event_id: event.id, user_id: user_id }, errorMessage);
+      { event_id: event.id, user_uuid: user_id }, errorMessage);
   }
 }
 

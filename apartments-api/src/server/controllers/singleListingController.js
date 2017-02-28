@@ -17,7 +17,7 @@ function* get() {
 }
 
 function* patch() {
-  logger.debug('Patching listing...');
+  logger.debug('Updating listing...');
   const listingId = this.params.listingId;
   // TODO : only good for updating listing status 
   const updatedData = this.request.body;

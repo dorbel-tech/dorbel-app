@@ -44,14 +44,11 @@ class ListingBadge extends Component {
     const badgeData = this.getBadgeData();
     if (badgeData.show) {
       return (
-        <div className="badgeContainer">
-          <div className={'listingBadge ' + badgeData.className}>
-            <span className="badgeText">{badgeData.text}</span>
-          </div>
+        <div className={'listingBadge ' + badgeData.className}>
+          <span className="badgeText">{badgeData.text}</span>
         </div>
       );
-    }
-    else {
+    } else {
       return null;
     }
   }

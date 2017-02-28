@@ -135,7 +135,7 @@ class OHERegisterModal extends React.Component {
                 <FRC.Input layout="vertical" name="user.firstname" label="שם פרטי" value={profile.first_name} required />
               </Col>
               <Col md={6} className="ohe-modal-input">
-                <FRC.Input layout="vertical" name="user.phone" label="טלפון" value={profile.phone} validationError="מספר טלפון לא תקין" required />
+                <FRC.Input validations="isNumeric" layout="vertical" name="user.phone" label="טלפון" value={profile.phone} validationError="מספר טלפון לא תקין" required />
               </Col>
               <Col md={6} className="ohe-modal-input">
                 <FRC.Input layout="vertical" name="user.email" label="מייל" type="email" value={profile.email} validations="isEmail" validationError="כתובת מייל לא תקינה" required />

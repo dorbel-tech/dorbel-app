@@ -67,5 +67,5 @@ function * buildTestSeed() {
 if (require.main === module) {
   co(buildTestSeed)
   .then(() => logger.info('test seed completed'))
-  .catch(err => logger.error('test seed failed', err));
+  .catch(err => logger.error(err, 'test seed failed'));
 }

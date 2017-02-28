@@ -23,8 +23,11 @@ function setRequestRenderState(context, appStore) {
       width: 1093,
       height: 320
     },
-    url: process.env.FRONT_GATEWAY_URL + context.url
+    url: process.env.FRONT_GATEWAY_URL + context.path
   });
+
+  // Adding query string to all meta urls.
+  context.state.meta.url += context.search;
 }
 
 function* renderApp() {

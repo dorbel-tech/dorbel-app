@@ -15,7 +15,7 @@ module.exports.connect = function* connect() {
     {
       host: config.get('RDS_HOSTNAME'),
       pool: {
-        max: 10,
+        max: 100,
         min: 0
       },
       logging: config.get('SHOW_SQL_QUERIES') || false,
