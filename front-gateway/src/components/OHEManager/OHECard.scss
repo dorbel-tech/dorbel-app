@@ -23,7 +23,7 @@
 
     .ohe-card-row-date,
     .ohe-card-row-time {
-      padding-right: 10px;
+      padding-right: 9px;
     }
 
     .ohe-card-row-reg-num-col {
@@ -57,7 +57,9 @@
       }
 
       .ohe-card-user-phone-cell {
-        margin-right: -62px;
+        margin-top: 22px;
+        position: absolute;
+        right: 57px;
         vertical-align: bottom;
       }
 
