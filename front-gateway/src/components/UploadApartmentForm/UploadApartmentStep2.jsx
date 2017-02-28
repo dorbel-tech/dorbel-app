@@ -134,7 +134,8 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
               </Row>
               <Row>
                 <Col md={12}>
-                  <FRC.Textarea name="description" rows={3} label="מידע נוסף ותיאור הדירה" maxLength="500"
+                  <FRC.Textarea name="description" label="מידע נוסף ותיאור הדירה" maxLength="500"
+                    className="upload-apt-left-container-description"
                     placeholder="תארו את מצב הדירה (משופצת, שמורה), האם היא עורפית/ מוארת/ שקטה/ מרוהטת? ספרו על יתרונות הדירה והאיזור וכל פרט שיסייע לדיירים להבין שזו הדירה שהם מחפשים." />
                 </Col>
               </Row>

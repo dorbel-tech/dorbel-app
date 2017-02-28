@@ -80,7 +80,6 @@
 
 .upload-apt-right-container {
   @include gradient-directional($start-color: #8D48C5, $end-color: #9078CC, $deg: 45deg);
-
   color: $brand-white;
   text-align: center;
 
@@ -181,7 +180,6 @@
 
     .form-section-headline {
       @include rotate(90deg);
-
       position: absolute;
       right: -56.5%;
       top: 50%;
@@ -208,6 +206,14 @@
 
   .checkbox-inline {
     margin: 0;
+  }
+}
+
+.upload-apt-left-container-description {
+  width: 100%;
+
+  @media (max-width: $screen-xs-max) {
+    min-height: 112px;
   }
 }
 
