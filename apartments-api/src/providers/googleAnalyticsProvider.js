@@ -2,6 +2,7 @@
 const google = require('googleapis');
 const shared = require('dorbel-shared');
 const moment = require('moment');
+const _ = require('lodash');
 
 const logger = shared.logger.getLogger(module);
 const config = shared.config;
@@ -20,7 +21,7 @@ function init() {
     return Promise.reject();
   }
 
-  const jwtClient = new google.auth.JWT(serviceEmail, null, serviceKey, gaAuthScope, null);
+  const jwtClient = new google.auth.JWT(serviceEmail, null, JSON.parse('"' + serviceKey + '"'), gaAuthScope, null);
 
   ga = google.analytics({
     version: 'v3',
@@ -42,11 +43,14 @@ function init() {
 function getPageViews(urls) {
   if (!ga) {
     return Promise.reject();
+  } else if (!urls || urls.length === 0) {
+    return Promise.resolve([]);
   }
 
   var opts = {
     ids: config.get('GOOGLE_ANALYTICS_ID'),
     metrics: 'ga:pageviews',
+    dimensions: 'ga:pagePath',
     'start-date': '2017-01-01',
     'end-date': moment().format('YYYY-MM-DD')
   };
@@ -60,8 +64,8 @@ function getPageViews(urls) {
         return reject(err);
       }
 
-      console.log(resp.rows, 'pageviews');
-      resolve(resp);
+      var results = resp.rows.map(row => ({ url: row[0], views: parseInt(row[1]) }));
+      resolve(results);
     });
   });
 }

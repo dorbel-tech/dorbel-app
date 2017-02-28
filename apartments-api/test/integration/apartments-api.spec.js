@@ -116,4 +116,12 @@ describe('Apartments API Integration', function () {
       __.assertThat(respCityIds, __.everyItem(__.is(cityId)));
     });
   });
+
+  describe('GET /page_views/listings/{listingIds}', function () {
+    it('should get listing page views', function* () {
+      const response = yield this.apiClient.getListingPageViews([1,2]);
+
+      __.assertThat(response.body, __.everyItem(__.hasProperty('views')));
+    });
+  });
 });
