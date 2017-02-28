@@ -233,7 +233,7 @@ class Search extends Component {
       cityTitle = city ? city.city_name : 'טוען...';
     }
 
-    return <div className="search-container">
+    return <div className="search-filter-container">
       <div className="search-filter-toggle-container">
         <Button onClick={this.toggleHideFilter}>
           סנן תוצאות
