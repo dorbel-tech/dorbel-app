@@ -1,5 +1,6 @@
 'use strict';
 const _ = require('lodash');
+const moment = require('moment');
 const shared = require('dorbel-shared');
 const analyticsProvider = require('../providers/googleAnalyticsProvider');
 const listingRepository = require('../apartmentsDb/repositories/listingRepository');
@@ -7,7 +8,7 @@ const listingRepository = require('../apartmentsDb/repositories/listingRepositor
 const logger = shared.logger.getLogger(module);
 const cache = shared.utils.cache;
 
-const PAGE_VIEW_CACHE_TTL_SECONDS = 100;
+const PAGE_VIEW_CACHE_TTL_SECONDS = moment.duration(4, 'hours').asSeconds();
 const PAGE_VIEW_CACHE_KEY_PREFIX = 'listing_page_views_';
 
 analyticsProvider.init();
