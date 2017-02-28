@@ -2,7 +2,6 @@
 const google = require('googleapis');
 const shared = require('dorbel-shared');
 const moment = require('moment');
-const _ = require('lodash');
 
 const logger = shared.logger.getLogger(module);
 const config = shared.config;
