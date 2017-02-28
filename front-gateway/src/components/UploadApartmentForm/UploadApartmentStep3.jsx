@@ -51,7 +51,8 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
               <FRC.Input name="user.firstname" label="שם פרטי" value={authStore.profile.first_name} required />
             </Col>
             <Col md={6}>
-              <FRC.Input name="user.lastname" label="שם משפחה" value={authStore.profile.last_name} required />
+              <FRC.Input name="user.lastname" label="שם משפחה" value={authStore.profile.last_name} required
+                placeholder="(לא יוצג באתר)" />
             </Col>
           </Row>
           <Row>
@@ -60,7 +61,8 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
                 type="email" validations="isEmail" validationError="כתובת מייל לא תקינה" required />
             </Col>
             <Col md={6}>
-              <FRC.Input validations="isNumeric" name="user.phone" label="טלפון" value={authStore.profile.phone} validationError="מספר טלפון לא תקין" required />
+              <FRC.Input validations="isNumeric" name="user.phone" label="טלפון" value={authStore.profile.phone} validationError="מספר טלפון לא תקין" required
+                placeholder="(יוצג לדיירים שנרשמו לביקור בלבד)" />
             </Col>
           </Row>
           <Row>
@@ -108,7 +110,8 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
               <AddOHEInput validations="oheValidation" name="ohe" onChange={this.handleChange.bind(this, 'open_house_event')} ohe={existingOhe} mode="new" />
               <Row>
                 <Col md={12}>
-                  <FRC.Textarea name="open_house_event.comments" rows={3} label="הכוונה לדירה בבניין (אם צריך)" />
+                  <FRC.Textarea name="open_house_event.comments" rows={3} label="הכוונה לדירה בבניין (אם צריך)"
+                    placeholder="(לדוגמא: הדלת הלבנה משמאל למדרגות)" />
                 </Col>
               </Row>
             </Row>
