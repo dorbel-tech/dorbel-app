@@ -1,9 +1,7 @@
-.search-wrapper {
+.search-container {
   height: 100%;
   position: relative;
-}
 
-.search-filter-container {
   @media (min-width: $screen-md-min) {
     background-color: $gray-lighter;
   }
