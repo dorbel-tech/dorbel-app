@@ -62,14 +62,14 @@ class Search extends Component {
 
   componentDidMount() {
     this.props.appProviders.cityProvider.loadCities();
-    this.reloadListings();
+    this.reloadResults();
   }
 
   citySelectHandler(cityId) {
     this.filterChanged = true;
     this.filterObj.city = cityId;
 
-    this.reloadListings();
+    this.reloadResults();
   }
 
   mrSliderChangeHandler(mrStringArray, unused, monthly_rent) {
@@ -102,7 +102,7 @@ class Search extends Component {
       delete this.filterObj[maxProp];
     }
 
-    this.reloadListings();
+    this.reloadResults();
   }
 
   adminFilterChangeHandler(e) {
@@ -114,7 +114,7 @@ class Search extends Component {
     this.setState({ [e.target.name]: e.target.checked });
 
     this.filterObj[e.target.name] = e.target.checked ? true : falseOption;
-    this.reloadListings();
+    this.reloadResults();
   }
 
   roommateChangeHandler(e) {
@@ -132,17 +132,17 @@ class Search extends Component {
       this.filterObj.room = 1;
     }
 
-    this.reloadListings();
+    this.reloadResults();
   }
 
   sortChangeHandler(e) {
     this.filterChanged = true;
     this.filterObj.sort = e.target.value;
 
-    this.reloadListings();
+    this.reloadResults();
   }
 
-  reloadListings() {
+  reloadResults() {
     this.setState({ isLoading: true });
 
     if (!this.filterObj.city) {
