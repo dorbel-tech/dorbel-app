@@ -373,7 +373,7 @@ class Search extends Component {
     const results = searchStore.searchResults.length ? searchStore.searchResults : [];
 
     if (!this.state.isLoading && results.length > 0) {
-      return (<Grid fluid>
+      return (<Grid fluid className="search-results-container">
         <Row>
           {results.map(listing => <ListingThumbnail listing={listing} key={listing.id} />)}
         </Row>
