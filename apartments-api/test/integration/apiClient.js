@@ -25,7 +25,7 @@ class ApiClient {
     return this.request.get('/v1/listings/' + id);
   }
 
-  updateSingleListingStatus(id, data) {
+  patchListing(id, data) {
     return this.request.patch('/v1/listings/' + id)
       .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile))
       .send(data);
@@ -35,8 +35,16 @@ class ApiClient {
     return this.request.get('/v1/cities');
   }
 
+  getNeighborhoods(cityId) {
+    return this.request.get('/v1/neighborhoods/' + cityId);
+  }
+
   getRelatedListings(id){
     return this.request.get('/v1/listings/'+id+'/related');
+  }
+
+  getHealth() {
+    return this.request.get('/v1/health');
   }
 
   static * init(userProfile) {
