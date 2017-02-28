@@ -1,6 +1,12 @@
-.apartments-container {
+.apartments-wrapper {
   height: 100%;
   position: relative;
+}
+
+.apartments-container {
+  @media (min-width: $screen-md-min) {
+    background-color: $gray-lighter;
+  }
 }
 
 .apartments-filter-toggle-container {
@@ -17,6 +23,7 @@
 }
 
 .apartments-filter-wrapper {
+  background-color: $brand-white;
   padding: 39px 0;
 
   @media (max-width: $screen-xs-max) {
@@ -58,10 +65,6 @@
   .loaderContainer {
     top: -39px;
   }
-}
-
-.apartments-results-container {
-  background-color: $gray-lighter;
 }
 
 .apartments-filter-city-container {
