@@ -5,6 +5,7 @@ const _ = require('lodash');
 const helper = require('./repositoryHelper');
 const apartmentRepository = require('./apartmentRepository');
 const buildingRepository = require('./buildingRepository');
+
 const listingAttributes = { exclude: [ 'lease_end', 'updated_at' ] };
 const apartmentAttributes = { exclude: [ 'created_at', 'updated_at' ] };
 const buildingAttributes = { exclude: [ 'created_at', 'updated_at' ] };
@@ -16,15 +17,19 @@ const fullListingDataInclude = [
   {
     model: models.apartment,
     attributes: apartmentAttributes,
+    required: true,
     include: [{
       model: models.building,
       attributes: buildingAttributes,
+      required: true,
       include: [{
         model: models.city,
-        attributes: cityAttributes
+        attributes: cityAttributes,
+        required: true
       }, {
         model: models.neighborhood,
-        attributes: neighborhoodAttributes
+        attributes: neighborhoodAttributes,
+        required: true
       }]
     }]
   },
@@ -41,23 +46,26 @@ function list(query, options = {}) {
     include: [{
       model: models.apartment,
       attributes: ['size', 'rooms'],
+      required: true,
+      where: options.apartmentQuery || {},
       include: {
         model: models.building,
         attributes: ['street_name'],
+        required: true,
+        where: options.buildingQuery || {},
         include: [
           {
             model: models.city,
-            attributes: ['id', 'city_name']
+            attributes: ['id', 'city_name'],
+            required: true
           },
           {
             model: models.neighborhood,
-            attributes: ['neighborhood_name']
-          },
-        ],
-        where: options.buildingQuery || {}
-      },
-      required: true,
-      where: options.apartmentQuery || {}
+            attributes: ['neighborhood_name'],
+            required: true
+          }
+        ]
+      }
     },
     {
       model: models.image,
@@ -83,12 +91,14 @@ function* create(listing) {
   // TODO: add reference to country
   // TODO: should much of this be in the listingService ? findOrCreate for building and apartment is actually business logic and not persistance logic |:
   const city = yield models.city.findOne({
-    where: listing.apartment.building.city
+    where: listing.apartment.building.city,
+    raw: true
   });
   if (!city) { throw new Error('did not find city'); }
 
   const neighborhood = yield models.neighborhood.findOne({
-    where: listing.apartment.building.neighborhood
+    where: listing.apartment.building.neighborhood,
+    raw: true
   });
   if (!neighborhood) { throw new Error('did not find neighborhood'); }
 
@@ -127,6 +137,7 @@ function getListingsForApartment(apartment, listingQuery) {
   const includeCity = {
     model: models.city,
     attributes: cityAttributes,
+    required: true,
     where: {
       id: apartment.building.city.city_id
     }
@@ -135,6 +146,7 @@ function getListingsForApartment(apartment, listingQuery) {
   const includeNeighborhood = {
     model: models.neighborhood,
     attributes: neighborhoodAttributes,
+    required: true,
     where: {
       id: apartment.building.neighborhood.neighborhood_id
     }
@@ -143,6 +155,7 @@ function getListingsForApartment(apartment, listingQuery) {
   const includeBuildings = [{
     model: models.building,
     attributes: buildingAttributes,
+    required: true,
     where: {
       street_name: apartment.building.street_name,
       house_number: apartment.building.house_number
@@ -153,6 +166,7 @@ function getListingsForApartment(apartment, listingQuery) {
   const includeApartment = [{
     model: models.apartment,
     attributes: apartmentAttributes,
+    required: true,
     where: {
       apt_number: apartment.apt_number
     },

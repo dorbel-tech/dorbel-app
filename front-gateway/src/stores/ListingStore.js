@@ -32,7 +32,7 @@ export default class ListingStore {
   }
 
   clearAndSet(listings) {
-    // TODO: Remove the clear and use the computed apartments to filter the view.
+    // TODO: Remove the clear and use the computed listings to filter the view.
     this.listingsById.clear();
     this.listingsBySlug.clear();
     listings.forEach(this.add);

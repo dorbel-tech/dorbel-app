@@ -11,7 +11,6 @@
     "build:dev": "NODE_ENV=development webpack-dev-server --content-base public -d --config webpack.config.js --host 0.0.0.0 --colors --inline --no-info",
     "test": "yarn run test:unit",
     "test:unit": "jest",
-    "test:unit:codecov": "jest && codecov -t d5d2f1f7-150d-4990-a466-029830f6a8f8",
     "test:e2e": "nightwatch",
     "test:e2e:browserstack": "RUN_ON_BSTACK=true nightwatch -c test/browserstack.conf.js",
     "test:e2e:browserstack:local": "BSTACK_LOCAL=true yarn run test:e2e:browserstack",
@@ -131,9 +130,6 @@
       "src/**/*.{js,jsx}"
     ],
     "coverageDirectory": "<rootDir>/test/coverage",
-    "coverageReporters": [
-      "lcov",
-      "text"
-    ]
+    "coverageReporters": ["json"]
   }
 }

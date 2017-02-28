@@ -9,7 +9,7 @@
     "start": "yarn run db:migrate && babel-node src/index",
     "start:dev": "yarn run check; yarn run db:migrate && nodemon --exec babel-node --debug=5860 src/index | bunyan -o short",
     "test": "yarn run test:unit",
-    "test:unit": "yarn run wait && mocha --timeout 10000 --compilers js:babel-register test/shared/before-tests.js test/unit/*.spec.js test/unit/**/*.spec.js",
+    "test:unit": "yarn run wait && nyc --all mocha --timeout 10000 --compilers js:babel-register test/shared/before-tests.js test/unit/*.spec.js test/unit/**/*.spec.js",
     "test:integration": "yarn run wait && mocha --timeout 10000 --compilers js:babel-register test/shared/before-tests.js test/integration/**/*.spec.js",
     "lint": "eslint --ext .js -f table src",
     "check": "satisfaction-status || yarn install",
@@ -37,6 +37,7 @@
     "moment": "~2.16.0",
     "moment-range": "2.2.0",
     "mysql": "^2.11.1",
+    "nyc": "^10.1.2",
     "sequelize": "3.25.0",
     "sequelize-cli": "2.5.0",
     "sinon": "^1.17.6",
@@ -49,5 +50,10 @@
     "bunyan": "^1.8.1",
     "nodemon": "^1.10.2",
     "satisfaction": "^3.0.0"
+  },
+  "nyc": {
+    "reporter": ["json"],
+    "include": ["src/**/*.{js}"],
+    "report-dir": "./test/coverage"
   }
 }

@@ -211,6 +211,14 @@
   }
 }
 
+.upload-apt-left-container-description {
+  width: 100%;
+
+  @media (max-width: $screen-xs-max) {
+    min-height: 112px;
+  }
+}
+
 .form-nav.bottom {
   background-color: #fff;
   border-top: 1px solid lighten($gray-base, 60%);
