@@ -5,22 +5,48 @@ describe('Apartments API Integration', function () {
   const _ = require('lodash');
   const faker = require('../shared/fakeObjectGenerator');
 
+  // Integration tests run with static ID as they fill the message queue with app-events
+  const INTEGRATION_TEST_USER_ID = '18b5d059-095f-4409-b5ab-4588f08d3333';
+
   before(function* () {
-    this.apiClient = yield ApiClient.init(faker.getFakeUser());
+    this.apiClient = yield ApiClient.init(faker.getFakeUser({
+      id: INTEGRATION_TEST_USER_ID
+    }));
   });
 
-  describe('/cities', function() {
+  describe('GET /health', function() {
+    it('should be healthy', function* () {
+      const res = yield this.apiClient.getHealth();
+      __.assertThat(res, __.hasProperty('status', 200));
+    });
+  });
+
+  describe('GET /cities', function() {
     it('should return cities', function* () {
       const cities = _.get(yield this.apiClient.getCities(), 'body');
 
       __.assertThat(cities, __.allOf(
         __.is(__.array()),
+        __.hasSize(__.greaterThan(0)),
         __.everyItem(__.hasProperty('city_name'))
       ));
     });
   });
 
-  describe('/listings', function() {
+  describe('GET /neighborhoods', function() {
+    it('should return neighborhoods', function* () {
+      const cities = _.get(yield this.apiClient.getCities(), 'body');
+      const neighborhoods = _.get(yield this.apiClient.getNeighborhoods(cities[0].id), 'body');
+
+      __.assertThat(neighborhoods, __.allOf(
+        __.is(__.array()),
+        __.hasSize(__.greaterThan(0)),
+        __.everyItem(__.hasProperty('neighborhood_name'))
+      ));
+    });
+  });
+
+  describe('POST /listings', function() {
     it('should add listing and return it', function* () {
       const newListing = faker.getFakeListing();
 
@@ -44,13 +70,10 @@ describe('Apartments API Integration', function () {
     });
   });
 
-  describe('/listings/{idOrSlug}', function () {
+  describe('GET /listings/{idOrSlug}', function () {
     before(function* () {
-      const newListing = faker.getFakeListing();
-      const postReponse = yield this.apiClient.createListing(newListing).expect(201).end();
-      delete postReponse.body.lease_end;
-      delete postReponse.body.updated_at;
-      this.createdListing = postReponse.body;
+      const postReponse = yield this.apiClient.createListing(faker.getFakeListing()).expect(201).end();
+      this.createdListing = _.omit(postReponse.body, [ 'lease_end', 'updated_at' ]);
     });
 
     it('should return a single listing by id', function* () {
@@ -64,14 +87,21 @@ describe('Apartments API Integration', function () {
       // TODO : this is a very shallow check
       __.assertThat(getResponse.body, __.hasProperties(this.createdListing));
     });
+  });
+
+  describe('PATCH /listings/{id}', function () {
+    before(function* () {
+      const postReponse = yield this.apiClient.createListing(faker.getFakeListing()).expect(201).end();
+      this.createdListing = _.omit(postReponse.body, [ 'lease_end', 'updated_at' ]);
+    });
 
     it('should update listing status', function* () {
-      const response = yield this.apiClient.updateSingleListingStatus(this.createdListing.id, { status: 'rented' }).expect(200).end();
+      const response = yield this.apiClient.patchListing(this.createdListing.id, { status: 'rented' }).expect(200).end();
       __.assertThat(response.body.status, __.is('rented'));
     });
   });
 
-  describe('/listings/{id}/related', function () {
+  describe('GET /listings/{id}/related', function () {
     before(function* () {
       this.createdListings = [];
       const numOfApartments = 5;
@@ -95,7 +125,7 @@ describe('Apartments API Integration', function () {
       const idsToUnlist = _.map(_.takeRight(this.createdListings, 2), 'id');
       const that = this;
       _.each(idsToUnlist, function (id) {
-        that.apiClient.updateSingleListingStatus(id, { status: 'rented' }).expect(200).end();
+        that.apiClient.patchListing(id, { status: 'rented' }).expect(200).end();
       });
 
 
