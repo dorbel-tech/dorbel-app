@@ -2,10 +2,10 @@
 import { shallow } from 'enzyme';
 import React from 'react';
 
-import Apartments from './Apartments';
+import Search from './Search';
 import ListingThumbnail from '../ListingThumbnail/ListingThumbnail';
 
-describe('Apartments', () => {
+describe('Search', () => {
   let appProvidersMock;
   let appStoreMock;
   let mockResults;
@@ -38,7 +38,7 @@ describe('Apartments', () => {
   });
 
   it('should render apartment from store', () => {
-    const wrapper = shallow(<Apartments.wrappedComponent appStore={appStoreMock} appProviders={appProvidersMock} />);
+    const wrapper = shallow(<Search.wrappedComponent appStore={appStoreMock} appProviders={appProvidersMock} />);
 
     const thumbnails = wrapper.find(ListingThumbnail);
     expect(thumbnails.length).toBe(appStoreMock.searchStore.searchResults.length);
@@ -47,7 +47,7 @@ describe('Apartments', () => {
   });
 
   it('should set title in metadata', () => {
-    shallow(<Apartments.wrappedComponent appStore={appStoreMock} appProviders={appProvidersMock} />);
+    shallow(<Search.wrappedComponent appStore={appStoreMock} appProviders={appProvidersMock} />);
     expect(appStoreMock.metaData.title).not.toBe('should change');
   });
 });
