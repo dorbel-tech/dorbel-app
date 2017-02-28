@@ -204,7 +204,7 @@ class Apartments extends Component {
       cityTitle = city ? city.city_name : 'טוען...';
     }
 
-    return <div>
+    return <div className="apartments-container">
       <div className="apartments-filter-toggle-container">
         <Button onClick={this.toggleHideFilter}>
           סנן תוצאות
@@ -341,7 +341,7 @@ class Apartments extends Component {
 
     if (!this.state.isLoading && results.length > 0) {
       return (<Grid fluid>
-        <Row className="apartments-results-container">
+        <Row>
           {results.map(listing => <ListingThumbnail listing={listing} key={listing.id} />)}
         </Row>
       </Grid>);
@@ -361,7 +361,7 @@ class Apartments extends Component {
 
   render() {
     return (
-      <div className="apartments-container">
+      <div className="apartments-wrapper">
         {this.renderFilter()}
         <div className="apartments-results-wrapper">
           {this.renderResults()}
