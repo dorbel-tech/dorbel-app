@@ -61,7 +61,7 @@ module.exports = {
     listing.clickFirstOhe();
     listing.expect.section('@oheModal').to.be.visible;
     listing.oheUnRegisterUser();
-    browser.pause(500);
+    browser.pause(300);
     listing.waitForOheListText('הרשמו לביקור');
     browser.end();
   },
