@@ -22,9 +22,6 @@ module.exports = {
     }
   },
   commands: [{
-    el: function(elementName, data) {
-      return util.format(elementName.selector, data);
-    },
     navigateToListingPage: function(url) {
       return this
         .navigate(url)

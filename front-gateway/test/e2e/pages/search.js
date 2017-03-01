@@ -6,7 +6,7 @@ module.exports = {
   },
   sections: {
     searchFilter: {
-      selector: '.apartments-filter-wrapper',
+      selector: '.search-filter-wrapper',
       elements: {
         city: {
           selector: '#cityDropdown'
