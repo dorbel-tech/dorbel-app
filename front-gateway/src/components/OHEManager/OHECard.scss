@@ -12,6 +12,26 @@
     color: #3cb878;
   }
 
+  @media (min-width: $screen-sm-min) {
+    .ohe-card-user-image-cell {
+      width: 80px;
+    }
+
+    .ohe-card-user-name-cell {
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      width: 170px;
+    }
+
+    .ohe-card-user-status-cell {
+      width: 100px;
+    }
+
+    .ohe-card-user-phone-cell {
+      width: 140px;
+    }
+  }
+
   @media (max-width: $screen-xs-max) {
     .panel-body {
       padding: 15px 0;
@@ -23,7 +43,7 @@
 
     .ohe-card-row-date,
     .ohe-card-row-time {
-      padding-right: 10px;
+      padding-right: 9px;
     }
 
     .ohe-card-row-reg-num-col {
@@ -57,7 +77,9 @@
       }
 
       .ohe-card-user-phone-cell {
-        margin-right: -62px;
+        margin-top: 22px;
+        position: absolute;
+        right: 57px;
         vertical-align: bottom;
       }
 

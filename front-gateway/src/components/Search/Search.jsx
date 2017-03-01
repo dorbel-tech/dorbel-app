@@ -220,7 +220,7 @@ class Search extends Component {
     );
   }
 
-  renderFilter() {
+  renderFilterAndResults() {
     const { cityStore } = this.props.appStore;
     const cities = cityStore.cities.length ? cityStore.cities : [];
     const cityId = this.filterObj.city || DEFAULT_FILTER_PARAMS.city;
@@ -362,6 +362,9 @@ class Search extends Component {
           </Row>
         </Grid>
       </div>
+      <div className="search-results-wrapper">
+        {this.renderResults()}
+      </div>
     </div>;
   }
 
@@ -390,14 +393,7 @@ class Search extends Component {
   }
 
   render() {
-    return (
-      <div className="search-wrapper">
-        {this.renderFilter()}
-        <div className="search-results-wrapper">
-          {this.renderResults()}
-        </div>
-      </div>
-    );
+    return this.renderFilterAndResults();
   }
 }
 
