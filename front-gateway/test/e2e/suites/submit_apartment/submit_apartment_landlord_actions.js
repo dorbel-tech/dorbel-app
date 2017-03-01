@@ -2,7 +2,7 @@ var home,
   newApartmentForm;
 
 function login() {
-  home.navigate().signInAsTestUser();
+  home.navigate().signInAsTestUser(false);
 }
 
 module.exports = {
@@ -44,10 +44,7 @@ module.exports = {
   'should successfully submit a new apartment': function (browser) {
     login();
     newApartmentForm
-      // TODO: Add upload image functionality.
-      .navigateToOpenHouseEventSection()
-      .fillOpenHouseEventDetailsAllFields()
-      .submitNewApartmentForm()      
+      .fillAndSubmitNewApartmentForm()
       .expect.section('@successModal').to.be.visible;
     newApartmentForm
       .section.successModal.waitForText('@successTitle', (text) => ( text === 'העלאת הדירה הושלמה!' ));

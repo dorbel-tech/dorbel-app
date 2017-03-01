@@ -1,7 +1,8 @@
-module.exports = {
+const common = require('../common');
+const baseUrl = require('./home').url();
 
+module.exports = {
   url: function(){
-    var baseUrl =  process.env.FRONT_GATEWAY_URL || 'http://localhost:3001';
     return baseUrl + '/apartments/new_form';
   },
   sections: {
@@ -136,6 +137,9 @@ module.exports = {
       elements: {
         successTitle: {
           selector: '.modal-header > h4'
+        },
+        listingId: {
+          selector: '.modal-body .text-center'
         }
       }
     }
@@ -178,14 +182,14 @@ module.exports = {
     },
     fillApartmentDetailsAllFields: function () {
       this.section.apartmentDetails
-        .setValue('@street', 'רוטשילד')
-        .setValue('@houseNumber', '129')
-        .setValue('@apartmentNumber', '1')
+        .setValue('@street', 'כצנלסון')
+        .setValue('@houseNumber', common.getMediumRandomNumber())
+        .setValue('@apartmentNumber', common.getMediumRandomNumber())
         .setValue('@buildingEntrance', 'א')
-        .setValue('@apartmentFloor', '1')
-        .setValue('@buildingFloors', '3')
-        .setValue('@apartmentSize', '50')
-        .setValue('@apartmentRooms', '2')
+        .setValue('@apartmentFloor', common.getSmallRandomNumber())
+        .setValue('@buildingFloors', common.getSmallRandomNumber())
+        .setValue('@apartmentSize', common.getMediumRandomNumber())
+        .setValue('@apartmentRooms', common.getSmallRandomNumber())
         .setValue('@description', 'דויד המלך עובד כאן')
         .setValue('@city', 'הרצליה')
         .setValue('@neighbourhood', 'גורדון')
@@ -198,9 +202,9 @@ module.exports = {
         .click('@securityBars')
         .click('@parquetFloor')
         .setValue('@entranceDate', '')
-        .setValue('@monthlyRent', '1000')
-        .setValue('@propertyTax', '1000')
-        .setValue('@boardFee', '1000');
+        .setValue('@monthlyRent', common.getBigRandomNumber())
+        .setValue('@propertyTax', common.getBigRandomNumber())
+        .setValue('@boardFee', common.getBigRandomNumber());
       return this;
     },
     fillOpenHouseEventDetailsAllFields: function () {
@@ -228,6 +232,14 @@ module.exports = {
     },
     submitNewApartmentForm: function () {
       this.section.openHouseEvent.click('@submit');
+      return this;
+    },
+    fillAndSubmitNewApartmentForm: function () {
+      this
+        // TODO: Add upload image functionality.
+        .navigateToOpenHouseEventSection()
+        .fillOpenHouseEventDetailsAllFields()
+        .submitNewApartmentForm();
       return this;
     }
   }]
