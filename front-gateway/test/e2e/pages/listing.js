@@ -81,6 +81,9 @@ module.exports = {
     oheUnRegisterUser: function() {
       return this.section.oheModal
         .click('@cancel');
-    }    
+    },
+    waitForOheListText: function(text) {
+      this.section.oheList.waitForText('@firstEventText', (t) => ( t === text ));
+    }
   }]
 };
