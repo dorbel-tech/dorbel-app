@@ -1,4 +1,3 @@
-const util = require('util');
 const baseUrl = require('./home').url();
 
 module.exports = {
@@ -19,6 +18,43 @@ module.exports = {
           selector: '.listing-menu-status-selector .dropdown-menu #listed'
         }
       }
+    },
+    oheList: {
+      selector: '.ohe-list',
+      elements: {
+        firstEvent: {
+          selector: 'a:first-child'
+        },
+        firstEventText: {
+          selector: 'a:first-child .ohe-text'
+        }
+      }
+    },
+    oheModal: {
+      selector: '.modal-dialog',
+      elements: {
+        title: {
+          selector: '.modal-header > h4'
+        },
+        firstName: {
+          selector: 'input[name="user.firstname"]'
+        },
+        email: {
+          selector: 'input[name="user.email"]'
+        },
+        phone: {
+          selector: 'input[name="user.phone"]'
+        },
+        submit: {
+          selector: 'button.btn-success'
+        },
+        ok: {
+          selector: 'button.btn-primary'
+        },
+        cancel: {
+          selector: 'button.btn-danger'
+        }
+      }      
     }
   },
   commands: [{
@@ -31,6 +67,20 @@ module.exports = {
       return this.section.landlordControls
         .click('@listingMenuStatusDropdownToggle')
         .click('@listingMenuStatusSelector_' + status);
-    }
+    },
+    clickFirstOhe: function() {
+      return this.section.oheList
+        .click('@firstEvent');
+    },
+    fillOheRegisterUserDetailsAndSubmit: function() {
+      return this.section.oheModal
+        .click('@submit')
+        .waitForElementVisible('@ok')
+        .click('@ok');
+    },
+    oheUnRegisterUser: function() {
+      return this.section.oheModal
+        .click('@cancel');
+    }    
   }]
 };

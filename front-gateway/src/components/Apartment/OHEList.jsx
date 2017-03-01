@@ -39,7 +39,7 @@ class OHEList extends Component {
           <div className="date-and-time pull-right">
             <span className={params.highlightTitle ? 'highlight' : ''}>{params.itemText}</span>
             <br />
-            <span className={callToActionTextClass}>{params.callToActionText}</span>
+            <span className={'ohe-text ' + callToActionTextClass}>{params.callToActionText}</span>
           </div>
           <div className="dorbel-icon-arrow fa fa-chevron-left pull-left"></div>
         </Row>
@@ -154,7 +154,7 @@ class OHEList extends Component {
               </div>
               <div className="list-group apt-choose-date-container">
                 <h5 className="text-center apt-choose-date-title">בחרו מועד לביקור</h5>
-                {openHouseEvents.map(this.renderOpenHouseEvent)}
+                <div className="ohe-list">{openHouseEvents.map(this.renderOpenHouseEvent)}</div>
                 <div href="#" className="list-group-item owner-container text-center">
                   {this.renderFollowItem(listing)}
                   <h5>

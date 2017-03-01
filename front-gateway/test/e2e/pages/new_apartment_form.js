@@ -121,7 +121,7 @@ module.exports = {
         email: {
           selector: 'input[name="user.email"]'
         },
-        phoneNumber: {
+        phone: {
           selector: 'input[name="user.phone"]'
         },
         submit: {
@@ -219,7 +219,7 @@ module.exports = {
         .clearValue('@firstName')
         .clearValue('@lastName')
         .clearValue('@email')
-        .clearValue('@phoneNumber');
+        .clearValue('@phone');
       return this;
     },
     fillUserDetailsFields: function () {
@@ -227,7 +227,7 @@ module.exports = {
         .setValue('@firstName', 'Test')
         .setValue('@lastName', 'Tester')
         .setValue('@email', 'teser@test.com')
-        .setValue('@phoneNumber', '9999999');
+        .setValue('@phone', '9999999');
       return this;
     },
     submitNewApartmentForm: function () {

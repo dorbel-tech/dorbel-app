@@ -1,0 +1,78 @@
+var home,
+  newApartmentForm,
+  listing,
+  listingId;
+
+function login(userType) {
+  home.navigate().signInAsTestUser(userType);
+}
+
+function logout() {
+  home.signOut();
+}
+
+function submitApartment() {
+  newApartmentForm
+    .fillAndSubmitNewApartmentForm()
+    .expect.section('@successModal').to.be.visible;
+  newApartmentForm.section.successModal
+    .waitForText('@successTitle', (text) => ( text === 'העלאת הדירה הושלמה!' ));
+  // Get listingId from sucess modal dom element data-attr attribute.
+  newApartmentForm.section.successModal.getAttribute('@listingId', 'data-attr', function(result) {
+    listingId = result.value;
+  });
+}
+
+module.exports = {
+  beforeEach: function (browser) {
+    home = browser.page.home();
+    home.resizeDesktop(browser);
+    newApartmentForm = browser.page.new_apartment_form();
+    listing = browser.page.listing();
+  },
+  'landlord should submit a new apartment': function (browser) {
+    login('landlord');
+    submitApartment();
+    browser.end();
+  },
+  'admin should approve apartment': function (browser) {
+    login('admin');
+    listing
+      .navigateToListingPage(listing.url(listingId))
+      .expect.section('@landlordControls').to.be.visible;
+    listing.changeListingStatus('listed');
+    logout();
+    browser.refresh();
+    listing.expect.section('@listingTitle').to.be.visible;
+    browser.end();
+  },
+  'tenant should register to OHE': function (browser) {
+    login('tenant');
+    listing.navigateToListingPage(listing.url(listingId));
+    listing.section.oheList.waitForText('@firstEventText', (text) => ( text === 'הרשמו לביקור' ));      
+    listing.clickFirstOhe();
+    listing.expect.section('@oheModal').to.be.visible;
+    listing.fillOheRegisterUserDetailsAndSubmit();
+    listing.section.oheList.waitForText('@firstEventText', (text) => ( text === 'נרשמתם לארוע זה. לחצו לביטול' ));      
+    browser.end();
+  },
+  'tenant should unregister from OHE': function (browser) {
+    login('tenant');
+    listing.navigateToListingPage(listing.url(listingId));
+    listing.section.oheList.waitForText('@firstEventText', (text) => ( text === 'נרשמתם לארוע זה. לחצו לביטול' ));      
+    listing.clickFirstOhe();
+    listing.expect.section('@oheModal').to.be.visible;
+    listing.oheUnRegisterUser();
+    browser.pause(500);
+    listing.section.oheList.waitForText('@firstEventText', (text) => ( text === 'הרשמו לביקור' ));      
+    browser.end();
+  },
+  'tenant should follow to be notified for new OHE': function (browser) {
+    
+    browser.end();
+  },
+  'tenant should unfollow to be notified of new OHE': function (browser) {
+    
+    browser.end();
+  }
+};

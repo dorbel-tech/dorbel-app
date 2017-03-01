@@ -2,7 +2,7 @@ var home,
   newApartmentForm;
 
 function login() {
-  home.navigate().signInAsTestUser(false);
+  home.navigate().signInAsTestUser('landlord');
 }
 
 module.exports = {
