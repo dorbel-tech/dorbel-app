@@ -12,6 +12,26 @@
     color: #3cb878;
   }
 
+  @media (min-width: $screen-sm-min) {
+    .ohe-card-user-image-cell {
+      width: 80px;
+    }
+
+    .ohe-card-user-name-cell {
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      width: 170px;
+    }
+
+    .ohe-card-user-status-cell {
+      width: 100px;
+    }
+
+    .ohe-card-user-phone-cell {
+      width: 140px;
+    }
+  }
+
   @media (max-width: $screen-xs-max) {
     .panel-body {
       padding: 15px 0;
