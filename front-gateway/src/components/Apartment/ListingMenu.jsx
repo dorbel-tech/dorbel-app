@@ -64,7 +64,7 @@ export default class ListingMenu extends React.Component {
     return (
       <Nav bsStyle="tabs" className="listing-menu-status-selector" onSelect={this.changeStatus} pullLeft>
         <NavDropdown title={currentStatus} id="nav-dropdown" disabled={options.length === 0}>
-          {options.map(status => <MenuItem key={status} eventKey={status}>{listingStatusLabels[status].actionLabel}</MenuItem>)}
+          {options.map(status => <MenuItem id={status} key={status} eventKey={status}>{listingStatusLabels[status].actionLabel}</MenuItem>)}
         </NavDropdown>
       </Nav>
     );
