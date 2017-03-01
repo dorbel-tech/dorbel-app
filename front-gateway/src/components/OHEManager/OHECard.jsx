@@ -53,7 +53,7 @@ class OHECard extends React.Component {
               <td className="ohe-card-user-image-cell"><Image src={registration.user.picture} circle /></td>
               <td className="ohe-card-user-name-cell">{registration.user.first_name} {registration.user.last_name}</td>
               <td className="ohe-card-user-status-cell">{registration.is_active ? 'מתכוון להגיע' : 'הגעה בוטלה'}</td>
-              <td className="ohe-card-user-phone-cell">{registration.user.phone || ' '}</td>
+              <td className="ohe-card-user-phone-cell"><a href={'tel:' + (registration.user.phone || ' ')}>{registration.user.phone || ' '}</a></td>
               <td className="ohe-card-user-links-cell">
                 <Button href={registration.user.facebook_link} disabled={!registration.user.facebook_link} bsStyle="link" target="_blank">
                   <i className={'fa fa-2x fa-facebook-square ' + (registration.user.facebook_link ? '' : 'ohe-card-facebook')}></i>

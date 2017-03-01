@@ -1,14 +1,3 @@
-.search-wrapper {
-  height: 100%;
-  position: relative;
-}
-
-.search-container {
-  @media (min-width: $screen-md-min) {
-    background-color: $gray-lighter;
-  }
-}
-
 .search-filter-toggle-container {
   left: 100px;
   position: fixed;
@@ -24,7 +13,7 @@
 
 .search-filter-wrapper {
   background-color: $brand-white;
-  padding: 39px 0;
+  padding: 24px 0 0;
 
   @media (max-width: $screen-xs-max) {
     &.hideFilter {
@@ -39,17 +28,21 @@
 
   @media (min-width: $screen-md-min) {
     margin: 0;
+    padding: 39px 0;
     width: 361px;
   }
 }
 
 .search-results-wrapper {
-  background-color: $gray-lighter;
   height: 100%;
-  overflow: auto;
   padding-top: 39px;
 
+  .search-results-container {
+    background-color: $gray-lighter;
+  }
+
   @media (max-width: $screen-xs-max) {
+    background-color: $gray-lighter;
     overflow-y: scroll; /* has to be scroll, not auto */
     -webkit-overflow-scrolling: touch;
   }
