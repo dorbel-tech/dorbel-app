@@ -8,7 +8,7 @@ export default class OheStore {
   constructor(initialState) {    
     initialState = initialState || {};
     this.oheById = asMap(initialState.oheById || {});
-    this.usersFollowsByListingId = asMap({});
+    this.usersFollowsByListingId = asMap(initialState.usersFollowsByListingId || {});
   }
 
   oheByListingId(listing_id) {
@@ -29,7 +29,8 @@ export default class OheStore {
 
   toJson() {
     return {
-      oheById: this.oheById
+      oheById: this.oheById,
+      usersFollowsByListingId: this.usersFollowsByListingId
     };
   }
 
