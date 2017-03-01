@@ -15,6 +15,8 @@ const fixtures = {
   event_id: 1
 };
 
+const REGISTERED_USERS = ['9212ce50-bc25-4737-afc7-74207b9ebadb', '9a3a66cb-143b-444f-a153-025ffd4db4ed'];
+
 describe('Data Retrieval Integration', function () {
   before(function* () {
     this.dataRetrieval = require('../../src/sender/dataRetrieval');
@@ -63,22 +65,16 @@ describe('Data Retrieval Integration', function () {
     const listingFollowers = yield this.retrieve('sendToListingFollowers', {
       listing_id: fixtures.listing_id
     });
-
-    for (let i = 0; i < 10; i++) {
-      if (i < 5) {
-        __.assertThat(listingFollowers.customRecipients, __.hasItem('00000000-0000-0000-0000-00000000000' + i));
-      }
-      else {
-        __.assertThat(listingFollowers.customRecipients, __.not(__.hasItem('00000000-0000-0000-0000-00000000000' + i)));
-      }
-    }
+    
+    __.assertThat(listingFollowers.customRecipients, __.is(REGISTERED_USERS));
   });
 
   it('should get listing followers count', function* () {
     const followersCountRes = yield this.retrieve('getListingFollowersCount', {
       listing_id: fixtures.listing_id
     });
-    __.assertThat(followersCountRes.followersCount, __.is(5));
+    
+    __.assertThat(followersCountRes.followersCount, __.is(2));
     __.assertThat(followersCountRes.customRecipients, __.is([fixtures.staticUser.id]));
   });
 
@@ -94,14 +90,17 @@ describe('Data Retrieval Integration', function () {
     const OheUsers = yield this.retrieve('sendToOheRegisteredUsers', {
       event_id: fixtures.event_id
     });
+    
+    __.assertThat(OheUsers.customRecipients, __.is(REGISTERED_USERS));
+  });
 
-    for (let i = 0; i < 10; i++) {
-      if (i < 5) {
-        __.assertThat(OheUsers.customRecipients, __.hasItem('00000000-0000-0000-0000-00000000000' + i));
-      }
-      else {
-        __.assertThat(OheUsers.customRecipients, __.not(__.hasItem('00000000-0000-0000-0000-00000000000' + i)));
-      }
-    }
+  it('should get user details', function* () {
+    const userDetails = yield this.retrieve('getUserDetails', {
+      user_uuid: fixtures.staticUser.id
+    });
+
+    __.assertThat(userDetails.user_profile, __.is(__.defined()));
+    __.assertThat(userDetails.user_profile.email, __.is(__.defined()));
   });
 });
+
