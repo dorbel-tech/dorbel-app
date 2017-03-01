@@ -119,15 +119,17 @@
     }
 
     .padding {
-      padding: 0 15px;
+      padding: 10px;
     }
 
     @media (min-width: $screen-sm-max) {
+      .fb-desktop,
       .fb-messenger-desktop,
       .email {
         display: inline;
       }
 
+      .fb-mobile,
       .fb-messenger-mobile,
       .whatsapp {
         display: none;
@@ -135,11 +137,13 @@
     }
 
     @media (max-width: $screen-sm-max) {
+      .fb-desktop,
       .fb-messenger-desktop,
       .email {
         display: none;
       }
 
+      .fb-mobile,
       .fb-messenger-mobile,
       .whatsapp {
         display: inline;
