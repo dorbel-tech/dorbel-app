@@ -2,67 +2,67 @@
   {
     "eventType": "APARTMENT_CREATED",
     "notificationType": "apartment_created",
-    "dataRetrieval": [ "getUserDetails", "getListingInfo" ]
+    "dataRetrieval": [ "getListingInfo", "getUserDetails" ]
   },
   {
     "eventType": "APARTMENT_LISTED",
     "notificationType": "apartment_listed",
-    "dataRetrieval": [ "getUserDetails", "getListingInfo" ]
+    "dataRetrieval": [ "getListingInfo", "getUserDetails" ]
   },
   {
     "eventType": "APARTMENT_UNLISTED",
     "notificationType": "apartment_unlisted",
-    "dataRetrieval": [ "getUserDetails", "getListingInfo", "getListingOhesCount" ]
+    "dataRetrieval": [ "getListingInfo", "getListingOhesCount", "getUserDetails" ]
   },
   {
     "eventType": "APARTMENT_RENTED",
     "notificationType": "apartment_rented",
-    "dataRetrieval": [ "getUserDetails", "getListingInfo", "getListingOhesCount" ]
+    "dataRetrieval": [ "getListingInfo", "getListingOhesCount", "getUserDetails" ]
   },
   {
     "eventType": "OHE_CREATED",
     "notificationType": "ohe_created",
-    "dataRetrieval": [ "getUserDetails", "getListingInfo", "getOheInfo" ],
+    "dataRetrieval": [ "getListingInfo", "getOheInfo", "getUserDetails" ],
     "dataEnrichment": [ "addCalendarInvite" ]
   },
   {
     "eventType": "OHE_CREATED",
     "notificationType": "ohe_created_notify_followers",
-    "dataRetrieval": [ "getUserDetails", "getListingInfo", "getOheInfo", "sendToListingFollowers" ]
+    "dataRetrieval": [ "getListingInfo", "getOheInfo", "sendToListingFollowers", "getUserDetails" ]
   },
   {
     "eventType": "OHE_UPDATED",
     "notificationType": "ohe_updated",
-    "dataRetrieval": [ "getUserDetails", "getListingInfo", "getOheInfo", "sendToOheRegisteredUsers" ],
+    "dataRetrieval": [ "getListingInfo", "getOheInfo", "sendToOheRegisteredUsers", "getUserDetails" ],
     "dataEnrichment": [ "addCalendarInvite" ]
   },
   {
     "eventType": "OHE_DELETED",
     "notificationType": "ohe_cancelled_notify_registered_users",
-    "dataRetrieval": [ "getUserDetails", "getListingInfo", "getOheInfo", "sendToOheRegisteredUsers" ],
+    "dataRetrieval": [ "getListingInfo", "getOheInfo", "sendToOheRegisteredUsers", "getUserDetails" ],
     "dataEnrichment": [ "cancelCalendarInvite" ]
   },
   {
     "eventType": "OHE_REGISTERED",
     "notificationType": "ohe_registered",
-    "dataRetrieval": [ "getUserDetails", "getListingInfo", "getOheInfo" ],
+    "dataRetrieval": [ "getListingInfo", "getOheInfo", "getUserDetails" ],
     "dataEnrichment": [ "addCalendarInvite" ]
   },
   {
     "eventType": "OHE_REGISTERED",
     "notificationType": "ohe_first_registered_notify_landlord",
-    "dataRetrieval": [ "getListingInfo", "getOheInfoForLandlord" ]
+    "dataRetrieval": [ "getListingInfo", "getOheInfoForLandlord", "getUserDetails" ]
   },
   {
     "eventType": "OHE_UNREGISTERED",
     "notificationType": "ohe_unregistered",
-    "dataRetrieval": [ "getUserDetails", "getListingInfo", "getOheInfo" ],
+    "dataRetrieval": [ "getListingInfo", "getOheInfo", "getUserDetails" ],
     "dataEnrichment": [ "cancelCalendarInvite" ]
   },
   {
     "eventType": "OHE_FOLLOWED",
     "notificationType": "ohe_followed",
-    "dataRetrieval": [ "getUserDetails", "getListingInfo", "getListingFollowersCount" ]
+    "dataRetrieval": [ "getListingInfo", "getListingFollowersCount", "getUserDetails" ]
   },
   {
     "eventType": "OHE_UNFOLLOWED",
