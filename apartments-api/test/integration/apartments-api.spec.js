@@ -6,7 +6,7 @@ describe('Apartments API Integration', function () {
   const faker = require('../shared/fakeObjectGenerator');
 
   // Integration tests run with static ID as they fill the message queue with app-events
-  const INTEGRATION_TEST_USER_ID = '18b5d059-095f-4409-b5ab-4588f08d3333';
+  const INTEGRATION_TEST_USER_ID = '23821212-6191-4fda-b3e3-fdb8bf69a95d';
 
   before(function* () {
     this.apiClient = yield ApiClient.init(faker.getFakeUser({
