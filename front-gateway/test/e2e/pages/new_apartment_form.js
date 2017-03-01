@@ -241,6 +241,9 @@ module.exports = {
         .fillOpenHouseEventDetailsAllFields()
         .submitNewApartmentForm();
       return this;
-    }
+    },
+    waitForSuccessText: function(text) {
+      this.section.successModal.waitForText('@successTitle', (t) => ( t === text ));
+    }    
   }]
 };

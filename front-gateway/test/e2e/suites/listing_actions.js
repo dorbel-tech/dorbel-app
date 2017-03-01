@@ -15,8 +15,7 @@ function submitApartment() {
   newApartmentForm
     .fillAndSubmitNewApartmentForm()
     .expect.section('@successModal').to.be.visible;
-  newApartmentForm.section.successModal
-    .waitForText('@successTitle', (text) => ( text === 'העלאת הדירה הושלמה!' ));
+  newApartmentForm.waitForSuccessText('העלאת הדירה הושלמה!' );
   // Get listingId from sucess modal dom element data-attr attribute.
   newApartmentForm.section.successModal.getAttribute('@listingId', 'data-attr', function(result) {
     listingId = result.value;
