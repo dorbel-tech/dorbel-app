@@ -1,4 +1,35 @@
+'use stric';
 const _ = require('lodash');
+
+const E2E_USER_LANDLORD = {
+  email: 'e2e-user@dorbel.com',
+  password: 'JZ0PZ5NUcKlsez7lfQpN',
+  firstName: 'Landlord',
+  phone: '123456789'
+};
+const E2E_USER_TENANT = {
+  email: 'e2e-user-tenant@dorbel.com',
+  password: 'R9c&l9B$F%5L',
+  firstName: 'Tenant',
+  phone: '011111111'
+};
+const E2E_USER_ADMIN = {
+  email: 'e2e-user-admin@dorbel.com',
+  password: '1Tz#N#7a#eeU',
+  firstName: 'Admin',
+  phone: '987654321'
+};
+
+function getTestUser(userType) {
+  switch (userType) {
+    case 'admin':
+      return E2E_USER_ADMIN;          
+    case 'landlord':
+      return E2E_USER_LANDLORD;          
+    case 'tenant':
+      return E2E_USER_TENANT;          
+  }
+}
 
 // Return a random number between 1 and 10.
 function getSmallRandomNumber() {
@@ -16,6 +47,7 @@ function getBigRandomNumber() {
 }
 
 module.exports = {
+  getTestUser,
   getSmallRandomNumber,
   getMediumRandomNumber,
   getBigRandomNumber

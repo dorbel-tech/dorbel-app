@@ -1,8 +1,8 @@
-var home,
-  newApartmentForm;
+'use stric';
+let home, newApartmentForm;
 
 function login() {
-  home.navigate().signInAsTestUser(false);
+  home.navigate().signInAsTestUser('landlord');
 }
 
 module.exports = {
@@ -46,8 +46,7 @@ module.exports = {
     newApartmentForm
       .fillAndSubmitNewApartmentForm()
       .expect.section('@successModal').to.be.visible;
-    newApartmentForm
-      .section.successModal.waitForText('@successTitle', (text) => ( text === 'העלאת הדירה הושלמה!' ));
+    newApartmentForm.waitForSuccessText('העלאת הדירה הושלמה!' );
     browser.end();
   }  
 };
