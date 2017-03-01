@@ -36,7 +36,7 @@ module.exports = {
   },
   'admin should approve apartment': function (browser) {
     login('admin');
-    listing.navigateToListingPage(listing.url(listingId))
+    listing.navigateToListingPage(listing.url(listingId));
     listing.expect.section('@landlordControls').to.be.visible;
     listing.changeListingStatus('listed');
     logout();

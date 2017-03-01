@@ -38,7 +38,7 @@ module.exports = {
         .waitForElementVisible('@loginLink')
         .click('@loginLink')
         .waitForElementVisible('@loginTab')
-        .waitForElementVisible('@loginTab') // Twice to delay
+        .waitForElementVisible('@loginTab') // Twice to delay click more.
         .click('@loginTab')
         .setValue('@emailField', user.email)
         .setValue('@passwordField', user.password)
