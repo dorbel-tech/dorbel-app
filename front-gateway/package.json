@@ -44,7 +44,7 @@
     "cookies.js": "madmurphy/cookies.js",
     "css-loader": "^0.26.1",
     "director": "^1.2.8",
-    "dorbel-shared": "git://github.com/dorbel-tech/dorbel-shared#v1.0.17",
+    "dorbel-shared": "git://github.com/dorbel-tech/dorbel-shared#v1.0.21",
     "ejs": "^2.5.2",
     "enzyme": "2.7.1",
     "es6-promisify": "^5.0.0",
@@ -131,6 +131,9 @@
       "src/**/*.{js,jsx}"
     ],
     "coverageDirectory": "<rootDir>/test/coverage",
-    "coverageReporters": ["lcov", "text"]
+    "coverageReporters": [
+      "lcov",
+      "text"
+    ]
   }
 }
