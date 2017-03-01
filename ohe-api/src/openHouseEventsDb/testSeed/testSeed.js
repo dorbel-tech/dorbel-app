@@ -47,8 +47,8 @@ function* buildTestSeed() {
     id: TEST_OHE_ID,
     listing_id: TEST_LISTING_ID,
     publishing_user_id: TEST_USER_ID,
-    start_time: moment().add(1, 'days').set({ hour: 0, minute: 0, second: 0, millisecond: 0 }), // 10:30am tomorrow
-    end_time: moment().add(1, 'days').set({ hour: 0, minute: 0, second: 0, millisecond: 0 }), // 12:00pm tomorrow
+    start_time: moment().add(1, 'days').set({ hour: 10, minute: 30, second: 0, millisecond: 0 }), // 10:30am tomorrow
+    end_time: moment().add(1, 'days').set({ hour: 12, minute: 0, second: 0, millisecond: 0 }), // 12:00pm tomorrow
     max_attendies: 10,
     is_active: true
   });
