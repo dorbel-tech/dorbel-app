@@ -11,6 +11,34 @@ const moment = require('moment');
 const TEST_USER_ID = '23821212-6191-4fda-b3e3-fdb8bf69a95d';
 const TEST_OHE_ID = 1;
 const TEST_LISTING_ID = 1;
+const TEST_FOLLOWERS = {
+  // used for is_active = true entries
+  real: [ 
+    {
+      email: 'ohetest1@dorbel-test.com', // email and password: added just in case we ever need to make changes in auth0
+      password: '123456',
+      id: '9212ce50-bc25-4737-afc7-74207b9ebadb',
+      db_record_id: 1 // added to prevent duplicate follower/ohe registartion entries in upsert
+    },
+    {
+      email: 'ohetest2@dorbel-test.com',
+      password: '123456',
+      id: '9a3a66cb-143b-444f-a153-025ffd4db4ed',
+      db_record_id: 2
+    }
+  ],
+  // used for is_active = false entries
+  fake: [
+    {
+      id: '00000000-mock-test-user-000000000001',
+      db_record_id: 3
+    },
+    {
+      id: '00000000-mock-test-user-000000000002',
+      db_record_id: 4
+    }
+  ]
+};
 
 function* buildTestSeed() {
   yield db.connect();
@@ -25,21 +53,41 @@ function* buildTestSeed() {
     is_active: true
   });
 
-  for (let i = 0; i < 10; i++) {
-    yield db.models.registration.upsert({
-      open_house_event_id: TEST_OHE_ID,
-      registered_user_id: '00000000-0000-0000-0000-00000000000' + i,
-      is_active: (i < 5)
-    });
-  }
+  yield createFollowers();
+}
 
-  for (let i = 0; i < 10; i++) {
-    yield db.models.follower.upsert({
-      listing_id: TEST_LISTING_ID,
-      following_user_id: '00000000-0000-0000-0000-00000000000' + i,
-      is_active: (i < 5)
+function* createFollowers() {
+  yield TEST_FOLLOWERS.real.map(function* (user) {
+    yield db.models.registration.upsert({
+      id: user.db_record_id,
+      open_house_event_id: TEST_OHE_ID,
+      registered_user_id: user.id,
+      is_active: true
     });
-  }
+
+    yield db.models.follower.upsert({
+      id: user.db_record_id,
+      listing_id: TEST_LISTING_ID,
+      following_user_id: user.id,
+      is_active: true
+    });
+  });
+
+  yield TEST_FOLLOWERS.fake.map(function* (user) {
+    yield db.models.registration.upsert({
+      id: user.db_record_id,
+      open_house_event_id: TEST_OHE_ID,
+      registered_user_id: user.id,
+      is_active: false
+    });
+
+    yield db.models.follower.upsert({
+      id: user.db_record_id,
+      listing_id: TEST_LISTING_ID,
+      following_user_id: user.id,
+      is_active: false
+    });
+  });
 }
 
 if (require.main === module) {
