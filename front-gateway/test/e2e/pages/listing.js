@@ -33,9 +33,6 @@ module.exports = {
     oheModal: {
       selector: '.modal-dialog',
       elements: {
-        title: {
-          selector: '.modal-header > h4'
-        },
         firstName: {
           selector: 'input[name="user.firstname"]'
         },
@@ -54,7 +51,26 @@ module.exports = {
         cancel: {
           selector: 'button.btn-danger'
         }
-      }      
+      }
+    },
+    followContainer: {
+      selector: '.owner-container',
+      elements: {
+        followBtn: {
+          selector: '.follow-action'
+        }
+      }
+    },
+    followModal: {
+      selector: '.modal-dialog',
+      elements: {
+        submit: {
+          selector: 'button.btn-success'
+        },
+        ok: {
+          selector: 'button.btn-success'
+        }
+      }
     }
   },
   commands: [{
@@ -69,8 +85,7 @@ module.exports = {
         .click('@listingMenuStatusSelector_' + status);
     },
     clickFirstOhe: function() {
-      return this.section.oheList
-        .click('@firstEvent');
+      return this.section.oheList.click('@firstEvent');
     },
     fillOheRegisterUserDetailsAndSubmit: function() {
       return this.section.oheModal
@@ -79,11 +94,25 @@ module.exports = {
         .click('@ok');
     },
     oheUnRegisterUser: function() {
-      return this.section.oheModal
-        .click('@cancel');
+      return this.section.oheModal.click('@cancel');
     },
     waitForOheListText: function(text) {
       this.section.oheList.waitForText('@firstEventText', (t) => ( t === text ));
+    },
+    clickFollowOheButton: function() {
+      return this.section.followContainer.click('@followBtn');
+    },
+    followUserToOheUpdates: function() {
+      return this.section.followModal
+        .click('@submit')
+        .waitForElementVisible('@ok')
+        .click('@ok');
+    },
+    unFollowUserToOheUpdates: function() {
+      return this.section.followModal.click('@ok');
+    },
+    waitForFollowOheText: function(text) {
+      this.section.followContainer.waitForText('@followBtn', (t) => ( t === text ));
     }
   }]
 };

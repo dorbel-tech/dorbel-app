@@ -66,11 +66,25 @@ module.exports = {
     browser.end();
   },
   'tenant should follow to be notified for new OHE': function (browser) {
-    
+    login('tenant');
+    listing.navigateToListingPage(listing.url(listingId));
+    listing.waitForFollowOheText('קבלו עדכונים על מועדים עתידיים');
+    listing.clickFollowOheButton();
+    listing.expect.section('@followModal').to.be.visible;
+    listing.followUserToOheUpdates();
+    browser.pause(300);
+    listing.waitForFollowOheText('לחצו להסרה מרשימת העדכונים');
     browser.end();
   },
   'tenant should unfollow to be notified of new OHE': function (browser) {
-    
+    login('tenant');
+    listing.navigateToListingPage(listing.url(listingId));
+    listing.waitForFollowOheText('לחצו להסרה מרשימת העדכונים');
+    listing.clickFollowOheButton();
+    listing.expect.section('@followModal').to.be.visible;
+    listing.unFollowUserToOheUpdates();
+    browser.pause(300);
+    listing.waitForFollowOheText('קבלו עדכונים על מועדים עתידיים');
     browser.end();
   }
 };
