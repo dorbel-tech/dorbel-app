@@ -1,5 +1,5 @@
-var home,
-  newApartmentForm;
+'use stric';
+let home, newApartmentForm;
 
 function login() {
   home.navigate().signInAsTestUser('landlord');

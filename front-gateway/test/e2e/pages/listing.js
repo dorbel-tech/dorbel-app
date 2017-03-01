@@ -1,3 +1,4 @@
+'use stric';
 const baseUrl = require('./home').url();
 
 module.exports = {

@@ -1,4 +1,5 @@
-var baseUrl = require('./home').url();
+'use stric';
+const baseUrl = require('./home').url();
 
 module.exports = {
   url: function(){

@@ -1,3 +1,4 @@
+'use stric';
 const _ = require('lodash');
 
 const E2E_USER_LANDLORD = {

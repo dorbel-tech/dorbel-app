@@ -1,7 +1,5 @@
-var home,
-  newApartmentForm,
-  listing,
-  listingId;
+'use stric';
+let home, newApartmentForm, listing, listingId;
 
 function login(userType) {
   home.navigate().signInAsTestUser(userType);
