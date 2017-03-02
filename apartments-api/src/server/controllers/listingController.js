@@ -16,7 +16,7 @@ function* post() {
   let createdListing = yield listingService.create(newApartment);
   let logObject = _.pick(createdListing, ['id', 'publishing_user_id']);
   logger.info({ 
-    listing_ud: logObject.id,
+    listing_id: logObject.id,
     user_uuid: logObject.publishing_user_id
   }, 'New listing created');
 

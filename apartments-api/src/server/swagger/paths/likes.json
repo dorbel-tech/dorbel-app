@@ -1,0 +1,74 @@
+{
+  "/likes/{listingId}": {
+    "post": {
+      "summary": "Marks a listing as 'liked'",
+      "description": "Marks a listing as 'liked'",
+      "parameters": [
+        {
+          "name": "listingId",
+          "in": "path",
+          "description": "id of listing to check for likes",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "x-user-profile",
+          "in": "header",
+          "required": true,
+          "type": "string",
+          "description": "Stringified JSON object with the user's profile information"
+        }
+      ],
+      "tags": [
+        "likeController",
+        "authenticated"
+      ],
+      "responses": {
+        "200": {
+          "description": "operation was successful"
+        },
+        "default": {
+          "description": "Unexpected error",
+          "schema": {
+            "$ref": "#/definitions/Error"
+          }
+        }
+      }
+    },
+    "delete": {
+      "summary": "Removes like from listing",
+      "description": "Removes like from listing",
+      "parameters": [
+        {
+          "name": "listingId",
+          "in": "path",
+          "description": "id of listing to check for likes",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "x-user-profile",
+          "in": "header",
+          "required": true,
+          "type": "string",
+          "description": "Stringified JSON object with the user's profile information"
+        }
+      ],
+      "tags": [
+        "likeController",
+        "authenticated"
+      ],
+      "responses": {
+        "200": {
+          "description": "operation was successful"
+        },
+        "default": {
+          "description": "Unexpected error",
+          "schema": {
+            "$ref": "#/definitions/Error"
+          }
+        }
+      }
+    }
+  }
+}
