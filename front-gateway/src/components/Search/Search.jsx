@@ -47,7 +47,7 @@ class Search extends Component {
         <div className="search-results-wrapper">
           {this.renderResults()}
         </div>
-      </div>
+      </div>;
   }
 }
 

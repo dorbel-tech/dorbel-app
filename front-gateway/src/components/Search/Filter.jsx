@@ -2,10 +2,8 @@ import React, { Component } from 'react';
 import autobind from 'react-autobind';
 import { Button, Checkbox, Radio, Col, DropdownButton, Grid, MenuItem, Row } from 'react-bootstrap';
 import { observer } from 'mobx-react';
-import ListingThumbnail from '../ListingThumbnail/ListingThumbnail.jsx';
 import Nouislider from 'react-nouislider';
 import { range } from 'lodash';
-import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 
 import './Filter.scss';
 
