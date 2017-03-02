@@ -33,33 +33,6 @@
   }
 }
 
-.search-results-wrapper {
-  height: 100%;
-  padding-top: 39px;
-
-  .search-results-container {
-    background-color: $gray-lighter;
-  }
-
-  @media (max-width: $screen-xs-max) {
-    background-color: $gray-lighter;
-    overflow-y: scroll; /* has to be scroll, not auto */
-    -webkit-overflow-scrolling: touch;
-  }
-
-  @media (min-width: $screen-md-min) {
-    bottom: 0;
-    left: 0;
-    position: absolute;
-    right: 361px;
-    top: 0;
-  }
-
-  .loaderContainer {
-    top: -39px;
-  }
-}
-
 .filter-city-container {
   text-align: center;
 

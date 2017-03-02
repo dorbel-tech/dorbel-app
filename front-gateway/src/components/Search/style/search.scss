@@ -1,10 +1,11 @@
 .search-container {
+  background-color: $gray-lighter;
+  height: 100%;
+  overflow: auto;
   position: relative;
 }
 
 .search-results-wrapper {
-  background-color: $gray-lighter;
-  height: 100%;
   padding-top: 39px;
 
   @media (max-width: $screen-xs-max) {
