@@ -2,6 +2,8 @@
 import { observable } from 'mobx';
 
 export default class ListingStore {
+  @observable filterChanged;
+  @observable isLoading;
   @observable searchResults;
 
   constructor(initialState) {
