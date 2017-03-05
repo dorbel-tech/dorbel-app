@@ -66,7 +66,7 @@ describe('Filter', () => {
   it('should render cities correctly', () => {
     props.appStore.cityStore.cities = [{id: 2, city_name: 'test2'}];
 
-    const cityDropdownMenuItems = filter().find(MenuItem);
+    const cityDropdownMenuItems = filter().find('.filter-city-container').find(MenuItem);
 
     expect(cityDropdownMenuItems.length).toEqual(2);
     expect(cityDropdownMenuItems.at(0).props().eventKey).toEqual('*');
