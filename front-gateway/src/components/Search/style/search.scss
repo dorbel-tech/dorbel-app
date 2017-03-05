@@ -3,15 +3,15 @@
   height: 100%;
   overflow: auto;
   position: relative;
-}
-
-.search-results-wrapper {
-  padding-top: 39px;
 
   @media (max-width: $screen-xs-max) {
     overflow-y: scroll; /* has to be scroll, not auto */
     -webkit-overflow-scrolling: touch;
   }
+}
+
+.search-results-wrapper {
+  padding-top: 39px;
 
   @media (min-width: $screen-md-min) {
     bottom: 0;
