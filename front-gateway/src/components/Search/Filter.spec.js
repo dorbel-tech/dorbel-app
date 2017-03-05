@@ -24,7 +24,7 @@ describe('Filter', () => {
       appStore: {
         authStore: {},
         cityStore: {
-          cities: [{id: 2, city_name: 'test2'}]
+          cities: []
         }
       },
       appProviders: {
@@ -55,6 +55,7 @@ describe('Filter', () => {
 
     it('should initialize the component with city from location', () => {
       const expectedFilterObj = {'city': 2};
+      props.appStore.cityStore.cities = [{id: 2, city_name: 'test2'}];
       spyOn(JSON, 'parse').and.returnValue(expectedFilterObj);
 
       const cityDropdownButton = filter().find('#cityDropdown');
