@@ -10,7 +10,7 @@ module.exports = {
           autoIncrement: true,
           primaryKey: true,
         },
-        user_id: {
+        liked_user_id: {
           type: Sequelize.UUID,
           allowNull: false
         },
@@ -37,7 +37,7 @@ module.exports = {
       });
 
     queryInterface.addIndex('likes',
-      ['user_id', 'listing_id'],
+      ['liked_user_id', 'listing_id'],
       {
         indexName: 'primary_compound_index',
         indicesType: 'UNIQUE'

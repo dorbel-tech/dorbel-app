@@ -9,7 +9,7 @@ function define(sequelize, DataTypes) {
         autoIncrement: true,
         primaryKey: true,
       },
-      user_id: {
+      liked_user_id: {
         type: DataTypes.UUID,
         allowNull: false
       },
