@@ -3,7 +3,7 @@ const common = require('../common');
 
 module.exports = {
   url: function() {
-    return process.env.FRONT_GATEWAY_URL || 'http://localhost:3001';
+    return common.getBaseUrl();
   },
   elements: {
     loginLink: {
@@ -43,7 +43,7 @@ module.exports = {
         .setValue('@emailField', user.email)
         .setValue('@passwordField', user.password)
         .click('@submit');
-      this.waitForLoginText('התנתק');
+      common.waitForText(this, '@logInText', 'התנתק');
       return this;
         
     },
@@ -52,9 +52,6 @@ module.exports = {
         .waitForElementVisible('body')
         .waitForElementVisible('@loginLink')
         .click('@loginLink');        
-    },
-    waitForLoginText: function(text) {
-      this.waitForText('@logInText', (t) => ( t === text ));
     }
   }]
 };

@@ -1,4 +1,5 @@
 'use stric';
+const common = require('../common');
 let home, newApartmentForm;
 
 function login() {
@@ -46,7 +47,7 @@ module.exports = {
     newApartmentForm
       .fillAndSubmitNewApartmentForm()
       .expect.section('@successModal').to.be.visible;
-    newApartmentForm.waitForSuccessText('העלאת הדירה הושלמה!' );
+    common.waitForText(newApartmentForm.section.successModal, '@successTitle', 'העלאת הדירה הושלמה!' );
     browser.end();
   }  
 };
