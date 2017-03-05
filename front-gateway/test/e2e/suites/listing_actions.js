@@ -1,4 +1,5 @@
 'use stric';
+const common = require('../common');
 let home, newApartmentForm, listing, listingId;
 
 function login(userType) {
@@ -13,11 +14,27 @@ function submitApartment() {
   newApartmentForm
     .fillAndSubmitNewApartmentForm()
     .expect.section('@successModal').to.be.visible;
-  newApartmentForm.waitForSuccessText('העלאת הדירה הושלמה!' );
+  common.waitForText(newApartmentForm.section.successModal, '@successTitle', 'העלאת הדירה הושלמה!');
   // Get listingId from sucess modal dom element data-attr attribute.
   newApartmentForm.section.successModal.getAttribute('@listingId', 'data-attr', function(result) {
     listingId = result.value;
   });
+}
+
+function waitForUnRegisterText() {
+  common.waitForText(listing.section.oheList, '@firstEventText', 'הרשמו לביקור');
+}
+
+function waitForRegisterText() {
+  common.waitForText(listing.section.oheList, '@firstEventText', 'נרשמתם לארוע זה. לחצו לביטול');
+}
+
+function waitForUnFollowText() {
+  common.waitForText(listing.section.followContainer, '@followBtn', 'קבלו עדכונים על מועדים עתידיים');
+}
+
+function waitForFollowText() {
+  common.waitForText(listing.section.followContainer, '@followBtn', 'לחצו להסרה מרשימת העדכונים');
 }
 
 module.exports = {
@@ -45,44 +62,44 @@ module.exports = {
   'tenant should register to OHE': function (browser) {
     login('tenant');
     listing.navigateToListingPage(listing.url(listingId));
-    listing.waitForOheListText('הרשמו לביקור');
+    waitForUnRegisterText();
     listing.clickFirstOhe();
     listing.expect.section('@oheModal').to.be.visible;
     listing.fillOheRegisterUserDetailsAndSubmit();
-    listing.waitForOheListText('נרשמתם לארוע זה. לחצו לביטול');
+    waitForRegisterText();
     browser.end();
   },
   'tenant should unregister from OHE': function (browser) {
     login('tenant');
     listing.navigateToListingPage(listing.url(listingId));
-    listing.waitForOheListText('נרשמתם לארוע זה. לחצו לביטול');
+    waitForRegisterText();
     listing.clickFirstOhe();
     listing.expect.section('@oheModal').to.be.visible;
     listing.oheUnRegisterUser();
     browser.pause(300);
-    listing.waitForOheListText('הרשמו לביקור');
+    waitForUnRegisterText();
     browser.end();
   },
   'tenant should follow to be notified for new OHE': function (browser) {
     login('tenant');
     listing.navigateToListingPage(listing.url(listingId));
-    listing.waitForFollowOheText('קבלו עדכונים על מועדים עתידיים');
+    waitForUnFollowText();
     listing.clickFollowOheButton();
     listing.expect.section('@followModal').to.be.visible;
     listing.followUserToOheUpdates();
     browser.pause(300);
-    listing.waitForFollowOheText('לחצו להסרה מרשימת העדכונים');
+    waitForFollowText();
     browser.end();
   },
   'tenant should unfollow to be notified of new OHE': function (browser) {
     login('tenant');
     listing.navigateToListingPage(listing.url(listingId));
-    listing.waitForFollowOheText('לחצו להסרה מרשימת העדכונים');
+    waitForFollowText();
     listing.clickFollowOheButton();
     listing.expect.section('@followModal').to.be.visible;
     listing.unFollowUserToOheUpdates();
     browser.pause(300);
-    listing.waitForFollowOheText('קבלו עדכונים על מועדים עתידיים');
+    waitForUnFollowText();
     browser.end();
   }
 };

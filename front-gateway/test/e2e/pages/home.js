@@ -3,14 +3,17 @@ const common = require('../common');
 
 module.exports = {
   url: function() {
-    return process.env.FRONT_GATEWAY_URL || 'http://localhost:3001';
+    return common.getBaseUrl();
   },
   elements: {
     loginLink: {
       selector: '.header-navbar-profile-login-text'
     },
+    logInText: {
+      selector: '.header-navbar-profile-login-text a'
+    },    
     loginTab: {
-      selector: '.auth0-lock-tabs > li > a:last-child'
+      selector: '.auth0-lock-tabs > li:nth-of-type(1) > a'
     },
     emailField: {
       selector: '.auth0-lock-input-email input[name=email]'
@@ -20,9 +23,6 @@ module.exports = {
     },
     submit: {
       selector: 'button.auth0-lock-submit'
-    },
-    loggedInName: {
-      selector: '.header-navbar-profile-text'
     }
   },
   commands: [{
@@ -34,17 +34,18 @@ module.exports = {
     },
     signInAsTestUser: function (userType) {      
       let user = common.getTestUser(userType);
-      return this
+      this
         .waitForElementVisible('body')
         .waitForElementVisible('@loginLink')
         .click('@loginLink')
         .waitForElementVisible('@loginTab')
-        .waitForElementVisible('@loginTab') // Twice to delay click more.
         .click('@loginTab')
         .setValue('@emailField', user.email)
         .setValue('@passwordField', user.password)
-        .click('@submit')
-        .waitForElementVisible('@loggedInName');
+        .click('@submit');
+      common.waitForText(this, '@logInText', 'התנתק');
+      return this;
+        
     },
     signOut: function () {
       return this

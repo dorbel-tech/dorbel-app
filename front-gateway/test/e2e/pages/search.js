@@ -1,9 +1,9 @@
 'use stric';
-const baseUrl = require('./home').url();
+const common = require('../common');
 
 module.exports = {
   url: function(){
-    return baseUrl + '/apartments';
+    return common.getBaseUrl() + '/apartments';
   },
   sections: {
     searchFilter: {
