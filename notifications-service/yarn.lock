@@ -1050,9 +1050,9 @@ doctrine@^1.2.2:
     esutils "^2.0.2"
     isarray "^1.0.0"
 
-"dorbel-shared@git://github.com/dorbel-tech/dorbel-shared#v1.0.21":
-  version "1.0.21"
-  resolved "git://github.com/dorbel-tech/dorbel-shared#7c0d7351cca8f98e0f69fd1ef15d4faec8c445d5"
+"dorbel-shared@git://github.com/dorbel-tech/dorbel-shared#v1.0.25":
+  version "1.0.25"
+  resolved "git://github.com/dorbel-tech/dorbel-shared#10c40839bb89e00a5729f2771a0d2f4f5bf1e65c"
   dependencies:
     analytics-node "^2.1.0"
     auth0 "2.5.0"
@@ -2583,10 +2583,6 @@ lru-cache@^4.0.1:
   dependencies:
     pseudomap "^1.0.1"
     yallist "^2.0.0"
-
-lsmod@1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/lsmod/-/lsmod-1.0.0.tgz#9a00f76dca36eb23fa05350afe1b585d4299e64b"
 
 map-stream@~0.1.0:
   version "0.1.0"
