@@ -1,7 +1,7 @@
 'use strict';
 import { mount } from 'enzyme';
 import React from 'react';
-
+import { MenuItem } from 'react-bootstrap';
 import Filter from './Filter';
 
 describe('Filter', () => {
@@ -61,5 +61,17 @@ describe('Filter', () => {
 
     expect(props.appProviders.searchProvider.search).toHaveBeenCalledWith(expectedFilterObj);
     expect(cityDropdownButton.text()).toEqual('עיר: test2 ');
+  });
+
+  it('should render cities correctly', () => {
+    props.appStore.cityStore.cities = [{id: 2, city_name: 'test2'}];
+
+    const cityDropdownMenuItems = filter().find(MenuItem);
+
+    expect(cityDropdownMenuItems.length).toEqual(2);
+    expect(cityDropdownMenuItems.at(0).props().eventKey).toEqual('*');
+    expect(cityDropdownMenuItems.at(0).text()).toEqual('כל הערים');
+    expect(cityDropdownMenuItems.at(1).props().eventKey).toEqual(2);
+    expect(cityDropdownMenuItems.at(1).text()).toEqual('test2');
   });
 });
