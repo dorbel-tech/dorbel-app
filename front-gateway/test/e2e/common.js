@@ -1,24 +1,8 @@
 'use stric';
 const _ = require('lodash');
-
-const E2E_USER_LANDLORD = {
-  email: 'e2e-user@dorbel.com',
-  password: 'JZ0PZ5NUcKlsez7lfQpN',
-  firstName: 'Landlord',
-  phone: '123456789'
-};
-const E2E_USER_TENANT = {
-  email: 'e2e-user-tenant@dorbel.com',
-  password: 'R9c&l9B$F%5L',
-  firstName: 'Tenant',
-  phone: '011111111'
-};
-const E2E_USER_ADMIN = {
-  email: 'e2e-user-admin@dorbel.com',
-  password: '1Tz#N#7a#eeU',
-  firstName: 'Admin',
-  phone: '987654321'
-};
+const E2E_USER_LANDLORD = { email: 'e2e-user@dorbel.com', password: 'e2e_test', firstName: 'Landlord', phone: '123456789' };
+const E2E_USER_TENANT = { email: 'e2e-user-tenant@dorbel.com', password: 'e2e_test', firstName: 'Tenant', phone: '011111111' };
+const E2E_USER_ADMIN = { email: 'e2e-user-admin@dorbel.com', password: 'e2e_test', firstName: 'Admin', phone: '987654321' };
 
 function getTestUser(userType) {
   switch (userType) {
@@ -31,24 +15,31 @@ function getTestUser(userType) {
   }
 }
 
-// Return a random number between 1 and 10.
+function getBaseUrl() {
+  return process.env.FRONT_GATEWAY_URL || 'http://localhost:3001';
+}
+
 function getSmallRandomNumber() {
-  return _.random(1, 10);
+  return _.random(1, 10); // Return a random number between 1 and 10.
 }
 
-// Return a random number between 10 and 100.
 function getMediumRandomNumber() {
-  return _.random(10, 100);
+  return _.random(10, 100); // Return a random number between 10 and 100.
 }
 
-// Return a random number between 1000 and 10000.
 function getBigRandomNumber() {
-  return _.random(1000, 10000);
+  return _.random(1000, 10000); // Return a random number between 1000 and 10000.
+}
+
+function waitForText(context, element, text) {
+  return context.waitForText(element, (t) => ( t === text ));
 }
 
 module.exports = {
   getTestUser,
+  getBaseUrl,
   getSmallRandomNumber,
   getMediumRandomNumber,
-  getBigRandomNumber
+  getBigRandomNumber,
+  waitForText
 };

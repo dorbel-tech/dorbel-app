@@ -1,10 +1,9 @@
 'use stric';
 const common = require('../common');
-const baseUrl = require('./home').url();
 
 module.exports = {
   url: function(){
-    return baseUrl + '/apartments/new_form';
+    return common.getBaseUrl() + '/apartments/new_form';
   },
   sections: {
     apartmentPictures: {
@@ -242,9 +241,6 @@ module.exports = {
         .fillOpenHouseEventDetailsAllFields()
         .submitNewApartmentForm();
       return this;
-    },
-    waitForSuccessText: function(text) {
-      this.section.successModal.waitForText('@successTitle', (t) => ( t === text ));
     }    
   }]
 };

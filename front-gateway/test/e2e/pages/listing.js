@@ -1,9 +1,9 @@
 'use stric';
-const baseUrl = require('./home').url();
+const common = require('../common');
 
 module.exports = {
   url: function(listingId){
-    return baseUrl + '/apartments/' + listingId;
+    return common.getBaseUrl() + '/apartments/' + listingId;
   },
   sections: {
     listingTitle: {
@@ -97,9 +97,6 @@ module.exports = {
     oheUnRegisterUser: function() {
       return this.section.oheModal.click('@cancel');
     },
-    waitForOheListText: function(text) {
-      this.section.oheList.waitForText('@firstEventText', (t) => ( t === text ));
-    },
     clickFollowOheButton: function() {
       return this.section.followContainer.click('@followBtn');
     },
@@ -111,9 +108,6 @@ module.exports = {
     },
     unFollowUserToOheUpdates: function() {
       return this.section.followModal.click('@ok');
-    },
-    waitForFollowOheText: function(text) {
-      this.section.followContainer.waitForText('@followBtn', (t) => ( t === text ));
     }
   }]
 };
