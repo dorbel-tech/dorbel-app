@@ -10,12 +10,7 @@ class ListingThumbnail extends Component {
   getListingPath(listing) {
     return listing.slug || listing.id;
   }
-
-  getListingDateStr(listing) {
-    return new Date(listing.lease_start) <= Date.now() ?
-      'מיידי' : utils.formatDate(listing.lease_start);
-  }
-
+  
   render() {
     const { listing } = this.props;
     const sortedListingImages = utils.sortListingImages(listing);
@@ -23,6 +18,8 @@ class ListingThumbnail extends Component {
     const building = listing.apartment.building;
     const areaDescriptionPrefix = building.neighborhood.neighborhood_name === 'אחר' ? '' : building.neighborhood.neighborhood_name + ', ';
     const areaDescription = areaDescriptionPrefix + building.city.city_name;
+    const classLeaseDate = new Date(listing.lease_start) <= Date.now() ? 'apt-thumb-lease-immediate' : 'apt-thumb-lease-date';
+    const listingDateStr = new Date(listing.lease_start) <= Date.now() ? 'מיידי' : utils.formatDate(listing.lease_start); 
 
     return (
       <Col lg={4} sm={6} xs={12}>
@@ -46,7 +43,7 @@ class ListingThumbnail extends Component {
                 {listing.apartment.rooms}</span><span className="apt-thumb-sub-text"> חד'</span>
               <span className="apt-thumb-details-extra-date">
                 <span className="apt-thumb-sub-text">תאריך כניסה </span>
-                {this.getListingDateStr(listing)}
+                <span className={classLeaseDate}>{listingDateStr}</span>
               </span>
             </div>
           </div>
