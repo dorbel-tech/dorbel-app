@@ -1,6 +1,6 @@
 {
   "name": "notifications-service",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Worker to process notifications messages from SQS and dispatch using Email or SMS",
   "main": "src/index.js",
   "scripts": {
@@ -48,8 +48,12 @@
     "satisfaction": "^3.0.0"
   },
   "nyc": {
-    "reporter": ["json"],
-    "include": ["src/**/*.{js}"],
+    "reporter": [
+      "json"
+    ],
+    "include": [
+      "src/**/*.{js}"
+    ],
     "report-dir": "./test/coverage"
   }
 }

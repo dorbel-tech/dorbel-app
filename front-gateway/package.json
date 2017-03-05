@@ -1,6 +1,6 @@
 {
   "name": "front-gateway",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Front end application for dorbel",
   "main": "index.js",
   "scripts": {
@@ -130,6 +130,8 @@
       "src/**/*.{js,jsx}"
     ],
     "coverageDirectory": "<rootDir>/test/coverage",
-    "coverageReporters": ["json"]
+    "coverageReporters": [
+      "json"
+    ]
   }
 }
