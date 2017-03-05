@@ -3,19 +3,19 @@ const _ = require('lodash');
 
 const E2E_USER_LANDLORD = {
   email: 'e2e-user@dorbel.com',
-  password: 'JZ0PZ5NUcKlsez7lfQpN',
+  password: 'e2e_test',
   firstName: 'Landlord',
   phone: '123456789'
 };
 const E2E_USER_TENANT = {
   email: 'e2e-user-tenant@dorbel.com',
-  password: 'R9c&l9B$F%5L',
+  password: 'e2e_test',
   firstName: 'Tenant',
   phone: '011111111'
 };
 const E2E_USER_ADMIN = {
   email: 'e2e-user-admin@dorbel.com',
-  password: '1Tz#N#7a#eeU',
+  password: 'e2e_test',
   firstName: 'Admin',
   phone: '987654321'
 };
