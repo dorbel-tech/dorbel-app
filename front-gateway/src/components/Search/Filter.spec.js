@@ -38,30 +38,28 @@ describe('Filter', () => {
     mountedFilter = undefined;
   });
 
-  describe('Initialization', () => {
-    it('should initialize the component', () => {
-      const expectedFilterObj = {'city': 1};
+  it('should initialize correctly', () => {
+    const expectedFilterObj = {'city': 1};
 
-      const cityDropdownButton = filter().find('#cityDropdown');
+    const cityDropdownButton = filter().find('#cityDropdown');
 
-      expect(props.appProviders.searchProvider.initFilter).toHaveBeenCalledWith();
-      expect(props.appProviders.cityProvider.loadCities).toHaveBeenCalledWith();
-      expect(history.pushState).toHaveBeenCalledWith(expectedFilterObj, '', jasmine.any(String));
-      expect(history.pushState.calls.count()).toEqual(1);
-      expect(props.appProviders.searchProvider.search).toHaveBeenCalledWith(expectedFilterObj);
-      expect(props.appProviders.searchProvider.search.mock.calls.length).toEqual(1);
-      expect(cityDropdownButton.text()).toEqual('עיר: טוען... ');
-    });
+    expect(props.appProviders.searchProvider.initFilter).toHaveBeenCalledWith();
+    expect(props.appProviders.cityProvider.loadCities).toHaveBeenCalledWith();
+    expect(history.pushState).toHaveBeenCalledWith(expectedFilterObj, '', jasmine.any(String));
+    expect(history.pushState.calls.count()).toEqual(1);
+    expect(props.appProviders.searchProvider.search).toHaveBeenCalledWith(expectedFilterObj);
+    expect(props.appProviders.searchProvider.search.mock.calls.length).toEqual(1);
+    expect(cityDropdownButton.text()).toEqual('עיר: טוען... ');
+  });
 
-    it('should initialize the component with city from location', () => {
-      const expectedFilterObj = {'city': 2};
-      props.appStore.cityStore.cities = [{id: 2, city_name: 'test2'}];
-      spyOn(JSON, 'parse').and.returnValue(expectedFilterObj);
+  it('should parse city from location', () => {
+    const expectedFilterObj = {'city': 2};
+    props.appStore.cityStore.cities = [{id: 2, city_name: 'test2'}];
+    spyOn(JSON, 'parse').and.returnValue(expectedFilterObj);
 
-      const cityDropdownButton = filter().find('#cityDropdown');
+    const cityDropdownButton = filter().find('#cityDropdown');
 
-      expect(props.appProviders.searchProvider.search).toHaveBeenCalledWith(expectedFilterObj);
-      expect(cityDropdownButton.text()).toEqual('עיר: test2 ');
-    });
+    expect(props.appProviders.searchProvider.search).toHaveBeenCalledWith(expectedFilterObj);
+    expect(cityDropdownButton.text()).toEqual('עיר: test2 ');
   });
 });
