@@ -10,7 +10,8 @@
     "start:dev": "nodemon --exec babel-node --debug=5859 src/server/server.js | bunyan -o short",
     "build:dev": "NODE_ENV=development webpack-dev-server --content-base public -d --config webpack.config.js --host 0.0.0.0 --colors --inline --no-info",
     "test": "yarn run test:unit",
-    "test:unit": "jest",
+    "test:unit": "jest --coverage",
+    "test:unit:watch": "jest --watch",
     "test:e2e": "nightwatch",
     "test:e2e:browserstack": "RUN_ON_BSTACK=true nightwatch -c test/browserstack.conf.js",
     "test:e2e:browserstack:local": "BSTACK_LOCAL=true yarn run test:e2e:browserstack",
@@ -125,7 +126,6 @@
     "moduleNameMapper": {
       "\\.(css|scss)$": "<rootDir>/test/style-mock.js"
     },
-    "collectCoverage": true,
     "collectCoverageFrom": [
       "src/**/*.{js,jsx}"
     ],
