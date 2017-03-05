@@ -29,7 +29,7 @@ function* set(listingId, user, isLiked) {
 }
 
 function publishLikeEvent(listingId, userId, isLiked) {
-  const eventType = isLiked ? messageBus.eventType.APARTMENT_LIKED : messageBus.eventType.APARTMENT_UNLIKED;
+  const eventType = isLiked ? messageBus.eventType.LISTING_LIKED : messageBus.eventType.LISTING_UNLIKED;
   messageBus.publish(config.get('NOTIFICATIONS_SNS_TOPIC_ARN'), eventType, {
     listing_id: listingId,
     user_uuid: userId,
