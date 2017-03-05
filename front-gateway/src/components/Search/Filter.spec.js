@@ -15,7 +15,7 @@ describe('Filter', () => {
       );
     }
     return mountedFilter;
-  }
+  };
 
   beforeEach(() => {
     spyOn(history, 'pushState');
@@ -24,7 +24,7 @@ describe('Filter', () => {
       appStore: {
         authStore: {},
         cityStore: {
-          cities: []
+          cities: [{id: 2, city_name: 'test2'}]
         }
       },
       appProviders: {
@@ -40,19 +40,27 @@ describe('Filter', () => {
 
   describe('Initialization', () => {
     it('should initialize the component', () => {
-      filter();
+      const expectedFilterObj = {'city': 1};
+
+      const cityDropdownButton = filter().find('#cityDropdown');
 
       expect(props.appProviders.searchProvider.initFilter).toHaveBeenCalledWith();
       expect(props.appProviders.cityProvider.loadCities).toHaveBeenCalledWith();
-      expect(props.appProviders.searchProvider.search).toHaveBeenCalledWith({"city": 1});
-      expect(mountedFilter.state()).toBeNull();
+      expect(history.pushState).toHaveBeenCalledWith(expectedFilterObj, '', jasmine.any(String));
+      expect(history.pushState.calls.count()).toEqual(1);
+      expect(props.appProviders.searchProvider.search).toHaveBeenCalledWith(expectedFilterObj);
+      expect(props.appProviders.searchProvider.search.mock.calls.length).toEqual(1);
+      expect(cityDropdownButton.text()).toEqual('עיר: טוען... ');
     });
 
-    it('should initialize the component with state from location', () => {
-      spyOn(JSON, 'parse').and.returnValue({room: true});
-      filter();
+    it('should initialize the component with city from location', () => {
+      const expectedFilterObj = {'city': 2};
+      spyOn(JSON, 'parse').and.returnValue(expectedFilterObj);
 
-      expect(mountedFilter.state()).toBeNull();
+      const cityDropdownButton = filter().find('#cityDropdown');
+
+      expect(props.appProviders.searchProvider.search).toHaveBeenCalledWith(expectedFilterObj);
+      expect(cityDropdownButton.text()).toEqual('עיר: test2 ');
     });
   });
 });
