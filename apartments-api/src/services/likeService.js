@@ -5,15 +5,15 @@ const config = shared.config;
 const logger = shared.logger.getLogger(module);
 const messageBus = shared.utils.messageBus;
 
-function* set(listingId, userId, isLiked) {
+function* set(listingId, user, isLiked) {
   try {
-    yield likeRepository.set(listingId, userId, isLiked);
+    yield likeRepository.set(listingId, user.id, isLiked);
   } catch (err) { // hide DB related information in case an error is thrown
     const errorStr = `Could not ${isLiked ? 'like' : 'unlike'} for listing`;
     logger.error({
       err,
       listing_id: listingId,
-      user_uuid: userId,
+      user_uuid: user.id,
       is_liked: isLiked
     }, );
     throw new Error(errorStr);
@@ -21,11 +21,11 @@ function* set(listingId, userId, isLiked) {
 
   logger.info({
     listing_id: listingId,
-    user_uuid: userId,
+    user_uuid: user.id,
     is_liked: isLiked
   }, `listing is ${isLiked ? 'liked' : 'unliked'}`);
   
-  publishLikeEvent(listingId, userId, isLiked);
+  publishLikeEvent(listingId, user.id, isLiked);
 }
 
 function publishLikeEvent(listingId, userId, isLiked) {

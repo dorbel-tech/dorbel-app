@@ -10,9 +10,9 @@ function* remove() {
 }
 
 function* handleLikeSet(context, isLiked) {
-  const userId = context.request.user.id;
+  const user = context.request.user;
   const listingId = context.params.listingId;
-  yield likeService.set(listingId, userId, isLiked);
+  yield likeService.set(listingId, user, isLiked);
   context.response.status = 200;
 }
 
