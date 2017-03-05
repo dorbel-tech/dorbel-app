@@ -44,7 +44,7 @@ function define(sequelize, DataTypes) {
         }
       },
       indexes: [{
-        fields: ['listing_id', 'user_id'],
+        fields: ['listing_id', 'liked_user_id'],
         unique: true
       }]
     });
