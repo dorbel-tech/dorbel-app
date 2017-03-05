@@ -49,7 +49,7 @@ describe('Filter', () => {
     });
 
     it('should initialize the component with state from location', () => {
-      //spyOn(JSON, 'parse').and.returnValue({room: true});
+      spyOn(JSON, 'parse').and.returnValue({room: true});
       filter();
 
       expect(mountedFilter.state()).toBeNull();

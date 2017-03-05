@@ -48,17 +48,17 @@ class Filter extends Component {
 
     this.props.appProviders.searchProvider.initFilter();
     this.state = Object.assign({ hideFilter: true }, DEFAULT_FILTER_PARAMS, this.filterObj);
+  }
+
+  componentDidMount() {
+    this.props.appProviders.cityProvider.loadCities();
+    this.reloadResults();
 
     // Adjust roommates checkboxes state when provided with roommates data from
     // the query params (location.search).
     if (this.filterObj.room) {
       this.setState({ empty: false });
     }
-  }
-
-  componentDidMount() {
-    this.props.appProviders.cityProvider.loadCities();
-    this.reloadResults();
   }
 
   citySelectHandler(cityId) {
