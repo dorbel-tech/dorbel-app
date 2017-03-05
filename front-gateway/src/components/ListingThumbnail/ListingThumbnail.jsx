@@ -6,7 +6,7 @@ import ListingBadge from '../ListingBadge/ListingBadge';
 import CloudinaryImage from '../CloudinaryImage/CloudinaryImage';
 import utils from '../../providers/utils';
 
-let classImmidateLeaseDate;
+let classImmediateLeaseDate;
 
 class ListingThumbnail extends Component {
   getListingPath(listing) {
@@ -15,10 +15,10 @@ class ListingThumbnail extends Component {
   
   getListingDateStr(listing) {
     if (new Date(listing.lease_start) <= Date.now()) {
-      classImmidateLeaseDate = 'apt-thumb-lease-immidiate';
+      classImmediateLeaseDate = 'apt-thumb-lease-immediate';
       return 'מיידי';
     } else {
-      classImmidateLeaseDate = 'apt-thumb-lease-date';
+      classImmediateLeaseDate = 'apt-thumb-lease-date';
       return utils.formatDate(listing.lease_start);
     }
   }
@@ -53,7 +53,7 @@ class ListingThumbnail extends Component {
                 {listing.apartment.rooms}</span><span className="apt-thumb-sub-text"> חד'</span>
               <span className="apt-thumb-details-extra-date">
                 <span className="apt-thumb-sub-text">תאריך כניסה </span>
-                <span className={classImmidateLeaseDate}>{this.getListingDateStr(listing)}</span>
+                <span className={classImmediateLeaseDate}>{this.getListingDateStr(listing)}</span>
               </span>
             </div>
           </div>
