@@ -1,6 +1,6 @@
 {
   "name": "ohe-api",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "API for dorbel open house events",
   "main": "src/index.js",
   "scripts": {
@@ -53,8 +53,12 @@
     "satisfaction": "^3.0.0"
   },
   "nyc": {
-    "reporter": ["json"],
-    "include": ["src/**/*.{js}"],
+    "reporter": [
+      "json"
+    ],
+    "include": [
+      "src/**/*.{js}"
+    ],
     "report-dir": "./test/coverage"
   }
 }
