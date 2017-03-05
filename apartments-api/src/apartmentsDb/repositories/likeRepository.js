@@ -1,11 +1,11 @@
 'use strict';
 const db = require('../dbConnectionProvider');
 
-function* check(listingId, userId) {
+function* check(listingId, user) {
   let res = yield db.models.like.findOne({
     where: {
       listing_id: listingId,
-      user_id: userId,
+      user_id: user.id,
       is_active: true
     },
     raw: true // readonly get - no need for full sequlize instances
