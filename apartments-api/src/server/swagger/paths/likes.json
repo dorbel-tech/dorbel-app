@@ -7,7 +7,7 @@
         {
           "name": "listingId",
           "in": "path",
-          "description": "id of listing to check for likes",
+          "description": "id of listing to like",
           "type": "string",
           "required": true
         },
@@ -36,13 +36,13 @@
       }
     },
     "delete": {
-      "summary": "Removes like from listing",
-      "description": "Removes like from listing",
+      "summary": "Marks a listing as 'unliked'",
+      "description": "Marks a listing as 'unliked'",
       "parameters": [
         {
           "name": "listingId",
           "in": "path",
-          "description": "id of listing to check for likes",
+          "description": "id of listing to unlike",
           "type": "string",
           "required": true
         },

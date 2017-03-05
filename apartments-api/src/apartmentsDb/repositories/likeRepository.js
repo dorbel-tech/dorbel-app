@@ -1,7 +1,7 @@
 'use strict';
 const db = require('../dbConnectionProvider');
 
-function* check(listingId, user) {
+function* isLiked(listingId, user) {
   let res = yield db.models.like.findOne({
     where: {
       listing_id: listingId,
@@ -23,6 +23,6 @@ function* set(listingId, userId, isLiked) {
 }
 
 module.exports = {
-  check,
+  isLiked,
   set
 };

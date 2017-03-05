@@ -230,7 +230,7 @@ function* enrichListingResponse(listing, user) {
       possibleStatuses: getPossibleStatuses(listing, user)
     };
 
-    enrichedListing.is_liked = user ? yield likeRepository.check(listing.id, user) : false;
+    enrichedListing.is_liked = user ? yield likeRepository.isLiked(listing.id, user) : false;
 
     return enrichedListing;
   }
