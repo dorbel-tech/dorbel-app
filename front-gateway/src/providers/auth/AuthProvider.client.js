@@ -23,7 +23,7 @@ class AuthProvider {
   afterAuthentication(authResult) {
     this.authStore.setToken(authResult.idToken);
     this.getProfile(authResult)
-    .then(() => { // wait until profile is set because our previous state might depend on it      
+    .then(() => { // wait until profile is set because our previous state might depend on it
       if (authResult.state) {
         this.recoverStateAfterLogin(authResult.state);
       }
@@ -83,7 +83,7 @@ class AuthProvider {
   }
 
   reportSignInAnalytics(profile) {
-    // Report track event analytics to Segment.
+    // https://segment.com/docs/integrations/intercom/#track
     if (profile) { 
       window.analytics.track('user_login', { user_uuid: profile.dorbel_user_id });
     }
