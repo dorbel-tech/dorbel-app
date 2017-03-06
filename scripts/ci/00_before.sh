@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Cleanup when going out of space
+find ~/.rbenv/versions -maxdepth 1 -type d | grep -v "$(rbenv version | awk '{print $1}')" | tail -n +2 | xargs rm -rf
+find ~/.nvm/versions/node/ -maxdepth 1 -type d | grep -v "$(node --version)" | tail -n +2 | xargs rm -rf
+rm -rf ~/.phpbrew/
+
+# Cache restore, disabled as inconsitent.
+# docker-cache restore
+
+# Creating directories for codecov.io for code coverage report mounted volume.
+mkdir apartments-api-shared
+mkdir ohe-api-shared
+mkdir notifications-service-shared
+mkdir front-gateway-shared
+
+# Starting docker composition
+docker-compose -f docker-compose.yml -f docker-compose.ci.yml up -d --force-recreate --build
