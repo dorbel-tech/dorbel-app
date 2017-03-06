@@ -1,4 +1,5 @@
 #!/bin/bash
+set -x #echo on
 
 docker-compose exec ohe-api yarn run lint
 docker-compose exec ohe-api yarn run test:seed

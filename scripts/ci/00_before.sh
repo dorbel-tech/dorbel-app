@@ -1,4 +1,5 @@
 #!/bin/bash
+set -x #echo on
 
 # Cleanup when going out of space
 find ~/.rbenv/versions -maxdepth 1 -type d | grep -v "$(rbenv version | awk '{print $1}')" | tail -n +2 | xargs rm -rf

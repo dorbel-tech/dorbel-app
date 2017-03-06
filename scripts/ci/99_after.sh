@@ -1,4 +1,5 @@
 #!/bin/bash
+set -x #echo on
 
 # Remove container to save space.
 # docker rmi mysql

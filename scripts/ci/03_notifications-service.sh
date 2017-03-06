@@ -1,4 +1,5 @@
 #!/bin/bash
+set -x #echo on
 
 docker-compose exec notifications-service yarn run lint
 docker-compose exec notifications-service yarn run test

@@ -1,4 +1,5 @@
 #!/bin/bash
+set -x #echo on
 
 docker-compose exec front-gateway yarn run lint
 docker-compose exec front-gateway yarn run test
