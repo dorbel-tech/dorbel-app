@@ -84,17 +84,17 @@ describe('Filter', () => {
     expect(props.appProviders.searchProvider.search.mock.calls.length).toEqual(2);
   });
 
-  const checkboxTests = (name, filterObj, results) => {
+  const checkboxTests = (name, results) => {
     results = results || [[{city: 1, [name]: true}], [{city: 1, [name]: false}]];
 
     describe(name + ' checkbox', () => {
-      it('should call search using the ' + name + ' value parsed from location', () => {
+      it('should render the ' + name + ' checkbox according to the parsed location', () => {
         const expectedFilterObj = {[name]: true};
         spyOn(JSON, 'parse').and.returnValue(expectedFilterObj);
 
         const check = filter().find('[name="' + name + '"]');
 
-        expect(props.appProviders.searchProvider.search.mock.calls[0]).toEqual(results[0]);
+        expect(check.props().checked).toEqual(true);
       });
 
       it('should call search on ' + name + ' checkbox change', () => {
@@ -109,6 +109,10 @@ describe('Filter', () => {
       });
     });
   }
+
+  checkboxTests('roommate', [[{city: 1, room: 0}], [{city: 1, room: 0}]]);
+  checkboxTests('room', [[{city: 1, room: 0}], [{city: 1, room: 0}]]);
+  checkboxTests('empty', [[{city: 1, room: 1}], [{city: 1, room: 1}]]);
 
   checkboxTests('park');
   checkboxTests('balc');
