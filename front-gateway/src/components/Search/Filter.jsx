@@ -194,14 +194,14 @@ class Filter extends Component {
         </div>
         <div className="sort-options">
           <div className="filter-input-wrapper">
-            <Radio value="publish_date" checked={this.filterObj.sort === 'publish_date' || !this.filterObj.sort} onChange={this.sortChangeHandler}>
-              תאריך פרסום
-              </Radio>
-          </div>
-          <div className="filter-input-wrapper">
-            <Radio value="lease_start" checked={this.filterObj.sort === 'lease_start'} onChange={this.sortChangeHandler}>
+            <Radio value="lease_start" checked={this.filterObj.sort === 'lease_start' || !this.filterObj.sort} onChange={this.sortChangeHandler}>
               תאריך כניסה
             </Radio>
+          </div>
+          <div className="filter-input-wrapper">
+            <Radio value="publish_date" checked={this.filterObj.sort === 'publish_date'} onChange={this.sortChangeHandler}>
+              תאריך פרסום
+              </Radio>
           </div>
         </div>
       </div>
