@@ -23,7 +23,7 @@ class AuthProvider {
   afterAuthentication(authResult) {
     this.authStore.setToken(authResult.idToken);
     this.getProfile(authResult)
-    .then(() => { // wait until profile is set because our previous state might depend on it
+    .then(() => { // wait until profile is set because our previous state might depend on it      
       if (authResult.state) {
         this.recoverStateAfterLogin(authResult.state);
       }
@@ -48,6 +48,7 @@ class AuthProvider {
       let mappedProfile = auth0.mapAuth0Profile(profile);
       this.authStore.setProfile(mappedProfile);
       this.reportIdentifyAnalytics(mappedProfile);
+      this.reportSignInAnalytics(mappedProfile);
     })
     .catch(error => {
       window.console.log('Error loading the Profile', error);
@@ -76,8 +77,17 @@ class AuthProvider {
 
   reportIdentifyAnalytics(profile) {
     // https://segment.com/docs/integrations/intercom/#identify
-    if (profile) { window.analytics.identify(profile.dorbel_user_id, profile); }
+    if (profile) { 
+      window.analytics.identify(profile.dorbel_user_id, profile); 
+    }
   }
+
+  reportSignInAnalytics(profile) {
+    // Report track event analytics to Segment.
+    if (profile) { 
+      window.analytics.track('user_login', { user_uuid: profile.dorbel_user_id });
+    }
+  }  
 }
 
 module.exports = AuthProvider;
