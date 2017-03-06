@@ -16,36 +16,36 @@ module.exports = {
     home.resizeDesktop(browser);
     submitApartmentForm = browser.page.submit_apartment_form();
   },
-  // 'should go back from apartment details to previous screen': function (browser) {
-  //   submitApartmentForm
-  //     .navigateToApartmentDetailsSection()
-  //     .goFromApartmentDetailsToApartmentPictures()
-  //     .expect.section('@apartmentPictures').to.be.visible;
-  //   browser.end();
-  // },
-  // 'should go back from event details to previous screen': function (browser) {
-  //   submitApartmentForm
-  //     .navigateToOpenHouseEventSection()
-  //     .goFromOpenHouseEventToApartmentDetails()
-  //     .expect.section('@apartmentDetails').to.be.visible;
-  //   browser.end();
-  // },  
-  // 'should fail to go to step3 as user details in step2 were not filled': function (browser) {
-  //   submitApartmentForm
-  //     .navigateToApartmentDetailsSection()
-  //     .goFromApartmentDetailsToOpenHouseEvent()
-  //     .expect.section('@openHouseEvent').to.not.be.present;
-  //   browser.end();
-  // },
-  // 'should fail to submit a new apartment because of mising user details': function (browser) {
-  //   login();    
-  //   submitApartmentForm
-  //     .navigateToOpenHouseEventSection()
-  //     .clearUserDetailsFields()
-  //     .submitsubmitApartmentForm()
-  //     .expect.section('@successModal').to.not.be.present;
-  //   browser.end();
-  // },
+  'should go back from apartment details to previous screen': function (browser) {
+    submitApartmentForm
+      .navigateToApartmentDetailsSection()
+      .goFromApartmentDetailsToApartmentPictures()
+      .expect.section('@apartmentPictures').to.be.visible;
+    browser.end();
+  },
+  'should go back from event details to previous screen': function (browser) {
+    submitApartmentForm
+      .navigateToOpenHouseEventSection()
+      .goFromOpenHouseEventToApartmentDetails()
+      .expect.section('@apartmentDetails').to.be.visible;
+    browser.end();
+  },  
+  'should fail to go to step3 as user details in step2 were not filled': function (browser) {
+    submitApartmentForm
+      .navigateToApartmentDetailsSection()
+      .goFromApartmentDetailsToOpenHouseEvent()
+      .expect.section('@openHouseEvent').to.not.be.present;
+    browser.end();
+  },
+  'should fail to submit a new apartment because of mising user details': function (browser) {
+    login();    
+    submitApartmentForm
+      .navigateToOpenHouseEventSection()
+      .clearUserDetailsFields()
+      .submitsubmitApartmentForm()
+      .expect.section('@successModal').to.not.be.present;
+    browser.end();
+  },
   'should successfully submit a new apartment with logged in user': function (browser) {
     login();
     submitApartmentForm

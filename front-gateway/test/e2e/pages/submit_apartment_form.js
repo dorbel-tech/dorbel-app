@@ -230,7 +230,7 @@ module.exports = {
         .setValue('@phone', '9999999');
       return this;
     },
-    submitsubmitApartmentForm: function () {
+    submitsApartmentForm: function () {
       this.section.openHouseEvent.click('@submit');
       return this;
     },
@@ -239,7 +239,7 @@ module.exports = {
         // TODO: Add upload image functionality.
         .navigateToOpenHouseEventSection()
         .fillOpenHouseEventDetailsAllFields()
-        .submitsubmitApartmentForm();
+        .submitsApartmentForm();
       return this;
     }    
   }]
