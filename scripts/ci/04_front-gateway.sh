@@ -1,5 +1,6 @@
 #!/bin/bash
-set -x #echo on
+set -x # Print all commands to terminal as executed.
+set -e # Any subsequent(*) commands which fail will cause the shell script to exit immediately.
 
 docker-compose exec front-gateway yarn run lint
 docker-compose exec front-gateway yarn run test
