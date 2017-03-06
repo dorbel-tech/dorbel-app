@@ -104,8 +104,8 @@ class Filter extends Component {
   }
 
   checkboxChangeHandler(e, falseOption) {
+    falseOption = falseOption || false;
     this.setState({ [e.target.name]: e.target.checked });
-
     this.filterObj[e.target.name] = e.target.checked ? true : falseOption;
     this.reloadResults();
   }

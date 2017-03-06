@@ -74,4 +74,46 @@ describe('Filter', () => {
     expect(cityDropdownMenuItems.at(1).props().eventKey).toEqual(2);
     expect(cityDropdownMenuItems.at(1).text()).toEqual('test2');
   });
+
+  xit('should call search on city select', () => {
+    const cityDropdownButton = filter().find('#cityDropdown');
+
+    cityDropdownButton.simulate('click', {});
+
+    expect(props.appProviders.searchProvider.search).toHaveBeenCalledWith({"city": 1});
+    expect(props.appProviders.searchProvider.search.mock.calls.length).toEqual(2);
+  });
+
+  const checkboxTests = (name, filterObj, results) => {
+    results = results || [[{city: 1, [name]: true}], [{city: 1, [name]: false}]];
+
+    describe(name + ' checkbox', () => {
+      it('should call search using the ' + name + ' value parsed from location', () => {
+        const expectedFilterObj = {[name]: true};
+        spyOn(JSON, 'parse').and.returnValue(expectedFilterObj);
+
+        const check = filter().find('[name="' + name + '"]');
+
+        expect(props.appProviders.searchProvider.search.mock.calls[0]).toEqual(results[0]);
+      });
+
+      it('should call search on ' + name + ' checkbox change', () => {
+        const check = filter().find('[name="' + name + '"]');
+
+        check.simulate('change', {target: {name: name, checked: true}});
+        expect(props.appProviders.searchProvider.search.mock.calls[1]).toEqual(results[0]);
+
+        check.simulate('change', {target: {name: name, checked: false}});
+        expect(props.appProviders.searchProvider.search.mock.calls[2]).toEqual(results[1]);
+        expect(props.appProviders.searchProvider.search.mock.calls.length).toEqual(3);
+      });
+    });
+  }
+
+  checkboxTests('park');
+  checkboxTests('balc');
+  checkboxTests('ac');
+  checkboxTests('ele');
+  checkboxTests('pet');
+  checkboxTests('sb');
 });
