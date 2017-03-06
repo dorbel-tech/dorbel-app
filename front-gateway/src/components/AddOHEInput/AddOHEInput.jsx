@@ -6,6 +6,7 @@ import DatePicker from '~/components/DatePicker/DatePicker';
 import moment from 'moment';
 import utils from '../../providers/utils';
 import './AddOHEInput.scss';
+import ReactTooltip from 'react-tooltip';
 
 const hours = [
   '07:00', '07:30', '08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30',
@@ -116,7 +117,9 @@ class AddOHEInput extends React.Component {
       <div>
         <Row>
           <Col md={12} className="form-group">
-            <label>תאריך הביקור</label>
+            <label>תאריך הביקור</label>&nbsp;
+            <span data-tip="קבעו מועד ביקור אליו יוכלו הדיירים להרשם. תוכלו לשנות מועד זה בכל עת."><i className="fa fa-info-circle" aria-hidden="true"></i></span>
+            <ReactTooltip type="dark" effect="solid" place="left"/>
             <DatePicker name="ohe-date" onChange={this.dateChange} value={this.state.date} disabled={this.props.mode !== 'new'} />
           </Col>
         </Row>

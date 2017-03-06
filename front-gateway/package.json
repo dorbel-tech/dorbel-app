@@ -84,6 +84,7 @@
     "react-notification-system": "^0.2.11",
     "react-nouislider": "^1.14.2",
     "react-spinkit": "^1.1.11",
+    "react-tooltip": "^3.2.7",
     "sass-loader": "^4.1.1",
     "satisfaction": "^3.0.0",
     "sinon": "^1.17.6",
