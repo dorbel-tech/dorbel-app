@@ -190,7 +190,7 @@ module.exports = {
         .setValue('@buildingFloors', common.getSmallRandomNumber())
         .setValue('@apartmentSize', common.getMediumRandomNumber())
         .setValue('@apartmentRooms', common.getSmallRandomNumber())
-        .setValue('@description', 'דויד המלך עובד כאן')
+        .setValue('@description', 'דירה יפה לבדיקה')
         .setValue('@city', 'הרצליה')
         .setValue('@neighbourhood', 'גורדון')
         .click('@parking')
@@ -230,16 +230,16 @@ module.exports = {
         .setValue('@phone', '9999999');
       return this;
     },
-    submitNewApartmentForm: function () {
+    submitsubmitApartmentForm: function () {
       this.section.openHouseEvent.click('@submit');
       return this;
     },
-    fillAndSubmitNewApartmentForm: function () {
+    fillAndSubmitsubmitApartmentForm: function () {
       this
         // TODO: Add upload image functionality.
         .navigateToOpenHouseEventSection()
         .fillOpenHouseEventDetailsAllFields()
-        .submitNewApartmentForm();
+        .submitsubmitApartmentForm();
       return this;
     }    
   }]
