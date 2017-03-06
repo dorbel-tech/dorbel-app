@@ -234,7 +234,7 @@ module.exports = {
       this.section.openHouseEvent.click('@submit');
       return this;
     },
-    fillAndSubmitsubmitApartmentForm: function () {
+    fillAndSubmitApartmentForm: function () {
       this
         // TODO: Add upload image functionality.
         .navigateToOpenHouseEventSection()

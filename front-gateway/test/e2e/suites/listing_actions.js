@@ -12,7 +12,7 @@ function logout() {
 
 function submitApartment() {
   submitApartmentForm
-    .fillAndSubmitsubmitApartmentForm()
+    .fillAndSubmitApartmentForm()
     .expect.section('@successModal').to.be.visible;
   common.waitForText(submitApartmentForm.section.successModal, '@successTitle', 'העלאת הדירה הושלמה!');
   // Get listingId from sucess modal dom element data-attr attribute.
