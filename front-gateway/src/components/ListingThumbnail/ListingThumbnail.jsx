@@ -24,7 +24,7 @@ class ListingThumbnail extends Component {
 
     return (
       <Col lg={4} sm={6} xs={12}>
-        <NavLink to={'/apartments/' + this.getListingPath(listing)}
+        <div to={'/apartments/' + this.getListingPath(listing)}
           className="thumbnail apt-thumb-container apt-thumb-container-single pull-right">
           <ListingBadge listing={listing} />
           <div className="apt-thumb-apt-image">
@@ -54,7 +54,7 @@ class ListingThumbnail extends Component {
           <div className="apt-thumb-caption">
             {listing.monthly_rent}<span className="apt-thumb-sub-text"> ₪</span>
           </div>
-        </NavLink>
+        </div>
       </Col>
     );
   }

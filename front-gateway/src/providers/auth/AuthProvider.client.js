@@ -12,9 +12,22 @@ class AuthProvider {
     this.showLoginModal = this.showLoginModal.bind(this);
     this.logout = this.logout.bind(this);
     this.reportIdentifyAnalytics(this.authStore.profile);
+    this.afterAuthenticationCallback = undefined;
+  }
+
+  setAuthenticationCallback(callback) {
+    this.afterAuthenticationCallback = callback;
+  }
+
+  authenticationCallbackHandler() {
+    if (this.afterAuthenticationCallback) {
+      this.afterAuthenticationCallback();
+      this.afterAuthenticationCallback = undefined;
+    }
   }
 
   hideHandler() {
+    this.doOnceAfterAuthentication = undefined;
     if (this.backOnHide) {
       history.back();
     }
@@ -23,11 +36,12 @@ class AuthProvider {
   afterAuthentication(authResult) {
     this.authStore.setToken(authResult.idToken);
     this.getProfile(authResult)
-    .then(() => { // wait until profile is set because our previous state might depend on it
-      if (authResult.state) {
-        this.recoverStateAfterLogin(authResult.state);
-      }
-    });
+      .then(() => { // wait until profile is set because our previous state might depend on it
+        this.authenticationCallbackHandler();
+        if (authResult.state) {
+          this.recoverStateAfterLogin(authResult.state);
+        }
+      });
   }
 
   recoverStateAfterLogin(stateString) {
@@ -36,7 +50,7 @@ class AuthProvider {
       if (stateBeforeLogin && stateBeforeLogin.pathname) {
         this.router.setRoute(stateBeforeLogin.pathname);
       }
-    } catch(ex) {
+    } catch (ex) {
       window.console.error('error parsing state after login');
     }
   }
@@ -44,16 +58,16 @@ class AuthProvider {
   getProfile(authResult) {
     // DEPRECATION NOTICE: This method will be soon deprecated, use `getUserInfo` instead
     return promisify(this.lock.getProfile, this.lock)(authResult.idToken)
-    .then(profile => {
-      let mappedProfile = auth0.mapAuth0Profile(profile);
-      this.authStore.setProfile(mappedProfile);
-      this.reportIdentifyAnalytics(mappedProfile);
-      this.reportSignInAnalytics(mappedProfile);
-    })
-    .catch(error => {
-      window.console.log('Error loading the Profile', error);
-      throw error;
-    });
+      .then(profile => {
+        let mappedProfile = auth0.mapAuth0Profile(profile);
+        this.authStore.setProfile(mappedProfile);
+        this.reportIdentifyAnalytics(mappedProfile);
+        this.reportSignInAnalytics(mappedProfile);
+      })
+      .catch(error => {
+        window.console.log('Error loading the Profile', error);
+        throw error;
+      });
   }
 
   showLoginModal(backOnHide) {
@@ -77,17 +91,17 @@ class AuthProvider {
 
   reportIdentifyAnalytics(profile) {
     // https://segment.com/docs/integrations/intercom/#identify
-    if (profile) { 
-      window.analytics.identify(profile.dorbel_user_id, profile); 
+    if (profile) {
+      window.analytics.identify(profile.dorbel_user_id, profile);
     }
   }
 
   reportSignInAnalytics(profile) {
     // https://segment.com/docs/integrations/intercom/#track
-    if (profile) { 
+    if (profile) {
       window.analytics.track('user_login', { user_uuid: profile.dorbel_user_id });
     }
-  }  
+  }
 }
 
 module.exports = AuthProvider;
