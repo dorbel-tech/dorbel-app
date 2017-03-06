@@ -30,8 +30,7 @@ function* getUserLikes(user) {
     },
     attributes: ['listing_id'],
     raw: true
-  },
-  );
+  });
 }
 
 module.exports = {
