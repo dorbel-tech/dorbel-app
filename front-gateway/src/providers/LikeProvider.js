@@ -37,7 +37,7 @@ class LikeProvider {
       }
     }
     else {
-      return new Promise((resolve) => { resolve(); });
+      return false;
     }
   }
 }
