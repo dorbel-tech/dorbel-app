@@ -33,7 +33,7 @@ class ListingThumbnail extends Component {
           <div className="apt-thumb-details">
             <div className="apt-thumb-details-title">
               {utils.getListingTitle(listing)}
-              <div className="apt-thumb-apt-like">
+              <div className="apt-thumb-details-like">
                 <LikeButton listingId={listing.id} />
               </div>
             </div>
