@@ -1,4 +1,40 @@
 {
+  "/likes/user": {
+    "get": {
+      "summary": "get all listingIds that were liked by the current user",
+      "description": "Returns the IDs of all the listings that were liked by the current user",
+      "parameters": [
+        {
+          "name": "x-user-profile",
+          "in": "header",
+          "required": true,
+          "type": "string",
+          "description": "Stringified JSON object with the user's profile information"
+        }
+      ],
+      "tags": [
+        "likeController",
+        "authenticated"
+      ],
+      "responses": {
+        "200": {
+          "description": "operation was successful, return dictionary of listingId keys and bool value to indicate if liked",
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            }
+          }
+        },
+        "default": {
+          "description": "Unexpected error",
+          "schema": {
+            "$ref": "#/definitions/Error"
+          }
+        }
+      }
+    }
+  },
   "/likes/{listingId}": {
     "post": {
       "summary": "Marks a listing as 'liked'",

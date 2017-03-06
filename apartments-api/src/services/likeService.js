@@ -5,6 +5,11 @@ const config = shared.config;
 const logger = shared.logger.getLogger(module);
 const messageBus = shared.utils.messageBus;
 
+function* getUserLikes(user) {
+  let likeObjects = yield likeRepository.getUserLikes(user);
+  return likeObjects.map(item => item.listing_id);
+}
+
 function* set(listingId, user, isLiked) {
   try {
     yield likeRepository.set(listingId, user.id, isLiked);
@@ -24,7 +29,7 @@ function* set(listingId, user, isLiked) {
     user_uuid: user.id,
     is_liked: isLiked
   }, `listing is ${isLiked ? 'liked' : 'unliked'}`);
-  
+
   publishLikeEvent(listingId, user.id, isLiked);
 }
 
@@ -38,5 +43,6 @@ function publishLikeEvent(listingId, userId, isLiked) {
 }
 
 module.exports = {
+  getUserLikes,
   set
 };
