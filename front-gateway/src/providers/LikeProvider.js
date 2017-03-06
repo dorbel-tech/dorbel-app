@@ -9,11 +9,21 @@ class LikeProvider {
     this.apiProvider = apiProvider;
   }
 
-  get(listingId) {
-    let isSyncedWithServer = this.appStore.likeStore.isSyncedWithServer;
+  set(listingId, isLiked) {
     if (this.appStore.authStore.isLoggedIn) {
-      if (!isSyncedWithServer) {
-        isSyncedWithServer = true;
+      return this.apiProvider.fetch(`/api/apartments/v1/likes/${listingId}`, { method: isLiked ? 'POST' : 'DELETE' })
+        .then(() => { this.appStore.likeStore.likesByListingId.set(listingId, isLiked); });
+    }
+    else {
+      return new Promise((resolve) => { resolve(); });
+    }
+  }
+
+  get(listingId) {
+    let isLikesSyncedWithServer = this.appStore.likeStore.isLikesSyncedWithServer;
+    if (this.appStore.authStore.isLoggedIn) {
+      if (!isLikesSyncedWithServer) {
+        isLikesSyncedWithServer = true;
         this.apiProvider.fetch('/api/apartments/v1/likes/user')
           .then((likedListingIdArr) => {
             let likesMap = {};
