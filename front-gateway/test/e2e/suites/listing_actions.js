@@ -41,6 +41,7 @@ module.exports = {
   beforeEach: function (browser) {
     home = browser.page.home();
     home.resizeDesktop(browser);
+    apartmentForm = browser.page.apartment_form();
     listing = browser.page.listing();
   },
   'landlord should submit a new apartment': function (browser) {
