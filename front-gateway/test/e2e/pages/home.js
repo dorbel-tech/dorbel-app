@@ -23,6 +23,9 @@ module.exports = {
     },
     submit: {
       selector: 'button.auth0-lock-submit'
+    },
+    submitLogin: {
+      selector: '.upload-apt-left-container button.btn-success'
     }
   },
   commands: [{
@@ -32,24 +35,33 @@ module.exports = {
     resizeMobile: function(browser) {
       browser.resizeWindow(320, 800);
     },
-    signInAsTestUser: function (userType) {      
+    fillSignIn: function(userType) {
       let user = common.getTestUser(userType);
-      this
-        .waitForElementVisible('body')
-        .waitForElementVisible('@loginLink')
-        .click('@loginLink')
+      return this
         .waitForElementVisible('@loginTab')
         .click('@loginTab')
         .setValue('@emailField', user.email)
         .setValue('@passwordField', user.password)
         .click('@submit');
+    },
+    signIn: function(userType) {
+      this
+        .waitForElementVisible('@loginLink')
+        .click('@loginLink')
+        .fillSignIn(userType);
       common.waitForText(this, '@logInText', 'התנתק');
       return this;
-        
+    },
+    signInForm: function(userType) {
+      this
+        .waitForElementVisible('@submitLogin')
+        .click('@submitLogin')
+        .fillSignIn(userType);
+      common.waitForText(this, '@logInText', 'התנתק');
+      return this;
     },
     signOut: function () {
       return this
-        .waitForElementVisible('body')
         .waitForElementVisible('@loginLink')
         .click('@loginLink');        
     }
