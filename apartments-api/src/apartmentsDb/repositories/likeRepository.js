@@ -22,7 +22,20 @@ function* set(listingId, userId, isLiked) {
   });
 }
 
+function* getUserLikes(user) {
+  return yield db.models.like.findAll({
+    where: {
+      liked_user_id: user.id,
+      is_active: true
+    },
+    attributes: ['listing_id'],
+    raw: true
+  },
+  );
+}
+
 module.exports = {
+  getUserLikes,
   isLiked,
   set
 };
