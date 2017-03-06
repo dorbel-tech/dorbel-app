@@ -1,6 +1,6 @@
 'use stric';
 const common = require('../common');
-let home, submitApartmentForm, listing, listingId;
+let home, apartmentForm, listing, listingId;
 
 function login(userType) {
   home.navigate().signIn(userType);
@@ -11,12 +11,12 @@ function logout() {
 }
 
 function submitApartment() {
-  submitApartmentForm
-    .fillAndSubmitApartmentForm()
+  apartmentForm
+    .fillAndSubmitApartment()
     .expect.section('@successModal').to.be.visible;
-  common.waitForText(submitApartmentForm.section.successModal, '@successTitle', 'העלאת הדירה הושלמה!');
+  common.waitForText(apartmentForm.section.successModal, '@successTitle', 'העלאת הדירה הושלמה!');
   // Get listingId from sucess modal dom element data-attr attribute.
-  submitApartmentForm.section.successModal.getAttribute('@listingId', 'data-attr', function(result) {
+  apartmentForm.section.successModal.getAttribute('@listingId', 'data-attr', function(result) {
     listingId = result.value;
   });
 }
@@ -41,7 +41,6 @@ module.exports = {
   beforeEach: function (browser) {
     home = browser.page.home();
     home.resizeDesktop(browser);
-    submitApartmentForm = browser.page.submit_apartment_form();
     listing = browser.page.listing();
   },
   'landlord should submit a new apartment': function (browser) {
