@@ -1,6 +1,7 @@
 'use strict';
 import { mount } from 'enzyme';
 import React from 'react';
+import renderer from 'react-test-renderer';
 import { MenuItem } from 'react-bootstrap';
 import Filter from './Filter';
 
