@@ -12,22 +12,9 @@ class AuthProvider {
     this.showLoginModal = this.showLoginModal.bind(this);
     this.logout = this.logout.bind(this);
     this.reportIdentifyAnalytics(this.authStore.profile);
-    this.afterAuthenticationCallback = undefined;
-  }
-
-  setAuthenticationCallback(callback) {
-    this.afterAuthenticationCallback = callback;
-  }
-
-  authenticationCallbackHandler() {
-    if (this.afterAuthenticationCallback) {
-      this.afterAuthenticationCallback();
-      this.afterAuthenticationCallback = undefined;
-    }
   }
 
   hideHandler() {
-    this.doOnceAfterAuthentication = undefined;
     if (this.backOnHide) {
       history.back();
     }
