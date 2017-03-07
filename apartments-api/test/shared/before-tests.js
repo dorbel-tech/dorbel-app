@@ -1,4 +1,5 @@
 process.env.NODE_ENV = 'test';
+process.env.LOG_LEVEL = 'fatal';
 
 // extend mocha to use co-routines
 const mocha = require('mocha');
