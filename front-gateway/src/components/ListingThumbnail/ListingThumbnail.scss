@@ -77,19 +77,27 @@
   border-bottom: $gray-border;
   padding: 15px;
 
-  .apt-thumb-details-title {
-    color: #4d4d4d;
-    font-size: 18px;
-    height: 23px;
-    line-height: 21px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  .apt-thumb-details-header {
+    .apt-thumb-details-title {
+      color: #4d4d4d;
+      font-size: 18px;
+      height: 23px;
+      line-height: 21px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      display: inline-block;
+      width: 95%;
+    }
 
     .apt-thumb-details-like {
       float: left;
-      margin: 1px;
-      font-size: 18px;
+
+      .like-button {
+        padding: 10px;
+        margin: -10px;
+        font-size: 18px;
+      }
     }
   }
 
