@@ -102,7 +102,7 @@ describe('Filter', () => {
         expect(props.appProviders.searchProvider.search.mock.calls.length).toEqual(3);
       });
     });
-  }
+  };
 
   checkboxTests('roommate', [[{city: 1, room: 0}], [{city: 1, room: 0}]]);
   checkboxTests('room', [[{city: 1, room: 0}], [{city: 1, room: 0}]]);
