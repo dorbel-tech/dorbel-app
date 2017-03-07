@@ -5,8 +5,9 @@ import './LikeButton.scss';
 
 @observer(['appProviders', 'appStore'])
 class LikeButton extends Component {
+
   handleClick(e) {
-    e.preventDefault();
+    e.stopPropagation();
     if (this.props.appStore.authStore.isLoggedIn) {
       let prevState = this.props.appProviders.likeProvider.get(this.props.listingId);
       this.props.appProviders.likeProvider.set(this.props.listingId, !prevState);
@@ -21,9 +22,11 @@ class LikeButton extends Component {
     if (this.props.appStore.authStore.isLoggedIn) {
       iconStyle = this.props.appProviders.likeProvider.get(this.props.listingId) ? 'fa-heart' : iconStyle;
     }
-    
+
     return (
-      <i className={'like-button fa ' + iconStyle} onClick={this.handleClick.bind(this)} />
+      <a href="#" onClick={this.handleClick.bind(this)}>
+        <i className={'like-button fa ' + iconStyle} />
+      </a>
     );
   }
 }
