@@ -10,7 +10,8 @@ class LikeProvider {
   }
 
   set(listingId, isLiked) {
-    return this.apiProvider.fetch(`/api/apartments/v1/likes/${listingId}`, { method: isLiked ? 'POST' : 'DELETE' })
+    const method = isLiked ? 'POST' : 'DELETE';
+    return this.apiProvider.fetch(`/api/apartments/v1/likes/${listingId}`, { method })
       .then(() => { this.appStore.likeStore.likesByListingId.set(listingId, isLiked); })
       .catch(() => { this.appStore.likeStore.likesByListingId.set(listingId, !isLiked); });
   }
