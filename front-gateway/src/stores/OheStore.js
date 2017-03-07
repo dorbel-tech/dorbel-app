@@ -1,14 +1,20 @@
 import { observable, asMap } from 'mobx';
 import _ from 'lodash';
+import OheModel from './models/OheModel';
 
 export default class OheStore {
   @observable oheById;
   @observable usersFollowsByListingId;
 
-  constructor(initialState) {    
+  constructor(initialState) {
     initialState = initialState || {};
-    this.oheById = asMap(initialState.oheById || {});
+
+    if (initialState.oheById) {
+      initialState.oheById = _.mapValues(initialState.oheById, ohe => new OheModel(ohe));
+    }
+
     this.usersFollowsByListingId = asMap(initialState.usersFollowsByListingId || {});
+    this.oheById = asMap(initialState.oheById || {});
   }
 
   oheByListingId(listing_id) {
@@ -23,7 +29,7 @@ export default class OheStore {
 
   add(openHouseEvents) {
     openHouseEvents.forEach(ohe => {
-      this.oheById.set(ohe.id, ohe);
+      this.oheById.set(ohe.id, new OheModel(ohe));
     });
   }
 
