@@ -17,7 +17,10 @@ class LikeProvider {
 
   get(listingId) {
     let isLikesSyncedWithServer = this.appStore.likeStore.isLikesSyncedWithServer;
-    if (!isLikesSyncedWithServer) {
+    if (isLikesSyncedWithServer) {
+      return this.appStore.likeStore.likesByListingId.get(listingId);
+    }
+    else {
       isLikesSyncedWithServer = true;
       this.apiProvider.fetch('/api/apartments/v1/likes/user')
         .then((likedListingIdArr) => {
@@ -26,9 +29,6 @@ class LikeProvider {
           this.appStore.likeStore.init(likesMap);
           return this.appStore.likeStore.likesByListingId.get(listingId);
         });
-    }
-    else {
-      return this.appStore.likeStore.likesByListingId.get(listingId);
     }
   }
 }
