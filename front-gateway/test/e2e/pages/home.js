@@ -48,22 +48,27 @@ module.exports = {
       this
         .waitForElementVisible('@loginLink')
         .click('@loginLink')
-        .fillSignIn(userType);
-      common.waitForText(this, '@logInText', 'התנתק');
+        .fillSignIn(userType)
+        .waitForElementVisible('@logInText');
+      common.waitForText(this, '@logInText', 'התנתק', 50000);
       return this;
     },
     signInForm: function(userType) {
       this
         .waitForElementVisible('@submitLogin')
         .click('@submitLogin')
-        .fillSignIn(userType);
-      common.waitForText(this, '@logInText', 'התנתק');
+        .fillSignIn(userType)
+        .waitForElementVisible('@logInText');
+      common.waitForText(this, '@logInText', 'התנתק', 50000);
       return this;
     },
     signOut: function () {
-      return this
+      this
         .waitForElementVisible('@loginLink')
-        .click('@loginLink');        
+        .click('@loginLink')
+        .waitForElementVisible('@logInText');
+      common.waitForText(this, '@logInText', 'התחבר', 50000);
+      return this;
     }
   }]
 };
