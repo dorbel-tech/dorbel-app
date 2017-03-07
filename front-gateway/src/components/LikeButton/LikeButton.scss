@@ -6,6 +6,10 @@
 
     &.fa-heart-o {
       opacity: 0.7;
+
+      &:hover{
+        color: #EA441A;
+      }
     }
   }
 }
