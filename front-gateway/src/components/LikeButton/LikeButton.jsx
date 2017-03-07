@@ -24,8 +24,8 @@ class LikeButton extends Component {
     }
 
     return (
-      <a href="#" className="like-button" onClick={this.handleClick.bind(this)}>
-        <i className={'fa ' + iconStyle} />
+      <a href="#" onClick={this.handleClick.bind(this)}>
+        <i className={'like-button fa ' + iconStyle} />
       </a>
     );
   }
