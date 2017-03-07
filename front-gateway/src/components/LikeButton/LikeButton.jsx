@@ -6,17 +6,12 @@ import './LikeButton.scss';
 @observer(['appProviders', 'appStore'])
 class LikeButton extends Component {
 
-  handleClick(e) {
-    e.preventDefault();
+  handleClick() {
     if (this.props.appStore.authStore.isLoggedIn) {
       let prevState = this.props.appProviders.likeProvider.get(this.props.listingId);
       this.props.appProviders.likeProvider.set(this.props.listingId, !prevState);
     }
     else {
-      this.props.appProviders.authProvider.setAuthenticationCallback(function () {
-        this.props.appProviders.likeProvider.set(this.props.listingId, true);
-      });
-
       this.props.appProviders.authProvider.showLoginModal();
     }
   }
