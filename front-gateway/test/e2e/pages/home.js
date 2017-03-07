@@ -35,31 +35,29 @@ module.exports = {
     resizeMobile: function(browser) {
       browser.resizeWindow(320, 800);
     },
-    fillSignIn: function(userType, browser) {
+    fillSignIn: function(userType) {
       let user = common.getTestUser(userType);
-      this
+      return this
         .waitForElementVisible('@loginTab')
         .click('@loginTab')
         .setValue('@emailField', user.email)
         .setValue('@passwordField', user.password)
         .click('@submit');
-      browser.pause(1000);
-      return this;
     },
-    signIn: function(userType, browser) {
+    signIn: function(userType) {
       this
         .waitForElementVisible('@loginLink')
         .click('@loginLink')
-        .fillSignIn(userType, browser)
+        .fillSignIn(userType)
         .waitForElementVisible('@logInText');
       common.waitForText(this, '@logInText', 'התנתק');
       return this;
     },
-    signInForm: function(userType, browser) {
+    signInForm: function(userType) {
       this
         .waitForElementVisible('@submitLogin')
         .click('@submitLogin')
-        .fillSignIn(userType, browser)
+        .fillSignIn(userType)
         .waitForElementVisible('@logInText');
       common.waitForText(this, '@logInText', 'התנתק');
       return this;
