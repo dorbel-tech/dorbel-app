@@ -1,0 +1,29 @@
+{
+  "/page_views/listings/{listingIds}": {
+    "get": {
+      "summary": "Get Pages Views for Listings",
+      "parameters": [
+        {
+          "name": "listingIds",
+          "in": "path",
+          "description": "comma delimited list of listing ids",
+          "type": "string"
+        }
+      ],
+      "tags": [
+        "pageViewsController"
+      ],
+      "responses": {
+        "200": {
+          "description": "A (listingId => { views: [number] }) map",
+          "schema": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

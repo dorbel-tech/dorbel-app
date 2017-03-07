@@ -181,11 +181,20 @@ function getListingsForApartment(apartment, listingQuery) {
   });
 }
 
+function getSlugs(ids) {
+  return models.listing.findAll({
+    attributes: [ 'id', 'slug' ],
+    where: { id: ids },
+    raw: true
+  });
+}
+
 module.exports = {
   list,
   create,
   getListingsForApartment,
   getById: id => getOneListing({ id }),
   getBySlug: slug => getOneListing({ slug }),
+  getSlugs,
   listingStatuses: models.listing.attributes.status.values
 };
