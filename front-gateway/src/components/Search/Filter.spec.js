@@ -1,7 +1,6 @@
 'use strict';
 import { mount } from 'enzyme';
 import React from 'react';
-import renderer from 'react-test-renderer';
 import { MenuItem } from 'react-bootstrap';
 import Filter from './Filter';
 
@@ -51,6 +50,8 @@ describe('Filter', () => {
     expect(props.appProviders.searchProvider.search).toHaveBeenCalledWith(expectedFilterObj);
     expect(props.appProviders.searchProvider.search.mock.calls.length).toEqual(1);
     expect(cityDropdownButton.text()).toEqual('עיר: טוען... ');
+
+    expect(mountedFilter).toMatchSnapshot();
   });
 
   it('should parse city from location', () => {
