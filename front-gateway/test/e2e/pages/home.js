@@ -35,31 +35,33 @@ module.exports = {
     resizeMobile: function(browser) {
       browser.resizeWindow(320, 800);
     },
-    fillSignIn: function(userType) {
+    fillSignIn: function(userType, browser) {
       let user = common.getTestUser(userType);
-      return this
+      this
         .waitForElementVisible('@loginTab')
         .click('@loginTab')
         .setValue('@emailField', user.email)
         .setValue('@passwordField', user.password)
         .click('@submit');
+      browser.pause(1000);
+      return this;
     },
-    signIn: function(userType) {
+    signIn: function(userType, browser) {
       this
         .waitForElementVisible('@loginLink')
         .click('@loginLink')
-        .fillSignIn(userType)
+        .fillSignIn(userType, browser)
         .waitForElementVisible('@logInText');
-      common.waitForText(this, '@logInText', 'התנתק', 50000);
+      common.waitForText(this, '@logInText', 'התנתק');
       return this;
     },
-    signInForm: function(userType) {
+    signInForm: function(userType, browser) {
       this
         .waitForElementVisible('@submitLogin')
         .click('@submitLogin')
-        .fillSignIn(userType)
+        .fillSignIn(userType, browser)
         .waitForElementVisible('@logInText');
-      common.waitForText(this, '@logInText', 'התנתק', 50000);
+      common.waitForText(this, '@logInText', 'התנתק');
       return this;
     },
     signOut: function () {
@@ -67,7 +69,7 @@ module.exports = {
         .waitForElementVisible('@loginLink')
         .click('@loginLink')
         .waitForElementVisible('@logInText');
-      common.waitForText(this, '@logInText', 'התחבר', 50000);
+      common.waitForText(this, '@logInText', 'התחבר');
       return this;
     }
   }]

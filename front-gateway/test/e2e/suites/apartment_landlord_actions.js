@@ -2,12 +2,12 @@
 const common = require('../common');
 let home, apartmentForm;
 
-function login() {
-  home.navigate().signIn('landlord');
+function login(browser) {
+  home.navigate().signIn('landlord', browser);
 }
 
-function loginOnStep3() {
-  home.signInForm('landlord');
+function loginOnStep3(browser) {
+  home.signInForm('landlord', browser);
 }
 
 module.exports = {
@@ -38,7 +38,7 @@ module.exports = {
     browser.end();
   },
   'should fail to submit a new apartment because of mising user details': function (browser) {
-    login();    
+    login(browser);    
     apartmentForm
       .navigateToOpenHouseEventSection()
       .clearUserDetailsFields()
@@ -47,7 +47,7 @@ module.exports = {
     browser.end();
   },
   'should successfully submit a new apartment with logged in user': function (browser) {
-    login();
+    login(browser);
     apartmentForm
       .fillAndSubmitApartment()
       .expect.section('@successModal').to.be.visible;
@@ -58,7 +58,7 @@ module.exports = {
     apartmentForm
         .navigateToOpenHouseEventSection()
         .fillOpenHouseEventDetailsAllFields();
-    loginOnStep3();
+    loginOnStep3(browser);
     apartmentForm
       .submitApartment()
       .expect.section('@successModal').to.be.visible;

@@ -2,8 +2,8 @@
 const common = require('../common');
 let home, apartmentForm, listing, listingId;
 
-function login(userType) {
-  home.navigate().signIn(userType);
+function login(userType, browser) {
+  home.navigate().signIn(userType, browser);
 }
 
 function logout() {
@@ -45,12 +45,12 @@ module.exports = {
     listing = browser.page.listing();
   },
   'landlord should submit a new apartment': function (browser) {
-    login('landlord');
+    login('landlord', browser);
     submitApartment();
     browser.end();
   },
   'admin should approve apartment': function (browser) {
-    login('admin');
+    login('admin', browser);
     listing.navigateToListingPage(listing.url(listingId));
     listing.expect.section('@landlordControls').to.be.visible;
     listing.changeListingStatus('listed');
@@ -60,7 +60,7 @@ module.exports = {
     browser.end();
   },
   'tenant should register to OHE': function (browser) {
-    login('tenant');
+    login('tenant', browser);
     listing.navigateToListingPage(listing.url(listingId));
     waitForUnRegisterText();
     listing.clickFirstOhe();
@@ -70,7 +70,7 @@ module.exports = {
     browser.end();
   },
   'tenant should unregister from OHE': function (browser) {
-    login('tenant');
+    login('tenant', browser);
     listing.navigateToListingPage(listing.url(listingId));
     waitForRegisterText();
     listing.clickFirstOhe();
@@ -81,7 +81,7 @@ module.exports = {
     browser.end();
   },
   'tenant should follow to be notified for new OHE': function (browser) {
-    login('tenant');
+    login('tenant', browser);
     listing.navigateToListingPage(listing.url(listingId));
     waitForUnFollowText();
     listing.clickFollowOheButton();
@@ -92,7 +92,7 @@ module.exports = {
     browser.end();
   },
   'tenant should unfollow to be notified of new OHE': function (browser) {
-    login('tenant');
+    login('tenant', browser);
     listing.navigateToListingPage(listing.url(listingId));
     waitForFollowText();
     listing.clickFollowOheButton();
