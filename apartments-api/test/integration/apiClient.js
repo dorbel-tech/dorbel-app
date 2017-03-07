@@ -40,7 +40,11 @@ class ApiClient {
   }
 
   getRelatedListings(id){
-    return this.request.get('/v1/listings/'+id+'/related');
+    return this.request.get('/v1/listings/' + id + '/related');
+  }
+
+  getListingPageViews(ids) {
+    return this.request.get('/v1/page_views/listings/' + ids.join(','));
   }
 
   getHealth() {
