@@ -77,15 +77,6 @@ describe('Filter', () => {
     expect(cityDropdownMenuItems.at(1).text()).toEqual('test2');
   });
 
-  xit('should call search on city select', () => {
-    const cityDropdownButton = filter().find('#cityDropdown');
-
-    cityDropdownButton.simulate('click', {});
-
-    expect(props.appProviders.searchProvider.search).toHaveBeenCalledWith({"city": 1});
-    expect(props.appProviders.searchProvider.search.mock.calls.length).toEqual(2);
-  });
-
   const checkboxTests = (name, results) => {
     results = results || [[{city: 1, [name]: true}], [{city: 1, [name]: false}]];
 
