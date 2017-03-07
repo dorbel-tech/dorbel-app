@@ -51,7 +51,7 @@ module.exports = {
     apartmentForm
       .fillAndSubmitApartment()
       .expect.section('@successModal').to.be.visible;
-    common.waitForText(apartmentForm.section.successModal, '@successTitle', 'העלאת הדירה הושלמה!' );
+    common.waitForText(apartmentForm.section.successModal, '@successTitle', 'העלאת הדירה הושלמה!');
     browser.end();
   },
   'should successfully submit a new apartment with logged out user': function (browser) {
@@ -62,7 +62,7 @@ module.exports = {
     apartmentForm
       .submitApartment()
       .expect.section('@successModal').to.be.visible;
-    common.waitForText(apartmentForm.section.successModal, '@successTitle', 'העלאת הדירה הושלמה!' );
+    common.waitForText(apartmentForm.section.successModal, '@successTitle', 'העלאת הדירה הושלמה!');
     browser.end();
   }    
 };
