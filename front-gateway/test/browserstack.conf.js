@@ -22,7 +22,7 @@ let nightwatch_config = {
         browser: 'Chrome',
         browser_version: 55,
         resolution: '1280x1024',
-        'browserstack.debug': true
+        // 'browserstack.debug': true
       }
     }
   }
