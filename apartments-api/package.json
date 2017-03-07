@@ -1,6 +1,6 @@
 {
   "name": "apartments-api",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "API for dorbel apartments domain",
   "main": "src/index.js",
   "scripts": {
@@ -24,7 +24,7 @@
     "co": "^4.6.0",
     "co-mocha": "^1.1.3",
     "co-supertest": "0.0.10",
-    "dorbel-shared": "git://github.com/dorbel-tech/dorbel-shared#v1.0.19",
+    "dorbel-shared": "git://github.com/dorbel-tech/dorbel-shared#v1.0.26",
     "eslint": "^3.7.1",
     "eslint-plugin-flowtype": "^2.19.0",
     "faker": "^3.1.0",
@@ -55,8 +55,12 @@
     "satisfaction": "^3.0.0"
   },
   "nyc": {
-    "reporter": ["json"],
-    "include": ["src/**/*.{js}"],
+    "reporter": [
+      "json"
+    ],
+    "include": [
+      "src/**/*.{js}"
+    ],
     "report-dir": "./test/coverage"
   }
 }

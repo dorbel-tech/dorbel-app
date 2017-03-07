@@ -9,11 +9,20 @@ class SearchProvider {
     this.apiProvider = apiProvider;
   }
 
-  search(query) {
-    const q = encodeURIComponent(JSON.stringify(query || {}));
+  initFilter() {
+    this.appStore.searchStore.filterChanged = false;
+  }
 
+  search(query) {
+    this.appStore.searchStore.isLoading = true;
+    this.appStore.searchStore.filterChanged = true;
+
+    const q = encodeURIComponent(JSON.stringify(query || {}));
     return this.apiProvider.fetch('/api/apartments/v1/listings?q=' + q)
-      .then((results) => { this.appStore.searchStore.searchResults = results; });
+      .then((results) => {
+        this.appStore.searchStore.searchResults = results;
+        this.appStore.searchStore.isLoading = false;
+      });
   }
 
   getRelatedListings(listingId) {
