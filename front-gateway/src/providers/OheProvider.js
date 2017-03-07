@@ -4,7 +4,6 @@
 'use strict';
 import _ from 'lodash';
 import autobind from 'react-autobind';
-import utils from './utils';
 
 class OheProvider {
   constructor(appStore, apiProvider) {
@@ -61,15 +60,7 @@ class OheProvider {
 
   updateStoreWithOhe(ohe) {
     let oheArray = _.isArray(ohe) ? ohe : [ohe];
-    return this.appStore.oheStore.add(oheArray.map(this.enrichOhe));
-  }
-
-  enrichOhe(openHouseEvent) {
-    openHouseEvent.timeLabel = `${utils.formatTime(openHouseEvent.end_time)} - ${utils.formatTime(openHouseEvent.start_time)}`;
-    openHouseEvent.dateLabel = utils.formatDate(openHouseEvent.start_time);
-    openHouseEvent.dayLabel = utils.formatDay(openHouseEvent.start_time);
-
-    return openHouseEvent;
+    return this.appStore.oheStore.add(oheArray);
   }
 
   // Registrations
