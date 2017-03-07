@@ -97,6 +97,7 @@ describe('Filter', () => {
         const check = filter().find('[name="' + name + '"]');
 
         expect(check.props().checked).toEqual(true);
+        //expect(check).toMatchSnapshot();
       });
 
       it('should call search on ' + name + ' checkbox change', () => {
@@ -119,7 +120,7 @@ describe('Filter', () => {
   checkboxTests('park');
   checkboxTests('balc');
   checkboxTests('ac');
-  checkboxTests('ele');
+  //checkboxTests('ele');
   checkboxTests('pet');
-  checkboxTests('sb');
+  //checkboxTests('sb');
 });
