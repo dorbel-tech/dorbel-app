@@ -4,6 +4,7 @@ import { Col } from 'react-bootstrap';
 import NavLink from '~/components/NavLink';
 import ListingBadge from '../ListingBadge/ListingBadge';
 import CloudinaryImage from '../CloudinaryImage/CloudinaryImage';
+import LikeButton from '../LikeButton/LikeButton';
 import utils from '../../providers/utils';
 
 class ListingThumbnail extends Component {
@@ -32,6 +33,9 @@ class ListingThumbnail extends Component {
           <div className="apt-thumb-details">
             <div className="apt-thumb-details-title">
               {utils.getListingTitle(listing)}
+              <div className="apt-thumb-details-like">
+                <LikeButton listingId={listing.id} />
+              </div>
             </div>
             <div className="apt-thumb-details-address">
               {areaDescription}

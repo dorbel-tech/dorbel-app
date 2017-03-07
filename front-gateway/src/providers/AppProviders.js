@@ -12,6 +12,7 @@ import CloudinaryProvider from './CloudinaryProvider';
 import NotificationProvider from './NotificationProvider';
 import ModalProvider from './ModalProvider';
 import SearchProvider from './SearchProvider';
+import LikeProvider from './LikeProvider';
 
 import utils from './utils';
 
@@ -41,6 +42,7 @@ class AppProviders {
     this.notificationProvider = new NotificationProvider();
     this.modalProvider = new ModalProvider(appStore);
     this.searchProvider = new SearchProvider(appStore, this.apiProvider);
+    this.likeProvider = new LikeProvider(appStore, this.apiProvider);
     this.utils = utils;
   }
 }

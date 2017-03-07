@@ -1,6 +1,10 @@
 'use strict';
 const likeService = require('../../services/likeService');
 
+function* get() {
+  this.response.body = yield likeService.getUserLikes(this.request.user);
+}
+
 function* post() {
   yield handleLikeSet(this, true);
 }
@@ -17,6 +21,7 @@ function* handleLikeSet(context, isLiked) {
 }
 
 module.exports = {
+  get,
   post,
   delete: remove
 };

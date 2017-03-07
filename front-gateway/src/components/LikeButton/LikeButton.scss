@@ -1,0 +1,11 @@
+.like-button {
+  &.fa {
+    &.fa-heart {
+      color: #ea441a;
+    }
+
+    &.fa-heart-o {
+      opacity: 0.7;
+    }
+  }
+}
