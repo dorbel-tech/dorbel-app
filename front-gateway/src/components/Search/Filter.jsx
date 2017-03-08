@@ -146,6 +146,7 @@ class Filter extends Component {
   }
 
   toggleHideFilter() {
+    document.getElementsByClassName('search-container')[0].scrollTop = 0;
     this.setState({ hideFilter: !this.state.hideFilter });
   }
 
@@ -347,6 +348,11 @@ class Filter extends Component {
                 </Checkbox>
             </Col>
           </Row>
+          <div className="filter-close">
+            <div className="filter-close-text" onClick={this.toggleHideFilter}>
+              סנן וסגור
+            </div>
+          </div>
         </Grid>
       </div>
     </div>;
