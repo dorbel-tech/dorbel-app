@@ -52,15 +52,21 @@ class ApiClient {
   }
 
   likeListing(listingId) {
-    return this.request.post('/v1/likes/' + listingId);
-  }
-  
-  unlikeListing(listingId) {
-    return this.request.delete('/v1/likes/' + listingId);
+    return this.request
+      .post('/v1/likes/' + listingId)
+      .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile));
   }
 
-  getUserLikes(){
-    return this.request.get('/v1/likes/user');
+  unlikeListing(listingId) {
+    return this.request
+      .delete('/v1/likes/' + listingId)
+      .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile));
+  }
+
+  getUserLikes() {
+    return this.request
+      .get('/v1/likes/user')
+      .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile));
   }
 
   static * init(userProfile) {
