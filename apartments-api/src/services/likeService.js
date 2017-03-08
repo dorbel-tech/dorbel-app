@@ -40,7 +40,7 @@ function handleSetError(error, listingId, user, isLiked) {
   if (error.name == 'SequelizeForeignKeyConstraintError') {  // hide DB related information in case an error is thrown
     throw new errors.DomainNotFoundError(
       'LikeServiceNonExistingListingError',
-      { user, listing_id: listingId, is_liked: isLiked },
+      { error, user, listing_id: listingId, is_liked: isLiked },
       `Could not ${isLiked ? 'like' : 'unlike'} listing`
     );
   }
