@@ -31,8 +31,10 @@ function getBigRandomNumber() {
   return _.random(1000, 10000); // Return a random number between 1000 and 10000.
 }
 
-function waitForText(context, element, text, timeout = 10000) {
-  return context.waitForText(element, (t) => ( t === text ), timeout);
+function waitForText(context, element, text) {
+  if (text) {
+    return context.waitForText(element, (t) => ( t === text ));
+  }
 }
 
 module.exports = {
