@@ -76,7 +76,7 @@ module.exports = {
     listing.clickFirstOhe();
     listing.expect.section('@oheModal').to.be.visible;
     listing.oheUnRegisterUser();
-    browser.pause(300);
+    browser.pause(500);
     waitForUnRegisterText();
     browser.end();
   },
@@ -87,7 +87,7 @@ module.exports = {
     listing.clickFollowOheButton();
     listing.expect.section('@followModal').to.be.visible;
     listing.followUserToOheUpdates();
-    browser.pause(300);
+    browser.pause(500);
     waitForFollowText();
     browser.end();
   },
@@ -98,7 +98,7 @@ module.exports = {
     listing.clickFollowOheButton();
     listing.expect.section('@followModal').to.be.visible;
     listing.unFollowUserToOheUpdates();
-    browser.pause(300);
+    browser.pause(500);
     waitForUnFollowText();
     browser.end();
   }
