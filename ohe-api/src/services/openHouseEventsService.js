@@ -1,8 +1,8 @@
 'use strict';
 const shared = require('dorbel-shared');
+const errors = shared.utils.domainErrors;
 const logger = shared.logger.getLogger(module);
 const utilityFunctions = require('./common/utility-functions');
-const errors = require('./domainErrors');
 const notificationService = require('./notificationService');
 const openHouseEventsFinderService = require('./openHouseEventsFinderService');
 const openHouseEventsRepository = require('../openHouseEventsDb/repositories/openHouseEventsRepository');
