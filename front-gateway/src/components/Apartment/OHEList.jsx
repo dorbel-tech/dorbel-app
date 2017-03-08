@@ -127,6 +127,10 @@ class OHEList extends Component {
     return lastExpiredIndex > -1 ? ohes.slice(lastExpiredIndex) : ohes;
   }
 
+  getListingFollowersCount(listing) {
+    return this.props.appStore.oheStore.countFollowersByListingId.get(listing.id);
+  }
+
   render() {
     const { listing, router, oheId, appStore } = this.props;
     const openHouseEvents = this.filterOHEsToDisplay(this.props.appStore.oheStore.oheByListingId(listing.id));
@@ -162,6 +166,9 @@ class OHEList extends Component {
                 <div className="ohe-list">{openHouseEvents.map(this.renderOpenHouseEvent)}</div>
                 <div href="#" className="list-group-item owner-container text-center">
                   {this.renderFollowItem(listing)}
+                  <h5 className="apt-followers-count">
+                    {this.getListingFollowersCount(listing)} איש נרשמו לעדכונים לדירה זו
+                  </h5>
                   <h5>
                     <span>{listing.publishing_user_type === 'landlord' ? 'בעל הנכס' : 'דייר יוצא'}</span>
                     <span>: {listing.publishing_user_first_name || 'אנונימי'}</span>
