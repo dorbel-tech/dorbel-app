@@ -10,6 +10,21 @@
   }
 }
 
+.search-scroll-up {
+  display: none;
+  position: fixed;
+  right: 125px;
+  top: 80px;
+
+  &.search-scroll-up-show {
+    display: block;
+
+    @media (max-width: $screen-sm-max) {
+      display: none;
+    }
+  }
+}
+
 .search-results-wrapper {
   padding-top: 39px;
 

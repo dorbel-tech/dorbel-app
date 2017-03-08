@@ -347,6 +347,11 @@ class Filter extends Component {
                 </Checkbox>
             </Col>
           </Row>
+          <div className="filter-close">
+            <div className="filter-close-text" onClick={this.toggleHideFilter}>
+              סנן וסגור
+            </div>
+          </div>
         </Grid>
       </div>
     </div>;

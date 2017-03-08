@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Grid, Row } from 'react-bootstrap';
+import autobind from 'react-autobind';
+import { Grid, Row, Button } from 'react-bootstrap';
 import { observer } from 'mobx-react';
 import Filter from './Filter.jsx';
 import ListingThumbnail from '../ListingThumbnail/ListingThumbnail.jsx';
@@ -13,8 +14,41 @@ class Search extends Component {
 
   constructor(props) {
     super(props);
+    autobind(this);
 
+    this.state = {showScrollUp: false};
     this.props.appStore.metaData.title = 'dorbel - דירות שתשמחו לגור בהן. ללא תיווך';
+  }
+
+  componentDidMount() {
+    this.filterHeight = document.getElementsByClassName('filter-wrapper')[0].clientHeight;
+  }
+
+  handleScroll(e) {
+    if (e.target.scrollTop > this.filterHeight) {
+      this.setState({showScrollUp: true});
+    } else if (this.state.showScrollUp) {
+      this.setState({showScrollUp: false});
+    }
+  }
+
+  scrollUpClickHandler() {
+    const scrollElement = document.getElementsByClassName('search-container')[0];
+    let perTick;
+
+    const scrollTo = (duration) => {
+      if (duration <= 0)
+        return;
+
+      perTick = scrollElement.scrollTop / duration * 10;
+
+      setTimeout(function() {
+        scrollElement.scrollTop = scrollElement.scrollTop - perTick;
+        scrollTo(duration - 10);
+      }, 10);
+    };
+
+    scrollTo(600);
   }
 
   renderResults() {
@@ -42,7 +76,13 @@ class Search extends Component {
   }
 
   render() {
-    return <div className="search-container">
+    const showScrollUpClass = this.state.showScrollUp ? 'search-scroll-up-show' : '';
+
+    return <div className="search-container" onScroll={this.handleScroll}>
+        <Button className={'search-scroll-up ' + showScrollUpClass}
+          onClick={this.scrollUpClickHandler}>
+          בחזרה למעלה
+        </Button>
         <Filter />
         <div className="search-results-wrapper">
           {this.renderResults()}
