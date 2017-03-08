@@ -14,13 +14,13 @@ function* set(listingId, user, isLiked) {
   try {
     yield likeRepository.set(listingId, user.id, isLiked);
   } catch (err) { // hide DB related information in case an error is thrown
-    const errorStr = `Could not ${isLiked ? 'like' : 'unlike'} for listing`;
+    const errorStr = `Could not ${isLiked ? 'like' : 'unlike'} listing`;
     logger.error({
       err,
       listing_id: listingId,
       user_uuid: user.id,
       is_liked: isLiked
-    }, );
+    });
     throw new Error(errorStr);
   }
 

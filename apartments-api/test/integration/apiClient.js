@@ -39,7 +39,7 @@ class ApiClient {
     return this.request.get('/v1/neighborhoods/' + cityId);
   }
 
-  getRelatedListings(id){
+  getRelatedListings(id) {
     return this.request.get('/v1/listings/' + id + '/related');
   }
 
@@ -49,6 +49,18 @@ class ApiClient {
 
   getHealth() {
     return this.request.get('/v1/health');
+  }
+
+  likeListing(listingId) {
+    return this.request.post('/v1/likes/' + listingId);
+  }
+  
+  unlikeListing(listingId) {
+    return this.request.delete('/v1/likes/' + listingId);
+  }
+
+  getUserLikes(){
+    return this.request.get('/v1/likes/user');
   }
 
   static * init(userProfile) {
