@@ -30,11 +30,11 @@ function waitForRegisterText() {
 }
 
 function waitForUnFollowText() {
-  common.waitForText(listing.section.followContainer, '@followBtn', 'קבלו עדכונים על מועדים עתידיים');
+  common.waitForText(listing.section.followContainer, '@followBtn', 'עדכנו אותי על מועדי ביקור חדשים');
 }
 
 function waitForFollowText() {
-  common.waitForText(listing.section.followContainer, '@followBtn', 'לחצו להסרה מרשימת העדכונים');
+  common.waitForText(listing.section.followContainer, '@followBtn', 'הסירו אותי מרשימת העדכונים');
 }
 
 module.exports = {

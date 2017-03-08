@@ -104,12 +104,17 @@ class OHEList extends Component {
     };
 
     let action = 'follow';
-    let callToActionText = 'קבלו עדכונים על מועדים עתידיים';
+    let callToActionText = 'עדכנו אותי על מועדי ביקור חדשים';
+
+    if (listing.status === 'rented' || listing.status === 'unlisted') {
+      callToActionText = 'עדכנו אותי כשהדירה תתפרסם להשכרה';
+    }
+    
     const userIsFollowing = this.props.appStore.oheStore.usersFollowsByListingId.get(listing.id);
 
     if (userIsFollowing) {
       action = 'unfollow';
-      callToActionText = 'לחצו להסרה מרשימת העדכונים';
+      callToActionText = 'הסירו אותי מרשימת העדכונים';
     }
 
     return <span className="follow-action" onClick={onClickFunction}>

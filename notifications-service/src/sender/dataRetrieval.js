@@ -90,7 +90,7 @@ const dataRetrievalFunctions = {
   sendToListingFollowers: eventData => {
     return getListingFollowers(eventData.listing_id)
     .then(response => { 
-      // this notification will be sent to all the users who followed a listing to get notified on new OHE
+      // this notification will be sent to all the users who followed a listing
       return { customRecipients: response
         .filter(follower => follower.is_active)
         .map(follower => follower.following_user_id)

@@ -10,6 +10,11 @@
     "dataRetrieval": [ "getListingInfo", "getUserDetails" ]
   },
   {
+    "eventType": "APARTMENT_LISTED",
+    "notificationType": "apartment_listed_notify_followers",
+    "dataRetrieval": [ "getListingInfo", "sendToListingFollowers", "getUserDetails" ]
+  },
+  {
     "eventType": "APARTMENT_UNLISTED",
     "notificationType": "apartment_unlisted",
     "dataRetrieval": [ "getListingInfo", "getListingOhesCount", "getUserDetails" ]
