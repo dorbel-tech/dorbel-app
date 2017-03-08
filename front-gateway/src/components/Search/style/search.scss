@@ -16,7 +16,7 @@
   right: 125px;
   top: 80px;
 
-  &:after {
+  &::after {
     content: '\f102';
     font-family: FontAwesome;
     margin-right: 5px;
