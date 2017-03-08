@@ -127,8 +127,20 @@ class OHEList extends Component {
     return lastExpiredIndex > -1 ? ohes.slice(lastExpiredIndex) : ohes;
   }
 
-  getListingFollowersCount(listing) {
-    return this.props.appStore.oheStore.countFollowersByListingId.get(listing.id);
+  shouldFollowersCountBeVisible() {
+    const { appStore, listing } = this.props;
+    const profile = appStore.authStore.profile;
+    if (!profile) { return false; }
+
+    const userIsListingPublisher = listing.publishing_user_id === profile.dorbel_user_id;
+    const userIsAdmin = profile.role === 'admin';
+    return userIsListingPublisher || userIsAdmin;
+  }
+
+  renderListingFollowersCount(listing) {
+    let followersCount = this.props.appStore.oheStore.countFollowersByListingId.get(listing.id);
+    return  this.shouldFollowersCountBeVisible() ? <h5 className="apt-followers-count">
+              {followersCount} איש נרשמו לעדכונים לדירה זו</h5> : null;
   }
 
   render() {
@@ -166,9 +178,7 @@ class OHEList extends Component {
                 <div className="ohe-list">{openHouseEvents.map(this.renderOpenHouseEvent)}</div>
                 <div href="#" className="list-group-item owner-container text-center">
                   {this.renderFollowItem(listing)}
-                  <h5 className="apt-followers-count">
-                    {this.getListingFollowersCount(listing)} איש נרשמו לעדכונים לדירה זו
-                  </h5>
+                  {this.renderListingFollowersCount(listing)}                 
                   <h5>
                     <span>{listing.publishing_user_type === 'landlord' ? 'בעל הנכס' : 'דייר יוצא'}</span>
                     <span>: {listing.publishing_user_first_name || 'אנונימי'}</span>
