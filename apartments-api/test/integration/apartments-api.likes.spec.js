@@ -25,8 +25,7 @@ describe('Apartments API Likes service integration', function () {
       });
 
       it('fail to set non existing listing as liked', function* () {
-        // TODO: fix so that the response will be 404
-        yield this.apiClient.likeListing(0).expect(500).end();
+        yield this.apiClient.likeListing(0).expect(404).end();
       });
     });
 
@@ -36,7 +35,7 @@ describe('Apartments API Likes service integration', function () {
       });
 
       it('fail to set non existing listing as unliked', function* () {
-        yield this.apiClient.likeListing(0).expect(500).end();
+        yield this.apiClient.likeListing(0).expect(404).end();
       });
     });
 
@@ -50,7 +49,7 @@ describe('Apartments API Likes service integration', function () {
 
       it('get user\'s liked listings (user has likes)', function* () {
         yield this.apiClient.likeListing(this.createdListingId).expect(200).end();
-        
+
         const likesResponse = yield this.apiClient.getUserLikes(this.createdListingId).expect(200).end();
 
         __.assertThat(likesResponse.body, __.is(__.array()));
