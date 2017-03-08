@@ -1,5 +1,9 @@
 .like-button {
-  &.fa {
+  &:hover {
+    color: #ea441a;
+  }
+
+  .fa {
     &.fa-heart {
       color: #ea441a;
     }
