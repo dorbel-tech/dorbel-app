@@ -587,6 +587,14 @@ exports[`Filter should initialize correctly 1`] = `
                 </Col>
               </div>
             </Row>
+            <div
+              className="filter-close">
+              <div
+                className="filter-close-text"
+                onClick={[Function]}>
+                סנן וסגור
+              </div>
+            </div>
           </div>
         </Grid>
       </div>
