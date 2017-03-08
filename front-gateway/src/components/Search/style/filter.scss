@@ -15,6 +15,10 @@
   background-color: $brand-white;
   padding: 24px 0 0;
 
+  @media (max-width: $screen-sm-max) {
+    @include box-shadow(0 2px 10px 0 rgba(0, 0, 0, 0.2));
+  }
+
   @media (max-width: $screen-xs-max) {
     &.hideFilter {
       display: none;
@@ -30,6 +34,22 @@
     margin: 0;
     padding: 39px 0;
     width: 361px;
+  }
+}
+
+.filter-close {
+  text-align: center;
+
+  .filter-close-text {
+    color: #00f;
+    cursor: pointer;
+    display: inline-block;
+    padding: 15px;
+    text-decoration: underline;
+  }
+
+  @media (min-width: $screen-sm-min) {
+    display: none;
   }
 }
 
@@ -53,6 +73,10 @@
   display: inline-block;
 
   &:nth-child(even) {
+    width: 158px;
+  }
+
+  @media (max-width: $screen-sm-max) {
     width: 158px;
   }
 }
