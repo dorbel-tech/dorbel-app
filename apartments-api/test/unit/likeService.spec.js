@@ -75,7 +75,6 @@ describe('Likes Service', function () {
         __.assertThat('code', __.is('not reached'));
       }
       catch (error) {
-        __.assertThat(error.message, __.is('Could not like listing'));
         __.assertThat(this.sendNotification.callCount, __.is(0));
       }
     });
