@@ -37,8 +37,9 @@ class Search extends Component {
     let perTick;
 
     const scrollTo = (duration) => {
-      if (duration <= 0)
+      if (duration <= 0) {
         return;
+      }
 
       perTick = scrollElement.scrollTop / duration * 10;
 
