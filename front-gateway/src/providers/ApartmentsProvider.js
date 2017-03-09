@@ -27,6 +27,15 @@ class ApartmentsProvider {
       });
   }
 
+  loadListingPageViews(listing) {
+    return this.apiProvider.fetch('/api/apartments/v1/page_views/listings/' + listing.id)
+    .then(response => {
+      if (response[listing.id]) {
+        this.appStore.listingStore.listingViewsById.set(listing.id, response[listing.id].views);
+      }
+    });
+  }
+
   getListingMetadata(listing) {
     const sortedListingImages = utils.sortListingImages(listing);
     const imageURL = sortedListingImages.length ? sortedListingImages[0].url : undefined;
