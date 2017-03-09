@@ -3,7 +3,7 @@ exports[`Search should display page views from listingStore 1`] = `
   className="listing-page-views">
   <i
     className="fa fa-eye" />
-   
+    
   9384
    צפיות
 </span>
