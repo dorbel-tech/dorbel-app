@@ -154,7 +154,10 @@ class OHEList extends Component {
     const currentUrl = website_url + '/apartments/' + listing.id;
     const oheForModal = oheId ? appStore.oheStore.oheById.get(oheId) : null;
     const closeModal = () => router.setRoute('/apartments/' + listing.id);
-
+    const oheSectionTitle = (listing.status === 'listed') ? 'בחרו מועד לביקור' : 'מועדי ביקור';
+    const listingRentedNotification = (listing.status !== 'listed') ? 
+            <div className="apt-rented-notification">הדירה מושכרת כרגע. <br/>הרשמו על מנת לקבל עידכון ברגע שהדירה תוצע להשכרה שוב.</div> :
+            null;
     return (
       <div className="container">
         <div className="row">
@@ -178,9 +181,10 @@ class OHEList extends Component {
                 </div>
               </div>
               <div className="list-group apt-choose-date-container">
-                <h5 className="text-center apt-choose-date-title">בחרו מועד לביקור</h5>
+                <h5 className="text-center apt-choose-date-title">{oheSectionTitle}</h5>
                 <div className="ohe-list">{openHouseEvents.map(this.renderOpenHouseEvent)}</div>
                 <div href="#" className="list-group-item owner-container text-center">
+                  {listingRentedNotification}
                   {this.renderFollowItem(listing)}
                   {this.renderListingFollowersCount(listing)}                 
                   <h5>
