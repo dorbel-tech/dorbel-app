@@ -26,7 +26,7 @@ export default class AppStore {
 
   constructor(initialState = {}) {
     this.authStore = new AuthStore(initialState.authStore);
-    this.listingStore = new ListingStore(initialState.listingStore);
+    this.listingStore = new ListingStore(initialState.listingStore, this.authStore);
     this.oheStore = new OheStore(initialState.oheStore);
     this.cityStore = new CityStore(initialState.cityStore);
     this.neighborhoodStore = new NeighborhoodStore(initialState.neighborhoodStore);

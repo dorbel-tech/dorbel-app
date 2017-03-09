@@ -88,12 +88,7 @@ export default class ListingMenu extends React.Component {
 
   shouldMenuBeVisible() {
     const { appStore, listing } = this.props;
-    const profile = appStore.authStore.profile;
-    if (!profile) { return false; }
-
-    const userIsListingPublisher = listing.publishing_user_id === profile.dorbel_user_id;
-    const userIsAdmin = profile.role === 'admin';
-    return userIsListingPublisher || userIsAdmin;
+    return appStore.listingStore.isListingPublisherOrAdmin(listing);
   }
 
   render() {

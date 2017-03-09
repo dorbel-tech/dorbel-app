@@ -24,8 +24,8 @@ class OHERegisterModal extends React.Component {
 
     if (formsy.state.isValid) {
       let dataModel = formsy.getModel();
-      appProviders.oheProvider.registerForEvent(ohe, dataModel.user);
-      this.setState({ successfullyRegistered: true });
+      appProviders.oheProvider.registerForEvent(ohe, dataModel.user)
+        .then(() => this.setState({ successfullyRegistered: true }));
     } else {
       formsy.submit(); // will trigger validation messages
     }
@@ -33,8 +33,8 @@ class OHERegisterModal extends React.Component {
 
   unregister() {
     const { ohe, appProviders } = this.props;
-    appProviders.oheProvider.unregisterForEvent(ohe);
-    this.close();
+    appProviders.oheProvider.unregisterForEvent(ohe)
+      .then(() => this.close());
   }
 
   close() {

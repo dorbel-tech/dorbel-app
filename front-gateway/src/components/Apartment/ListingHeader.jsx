@@ -3,6 +3,8 @@ import React from 'react';
 import ListingBadge from '../ListingBadge/ListingBadge';
 import CloudinaryImage from '../CloudinaryImage/CloudinaryImage';
 import utils from '../../providers/utils';
+import ListingPageViews from './ListingPageViews';
+import { observer } from 'mobx-react';
 
 let Flickity = 'div';
 let carouselClass = 'fixed-carousel';
@@ -18,13 +20,15 @@ const flickityOptions = {
   pageDots: false
 };
 
-export default class ImageCarousel extends React.Component {
+@observer(['appStore'])
+export default class ListingHeader extends React.Component {
   render() {
-    const { listing } = this.props;
+    const { listing, appStore } = this.props;
     const sortedListingImages = utils.sortListingImages(listing);
 
     return (
       <header className="apt-header">
+        { appStore.listingStore.isListingPublisherOrAdmin(listing) ?  <ListingPageViews listing={listing} /> : null }
         <div className="apt-header-badge-container">
           <ListingBadge listing={listing}/>
         </div>
@@ -44,7 +48,8 @@ export default class ImageCarousel extends React.Component {
   }
 }
 
-ImageCarousel.propTypes = {
-  listing: React.PropTypes.object.isRequired
+ListingHeader.wrappedComponent.propTypes = {
+  listing: React.PropTypes.object.isRequired,
+  appStore: React.PropTypes.object.isRequired
 };
 
