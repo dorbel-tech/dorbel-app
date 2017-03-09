@@ -23,11 +23,13 @@
     background-color: #f09b0a;
   }
 
-  &.unlisted {
-    background-color: #2d3e50;
-  }
-
   &.pending {
     background-color: #9b9b9b;
   }
+
+  &.unlisted, 
+  &.deleted {
+    background-color: #2d3e50;
+  }
+
 }

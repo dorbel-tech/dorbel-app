@@ -20,14 +20,17 @@ class ListingBadge extends Component {
       options.className = listingStatus;
 
       switch (listingStatus) {
+        case 'pending':
+          options.text = 'ממתינה לאישור';
+          break;
         case 'rented':
           options.text = 'מושכרת';
           break;
         case 'unlisted':
           options.text = 'לא פעילה';
           break;
-        case 'pending':
-          options.text = 'ממתינה לאישור';
+        case 'deleted':
+          options.text = 'מחוקה';
           break;
       }
     }
