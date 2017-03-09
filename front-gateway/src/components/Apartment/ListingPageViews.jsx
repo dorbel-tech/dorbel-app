@@ -4,7 +4,6 @@ import { observer } from 'mobx-react';
 
 @observer(['appStore', 'appProviders', 'router'])
 class ListingPageViews extends React.Component {
-
   componentDidMount() {
     const { listing, appStore, appProviders } = this.props;
     if (!appStore.listingStore.listingViewsById.has(listing.id)) {
@@ -15,8 +14,7 @@ class ListingPageViews extends React.Component {
   render() {
     const { appStore, listing } = this.props;
 
-    if (!appStore.listingStore.isListingPublisher(listing) ||
-        !appStore.listingStore.listingViewsById.has(listing.id)) {
+    if (!appStore.listingStore.listingViewsById.has(listing.id)) {
       return null;
     }
 

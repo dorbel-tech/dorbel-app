@@ -16,7 +16,6 @@ describe('Search', () => {
     };
     appStoreMock = {
       listingStore: {
-        isListingPublisher: jest.fn(),
         listingViewsById: {
           has: jest.fn(),
           get: jest.fn()
@@ -32,7 +31,6 @@ describe('Search', () => {
   it('should display page views from listingStore', () => {
     const pageViews = 9384;
     const listing = { id: 777 };
-    appStoreMock.listingStore.isListingPublisher.mockReturnValue(true);
     appStoreMock.listingStore.listingViewsById.has.mockReturnValue(true);
     appStoreMock.listingStore.listingViewsById.get.mockReturnValue(pageViews);
 
@@ -40,27 +38,18 @@ describe('Search', () => {
 
     expect(rendered.text()).toContain(`${pageViews} צפיות`);
     expect(appStoreMock.listingStore.listingViewsById.get).toHaveBeenCalledWith(listing.id);
-  });
 
-  it('should not display if not listing publisher', () => {
-    const listing = { id: 15234 };
-    appStoreMock.listingStore.isListingPublisher.mockReturnValue(false);
-
-    const rendered = listingPageViews(listing);
-
-    expect(rendered.text()).toBe('');
-    expect(appStoreMock.listingStore.isListingPublisher).toHaveBeenCalledWith(listing);
+    // we are good with snapshotting the shallow render since this component does not have implemented components
+    expect(rendered).toMatchSnapshot();
   });
 
   it('should not display if there are no views in the store', () => {
     const listingId = 23423;
-    appStoreMock.listingStore.isListingPublisher.mockReturnValue(true);
     appStoreMock.listingStore.listingViewsById.has.mockReturnValue(false);
 
     const rendered = listingPageViews({ id: listingId });
 
     expect(rendered.text()).toBe('');
-    expect(appStoreMock.listingStore.isListingPublisher).toHaveBeenCalledWith({ id: listingId });
     expect(appStoreMock.listingStore.listingViewsById.has).toHaveBeenCalledWith(listingId);
   });
 
@@ -73,6 +62,4 @@ describe('Search', () => {
     expect(appStoreMock.listingStore.listingViewsById.has).toHaveBeenCalledWith(listing.id);
     expect(appProvidersMock.apartmentsProvider.loadListingPageViews).toHaveBeenCalledWith(listing);
   });
-
-
 });
