@@ -5,6 +5,7 @@ import OheModel from './models/OheModel';
 export default class OheStore {
   @observable oheById;
   @observable usersFollowsByListingId;
+  @observable countFollowersByListingId;
 
   constructor(initialState) {
     initialState = initialState || {};
@@ -14,6 +15,7 @@ export default class OheStore {
     }
 
     this.usersFollowsByListingId = asMap(initialState.usersFollowsByListingId || {});
+    this.countFollowersByListingId = asMap(initialState.countFollowersByListingId || {});
     this.oheById = asMap(initialState.oheById || {});
   }
 
@@ -36,7 +38,8 @@ export default class OheStore {
   toJson() {
     return {
       oheById: this.oheById,
-      usersFollowsByListingId: this.usersFollowsByListingId
+      usersFollowsByListingId: this.usersFollowsByListingId,
+      countFollowersByListingId: this.countFollowersByListingId
     };
   }
 

@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
+import utils from '../../providers/utils';
 import './ListingBadge.scss';
 
 @observer(['appStore'])
@@ -15,19 +16,24 @@ class ListingBadge extends Component {
     };
 
     let listingStatus = this.props.listing.status;
+    const listingStatusLabels = utils.getListingStatusLabels();
+
     if (listingStatus != 'listed') {
       options.show = true;
       options.className = listingStatus;
 
       switch (listingStatus) {
+        case 'pending':
+          options.text = listingStatusLabels.pending.label;
+          break;
         case 'rented':
-          options.text = 'מושכרת';
+          options.text = listingStatusLabels.rented.label;
           break;
         case 'unlisted':
-          options.text = 'לא פעילה';
+          options.text = listingStatusLabels.unlisted.label;
           break;
-        case 'pending':
-          options.text = 'ממתינה לאישור';
+        case 'deleted':
+          options.text = listingStatusLabels.deleted.label;
           break;
       }
     }

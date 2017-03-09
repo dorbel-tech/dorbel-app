@@ -104,12 +104,17 @@ class OHEList extends Component {
     };
 
     let action = 'follow';
-    let callToActionText = 'קבלו עדכונים על מועדים עתידיים';
+    let callToActionText = 'עדכנו אותי על מועדי ביקור חדשים';
+
+    if (listing.status === 'rented' || listing.status === 'unlisted') {
+      callToActionText = 'עדכנו אותי כשהדירה תתפרסם להשכרה';
+    }
+
     const userIsFollowing = this.props.appStore.oheStore.usersFollowsByListingId.get(listing.id);
 
     if (userIsFollowing) {
       action = 'unfollow';
-      callToActionText = 'לחצו להסרה מרשימת העדכונים';
+      callToActionText = 'הסירו אותי מרשימת העדכונים';
     }
 
     return <span className="follow-action" onClick={onClickFunction}>
@@ -122,6 +127,21 @@ class OHEList extends Component {
     return lastExpiredIndex > -1 ? ohes.slice(lastExpiredIndex) : ohes;
   }
 
+  shouldFollowersCountBeVisible() {
+    const { appStore, listing } = this.props;
+    return appStore.listingStore.isListingPublisherOrAdmin(listing);
+  }
+
+  renderListingFollowersCount(listing) {
+    let followersCount = this.props.appStore.oheStore.countFollowersByListingId.get(listing.id);
+
+    if (this.shouldFollowersCountBeVisible()) {
+      return <div className="apt-followers-count">{followersCount} אנשים נרשמו לעדכונים לדירה זו</div>;
+    } else {
+      return null;
+    }
+  }
+
   render() {
     const { listing, router, oheId, appStore } = this.props;
     const openHouseEvents = this.filterOHEsToDisplay(this.props.appStore.oheStore.oheByListingId(listing.id));
@@ -129,7 +149,10 @@ class OHEList extends Component {
     const currentUrl = website_url + '/apartments/' + listing.id;
     const oheForModal = oheId ? appStore.oheStore.oheById.get(oheId) : null;
     const closeModal = () => router.setRoute('/apartments/' + listing.id);
-
+    const oheSectionTitle = (listing.status === 'listed') ? 'בחרו מועד לביקור' : 'מועדי ביקור';
+    const listingRentedNotification = (listing.status !== 'listed') ?
+            <div className="apt-rented-notification">הדירה מושכרת כרגע. <br/>הרשמו על מנת לקבל עידכון ברגע שהדירה תוצע להשכרה שוב.</div> :
+            null;
     return (
       <div className="container">
         <div className="row">
@@ -153,10 +176,12 @@ class OHEList extends Component {
                 </div>
               </div>
               <div className="list-group apt-choose-date-container">
-                <h5 className="text-center apt-choose-date-title">בחרו מועד לביקור</h5>
+                <h5 className="text-center apt-choose-date-title">{oheSectionTitle}</h5>
                 <div className="ohe-list">{openHouseEvents.map(this.renderOpenHouseEvent)}</div>
                 <div href="#" className="list-group-item owner-container text-center">
+                  {listingRentedNotification}
                   {this.renderFollowItem(listing)}
+                  {this.renderListingFollowersCount(listing)}
                   <h5>
                     <span>{listing.publishing_user_type === 'landlord' ? 'בעל הנכס' : 'דייר יוצא'}</span>
                     <span>: {listing.publishing_user_first_name || 'אנונימי'}</span>

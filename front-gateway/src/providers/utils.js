@@ -29,10 +29,22 @@ function sortListingImages(listing) {
   return listing.images.length ? _.orderBy(listing.images, ['display_order']) : [];
 }
 
+function getListingStatusLabels() {
+  return {
+    pending: { label: 'ממתינה לאישור', actionLabel: 'החזר את הדירה להמתנה' },
+    listed: { label: 'מפורסמת', actionLabel: 'פרסם את הדירה' },
+    rented: { label: 'מושכרת', actionLabel: 'הדירה הושכרה' },
+    unlisted: { label: 'לא פעילה', actionLabel: 'השהה מודעה' },
+    deleted: { label: 'נמחקה', actionLabel: 'מחק מודעה' }
+  };
+}
+
+
 module.exports = {
   formatTime,
   formatDate,
   formatDay,
   getListingTitle,
-  sortListingImages
+  sortListingImages,
+  getListingStatusLabels
 };

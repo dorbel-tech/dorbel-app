@@ -17,7 +17,6 @@ class OheProvider {
   }
 
   // Open house events
-
   loadListingEvents(id) {
     return this.fetch('events/by-listing/' + id)
       .then((ohes) => this.updateStoreWithOhe(ohes));
@@ -64,7 +63,6 @@ class OheProvider {
   }
 
   // Registrations
-
   registerForEvent(event, user) {
     return this.fetch('event/registration', {
       method: 'POST',
@@ -93,10 +91,10 @@ class OheProvider {
   }
 
   // Follow listing
-
   getFollowsForListing(listing_id) {
     return this.fetch('followers/by-listing/' + listing_id)
     .then(followers => {
+      this.appStore.oheStore.countFollowersByListingId.set(listing_id, followers.length);
       let usersFollowDetails = null;
 
       if (this.appStore.authStore.isLoggedIn) {
@@ -116,7 +114,9 @@ class OheProvider {
         user_details: user
       }
     })
-    .then(followDetails => this.appStore.oheStore.usersFollowsByListingId.set(listing.id, followDetails))
+    .then(followDetails => {
+      this.updateStoreWithFollow(listing.id, followDetails);
+    })
     .then(this.appStore.authStore.updateProfile({ email: user.email }));
   }
 
@@ -124,7 +124,16 @@ class OheProvider {
     return this.fetch('follower/' + followDetails.id, {
       method: 'DELETE'
     })
-    .then(() => this.appStore.oheStore.usersFollowsByListingId.set(followDetails.listing_id, null));
+    .then(() => {
+      this.updateStoreWithFollow(followDetails.listing_id, null);
+    });
+  }
+
+  updateStoreWithFollow(listingId, followDetails) {
+    const followersCount = this.appStore.oheStore.countFollowersByListingId.get(listingId);
+    const delta = followDetails ? 1 : -1; // Increase or decrease followers count.
+    this.appStore.oheStore.usersFollowsByListingId.set(listingId, followDetails);
+    this.appStore.oheStore.countFollowersByListingId.set(listingId, followersCount + delta);
   }
 }
 

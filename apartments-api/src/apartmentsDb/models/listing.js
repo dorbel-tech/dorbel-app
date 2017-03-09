@@ -10,7 +10,7 @@ function define(sequelize, DataTypes) {
       description: DataTypes.STRING(500),
       status: {
         type: DataTypes.ENUM,
-        values: ['pending', 'listed', 'rented', 'unlisted'],
+        values: ['pending', 'listed', 'rented', 'unlisted', 'deleted'],
         allowNull: false,
         defaultValue: 'pending'
       },

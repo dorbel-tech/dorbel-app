@@ -22,7 +22,7 @@ function CustomError(code, message) {
 function* create(listing) {
   const existingOpenListingForApartment = yield listingRepository.getListingsForApartment(
     listing.apartment,
-    { status: { $notIn: ['closed', 'rented'] } }
+    { status: { $notIn: ['rented', 'unlisted', 'deleted'] } }
   );
   if (existingOpenListingForApartment && existingOpenListingForApartment.length) {
     logger.error(existingOpenListingForApartment, 'Listing already exists');
@@ -200,6 +200,10 @@ function* getBySlug(slug, user) {
   return yield enrichListingResponse(listing, user);
 }
 
+function isNotPendingDeleted(listingStatus) {
+  return listingStatus !== 'pending' && listingStatus !== 'deleted';
+}
+
 function getPossibleStatuses(listing, user) {
   let possibleStatuses = [];
 
@@ -208,9 +212,9 @@ function getPossibleStatuses(listing, user) {
       // admin can change to all statuses
       possibleStatuses = listingRepository.listingStatuses;
     }
-    else if (permissionsService.isPublishingUser(user, listing) && listing.status !== 'pending') {
-      // listing owner can change to anything but pending, unless tho listing is pending
-      possibleStatuses = listingRepository.listingStatuses.filter(status => status != 'pending');
+    else if (permissionsService.isPublishingUser(user, listing) && isNotPendingDeleted(listing.status)) {
+      // listing owner can change to anything but pending or deleted, unless the listing is pending
+      possibleStatuses = listingRepository.listingStatuses.filter(status => isNotPendingDeleted(status));
     }
   }
 
