@@ -61,6 +61,8 @@ function getPageViews(urls) {
     ga.data.ga.get(opts, (err, resp) => {
       if (err) {
         return reject(err);
+      } else if (!resp.rows) {
+        return resolve([]);
       }
 
       var results = resp.rows.map(row => ({ url: row[0], views: parseInt(row[1]) }));
