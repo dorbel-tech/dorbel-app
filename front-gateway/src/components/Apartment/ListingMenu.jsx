@@ -92,7 +92,7 @@ export default class ListingMenu extends React.Component {
 
   shouldMenuBeVisible() {
     const { appStore, listing } = this.props;
-    return appStore.listingStore.isListingPublisher(listing);
+    return appStore.listingStore.isListingPublisherOrAdmin(listing);
   }
 
   render() {

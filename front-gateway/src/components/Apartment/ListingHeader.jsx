@@ -28,7 +28,7 @@ export default class ListingHeader extends React.Component {
 
     return (
       <header className="apt-header">
-        { appStore.listingStore.isListingPublisher(listing) ?  <ListingPageViews listing={listing} /> : null }
+        { appStore.listingStore.isListingPublisherOrAdmin(listing) ?  <ListingPageViews listing={listing} /> : null }
         <div className="apt-header-badge-container">
           <ListingBadge listing={listing}/>
         </div>

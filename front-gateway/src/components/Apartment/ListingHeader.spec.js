@@ -11,14 +11,14 @@ describe('Listing Header', () => {
   beforeAll(() => {
     appStoreMock = {
       listingStore: {
-        isListingPublisher: jest.fn(),
+        isListingPublisherOrAdmin: jest.fn(),
       }
     };
   });
 
   it('should render page views with listing when user is listinging publisher', () => {
     const listing = { id: 3, images: [] };
-    appStoreMock.listingStore.isListingPublisher.mockReturnValue(true);
+    appStoreMock.listingStore.isListingPublisherOrAdmin.mockReturnValue(true);
 
     const rendered = shallow(<ListingHeader.wrappedComponent appStore={appStoreMock} listing={listing} />);
 
@@ -29,7 +29,7 @@ describe('Listing Header', () => {
 
   it('should not render page views when user is not listing publisher', () => {
     const listing = { id: 3, images: [] };
-    appStoreMock.listingStore.isListingPublisher.mockReturnValue(false);
+    appStoreMock.listingStore.isListingPublisherOrAdmin.mockReturnValue(false);
 
     const rendered = shallow(<ListingHeader.wrappedComponent appStore={appStoreMock} listing={listing} />);
 

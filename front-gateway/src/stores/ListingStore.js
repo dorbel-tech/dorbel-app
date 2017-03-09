@@ -48,7 +48,7 @@ export default class ListingStore {
     this.listingsById.set(listingId, Object.assign(listing, updates));
   }
 
-  isListingPublisher(listing) {
+  isListingPublisherOrAdmin(listing) {
     const profile = this.authStore.profile;
     if (!profile) { return false; }
 
