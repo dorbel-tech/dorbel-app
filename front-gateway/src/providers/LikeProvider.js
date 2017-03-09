@@ -10,34 +10,27 @@ class LikeProvider {
   }
 
   set(listingId, isLiked) {
-    if (this.appStore.authStore.isLoggedIn) {
-      return this.apiProvider.fetch(`/api/apartments/v1/likes/${listingId}`, { method: isLiked ? 'POST' : 'DELETE' })
-        .then(() => { this.appStore.likeStore.likesByListingId.set(listingId, isLiked); });
-    }
-    else {
-      return new Promise((resolve) => { resolve(); });
-    }
+    this.appStore.likeStore.likesByListingId.set(listingId, isLiked); 
+    
+    const method = isLiked ? 'POST' : 'DELETE';
+    return this.apiProvider.fetch(`/api/apartments/v1/likes/${listingId}`, { method })
+      .catch(() => { this.appStore.likeStore.likesByListingId.set(listingId, !isLiked); });
   }
 
   get(listingId) {
     let isLikesSyncedWithServer = this.appStore.likeStore.isLikesSyncedWithServer;
-    if (this.appStore.authStore.isLoggedIn) {
-      if (!isLikesSyncedWithServer) {
-        isLikesSyncedWithServer = true;
-        this.apiProvider.fetch('/api/apartments/v1/likes/user')
-          .then((likedListingIdArr) => {
-            let likesMap = {};
-            likedListingIdArr.map((listingId) => likesMap[listingId] = true);
-            this.appStore.likeStore.init(likesMap);
-            return this.appStore.likeStore.likesByListingId.get(listingId);
-          });
-      }
-      else {
-        return this.appStore.likeStore.likesByListingId.get(listingId);
-      }
+    if (isLikesSyncedWithServer) {
+      return this.appStore.likeStore.likesByListingId.get(listingId);
     }
     else {
-      return false;
+      isLikesSyncedWithServer = true;
+      this.apiProvider.fetch('/api/apartments/v1/likes/user')
+        .then((likedListingIdArr) => {
+          let likesMap = {};
+          likedListingIdArr.map((listingId) => likesMap[listingId] = true);
+          this.appStore.likeStore.init(likesMap);
+          return this.appStore.likeStore.likesByListingId.get(listingId);
+        });
     }
   }
 }

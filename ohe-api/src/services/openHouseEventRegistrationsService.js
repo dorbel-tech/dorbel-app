@@ -1,10 +1,10 @@
 'use strict';
 const _ = require('lodash');
-const errors = require('./domainErrors');
 const notificationService = require('./notificationService');
 const openHouseEventsFinderService = require('./openHouseEventsFinderService');
 const repository = require('../openHouseEventsDb/repositories/openHouseEventRegistrationsRepository');
 const shared = require('dorbel-shared');
+const errors = shared.utils.domainErrors;
 const utilityFunctions = require('./common/utility-functions');
 const userManagement = shared.utils.userManagement;
 const generic = shared.utils.generic;

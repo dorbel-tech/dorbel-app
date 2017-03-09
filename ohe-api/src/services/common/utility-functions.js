@@ -4,7 +4,7 @@ var _ = require('lodash');
 var moment = require('moment');
 const shared = require('dorbel-shared');
 const config = shared.config;
-const errors = require('../domainErrors');
+const errors = shared.utils.domainErrors;
 const userManagement = shared.utils.userManagement;
 
 const CLOSE_EVENT_IF_TOO_CLOSE = config.get('CLOSE_EVENT_IF_TOO_CLOSE');

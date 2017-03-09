@@ -31,8 +31,10 @@ class ListingThumbnail extends Component {
             <CloudinaryImage src={imageURL} height={500} />
           </div>
           <div className="apt-thumb-details">
-            <div className="apt-thumb-details-title">
-              {utils.getListingTitle(listing)}
+            <div className="apt-thumb-details-header">
+              <div className="apt-thumb-details-title">
+                {utils.getListingTitle(listing)}
+              </div>
               <div className="apt-thumb-details-like">
                 <LikeButton listingId={listing.id} />
               </div>
