@@ -3,6 +3,7 @@ const likeRepository = require('../apartmentsDb/repositories/likeRepository');
 const shared = require('dorbel-shared');
 const config = shared.config;
 const logger = shared.logger.getLogger(module);
+const errors = shared.utils.domainErrors;
 const messageBus = shared.utils.messageBus;
 
 function* getUserLikes(user) {
@@ -13,15 +14,8 @@ function* getUserLikes(user) {
 function* set(listingId, user, isLiked) {
   try {
     yield likeRepository.set(listingId, user.id, isLiked);
-  } catch (err) { // hide DB related information in case an error is thrown
-    const errorStr = `Could not ${isLiked ? 'like' : 'unlike'} for listing`;
-    logger.error({
-      err,
-      listing_id: listingId,
-      user_uuid: user.id,
-      is_liked: isLiked
-    }, );
-    throw new Error(errorStr);
+  } catch (error) {
+    handleSetError(error, listingId, user, isLiked);
   }
 
   logger.info({
@@ -40,6 +34,19 @@ function publishLikeEvent(listingId, userId, isLiked) {
     user_uuid: userId,
     is_liked: isLiked
   });
+}
+
+function handleSetError(error, listingId, user, isLiked) {
+  if (error.name == 'SequelizeForeignKeyConstraintError') {  // hide DB related information in case an error is thrown
+    throw new errors.DomainNotFoundError(
+      'LikeServiceNonExistingListingError',
+      { error, user, listing_id: listingId, is_liked: isLiked },
+      `Could not ${isLiked ? 'like' : 'unlike'} listing`
+    );
+  }
+  else {
+    throw error;
+  }
 }
 
 module.exports = {
