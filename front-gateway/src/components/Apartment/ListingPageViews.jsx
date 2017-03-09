@@ -22,7 +22,7 @@ class ListingPageViews extends React.Component {
 
     return (
       <span className="listing-page-views">
-        <i className="fa fa-eye"></i> {views} צפיות
+        <i className="fa fa-eye"></i>&nbsp; {views} צפיות
       </span>
     );
   }
