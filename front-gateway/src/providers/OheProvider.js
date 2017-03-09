@@ -115,8 +115,7 @@ class OheProvider {
       }
     })
     .then(followDetails => {
-      this.incDecFollowersCount(listing.id);
-      this.appStore.oheStore.usersFollowsByListingId.set(listing.id, followDetails);
+      this.updateStoreWithFollow(listing.id, followDetails);
     })
     .then(this.appStore.authStore.updateProfile({ email: user.email }));
   }
@@ -126,19 +125,15 @@ class OheProvider {
       method: 'DELETE'
     })
     .then(() => {
-      this.incDecFollowersCount(followDetails.listing_id);
-      this.appStore.oheStore.usersFollowsByListingId.set(followDetails.listing_id, null);
+      this.updateStoreWithFollow(followDetails.listing_id, null);
     });
   }
 
-  incDecFollowersCount(listingId, isIncrement) {
-    let followersCount = this.appStore.oheStore.countFollowersByListingId.get(listingId);
-
-    if (isIncrement) {
-      return this.appStore.oheStore.countFollowersByListingId.set(listingId, followersCount + 1);
-    } else {
-      return this.appStore.oheStore.countFollowersByListingId.set(listingId, followersCount - 1);
-    }
+  updateStoreWithFollow(listingId, followDetails) {
+    const followersCount = this.appStore.oheStore.countFollowersByListingId.get(listingId);
+    const delta = followDetails ? 1 : -1; // Increase or decrease followers count.
+    this.appStore.oheStore.usersFollowsByListingId.set(listingId, followDetails);
+    this.appStore.oheStore.countFollowersByListingId.set(listingId, followersCount + delta);
   }
 }
 
