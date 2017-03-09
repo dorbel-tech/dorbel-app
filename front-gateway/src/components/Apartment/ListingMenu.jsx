@@ -4,19 +4,14 @@ import { observer } from 'mobx-react';
 import { Nav, NavItem, NavDropdown, MenuItem, Navbar } from 'react-bootstrap';
 import autobind from 'react-autobind';
 import _ from 'lodash';
+import utils from '../../providers/utils';
 
 const tabs = [
   { relativeRoute: '', title: 'מודעת הדירה' },
   { relativeRoute: 'events', title: 'מועדי ביקור' }
 ];
 
-const listingStatusLabels = {
-  pending: { label: 'ממתינה לאישור', actionLabel: 'החזר את הדירה להמתנה' },
-  listed: { label: 'מפורסמת', actionLabel: 'פרסם את הדירה' },
-  rented: { label: 'הושכרה', actionLabel: 'הדירה הושכרה' },
-  unlisted: { label: 'לא פעילה', actionLabel: 'השהה מודעה' },
-  deleted: { label: 'נמחקה', actionLabel: 'מחק מודעה' }
-};
+const listingStatusLabels = utils.getListingStatusLabels();
 
 @observer(['appStore', 'appProviders', 'router'])
 export default class ListingMenu extends React.Component {
