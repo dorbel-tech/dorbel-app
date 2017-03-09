@@ -30,7 +30,7 @@ class ListingBadge extends Component {
           options.text = 'לא פעילה';
           break;
         case 'deleted':
-          options.text = 'מחוקה';
+          options.text = 'נמחקה';
           break;
       }
     }

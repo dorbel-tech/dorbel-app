@@ -115,8 +115,7 @@ class OheProvider {
       }
     })
     .then(followDetails => {
-      let followersCount = this.appStore.oheStore.countFollowersByListingId.get(listing.id);
-      this.appStore.oheStore.countFollowersByListingId.set(listing.id, followersCount+1);
+      this.incDecFollowersCount(listing.id);
       this.appStore.oheStore.usersFollowsByListingId.set(listing.id, followDetails);
     })
     .then(this.appStore.authStore.updateProfile({ email: user.email }));
@@ -127,10 +126,19 @@ class OheProvider {
       method: 'DELETE'
     })
     .then(() => {
-      let followersCount = this.appStore.oheStore.countFollowersByListingId.get(followDetails.listing_id);
-      this.appStore.oheStore.countFollowersByListingId.set(followDetails.listing_id, followersCount-1);      
+      this.incDecFollowersCount(followDetails.listing_id);
       this.appStore.oheStore.usersFollowsByListingId.set(followDetails.listing_id, null);
     });
+  }
+
+  incDecFollowersCount(listingId, isIncrement) {
+    let followersCount = this.appStore.oheStore.countFollowersByListingId.get(listingId);
+
+    if (isIncrement) {
+      return this.appStore.oheStore.countFollowersByListingId.set(listingId, followersCount + 1);
+    } else {
+      return this.appStore.oheStore.countFollowersByListingId.set(listingId, followersCount - 1);
+    }
   }
 }
 

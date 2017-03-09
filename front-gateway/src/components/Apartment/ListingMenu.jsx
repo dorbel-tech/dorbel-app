@@ -15,7 +15,7 @@ const listingStatusLabels = {
   listed: { label: 'מפורסמת', actionLabel: 'פרסם את הדירה' },
   rented: { label: 'הושכרה', actionLabel: 'הדירה הושכרה' },
   unlisted: { label: 'לא פעילה', actionLabel: 'השהה מודעה' },
-  deleted: { label: 'מחוקה', actionLabel: 'מחק מודעה' }
+  deleted: { label: 'נמחקה', actionLabel: 'מחק מודעה' }
 };
 
 @observer(['appStore', 'appProviders', 'router'])

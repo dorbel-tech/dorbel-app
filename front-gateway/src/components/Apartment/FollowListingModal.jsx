@@ -57,37 +57,26 @@ class FollowListingModal extends React.Component {
     );
   }
 
-  getModalTitle(listing) {
-    if (listing.status === 'listed') {
-      return 'אהבתם את הדירה ב{listing.apartment.building.street_name} אבל לא נוח לכם להגיע?';
-    } else {
-      return 'שמחים שמצאתם דירה שמעניינת אתכם!';
-    }
-  }
-
-  getModalContent(listing) {
-    if (listing.status === 'listed') {
-      return 'הזינו את כתובת המייל שלכם בכדי לקבל עדכון במידה ויפורסמו מועדים נוספים לדירה זו:';
-    } else {
-      return 'ברגע שהדירה תתפרסם להשכרה, נעדכן אתכם במייל, כך שתהיו הראשונים לדעת.';
-    }
-  }
-
   renderFollowForm() {
     const { listing, appStore } = this.props;
     const profile = appStore.authStore.profile;
-
     const email = profile ? profile.email : '';
+    const title = (listing.status === 'listed') ?
+        'אהבתם את הדירה ב' + listing.apartment.building.street_name + ' אבל לא נוח לכם להגיע?' :      
+        'שמחים שמצאתם דירה שמעניינת אתכם!';
+    const content = (listing.status === 'listed') ?
+        'הזינו את כתובת המייל שלכם בכדי לקבל עדכון במידה ויפורסמו מועדים נוספים לדירה זו:' :
+        'ברגע שהדירה תתפרסם להשכרה, נעדכן אתכם במייל, כך שתהיו הראשונים לדעת.';
 
     return (
       <Modal show={true}>
         <Modal.Header closeButton onHide={this.close}>
-          <Modal.Title>{this.getModalTitle(listing)}</Modal.Title>
+          <Modal.Title>{title}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Row className='text-center'>
             <Col xs={8} xsOffset={2} >
-              <p>{this.getModalContent(listing)}</p>
+              <p>{content}</p>
               <FormWrapper.Wrapper layout="elementOnly" ref="form">
                 <FRC.Input name="user.email" placeholder="מייל" type="email" value={email} validations="isEmail" validationError="כתובת מייל לא תקינה" required />
                 <br />
