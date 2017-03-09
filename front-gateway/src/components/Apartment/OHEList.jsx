@@ -109,7 +109,7 @@ class OHEList extends Component {
     if (listing.status === 'rented' || listing.status === 'unlisted') {
       callToActionText = 'עדכנו אותי כשהדירה תתפרסם להשכרה';
     }
-    
+
     const userIsFollowing = this.props.appStore.oheStore.usersFollowsByListingId.get(listing.id);
 
     if (userIsFollowing) {
@@ -129,12 +129,7 @@ class OHEList extends Component {
 
   shouldFollowersCountBeVisible() {
     const { appStore, listing } = this.props;
-    const profile = appStore.authStore.profile;
-    if (!profile) { return false; }
-
-    const userIsListingPublisher = listing.publishing_user_id === profile.dorbel_user_id;
-    const userIsAdmin = profile.role === 'admin';
-    return userIsListingPublisher || userIsAdmin;
+    return appStore.listingStore.isListingPublisherOrAdmin(listing);
   }
 
   renderListingFollowersCount(listing) {
@@ -155,7 +150,7 @@ class OHEList extends Component {
     const oheForModal = oheId ? appStore.oheStore.oheById.get(oheId) : null;
     const closeModal = () => router.setRoute('/apartments/' + listing.id);
     const oheSectionTitle = (listing.status === 'listed') ? 'בחרו מועד לביקור' : 'מועדי ביקור';
-    const listingRentedNotification = (listing.status !== 'listed') ? 
+    const listingRentedNotification = (listing.status !== 'listed') ?
             <div className="apt-rented-notification">הדירה מושכרת כרגע. <br/>הרשמו על מנת לקבל עידכון ברגע שהדירה תוצע להשכרה שוב.</div> :
             null;
     return (
@@ -186,7 +181,7 @@ class OHEList extends Component {
                 <div href="#" className="list-group-item owner-container text-center">
                   {listingRentedNotification}
                   {this.renderFollowItem(listing)}
-                  {this.renderListingFollowersCount(listing)}                 
+                  {this.renderListingFollowersCount(listing)}
                   <h5>
                     <span>{listing.publishing_user_type === 'landlord' ? 'בעל הנכס' : 'דייר יוצא'}</span>
                     <span>: {listing.publishing_user_first_name || 'אנונימי'}</span>

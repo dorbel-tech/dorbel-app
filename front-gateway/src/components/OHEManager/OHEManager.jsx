@@ -25,13 +25,12 @@ class OHEManager extends React.Component {
 
   render() {
     const { listing, appStore, appProviders, router } = this.props;
-    const user = appStore.authStore.profile;
 
     if (!appStore.authStore.isLoggedIn) {
       // This view will not be accessable by guest users and if a user got directed here directly (from email link) he should be given the login screen
       appProviders.authProvider.showLoginModal();
       return null;
-    } else if (user.dorbel_user_id !== listing.publishing_user_id && user.role !== 'admin') {
+    } else if (!appStore.listingStore.isListingPublisherOrAdmin(listing)) {
       router.goUpOneLevel();
       return null;
     }
