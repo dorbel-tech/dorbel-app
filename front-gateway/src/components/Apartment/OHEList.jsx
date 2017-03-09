@@ -139,9 +139,12 @@ class OHEList extends Component {
 
   renderListingFollowersCount(listing) {
     let followersCount = this.props.appStore.oheStore.countFollowersByListingId.get(listing.id);
-    return this.shouldFollowersCountBeVisible() ? 
-              <h5 className="apt-followers-count">{followersCount} אנשים נרשמו לעדכונים לדירה זו</h5> : \
-              null;
+
+    if (this.shouldFollowersCountBeVisible()) {
+      return <h5 className="apt-followers-count">{followersCount} אנשים נרשמו לעדכונים לדירה זו</h5>;
+    } else {
+      return null;
+    }
   }
 
   render() {
