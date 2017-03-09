@@ -5,7 +5,7 @@ import { Grid, Row } from 'react-bootstrap';
 import ApartmentAmenities from './ApartmentAmenities.jsx';
 import OHEList from './OHEList.jsx';
 import ListingMenu from './ListingMenu.jsx';
-import ImageCarousel from './ImageCarousel.jsx';
+import ListingHeader from './ListingHeader.jsx';
 import OHEManager from '~/components/OHEManager/OHEManager';
 import ApartmentLocation from '../MapWrapper/MapWrapper.jsx';
 import RelatedListings from '../RelatedListings/RelatedListings.jsx';
@@ -173,7 +173,7 @@ class Apartment extends Component {
 
     return (
       <div>
-        <ImageCarousel listing={listing} />
+        <ListingHeader listing={listing} />
         <ListingMenu listing={listing} currentAction={action} />
         {tabContent}
       </div>

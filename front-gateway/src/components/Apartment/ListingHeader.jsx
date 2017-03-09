@@ -21,16 +21,16 @@ const flickityOptions = {
 };
 
 @observer(['appStore'])
-export default class ImageCarousel extends React.Component {
+export default class ListingHeader extends React.Component {
   render() {
     const { listing, appStore } = this.props;
     const sortedListingImages = utils.sortListingImages(listing);
 
     return (
       <header className="apt-header">
-        <ListingPageViews listing={listing} />
+        { appStore.listingStore.isListingPublisher(listing) ?  <ListingPageViews listing={listing} /> : null }
         <div className="apt-header-badge-container">
-          { appStore.listingStore.isListingPublisher(listing) ? <ListingBadge listing={listing}/> : null }
+          <ListingBadge listing={listing}/>
         </div>
         <div className="container-fluid">
           <div className="row">
@@ -48,7 +48,7 @@ export default class ImageCarousel extends React.Component {
   }
 }
 
-ImageCarousel.wrappedComponent.propTypes = {
+ListingHeader.wrappedComponent.propTypes = {
   listing: React.PropTypes.object.isRequired,
   appStore: React.PropTypes.object.isRequired
 };
