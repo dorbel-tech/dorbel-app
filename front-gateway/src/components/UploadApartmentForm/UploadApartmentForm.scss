@@ -49,12 +49,12 @@
   background: #fff;
   border: 1px solid $gray-light;
   border-radius: $border-radius-base;
-  height: 120px;
+  height: 190px;
 
   .plus {
     display: inline-block;
     font-size: 60px;
-    line-height: 115px;
+    line-height: 190px;
     text-align: center;
     width: 100%;
   }
@@ -67,7 +67,7 @@
 
   .add-photo {
     display: inline-block;
-    line-height: 115px;
+    line-height: 190px;
     text-align: center;
     width: 100%;
   }
@@ -172,7 +172,7 @@
   }
 
   @media (min-width: $screen-md-min) {
-    height: 100%;
+    height: calc(100% - 70px);
     overflow-y: auto;
 
     > .form-vertical {
