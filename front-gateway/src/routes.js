@@ -13,9 +13,9 @@ const routes = [
   { route: '/login', view: Login },
   { route: '/apartments', view: Search },
   { route: '/apartments/new_form', view: UploadApartmentForm },
-  { route: '/apartments/:apartmentId', view: Listing },
-  { route: '/apartments/:apartmentId/:action', view: Listing, requireLogin: true },
-  { route: '/apartments/:apartmentId/:action/:oheId', view: Listing, requireLogin: true }
+  { route: '/apartments/:listingId', view: Listing },
+  { route: '/apartments/:listingId/:action', view: Listing, requireLogin: true },
+  { route: '/apartments/:listingId/:action/:oheId', view: Listing, requireLogin: true }
 ];
 
 module.exports = {
