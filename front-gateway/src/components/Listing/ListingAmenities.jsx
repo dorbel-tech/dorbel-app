@@ -17,7 +17,7 @@ const amenitiesRight = [
   { path: 'apartment.balcony', icon: 'balcony', label: 'מרפסת' }
 ];
 
-export default class ApartmentAmenities extends Component {
+export default class ListingAmenities extends Component {
   renderAmentites(amenities, listing, xsCols) {
     const amenityList = amenities
       .filter(amenity => _.get(listing, amenity.path))
@@ -47,6 +47,6 @@ export default class ApartmentAmenities extends Component {
   }
 }
 
-ApartmentAmenities.propTypes = {
+ListingAmenities.propTypes = {
   listing: React.PropTypes.object.isRequired
 };
