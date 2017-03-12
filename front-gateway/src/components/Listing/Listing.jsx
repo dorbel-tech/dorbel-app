@@ -119,7 +119,6 @@ class Listing extends Component {
   }
 
   render() {
-    // TODO : mixup between listing and apartment here !!!
     const { appStore, action } = this.props;
     const listing = appStore.listingStore.get(this.props.listingId);
 
