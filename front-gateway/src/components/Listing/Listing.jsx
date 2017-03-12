@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import autobind from 'react-autobind';
-import { Grid, Row } from 'react-bootstrap';
+import { Col, Grid, Row } from 'react-bootstrap';
 import OHEList from './OHEList.jsx';
 import ListingDescription from './ListingDescription.jsx';
 import ListingInfo from './ListingInfo.jsx';
@@ -19,8 +19,9 @@ import './Listing.scss';
 class Listing extends Component {
   constructor(props) {
     super(props);
-    this.state = { isLoading: false };
     autobind(this);
+
+    this.state = { isLoading: false };
   }
 
   static serverPreRender(props) {
@@ -81,24 +82,24 @@ class Listing extends Component {
         tabContent = (
           <div>
             <OHEList listing={listing} oheId={this.props.oheId} action={this.props.action} />
-            <div className="container-fluid apt-headline-container">
-              <div className="container">
+            <Grid fluid className="apt-headline-container">
+              <Grid>
                 <div className="row">
-                  <div className="col-md-9">
+                  <Col md={9}>
                     <h2>{utils.getListingTitle(listing)}</h2>
-                  </div>
+                  </Col>
                 </div>
-              </div>
-            </div>
-            <div className="container-fluid apt-highlights-container">
-              <div className="container">
-                <div className="row">
-                  <div className="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+              </Grid>
+            </Grid>
+            <Grid fluid className="apt-highlights-container">
+              <Grid>
+                <Row>
+                  <Col lg={9}>
                     <ListingInfo listing={listing} />
-                  </div>
-                </div>
-              </div>
-            </div>
+                  </Col>
+                </Row>
+              </Grid>
+            </Grid>
             <ListingDescription listing={listing} />
             {this.renderListingLocation(listing.apartment.building.geolocation)}
             <RelatedListings listingId={listing.id} />
@@ -115,7 +116,6 @@ class Listing extends Component {
     );
   }
 }
-
 
 Listing.wrappedComponent.propTypes = {
   listingId: React.PropTypes.string.isRequired,
