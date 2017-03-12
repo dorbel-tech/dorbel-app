@@ -4,6 +4,7 @@ import autobind from 'react-autobind';
 import { Grid, Row } from 'react-bootstrap';
 import ApartmentAmenities from './ApartmentAmenities.jsx';
 import OHEList from './OHEList.jsx';
+import ListingInfo from './ListingInfo.jsx';
 import ListingMenu from './ListingMenu.jsx';
 import ListingHeader from './ListingHeader.jsx';
 import OHEManager from '~/components/OHEManager/OHEManager';
@@ -11,11 +12,11 @@ import ApartmentLocation from '../MapWrapper/MapWrapper.jsx';
 import RelatedListings from '../RelatedListings/RelatedListings.jsx';
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 import utils from '../../providers/utils';
+
 import './Listing.scss';
 
 @observer(['appStore', 'appProviders', 'router'])
 class Listing extends Component {
-
   constructor(props) {
     super(props);
     this.state = { isLoading: false };
@@ -44,23 +45,6 @@ class Listing extends Component {
       this.props.appProviders.listingsProvider.loadFullListingDetails(listingId)
         .then(() => this.setState({ isLoading: false }));
     }
-  }
-
-  renderInfoBox(title, svgName) {
-    // TODO : use Icon component
-    return (
-      <li className="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-        <svg><use xlinkHref={'#' + svgName} /></svg>
-        <div>{title}</div>
-      </li>
-    );
-  }
-
-  getFloorLabel(apartment) {
-    let label = 'קומה ' + apartment.floor;
-    if (apartment.building.floors) { label += '/' + apartment.building.floors; }
-    if (apartment.building.elevator) { label += ' + מעלית'; }
-    return label;
   }
 
   renderListingDescription(listing) {
@@ -153,12 +137,7 @@ class Listing extends Component {
               <div className="container">
                 <div className="row">
                   <div className="col-lg-9 col-md-12 col-sm-12 col-xs-12">
-                    <ul className="row">
-                      {this.renderInfoBox(listing.apartment.building.street_name + ', ' + listing.apartment.building.city.city_name, 'dorbel_icon_location')}
-                      {this.renderInfoBox(listing.apartment.rooms + ' חדרים', 'dorbel_icon_bed')}
-                      {this.renderInfoBox(listing.apartment.size + ' מ"ר', 'dorbel_icon_ruler')}
-                      {this.renderInfoBox(this.getFloorLabel(listing.apartment), 'dorbel_icon_stairs')}
-                    </ul>
+                    <ListingInfo listing={listing} />
                   </div>
                 </div>
               </div>
