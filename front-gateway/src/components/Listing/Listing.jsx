@@ -23,7 +23,7 @@ class Listing extends Component {
   }
 
   static serverPreRender(props) {
-    return props.appProviders.apartmentsProvider.loadFullListingDetails(props.listingId);
+    return props.appProviders.listingsProvider.loadFullListingDetails(props.listingId);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -41,7 +41,7 @@ class Listing extends Component {
     let listingId = this.props.listingId;
     if (!this.props.appStore.listingStore.get(listingId)) {
       this.setState({ isLoading: true });
-      this.props.appProviders.apartmentsProvider.loadFullListingDetails(listingId)
+      this.props.appProviders.listingsProvider.loadFullListingDetails(listingId)
         .then(() => this.setState({ isLoading: false }));
     }
   }
