@@ -72,5 +72,13 @@
   {
     "eventType": "OHE_UNFOLLOWED",
     "notificationType": "ohe_unfollowed"
-  }
+  },
+  {
+    "eventType": "LISTING_LIKED",
+    "notificationType": "listing_liked"
+  },
+  {
+    "eventType": "LISTING_UNLIKED",
+    "notificationType": "listing_unliked"
+  }    
 ]
