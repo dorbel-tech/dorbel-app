@@ -16,13 +16,13 @@ class UploadApartmentStep1 extends UploadApartmentBaseStep.wrappedComponent {
 
   onChooseFile(acceptedFiles) {
     this.setState({ isReadyForNextStep: false });
-    let uploadPromises = acceptedFiles.map(file => this.props.appProviders.apartmentsProvider.uploadImage(file));
+    let uploadPromises = acceptedFiles.map(file => this.props.appProviders.listingsProvider.uploadImage(file));
     this.uploadImagePromises = this.uploadImagePromises.concat(uploadPromises);
     Promise.all(this.uploadImagePromises).then(() => this.setState({ isReadyForNextStep: true }));
   }
 
   renderImage(image, index) {
-    const { apartmentsProvider } = this.props.appProviders;
+    const { listingsProvider } = this.props.appProviders;
     const progressPct = Math.round(image.progress * 100) + '%';
     const progressBarStyle = { width: progressPct };
 
@@ -34,7 +34,7 @@ class UploadApartmentStep1 extends UploadApartmentBaseStep.wrappedComponent {
       </div>
     );
 
-    const deleteButton = (<div><a href="#" className="remove-image" onClick={() => apartmentsProvider.deleteImage(image)} >הסרה</a></div>);
+    const deleteButton = (<div><a href="#" className="remove-image" onClick={() => listingsProvider.deleteImage(image)} >הסרה</a></div>);
 
     return (
       <div key={index} className="image col-md-4 thumb">

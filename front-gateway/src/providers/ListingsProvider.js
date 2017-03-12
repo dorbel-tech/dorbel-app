@@ -1,12 +1,12 @@
 /**
- * ApartmentsProvider communicates with the Apartments API
+ * ListingsProvider communicates with the Apartments API
  */
 'use strict';
 import { action } from 'mobx';
 import _ from 'lodash';
 import utils from './utils';
 
-class ApartmentsProvider {
+class ListingsProvider {
   constructor(appStore, providers) {
     this.appStore = appStore;
     this.apiProvider = providers.api;
@@ -113,4 +113,4 @@ class ApartmentsProvider {
 
 }
 
-module.exports = ApartmentsProvider;
+module.exports = ListingsProvider;

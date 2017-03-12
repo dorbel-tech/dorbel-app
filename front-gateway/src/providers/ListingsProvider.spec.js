@@ -2,10 +2,10 @@
 import { stub, spy } from 'sinon';
 require('sinon-as-promised');
 
-import ApartmentsProvider from './ApartmentsProvider';
+import ListingsProvider from './ListingsProvider';
 
-describe('Apartments Provider', () => {
-  let apartmentsProvider;
+describe('Listings Provider', () => {
+  let listingsProvider;
   let listingStoreMock;
   let apiMock;
 
@@ -18,7 +18,7 @@ describe('Apartments Provider', () => {
       }
     };
 
-    apartmentsProvider = new ApartmentsProvider({ listingStore: listingStoreMock }, { api: apiMock });
+    listingsProvider = new ListingsProvider({ listingStore: listingStoreMock }, { api: apiMock });
   });
 
   it('should call API to load listing page views and save them store', () => {
@@ -26,7 +26,7 @@ describe('Apartments Provider', () => {
     var views = 999;
     apiMock.fetch = stub().resolves({ [listingId] : { views } });
 
-    return apartmentsProvider.loadListingPageViews({ id: listingId })
+    return listingsProvider.loadListingPageViews({ id: listingId })
     .then(() => {
       expect(apiMock.fetch.calledWith('/api/apartments/v1/page_views/listings/' + listingId)).toBe(true);
       expect(listingStoreMock.listingViewsById.set.calledWith(listingId, views)).toBe(true);

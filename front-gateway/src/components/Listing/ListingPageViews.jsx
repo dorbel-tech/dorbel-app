@@ -7,7 +7,7 @@ class ListingPageViews extends React.Component {
   componentDidMount() {
     const { listing, appStore, appProviders } = this.props;
     if (!appStore.listingStore.listingViewsById.has(listing.id)) {
-      appProviders.apartmentsProvider.loadListingPageViews(listing);
+      appProviders.listingsProvider.loadListingPageViews(listing);
     }
   }
 
