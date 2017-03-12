@@ -5,6 +5,7 @@ import { Nav, NavItem, NavDropdown, MenuItem, Navbar } from 'react-bootstrap';
 import autobind from 'react-autobind';
 import _ from 'lodash';
 import utils from '../../providers/utils';
+import ReactTooltip from 'react-tooltip';
 
 const tabs = [
   { relativeRoute: '', title: 'מודעת הדירה' },
@@ -66,6 +67,15 @@ export default class ListingMenu extends React.Component {
     );
   }
 
+  renderTooltip() {
+    return (
+      <span>
+        <span data-tip="קבעו מועד ביקור חדשים וצפו בנרשמים.">&nbsp;&nbsp;<i className="fa fa-info-circle" aria-hidden="true"></i></span>
+        <ReactTooltip type="dark" effect="solid" place="left" />
+      </span>
+    );
+  }
+
   renderMenu() {
     const { currentAction } = this.props;
     const activeTab = _.find(tabs, { relativeRoute: currentAction }) || tabs[0];
@@ -73,7 +83,8 @@ export default class ListingMenu extends React.Component {
     return (
       <Navbar className="listing-menu-tabs">
         <Nav bsStyle="tabs" activeKey={activeTab.relativeRoute} onSelect={this.changeTab}>
-          {tabs.map(tab => <NavItem key={tab.relativeRoute} eventKey={tab.relativeRoute}>{tab.title}</NavItem>)}
+          {tabs.map(tab => <NavItem key={tab.relativeRoute} eventKey={tab.relativeRoute}>{tab.title} 
+              {tab.relativeRoute === 'events' ? this.renderTooltip() : ''}</NavItem>)}
         </Nav>
         {currentAction === 'events' ? '' : this.renderStatusSelector()}
       </Navbar>
