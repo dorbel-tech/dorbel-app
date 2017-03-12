@@ -11,10 +11,10 @@ import ApartmentLocation from '../MapWrapper/MapWrapper.jsx';
 import RelatedListings from '../RelatedListings/RelatedListings.jsx';
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 import utils from '../../providers/utils';
-import './Apartment.scss';
+import './Listing.scss';
 
 @observer(['appStore', 'appProviders', 'router'])
-class Apartment extends Component {
+class Listing extends Component {
 
   constructor(props) {
     super(props);
@@ -23,11 +23,11 @@ class Apartment extends Component {
   }
 
   static serverPreRender(props) {
-    return props.appProviders.apartmentsProvider.loadFullListingDetails(props.apartmentId);
+    return props.appProviders.apartmentsProvider.loadFullListingDetails(props.listingId);
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.apartmentId != nextProps.apartmentId) {
+    if (this.props.listingId != nextProps.listingId) {
       this.props = nextProps;
       this.loadFullListingDetails();
     }
@@ -38,7 +38,7 @@ class Apartment extends Component {
   }
 
   loadFullListingDetails() {
-    let listingId = this.props.apartmentId;
+    let listingId = this.props.listingId;
     if (!this.props.appStore.listingStore.get(listingId)) {
       this.setState({ isLoading: true });
       this.props.appProviders.apartmentsProvider.loadFullListingDetails(listingId)
@@ -121,7 +121,7 @@ class Apartment extends Component {
   render() {
     // TODO : mixup between listing and apartment here !!!
     const { appStore, action } = this.props;
-    const listing = appStore.listingStore.get(this.props.apartmentId);
+    const listing = appStore.listingStore.get(this.props.listingId);
 
     if (this.state.isLoading) {
       return (
@@ -182,8 +182,8 @@ class Apartment extends Component {
 }
 
 
-Apartment.wrappedComponent.propTypes = {
-  apartmentId: React.PropTypes.string.isRequired,
+Listing.wrappedComponent.propTypes = {
+  listingId: React.PropTypes.string.isRequired,
   appProviders: React.PropTypes.object,
   appStore: React.PropTypes.object,
   router: React.PropTypes.object,
@@ -191,4 +191,4 @@ Apartment.wrappedComponent.propTypes = {
   action: React.PropTypes.string
 };
 
-export default Apartment;
+export default Listing;
