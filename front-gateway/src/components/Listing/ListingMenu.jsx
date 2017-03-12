@@ -83,8 +83,11 @@ export default class ListingMenu extends React.Component {
     return (
       <Navbar className="listing-menu-tabs">
         <Nav bsStyle="tabs" activeKey={activeTab.relativeRoute} onSelect={this.changeTab}>
-          {tabs.map(tab => <NavItem key={tab.relativeRoute} eventKey={tab.relativeRoute}>{tab.title} 
-              {tab.relativeRoute === 'events' ? this.renderTooltip() : ''}</NavItem>)}
+          {tabs.map(tab => 
+            <NavItem key={tab.relativeRoute} eventKey={tab.relativeRoute}>
+              {tab.title} {tab.relativeRoute === 'events' ? this.renderTooltip() : ''}
+            </NavItem>
+          )}
         </Nav>
         {currentAction === 'events' ? '' : this.renderStatusSelector()}
       </Navbar>
