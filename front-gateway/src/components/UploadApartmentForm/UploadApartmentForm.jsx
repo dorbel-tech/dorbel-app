@@ -25,7 +25,7 @@ class UploadApartmentForm extends Component {
 
     if (newListingStore.stepNumber === steps.length - 1) { // last
       let listing = this.mapUploadApartmentFormToCreateListing(newListingStore.formValues);
-      return this.props.appProviders.apartmentsProvider.uploadApartment(listing)
+      return this.props.appProviders.listingsProvider.uploadApartment(listing)
         .then((uploadApartmentResp) => {
           this.setState({ showSuccessModal: true, createdListingId: uploadApartmentResp.id });
         })

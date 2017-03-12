@@ -4,7 +4,7 @@
  */
 'use strict';
 import ApiProvider from './ApiProvider';
-import ApartmentsProvider from './ApartmentsProvider';
+import ListingsProvider from './ListingsProvider';
 import OheProvider from './OheProvider';
 import CityProvider from './CityProvider';
 import NeighborhoodProvider from './NeighborhoodProvider';
@@ -35,7 +35,7 @@ class AppProviders {
     this.cloudinaryProvider = new CloudinaryProvider();
     this.apiProvider = new ApiProvider(appStore);
     this.oheProvider = new OheProvider(appStore, this.apiProvider);
-    this.apartmentsProvider = new ApartmentsProvider(appStore,
+    this.listingsProvider = new ListingsProvider(appStore,
       { api: this.apiProvider, cloudinary: this.cloudinaryProvider, ohe: this.oheProvider });
     this.cityProvider = new CityProvider(appStore, this.apiProvider);
     this.neighborhoodProvider = new NeighborhoodProvider(appStore, this.apiProvider);
