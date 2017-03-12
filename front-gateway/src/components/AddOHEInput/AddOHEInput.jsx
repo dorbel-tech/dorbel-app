@@ -119,7 +119,7 @@ class AddOHEInput extends React.Component {
           <Col md={12} className="form-group">
             <label>תאריך הביקור</label>&nbsp;
             <span data-tip="קבעו מועד ביקור אליו יוכלו הדיירים להרשם. תוכלו לשנות מועד זה בכל עת."><i className="fa fa-info-circle" aria-hidden="true"></i></span>
-            <ReactTooltip type="dark" effect="solid" place="left"/>
+            <ReactTooltip type="dark" effect="solid" place="left" offset="{'top': -7, 'left': 2}"/>
             <DatePicker name="ohe-date" onChange={this.dateChange} value={this.state.date} disabled={this.props.mode !== 'new'} />
           </Col>
         </Row>
