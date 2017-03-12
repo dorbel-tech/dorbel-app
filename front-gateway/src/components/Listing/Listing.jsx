@@ -59,12 +59,6 @@ class Listing extends Component {
     }
   }
 
-  renderRelatedListings(listingId) {
-    return (
-      <RelatedListings listingId={listingId} />
-    );
-  }
-
   render() {
     const { appStore, action } = this.props;
     const listing = appStore.listingStore.get(this.props.listingId);
@@ -107,7 +101,7 @@ class Listing extends Component {
             </div>
             <ListingDescription listing={listing} />
             {this.renderListingLocation(listing.apartment.building.geolocation)}
-            {this.renderRelatedListings(listing.id)}
+            <RelatedListings listingId={listing.id} />
           </div>
         );
     }
