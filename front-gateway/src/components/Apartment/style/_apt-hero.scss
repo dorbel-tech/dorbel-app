@@ -4,15 +4,6 @@
   margin-bottom: 10px;
   position: relative;
 
-  &::after {
-    background: linear-gradient(to top, rgba(0, 0, 0, 0) 86%, rgba(40, 40, 40, 0.6));
-    content: "";
-    height: 100%;
-    position: absolute;
-    top: 0;
-    width: 100%;
-  }
-
   @media (max-width: $screen-md-max) {
     margin-bottom: 25px;
   }
