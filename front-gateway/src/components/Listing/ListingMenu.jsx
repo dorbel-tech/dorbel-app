@@ -68,10 +68,12 @@ export default class ListingMenu extends React.Component {
   }
 
   renderTooltip() {
+    const tipOffset = {top: -7, left: 15};
+
     return (
       <span>
         <span data-tip="קבעו מועדי ביקור חדשים וצפו בנרשמים.">&nbsp;&nbsp;<i className="fa fa-info-circle" aria-hidden="true"></i></span>
-        <ReactTooltip type="dark" effect="solid" place="left" offset="{'top': -7, 'left': 15}"/>
+        <ReactTooltip type="dark" effect="solid" place="left" offset={tipOffset} />
       </span>
     );
   }
