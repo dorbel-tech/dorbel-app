@@ -10,7 +10,7 @@ function initLock(clientId, domain) {
     initialScreen: 'signUp',
     theme: {
       logo: 'https://res.cloudinary.com/dorbel/image/upload/c_scale,h_58,w_58/v1477485453/dorbel_logo_2_1_uvvf3j.png',
-      primaryColor: '#31124b'
+      primaryColor: '#1cb039'
     },
     languageDictionary: {
       title: 'הרשמו לזיהוי קל בהמשך ולעדכונים חשובים בלבד',

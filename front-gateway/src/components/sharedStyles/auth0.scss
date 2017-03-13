@@ -1,5 +1,6 @@
 // Disable auth0 lock animation to fight with e2e flackiness and better user experience.
 .auth0-lock * {
+  font-family: Arimo;
   -webkit-animation: none !important;
   animation: none !important;
   -webkit-transition: none !important;
