@@ -1,18 +1,16 @@
 'use strict';
 import React from 'react';
 import { observer } from 'mobx-react';
-import { Nav, NavItem, NavDropdown, MenuItem, Navbar } from 'react-bootstrap';
+import { Nav, NavItem, Navbar } from 'react-bootstrap';
 import autobind from 'react-autobind';
 import _ from 'lodash';
-import utils from '../../providers/utils';
 import ReactTooltip from 'react-tooltip';
+import ListingStatusSelector from './ListingStatusSelector.jsx';
 
 const tabs = [
   { relativeRoute: '', title: 'מודעת הדירה' },
   { relativeRoute: 'events', title: 'מועדי ביקור' }
 ];
-
-const listingStatusLabels = utils.getListingStatusLabels();
 
 @observer(['appStore', 'appProviders', 'router'])
 export default class ListingMenu extends React.Component {
@@ -53,20 +51,6 @@ export default class ListingMenu extends React.Component {
     }).catch((err) => this.props.appProviders.notificationProvider.error(err));
   }
 
-  renderStatusSelector() {
-    const { listing } = this.props;
-    const currentStatus = listingStatusLabels[listing.status].label;
-    const options = _.get(listing, 'meta.possibleStatuses') || [];
-
-    return (
-      <Nav bsStyle="tabs" className="listing-menu-status-selector" onSelect={this.changeStatus} pullLeft>
-        <NavDropdown title={currentStatus} id="nav-dropdown" disabled={options.length === 0}>
-          {options.map(status => <MenuItem id={status} key={status} eventKey={status}>{listingStatusLabels[status].actionLabel}</MenuItem>)}
-        </NavDropdown>
-      </Nav>
-    );
-  }
-
   renderTooltip() {
     const tipOffset = {top: -7, left: 15};
 
@@ -79,7 +63,7 @@ export default class ListingMenu extends React.Component {
   }
 
   renderMenu() {
-    const { currentAction } = this.props;
+    const { currentAction, listing } = this.props;
     const activeTab = _.find(tabs, { relativeRoute: currentAction }) || tabs[0];
 
     return (
@@ -91,7 +75,7 @@ export default class ListingMenu extends React.Component {
             </NavItem>
           )}
         </Nav>
-        {currentAction === 'events' ? '' : this.renderStatusSelector()}
+        {currentAction === 'events' ? '' : <ListingStatusSelector listing={listing} />}
       </Navbar>
     );
   }
@@ -110,7 +94,6 @@ export default class ListingMenu extends React.Component {
   render() {
     return this.shouldMenuBeVisible() ? this.renderMenu() : null;
   }
-
 }
 
 ListingMenu.wrappedComponent.propTypes = {
