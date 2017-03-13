@@ -31,7 +31,10 @@ describe('Filter', () => {
         cityProvider: {loadCities: jest.fn()},
         searchProvider: {
           initFilter: jest.fn(),
-          search: jest.fn()
+          search: jest.fn().mockReturnValue(Promise.resolve([]))
+        },
+        oheProvider: {
+          loadListingEvents: jest.fn()
         }
       }
     };
