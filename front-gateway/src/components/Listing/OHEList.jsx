@@ -13,8 +13,9 @@ import FollowListingModal from './FollowListingModal';
 class OHEList extends Component {
   constructor(props) {
     super(props);
-    this.state = { oheForModal: null };
     autobind(this);
+
+    this.state = { oheForModal: null };
   }
 
   renderListItem(params) {
