@@ -1,4 +1,5 @@
 'use strict';
+const _ = require('lodash');
 const db = require('../dbConnectionProvider');
 const models = db.models;
 
@@ -6,8 +7,30 @@ const findInclude = [
   { model: models.registration, required: false, where: { is_active: true } }
 ];
 
-function* find(eventId) {
-  return yield models.open_house_event.findOne({
+const defaultQuery = { is_active: true };
+
+function mapQuery(originalQuery) {
+  let mappedQuery = {};
+  if (originalQuery.listing_id) {
+    mappedQuery.listing_id = originalQuery.listing_id;
+  }
+  if (originalQuery.minDate) {
+    mappedQuery.start_time = { $gt : originalQuery.minDate };
+  }
+
+  return mappedQuery;
+}
+
+function find(query) {
+  return models.open_house_event.findAll({
+    where: _.defaults(mapQuery(query), defaultQuery),
+    include: findInclude,
+    order: 'start_time'
+  });
+}
+
+function findById(eventId) {
+  return models.open_house_event.findOne({
     where: {
       id: eventId
     },
@@ -16,14 +39,7 @@ function* find(eventId) {
 }
 
 function* findByListingId(listing_id) {
-  return yield models.open_house_event.findAll({
-    where: {
-      listing_id: listing_id,
-      is_active: true
-    },
-    include: findInclude,
-    order: 'start_time'
-  });
+  return find({ listing_id: listing_id });
 }
 
 function* create(openHouseEvent) {
@@ -36,12 +52,13 @@ function* update(openHouseEvent) {
     end_time: openHouseEvent.end_time,
     comments: openHouseEvent.comments,
     max_attendies: openHouseEvent.max_attendies,
-    is_active: openHouseEvent.is_active    
+    is_active: openHouseEvent.is_active
   });
 }
 
 module.exports = {
   find,
+  findById,
   findByListingId,
   create,
   update
