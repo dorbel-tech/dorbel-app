@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import _ from 'lodash';
 import { MenuItem, Nav, NavDropdown } from 'react-bootstrap';
 import autobind from 'react-autobind';
-import utils from '../../providers/utils';
+import utils from '~/providers/utils';
 
 const listingStatusLabels = utils.getListingStatusLabels();
 

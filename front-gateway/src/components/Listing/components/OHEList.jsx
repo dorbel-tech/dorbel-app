@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import _ from 'lodash';
 import { Col, Grid, Row } from 'react-bootstrap';
 import autobind from 'react-autobind';
-import Icon from '../Icon/Icon';
+import Icon from '../../Icon/Icon';
 
 import ListingHighlight from './ListingHighlight';
 import OHERegisterModal from './OHERegisterModal';

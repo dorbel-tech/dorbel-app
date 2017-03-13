@@ -1,8 +1,8 @@
 'use strict';
 import React from 'react';
-import ListingBadge from '../ListingBadge/ListingBadge';
-import CloudinaryImage from '../CloudinaryImage/CloudinaryImage';
-import utils from '../../providers/utils';
+import ListingBadge from '~/components/ListingBadge/ListingBadge';
+import CloudinaryImage from '~/components/CloudinaryImage/CloudinaryImage';
+import utils from '~/providers/utils';
 import ListingPageViews from './ListingPageViews';
 import { observer } from 'mobx-react';
 

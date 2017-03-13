@@ -2,16 +2,16 @@ import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import autobind from 'react-autobind';
 import { Col, Grid, Row } from 'react-bootstrap';
-import OHEList from './OHEList.jsx';
-import ListingDescription from './ListingDescription.jsx';
-import ListingInfo from './ListingInfo.jsx';
-import ListingMenu from './ListingMenu.jsx';
-import ListingHeader from './ListingHeader.jsx';
+import OHEList from './components/OHEList.jsx';
+import ListingDescription from './components/ListingDescription.jsx';
+import ListingInfo from './components/ListingInfo.jsx';
+import ListingMenu from './components/ListingMenu.jsx';
+import ListingHeader from './components/ListingHeader.jsx';
 import OHEManager from '~/components/OHEManager/OHEManager';
-import ApartmentLocation from '../MapWrapper/MapWrapper.jsx';
-import RelatedListings from '../RelatedListings/RelatedListings.jsx';
-import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
-import utils from '../../providers/utils';
+import ApartmentLocation from '~/components/MapWrapper/MapWrapper.jsx';
+import RelatedListings from '~/components/RelatedListings/RelatedListings.jsx';
+import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
+import utils from '~/providers/utils';
 
 import './Listing.scss';
 
