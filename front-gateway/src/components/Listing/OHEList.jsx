@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import _ from 'lodash';
-import { Row } from 'react-bootstrap';
+import { Col, Grid, Row } from 'react-bootstrap';
 import autobind from 'react-autobind';
 import Icon from '../Icon/Icon';
 
+import ListingHighlight from './ListingHighlight';
 import OHERegisterModal from './OHERegisterModal';
 import FollowListingModal from './FollowListingModal';
 
@@ -12,8 +13,9 @@ import FollowListingModal from './FollowListingModal';
 class OHEList extends Component {
   constructor(props) {
     super(props);
-    this.state = { oheForModal: null };
     autobind(this);
+
+    this.state = { oheForModal: null };
   }
 
   renderListItem(params) {
@@ -154,16 +156,13 @@ class OHEList extends Component {
             <div className="apt-rented-notification">הדירה מושכרת כרגע. <br/>הרשמו על מנת לקבל עידכון ברגע שהדירה תוצע להשכרה שוב.</div> :
             null;
     return (
-      <div className="container">
-        <div className="row">
-          <div className="col-lg-3 col-md-12 pull-left-lg">
+      <Grid>
+        <Row>
+          <Col lg={3} lgOffset={9}>
             <div className="apt-reserve-container">
               <div className="apt-box-container">
-                <div className="row price-container">
-                  <div className="price">{listing.monthly_rent}</div>
-                  <div className="price-desc"> ₪ / לחודש</div>
-                </div>
-                <div className="row social-share-wrapper">
+                <ListingHighlight listing={listing} />
+                <Row className="social-share-wrapper">
                   <div className="social-share-container text-center">
                     <span>שתפו את הנכס</span>&nbsp;&nbsp;&nbsp;&nbsp;
                     <a className="padding fa fa-facebook-square fb-desktop" href={'https://www.facebook.com/sharer.php?u=' + currentUrl + '?utm_source=apt_page_facebook_share'} target="_blank"></a>
@@ -173,7 +172,7 @@ class OHEList extends Component {
                     <a className="padding fb-messenger-desktop" href={'https://www.facebook.com/dialog/send?app_id=1651579398444396&link=' + currentUrl + '?utm_source=apt_page_messenger_share' + '&redirect_uri=' + currentUrl + '?utm_source=apt_page_messenger_share'} target="_blank"><Icon iconName="dorbel-icon-social-fbmsg" /></a>
                     <a className="padding fb-messenger-mobile" href={'fb-messenger://share/?link=' + currentUrl + '?utm_source=apt_page_messenger_share' + '&app_id=1651579398444396'}><Icon iconName="dorbel-icon-social-fbmsg" /></a>
                   </div>
-                </div>
+                </Row>
               </div>
               <div className="list-group apt-choose-date-container">
                 <h5 className="text-center apt-choose-date-title">{oheSectionTitle}</h5>
@@ -189,11 +188,11 @@ class OHEList extends Component {
                 </div>
               </div>
             </div>
-          </div>
-        </div>
+          </Col>
+        </Row>
         <OHERegisterModal ohe={oheForModal} onClose={closeModal} action={this.props.action} />
         <FollowListingModal listing={listing} onClose={closeModal} action={this.props.action} />
-      </div>
+      </Grid>
     );
   }
 }
