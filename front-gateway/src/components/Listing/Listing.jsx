@@ -84,11 +84,11 @@ class Listing extends Component {
             <OHEList listing={listing} oheId={this.props.oheId} action={this.props.action} />
             <Grid fluid className="apt-headline-container">
               <Grid>
-                <div className="row">
+                <Row>
                   <Col md={9}>
                     <h2>{utils.getListingTitle(listing)}</h2>
                   </Col>
-                </div>
+                </Row>
               </Grid>
             </Grid>
             <Grid fluid className="apt-highlights-container">
