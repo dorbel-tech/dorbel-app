@@ -82,23 +82,19 @@ class Listing extends Component {
         tabContent = (
           <div>
             <OHEList listing={listing} oheId={this.props.oheId} action={this.props.action} />
-            <Grid fluid className="apt-headline-container">
-              <Grid>
-                <Row>
-                  <Col md={9}>
-                    <h2>{utils.getListingTitle(listing)}</h2>
-                  </Col>
-                </Row>
-              </Grid>
+            <Grid className="apt-headline-container">
+              <Row>
+                <Col md={9}>
+                  <h2>{utils.getListingTitle(listing)}</h2>
+                </Col>
+              </Row>
             </Grid>
-            <Grid fluid className="apt-highlights-container">
-              <Grid>
-                <Row>
-                  <Col lg={9}>
-                    <ListingInfo listing={listing} />
-                  </Col>
-                </Row>
-              </Grid>
+            <Grid className="apt-highlights-container">
+              <Row>
+                <Col lg={9}>
+                  <ListingInfo listing={listing} />
+                </Col>
+              </Row>
             </Grid>
             <ListingDescription listing={listing} />
             {this.renderListingLocation(listing.apartment.building.geolocation)}
