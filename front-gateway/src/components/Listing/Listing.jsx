@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import autobind from 'react-autobind';
-import { Grid, Row } from 'react-bootstrap';
-import ApartmentAmenities from './ApartmentAmenities.jsx';
+import { Col, Grid, Row } from 'react-bootstrap';
 import OHEList from './OHEList.jsx';
+import ListingDescription from './ListingDescription.jsx';
+import ListingInfo from './ListingInfo.jsx';
 import ListingMenu from './ListingMenu.jsx';
 import ListingHeader from './ListingHeader.jsx';
 import OHEManager from '~/components/OHEManager/OHEManager';
@@ -11,15 +12,16 @@ import ApartmentLocation from '../MapWrapper/MapWrapper.jsx';
 import RelatedListings from '../RelatedListings/RelatedListings.jsx';
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 import utils from '../../providers/utils';
+
 import './Listing.scss';
 
 @observer(['appStore', 'appProviders', 'router'])
 class Listing extends Component {
-
   constructor(props) {
     super(props);
-    this.state = { isLoading: false };
     autobind(this);
+
+    this.state = { isLoading: false };
   }
 
   static serverPreRender(props) {
@@ -46,60 +48,6 @@ class Listing extends Component {
     }
   }
 
-  renderInfoBox(title, svgName) {
-    // TODO : use Icon component
-    return (
-      <li className="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-        <svg><use xlinkHref={'#' + svgName} /></svg>
-        <div>{title}</div>
-      </li>
-    );
-  }
-
-  getFloorLabel(apartment) {
-    let label = 'קומה ' + apartment.floor;
-    if (apartment.building.floors) { label += '/' + apartment.building.floors; }
-    if (apartment.building.elevator) { label += ' + מעלית'; }
-    return label;
-  }
-
-  renderListingDescription(listing) {
-    return (
-      <div className="container-fluid apt-info-container">
-        <div className="container">
-          <div className="col-lg-9">
-            <div className="row property-desc">
-              <div className="col-md-2">
-                <h5>תאריך כניסה</h5>
-              </div>
-              <div className="col-md-10">
-                <p>{this.props.appProviders.utils.formatDate(listing.lease_start)}</p>
-              </div>
-            </div>
-            <div className="row property-desc">
-              <div className="col-md-2">
-                <h5>תאור הנכס</h5>
-              </div>
-              <div className="col-md-10">
-                <p>{listing.description}</p>
-              </div>
-            </div>
-            <ApartmentAmenities listing={listing} />
-            <div className="row property-desc">
-              <div className="col-md-2">
-                <h5>פרטי תשלום</h5>
-              </div>
-              <div className="col-md-10">
-                <p>ארנונה: {listing.property_tax}</p>
-                <p>ועד הבית: {listing.board_fee}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   renderListingLocation(geolocation) {
     if (geolocation) {
       return (
@@ -110,12 +58,6 @@ class Listing extends Component {
         </Grid>
       );
     }
-  }
-
-  renderRelatedListings(listingId) {
-    return (
-      <RelatedListings listingId={listingId} />
-    );
   }
 
   render() {
@@ -140,32 +82,27 @@ class Listing extends Component {
         tabContent = (
           <div>
             <OHEList listing={listing} oheId={this.props.oheId} action={this.props.action} />
-            <div className="container-fluid apt-headline-container">
-              <div className="container">
-                <div className="row">
-                  <div className="col-md-9">
+            <Grid fluid className="apt-headline-container">
+              <Grid>
+                <Row>
+                  <Col md={9}>
                     <h2>{utils.getListingTitle(listing)}</h2>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="container-fluid apt-highlights-container">
-              <div className="container">
-                <div className="row">
-                  <div className="col-lg-9 col-md-12 col-sm-12 col-xs-12">
-                    <ul className="row">
-                      {this.renderInfoBox(listing.apartment.building.street_name + ', ' + listing.apartment.building.city.city_name, 'dorbel_icon_location')}
-                      {this.renderInfoBox(listing.apartment.rooms + ' חדרים', 'dorbel_icon_bed')}
-                      {this.renderInfoBox(listing.apartment.size + ' מ"ר', 'dorbel_icon_ruler')}
-                      {this.renderInfoBox(this.getFloorLabel(listing.apartment), 'dorbel_icon_stairs')}
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {this.renderListingDescription(listing)}
+                  </Col>
+                </Row>
+              </Grid>
+            </Grid>
+            <Grid fluid className="apt-highlights-container">
+              <Grid>
+                <Row>
+                  <Col lg={9}>
+                    <ListingInfo listing={listing} />
+                  </Col>
+                </Row>
+              </Grid>
+            </Grid>
+            <ListingDescription listing={listing} />
             {this.renderListingLocation(listing.apartment.building.geolocation)}
-            {this.renderRelatedListings(listing.id)}
+            <RelatedListings listingId={listing.id} />
           </div>
         );
     }
@@ -179,7 +116,6 @@ class Listing extends Component {
     );
   }
 }
-
 
 Listing.wrappedComponent.propTypes = {
   listingId: React.PropTypes.string.isRequired,
