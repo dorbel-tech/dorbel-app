@@ -4,6 +4,9 @@
 'use strict';
 import _ from 'lodash';
 import autobind from 'react-autobind';
+import utils from './utils';
+
+const LOAD_LISTING_EVENTS_BATCH_SIZE = 5;
 
 class OheProvider {
   constructor(appStore, apiProvider) {
@@ -17,9 +20,33 @@ class OheProvider {
   }
 
   // Open house events
-  loadListingEvents(id) {
-    return this.fetch('events/by-listing/' + id)
-      .then((ohes) => this.updateStoreWithOhe(ohes));
+  loadListingEvents(listing_ids, onlyFuture) {
+    if (!listing_ids) {
+      return Promise.resolve();
+    }
+    const { oheStore } = this.appStore;
+
+    listing_ids = _.isArray(listing_ids) ? listing_ids : [listing_ids];
+    listing_ids = listing_ids.filter(id => !oheStore.isListingLoaded(id));
+
+    if (listing_ids.length === 0) {
+      return Promise.resolve();
+    } else if (listing_ids.length > LOAD_LISTING_EVENTS_BATCH_SIZE) {
+      const chunks = _.chunk(listing_ids, LOAD_LISTING_EVENTS_BATCH_SIZE);
+      return utils.promiseSeries(chunks.map(chunk => () => this.loadListingEvents(chunk, onlyFuture)));
+    } else {
+      const fetchOptions = {};
+      if (onlyFuture) {
+        fetchOptions.params = { minDate: new Date() };
+      }
+
+      return this.fetch('events/by-listing/' + listing_ids.join(','), fetchOptions)
+      .then((ohes) => {
+        this.updateStoreWithOhe(ohes);
+        // we want this to be done even if the listing has no OHEs
+        oheStore.markListingsAsLoaded(listing_ids);
+      });
+    }
   }
 
   createOhe(data) {

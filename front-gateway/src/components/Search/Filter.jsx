@@ -142,7 +142,8 @@ class Filter extends Component {
 
     history.pushState(this.filterObj, title, search);
 
-    this.props.appProviders.searchProvider.search(this.filterObj);
+    this.props.appProviders.searchProvider.search(this.filterObj)
+    .then((results) => this.props.appProviders.oheProvider.loadListingEvents(results.map(listing => listing.id), true));
   }
 
   toggleHideFilter() {
