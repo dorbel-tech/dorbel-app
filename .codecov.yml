@@ -6,6 +6,10 @@ coverage:
       default:
         target: auto
         threshold: 1%
+    patch:
+      default:
+        target: auto
+        threshold: 1%
 parsers:
   javascript:
     enable_partials: yes
