@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Col, Modal, Button } from 'react-bootstrap';
 import { observer } from 'mobx-react';
-import Icon from '../../Icon/Icon';
+import Icon from '~/components/Icon/Icon';
 import FormWrapper from '~/components/FormWrapper/FormWrapper';
 
 import '../style/OHERegisterModal.scss';
