@@ -1,5 +1,10 @@
 comment:
   require_changes: yes
+coverage:
+  status:
+    project:
+      default:
+        threshold: 1%
 parsers:
   javascript:
     enable_partials: yes
