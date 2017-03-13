@@ -72,7 +72,7 @@
   position: relative;
 
   @media (max-width: $screen-xs-max) {
-    .price-container {
+    .listing-price-container {
       text-align: left;
     }
   }
@@ -136,16 +136,6 @@
   @media (min-width: $screen-lg-min) {
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
-  }
-
-  .price {
-    display: inline;
-    font-size: ceil($font-size-large*1.2);
-  }
-
-  .price-desc {
-    display: inline;
-    line-height: $line-height-large*2.2;
   }
 }
 

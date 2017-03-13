@@ -5,6 +5,7 @@ import { Col, Grid, Row } from 'react-bootstrap';
 import autobind from 'react-autobind';
 import Icon from '../Icon/Icon';
 
+import ListingHighlight from './ListingHighlight';
 import OHERegisterModal from './OHERegisterModal';
 import FollowListingModal from './FollowListingModal';
 
@@ -159,10 +160,7 @@ class OHEList extends Component {
           <Col lg={3} lgOffset={9}>
             <div className="apt-reserve-container">
               <div className="apt-box-container">
-                <Row className="price-container">
-                  <div className="price">{listing.monthly_rent}</div>
-                  <div className="price-desc"> ₪ / לחודש</div>
-                </Row>
+                <ListingHighlight listing={listing} />
                 <Row className="social-share-wrapper">
                   <div className="social-share-container text-center">
                     <span>שתפו את הנכס</span>&nbsp;&nbsp;&nbsp;&nbsp;
