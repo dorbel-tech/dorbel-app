@@ -46,7 +46,7 @@ describe('Listing Thumbnail', () => {
       const oheIndication = rendered.find('.apt-thumb-ohe-text');
       expect(oheIndication.exists()).toBe(true);
       expect(oheIndication.text()).toBe(`${oheCount} מועדי ביקור זמינים`);
-      expect(rendered).toMatchSnapshot();
+      expect(oheIndication).toMatchSnapshot();
     });
 
     it('should display indication for a loaded listing with no events', () => {
@@ -56,9 +56,13 @@ describe('Listing Thumbnail', () => {
       const rendered = renderThumbnail();
 
       const oheIndication = rendered.find('.apt-thumb-no-ohe');
+      const oheLink = rendered.find('.apt-thumb-ohe-text');
       expect(oheIndication.exists()).toBe(true);
-      expect(oheIndication.text()).toBe('אין מועדי ביקור זמינים');
-      expect(rendered).toMatchSnapshot();
+      expect(oheIndication.text()).toBe('אין מועדי ביקור');
+      expect(oheIndication).toMatchSnapshot();
+      expect(oheLink.exists()).toBe(true);
+      expect(oheLink.text()).toBe('עדכנו אותי');
+      expect(oheLink).toMatchSnapshot();
     });
 
     it('should not render anything when listing events are not loaded', () => {
@@ -70,7 +74,6 @@ describe('Listing Thumbnail', () => {
       const oheIndication = rendered.find('.apt-thumb-ohe-text');
       expect(noOheIndication.exists()).toBe(false);
       expect(oheIndication.exists()).toBe(false);
-      expect(rendered).toMatchSnapshot();
     });
   });
 });

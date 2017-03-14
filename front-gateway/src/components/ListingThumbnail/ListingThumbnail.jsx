@@ -16,13 +16,22 @@ class ListingThumbnail extends Component {
 
   getOheLabel() {
     const { listing, appStore }  = this.props;
+
     if (appStore.oheStore.isListingLoaded(listing.id)) {
       const oheCount = appStore.oheStore.oheByListingId(listing.id).length;
-      return oheCount ?
-        <span className="pull-left apt-thumb-ohe-text">{oheCount} מועדי ביקור זמינים</span> :
-        <span className="pull-left apt-thumb-no-ohe">אין מועדי ביקור זמינים</span>;
+      if (oheCount) {
+        return <span className="pull-left apt-thumb-ohe-text">{oheCount} מועדי ביקור זמינים</span>;
+      } else {
+        return (
+          <span className="pull-left">
+            <span className="apt-thumb-no-ohe">אין מועדי ביקור</span>
+            &nbsp;
+            <span className="apt-thumb-ohe-text">עדכנו אותי</span>
+          </span>
+        );
+      }
     } else {
-      return '';
+      return null;
     }
   }
 

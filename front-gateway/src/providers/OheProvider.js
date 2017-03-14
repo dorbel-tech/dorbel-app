@@ -20,7 +20,7 @@ class OheProvider {
   }
 
   // Open house events
-  loadListingEvents(listing_ids, onlyFuture) {
+  loadListingEvents(listing_ids, onlyFutureEvents) {
     if (!listing_ids) {
       return Promise.resolve();
     }
@@ -33,17 +33,21 @@ class OheProvider {
       return Promise.resolve();
     } else if (listing_ids.length > LOAD_LISTING_EVENTS_BATCH_SIZE) {
       const chunks = _.chunk(listing_ids, LOAD_LISTING_EVENTS_BATCH_SIZE);
-      return utils.promiseSeries(chunks.map(chunk => () => this.loadListingEvents(chunk, onlyFuture)));
+      const functionsThatLoadEachChunk = chunks.map(chunk => {
+        return () => this.loadListingEvents(chunk, onlyFutureEvents);
+      });
+
+      return utils.promiseSeries(functionsThatLoadEachChunk);
     } else {
       const fetchOptions = {};
-      if (onlyFuture) {
+      if (onlyFutureEvents) {
         fetchOptions.params = { minDate: new Date() };
       }
 
       return this.fetch('events/by-listing/' + listing_ids.join(','), fetchOptions)
       .then((ohes) => {
         this.updateStoreWithOhe(ohes);
-        // we want this to be done even if the listing has no OHEs
+        // we want this to be done even if the listing has no OHEs - so we can indicate the listing has no OHEs
         oheStore.markListingsAsLoaded(listing_ids);
       });
     }
