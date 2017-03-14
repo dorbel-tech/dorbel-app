@@ -9,6 +9,18 @@
           "in": "query",
           "description": "The listing filtering stringified JSON object",
           "type": "string"
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "description": "Number of listing to return",
+          "type": "integer"
+        },
+        {
+          "name": "offset",
+          "in": "query",
+          "description": "Number of listing to offset response by",
+          "type": "integer"
         }
       ],
       "tags": [

@@ -12,6 +12,8 @@ const generic = shared.utils.generic;
 const userManagement = shared.utils.userManagement;
 const permissionsService = require('./permissionsService');
 
+const DEFUALT_LISTING_LIST_LIMIT = 1000;
+
 // TODO : move this to dorbel-shared
 function CustomError(code, message) {
   let error = new Error(message);
@@ -95,7 +97,7 @@ function* updateStatus(listingId, user, status) {
   return yield enrichListingResponse(result, user);
 }
 
-function* getByFilter(filterJSON, user) {
+function* getByFilter(filterJSON, options = {}) {
   // TODO: Switch to regex test instead of try-catch.
   let filter = {};
   if (filterJSON) {
@@ -110,7 +112,7 @@ function* getByFilter(filterJSON, user) {
     status: 'listed'
   };
 
-  if (user && userManagement.isUserAdmin(user)) {
+  if (options.user && userManagement.isUserAdmin(options.user)) {
     // Special check for default admin statuses filter.
     filter.listed = filter.hasOwnProperty('listed') ? filter.listed : true;
 
@@ -130,8 +132,10 @@ function* getByFilter(filterJSON, user) {
     _.unset(filter, 'city');
   }
 
-  let options = {
-    order: getSortOption(filter.sort)
+  let queryOptions = {
+    order: getSortOption(filter.sort),
+    limit: options.limit || DEFUALT_LISTING_LIST_LIMIT,
+    offset: options.offset || 0
   };
 
   var filterMapping = {
@@ -167,11 +171,11 @@ function* getByFilter(filterJSON, user) {
 
   Object.keys(filterMapping)
     .filter(key => filter.hasOwnProperty(key))
-    .forEach(key => _.set(filterMapping[key].target || options,
+    .forEach(key => _.set(filterMapping[key].target || queryOptions,
       filterMapping[key].set,
       filterMapping[key].staticValue || filter[key]));
 
-  return listingRepository.list(listingQuery, options);
+  return listingRepository.list(listingQuery, queryOptions);
 }
 
 function* getById(id, user) {
@@ -183,7 +187,7 @@ function* getById(id, user) {
 
   const isPending = listing.status === 'pending';
 
-  // TODO: Fix the server rendering error with user object not existing there. The only solution to SSR with auth is cookies. 
+  // TODO: Fix the server rendering error with user object not existing there. The only solution to SSR with auth is cookies.
   //  We could save the user's token to a cookie and try to parse it on the server as a fallback from the authentication header or something like that.
   const isPublishingUserOrAdmin = user && permissionsService.isPublishingUserOrAdmin(user, listing);
 
@@ -273,7 +277,7 @@ function getSortOption(sortStr) {
       return 'lease_start ASC';
     case 'publish_date':
       return 'created_at DESC';
-    
+
     default:
       return 'created_at DESC';
   }
