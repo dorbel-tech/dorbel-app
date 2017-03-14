@@ -16,13 +16,42 @@ class SearchProvider {
   search(query) {
     this.appStore.searchStore.isLoading = true;
     this.appStore.searchStore.filterChanged = true;
+    this.appStore.query = query;
 
     const q = encodeURIComponent(JSON.stringify(query || {}));
-    return this.apiProvider.fetch('/api/apartments/v1/listings?q=' + q)
+    const params = {
+      q,
+      limit: 25 // TODO : make dynamic for mobile
+    };
+
+    return this.apiProvider.fetch('/api/apartments/v1/listings', { params })
       .then((results) => {
         this.appStore.searchStore.searchResults = results;
         this.appStore.searchStore.isLoading = false;
         return results;
+      });
+  }
+
+  loadNextPage() {
+    if (this.isLoading) {
+      return;
+    }
+
+    this.isLoading = true;
+    const query = this.appStore.query;
+
+    const q = encodeURIComponent(JSON.stringify(query || {}));
+    const params = {
+      q,
+      limit: 25 ,// TODO : make dynamic for mobile
+      offset: this.appStore.searchStore.searchResults.length
+    };
+
+    return this.apiProvider.fetch('/api/apartments/v1/listings', { params })
+      .then((results) => {
+        const store = this.appStore.searchStore.searchResults;
+        store.push.apply(store, results);
+        this.isLoading = false;
       });
   }
 

@@ -8,6 +8,8 @@ import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 
 import './Search.scss';
 
+const INFINITE_SCROLL_MARGIN = 900; // this is just a little more than 2 rows of listings
+
 @observer(['appStore', 'appProviders'])
 class Search extends Component {
   static hideFooter = true;
@@ -25,10 +27,18 @@ class Search extends Component {
   }
 
   handleScroll(e) {
-    if (e.target.scrollTop > this.filterHeight) {
+    const target = e.target;
+    const distanceFromBottom = target.scrollHeight - target.offsetHeight - target.scrollTop;
+
+    if (target.scrollTop > this.filterHeight) {
       this.setState({showScrollUp: true});
     } else if (this.state.showScrollUp) {
       this.setState({showScrollUp: false});
+    }
+
+    if (distanceFromBottom < INFINITE_SCROLL_MARGIN) {
+      console.log('we scrolling', distanceFromBottom);
+      this.props.appProviders.searchProvider.loadNextPage();
     }
   }
 
