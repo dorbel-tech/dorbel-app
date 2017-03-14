@@ -1,0 +1,233 @@
+exports[`Listing Thumbnail OHE indication should display OHEs when they are already loaded 1`] = `
+Array [
+  <MobXStoreInjector
+    listing={
+        Object {
+            "apartment": Object {
+              "building": Object {
+                "city": Object {},
+                "neighborhood": Object {},
+              },
+            },
+            "id": 777,
+            "images": Array [],
+          }
+    } />,
+  <div
+    className="apt-thumb-apt-image">
+    <CloudinaryImage
+        height={500}
+        src="" />
+</div>,
+  <div
+    className="apt-thumb-details">
+    <div
+        className="apt-thumb-details-header">
+        <div
+            className="apt-thumb-details-title">
+            דירת undefined חד׳ בundefined
+        </div>
+        <div
+            className="apt-thumb-details-like">
+            <MobXStoreInjector
+                listingId={777} />
+        </div>
+    </div>
+    <div
+        className="apt-thumb-details-address">
+        undefined, undefined
+    </div>
+    <div
+        className="apt-thumb-details-extra">
+        <span />
+        <span
+            className="apt-thumb-sub-text">
+             מ״ר
+        </span>
+        <span
+            className="apt-thumb-details-extra-rooms" />
+        <span
+            className="apt-thumb-sub-text">
+             חד\'
+        </span>
+        <span
+            className="apt-thumb-details-extra-date">
+            <span
+                className="apt-thumb-sub-text">
+                תאריך כניסה 
+            </span>
+            <span
+                className="apt-thumb-lease-date">
+                14/03/17
+            </span>
+        </span>
+    </div>
+</div>,
+  <div
+    className="apt-thumb-caption">
+    <span
+        className="apt-thumb-sub-text">
+         ₪
+    </span>
+    <span
+        className="pull-left apt-thumb-ohe-text">
+        7
+         מועדי ביקור זמינים
+    </span>
+</div>,
+]
+`;
+
+exports[`Listing Thumbnail OHE indication should display indication for a loaded listing with no events 1`] = `
+Array [
+  <MobXStoreInjector
+    listing={
+        Object {
+            "apartment": Object {
+              "building": Object {
+                "city": Object {},
+                "neighborhood": Object {},
+              },
+            },
+            "id": 777,
+            "images": Array [],
+          }
+    } />,
+  <div
+    className="apt-thumb-apt-image">
+    <CloudinaryImage
+        height={500}
+        src="" />
+</div>,
+  <div
+    className="apt-thumb-details">
+    <div
+        className="apt-thumb-details-header">
+        <div
+            className="apt-thumb-details-title">
+            דירת undefined חד׳ בundefined
+        </div>
+        <div
+            className="apt-thumb-details-like">
+            <MobXStoreInjector
+                listingId={777} />
+        </div>
+    </div>
+    <div
+        className="apt-thumb-details-address">
+        undefined, undefined
+    </div>
+    <div
+        className="apt-thumb-details-extra">
+        <span />
+        <span
+            className="apt-thumb-sub-text">
+             מ״ר
+        </span>
+        <span
+            className="apt-thumb-details-extra-rooms" />
+        <span
+            className="apt-thumb-sub-text">
+             חד\'
+        </span>
+        <span
+            className="apt-thumb-details-extra-date">
+            <span
+                className="apt-thumb-sub-text">
+                תאריך כניסה 
+            </span>
+            <span
+                className="apt-thumb-lease-date">
+                14/03/17
+            </span>
+        </span>
+    </div>
+</div>,
+  <div
+    className="apt-thumb-caption">
+    <span
+        className="apt-thumb-sub-text">
+         ₪
+    </span>
+    <span
+        className="pull-left apt-thumb-no-ohe">
+        אין מועדי ביקור זמינים
+    </span>
+</div>,
+]
+`;
+
+exports[`Listing Thumbnail OHE indication should not render anything when listing events are not loaded 1`] = `
+Array [
+  <MobXStoreInjector
+    listing={
+        Object {
+            "apartment": Object {
+              "building": Object {
+                "city": Object {},
+                "neighborhood": Object {},
+              },
+            },
+            "id": 777,
+            "images": Array [],
+          }
+    } />,
+  <div
+    className="apt-thumb-apt-image">
+    <CloudinaryImage
+        height={500}
+        src="" />
+</div>,
+  <div
+    className="apt-thumb-details">
+    <div
+        className="apt-thumb-details-header">
+        <div
+            className="apt-thumb-details-title">
+            דירת undefined חד׳ בundefined
+        </div>
+        <div
+            className="apt-thumb-details-like">
+            <MobXStoreInjector
+                listingId={777} />
+        </div>
+    </div>
+    <div
+        className="apt-thumb-details-address">
+        undefined, undefined
+    </div>
+    <div
+        className="apt-thumb-details-extra">
+        <span />
+        <span
+            className="apt-thumb-sub-text">
+             מ״ר
+        </span>
+        <span
+            className="apt-thumb-details-extra-rooms" />
+        <span
+            className="apt-thumb-sub-text">
+             חד\'
+        </span>
+        <span
+            className="apt-thumb-details-extra-date">
+            <span
+                className="apt-thumb-sub-text">
+                תאריך כניסה 
+            </span>
+            <span
+                className="apt-thumb-lease-date">
+                14/03/17
+            </span>
+        </span>
+    </div>
+</div>,
+  <div
+    className="apt-thumb-caption">
+    <span
+        className="apt-thumb-sub-text">
+         ₪
+    </span>
+</div>,
+]
+`;
