@@ -12,7 +12,7 @@ const generic = shared.utils.generic;
 const userManagement = shared.utils.userManagement;
 const permissionsService = require('./permissionsService');
 
-const DEFUALT_LISTING_LIST_LIMIT = 20;
+const DEFUALT_LISTING_LIST_LIMIT = 1000;
 
 // TODO : move this to dorbel-shared
 function CustomError(code, message) {
