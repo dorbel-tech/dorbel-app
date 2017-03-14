@@ -83,40 +83,29 @@ class Listing extends Component {
         // TODO : move to a different file
         tabContent = (
           <div>
+            <ListingHighlight listing={listing} />
+            <ListingMenu listing={listing} currentAction={action} />
             <Grid>
               <Row>
                 <Col lg={3} lgOffset={9}>
-                  <div className="apt-reserve-container">
-                    <div className="apt-box-container">
-                      <ListingHighlight listing={listing} />
-                    </div>
-                    <OHEList listing={listing} oheId={this.props.oheId} action={this.props.action} />
-                  </div>
+                  <OHEList listing={listing} oheId={this.props.oheId} action={this.props.action} />
                 </Col>
               </Row>
+              <Row>
+                <Col lg={4}>
+                  <h2>{utils.getListingTitle(listing)}</h2>
+                </Col>
+                <Col lg={5}>
+                  <ListingSocial listing={listing} />
+                </Col>
+              </Row>
+              <Row>
+                <Col lg={9}>
+                  <ListingInfo listing={listing} />
+                </Col>
+              </Row>
+              <ListingDescription listing={listing} />
             </Grid>
-            <Grid fluid className="apt-headline-container">
-              <Grid>
-                <Row>
-                  <Col lg={4}>
-                    <h2>{utils.getListingTitle(listing)}</h2>
-                  </Col>
-                  <Col lg={5}>
-                    <ListingSocial listing={listing} />
-                  </Col>
-                </Row>
-              </Grid>
-            </Grid>
-            <Grid fluid className="apt-highlights-container">
-              <Grid>
-                <Row>
-                  <Col lg={9}>
-                    <ListingInfo listing={listing} />
-                  </Col>
-                </Row>
-              </Grid>
-            </Grid>
-            <ListingDescription listing={listing} />
             {this.renderListingLocation(listing.apartment.building.geolocation)}
             <RelatedListings listingId={listing.id} />
           </div>
@@ -126,7 +115,6 @@ class Listing extends Component {
     return (
       <div>
         <ListingHeader listing={listing} />
-        <ListingMenu listing={listing} currentAction={action} />
         {tabContent}
       </div>
     );

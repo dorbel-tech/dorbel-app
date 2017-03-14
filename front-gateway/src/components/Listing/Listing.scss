@@ -1,11 +1,8 @@
 @import "../sharedStyles/variables.scss";
 @import "../sharedStyles/bsvars.scss";
-@import "./style/_apt-hero.scss";
-@import "./style/_apt-highlights.scss";
-@import "./style/_apt-reserve-widget.scss";
-@import "./style/_apt-info.scss";
-@import "./style/_apt-map.scss";
-@import "./style/_apt-page-views.scss";
+@import "./style/listing.scss";
+@import "./style/_listing-map.scss";
+@import "./style/_listing-page-views.scss";
 @import "./style/_listing-amenities.scss";
 @import "./style/_listing-description.scss";
 @import "./style/_listing-highlight.scss";
