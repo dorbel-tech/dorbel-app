@@ -48,7 +48,7 @@ describe('Open House Event Service - update', function () {
   it('should update an existing event', function* () {
     let originalEvent = faker.generateEvent({ id: 1 });
     this.openHouseEventsFinderServiceMock.find = sinon.stub().resolves(originalEvent);
-    this.openHouseEventsFinderServiceMock.findByListing = sinon.stub().resolves([]);
+    this.openHouseEventsRepositoryMock.findByListingId = sinon.stub().resolves([]);
     let updatedEvent = faker.generateEvent({
       id: originalEvent.id,
       listing_id: originalEvent.listing_id,
@@ -66,7 +66,7 @@ describe('Open House Event Service - update', function () {
     let originalEvent = faker.generateEvent();
     let updatedEvent = faker.generateEvent({ max_attendies: 22 });
     this.openHouseEventsFinderServiceMock.find = sinon.stub().resolves(originalEvent);
-    this.openHouseEventsFinderServiceMock.findByListing = sinon.stub().resolves([originalEvent]);
+    this.openHouseEventsRepositoryMock.findByListingId = sinon.stub().resolves([originalEvent]);
 
     let updateRequest = {
       start_time: updatedEvent.start_time,
@@ -137,7 +137,7 @@ describe('Open House Event Service - update', function () {
     });
 
     this.openHouseEventsFinderServiceMock.find = sinon.stub().resolves(originalEvent);
-    this.openHouseEventsFinderServiceMock.findByListing = sinon.stub().resolves([originalEvent, otherExistingEvent]);
+    this.openHouseEventsRepositoryMock.findByListingId = sinon.stub().resolves([originalEvent, otherExistingEvent]);
 
     let updateRequest = {
       start_time: moment().add(5, 'hours').toISOString(),
@@ -163,7 +163,7 @@ describe('Open House Event Service - update', function () {
     });
 
     this.openHouseEventsFinderServiceMock.find = sinon.stub().resolves(originalEvent);
-    this.openHouseEventsFinderServiceMock.findByListing = sinon.stub().resolves([originalEvent, otherEvent]);
+    this.openHouseEventsRepositoryMock.findByListingId = sinon.stub().resolves([originalEvent, otherEvent]);
 
     let updateRequest = {
       start_time: moment().add(4, 'hours').toISOString(),
@@ -189,7 +189,7 @@ describe('Open House Event Service - update', function () {
     });
 
     this.openHouseEventsFinderServiceMock.find = sinon.stub().resolves(originalEvent);
-    this.openHouseEventsFinderServiceMock.findByListing = sinon.stub().resolves([originalEvent, anotherEvent]);
+    this.openHouseEventsRepositoryMock.findByListingId = sinon.stub().resolves([originalEvent, anotherEvent]);
 
     const updateRequest = {
       start_time: moment().add(-4, 'hours').toISOString(),
@@ -218,7 +218,7 @@ describe('Open House Event Service - update', function () {
     };
 
     this.openHouseEventsFinderServiceMock.find = sinon.stub().resolves(originalEvent);
-    this.openHouseEventsFinderServiceMock.findByListing = sinon.stub().resolves([originalEvent]);
+    this.openHouseEventsRepositoryMock.findByListingId = sinon.stub().resolves([originalEvent]);
     this.openHouseEventsRepositoryMock.update = sinon.stub().resolves(Object.assign({}, originalEvent, updateRequest));
 
     let savedEvent = yield this.service.update(originalEvent.id, updateRequest, { id: originalEvent.publishing_user_id });

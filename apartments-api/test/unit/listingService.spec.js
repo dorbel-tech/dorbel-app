@@ -13,6 +13,7 @@ describe('Listing Service', function () {
     this.listingRepositoryMock = {
       create: sinon.stub().resolves(this.mockListing),
       getListingsForApartment: sinon.stub().resolves([]),
+      list: sinon.spy(),
       listingStatuses: [ 'pending', 'rented']
     };
     mockRequire('../../src/apartmentsDb/repositories/listingRepository', this.listingRepositoryMock);
@@ -21,11 +22,27 @@ describe('Listing Service', function () {
     this.listingService = require('../../src/services/listingService');
   });
 
+  afterEach(function() {
+    this.listingRepositoryMock.list.reset();
+  });
+
   after(() => mockRequire.stopAll());
 
-  describe('List Listings', function () {
-    it('should forward request to the repostiory', function () {
-      __.assertThat(this.listingService.list, __.is(this.listingRepositoryMock.list));
+  describe('List Listings - getByFilter', function () {
+    it('should call the repostiory', function* () {
+      yield this.listingService.getByFilter();
+      __.assertThat(this.listingRepositoryMock.list.called, __.is(true));
+    });
+
+    it('should send default limit and offset to the repository', function* () {
+      yield this.listingService.getByFilter();
+      __.assertThat(this.listingRepositoryMock.list.args[0][1], __.hasProperties({ limit: 1000, offset: 0 }));
+    });
+
+    it('should send limit and offset to the repository', function* () {
+      const options = { limit: 7, offset: 6 };
+      yield this.listingService.getByFilter('', options);
+      __.assertThat(this.listingRepositoryMock.list.args[0][1], __.hasProperties(options));
     });
   });
 

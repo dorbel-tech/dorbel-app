@@ -1,4 +1,5 @@
 'use strict';
+// TODO : use jest.fn() instead of function ?
 import { stub, spy } from 'sinon';
 require('sinon-as-promised');
 

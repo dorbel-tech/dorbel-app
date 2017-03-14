@@ -22,6 +22,7 @@ class SearchProvider {
       .then((results) => {
         this.appStore.searchStore.searchResults = results;
         this.appStore.searchStore.isLoading = false;
+        return results;
       });
   }
 

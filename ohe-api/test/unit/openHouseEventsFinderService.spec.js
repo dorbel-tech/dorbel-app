@@ -21,7 +21,7 @@ describe('Open House Event Finder Service', function () {
         id: 1,
       });
 
-      this.openHouseEventsRepositoryMock.find = sinon.stub().resolves(existingEvent);
+      this.openHouseEventsRepositoryMock.findById = sinon.stub().resolves(existingEvent);
 
       let oheId = 1;
 
@@ -30,7 +30,7 @@ describe('Open House Event Finder Service', function () {
     });
 
     it('should fail when event id does not exists in db', function* () {
-      this.openHouseEventsRepositoryMock.find = sinon.stub().resolves(null);
+      this.openHouseEventsRepositoryMock.findById = sinon.stub().resolves(null);
 
       let oheId = 1;
 
@@ -43,27 +43,4 @@ describe('Open House Event Finder Service', function () {
       }
     });
   });
-
-  describe('Find Open House Events By Listing', function () {
-
-    it('should return all events given a listing id', function* () {
-      let existingEvents = [faker.generateEvent({
-        id: 1,
-        is_active: false
-      })];
-      this.openHouseEventsRepositoryMock.findByListingId = sinon.stub().resolves(existingEvents);
-
-      let existingEventsResponse = yield this.service.findByListing(1);
-      __.assertThat(existingEvents, __.is(existingEventsResponse));
-    });
-
-    it('should return an empty array given a no events for listing id', function* () {
-      let existingEvents = [];
-      this.openHouseEventsRepositoryMock.findByListingId = sinon.stub().resolves(existingEvents);
-
-      let existingEventsResponse = yield this.service.findByListing(1);
-      __.assertThat(existingEvents, __.is(existingEventsResponse));
-    });    
-  });
-
 });

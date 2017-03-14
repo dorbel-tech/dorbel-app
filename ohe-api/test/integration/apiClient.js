@@ -1,5 +1,4 @@
 'use strict';
-
 const app = require('../../src/index.js');
 const coSupertest = require('co-supertest');
 
@@ -11,9 +10,14 @@ class ApiClient {
     this.userProfile = userProfile;
   }
 
-  findEventsByListing(listingId) {
+  findEventsByListing(listingIds, query) {
+    if (Array.isArray(listingIds)) {
+      listingIds = listingIds.join(',');
+    }
+
     return this.request
-      .get('/v1/events/by-listing/' + listingId)
+      .get('/v1/events/by-listing/' + listingIds)
+      .query(query)
       .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile));
   }
 

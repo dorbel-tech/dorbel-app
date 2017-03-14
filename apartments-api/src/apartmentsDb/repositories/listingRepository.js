@@ -75,6 +75,7 @@ function list(query, options = {}) {
     }],
 
     limit: options.limit,
+    offset: options.offset,
     order: options.order ? 'listing.' + options.order : undefined // workaround to prevent ambiguous field on order by
   });
 }

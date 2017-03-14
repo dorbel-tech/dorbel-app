@@ -31,7 +31,10 @@ describe('Filter', () => {
         cityProvider: {loadCities: jest.fn()},
         searchProvider: {
           initFilter: jest.fn(),
-          search: jest.fn()
+          search: jest.fn().mockReturnValue(Promise.resolve([]))
+        },
+        oheProvider: {
+          loadListingEvents: jest.fn()
         }
       }
     };
@@ -52,6 +55,21 @@ describe('Filter', () => {
     expect(cityDropdownButton.text()).toEqual('עיר: טוען... ');
 
     expect(mountedFilter).toMatchSnapshot();
+  });
+
+  it('should loadListingEvents with search results listing ids', () => {
+    const searchResultsIds = [1,2,3];
+    props.appProviders.searchProvider.search.mockReturnValue(Promise.resolve(
+      searchResultsIds.map(id => ({ id }))
+    ));
+
+    filter();
+
+    // this is done because we need the promise returned by searchProvider.search to complete and call oheProvider.loadListingEvents
+    return Promise.resolve().then(() => {
+      expect(props.appProviders.searchProvider.search).toHaveBeenCalled();
+      expect(props.appProviders.oheProvider.loadListingEvents).toHaveBeenCalledWith(searchResultsIds, true);
+    });
   });
 
   it('should parse city from location', () => {

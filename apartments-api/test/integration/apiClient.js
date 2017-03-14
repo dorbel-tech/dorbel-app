@@ -17,8 +17,8 @@ class ApiClient {
       .send(newListing);
   }
 
-  getListings() {
-    return this.request.get('/v1/listings');
+  getListings(query) {
+    return this.request.get('/v1/listings').query(query);
   }
 
   getSingleListing(id) {
