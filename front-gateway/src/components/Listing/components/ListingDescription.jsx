@@ -27,6 +27,7 @@ class ListingDescription extends React.Component {
             {this.renderDescriptionRow('תאור הנכס', <p>{listing.description}</p>)}
             <ListingAmenities listing={listing} />
             {this.renderDescriptionRow('פרטי תשלום', <div><p>ארנונה: {listing.property_tax}</p><p>ועד הבית: {listing.board_fee}</p></div>)}
+            {this.renderDescriptionRow(listing.publishing_user_type === 'landlord' ? 'בעל הנכס' : 'דייר יוצא', <p>{listing.publishing_user_first_name || 'אנונימי'}</p>)}
           </Col>
         </Grid>
       </Grid>

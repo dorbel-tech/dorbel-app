@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import _ from 'lodash';
-import { Col, Grid, Row } from 'react-bootstrap';
+import { Row } from 'react-bootstrap';
 import autobind from 'react-autobind';
 import Icon from '~/components/Icon/Icon';
 
-import ListingHighlight from './ListingHighlight';
 import OHERegisterModal from './OHERegisterModal';
 import FollowListingModal from './FollowListingModal';
 
@@ -147,8 +146,6 @@ class OHEList extends Component {
   render() {
     const { listing, router, oheId, appStore } = this.props;
     const openHouseEvents = this.filterOHEsToDisplay(this.props.appStore.oheStore.oheByListingId(listing.id));
-    const website_url = process.env.FRONT_GATEWAY_URL || 'https://app.dorbel.com';
-    const currentUrl = website_url + '/apartments/' + listing.id;
     const oheForModal = oheId ? appStore.oheStore.oheById.get(oheId) : null;
     const closeModal = () => router.setRoute('/apartments/' + listing.id);
     const oheSectionTitle = (listing.status === 'listed') ? 'בחרו מועד לביקור' : 'מועדי ביקור';
@@ -156,43 +153,17 @@ class OHEList extends Component {
             <div className="apt-rented-notification">הדירה מושכרת כרגע. <br/>הרשמו על מנת לקבל עידכון ברגע שהדירה תוצע להשכרה שוב.</div> :
             null;
     return (
-      <Grid>
-        <Row>
-          <Col lg={3} lgOffset={9}>
-            <div className="apt-reserve-container">
-              <div className="apt-box-container">
-                <ListingHighlight listing={listing} />
-                <Row className="social-share-wrapper">
-                  <div className="social-share-container text-center">
-                    <span>שתפו את הנכס</span>&nbsp;&nbsp;&nbsp;&nbsp;
-                    <a className="padding fa fa-facebook-square fb-desktop" href={'https://www.facebook.com/sharer.php?u=' + currentUrl + '?utm_source=apt_page_facebook_share'} target="_blank"></a>
-                    <a className="padding fa fa-facebook-square fb-mobile" href={'fb://publish/profile/#me?text=' + currentUrl + '?utm_source=apt_page_facebook_share'}></a>
-                    <a className="padding email fa fa-envelope" href={'mailto:?subject=Great%20apartment%20from%20dorbel&amp;body=' + currentUrl + '?utm_source=apt_page_email_share'}></a>
-                    <a className="padding whatsapp fa fa-whatsapp" href={'whatsapp://send?text=היי, ראיתי דירה באתר dorbel שאולי תעניין אותך. ' + currentUrl + '?utm_source=apt_page_whatsapp_share'} data-href={currentUrl + '?utm_source=apt_page_whatsapp_share'} data-text="היי, ראיתי דירה באתר dorbel שאולי תעניין אותך."></a>
-                    <a className="padding fb-messenger-desktop" href={'https://www.facebook.com/dialog/send?app_id=1651579398444396&link=' + currentUrl + '?utm_source=apt_page_messenger_share' + '&redirect_uri=' + currentUrl + '?utm_source=apt_page_messenger_share'} target="_blank"><Icon iconName="dorbel-icon-social-fbmsg" /></a>
-                    <a className="padding fb-messenger-mobile" href={'fb-messenger://share/?link=' + currentUrl + '?utm_source=apt_page_messenger_share' + '&app_id=1651579398444396'}><Icon iconName="dorbel-icon-social-fbmsg" /></a>
-                  </div>
-                </Row>
-              </div>
-              <div className="list-group apt-choose-date-container">
-                <h5 className="text-center apt-choose-date-title">{oheSectionTitle}</h5>
-                <div className="ohe-list">{openHouseEvents.map(this.renderOpenHouseEvent)}</div>
-                <div href="#" className="list-group-item owner-container text-center">
-                  {listingRentedNotification}
-                  {this.renderFollowItem(listing)}
-                  {this.renderListingFollowersCount(listing)}
-                  <h5>
-                    <span>{listing.publishing_user_type === 'landlord' ? 'בעל הנכס' : 'דייר יוצא'}</span>
-                    <span>: {listing.publishing_user_first_name || 'אנונימי'}</span>
-                  </h5>
-                </div>
-              </div>
-            </div>
-          </Col>
-        </Row>
+      <div className="list-group apt-choose-date-container">
+        <h5 className="text-center apt-choose-date-title">{oheSectionTitle}</h5>
+        <div className="ohe-list">{openHouseEvents.map(this.renderOpenHouseEvent)}</div>
+        <div href="#" className="list-group-item owner-container text-center">
+          {listingRentedNotification}
+          {this.renderFollowItem(listing)}
+          {this.renderListingFollowersCount(listing)}
+        </div>
         <OHERegisterModal ohe={oheForModal} onClose={closeModal} action={this.props.action} />
         <FollowListingModal listing={listing} onClose={closeModal} action={this.props.action} />
-      </Grid>
+      </div>
     );
   }
 }

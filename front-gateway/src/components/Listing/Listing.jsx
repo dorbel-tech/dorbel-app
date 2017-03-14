@@ -4,9 +4,11 @@ import autobind from 'react-autobind';
 import { Col, Grid, Row } from 'react-bootstrap';
 import OHEList from './components/OHEList';
 import ListingDescription from './components/ListingDescription';
+import ListingHighlight from './components/ListingHighlight';
+import ListingHeader from './components/ListingHeader';
 import ListingInfo from './components/ListingInfo';
 import ListingMenu from './components/ListingMenu';
-import ListingHeader from './components/ListingHeader';
+import ListingSocial from './components/ListingSocial';
 import OHEManager from '~/components/OHEManager/OHEManager';
 import ApartmentLocation from '~/components/MapWrapper/MapWrapper';
 import RelatedListings from '~/components/RelatedListings/RelatedListings';
@@ -81,20 +83,38 @@ class Listing extends Component {
         // TODO : move to a different file
         tabContent = (
           <div>
-            <OHEList listing={listing} oheId={this.props.oheId} action={this.props.action} />
-            <Grid className="apt-headline-container">
+            <Grid>
               <Row>
-                <Col md={9}>
-                  <h2>{utils.getListingTitle(listing)}</h2>
+                <Col lg={3} lgOffset={9}>
+                  <div className="apt-reserve-container">
+                    <div className="apt-box-container">
+                      <ListingHighlight listing={listing} />
+                    </div>
+                    <OHEList listing={listing} oheId={this.props.oheId} action={this.props.action} />
+                  </div>
                 </Col>
               </Row>
             </Grid>
-            <Grid className="apt-highlights-container">
-              <Row>
-                <Col lg={9}>
-                  <ListingInfo listing={listing} />
-                </Col>
-              </Row>
+            <Grid fluid className="apt-headline-container">
+              <Grid>
+                <Row>
+                  <Col lg={4}>
+                    <h2>{utils.getListingTitle(listing)}</h2>
+                  </Col>
+                  <Col lg={5}>
+                    <ListingSocial listing={listing} />
+                  </Col>
+                </Row>
+              </Grid>
+            </Grid>
+            <Grid fluid className="apt-highlights-container">
+              <Grid>
+                <Row>
+                  <Col lg={9}>
+                    <ListingInfo listing={listing} />
+                  </Col>
+                </Row>
+              </Grid>
             </Grid>
             <ListingDescription listing={listing} />
             {this.renderListingLocation(listing.apartment.building.geolocation)}
