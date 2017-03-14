@@ -70,6 +70,23 @@ describe('Apartments API Integration', function () {
     });
   });
 
+  describe('GET /listings', function () {
+    it('should get listings', function* () {
+      const getResponse = yield this.apiClient.getListings().expect(200).end();
+      __.assertThat(getResponse.body, __.is(__.array()));
+    });
+
+    it('should limit and offset', function* () {
+      const firstRepsponse = yield this.apiClient.getListings({ limit: 1 }).expect(200).end();
+      const secondResponse = yield this.apiClient.getListings({ limit: 1, offset: 1 }).expect(200).end();
+      __.assertThat(firstRepsponse.body, __.hasSize(1));
+      __.assertThat(secondResponse.body, __.hasSize(1));
+      __.assertThat(firstRepsponse.body[0].id, __.is(__.not(secondResponse.body[0].id)));
+    });
+
+    // TODO : add at least some basic test for filters
+  });
+
   describe('GET /listings/{idOrSlug}', function () {
     before(function* () {
       const postReponse = yield this.apiClient.createListing(faker.getFakeListing()).expect(201).end();

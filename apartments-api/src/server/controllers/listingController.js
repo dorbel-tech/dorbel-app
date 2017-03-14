@@ -5,7 +5,19 @@ const listingService = require('../../services/listingService');
 const _ = require('lodash');
 
 function* get() {
-  this.response.body = yield listingService.getByFilter(this.request.query.q, this.request.user);
+  const options = {
+    user: this.request.user
+  };
+
+  if (this.request.query.limit) {
+    options.limit = parseInt(this.request.query.limit) || undefined;
+  }
+
+  if (this.request.query.offset) {
+    options.offset = parseInt(this.request.query.offset) || undefined;
+  }
+
+  this.response.body = yield listingService.getByFilter(this.request.query.q, options);
 }
 
 function* post() {
@@ -15,7 +27,7 @@ function* post() {
   // TODO : this does find-or-create - we should return an error if the apartment already exists
   let createdListing = yield listingService.create(newApartment);
   let logObject = _.pick(createdListing, ['id', 'publishing_user_id']);
-  logger.info({ 
+  logger.info({
     listing_id: logObject.id,
     user_uuid: logObject.publishing_user_id
   }, 'New listing created');
