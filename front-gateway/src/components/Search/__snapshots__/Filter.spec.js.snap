@@ -5,6 +5,9 @@ exports[`Filter should initialize correctly 1`] = `
       "cityProvider": Object {
         "loadCities": [Function],
       },
+      "oheProvider": Object {
+        "loadListingEvents": [Function],
+      },
       "searchProvider": Object {
         "initFilter": [Function],
         "search": [Function],
@@ -24,6 +27,9 @@ exports[`Filter should initialize correctly 1`] = `
       Object {
         "cityProvider": Object {
           "loadCities": [Function],
+        },
+        "oheProvider": Object {
+          "loadListingEvents": [Function],
         },
         "searchProvider": Object {
           "initFilter": [Function],

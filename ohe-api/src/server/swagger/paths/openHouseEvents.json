@@ -52,7 +52,7 @@
         }
       ],
       "tags": [
-        "openHouseEventsController"        
+        "openHouseEventsController"
       ],
       "responses": {
         "201": {
@@ -148,16 +148,24 @@
       }
     }
   },
-  "/events/by-listing/{id}": {
+  "/events/by-listing/{listingIds}": {
     "get": {
       "summary": "Finds all an open house events for a listing",
       "description": "Finds all an open house events for a listing in the system",
       "parameters": [
         {
-          "name": "id",
+          "name": "listingIds",
+          "description": "A comma delimted list of IDs",
           "in": "path",
-          "type":"integer",
+          "type": "string",
           "required": true
+        },
+        {
+          "name": "minDate",
+          "description": "Minimum start date of events",
+          "in": "query",
+          "type": "string",
+          "format": "date"
         }
       ],
       "tags": [

@@ -22,7 +22,7 @@ function formatDay(date) {
 }
 
 function getListingTitle(listing) {
-  return listing.title || `דירת ${listing.apartment.rooms} חד׳ ב${listing.apartment.building.street_name}`;  
+  return listing.title || `דירת ${listing.apartment.rooms} חד׳ ב${listing.apartment.building.street_name}`;
 }
 
 function sortListingImages(listing) {
@@ -39,6 +39,21 @@ function getListingStatusLabels() {
   };
 }
 
+function promiseSeries(functionsThatReturnPromises, allResults) {
+  allResults = allResults || [];
+
+  if (!functionsThatReturnPromises || functionsThatReturnPromises.length === 0) {
+    return Promise.resolve(allResults);
+  }
+
+  const firstFunc = functionsThatReturnPromises.shift();
+
+  return firstFunc()
+  .then(result => {
+    allResults.push(result);
+    return promiseSeries(functionsThatReturnPromises, allResults);
+  });
+}
 
 module.exports = {
   formatTime,
@@ -46,5 +61,6 @@ module.exports = {
   formatDay,
   getListingTitle,
   sortListingImages,
-  getListingStatusLabels
+  getListingStatusLabels,
+  promiseSeries
 };

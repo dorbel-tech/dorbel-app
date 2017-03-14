@@ -96,7 +96,7 @@ function* update(id, updateRequest, user) {
 
   validateEventParamters(start, end);
 
-  const existingListingEvents = yield openHouseEventsFinderService.findByListing(existingEvent.listing_id);
+  const existingListingEvents = yield openHouseEventsRepository.findByListingId(existingEvent.listing_id);
   const otherEvents = existingListingEvents.filter(otherEvent => otherEvent.id !== id && otherEvent.is_active);
   validateEventOverlap(otherEvents, start, end);
 
@@ -142,8 +142,8 @@ function* remove(eventId, user) {
   return result;
 }
 
-function* findByListing(listing_id, user) {
-  let events = yield openHouseEventsFinderService.findByListing(listing_id);
+function* findByListing(listing_ids, user, additionalQuery) {
+  let events = yield openHouseEventsRepository.find(Object.assign({ listing_id: listing_ids }, additionalQuery));
   let promises = [];
 
   const userId = user ? user.id : undefined;

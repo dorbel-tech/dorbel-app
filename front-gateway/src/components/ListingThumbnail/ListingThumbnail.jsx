@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { observer } from 'mobx-react';
 import './ListingThumbnail.scss';
 import { Col } from 'react-bootstrap';
 import NavLink from '~/components/NavLink';
@@ -7,11 +8,33 @@ import CloudinaryImage from '../CloudinaryImage/CloudinaryImage';
 import LikeButton from '../LikeButton/LikeButton';
 import utils from '../../providers/utils';
 
+@observer(['appStore'])
 class ListingThumbnail extends Component {
   getListingPath(listing) {
     return listing.slug || listing.id;
   }
-  
+
+  getOheLabel() {
+    const { listing, appStore }  = this.props;
+
+    if (appStore.oheStore.isListingLoaded(listing.id)) {
+      const oheCount = appStore.oheStore.oheByListingId(listing.id).length;
+      if (oheCount) {
+        return <span className="pull-left apt-thumb-ohe-text">{oheCount} מועדי ביקור זמינים</span>;
+      } else {
+        return (
+          <span className="pull-left">
+            <span className="apt-thumb-no-ohe">אין מועדי ביקור</span>
+            &nbsp;
+            <span className="apt-thumb-ohe-text">עדכנו אותי</span>
+          </span>
+        );
+      }
+    } else {
+      return null;
+    }
+  }
+
   render() {
     const { listing } = this.props;
     const sortedListingImages = utils.sortListingImages(listing);
@@ -20,7 +43,7 @@ class ListingThumbnail extends Component {
     const areaDescriptionPrefix = building.neighborhood.neighborhood_name === 'אחר' ? '' : building.neighborhood.neighborhood_name + ', ';
     const areaDescription = areaDescriptionPrefix + building.city.city_name;
     const classLeaseDate = new Date(listing.lease_start) <= Date.now() ? 'apt-thumb-lease-immediate' : 'apt-thumb-lease-date';
-    const listingDateStr = new Date(listing.lease_start) <= Date.now() ? 'מיידי' : utils.formatDate(listing.lease_start); 
+    const listingDateStr = new Date(listing.lease_start) <= Date.now() ? 'מיידי' : utils.formatDate(listing.lease_start);
 
     return (
       <Col lg={4} sm={6} xs={12}>
@@ -55,6 +78,7 @@ class ListingThumbnail extends Component {
           </div>
           <div className="apt-thumb-caption">
             {listing.monthly_rent}<span className="apt-thumb-sub-text"> ₪</span>
+            { this.getOheLabel() }
           </div>
         </NavLink>
       </Col>
@@ -62,8 +86,9 @@ class ListingThumbnail extends Component {
   }
 }
 
-ListingThumbnail.propTypes = {
+ListingThumbnail.wrappedComponent.propTypes = {
   listing: React.PropTypes.object.isRequired,
+  appStore: React.PropTypes.object.isRequired
 };
 
 export default ListingThumbnail;
