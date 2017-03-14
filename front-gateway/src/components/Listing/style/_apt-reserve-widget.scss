@@ -64,31 +64,6 @@
   }
 }
 
-.listing-menu-status-selector {
-  @media (max-width: $screen-xs-max) {
-    right: 20px;
-    position: absolute;
-    top: 47px;
-    z-index: 2;
-
-    > li > a {
-      border: none;
-      color: $brand-white !important;
-      height: 41px;
-    }
-
-    .dropdown-menu {
-      background-color: $gray-lighter !important;
-      border: 1px solid $gray-dark !important;
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175) !important;
-
-      > li > a {
-        padding: 5px 14px !important;
-      }
-    }
-  }
-}
-
 .apt-box-container {
   background: $gray-dark;
   color: $brand-white;
@@ -97,7 +72,7 @@
   position: relative;
 
   @media (max-width: $screen-xs-max) {
-    .price-container {
+    .listing-price-container {
       text-align: left;
     }
   }
@@ -161,16 +136,6 @@
   @media (min-width: $screen-lg-min) {
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
-  }
-
-  .price {
-    display: inline;
-    font-size: ceil($font-size-large*1.2);
-  }
-
-  .price-desc {
-    display: inline;
-    line-height: $line-height-large*2.2;
   }
 }
 

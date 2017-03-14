@@ -1,21 +1,14 @@
-'use strict';
 import React from 'react';
 import { observer } from 'mobx-react';
-import { Nav, NavItem, NavDropdown, MenuItem, Navbar } from 'react-bootstrap';
-import autobind from 'react-autobind';
 import _ from 'lodash';
-import utils from '../../providers/utils';
-import ReactTooltip from 'react-tooltip';
-
-const tabs = [
-  { relativeRoute: '', title: 'מודעת הדירה' },
-  { relativeRoute: 'events', title: 'מועדי ביקור' }
-];
+import { MenuItem, Nav, NavDropdown } from 'react-bootstrap';
+import autobind from 'react-autobind';
+import utils from '~/providers/utils';
 
 const listingStatusLabels = utils.getListingStatusLabels();
 
-@observer(['appStore', 'appProviders', 'router'])
-export default class ListingMenu extends React.Component {
+@observer(['appStore', 'appProviders'])
+class ListingStatusSelector extends React.Component {
   constructor(props) {
     super(props);
     autobind(this);
@@ -53,7 +46,7 @@ export default class ListingMenu extends React.Component {
     }).catch((err) => this.props.appProviders.notificationProvider.error(err));
   }
 
-  renderStatusSelector() {
+  render() {
     const { listing } = this.props;
     const currentStatus = listingStatusLabels[listing.status].label;
     const options = _.get(listing, 'meta.possibleStatuses') || [];
@@ -66,55 +59,12 @@ export default class ListingMenu extends React.Component {
       </Nav>
     );
   }
-
-  renderTooltip() {
-    return (
-      <span>
-        <span data-tip="קבעו מועדי ביקור חדשים וצפו בנרשמים.">&nbsp;&nbsp;<i className="fa fa-info-circle" aria-hidden="true"></i></span>
-        <ReactTooltip type="dark" effect="solid" place="left" offset="{'top': -7, 'left': 15}"/>
-      </span>
-    );
-  }
-
-  renderMenu() {
-    const { currentAction } = this.props;
-    const activeTab = _.find(tabs, { relativeRoute: currentAction }) || tabs[0];
-
-    return (
-      <Navbar className="listing-menu-tabs">
-        <Nav bsStyle="tabs" activeKey={activeTab.relativeRoute} onSelect={this.changeTab}>
-          {tabs.map(tab => 
-            <NavItem key={tab.relativeRoute} eventKey={tab.relativeRoute}>
-              {tab.title} {tab.relativeRoute === 'events' ? this.renderTooltip() : ''}
-            </NavItem>
-          )}
-        </Nav>
-        {currentAction === 'events' ? '' : this.renderStatusSelector()}
-      </Navbar>
-    );
-  }
-
-  changeTab(relativeRoute) {
-    const { router, listing } = this.props;
-    let actionRoute = relativeRoute ? `/${relativeRoute}` : '';
-    router.setRoute(`/apartments/${listing.id}${actionRoute}`);
-  }
-
-  shouldMenuBeVisible() {
-    const { appStore, listing } = this.props;
-    return appStore.listingStore.isListingPublisherOrAdmin(listing);
-  }
-
-  render() {
-    return this.shouldMenuBeVisible() ? this.renderMenu() : null;
-  }
-
 }
 
-ListingMenu.wrappedComponent.propTypes = {
+ListingStatusSelector.wrappedComponent.propTypes = {
   appStore: React.PropTypes.object,
   appProviders: React.PropTypes.object,
-  router: React.PropTypes.object,
-  listing: React.PropTypes.object.isRequired,
-  currentAction: React.PropTypes.string
+  listing: React.PropTypes.object.isRequired
 };
+
+export default ListingStatusSelector;

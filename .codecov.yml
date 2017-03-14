@@ -5,6 +5,9 @@ coverage:
     project:
       default:
         threshold: 1%
+    patch:
+      default:
+        threshold: 1%
 parsers:
   javascript:
     enable_partials: yes
