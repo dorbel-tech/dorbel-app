@@ -7,31 +7,30 @@ class LikeProvider {
   constructor(appStore, apiProvider) {
     this.appStore = appStore;
     this.apiProvider = apiProvider;
+    this.isLikesSyncedWithServer = this.appStore.likeStore.isLikesSyncedWithServer;
+    this.init();
   }
 
-  set(listingId, isLiked) {
-    this.appStore.likeStore.likesByListingId.set(listingId, isLiked); 
-    
-    const method = isLiked ? 'POST' : 'DELETE';
-    return this.apiProvider.fetch(`/api/apartments/v1/likes/${listingId}`, { method })
-      .catch(() => { this.appStore.likeStore.likesByListingId.set(listingId, !isLiked); });
-  }
-
-  get(listingId) {
-    let isLikesSyncedWithServer = this.appStore.likeStore.isLikesSyncedWithServer;
-    if (isLikesSyncedWithServer) {
-      return this.appStore.likeStore.likesByListingId.get(listingId);
-    }
-    else {
-      isLikesSyncedWithServer = true;
+  init() {
+    if (this.appStore.authStore.isLoggedIn && !this.isLikesSyncedWithServer) {
       this.apiProvider.fetch('/api/apartments/v1/likes/user')
         .then((likedListingIdArr) => {
           let likesMap = {};
           likedListingIdArr.map((listingId) => likesMap[listingId] = true);
           this.appStore.likeStore.init(likesMap);
-          return this.appStore.likeStore.likesByListingId.get(listingId);
         });
     }
+  }
+  
+  get(listingId) {
+    return this.appStore.likeStore.likesByListingId.get(listingId);
+  }
+
+  set(listingId, isLiked) {
+    const method = isLiked ? 'POST' : 'DELETE';
+    this.appStore.likeStore.likesByListingId.set(listingId, isLiked); 
+    return this.apiProvider.fetch(`/api/apartments/v1/likes/${listingId}`, { method })
+      .catch(() => { this.appStore.likeStore.likesByListingId.set(listingId, !isLiked); });
   }
 }
 
