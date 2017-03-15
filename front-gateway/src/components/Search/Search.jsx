@@ -64,7 +64,7 @@ class Search extends Component {
       </Grid>);
     } else if (!searchStore.filterChanged || searchStore.isLoading) {
       return (
-        <div className="loaderContainer">
+        <div className="loader-container">
           <LoadingSpinner />
         </div>
       );

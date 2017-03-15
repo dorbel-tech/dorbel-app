@@ -63,3 +63,46 @@
   font-size: 11px;
   padding-top: 12px;
 }
+
+.ohe-list-follow-container {
+  padding: 20px 0;
+  text-align: center;
+
+  img {
+    width: 100%;
+  }
+
+  i {
+    position: absolute;
+    font-family: Georgia, serif;
+    display: block;
+    top: 0;
+    right: 0;
+    background-color: $brand-success;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    line-height: 29px;
+    color: $brand-white;
+  }
+
+  h5 {
+    padding-top: 15px;
+    line-height: $line-height-computed*0.7;
+  }
+
+  .follow-action {
+    border: 1px solid #3398db;
+    border-radius: 4px;
+    color: #3398db;
+    cursor: pointer;
+    padding: 6px 16px;
+    width: 250px;
+
+    &:hover {
+      background-color: #3398db;
+      border-color: #3398db;
+      color: $brand-white;
+    }
+  }
+}

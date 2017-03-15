@@ -156,7 +156,7 @@ class OHEList extends Component {
       <div className="list-group listing-choose-date-container">
         <h5 className="text-center listing-choose-date-title">{oheSectionTitle}</h5>
         <div className="ohe-list">{openHouseEvents.map(this.renderOpenHouseEvent)}</div>
-        <div href="#" className="list-group-item owner-container text-center">
+        <div href="#" className="ohe-list-follow-container">
           {listingRentedNotification}
           {this.renderFollowItem(listing)}
           {this.renderListingFollowersCount(listing)}

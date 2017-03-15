@@ -70,7 +70,7 @@ class Listing extends Component {
 
     if (this.state.isLoading) {
       return (
-        <div className="loaderContainer">
+        <div className="loader-container">
           <LoadingSpinner />
         </div>
       );
@@ -91,7 +91,7 @@ class Listing extends Component {
             <Grid>
               <Row>
                 <Col>
-                  <h2>{utils.getListingTitle(listing)}</h2>
+                  <h2 className="listing-title">{utils.getListingTitle(listing)}</h2>
                 </Col>
                 <Col>
                   <ListingSocial listing={listing} />
