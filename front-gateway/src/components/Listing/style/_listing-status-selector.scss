@@ -1,24 +1,21 @@
-.listing-menu-status-selector {
-  @media (max-width: $screen-xs-max) {
-    right: 20px;
-    position: absolute;
-    top: 47px;
-    z-index: 2;
+.listing-status-container {
+  text-align: center;
+  padding: 10px;
+
+  .dropdown-menu {
+    background-color: $gray-lighter !important;
+    border: 1px solid $gray-dark !important;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175) !important;
 
     > li > a {
-      border: none;
-      color: $brand-white !important;
-      height: 41px;
-    }
-
-    .dropdown-menu {
-      background-color: $gray-lighter !important;
-      border: 1px solid $gray-dark !important;
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175) !important;
-
-      > li > a {
-        padding: 5px 14px !important;
-      }
+      padding: 5px 14px !important;
     }
   }
+}
+
+.listing-status-selector {
+  background-color: $brand-white !important;
+  border-radius: 100px;
+  color: #4a4a4a !important;
+  width: 188px;
 }

@@ -10,13 +10,13 @@ module.exports = {
       selector: '.apt-headline-container'
     },
     landlordControls: {
-      selector: '.listing-menu-tabs',
+      selector: '.listing-menu-status-selector',
       elements: {
         listingMenuStatusDropdownToggle: {
-          selector: '.listing-menu-status-selector .dropdown-toggle'
+          selector: '.dropdown-toggle'
         },
         listingMenuStatusSelector_listed: {
-          selector: '.listing-menu-status-selector .dropdown-menu #listed'
+          selector: '.dropdown-menu #listed'
         }
       }
     },

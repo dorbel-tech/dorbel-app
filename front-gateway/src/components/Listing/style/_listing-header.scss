@@ -1,0 +1,55 @@
+.listing-header {
+  background: $brand-primary;
+  height: 500px;
+  margin-bottom: 10px;
+  position: relative;
+
+  @media (max-width: $screen-md-max) {
+    margin-bottom: 0;
+  }
+
+  @media (max-width: $screen-xs-min) {
+    height: 300px;
+  }
+
+  .listing-header-badge-container {
+    position: absolute;
+    text-align: center;
+    top: 487px;
+    width: 100%;
+    z-index: 1;
+
+    @media (max-width: $screen-xs-min) {
+      top: 287px;
+    }
+
+    .listingBadge {
+      border-radius: 100px;
+      display: inline-block;
+      width: 190px;
+      top: 485px;
+    }
+  }
+}
+
+.fixed-carousel {
+  display: flex;
+  direction: ltr;
+}
+
+.flickity-page-dots {
+  display: none;
+}
+
+.flickity-prev-next-button:disabled {
+  display: none;
+}
+
+.sliderBoxes img {
+  border-right: 2px solid white;
+  height: 500px;
+
+  @media (max-width: $screen-xs-min) {
+    height: 300px;
+  }
+}
