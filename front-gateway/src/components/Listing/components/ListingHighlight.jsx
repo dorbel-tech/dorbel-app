@@ -5,9 +5,9 @@ class ListingInfo extends React.Component {
     const { listing } = this.props;
 
     return (
-      <div className="listing-price-container">
-        <div className="listing-price">{listing.monthly_rent}</div>
-        <div className="listing-price-desc"> ₪ / לחודש</div>
+      <div className="listing-highlight-container">
+        <span className="listing-highlight-price">{listing.monthly_rent}</span>
+        <span> ₪ / לחודש</span>
       </div>
     );
   }

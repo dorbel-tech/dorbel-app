@@ -1,7 +1,7 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 import _ from 'lodash';
-import { MenuItem, Nav, NavDropdown } from 'react-bootstrap';
+import { DropdownButton, MenuItem } from 'react-bootstrap';
 import autobind from 'react-autobind';
 import utils from '~/providers/utils';
 
@@ -52,11 +52,15 @@ class ListingStatusSelector extends React.Component {
     const options = _.get(listing, 'meta.possibleStatuses') || [];
 
     return (
-      <Nav bsStyle="tabs" className="listing-menu-status-selector" onSelect={this.changeStatus} pullLeft>
-        <NavDropdown title={currentStatus} id="nav-dropdown" disabled={options.length === 0}>
-          {options.map(status => <MenuItem id={status} key={status} eventKey={status}>{listingStatusLabels[status].actionLabel}</MenuItem>)}
-        </NavDropdown>
-      </Nav>
+      <div className="listing-status-container">
+        <DropdownButton id="listing-status-selector"
+          className="listing-status-selector"
+          disabled={options.length === 0}
+          title={currentStatus}
+          onSelect={this.changeStatus}>
+            {options.map(status => <MenuItem id={status} key={status} eventKey={status}>{listingStatusLabels[status].actionLabel}</MenuItem>)}
+        </DropdownButton>
+      </div>
     );
   }
 }

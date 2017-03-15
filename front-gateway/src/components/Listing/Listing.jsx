@@ -9,6 +9,7 @@ import ListingHeader from './components/ListingHeader';
 import ListingInfo from './components/ListingInfo';
 import ListingMenu from './components/ListingMenu';
 import ListingSocial from './components/ListingSocial';
+import ListingStatusSelector from './components/ListingStatusSelector';
 import OHEManager from '~/components/OHEManager/OHEManager';
 import ApartmentLocation from '~/components/MapWrapper/MapWrapper';
 import RelatedListings from '~/components/RelatedListings/RelatedListings';
@@ -54,7 +55,7 @@ class Listing extends Component {
     if (geolocation) {
       return (
         <Grid fluid className="location-container">
-          <Row >
+          <Row>
             <ApartmentLocation geo={geolocation} />
           </Row>
         </Grid>
@@ -65,6 +66,7 @@ class Listing extends Component {
   render() {
     const { appStore, action } = this.props;
     const listing = appStore.listingStore.get(this.props.listingId);
+    const isListingPublisherOrAdmin = appStore.listingStore.isListingPublisherOrAdmin(listing);
 
     if (this.state.isLoading) {
       return (
@@ -84,23 +86,28 @@ class Listing extends Component {
         tabContent = (
           <div>
             <ListingHighlight listing={listing} />
-            <ListingMenu listing={listing} currentAction={action} />
+            {isListingPublisherOrAdmin ?
+              <div>
+                <ListingStatusSelector listing={listing} />
+                <ListingMenu listing={listing} currentAction={action} />
+              </div>
+            : null}
             <Grid>
               <Row>
-                <Col lg={3} lgOffset={9}>
-                  <OHEList listing={listing} oheId={this.props.oheId} action={this.props.action} />
-                </Col>
-              </Row>
-              <Row>
-                <Col lg={4}>
+                <Col>
                   <h2>{utils.getListingTitle(listing)}</h2>
                 </Col>
-                <Col lg={5}>
+                <Col>
                   <ListingSocial listing={listing} />
                 </Col>
               </Row>
               <Row>
-                <Col lg={9}>
+                <Col>
+                  <OHEList listing={listing} oheId={this.props.oheId} action={this.props.action} />
+                </Col>
+              </Row>
+              <Row>
+                <Col>
                   <ListingInfo listing={listing} />
                 </Col>
               </Row>

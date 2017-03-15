@@ -1,0 +1,65 @@
+.listing-choose-date-container {
+  margin-bottom: 0;
+
+  .listing-choose-date-title {
+    color: $gray-dark;
+    margin: 0;
+    padding: 10px 20px;
+    text-align: right;
+  }
+
+  .list-group-item {
+    &:first-child {
+      @include border-top-radius(0);
+    }
+
+    &:not(.disabled) {
+      .date-and-time {
+        cursor: pointer;
+      }
+    }
+  }
+
+  .dorbel-icon-calendar {
+    font-size: $font-size-large;
+    padding: 10px 10px 0 15px;
+
+    svg {
+      width: 41px;
+      height: 16px;
+    }
+  }
+
+  .dorbel-icon-arrow {
+    padding-left: 15px;
+    line-height: ceil($line-height-large*2);
+  }
+}
+
+.date-and-time {
+  @media (max-width: $screen-lg-min) {
+    padding: 12px 10px 0 15px;
+  }
+
+  @media (max-width: $screen-xs-max) {
+    padding: 12px 0 0 15px;
+  }
+
+  span:last-child {
+    color: lighten($gray-light, 10%);
+    font-size: $font-size-small;
+  }
+}
+
+.listing-rented-notification {
+  color: #4a4a4a;
+  font-size: 13px;
+  line-height: 21px;
+  padding-bottom: 20px;
+}
+
+.listing-followers-count {
+  color: #555;
+  font-size: 11px;
+  padding-top: 12px;
+}
