@@ -1,24 +1,23 @@
-.listing-info-container {
-  margin: 0;
-  padding: 0;
-}
-
 .listing-info-item {
   border-left: 1px solid $gray-lighter;
   padding: 20px 0 15px;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 
-  @media (max-width: $screen-sm-min) {
+  @media (max-width: $screen-xs-max) {
     border: 0 !important;
+    padding: 10px;
   }
 
-  @media (max-width: $screen-lg-min) {
+  @media (max-width: $screen-md-max) {
     border-right: 0 !important;
   }
 
   &:last-child {
     border-left: none;
 
-    @media (max-width: $screen-sm-min) {
+    @media (max-width: $screen-xs-max) {
       border-top: 1px solid $gray-lighter !important;
     }
   }
@@ -26,7 +25,7 @@
   &:first-child {
     border-right: 1px solid $gray-lighter;
 
-    @media (max-width: $screen-sm-min) {
+    @media (max-width: $screen-xs-max) {
       border-left: 1px solid $gray-lighter !important;
     }
   }
@@ -43,5 +42,10 @@
   fill: $brand-primary;
   height: 44px;
   margin: 10px 0;
-  width: 91%;
+  width: 100%;
+
+  @media (max-width: $screen-xs-max) {
+    height: 30px;
+    margin: 0;
+  }
 }

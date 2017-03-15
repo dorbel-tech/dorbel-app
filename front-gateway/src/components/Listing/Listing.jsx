@@ -100,17 +100,11 @@ class Listing extends Component {
                 <Col>
                   <ListingSocial listing={listing} />
                 </Col>
-              </Row>
-              <Row>
                 <Col>
                   <OHEList listing={listing} oheId={this.props.oheId} action={this.props.action} />
                 </Col>
               </Row>
-              <Row>
-                <Col>
-                  <ListingInfo listing={listing} />
-                </Col>
-              </Row>
+              <ListingInfo listing={listing} />
               <ListingDescription listing={listing} />
             </Grid>
             {this.renderListingLocation(listing.apartment.building.geolocation)}
