@@ -1,4 +1,4 @@
-.apt-info-container {
+.listing-description-container {
   background-color: lighten($gray-lighter, 2%);
   padding-left: 60px;
 
@@ -34,7 +34,7 @@
   }
 }
 
-.property-desc {
+.listing-description-item {
   p {
     line-height: $line-height-base*1.2;
     color: $gray-light;

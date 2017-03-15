@@ -6,7 +6,7 @@ import ListingAmenities from './ListingAmenities.jsx';
 @observer(['appProviders'])
 class ListingDescription extends React.Component {
   renderDescriptionRow(titleText, innerContent) {
-    return <Row className="property-desc">
+    return <Row className="listing-description-item">
         <Col md={2}>
           <h5>{titleText}</h5>
         </Col>
@@ -20,17 +20,13 @@ class ListingDescription extends React.Component {
     const { listing } = this.props;
 
     return (
-      <Grid fluid className="apt-info-container">
-        <Grid>
-          <Col lg={9}>
-            {this.renderDescriptionRow('תאריך כניסה', <p>{this.props.appProviders.utils.formatDate(listing.lease_start)}</p>)}
-            {this.renderDescriptionRow('תאור הנכס', <p>{listing.description}</p>)}
-            <ListingAmenities listing={listing} />
-            {this.renderDescriptionRow('פרטי תשלום', <div><p>ארנונה: {listing.property_tax}</p><p>ועד הבית: {listing.board_fee}</p></div>)}
-            {this.renderDescriptionRow(listing.publishing_user_type === 'landlord' ? 'בעל הנכס' : 'דייר יוצא', <p>{listing.publishing_user_first_name || 'אנונימי'}</p>)}
-          </Col>
-        </Grid>
-      </Grid>
+      <Col lg={9} className="listing-description-container">
+        {this.renderDescriptionRow('תאריך כניסה', <p>{this.props.appProviders.utils.formatDate(listing.lease_start)}</p>)}
+        {this.renderDescriptionRow('תאור הנכס', <p>{listing.description}</p>)}
+        <ListingAmenities listing={listing} />
+        {this.renderDescriptionRow('פרטי תשלום', <div><p>ארנונה: {listing.property_tax}</p><p>ועד הבית: {listing.board_fee}</p></div>)}
+        {this.renderDescriptionRow(listing.publishing_user_type === 'landlord' ? 'בעל הנכס' : 'דייר יוצא', <p>{listing.publishing_user_first_name || 'אנונימי'}</p>)}
+      </Col>
     );
   }
 }
