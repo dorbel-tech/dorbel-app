@@ -88,7 +88,7 @@ class Listing extends Component {
             {isListingPublisherOrAdmin ?
               <ListingStatusSelector listing={listing} />
             : null}
-            <Grid>
+            <Grid fluid>
               <Row>
                 <Col>
                   <h2 className="listing-title">{utils.getListingTitle(listing)}</h2>

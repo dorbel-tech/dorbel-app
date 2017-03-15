@@ -6,8 +6,6 @@
   border-left: 1px solid $gray-lighter;
   padding: 20px 0 15px;
   text-align: center;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 
   @media (max-width: $screen-xs-max) {
     border: 0 !important;
