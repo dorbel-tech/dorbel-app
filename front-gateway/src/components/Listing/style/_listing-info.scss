@@ -51,3 +51,9 @@
     margin: 0;
   }
 }
+
+.listing-info-item-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

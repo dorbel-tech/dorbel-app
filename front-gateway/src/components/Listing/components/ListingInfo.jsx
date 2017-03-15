@@ -20,7 +20,7 @@ class ListingInfo extends React.Component {
     return (
       <Col sm={3} xs={6} className="listing-info-item">
         <svg className="listing-info-item-image"><use xlinkHref={'#' + svgName} /></svg>
-        <div>{title}</div>
+        <div className="listing-info-item-text">{title}</div>
       </Col>
     );
   }
