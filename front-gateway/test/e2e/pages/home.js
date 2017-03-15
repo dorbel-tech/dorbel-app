@@ -49,8 +49,7 @@ module.exports = {
         .waitForElementVisible('@loginLink')
         .click('@loginLink')
         .fillSignIn(userType)
-        .waitForElementVisible('@logInText');
-      common.waitForText(this, '@logInText', 'התנתק');
+        .validateSignIn();
       return this;
     },
     signInForm: function(userType) {
@@ -58,9 +57,13 @@ module.exports = {
         .waitForElementVisible('@submitLogin')
         .click('@submitLogin')
         .fillSignIn(userType)
-        .waitForElementVisible('@logInText');
-      common.waitForText(this, '@logInText', 'התנתק');
+        .validateSignIn();
       return this;
+    },
+    singInListing: function(userType) {
+      this
+        .fillSignIn(userType)
+        .validateSignIn();
     },
     signOut: function () {
       this
@@ -69,6 +72,10 @@ module.exports = {
         .waitForElementVisible('@logInText');
       common.waitForText(this, '@logInText', 'התחבר');
       return this;
+    },
+    validateSignIn: function() {
+      this.waitForElementVisible('@logInText');
+      common.waitForText(this, '@logInText', 'התנתק');      
     }
   }]
 };
