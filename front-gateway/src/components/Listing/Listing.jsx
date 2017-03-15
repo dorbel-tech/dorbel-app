@@ -79,18 +79,14 @@ class Listing extends Component {
     let tabContent;
     switch (action) {
       case 'events':
-        tabContent = (<OHEManager listing={listing} />);
+        tabContent = <OHEManager listing={listing} />;
         break;
       default:
         // TODO : move to a different file
-        tabContent = (
+        tabContent =
           <div>
-            <ListingHighlight listing={listing} />
             {isListingPublisherOrAdmin ?
-              <div>
-                <ListingStatusSelector listing={listing} />
-                <ListingMenu listing={listing} currentAction={action} />
-              </div>
+              <ListingStatusSelector listing={listing} />
             : null}
             <Grid>
               <Row>
@@ -109,16 +105,15 @@ class Listing extends Component {
             </Grid>
             {this.renderListingLocation(listing.apartment.building.geolocation)}
             <RelatedListings listingId={listing.id} />
-          </div>
-        );
+          </div>;
     }
 
-    return (
-      <div>
-        <ListingHeader listing={listing} />
-        {tabContent}
-      </div>
-    );
+    return  <div>
+              <ListingHeader listing={listing} />
+              <ListingHighlight listing={listing} />
+              <ListingMenu listing={listing} currentAction={action} />
+              {tabContent}
+            </div>;
   }
 }
 
