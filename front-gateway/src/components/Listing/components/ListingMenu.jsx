@@ -36,7 +36,7 @@ export default class ListingMenu extends React.Component {
   }
 
   render() {
-    const { currentAction, listing } = this.props;
+    const { currentAction } = this.props;
     const activeTab = _.find(tabs, { relativeRoute: currentAction }) || tabs[0];
 
     return (
