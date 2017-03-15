@@ -3,7 +3,6 @@ import { observable, asMap } from 'mobx';
 
 export default class LikeStore {
   @observable likesByListingId;
-  @observable isLikesSyncedWithServer;
 
   constructor(initialState = {}) {
     if (initialState.likesByListingId) {
@@ -15,14 +14,12 @@ export default class LikeStore {
   }
 
   init(listingIdMap) {
-    this.isLikesSyncedWithServer = true;
     this.likesByListingId = asMap(listingIdMap);
   }
 
   toJson() {
     return {
       likesByListingId: this.likesByListingId,
-      isLikesSyncedWithServer: this.isLikesSyncedWithServer
     };
   }
 }
