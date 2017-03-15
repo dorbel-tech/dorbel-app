@@ -12,7 +12,7 @@
     "test": "yarn run test:unit",
     "test:unit": "jest --coverage",
     "test:unit:watch": "jest --watch",
-    "test:unit:update:snapshots": "jest -u",
+    "test:unit:snapshot": "jest -u",
     "test:e2e": "nightwatch",
     "test:e2e:browserstack": "RUN_ON_BSTACK=true nightwatch -c test/browserstack.conf.js",
     "test:e2e:browserstack:local": "BSTACK_LOCAL=true yarn run test:e2e:browserstack",
