@@ -17,7 +17,7 @@ mkdir notifications-service-shared
 mkdir front-gateway-shared
 
 # Checking wich directories were changed in this branch to execute only the relevant build/test/deploy.
-changed_directories=$(git diff-tree --no-commit-id --name-only $REVISION); echo $changed_directories
+# changed_directories=$(git diff-tree --no-commit-id --name-only $REVISION); echo $changed_directories
 
 # Starting docker composition
 docker-compose -f docker-compose.yml -f docker-compose.ci.yml up -d --force-recreate --build
