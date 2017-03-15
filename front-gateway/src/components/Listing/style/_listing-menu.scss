@@ -1,17 +1,11 @@
 .listing-menu-tabs {
-  border-bottom: 1px solid #ddd;
-  margin-bottom: 0;
+  .navbar-nav > li {
+    > a {
+      border: none !important;
+    }
 
-  @media (max-width: $screen-xs-max) {
-    border: none;
-    min-height: 41px;
-
-    .navbar-nav {
-      margin: 0;
-
-      > li > a {
-        margin: 0;
-      }
+    &.active {
+      border-bottom: 2px solid $brand-primary;
     }
   }
 }
