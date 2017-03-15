@@ -1,4 +1,7 @@
-.property-amenities {
+.listing-amenities {
+  padding-top: 10px;
+  padding-bottom: 10px;
+
   ul {
     list-style: none;
     padding: 0;
@@ -17,7 +20,9 @@
   }
 
   @media (max-width: $screen-xs-max) {
-    .property-amenities-col {
+    .listing-amenities-col {
+      border-bottom: 1px solid darken($gray-lighter, 7%);
+      margin-bottom: 10px;
       padding-left: 0;
 
       > ul > li > img {

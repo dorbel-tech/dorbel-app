@@ -1,6 +1,6 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { Col, Grid, Row } from 'react-bootstrap';
+import { Col, Row } from 'react-bootstrap';
 import ListingAmenities from './ListingAmenities.jsx';
 
 @observer(['appProviders'])
