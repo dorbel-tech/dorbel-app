@@ -7,10 +7,10 @@ class LikeProvider {
   constructor(appStore, apiProvider) {
     this.appStore = appStore;
     this.apiProvider = apiProvider;
-    this.init();
+    this.getAllUserLikes();
   }
 
-  init() {
+  getAllUserLikes() {
     if (this.appStore.authStore.isLoggedIn) {
       this.apiProvider.fetch('/api/apartments/v1/likes/user')
         .then((likedListingIdArr) => {
