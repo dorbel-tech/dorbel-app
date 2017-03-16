@@ -19,7 +19,6 @@ class OHEList extends Component {
 
   renderListItem(params) {
     const { router } = this.props;
-    const callToActionTextClass = params.callToActionTextClass || '';
     let className = 'list-group-item';
     let onClickFunction = () => {
       const currentRoute = router.getRoute().join('/');
@@ -40,9 +39,10 @@ class OHEList extends Component {
           <div className="date-and-time pull-right">
             <span className={params.highlightTitle ? 'highlight' : ''}>{params.itemText}</span>
             <br />
-            <span className={'ohe-text ' + callToActionTextClass}>{params.callToActionText}</span>
+            <span className="ohe-text">{params.itemSubText}</span>
           </div>
-          <div className="dorbel-icon-arrow fa fa-chevron-left pull-left"></div>
+          {params.isDisabled ?
+            null : <span className="ohe-list-item-action">{params.callToActionText}</span>}
         </Row>
       </a>
     );
@@ -55,7 +55,8 @@ class OHEList extends Component {
       onClickRoute: `${OHEConfig.action}/${openHouseEvent.id}`,
       key: openHouseEvent.id,
       iconName: 'dorbel_icon_calendar',
-      itemText: `${openHouseEvent.timeLabel} | ${openHouseEvent.dateLabel} - ${openHouseEvent.dayLabel}` + '\'',
+      itemText: `${openHouseEvent.dateLabel} - ${openHouseEvent.dayLabel}` + '\'',
+      itemSubText: `${openHouseEvent.timeLabel}`,
       isDisabled: OHEConfig.isDisabled,
       callToActionText: OHEConfig.callToActionText,
       callToActionTextClass: OHEConfig.callToActionTextClass

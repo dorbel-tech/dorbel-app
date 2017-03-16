@@ -5,10 +5,6 @@
     left: 15px;
     position: absolute;
     top: -50px;
-
-    .list-group-item {
-      margin: 0 15px;
-    }
   }
 
   .listing-choose-date-title {
@@ -23,7 +19,8 @@
     border: none;
     border-bottom: 1px solid #ddd;
     border-radius: 0;
-    padding: 0 5px 10px;
+    margin: 0;
+    padding: 10px 5px;
 
     &.disabled {
       background-color: $brand-white;
@@ -36,33 +33,29 @@
 
   .dorbel-icon-calendar {
     font-size: $font-size-large;
-    padding: 10px 10px 0 15px;
+    margin: 8px 14px 8px 10px;
 
     svg {
-      width: 41px;
-      height: 16px;
+      width: 15px;
+      height: 15px;
     }
-  }
-
-  .dorbel-icon-arrow {
-    padding-left: 15px;
-    line-height: ceil($line-height-large*2);
   }
 }
 
-.date-and-time {
-  @media (max-width: $screen-lg-min) {
-    padding: 12px 10px 0 15px;
-  }
+.date-and-time span:last-child {
+  color: lighten($gray-light, 10%);
+  font-size: $font-size-small;
+}
 
-  @media (max-width: $screen-xs-max) {
-    padding: 12px 0 0 15px;
-  }
-
-  span:last-child {
-    color: lighten($gray-light, 10%);
-    font-size: $font-size-small;
-  }
+.ohe-list-item-action {
+  background-color: #3CB878;
+  border-radius: 2px;
+  color: $brand-white;
+  height: 24px;
+  left: 15px;
+  padding: 3px 5px;
+  position: absolute;
+  top: 18px;
 }
 
 .listing-rented-notification {

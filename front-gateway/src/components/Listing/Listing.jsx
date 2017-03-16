@@ -96,7 +96,7 @@ class Listing extends Component {
                 <Col sm={4} md={3}>
                   <ListingSocial listing={listing} />
                 </Col>
-                <Col sm={12}>
+                <Col sm={6} smPush={3} md={12} mdPush={0}>
                   <OHEList listing={listing} oheId={this.props.oheId} action={this.props.action} />
                 </Col>
               </Row>
