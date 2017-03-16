@@ -1,4 +1,5 @@
 'use strict';
+require('dotenv').config();
 const koa = require('koa');
 const fleekRouter = require('fleek-router');
 const bodyParser = require('koa-bodyparser');
@@ -8,7 +9,7 @@ const swaggerDoc = require('./swagger/swagger');
 const logger = shared.logger.getLogger(module);
 const app = koa();
 
-const port: number = shared.config.get('PORT');
+const port: number = process.env.PORT;
 const env = process.env.NODE_ENV;
 
 app.use(shared.middleware.errorHandler());

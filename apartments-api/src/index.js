@@ -1,11 +1,11 @@
 'use strict';
+require('dotenv').config();
 const shared = require('dorbel-shared');
-const config = shared.config; config.setConfigFileFolder(__dirname + '/config'); // load config from file before anything else
 const logger = shared.logger.getLogger(module);
 const db = require('./apartmentsDb/dbConnectionProvider');
 
-logger.info({ version: process.env.npm_package_version, env: config.get('NODE_ENV') }, 'Starting server');
-logger.info({ hostname: config.get('RDS_HOSTNAME'), dbname: config.get('RDS_DB_NAME')}, 'Connecting to DB');
+logger.info({ version: process.env.npm_package_version, env: process.env.NODE_ENV }, 'Starting server');
+logger.info({ hostname: process.env.RDS_HOSTNAME, dbname: process.env.RDS_DB_NAME}, 'Connecting to DB');
 
 function* bootstrap() {
   yield db.connect();

@@ -5,7 +5,6 @@ const shared = require('dorbel-shared');
 const listingRepository = require('../apartmentsDb/repositories/listingRepository');
 const likeRepository = require('../apartmentsDb/repositories/likeRepository');
 const geoService = require('./geoService');
-const config = shared.config;
 const logger = shared.logger.getLogger(module);
 const messageBus = shared.utils.messageBus;
 const generic = shared.utils.generic;
@@ -55,7 +54,7 @@ function* create(listing) {
   });
 
   // Publish event trigger message to SNS for notifications dispatching.
-  messageBus.publish(config.get('NOTIFICATIONS_SNS_TOPIC_ARN'), messageBus.eventType.APARTMENT_CREATED, {
+  messageBus.publish(process.env.NOTIFICATIONS_SNS_TOPIC_ARN, messageBus.eventType.APARTMENT_CREATED, {
     listing_id: createdListing.id,
     user_uuid: createdListing.publishing_user_id,
     user_email: listing.user.email,
@@ -85,9 +84,9 @@ function* updateStatus(listingId, user, status) {
   const currentStatus = listing.status;
   const result = yield listing.update({ status });
 
-  if (config.get('NOTIFICATIONS_SNS_TOPIC_ARN')) {
+  if (process.env.NOTIFICATIONS_SNS_TOPIC_ARN) {
     const messageBusEvent = messageBus.eventType['APARTMENT_' + status.toUpperCase()];
-    messageBus.publish(config.get('NOTIFICATIONS_SNS_TOPIC_ARN'), messageBusEvent, {
+    messageBus.publish(process.env.NOTIFICATIONS_SNS_TOPIC_ARN, messageBusEvent, {
       listing_id: listingId,
       previous_status: currentStatus,
       user_uuid: listing.publishing_user_id
