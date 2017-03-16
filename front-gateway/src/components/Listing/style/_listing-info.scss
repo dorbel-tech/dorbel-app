@@ -1,42 +1,13 @@
 .listing-info-container {
-  padding: 15px;
+  padding: 10px 15px;
 }
 
 .listing-info-item {
-  border-left: 1px solid $gray-lighter;
   padding: 20px 0 15px;
   text-align: center;
 
   @media (max-width: $screen-xs-max) {
-    border: 0 !important;
-    padding: 10px;
-  }
-
-  @media (max-width: $screen-md-max) {
-    border-right: 0 !important;
-  }
-
-  &:last-child {
-    border-left: none;
-
-    @media (max-width: $screen-xs-max) {
-      border-top: 1px solid $gray-lighter !important;
-    }
-  }
-
-  &:first-child {
-    border-right: 1px solid $gray-lighter;
-
-    @media (max-width: $screen-xs-max) {
-      border-left: 1px solid $gray-lighter !important;
-    }
-  }
-
-  &:nth-child(3) {
-    @media (max-width: $screen-sm-min) {
-      border-top: 1px solid $gray-lighter !important;
-      border-left: 1px solid $gray-lighter !important;
-    }
+    padding: 10px 5px;
   }
 }
 

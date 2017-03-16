@@ -1,5 +1,5 @@
 .listing-description-container {
-  background-color: lighten($gray-lighter, 2%);
+  padding-bottom: 10px;
 
   h5 {
     margin: 0;
@@ -11,22 +11,15 @@
 }
 
 .listing-description-item {
-  border-bottom: 1px solid darken($gray-lighter, 7%);
-  padding-bottom: 30px;
-  padding-top: 40px;
+  padding: 20px 0 0;
 
   p {
     line-height: $line-height-base*1.2;
     color: $gray-light;
   }
 
-  &:last-child {
-    border-bottom: none;
-  }
-
   @media (max-width: $screen-xs-max) {
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding: 10px 0 0;
 
     &:first-child h3 {
       margin-top: 70px;

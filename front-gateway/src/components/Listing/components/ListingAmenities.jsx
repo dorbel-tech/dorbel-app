@@ -36,13 +36,10 @@ export default class ListingAmenities extends Component {
     const { listing } = this.props;
 
     return (
-      <Col className="listing-amenities">
-        <Col sm={2}>
-          <h5>פרטי הנכס</h5>
-        </Col>
+      <div className="listing-amenities">
         {this.renderAmentites(amenitiesLeft, listing, 7)}
         {this.renderAmentites(amenitiesRight, listing, 5)}
-      </Col>
+      </div>
     );
   }
 }

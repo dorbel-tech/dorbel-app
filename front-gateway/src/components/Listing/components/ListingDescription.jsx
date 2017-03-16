@@ -23,7 +23,12 @@ class ListingDescription extends React.Component {
       <Row className="listing-description-container">
         {this.renderDescriptionRow('תאריך כניסה', <p>{this.props.appProviders.utils.formatDate(listing.lease_start)}</p>)}
         {this.renderDescriptionRow('תאור הנכס', <p>{listing.description}</p>)}
-        <ListingAmenities listing={listing} />
+        <Col className="listing-description-item">
+          <Col md={2}>
+            <h5>פרטי הנכס</h5>
+          </Col>
+          <ListingAmenities listing={listing} />
+        </Col>
         {this.renderDescriptionRow('פרטי תשלום', <div><p>ארנונה: {listing.property_tax}</p><p>ועד הבית: {listing.board_fee}</p></div>)}
         {this.renderDescriptionRow(listing.publishing_user_type === 'landlord' ? 'בעל הנכס' : 'דייר יוצא', <p>{listing.publishing_user_first_name || 'אנונימי'}</p>)}
       </Row>
