@@ -30,9 +30,6 @@ fi
 
 cd $SERVICE_NAME
 
-# Download environment configuration from S3
-aws s3 cp s3://dorbel.config/$SERVICE_NAME/$ENV_NAME/.env .env
-
 # Change version in all npm package files
 GIT_SHA1=$(git rev-parse --short HEAD)
 VERSION=$(npm version patch)
@@ -50,5 +47,4 @@ echo "Starting deployment of ${SERVICE_NAME} ${VERSION} to ${ENV_NAME}."
 COMMIT_MESSAGE=$(git log -1 --oneline)
 eb deploy $ENV_NAME $VERSION_WITHFLAG --message "$COMMIT_MESSAGE" 
 
-rm .env
 cd ..
