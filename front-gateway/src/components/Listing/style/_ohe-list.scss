@@ -2,6 +2,7 @@
   margin-bottom: 0;
 
   .listing-choose-date-title {
+    background-color: $gray-lighter;
     color: $gray-dark;
     margin: 0;
     padding: 10px 20px;
@@ -9,9 +10,14 @@
   }
 
   .list-group-item {
-    border-left: none;
-    border-radius: 0;
-    border-right: none;
+    border: none;
+    border-bottom: 1px solid #ddd;
+    margin: 0 15px;
+    padding: 0 5px 10px;
+
+    &.disabled {
+      background-color: $brand-white;
+    }
 
     &:not(.disabled) {
       cursor: pointer;
