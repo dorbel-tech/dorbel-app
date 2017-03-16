@@ -1,5 +1,4 @@
 'use strict';
-require('dotenv').config();
 const koa = require('koa');
 const fleekRouter = require('fleek-router');
 const bodyParser = require('koa-bodyparser');
