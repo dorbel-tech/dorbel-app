@@ -222,12 +222,11 @@ module.exports = {
         .clearValue('@phone');
       return this;
     },
-    fillUserDetailsFields: function () {
+    fillUserDetailsFields: function (user) {
       this.section.openHouseEvent
-        .setValue('@firstName', 'Test')
-        .setValue('@lastName', 'Tester')
-        .setValue('@email', 'teser@test.com')
-        .setValue('@phone', '9999999');
+        .setValue('@firstName', user.firstName)
+        .setValue('@lastName', user.lastName)
+        .setValue('@phone', user.phone);
       return this;
     },
     submitApartment: function () {
