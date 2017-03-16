@@ -34,7 +34,11 @@ describe('Search', () => {
         title: 'should change'
       }
     };
-    appProvidersMock = {};
+    appProvidersMock = {
+      likeProvider: {
+        getAllUserLikes: jest.fn()
+      }
+    };
   });
 
   it('should render apartment from store', () => {
