@@ -5,3 +5,11 @@
 .listing-title {
   padding: 0 15px;
 }
+
+.listing-ohe-box {
+  @media (min-width: $screen-md-min) {
+    left: 15px;
+    position: absolute;
+    top: 625px;
+  }
+}

@@ -96,7 +96,10 @@ class Listing extends Component {
                 <Col sm={4} md={3}>
                   <ListingSocial listing={listing} />
                 </Col>
-                <Col sm={6} smPush={3} md={12} mdPush={0}>
+                <Col md={4} xs={12} className="listing-ohe-box">
+                  <Col smHidden xsHidden>
+                    <ListingHighlight listing={listing} />
+                  </Col>
                   <OHEList listing={listing} oheId={this.props.oheId} action={this.props.action} />
                 </Col>
               </Row>
@@ -110,7 +113,9 @@ class Listing extends Component {
 
     return  <div>
               <ListingHeader listing={listing} />
-              <ListingHighlight listing={listing} />
+              <Col lgHidden mdHidden>
+                <ListingHighlight listing={listing} />
+              </Col>
               <ListingMenu listing={listing} currentAction={action} />
               {tabContent}
             </div>;
