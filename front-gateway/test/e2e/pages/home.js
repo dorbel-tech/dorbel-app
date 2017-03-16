@@ -35,8 +35,7 @@ module.exports = {
     resizeMobile: function(browser) {
       browser.resizeWindow(320, 800);
     },
-    fillSignIn: function(userType) {
-      let user = common.getTestUser(userType);
+    fillSignIn: function(user) {
       return this
         .waitForElementVisible('@loginTab')
         .click('@loginTab')
@@ -44,25 +43,33 @@ module.exports = {
         .setValue('@passwordField', user.password)
         .click('@submit');
     },
-    signIn: function(userType) {
+    signUp: function(user) {
       this
         .waitForElementVisible('@loginLink')
         .click('@loginLink')
-        .fillSignIn(userType)
+        .setValue('@emailField', user.email)
+        .setValue('@passwordField', user.password)
+        .click('@submit')
+        .validateSignIn();        
+    },
+    signIn: function(user) {
+      this
+        .waitForElementVisible('@loginLink')
+        .click('@loginLink')
+        .fillSignIn(user)
         .validateSignIn();
       return this;
     },
-    signInForm: function(userType) {
+    signUpInForm: function(user) {
       this
         .waitForElementVisible('@submitLogin')
-        .click('@submitLogin')
-        .fillSignIn(userType)
-        .validateSignIn();
+        .click('@submitLogin');
+      this.signUp(user);
       return this;
     },
-    singInListing: function(userType) {
+    singInListing: function(user) {
       this
-        .fillSignIn(userType)
+        .fillSignIn(user)
         .validateSignIn();
     },
     signOut: function () {

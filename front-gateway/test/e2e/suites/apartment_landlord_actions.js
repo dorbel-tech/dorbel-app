@@ -3,11 +3,8 @@ const common = require('../common');
 let home, apartmentForm;
 
 function login() {
-  home.navigate().signIn('landlord');
-}
-
-function loginOnStep3() {
-  home.signInForm('landlord');
+  let user = common.getTestUser('landlord');
+  home.navigate().signIn(user);
 }
 
 module.exports = {
@@ -54,12 +51,14 @@ module.exports = {
     common.waitForText(apartmentForm.section.successModal, '@successTitle', 'העלאת הדירה הושלמה!');
     browser.end();
   },
-  'should successfully submit a new apartment with logged out user': function (browser) {
+  'should successfully submit a new apartment while creating new user': function (browser) {
+    let user = common.getTestUser('random');
     apartmentForm
         .navigateToOpenHouseEventSection()
         .fillOpenHouseEventDetailsAllFields();
-    loginOnStep3();
+    home.signUpInForm(user);
     apartmentForm
+      .fillUserDetailsFields(user)
       .submitApartment()
       .expect.section('@successModal').to.be.visible;
     common.waitForText(apartmentForm.section.successModal, '@successTitle', 'העלאת הדירה הושלמה!');
