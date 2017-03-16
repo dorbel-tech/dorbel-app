@@ -6,8 +6,7 @@
 class LikeProvider {
   constructor(appStore, apiProvider) {
     this.appStore = appStore;
-    this.apiProvider = apiProvider;
-    this.getAllUserLikes();
+    this.apiProvider = apiProvider;    
   }
 
   getAllUserLikes() {

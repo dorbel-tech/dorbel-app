@@ -18,6 +18,7 @@ class Search extends Component {
 
     this.state = {showScrollUp: false};
     this.props.appStore.metaData.title = 'dorbel - דירות שתשמחו לגור בהן. ללא תיווך';
+    this.props.appProviders.likeProvider.getAllUserLikes();
   }
 
   componentDidMount() {
