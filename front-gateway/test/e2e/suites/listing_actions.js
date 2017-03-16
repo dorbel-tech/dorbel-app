@@ -6,6 +6,10 @@ function login(userType) {
   home.navigate().signIn(userType);
 }
 
+function loginInListing(userType) {
+  home.singInListing(userType);
+}
+
 function logout() {
   home.signOut();
 }
@@ -80,6 +84,16 @@ module.exports = {
     waitForUnRegisterText();
     browser.end();
   },
+  'tenant should register to OHE while triggering login': function (browser) {
+    listing.navigateToListingPage(listing.url(listingId));
+    waitForUnRegisterText();
+    listing.clickFirstOhe();
+    loginInListing('tenant');
+    listing.expect.section('@oheModal').to.be.visible;
+    listing.fillOheRegisterUserDetailsAndSubmit();
+    waitForRegisterText();
+    browser.end();
+  },
   'tenant should follow to be notified for new OHE': function (browser) {
     login('tenant');
     listing.navigateToListingPage(listing.url(listingId));
@@ -101,5 +115,16 @@ module.exports = {
     browser.pause(500);
     waitForUnFollowText();
     browser.end();
-  }
+  },
+  'tenant should follow to be notified for new OHE while triggering login': function (browser) {
+    listing.navigateToListingPage(listing.url(listingId));
+    waitForUnFollowText();
+    listing.clickFollowOheButton();
+    loginInListing('tenant');
+    listing.expect.section('@followModal').to.be.visible;
+    listing.followUserToOheUpdates();
+    browser.pause(500);
+    waitForFollowText();
+    browser.end();
+  },  
 };
