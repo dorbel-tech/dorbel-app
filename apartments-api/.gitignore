@@ -2,5 +2,3 @@
 .elasticbeanstalk/*
 !.elasticbeanstalk/config.yml
 !.elasticbeanstalk/*.global.yml
-
-!.env

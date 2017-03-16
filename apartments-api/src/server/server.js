@@ -8,7 +8,7 @@ const swaggerDoc = require('./swagger/swagger');
 const logger = shared.logger.getLogger(module);
 const app = koa();
 
-const port: number = process.env.PORT;
+const port: number = process.env.PORT || 3000;
 const env = process.env.NODE_ENV;
 
 app.use(shared.middleware.errorHandler());
