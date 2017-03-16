@@ -24,7 +24,11 @@
     padding: 10px;
   }
 
-  @media (min-width: $screen-sm-max) {
+  @media (min-width: $screen-sm-min) {
+    padding: 21px 5px;
+  }
+
+  @media (min-width: $screen-md-min) {
     .fb-desktop,
     .fb-messenger-desktop,
     .email {

@@ -90,13 +90,13 @@ class Listing extends Component {
             : null}
             <Grid fluid>
               <Row>
-                <Col>
+                <Col sm={6}>
                   <h2 className="listing-title">{utils.getListingTitle(listing)}</h2>
                 </Col>
-                <Col>
+                <Col sm={6}>
                   <ListingSocial listing={listing} />
                 </Col>
-                <Col>
+                <Col sm={12}>
                   <OHEList listing={listing} oheId={this.props.oheId} action={this.props.action} />
                 </Col>
               </Row>
