@@ -8,7 +8,7 @@ find ~/.nvm/versions/node/ -maxdepth 1 -type d | grep -v "$(node --version)" | t
 rm -rf ~/.phpbrew/
 
 # Cache restore, disabled as inconsitent.
-docker-cache restore
+# docker-cache restore
 
 # Creating directories for codecov.io for code coverage report mounted volume.
 mkdir apartments-api-shared
