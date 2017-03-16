@@ -66,7 +66,7 @@ class Listing extends Component {
   render() {
     const { appStore, action } = this.props;
     const listing = appStore.listingStore.get(this.props.listingId);
-    const isListingPublisherOrAdmin = appStore.listingStore.isListingPublisherOrAdmin(listing);
+    const isListingPublisherOrAdmin = listing ? appStore.listingStore.isListingPublisherOrAdmin(listing) : false;
 
     if (this.state.isLoading) {
       return (
