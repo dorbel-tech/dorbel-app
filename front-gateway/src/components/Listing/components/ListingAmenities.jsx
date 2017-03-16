@@ -24,7 +24,7 @@ export default class ListingAmenities extends Component {
       .map((amenity, index) => (<li key={index}><img src={'https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/amenities/icon-' + amenity.icon + '.svg'} />{amenity.label}</li>));
 
     return (
-      <Col sm={5} xs={xsCols} className="listing-amenities-col">
+      <Col sm={3} xs={xsCols} className="listing-amenities-col">
         <ul>
           {amenityList}
         </ul>

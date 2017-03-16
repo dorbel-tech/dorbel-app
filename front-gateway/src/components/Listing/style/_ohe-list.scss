@@ -5,6 +5,10 @@
     left: 15px;
     position: absolute;
     top: -50px;
+
+    .list-group-item {
+      margin: 0 15px;
+    }
   }
 
   .listing-choose-date-title {
@@ -18,7 +22,7 @@
   .list-group-item {
     border: none;
     border-bottom: 1px solid #ddd;
-    margin: 0 15px;
+    border-radius: 0;
     padding: 0 5px 10px;
 
     &.disabled {
