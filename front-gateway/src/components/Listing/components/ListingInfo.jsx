@@ -18,7 +18,7 @@ class ListingInfo extends React.Component {
   renderInfoBox(title, svgName) {
     // TODO : use Icon component
     return (
-      <Col sm={3} xs={6} className="listing-info-item">
+      <Col xs={6} sm={3} md={2} className="listing-info-item">
         <svg className="listing-info-item-image"><use xlinkHref={'#' + svgName} /></svg>
         <div className="listing-info-item-text">{title}</div>
       </Col>

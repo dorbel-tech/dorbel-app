@@ -1,6 +1,4 @@
 .listing-amenities {
-  overflow: auto;
-
   ul {
     list-style: none;
     padding: 0;
@@ -16,6 +14,10 @@
         width: 20px;
       }
     }
+  }
+
+  @media (max-width: $screen-sm-max) {
+    overflow: auto;
   }
 
   @media (max-width: $screen-xs-max) {
