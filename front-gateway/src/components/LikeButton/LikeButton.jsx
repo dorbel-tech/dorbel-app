@@ -21,11 +21,11 @@ class LikeButton extends Component {
   getWrapperClass(showText, isLiked) {
     let wrapperClass = 'like-button ';
     if (showText){
-      wrapperClass += 'with-text ';
+      wrapperClass += 'like-button-with-text ';
     }
 
     if (isLiked) {
-      wrapperClass += 'liked';
+      wrapperClass += 'like-button-liked';
     }
 
     return wrapperClass;
@@ -45,7 +45,7 @@ class LikeButton extends Component {
     return (
       <a href="#" className={this.getWrapperClass(this.props.showText, isLiked)} onClick={this.handleClick.bind(this)}>
         <i className={'fa ' + this.getIconClass(isLiked)} />
-        <div className="button-text">אהבתי</div>
+        <div className="like-button-text">אהבתי</div>
       </a>
     );
   }

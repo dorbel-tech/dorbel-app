@@ -13,11 +13,11 @@
     }
   }
 
-  .button-text {
+  .like-button-text {
     display: none;
   }
 
-  &.with-text {
+  &.like-button-with-text {
     display: inline-block;
     width: 120px;
     height: 32px;
@@ -33,14 +33,14 @@
       margin-right: 22px;
     }
 
-    .button-text {
+    .like-button-text {
       display: inline-block;
       margin-right: 10px;
       position: absolute;
       margin-top: 6px;
     }
 
-    &.liked {
+    &.like-button-liked {
       background: #ea441a;
       color: #ffffff;
       
