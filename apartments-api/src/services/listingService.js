@@ -3,7 +3,6 @@ const _ = require('lodash');
 const moment = require('moment');
 const shared = require('dorbel-shared');
 const listingRepository = require('../apartmentsDb/repositories/listingRepository');
-const likeRepository = require('../apartmentsDb/repositories/likeRepository');
 const geoService = require('./geoService');
 const config = shared.config;
 const logger = shared.logger.getLogger(module);
