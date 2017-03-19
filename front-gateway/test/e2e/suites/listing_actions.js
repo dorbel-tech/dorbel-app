@@ -3,11 +3,13 @@ const common = require('../common');
 let home, apartmentForm, listing, listingId;
 
 function login(userType) {
-  home.navigate().signIn(userType);
+  let user = common.getTestUser(userType);
+  home.navigate().signIn(user);
 }
 
 function loginInListing(userType) {
-  home.singInListing(userType);
+  let user = common.getTestUser(userType);
+  home.singInListing(user);
 }
 
 function logout() {

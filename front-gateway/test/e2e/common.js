@@ -1,8 +1,16 @@
 'use stric';
 const _ = require('lodash');
-const E2E_USER_LANDLORD = { email: 'e2e-user@dorbel.com', password: 'e2e_test', firstName: 'Landlord', phone: '123456789' };
-const E2E_USER_TENANT = { email: 'e2e-user-tenant@dorbel.com', password: 'e2e_test', firstName: 'Tenant', phone: '011111111' };
-const E2E_USER_ADMIN = { email: 'e2e-user-admin@dorbel.com', password: 'e2e_test', firstName: 'Admin', phone: '987654321' };
+var faker = require('faker');
+const E2E_USER_LANDLORD = { email: 'e2e-user@dorbel.com', password: 'e2e_test', firstName: 'Landlord', lastName: 'Test', phone: '123456789' };
+const E2E_USER_TENANT = { email: 'e2e-user-tenant@dorbel.com', password: 'e2e_test', firstName: 'Tenant', lastName: 'Test', phone: '011111111' };
+const E2E_USER_ADMIN = { email: 'e2e-user-admin@dorbel.com', password: 'e2e_test', firstName: 'Admin', lastName: 'Test', phone: '987654321' };
+const E2E_USER_RANDOM = { 
+  email: faker.internet.email(), 
+  password: faker.internet.password(), 
+  firstName: faker.name.firstName(), 
+  lastName: faker.name.lastName(), 
+  phone: faker.random.number()
+};
 
 function getTestUser(userType) {
   switch (userType) {
@@ -12,6 +20,8 @@ function getTestUser(userType) {
       return E2E_USER_LANDLORD;          
     case 'tenant':
       return E2E_USER_TENANT;          
+    case 'random':
+      return E2E_USER_RANDOM;
   }
 }
 
