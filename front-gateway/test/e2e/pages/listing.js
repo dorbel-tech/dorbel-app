@@ -55,7 +55,7 @@ module.exports = {
       }
     },
     followContainer: {
-      selector: '.owner-container',
+      selector: '.ohe-list-follow-container',
       elements: {
         followBtn: {
           selector: '.follow-action'
