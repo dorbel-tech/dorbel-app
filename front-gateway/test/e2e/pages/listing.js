@@ -27,7 +27,7 @@ module.exports = {
           selector: 'a:first-child'
         },
         firstEventText: {
-          selector: 'a:first-child .ohe-text'
+          selector: 'a:first-child .ohe-list-item-text'
         }
       }
     },

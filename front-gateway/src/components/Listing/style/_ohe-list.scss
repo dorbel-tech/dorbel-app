@@ -26,6 +26,12 @@
 
     &:not(.disabled) {
       cursor: pointer;
+
+      .ohe-list-item-text {
+        background-color: #3cb878;
+        border-radius: 2px;
+        color: $brand-white;
+      }
     }
   }
 
@@ -45,15 +51,16 @@
   font-size: $font-size-small;
 }
 
-.ohe-list-item-action {
-  background-color: #3cb878;
-  border-radius: 2px;
-  color: $brand-white;
+.ohe-list-item-text {
+  color: #9b9b9b;
+  font-size: 12px;
   height: 24px;
   left: 8%;
-  padding: 3px 5px;
+  padding: 3px;
   position: absolute;
+  text-align: center;
   top: 18px;
+  width: 92px;
 }
 
 .listing-rented-notification {

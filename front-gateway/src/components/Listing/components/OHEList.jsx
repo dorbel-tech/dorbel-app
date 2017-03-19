@@ -41,8 +41,7 @@ class OHEList extends Component {
             <br />
             <span className="ohe-text">{params.itemSubText}</span>
           </div>
-          {params.isDisabled ?
-            null : <span className="ohe-list-item-action">{params.callToActionText}</span>}
+          <span className="ohe-list-item-text">{params.callToActionText}</span>
         </Row>
       </a>
     );
