@@ -1,6 +1,7 @@
 import React from 'react';
 import autobind from 'react-autobind';
 import { Col, Row } from 'react-bootstrap';
+import utils from '~/providers/utils';
 
 class ListingInfo extends React.Component {
   constructor(props) {
@@ -30,7 +31,7 @@ class ListingInfo extends React.Component {
 
     return (
       <Row className="listing-info-container">
-        {this.renderInfoBox(listing.apartment.building.street_name + ', ' + listing.apartment.building.city.city_name, 'dorbel_icon_location')}
+        {this.renderInfoBox(utils.formatDate(listing.lease_start), 'dorbel_icon_calendar')}
         {this.renderInfoBox(listing.apartment.rooms + ' חדרים', 'dorbel_icon_bed')}
         {this.renderInfoBox(listing.apartment.size + ' מ"ר', 'dorbel_icon_ruler')}
         {this.renderInfoBox(this.getFloorLabel(listing.apartment), 'dorbel_icon_stairs')}

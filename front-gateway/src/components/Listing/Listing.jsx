@@ -92,6 +92,7 @@ class Listing extends Component {
               <Row>
                 <Col sm={8} md={5}>
                   <h2 className="listing-title">{utils.getListingTitle(listing)}</h2>
+                  <h4 className="listing-sub-title">{utils.getListingSubTitle(listing)}</h4>
                 </Col>
                 <Col sm={4} md={3}>
                   <ListingSocial listing={listing} />
