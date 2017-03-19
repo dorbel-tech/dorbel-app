@@ -1,5 +1,13 @@
+.listing-container {
+  position: relative;
+}
+
 .location-container {
   background-color: lighten($gray-lighter, 2%);
+}
+
+.listing-title-container {
+  padding: 0 15px
 }
 
 .listing-title {
@@ -14,8 +22,8 @@
 
 .listing-ohe-box {
   @media (min-width: $screen-md-min) {
-    left: 15px;
+    left: 0;
     position: absolute;
-    top: 498px;
+    top: -125px;
   }
 }
