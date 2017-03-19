@@ -2,6 +2,11 @@
   margin: 0;
 
   .navbar-nav > li {
+    @media (max-width: $screen-xs-max) {
+      min-width: 50%;
+      text-align: center;
+    }
+
     > a {
       border: none !important;
     }

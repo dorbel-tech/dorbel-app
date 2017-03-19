@@ -85,18 +85,18 @@ class Listing extends Component {
         // TODO : move to a different file
         tabContent =
           <div>
-            {isListingPublisherOrAdmin ?
-              <ListingStatusSelector listing={listing} />
-            : null}
             <Grid className="listing-container">
               <Row>
-                <Col sm={8} md={5} className="listing-title-container">
+                <Col sm={4} smPush={8} md={3} mdPush={5}>
+                  <ListingSocial listing={listing} />
+                </Col>
+                <Col sm={8} smPull={4} md={5} mdPull={3} className="listing-title-container">
                   <h2 className="listing-title">{utils.getListingTitle(listing)}</h2>
                   <h4 className="listing-sub-title">{utils.getListingSubTitle(listing)}</h4>
                 </Col>
-                <Col sm={4} md={3}>
-                  <ListingSocial listing={listing} />
-                </Col>
+              </Row>
+              <ListingInfo listing={listing} />
+              <Row>
                 <Col md={4} xs={12} className="listing-ohe-box">
                   <Col smHidden xsHidden>
                     <ListingHighlight listing={listing} />
@@ -104,7 +104,6 @@ class Listing extends Component {
                   <OHEList listing={listing} oheId={this.props.oheId} action={this.props.action} />
                 </Col>
               </Row>
-              <ListingInfo listing={listing} />
               <ListingDescription listing={listing} />
             </Grid>
             {this.renderListingLocation(listing.apartment.building.geolocation)}
@@ -117,6 +116,9 @@ class Listing extends Component {
               <Col lgHidden mdHidden>
                 <ListingHighlight listing={listing} />
               </Col>
+              {isListingPublisherOrAdmin ?
+                <ListingStatusSelector listing={listing} />
+              : null}
               <ListingMenu listing={listing} currentAction={action} />
               {tabContent}
             </div>;

@@ -29,7 +29,7 @@ class ListingDescription extends React.Component {
           </Col>
           <ListingAmenities listing={listing} />
         </Row>
-        {this.renderDescriptionRow('פרטי תשלום', <div><p>ארנונה: {listing.property_tax}</p><p>ועד הבית: {listing.board_fee}</p></div>)}
+        {this.renderDescriptionRow('מחירים', <div><p>שכר דירה: <span>{listing.monthly_rent}</span></p><p>ארנונה: <span>{listing.property_tax}</span></p><p>ועד בית: <span>{listing.board_fee}</span></p></div>)}
         {this.renderDescriptionRow(listing.publishing_user_type === 'landlord' ? 'בעל הנכס' : 'דייר יוצא', <p>{listing.publishing_user_first_name || 'אנונימי'}</p>)}
       </Row>
     );

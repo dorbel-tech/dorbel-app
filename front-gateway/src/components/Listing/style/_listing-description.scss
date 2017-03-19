@@ -20,6 +20,12 @@
   p {
     line-height: $line-height-base*1.2;
     color: $gray-light;
+
+    >span::before {
+      color: $gray-light;
+      content: "₪";
+      font-size: 12px;
+    }
   }
 
   @media (max-width: $screen-xs-max) {

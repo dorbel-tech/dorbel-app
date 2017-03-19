@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row } from 'react-bootstrap';
+import { Col } from 'react-bootstrap';
 import Icon from '~/components/Icon/Icon';
 
 class ListingInfo extends React.Component {
@@ -8,7 +8,7 @@ class ListingInfo extends React.Component {
     const currentUrl = website_url + '/apartments/' + this.props.listing.id;
 
     return (
-      <Row className="listing-social-share-wrapper">
+      <Col className="listing-social-share-wrapper">
         <div className="listing-social-share-container text-center">
           <span>שתפו את הנכס</span>&nbsp;&nbsp;&nbsp;&nbsp;
           <a className="listing-social-share-item fa fa-facebook-square fb-desktop" href={'https://www.facebook.com/sharer.php?u=' + currentUrl + '?utm_source=apt_page_facebook_share'} target="_blank"></a>
@@ -18,7 +18,7 @@ class ListingInfo extends React.Component {
           <a className="listing-social-share-item fb-messenger-desktop" href={'https://www.facebook.com/dialog/send?app_id=1651579398444396&link=' + currentUrl + '?utm_source=apt_page_messenger_share' + '&redirect_uri=' + currentUrl + '?utm_source=apt_page_messenger_share'} target="_blank"><Icon iconName="dorbel-icon-social-fbmsg" /></a>
           <a className="listing-social-share-item fb-messenger-mobile" href={'fb-messenger://share/?link=' + currentUrl + '?utm_source=apt_page_messenger_share' + '&app_id=1651579398444396'}><Icon iconName="dorbel-icon-social-fbmsg" /></a>
         </div>
-      </Row>
+      </Col>
     );
   }
 }

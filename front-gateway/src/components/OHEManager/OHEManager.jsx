@@ -50,7 +50,7 @@ class OHEManager extends React.Component {
           <Row>
             {comingEvents.length ?
               comingEvents.map(ohe => <OHECard key={ohe.id} ohe={ohe} editable={true} />) :
-              <h4>אין ביקורים קרובים</h4>}
+              <h5>אין ביקורים קרובים</h5>}
           </Row>
           <Row>
             <h3>מועדי ביקור שחלפו</h3>
@@ -58,7 +58,7 @@ class OHEManager extends React.Component {
           <Row>
             {passedEvents.length ?
               passedEvents.map(ohe => <OHECard key={ohe.id} ohe={ohe} />) :
-              <h4>אין ביקורים שחלפו</h4>}
+              <h5>אין ביקורים שחלפו</h5>}
           </Row>
         </Col>
         <AddOHEModal listing={listing} show={this.state.showAddOheModal} onClose={() => this.toggleAddModal(false)} />
