@@ -25,12 +25,14 @@
     }
 
     &:not(.disabled) {
+      color: #333;
       cursor: pointer;
 
       .ohe-list-item-text {
         background-color: #3cb878;
         border-radius: 2px;
         color: $brand-white;
+        line-height: 24px;
       }
     }
   }
@@ -51,15 +53,21 @@
   font-size: $font-size-small;
 }
 
+.ohe-list-item-text-container {
+  height: 41px;
+  left: 15px;
+  line-height: 36px;
+  position: absolute;
+  right: 130px;
+  text-align: center;
+}
+
 .ohe-list-item-text {
   color: #9b9b9b;
+  display: inline-block;
   font-size: 12px;
-  height: 24px;
-  left: 8%;
-  padding: 3px;
-  position: absolute;
-  text-align: center;
-  top: 18px;
+  line-height: 18px;
+  vertical-align: middle;
   width: 92px;
 }
 

@@ -41,7 +41,9 @@ class OHEList extends Component {
             <br />
             <span className="ohe-text">{params.itemSubText}</span>
           </div>
-          <span className="ohe-list-item-text">{params.callToActionText}</span>
+          <div className="ohe-list-item-text-container">
+            <div className="ohe-list-item-text">{params.callToActionText}</div>
+          </div>
         </Row>
       </a>
     );
@@ -81,16 +83,16 @@ class OHEList extends Component {
       case 'full':
         oheConfig.isDisabled = true;
         oheConfig.action = '';
-        oheConfig.callToActionText = 'לא נותרו מקומות פנויים לארוע זה';
+        oheConfig.callToActionText = 'לא נותרו מקומות למועד זה';
         break;
       case 'registered':
         oheConfig.action = 'ohe-unregister';
-        oheConfig.callToActionText = 'נרשמתם לארוע זה. לחצו לביטול';
+        oheConfig.callToActionText = 'לחצו לביטול הרשמה למועד זה';
         break;
       case 'late':
         oheConfig.isDisabled = true;
         oheConfig.action = '';
-        oheConfig.callToActionText = 'האירוע קרוב מדי';
+        oheConfig.callToActionText = 'המועד קרוב מדי';
         break;
     }
 
