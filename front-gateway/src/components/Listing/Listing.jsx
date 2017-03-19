@@ -117,9 +117,11 @@ class Listing extends Component {
                 <ListingHighlight listing={listing} />
               </Col>
               {isListingPublisherOrAdmin ?
-                <ListingStatusSelector listing={listing} />
+                <div>
+                  <ListingStatusSelector listing={listing} />
+                  <ListingMenu listing={listing} currentAction={action} />
+                </div>
               : null}
-              <ListingMenu listing={listing} currentAction={action} />
               {tabContent}
             </div>;
   }
