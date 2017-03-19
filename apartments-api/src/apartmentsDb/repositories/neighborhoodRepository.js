@@ -1,12 +1,13 @@
 'use strict';
 const db = require('../dbConnectionProvider');
-const models = db.models;
 
 function getByCityId(city_id) {
-  return models.neighborhood.findAll({
+  return db.models.neighborhood.findAll({
     where: {
-      city_id: city_id
+      city_id: city_id,      
+      is_active: true
     },
+    order: 'display_order, neighborhood_name',
     raw: true
   });
 }
