@@ -41,16 +41,16 @@ class OHEManager extends React.Component {
     const passedEvents = openHouseEvents.filter(event => moment(event.end_time).isBefore(Date.now()));
 
     return (
-      <Grid fluid={true} className="apt-info-container">
+      <Grid fluid={true} className="listing-events-container">
         <Col sm={10} smOffset={1} >
           <Row>
-            <Button onClick={() => this.toggleAddModal(true)} className="apt-info-add-ohe pull-left">הוסף מועד +</Button>
+            <Button onClick={() => this.toggleAddModal(true)} className="listing-events-add-ohe pull-left">הוסף מועד +</Button>
             <h3>מועדי ביקור הבאים</h3>
           </Row>
           <Row>
             {comingEvents.length ?
               comingEvents.map(ohe => <OHECard key={ohe.id} ohe={ohe} editable={true} />) :
-              <h5>אין ביקורים קרובים</h5>}
+              <h5 className="listing-events-no-ohe-title">אין ביקורים קרובים</h5>}
           </Row>
           <Row>
             <h3>מועדי ביקור שחלפו</h3>
@@ -58,7 +58,7 @@ class OHEManager extends React.Component {
           <Row>
             {passedEvents.length ?
               passedEvents.map(ohe => <OHECard key={ohe.id} ohe={ohe} />) :
-              <h5>אין ביקורים שחלפו</h5>}
+              <h5 className="listing-events-no-ohe-title">אין ביקורים שחלפו</h5>}
           </Row>
         </Col>
         <AddOHEModal listing={listing} show={this.state.showAddOheModal} onClose={() => this.toggleAddModal(false)} />
