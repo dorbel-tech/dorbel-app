@@ -7,10 +7,10 @@ module.exports = {
   },
   sections: {
     listingTitle: {
-      selector: '.apt-headline-container'
+      selector: '.listing-title-container'
     },
     landlordControls: {
-      selector: '.listing-status-selector',
+      selector: '.listing-status-container',
       elements: {
         listingMenuStatusDropdownToggle: {
           selector: '.dropdown-toggle'
