@@ -1,7 +1,9 @@
 'use strict';
 const likeService = require('../../services/likeService');
+const ONE_MINUTE = 60;
 
 function* get() {
+  this.response.set('Cache-Control', 'private, max-age=' + ONE_MINUTE);
   this.response.body = yield likeService.getUserLikes(this.request.user);
 }
 
