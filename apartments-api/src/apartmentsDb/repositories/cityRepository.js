@@ -7,7 +7,7 @@ function list(query) {
   
   return db.models.city.findAll({
     where: query,
-    order: 'display_order',
+    order: 'display_order, city_name',
     raw: true // readonly get - no need for full sequlize instances
   });
 }
