@@ -1,6 +1,6 @@
 'use strict';
 const pageViewsService = require('../../services/pageViewsService');
-const ONE_HOUR= 60 * 60;
+const ONE_HOUR = 60 * 60;
 
 function * get() {
   const listingIds = this.params.listingIds.split(',');
