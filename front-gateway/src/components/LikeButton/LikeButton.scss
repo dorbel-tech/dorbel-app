@@ -28,7 +28,7 @@
 
     .fa {
       font-size: 15px;
-      color: #ea441a;;
+      color: #ea441a;
       margin-top: 8px;
       margin-right: 22px;
     }
@@ -42,10 +42,10 @@
 
     &.like-button-liked {
       background: #ea441a;
-      color: #ffffff;
-      
+      color: #fff;
+
       .fa {
-         color: #ffffff;
+        color: #fff;
       }
     }
   }
