@@ -14,6 +14,7 @@ import OHEManager from '~/components/OHEManager/OHEManager';
 import ApartmentLocation from '~/components/MapWrapper/MapWrapper';
 import RelatedListings from '~/components/RelatedListings/RelatedListings';
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
+import LikeButton from '~/components/LikeButton/LikeButton';
 import utils from '~/providers/utils';
 
 import './Listing.scss';
@@ -93,6 +94,7 @@ class Listing extends Component {
                 <Col sm={8} smPull={4} md={5} mdPull={3} className="listing-title-container">
                   <h2 className="listing-title">{utils.getListingTitle(listing)}</h2>
                   <h4 className="listing-sub-title">{utils.getListingSubTitle(listing)}</h4>
+                  <LikeButton listingId={listing.id} showText="true" />
                 </Col>
               </Row>
               <ListingInfo listing={listing} />
