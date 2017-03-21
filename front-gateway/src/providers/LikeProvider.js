@@ -6,11 +6,13 @@
 class LikeProvider {
   constructor(appStore, apiProvider) {
     this.appStore = appStore;
-    this.apiProvider = apiProvider;    
+    this.apiProvider = apiProvider;
+    this.isSyncedWithServer = false;
   }
 
-  getAllUserLikes() {
-    if (this.appStore.authStore.isLoggedIn) {
+  get(listingId) {
+    if (this.appStore.authStore.isLoggedIn && !this.isSyncedWithServer) {
+      this.isSyncedWithServer = true; // Sync once with server
       this.apiProvider.fetch('/api/apartments/v1/likes/user')
         .then((likedListingIdArr) => {
           let likesMap = {};
@@ -18,9 +20,6 @@ class LikeProvider {
           this.appStore.likeStore.init(likesMap);
         });
     }
-  }
-
-  get(listingId) {
     return this.appStore.likeStore.likesByListingId.get(listingId);
   }
 
