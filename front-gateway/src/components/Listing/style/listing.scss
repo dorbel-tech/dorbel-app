@@ -30,7 +30,9 @@
   @media (min-width: $screen-md-min) {
     background-color: $brand-white;
     left: 0;
+    padding: 0;
     position: absolute;
     top: 14px;
+    z-index: 1;
   }
 }
