@@ -11,6 +11,7 @@ import OHEManager from '~/components/OHEManager/OHEManager';
 import ApartmentLocation from '~/components/MapWrapper/MapWrapper.jsx';
 import RelatedListings from '~/components/RelatedListings/RelatedListings.jsx';
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
+import LikeButton from '~/components/LikeButton/LikeButton';
 import utils from '~/providers/utils';
 
 import './Listing.scss';
@@ -87,6 +88,7 @@ class Listing extends Component {
                 <Row>
                   <Col md={9}>
                     <h2>{utils.getListingTitle(listing)}</h2>
+                    <LikeButton listingId={listing.id} showText="true" />
                   </Col>
                 </Row>
               </Grid>

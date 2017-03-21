@@ -9,6 +9,7 @@ class RelatedListings extends Component {
   constructor(props) {
     super(props);
     this.state = { relatedListings: [] };
+    this.props.appProviders.likeProvider.getAllUserLikes();    
   }
 
   componentDidMount() {

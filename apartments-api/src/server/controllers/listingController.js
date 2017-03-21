@@ -3,6 +3,7 @@ const shared = require('dorbel-shared');
 const logger = shared.logger.getLogger(module);
 const listingService = require('../../services/listingService');
 const _ = require('lodash');
+const ONE_MINUTE = 60;
 
 function* get() {
   const options = {
@@ -15,6 +16,10 @@ function* get() {
 
   if (this.request.query.offset) {
     options.offset = parseInt(this.request.query.offset) || undefined;
+  }
+
+  if (!options.user) {
+    this.response.set('Cache-Control', 'public, max-age=' + ONE_MINUTE);
   }
 
   this.response.body = yield listingService.getByFilter(this.request.query.q, options);

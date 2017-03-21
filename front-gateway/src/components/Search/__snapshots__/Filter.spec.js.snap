@@ -205,7 +205,7 @@ exports[`Filter should initialize correctly 1`] = `
                 disabled={false}
                 inline={false}
                 onChange={[Function]}
-                value="lease_start">
+                value="publish_date">
                 <div
                   className="radio">
                   <label>
@@ -214,8 +214,8 @@ exports[`Filter should initialize correctly 1`] = `
                       disabled={false}
                       onChange={[Function]}
                       type="radio"
-                      value="lease_start" />
-                    תאריך כניסה
+                      value="publish_date" />
+                    תאריך פרסום
                   </label>
                 </div>
               </Radio>
@@ -228,7 +228,7 @@ exports[`Filter should initialize correctly 1`] = `
                 disabled={false}
                 inline={false}
                 onChange={[Function]}
-                value="publish_date">
+                value="lease_start">
                 <div
                   className="radio">
                   <label>
@@ -237,8 +237,8 @@ exports[`Filter should initialize correctly 1`] = `
                       disabled={false}
                       onChange={[Function]}
                       type="radio"
-                      value="publish_date" />
-                    תאריך פרסום
+                      value="lease_start" />
+                    תאריך כניסה
                   </label>
                 </div>
               </Radio>
