@@ -28,6 +28,7 @@ class Search extends Component {
   }
 
   handleScroll(e) {
+    const { appProviders, appStore } = this.props;
     const target = e.target;
     const distanceFromBottom = target.scrollHeight - target.offsetHeight - target.scrollTop;
 
@@ -37,9 +38,8 @@ class Search extends Component {
       this.setState({showScrollUp: false});
     }
 
-    if (distanceFromBottom < INFINITE_SCROLL_MARGIN) {
-      console.log('we scrolling', distanceFromBottom);
-      this.props.appProviders.searchProvider.loadNextPage();
+    if (distanceFromBottom < INFINITE_SCROLL_MARGIN && appStore.searchStore.hasMorePages) {
+      appProviders.searchProvider.loadNextPage();
     }
   }
 
@@ -65,7 +65,7 @@ class Search extends Component {
 
   renderResults() {
     const { searchStore } = this.props.appStore;
-    const results = searchStore.searchResults.length ? searchStore.searchResults : [];
+    const results = searchStore.searchResults();
 
     if (!searchStore.isLoading && results.length > 0) {
       return (<Grid fluid>
@@ -73,7 +73,7 @@ class Search extends Component {
           {results.map(listing => <ListingThumbnail listing={listing} key={listing.id} />)}
         </Row>
       </Grid>);
-    } else if (!searchStore.filterChanged || searchStore.isLoading) {
+    } else if (searchStore.isLoading) {
       return (
         <div className="loaderContainer">
           <LoadingSpinner />
