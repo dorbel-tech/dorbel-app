@@ -20,7 +20,7 @@ class OheProvider {
   }
 
   // Open house events
-  loadListingEvents(listing_ids, onlyFutureEvents) {
+  loadListingEvents(listing_ids) {
     if (!listing_ids) {
       return Promise.resolve();
     }
@@ -34,15 +34,12 @@ class OheProvider {
     } else if (listing_ids.length > LOAD_LISTING_EVENTS_BATCH_SIZE) {
       const chunks = _.chunk(listing_ids, LOAD_LISTING_EVENTS_BATCH_SIZE);
       const functionsThatLoadEachChunk = chunks.map(chunk => {
-        return () => this.loadListingEvents(chunk, onlyFutureEvents);
+        return () => this.loadListingEvents(chunk);
       });
 
       return utils.promiseSeries(functionsThatLoadEachChunk);
     } else {
       const fetchOptions = {};
-      if (onlyFutureEvents) {
-        fetchOptions.params = { minDate: new Date() };
-      }
 
       return this.fetch('events/by-listing/' + listing_ids.join(','), fetchOptions)
       .then((ohes) => {
