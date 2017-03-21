@@ -55,6 +55,10 @@ function promiseSeries(functionsThatReturnPromises, allResults) {
   });
 }
 
+function isMobile() {
+  return (global.navigator && /Mobi/i.test(global.navigator.userAgent));
+}
+
 module.exports = {
   formatTime,
   formatDate,
@@ -62,5 +66,6 @@ module.exports = {
   getListingTitle,
   sortListingImages,
   getListingStatusLabels,
-  promiseSeries
+  promiseSeries,
+  isMobile
 };

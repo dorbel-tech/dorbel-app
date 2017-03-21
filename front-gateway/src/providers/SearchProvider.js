@@ -2,7 +2,9 @@
  * SearchProvider communicates with the Apartments API (Future search API?)
  */
 'use strict';
-const PAGE_SIZE = (global.navigator && /Mobi/i.test(global.navigator.userAgent)) ? 8 : 25;
+import { isMobile } from './utils';
+
+const PAGE_SIZE = isMobile() ? 8 : 25;
 
 class SearchProvider {
   constructor(appStore, appProviders) {
@@ -34,7 +36,8 @@ class SearchProvider {
         searchStore.hasMorePages = (results.length === PAGE_SIZE);
 
         const listingIds = results.map(listing => listing.id);
-        this.oheProvider.loadListingEvents(listingIds, true);
+        this.oheProvider.loadListingEvents(listingIds);
+        return results;
       })
       .catch(() => {
         // reset query ?
@@ -43,7 +46,7 @@ class SearchProvider {
   }
 
   loadNextPage() {
-    this.search(this.appStore.query, true);
+    return this.search(this.appStore.query, true);
   }
 
   getRelatedListings(listingId) {
