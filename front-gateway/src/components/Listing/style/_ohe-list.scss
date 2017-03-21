@@ -1,9 +1,6 @@
 .listing-choose-date-container {
-  margin-bottom: 0;
-
-  @media (min-width: $screen-md-min) {
-    box-shadow: 0 2px 20px 0 rgba(0, 0, 0, 0.15);
-  }
+  box-shadow: 0 2px 20px 0 rgba(0, 0, 0, 0.15);
+  margin-bottom: 15px;
 
   .listing-choose-date-title {
     border-bottom: 1px solid #ddd;
