@@ -48,12 +48,14 @@ function* create(listing) {
       first_name: listing.user.firstname,
       last_name: listing.user.lastname,
       email: listing.user.email,
-      phone: generic.normalizePhone(listing.user.phone)
+      phone: generic.normalizePhone(listing.user.phone),
+      listing_id: createdListing.id
     }
   });
 
   // Publish event trigger message to SNS for notifications dispatching.
   messageBus.publish(process.env.NOTIFICATIONS_SNS_TOPIC_ARN, messageBus.eventType.APARTMENT_CREATED, {
+    city_id: createdListing.apartment.building.city_id,
     listing_id: createdListing.id,
     user_uuid: createdListing.publishing_user_id,
     user_email: listing.user.email,
@@ -86,6 +88,7 @@ function* updateStatus(listingId, user, status) {
   if (process.env.NOTIFICATIONS_SNS_TOPIC_ARN) {
     const messageBusEvent = messageBus.eventType['APARTMENT_' + status.toUpperCase()];
     messageBus.publish(process.env.NOTIFICATIONS_SNS_TOPIC_ARN, messageBusEvent, {
+      city_id: listing.apartment.building.city_id,
       listing_id: listingId,
       previous_status: currentStatus,
       user_uuid: listing.publishing_user_id
