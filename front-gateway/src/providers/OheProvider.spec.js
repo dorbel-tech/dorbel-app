@@ -64,19 +64,6 @@ describe('Ohe Provider', () => {
       });
     });
 
-    it('should add minDate to request params when only-future argument is true', () => {
-      apiMock.fetch = jest.fn().mockReturnValue(Promise.resolve([]));
-      const originalDate = Date;
-      const constantDate = new Date();
-      Date = () => constantDate; // eslint-disable-line no-global-assign
-
-      return oheProvider.loadListingEvents(987, true)
-      .then(() => {
-        expect(apiMock.fetch).toHaveBeenCalledWith('/api/ohe/v1/events/by-listing/987', { params: { minDate: constantDate } });
-        Date = originalDate; // eslint-disable-line no-global-assign
-      });
-    });
-
     it('should call fetch in batches of 5', () => {
       apiMock.fetch = jest.fn().mockReturnValue(Promise.resolve([]));
       const ids = [1,2,3,4,5,6,7,8,9];
