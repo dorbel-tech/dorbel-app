@@ -9,18 +9,16 @@ class LikeProvider {
     this.apiProvider = apiProvider;
     this.isSyncedWithServer = false;
   }
-  
+
   get(listingId) {
-    if (this.appStore.authStore.isLoggedIn) {
-      if (!this.isSyncedWithServer) { // Sync once with server
-        this.isSyncedWithServer = true;
-        this.apiProvider.fetch('/api/apartments/v1/likes/user')
-          .then((likedListingIdArr) => {
-            let likesMap = {};
-            likedListingIdArr.map((listingId) => likesMap[listingId] = true);
-            this.appStore.likeStore.init(likesMap);
-          });
-      }
+    if (this.appStore.authStore.isLoggedIn && !this.isSyncedWithServer) {
+      this.isSyncedWithServer = true; // Sync once with server
+      this.apiProvider.fetch('/api/apartments/v1/likes/user')
+        .then((likedListingIdArr) => {
+          let likesMap = {};
+          likedListingIdArr.map((listingId) => likesMap[listingId] = true);
+          this.appStore.likeStore.init(likesMap);
+        });
     }
     return this.appStore.likeStore.likesByListingId.get(listingId);
   }
