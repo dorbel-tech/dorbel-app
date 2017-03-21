@@ -1,31 +1,32 @@
 .listing-social-share-wrapper {
   background: $brand-white;
   color: $gray-dark;
-  margin-left: -40px;
-  margin-right: -40px;
+  padding: 35px 5px 9px;
+
+  .like-button {
+    float: left;
+    margin-top: -5px;
+  }
 }
 
 .listing-social-share-container {
-  padding: 20px 5px 9px;
+  display: inline-block;
+  padding-right: 10px;
 
   a {
     color: $gray-dark;
-    font-size: 20px;
+    font-size: 18px;
   }
 
   svg {
     fill: $gray-dark;
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     vertical-align: middle;
   }
 
   .listing-social-share-item {
     padding: 10px;
-  }
-
-  @media (min-width: $screen-sm-min) {
-    padding: 25px 5px;
   }
 
   @media (min-width: $screen-md-min) {

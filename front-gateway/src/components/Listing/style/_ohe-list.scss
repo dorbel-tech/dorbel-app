@@ -37,9 +37,10 @@
     }
   }
 
-  .dorbel-icon-calendar {
+  .ohe-list-calendar-icon-container {
+    display: inline-block;
     font-size: $font-size-large;
-    margin: 8px 5%;
+    padding: 0 15px;
 
     svg {
       width: 15px;
@@ -48,17 +49,20 @@
   }
 }
 
-.date-and-time span:last-child {
-  color: lighten($gray-light, 10%);
-  font-size: $font-size-small;
+.ohe-list-date-and-time-container {
+  display: inline-block;
+  vertical-align: middle;
+
+  span:last-child {
+    color: lighten($gray-light, 10%);
+    font-size: $font-size-small;
+  }
 }
 
 .ohe-list-item-text-container {
+  float: left;
   height: 41px;
-  left: 15px;
   line-height: 36px;
-  position: absolute;
-  right: 130px;
   text-align: center;
 }
 
@@ -97,17 +101,17 @@
   }
 
   i {
-    position: absolute;
-    font-family: Georgia, serif;
-    display: block;
-    top: 0;
-    right: 0;
     background-color: $brand-success;
     border-radius: 50%;
-    width: 30px;
+    color: $brand-white;
+    display: block;
+    font-family: Georgia, serif;
     height: 30px;
     line-height: 29px;
-    color: $brand-white;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 30px;
   }
 
   h5 {

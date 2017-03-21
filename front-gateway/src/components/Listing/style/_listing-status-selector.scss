@@ -1,6 +1,19 @@
 .listing-status-container {
+  left: 15px;
+  padding: 15px 0;
+  position: absolute;
   text-align: center;
-  padding: 10px;
+  top: 5px;
+
+  @media (max-width: $screen-xs-max) {
+    position: static;
+  }
+
+  button {
+    height: 25px;
+    line-height: 11px;
+    z-index: 2;
+  }
 
   .dropdown-menu {
     background-color: $gray-lighter !important;
@@ -13,9 +26,13 @@
   }
 }
 
+.listing-status-label {
+  padding-left: 50px;
+}
+
 .listing-status-selector {
   background-color: $brand-white !important;
   border-radius: 100px;
   color: #4a4a4a !important;
-  width: 188px;
+  width: 130px;
 }

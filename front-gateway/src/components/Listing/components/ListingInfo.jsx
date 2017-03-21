@@ -17,10 +17,9 @@ class ListingInfo extends React.Component {
   }
 
   renderInfoBox(title, svgName) {
-    // TODO : use Icon component
     return (
-      <Col xs={3} md={2} className="listing-info-item">
-        <svg className="listing-info-item-image"><use xlinkHref={'#' + svgName} /></svg>
+      <Col xs={3} md={1} className="listing-info-item">
+        <img className="listing-info-item-image" src={'https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/icons/' + svgName + '.svg'} alt="" />
         <div className="listing-info-item-text">{title}</div>
       </Col>
     );
@@ -31,10 +30,10 @@ class ListingInfo extends React.Component {
 
     return (
       <Row className="listing-info-container">
-        {this.renderInfoBox(utils.formatDate(listing.lease_start), 'dorbel_icon_calendar')}
-        {this.renderInfoBox(listing.apartment.rooms + ' חדרים', 'dorbel_icon_bed')}
-        {this.renderInfoBox(listing.apartment.size + ' מ"ר', 'dorbel_icon_ruler')}
-        {this.renderInfoBox(this.getFloorLabel(listing.apartment), 'dorbel_icon_stairs')}
+        {this.renderInfoBox(utils.formatDate(listing.lease_start), 'dorbel-icon-date')}
+        {this.renderInfoBox(listing.apartment.rooms + ' חדרים', 'dorbel-icon-rooms')}
+        {this.renderInfoBox(listing.apartment.size + ' מ"ר', 'dorbel-icon-sqm')}
+        {this.renderInfoBox(this.getFloorLabel(listing.apartment), 'dorbel-icon-stairs')}
       </Row>
     );
   }

@@ -18,18 +18,21 @@ class ListingDescription extends React.Component {
 
   render() {
     const { listing } = this.props;
+    const listingTax = listing.property_tax ? <p>ארנונה: <span>{listing.property_tax}</span></p> : null;
+    const listingFee = listing.board_fee ? <p>ועד בית: <span>{listing.board_fee}</span></p> : null;
+    const listingPrices = <div><p>שכר דירה: <span>{listing.monthly_rent}</span></p>{listingTax}{listingFee}</div>;
 
     return (
       <Row className="listing-description-container">
         {this.renderDescriptionRow('תאריך כניסה', <p>{this.props.appProviders.utils.formatDate(listing.lease_start)}</p>)}
-        {this.renderDescriptionRow('תאור הנכס', <p>{listing.description}</p>)}
+        {listing.description ? this.renderDescriptionRow('תאור הנכס', <p>{listing.description}</p>) : null}
         <Row className="listing-description-item">
           <Col md={2}>
             <h5>פרטי הנכס</h5>
           </Col>
           <ListingAmenities listing={listing} />
         </Row>
-        {this.renderDescriptionRow('מחירים', <div><p>שכר דירה: <span>{listing.monthly_rent}</span></p><p>ארנונה: <span>{listing.property_tax}</span></p><p>ועד בית: <span>{listing.board_fee}</span></p></div>)}
+        {this.renderDescriptionRow('מחירים', listingPrices)}
         {this.renderDescriptionRow(listing.publishing_user_type === 'landlord' ? 'בעל הנכס' : 'דייר יוצא', <p>{listing.publishing_user_first_name || 'אנונימי'}</p>)}
       </Row>
     );

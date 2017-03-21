@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import _ from 'lodash';
-import { Row } from 'react-bootstrap';
 import autobind from 'react-autobind';
-import Icon from '~/components/Icon/Icon';
 
 import OHERegisterModal from './OHERegisterModal';
 import FollowListingModal from './FollowListingModal';
@@ -32,11 +30,11 @@ class OHEList extends Component {
 
     return (
       <a key={params.key} className={className} onClick={onClickFunction}>
-        <Row>
-          <div className="dorbel-icon-calendar pull-right">
-            <Icon iconName={params.iconName} />
+        <div>
+          <div className="ohe-list-calendar-icon-container">
+            <i className="fa fa-calendar-o" aria-hidden="true"></i>
           </div>
-          <div className="date-and-time pull-right">
+          <div className="ohe-list-date-and-time-container">
             <span className={params.highlightTitle ? 'highlight' : ''}>{params.itemText}</span>
             <br />
             <span className="ohe-text">{params.itemSubText}</span>
@@ -44,7 +42,7 @@ class OHEList extends Component {
           <div className="ohe-list-item-text-container">
             <div className="ohe-list-item-text">{params.callToActionText}</div>
           </div>
-        </Row>
+        </div>
       </a>
     );
   }
@@ -55,7 +53,6 @@ class OHEList extends Component {
     return this.renderListItem({
       onClickRoute: `${OHEConfig.action}/${openHouseEvent.id}`,
       key: openHouseEvent.id,
-      iconName: 'dorbel_icon_calendar',
       itemText: `${openHouseEvent.dateLabel} - ${openHouseEvent.dayLabel}` + '\'',
       itemSubText: `${openHouseEvent.timeLabel}`,
       isDisabled: OHEConfig.isDisabled,

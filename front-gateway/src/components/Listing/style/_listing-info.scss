@@ -1,26 +1,20 @@
 .listing-info-container {
-  padding: 10px 15px;
+  padding: 5px 15px;
 }
 
 .listing-info-item {
-  padding: 20px 0 15px;
+  padding: 5px 0;
   text-align: center;
 
   @media (max-width: $screen-xs-max) {
-    padding: 10px 5px;
+    padding: 5px;
   }
 }
 
 .listing-info-item-image {
   fill: $brand-primary;
-  height: 44px;
+  height: 32px;
   margin: 10px 0;
-  width: 100%;
-
-  @media (max-width: $screen-xs-max) {
-    height: 30px;
-    margin: 0;
-  }
 }
 
 .listing-info-item-text {

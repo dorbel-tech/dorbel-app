@@ -14,7 +14,6 @@ import OHEManager from '~/components/OHEManager/OHEManager';
 import ApartmentLocation from '~/components/MapWrapper/MapWrapper';
 import RelatedListings from '~/components/RelatedListings/RelatedListings';
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
-import LikeButton from '~/components/LikeButton/LikeButton';
 import utils from '~/providers/utils';
 
 import './Listing.scss';
@@ -83,18 +82,16 @@ class Listing extends Component {
         tabContent = <OHEManager listing={listing} />;
         break;
       default:
-        // TODO : move to a different file
         tabContent =
           <div>
             <Grid className="listing-container">
-              <Row>
-                <Col sm={4} smPush={8} md={3} mdPush={5}>
+              <Row className="listing-title-section">
+                <Col sm={5} smPush={7} md={4} mdPush={4}>
                   <ListingSocial listing={listing} />
                 </Col>
-                <Col sm={8} smPull={4} md={5} mdPull={3} className="listing-title-container">
+                <Col sm={7} smPull={5} md={4} mdPull={4} className="listing-title-container">
                   <h2 className="listing-title">{utils.getListingTitle(listing)}</h2>
                   <h4 className="listing-sub-title">{utils.getListingSubTitle(listing)}</h4>
-                  <LikeButton listingId={listing.id} showText="true" />
                 </Col>
               </Row>
               <ListingInfo listing={listing} />
@@ -119,10 +116,10 @@ class Listing extends Component {
                 <ListingHighlight listing={listing} />
               </Col>
               {isListingPublisherOrAdmin ?
-                <div>
+                <Grid className="listing-owner-section">
                   <ListingStatusSelector listing={listing} />
                   <ListingMenu listing={listing} currentAction={action} />
-                </div>
+                </Grid>
               : null}
               {tabContent}
             </div>;

@@ -53,6 +53,7 @@ class ListingStatusSelector extends React.Component {
 
     return (
       <div className="listing-status-container">
+        <span className="listing-status-label">סטטוס המודעה:</span>
         <DropdownButton id="listing-status-selector"
           className="listing-status-selector"
           disabled={options.length === 0}

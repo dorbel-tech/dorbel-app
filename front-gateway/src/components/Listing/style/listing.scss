@@ -1,5 +1,10 @@
+.listing-owner-section,
 .listing-container {
   position: relative;
+}
+
+.listing-title-section {
+  border-bottom: 1px solid #ddd;
 }
 
 .location-container {
@@ -7,7 +12,8 @@
 }
 
 .listing-title-container {
-  padding: 0 15px;
+  padding-left: 0;
+  padding-right: 15px;
 }
 
 .listing-title {
@@ -22,8 +28,9 @@
 
 .listing-ohe-box {
   @media (min-width: $screen-md-min) {
+    background-color: $brand-white;
     left: 0;
     position: absolute;
-    top: -62px;
+    top: 14px;
   }
 }
