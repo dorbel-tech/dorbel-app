@@ -3,6 +3,8 @@ const shared = require('dorbel-shared');
 const logger = shared.logger.getLogger(module);
 const openHouseEventsService = require('../../services/openHouseEventsService');
 const openHouseEventsFinderService = require('../../services/openHouseEventsFinderService');
+const ONE_HOUR = 60 * 60;
+
 
 function* get() {
   const id = this.params.id;
@@ -10,6 +12,7 @@ function* get() {
   const result = yield openHouseEventsFinderService.find(id);
   logger.info({event_id: id}, 'Open house event found');
   this.response.status = 200;
+  this.response.set('Cache-Control', 'public, max-age=' + ONE_HOUR);  
   this.response.body = result;
 }
 

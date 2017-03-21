@@ -2,13 +2,17 @@
 const shared = require('dorbel-shared');
 const logger = shared.logger.getLogger(module);
 const service = require('../../services/openHouseEventFollowersService');
+const ONE_HOUR = 60 * 60;
 
 function* get() {
   const listingId = this.params.id;
   logger.debug({ listing_id: listingId }, 'Getting followers by listing...');
+
   let result = yield service.getByListing(listingId);
   logger.info({ listing_id: listingId, followers_count: result.length }, 'Got followers by listing');
+
   this.response.status = 200;
+  this.response.set('Cache-Control', 'public, max-age=' + ONE_HOUR);
   this.response.body = result;
 }
 
