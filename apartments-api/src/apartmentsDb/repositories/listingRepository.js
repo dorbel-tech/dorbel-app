@@ -70,13 +70,14 @@ function list(query, options = {}) {
       },
       {
         model: models.image,
-        // all attributes are selected to resolve: https://github.com/sequelize/sequelize/issues/4694#issuecomment-215745576
+        attributes: ['listing_id', 'url', 'display_order'],
         order: 'display_order ASC',
         limit: 1,
       },
       {
         model: models.like,
         attributes: [],
+        required: !!options.likeQuery,
         where: options.likeQuery,
       }
     ],
