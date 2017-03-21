@@ -40,7 +40,8 @@ class OHEList extends Component {
             <span className="ohe-text">{params.itemSubText}</span>
           </div>
           <div className="ohe-list-item-text-container">
-            <div className="ohe-list-item-text">{params.callToActionText}</div>
+            {params.extraText}
+            <div className={'ohe-list-item-text ' + params.callToActionTextClass || ''}>{params.callToActionText}</div>
           </div>
         </div>
       </a>
@@ -57,25 +58,26 @@ class OHEList extends Component {
       itemSubText: `${openHouseEvent.timeLabel}`,
       isDisabled: OHEConfig.isDisabled,
       callToActionText: OHEConfig.callToActionText,
-      callToActionTextClass: OHEConfig.callToActionTextClass
+      callToActionTextClass: OHEConfig.callToActionTextClass,
+      extraText: OHEConfig.extraText
     });
   }
 
   getOHEConfiguration(openHouseEvent) {
     const oheConfig = {
-      isDisabled: false,
-      callToActionText: 'הרשמו לביקור',
-      action: 'ohe-register'
+      isDisabled: false
     };
 
     switch (openHouseEvent.status) {
       case 'open':
+        oheConfig.action = 'ohe-register';
+        oheConfig.callToActionText = 'הרשמו לביקור';
         oheConfig.callToActionTextClass = 'ohe-list-open-action-text';
         break;
       case 'expired':
         oheConfig.isDisabled = true;
-        oheConfig.callToActionText = 'מועד זה עבר';
         oheConfig.action = '';
+        oheConfig.callToActionText = 'מועד זה עבר';
         break;
       case 'full':
         oheConfig.isDisabled = true;
@@ -84,7 +86,9 @@ class OHEList extends Component {
         break;
       case 'registered':
         oheConfig.action = 'ohe-unregister';
-        oheConfig.callToActionText = 'לחצו לביטול הרשמה למועד זה';
+        oheConfig.callToActionText = 'רשום לביקור';
+        oheConfig.callToActionTextClass = 'ohe-list-registered-action-text';
+        oheConfig.extraText = 'לחצו לביטול הרשמה';
         break;
       case 'late':
         oheConfig.isDisabled = true;
