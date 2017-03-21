@@ -2,10 +2,15 @@
 const shared = require('dorbel-shared');
 const logger = shared.logger.getLogger(module);
 const listingService = require('../../services/listingService');
+const ONE_MINUTE = 60;
 
 function* get() {
   const listingIdOrSlug = this.params.listingIdOrSlug;
   const isSlug = isNaN(listingIdOrSlug);
+
+  if (!this.request.user) {
+    this.response.set('Cache-Control', 'public, max-age=' + ONE_MINUTE);
+  }
 
   if (isSlug) {
     const encodedSlug = shared.utils.generic.normalizeSlug(listingIdOrSlug);
