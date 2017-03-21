@@ -3,20 +3,19 @@ const Sequelize = require('sequelize');
 const shared = require('dorbel-shared');
 const modelLoader = require('./models');
 
-const config = shared.config;
 const MY_SQL_PORT = 3306;
 
 module.exports.connect = function* connect() {
-  yield shared.utils.waitForConnection({ host: config.get('RDS_HOSTNAME'), port: MY_SQL_PORT });
+  yield shared.utils.waitForConnection({ host: process.env.RDS_HOSTNAME, port: MY_SQL_PORT });
 
-  const db = new Sequelize(config.get('RDS_DB_NAME'), config.get('RDS_USERNAME'), config.get('RDS_PASSWORD'),
+  const db = new Sequelize(process.env.RDS_DB_NAME, process.env.RDS_USERNAME, process.env.RDS_PASSWORD,
     {
-      host: config.get('RDS_HOSTNAME'),
+      host: process.env.RDS_HOSTNAME,
       pool: {
         max: 100,
         min: 0
       },
-      logging: config.get('SHOW_SQL_QUERIES') || false,
+      logging: process.env.SHOW_SQL_QUERIES || false,
       define: { // default definitions for models
         underscored: true,
         charset: 'utf8',

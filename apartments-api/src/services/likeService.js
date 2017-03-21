@@ -1,7 +1,6 @@
 'use strict';
 const likeRepository = require('../apartmentsDb/repositories/likeRepository');
 const shared = require('dorbel-shared');
-const config = shared.config;
 const logger = shared.logger.getLogger(module);
 const errors = shared.utils.domainErrors;
 const messageBus = shared.utils.messageBus;
@@ -29,7 +28,7 @@ function* set(listingId, user, isLiked) {
 
 function publishLikeEvent(listingId, userId, isLiked) {
   const eventType = isLiked ? messageBus.eventType.LISTING_LIKED : messageBus.eventType.LISTING_UNLIKED;
-  messageBus.publish(config.get('NOTIFICATIONS_SNS_TOPIC_ARN'), eventType, {
+  messageBus.publish(process.env.NOTIFICATIONS_SNS_TOPIC_ARN, eventType, {
     listing_id: listingId,
     user_uuid: userId,
     is_liked: isLiked

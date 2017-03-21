@@ -18,7 +18,7 @@ class ListingThumbnail extends Component {
     const { listing, appStore }  = this.props;
 
     if (appStore.oheStore.isListingLoaded(listing.id)) {
-      const oheCount = appStore.oheStore.oheByListingId(listing.id).length;
+      const oheCount = appStore.oheStore.oheByListingId(listing.id).filter(ohe => ohe.status === 'open').length;
       if (oheCount) {
         return <span className="pull-left apt-thumb-ohe-text">{oheCount} מועדי ביקור זמינים</span>;
       } else {

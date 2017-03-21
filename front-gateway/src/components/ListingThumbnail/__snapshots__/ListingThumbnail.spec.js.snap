@@ -19,3 +19,11 @@ exports[`Listing Thumbnail OHE indication should display indication for a loaded
   עדכנו אותי
 </span>
 `;
+
+exports[`Listing Thumbnail OHE indication should only display indication for open OHEs 1`] = `
+<span
+  className="pull-left apt-thumb-ohe-text">
+  3
+   מועדי ביקור זמינים
+</span>
+`;

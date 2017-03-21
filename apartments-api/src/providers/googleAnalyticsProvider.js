@@ -4,16 +4,13 @@ const shared = require('dorbel-shared');
 const moment = require('moment');
 
 const logger = shared.logger.getLogger(module);
-const config = shared.config;
-
 let ga;
-
 const gaAuthScope = ['https://www.googleapis.com/auth/analytics.readonly'];
 
 function init() {
-  const googleAnalyticsID = config.get('GOOGLE_ANALYTICS_ID');
-  const serviceEmail = config.get('GOOGLE_API_SERVICE_EMAIL');
-  const serviceKey = config.get('GOOGLE_API_SERVICE_KEY');
+  const googleAnalyticsID = process.env.GOOGLE_ANALYTICS_ID;
+  const serviceEmail = process.env.GOOGLE_API_SERVICE_EMAIL;
+  const serviceKey = process.env.GOOGLE_API_SERVICE_KEY;
 
   if (!googleAnalyticsID || !serviceEmail || !serviceKey) {
     logger.warn('Missing Environment keys for Google Analytics provider');
@@ -47,7 +44,7 @@ function getPageViews(urls) {
   }
 
   var opts = {
-    ids: config.get('GOOGLE_ANALYTICS_ID'),
+    ids: process.env.GOOGLE_ANALYTICS_ID,
     metrics: 'ga:pageviews',
     dimensions: 'ga:pagePath',
     'start-date': '2017-01-01',
