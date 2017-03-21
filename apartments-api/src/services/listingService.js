@@ -136,7 +136,14 @@ function* getByFilter(filterJSON, options = {}) {
     limit: options.limit || DEFUALT_LISTING_LIST_LIMIT,
     offset: options.offset || 0
   };
-
+  
+  if (filter.liked && options.user) {
+    queryOptions.likeQuery = {
+      is_active: true,
+      liked_user_id: options.user.id
+    };
+  }
+  
   var filterMapping = {
     // Listing monthly rent start.
     mrs: { set: 'monthly_rent.$gte', target: listingQuery },
