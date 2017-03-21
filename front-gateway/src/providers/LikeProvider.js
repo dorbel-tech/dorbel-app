@@ -6,21 +6,22 @@
 class LikeProvider {
   constructor(appStore, apiProvider) {
     this.appStore = appStore;
-    this.apiProvider = apiProvider;    
+    this.apiProvider = apiProvider;
+    this.isSyncedWithServer = false;
   }
-
-  getAllUserLikes() {
-    if (this.appStore.authStore.isLoggedIn) {
-      this.apiProvider.fetch('/api/apartments/v1/likes/user')
-        .then((likedListingIdArr) => {
-          let likesMap = {};
-          likedListingIdArr.map((listingId) => likesMap[listingId] = true);
-          this.appStore.likeStore.init(likesMap);
-        });
-    }
-  }
-
+  
   get(listingId) {
+    if (this.appStore.authStore.isLoggedIn) {
+      if (!this.isSyncedWithServer) { // Sync once with server
+        this.isSyncedWithServer = true;
+        this.apiProvider.fetch('/api/apartments/v1/likes/user')
+          .then((likedListingIdArr) => {
+            let likesMap = {};
+            likedListingIdArr.map((listingId) => likesMap[listingId] = true);
+            this.appStore.likeStore.init(likesMap);
+          });
+      }
+    }
     return this.appStore.likeStore.likesByListingId.get(listingId);
   }
 
