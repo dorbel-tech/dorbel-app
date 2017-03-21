@@ -40,8 +40,8 @@ class OHEList extends Component {
             <span className="ohe-text">{params.itemSubText}</span>
           </div>
           <div className="ohe-list-item-text-container">
-            {params.extraText}
             <div className={'ohe-list-item-text ' + params.callToActionTextClass || ''}>{params.callToActionText}</div>
+            <div className="ohe-list-item-extra-text">{params.extraText}</div>
           </div>
         </div>
       </a>
