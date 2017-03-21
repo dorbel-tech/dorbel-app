@@ -28,7 +28,9 @@ const DEFAULT_FILTER_PARAMS = {
   balc: false, // Apartment with balcony checkbox default value.
   elev: false, // Apartment with elevator checkbox default value.
   park: false, // Apartment with parking checkbox default value.
-  pet: false // Apartment allowing pets checkbox default value.
+  pet: false, // Apartment allowing pets checkbox default value.
+
+  liked: false // Display only listings that were liked by the user.
 };
 
 @observer(['appStore', 'appProviders'])
@@ -124,6 +126,17 @@ class Filter extends Component {
     }
 
     this.reloadResults();
+  }
+
+  likedChangeHandler(e) {
+    if (this.props.appStore.authStore.isLoggedIn) {
+      this.setState({ liked: e.target.checked });
+      this.filterObj[e.target.name] = e.target.checked;
+      this.reloadResults();
+    }
+    else {
+      this.props.appProviders.authProvider.showLoginModal();
+    }
   }
 
   sortChangeHandler(e) {
@@ -243,6 +256,17 @@ class Filter extends Component {
         </div>
         {this.renderAdminFilter()}
         {this.renderSort()}
+        <div className="filter-group-container">
+          <Checkbox name="liked"
+            checked={this.state.liked}
+            className="filter-switch-group-header"
+            onChange={this.likedChangeHandler}>
+            <b>
+              <i className="fa fa-heart like-filter-icon" />
+              <span>הציגו לי רק דירות שאהבתי</span>
+            </b>
+          </Checkbox>
+        </div>
         <div className="filter-group-container">
           <Checkbox name="roommate"
             checked={this.state.roommate}

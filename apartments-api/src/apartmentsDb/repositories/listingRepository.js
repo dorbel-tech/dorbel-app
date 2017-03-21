@@ -41,38 +41,45 @@ const fullListingDataInclude = [
 
 function list(query, options = {}) {
   return models.listing.findAll({
-    attributes: ['id', 'slug', 'title', 'monthly_rent', 'roommate_needed', 'lease_start', 'status'],
+    attributes: ['id', 'slug', 'title', 'monthly_rent', 'roommate_needed', 'lease_start', 'status', 'created_at'],
     where: query,
-    include: [{
-      model: models.apartment,
-      attributes: ['size', 'rooms'],
-      required: true,
-      where: options.apartmentQuery || {},
-      include: {
-        model: models.building,
-        attributes: ['street_name'],
+    include: [
+      {
+        model: models.apartment,
+        attributes: ['size', 'rooms'],
         required: true,
-        where: options.buildingQuery || {},
-        include: [
-          {
-            model: models.city,
-            attributes: ['id', 'city_name'],
-            required: true
-          },
-          {
-            model: models.neighborhood,
-            attributes: ['neighborhood_name'],
-            required: true
-          }
-        ]
+        where: options.apartmentQuery || {},
+        include: {
+          model: models.building,
+          attributes: ['street_name'],
+          required: true,
+          where: options.buildingQuery || {},
+          include: [
+            {
+              model: models.city,
+              attributes: ['id', 'city_name'],
+              required: true
+            },
+            {
+              model: models.neighborhood,
+              attributes: ['neighborhood_name'],
+              required: true
+            }
+          ]
+        }
+      },
+      {
+        model: models.image,
+        // all attributes are selected to resolve: https://github.com/sequelize/sequelize/issues/4694#issuecomment-215745576
+        order: 'display_order ASC',
+        limit: 1,
+      },
+      {
+        model: models.like,
+        attributes: [],
+        where: options.likeQuery,
       }
-    },
-    {
-      model: models.image,
-      // all attributes are selected to resolve: https://github.com/sequelize/sequelize/issues/4694#issuecomment-215745576
-      order: 'display_order ASC',
-      limit: 1,
-    }],
+    ],
 
     limit: options.limit,
     offset: options.offset,
