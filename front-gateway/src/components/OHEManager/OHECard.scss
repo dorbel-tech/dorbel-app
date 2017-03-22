@@ -12,6 +12,12 @@
     color: #3cb878;
   }
 
+  .ohe-card-row-icon {
+    font-size: 20px;
+    line-height: 33px;
+    width: 20px;
+  }
+
   @media (min-width: $screen-sm-min) {
     .ohe-card-user-image-cell {
       width: 80px;
