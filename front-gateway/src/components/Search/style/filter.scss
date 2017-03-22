@@ -1,3 +1,11 @@
+.filter-component-wrapper {
+  background-color: $gray-lighter;
+
+  @media (max-width: $screen-sm-max) {
+    padding-bottom: 10px;
+  }
+}
+
 .filter-toggle-container {
   left: 100px;
   position: fixed;

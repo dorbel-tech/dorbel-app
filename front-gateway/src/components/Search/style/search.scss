@@ -3,6 +3,10 @@
   height: 100%;
   position: relative;
 
+  @media (min-width: $screen-md-min) {
+    overflow: auto;
+  }
+
   @media (max-width: $screen-xs-max) {
     overflow-y: scroll; /* has to be scroll, not auto */
     -webkit-overflow-scrolling: touch;
@@ -31,6 +35,7 @@
 }
 
 .search-results-wrapper {
+  background-color: $gray-lighter;
   padding-top: 39px;
 
   @media (min-width: $screen-md-min) {
@@ -39,6 +44,10 @@
     position: absolute;
     right: 361px;
     top: 0;
+  }
+
+  .search-results-container {
+    background-color: $gray-lighter;
   }
 
   .loader-container {
