@@ -25,6 +25,10 @@ function getListingTitle(listing) {
   return listing.title || `דירת ${listing.apartment.rooms} חד׳ ב${listing.apartment.building.street_name}`;
 }
 
+function getListingSubTitle(listing) {
+  return listing.apartment.building.street_name + ', ' + listing.apartment.building.city.city_name;
+}
+
 function sortListingImages(listing) {
   return listing.images.length ? _.orderBy(listing.images, ['display_order']) : [];
 }
@@ -59,6 +63,7 @@ module.exports = {
   formatTime,
   formatDate,
   formatDay,
+  getListingSubTitle,
   getListingTitle,
   sortListingImages,
   getListingStatusLabels,

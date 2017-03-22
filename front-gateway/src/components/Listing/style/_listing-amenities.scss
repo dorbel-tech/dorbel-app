@@ -1,4 +1,4 @@
-.property-amenities {
+.listing-amenities {
   ul {
     list-style: none;
     padding: 0;
@@ -16,8 +16,12 @@
     }
   }
 
+  @media (max-width: $screen-sm-max) {
+    overflow: auto;
+  }
+
   @media (max-width: $screen-xs-max) {
-    .property-amenities-col {
+    .listing-amenities-col {
       padding-left: 0;
 
       > ul > li > img {

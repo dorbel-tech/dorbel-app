@@ -44,8 +44,10 @@ class LikeButton extends Component {
 
     return (
       <a href="#" className={this.getWrapperClass(this.props.showText, isLiked)} onClick={this.handleClick.bind(this)}>
-        <i className={'fa ' + this.getIconClass(isLiked)} />
-        <div className="like-button-text">אהבתי</div>
+        <div className="text-center">
+          <i className={'fa ' + this.getIconClass(isLiked)} />
+          <div className="like-button-text">אהבתי</div>
+        </div>
       </a>
     );
   }

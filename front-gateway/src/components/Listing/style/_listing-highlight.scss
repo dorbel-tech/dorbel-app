@@ -1,9 +1,9 @@
-.listing-price {
-  display: inline;
-  font-size: ceil($font-size-large*1.2);
+.listing-highlight-container {
+  background: $gray-dark;
+  color: $brand-white;
+  padding: 17px 16px;
 }
 
-.listing-price-desc {
-  display: inline;
-  line-height: $line-height-large*2.2;
+.listing-highlight-price {
+  font-size: 20px;
 }

@@ -1,0 +1,143 @@
+.listing-choose-date-container {
+  box-shadow: 0 2px 20px 0 rgba(0, 0, 0, 0.15);
+  margin-bottom: 15px;
+
+  .listing-choose-date-title {
+    border-bottom: 1px solid #ddd;
+    color: $gray-dark;
+    margin: 0;
+    padding: 10px 20px;
+    text-align: right;
+  }
+
+  .list-group-item {
+    border: none;
+    border-bottom: 1px solid #ddd;
+    border-radius: 0;
+    margin: 0;
+    padding: 10px 5px;
+
+    &.disabled {
+      background-color: $brand-white;
+    }
+
+    &:not(.disabled) {
+      color: #333;
+      cursor: pointer;
+
+      .ohe-list-item-text {
+        border-radius: 2px;
+        line-height: 24px;
+      }
+    }
+  }
+
+  .ohe-list-calendar-icon-container {
+    display: inline-block;
+    font-size: $font-size-large;
+    padding: 0 15px;
+
+    svg {
+      width: 15px;
+      height: 15px;
+    }
+  }
+}
+
+.ohe-list-date-and-time-container {
+  display: inline-block;
+  vertical-align: middle;
+
+  span:last-child {
+    color: lighten($gray-light, 10%);
+    font-size: $font-size-small;
+  }
+}
+
+.ohe-list-item-text-container {
+  color: #9b9b9b;
+  float: left;
+  height: 41px;
+  line-height: 36px;
+  padding-left: 10px;
+  text-align: center;
+}
+
+.ohe-list-item-text {
+  display: inline-block;
+  font-size: 12px;
+  line-height: 18px;
+  vertical-align: middle;
+  width: 92px;
+}
+
+.ohe-list-open-action-text {
+  background-color: #3cb878;
+  color: $brand-white;
+}
+
+.ohe-list-registered-action-text {
+  border: 1px solid #3cb878;
+  color: #3cb878;
+}
+
+.ohe-list-item-extra-text {
+  font-size: 11px;
+  line-height: 9px;
+}
+
+.listing-rented-notification {
+  color: #4a4a4a;
+  font-size: 13px;
+  line-height: 21px;
+  padding-bottom: 20px;
+}
+
+.listing-followers-count {
+  color: #555;
+  font-size: 11px;
+  padding-top: 12px;
+}
+
+.ohe-list-follow-container {
+  padding: 20px 0;
+  text-align: center;
+
+  img {
+    width: 100%;
+  }
+
+  i {
+    background-color: $brand-success;
+    border-radius: 50%;
+    color: $brand-white;
+    display: block;
+    font-family: Georgia, serif;
+    height: 30px;
+    line-height: 29px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 30px;
+  }
+
+  h5 {
+    padding-top: 15px;
+    line-height: $line-height-computed*0.7;
+  }
+
+  .follow-action {
+    border: 1px solid #3398db;
+    border-radius: 4px;
+    color: #3398db;
+    cursor: pointer;
+    padding: 6px 16px;
+    width: 250px;
+
+    &:hover {
+      background-color: #3398db;
+      border-color: #3398db;
+      color: $brand-white;
+    }
+  }
+}

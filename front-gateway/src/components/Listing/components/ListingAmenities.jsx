@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Col, Row } from 'react-bootstrap';
+import { Col } from 'react-bootstrap';
 import _ from 'lodash';
 
 const amenitiesLeft = [
@@ -24,7 +24,7 @@ export default class ListingAmenities extends Component {
       .map((amenity, index) => (<li key={index}><img src={'https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/amenities/icon-' + amenity.icon + '.svg'} />{amenity.label}</li>));
 
     return (
-      <Col sm={5} xs={xsCols} className="property-amenities-col">
+      <Col sm={3} xs={xsCols} className="listing-amenities-col">
         <ul>
           {amenityList}
         </ul>
@@ -36,13 +36,10 @@ export default class ListingAmenities extends Component {
     const { listing } = this.props;
 
     return (
-      <Row className="property-amenities">
-        <Col sm={2}>
-          <h5>פרטי הנכס</h5>
-        </Col>
+      <div className="listing-amenities">
         {this.renderAmentites(amenitiesLeft, listing, 7)}
         {this.renderAmentites(amenitiesRight, listing, 5)}
-      </Row>
+      </div>
     );
   }
 }

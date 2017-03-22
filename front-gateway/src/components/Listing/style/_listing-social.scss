@@ -1,0 +1,59 @@
+.listing-social-share-wrapper {
+  background: $brand-white;
+  color: $gray-dark;
+  padding: 35px 5px 9px;
+
+  .like-button {
+    float: left;
+    margin-top: -5px;
+  }
+}
+
+.listing-social-share-container {
+  display: inline-block;
+  padding-right: 10px;
+
+  a {
+    color: $gray-dark;
+    font-size: 18px;
+  }
+
+  svg {
+    fill: $gray-dark;
+    width: 18px;
+    height: 18px;
+    vertical-align: middle;
+  }
+
+  .listing-social-share-item {
+    padding: 10px;
+  }
+
+  @media (min-width: $screen-md-min) {
+    .fb-desktop,
+    .fb-messenger-desktop,
+    .email {
+      display: inline;
+    }
+
+    .fb-mobile,
+    .fb-messenger-mobile,
+    .whatsapp {
+      display: none;
+    }
+  }
+
+  @media (max-width: $screen-sm-max) {
+    .fb-desktop,
+    .fb-messenger-desktop,
+    .email {
+      display: none;
+    }
+
+    .fb-mobile,
+    .fb-messenger-mobile,
+    .whatsapp {
+      display: inline;
+    }
+  }
+}

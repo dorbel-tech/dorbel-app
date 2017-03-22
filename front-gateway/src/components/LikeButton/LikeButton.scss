@@ -18,26 +18,24 @@
   }
 
   &.like-button-with-text {
-    display: inline-block;
-    width: 120px;
-    height: 32px;
-    font-size: 13px;
-    border-radius: 2px;
-    border: 1px solid #ea441a;
     color: #ea441a;
+    border: 1px solid #ea441a;
+    border-radius: 2px;
+    display: inline-block;
+    font-size: 13px;
+    height: 32px;
+    width: 97px;
 
     .fa {
-      font-size: 15px;
       color: #ea441a;
-      margin-top: 8px;
-      margin-right: 22px;
+      font-size: 15px;
+      padding: 8px;
     }
 
     .like-button-text {
       display: inline-block;
-      margin-right: 10px;
-      position: absolute;
-      margin-top: 6px;
+      padding-left: 10px;
+      vertical-align: text-bottom;
     }
 
     &.like-button-liked {

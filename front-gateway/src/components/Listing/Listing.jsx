@@ -2,16 +2,18 @@ import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import autobind from 'react-autobind';
 import { Col, Grid, Row } from 'react-bootstrap';
-import OHEList from './components/OHEList.jsx';
-import ListingDescription from './components/ListingDescription.jsx';
-import ListingInfo from './components/ListingInfo.jsx';
-import ListingMenu from './components/ListingMenu.jsx';
-import ListingHeader from './components/ListingHeader.jsx';
+import OHEList from './components/OHEList';
+import ListingDescription from './components/ListingDescription';
+import ListingHighlight from './components/ListingHighlight';
+import ListingHeader from './components/ListingHeader';
+import ListingInfo from './components/ListingInfo';
+import ListingMenu from './components/ListingMenu';
+import ListingSocial from './components/ListingSocial';
+import ListingStatusSelector from './components/ListingStatusSelector';
 import OHEManager from '~/components/OHEManager/OHEManager';
-import ApartmentLocation from '~/components/MapWrapper/MapWrapper.jsx';
-import RelatedListings from '~/components/RelatedListings/RelatedListings.jsx';
+import ApartmentLocation from '~/components/MapWrapper/MapWrapper';
+import RelatedListings from '~/components/RelatedListings/RelatedListings';
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
-import LikeButton from '~/components/LikeButton/LikeButton';
 import utils from '~/providers/utils';
 
 import './Listing.scss';
@@ -53,7 +55,7 @@ class Listing extends Component {
     if (geolocation) {
       return (
         <Grid fluid className="location-container">
-          <Row >
+          <Row>
             <ApartmentLocation geo={geolocation} />
           </Row>
         </Grid>
@@ -64,10 +66,11 @@ class Listing extends Component {
   render() {
     const { appStore, action } = this.props;
     const listing = appStore.listingStore.get(this.props.listingId);
+    const isListingPublisherOrAdmin = listing ? appStore.listingStore.isListingPublisherOrAdmin(listing) : false;
 
     if (this.state.isLoading) {
       return (
-        <div className="loaderContainer">
+        <div className="loader-container">
           <LoadingSpinner />
         </div>
       );
@@ -76,46 +79,50 @@ class Listing extends Component {
     let tabContent;
     switch (action) {
       case 'events':
-        tabContent = (<OHEManager listing={listing} />);
+        tabContent = <OHEManager listing={listing} />;
         break;
       default:
-        // TODO : move to a different file
-        tabContent = (
+        tabContent =
           <div>
-            <OHEList listing={listing} oheId={this.props.oheId} action={this.props.action} />
-            <Grid fluid className="apt-headline-container">
-              <Grid>
-                <Row>
-                  <Col md={9}>
-                    <h2>{utils.getListingTitle(listing)}</h2>
-                    <LikeButton listingId={listing.id} showText="true" />
+            <Grid className="listing-container">
+              <Row className="listing-title-section">
+                <Col sm={5} smPush={7} md={4} mdPush={4}>
+                  <ListingSocial listing={listing} />
+                </Col>
+                <Col sm={7} smPull={5} md={4} mdPull={4} className="listing-title-container">
+                  <h2 className="listing-title">{utils.getListingTitle(listing)}</h2>
+                  <h4 className="listing-sub-title">{utils.getListingSubTitle(listing)}</h4>
+                </Col>
+              </Row>
+              <ListingInfo listing={listing} />
+              <Row>
+                <Col md={4} xs={12} className="listing-ohe-box">
+                  <Col smHidden xsHidden>
+                    <ListingHighlight listing={listing} />
                   </Col>
-                </Row>
-              </Grid>
+                  <OHEList listing={listing} oheId={this.props.oheId} action={this.props.action} />
+                </Col>
+              </Row>
+              <ListingDescription listing={listing} />
             </Grid>
-            <Grid fluid className="apt-highlights-container">
-              <Grid>
-                <Row>
-                  <Col lg={9}>
-                    <ListingInfo listing={listing} />
-                  </Col>
-                </Row>
-              </Grid>
-            </Grid>
-            <ListingDescription listing={listing} />
             {this.renderListingLocation(listing.apartment.building.geolocation)}
             <RelatedListings listingId={listing.id} />
-          </div>
-        );
+          </div>;
     }
 
-    return (
-      <div>
-        <ListingHeader listing={listing} />
-        <ListingMenu listing={listing} currentAction={action} />
-        {tabContent}
-      </div>
-    );
+    return  <div>
+              <ListingHeader listing={listing} />
+              <Col lgHidden mdHidden>
+                <ListingHighlight listing={listing} />
+              </Col>
+              {isListingPublisherOrAdmin ?
+                <Grid className="listing-owner-section">
+                  <ListingStatusSelector listing={listing} />
+                  <ListingMenu listing={listing} currentAction={action} />
+                </Grid>
+              : null}
+              {tabContent}
+            </div>;
   }
 }
 
