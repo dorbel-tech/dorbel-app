@@ -22,10 +22,10 @@ class App extends Component {
 
     return (
       <div className="full-height">
+        <AppHeader />
         <div className={viewClassName}>
           <appStore.currentView {...appStore.routeParams} />
         </div>
-        <AppHeader />
         <components.footer />
         <components.mobxDevTools />
         <Notifications />
