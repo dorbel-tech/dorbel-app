@@ -262,3 +262,11 @@
     margin-bottom: 80px;
   }
 }
+
+.fixed-position-iphone-fix {
+    position:fixed;
+    top:-1px;
+    height:1px;
+    width:100%;
+    background:white;
+}

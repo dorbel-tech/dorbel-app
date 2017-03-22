@@ -226,6 +226,7 @@ class Filter extends Component {
     }
 
     return <div>
+      <div className="fixed-position-iphone-fix"></div>
       <div className="filter-toggle-container">
         <Button onClick={this.toggleHideFilter}>
           סנן תוצאות
