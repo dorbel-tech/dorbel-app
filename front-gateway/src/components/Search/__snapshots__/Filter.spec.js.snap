@@ -45,7 +45,8 @@ exports[`Filter should initialize correctly 1`] = `
         },
       }
     }>
-    <div>
+    <div
+      className="filter-component-wrapper">
       <div
         className="filter-toggle-container">
         <Button
