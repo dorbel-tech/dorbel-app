@@ -17,8 +17,24 @@ class ApiClient {
       .send(newListing);
   }
 
-  getListings(query) {
-    return this.request.get('/v1/listings').query(query);
+  getListings(query, isAuthenticated) {
+    if (query && query.q) { // Fix special character encoding in filter json
+      query.q = encodeURIComponent(JSON.stringify(query.q))
+        .replace(/%22/g, '"')
+        .replace(/%7B/g, '{')
+        .replace(/%7D/g, '}')
+        .replace(/%3A/g, ':');
+    }
+
+    if (isAuthenticated) {
+      return this.request.get('/v1/listings')
+        .query(query)
+        .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile));
+    }
+    else {
+      return this.request.get('/v1/listings')
+        .query(query);
+    }
   }
 
   getSingleListing(id) {
