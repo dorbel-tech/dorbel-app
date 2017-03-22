@@ -15,7 +15,7 @@
   .ohe-card-row-icon {
     font-size: 20px;
     line-height: 33px;
-    width: 20px;
+    width: 51px;
   }
 
   @media (min-width: $screen-sm-min) {
@@ -44,7 +44,7 @@
     }
 
     .ohe-card-row-icon {
-      width: 15px;
+      width: 33px;
     }
 
     .ohe-card-row-date,
@@ -54,7 +54,7 @@
 
     .ohe-card-row-reg-num-col {
       color: #979797;
-      padding-right: 0;
+      padding: 0;
     }
 
     .ohe-card-user-table {
