@@ -72,12 +72,12 @@ class OHECard extends React.Component {
     return (
       <div className="ohe-card-row">
         <Panel>
-          <Col xs={7}>
+          <Col xs={6}>
             <i className="ohe-card-row-icon pull-right fa fa-calendar-o" aria-hidden="true"></i>
             <span className="ohe-card-row-date">{ohe.dateLabel} - {ohe.dayLabel + '\''}</span><br />
             <span className="ohe-card-row-time">{ohe.timeLabel}</span>
           </Col>
-          <Col xs={5} className="ohe-card-row-reg-num-col">
+          <Col xs={6} className="ohe-card-row-reg-num-col">
             <span className={(numberOfActiveRegistrations === 0 ? 'ohe-no-visits' : '')}>נרשמים לביקור ({numberOfActiveRegistrations})</span>
           </Col>
           <div className="ohe-card-menu">
