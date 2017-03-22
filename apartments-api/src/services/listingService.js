@@ -55,7 +55,7 @@ function* create(listing) {
 
   // Publish event trigger message to SNS for notifications dispatching.
   messageBus.publish(process.env.NOTIFICATIONS_SNS_TOPIC_ARN, messageBus.eventType.APARTMENT_CREATED, {
-    city_id: createdListing.apartment.building.city_id,
+    city_id: listing.apartment.building.city_id,
     listing_id: createdListing.id,
     user_uuid: createdListing.publishing_user_id,
     user_email: listing.user.email,
