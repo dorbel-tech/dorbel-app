@@ -258,17 +258,6 @@ class Filter extends Component {
         {this.renderAdminFilter()}
         {this.renderSort()}
         <div className="filter-group-container">
-          <Checkbox name="liked"
-            checked={this.state.liked}
-            className="filter-switch-group-header"
-            onChange={this.likedChangeHandler}>
-            <b>
-              <i className="fa fa-heart like-filter-icon" />
-              <span>הציגו לי רק דירות שאהבתי</span>
-            </b>
-          </Checkbox>
-        </div>
-        <div className="filter-group-container">
           <Checkbox name="roommate"
             checked={this.state.roommate}
             className="filter-switch-group-header"
