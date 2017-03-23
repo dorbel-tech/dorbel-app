@@ -250,36 +250,6 @@ exports[`Filter should initialize correctly 1`] = `
           className="filter-group-container">
           <Checkbox
             bsClass="checkbox"
-            checked={false}
-            className="filter-switch-group-header"
-            disabled={false}
-            inline={false}
-            name="liked"
-            onChange={[Function]}>
-            <div
-              className="filter-switch-group-header checkbox">
-              <label>
-                <input
-                  checked={false}
-                  disabled={false}
-                  name="liked"
-                  onChange={[Function]}
-                  type="checkbox" />
-                <b>
-                  <i
-                    className="fa fa-heart like-filter-icon" />
-                  <span>
-                    הציגו לי רק דירות שאהבתי
-                  </span>
-                </b>
-              </label>
-            </div>
-          </Checkbox>
-        </div>
-        <div
-          className="filter-group-container">
-          <Checkbox
-            bsClass="checkbox"
             checked={true}
             className="filter-switch-group-header"
             disabled={false}
@@ -347,6 +317,34 @@ exports[`Filter should initialize correctly 1`] = `
               </div>
             </Checkbox>
           </div>
+        </div>
+        <div
+          className="filter-group-container">
+          <Checkbox
+            bsClass="checkbox"
+            checked={false}
+            className="filter-switch-group-header"
+            disabled={false}
+            inline={false}
+            name="liked"
+            onChange={[Function]}>
+            <div
+              className="filter-switch-group-header checkbox">
+              <label>
+                <input
+                  checked={false}
+                  disabled={false}
+                  name="liked"
+                  onChange={[Function]}
+                  type="checkbox" />
+                  <i
+                    className="fa fa-heart like-filter-icon" />
+                  <span>
+                    הציגו רק דירות שאהבתי
+                  </span>
+              </label>
+            </div>
+          </Checkbox>
         </div>
         <div
           className="filter-sliders-container">
