@@ -109,28 +109,21 @@ describe('Apartments API Integration', function () {
 
       before(function* () {
         // switch user for test purposes
-        this.apiClient = yield ApiClient.init(faker.getFakeUser({
+        this.otherApiClient = yield ApiClient.init(faker.getFakeUser({
           id: OTHER_INTEGRATION_TEST_USER_ID
         }));
       });
 
-      after(function* () {
-        // reset apiClient to the default user
-        this.apiClient = yield ApiClient.init(faker.getFakeUser({
-          id: INTEGRATION_TEST_USER_ID
-        }));
-      });
-
       it('should not return any listings', function* () {
-        let getListingResponse = yield this.apiClient.getListings({ q: { mine: true } }, true).expect(200).end();
+        let getListingResponse = yield this.otherApiClient.getListings({ q: { mine: true } }, true).expect(200).end();
 
         assertNothingReturned(getListingResponse);
       });
 
       it('should create a listing and expect it to be returned (pending)', function* () {
-        const createListingResponse = yield this.apiClient.createListing(faker.getFakeListing()).expect(201).end();
+        const createListingResponse = yield this.otherApiClient.createListing(faker.getFakeListing()).expect(201).end();
         createListingId = createListingResponse.id;
-        let getListingResponse = yield this.apiClient.getListings({ q: { mine: true } }, true).expect(200).end();
+        let getListingResponse = yield this.otherApiClient.getListings({ q: { mine: true } }, true).expect(200).end();
 
         assertListingReturned(getListingResponse);
       });
@@ -148,8 +141,8 @@ describe('Apartments API Integration', function () {
       });
 
       function* testListingByStatus(status, shouldBeReturned = true){
-        yield this.apiClient.patchListing(createListingId, { status }).expect(200).end();
-        const getListingResponse = yield this.apiClient.getListings({ q: { mine: true } }, true).expect(200).end();
+        yield this.otherApiClient.patchListing(createListingId, { status }).expect(200).end();
+        const getListingResponse = yield this.otherApiClient.getListings({ q: { mine: true } }, true).expect(200).end();
         
         shouldBeReturned ? assertListingReturned(getListingResponse) : assertNothingReturned(getListingResponse);
       }
