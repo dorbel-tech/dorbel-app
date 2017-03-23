@@ -104,26 +104,29 @@ describe('Apartments API Integration', function () {
     // TODO : add at least some basic test for filters
 
     describe('Filter: my listings', function () {
+      // held outside before section because of a scoping issue
+      let otherApiClient;
+      
       // global test var - populated in step 2
-      let createListingId; // eslint-disable-line no-unused-vars
+      let createListingId;
 
       before(function* () {
         // switch user for test purposes
-        this.otherApiClient = yield ApiClient.init(faker.getFakeUser({
+        otherApiClient = yield ApiClient.init(faker.getFakeUser({
           id: OTHER_INTEGRATION_TEST_USER_ID
         }));
       });
 
       it('should not return any listings', function* () {
-        let getListingResponse = yield this.otherApiClient.getListings({ q: { mine: true } }, true).expect(200).end();
+        let getListingResponse = yield otherApiClient.getListings({ q: { mine: true } }, true).expect(200).end();
 
         assertNothingReturned(getListingResponse);
       });
 
       it('should create a listing and expect it to be returned (pending)', function* () {
-        const createListingResponse = yield this.otherApiClient.createListing(faker.getFakeListing()).expect(201).end();
+        const createListingResponse = yield otherApiClient.createListing(faker.getFakeListing()).expect(201).end();
         createListingId = createListingResponse.id;
-        let getListingResponse = yield this.otherApiClient.getListings({ q: { mine: true } }, true).expect(200).end();
+        let getListingResponse = yield otherApiClient.getListings({ q: { mine: true } }, true).expect(200).end();
 
         assertListingReturned(getListingResponse);
       });
@@ -141,8 +144,8 @@ describe('Apartments API Integration', function () {
       });
 
       function* testListingByStatus(status, shouldBeReturned = true){
-        yield this.otherApiClient.patchListing(createListingId, { status }).expect(200).end();
-        const getListingResponse = yield this.otherApiClient.getListings({ q: { mine: true } }, true).expect(200).end();
+        yield otherApiClient.patchListing(createListingId, { status }).expect(200).end();
+        const getListingResponse = yield otherApiClient.getListings({ q: { mine: true } }, true).expect(200).end();
         
         shouldBeReturned ? assertListingReturned(getListingResponse) : assertNothingReturned(getListingResponse);
       }
