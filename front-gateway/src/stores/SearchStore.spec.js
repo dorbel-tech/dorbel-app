@@ -27,15 +27,18 @@ describe('Search Store', () => {
     expect(searchStore.searchResults()).toEqual([ { id: 3 }, { id: 4 }, { id: 1 }]);
   });
 
-  it('should reset to empty array with isLoading and !hasMorePages', () => {
+  it('should reset correctly', () => {
     searchStore.add([ { id: 3 }, { id: 4 } ]);
-    searchStore.isLoading = false;
+    searchStore.isLoadingNewSearch = true;
+    searchStore.isLoadingNextPage = true;
     searchStore.hasMorePages = true;
 
     searchStore.reset();
 
     expect(searchStore.searchResults()).toEqual([]);
-    expect(searchStore.isLoading).toBe(true);
+    expect(searchStore.isLoadingNewSearch).toBe(false);
+    expect(searchStore.isLoadingNextPage).toBe(false);
     expect(searchStore.hasMorePages).toBe(false);
   });
 });
+

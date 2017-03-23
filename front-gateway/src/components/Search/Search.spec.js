@@ -28,7 +28,7 @@ describe('Search', () => {
         searchResults: jest.fn().mockReturnValue([mockResults])
       },
       cityStore: {
-        cities: []
+        cities: [ { id: 1 } ]
       },
       metaData: {
         title: 'should change'

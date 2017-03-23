@@ -56,7 +56,10 @@ describe('SearchProvider', () => {
   it('should mark isLoading as false when results are in', () => {
     appStoreMock.searchStore.isLoading = true; // isLoading is set to true using searchStore.reset() so we don't check it here specifically
     return searchProvider.search()
-      .then(() => expect(appStoreMock.searchStore.isLoading).toBe(false));
+      .then(() => {
+        expect(appStoreMock.searchStore.isLoadingNewSearch).toBe(false);
+        expect(appStoreMock.searchStore.isLoadingNextPage).toBe(false);
+      });
   });
 
   it('should not clear search when requesting next page', () => {
@@ -70,17 +73,45 @@ describe('SearchProvider', () => {
       .then(() => {
         expect(appProvidersMock.api.fetch).toHaveBeenCalledWith('/api/apartments/v1/listings', { params: {
           q: JSON.stringify(someQuery),
-          limit: 25
+          limit: 15
         }});
-        appStoreMock.searchStore.length = 25;
+        appStoreMock.searchStore.length = 15;
         return searchProvider.loadNextPage();
       })
       .then(() => {
         expect(appProvidersMock.api.fetch).toHaveBeenLastCalledWith('/api/apartments/v1/listings', { params: {
           q: JSON.stringify(someQuery),
-          limit: 25,
-          offset: 25
+          limit: 15,
+          offset: 15
         }});
       });
+  });
+
+  it('should not search while searching', () => {
+    const deferred = Promise.defer();
+    appProvidersMock.api.fetch.mockReturnValue(deferred.promise);
+    const promises = [
+      searchProvider.search(),
+      searchProvider.search()
+    ];
+    deferred.resolve();
+    return Promise.all(promises)
+    .then(() => {
+      expect(appProvidersMock.api.fetch).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('should not get next page while getting next page', () => {
+    const deferred = Promise.defer();
+    appProvidersMock.api.fetch.mockReturnValue(deferred.promise);
+    const promises = [
+      searchProvider.loadNextPage(),
+      searchProvider.loadNextPage()
+    ];
+    deferred.resolve();
+    return Promise.all(promises)
+    .then(() => {
+      expect(appProvidersMock.api.fetch).toHaveBeenCalledTimes(1);
+    });
   });
 });

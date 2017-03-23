@@ -4,7 +4,7 @@
 'use strict';
 import { isMobile } from './utils';
 
-const PAGE_SIZE = isMobile() ? 8 : 25;
+const PAGE_SIZE = isMobile() ? 9 : 15;
 
 class SearchProvider {
   constructor(appStore, appProviders) {
@@ -15,6 +15,10 @@ class SearchProvider {
 
   search(query, loadNextPage) {
     const searchStore = this.appStore.searchStore;
+    if (searchStore.isLoadingNewSearch || searchStore.isLoadingNextPage) {
+      return Promise.resolve();
+    }
+
     this.appStore.query = query;
 
     // const q = encodeURIComponent();
@@ -25,14 +29,17 @@ class SearchProvider {
 
     if (!loadNextPage) { // new search
       searchStore.reset();
+      searchStore.isLoadingNewSearch = true;
     } else { // next page
+      searchStore.isLoadingNextPage = true;
       params.offset = searchStore.length;
     }
 
     return this.apiProvider.fetch('/api/apartments/v1/listings', { params })
       .then((results) => {
         searchStore.add(results);
-        searchStore.isLoading = false;
+        searchStore.isLoadingNewSearch = false;
+        searchStore.isLoadingNextPage = false;
         searchStore.hasMorePages = (results.length === PAGE_SIZE);
 
         const listingIds = results.map(listing => listing.id);

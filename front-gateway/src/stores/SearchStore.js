@@ -3,7 +3,8 @@ import { observable, asMap, computed } from 'mobx';
 
 export default class ListingStore {
   @observable searchResultsbyListingId;
-  @observable isLoading = true;
+  @observable isLoadingNewSearch = false;
+  @observable isLoadingNextPage = false;
   @observable hasMorePages = false;
 
   constructor(initialState) {
@@ -20,7 +21,8 @@ export default class ListingStore {
 
   reset() {
     this.searchResultsbyListingId.clear();
-    this.isLoading = true;
+    this.isLoadingNewSearch = false;
+    this.isLoadingNextPage = false;
     this.hasMorePages = false;
   }
 
