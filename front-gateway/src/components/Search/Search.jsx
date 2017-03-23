@@ -65,7 +65,6 @@ class Search extends Component {
   }
 
   renderResults() {
-<<<<<<< HEAD
     const { searchStore, cityStore } = this.props.appStore;
     const isLoadingCities = cityStore.cities.length === 0;
     const results = searchStore.searchResults();
