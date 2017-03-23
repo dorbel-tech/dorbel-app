@@ -12,6 +12,12 @@
     color: #3cb878;
   }
 
+  .ohe-card-row-icon {
+    font-size: 20px;
+    line-height: 33px;
+    width: 51px;
+  }
+
   @media (min-width: $screen-sm-min) {
     .ohe-card-user-image-cell {
       width: 80px;
@@ -38,7 +44,9 @@
     }
 
     .ohe-card-row-icon {
-      width: 15px;
+      font-size: 15px;
+      margin-right: -5px;
+      width: 10px;
     }
 
     .ohe-card-row-date,
@@ -48,7 +56,9 @@
 
     .ohe-card-row-reg-num-col {
       color: #979797;
+      padding-left: 8px;
       padding-right: 0;
+      text-align: left;
     }
 
     .ohe-card-user-table {

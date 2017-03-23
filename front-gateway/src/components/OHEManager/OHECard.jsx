@@ -1,6 +1,5 @@
 import React from 'react';
 import { Table, Col, Button, Panel, Image, Dropdown, MenuItem } from 'react-bootstrap';
-import Icon from '~/components/Icon/Icon';
 import EditOHEModal from './EditOHEModal';
 import DeleteOHEModal from './DeleteOHEModal';
 import autobind from 'react-autobind';
@@ -74,7 +73,7 @@ class OHECard extends React.Component {
       <div className="ohe-card-row">
         <Panel>
           <Col xs={6}>
-            <Icon className="ohe-card-row-icon pull-right" iconName="dorbel_icon_calendar" />
+            <i className="ohe-card-row-icon pull-right fa fa-calendar-o" aria-hidden="true"></i>
             <span className="ohe-card-row-date">{ohe.dateLabel} - {ohe.dayLabel + '\''}</span><br />
             <span className="ohe-card-row-time">{ohe.timeLabel}</span>
           </Col>
