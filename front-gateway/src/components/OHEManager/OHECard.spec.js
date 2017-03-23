@@ -37,9 +37,7 @@ describe('OHECard', () => {
     props.editable = true;
     props.ohe.id = 'fakeId';
 
-    const dropdownWrapper = oheCard().find(Dropdown);
-
-    expect(dropdownWrapper.props().id).toEqual('fakeId_ohe_action');
+    expect(oheCard().find(Dropdown).props().id).toEqual('fakeId_ohe_action');
     expect(oheCard()).toMatchSnapshot();
   });
 
