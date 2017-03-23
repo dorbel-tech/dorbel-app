@@ -4,6 +4,7 @@ describe('Apartments API Integration', function () {
   const __ = require('hamjest');
   const _ = require('lodash');
   const faker = require('../shared/fakeObjectGenerator');
+  const utils = require('./utils');
 
   // Integration tests run with static ID as they fill the message queue with app-events
   const INTEGRATION_TEST_USER_ID = '23821212-6191-4fda-b3e3-fdb8bf69a95d';
@@ -82,6 +83,20 @@ describe('Apartments API Integration', function () {
       __.assertThat(firstRepsponse.body, __.hasSize(1));
       __.assertThat(secondResponse.body, __.hasSize(1));
       __.assertThat(firstRepsponse.body[0].id, __.is(__.not(secondResponse.body[0].id)));
+
+      yield utils.clearAllUserLikes(this.apiClient);
+    });
+
+    it('should return only liked listings', function* () {
+      const prepGetListingResponse = yield this.apiClient.getListings({ limit: 2 }).expect(200).end();
+      yield this.apiClient.likeListing(prepGetListingResponse.body[1].id).expect(200).end();
+
+      const getListingResponse = yield this.apiClient.getListings({ q: { liked: true } }, true).expect(200).end();
+
+      __.assertThat(getListingResponse.body, __.is(__.array()));
+      __.assertThat(getListingResponse.body, __.hasSize(1));
+      __.assertThat(getListingResponse.body[0].id, __.is(prepGetListingResponse.body[1].id));
+
     });
 
     // TODO : add at least some basic test for filters
