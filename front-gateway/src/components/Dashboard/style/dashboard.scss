@@ -1,0 +1,31 @@
+.dashboard-container {
+  background-color: $gray-lighter;
+  height: 100%;
+  position: relative;
+
+  @media (min-width: $screen-md-min) {
+    overflow: auto;
+  }
+
+  @media (max-width: $screen-xs-max) {
+    overflow-y: scroll; /* has to be scroll, not auto */
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+.dashboard-action-wrapper {
+  background-color: $gray-lighter;
+  padding-top: 39px;
+
+  @media (min-width: $screen-md-min) {
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 361px;
+    top: 0;
+  }
+
+  .loader-container {
+    top: -39px;
+  }
+}
