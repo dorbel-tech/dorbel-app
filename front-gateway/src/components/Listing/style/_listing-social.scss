@@ -3,9 +3,19 @@
   color: $gray-dark;
   padding: 35px 5px 9px;
 
-  .like-button {
+  .like-button-wrapper {
     float: left;
     margin-top: -5px;
+
+    .like-button {
+      margin-right: 3px;
+    }
+
+    .like-button-total-likes-text {
+      font-size: 11px;
+      color: #333333;
+      padding: 3px;
+    }
   }
 }
 

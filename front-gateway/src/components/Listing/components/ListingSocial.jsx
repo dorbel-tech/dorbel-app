@@ -4,6 +4,23 @@ import Icon from '~/components/Icon/Icon';
 import LikeButton from '~/components/LikeButton/LikeButton';
 
 class ListingInfo extends React.Component {
+
+  renderLikeCounter() {
+    const totalLikes = this.props.listing.totalLikes;
+    if (totalLikes) {
+      return (
+        <div className="like-button-total-likes-text">
+          <span>
+            {`${totalLikes} איש אוהבים את הדירה`}
+          </span>
+        </div>
+      );
+    }
+    else {
+      return null;
+    }
+  }
+
   render() {
     const listingId = this.props.listing.id;
     const website_url = process.env.FRONT_GATEWAY_URL || 'https://app.dorbel.com';
@@ -20,7 +37,10 @@ class ListingInfo extends React.Component {
           <a className="listing-social-share-item fb-messenger-desktop" href={'https://www.facebook.com/dialog/send?app_id=1651579398444396&link=' + currentUrl + '?utm_source=apt_page_messenger_share' + '&redirect_uri=' + currentUrl + '?utm_source=apt_page_messenger_share'} target="_blank"><Icon iconName="dorbel-icon-social-fbmsg" /></a>
           <a className="listing-social-share-item fb-messenger-mobile" href={'fb-messenger://share/?link=' + currentUrl + '?utm_source=apt_page_messenger_share' + '&app_id=1651579398444396'}><Icon iconName="dorbel-icon-social-fbmsg" /></a>
         </div>
-        <LikeButton listingId={listingId} showText="true" />
+        <div className="like-button-wrapper text-center">
+          <LikeButton listingId={listingId} showText="true" />
+          {this.renderLikeCounter()}
+        </div>
       </Col>
     );
   }
