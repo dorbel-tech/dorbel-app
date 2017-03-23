@@ -22,7 +22,6 @@ class Search extends Component {
 
     this.state = {showScrollUp: false};
     this.props.appStore.metaData.title = 'dorbel - דירות שתשמחו לגור בהן. ללא תיווך';
-    this.props.appProviders.likeProvider.getAllUserLikes();
   }
 
   componentDidMount() {
@@ -66,6 +65,7 @@ class Search extends Component {
   }
 
   renderResults() {
+<<<<<<< HEAD
     const { searchStore, cityStore } = this.props.appStore;
     const isLoadingCities = cityStore.cities.length === 0;
     const results = searchStore.searchResults();
@@ -78,13 +78,13 @@ class Search extends Component {
       </div>);
     } else if (searchStore.isLoadingNewSearch || isLoadingCities) {
       return (
-        <div className="loaderContainer">
+        <div className="loader-container">
           <LoadingSpinner />
         </div>
       );
     } else if (results.length > 0) {
       return (
-        <Grid fluid>
+        <Grid fluid className="search-results-container">
           <Row>
             { results.map(listing => <ListingThumbnail listing={listing} key={listing.id} />) }
           </Row>

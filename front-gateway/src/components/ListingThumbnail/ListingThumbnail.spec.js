@@ -39,13 +39,29 @@ describe('Listing Thumbnail', () => {
     it('should display OHEs when they are already loaded', () => {
       const oheCount = 7;
       appStoreMock.oheStore.isListingLoaded.mockReturnValue(true);
-      appStoreMock.oheStore.oheByListingId.mockReturnValue(Array(oheCount));
+      appStoreMock.oheStore.oheByListingId.mockReturnValue(Array(oheCount).fill({ status: 'open' }));
 
       const rendered = renderThumbnail();
 
       const oheIndication = rendered.find('.apt-thumb-ohe-text');
       expect(oheIndication.exists()).toBe(true);
       expect(oheIndication.text()).toBe(`${oheCount} מועדי ביקור זמינים`);
+      expect(oheIndication).toMatchSnapshot();
+    });
+
+    it('should only display indication for open OHEs', () => {
+      const openCount = 3;
+      const closedCount = 4;
+      appStoreMock.oheStore.isListingLoaded.mockReturnValue(true);
+      appStoreMock.oheStore.oheByListingId.mockReturnValue([].concat(
+        Array(openCount).fill({ status: 'open' }), Array(closedCount).fill({ status: 'not open' })
+      ));
+
+      const rendered = renderThumbnail();
+
+      const oheIndication = rendered.find('.apt-thumb-ohe-text');
+      expect(oheIndication.exists()).toBe(true);
+      expect(oheIndication.text()).toBe(`${openCount} מועדי ביקור זמינים`);
       expect(oheIndication).toMatchSnapshot();
     });
 

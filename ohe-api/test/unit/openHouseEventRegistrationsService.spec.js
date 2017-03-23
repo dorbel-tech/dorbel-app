@@ -34,7 +34,6 @@ describe('Open House Event Registration Service', function () {
   });
 
   describe('Register To Open House Event', function () {
-
     it('should register a user to an event', function* () {
       this.openHouseEventsFinderServiceMock.find = sinon.stub().resolves(faker.generateEvent());
       this.repositoryMock.createRegistration = sinon.stub().resolves(true);

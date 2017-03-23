@@ -7,16 +7,16 @@ module.exports = {
   },
   sections: {
     listingTitle: {
-      selector: '.apt-headline-container'
+      selector: '.listing-title-container'
     },
     landlordControls: {
-      selector: '.listing-menu-tabs',
+      selector: '.listing-status-container',
       elements: {
         listingMenuStatusDropdownToggle: {
-          selector: '.listing-menu-status-selector .dropdown-toggle'
+          selector: '.dropdown-toggle'
         },
         listingMenuStatusSelector_listed: {
-          selector: '.listing-menu-status-selector .dropdown-menu #listed'
+          selector: '.dropdown-menu #listed'
         }
       }
     },
@@ -27,7 +27,7 @@ module.exports = {
           selector: 'a:first-child'
         },
         firstEventText: {
-          selector: 'a:first-child .ohe-text'
+          selector: 'a:first-child .ohe-list-item-text'
         }
       }
     },
@@ -55,7 +55,7 @@ module.exports = {
       }
     },
     followContainer: {
-      selector: '.owner-container',
+      selector: '.ohe-list-follow-container',
       elements: {
         followBtn: {
           selector: '.follow-action'

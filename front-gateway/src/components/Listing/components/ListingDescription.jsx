@@ -1,35 +1,40 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { Col, Grid, Row } from 'react-bootstrap';
+import { Col, Row } from 'react-bootstrap';
 import ListingAmenities from './ListingAmenities.jsx';
 
 @observer(['appProviders'])
 class ListingDescription extends React.Component {
   renderDescriptionRow(titleText, innerContent) {
-    return <Row className="property-desc">
-        <Col md={2}>
-          <h5>{titleText}</h5>
-        </Col>
-        <Col md={10}>
-          {innerContent}
-        </Col>
-      </Row>;
+    return  <Row className="listing-description-item">
+              <Col md={2}>
+                <h5>{titleText}</h5>
+              </Col>
+              <Col md={6}>
+                {innerContent}
+              </Col>
+            </Row>;
   }
 
   render() {
     const { listing } = this.props;
+    const listingTax = <p> ארנונה: {listing.property_tax ? <span>{listing.property_tax}</span> : '--'}</p>;
+    const listingFee = <p>ועד בית: {listing.board_fee ? <span>{listing.board_fee}</span> : '--'}</p>;
+    const listingPrices = <div><p>שכר דירה: <span>{listing.monthly_rent}</span></p>{listingTax}{listingFee}</div>;
 
     return (
-      <Grid fluid className="apt-info-container">
-        <Grid>
-          <Col lg={9}>
-            {this.renderDescriptionRow('תאריך כניסה', <p>{this.props.appProviders.utils.formatDate(listing.lease_start)}</p>)}
-            {this.renderDescriptionRow('תאור הנכס', <p>{listing.description}</p>)}
-            <ListingAmenities listing={listing} />
-            {this.renderDescriptionRow('פרטי תשלום', <div><p>ארנונה: {listing.property_tax}</p><p>ועד הבית: {listing.board_fee}</p></div>)}
+      <Row className="listing-description-container">
+        {this.renderDescriptionRow('תאריך כניסה', <p>{this.props.appProviders.utils.formatDate(listing.lease_start)}</p>)}
+        {this.renderDescriptionRow('תאור הנכס', <p>{listing.description || '(אין תאור)'}</p>)}
+        <Row className="listing-description-item">
+          <Col md={2}>
+            <h5>פרטי הנכס</h5>
           </Col>
-        </Grid>
-      </Grid>
+          <ListingAmenities listing={listing} />
+        </Row>
+        {this.renderDescriptionRow('מחירים', listingPrices)}
+        {this.renderDescriptionRow(listing.publishing_user_type === 'landlord' ? 'בעל הנכס' : 'דייר יוצא', <p>{listing.publishing_user_first_name || 'אנונימי'}</p>)}
+      </Row>
     );
   }
 }

@@ -1,10 +1,11 @@
 'use strict';
 import React from 'react';
+import { observer } from 'mobx-react';
+import { Grid, Row } from 'react-bootstrap';
+import utils from '~/providers/utils';
 import ListingBadge from '~/components/ListingBadge/ListingBadge';
 import CloudinaryImage from '~/components/CloudinaryImage/CloudinaryImage';
-import utils from '~/providers/utils';
 import ListingPageViews from './ListingPageViews';
-import { observer } from 'mobx-react';
 
 let Flickity = 'div';
 let carouselClass = 'fixed-carousel';
@@ -27,13 +28,13 @@ export default class ListingHeader extends React.Component {
     const sortedListingImages = utils.sortListingImages(listing);
 
     return (
-      <header className="apt-header">
+      <header className="listing-header">
         { appStore.listingStore.isListingPublisherOrAdmin(listing) ?  <ListingPageViews listing={listing} /> : null }
-        <div className="apt-header-badge-container">
+        <div className="listing-header-badge-container">
           <ListingBadge listing={listing}/>
         </div>
-        <div className="container-fluid">
-          <div className="row">
+        <Grid fluid>
+          <Row>
             <Flickity key={listing.id + '_flickity'} className={carouselClass} options={flickityOptions} >
               {sortedListingImages.map((image, index) =>
                 <div key={listing.id + '_' + index} className="sliderBoxes">
@@ -41,8 +42,8 @@ export default class ListingHeader extends React.Component {
                 </div>
               )}
             </Flickity>
-          </div>
-        </div>
+          </Row>
+        </Grid>
       </header>
     );
   }

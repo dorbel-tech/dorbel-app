@@ -1,18 +1,13 @@
-.apt-header {
+.listing-header {
   background: $brand-primary;
   height: 500px;
-  margin-bottom: 10px;
   position: relative;
-
-  @media (max-width: $screen-md-max) {
-    margin-bottom: 25px;
-  }
 
   @media (max-width: $screen-xs-min) {
     height: 300px;
   }
 
-  .apt-header-badge-container {
+  .listing-header-badge-container {
     position: absolute;
     text-align: center;
     top: 487px;
@@ -43,24 +38,6 @@
 
 .flickity-prev-next-button:disabled {
   display: none;
-}
-
-.location-container {
-  background-color: lighten($gray-lighter, 2%);
-}
-
-.navbar {
-  @include gradient-vertical(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0), 0%, 100%);
-
-  border: 0;
-
-  @media (max-width: $screen-xs-min) {
-    background-color: #fff;
-
-    .btn-success {
-      display: block;
-    }
-  }
 }
 
 .sliderBoxes img {

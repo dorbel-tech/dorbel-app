@@ -32,7 +32,7 @@ function waitForUnRegisterText() {
 }
 
 function waitForRegisterText() {
-  common.waitForText(listing.section.oheList, '@firstEventText', 'נרשמתם לארוע זה. לחצו לביטול');
+  common.waitForText(listing.section.oheList, '@firstEventText', 'רשום לביקור');
 }
 
 function waitForUnFollowText() {
