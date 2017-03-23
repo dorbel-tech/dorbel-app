@@ -25,24 +25,22 @@ describe('OHECard', () => {
   });
 
   it('should render correctly given default values', () => {
-    const result = oheCard();
-    const registrationsTextWrapper = result.find('.ohe-card-row-reg-num-col > span.ohe-no-visits');
-    const registrations = result.find('.ohe-card-user-table-row');
+    const registrationsTextWrapper = oheCard().find('.ohe-card-row-reg-num-col > span.ohe-no-visits');
+    const registrations = oheCard().find('.ohe-card-user-table-row');
 
     expect(registrationsTextWrapper.text()).toEqual('נרשמים לביקור (0)');
     expect(registrations.length).toEqual(0);
-    //expect(shallowOHECard).toMatchSnapshot();
+    expect(oheCard()).toMatchSnapshot();
   });
 
   it('should render with an ohe menu', () => {
     props.editable = true;
     props.ohe.id = 'fakeId';
 
-    const result = oheCard();
-    const dropdownWrapper = result.find(Dropdown);
+    const dropdownWrapper = oheCard().find(Dropdown);
 
     expect(dropdownWrapper.props().id).toEqual('fakeId_ohe_action');
-    expect(shallowOHECard).toMatchSnapshot();
+    expect(oheCard()).toMatchSnapshot();
   });
 
   it('should render with a single registration', () => {
@@ -51,13 +49,12 @@ describe('OHECard', () => {
       {id: 'fakeId1', is_active: true, user: fakeUser}
     ];
 
-    const result = oheCard();
-    const registrationsTextWrapper = result.find('.ohe-card-row-reg-num-col > span');
-    const registrations = result.find('.ohe-card-user-table-row');
+    const registrationsTextWrapper = oheCard().find('.ohe-card-row-reg-num-col > span');
+    const registrations = oheCard().find('.ohe-card-user-table-row');
 
     expect(registrationsTextWrapper.text()).toEqual('נרשמים לביקור (1)');
     expect(registrations.length).toEqual(1);
-    expect(shallowOHECard).toMatchSnapshot();
+    expect(oheCard()).toMatchSnapshot();
   });
 
   it('should render with multiple registrations', () => {
@@ -70,12 +67,11 @@ describe('OHECard', () => {
       {id: 'fakeId3', is_active: true, user: fakeUser3}
     ];
 
-    const result = oheCard();
-    const registrationsTextWrapper = result.find('.ohe-card-row-reg-num-col > span');
-    const registrations = result.find('.ohe-card-user-table-row');
+    const registrationsTextWrapper = oheCard().find('.ohe-card-row-reg-num-col > span');
+    const registrations = oheCard().find('.ohe-card-user-table-row');
 
     expect(registrationsTextWrapper.text()).toEqual('נרשמים לביקור (3)');
     expect(registrations.length).toEqual(3);
-    expect(shallowOHECard).toMatchSnapshot();
+    expect(oheCard()).toMatchSnapshot();
   });
 });

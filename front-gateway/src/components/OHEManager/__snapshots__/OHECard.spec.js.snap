@@ -1,3 +1,51 @@
+exports[`OHECard should render correctly given default values 1`] = `
+<div
+  className="ohe-card-row">
+  <Panel
+    bsClass="panel"
+    bsStyle="default"
+    defaultExpanded={false}>
+    <Col
+      bsClass="col"
+      className="ohe-card-row-icon-container"
+      componentClass="div"
+      xs={8}>
+      <i
+        aria-hidden="true"
+        className="ohe-card-row-icon pull-right fa fa-calendar-o" />
+      <span
+        className="ohe-card-row-date">
+         - 
+        undefined\'
+      </span>
+      <br />
+      <span
+        className="ohe-card-row-time" />
+    </Col>
+    <Col
+      bsClass="col"
+      className="ohe-card-row-reg-num-col"
+      componentClass="div"
+      xs={4}>
+      <span
+        className="ohe-no-visits">
+        נרשמים לביקור (
+        0
+        )
+      </span>
+    </Col>
+    <div
+      className="ohe-card-menu" />
+  </Panel>
+  <MobXStoreInjector
+    ohe={Object {}}
+    onClose={[Function]} />
+  <MobXStoreInjector
+    ohe={Object {}}
+    onClose={[Function]} />
+</div>
+`;
+
 exports[`OHECard should render with a single registration 1`] = `
 <div
   className="ohe-card-row">
