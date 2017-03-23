@@ -247,7 +247,7 @@ function* enrichListingResponse(listing, user) {
       possibleStatuses: getPossibleStatuses(listing, user)
     };
 
-    if (user && (permissionsService.isPublishingUserOrAdmin(user))) {
+    if (user && (permissionsService.isPublishingUserOrAdmin(user, listing))) {
       enrichedListing.totalLikes = yield likeRepository.getListingTotalLikes(listing.id);
     }
 
