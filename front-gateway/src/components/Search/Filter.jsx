@@ -130,11 +130,12 @@ class Filter extends Component {
 
   likedChangeHandler(e) {
     if (this.props.appStore.authStore.isLoggedIn) {
-      this.setState({ liked: e.target.checked });
-      this.filterObj[e.target.name] = e.target.checked;
+      this.setState({ mine: e.target.checked });
+      this.filterObj['mine'] = e.target.checked;
       this.reloadResults();
     }
     else {
+      e.target.checked = false;
       this.props.appProviders.authProvider.showLoginModal();
     }
   }
