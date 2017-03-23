@@ -112,40 +112,46 @@ function* getByFilter(filterJSON, options = {}) {
   let listingQuery = {
     status: 'listed'
   };
-
-  if (options.user && userManagement.isUserAdmin(options.user)) {
-    // Special check for default admin statuses filter.
-    filter.listed = filter.hasOwnProperty('listed') ? filter.listed : true;
-
-    const filteredStatuses = listingRepository.listingStatuses.filter(
-      status => !filter[status]
-    );
-
-    // Check if admin filtered statuses manually.
-    if (filteredStatuses.length === 0) {
-      delete listingQuery.status;
-    } else {
-      listingQuery.status = { $notIn: filteredStatuses };
-    }
-  }
-
-  if (filter.city === '*') {
-    _.unset(filter, 'city');
-  }
-
+  
   let queryOptions = {
     order: getSortOption(filter.sort),
     limit: options.limit || DEFUALT_LISTING_LIST_LIMIT,
     offset: options.offset || 0
   };
-  
-  if (filter.liked && options.user) {
-    queryOptions.likeQuery = {
-      is_active: true,
-      liked_user_id: options.user.id
-    };
+
+  if (options.user) {
+    if (userManagement.isUserAdmin(options.user)) {
+      filter.listed = filter.hasOwnProperty('listed') ? filter.listed : true;
+
+      const filteredStatuses = listingRepository.listingStatuses.filter(
+        status => !filter[status]
+      );
+
+      // Check if admin filtered statuses manually.
+      if (filteredStatuses.length === 0) {
+        delete listingQuery.status;
+      } else {
+        listingQuery.status = { $notIn: filteredStatuses };
+      }
+    }
+
+    if (filter.liked) {
+      queryOptions.likeQuery = {
+        is_active: true,
+        liked_user_id: options.user.id
+      };
+    }
+
+    if (filter.mine){
+      listingQuery.publishing_user_id = options.user.id;
+      listingQuery.status = { $notIn: ['deleted'] };
+    }
   }
   
+  if (filter.city === '*') {
+    _.unset(filter, 'city');
+  }
+
   var filterMapping = {
     // Listing monthly rent start.
     mrs: { set: 'monthly_rent.$gte', target: listingQuery },
