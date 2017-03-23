@@ -8,6 +8,8 @@ describe('Apartments API Integration', function () {
 
   // Integration tests run with static ID as they fill the message queue with app-events
   const INTEGRATION_TEST_USER_ID = '23821212-6191-4fda-b3e3-fdb8bf69a95d';
+  // TODO: Speak with David regarding creation of user with supressed notifincations (need access to segment.io?)
+  const OTHER_INTEGRATION_TEST_USER_ID = '9fec43ab-8041-4bf4-ad06-728da4510f42';
 
   before(function* () {
     this.apiClient = yield ApiClient.init(faker.getFakeUser({
@@ -108,7 +110,7 @@ describe('Apartments API Integration', function () {
       before(function* () {
         // switch user for test purposes
         this.apiClient = yield ApiClient.init(faker.getFakeUser({
-          id: '9fec43ab-8041-4bf4-ad06-728da4510f42'
+          id: OTHER_INTEGRATION_TEST_USER_ID
         }));
       });
 
