@@ -70,7 +70,13 @@ class Search extends Component {
     const isLoadingCities = cityStore.cities.length === 0;
     const results = searchStore.searchResults();
 
-    if (searchStore.isLoadingNewSearch || isLoadingCities) {
+    if (searchStore.searchError) {
+      return (<div className="search-results-not-found">
+        <b className="search-results-not-found-title">אופס!</b><br />
+        הייתה תקלה כלשהי בחיפוש שביקשתם<br />
+        אנא <a href="/apartments">נסו שנית</a>
+      </div>);
+    } else if (searchStore.isLoadingNewSearch || isLoadingCities) {
       return (
         <div className="loaderContainer">
           <LoadingSpinner />

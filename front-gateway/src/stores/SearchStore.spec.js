@@ -21,10 +21,10 @@ describe('Search Store', () => {
 
   it('should return search results array, sorted by insertion order', () => {
     // this is important for paging to make sense
-    searchStore.add([ { id: 3 }, { id: 4 } ]);
-    searchStore.add([ { id: 1 } ]);
+    searchStore.add([ { id: 3 }, { id: 4 }, { id: 57 } ]);
+    searchStore.add([ { id: 1 }, { id: 2 }, { id: 80 } ]);
 
-    expect(searchStore.searchResults()).toEqual([ { id: 3 }, { id: 4 }, { id: 1 }]);
+    expect(searchStore.searchResults().map(l => l.id)).toEqual([ 3, 4, 57, 1, 2, 80 ]);
   });
 
   it('should reset correctly', () => {

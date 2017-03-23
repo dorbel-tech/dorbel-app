@@ -37,6 +37,7 @@ class SearchProvider {
 
     return this.apiProvider.fetch('/api/apartments/v1/listings', { params })
       .then((results) => {
+        searchStore.searchError = false;
         searchStore.add(results);
         searchStore.isLoadingNewSearch = false;
         searchStore.isLoadingNextPage = false;
@@ -47,8 +48,8 @@ class SearchProvider {
         return results;
       })
       .catch(() => {
-        // reset query ?
         searchStore.reset();
+        searchStore.searchError = true;
       });
   }
 

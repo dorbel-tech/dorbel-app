@@ -6,6 +6,7 @@ export default class ListingStore {
   @observable isLoadingNewSearch = false;
   @observable isLoadingNextPage = false;
   @observable hasMorePages = false;
+  @observable searchError = false;
 
   constructor(initialState) {
     this.searchResultsbyListingId = asMap(initialState || {});
@@ -27,9 +28,7 @@ export default class ListingStore {
   }
 
   add(listings) {
-    const listingsById = {};
-    listings.forEach(listing => listingsById[listing.id] = listing);
-    this.searchResultsbyListingId.merge(listingsById); // using merge instead of set to avoid triggering multiple renders
+    listings.forEach(listing => this.searchResultsbyListingId.set(listing.id, listing));
   }
 
   toJson() {
