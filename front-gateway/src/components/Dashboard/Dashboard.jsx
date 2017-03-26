@@ -38,12 +38,14 @@ class Dashboard extends Component {
   render() {
     const profile = this.props.appStore.authStore.profile || {};
     const firstName = profile.first_name || '';
+    const lastName = profile.last_name || '';
 
     return <div className="dashboard-container" onScroll={this.handleScroll}>
         <div className="dashboard-menu-wrapper">
           <div className="dashboard-menu-profile-section">
             <img src={profile.picture} className="dashboard-menu-profile-image" />
-            <div className="dashboard-menu-profile-text">{firstName}</div>
+            <div className="dashboard-menu-profile-first-name">{firstName}</div>
+            <div className="dashboard-menu-profile-last-name">{lastName}</div>
           </div>
           {this.renderMenuItem('fa-home', 'הנכסים שלי', 'listings')}
           {this.renderMenuItem('fa-heart', 'המועדפים שלי', 'likes')}

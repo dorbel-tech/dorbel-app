@@ -14,7 +14,31 @@
 }
 
 .dashboard-menu-wrapper {
+  background-color: $brand-white;
   width: 246px;
+}
+
+.dashboard-menu-profile-section {
+  padding: 28px 29px 10px;
+}
+
+.dashboard-menu-profile-image {
+  border-radius: 50%;
+  width: 63px;
+}
+
+.dashboard-menu-profile-first-name,
+.dashboard-menu-profile-last-name {
+  font-weight: bold;
+}
+
+.dashboard-menu-profile-first-name {
+  padding: 20px 0 0;
+}
+
+.dashboard-menu-profile-last-name {
+  border-bottom: $gray-border;
+  padding: 0 0 20px;
 }
 
 .dashboard-menu-item {
