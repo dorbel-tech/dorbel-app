@@ -3,6 +3,7 @@ describe('Apartments API Likes service integration', function () {
   const ApiClient = require('./apiClient.js');
   const __ = require('hamjest');
   const faker = require('../shared/fakeObjectGenerator');
+  const utils = require('./utils');
 
   // Integration tests run with static ID as they fill the message queue with app-events
   const INTEGRATION_TEST_USER_ID = '23821212-6191-4fda-b3e3-fdb8bf69a95d';
@@ -11,6 +12,11 @@ describe('Apartments API Likes service integration', function () {
     this.apiClient = yield ApiClient.init(faker.getFakeUser({
       id: INTEGRATION_TEST_USER_ID
     }));
+    yield utils.clearAllUserLikes(this.apiClient);
+  });
+
+  after(function* () {
+    yield utils.clearAllUserLikes(this.apiClient);
   });
 
   describe('Likes service integration', function () {

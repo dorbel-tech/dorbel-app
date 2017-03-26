@@ -18,8 +18,8 @@ class ListingDescription extends React.Component {
 
   render() {
     const { listing } = this.props;
-    const listingTax = <p> ארנונה: {listing.property_tax ? '<span>' + listing.property_tax + '</span>' : '--'}</p>;
-    const listingFee = <p>ועד בית: {listing.board_fee ? '<span>' + listing.board_fee + '</span>' : '--'}</p>;
+    const listingTax = <p> ארנונה: {listing.property_tax ? <span>{listing.property_tax}</span> : '--'}</p>;
+    const listingFee = <p>ועד בית: {listing.board_fee ? <span>{listing.board_fee}</span> : '--'}</p>;
     const listingPrices = <div><p>שכר דירה: <span>{listing.monthly_rent}</span></p>{listingTax}{listingFee}</div>;
 
     return (

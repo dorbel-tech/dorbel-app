@@ -3,6 +3,7 @@ const _ = require('lodash');
 const moment = require('moment');
 const shared = require('dorbel-shared');
 const listingRepository = require('../apartmentsDb/repositories/listingRepository');
+const likeRepository = require('../apartmentsDb/repositories/likeRepository');
 const geoService = require('./geoService');
 const logger = shared.logger.getLogger(module);
 const messageBus = shared.utils.messageBus;
@@ -138,7 +139,14 @@ function* getByFilter(filterJSON, options = {}) {
     limit: options.limit || DEFUALT_LISTING_LIST_LIMIT,
     offset: options.offset || 0
   };
-
+  
+  if (filter.liked && options.user) {
+    queryOptions.likeQuery = {
+      is_active: true,
+      liked_user_id: options.user.id
+    };
+  }
+  
   var filterMapping = {
     // Listing monthly rent start.
     mrs: { set: 'monthly_rent.$gte', target: listingQuery },
@@ -238,6 +246,10 @@ function* enrichListingResponse(listing, user) {
     enrichedListing.meta = {
       possibleStatuses: getPossibleStatuses(listing, user)
     };
+
+    if (user && (permissionsService.isPublishingUserOrAdmin(user, listing))) {
+      enrichedListing.totalLikes = yield likeRepository.getListingTotalLikes(listing.id);
+    }
 
     return enrichedListing;
   }
