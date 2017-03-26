@@ -4,7 +4,6 @@
  */
 'use strict';
 const shared = require('dorbel-shared');
-const config = shared.config;
 const logger = shared.logger.getLogger(module);
 const dataRetrieval = require('./dataRetrieval');
 const dataEnrichment = require('./dataEnrichment');
@@ -31,7 +30,7 @@ function sendEvent(eventConfig, eventData) {
       .then(additonalEnrichedData => {
         let dataObject = Object.assign({}, additonalData, additonalEnrichedData); // Merge objects.
         const recipients = dataObject.customRecipients || [ eventData.user_uuid ];
-        dataObject.website_url = config.get('FRONT_GATEWAY_URL') || 'https://app.dorbel.com';
+        dataObject.website_url = process.env.FRONT_GATEWAY_URL || 'https://app.dorbel.com';
         const trackedEventData = Object.assign({}, eventData, dataObject);
         return Promise.all(
           recipients.map(recipient => {

@@ -7,8 +7,8 @@ const _ = require('lodash');
 const request = require('request-promise'); 
 const shared = require('dorbel-shared');
 const userManagement = shared.utils.userManagement;
-const APT_API = shared.config.get('APARTMENTS_API_URL');
-const OHE_API = shared.config.get('OHE_API_URL');
+const APT_API = process.env.APARTMENTS_API_URL;
+const OHE_API = process.env.OHE_API_URL;
 
 // Creating special notification service dummy user to handle data retrival from service in order to pass user validation checks.
 const notificationServiceUser = { id: '10000000-0000-0000-0000-000000000000', role: 'admin' };
