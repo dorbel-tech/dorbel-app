@@ -40,8 +40,6 @@ class ListingThumbnail extends Component {
     const sortedListingImages = utils.sortListingImages(listing);
     const imageURL = sortedListingImages.length ? sortedListingImages[0].url : '';
     const building = listing.apartment.building;
-    const areaDescriptionPrefix = building.neighborhood.neighborhood_name === 'אחר' ? '' : building.neighborhood.neighborhood_name + ', ';
-    const areaDescription = areaDescriptionPrefix + building.city.city_name;
     const classLeaseDate = new Date(listing.lease_start) <= Date.now() ? 'apt-thumb-lease-immediate' : 'apt-thumb-lease-date';
     const listingDateStr = new Date(listing.lease_start) <= Date.now() ? 'מיידי' : utils.formatDate(listing.lease_start);
 
@@ -63,7 +61,7 @@ class ListingThumbnail extends Component {
               </div>
             </div>
             <div className="apt-thumb-details-address">
-              {areaDescription}
+              {utils.getListingSubTitle(listing)}
             </div>
             <div className="apt-thumb-details-extra">
               <span>

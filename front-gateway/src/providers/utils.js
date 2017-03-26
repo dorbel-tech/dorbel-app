@@ -27,9 +27,10 @@ function getListingTitle(listing) {
 
 function getListingSubTitle(listing) {
   const building = listing.apartment.building;
-  const prefix = building.neighborhood.neighborhood_name === 'אחר' ? '' : building.neighborhood.neighborhood_name + ', ';
+  const neighborhoodName = building.neighborhood.neighborhood_name;
+  const neighborhoodPrefix = neighborhoodName === 'אחר' ? '' : neighborhoodName + ', ';
 
-  return prefix + building.city.city_name;
+  return neighborhoodPrefix + building.city.city_name;
 }
 
 function sortListingImages(listing) {
