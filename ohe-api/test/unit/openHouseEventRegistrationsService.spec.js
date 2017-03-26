@@ -7,9 +7,8 @@ const faker = require('../shared/fakeObjectGenerator');
 const notificationService = require('../../src/services/notificationService');
 const shared = require('dorbel-shared');
 const fakeUser = { user_id: faker.fakeUserId };
-const config = shared.config; shared.config.setConfigFileFolder(__dirname+'/../../src/config/');
 
-const CLOSE_EVENT_IF_TOO_CLOSE = config.get('CLOSE_EVENT_IF_TOO_CLOSE');
+const CLOSE_EVENT_IF_TOO_CLOSE = process.env.CLOSE_EVENT_IF_TOO_CLOSE || 90;
 
 describe('Open House Event Registration Service', function () {
   before(function () {
