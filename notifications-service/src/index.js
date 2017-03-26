@@ -1,5 +1,5 @@
 'use strict';
-require('dotenv')
+require('dotenv');
 const shared = require('dorbel-shared');
 const logger = shared.logger.getLogger(module);
 const notificationSender = require('./sender/notificationSender');
