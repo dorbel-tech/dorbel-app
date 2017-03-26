@@ -142,7 +142,7 @@ function* getByFilter(filterJSON, options = {}) {
       };
     }
 
-    if (filter.mine){
+    if (filter.myProperties){
       listingQuery.publishing_user_id = options.user.id;
       listingQuery.status = { $notIn: ['deleted'] };
     }

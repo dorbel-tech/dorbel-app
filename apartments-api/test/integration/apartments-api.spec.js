@@ -8,8 +8,7 @@ describe('Apartments API Integration', function () {
 
   // Integration tests run with static ID as they fill the message queue with app-events
   const INTEGRATION_TEST_USER_ID = '23821212-6191-4fda-b3e3-fdb8bf69a95d';
-  // TODO: Speak with David regarding creation of user with supressed notifincations (need access to segment.io?)
-  const OTHER_INTEGRATION_TEST_USER_ID = '9fec43ab-8041-4bf4-ad06-728da4510f42';
+  const OTHER_INTEGRATION_TEST_USER_ID = '1483a989-b560-46c4-a759-12c2ebb4cdbf';
 
   before(function* () {
     this.apiClient = yield ApiClient.init(faker.getFakeUser({
@@ -86,10 +85,11 @@ describe('Apartments API Integration', function () {
       __.assertThat(secondResponse.body, __.hasSize(1));
       __.assertThat(firstRepsponse.body[0].id, __.is(__.not(secondResponse.body[0].id)));
 
-      yield utils.clearAllUserLikes(this.apiClient);
     });
 
     it('should return only liked listings', function* () {
+      yield utils.clearAllUserLikes(this.apiClient);
+
       const prepGetListingResponse = yield this.apiClient.getListings({ limit: 2 }).expect(200).end();
       yield this.apiClient.likeListing(prepGetListingResponse.body[1].id).expect(200).end();
 
@@ -99,6 +99,7 @@ describe('Apartments API Integration', function () {
       __.assertThat(getListingResponse.body, __.hasSize(1));
       __.assertThat(getListingResponse.body[0].id, __.is(prepGetListingResponse.body[1].id));
 
+      yield utils.clearAllUserLikes(this.apiClient);
     });
 
     // TODO : add at least some basic test for filters
@@ -106,47 +107,48 @@ describe('Apartments API Integration', function () {
     describe('Filter: my listings', function () {
       // held outside before section because of a scoping issue
       let otherApiClient;
-      
+
       // global test var - populated in step 2
       let createListingId;
 
       before(function* () {
         // switch user for test purposes
         otherApiClient = yield ApiClient.init(faker.getFakeUser({
-          id: OTHER_INTEGRATION_TEST_USER_ID
+          id: OTHER_INTEGRATION_TEST_USER_ID,
+          role: 'admin'
         }));
       });
 
       it('should not return any listings', function* () {
-        let getListingResponse = yield otherApiClient.getListings({ q: { mine: true } }, true).expect(200).end();
+        let getListingResponse = yield otherApiClient.getListings({ q: { myProperties: true } }, true).expect(200).end();
 
         assertNothingReturned(getListingResponse);
       });
 
-      it('should create a listing and expect it to be returned (pending)', function* () {
+      it('should create a listing and expect it to be returned (listed)', function* () {
         const createListingResponse = yield otherApiClient.createListing(faker.getFakeListing()).expect(201).end();
         createListingId = createListingResponse.body.id;
-        let getListingResponse = yield otherApiClient.getListings({ q: { mine: true } }, true).expect(200).end();
+        let getListingResponse = yield otherApiClient.getListings({ q: { myProperties: true } }, true).expect(200).end();
 
         assertListingReturned(getListingResponse);
-      });
-
-      it('set listing status to and expect it to be returned (published)', function* () {
-        yield testListingByStatus('published');
       });
 
       it('set listing status to and expect it to be returned (rented)', function* () {
         yield testListingByStatus('rented');
       });
 
+      it('set listing status to and expect it to be returned (unlisted)', function* () {
+        yield testListingByStatus('unlisted');
+      });
+
       it('set listing status to and expect it to *NOT* be returned (deleted)', function* () {
         yield testListingByStatus('deleted', false);
       });
 
-      function* testListingByStatus(status, shouldBeReturned = true){
+      function* testListingByStatus(status, shouldBeReturned = true) {
         yield otherApiClient.patchListing(createListingId, { status }).expect(200).end();
-        const getListingResponse = yield otherApiClient.getListings({ q: { mine: true } }, true).expect(200).end();
-        
+        const getListingResponse = yield otherApiClient.getListings({ q: { myProperties: true } }, true).expect(200).end();
+
         shouldBeReturned ? assertListingReturned(getListingResponse) : assertNothingReturned(getListingResponse);
       }
 
