@@ -202,14 +202,18 @@ function* getById(id, user) {
   }
 
   const isPending = listing.status === 'pending';
-
-  // TODO: Fix the server rendering error with user object not existing there. The only solution to SSR with auth is cookies.
-  //  We could save the user's token to a cookie and try to parse it on the server as a fallback from the authentication header or something like that.
+  const isDeleted = listing.status === 'deleted';
+  const isAdmin = user && permissionsService.isAdmin(user, listing);
   const isPublishingUserOrAdmin = user && permissionsService.isPublishingUserOrAdmin(user, listing);
+
+  // Don't display deleted listings to anyone but admins.
+  if (isDeleted && !isAdmin) {
+    throw new CustomError(403, 'Cant show deleted listing. User is not a admin. listingId: ' + listing.id);    
+  }
 
   // Pending listing will be displayed to user who is listing publisher or admins only.
   if (isPending && !isPublishingUserOrAdmin) {
-    throw new CustomError(403, 'Cant show pending listing. User is not a publisher of listingId ' + listing.id);
+    throw new CustomError(403, 'Cant show pending listing. User is not a publisher of listingId: ' + listing.id);
   } else {
     return yield enrichListingResponse(listing, user);
   }
