@@ -40,6 +40,9 @@ function* create(listing) {
     listing.roommates = true;
   }
 
+  // Force 'pending' status for new listings in order to prevent the possibility of setting the status using this API
+  listing.status = 'pending';
+
   let modifiedListing = yield geoService.setGeoLocation(listing);
   let createdListing = yield listingRepository.create(modifiedListing);
 
