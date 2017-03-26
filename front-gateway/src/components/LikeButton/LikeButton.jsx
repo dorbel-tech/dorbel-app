@@ -20,7 +20,7 @@ class LikeButton extends Component {
 
   getWrapperClass(showText, isLiked) {
     let wrapperClass = 'like-button ';
-    if (showText){
+    if (showText) {
       wrapperClass += 'like-button-with-text ';
     }
 
