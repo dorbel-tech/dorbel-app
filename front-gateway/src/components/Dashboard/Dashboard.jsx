@@ -27,18 +27,20 @@ class Dashboard extends Component {
   }
 
   renderMenuItem(faIconClassName, menuText, navTo) {
-    return <div>
-        <i className={'fa ' + faIconClassName}  aria-hidden="true"></i>
-        <NavLink to={navTo}>{menuText}</NavLink>
+    const isSelected = this.props.action === navTo;
+
+    return <div className={'dashboard-menu-item ' + (isSelected ? 'dashboard-menu-item-selected' : '')}>
+        <i className={'dashboard-menu-item-icon fa ' + faIconClassName}  aria-hidden="true"></i>
+        <NavLink to={'/dashboard/' + navTo}>{menuText}</NavLink>
       </div>
   }
 
   render() {
     return <div className="dashboard-container" onScroll={this.handleScroll}>
         <div className="dashboard-menu-wrapper">
-          {this.renderMenuItem('fa-home', 'הנכסים שלי', '/dashboard/listings')}
-          {this.renderMenuItem('fa-heart', 'המועדפים שלי', '/dashboard/likes')}
-          {this.renderMenuItem('fa-sign-out', 'יציאה', '/dashboard/logout')}
+          {this.renderMenuItem('fa-home', 'הנכסים שלי', 'listings')}
+          {this.renderMenuItem('fa-heart', 'המועדפים שלי', 'likes')}
+          {this.renderMenuItem('fa-sign-out', 'יציאה', 'logout')}
         </div>
         <div className="dashboard-action-wrapper">
           {this.renderAction()}
