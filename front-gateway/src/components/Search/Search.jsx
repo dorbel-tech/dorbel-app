@@ -8,6 +8,10 @@ import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 
 import './Search.scss';
 
+const INFINITE_SCROLL_MARGIN = 900;
+// We will load another page when the distance from the bottom of the viewable area to the bottom of the scrollable area is below this margin
+// Currently this is just a little more than 2 rows of listings
+
 @observer(['appStore', 'appProviders'])
 class Search extends Component {
   static hideFooter = true;
@@ -25,10 +29,18 @@ class Search extends Component {
   }
 
   handleScroll(e) {
-    if (e.target.scrollTop > this.filterHeight) {
+    const { appProviders, appStore } = this.props;
+    const target = e.target;
+    const distanceFromBottom = target.scrollHeight - target.offsetHeight - target.scrollTop;
+
+    if (target.scrollTop > this.filterHeight) {
       this.setState({showScrollUp: true});
     } else if (this.state.showScrollUp) {
       this.setState({showScrollUp: false});
+    }
+
+    if (distanceFromBottom < INFINITE_SCROLL_MARGIN && appStore.searchStore.hasMorePages) {
+      appProviders.searchProvider.loadNextPage();
     }
   }
 
@@ -53,20 +65,30 @@ class Search extends Component {
   }
 
   renderResults() {
-    const { searchStore } = this.props.appStore;
-    const results = searchStore.searchResults.length ? searchStore.searchResults : [];
+    const { searchStore, cityStore } = this.props.appStore;
+    const isLoadingCities = cityStore.cities.length === 0;
+    const results = searchStore.searchResults();
 
-    if (!searchStore.isLoading && results.length > 0) {
-      return (<Grid fluid className="search-results-container">
-        <Row>
-          {results.map(listing => <ListingThumbnail listing={listing} key={listing.id} />)}
-        </Row>
-      </Grid>);
-    } else if (!searchStore.filterChanged || searchStore.isLoading) {
+    if (searchStore.searchError) {
+      return (<div className="search-results-not-found">
+        <b className="search-results-not-found-title">אופס!</b><br />
+        הייתה תקלה כלשהי בחיפוש שביקשתם<br />
+        אנא <a href="/apartments">נסו שנית</a>
+      </div>);
+    } else if (searchStore.isLoadingNewSearch || isLoadingCities) {
       return (
         <div className="loader-container">
           <LoadingSpinner />
         </div>
+      );
+    } else if (results.length > 0) {
+      return (
+        <Grid fluid className="search-results-container">
+          <Row>
+            { results.map(listing => <ListingThumbnail listing={listing} key={listing.id} />) }
+          </Row>
+          { searchStore.isLoadingNextPage ? <Row><LoadingSpinner /></Row> : null}
+        </Grid>
       );
     } else {
       return (<div className="search-results-not-found">

@@ -9,7 +9,6 @@ exports[`Filter should initialize correctly 1`] = `
         "loadListingEvents": [Function],
       },
       "searchProvider": Object {
-        "initFilter": [Function],
         "search": [Function],
       },
     }
@@ -32,7 +31,6 @@ exports[`Filter should initialize correctly 1`] = `
           "loadListingEvents": [Function],
         },
         "searchProvider": Object {
-          "initFilter": [Function],
           "search": [Function],
         },
       }

@@ -106,6 +106,7 @@ function* getByFilter(filterJSON, options = {}) {
     try {
       filter = JSON.parse(filterJSON);
     } catch (e) {
+      logger.warn(e, 'failed to parse filter JSON');
       filter = {};
     }
   }

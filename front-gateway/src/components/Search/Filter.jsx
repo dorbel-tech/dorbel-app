@@ -48,7 +48,6 @@ class Filter extends Component {
       this.filterObj = {};
     }
 
-    this.props.appProviders.searchProvider.initFilter();
     this.state = Object.assign({ hideFilter: true }, DEFAULT_FILTER_PARAMS, this.filterObj);
   }
 
@@ -156,11 +155,7 @@ class Filter extends Component {
 
     history.pushState(this.filterObj, title, search);
 
-    this.props.appProviders.searchProvider.search(this.filterObj)
-    .then((results) => {
-      const listingIds = results.map(listing => listing.id);
-      this.props.appProviders.oheProvider.loadListingEvents(listingIds, true);
-    });
+    this.props.appProviders.searchProvider.search(this.filterObj);
   }
 
   toggleHideFilter() {
