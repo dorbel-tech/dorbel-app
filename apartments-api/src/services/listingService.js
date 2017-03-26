@@ -3,6 +3,7 @@ const _ = require('lodash');
 const moment = require('moment');
 const shared = require('dorbel-shared');
 const listingRepository = require('../apartmentsDb/repositories/listingRepository');
+const likeRepository = require('../apartmentsDb/repositories/likeRepository');
 const geoService = require('./geoService');
 const logger = shared.logger.getLogger(module);
 const messageBus = shared.utils.messageBus;
@@ -246,6 +247,10 @@ function* enrichListingResponse(listing, user) {
     enrichedListing.meta = {
       possibleStatuses: getPossibleStatuses(listing, user)
     };
+
+    if (user && (permissionsService.isPublishingUserOrAdmin(user, listing))) {
+      enrichedListing.totalLikes = yield likeRepository.getListingTotalLikes(listing.id);
+    }
 
     return enrichedListing;
   }

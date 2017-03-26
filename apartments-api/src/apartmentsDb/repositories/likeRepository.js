@@ -33,8 +33,19 @@ function* getUserLikes(user) {
   });
 }
 
+function* getListingTotalLikes(listingId) {
+  return yield db.models.like.count({
+    where: {
+      listing_id: listingId,
+      is_active: true
+    },
+    raw: true
+  });
+}
+
 module.exports = {
   getUserLikes,
+  getListingTotalLikes,
   isLiked,
   set
 };
