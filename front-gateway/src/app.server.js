@@ -3,7 +3,7 @@ import { renderToString } from 'react-dom/server';
 import 'ignore-styles';
 import _ from 'lodash';
 import shared from '~/app.shared';
-import { config, utils } from 'dorbel-shared';
+import { utils } from 'dorbel-shared';
 import { getCloudinaryParams } from './server/cloudinaryConfigProvider';
 
 function setRoute(router, path) {
@@ -14,7 +14,7 @@ function setRoute(router, path) {
 function setRequestRenderState(context, appStore) {
   // these are used to render the inital response in the index.ejs
   context.state = context.state || {};
-  context.state.segment = config.get('SEGMENT_IO_WRITE_KEY'); // segment key is not part of env vars but is used when rendering index.ejs
+  context.state.segment = process.env.SEGMENT_IO_WRITE_KEY; // segment key is not part of env vars but is used when rendering index.ejs
   context.state.meta = _.defaults(appStore.metaData, {
     title: 'dorbel - מערכת לניהול והשכרת דירות ללא תיווך',
     description: 'השכרת דירות ללא תיווך. כל הפרטים שחשוב לדעת על הדירות בכדי לחסוך ביקורים מיותרים. בחרו מועד והירשמו לביקור בדירות בלחיצת כפתור.',
@@ -32,7 +32,7 @@ function setRequestRenderState(context, appStore) {
 
 function* renderApp() {
   // Redirecting from root to main website.
-  if (config.get('NODE_ENV') === 'production' && this.path === '/') {
+  if (process.env.NODE_ENV === 'production' && this.path === '/') {
     this.status = 301;
     return this.redirect('https://www.dorbel.com');
   }
@@ -54,12 +54,12 @@ function* renderApp() {
   }
 
   const envVars = {
-    NODE_ENV: config.get('NODE_ENV'),
-    AUTH0_FRONT_CLIENT_ID: config.get('AUTH0_FRONT_CLIENT_ID'),
-    AUTH0_DOMAIN: config.get('AUTH0_DOMAIN'),
+    NODE_ENV: process.env.NODE_ENV,
+    AUTH0_FRONT_CLIENT_ID: process.env.AUTH0_FRONT_CLIENT_ID,
+    AUTH0_DOMAIN: process.env.AUTH0_DOMAIN,
     CLOUDINARY_PARAMS: getCloudinaryParams(),
-    GOOGLE_MAPS_API_KEY: config.get('GOOGLE_MAPS_API_KEY'),
-    FRONT_GATEWAY_URL: config.get('FRONT_GATEWAY_URL')
+    GOOGLE_MAPS_API_KEY: process.env.GOOGLE_MAPS_API_KEY,
+    FRONT_GATEWAY_URL: process.env.FRONT_GATEWAY_URL
   };
 
   const entryPoint = shared.createAppEntryPoint();

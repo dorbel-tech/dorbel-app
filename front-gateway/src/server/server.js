@@ -15,7 +15,7 @@ const STATIC_FILE_MAX_AGE_MS = 31536000 * 1000; // http://stackoverflow.com/ques
 
 function* runServer() {
   const app = koa();
-  const port = config.get('PORT');
+  const port = process.env.PORT || 3001;
 
   app.use(shared.middleware.errorHandler());
   app.use(shared.middleware.requestLogger());
@@ -35,7 +35,7 @@ function* runServer() {
 
   return new Promise((resolve, reject) => {
     let server = app.listen(port, function () {
-      logger.info({ version: process.env.npm_package_version, env: config.get('NODE_ENV'), port }, 'Server started');
+      logger.info({ version: process.env.npm_package_version, env: process.env.NODE_EN, port }, 'Server started');
       resolve(server);
     })
     .on('error', reject);

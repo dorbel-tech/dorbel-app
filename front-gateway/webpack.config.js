@@ -17,7 +17,7 @@ let cssBundleFileName = 'bundle.[contenthash]';
 if (process.env.NODE_ENV === 'development') {
   devServer = {
     host: 'localhost',
-    port: config.get('HOT_RELOAD_SERVER_PORT'),
+    port: process.env.HOT_RELOAD_SERVER_PORT || 8888,
     inline: true
   };
   reactLoader = ['react-hot-loader', 'babel-loader'];

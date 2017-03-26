@@ -1,4 +1,4 @@
-const config = require('dorbel-shared').config; config.setConfigFileFolder(__dirname);
+require('dotenv');
 const path = require('path');
 const frontRoot = path.resolve(__dirname, '..', '..');
 
@@ -8,6 +8,5 @@ const dir = {
 };
 
 module.exports = {
-  get: config.get,
   dir
 };
