@@ -1,13 +1,15 @@
 import React from 'react';
+import { observer } from 'mobx-react';
 import { Col } from 'react-bootstrap';
 import Icon from '~/components/Icon/Icon';
 import LikeButton from '~/components/LikeButton/LikeButton';
 
+@observer(['appStore'])
 class ListingInfo extends React.Component {
 
   renderLikeCounter() {
     const totalLikes = this.props.listing.totalLikes;
-    if (totalLikes) {
+    if (totalLikes && this.props.appStore.authStore.isLoggedIn) {
       return (
         <div className="like-button-total-likes-text">
           <span>
@@ -47,6 +49,7 @@ class ListingInfo extends React.Component {
 }
 
 ListingInfo.propTypes = {
+  appStore: React.PropTypes.object,
   listing: React.PropTypes.object.isRequired
 };
 
