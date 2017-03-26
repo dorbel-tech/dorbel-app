@@ -125,7 +125,7 @@ describe('Apartments API Integration', function () {
 
       it('should create a listing and expect it to be returned (pending)', function* () {
         const createListingResponse = yield otherApiClient.createListing(faker.getFakeListing()).expect(201).end();
-        createListingId = createListingResponse.id;
+        createListingId = createListingResponse.body.id;
         let getListingResponse = yield otherApiClient.getListings({ q: { mine: true } }, true).expect(200).end();
 
         assertListingReturned(getListingResponse);
