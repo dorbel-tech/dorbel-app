@@ -27,7 +27,11 @@ function getListingTitle(listing) {
 }
 
 function getListingSubTitle(listing) {
-  return listing.apartment.building.street_name + ', ' + listing.apartment.building.city.city_name;
+  const building = listing.apartment.building;
+  const neighborhoodName = building.neighborhood.neighborhood_name;
+  const neighborhoodPrefix = neighborhoodName === 'אחר' ? '' : neighborhoodName + ', ';
+
+  return neighborhoodPrefix + building.city.city_name;
 }
 
 function sortListingImages(listing) {

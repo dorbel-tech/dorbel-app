@@ -23,7 +23,7 @@ export default class ListingStore {
     }
   }
 
-  add(listing) {
+  set(listing) {
     this.listingsById.set(listing.id, listing);
     if (listing.slug) {
       this.listingsBySlug.set(listing.slug, listing);
