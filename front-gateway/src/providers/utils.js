@@ -4,6 +4,7 @@
 'use strict';
 import _ from 'lodash';
 import moment from 'moment';
+import isMobileJs from 'ismobilejs';
 
 const timeFormat = 'HH:mm';
 const dateFormat = 'DD/MM/YY';
@@ -59,6 +60,10 @@ function promiseSeries(functionsThatReturnPromises, allResults) {
   });
 }
 
+function isMobile() {
+  return isMobileJs.any;
+}
+
 module.exports = {
   formatTime,
   formatDate,
@@ -67,5 +72,6 @@ module.exports = {
   getListingTitle,
   sortListingImages,
   getListingStatusLabels,
-  promiseSeries
+  promiseSeries,
+  isMobile
 };
