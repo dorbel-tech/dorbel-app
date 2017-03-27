@@ -17,6 +17,10 @@
   background-color: $brand-white;
   height: 100%;
   width: 246px;
+
+  @media (max-width: $screen-xs-max) {
+    display: none;
+  }
 }
 
 .dashboard-menu-profile-section {
