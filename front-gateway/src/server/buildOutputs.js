@@ -11,7 +11,7 @@ function setBuildFiles(jsBundle, cssBundle) {
 function getBuildOutputs(app) {
   // Used for development only
   if (process.env.NODE_ENV === 'development') {
-    const buildHost = 'http://localhost:' + process.env.HOT_RELOAD_SERVER_PORT || 8888;
+    const buildHost = 'http://localhost:' + 8888;
 
     app.use(setBuildFiles(
       `${buildHost}/build/bundle.js`,
