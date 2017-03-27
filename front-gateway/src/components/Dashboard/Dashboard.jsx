@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import autobind from 'react-autobind';
-import { Grid, Row, Button } from 'react-bootstrap';
 import { observer } from 'mobx-react';
-import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 import NavLink from '~/components/NavLink';
 
 import './Dashboard.scss';
