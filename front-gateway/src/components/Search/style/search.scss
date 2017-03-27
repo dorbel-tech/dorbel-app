@@ -3,6 +3,10 @@
   height: 100%;
   overflow: auto;
   position: relative;
+
+  @media (max-width: $screen-xs-max) {
+    -webkit-overflow-scrolling: touch;
+  }
 }
 
 .search-scroll-up {
@@ -29,11 +33,6 @@
 .search-results-wrapper {
   background-color: $gray-lighter;
   padding-top: 39px;
-
-  @media (max-width: $screen-xs-max) {
-    overflow-y: scroll; /* has to be scroll, not auto */
-    -webkit-overflow-scrolling: touch;
-  }
 
   @media (min-width: $screen-md-min) {
     bottom: 0;
