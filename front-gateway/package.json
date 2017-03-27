@@ -10,7 +10,7 @@
     "start:dev": "nodemon --exec babel-node --debug=5859 src/server/server.js | bunyan -o short",
     "build:dev": "NODE_ENV=development webpack-dev-server --content-base public -d --config webpack.config.js --host 0.0.0.0 --colors --inline --no-info",
     "test": "yarn run test:unit",
-    "test:unit": "jest --coverage",
+    "test:unit": "jest --coverage --runInBand",
     "test:unit:watch": "jest --watch",
     "test:unit:snapshot": "jest -u",
     "test:e2e": "nightwatch",
