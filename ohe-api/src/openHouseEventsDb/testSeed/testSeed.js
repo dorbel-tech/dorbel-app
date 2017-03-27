@@ -93,6 +93,12 @@ function* createFollowers() {
 
 if (require.main === module) {
   co(buildTestSeed)
-    .then(() => logger.info('test seed completed'))
-    .catch(err => logger.error(err, 'test seed failed'));
+  .then(() => {
+    logger.info('test seed completed');
+    process.exit(0);
+  })
+  .catch(err => {
+    logger.error(err, 'test seed failed');
+    process.exit(1);
+  });
 }

@@ -12,7 +12,7 @@ const shared = require('dorbel-shared');
 const logger = shared.logger.getLogger(module);
 const TEST_USER_ID = '23821212-6191-4fda-b3e3-fdb8bf69a95d';
 
-function * buildTestSeed() {
+function* buildTestSeed() {
   yield db.connect();
 
   const telaviv = yield db.models.city.find({ name: 'תל אביב' });
@@ -67,6 +67,12 @@ function * buildTestSeed() {
 
 if (require.main === module) {
   co(buildTestSeed)
-  .then(() => logger.info('test seed completed'))
-  .catch(err => logger.error(err, 'test seed failed'));
+  .then(() => {
+    logger.info('test seed completed');
+    process.exit(0);
+  })
+  .catch(err => {
+    logger.error(err, 'test seed failed');
+    process.exit(1);
+  });
 }
