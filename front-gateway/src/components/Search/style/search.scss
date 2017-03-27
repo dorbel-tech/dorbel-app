@@ -1,6 +1,7 @@
 .search-container {
   background-color: $gray-lighter;
   height: 100%;
+  overflow: auto;
   position: relative;
 }
 
@@ -37,13 +38,13 @@
     top: 0;
   }
 
-  @media (max-width: $screen-xs-max) {
-    overflow-y: scroll; /* has to be scroll, not auto */
-    -webkit-overflow-scrolling: touch;
-  }
-
   .search-results-container {
     background-color: $gray-lighter;
+
+    @media (max-width: $screen-xs-max) {
+      overflow-y: scroll; /* has to be scroll, not auto */
+      -webkit-overflow-scrolling: touch;
+    }
   }
 
   .loader-container {
