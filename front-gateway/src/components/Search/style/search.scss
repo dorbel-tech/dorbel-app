@@ -1,6 +1,7 @@
 .search-container {
   background-color: $gray-lighter;
   height: 100%;
+  overflow-x: hidden;
   position: relative;
 
   @media (min-width: $screen-md-min) {
