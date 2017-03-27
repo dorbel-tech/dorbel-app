@@ -28,7 +28,7 @@ class Dashboard extends Component {
   }
 
   renderAction() {
-    return <div>{this.props.action}</div>
+    return <div>{this.props.action}</div>;
   }
 
   renderMenuItem(item) {
@@ -38,7 +38,7 @@ class Dashboard extends Component {
                 className={'dashboard-menu-item ' + (isSelected ? 'dashboard-menu-item-selected' : '')}>
         <i className={'dashboard-menu-item-icon fa ' + item.faIconClassName}  aria-hidden="true"></i>
         <NavLink to={'/dashboard/' + item.navTo}>{item.menuText}</NavLink>
-      </div>
+      </div>;
   }
 
   render() {
