@@ -7,8 +7,16 @@ import NavLink from '~/components/NavLink';
 
 import './Dashboard.scss';
 
+const dashboardMenuItems = [
+  { navTo: 'listings', menuText: 'הנכסים שלי', faIconClassName: 'fa-home' },
+  { navTo: 'likes', menuText: 'המועדפים שלי', faIconClassName: 'fa-heart' },
+  { navTo: 'logout', menuText: 'יציאה', faIconClassName: 'fa-sign-out' }
+];
+
 @observer(['appStore', 'appProviders', 'router'])
 class Dashboard extends Component {
+  static hideFooter = true;
+
   constructor(props) {
     super(props);
     autobind(this);
@@ -22,16 +30,16 @@ class Dashboard extends Component {
   }
 
   renderAction() {
-    console.log(this.props.action);
     return <div>{this.props.action}</div>
   }
 
-  renderMenuItem(faIconClassName, menuText, navTo) {
-    const isSelected = this.props.action === navTo;
+  renderMenuItem(item) {
+    const isSelected = this.props.action === item.navTo;
 
-    return <div className={'dashboard-menu-item ' + (isSelected ? 'dashboard-menu-item-selected' : '')}>
-        <i className={'dashboard-menu-item-icon fa ' + faIconClassName}  aria-hidden="true"></i>
-        <NavLink to={'/dashboard/' + navTo}>{menuText}</NavLink>
+    return <div key={'dashboard-menu-item-' + item.navTo}
+                className={'dashboard-menu-item ' + (isSelected ? 'dashboard-menu-item-selected' : '')}>
+        <i className={'dashboard-menu-item-icon fa ' + item.faIconClassName}  aria-hidden="true"></i>
+        <NavLink to={'/dashboard/' + item.navTo}>{item.menuText}</NavLink>
       </div>
   }
 
@@ -47,9 +55,7 @@ class Dashboard extends Component {
             <div className="dashboard-menu-profile-first-name">{firstName}</div>
             <div className="dashboard-menu-profile-last-name">{lastName}</div>
           </div>
-          {this.renderMenuItem('fa-home', 'הנכסים שלי', 'listings')}
-          {this.renderMenuItem('fa-heart', 'המועדפים שלי', 'likes')}
-          {this.renderMenuItem('fa-sign-out', 'יציאה', 'logout')}
+          {dashboardMenuItems.map((item) => this.renderMenuItem(item))}
         </div>
         <div className="dashboard-action-wrapper">
           {this.renderAction()}
