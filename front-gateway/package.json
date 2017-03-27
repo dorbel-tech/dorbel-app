@@ -1,6 +1,6 @@
 {
   "name": "front-gateway",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "Front end application for dorbel",
   "main": "index.js",
   "scripts": {
@@ -45,8 +45,7 @@
     "cookies.js": "madmurphy/cookies.js",
     "css-loader": "^0.26.1",
     "director": "^1.2.8",
-    "dorbel-shared": "git://github.com/dorbel-tech/dorbel-shared#v1.0.27",
-    "dotenv": "^4.0.0",
+    "dorbel-shared": "git://github.com/dorbel-tech/dorbel-shared#v1.0.29",
     "ejs": "^2.5.2",
     "enzyme": "2.7.1",
     "enzyme-to-json": "^1.5.0",

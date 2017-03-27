@@ -1,4 +1,3 @@
-require('dotenv');
 const path = require('path');
 const frontRoot = path.resolve(__dirname, '..', '..');
 
