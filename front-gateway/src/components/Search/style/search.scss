@@ -1,6 +1,7 @@
 .search-container {
   background-color: $gray-lighter;
   height: 100%;
+  overflow-x: hidden;
   position: relative;
 
   @media (min-width: $screen-md-min) {
@@ -8,7 +9,6 @@
   }
 
   @media (max-width: $screen-xs-max) {
-    overflow-x: visible;
     overflow-y: scroll; /* has to be scroll, not auto */
     -webkit-overflow-scrolling: touch;
   }
