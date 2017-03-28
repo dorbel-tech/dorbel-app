@@ -39,6 +39,7 @@
   }
 
   @media (max-width: $screen-xs-max) {
+    overflow-y: visible;
     padding: 70px 0 0;
 
     &.hideFilter {
