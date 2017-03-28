@@ -1,6 +1,5 @@
 'use strict';
 const coSupertest = require('co-supertest');
-const config = require('../../src/config');
 const net = require('net');
 const cheerio = require('cheerio');
 
@@ -21,7 +20,7 @@ class ApiClient {
     let request;
 
     const serverHost = '127.0.0.1';
-    const serverPort = config.get('PORT');
+    const serverPort = process.env.PORT || 3001;
 
     try {
       // try a running server first
