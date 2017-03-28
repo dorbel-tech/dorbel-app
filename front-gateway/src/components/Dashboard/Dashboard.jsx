@@ -10,7 +10,7 @@ const dashboardMenuItems = [
   { navTo: 'likes', menuText: 'המועדפים שלי', faIconClassName: 'fa-heart' }
 ];
 
-@observer(['appStore', 'router'])
+@observer(['router'])
 class Dashboard extends Component {
   static hideFooter = true;
 
@@ -34,17 +34,8 @@ class Dashboard extends Component {
   }
 
   render() {
-    const profile = this.props.appStore.authStore.profile || {};
-    const firstName = profile.first_name || '';
-    const lastName = profile.last_name || '';
-
     return <div className="dashboard-container" onScroll={this.handleScroll}>
         <div className="dashboard-menu-wrapper">
-          <div className="dashboard-menu-profile-section">
-            <img src={profile.picture} className="dashboard-menu-profile-image" />
-            <div className="dashboard-menu-profile-first-name">{firstName}</div>
-            <div className="dashboard-menu-profile-last-name">{lastName}</div>
-          </div>
           {dashboardMenuItems.map((item) => this.renderMenuItem(item))}
         </div>
         <div className="dashboard-action-wrapper">
@@ -56,7 +47,6 @@ class Dashboard extends Component {
 
 Dashboard.wrappedComponent.propTypes = {
   action: React.PropTypes.string,
-  appStore: React.PropTypes.object.isRequired,
   router: React.PropTypes.any
 };
 
