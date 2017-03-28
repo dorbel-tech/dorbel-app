@@ -70,38 +70,6 @@
   }
 }
 
-.header-navbar-profile {
-  background-color: rgba(238, 238, 238, 0.2);
-  padding: 0 15px;
-
-  @media (max-width: $screen-xs-max) {
-    border-top: 1px solid #cecece;
-    font-size: 16px;
-    margin: 0 -15px;
-    padding: 0;
-  }
-
-  > li {
-    display: inline-block;
-  }
-}
-
-.header-navbar-profile-image {
-  border-radius: 50%;
-  width: 35px;
-}
-
-.header-navbar-profile-text,
-.header-navbar-profile-login-text {
-  > a {
-    font-size: 16px !important;
-  }
-}
-
-.header-navbar-profile-login-text {
-  text-decoration: underline !important;
-}
-
 // React bootstrap override.
 .navbar-inverse .navbar-toggle {
   &:hover,

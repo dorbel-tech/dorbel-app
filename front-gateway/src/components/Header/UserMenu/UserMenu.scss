@@ -1,0 +1,132 @@
+@import "../../sharedStyles/bsvars.scss";
+@import "../../sharedStyles/variables.scss";
+
+.header-navbar-profile {
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(238, 238, 238, 0.2);
+  color: #fff;
+
+  .header-navbar-profile-details {
+    display: block;
+    height: 60px;
+    padding-top: 11px;
+
+    .header-navbar-profile-ellipsis-icon {
+      margin-right: 25px;
+    }
+
+    .header-navbar-profile-image {
+      border-radius: 50%;
+      width: 35px;
+    }
+
+    .header-navbar-profile-name {
+      display: inline-block;
+      width: 50px;
+      margin-left: 10px;
+      margin-right: 25px;
+      vertical-align: middle;
+      max-width: 100px;
+
+      span {
+        display: block;
+        max-height: 20px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
+    }
+  }
+
+  @media (max-width: $screen-xs-max) {
+    position: relative;
+    border-top: 1px solid #cecece;
+    font-size: 16px;
+    margin: 0 -15px;
+    padding-right: 10px;
+
+    .header-navbar-menu-desktop {
+      display: none;
+    }
+
+    .header-navbar-profile-details {
+      display: inline-block;
+    }
+
+    .header-navbar-profile-details {
+      color: #333;
+
+      .header-navbar-profile-ellipsis-icon {
+        display: none;
+      }
+    }
+
+    .header-navbar-profile-login-text {
+      text-decoration: underline !important;
+    }
+
+    .nav.navbar-nav {
+      margin-right: 10px;
+      display: inline-block;
+    }
+  }
+
+  @media (min-width: $screen-sm-min) {
+    max-width: 225px;
+
+    .header-navbar-profile-image {
+      margin-right: 25px;
+    }
+
+    .header-navbar-menu-mobile {
+      display: none;
+    }
+
+    .header-navbar-menu-desktop {
+      display: none;
+      margin-top: -5px;
+      width: 100%;
+
+      &.active {
+        display: block;
+      }
+
+      .triangle-up {
+        width: 0;
+        height: 0;
+        color: #fff;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-bottom: 5px solid;
+        display: block;
+        margin-right: 20px;
+      }
+
+      .nav.navbar-nav {
+        width: 100%;
+        position: fixed;
+        height: 20px;
+        font-size: 13px !important;
+
+        .header-navbar-profile-login-text {
+          width: 100%;
+          text-decoration: none !important;
+          background-color: #fff;
+
+          i {
+            margin-left: 25px;
+            color: #333 !important;
+          }
+
+          a {
+            color: #333 !important;
+            width: 100%;
+            font-size: 13px !important;
+          }
+        }
+      }
+    }
+  }
+}
