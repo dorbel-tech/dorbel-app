@@ -2,17 +2,16 @@ import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import { Nav, NavItem } from 'react-bootstrap';
 
-import './UserProfile.scss';
+import './UserProfileBadge.scss';
 
 @observer(['appProviders', 'appStore'])
-class UserProfile extends Component {
+class UserProfileBadge extends Component {
   constructor(props) {
     super(props);
     this.state = {
       displayMenu: false
     };
   }
-
 
   handleHover(isVisible) {
     this.setState({ displayMenu: isVisible });
@@ -27,11 +26,11 @@ class UserProfile extends Component {
 
     return (
       isLoggedIn ?
-        <div className="user-profile" onMouseEnter={() => { this.handleHover(true); }} onMouseLeave={() => { this.handleHover(false); }}>
-          <div className="user-profile-details">
-            <i className="fa fa-ellipsis-v user-profile-ellipsis-icon" />
-            <img src={profile.picture} className="user-profile-image" />
-            <div className="user-profile-name">
+        <div className="user-profile-badge" onMouseEnter={() => { this.handleHover(true); }} onMouseLeave={() => { this.handleHover(false); }}>
+          <div className="user-profile-badge-details">
+            <i className="fa fa-ellipsis-v user-profile-badge-ellipsis-icon" />
+            <img src={profile.picture} className="user-profile-badge-image" />
+            <div className="user-profile-badge-name">
               <span>{profile.first_name ? profile.first_name : 'ברוכים'}</span>
               <span>{profile.first_name ? profile.last_name : 'הבאים'}</span>
             </div>
@@ -41,7 +40,7 @@ class UserProfile extends Component {
             <Nav>
               <NavItem
                 onClick={authProvider.logout}
-                className="user-profile-logout-text">
+                className="user-profile-badge-logout-text">
                 <i className="fa fa-sign-out" />
                 התנתק
               </NavItem>
@@ -49,25 +48,25 @@ class UserProfile extends Component {
           </div>
           <Nav className="header-navbar-menu-mobile">
             <NavItem
-              className="user-profile-logout-text"
+              className="user-profile-badge-logout-text"
               onClick={authProvider.logout}>
               התנתק
            </NavItem>
           </Nav>
         </div >
         :
-        <Nav className="user-profile" >
+        <Nav className="user-profile-badge" >
           <NavItem onClick={authProvider.showLoginModal}
-            className="user-profile-login-text">התחבר</NavItem>
+            className="user-profile-badge-login-text">התחבר</NavItem>
         </Nav >
 
     );
   }
 }
 
-UserProfile.wrappedComponent.propTypes = {
+UserProfileBadge.wrappedComponent.propTypes = {
   appProviders: React.PropTypes.object,
   appStore: React.PropTypes.object,
 };
 
-export default UserProfile;
+export default UserProfileBadge;
