@@ -17,6 +17,11 @@
     box-shadow: 0 2px 20px 0 rgba(0, 0, 0, 0.15);
     height: 40px;
     width: 260px;
+    &::after {
+      content: '\f0b0';
+      font-family: FontAwesome;
+      margin-right: 5px;
+    }
   }
 
   @media (min-width: $screen-sm-min) {
