@@ -41,7 +41,7 @@ class UserMenu_dev extends Component {
             <Nav>
               <NavItem
                 onClick={authProvider.logout}
-                className="header-navbar-profile-login-text">
+                className="header-navbar-profile-logout-text">
                 <i className="fa fa-sign-out" />
                 התנתק
               </NavItem>
@@ -49,14 +49,14 @@ class UserMenu_dev extends Component {
           </div>
           <Nav className="header-navbar-menu-mobile">
             <NavItem
-              className="header-navbar-profile-login-text"
+              className="header-navbar-profile-logout-text"
               onClick={authProvider.logout}>
               התנתק
            </NavItem>
           </Nav>
         </div >
         :
-        <Nav pullLeft className="header-navbar-profile" >
+        <Nav className="header-navbar-profile" >
           <NavItem onClick={authProvider.showLoginModal}
             className="header-navbar-profile-login-text">התחבר</NavItem>
         </Nav >
