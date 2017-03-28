@@ -43,13 +43,12 @@
     left: 0;
     overflow-y: scroll; /* has to be scroll, not auto */
     -webkit-overflow-scrolling: touch;
-    padding: 70px 0 0;
-    position: fixed;
+    position: absolute;
     right: 0;
     top: 62px;
     z-index: 1;
 
-    &.hideFilter {
+    &.hide-mobile-filter {
       display: none;
     }
   }

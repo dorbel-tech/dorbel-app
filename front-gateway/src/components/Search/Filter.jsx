@@ -246,7 +246,7 @@ class Filter extends Component {
           סנן תוצאות
         </Button>
       </div>
-      <div className={'filter-wrapper' + (this.state.hideFilter ? ' hideFilter' : '')}>
+      <div className={'filter-wrapper' + (this.state.hideFilter ? ' hide-mobile-filter' : '')}>
         <div className="filter-city-container">
           <DropdownButton id="cityDropdown" bsSize="large"
             className="filter-city-dropdown"
