@@ -7,24 +7,16 @@ import './Dashboard.scss';
 
 const dashboardMenuItems = [
   { navTo: 'listings', menuText: 'הנכסים שלי', faIconClassName: 'fa-home' },
-  { navTo: 'likes', menuText: 'המועדפים שלי', faIconClassName: 'fa-heart' },
-  { navTo: 'logout', menuText: 'יציאה', faIconClassName: 'fa-sign-out' }
+  { navTo: 'likes', menuText: 'המועדפים שלי', faIconClassName: 'fa-heart' }
 ];
 
-@observer(['appStore', 'appProviders', 'router'])
+@observer(['appStore', 'router'])
 class Dashboard extends Component {
   static hideFooter = true;
 
   constructor(props) {
     super(props);
     autobind(this);
-  }
-
-  componentWillReceiveProps(newProps) {
-    if (newProps.action === 'logout') {
-      newProps.appProviders.authProvider.logout();
-      newProps.router.setRoute('/');
-    }
   }
 
   renderAction() {
@@ -65,7 +57,6 @@ class Dashboard extends Component {
 Dashboard.wrappedComponent.propTypes = {
   action: React.PropTypes.string,
   appStore: React.PropTypes.object.isRequired,
-  appProviders: React.PropTypes.object.isRequired,
   router: React.PropTypes.any
 };
 
