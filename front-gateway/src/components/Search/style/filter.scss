@@ -11,7 +11,7 @@
   text-align: center;
   top: 72px;
   width: 100%;
-  z-index: 1099;
+  z-index: 1;
 
   button {
     box-shadow: 0 2px 20px 0 rgba(0, 0, 0, 0.15);
@@ -39,15 +39,21 @@
   }
 
   @media (max-width: $screen-xs-max) {
-    overflow-y: auto;
+    bottom: 0;
+    overflow-y: scroll; /* has to be scroll, not auto */
+    -webkit-overflow-scrolling: touch;
     padding: 70px 0 0;
+    position: fixed;
+    top: 20px;
+    width: 100%;
+    z-index: 1;
 
     &.hideFilter {
       display: none;
     }
   }
 
-  @media (min-width: $screen-xs-min) {
+  @media (min-width: $screen-sm-min) {
     margin: 0 auto;
     width: 480px;
   }
