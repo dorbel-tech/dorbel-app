@@ -1,5 +1,4 @@
 'use strict';
-require('dotenv').config();
 const shared = require('dorbel-shared');
 const logger = shared.logger.getLogger(module);
 const db = require('./apartmentsDb/dbConnectionProvider');

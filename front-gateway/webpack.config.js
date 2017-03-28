@@ -4,8 +4,7 @@ const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const WebpackMd5Hash = require('webpack-md5-hash');
-const config = require('./src/config');
-const dir = config.dir;
+const dir = require('./src/config').dir;
 
 let plugins = [];
 let devServer = undefined;
@@ -17,7 +16,7 @@ let cssBundleFileName = 'bundle.[contenthash]';
 if (process.env.NODE_ENV === 'development') {
   devServer = {
     host: 'localhost',
-    port: config.get('HOT_RELOAD_SERVER_PORT'),
+    port: 8888,
     inline: true
   };
   reactLoader = ['react-hot-loader', 'babel-loader'];

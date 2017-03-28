@@ -1,5 +1,4 @@
 'use strict';
-import config from '~/config';
 
 function setBuildFiles(jsBundle, cssBundle) {
   return function* (next) {
@@ -11,8 +10,8 @@ function setBuildFiles(jsBundle, cssBundle) {
 
 function getBuildOutputs(app) {
   // Used for development only
-  if (config.get('HOT_RELOAD_SERVER_PORT')) {
-    const buildHost = 'http://localhost:' + config.get('HOT_RELOAD_SERVER_PORT');
+  if (process.env.NODE_ENV === 'development') {
+    const buildHost = 'http://localhost:' + 8888;
 
     app.use(setBuildFiles(
       `${buildHost}/build/bundle.js`,

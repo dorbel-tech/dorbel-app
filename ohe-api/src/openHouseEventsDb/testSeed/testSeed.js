@@ -5,7 +5,8 @@
 'use strict';
 const co = require('co');
 const db = require('../dbConnectionProvider');
-const logger = require('dorbel-shared').logger.getLogger(module);
+const shared = require('dorbel-shared');
+const logger = shared.logger.getLogger(module);
 const moment = require('moment');
 
 const TEST_USER_ID = '23821212-6191-4fda-b3e3-fdb8bf69a95d';
@@ -92,6 +93,12 @@ function* createFollowers() {
 
 if (require.main === module) {
   co(buildTestSeed)
-    .then(() => logger.info('test seed completed'))
-    .catch(err => logger.error(err, 'test seed failed'));
+  .then(() => {
+    logger.info('test seed completed');
+    process.exit(0);
+  })
+  .catch(err => {
+    logger.error(err, 'test seed failed');
+    process.exit(1);
+  });
 }
