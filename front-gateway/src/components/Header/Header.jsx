@@ -1,7 +1,7 @@
 import React, { Component, PropTypes as T } from 'react';
 import { observer } from 'mobx-react';
 import { Nav, Navbar, NavItem } from 'react-bootstrap';
-import UserMenu from './UserMenu/UserMenu';
+import UserProfile from './UserProfile/UserProfile';
 
 import './Header.scss';
 
@@ -65,7 +65,7 @@ class Header extends Component {
             <NavItem className="btn-publish" onClick={(e) => this.routeTo(e, '/apartments/new_form')}
               href="/apartments/new_form">פרסמו דירה</NavItem>
           </Nav>
-          <UserMenu />
+          <UserProfile />
         </Navbar.Collapse>
       </Navbar>
     );
