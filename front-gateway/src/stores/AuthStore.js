@@ -59,6 +59,7 @@ export default class AuthStore {
     this.setToken(null);
     this.setProfile(null);
     this.newListingStore.reset();
+    window.location = '';
   }
 
   toJson() {
