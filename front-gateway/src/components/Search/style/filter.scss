@@ -121,17 +121,19 @@
   line-height: $line-height-computed;
   padding: 24px 46px 0;
 
-  * {
-    -o-transition-property: none !important;
-    -moz-transition-property: none !important;
-    -ms-transition-property: none !important;
-    -webkit-transition-property: none !important;
-    transition-property: none !important;
-    -webkit-animation: none !important;
-    -moz-animation: none !important;
-    -o-animation: none !important;
-    -ms-animation: none !important;
-    animation: none !important;
+  @media (max-width: $screen-xs-max) {
+    * {
+      -o-transition-property: none !important;
+      -moz-transition-property: none !important;
+      -ms-transition-property: none !important;
+      -webkit-transition-property: none !important;
+      transition-property: none !important;
+      -webkit-animation: none !important;
+      -moz-animation: none !important;
+      -o-animation: none !important;
+      -ms-animation: none !important;
+      animation: none !important;
+    }
   }
 }
 
@@ -265,15 +267,6 @@
 
 .noUi-connect {
   height: 4px;
-  width: auto;
-}
-
-.noUi-origin.noUi-background {
-  background-color: $brand-white;
-  box-shadow: inset 0 1px 1px #f0f0f0, 0 3px 6px -5px #bbb;
-  height: 4px;
-  right: 0;
-  width: auto;
 }
 
 .noUi-value-sub {
