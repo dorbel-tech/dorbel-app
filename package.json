@@ -25,6 +25,7 @@
     "eslint-plugin-react": "^6.3.0"
   },
   "dependencies": {
-    "eslint-friendly-formatter": "^2.0.7"
+    "eslint-friendly-formatter": "^2.0.7",
+    "stylelint-config-standard": "^16.0.0"
   }
 }

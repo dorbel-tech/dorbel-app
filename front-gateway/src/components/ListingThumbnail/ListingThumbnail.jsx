@@ -10,6 +10,14 @@ import utils from '../../providers/utils';
 
 @observer(['appStore'])
 class ListingThumbnail extends Component {
+  getListingUrl(listing) {
+    if (this.props.isMyProperties) {
+      return '/dashboard/my-properties/' + listing.id;
+    } else {
+      return '/apartments/' + this.getListingPath(listing);
+    }    
+  }
+  
   getListingPath(listing) {
     return listing.slug || listing.id;
   }
@@ -44,7 +52,7 @@ class ListingThumbnail extends Component {
 
     return (
       <Col lg={4} sm={6} xs={12}>
-        <NavLink to={'/apartments/' + this.getListingPath(listing)}
+        <NavLink to={this.getListingUrl(listing)}
           className="thumbnail apt-thumb-container apt-thumb-container-single pull-right">
           <ListingBadge listing={listing} />
           <div className="apt-thumb-apt-image">
@@ -85,7 +93,8 @@ class ListingThumbnail extends Component {
 
 ListingThumbnail.wrappedComponent.propTypes = {
   listing: React.PropTypes.object.isRequired,
-  appStore: React.PropTypes.object.isRequired
+  appStore: React.PropTypes.object.isRequired,
+  isMyProperties: React.PropTypes.string
 };
 
 export default ListingThumbnail;

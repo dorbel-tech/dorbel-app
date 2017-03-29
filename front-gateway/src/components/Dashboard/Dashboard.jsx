@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import autobind from 'react-autobind';
 import { observer } from 'mobx-react';
 import NavLink from '~/components/NavLink';
-
+import MyProperties from '~/components/Dashboard/MyProperties';
 import './Dashboard.scss';
 
 const dashboardMenuItems = [
-  { navTo: 'listings', menuText: 'הנכסים שלי', faIconClassName: 'fa-home' },
-  { navTo: 'likes', menuText: 'המועדפים שלי', faIconClassName: 'fa-heart' }
+  { navTo: 'my-properties', menuText: 'הנכסים שלי', faIconClassName: 'fa-home', component: <MyProperties/> },
+  { navTo: 'my-likes', menuText: 'דירות שאהבתי', faIconClassName: 'fa-heart', component:  <div>My Likes</div>}
 ];
 
 @observer(['router'])
@@ -17,10 +17,6 @@ class Dashboard extends Component {
   constructor(props) {
     super(props);
     autobind(this);
-  }
-
-  renderAction() {
-    return <div>{this.props.action}</div>;
   }
 
   renderMenuItem(item) {
@@ -34,12 +30,12 @@ class Dashboard extends Component {
   }
 
   render() {
-    return <div className="dashboard-container" onScroll={this.handleScroll}>
+    return <div className="dashboard-container">
         <div className="dashboard-menu-wrapper">
           {dashboardMenuItems.map((item) => this.renderMenuItem(item))}
         </div>
         <div className="dashboard-action-wrapper">
-          {this.renderAction()}
+          {dashboardMenuItems.map((item) => this.props.action === item.navTo ? item.component : null )}          
         </div>
       </div>;
   }
