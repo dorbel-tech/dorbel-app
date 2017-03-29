@@ -291,6 +291,63 @@ class Filter extends Component {
             <span>הציגו רק דירות שאהבתי</span>
           </Checkbox>
         </div>
+        <div className="filter-sliders-container">
+          <div className="cost-slider">
+            <h5 className="text-center">טווח מחירים</h5>
+            <Nouislider onChange={this.mrSliderChangeHandler}
+              range={{
+                min: DEFAULT_FILTER_PARAMS.mrs,
+                max: DEFAULT_FILTER_PARAMS.mre
+              }}
+              start={[this.state.mrs, this.state.mre]}
+              step={DEFAULT_FILTER_PARAMS.mrs}
+              pips={{ mode: 'steps', density: 30 }}
+              connect={true}
+              direction={'ltr'} />
+          </div>
+          <div className="roomsnum-slider">
+            <h5 className="text-center">מספר חדרים</h5>
+            <Nouislider onChange={this.roomsSliderChangeHandler}
+              range={{
+                min: DEFAULT_FILTER_PARAMS.minRooms,
+                '12.5%': 1.5,
+                '25%': 2,
+                '37.5%': 2.5,
+                '50%': 3,
+                '62.5%': 3.5,
+                '75%': 4,
+                '87.5%': 4.5,
+                max: DEFAULT_FILTER_PARAMS.maxRooms
+              }}
+              start={[this.state.minRooms, this.state.maxRooms]}
+              snap={true}
+              pips={{
+                mode: 'values',
+                values: range(DEFAULT_FILTER_PARAMS.minRooms,
+                  DEFAULT_FILTER_PARAMS.maxRooms + 1),
+                density: 30
+              }}
+              connect={true}
+              direction={'ltr'} />
+          </div>
+          <div className="size-slider">
+            <h5 className="text-center">גודל נכס (במ"ר)</h5>
+            <Nouislider onChange={this.sizeSliderChangeHandler}
+              range={{
+                min: DEFAULT_FILTER_PARAMS.minSize,
+                '20%': 40,
+                '40%': 60,
+                '60%': 80,
+                '80%': 100,
+                max: DEFAULT_FILTER_PARAMS.maxSize
+              }}
+              start={[this.state.minSize, this.state.maxSize]}
+              snap={true}
+              pips={{ mode: 'steps', density: 30 }}
+              connect={true}
+              direction={'ltr'} />
+          </div>
+        </div>
         <Grid fluid>
           <Row className="filter-amenities-container">
             <h5><b>צמצמו את החיפוש</b></h5>
