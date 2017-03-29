@@ -11,7 +11,7 @@ import utils from '../../providers/utils';
 @observer(['appStore'])
 class ListingThumbnail extends Component {
   getListingUrl(listing) {
-    if (this.props.isDashboard) {
+    if (this.props.isMyProperties) {
       return '/dashboard/my-properties/' + listing.id;
     } else {
       return '/apartments/' + this.getListingPath(listing);
@@ -94,7 +94,7 @@ class ListingThumbnail extends Component {
 ListingThumbnail.wrappedComponent.propTypes = {
   listing: React.PropTypes.object.isRequired,
   appStore: React.PropTypes.object.isRequired,
-  isDashboard: React.PropTypes.string
+  isMyProperties: React.PropTypes.string
 };
 
 export default ListingThumbnail;

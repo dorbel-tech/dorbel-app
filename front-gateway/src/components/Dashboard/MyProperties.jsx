@@ -40,7 +40,7 @@ class MyProperties extends Component {
       return (
         <Grid fluid className="search-results-container">
           <Row>
-            { results.map(listing => <ListingThumbnail listing={listing} key={listing.id} isDashboard="true" />) }
+            { results.map(listing => <ListingThumbnail listing={listing} key={listing.id} isMyProperties="true" />) }
           </Row>
           { searchStore.isLoadingNextPage ? <Row><LoadingSpinner /></Row> : null}
         </Grid>
