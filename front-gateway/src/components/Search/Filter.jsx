@@ -165,7 +165,6 @@ class Filter extends Component {
 
   toggleHideFilter() {
     document.getElementsByClassName('search-container')[0].scrollTop = 0;
-    document.getElementsByClassName('filter-wrapper')[0].scrollTop = 0;
     this.setState({ hideFilter: !this.state.hideFilter });
   }
 
