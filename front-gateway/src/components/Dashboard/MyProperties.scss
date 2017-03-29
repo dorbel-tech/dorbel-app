@@ -8,28 +8,29 @@
 .dashboard-my-properties-empty {
   padding: 20px;
   text-align: center;
-  
+
   @media (max-width: $screen-xs-max) {
     padding: 10px;
   }
 
   a.add {
-    box-shadow: 0 2px 15px 0 rgba(0,0,0,0.1);
-    border: 1px solid #3398DB;
-    border-radius: 4px 4px 0 0;  
-    color: #3398DB;
+    box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.1);
+    border: 1px solid #3398db;
+    border-radius: 4px 4px 0 0;
+    color: #3398db;
     display: block;
     height: 349px;
 
     @media (max-width: $screen-xs-max) {
       height: 249px;
     }
+
     .cross {
       padding-top: 100px;
 
       @media (max-width: $screen-xs-max) {
         padding-top: 50px;
-      }      
+      }
     }
 
     .title {
@@ -43,8 +44,8 @@
   }
 
   .text {
-    color: #555555;
+    color: #555;
     font-size: 13px;
     padding-top: 20px;
-  }  
+  }
 }
