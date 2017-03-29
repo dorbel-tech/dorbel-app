@@ -35,6 +35,7 @@
         vertical-align: middle;
         font-size: 25px;
         margin-left: 15px;
+        margin-right: 10px;
       }
     }
 
@@ -114,7 +115,7 @@
 
   @media (min-width: $screen-sm-min) {
     height: 60px;
-    max-width: 225px;
+    width: 225px;
 
     .user-profile-badge-image {
       margin-right: 25px;
