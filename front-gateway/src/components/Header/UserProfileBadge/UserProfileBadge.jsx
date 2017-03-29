@@ -13,53 +13,82 @@ class UserProfileBadge extends Component {
     };
   }
 
+  renderAuthenticationLink(isLoggedIn) {
+    const { authProvider } = this.props.appProviders;
+
+    return isLoggedIn ?
+      (
+        <Nav>
+          <NavItem
+            onClick={authProvider.logout}
+            className="user-profile-badge-auth-text">
+            <i className="fa fa-sign-out" />
+            התנתק
+          </NavItem>
+        </Nav>
+      )
+      :
+      (
+        <Nav>
+          <NavItem 
+            onClick={authProvider.showLoginModal}
+            className="user-profile-badge-auth-text">
+            <i className="fa fa-sign-in" />
+            התחבר
+          </NavItem>
+        </Nav>
+      );
+  }
+
+  renderPersonalData(isLoggedIn) {
+    const { authStore } = this.props.appStore;
+    const profile = authStore.profile || {};
+
+    return isLoggedIn ?
+      (
+        <div className="user-profile-badge-details">
+          <i className="fa fa-ellipsis-v user-profile-badge-ellipsis-icon" />
+          <img src={profile.picture} className="user-profile-badge-image" />
+          <div className="user-profile-badge-name">
+            <span>{profile.first_name ? profile.first_name : 'ברוכים'}</span>
+            <span>{profile.first_name ? profile.last_name : 'הבאים'}</span>
+          </div>
+        </div>
+      ) :
+      (
+        <div className="user-profile-badge-details">
+          <i className="fa fa-ellipsis-v user-profile-badge-ellipsis-icon" />
+          <div className="user-profile-badge-anonymous-icon-wrapper">
+            <div className="user-profile-badge-anonymous-icon">
+              <i className="fa fa-user" />
+            </div>
+          </div>
+          <div className="user-profile-badge-auth-text-inline">
+            {this.renderAuthenticationLink(isLoggedIn)}
+          </div>
+        </div>
+      );
+  }
+
   handleHover(isVisible) {
     this.setState({ displayMenu: isVisible });
   }
 
   render() {
     const { authStore } = this.props.appStore;
-    const { authProvider } = this.props.appProviders;
-    const profile = authStore.profile || {};
-
     const isLoggedIn = authStore.isLoggedIn;
 
     return (
-      isLoggedIn ?
-        <div className="user-profile-badge" onMouseEnter={() => { this.handleHover(true); }} onMouseLeave={() => { this.handleHover(false); }}>
-          <div className="user-profile-badge-details">
-            <i className="fa fa-ellipsis-v user-profile-badge-ellipsis-icon" />
-            <img src={profile.picture} className="user-profile-badge-image" />
-            <div className="user-profile-badge-name">
-              <span>{profile.first_name ? profile.first_name : 'ברוכים'}</span>
-              <span>{profile.first_name ? profile.last_name : 'הבאים'}</span>
-            </div>
-          </div>
-          <div className={'header-navbar-menu-desktop ' + (this.state.displayMenu ? 'active' : '')}>
-            <div className="triangle-up" />
-            <Nav>
-              <NavItem
-                onClick={authProvider.logout}
-                className="user-profile-badge-logout-text">
-                <i className="fa fa-sign-out" />
-                התנתק
-              </NavItem>
-            </Nav>
-          </div>
-          <Nav className="header-navbar-menu-mobile">
-            <NavItem
-              className="user-profile-badge-logout-text"
-              onClick={authProvider.logout}>
-              התנתק
-           </NavItem>
-          </Nav>
-        </div >
-        :
-        <Nav className="user-profile-badge" >
-          <NavItem onClick={authProvider.showLoginModal}
-            className="user-profile-badge-login-text">התחבר</NavItem>
-        </Nav >
-
+      <div className="user-profile-badge" onMouseEnter={() => { this.handleHover(true); }} onMouseLeave={() => { this.handleHover(false); }}>
+        {this.renderPersonalData(isLoggedIn)}
+        <div className={'user-profile-badge-menu-desktop ' + (this.state.displayMenu ? 'active' : '')}>
+          <div className="triangle-up" />
+            {this.renderAuthenticationLink(isLoggedIn)}
+        </div>
+        <div className="user-profile-badge-menu-mobile">
+          {this.renderAuthenticationLink(isLoggedIn)}
+        </div>
+      </div >
     );
   }
 }
