@@ -51,17 +51,18 @@
 
 .dashboard-action-wrapper {
   background-color: $gray-lighter;
-  padding-top: 39px;
+  padding: 20px;
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  right: 246px;
+  top: 0;
 
-  @media (min-width: $screen-md-min) {
-    bottom: 0;
-    left: 0;
-    position: absolute;
-    right: 246px;
-    top: 0;
-  }
+   @media (max-width: $screen-xs-max) {
+     right: 0;
+   }
 
   .loader-container {
-    top: -39px;
+    top: -20px;
   }
 }
