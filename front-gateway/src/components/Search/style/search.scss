@@ -6,11 +6,6 @@
   @media (min-width: $screen-md-min) {
     overflow: auto;
   }
-
-  @media (max-width: $screen-xs-max) {
-    overflow-y: scroll; /* has to be scroll, not auto */
-    -webkit-overflow-scrolling: touch;
-  }
 }
 
 .search-scroll-up {
