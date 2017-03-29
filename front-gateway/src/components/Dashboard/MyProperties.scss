@@ -1,6 +1,10 @@
 @import "../sharedStyles/variables.scss";
 @import "../sharedStyles/bsvars.scss";
 
+.dashboard-my-properties-container {
+  padding-top: 40px;
+}
+
 .dashboard-my-properties-empty {
   padding: 20px;
   text-align: center;
@@ -40,6 +44,7 @@
 
   .text {
     color: #555555;
+    font-size: 13px;
     padding-top: 20px;
   }  
 }

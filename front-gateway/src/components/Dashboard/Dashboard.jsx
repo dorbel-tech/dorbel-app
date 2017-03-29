@@ -7,7 +7,7 @@ import './Dashboard.scss';
 
 const dashboardMenuItems = [
   { navTo: 'my-properties', menuText: 'הנכסים שלי', faIconClassName: 'fa-home' },
-  { navTo: 'my-likes', menuText: 'המועדפים שלי', faIconClassName: 'fa-heart' }
+  { navTo: 'my-likes', menuText: 'דירות שאהבתי', faIconClassName: 'fa-heart' }
 ];
 
 @observer(['router'])

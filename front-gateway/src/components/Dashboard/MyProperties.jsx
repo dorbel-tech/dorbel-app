@@ -49,9 +49,9 @@ class MyProperties extends Component {
       return (<Col lg={4} sm={6} xs={12}><div className="dashboard-my-properties-empty">
                 <NavLink className="add" to="/apartments/new_form">
                   <div className="cross"><img src="https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/dashboard/add-property-icon.svg"/></div>
-                  <div className="title">הוסיפו דירה</div>
+                  <div className="title">הוסיפו נכס</div>
                 </NavLink>
-                <div className="text">אין נכסים קיימים. הוסיפו נכס בבעלותכם או את הדירה בה אתם גרים.</div>
+                <div className="text">אין לכם נכסים קיימים. הוסיפו נכס בבעלותכם או את הדירה בה אתם גרים.</div>
               </div></Col>);
     }
   }
