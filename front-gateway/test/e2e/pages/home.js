@@ -2,16 +2,19 @@
 const common = require('../common');
 
 module.exports = {
-  url: function() {
+  url: function () {
     return common.getBaseUrl();
   },
   elements: {
     loginLink: {
-      selector: '.header-navbar-profile-login-text'
+      selector: '.user-profile-badge-auth-text'
     },
-    logInText: {
-      selector: '.header-navbar-profile-login-text a'
-    },    
+    userProfileBadge: {
+      selector: '.user-profile-badge'
+    },
+    userProfileBadgeMenu: {
+      selector: '.user-profile-badge-menu-desktop'
+    },
     loginTab: {
       selector: '.auth0-lock-tabs > li:nth-of-type(1) > a'
     },
@@ -29,13 +32,21 @@ module.exports = {
     }
   },
   commands: [{
-    resizeDesktop: function(browser) {
+    resizeDesktop: function (browser) {
       browser.resizeWindow(1280, 1024);
     },
-    resizeMobile: function(browser) {
+    resizeMobile: function (browser) {
       browser.resizeWindow(320, 800);
     },
-    fillSignIn: function(user) {
+    clickProfileBadgeMenuItem: function (itemSelector) {
+      this.waitForElementVisible('@userProfileBadge')
+        .moveToElement('@userProfileBadge', 1, 1)
+        .waitForElementVisible('@userProfileBadgeMenu')
+        .moveToElement(itemSelector, 1, 1)
+        .click(itemSelector);
+      return this;
+    },
+    fillSignIn: function (user) {
       return this
         .waitForElementVisible('@loginTab')
         .click('@loginTab')
@@ -43,46 +54,44 @@ module.exports = {
         .setValue('@passwordField', user.password)
         .click('@submit');
     },
-    signUp: function(user) {
+    signUp: function (user) {
       this
         .waitForElementVisible('@loginLink')
         .click('@loginLink')
         .setValue('@emailField', user.email)
         .setValue('@passwordField', user.password)
         .click('@submit')
-        .validateSignIn();        
+        .validateSignIn();
     },
-    signIn: function(user) {
+    signIn: function (user) {
       this
-        .waitForElementVisible('@loginLink')
-        .click('@loginLink')
+        .clickProfileBadgeMenuItem('@loginLink')
         .fillSignIn(user)
         .validateSignIn();
       return this;
     },
-    signUpInForm: function(user) {
+    signUpInForm: function (user) {
       this
         .waitForElementVisible('@submitLogin')
         .click('@submitLogin');
       this.signUp(user);
       return this;
     },
-    singInListing: function(user) {
+    singInListing: function (user) {
       this
         .fillSignIn(user)
         .validateSignIn();
     },
     signOut: function () {
       this
-        .waitForElementVisible('@loginLink')
-        .click('@loginLink')
-        .waitForElementVisible('@logInText');
-      common.waitForText(this, '@logInText', 'התחבר');
+        .clickProfileBadgeMenuItem('@loginLink')
+        .waitForElementVisible('body')
+        .waitForElementVisible('.user-profile-badge-anonymous-icon');
       return this;
     },
-    validateSignIn: function() {
-      this.waitForElementVisible('@logInText');
-      common.waitForText(this, '@logInText', 'התנתק');      
+    validateSignIn: function () {
+      this.waitForElementVisible('.user-profile-badge-name');
+      return this;
     }
   }]
 };
