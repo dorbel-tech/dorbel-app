@@ -5552,9 +5552,9 @@ normalize-url@^1.4.0:
     query-string "^4.1.0"
     sort-keys "^1.0.0"
 
-nouislider-algolia-fork@^10.0.0:
-  version "10.0.0"
-  resolved "https://registry.yarnpkg.com/nouislider-algolia-fork/-/nouislider-algolia-fork-10.0.0.tgz#66d0a941aaa0ca64e58379e67bd320956f3cf3ce"
+nouislider@^9.2.0:
+  version "9.2.0"
+  resolved "https://registry.yarnpkg.com/nouislider/-/nouislider-9.2.0.tgz#e87c507de2b0b4d075038b5a42547c7dbbebaf69"
 
 npmconf@^2.1.1:
   version "2.1.2"
@@ -6512,11 +6512,11 @@ react-notification-system@^0.2.11:
   dependencies:
     object-assign "^4.0.1"
 
-react-nouislider@^1.14.2:
-  version "1.14.2"
-  resolved "https://registry.yarnpkg.com/react-nouislider/-/react-nouislider-1.14.2.tgz#44be62ba53fa10bd3b7ceaaabd685dd98ff46e5e"
+react-nouislider@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/react-nouislider/-/react-nouislider-2.0.0.tgz#77b21895153dc2553df79821c52f3dcada9d3397"
   dependencies:
-    nouislider-algolia-fork "^10.0.0"
+    nouislider "^9.2.0"
 
 react-overlays@^0.6.10:
   version "0.6.10"
@@ -7003,11 +7003,11 @@ satisfaction@^3.0.0:
     lodash "4.16.2"
     semver "5.3.0"
 
-sax@1.1.5:
+sax@1.1.5, sax@>=0.6.0:
   version "1.1.5"
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.1.5.tgz#1da50a8d00cdecd59405659f5ff85349fe773743"
 
-sax@>=0.6.0, sax@^1.2.1, sax@~1.2.1:
+sax@^1.2.1, sax@~1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.1.tgz#7b8e656190b228e81a66aea748480d828cd2d37a"
 
@@ -8409,7 +8409,7 @@ yargs@^1.2.6:
   version "1.3.3"
   resolved "https://registry.yarnpkg.com/yargs/-/yargs-1.3.3.tgz#054de8b61f22eefdb7207059eaef9d6b83fb931a"
 
-yargs@^3.19.0, yargs@~3.27.0:
+yargs@^3.19.0, yargs@^3.5.4, yargs@~3.27.0:
   version "3.27.0"
   resolved "https://registry.yarnpkg.com/yargs/-/yargs-3.27.0.tgz#21205469316e939131d59f2da0c6d7f98221ea40"
   dependencies:
@@ -8419,15 +8419,6 @@ yargs@^3.19.0, yargs@~3.27.0:
     os-locale "^1.4.0"
     window-size "^0.1.2"
     y18n "^3.2.0"
-
-yargs@^3.5.4, yargs@~3.10.0:
-  version "3.10.0"
-  resolved "https://registry.yarnpkg.com/yargs/-/yargs-3.10.0.tgz#f7ee7bd857dd7c1d2d38c0e74efbd681d1431fd1"
-  dependencies:
-    camelcase "^1.0.2"
-    cliui "^2.1.0"
-    decamelize "^1.0.0"
-    window-size "0.1.0"
 
 yargs@^4.7.1:
   version "4.8.1"
@@ -8465,3 +8456,12 @@ yargs@^6.0.0, yargs@^6.3.0, yargs@^6.6.0:
     which-module "^1.0.0"
     y18n "^3.2.1"
     yargs-parser "^4.2.0"
+
+yargs@~3.10.0:
+  version "3.10.0"
+  resolved "https://registry.yarnpkg.com/yargs/-/yargs-3.10.0.tgz#f7ee7bd857dd7c1d2d38c0e74efbd681d1431fd1"
+  dependencies:
+    camelcase "^1.0.2"
+    cliui "^2.1.0"
+    decamelize "^1.0.0"
+    window-size "0.1.0"
