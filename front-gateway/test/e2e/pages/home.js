@@ -15,6 +15,12 @@ module.exports = {
     userProfileBadgeMenu: {
       selector: '.user-profile-badge-menu-desktop'
     },
+    loggedInIndication: {
+      selector: '.user-profile-badge-name'
+    },
+    loggedOutIndication: {
+      selector: '.user-profile-badge-anonymous-icon'
+    },
     loginTab: {
       selector: '.auth0-lock-tabs > li:nth-of-type(1) > a'
     },
@@ -85,12 +91,11 @@ module.exports = {
     signOut: function () {
       this
         .clickProfileBadgeMenuItem('@loginLink')
-        .waitForElementVisible('body')
-        .waitForElementVisible('.user-profile-badge-anonymous-icon');
+        .waitForElementVisible('@loggedOutIndication');
       return this;
     },
     validateSignIn: function () {
-      this.waitForElementVisible('.user-profile-badge-name');
+      this.waitForElementVisible('@loggedInIndication');
       return this;
     }
   }]
