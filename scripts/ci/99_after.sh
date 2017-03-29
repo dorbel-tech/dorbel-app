@@ -7,3 +7,5 @@ set -e # Any subsequent(*) commands which fail will cause the shell script to ex
 
 # Take docker images cache snapshot, disabled as inconcictent.
 # docker-cache snapshot
+
+docker-compose down
