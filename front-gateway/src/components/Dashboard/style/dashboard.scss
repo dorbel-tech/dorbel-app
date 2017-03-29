@@ -58,9 +58,9 @@
   right: 246px;
   top: 0;
 
-   @media (max-width: $screen-xs-max) {
-     right: 0;
-   }
+  @media (max-width: $screen-xs-max) {
+    right: 0;
+  }
 
   .loader-container {
     top: -20px;
