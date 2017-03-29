@@ -6,8 +6,8 @@ import MyProperties from '~/components/Dashboard/MyProperties';
 import './Dashboard.scss';
 
 const dashboardMenuItems = [
-  { navTo: 'my-properties', menuText: 'הנכסים שלי', faIconClassName: 'fa-home' },
-  { navTo: 'my-likes', menuText: 'דירות שאהבתי', faIconClassName: 'fa-heart' }
+  { navTo: 'my-properties', menuText: 'הנכסים שלי', faIconClassName: 'fa-home', component: <MyProperties/> },
+  { navTo: 'my-likes', menuText: 'דירות שאהבתי', faIconClassName: 'fa-heart', component:  <div>My Likes</div>}
 ];
 
 @observer(['router'])
@@ -17,16 +17,6 @@ class Dashboard extends Component {
   constructor(props) {
     super(props);
     autobind(this);
-  }
-
-  renderAction() {
-    switch (this.props.action) {
-      case 'my-properties':
-        return <MyProperties/>;
-  
-      default:
-        return <div>{this.props.action}</div>;
-    }
   }
 
   renderMenuItem(item) {
@@ -45,7 +35,7 @@ class Dashboard extends Component {
           {dashboardMenuItems.map((item) => this.renderMenuItem(item))}
         </div>
         <div className="dashboard-action-wrapper">
-          {this.renderAction()}
+          {dashboardMenuItems.map((item) => this.props.action === item.navTo ? item.component : null )}          
         </div>
       </div>;
   }
