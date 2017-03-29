@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import autobind from 'react-autobind';
-import { Grid, Row, Col } from 'react-bootstrap';
+import { Grid, Row } from 'react-bootstrap';
 import { observer } from 'mobx-react';
 import ListingThumbnail from '../ListingThumbnail/ListingThumbnail.jsx';
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
