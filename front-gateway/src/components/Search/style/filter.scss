@@ -134,6 +134,16 @@
       -ms-animation: none !important;
       animation: none !important;
     }
+
+    /* Painting and performance;
+     * Browsers can paint handles in their own layer.
+     * NOT ON IPHONE THEY CAN'T.
+     */
+    .noUi-base,
+    .noUi-handle {
+      -webkit-transform: none !important;
+      transform: none !important;
+    }
   }
 }
 
