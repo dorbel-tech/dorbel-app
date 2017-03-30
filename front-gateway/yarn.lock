@@ -5551,9 +5551,9 @@ normalize-url@^1.4.0:
     query-string "^4.1.0"
     sort-keys "^1.0.0"
 
-nouislider-algolia-fork@^10.0.0:
-  version "10.0.0"
-  resolved "https://registry.yarnpkg.com/nouislider-algolia-fork/-/nouislider-algolia-fork-10.0.0.tgz#66d0a941aaa0ca64e58379e67bd320956f3cf3ce"
+nouislider@^9.2.0:
+  version "9.2.0"
+  resolved "https://registry.yarnpkg.com/nouislider/-/nouislider-9.2.0.tgz#e87c507de2b0b4d075038b5a42547c7dbbebaf69"
 
 npmconf@^2.1.1:
   version "2.1.2"
@@ -6511,11 +6511,11 @@ react-notification-system@^0.2.11:
   dependencies:
     object-assign "^4.0.1"
 
-react-nouislider@^1.14.2:
-  version "1.14.2"
-  resolved "https://registry.yarnpkg.com/react-nouislider/-/react-nouislider-1.14.2.tgz#44be62ba53fa10bd3b7ceaaabd685dd98ff46e5e"
+react-nouislider@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/react-nouislider/-/react-nouislider-2.0.0.tgz#77b21895153dc2553df79821c52f3dcada9d3397"
   dependencies:
-    nouislider-algolia-fork "^10.0.0"
+    nouislider "^9.2.0"
 
 react-overlays@^0.6.10:
   version "0.6.10"
@@ -7002,11 +7002,11 @@ satisfaction@^3.0.0:
     lodash "4.16.2"
     semver "5.3.0"
 
-sax@1.1.5:
+sax@1.1.5, sax@>=0.6.0:
   version "1.1.5"
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.1.5.tgz#1da50a8d00cdecd59405659f5ff85349fe773743"
 
-sax@>=0.6.0, sax@^1.2.1, sax@~1.2.1:
+sax@^1.2.1, sax@~1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.1.tgz#7b8e656190b228e81a66aea748480d828cd2d37a"
 
