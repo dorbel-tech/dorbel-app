@@ -83,7 +83,7 @@ class Search extends Component {
       );
     } else if (results.length > 0) {
       return (
-        <div className="search-results-scroll">
+        <div className="search-results-scroll" onScroll={this.handleScroll}>
           <Grid fluid className="search-results-container">
             <Row>
               { results.map(listing => <ListingThumbnail listing={listing} key={listing.id} />) }
