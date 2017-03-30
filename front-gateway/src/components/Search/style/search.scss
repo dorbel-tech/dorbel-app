@@ -41,6 +41,10 @@
     top: 0;
   }
 
+  @media (max-width: $screen-xs-max) {
+    height: 100%;
+  }
+
   .search-results-scroll {
     @media (max-width: $screen-xs-max) {
       height: 100%;
