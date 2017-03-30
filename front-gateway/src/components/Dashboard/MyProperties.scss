@@ -2,7 +2,15 @@
 @import "../sharedStyles/bsvars.scss";
 
 .dashboard-my-properties-container {
-  padding-top: 40px;
+  padding-top: 35px;
+
+  @media (max-width: $screen-xs-max) {
+    padding-top: 0;
+  }
+
+  .title {
+    padding: 0 15px 10px;
+  }
 }
 
 .dashboard-my-properties-empty {
@@ -43,7 +51,7 @@
   }
 
   .text {
-    color: #555;
+    color: $gray;
     font-size: 13px;
     padding-top: 20px;
   }
