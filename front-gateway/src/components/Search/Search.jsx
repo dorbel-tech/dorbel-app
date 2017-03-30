@@ -57,11 +57,13 @@ class Search extends Component {
     const results = searchStore.searchResults.length ? searchStore.searchResults : [];
 
     if (!searchStore.isLoading && results.length > 0) {
-      return (<Grid fluid className="search-results-container">
-        <Row>
-          {results.map(listing => <ListingThumbnail listing={listing} key={listing.id} />)}
-        </Row>
-      </Grid>);
+      return (<div className="search-results-scroll">
+        <Grid fluid className="search-results-container">
+          <Row>
+            {results.map(listing => <ListingThumbnail listing={listing} key={listing.id} />)}
+          </Row>
+        </Grid>
+      </div>);
     } else if (!searchStore.filterChanged || searchStore.isLoading) {
       return (
         <div className="loader-container">
