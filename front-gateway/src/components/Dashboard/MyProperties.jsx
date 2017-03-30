@@ -8,6 +8,7 @@ import NavLink from '~/components/NavLink';
 
 import './MyProperties.scss';
 
+// TODO: Add infinite scrolling support as introduced in Search.jsx to load more items.
 @observer(['appStore', 'appProviders'])
 class MyProperties extends Component {
   constructor(props) {
