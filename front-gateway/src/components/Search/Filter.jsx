@@ -225,6 +225,7 @@ class Filter extends Component {
     const { cityStore } = this.props.appStore;
     const cities = cityStore.cities.length ? cityStore.cities : [];
     const cityId = this.filterObj.city || DEFAULT_FILTER_PARAMS.city;
+    const filterButtonText = this.state.hideFilter ? 'סנן תוצאות' : 'סגור';
 
     let cityTitle;
     if (cityId === '*') {
@@ -237,7 +238,7 @@ class Filter extends Component {
     return <div className="filter-component-wrapper">
       <div className="filter-toggle-container">
         <Button onClick={this.toggleHideFilter}>
-          סנן תוצאות
+          {filterButtonText}
         </Button>
       </div>
       <div className={'filter-wrapper' + (this.state.hideFilter ? ' hide-mobile-filter' : '')}>

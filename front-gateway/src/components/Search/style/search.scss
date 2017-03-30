@@ -43,7 +43,7 @@
 
   @media (max-width: $screen-xs-max) {
     height: 100%;
-    padding-top: 0;
+    padding-top: 20px;
   }
 
   .search-results-scroll {
@@ -56,6 +56,12 @@
 
   .search-results-container {
     background-color: $gray-lighter;
+
+    @media (max-width: $screen-xs-max) {
+      .thumbnail {
+        margin-bottom: 40px;
+      }
+    }
   }
 
   .loader-container {

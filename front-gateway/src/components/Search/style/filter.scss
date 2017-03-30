@@ -14,10 +14,14 @@
   top: 15px;
   z-index: 1099;
 
-  button::after {
-    content: '\f0b0';
-    font-family: FontAwesome;
-    margin-right: 5px;
+  button {
+    width: 110px;
+
+    &::after {
+      content: '\f0b0';
+      font-family: FontAwesome;
+      margin-right: 5px;
+    }
   }
 
   @media (min-width: $screen-sm-min) {
