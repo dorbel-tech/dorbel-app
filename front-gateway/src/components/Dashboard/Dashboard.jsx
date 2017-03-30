@@ -3,11 +3,13 @@ import autobind from 'react-autobind';
 import { observer } from 'mobx-react';
 import NavLink from '~/components/NavLink';
 import MyProperties from '~/components/Dashboard/MyProperties';
+import MyLikes from '~/components/Dashboard/MyLikes';
+
 import './Dashboard.scss';
 
 const dashboardMenuItems = [
   { navTo: 'my-properties', menuText: 'הנכסים שלי', faIconClassName: 'fa-home', component: <MyProperties/> },
-  { navTo: 'my-likes', menuText: 'דירות שאהבתי', faIconClassName: 'fa-heart', component:  <div>My Likes</div>}
+  { navTo: 'my-likes', menuText: 'דירות שאהבתי', faIconClassName: 'fa-heart', component:  <MyLikes/>}
 ];
 
 @observer(['router'])

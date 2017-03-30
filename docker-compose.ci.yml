@@ -4,7 +4,7 @@ services:
   apartments-api:
     volumes:
       - ./apartments-api-shared:/shared
-    command: bash -c "./scripts/wait-for-it.sh db:3306 --timeout=180 && yarn run start"
+    command: bash -c "yarn run wait:db && yarn run start"
     environment:
       NODE_ENV: ${NODE_ENV}
       SUMOLOGIC_COLLECTOR: ${SUMOLOGIC_COLLECTOR}
@@ -26,7 +26,7 @@ services:
   ohe-api:
     volumes:
       - ./ohe-api-shared:/shared
-    command: bash -c "./scripts/wait-for-it.sh db:3306 --timeout=180 && yarn run start"
+    command: bash -c "yarn run wait:db && yarn run start"
     environment:
       NODE_ENV: ${NODE_ENV}
       SUMOLOGIC_COLLECTOR: ${SUMOLOGIC_COLLECTOR}

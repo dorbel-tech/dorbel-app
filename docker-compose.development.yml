@@ -23,7 +23,7 @@ services:
       # - ../dorbel-shared:/home/nodejs/app/node_modules/dorbel-shared
     environment:
       NODE_ENV: ${NODE_ENV}
-    command: bash -c "./scripts/wait-for-it.sh db:3306 --timeout=180 && yarn run start:dev"
+    command: bash -c "yarn run wait:db && yarn run start:dev"
 
   front-gateway:
     ports:
@@ -58,7 +58,7 @@ services:
       # - ../dorbel-shared:/home/nodejs/app/node_modules/dorbel-shared
     environment:
       NODE_ENV: ${NODE_ENV}
-    command: bash -c "./scripts/wait-for-it.sh db:3306 --timeout=180 && yarn run start:dev"
+    command: bash -c "yarn run wait:db && yarn run start:dev"
 
   # admin:
   #   volumes:

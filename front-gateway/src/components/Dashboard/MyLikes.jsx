@@ -1,22 +1,22 @@
 import React, { Component } from 'react';
 import autobind from 'react-autobind';
-import { Grid, Row, Col } from 'react-bootstrap';
+import { Grid, Row } from 'react-bootstrap';
 import { observer } from 'mobx-react';
 import ListingThumbnail from '../ListingThumbnail/ListingThumbnail.jsx';
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 import NavLink from '~/components/NavLink';
 
-import './MyProperties.scss';
+import './MyLikes.scss';
 
 @observer(['appStore', 'appProviders'])
-class MyProperties extends Component {
+class MyLikes extends Component {
   constructor(props) {
     super(props);
     autobind(this);
 
     this.props.appProviders.searchProvider.search({ 
       'city': '*',
-      'myProperties': true
+      'liked': true
     });
   }
 
@@ -39,40 +39,33 @@ class MyProperties extends Component {
     } else if (results.length > 0) {
       return (
         <div>
-          <p className="title">הנכסים שלי</p>
+          <p className="title">דירות שאהבתי</p>
           <Grid fluid className="search-results-container">
             <Row>
-              { results.map(listing => <ListingThumbnail listing={listing} key={listing.id} isMyProperties="true" />) }
+              { results.map(listing => <ListingThumbnail listing={listing} key={listing.id} openInNewWindow="true" />) }
             </Row>
             { searchStore.isLoadingNextPage ? <Row><LoadingSpinner /></Row> : null}
           </Grid>
         </div>
       );
-    } else {
-      return (<Grid fluid>
-                <Col lg={4} sm={6} xs={12}>
-                  <div className="dashboard-my-properties-empty">
-                    <NavLink className="add" to="/apartments/new_form">
-                      <div className="cross"><img src="https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/dashboard/add-property-icon.svg"/></div>
-                      <div className="title">הוסיפו נכס</div>
-                    </NavLink>
-                    <div className="text">אין לכם נכסים קיימים. הוסיפו נכס בבעלותכם או את הדירה בה אתם גרים.</div>
-                  </div>
-                </Col>
-              </Grid>);
+    } else {/* TODO WHAT TO SHOW WHEN EMPTY? */
+      return (<div className="dashboard-my-likes-empty"> 
+                <div className="text"><b>טרם שמרתם דירות שאהבתם. </b><br/><br/>
+                  היכנסו <NavLink to="/apartments">לעמוד החיפוש</NavLink> וסמנו את הדירות שאהבתם בכדי לחזור אליהן בקלות בהמשך.</div>
+              </div>);
     }
   }
 
   render() {
-    return <div className="dashboard-my-properties-container">
+    return <div className="dashboard-my-likes-container">
           {this.renderResults()}
       </div>;
   }
 }
 
-MyProperties.wrappedComponent.propTypes = {
+MyLikes.wrappedComponent.propTypes = {
   appStore: React.PropTypes.object.isRequired,
   appProviders: React.PropTypes.object.isRequired
 };
 
-export default MyProperties;
+export default MyLikes;

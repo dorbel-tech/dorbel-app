@@ -14,7 +14,8 @@
     "test:seed": "node src/apartmentsDb/testSeed/testSeed.js",
     "lint": "eslint --ext .js -f table src",
     "check": "satisfaction-status || yarn install",
-    "wait": "./scripts/wait-for-it.sh apartments-api:3000 --timeout=180"
+    "wait": "./scripts/wait-for-it.sh apartments-api:3000 --timeout=180",
+    "wait:db": "./scripts/wait-for-it.sh db:3306 --timeout=180/"
   },
   "dependencies": {
     "babel-cli": "^6.22.2",
