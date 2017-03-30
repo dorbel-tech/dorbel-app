@@ -4,7 +4,8 @@
 }
 
 .listing-title-section {
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid $gray-lighter;
+  padding: 10px 0;
 }
 
 .location-container {
@@ -32,7 +33,7 @@
     left: 0;
     padding: 0;
     position: absolute;
-    top: 14px;
+    top: 34px;
     z-index: 1;
   }
 }

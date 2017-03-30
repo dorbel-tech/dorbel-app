@@ -14,6 +14,16 @@
   top: 15px;
   z-index: 1099;
 
+  button {
+    width: 110px;
+
+    &::after {
+      content: '\f0b0';
+      font-family: FontAwesome;
+      margin-right: 5px;
+    }
+  }
+
   @media (min-width: $screen-sm-min) {
     display: none;
   }
@@ -28,12 +38,12 @@
   }
 
   @media (max-width: $screen-xs-max) {
-    &.hideFilter {
+    &.hide-mobile-filter {
       display: none;
     }
   }
 
-  @media (min-width: $screen-xs-min) {
+  @media (min-width: $screen-sm-min) {
     margin: 0 auto;
     width: 480px;
   }
@@ -52,6 +62,7 @@
     color: #00f;
     cursor: pointer;
     display: inline-block;
+    margin-bottom: 10px;
     padding: 15px;
     text-decoration: underline;
   }
@@ -152,15 +163,10 @@
 // nouislider overrides
 .cost-slider {
   .noUi-connect {
-    background-color: $brand-primary !important;
-  }
-
-  .noUi-value {
-    font-size: 12px;
+    background-color: $brand-primary;
   }
 
   .noUi-value-large {
-    color: $brand-primary;
     font-size: 15px;
 
     &::before {
@@ -178,11 +184,10 @@
 
 .roomsnum-slider {
   .noUi-connect {
-    background-color: lighten($brand-primary, 20%) !important;
+    background-color: lighten($brand-primary, 20%);
   }
 
   .noUi-value-large {
-    color: $brand-primary;
     font-size: 16px;
 
     &:last-child::after {
@@ -194,11 +199,10 @@
 
 .size-slider {
   .noUi-connect {
-    background-color: lighten($brand-primary, 40%) !important;
+    background-color: lighten($brand-primary, 40%);
   }
 
   .noUi-value-large {
-    color: $brand-primary;
     font-size: 12px;
 
     &:last-child {
@@ -210,31 +214,15 @@
       }
     }
 
-    &:nth-child(2) {
-      font-size: 16px;
-
-      &::after {
-        color: $gray-light;
-        font-size: 12px;
-      }
+    &:nth-child(2)::after {
+      color: $gray-light;
+      font-size: 12px;
     }
   }
 }
 
 .noUi-target * {
   direction: ltr;
-}
-
-.noUi-target {
-  height: 8px;
-}
-
-.noUi-value {
-  width: 70px !important;
-}
-
-.noUi-value-horizontal {
-  margin-left: -35px !important;
 }
 
 .noUi-marker {
@@ -256,22 +244,30 @@
     cursor: hand !important;
   }
 
-  &::before {
-    display: none !important;
-  }
-
+  &::before,
   &::after {
     display: none !important;
   }
+}
+
+.noUi-connect {
+  height: 4px;
+}
+
+.noUi-value-sub {
+  font-size: 12px;
+}
+
+.noUi-value-large {
+  color: $brand-primary;
+  padding-top: 5px;
 }
 
 .cost-slider,
 .roomsnum-slider,
 .size-slider {
   > div {
-    position: relative;
     height: 4px;
-    margin: 0 auto;
     margin-bottom: 80px;
   }
 }
