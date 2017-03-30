@@ -79,12 +79,14 @@ class Search extends Component {
       );
     } else if (results.length > 0) {
       return (
-        <Grid fluid className="search-results-container">
-          <Row>
-            { results.map(listing => <ListingThumbnail listing={listing} key={listing.id} />) }
-          </Row>
-          { searchStore.isLoadingNextPage ? <Row><LoadingSpinner /></Row> : null}
-        </Grid>
+        <div className="search-results-scroll">
+          <Grid fluid className="search-results-container">
+            <Row>
+              { results.map(listing => <ListingThumbnail listing={listing} key={listing.id} />) }
+            </Row>
+            { searchStore.isLoadingNextPage ? <Row><LoadingSpinner /></Row> : null}
+          </Grid>
+        </div>
       );
     } else {
       return (<div className="search-results-not-found">
