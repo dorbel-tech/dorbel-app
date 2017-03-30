@@ -106,6 +106,7 @@ function* getByFilter(filterJSON, options = {}) {
     try {
       filter = JSON.parse(filterJSON);
     } catch (e) {
+      logger.warn(e, 'failed to parse filter JSON');
       filter = {};
     }
   }
@@ -113,40 +114,46 @@ function* getByFilter(filterJSON, options = {}) {
   let listingQuery = {
     status: 'listed'
   };
-
-  if (options.user && userManagement.isUserAdmin(options.user)) {
-    // Special check for default admin statuses filter.
-    filter.listed = filter.hasOwnProperty('listed') ? filter.listed : true;
-
-    const filteredStatuses = listingRepository.listingStatuses.filter(
-      status => !filter[status]
-    );
-
-    // Check if admin filtered statuses manually.
-    if (filteredStatuses.length === 0) {
-      delete listingQuery.status;
-    } else {
-      listingQuery.status = { $notIn: filteredStatuses };
-    }
-  }
-
-  if (filter.city === '*') {
-    _.unset(filter, 'city');
-  }
-
+  
   let queryOptions = {
     order: getSortOption(filter.sort),
     limit: options.limit || DEFUALT_LISTING_LIST_LIMIT,
     offset: options.offset || 0
   };
-  
-  if (filter.liked && options.user) {
-    queryOptions.likeQuery = {
-      is_active: true,
-      liked_user_id: options.user.id
-    };
+
+  if (options.user) {
+    if (userManagement.isUserAdmin(options.user)) {
+      filter.listed = filter.hasOwnProperty('listed') ? filter.listed : true;
+
+      const filteredStatuses = listingRepository.listingStatuses.filter(
+        status => !filter[status]
+      );
+
+      // Check if admin filtered statuses manually.
+      if (filteredStatuses.length === 0) {
+        delete listingQuery.status;
+      } else {
+        listingQuery.status = { $notIn: filteredStatuses };
+      }
+    }
+
+    if (filter.liked) {
+      queryOptions.likeQuery = {
+        is_active: true,
+        liked_user_id: options.user.id
+      };
+    }
+
+    if (filter.myProperties){
+      listingQuery.publishing_user_id = options.user.id;
+      listingQuery.status = { $notIn: ['deleted'] };
+    }
   }
   
+  if (filter.city === '*') {
+    _.unset(filter, 'city');
+  }
+
   var filterMapping = {
     // Listing monthly rent start.
     mrs: { set: 'monthly_rent.$gte', target: listingQuery },
@@ -195,14 +202,18 @@ function* getById(id, user) {
   }
 
   const isPending = listing.status === 'pending';
-
-  // TODO: Fix the server rendering error with user object not existing there. The only solution to SSR with auth is cookies.
-  //  We could save the user's token to a cookie and try to parse it on the server as a fallback from the authentication header or something like that.
+  const isDeleted = listing.status === 'deleted';
+  const isAdmin = user && permissionsService.isAdmin(user, listing);
   const isPublishingUserOrAdmin = user && permissionsService.isPublishingUserOrAdmin(user, listing);
+
+  // Don't display deleted listings to anyone but admins.
+  if (isDeleted && !isAdmin) {
+    throw new CustomError(403, 'Cant show deleted listing. User is not a admin. listingId: ' + listing.id);    
+  }
 
   // Pending listing will be displayed to user who is listing publisher or admins only.
   if (isPending && !isPublishingUserOrAdmin) {
-    throw new CustomError(403, 'Cant show pending listing. User is not a publisher of listingId ' + listing.id);
+    throw new CustomError(403, 'Cant show pending listing. User is not a publisher of listingId: ' + listing.id);
   } else {
     return yield enrichListingResponse(listing, user);
   }

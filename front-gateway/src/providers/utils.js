@@ -4,6 +4,7 @@
 'use strict';
 import _ from 'lodash';
 import moment from 'moment';
+import isMobileJs from 'ismobilejs';
 
 const timeFormat = 'HH:mm';
 const dateFormat = 'DD/MM/YY';
@@ -26,7 +27,11 @@ function getListingTitle(listing) {
 }
 
 function getListingSubTitle(listing) {
-  return listing.apartment.building.street_name + ', ' + listing.apartment.building.city.city_name;
+  const building = listing.apartment.building;
+  const neighborhoodName = building.neighborhood.neighborhood_name;
+  const neighborhoodPrefix = neighborhoodName === 'אחר' ? '' : neighborhoodName + ', ';
+
+  return neighborhoodPrefix + building.city.city_name;
 }
 
 function sortListingImages(listing) {
@@ -59,6 +64,10 @@ function promiseSeries(functionsThatReturnPromises, allResults) {
   });
 }
 
+function isMobile() {
+  return isMobileJs.any;
+}
+
 module.exports = {
   formatTime,
   formatDate,
@@ -67,5 +76,6 @@ module.exports = {
   getListingTitle,
   sortListingImages,
   getListingStatusLabels,
-  promiseSeries
+  promiseSeries,
+  isMobile
 };

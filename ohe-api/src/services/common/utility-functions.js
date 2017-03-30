@@ -3,11 +3,10 @@
 var _ = require('lodash');
 var moment = require('moment');
 const shared = require('dorbel-shared');
-const config = shared.config;
 const errors = shared.utils.domainErrors;
 const userManagement = shared.utils.userManagement;
 
-const CLOSE_EVENT_IF_TOO_CLOSE = config.get('CLOSE_EVENT_IF_TOO_CLOSE');
+const CLOSE_EVENT_IF_TOO_CLOSE = process.env.CLOSE_EVENT_IF_TOO_CLOSE || 90;
 
 function calculateOHEStatus(oheModel, userId) { // userId is the registred userId, not the creator of the listing
   if (moment().isAfter(oheModel.start_time)) {

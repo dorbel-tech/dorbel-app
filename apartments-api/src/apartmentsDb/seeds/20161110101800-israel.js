@@ -11,11 +11,10 @@ function findOrCreate(modelName, obj, transaction) {
 
 function createNeighborhoodsInCity(city, neighborhoodNames) {
   return db.db.transaction(transaction => { // these are done concurrently so need a transaction
-    let promises = neighborhoodNames.map((neighborhood_name, index) =>
+    let promises = neighborhoodNames.map((neighborhood_name) =>
       findOrCreate('neighborhood', {
         neighborhood_name,
-        city_id: city.id,
-        display_order: index + 1
+        city_id: city.id
       }, transaction)
     );
 
@@ -40,14 +39,12 @@ function* createSeed(dbToSeed) {
 
   const telAviv = yield findOrCreate('city', {
     city_name: 'תל אביב',
-    country_id: israel.id,
-    display_order: 1
+    country_id: israel.id
   });
 
   const hertzelya = yield findOrCreate('city', {
     city_name: 'הרצליה',
-    country_id: israel.id,
-    display_order: 2
+    country_id: israel.id
   });
 
   yield createNeighborhoodsInCity(telAviv, ['מרכז העיר', 'הצפון הישן']);

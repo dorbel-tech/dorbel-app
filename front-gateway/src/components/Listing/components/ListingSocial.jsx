@@ -13,7 +13,7 @@ class ListingInfo extends React.Component {
       return (
         <div className="like-button-total-likes-text">
           <span>
-            {`${totalLikes} איש אוהבים את הדירה`}
+            {`${totalLikes} אוהבים את הדירה`}
           </span>
         </div>
       );

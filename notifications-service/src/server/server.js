@@ -3,12 +3,11 @@ const koa = require('koa');
 const fleekRouter = require('fleek-router');
 const bodyParser = require('koa-bodyparser');
 const shared = require('dorbel-shared');
-const config = shared.config;
 const logger = shared.logger.getLogger(module);
 const swaggerDoc = require('./swagger/swagger');
 const app = koa();
 
-const port: number = config.get('PORT');
+const port: number = process.env.PORT || 3002;
 const env = process.env.NODE_ENV;
 
 app.use(shared.middleware.errorHandler());

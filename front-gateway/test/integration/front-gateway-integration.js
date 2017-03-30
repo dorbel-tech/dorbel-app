@@ -8,45 +8,6 @@ describe('Front Gateway API Integration', function () {
     apiClient = yield ApiClient.init();
   });
 
-  describe('Meta tags', function () {
-    function* assertUrls(url, expectedUrl) {
-      const $apartmentsPage = yield apiClient.getHtml(url);
-      const urlTag = $apartmentsPage.getMetaTag('og:url');
-      const canonTag = $apartmentsPage('link[rel="canonical"]').attr('href');
-      // not testing the full url - just the path (not the host)
-      __.assertThat(urlTag, __.endsWith(expectedUrl || url));
-      __.assertThat(canonTag, __.endsWith(expectedUrl || url));
-    }
-
-    it('should render apartment page meta tags differently than homepage', function* () {
-      const $homepage = yield apiClient.getHtml('/');
-
-      const homepageTitle = $homepage.getMetaTag('og:title');
-      const homepageImage = $homepage.getMetaTag('og:image');
-
-      let $apartmentPage = yield apiClient.getHtml('/apartments/1');
-
-      const apartmentPageTitle = $apartmentPage.getMetaTag('og:title');
-      const apartmentPageImage = $apartmentPage.getMetaTag('og:image');
-
-      __.assertThat(apartmentPageTitle, __.not(__.equalTo(homepageTitle)));
-      __.assertThat(apartmentPageImage, __.not(__.equalTo(homepageImage)));
-    });
-
-    it('should render apartments page urls with own url', function* () {
-      yield assertUrls('/apartments');
-    });
-
-    it('should render new apartment form urls with own url', function* () {
-      yield assertUrls('/apartments/new_form');
-    });
-
-    it('should render apartment urls with slug', function* () {
-      const listingData = yield apiClient.get('/api/apartments/v1/listings/1');
-      yield assertUrls('/apartments/1', `/apartments/${listingData.body.slug}`);
-    });
-  });
-
   it('should forward request to apartments API', function* () {
     const response = yield apiClient.get('/api/apartments/v1/cities');
     __.assertThat(response.body, __.is(__.array()));
@@ -94,6 +55,45 @@ describe('Front Gateway API Integration', function () {
       statusCode: 301,
       headers: __.hasProperty('location', encodeURI('https://app.dorbel.com/apartments/123-SlUG With capss'))
     }));
+  });
+
+  describe('Meta tags', function () {
+    function* assertUrls(url, expectedUrl) {
+      const $apartmentsPage = yield apiClient.getHtml(url);
+      const urlTag = $apartmentsPage.getMetaTag('og:url');
+      const canonTag = $apartmentsPage('link[rel="canonical"]').attr('href');
+      // not testing the full url - just the path (not the host)
+      __.assertThat(urlTag, __.endsWith(expectedUrl || url));
+      __.assertThat(canonTag, __.endsWith(expectedUrl || url));
+    }
+
+    it('should render apartment page meta tags differently than homepage', function* () {
+      const $homepage = yield apiClient.getHtml('/');
+
+      const homepageTitle = $homepage.getMetaTag('og:title');
+      const homepageImage = $homepage.getMetaTag('og:image');
+
+      let $apartmentPage = yield apiClient.getHtml('/apartments/1');
+
+      const apartmentPageTitle = $apartmentPage.getMetaTag('og:title');
+      const apartmentPageImage = $apartmentPage.getMetaTag('og:image');
+
+      __.assertThat(apartmentPageTitle, __.not(__.equalTo(homepageTitle)));
+      __.assertThat(apartmentPageImage, __.not(__.equalTo(homepageImage)));
+    });
+
+    it('should render apartments page urls with own url', function* () {
+      yield assertUrls('/apartments');
+    });
+
+    it('should render new apartment form urls with own url', function* () {
+      yield assertUrls('/apartments/new_form');
+    });
+
+    it('should render apartment urls with slug', function* () {
+      const listingData = yield apiClient.get('/api/apartments/v1/listings/1');
+      yield assertUrls('/apartments/1', `/apartments/${listingData.body.slug}`);
+    });
   });
 });
 

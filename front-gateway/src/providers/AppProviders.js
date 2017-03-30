@@ -41,7 +41,7 @@ class AppProviders {
     this.neighborhoodProvider = new NeighborhoodProvider(appStore, this.apiProvider);
     this.notificationProvider = new NotificationProvider();
     this.modalProvider = new ModalProvider(appStore);
-    this.searchProvider = new SearchProvider(appStore, this.apiProvider);
+    this.searchProvider = new SearchProvider(appStore, { api: this.apiProvider, ohe: this.oheProvider });
     this.likeProvider = new LikeProvider(appStore, this.apiProvider);
     this.utils = utils;
   }
