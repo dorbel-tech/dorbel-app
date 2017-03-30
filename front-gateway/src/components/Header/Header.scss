@@ -23,8 +23,7 @@
 .navbar-inverse .navbar-nav > li > a {
   color: $brand-white;
   font-size: 14px;
-  padding-bottom: 12px;
-  padding-top: 13px;
+  padding: 12px 20px;
 
   @media (min-width: $screen-sm-min) {
     line-height: 34px;

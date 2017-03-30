@@ -24,7 +24,7 @@ export default class Footer extends React.Component {
             <NavLink to="/">דף הבית</NavLink>
             <a href={externalURL + 'about_us'}>מי אנחנו</a>
             <a href={externalURL + 'owner'}>בעלי דירות</a>
-            <a href={externalURL + 'שירותים-לבעלי-דירות'}>שירותים לבעלי דירות</a>
+            <a href={externalURL + 'services'}>שירותי פרימיום</a>
           </Col>
           <Col sm={3} md={2} className="footer-links-col">
             <a href={externalURL + 'faq'}>שאלות נפוצות</a>
