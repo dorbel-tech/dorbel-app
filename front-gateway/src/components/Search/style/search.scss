@@ -6,11 +6,6 @@
   @media (min-width: $screen-md-min) {
     overflow: auto;
   }
-
-  @media (max-width: $screen-xs-max) {
-    overflow-y: scroll; /* has to be scroll, not auto */
-    -webkit-overflow-scrolling: touch;
-  }
 }
 
 .search-scroll-up {
@@ -46,8 +41,25 @@
     top: 0;
   }
 
+  @media (max-width: $screen-xs-max) {
+    height: 100%;
+    padding-top: 20px;
+
+    .search-results-scroll {
+      height: 100%;
+      overflow-y: scroll; /* has to be scroll, not auto */
+      -webkit-overflow-scrolling: touch;
+    }
+  }
+
   .search-results-container {
     background-color: $gray-lighter;
+
+    @media (max-width: $screen-xs-max) {
+      .thumbnail {
+        margin-bottom: 40px;
+      }
+    }
   }
 
   .loader-container {
