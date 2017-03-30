@@ -8,6 +8,10 @@ import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 
 import './Search.scss';
 
+const INFINITE_SCROLL_MARGIN = 900;
+// We will load another page when the distance from the bottom of the viewable area to the bottom of the scrollable area is below this margin
+// Currently this is just a little more than 2 rows of listings
+
 @observer(['appStore', 'appProviders'])
 class Search extends Component {
   static hideFooter = true;
