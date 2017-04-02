@@ -59,7 +59,10 @@ export default class AuthStore {
     this.setToken(null);
     this.setProfile(null);
     this.newListingStore.reset();
-    location.reload(false);
+    
+    if (process.env.IS_CLIENT) {
+      location.reload(false);
+    }
   }
 
   toJson() {
