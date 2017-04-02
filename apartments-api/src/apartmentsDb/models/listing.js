@@ -59,6 +59,10 @@ function define(sequelize, DataTypes) {
         set: function (val) {
           this.setDataValue('slug', normalizeSlug(val, true));
         }
+      },
+      directions: {
+        type: DataTypes.STRING(255),
+        defaultValue: null
       }
     },
     {
