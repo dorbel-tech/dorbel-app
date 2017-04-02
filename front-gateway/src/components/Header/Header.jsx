@@ -1,8 +1,10 @@
 import React, { Component, PropTypes as T } from 'react';
+import autobind from 'react-autobind';
 import { observer } from 'mobx-react';
 import { Nav, Navbar, NavItem } from 'react-bootstrap';
 import isMobileJs from 'ismobilejs';
 import UserProfileBadge from './UserProfileBadge/UserProfileBadge';
+import { MENU_ITEMS } from '../Dashboard/DashboardShared';
 
 import './Header.scss';
 
@@ -10,13 +12,25 @@ import './Header.scss';
 class Header extends Component {
   constructor(props) {
     super(props);
-
-    this.redirect = this.redirect.bind(this);
+    autobind(this);
   }
 
   static propTypes = {
     appProviders: T.object,
     appStore: T.object
+  }
+
+  renderDashboardMenuItem(item) {
+    const itemPath = '/dashboard/' + item.navTo;
+    const isSelected = location.pathname === itemPath;
+
+    return <NavItem key={'header-dashboard-menu-item-' + item.navTo}
+              onClick={(e) => this.routeTo(e, itemPath)}
+              href={itemPath}
+              className={'header-dashboard-menu-item ' + (isSelected ? 'header-dashboard-menu-item-selected' : '')}>
+        <i className={'header-dashboard-menu-item-icon fa ' + item.faIconClassName}  aria-hidden="true"></i>
+        {item.menuText}
+      </NavItem>;
   }
 
   redirect(e) {
@@ -59,6 +73,7 @@ class Header extends Component {
         <Navbar.Collapse>
           <UserProfileBadge />
           <Nav className="header-navbar-links">
+            {showDashboardMenu ? MENU_ITEMS.map((item) => this.renderDashboardMenuItem(item)) : null}
             {showPublishFirst ?
               <NavItem className="header-navbar-btn-publish" onClick={(e) => this.routeTo(e, '/apartments/new_form')}
                 href="/apartments/new_form">פרסמו דירה</NavItem>

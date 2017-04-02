@@ -31,6 +31,26 @@
   }
 }
 
+.header-dashboard-menu-item {
+  &.header-dashboard-menu-item-selected {
+    border-right: 4px solid $gray-dark;
+
+    > a {
+      margin-right: -4px;
+    }
+  }
+
+  @media (min-width: $screen-sm-min) {
+    display: none !important;
+  }
+}
+
+.header-dashboard-menu-item-icon {
+  font-size: 14px;
+  padding-left: 18px;
+  vertical-align: text-bottom;
+}
+
 .header-navbar-btn-publish {
   background-color: #00b3e5;
   margin: 10px 0;
@@ -58,7 +78,7 @@
 }
 
 .header-navbar-profile-login-text {
-  border-top: 1px solid #CDCDCD;
+  border-top: 1px solid #cdcdcd;
   margin: 0 20px;
 
   > a {
