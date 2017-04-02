@@ -12,7 +12,7 @@ module.exports = {
     const ohe_listingId_to_comment_sql =
       'SELECT ohe.listing_id, ohe.comments ' +
       'FROM open_house_events.open_house_events AS ohe ' +
-      'WHERE ohe.is_active=1 AND ohe.comments IS NOT NULL';
+      'WHERE ohe.comments IS NOT NULL';
 
     const update_listing_directions_sql =
       'UPDATE apartments.listings set directions = :directions ' +

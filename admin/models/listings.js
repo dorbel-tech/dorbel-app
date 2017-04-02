@@ -62,12 +62,16 @@ module.exports = (sequelize, DataTypes) => {
           this.setDataValue('slug', normalizeSlug(val, true));
         }
       },
+      directions: {
+        type: DataTypes.STRING(255),
+        defaultValue: null
+      },
       created_at: {
         type: DataTypes.DATE,
       },
       updated_at: {
         type: DataTypes.DATE,
-      },
+      }
     },
     {
       classMethods: {
