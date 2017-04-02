@@ -52,6 +52,7 @@ class Header extends Component {
           <Navbar.Toggle />
         </Navbar.Header>
         <Navbar.Collapse>
+          <UserProfileBadge />
           <Nav className="header-navbar-links">
             <NavItem onClick={this.redirect} href={externalURL + '/pages/about_us'}>
               מי אנחנו</NavItem>
@@ -62,10 +63,9 @@ class Header extends Component {
               href={externalURL + '/pages/services'}>שירותי פרימיום</NavItem>
             <NavItem onClick={(e) => this.routeTo(e, '/apartments')}
               href="/apartments">מצאו דירה</NavItem>
-            <NavItem className="btn-publish" onClick={(e) => this.routeTo(e, '/apartments/new_form')}
+            <NavItem className="header-navbar-btn-publish" onClick={(e) => this.routeTo(e, '/apartments/new_form')}
               href="/apartments/new_form">פרסמו דירה</NavItem>
           </Nav>
-          <UserProfileBadge />
         </Navbar.Collapse>
       </Navbar>
     );
