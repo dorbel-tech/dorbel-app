@@ -5,7 +5,6 @@ import { Grid, Row } from 'react-bootstrap';
 import utils from '~/providers/utils';
 import ListingBadge from '~/components/ListingBadge/ListingBadge';
 import CloudinaryImage from '~/components/CloudinaryImage/CloudinaryImage';
-import ListingPageViews from './ListingPageViews';
 
 let Flickity = 'div';
 let carouselClass = 'fixed-carousel';
@@ -24,12 +23,11 @@ const flickityOptions = {
 @observer(['appStore'])
 export default class ListingHeader extends React.Component {
   render() {
-    const { listing, appStore } = this.props;
+    const { listing } = this.props;
     const sortedListingImages = utils.sortListingImages(listing);
 
     return (
-      <header className="listing-header">
-        { appStore.listingStore.isListingPublisherOrAdmin(listing) ?  <ListingPageViews listing={listing} /> : null }
+      <header className="listing-header">        
         <div className="listing-header-badge-container">
           <ListingBadge listing={listing}/>
         </div>

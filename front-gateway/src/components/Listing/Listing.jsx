@@ -14,6 +14,7 @@ import OHEManager from '~/components/OHEManager/OHEManager';
 import ApartmentLocation from '~/components/MapWrapper/MapWrapper';
 import RelatedListings from '~/components/RelatedListings/RelatedListings';
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
+import Icon from '~/components/Icon/Icon';
 import utils from '~/providers/utils';
 
 import './Listing.scss';
@@ -67,6 +68,8 @@ class Listing extends Component {
     const { appStore, action } = this.props;
     const listing = appStore.listingStore.get(this.props.listingId);
     const isListingPublisherOrAdmin = listing ? appStore.listingStore.isListingPublisherOrAdmin(listing) : false;
+    const website_url = process.env.FRONT_GATEWAY_URL || 'https://app.dorbel.com';
+    const currentUrl = website_url + '/apartments/' + listing.id;
 
     if (this.state.isLoading) {
       return (
@@ -92,6 +95,17 @@ class Listing extends Component {
                 <Col sm={7} smPull={5} md={4} mdPull={4} className="listing-title-container">
                   <h2 className="listing-title">{utils.getListingTitle(listing)}</h2>
                   <h4 className="listing-sub-title">{utils.getListingSubTitle(listing)}</h4>
+                  <div className="listing-social-share-wrapper">
+                    שתפו
+                    <div className="listing-social-share-container">
+                      <a className="listing-social-share-item fa fa-facebook-f fb-desktop" href={'https://www.facebook.com/sharer.php?u=' + currentUrl + '?utm_source=apt_page_facebook_share'} target="_blank"></a>
+                      <a className="listing-social-share-item fa fa-facebook-f fb-mobile" href={'fb://publish/profile/#me?text=' + currentUrl + '?utm_source=apt_page_facebook_share'}></a>
+                      <a className="listing-social-share-item email fa fa-envelope-o" href={'mailto:?subject=Great%20apartment%20from%20dorbel&amp;body=' + currentUrl + '?utm_source=apt_page_email_share'}></a>
+                      <a className="listing-social-share-item whatsapp fa fa-whatsapp" href={'whatsapp://send?text=היי, ראיתי דירה באתר dorbel שאולי תעניין אותך. ' + currentUrl + '?utm_source=apt_page_whatsapp_share'} data-href={currentUrl + '?utm_source=apt_page_whatsapp_share'} data-text="היי, ראיתי דירה באתר dorbel שאולי תעניין אותך."></a>
+                      <a className="listing-social-share-item fb-messenger-desktop" href={'https://www.facebook.com/dialog/send?app_id=1651579398444396&link=' + currentUrl + '?utm_source=apt_page_messenger_share' + '&redirect_uri=' + currentUrl + '?utm_source=apt_page_messenger_share'} target="_blank"><Icon iconName="dorbel-icon-social-fbmsg" /></a>
+                      <a className="listing-social-share-item fb-messenger-mobile" href={'fb-messenger://share/?link=' + currentUrl + '?utm_source=apt_page_messenger_share' + '&app_id=1651579398444396'}><Icon iconName="dorbel-icon-social-fbmsg" /></a>
+                    </div>
+                  </div>
                 </Col>
               </Row>
               <ListingInfo listing={listing} />
