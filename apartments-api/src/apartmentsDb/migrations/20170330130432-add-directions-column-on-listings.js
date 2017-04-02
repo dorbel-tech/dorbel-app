@@ -1,5 +1,4 @@
 'use strict';
-const logger = require('dorbel-shared').logger.getLogger(module);
 
 module.exports = {
   up: function (queryInterface, Sequelize) {
