@@ -35,6 +35,17 @@ class Header extends Component {
     }
   }
 
+  componentDidMount() {
+    // Ugly patch to close Bootstrap Navbar when clicked outside mobile menu area.
+    window.addEventListener('click', function(e){   
+      if(!document.getElementsByClassName('navbar-collapse')[0].contains(e.target)){
+        if(document.getElementsByClassName('navbar-collapse collapse in')[0]) {
+          document.getElementsByClassName('navbar-toggle')[0].click();
+        }
+      }
+    });      
+  }
+
   render() {
 
     const externalURL = 'https://www.dorbel.com';
