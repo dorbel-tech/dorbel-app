@@ -1,5 +1,5 @@
 /***
- * General utils modeule
+ * General utils module
  */
 'use strict';
 import _ from 'lodash';

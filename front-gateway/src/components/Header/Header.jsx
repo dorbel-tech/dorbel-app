@@ -1,11 +1,12 @@
 import React, { Component, PropTypes as T } from 'react';
 import { observer } from 'mobx-react';
 import { Nav, Navbar, NavItem } from 'react-bootstrap';
+import isMobileJs from 'ismobilejs';
 import UserProfileBadge from './UserProfileBadge/UserProfileBadge';
 
 import './Header.scss';
 
-@observer(['appProviders', 'appStore', 'router'])
+@observer(['appStore', 'router'])
 class Header extends Component {
   constructor(props) {
     super(props);
@@ -14,7 +15,6 @@ class Header extends Component {
   }
 
   static propTypes = {
-    appProviders: T.object,
     appStore: T.object
   }
 
@@ -36,7 +36,10 @@ class Header extends Component {
   }
 
   render() {
-
+    const { authStore } = this.props.appStore;
+    const isLoggedIn = authStore.isLoggedIn;
+    const showDashboardMenu = process.env.NODE_ENV === 'development' && isLoggedIn;
+    const showPublishFirst = showDashboardMenu && isMobileJs.phone;
     const externalURL = 'https://www.dorbel.com';
 
     return (
@@ -54,6 +57,11 @@ class Header extends Component {
         <Navbar.Collapse>
           <UserProfileBadge />
           <Nav className="header-navbar-links">
+            {showPublishFirst ?
+              <NavItem className="header-navbar-btn-publish" onClick={(e) => this.routeTo(e, '/apartments/new_form')}
+                href="/apartments/new_form">פרסמו דירה</NavItem>
+            :
+              null}
             <NavItem onClick={this.redirect} href={externalURL + '/pages/about_us'}>
               מי אנחנו</NavItem>
             <NavItem onClick={this.redirect} href={externalURL + '/pages/owner'}>
@@ -63,8 +71,12 @@ class Header extends Component {
               href={externalURL + '/pages/services'}>שירותי פרימיום</NavItem>
             <NavItem onClick={(e) => this.routeTo(e, '/apartments')}
               href="/apartments">מצאו דירה</NavItem>
-            <NavItem className="header-navbar-btn-publish" onClick={(e) => this.routeTo(e, '/apartments/new_form')}
-              href="/apartments/new_form">פרסמו דירה</NavItem>
+            {showPublishFirst ?
+              null
+            :
+              <NavItem className="header-navbar-btn-publish" onClick={(e) => this.routeTo(e, '/apartments/new_form')}
+                href="/apartments/new_form">פרסמו דירה</NavItem>
+            }
           </Nav>
         </Navbar.Collapse>
       </Navbar>
