@@ -111,6 +111,14 @@
   border-radius: 50%;
   width: 35px;
 
+
+  @media (max-width: $screen-xs-max) {
+    height: 64px;
+    line-height: 72px;
+    margin: 17px 10px 17px 18px;
+    width: 64px;
+  }
+
   @media (min-width: $screen-sm-min) {
     margin-right: 25px;
   }
@@ -146,7 +154,7 @@
   @media (max-width: $screen-xs-max) {
     height: 64px;
     line-height: 72px;
-    margin: 17px;
+    margin: 17px 10px 17px 18px;
     width: 64px;
 
     > i {
@@ -192,6 +200,10 @@
   margin-left: 10px;
   margin-right: 25px;
   vertical-align: middle;
+
+  @media (max-width: $screen-xs-max) {
+    margin-right: 0;
+  }
 
   span {
     display: block;
