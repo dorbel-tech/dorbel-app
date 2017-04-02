@@ -57,6 +57,23 @@
   }
 }
 
+.header-navbar-profile-login-text {
+  border-top: 1px solid #CDCDCD;
+  margin: 0 20px;
+
+  > a {
+    padding: 20px 0 !important;
+  }
+
+  i {
+    margin-left: 18px;
+  }
+
+  @media (min-width: $screen-sm-min) {
+    display: none !important;
+  }
+}
+
 @media (max-width: $screen-xs-max) {
   .navbar-collapse {
     background-color: $brand-white;

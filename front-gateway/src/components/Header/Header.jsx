@@ -6,7 +6,7 @@ import UserProfileBadge from './UserProfileBadge/UserProfileBadge';
 
 import './Header.scss';
 
-@observer(['appStore', 'router'])
+@observer(['appProviders', 'appStore', 'router'])
 class Header extends Component {
   constructor(props) {
     super(props);
@@ -15,6 +15,7 @@ class Header extends Component {
   }
 
   static propTypes = {
+    appProviders: T.object,
     appStore: T.object
   }
 
@@ -36,6 +37,7 @@ class Header extends Component {
   }
 
   render() {
+    const { authProvider } = this.props.appProviders;
     const { authStore } = this.props.appStore;
     const isLoggedIn = authStore.isLoggedIn;
     const showDashboardMenu = process.env.NODE_ENV === 'development' && isLoggedIn;
@@ -76,6 +78,19 @@ class Header extends Component {
             :
               <NavItem className="header-navbar-btn-publish" onClick={(e) => this.routeTo(e, '/apartments/new_form')}
                 href="/apartments/new_form">פרסמו דירה</NavItem>
+            }
+            {isLoggedIn ?
+              <NavItem onClick={authProvider.logout}
+                className="header-navbar-profile-login-text">
+                <i className="fa fa-sign-out" />
+                התנתק
+              </NavItem>
+              :
+              <NavItem onClick={authProvider.showLoginModal}
+                className="header-navbar-profile-login-text">
+                <i className="fa fa-sign-in" />
+                התחבר
+              </NavItem>
             }
           </Nav>
         </Navbar.Collapse>

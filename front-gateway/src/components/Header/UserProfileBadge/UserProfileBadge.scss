@@ -23,6 +23,10 @@
     .user-profile-badge-menu-desktop {
       display: none;
     }
+
+    .user-profile-badge-auth-logout {
+      display: none;
+    }
   }
 
   @media (min-width: $screen-sm-min) {
@@ -58,7 +62,7 @@
         height: 20px;
         width: 100%;
 
-        .user-profile-badge-auth-text {
+        .user-profile-badge-auth {
           background-color: $brand-white;
           text-decoration: none !important;
           width: 100%;
@@ -91,7 +95,7 @@
     display: inline-block;
 
     .user-profile-badge-ellipsis-icon,
-    .user-profile-badge-auth-text-inline {
+    .user-profile-badge-auth-inline {
       display: none;
     }
   }
@@ -151,7 +155,7 @@
   }
 }
 
-.user-profile-badge-auth-text {
+.user-profile-badge-auth {
   text-decoration: underline;
 
   a {
@@ -172,7 +176,7 @@
   }
 }
 
-.user-profile-badge-auth-text-inline {
+.user-profile-badge-auth-inline {
   display: inline-block;
 
   i {

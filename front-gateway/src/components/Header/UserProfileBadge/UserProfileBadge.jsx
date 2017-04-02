@@ -21,7 +21,7 @@ class UserProfileBadge extends Component {
         <Nav>
           <NavItem
             onClick={authProvider.logout}
-            className="user-profile-badge-auth-text">
+            className="user-profile-badge-auth user-profile-badge-auth-logout">
             <i className="fa fa-sign-out" />
             התנתק
           </NavItem>
@@ -32,7 +32,7 @@ class UserProfileBadge extends Component {
         <Nav>
           <NavItem 
             onClick={authProvider.showLoginModal}
-            className="user-profile-badge-auth-text">
+            className="user-profile-badge-auth">
             <i className="fa fa-sign-in" />
             התחבר
           </NavItem>
@@ -63,7 +63,7 @@ class UserProfileBadge extends Component {
               <i className="fa fa-user" />
             </div>
           </div>
-          <div className="user-profile-badge-auth-text-inline">
+          <div className="user-profile-badge-auth-inline">
             {this.renderAuthenticationLink(isLoggedIn)}
           </div>
         </div>
