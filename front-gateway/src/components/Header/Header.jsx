@@ -1,6 +1,7 @@
 import React, { Component, PropTypes as T } from 'react';
 import { observer } from 'mobx-react';
 import { Nav, Navbar, NavItem } from 'react-bootstrap';
+import UserProfileBadge from './UserProfileBadge/UserProfileBadge';
 
 import './Header.scss';
 
@@ -35,12 +36,6 @@ class Header extends Component {
   }
 
   render() {
-    const { authStore } = this.props.appStore;
-    const { authProvider } = this.props.appProviders;
-    const isLoggedIn = authStore.isLoggedIn;
-    const profile = authStore.profile || {};
-
-    const firstName = profile.first_name || '';
 
     const externalURL = 'https://www.dorbel.com';
 
@@ -64,27 +59,13 @@ class Header extends Component {
               בעלי דירות</NavItem>
             <NavItem className="header-navbar-owner-services-navitem"
               onClick={this.redirect}
-              href={externalURL + '/pages/services'}>שירותים לבעלי דירות</NavItem>
+              href={externalURL + '/pages/services'}>שירותי פרימיום</NavItem>
             <NavItem onClick={(e) => this.routeTo(e, '/apartments')}
               href="/apartments">מצאו דירה</NavItem>
             <NavItem className="btn-publish" onClick={(e) => this.routeTo(e, '/apartments/new_form')}
               href="/apartments/new_form">פרסמו דירה</NavItem>
           </Nav>
-          {isLoggedIn ?
-            <Nav pullLeft className="header-navbar-profile">
-              <NavItem>
-                <img src={profile.picture} className="header-navbar-profile-image" />
-              </NavItem>
-              <NavItem className="header-navbar-profile-text">{firstName}</NavItem>
-              <NavItem onClick={authProvider.logout}
-                className="header-navbar-profile-login-text">התנתק</NavItem>
-            </Nav>
-            :
-            <Nav pullLeft className="header-navbar-profile">
-              <NavItem onClick={authProvider.showLoginModal}
-                className="header-navbar-profile-login-text">התחבר</NavItem>
-            </Nav>
-          }
+          <UserProfileBadge />
         </Navbar.Collapse>
       </Navbar>
     );

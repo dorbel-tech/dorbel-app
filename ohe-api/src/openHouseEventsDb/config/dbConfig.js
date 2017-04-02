@@ -1,14 +1,12 @@
 // Main Sequelize CLI database configuration file.
 // In use for Sequelize CLI seeds & migrations only - https://github.com/sequelize/cli
 
-const shared = require('dorbel-shared');
-const path = require('path');
-const config = shared.config; config.setConfigFileFolder(path.join(__dirname, '/../../config')); // load config from file before anything else
+require('dotenv').config();
 const dbConfig = {
-  username: config.get('RDS_USERNAME'),
-  password: config.get('RDS_PASSWORD'),
-  database: config.get('RDS_DB_NAME'),
-  host: config.get('RDS_HOSTNAME'),
+  username: process.env.RDS_USERNAME,
+  password: process.env.RDS_PASSWORD,
+  database: process.env.RDS_DB_NAME,
+  host: process.env.RDS_HOSTNAME,
   dialect: 'mysql'
 };
 

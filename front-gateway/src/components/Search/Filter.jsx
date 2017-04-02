@@ -48,7 +48,6 @@ class Filter extends Component {
       this.filterObj = {};
     }
 
-    this.props.appProviders.searchProvider.initFilter();
     this.state = Object.assign({ hideFilter: true }, DEFAULT_FILTER_PARAMS, this.filterObj);
   }
 
@@ -156,15 +155,10 @@ class Filter extends Component {
 
     history.pushState(this.filterObj, title, search);
 
-    this.props.appProviders.searchProvider.search(this.filterObj)
-    .then((results) => {
-      const listingIds = results.map(listing => listing.id);
-      this.props.appProviders.oheProvider.loadListingEvents(listingIds, true);
-    });
+    this.props.appProviders.searchProvider.search(this.filterObj);
   }
 
   toggleHideFilter() {
-    document.getElementsByClassName('search-container')[0].scrollTop = 0;
     this.setState({ hideFilter: !this.state.hideFilter });
   }
 
@@ -230,6 +224,7 @@ class Filter extends Component {
     const { cityStore } = this.props.appStore;
     const cities = cityStore.cities.length ? cityStore.cities : [];
     const cityId = this.filterObj.city || DEFAULT_FILTER_PARAMS.city;
+    const filterButtonText = this.state.hideFilter ? 'סנן תוצאות' : 'סגור';
 
     let cityTitle;
     if (cityId === '*') {
@@ -242,10 +237,10 @@ class Filter extends Component {
     return <div className="filter-component-wrapper">
       <div className="filter-toggle-container">
         <Button onClick={this.toggleHideFilter}>
-          סנן תוצאות
+          {filterButtonText}
         </Button>
       </div>
-      <div className={'filter-wrapper' + (this.state.hideFilter ? ' hideFilter' : '')}>
+      <div className={'filter-wrapper' + (this.state.hideFilter ? ' hide-mobile-filter' : '')}>
         <div className="filter-city-container">
           <DropdownButton id="cityDropdown" bsSize="large"
             className="filter-city-dropdown"

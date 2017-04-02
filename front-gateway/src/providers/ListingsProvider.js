@@ -18,7 +18,7 @@ class ListingsProvider {
     return this.apiProvider.fetch('/api/apartments/v1/listings/' + idOrSlug)
       .then(listing => {
         listing.title = utils.getListingTitle(listing);
-        this.appStore.listingStore.add(listing);
+        this.appStore.listingStore.set(listing);
         this.appStore.metaData = _.defaults(this.getListingMetadata(listing), this.appStore.metaData);
         return Promise.all([
           this.oheProvider.loadListingEvents(listing.id),

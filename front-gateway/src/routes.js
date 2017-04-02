@@ -1,4 +1,5 @@
 'use strict';
+import Dashboard from '~/components/Dashboard/Dashboard';
 import Search from '~/components/Search/Search';
 import Listing from '~/components/Listing/Listing';
 import Home from '~/components/Home';
@@ -11,6 +12,8 @@ const routes = [
   { route: '/', view: Home },
   { route: '/health', view: Health },
   { route: '/login', view: Login },
+  { route: '/dashboard', view: Dashboard, requireLogin: true },
+  { route: '/dashboard/:action', view: Dashboard, requireLogin: true },
   { route: '/apartments', view: Search },
   { route: '/apartments/new_form', view: UploadApartmentForm },
   { route: '/apartments/:listingId', view: Listing },

@@ -9,7 +9,6 @@ exports[`Filter should initialize correctly 1`] = `
         "loadListingEvents": [Function],
       },
       "searchProvider": Object {
-        "initFilter": [Function],
         "search": [Function],
       },
     }
@@ -32,7 +31,6 @@ exports[`Filter should initialize correctly 1`] = `
           "loadListingEvents": [Function],
         },
         "searchProvider": Object {
-          "initFilter": [Function],
           "search": [Function],
         },
       }
@@ -66,7 +64,7 @@ exports[`Filter should initialize correctly 1`] = `
         </Button>
       </div>
       <div
-        className="filter-wrapper hideFilter">
+        className="filter-wrapper hide-mobile-filter">
         <div
           className="filter-city-container">
           <DropdownButton

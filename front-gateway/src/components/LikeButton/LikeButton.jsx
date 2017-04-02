@@ -10,8 +10,16 @@ class LikeButton extends Component {
     e.stopPropagation();
     e.preventDefault();
     if (this.props.appStore.authStore.isLoggedIn) {
-      let prevState = this.props.appProviders.likeProvider.get(this.props.listingId);
-      this.props.appProviders.likeProvider.set(this.props.listingId, !prevState);
+      let wasLiked = this.props.appProviders.likeProvider.get(this.props.listingId);
+      this.props.appProviders.likeProvider.set(this.props.listingId, !wasLiked);
+
+      // Update listing.totalLikes if exists in listingStore 
+      let listing = this.props.appStore.listingStore.get(this.props.listingId);
+      if (listing) {
+        listing.totalLikes = listing.totalLikes || 0;
+        listing.totalLikes = wasLiked ? listing.totalLikes - 1 : listing.totalLikes + 1;
+        this.props.appStore.listingStore.set(listing);
+      }
     }
     else {
       this.props.appProviders.authProvider.showLoginModal();

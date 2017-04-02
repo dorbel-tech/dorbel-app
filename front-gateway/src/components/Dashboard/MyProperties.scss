@@ -1,0 +1,58 @@
+@import "../sharedStyles/variables.scss";
+@import "../sharedStyles/bsvars.scss";
+
+.dashboard-my-properties-container {
+  padding-top: 35px;
+
+  @media (max-width: $screen-xs-max) {
+    padding-top: 0;
+  }
+
+  .title {
+    padding: 0 15px 10px;
+  }
+}
+
+.dashboard-my-properties-empty {
+  text-align: center;
+
+  @media (max-width: $screen-xs-max) {
+    padding: 10px;
+  }
+
+  a.add {
+    box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.1);
+    border: 1px solid #3398db;
+    border-radius: 4px 4px 0 0;
+    color: #3398db;
+    display: block;
+    height: 349px;
+
+    @media (max-width: $screen-xs-max) {
+      height: 249px;
+    }
+
+    .cross {
+      padding-top: 100px;
+
+      @media (max-width: $screen-xs-max) {
+        padding-top: 50px;
+      }
+    }
+
+    .title {
+      padding-top: 50px;
+    }
+  }
+
+  a:hover.add {
+    box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.1);
+    font-weight: bold;
+  }
+
+  .text {
+    color: $gray;
+    font-size: 13px;
+    padding-top: 20px;
+  }
+}

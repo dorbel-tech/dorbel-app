@@ -2,6 +2,10 @@
   background: $gray-dark;
   color: $brand-white;
   padding: 17px 16px;
+
+  @media (min-width: $screen-md-min) {
+    border-radius: 4px 4px 0 0;
+  }
 }
 
 .listing-highlight-price {
