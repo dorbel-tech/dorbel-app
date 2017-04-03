@@ -1,11 +1,11 @@
 .listing-actions {
   background: $brand-white;
   color: $gray-dark;
-  padding: 35px 5px 9px;
+  padding: 30px 5px 9px;
+  padding-left: 15px;
 
   @media (max-width: $screen-xs-max) {
     padding-top: 10px;
-    height: 46px;
   }
 
   .like-button-wrapper {
