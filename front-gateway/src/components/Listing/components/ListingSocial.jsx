@@ -12,7 +12,7 @@ class ListingInfo extends React.Component {
     const currentUrl = website_url + '/apartments/' + listingId;
 
     return (
-      <Col className="listing-social-share-wrapper">
+      <Col>
         שתפו
         <div className="listing-social-share-container">
           <a className="listing-social-share-item fa fa-facebook-f fb-desktop" href={'https://www.facebook.com/sharer.php?u=' + currentUrl + '?utm_source=apt_page_facebook_share'} target="_blank"></a>

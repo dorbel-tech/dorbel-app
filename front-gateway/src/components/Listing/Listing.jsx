@@ -107,7 +107,7 @@ class Listing extends Component {
                     <LikeButton listingId={listing.id} showText="true" />
                     {this.renderLikeCounter(listing.totalLikes)}
                   </div>        
-                  { appStore.listingStore.isListingPublisherOrAdmin(listing) ?  <ListingPageViews listing={listing} /> : null }                  
+                  { appStore.listingStore.isListingPublisherOrAdmin(listing) ? <ListingPageViews listing={listing} /> : null }                  
                 </Col>
                 <Col sm={7} smPull={5} md={4} mdPull={4} className="listing-title-container">
                   <h2 className="listing-title">{utils.getListingTitle(listing)}</h2>
