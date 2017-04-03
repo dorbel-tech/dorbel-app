@@ -22,7 +22,7 @@ class Header extends Component {
 
   renderDashboardMenuItem(item) {
     const itemPath = '/dashboard/' + item.navTo;
-    const isSelected = location.pathname === itemPath;
+    const isSelected = location ? (location.pathname === itemPath) : false;
 
     return <NavItem key={'header-dashboard-menu-item-' + item.navTo}
               onClick={(e) => this.routeTo(e, itemPath)}
