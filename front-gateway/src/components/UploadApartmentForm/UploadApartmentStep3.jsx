@@ -111,7 +111,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
               <AddOHEInput validations="oheValidation" name="ohe" onChange={this.handleChange.bind(this, 'open_house_event')} ohe={existingOhe} mode="new" />
               <Row>
                 <Col md={12}>
-                  <FRC.Textarea name="open_house_event.comments" rows={3} label="הכוונה לדירה בבניין (אם צריך)"
+                  <FRC.Textarea name="directions" rows={3} label="הכוונה לדירה בבניין (אם צריך)"
                     placeholder="(לדוגמא: הדלת הלבנה משמאל למדרגות)" />
                 </Col>
               </Row>
