@@ -42,7 +42,6 @@ class Dashboard extends Component {
 
 Dashboard.wrappedComponent.propTypes = {
   action: React.PropTypes.string,
-  propertyId: React.PropTypes.string,
   router: React.PropTypes.any
 };
 
