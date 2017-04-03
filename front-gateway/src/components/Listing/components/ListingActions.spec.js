@@ -2,7 +2,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import ListingHeader from './ListingHeader';
+import ListingActions from './ListingActions';
 import ListingPageViews from './ListingPageViews';
 
 describe('Listing Header', () => {
@@ -20,7 +20,7 @@ describe('Listing Header', () => {
     const listing = { id: 3, images: [] };
     appStoreMock.listingStore.isListingPublisherOrAdmin.mockReturnValue(true);
 
-    const rendered = shallow(<ListingHeader.wrappedComponent appStore={appStoreMock} listing={listing} />);
+    const rendered = shallow(<ListingActions.wrappedComponent appStore={appStoreMock} listing={listing} />);
 
     const pageViews = rendered.find(ListingPageViews).first();
     expect(pageViews.exists()).toBe(true);
@@ -31,7 +31,7 @@ describe('Listing Header', () => {
     const listing = { id: 3, images: [] };
     appStoreMock.listingStore.isListingPublisherOrAdmin.mockReturnValue(false);
 
-    const rendered = shallow(<ListingHeader.wrappedComponent appStore={appStoreMock} listing={listing} />);
+    const rendered = shallow(<ListingActions.wrappedComponent appStore={appStoreMock} listing={listing} />);
 
     expect(rendered.find(ListingPageViews).length).toBe(0);
   });
