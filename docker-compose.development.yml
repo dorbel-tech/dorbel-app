@@ -33,7 +33,7 @@ services:
       - ./front-gateway:/home/nodejs/app
       - /home/nodejs/app/node_modules/
       - /home/nodejs/app/public/build/
-      - ../dorbel-shared:/home/nodejs/app/node_modules/dorbel-shared
+      # - ../dorbel-shared:/home/nodejs/app/node_modules/dorbel-shared
     environment:
       NODE_ENV: ${NODE_ENV}
     command: bash -c "yarn run build:dev & yarn run start:dev"
