@@ -74,8 +74,7 @@ class Listing extends Component {
           </span>
         </div>
       );
-    }
-    else {
+    } else {
       return null;
     }
   }
