@@ -35,16 +35,24 @@ class Header extends Component {
     }
   }
 
-  componentDidMount() {
-    // Ugly patch to close Bootstrap Navbar when clicked outside mobile menu area.
-    window.addEventListener('click', function(e){   
-      if(!document.getElementsByClassName('navbar-collapse')[0].contains(e.target)){
-        if(document.getElementsByClassName('navbar-collapse collapse in')[0]) {
-          document.getElementsByClassName('navbar-toggle')[0].click();
-        }
-      }
-    });      
+  // Ugly patch to close Bootstrap Navbar when clicked outside mobile menu area.
+  mobileMenuHandleClickOutside(e) {
+    const mobileMenu = document.getElementsByClassName('navbar-collapse')[0];
+    const mobileMenuIsOpen = document.getElementsByClassName('navbar-collapse collapse in')[0];
+    const mobileMenuToggle = document.getElementsByClassName('navbar-toggle')[0];
+
+    if(!mobileMenu.contains(e.target) && mobileMenuIsOpen) {
+      mobileMenuToggle.click();
+    }
   }
+
+  componentDidMount() {
+    window.addEventListener('click', this.mobileMenuHandleClickOutside.bind(this));      
+  }
+   
+  componentWillUnmount() {
+    window.removeEventListener('click', this.mobileMenuHandleClickOutside.bind(this));
+  } 
 
   render() {
 
