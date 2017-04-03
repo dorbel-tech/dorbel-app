@@ -50,6 +50,26 @@ class Header extends Component {
     }
   }
 
+  // Patch to close Bootstrap Navbar when clicked outside mobile menu area.
+  mobileMenuHandleClickOutside(e) {
+    const mobileMenuIsOpen = document.getElementsByClassName('navbar-collapse collapse in')[0];
+
+    if(!this.mobileMenu.contains(e.target) && mobileMenuIsOpen) {
+      this.mobileMenuToggle.click();
+    }
+  }
+
+  componentDidMount() {
+    this.mobileMenu = document.getElementsByClassName('navbar-collapse')[0];
+    this.mobileMenuToggle = document.getElementsByClassName('navbar-toggle')[0];
+
+    window.addEventListener('click', this.mobileMenuHandleClickOutside);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('click', this.mobileMenuHandleClickOutside);
+  }
+
   render() {
     const { authProvider } = this.props.appProviders;
     const { authStore } = this.props.appStore;
