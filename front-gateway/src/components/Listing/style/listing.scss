@@ -37,29 +37,3 @@
     z-index: 1;
   }
 }
-
-.listing-actions {
-  background: $brand-white;
-  color: $gray-dark;
-  padding: 30px 5px 9px;
-  padding-left: 15px;
-
-  @media (max-width: $screen-xs-max) {
-    padding-top: 10px;
-  }
-
-  .like-button-wrapper {
-    float: left;
-    margin-top: -5px;
-
-    .like-button {
-      margin-right: 3px;
-    }
-
-    .like-button-total-likes-text {
-      font-size: 11px;
-      color: #333;
-      padding: 3px;
-    }
-  }
-}

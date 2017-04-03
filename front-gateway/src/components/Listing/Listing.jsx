@@ -14,8 +14,7 @@ import OHEManager from '~/components/OHEManager/OHEManager';
 import ApartmentLocation from '~/components/MapWrapper/MapWrapper';
 import RelatedListings from '~/components/RelatedListings/RelatedListings';
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
-import LikeButton from '~/components/LikeButton/LikeButton';
-import ListingPageViews from './components/ListingPageViews';
+import ListingActions from './components/ListingActions';
 import utils from '~/providers/utils';
 
 import './Listing.scss';
@@ -65,20 +64,6 @@ class Listing extends Component {
     }
   }
 
-  renderLikeCounter(totalLikes) {
-    if (totalLikes && this.props.appStore.authStore.isLoggedIn) {
-      return (
-        <div className="like-button-total-likes-text">
-          <span>
-            {`${totalLikes} אוהבים את הדירה`}
-          </span>
-        </div>
-      );
-    } else {
-      return null;
-    }
-  }
-
   render() {
     const { appStore, action } = this.props;
     const listing = appStore.listingStore.get(this.props.listingId);
@@ -102,13 +87,7 @@ class Listing extends Component {
           <div>
             <Grid className="listing-container">
               <Row className="listing-title-section">
-                <Col sm={5} smPush={7} md={4} mdPush={4} className="listing-actions">
-                  <div className="like-button-wrapper text-center">
-                    <LikeButton listingId={listing.id} showText="true" />
-                    {this.renderLikeCounter(listing.totalLikes)}
-                  </div>        
-                  { appStore.listingStore.isListingPublisherOrAdmin(listing) ? <ListingPageViews listing={listing} /> : null }                  
-                </Col>
+                <ListingActions listing={listing} />
                 <Col sm={7} smPull={5} md={4} mdPull={4} className="listing-title-container">
                   <h2 className="listing-title">{utils.getListingTitle(listing)}</h2>
                   <h4 className="listing-sub-title">{utils.getListingSubTitle(listing)}</h4>

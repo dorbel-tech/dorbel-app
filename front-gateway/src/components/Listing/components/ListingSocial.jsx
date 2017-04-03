@@ -4,7 +4,7 @@ import { Col } from 'react-bootstrap';
 import Icon from '~/components/Icon/Icon';
 
 @observer(['appStore'])
-class ListingInfo extends React.Component {
+class ListingSocial extends React.Component {
 
   render() {
     const listingId = this.props.listing.id;
@@ -27,9 +27,9 @@ class ListingInfo extends React.Component {
   }
 }
 
-ListingInfo.propTypes = {
+ListingSocial.wrappedComponent.propTypes = {
   appStore: React.PropTypes.object,
   listing: React.PropTypes.object.isRequired
 };
 
-export default ListingInfo;
+export default ListingSocial;
