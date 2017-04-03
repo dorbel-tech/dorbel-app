@@ -25,23 +25,27 @@ export default class AuthStore {
 
   setToken(idToken) {
     this.idToken = idToken;
-    localStorageHelper.setItem(ID_TOKEN_KEY, idToken);
 
-    if (this.logoutTimer) {
-      clearTimeout(this.logoutTimer);
-    }
+    if (process.env.IS_CLIENT) {
+      
+      localStorageHelper.setItem(ID_TOKEN_KEY, idToken);
 
-    if (idToken) {
-      const tokenExpiryTime = jwtDecode(idToken).exp;
-      const tokenExpiryTimeInMs = tokenExpiryTime * 1000;
-      const durationUntilExpiryInMs = tokenExpiryTimeInMs - Date.now();
-      // token might already be expired and then the duration is negative
-      const logoutTimerDelay = max([0, durationUntilExpiryInMs]);
-      this.logoutTimer = setTimeout(() => { this.logout(); }, logoutTimerDelay);
-      // update expiry on cookieStorageHelper
-      cookieStorageHelper.setItem(ID_TOKEN_KEY, idToken, new Date(tokenExpiryTimeInMs));
-    } else {
-      cookieStorageHelper.removeItem(ID_TOKEN_KEY);
+      if (this.logoutTimer) {
+        clearTimeout(this.logoutTimer);
+      }
+
+      if (idToken) {
+        const tokenExpiryTime = jwtDecode(idToken).exp;
+        const tokenExpiryTimeInMs = tokenExpiryTime * 1000;
+        const durationUntilExpiryInMs = tokenExpiryTimeInMs - Date.now();
+        // token might already be expired and then the duration is negative
+        const logoutTimerDelay = max([0, durationUntilExpiryInMs]);
+        this.logoutTimer = setTimeout(() => { this.logout(); }, logoutTimerDelay);
+        // update expiry on cookieStorageHelper
+        cookieStorageHelper.setItem(ID_TOKEN_KEY, idToken, new Date(tokenExpiryTimeInMs));
+      } else {
+        cookieStorageHelper.removeItem(ID_TOKEN_KEY);
+      }
     }
   }
 
@@ -59,7 +63,7 @@ export default class AuthStore {
     this.setToken(null);
     this.setProfile(null);
     this.newListingStore.reset();
-    
+
     if (process.env.IS_CLIENT) {
       location.reload(false);
     }
