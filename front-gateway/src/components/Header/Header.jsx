@@ -2,6 +2,7 @@ import React, { Component, PropTypes as T } from 'react';
 import { observer } from 'mobx-react';
 import { Nav, Navbar, NavItem } from 'react-bootstrap';
 import UserProfileBadge from './UserProfileBadge/UserProfileBadge';
+import autobind from 'react-autobind';
 
 import './Header.scss';
 
@@ -9,6 +10,7 @@ import './Header.scss';
 class Header extends Component {
   constructor(props) {
     super(props);
+    autobind(this);
 
     this.redirect = this.redirect.bind(this);
   }
@@ -35,23 +37,24 @@ class Header extends Component {
     }
   }
 
-  // Ugly patch to close Bootstrap Navbar when clicked outside mobile menu area.
+  // Patch to close Bootstrap Navbar when clicked outside mobile menu area.
   mobileMenuHandleClickOutside(e) {
-    const mobileMenu = document.getElementsByClassName('navbar-collapse')[0];
     const mobileMenuIsOpen = document.getElementsByClassName('navbar-collapse collapse in')[0];
-    const mobileMenuToggle = document.getElementsByClassName('navbar-toggle')[0];
 
-    if(!mobileMenu.contains(e.target) && mobileMenuIsOpen) {
-      mobileMenuToggle.click();
+    if(!this.mobileMenu.contains(e.target) && mobileMenuIsOpen) {
+      this.mobileMenuToggle.click();
     }
   }
 
   componentDidMount() {
-    window.addEventListener('click', this.mobileMenuHandleClickOutside.bind(this));      
+    this.mobileMenu = document.getElementsByClassName('navbar-collapse')[0];
+    this.mobileMenuToggle = document.getElementsByClassName('navbar-toggle')[0];
+
+    window.addEventListener('click', this.mobileMenuHandleClickOutside);      
   }
    
   componentWillUnmount() {
-    window.removeEventListener('click', this.mobileMenuHandleClickOutside.bind(this));
+    window.removeEventListener('click', this.mobileMenuHandleClickOutside);
   } 
 
   render() {
