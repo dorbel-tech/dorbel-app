@@ -8,11 +8,17 @@ describe('Apartments API Integration', function () {
 
   // Integration tests run with static ID as they fill the message queue with app-events
   const INTEGRATION_TEST_USER_ID = '23821212-6191-4fda-b3e3-fdb8bf69a95d';
-  const OTHER_INTEGRATION_TEST_USER_ID = '1483a989-b560-46c4-a759-12c2ebb4cdbf';
+  const OTHER_INTEGRATION_TEST_USER_ID = '18b5d059-095f-4409-b5ab-4588f08d3a54';
+  const ADMIN_INTEGRATION_TEST_USER_ID = '1483a989-b560-46c4-a759-12c2ebb4cdbf';
 
   before(function* () {
     this.apiClient = yield ApiClient.init(faker.getFakeUser({
       id: INTEGRATION_TEST_USER_ID
+    }));
+
+    this.adminApiClient = yield ApiClient.init(faker.getFakeUser({
+      id: ADMIN_INTEGRATION_TEST_USER_ID,
+      role: 'admin'
     }));
   });
 
@@ -51,8 +57,10 @@ describe('Apartments API Integration', function () {
   describe('POST /listings', function() {
     it('should add listing and return it', function* () {
       const newListing = faker.getFakeListing();
+      const createdListingResp = yield this.apiClient.createListing(newListing).expect(201).end();
 
-      yield this.apiClient.createListing(newListing).expect(201).end();
+      yield this.adminApiClient.patchListing(createdListingResp.body.id, { status: 'listed' }).expect(200).end();
+
       const getResponse = yield this.apiClient.getListings().expect(200).end();
       const expected = _.pick(newListing, ['street_name', 'house_number', 'apt_number']);
       __.assertThat(getResponse.body, __.allOf(
@@ -125,12 +133,16 @@ describe('Apartments API Integration', function () {
         assertNothingReturned(getListingResponse);
       });
 
-      it('should create a listing and expect it to be returned (listed)', function* () {
+      it('should create a listing and expect it to be returned (pending)', function* () {
         const createListingResponse = yield otherApiClient.createListing(faker.getFakeListing()).expect(201).end();
         createListingId = createListingResponse.body.id;
         let getListingResponse = yield otherApiClient.getListings({ q: { myProperties: true } }, true).expect(200).end();
 
         assertListingReturned(getListingResponse);
+      });
+
+      it('set listing status to and expect it to be returned (listed)', function* () {
+        yield testListingByStatus('listed');
       });
 
       it('set listing status to and expect it to be returned (rented)', function* () {
@@ -168,7 +180,9 @@ describe('Apartments API Integration', function () {
   describe('GET /listings/{idOrSlug}', function () {
     before(function* () {
       const postReponse = yield this.apiClient.createListing(faker.getFakeListing()).expect(201).end();
-      this.createdListing = _.omit(postReponse.body, [ 'lease_end', 'updated_at' ]);
+      yield this.adminApiClient.patchListing(postReponse.body.id, { status: 'listed' }).expect(200).end();
+      postReponse.body.status = 'listed';
+      this.createdListing = _.omit(postReponse.body, ['lease_end', 'updated_at']);
     });
 
     it('should return a single listing by id', function* () {
@@ -187,7 +201,8 @@ describe('Apartments API Integration', function () {
   describe('PATCH /listings/{id}', function () {
     before(function* () {
       const postReponse = yield this.apiClient.createListing(faker.getFakeListing()).expect(201).end();
-      this.createdListing = _.omit(postReponse.body, [ 'lease_end', 'updated_at' ]);
+      yield this.adminApiClient.patchListing(postReponse.body.id, { status: 'listed' }).expect(200).end();
+      this.createdListing = _.omit(postReponse.body, ['lease_end', 'updated_at']);
     });
 
     it('should update listing status', function* () {
@@ -204,6 +219,7 @@ describe('Apartments API Integration', function () {
       for (let i = 0; i < numOfApartments; i++) {
         const newListing = faker.getFakeListing();
         const postReponse = yield this.apiClient.createListing(newListing).expect(201).end();
+        yield this.adminApiClient.patchListing(postReponse.body.id, { status: 'listed' }).expect(200).end();
         this.createdListings.push(postReponse.body);
       }
 
