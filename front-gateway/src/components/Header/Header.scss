@@ -60,10 +60,12 @@
     color: $brand-white !important;
     line-height: 29px !important;
 
-    &::before {
-      content: '+';
-      font-family: FontAwesome;
-      margin-left: 5px;
+    @media (max-width: $screen-xs-max) {
+      &::before {
+        content: '+';
+        font-family: FontAwesome;
+        margin-left: 5px;
+      }
     }
 
     @media (min-width: $screen-sm-min) {
