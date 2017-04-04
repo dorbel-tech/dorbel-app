@@ -1,0 +1,47 @@
+.property-image-container {
+  .listing-status-container {
+    left: -50px;
+    top: 35px;
+
+    @media (max-width: $screen-xs-max) {
+      top: 25px;
+    }
+  }
+
+  .listing-status-label {
+    display: none;
+  }
+}
+
+.property-image {
+  height: 125px;
+  object-fit: cover;
+  width: 100%;
+
+  @media (max-width: $screen-xs-max) {
+    height: 97px;
+  }
+}
+
+.property-title-container {
+	color: #382E2F;
+	padding-right: 75px;
+	padding-top: 37px;
+}
+
+.property-title {
+	font-size: 20px;
+  padding-bottom: 7px;
+}
+
+.property-title-details {
+	font-size: 16px;
+}
+
+.property-title-details-sub-text {
+  color: #9b9b9b;
+
+  &:not(last-child) {
+    padding-left: 10px;
+  }
+}

@@ -34,8 +34,21 @@ function getListingSubTitle(listing) {
   return neighborhoodPrefix + building.city.city_name;
 }
 
+function getFloorLabel(listing, dataOnly) {
+  let label = (dataOnly ? '' : 'קומה ') + listing.apartment.floor;
+  const building = listing.apartment.building;
+  if (building.floors) { label += '/' + building.floors; }
+  if (building.elevator) { label += ' + מעלית'; }
+
+  return label;
+}
+
 function sortListingImages(listing) {
-  return listing.images.length ? _.orderBy(listing.images, ['display_order']) : [];
+  let listingImages = [];
+  if (listing && listing.images) {
+    listingImages = listing.images;
+  }
+  return listingImages.length ? _.orderBy(listingImages, ['display_order']) : [];
 }
 
 function getListingStatusLabels() {
@@ -72,10 +85,11 @@ module.exports = {
   formatTime,
   formatDate,
   formatDay,
+  getFloorLabel,
+  getListingStatusLabels,
   getListingSubTitle,
   getListingTitle,
   sortListingImages,
-  getListingStatusLabels,
   promiseSeries,
   isMobile
 };

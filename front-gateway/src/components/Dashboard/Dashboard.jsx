@@ -3,6 +3,7 @@ import autobind from 'react-autobind';
 import { observer } from 'mobx-react';
 import NavLink from '~/components/NavLink';
 import { MENU_ITEMS } from './DashboardShared';
+import Property from './Property';
 import { find } from 'lodash';
 
 import './Dashboard.scss';
@@ -27,7 +28,12 @@ class Dashboard extends Component {
   }
 
   render() {
-    const selectedActionItem = find(MENU_ITEMS, {navTo: this.props.action});
+    let selectedActionItem;
+    if (this.props.propertyId) {
+      selectedActionItem = {component: <Property propertyId={this.props.propertyId} />};
+    } else {
+      selectedActionItem = find(MENU_ITEMS, {navTo: this.props.action});
+    }
 
     return <div className="dashboard-container">
         <div className="dashboard-menu-wrapper">
@@ -42,6 +48,7 @@ class Dashboard extends Component {
 
 Dashboard.wrappedComponent.propTypes = {
   action: React.PropTypes.string,
+  propertyId: React.PropTypes.string,
   router: React.PropTypes.any
 };
 
