@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import autobind from 'react-autobind';
 import { Col, Grid, Row } from 'react-bootstrap';
+import utils from '~/providers/utils';
+import moment from 'moment';
 
 import './ListingStats.scss';
 
@@ -40,10 +42,12 @@ class ListingStats extends Component {
     const { appStore, listingId } = this.props;
     const views = appStore.listingStore.listingViewsById.get(listingId);        
     const registrations = this.getNumberOfOheRegistrations(listingId);
-    const publishDate = '01/04/2017'; // TODO: Replace with real value.
     const followers = appStore.oheStore.countFollowersByListingId.get(listingId);
     const likes = appStore.likeStore.likesCountByListingId.get(listingId);
-    const daysPassed = 19; // TODO: Reaplce with real value.
+    const listing = appStore.listingStore.get(listingId); // Expects listingStore to be already initiated by its parent component.
+    const listingCreatedAt = utils.formatDate(listing.created_at);
+    const daysPassed = moment(Date.now()).diff(moment(listing.created_at), 'days');
+    const listingRented = listing.status === 'rented' || listing.status === 'unlisted';
 
     return  <Grid fluid={true} className="dashboard-my-propery-stats">
                 <Row className="rent-title">
@@ -54,24 +58,24 @@ class ListingStats extends Component {
                 <Row>
                   <Col xs={12}>
                     <div className="numbers-row">
-                      <div className="number">{views}</div>
+                      <div className={'number' + (views > 0 ? ' active-color': '')}>{views}</div>
                       <div className="empty"></div>
-                      <div className="number">{registrations}</div>
+                      <div className={'number' + (registrations > 0 ? ' active-color': '')}>{registrations}</div>
                       <div className="empty"></div>
-                      <div className="number">
-                        <i className="fa fa-check rented-check" aria-hidden="true"></i>
+                      <div className={'number rented-check' + (listingRented ? ' active-color': '')}>
+                        <i className="fa fa-check" aria-hidden="true"></i>
                       </div>
                     </div>
                     <div>
-                      <div className="bubble">
+                      <div className={'bubble' + (views > 0 ? ' active-color-border': '')}>
                         <div className="bubble-text">צפיות במודעה</div>
                       </div>
-                      <div className="line"></div>
-                      <div className="bubble">
+                      <div className={'line' + (registrations > 0 ? ' active-color-border-bottom': '')}></div>
+                      <div className={'bubble' + (registrations > 0 ? ' active-color-border': '')}>
                         <div className="bubble-text">הרשמות לביקורים</div>
                       </div>
-                      <div className="line"></div>
-                      <div className="bubble">
+                      <div className={'line' + (listingRented ? ' active-color-border-bottom': '')}></div>
+                      <div className={'bubble' + (listingRented ? ' active-color-border': '')}>
                         <div className="bubble-text">חתימת חוזה</div>
                       </div>
                     </div>
@@ -79,7 +83,7 @@ class ListingStats extends Component {
                 </Row>
                 <Row className="publishing-title">
                   <Col xs={12}>
-                    תאריך פרסום המודעה: {publishDate}
+                    תאריך פרסום המודעה: {listingCreatedAt || null}
                   </Col>
                 </Row>
                 <Row className="listing-stats">

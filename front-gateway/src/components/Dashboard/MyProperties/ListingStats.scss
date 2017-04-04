@@ -35,6 +35,10 @@ $active-color: #3398db;
     padding: 0 12px;
   }
 
+  .active-color {
+    color: $active-color !important;
+  }
+
   .rent-title {
     padding-bottom: 30px;
 
@@ -102,8 +106,13 @@ $active-color: #3398db;
     }
   }
 
+  .active-color-border-bottom {
+    color: $active-color !important;
+    border-bottom: 1px solid $active-color !important;
+  }
+
   .line {
-    border-bottom: 1px $active-color solid;
+    border-bottom: 1px $gray-dark solid;
     display: inline-block;
     width: $line-width-lg;
     margin-bottom: 4px;
@@ -126,10 +135,14 @@ $active-color: #3398db;
     }
   }
 
+  .active-color-border {
+    color: $active-color !important;
+    border: 1px solid $active-color !important;
+  }
+
   .bubble {
-    border: 1px solid $active-color;
+    border: 1px solid $gray-dark;
     border-radius: 100px;
-    color: $active-color;
     display: inline-block;
     width: $bubble-width-lg;
     text-align: center;
