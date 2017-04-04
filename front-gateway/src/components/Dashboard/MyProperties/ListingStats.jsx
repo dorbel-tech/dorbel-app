@@ -104,7 +104,7 @@ class ListingStats extends Component {
 }
 
 ListingStats.wrappedComponent.propTypes = {
-  listingId: React.PropTypes.string.isRequired,
+  listingId: React.PropTypes.number.isRequired,
   appStore: React.PropTypes.object,
   appProviders: React.PropTypes.object.isRequired,
 };
