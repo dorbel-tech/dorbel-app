@@ -1,0 +1,1968 @@
+exports[`Listing Details Form should match snapshot in empty state 1`] = `
+<ListingDetailsForm
+  appProviders={
+    Object {
+      "cityProvider": Object {
+        "loadCities": [Function],
+      },
+      "neighborhoodProvider": Object {
+        "loadNeighborhoodByCityId": [Function],
+      },
+    }
+  }
+  appStore={
+    Object {
+      "cityStore": Object {
+        "cities": Array [
+          Object {
+            "city_name": "Gotham",
+            "id": 1,
+          },
+        ],
+      },
+      "neighborhoodStore": Object {
+        "neighborhoodsByCityId": Object {
+          "get": [Function],
+        },
+      },
+      "newListingStore": Object {
+        "formValues": Object {},
+        "roomOptions": Array [],
+        "updateFormValues": [Function],
+      },
+    }
+  }>
+  <FormWrapper
+    layout="vertical"
+    onChange={[Function]}>
+    <Formsy
+      className="form-vertical"
+      onChange={[Function]}
+      onError={[Function]}
+      onInvalid={[Function]}
+      onInvalidSubmit={[Function]}
+      onSubmit={[Function]}
+      onSuccess={[Function]}
+      onValid={[Function]}
+      onValidSubmit={[Function]}
+      preventExternalInvalidation={false}
+      validationErrors={null}>
+      <form
+        className="form-vertical"
+        onSubmit={[Function]}>
+        <Row
+          bsClass="row"
+          className="form-section"
+          componentClass="div">
+          <div
+            className="form-section row">
+            <div
+              className="form-section-headline">
+              כתובת
+            </div>
+            <Row
+              bsClass="row"
+              componentClass="div">
+              <div
+                className="row">
+                <Col
+                  bsClass="col"
+                  componentClass="div"
+                  md={6}>
+                  <div
+                    className="col-md-6">
+                    <Select
+                      disabled={false}
+                      label="עיר"
+                      name="apartment.building.city.id"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      options={
+                        Array [
+                          Object {
+                            "label": "Gotham",
+                            "value": 1,
+                          },
+                        ]
+                      }
+                      required={true}
+                      validateOnSubmit={false}
+                      validatePristine={false}
+                      validationError=""
+                      validationErrors={Object {}}
+                      value={1}>
+                      <Row
+                        elementWrapperClassName={
+                          Array [
+                            "",
+                            undefined,
+                          ]
+                        }
+                        fakeLabel={false}
+                        hasErrors={false}
+                        htmlFor="frc-apartment.building.city.id-77750483"
+                        label="עיר"
+                        labelClassName={
+                          Array [
+                            "",
+                            undefined,
+                          ]
+                        }
+                        layout="vertical"
+                        required={true}
+                        rowClassName={
+                          Array [
+                            "",
+                            undefined,
+                          ]
+                        }>
+                        <div
+                          className="form-group">
+                          <label
+                            className="control-label"
+                            data-required={true}
+                            htmlFor="frc-apartment.building.city.id-77750483">
+                            עיר
+                            <span
+                              className="required-symbol">
+                               *
+                            </span>
+                          </label>
+                          <select
+                            className="form-control"
+                            disabled={false}
+                            id="frc-apartment.building.city.id-77750483"
+                            name="apartment.building.city.id"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            required={true}
+                            value={1}>
+                            <option
+                              value={1}>
+                              Gotham
+                            </option>
+                          </select>
+                        </div>
+                      </Row>
+                    </Select>
+                  </div>
+                </Col>
+                <Col
+                  bsClass="col"
+                  componentClass="div"
+                  md={6}>
+                  <div
+                    className="col-md-6">
+                    <Select
+                      disabled={false}
+                      label="שכונה"
+                      name="apartment.building.neighborhood.id"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      options={
+                        Array [
+                          Object {
+                            "label": "טוען...",
+                          },
+                        ]
+                      }
+                      required={true}
+                      validateOnSubmit={false}
+                      validatePristine={false}
+                      validationError=""
+                      validationErrors={Object {}}>
+                      <Row
+                        elementWrapperClassName={
+                          Array [
+                            "",
+                            undefined,
+                          ]
+                        }
+                        fakeLabel={false}
+                        hasErrors={false}
+                        htmlFor="frc-apartment.building.neighborhood.id-1906914157"
+                        label="שכונה"
+                        labelClassName={
+                          Array [
+                            "",
+                            undefined,
+                          ]
+                        }
+                        layout="vertical"
+                        required={true}
+                        rowClassName={
+                          Array [
+                            "",
+                            undefined,
+                          ]
+                        }>
+                        <div
+                          className="form-group">
+                          <label
+                            className="control-label"
+                            data-required={true}
+                            htmlFor="frc-apartment.building.neighborhood.id-1906914157">
+                            שכונה
+                            <span
+                              className="required-symbol">
+                               *
+                            </span>
+                          </label>
+                          <select
+                            className="form-control"
+                            disabled={false}
+                            id="frc-apartment.building.neighborhood.id-1906914157"
+                            name="apartment.building.neighborhood.id"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            required={true}>
+                            <option>
+                              טוען...
+                            </option>
+                          </select>
+                        </div>
+                      </Row>
+                    </Select>
+                  </div>
+                </Col>
+              </div>
+            </Row>
+            <Row
+              bsClass="row"
+              componentClass="div">
+              <div
+                className="row">
+                <Col
+                  bsClass="col"
+                  componentClass="div"
+                  md={6}>
+                  <div
+                    className="col-md-6">
+                    <Input
+                      addonAfter={null}
+                      addonBefore={null}
+                      buttonAfter={null}
+                      buttonBefore={null}
+                      disabled={false}
+                      label="שם רחוב"
+                      name="apartment.building.street_name"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      required={true}
+                      type="text"
+                      validateOnSubmit={false}
+                      validatePristine={false}
+                      validationError=""
+                      validationErrors={Object {}}
+                      value="">
+                      <Row
+                        elementWrapperClassName={
+                          Array [
+                            "",
+                            undefined,
+                          ]
+                        }
+                        fakeLabel={false}
+                        hasErrors={false}
+                        htmlFor="frc-apartment.building.street_name-1499886029"
+                        label="שם רחוב"
+                        labelClassName={
+                          Array [
+                            "",
+                            undefined,
+                          ]
+                        }
+                        layout="vertical"
+                        required={true}
+                        rowClassName={
+                          Array [
+                            "",
+                            undefined,
+                          ]
+                        }>
+                        <div
+                          className="form-group">
+                          <label
+                            className="control-label"
+                            data-required={true}
+                            htmlFor="frc-apartment.building.street_name-1499886029">
+                            שם רחוב
+                            <span
+                              className="required-symbol">
+                               *
+                            </span>
+                          </label>
+                          <input
+                            className="form-control"
+                            disabled={false}
+                            id="frc-apartment.building.street_name-1499886029"
+                            name="apartment.building.street_name"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            required={true}
+                            type="text"
+                            value="" />
+                        </div>
+                      </Row>
+                    </Input>
+                  </div>
+                </Col>
+                <Col
+                  bsClass="col"
+                  componentClass="div"
+                  md={3}>
+                  <div
+                    className="col-md-3">
+                    <Input
+                      addonAfter={null}
+                      addonBefore={null}
+                      buttonAfter={null}
+                      buttonBefore={null}
+                      disabled={false}
+                      label="מספר בניין"
+                      name="apartment.building.house_number"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      placeholder="(לא יוצג באתר)"
+                      required={true}
+                      type="text"
+                      validateOnSubmit={false}
+                      validatePristine={false}
+                      validationError=""
+                      validationErrors={Object {}}
+                      value="">
+                      <Row
+                        elementWrapperClassName={
+                          Array [
+                            "",
+                            undefined,
+                          ]
+                        }
+                        fakeLabel={false}
+                        hasErrors={false}
+                        htmlFor="frc-apartment.building.house_number--1955968695"
+                        label="מספר בניין"
+                        labelClassName={
+                          Array [
+                            "",
+                            undefined,
+                          ]
+                        }
+                        layout="vertical"
+                        required={true}
+                        rowClassName={
+                          Array [
+                            "",
+                            undefined,
+                          ]
+                        }>
+                        <div
+                          className="form-group">
+                          <label
+                            className="control-label"
+                            data-required={true}
+                            htmlFor="frc-apartment.building.house_number--1955968695">
+                            מספר בניין
+                            <span
+                              className="required-symbol">
+                               *
+                            </span>
+                          </label>
+                          <input
+                            className="form-control"
+                            disabled={false}
+                            id="frc-apartment.building.house_number--1955968695"
+                            name="apartment.building.house_number"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            placeholder="(לא יוצג באתר)"
+                            required={true}
+                            type="text"
+                            value="" />
+                        </div>
+                      </Row>
+                    </Input>
+                  </div>
+                </Col>
+                <Col
+                  bsClass="col"
+                  componentClass="div"
+                  md={3}>
+                  <div
+                    className="col-md-3">
+                    <Input
+                      addonAfter={null}
+                      addonBefore={null}
+                      buttonAfter={null}
+                      buttonBefore={null}
+                      disabled={false}
+                      label="מספר דירה"
+                      name="apartment.apt_number"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      placeholder="(לא יוצג באתר)"
+                      required={true}
+                      type="text"
+                      validateOnSubmit={false}
+                      validatePristine={false}
+                      validationError=""
+                      validationErrors={Object {}}
+                      value="">
+                      <Row
+                        elementWrapperClassName={
+                          Array [
+                            "",
+                            undefined,
+                          ]
+                        }
+                        fakeLabel={false}
+                        hasErrors={false}
+                        htmlFor="frc-apartment.apt_number--1724012455"
+                        label="מספר דירה"
+                        labelClassName={
+                          Array [
+                            "",
+                            undefined,
+                          ]
+                        }
+                        layout="vertical"
+                        required={true}
+                        rowClassName={
+                          Array [
+                            "",
+                            undefined,
+                          ]
+                        }>
+                        <div
+                          className="form-group">
+                          <label
+                            className="control-label"
+                            data-required={true}
+                            htmlFor="frc-apartment.apt_number--1724012455">
+                            מספר דירה
+                            <span
+                              className="required-symbol">
+                               *
+                            </span>
+                          </label>
+                          <input
+                            className="form-control"
+                            disabled={false}
+                            id="frc-apartment.apt_number--1724012455"
+                            name="apartment.apt_number"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            placeholder="(לא יוצג באתר)"
+                            required={true}
+                            type="text"
+                            value="" />
+                        </div>
+                      </Row>
+                    </Input>
+                  </div>
+                </Col>
+              </div>
+            </Row>
+            <Row
+              bsClass="row"
+              componentClass="div">
+              <div
+                className="row">
+                <Col
+                  bsClass="col"
+                  componentClass="div"
+                  md={4}>
+                  <div
+                    className="col-md-4">
+                    <Input
+                      addonAfter={null}
+                      addonBefore={null}
+                      buttonAfter={null}
+                      buttonBefore={null}
+                      disabled={false}
+                      label="כניסה"
+                      name="apartment.building.entrance"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      type="text"
+                      validateOnSubmit={false}
+                      validatePristine={false}
+                      validationError=""
+                      validationErrors={Object {}}>
+                      <Row
+                        elementWrapperClassName={
+                          Array [
+                            "",
+                            undefined,
+                          ]
+                        }
+                        fakeLabel={false}
+                        hasErrors={false}
+                        htmlFor="frc-apartment.building.entrance-1510843773"
+                        label="כניסה"
+                        labelClassName={
+                          Array [
+                            "",
+                            undefined,
+                          ]
+                        }
+                        layout="vertical"
+                        required={false}
+                        rowClassName={
+                          Array [
+                            "",
+                            undefined,
+                          ]
+                        }>
+                        <div
+                          className="form-group">
+                          <label
+                            className="control-label"
+                            data-required={false}
+                            htmlFor="frc-apartment.building.entrance-1510843773">
+                            כניסה
+                          </label>
+                          <input
+                            className="form-control"
+                            disabled={false}
+                            id="frc-apartment.building.entrance-1510843773"
+                            name="apartment.building.entrance"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            type="text" />
+                        </div>
+                      </Row>
+                    </Input>
+                  </div>
+                </Col>
+                <Col
+                  bsClass="col"
+                  componentClass="div"
+                  md={4}>
+                  <div
+                    className="col-md-4">
+                    <Input
+                      addonAfter={null}
+                      addonBefore={null}
+                      buttonAfter={null}
+                      buttonBefore={null}
+                      disabled={false}
+                      label="קומה"
+                      name="apartment.floor"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      required={true}
+                      type="number"
+                      validateOnSubmit={false}
+                      validatePristine={false}
+                      validationError=""
+                      validationErrors={Object {}}
+                      value="">
+                      <Row
+                        elementWrapperClassName={
+                          Array [
+                            "",
+                            undefined,
+                          ]
+                        }
+                        fakeLabel={false}
+                        hasErrors={false}
+                        htmlFor="frc-apartment.floor--1880168260"
+                        label="קומה"
+                        labelClassName={
+                          Array [
+                            "",
+                            undefined,
+                          ]
+                        }
+                        layout="vertical"
+                        required={true}
+                        rowClassName={
+                          Array [
+                            "",
+                            undefined,
+                          ]
+                        }>
+                        <div
+                          className="form-group">
+                          <label
+                            className="control-label"
+                            data-required={true}
+                            htmlFor="frc-apartment.floor--1880168260">
+                            קומה
+                            <span
+                              className="required-symbol">
+                               *
+                            </span>
+                          </label>
+                          <input
+                            className="form-control"
+                            disabled={false}
+                            id="frc-apartment.floor--1880168260"
+                            name="apartment.floor"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            required={true}
+                            type="number"
+                            value="" />
+                        </div>
+                      </Row>
+                    </Input>
+                  </div>
+                </Col>
+                <Col
+                  bsClass="col"
+                  componentClass="div"
+                  md={4}>
+                  <div
+                    className="col-md-4">
+                    <Input
+                      addonAfter={null}
+                      addonBefore={null}
+                      buttonAfter={null}
+                      buttonBefore={null}
+                      disabled={false}
+                      label="מס\' קומות בבניין"
+                      name="apartment.building.floors"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      type="number"
+                      validateOnSubmit={false}
+                      validatePristine={false}
+                      validationError=""
+                      validationErrors={Object {}}>
+                      <Row
+                        elementWrapperClassName={
+                          Array [
+                            "",
+                            undefined,
+                          ]
+                        }
+                        fakeLabel={false}
+                        hasErrors={false}
+                        htmlFor="frc-apartment.building.floors-497064746"
+                        label="מס\' קומות בבניין"
+                        labelClassName={
+                          Array [
+                            "",
+                            undefined,
+                          ]
+                        }
+                        layout="vertical"
+                        required={false}
+                        rowClassName={
+                          Array [
+                            "",
+                            undefined,
+                          ]
+                        }>
+                        <div
+                          className="form-group">
+                          <label
+                            className="control-label"
+                            data-required={false}
+                            htmlFor="frc-apartment.building.floors-497064746">
+                            מס\' קומות בבניין
+                          </label>
+                          <input
+                            className="form-control"
+                            disabled={false}
+                            id="frc-apartment.building.floors-497064746"
+                            name="apartment.building.floors"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            type="number" />
+                        </div>
+                      </Row>
+                    </Input>
+                  </div>
+                </Col>
+              </div>
+            </Row>
+          </div>
+        </Row>
+        <Row
+          bsClass="row"
+          className="form-section"
+          componentClass="div">
+          <div
+            className="form-section row">
+            <div
+              className="form-section-headline">
+              פרטי הדירה
+            </div>
+            <Row
+              bsClass="row"
+              componentClass="div">
+              <div
+                className="row">
+                <Col
+                  bsClass="col"
+                  componentClass="div"
+                  md={6}>
+                  <div
+                    className="col-md-6">
+                    <Input
+                      addonAfter={null}
+                      addonBefore={null}
+                      buttonAfter={null}
+                      buttonBefore={null}
+                      disabled={false}
+                      label="גודל הדירה"
+                      name="apartment.size"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      required={true}
+                      type="number"
+                      validateOnSubmit={false}
+                      validatePristine={false}
+                      validationError=""
+                      validationErrors={Object {}}
+                      value="">
+                      <Row
+                        elementWrapperClassName={
+                          Array [
+                            "",
+                            undefined,
+                          ]
+                        }
+                        fakeLabel={false}
+                        hasErrors={false}
+                        htmlFor="frc-apartment.size-1787736206"
+                        label="גודל הדירה"
+                        labelClassName={
+                          Array [
+                            "",
+                            undefined,
+                          ]
+                        }
+                        layout="vertical"
+                        required={true}
+                        rowClassName={
+                          Array [
+                            "",
+                            undefined,
+                          ]
+                        }>
+                        <div
+                          className="form-group">
+                          <label
+                            className="control-label"
+                            data-required={true}
+                            htmlFor="frc-apartment.size-1787736206">
+                            גודל הדירה
+                            <span
+                              className="required-symbol">
+                               *
+                            </span>
+                          </label>
+                          <input
+                            className="form-control"
+                            disabled={false}
+                            id="frc-apartment.size-1787736206"
+                            name="apartment.size"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            required={true}
+                            type="number"
+                            value="" />
+                        </div>
+                      </Row>
+                    </Input>
+                  </div>
+                </Col>
+                <Col
+                  bsClass="col"
+                  componentClass="div"
+                  md={6}>
+                  <div
+                    className="col-md-6">
+                    <Select
+                      disabled={false}
+                      label="מספר חדרים"
+                      name="apartment.rooms"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      options={
+                        Array [
+                          Object {
+                            "label": "בחר",
+                          },
+                        ]
+                      }
+                      required={true}
+                      validateOnSubmit={false}
+                      validatePristine={false}
+                      validationError=""
+                      validationErrors={Object {}}
+                      value="">
+                      <Row
+                        elementWrapperClassName={
+                          Array [
+                            "",
+                            undefined,
+                          ]
+                        }
+                        fakeLabel={false}
+                        hasErrors={false}
+                        htmlFor="frc-apartment.rooms--1795752759"
+                        label="מספר חדרים"
+                        labelClassName={
+                          Array [
+                            "",
+                            undefined,
+                          ]
+                        }
+                        layout="vertical"
+                        required={true}
+                        rowClassName={
+                          Array [
+                            "",
+                            undefined,
+                          ]
+                        }>
+                        <div
+                          className="form-group">
+                          <label
+                            className="control-label"
+                            data-required={true}
+                            htmlFor="frc-apartment.rooms--1795752759">
+                            מספר חדרים
+                            <span
+                              className="required-symbol">
+                               *
+                            </span>
+                          </label>
+                          <select
+                            className="form-control"
+                            disabled={false}
+                            id="frc-apartment.rooms--1795752759"
+                            name="apartment.rooms"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            required={true}
+                            value="">
+                            <option>
+                              בחר
+                            </option>
+                          </select>
+                        </div>
+                      </Row>
+                    </Select>
+                  </div>
+                </Col>
+              </div>
+            </Row>
+            <Row
+              bsClass="row"
+              componentClass="div">
+              <div
+                className="row">
+                <Col
+                  bsClass="col"
+                  componentClass="div"
+                  md={12}>
+                  <div
+                    className="col-md-12">
+                    <Textarea
+                      className="upload-apt-left-container-description"
+                      cols={0}
+                      disabled={false}
+                      label="מידע נוסף ותיאור הדירה"
+                      maxLength="500"
+                      name="description"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      placeholder="תארו את מצב הדירה (משופצת, שמורה), האם היא עורפית/ מוארת/ שקטה/ מרוהטת? ספרו על יתרונות הדירה והאיזור וכל פרט שיסייע לדיירים להבין שזו הדירה שהם מחפשים."
+                      rows={3}
+                      validateOnSubmit={false}
+                      validatePristine={false}
+                      validationError=""
+                      validationErrors={Object {}}>
+                      <Row
+                        elementWrapperClassName={
+                          Array [
+                            "",
+                            undefined,
+                          ]
+                        }
+                        fakeLabel={false}
+                        hasErrors={false}
+                        htmlFor="frc-description--172936504"
+                        label="מידע נוסף ותיאור הדירה"
+                        labelClassName={
+                          Array [
+                            "",
+                            undefined,
+                          ]
+                        }
+                        layout="vertical"
+                        required={false}
+                        rowClassName={
+                          Array [
+                            "",
+                            undefined,
+                          ]
+                        }>
+                        <div
+                          className="form-group">
+                          <label
+                            className="control-label"
+                            data-required={false}
+                            htmlFor="frc-description--172936504">
+                            מידע נוסף ותיאור הדירה
+                          </label>
+                          <textarea
+                            className="upload-apt-left-container-description"
+                            cols={0}
+                            disabled={false}
+                            id="frc-description--172936504"
+                            maxLength="500"
+                            name="description"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            placeholder="תארו את מצב הדירה (משופצת, שמורה), האם היא עורפית/ מוארת/ שקטה/ מרוהטת? ספרו על יתרונות הדירה והאיזור וכל פרט שיסייע לדיירים להבין שזו הדירה שהם מחפשים."
+                            rows={3} />
+                        </div>
+                      </Row>
+                    </Textarea>
+                  </div>
+                </Col>
+              </div>
+            </Row>
+            <Row
+              bsClass="row"
+              componentClass="div">
+              <div
+                className="row">
+                <Checkbox
+                  disabled={false}
+                  label="חנייה"
+                  name="apartment.parking"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onFocus={[Function]}
+                  rowClassName="checkbox-inline"
+                  rowLabel=""
+                  validateOnSubmit={false}
+                  validatePristine={false}
+                  validationError=""
+                  validationErrors={Object {}}
+                  value={false}>
+                  <Row
+                    elementWrapperClassName={
+                      Array [
+                        "",
+                        undefined,
+                      ]
+                    }
+                    fakeLabel={false}
+                    hasErrors={false}
+                    htmlFor="frc-apartment.parking-1396319481"
+                    label=""
+                    labelClassName={
+                      Array [
+                        "",
+                        undefined,
+                      ]
+                    }
+                    layout="vertical"
+                    required={false}
+                    rowClassName={
+                      Array [
+                        "",
+                        "checkbox-inline",
+                      ]
+                    }>
+                    <div
+                      className="form-group checkbox-inline">
+                      <label
+                        className="control-label"
+                        data-required={false}
+                        htmlFor="frc-apartment.parking-1396319481" />
+                      <div
+                        className="checkbox">
+                        <label>
+                          <input
+                            checked={false}
+                            disabled={false}
+                            id="frc-apartment.parking-1396319481"
+                            name="apartment.parking"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            type="checkbox"
+                            value={false} />
+                           
+                          חנייה
+                        </label>
+                      </div>
+                    </div>
+                  </Row>
+                </Checkbox>
+                <Checkbox
+                  disabled={false}
+                  label="מעלית"
+                  name="apartment.building.elevator"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onFocus={[Function]}
+                  rowClassName="checkbox-inline"
+                  rowLabel=""
+                  validateOnSubmit={false}
+                  validatePristine={false}
+                  validationError=""
+                  validationErrors={Object {}}
+                  value={false}>
+                  <Row
+                    elementWrapperClassName={
+                      Array [
+                        "",
+                        undefined,
+                      ]
+                    }
+                    fakeLabel={false}
+                    hasErrors={false}
+                    htmlFor="frc-apartment.building.elevator-1598660635"
+                    label=""
+                    labelClassName={
+                      Array [
+                        "",
+                        undefined,
+                      ]
+                    }
+                    layout="vertical"
+                    required={false}
+                    rowClassName={
+                      Array [
+                        "",
+                        "checkbox-inline",
+                      ]
+                    }>
+                    <div
+                      className="form-group checkbox-inline">
+                      <label
+                        className="control-label"
+                        data-required={false}
+                        htmlFor="frc-apartment.building.elevator-1598660635" />
+                      <div
+                        className="checkbox">
+                        <label>
+                          <input
+                            checked={false}
+                            disabled={false}
+                            id="frc-apartment.building.elevator-1598660635"
+                            name="apartment.building.elevator"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            type="checkbox"
+                            value={false} />
+                           
+                          מעלית
+                        </label>
+                      </div>
+                    </div>
+                  </Row>
+                </Checkbox>
+                <Checkbox
+                  disabled={false}
+                  label="דוד שמש"
+                  name="apartment.sun_heated_boiler"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onFocus={[Function]}
+                  rowClassName="checkbox-inline"
+                  rowLabel=""
+                  validateOnSubmit={false}
+                  validatePristine={false}
+                  validationError=""
+                  validationErrors={Object {}}
+                  value={false}>
+                  <Row
+                    elementWrapperClassName={
+                      Array [
+                        "",
+                        undefined,
+                      ]
+                    }
+                    fakeLabel={false}
+                    hasErrors={false}
+                    htmlFor="frc-apartment.sun_heated_boiler-756662367"
+                    label=""
+                    labelClassName={
+                      Array [
+                        "",
+                        undefined,
+                      ]
+                    }
+                    layout="vertical"
+                    required={false}
+                    rowClassName={
+                      Array [
+                        "",
+                        "checkbox-inline",
+                      ]
+                    }>
+                    <div
+                      className="form-group checkbox-inline">
+                      <label
+                        className="control-label"
+                        data-required={false}
+                        htmlFor="frc-apartment.sun_heated_boiler-756662367" />
+                      <div
+                        className="checkbox">
+                        <label>
+                          <input
+                            checked={false}
+                            disabled={false}
+                            id="frc-apartment.sun_heated_boiler-756662367"
+                            name="apartment.sun_heated_boiler"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            type="checkbox"
+                            value={false} />
+                           
+                          דוד שמש
+                        </label>
+                      </div>
+                    </div>
+                  </Row>
+                </Checkbox>
+                <Checkbox
+                  disabled={false}
+                  label="מותר בע\"ח"
+                  name="apartment.pets"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onFocus={[Function]}
+                  rowClassName="checkbox-inline"
+                  rowLabel=""
+                  validateOnSubmit={false}
+                  validatePristine={false}
+                  validationError=""
+                  validationErrors={Object {}}
+                  value={false}>
+                  <Row
+                    elementWrapperClassName={
+                      Array [
+                        "",
+                        undefined,
+                      ]
+                    }
+                    fakeLabel={false}
+                    hasErrors={false}
+                    htmlFor="frc-apartment.pets--1894014325"
+                    label=""
+                    labelClassName={
+                      Array [
+                        "",
+                        undefined,
+                      ]
+                    }
+                    layout="vertical"
+                    required={false}
+                    rowClassName={
+                      Array [
+                        "",
+                        "checkbox-inline",
+                      ]
+                    }>
+                    <div
+                      className="form-group checkbox-inline">
+                      <label
+                        className="control-label"
+                        data-required={false}
+                        htmlFor="frc-apartment.pets--1894014325" />
+                      <div
+                        className="checkbox">
+                        <label>
+                          <input
+                            checked={false}
+                            disabled={false}
+                            id="frc-apartment.pets--1894014325"
+                            name="apartment.pets"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            type="checkbox"
+                            value={false} />
+                           
+                          מותר בע\"ח
+                        </label>
+                      </div>
+                    </div>
+                  </Row>
+                </Checkbox>
+                <Checkbox
+                  disabled={false}
+                  label="מזגן"
+                  name="apartment.air_conditioning"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onFocus={[Function]}
+                  rowClassName="checkbox-inline"
+                  rowLabel=""
+                  validateOnSubmit={false}
+                  validatePristine={false}
+                  validationError=""
+                  validationErrors={Object {}}
+                  value={false}>
+                  <Row
+                    elementWrapperClassName={
+                      Array [
+                        "",
+                        undefined,
+                      ]
+                    }
+                    fakeLabel={false}
+                    hasErrors={false}
+                    htmlFor="frc-apartment.air_conditioning--1888461349"
+                    label=""
+                    labelClassName={
+                      Array [
+                        "",
+                        undefined,
+                      ]
+                    }
+                    layout="vertical"
+                    required={false}
+                    rowClassName={
+                      Array [
+                        "",
+                        "checkbox-inline",
+                      ]
+                    }>
+                    <div
+                      className="form-group checkbox-inline">
+                      <label
+                        className="control-label"
+                        data-required={false}
+                        htmlFor="frc-apartment.air_conditioning--1888461349" />
+                      <div
+                        className="checkbox">
+                        <label>
+                          <input
+                            checked={false}
+                            disabled={false}
+                            id="frc-apartment.air_conditioning--1888461349"
+                            name="apartment.air_conditioning"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            type="checkbox"
+                            value={false} />
+                           
+                          מזגן
+                        </label>
+                      </div>
+                    </div>
+                  </Row>
+                </Checkbox>
+                <Checkbox
+                  disabled={false}
+                  label="מרפסת"
+                  name="apartment.balcony"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onFocus={[Function]}
+                  rowClassName="checkbox-inline"
+                  rowLabel=""
+                  validateOnSubmit={false}
+                  validatePristine={false}
+                  validationError=""
+                  validationErrors={Object {}}
+                  value={false}>
+                  <Row
+                    elementWrapperClassName={
+                      Array [
+                        "",
+                        undefined,
+                      ]
+                    }
+                    fakeLabel={false}
+                    hasErrors={false}
+                    htmlFor="frc-apartment.balcony-1604447777"
+                    label=""
+                    labelClassName={
+                      Array [
+                        "",
+                        undefined,
+                      ]
+                    }
+                    layout="vertical"
+                    required={false}
+                    rowClassName={
+                      Array [
+                        "",
+                        "checkbox-inline",
+                      ]
+                    }>
+                    <div
+                      className="form-group checkbox-inline">
+                      <label
+                        className="control-label"
+                        data-required={false}
+                        htmlFor="frc-apartment.balcony-1604447777" />
+                      <div
+                        className="checkbox">
+                        <label>
+                          <input
+                            checked={false}
+                            disabled={false}
+                            id="frc-apartment.balcony-1604447777"
+                            name="apartment.balcony"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            type="checkbox"
+                            value={false} />
+                           
+                          מרפסת
+                        </label>
+                      </div>
+                    </div>
+                  </Row>
+                </Checkbox>
+                <Checkbox
+                  disabled={false}
+                  label="סורגים"
+                  name="apartment.security_bars"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onFocus={[Function]}
+                  rowClassName="checkbox-inline"
+                  rowLabel=""
+                  validateOnSubmit={false}
+                  validatePristine={false}
+                  validationError=""
+                  validationErrors={Object {}}
+                  value={false}>
+                  <Row
+                    elementWrapperClassName={
+                      Array [
+                        "",
+                        undefined,
+                      ]
+                    }
+                    fakeLabel={false}
+                    hasErrors={false}
+                    htmlFor="frc-apartment.security_bars-320107102"
+                    label=""
+                    labelClassName={
+                      Array [
+                        "",
+                        undefined,
+                      ]
+                    }
+                    layout="vertical"
+                    required={false}
+                    rowClassName={
+                      Array [
+                        "",
+                        "checkbox-inline",
+                      ]
+                    }>
+                    <div
+                      className="form-group checkbox-inline">
+                      <label
+                        className="control-label"
+                        data-required={false}
+                        htmlFor="frc-apartment.security_bars-320107102" />
+                      <div
+                        className="checkbox">
+                        <label>
+                          <input
+                            checked={false}
+                            disabled={false}
+                            id="frc-apartment.security_bars-320107102"
+                            name="apartment.security_bars"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            type="checkbox"
+                            value={false} />
+                           
+                          סורגים
+                        </label>
+                      </div>
+                    </div>
+                  </Row>
+                </Checkbox>
+                <Checkbox
+                  disabled={false}
+                  label="פרקט"
+                  name="apartment.parquet_floor"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onFocus={[Function]}
+                  rowClassName="checkbox-inline"
+                  rowLabel=""
+                  validateOnSubmit={false}
+                  validatePristine={false}
+                  validationError=""
+                  validationErrors={Object {}}
+                  value={false}>
+                  <Row
+                    elementWrapperClassName={
+                      Array [
+                        "",
+                        undefined,
+                      ]
+                    }
+                    fakeLabel={false}
+                    hasErrors={false}
+                    htmlFor="frc-apartment.parquet_floor--1882364021"
+                    label=""
+                    labelClassName={
+                      Array [
+                        "",
+                        undefined,
+                      ]
+                    }
+                    layout="vertical"
+                    required={false}
+                    rowClassName={
+                      Array [
+                        "",
+                        "checkbox-inline",
+                      ]
+                    }>
+                    <div
+                      className="form-group checkbox-inline">
+                      <label
+                        className="control-label"
+                        data-required={false}
+                        htmlFor="frc-apartment.parquet_floor--1882364021" />
+                      <div
+                        className="checkbox">
+                        <label>
+                          <input
+                            checked={false}
+                            disabled={false}
+                            id="frc-apartment.parquet_floor--1882364021"
+                            name="apartment.parquet_floor"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            type="checkbox"
+                            value={false} />
+                           
+                          פרקט
+                        </label>
+                      </div>
+                    </div>
+                  </Row>
+                </Checkbox>
+                <Checkbox
+                  disabled={false}
+                  label="מתאימה לשותפים"
+                  name="roommates"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onFocus={[Function]}
+                  rowClassName="checkbox-inline"
+                  rowLabel=""
+                  validateOnSubmit={false}
+                  validatePristine={false}
+                  validationError=""
+                  validationErrors={Object {}}
+                  value={false}>
+                  <Row
+                    elementWrapperClassName={
+                      Array [
+                        "",
+                        undefined,
+                      ]
+                    }
+                    fakeLabel={false}
+                    hasErrors={false}
+                    htmlFor="frc-roommates--1072386577"
+                    label=""
+                    labelClassName={
+                      Array [
+                        "",
+                        undefined,
+                      ]
+                    }
+                    layout="vertical"
+                    required={false}
+                    rowClassName={
+                      Array [
+                        "",
+                        "checkbox-inline",
+                      ]
+                    }>
+                    <div
+                      className="form-group checkbox-inline">
+                      <label
+                        className="control-label"
+                        data-required={false}
+                        htmlFor="frc-roommates--1072386577" />
+                      <div
+                        className="checkbox">
+                        <label>
+                          <input
+                            checked={false}
+                            disabled={false}
+                            id="frc-roommates--1072386577"
+                            name="roommates"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            type="checkbox"
+                            value={false} />
+                           
+                          מתאימה לשותפים
+                        </label>
+                      </div>
+                    </div>
+                  </Row>
+                </Checkbox>
+                <Checkbox
+                  disabled={false}
+                  label="דרוש שותף/ה"
+                  name="roommate_needed"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onFocus={[Function]}
+                  rowClassName="checkbox-inline"
+                  rowLabel=""
+                  validateOnSubmit={false}
+                  validatePristine={false}
+                  validationError=""
+                  validationErrors={Object {}}
+                  value={false}>
+                  <Row
+                    elementWrapperClassName={
+                      Array [
+                        "",
+                        undefined,
+                      ]
+                    }
+                    fakeLabel={false}
+                    hasErrors={false}
+                    htmlFor="frc-roommate_needed--953931837"
+                    label=""
+                    labelClassName={
+                      Array [
+                        "",
+                        undefined,
+                      ]
+                    }
+                    layout="vertical"
+                    required={false}
+                    rowClassName={
+                      Array [
+                        "",
+                        "checkbox-inline",
+                      ]
+                    }>
+                    <div
+                      className="form-group checkbox-inline">
+                      <label
+                        className="control-label"
+                        data-required={false}
+                        htmlFor="frc-roommate_needed--953931837" />
+                      <div
+                        className="checkbox">
+                        <label>
+                          <input
+                            checked={false}
+                            disabled={false}
+                            id="frc-roommate_needed--953931837"
+                            name="roommate_needed"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            type="checkbox"
+                            value={false} />
+                           
+                          דרוש שותף/ה
+                        </label>
+                      </div>
+                    </div>
+                  </Row>
+                </Checkbox>
+              </div>
+            </Row>
+          </div>
+        </Row>
+        <Row
+          bsClass="row"
+          className="form-section"
+          componentClass="div">
+          <div
+            className="form-section row">
+            <div
+              className="form-section-headline">
+              חוזה ותשלומים
+            </div>
+            <Row
+              bsClass="row"
+              componentClass="div">
+              <div
+                className="row">
+                <Col
+                  bsClass="col"
+                  componentClass="div"
+                  md={6}>
+                  <div
+                    className="col-md-6">
+                    <div
+                      className="form-group">
+                      <label>
+                        תאריך כניסה לדירה
+                      </label>
+                      <DatePicker
+                        name="apartment.entrance-date"
+                        onChange={[Function]}>
+                        <DatePicker
+                          autoFocus={false}
+                          calendarPlacement="bottom"
+                          cellPadding="5px"
+                          clearButtonElement="×"
+                          customControl={
+                            <input
+                              className="react-bootstrap-date-picker-custom-control"
+                              readOnly={true} />
+                          }
+                          dateFormat="MM/DD/YYYY"
+                          dayLabels={
+                            Array [
+                              "Su",
+                              "Mo",
+                              "Tu",
+                              "We",
+                              "Th",
+                              "Fr",
+                              "Sa",
+                            ]
+                          }
+                          disabled={false}
+                          monthLabels={
+                            Array [
+                              "January",
+                              "February",
+                              "March",
+                              "April",
+                              "May",
+                              "June",
+                              "July",
+                              "August",
+                              "September",
+                              "October",
+                              "November",
+                              "December",
+                            ]
+                          }
+                          name="apartment.entrance-date"
+                          nextButtonElement="<"
+                          onChange={[Function]}
+                          previousButtonElement=">"
+                          showClearButton={false}
+                          showTodayButton={false}
+                          todayButtonLabel="Today"
+                          value="2017-04-05T15:12:07+00:00">
+                          <InputGroup
+                            bsClass=""
+                            id={null}>
+                            <span
+                              className=""
+                              id={null}>
+                              <Overlay
+                                animation={[Function]}
+                                container={[Function]}
+                                delayHide={200}
+                                onHide={[Function]}
+                                placement="bottom"
+                                rootClose={true}
+                                show={false}
+                                target={[Function]}>
+                                <Overlay
+                                  container={[Function]}
+                                  delayHide={200}
+                                  onHide={[Function]}
+                                  placement="bottom"
+                                  rootClose={true}
+                                  show={false}
+                                  target={[Function]}
+                                  transition={[Function]} />
+                              </Overlay>
+                              <div />
+                              <input
+                                data-formattedvalue="04/05/2017"
+                                name="apartment.entrance-date"
+                                type="hidden"
+                                value="2017-04-05T12:00:00.000Z" />
+                              <input
+                                className="react-bootstrap-date-picker-custom-control"
+                                disabled={false}
+                                onBlur={[Function]}
+                                onChange={[Function]}
+                                onFocus={[Function]}
+                                onKeyDown={[Function]}
+                                placeholder="MM/DD/YYYY"
+                                readOnly={true}
+                                value="04/05/2017" />
+                            </span>
+                          </InputGroup>
+                        </DatePicker>
+                      </DatePicker>
+                    </div>
+                  </div>
+                </Col>
+                <Col
+                  bsClass="col"
+                  componentClass="div"
+                  md={6}>
+                  <div
+                    className="col-md-6">
+                    <Input
+                      addonAfter={null}
+                      addonBefore={null}
+                      buttonAfter={null}
+                      buttonBefore={null}
+                      disabled={false}
+                      label="שכר דירה לחודש"
+                      name="monthly_rent"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      required={true}
+                      type="number"
+                      validateOnSubmit={false}
+                      validatePristine={false}
+                      validationError=""
+                      validationErrors={Object {}}
+                      value="">
+                      <Row
+                        elementWrapperClassName={
+                          Array [
+                            "",
+                            undefined,
+                          ]
+                        }
+                        fakeLabel={false}
+                        hasErrors={false}
+                        htmlFor="frc-monthly_rent-72812564"
+                        label="שכר דירה לחודש"
+                        labelClassName={
+                          Array [
+                            "",
+                            undefined,
+                          ]
+                        }
+                        layout="vertical"
+                        required={true}
+                        rowClassName={
+                          Array [
+                            "",
+                            undefined,
+                          ]
+                        }>
+                        <div
+                          className="form-group">
+                          <label
+                            className="control-label"
+                            data-required={true}
+                            htmlFor="frc-monthly_rent-72812564">
+                            שכר דירה לחודש
+                            <span
+                              className="required-symbol">
+                               *
+                            </span>
+                          </label>
+                          <input
+                            className="form-control"
+                            disabled={false}
+                            id="frc-monthly_rent-72812564"
+                            name="monthly_rent"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            required={true}
+                            type="number"
+                            value="" />
+                        </div>
+                      </Row>
+                    </Input>
+                  </div>
+                </Col>
+              </div>
+            </Row>
+            <Row
+              bsClass="row"
+              componentClass="div">
+              <div
+                className="row">
+                <Col
+                  bsClass="col"
+                  componentClass="div"
+                  md={6}>
+                  <div
+                    className="col-md-6">
+                    <Input
+                      addonAfter={null}
+                      addonBefore={null}
+                      buttonAfter={null}
+                      buttonBefore={null}
+                      disabled={false}
+                      label="ארנונה לחודשיים"
+                      name="property_tax"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      type="number"
+                      validateOnSubmit={false}
+                      validatePristine={false}
+                      validationError=""
+                      validationErrors={Object {}}>
+                      <Row
+                        elementWrapperClassName={
+                          Array [
+                            "",
+                            undefined,
+                          ]
+                        }
+                        fakeLabel={false}
+                        hasErrors={false}
+                        htmlFor="frc-property_tax-926309944"
+                        label="ארנונה לחודשיים"
+                        labelClassName={
+                          Array [
+                            "",
+                            undefined,
+                          ]
+                        }
+                        layout="vertical"
+                        required={false}
+                        rowClassName={
+                          Array [
+                            "",
+                            undefined,
+                          ]
+                        }>
+                        <div
+                          className="form-group">
+                          <label
+                            className="control-label"
+                            data-required={false}
+                            htmlFor="frc-property_tax-926309944">
+                            ארנונה לחודשיים
+                          </label>
+                          <input
+                            className="form-control"
+                            disabled={false}
+                            id="frc-property_tax-926309944"
+                            name="property_tax"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            type="number" />
+                        </div>
+                      </Row>
+                    </Input>
+                  </div>
+                </Col>
+                <Col
+                  bsClass="col"
+                  componentClass="div"
+                  md={6}>
+                  <div
+                    className="col-md-6">
+                    <Input
+                      addonAfter={null}
+                      addonBefore={null}
+                      buttonAfter={null}
+                      buttonBefore={null}
+                      disabled={false}
+                      label="ועד בית לחודש"
+                      name="board_fee"
+                      onBlur={[Function]}
+                      onChange={[Function]}
+                      onFocus={[Function]}
+                      type="number"
+                      validateOnSubmit={false}
+                      validatePristine={false}
+                      validationError=""
+                      validationErrors={Object {}}>
+                      <Row
+                        elementWrapperClassName={
+                          Array [
+                            "",
+                            undefined,
+                          ]
+                        }
+                        fakeLabel={false}
+                        hasErrors={false}
+                        htmlFor="frc-board_fee--349807156"
+                        label="ועד בית לחודש"
+                        labelClassName={
+                          Array [
+                            "",
+                            undefined,
+                          ]
+                        }
+                        layout="vertical"
+                        required={false}
+                        rowClassName={
+                          Array [
+                            "",
+                            undefined,
+                          ]
+                        }>
+                        <div
+                          className="form-group">
+                          <label
+                            className="control-label"
+                            data-required={false}
+                            htmlFor="frc-board_fee--349807156">
+                            ועד בית לחודש
+                          </label>
+                          <input
+                            className="form-control"
+                            disabled={false}
+                            id="frc-board_fee--349807156"
+                            name="board_fee"
+                            onBlur={[Function]}
+                            onChange={[Function]}
+                            onFocus={[Function]}
+                            type="number" />
+                        </div>
+                      </Row>
+                    </Input>
+                  </div>
+                </Col>
+              </div>
+            </Row>
+          </div>
+        </Row>
+      </form>
+    </Formsy>
+  </FormWrapper>
+</ListingDetailsForm>
+`;
