@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import autobind from 'react-autobind';
 import { Col, Grid, Row } from 'react-bootstrap';
-import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
 
 import './ListingStats.scss';
 
@@ -11,8 +10,6 @@ class ListingStats extends Component {
   constructor(props) {
     super(props);
     autobind(this);
-
-    this.state = { isLoading: false };
   }
 
   componentDidMount() {
@@ -32,14 +29,6 @@ class ListingStats extends Component {
 
     const views = appStore.listingStore.listingViewsById.get(listingId);
 
-    if (this.state.isLoading) {
-      return (
-        <div className="loader-container">
-          <LoadingSpinner />
-        </div>
-      );
-    }
-
     return  <Grid fluid={true} className="dashboard-my-propery-stats">
                 <Row className="rent-title">
                   <Col xs={12}>
@@ -48,14 +37,13 @@ class ListingStats extends Component {
                 </Row>
                 <Row>
                   <Col xs={12}>
-
                     <div className="numbers-row">
                       <div className="number">{views}</div>
                       <div className="empty"></div>
                       <div className="number">0</div>
                       <div className="empty"></div>
-                      <div className="rented-check">
-                        <i className="fa fa-check " aria-hidden="true"></i>
+                      <div className="number">
+                        <i className="fa fa-check rented-check" aria-hidden="true"></i>
                       </div>
                     </div>
                     <div>
@@ -71,7 +59,6 @@ class ListingStats extends Component {
                         <div className="bubble-text">חתימת חוזה</div>
                       </div>
                     </div>
-
                   </Col>
                 </Row>
                 <Row className="services-title">

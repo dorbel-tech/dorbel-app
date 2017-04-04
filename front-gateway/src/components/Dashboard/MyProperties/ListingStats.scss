@@ -1,18 +1,15 @@
 @import "../../sharedStyles/variables.scss";
 @import "../../sharedStyles/bsvars.scss";
-
 $bubble-width-lg: 130px;
 $bubble-width-md: $bubble-width-lg;
 $bubble-width-sm: 90px;
 $bubble-width-xs-max: $bubble-width-sm;
 $bubble-width-xs-min: 70px;
-
 $line-width-lg: 100px;
 $line-width-md: 80px;
 $line-width-sm: 60px;
 $line-width-xs-max: $line-width-sm;
 $line-width-xs-min: 40px;
-
 $empty-color: $gray;
 $active-color: #3398db;
 
@@ -45,25 +42,6 @@ $active-color: #3398db;
   .rented-check {
     font-size: 26px;
     color: $gray-light;
-    display: inline-block;
-    text-align: center;
-    width: $bubble-width-lg;
-
-    @media (max-width: $screen-md-max) {
-      width: $bubble-width-md;
-    }
-
-    @media (max-width: $screen-sm-max) {
-      width: $bubble-width-sm;
-    }
-
-    @media (max-width: $screen-xs-max) {
-      width: $bubble-width-xs-max;
-    }
-
-    @media (max-width: $screen-xs-min) {
-      width: $bubble-width-xs-min;
-    }
   }
 
   .text-center {
@@ -179,7 +157,7 @@ $active-color: #3398db;
   .services {
     .service {
       background-color: $brand-white;
-      box-shadow: 0 0 5px 0 rgba(0,0,0,0.05);
+      box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.05);
       height: 250px;
       padding: 0 30px;
       text-align: center;
@@ -201,6 +179,5 @@ $active-color: #3398db;
         margin-top: 40px;
       }
     }
-
   }
 }
