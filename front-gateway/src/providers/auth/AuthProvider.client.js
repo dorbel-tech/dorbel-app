@@ -3,7 +3,7 @@ import promisify from 'es6-promisify';
 import auth0 from './auth0helper';
 
 class AuthProvider {
-  constructor(clientId, domain, authStore, router) {
+  constructor(clientId, domain, authStore, router, apiProvider) {
     this.lock = auth0.initLock(clientId, domain);
     this.lock.on('authenticated', this.afterAuthentication.bind(this));
     this.lock.on('hide', this.hideHandler.bind(this));
@@ -11,6 +11,7 @@ class AuthProvider {
     this.router = router;
     this.showLoginModal = this.showLoginModal.bind(this);
     this.logout = this.logout.bind(this);
+    this.apiProvider = apiProvider;
     this.reportIdentifyAnalytics(this.authStore.profile);
   }
 
@@ -68,6 +69,10 @@ class AuthProvider {
         }
       }
     });
+  }
+
+  updateUserProfile(userProfile){
+    return this.apiProvider.fetch('/api/apartments/v1/user-profile/', { method: 'PATCH', data: { userProfile } });
   }
 
   logout() {
