@@ -65,7 +65,8 @@ let Config = {
         use: ['css-loader?sourceMap', 'sass-loader']
       })},
       { test: /\.png$/, use: 'url-loader?limit=100000' },
-      { test: /\.jpg$/, use: 'file-loader' }
+      { test: /\.jpg$/, use: 'file-loader' },
+      { test: /\.spec.js$/, use: 'ignore-loader' }
     ],
   },
   plugins: [

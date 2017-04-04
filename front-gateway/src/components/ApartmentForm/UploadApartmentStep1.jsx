@@ -1,8 +1,8 @@
 import React from 'react';
-import { Button, Col, Grid, Row } from 'react-bootstrap';
+import { Button, Col, Grid } from 'react-bootstrap';
 import { observer } from 'mobx-react';
 import UploadApartmentBaseStep from './UploadApartmentBaseStep';
-import ImageUpload from '~/components/ImageUpload/ImageUpload';
+import ImageUpload from './ImageUpload/ImageUpload.jsx';
 
 @observer(['appProviders', 'appStore'])
 class UploadApartmentStep1 extends UploadApartmentBaseStep.wrappedComponent {
