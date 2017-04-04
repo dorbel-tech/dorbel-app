@@ -1,6 +1,10 @@
+.property-top-container {
+  background-color: $brand-white;
+}
+
 .property-image-container {
   .listing-status-container {
-    left: -50px;
+    left: -25px;
     top: 35px;
 
     @media (max-width: $screen-xs-max) {
@@ -10,6 +14,10 @@
 
   .listing-status-label {
     display: none;
+  }
+
+  .listing-status-selector {
+    width: auto;
   }
 }
 
@@ -44,4 +52,32 @@
   &:not(last-child) {
     padding-left: 10px;
   }
+}
+
+.property-actions-container {
+  text-align: center;
+
+  > div {
+    display: inline-block;
+  }
+}
+
+.property-actions-title {
+	color: $gray-dark;
+	font-size: 15px;
+	font-weight: bold;
+}
+
+.property-actions-sub-title {
+  color: #979797;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.property-actions-vr {
+  border-right: 1px solid $gray-light;
+  height: 25px;
+  margin-right: 10px;
+  margin-top: 55px;
+  padding-left: 10px;
 }

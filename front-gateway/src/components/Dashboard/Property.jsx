@@ -57,12 +57,12 @@ class Property extends Component {
     }
 
     return  <Grid fluid className="property-wrapper">
-              <Row>
-                <Col xs={4} className="property-image-container">
+              <Row className="property-top-container">
+                <Col md={4} sm={2} className="property-image-container">
                   <CloudinaryImage src={imageURL} height={97} className="property-image"/>
                   <ListingStatusSelector listing={listing} />
                 </Col>
-                <Col xs={5} className="property-title-container">
+                <Col md={5} sm={8} className="property-title-container">
                   <div className="property-title">
                     {utils.getListingTitle(listing)}
                   </div>
@@ -78,9 +78,23 @@ class Property extends Component {
                       {utils.getFloorLabel(listing, true)}</span>
                   </div>
                 </Col>
-                <Col xs={3} className="property-actions-container">
-
+                <Col md={3} sm={2} className="property-actions-container">
+                  <div>
+                    <span className="property-actions-title">
+                      {listing.apartment.rooms}</span><br/>
+                      <span className="property-actions-sub-title">עוקבים</span>
+                  </div>
+                  <div className="property-actions-vr" />
+                  <div>
+                    <span className="property-actions-title">
+                      {listing.apartment.size}</span><br/>
+                      <span className="property-actions-sub-title">לייקים</span>
+                  </div>
+                  <div>
+                  </div>
                 </Col>
+              </Row>
+              <Row>
               </Row>
             </Grid>;
   }
