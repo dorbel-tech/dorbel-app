@@ -26,7 +26,9 @@ exports[`Listing Details Form should match snapshot in empty state 1`] = `
         },
       },
       "newListingStore": Object {
-        "formValues": Object {},
+        "formValues": Object {
+          "lease_start": "1970-01-01T00:00:00.000Z",
+        },
         "roomOptions": Array [],
         "updateFormValues": [Function],
       },
@@ -1639,7 +1641,8 @@ exports[`Listing Details Form should match snapshot in empty state 1`] = `
                       </label>
                       <DatePicker
                         name="apartment.entrance-date"
-                        onChange={[Function]}>
+                        onChange={[Function]}
+                        value="1970-01-01T00:00:00.000Z">
                         <DatePicker
                           autoFocus={false}
                           calendarPlacement="bottom"
@@ -1686,7 +1689,7 @@ exports[`Listing Details Form should match snapshot in empty state 1`] = `
                           showClearButton={false}
                           showTodayButton={false}
                           todayButtonLabel="Today"
-                          value="2017-04-05T15:12:07+00:00">
+                          value="1970-01-01T00:00:00.000Z">
                           <InputGroup
                             bsClass=""
                             id={null}>
@@ -1714,10 +1717,10 @@ exports[`Listing Details Form should match snapshot in empty state 1`] = `
                               </Overlay>
                               <div />
                               <input
-                                data-formattedvalue="04/05/2017"
+                                data-formattedvalue="01/01/1970"
                                 name="apartment.entrance-date"
                                 type="hidden"
-                                value="2017-04-05T12:00:00.000Z" />
+                                value="1970-01-01T12:00:00.000Z" />
                               <input
                                 className="react-bootstrap-date-picker-custom-control"
                                 disabled={false}
@@ -1727,7 +1730,7 @@ exports[`Listing Details Form should match snapshot in empty state 1`] = `
                                 onKeyDown={[Function]}
                                 placeholder="MM/DD/YYYY"
                                 readOnly={true}
-                                value="04/05/2017" />
+                                value="01/01/1970" />
                             </span>
                           </InputGroup>
                         </DatePicker>

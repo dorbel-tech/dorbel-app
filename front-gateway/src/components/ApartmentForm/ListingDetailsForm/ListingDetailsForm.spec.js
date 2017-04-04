@@ -35,6 +35,7 @@ describe('Listing Details Form', () => {
   const listingDetailsForm = () => shallow(<ListingDetailsForm.wrappedComponent appStore={appStoreMock} appProviders={appProvidersMock} />);
 
   it('should match snapshot in empty state', () => {
+    appStoreMock.newListingStore.formValues.lease_start = (new Date(0)).toISOString(); // make this static for constant snapshot
     const wrapper = mount(<ListingDetailsForm.wrappedComponent appStore={appStoreMock} appProviders={appProvidersMock} />);
     expect(wrapper).toMatchSnapshot();
   });
