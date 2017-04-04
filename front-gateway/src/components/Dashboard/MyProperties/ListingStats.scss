@@ -37,11 +37,16 @@ $active-color: #3398db;
 
   .rent-title {
     padding-bottom: 30px;
+
+    @media (max-width: $screen-sm-max) {
+      padding-bottom: 10px;
+    }
   }
 
   .rented-check {
     font-size: 26px;
-    color: $gray-light;
+    color: $gray-lighter;
+    text-shadow: 0 0 2px #000;
   }
 
   .text-center {
@@ -71,6 +76,7 @@ $active-color: #3398db;
     }
 
     @media (max-width: $screen-xs-min) {
+      font-size: 30px;
       width: $bubble-width-xs-min;
     }
   }
@@ -141,6 +147,7 @@ $active-color: #3398db;
     }
 
     @media (max-width: $screen-xs-min) {
+      border-radius: 15px;
       width: $bubble-width-xs-min;
     }
 
@@ -149,34 +156,70 @@ $active-color: #3398db;
     }
   }
 
+  .listing-stats {
+    text-align: center;
+
+    .card {
+      background-color: $brand-white;
+      border-radius: 2px;
+      box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.05);
+      padding: 20px;
+
+      @media (max-width: $screen-sm-max) {
+        padding: 10px 0;
+      }
+    }
+
+    .number {
+      font-size: 24px;
+    }
+
+    .title {
+      color: $gray-light;
+      font-size: 14px;
+    }
+  }
+
+  .publishing-title,
   .services-title {
-    padding-top: 60px;
-    padding-bottom: 30px;
+    padding: 60px 0;
+
+    @media (max-width: $screen-sm-max) {
+      padding-top: 40px;
+      padding-bottom: 30px;
+    }
   }
 
   .services {
     .service {
       background-color: $brand-white;
+      border-radius: 2px;
       box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.05);
-      height: 250px;
+      min-height: 250px;
       padding: 0 30px;
       text-align: center;
       font-size: 11px;
 
       @media (max-width: $screen-sm-max) {
         margin: 20px 0;
+        margin-bottom: 60px;
+      }
+
+      .image {
+        margin-top: -40px;
       }
 
       .title {
-        font-size: 15px;
+        font-size: 16px;
         font-weight: bold;
-        padding-top: 65px;
+        padding-top: 40px;
         padding-bottom: 22px;
       }
 
       .button {
         font-size: 13px;
         margin-top: 40px;
+        margin-bottom: 20px;
       }
     }
   }

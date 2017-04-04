@@ -3,6 +3,7 @@ import { observable, asMap } from 'mobx';
 
 export default class LikeStore {
   @observable likesByListingId;
+  @observable likesCountByListingId;
 
   constructor(initialState = {}) {
     if (initialState.likesByListingId) {
@@ -11,6 +12,8 @@ export default class LikeStore {
     else {
       this.likesByListingId = asMap({});
     }
+
+    this.likesCountByListingId = asMap(initialState.likesCountByListingId || {});
   }
 
   init(listingIdMap) {
@@ -20,6 +23,7 @@ export default class LikeStore {
   toJson() {
     return {
       likesByListingId: this.likesByListingId,
+      likesCountByListingId: this.likesCountByListingId
     };
   }
 }

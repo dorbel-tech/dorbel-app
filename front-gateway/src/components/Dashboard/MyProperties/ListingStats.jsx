@@ -31,18 +31,24 @@ class ListingStats extends Component {
       appProviders.listingsProvider.loadListingPageViews(listingId);
     }
 
-    appProviders.oheProvider.loadListingEvents(listingId);    
+    appProviders.oheProvider.loadListingEvents(listingId);
+    appProviders.oheProvider.getFollowsForListing(listingId);
+    appProviders.likeProvider.getListingLikesCount(listingId);
   }
 
   render() {
     const { appStore, listingId } = this.props;
     const views = appStore.listingStore.listingViewsById.get(listingId);        
     const registrations = this.getNumberOfOheRegistrations(listingId);
+    const publishDate = '01/04/2017'; // TODO: Replace with real value.
+    const followers = appStore.oheStore.countFollowersByListingId.get(listingId);
+    const likes = appStore.likeStore.likesCountByListingId.get(listingId);
+    const daysPassed = 19; // TODO: Reaplce with real value.
 
     return  <Grid fluid={true} className="dashboard-my-propery-stats">
                 <Row className="rent-title">
                   <Col xs={12}>
-                    תהליך ההשכרה:                 
+                    תהליך ההשכרה:
                   </Col>
                 </Row>
                 <Row>
@@ -71,14 +77,40 @@ class ListingStats extends Component {
                     </div>
                   </Col>
                 </Row>
+                <Row className="publishing-title">
+                  <Col xs={12}>
+                    תאריך פרסום המודעה: {publishDate}
+                  </Col>
+                </Row>
+                <Row className="listing-stats">
+                  <Col xs={4}>
+                    <div className="card">
+                      <div className="number">{followers}</div>
+                      <div className="title">עוקבים</div>
+                    </div>
+                  </Col>
+                  <Col xs={4}>
+                    <div className="card">
+                      <div className="number">{likes}</div>
+                      <div className="title">לייקים</div>
+                    </div>
+                  </Col>
+                  <Col xs={4}>
+                    <div className="card">
+                      <div className="number">{daysPassed}</div>
+                      <div className="title">ימים שחלפו</div>
+                    </div>
+                  </Col>
+                </Row>
                 <Row className="services-title">
                   <Col xs={12}>
-                    שירותים בתשלום:                 
+                    שירותים בתשלום:
                   </Col>
                 </Row>
                 <Row className="services">
                   <Col md={4}>
                     <div className="service">
+                      <img className="image" src="https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/dashboard/service-publishing-icon.svg"/>
                       <div className="title">פרסום הדירה</div>
                       <div>רוצים להשכיר מהר? הגדילו את חשיפת הדירה ע״י פרסום ממומן. הגיעו ליותר דיירים בפחות זמן</div>
                       <a className="button btn btn-success" href="https://www.dorbel.com/pages/services/social-advertising" target="_blank">לפרטים והזמנה</a>
@@ -86,6 +118,7 @@ class ListingStats extends Component {
                   </Col>
                   <Col md={4}>
                     <div className="service">
+                      <img className="image" src="https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/dashboard/service-credit-score-icon.svg"/>
                       <div className="title">דו״ח נתוני אשראי</div>
                       <div>רוצים להיות בטוחים? לפני חתימה על חוזה חשוב לוודא שהדייר החדש והערבים יעמדו בתשלומים</div>
                       <a className="button btn btn-success" href="https://www.dorbel.com/pages/services/credit-report" target="_blank">לפרטים והזמנה</a>
@@ -93,6 +126,7 @@ class ListingStats extends Component {
                   </Col>
                   <Col md={4}>
                     <div className="service">
+                      <img className="image" src="https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/dashboard/service-photography-icon.svg"/>
                       <div className="title">צילום והצגת הדירה</div>
                       <div>אנו נצלם ונציג עבורכם את הדירה בפני הדיירים הפוטנציאליים כדי לחסוך לכם את ההגעה לכל ביקור</div>
                       <a className="button btn btn-success" href="https://www.dorbel.com/pages/services/hosted-viewings" target="_blank">לפרטים והזמנה</a>

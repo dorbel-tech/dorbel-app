@@ -23,6 +23,14 @@ class LikeProvider {
     return this.appStore.likeStore.likesByListingId.get(listingId);
   }
 
+  getListingLikesCount(listingId) {
+    this.apiProvider.fetch(`/api/apartments/v1/listing/likes/count/${listingId}`)
+      .then(likesCount => {
+        this.appStore.likeStore.likesCountByListingId.set(listingId, likesCount);
+      });
+    return this.appStore.likeStore.likesCountByListingId.get(listingId);
+  }
+
   set(listingId, isLiked) {
     const method = isLiked ? 'POST' : 'DELETE';
     this.appStore.likeStore.likesByListingId.set(listingId, isLiked); 
