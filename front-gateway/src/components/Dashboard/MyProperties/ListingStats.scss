@@ -1,0 +1,206 @@
+@import "../../sharedStyles/variables.scss";
+@import "../../sharedStyles/bsvars.scss";
+
+$bubble-width-lg: 130px;
+$bubble-width-md: $bubble-width-lg;
+$bubble-width-sm: 90px;
+$bubble-width-xs-max: $bubble-width-sm;
+$bubble-width-xs-min: 70px;
+
+$line-width-lg: 100px;
+$line-width-md: 80px;
+$line-width-sm: 60px;
+$line-width-xs-max: $line-width-sm;
+$line-width-xs-min: 40px;
+
+$empty-color: $gray;
+$active-color: #3398db;
+
+.dashboard-my-propery-stats {
+  padding-top: 70px;
+  padding-right: 100px;
+
+  @media (max-width: $screen-md-max) {
+    padding-top: 50px;
+    padding-right: 80px;
+  }
+
+  @media (max-width: $screen-sm-max) {
+    padding-top: 30px;
+    padding-right: 60px;
+  }
+
+  @media (max-width: $screen-xs-max) {
+    padding: 0 20px;
+  }
+
+  @media (max-width: $screen-xs-min) {
+    padding: 0 12px;
+  }
+
+  .rent-title {
+    padding-bottom: 30px;
+  }
+
+  .rented-check {
+    font-size: 26px;
+    color: $gray-light;
+    display: inline-block;
+    text-align: center;
+    width: $bubble-width-lg;
+
+    @media (max-width: $screen-md-max) {
+      width: $bubble-width-md;
+    }
+
+    @media (max-width: $screen-sm-max) {
+      width: $bubble-width-sm;
+    }
+
+    @media (max-width: $screen-xs-max) {
+      width: $bubble-width-xs-max;
+    }
+
+    @media (max-width: $screen-xs-min) {
+      width: $bubble-width-xs-min;
+    }
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  .numbers-row {
+    line-height: 80px;
+  }
+
+  .number {
+    font-size: 40px;
+    display: inline-block;
+    width: $bubble-width-lg;
+    text-align: center;
+
+    @media (max-width: $screen-md-max) {
+      width: $bubble-width-md;
+    }
+
+    @media (max-width: $screen-sm-max) {
+      width: $bubble-width-sm;
+    }
+
+    @media (max-width: $screen-xs-max) {
+      width: $bubble-width-xs-max;
+    }
+
+    @media (max-width: $screen-xs-min) {
+      width: $bubble-width-xs-min;
+    }
+  }
+
+  .empty {
+    display: inline-block;
+    width: $line-width-lg;
+
+    @media (max-width: $screen-md-max) {
+      width: $line-width-md;
+    }
+
+    @media (max-width: $screen-sm-max) {
+      width: $line-width-sm;
+    }
+
+    @media (max-width: $screen-xs-max) {
+      width: $line-width-xs-max;
+    }
+
+    @media (max-width: $screen-xs-min) {
+      width: $line-width-xs-min;
+    }
+  }
+
+  .line {
+    border-bottom: 1px $active-color solid;
+    display: inline-block;
+    width: $line-width-lg;
+    margin-bottom: 4px;
+
+    @media (max-width: $screen-md-max) {
+      width: $line-width-md;
+    }
+
+    @media (max-width: $screen-sm-max) {
+      width: $line-width-sm;
+      margin-bottom: 14px;
+    }
+
+    @media (max-width: $screen-xs-max) {
+      width: $line-width-xs-max;
+    }
+
+    @media (max-width: $screen-xs-min) {
+      width: $line-width-xs-min;
+    }
+  }
+
+  .bubble {
+    border: 1px solid $active-color;
+    border-radius: 100px;
+    color: $active-color;
+    display: inline-block;
+    width: $bubble-width-lg;
+    text-align: center;
+
+    @media (max-width: $screen-md-max) {
+      width: $bubble-width-md;
+    }
+
+    @media (max-width: $screen-sm-max) {
+      width: $bubble-width-sm;
+    }
+
+    @media (max-width: $screen-xs-max) {
+      width: $bubble-width-xs-max;
+    }
+
+    @media (max-width: $screen-xs-min) {
+      width: $bubble-width-xs-min;
+    }
+
+    .bubble-text {
+      padding: 10px;
+    }
+  }
+
+  .services-title {
+    padding-top: 60px;
+    padding-bottom: 30px;
+  }
+
+  .services {
+    .service {
+      background-color: $brand-white;
+      box-shadow: 0 0 5px 0 rgba(0,0,0,0.05);
+      height: 250px;
+      padding: 0 30px;
+      text-align: center;
+      font-size: 11px;
+
+      @media (max-width: $screen-sm-max) {
+        margin: 20px 0;
+      }
+
+      .title {
+        font-size: 15px;
+        font-weight: bold;
+        padding-top: 65px;
+        padding-bottom: 22px;
+      }
+
+      .button {
+        font-size: 13px;
+        margin-top: 40px;
+      }
+    }
+
+  }
+}

@@ -142,21 +142,21 @@ services:
       LOG_LEVEL: ${LOG_LEVEL}
 
   # Admin apartments backoffice
-  # admin:
-  #   build:
-  #     context: admin
-  #   image: dorbel/admin
-  #   ports:
-  #     - '3004:3004'
-  #   depends_on:
-  #     - db
-  #   links:
-  #     - db
-  #   environment:
-  #     DATABASE_URL: mysql://${MYSQL_ROOT_USER}:${MYSQL_ROOT_PASSWORD}@db:3306/${MYSQL_DATABASE_APT}
-  #     FOREST_AUTH_SECRET: ${FOREST_APARTMENTS_AUTH_SECRET}
-  #     FOREST_ENV_SECRET: ${FOREST_APARTMENTS_ENV_SECRET}
-  #     FRONT_GATEWAY_URL: ${FRONT_GATEWAY_URL}
+  admin:
+    build:
+      context: admin
+    image: dorbel/admin
+    ports:
+      - '3004:3004'
+    depends_on:
+      - db
+    links:
+      - db
+    environment:
+      DATABASE_URL: mysql://${MYSQL_ROOT_USER}:${MYSQL_ROOT_PASSWORD}@db:3306/${MYSQL_DATABASE_APT}
+      FOREST_AUTH_SECRET: ${FOREST_APARTMENTS_AUTH_SECRET}
+      FOREST_ENV_SECRET: ${FOREST_APARTMENTS_ENV_SECRET}
+      FRONT_GATEWAY_URL: ${FRONT_GATEWAY_URL}
 
   # Admin ohe backoffice
   # admin-ohe:

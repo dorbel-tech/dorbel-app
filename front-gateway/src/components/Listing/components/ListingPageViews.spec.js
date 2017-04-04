@@ -60,6 +60,6 @@ describe('Search', () => {
     mount(<ListingPageViews.wrappedComponent appStore={appStoreMock} appProviders={appProvidersMock} listing={listing} />);
 
     expect(appStoreMock.listingStore.listingViewsById.has).toHaveBeenCalledWith(listing.id);
-    expect(appProvidersMock.listingsProvider.loadListingPageViews).toHaveBeenCalledWith(listing);
+    expect(appProvidersMock.listingsProvider.loadListingPageViews).toHaveBeenCalledWith(listing.id);
   });
 });
