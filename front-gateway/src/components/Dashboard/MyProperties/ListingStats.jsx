@@ -12,6 +12,17 @@ class ListingStats extends Component {
     autobind(this);
   }
 
+  getNumberOfOheRegistrations(listingId) {
+    const openHouseEvents = this.props.appStore.oheStore.oheByListingId(listingId);
+    let totalRegistrations = 0;
+    
+    openHouseEvents.map(ohe => {
+      totalRegistrations += ohe.registrations.length;
+    });
+
+    return totalRegistrations;
+  }
+
   componentDidMount() {
     const { appStore, appProviders } = this.props;
     const listingId = this.props.listingId;
@@ -19,15 +30,14 @@ class ListingStats extends Component {
     if (!appStore.listingStore.listingViewsById.has(listingId)) {
       appProviders.listingsProvider.loadListingPageViews(listingId);
     }
+
+    appProviders.oheProvider.loadListingEvents(listingId);    
   }
+
   render() {
     const { appStore, listingId } = this.props;
-
-    if (!appStore.listingStore.listingViewsById.has(listingId)) {
-      return null;
-    }
-
-    const views = appStore.listingStore.listingViewsById.get(listingId);
+    const views = appStore.listingStore.listingViewsById.get(listingId);        
+    const registrations = this.getNumberOfOheRegistrations(listingId);
 
     return  <Grid fluid={true} className="dashboard-my-propery-stats">
                 <Row className="rent-title">
@@ -40,7 +50,7 @@ class ListingStats extends Component {
                     <div className="numbers-row">
                       <div className="number">{views}</div>
                       <div className="empty"></div>
-                      <div className="number">0</div>
+                      <div className="number">{registrations}</div>
                       <div className="empty"></div>
                       <div className="number">
                         <i className="fa fa-check rented-check" aria-hidden="true"></i>
