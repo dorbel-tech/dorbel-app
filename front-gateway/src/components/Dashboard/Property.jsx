@@ -1,13 +1,19 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import autobind from 'react-autobind';
-import { Button, Col, Grid, Row } from 'react-bootstrap';
+import { Button, Col, Grid, Row, OverlayTrigger, Popover } from 'react-bootstrap';
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
 import CloudinaryImage from '../CloudinaryImage/CloudinaryImage';
 import ListingStatusSelector from '../Listing/components/ListingStatusSelector';
 import utils from '~/providers/utils';
 
 import './Property.scss';
+
+const popover = (
+  <Popover id="popover-positioned-bottom" title="Popover bottom">
+    <strong>Holy guacamole!</strong> Check this info.
+  </Popover>
+);
 
 @observer(['appStore', 'appProviders', 'router'])
 class Property extends Component {
@@ -108,7 +114,10 @@ class Property extends Component {
                               onClick={this.previewButtonClickHandler}>צפה</Button>
                     </div>
                     <div className="property-actions-menu-container">
-                      <i className="fa fa-bars" aria-hidden="true"></i>
+                      <OverlayTrigger trigger="click" placement="bottom" overlay={popover}
+                                      container={this} containerPadding={5}>
+                        <i className="fa fa-bars" aria-hidden="true"></i>
+                      </OverlayTrigger>
                     </div>
                   </div>
                 </Col>
