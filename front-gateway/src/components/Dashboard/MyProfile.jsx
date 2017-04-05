@@ -47,20 +47,20 @@ class MyProfile extends Component {
               onValid={() => { this.setState({ isValid: true }); }}>
               <Row>
                 <Col className="my-profile-input" sm={6}>
-                  <FRC.Input value={profile.first_name} label="שם פרטי" name="first_name" layout="vertical" type="text" required />
+                  <FRC.Input value={profile.first_name} label="שם פרטי" name="first_name" layout="vertical" type="text" placeholder="שמכם הפרטי" required />
                 </Col>
                 <Col className="my-profile-input pad-label" sm={6}>
-                  <FRC.Input value={profile.last_name} label="שם משפחה" name="last_name" layout="vertical" type="text" required />
+                  <FRC.Input value={profile.last_name} label="שם משפחה" name="last_name" layout="vertical" type="text" placeholder="שם משפחתכם" required />
                   {this.renderLockIcon()}
                 </Col>
               </Row>
               <Row>
                 <Col className="my-profile-input" sm={6}>
-                  <FRC.Input value={profile.phone} label="טלפון" name="phone" validations="isNumeric" layout="vertical" placeholder="שם פרטי" required />
+                  <FRC.Input value={profile.phone} label="טלפון" name="phone" validations="isNumeric" layout="vertical" placeholder="מספר הנייד שלכם" required />
                   {this.renderLockIcon()}
                 </Col>
                 <Col className="my-profile-input" sm={6}>
-                  <FRC.Input value={profile.email} label="מייל ליצירת קשר" validations="isEmail" name="email" layout="vertical" placeholder="שם משפחה" type="text" required />
+                  <FRC.Input value={profile.email} label="מייל ליצירת קשר" validations="isEmail" name="email" layout="vertical" placeholder="כתובת המייל שלכם" type="text" required />
                 </Col>
               </Row>
               <SubmitButton disabled={!this.state.isValid} onClick={this.submit} className="my-profile-submit"
