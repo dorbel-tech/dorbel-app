@@ -2,18 +2,13 @@ import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import autobind from 'react-autobind';
 import { Button, Col, Grid, Row, OverlayTrigger, Popover } from 'react-bootstrap';
+import NavLink from '~/components/NavLink';
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
 import CloudinaryImage from '../CloudinaryImage/CloudinaryImage';
 import ListingStatusSelector from '../Listing/components/ListingStatusSelector';
 import utils from '~/providers/utils';
 
 import './Property.scss';
-
-const popover = (
-  <Popover id="popover-positioned-bottom" title="Popover bottom">
-    <strong>Holy guacamole!</strong> Check this info.
-  </Popover>
-);
 
 @observer(['appStore', 'appProviders', 'router'])
 class Property extends Component {
@@ -48,12 +43,8 @@ class Property extends Component {
     }
   }
 
-  previewButtonClickHandler() {
-    const { appStore } = this.props;
-    const listing = appStore.listingStore.get(this.props.propertyId);
-    const previewRoute = '/apartments/' + (listing ? listing.id : '');
-
-    this.props.router.setRoute(previewRoute);
+  routeClickHandler(e) {
+    this.props.router.setRoute(e.target.getAttribute('name'));
   }
 
   render() {
@@ -61,6 +52,15 @@ class Property extends Component {
     const listing = appStore.listingStore.get(this.props.propertyId);
     const sortedListingImages = utils.sortListingImages(listing);
     const imageURL = sortedListingImages.length ? sortedListingImages[0].url : '';
+
+    const popoverMenu = (
+      <Popover id="property-actions-menu" className="property-actions-menu">
+        <div name={'/dashboard/my-properties/' + (listing ? listing.id : '') + '/edit'} className="property-actions-menu-item" onClick={this.routeClickHandler}>
+          <i className="property-actions-menu-item-icon fa fa-pencil-square-o"  aria-hidden="true"></i>
+          עריכת פרטי הנכס
+        </div>
+      </Popover>
+    );
 
     if (this.state.isLoading) {
       return (
@@ -111,11 +111,12 @@ class Property extends Component {
                   <div>
                     <div className="property-actions-preview-container">
                       <Button className="property-preview-button"
-                              onClick={this.previewButtonClickHandler}>צפה</Button>
+                              name={'/apartments/' + (listing ? listing.id : '')}
+                              onClick={this.routeClickHandler}>צפה</Button>
                     </div>
                     <div className="property-actions-menu-container">
-                      <OverlayTrigger trigger="click" placement="bottom" overlay={popover}
-                                      container={this} containerPadding={5}>
+                      <OverlayTrigger trigger="click" placement="bottom" overlay={popoverMenu}
+                                      container={this} containerPadding={5} rootClose>
                         <i className="fa fa-bars" aria-hidden="true"></i>
                       </OverlayTrigger>
                     </div>

@@ -150,9 +150,25 @@
 }
 
 .property-actions-menu-container {
+  cursor: pointer;
+
   @media (max-width: $screen-xs-max) {
     left: 5px;
+    padding: 11px;
     position: absolute;
-    top: 11px;
+    top: 0;
   }
+}
+
+.property-actions-menu .popover-content {
+  padding: 0;
+}
+
+.property-actions-menu-item {
+  cursor: pointer;
+  padding: 18px;
+}
+.property-actions-menu-item-icon {
+  padding-left: 20px;
+  vertical-align: middle;
 }
