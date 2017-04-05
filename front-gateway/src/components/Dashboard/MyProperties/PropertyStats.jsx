@@ -5,10 +5,10 @@ import { Col, Grid, Row } from 'react-bootstrap';
 import utils from '~/providers/utils';
 import moment from 'moment';
 
-import './ListingStats.scss';
+import './PropertyStats.scss';
 
 @observer(['appStore', 'appProviders', 'router'])
-class ListingStats extends Component {
+class PropertyStats extends Component {
   constructor(props) {
     super(props);
     autobind(this);
@@ -140,10 +140,10 @@ class ListingStats extends Component {
   }
 }
 
-ListingStats.wrappedComponent.propTypes = {
+PropertyStats.wrappedComponent.propTypes = {
   listing: React.PropTypes.object.isRequired,
   appStore: React.PropTypes.object,
   appProviders: React.PropTypes.object.isRequired,
 };
 
-export default ListingStats;
+export default PropertyStats;
