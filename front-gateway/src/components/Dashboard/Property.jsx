@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import autobind from 'react-autobind';
 import { Button, Col, Grid, Row, OverlayTrigger, Popover } from 'react-bootstrap';
-import NavLink from '~/components/NavLink';
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
 import CloudinaryImage from '../CloudinaryImage/CloudinaryImage';
 import ListingStatusSelector from '../Listing/components/ListingStatusSelector';

@@ -41,20 +41,20 @@
 }
 
 .property-title-container {
-	color: #382E2F;
-	padding-right: 50px;
-	padding-top: 37px;
+  color: #382e2f;
+  padding-right: 50px;
+  padding-top: 37px;
 
   @media (max-width: $screen-xs-max) {
     height: 97px;
     padding-left: 5px;
-	  padding-right: 0;
-	  padding-top: 12px;
+    padding-right: 0;
+    padding-top: 12px;
   }
 }
 
 .property-title {
-	font-size: 20px;
+  font-size: 20px;
   padding-bottom: 7px;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -67,7 +67,7 @@
 }
 
 .property-title-details {
-	font-size: 16px;
+  font-size: 16px;
 
   @media (max-width: $screen-xs-max) {
     bottom: 5px;
@@ -133,9 +133,9 @@
 }
 
 .property-actions-title {
-	color: $gray-dark;
-	font-size: 15px;
-	font-weight: bold;
+  color: $gray-dark;
+  font-size: 15px;
+  font-weight: bold;
 }
 
 .property-actions-sub-title {
@@ -187,6 +187,7 @@
   cursor: pointer;
   padding: 18px;
 }
+
 .property-actions-menu-item-icon {
   padding-left: 20px;
   vertical-align: middle;
