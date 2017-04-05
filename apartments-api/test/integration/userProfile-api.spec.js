@@ -32,7 +32,7 @@ describe('Apartments API Likes service integration', function () {
         __.assertThat(resp.text, __.is('Not Authorized'));
       });
 
-      it('should fail to set a property which is not defined in the swagger model', function* () {
+      it('should fail to set a property which is not whitelisted in userProfileService', function* () {
         let clonedUserData = _.clone(this.updateData);
         clonedUserData.role = 'admin';
         const resp = yield this.apiClient.updateUserProfile(clonedUserData).expect(400).end();
