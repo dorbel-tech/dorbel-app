@@ -8,7 +8,7 @@ import SubmitButton from '~/components/SubmitButton/SubmitButton';
 import './MyProfile.scss';
 
 @observer(['appStore', 'appProviders'])
-class MyLikes extends Component {
+class MyProfile extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -75,9 +75,9 @@ class MyLikes extends Component {
   }
 }
 
-MyLikes.wrappedComponent.propTypes = {
+MyProfile.wrappedComponent.propTypes = {
   appStore: React.PropTypes.object.isRequired,
   appProviders: React.PropTypes.object.isRequired
 };
 
-export default MyLikes;
+export default MyProfile;
