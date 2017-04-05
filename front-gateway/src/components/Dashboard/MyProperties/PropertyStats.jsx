@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
-import autobind from 'react-autobind';
 import { Col, Grid, Row } from 'react-bootstrap';
 import utils from '~/providers/utils';
 import moment from 'moment';
@@ -11,7 +10,6 @@ import './PropertyStats.scss';
 class PropertyStats extends Component {
   constructor(props) {
     super(props);
-    autobind(this);
   }
 
   getNumberOfOheRegistrations(listingId) {
@@ -42,7 +40,6 @@ class PropertyStats extends Component {
     const listingId = listing.id;
     const views = appStore.listingStore.listingViewsById.get(listingId);        
     const registrations = this.getNumberOfOheRegistrations(listingId);
-    const followers = appStore.oheStore.countFollowersByListingId.get(listingId);    
     const listingCreatedAt = utils.formatDate(listing.created_at);
     const daysPassed = moment(Date.now()).diff(moment(listing.created_at), 'days');
     const listingRented = listing.status === 'rented' || listing.status === 'unlisted';
@@ -87,7 +84,7 @@ class PropertyStats extends Component {
                 <Row className="property-stats-listing-stats">
                   <Col xs={4}>
                     <div className="property-stats-card">
-                      <div className="property-stats-number">{followers || 0}</div>
+                      <div className="property-stats-number">{this.props.followers}</div>
                       <div className="property-stats-title">עוקבים</div>
                     </div>
                   </Col>
@@ -147,6 +144,7 @@ class PropertyStats extends Component {
 
 PropertyStats.wrappedComponent.propTypes = {
   listing: React.PropTypes.object.isRequired,
+  followers: React.PropTypes.number.isRequired,
   appStore: React.PropTypes.object,
   appProviders: React.PropTypes.object.isRequired,
 };

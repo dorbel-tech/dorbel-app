@@ -53,10 +53,11 @@ class Property extends Component {
     const listing = appStore.listingStore.get(this.props.propertyId);
     const sortedListingImages = utils.sortListingImages(listing);
     const imageURL = sortedListingImages.length ? sortedListingImages[0].url : '';
+    const followers = appStore.oheStore.countFollowersByListingId.get(this.props.propertyId);
 
     const popoverMenu = (
       <Popover id="property-actions-menu" className="property-actions-menu">
-        <div name={'/dashboard/my-properties/' + (listing ? listing.id : '') + '/edit'} className="property-actions-menu-item" onClick={this.routeClickHandler}>
+        <div name={'/dashboard/my-properties/' + this.props.propertyId + '/edit'} className="property-actions-menu-item" onClick={this.routeClickHandler}>
           <i className="property-actions-menu-item-icon fa fa-pencil-square-o"  aria-hidden="true"></i>
           עריכת פרטי הנכס
         </div>
@@ -99,20 +100,20 @@ class Property extends Component {
                   <div className="property-actions-details">
                     <div>
                       <span className="property-actions-title">
-                        {listing.apartment.rooms}</span><br/>
+                        {followers || 0}</span><br/>
                         <span className="property-actions-sub-title">עוקבים</span>
                     </div>
                     <div className="property-actions-vr" />
                     <div>
                       <span className="property-actions-title">
-                        {listing.apartment.size}</span><br/>
+                        {listing.totalLikes || 0}</span><br/>
                         <span className="property-actions-sub-title">לייקים</span>
                     </div>
                   </div>
                   <div>
                     <div className="property-actions-preview-container">
                       <Button className="property-preview-button"
-                              name={'/apartments/' + (listing ? listing.id : '')}
+                              name={'/apartments/' + this.props.propertyId}
                               onClick={this.routeClickHandler}>צפה</Button>
                     </div>
                     <div className="property-actions-menu-container">
@@ -125,7 +126,7 @@ class Property extends Component {
                 </Col>
               </Row>
               <Row>
-                <PropertyStats listing={listing} />
+                <PropertyStats listing={listing} followers={followers || 0} />
               </Row>
             </Grid>;
   }
