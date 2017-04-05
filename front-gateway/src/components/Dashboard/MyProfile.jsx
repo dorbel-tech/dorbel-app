@@ -35,35 +35,35 @@ class MyProfile extends Component {
     const profile = authStore.profile;
 
     return (
-      <Row className="dashboard-my-profile-container">
+      <Row className="my-profile-container">
         <Col>
-          <span className="dashboard-my-profile-title">פרטי קשר</span>
-          <div className="dashboard-my-profile-edit-wrapper">
-            <div className="dashboard-my-profile-picture-container">
-              <img className="dashboard-my-profile-picture" src={profile.picture} />
+          <span className="my-profile-title">פרטי קשר</span>
+          <div className="my-profile-edit-wrapper">
+            <div className="my-profile-picture-container">
+              <img className="my-profile-picture" src={profile.picture} />
             </div>
-            <FormWrapper.Wrapper className="dashboard-my-profile-form" ref="form"
+            <FormWrapper.Wrapper className="my-profile-form" ref="form"
               onInvalid={() => { this.setState({ isValid: false }); }}
               onValid={() => { this.setState({ isValid: true }); }}>
               <Row>
-                <Col className="dashboard-my-profile-input" sm={6}>
+                <Col className="my-profile-input" sm={6}>
                   <FRC.Input value={profile.first_name} label="שם פרטי" name="first_name" layout="vertical" type="text" required />
                 </Col>
-                <Col className="dashboard-my-profile-input pad-label" sm={6}>
+                <Col className="my-profile-input pad-label" sm={6}>
                   <FRC.Input value={profile.last_name} label="שם משפחה" name="last_name" layout="vertical" type="text" required />
                   {this.renderLockIcon()}
                 </Col>
               </Row>
               <Row>
-                <Col className="dashboard-my-profile-input" sm={6}>
+                <Col className="my-profile-input" sm={6}>
                   <FRC.Input value={profile.phone} label="טלפון" name="phone" validations="isNumeric" layout="vertical" placeholder="שם פרטי" required />
                   {this.renderLockIcon()}
                 </Col>
-                <Col className="dashboard-my-profile-input" sm={6}>
+                <Col className="my-profile-input" sm={6}>
                   <FRC.Input value={profile.email} label="מייל ליצירת קשר" validations="isEmail" name="email" layout="vertical" placeholder="שם משפחה" type="text" required />
                 </Col>
               </Row>
-              <SubmitButton disabled={!this.state.isValid} onClick={this.submit} className="dashboard-my-profile-submit"
+              <SubmitButton disabled={!this.state.isValid} onClick={this.submit} className="my-profile-submit"
                 bsStyle="success">
                 עדכון פרטים
               </SubmitButton>

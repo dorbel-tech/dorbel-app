@@ -1,9 +1,8 @@
 @import "../sharedStyles/variables.scss";
 @import "../sharedStyles/bsvars.scss";
 
-.dashboard-my-profile-container {
+.my-profile-container {
   padding: 35px;
-  width: 100%;
   margin-top: 50px;
 
   @media (max-width: $screen-xs-max) {
@@ -11,21 +10,21 @@
   }
 }
 
-.dashboard-my-profile-title {
+.my-profile-title {
   color: $gray;
   font-size: 18px;
   margin: 10px 0;
   display: block;
 }
 
-.dashboard-my-profile-edit-wrapper {
+.my-profile-edit-wrapper {
   width: 100%;
   height: 100%;
   margin: 0 auto;
   background-color: $brand-white;
 }
 
-.dashboard-my-profile-form {
+.my-profile-form {
   margin: 50px;
 
   .form-group.has-error {
@@ -34,7 +33,7 @@
     }
   }
 
-  .dashboard-my-profile-input {
+  .my-profile-input {
     padding-bottom: 10px;
     position: relative;
 
@@ -52,14 +51,15 @@
 
   @media (max-width: $screen-xs-max) {
     margin: 35px 25px;
+    padding-bottom: 15px;
   }
 }
 
-.dashboard-my-profile-picture-container {
+.my-profile-picture-container {
   margin: 0 auto;
   text-align: center;
 
-  .dashboard-my-profile-picture {
+  .my-profile-picture {
     border-radius: 50%;
     width: 150px;
     height: 150px;
@@ -67,6 +67,6 @@
   }
 }
 
-.dashboard-my-profile-submit {
+.my-profile-submit {
   float: left;
 }

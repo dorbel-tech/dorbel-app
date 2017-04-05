@@ -34,7 +34,7 @@ function throwErrorOnJunkParams(dataToUpdate) { // Allow only whitelisted fields
   const keysToUpdate = _.keys(dataToUpdate);
   keysToUpdate.forEach((key) => {
     if (whitelistedProfileParams.indexOf(key) == -1) {
-      throw new errors.DomainValidationError('FieldNotAllowed', { field: key }, 'The update request contains an illegal field!');
+      throw new errors.DomainValidationError('FieldNotAllowed', { field: key }, 'The update request contains an illegal, not white listed, field!');
     }
   });
 }
