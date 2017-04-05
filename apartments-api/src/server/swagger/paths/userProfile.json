@@ -1,21 +1,14 @@
 {
-  "/listings/user/{userId}": {
+  "/user-profile": {
     "patch": {
-      "summary": "Patches a single listing",
+      "summary": "Patches a single user",
       "description": "Patches a single user's details",
       "parameters": [
-        {
-          "name": "userId",
-          "in": "path",
-          "description": "id of the user",
-          "type": "uuid",
-          "required": true
-        },
         {
           "name": "body",
           "in": "body",
           "schema": {
-            "$ref": "#/definitions/UserUpdate"
+            "$ref": "#/definitions/userProfile"
           }
         },
         {

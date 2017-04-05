@@ -1,14 +1,14 @@
 'use strict';
-const shared = require('dorbel-shared');
-const logger = shared.logger.getLogger(module);
+const userProfileService = require('../../services/userProfileService');
+
 
 function* patch() {
-  const data = this.request.body;
-  logger.debug({data}, 'Creating new open house event...');
-  const result = yield openHouseEventsService.create(data, this.request.user);
-  logger.info({event_id: result.id}, 'Open house event created');
-  this.response.status = 201;
-  this.response.body = result;
+  const dataToUpdate = this.request.body;
+  const user = this.request.user;
+  const newUserProfile = yield userProfileService.update(user, dataToUpdate);
+  
+  this.response.status = 200;
+  this.response.body = newUserProfile;
 }
 
 module.exports = {

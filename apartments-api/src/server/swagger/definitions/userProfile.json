@@ -1,5 +1,5 @@
 {
-  "ListingUpdate": {
+  "userProfile": {
     "type": "object",
     "properties": {
       "first_name": {
@@ -16,7 +16,10 @@
       }
     },
     "required": [
-      "status"
+      "first_name",
+      "last_name",
+      "phone",
+      "email"
     ]
   }
 }
