@@ -18,7 +18,7 @@ function* get() {
     options.offset = parseInt(this.request.query.offset) || undefined;
   }
 
-  if (!options.user) {
+  if (!this.request.user) {
     this.response.set('Cache-Control', 'public, max-age=' + ONE_MINUTE);
   }
 
