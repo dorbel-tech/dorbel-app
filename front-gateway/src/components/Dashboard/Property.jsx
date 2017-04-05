@@ -78,11 +78,13 @@ class Property extends Component {
                     <span>
                       {listing.apartment.rooms}</span>
                       <span className="property-title-details-sub-text"> חדרים</span>
+                    <div className="property-title-details-vr" />
                     <span>
                       {listing.apartment.size}</span>
                       <span className="property-title-details-sub-text"> מ"ר</span>
+                    <div className="property-title-details-vr" />
                     <span>
-                      <span className="property-title-details-sub-text">קומה</span>
+                      <span className="property-title-details-sub-text property-title-details-last-text">קומה</span>
                       {utils.getFloorLabel(listing, true)}</span>
                   </div>
                 </Col>

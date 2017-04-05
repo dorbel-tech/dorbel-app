@@ -72,17 +72,30 @@
   @media (max-width: $screen-xs-max) {
     bottom: 5px;
     font-size: 13px;
+    left: 0;
     position: absolute;
+    right: 0;
+    text-align: center;
   }
 }
 
 .property-title-details-sub-text {
   color: #9b9b9b;
+}
+
+.property-title-details-vr {
+  display: inline;
   padding-left: 10px;
 
   @media (max-width: $screen-xs-max) {
+    border-right: 1px solid $gray-light;
+    margin-right: 5px;
     padding-left: 5px;
   }
+}
+
+.property-title-details-last-text {
+  padding-left: 5px;
 }
 
 .property-actions-container {
