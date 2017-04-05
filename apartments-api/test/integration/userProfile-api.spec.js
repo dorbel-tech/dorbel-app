@@ -37,7 +37,7 @@ describe('Apartments API Likes service integration', function () {
         clonedUserData.role = 'admin';
         const resp = yield this.apiClient.updateUserProfile(clonedUserData).expect(400).end();
         
-        __.assertThat(resp.text, __.is('The update request contains an illegal field!'));
+        __.assertThat(resp.text, __.is('The update request contains an illegal, not white listed, field!'));
       });
 
       it('should successfuly update user profile', function* () {
