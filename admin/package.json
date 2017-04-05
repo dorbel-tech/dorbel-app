@@ -16,6 +16,7 @@
     "express-cors": "0.0.3",
     "express-jwt": "~5.1.0",
     "forest-express-sequelize": "latest",
+    "lodash": "^4.17.4",
     "morgan": "~1.7.0",
     "mysql": "~2.12.0",
     "nodemon": "^1.11.0",
