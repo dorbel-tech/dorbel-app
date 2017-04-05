@@ -74,7 +74,7 @@ class Property extends Component {
 
     return  <Grid fluid className="property-wrapper">
               <Row className="property-top-container">
-                <Col md={4} sm={3} xs={5} className="property-image-container">
+                <Col md={3} sm={3} xs={5} className="property-image-container">
                   <CloudinaryImage src={imageURL} height={97} className="property-image"/>
                   <ListingStatusSelector listing={listing} />
                 </Col>
@@ -96,8 +96,8 @@ class Property extends Component {
                       {utils.getFloorLabel(listing, true)}</span>
                   </div>
                 </Col>
-                <Col sm={3} className="property-actions-container">
-                  <div className="property-actions-details">
+                <Col md={4} sm={3} className="property-actions-wrapper">
+                  <div className="property-action-container property-actions-details">
                     <div>
                       <span className="property-actions-title">
                         {followers || 0}</span><br/>
@@ -110,7 +110,7 @@ class Property extends Component {
                         <span className="property-actions-sub-title">לייקים</span>
                     </div>
                   </div>
-                  <div>
+                  <div className="property-action-container">
                     <div className="property-actions-preview-container">
                       <Button className="property-preview-button"
                               name={'/apartments/' + this.props.propertyId}
