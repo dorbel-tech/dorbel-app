@@ -5,10 +5,6 @@ const logger = shared.logger.getLogger(module);
 const errors = shared.utils.domainErrors;
 const messageBus = shared.utils.messageBus;
 
-function* getListingLikesCount(listingId) {
-  return yield likeRepository.getListingTotalLikes(listingId);
-}
-
 function* getUserLikes(user) {
   let likeObjects = yield likeRepository.getUserLikes(user);
   return likeObjects.map(item => item.listing_id);
@@ -53,7 +49,6 @@ function handleSetError(error, listingId, user, isLiked) {
 }
 
 module.exports = {
-  getListingLikesCount,
   getUserLikes,
   set
 };

@@ -8,7 +8,7 @@ import MyLikes from '~/components/Dashboard/MyLikes';
 
 const MENU_ITEMS = [
   { navTo: 'my-properties', menuText: 'הנכסים שלי', faIconClassName: 'fa-home', component: <MyProperties/> },
-  { navTo: 'my-likes', menuText: 'דירות שאהבתי', faIconClassName: 'fa-heart', component: <MyLikes/>},
+  { navTo: 'my-likes', menuText: 'דירות שאהבתי', faIconClassName: 'fa-heart', component: <MyLikes/>}
 ];
 
 module.exports = {

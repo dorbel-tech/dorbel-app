@@ -26,8 +26,8 @@ class ListingStats extends Component {
   }
 
   componentDidMount() {
-    const { appStore, appProviders } = this.props;
-    const listingId = this.props.listingId;
+    const { appStore, appProviders, listing } = this.props;
+    const listingId = listing.id;
 
     if (!appStore.listingStore.listingViewsById.has(listingId)) {
       appProviders.listingsProvider.loadListingPageViews(listingId);
@@ -39,12 +39,11 @@ class ListingStats extends Component {
   }
 
   render() {
-    const { appStore, listingId } = this.props;
+    const { appStore, listing } = this.props;
+    const listingId = listing.id;
     const views = appStore.listingStore.listingViewsById.get(listingId);        
     const registrations = this.getNumberOfOheRegistrations(listingId);
-    const followers = appStore.oheStore.countFollowersByListingId.get(listingId);
-    const likes = appStore.likeStore.likesCountByListingId.get(listingId);
-    const listing = appStore.listingStore.get(listingId); // Expects listingStore to be already initiated by its parent component.
+    const followers = appStore.oheStore.countFollowersByListingId.get(listingId);    
     const listingCreatedAt = utils.formatDate(listing.created_at);
     const daysPassed = moment(Date.now()).diff(moment(listing.created_at), 'days');
     const listingRented = listing.status === 'rented' || listing.status === 'unlisted';
@@ -95,7 +94,7 @@ class ListingStats extends Component {
                   </Col>
                   <Col xs={4}>
                     <div className="card">
-                      <div className="number">{likes}</div>
+                      <div className="number">{listing.totalLikes}</div>
                       <div className="title">לייקים</div>
                     </div>
                   </Col>
@@ -142,7 +141,7 @@ class ListingStats extends Component {
 }
 
 ListingStats.wrappedComponent.propTypes = {
-  listingId: React.PropTypes.number.isRequired,
+  listing: React.PropTypes.object.isRequired,
   appStore: React.PropTypes.object,
   appProviders: React.PropTypes.object.isRequired,
 };
