@@ -6,6 +6,7 @@ import NavLink from '~/components/NavLink';
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
 import CloudinaryImage from '../CloudinaryImage/CloudinaryImage';
 import ListingStatusSelector from '../Listing/components/ListingStatusSelector';
+import PropertyStats from './MyProperties/PropertyStats';
 import utils from '~/providers/utils';
 
 import './Property.scss';
@@ -122,6 +123,9 @@ class Property extends Component {
                     </div>
                   </div>
                 </Col>
+              </Row>
+              <Row>
+                <PropertyStats listing={listing} />
               </Row>
             </Grid>;
   }
