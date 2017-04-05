@@ -27,7 +27,7 @@ describe('Listings Provider', () => {
     var views = 999;
     apiMock.fetch = stub().resolves({ [listingId] : { views } });
 
-    return listingsProvider.loadListingPageViews({ id: listingId })
+    return listingsProvider.loadListingPageViews(listingId)
     .then(() => {
       expect(apiMock.fetch.calledWith('/api/apartments/v1/page_views/listings/' + listingId)).toBe(true);
       expect(listingStoreMock.listingViewsById.set.calledWith(listingId, views)).toBe(true);
