@@ -57,9 +57,9 @@ class PropertyStats extends Component {
                 <Row>
                   <Col xs={12}>
                     <div className="propery-stats-numbers-row">
-                      <div className={'propery-stats-number' + (views > 0 ? ' propery-stats-number-not-empty': '')}>{views}</div>
+                      <div className={'propery-stats-number' + (views > 0 ? ' propery-stats-number-not-empty': '')}>{views || 0}</div>
                       <div className="propery-stats-empty"></div>
-                      <div className={'propery-stats-number' + (registrations > 0 ? ' propery-stats-number-not-empty': '')}>{registrations}</div>
+                      <div className={'propery-stats-number' + (registrations > 0 ? ' propery-stats-number-not-empty': '')}>{registrations || 0}</div>
                       <div className="propery-stats-empty"></div>
                       <div className={'propery-stats-number propery-stats-rented-check' + (listingRented ? ' propery-stats-number-not-empty': '')}>
                         <i className="fa fa-check" aria-hidden="true"></i>
@@ -88,19 +88,19 @@ class PropertyStats extends Component {
                 <Row className="propery-stats-listing-stats">
                   <Col xs={4}>
                     <div className="propery-stats-card">
-                      <div className="propery-stats-number">{followers}</div>
+                      <div className="propery-stats-number">{followers || 0}</div>
                       <div className="propery-stats-title">עוקבים</div>
                     </div>
                   </Col>
                   <Col xs={4}>
                     <div className="propery-stats-card">
-                      <div className="propery-stats-number">{listing.totalLikes}</div>
+                      <div className="propery-stats-number">{listing.totalLikes || 0}</div>
                       <div className="propery-stats-title">לייקים</div>
                     </div>
                   </Col>
                   <Col xs={4}>
                     <div className="propery-stats-card">
-                      <div className="propery-stats-number">{daysPassed}</div>
+                      <div className="propery-stats-number">{daysPassed || 0}</div>
                       <div className="propery-stats-title">ימים שחלפו</div>
                     </div>
                   </Col>
