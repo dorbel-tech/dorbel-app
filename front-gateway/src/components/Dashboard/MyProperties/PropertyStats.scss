@@ -14,7 +14,11 @@ $line-width-xs-min: 40px;
 $empty-color: $gray;
 $active-color: #3398db;
 
-.dashboard-my-propery-stats {
+@mixin add-active-color() {
+  color: $active-color !important;
+}
+
+.propery-stats {
   padding-top: 70px;
   padding-right: 100px;
 
@@ -36,11 +40,11 @@ $active-color: #3398db;
     padding: 0 12px;
   }
 
-  .active-color {
-    color: $active-color !important;
+  .propery-stats-number-not-empty {
+    @include add-active-color();
   }
 
-  .rent-title {
+  .propery-stats-rent-title {
     padding-bottom: 30px;
 
     @media (max-width: $screen-sm-max) {
@@ -48,21 +52,17 @@ $active-color: #3398db;
     }
   }
 
-  .rented-check {
+  .propery-stats-rented-check {
     font-size: 26px;
     color: $gray-lighter;
     text-shadow: 0 0 2px #000;
   }
 
-  .text-center {
-    text-align: center;
-  }
-
-  .numbers-row {
+  .propery-stats-numbers-row {
     line-height: 80px;
   }
 
-  .number {
+  .propery-stats-number {
     font-size: 40px;
     display: inline-block;
     width: $bubble-width-lg;
@@ -86,7 +86,7 @@ $active-color: #3398db;
     }
   }
 
-  .empty {
+  .propery-stats-empty {
     display: inline-block;
     width: $line-width-lg;
 
@@ -107,12 +107,13 @@ $active-color: #3398db;
     }
   }
 
-  .active-color-border-bottom {
-    color: $active-color !important;
+  .propery-stats-line-not-empty {
+    @include add-active-color();
+
     border-bottom: 1px solid $active-color !important;
   }
 
-  .line {
+  .propery-stats-line {
     border-bottom: 1px $gray-dark solid;
     display: inline-block;
     width: $line-width-lg;
@@ -136,12 +137,13 @@ $active-color: #3398db;
     }
   }
 
-  .active-color-border {
-    color: $active-color !important;
+  .propery-stats-bubble-not-empty {
+    @include add-active-color();
+
     border: 1px solid $active-color !important;
   }
 
-  .bubble {
+  .propery-stats-bubble {
     border: 1px solid $gray-dark;
     border-radius: 100px;
     display: inline-block;
@@ -165,15 +167,15 @@ $active-color: #3398db;
       width: $bubble-width-xs-min;
     }
 
-    .bubble-text {
+    .propery-stats-bubble-text {
       padding: 10px;
     }
   }
 
-  .listing-stats {
+  .propery-stats-listing-stats {
     text-align: center;
 
-    .card {
+    .propery-stats-card {
       background-color: $brand-white;
       border-radius: 2px;
       box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.05);
@@ -184,18 +186,18 @@ $active-color: #3398db;
       }
     }
 
-    .number {
+    .propery-stats-number {
       font-size: 24px;
     }
 
-    .title {
+    .propery-stats-title {
       color: $gray-light;
       font-size: 14px;
     }
   }
 
-  .publishing-title,
-  .services-title {
+  .propery-stats-publishing-title,
+  .propery-stats-services-title {
     padding: 60px 0;
 
     @media (max-width: $screen-sm-max) {
@@ -204,8 +206,8 @@ $active-color: #3398db;
     }
   }
 
-  .services {
-    .service {
+  .propery-stats-services {
+    .propery-stats-service {
       background-color: $brand-white;
       border-radius: 2px;
       box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.05);
@@ -219,18 +221,18 @@ $active-color: #3398db;
         margin-bottom: 60px;
       }
 
-      .image {
+      .propery-stats-image {
         margin-top: -40px;
       }
 
-      .title {
+      .propery-stats-title {
         font-size: 16px;
         font-weight: bold;
         padding-top: 40px;
         padding-bottom: 22px;
       }
 
-      .button {
+      .propery-stats-button {
         font-size: 13px;
         margin-top: 40px;
         margin-bottom: 20px;
