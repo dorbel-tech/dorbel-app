@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import autobind from 'react-autobind';
-import { Col, Grid, Row } from 'react-bootstrap';
+import { Button, Col, Grid, Row } from 'react-bootstrap';
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
 import CloudinaryImage from '../CloudinaryImage/CloudinaryImage';
 import ListingStatusSelector from '../Listing/components/ListingStatusSelector';
@@ -42,6 +42,14 @@ class Property extends Component {
     }
   }
 
+  previewButtonClickHandler() {
+    const { appStore } = this.props;
+    const listing = appStore.listingStore.get(this.props.propertyId);
+    const previewRoute = '/apartments/' + (listing ? listing.id : '');
+
+    this.props.router.setRoute(previewRoute);
+  }
+
   render() {
     const { appStore } = this.props;
     const listing = appStore.listingStore.get(this.props.propertyId);
@@ -58,11 +66,11 @@ class Property extends Component {
 
     return  <Grid fluid className="property-wrapper">
               <Row className="property-top-container">
-                <Col md={4} sm={2} className="property-image-container">
+                <Col md={4} sm={3} xs={5} className="property-image-container">
                   <CloudinaryImage src={imageURL} height={97} className="property-image"/>
                   <ListingStatusSelector listing={listing} />
                 </Col>
-                <Col md={5} sm={8} className="property-title-container">
+                <Col md={5} sm={6} xs={7} className="property-title-container">
                   <div className="property-title">
                     {utils.getListingTitle(listing)}
                   </div>
@@ -78,23 +86,30 @@ class Property extends Component {
                       {utils.getFloorLabel(listing, true)}</span>
                   </div>
                 </Col>
-                <Col md={3} sm={2} className="property-actions-container">
-                  <div>
-                    <span className="property-actions-title">
-                      {listing.apartment.rooms}</span><br/>
-                      <span className="property-actions-sub-title">עוקבים</span>
+                <Col sm={3} className="property-actions-container">
+                  <div className="property-actions-details">
+                    <div>
+                      <span className="property-actions-title">
+                        {listing.apartment.rooms}</span><br/>
+                        <span className="property-actions-sub-title">עוקבים</span>
+                    </div>
+                    <div className="property-actions-vr" />
+                    <div>
+                      <span className="property-actions-title">
+                        {listing.apartment.size}</span><br/>
+                        <span className="property-actions-sub-title">לייקים</span>
+                    </div>
                   </div>
-                  <div className="property-actions-vr" />
                   <div>
-                    <span className="property-actions-title">
-                      {listing.apartment.size}</span><br/>
-                      <span className="property-actions-sub-title">לייקים</span>
-                  </div>
-                  <div>
+                    <div className="property-actions-preview-container">
+                      <Button className="property-preview-button"
+                              onClick={this.previewButtonClickHandler}>צפה</Button>
+                    </div>
+                    <div className="property-actions-menu-container">
+                      <i className="fa fa-bars" aria-hidden="true"></i>
+                    </div>
                   </div>
                 </Col>
-              </Row>
-              <Row>
               </Row>
             </Grid>;
   }
