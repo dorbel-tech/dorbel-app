@@ -40,7 +40,7 @@ class MyLikes extends Component {
     } else if (results.length > 0) {
       return (
         <div>
-          <p className="title">דירות שאהבתי</p>
+          <p className="my-likes-title">דירות שאהבתי</p>
           <Grid fluid className="search-results-container">
             <Row>
               { results.map(listing => <ListingThumbnail listing={listing} key={listing.id} openInNewWindow="true" />) }
@@ -50,15 +50,15 @@ class MyLikes extends Component {
         </div>
       );
     } else {/* TODO WHAT TO SHOW WHEN EMPTY? */
-      return (<div className="dashboard-my-likes-empty"> 
-                <div className="text"><b>טרם שמרתם דירות שאהבתם. </b><br/><br/>
+      return (<div className="my-likes-empty"> 
+                <div className="my-likes-text"><b>טרם שמרתם דירות שאהבתם. </b><br/><br/>
                   היכנסו <NavLink to="/apartments">לעמוד החיפוש</NavLink> וסמנו את הדירות שאהבתם בכדי לחזור אליהן בקלות בהמשך.</div>
               </div>);
     }
   }
 
   render() {
-    return <div className="dashboard-my-likes-container">
+    return <div className="my-likes-container">
           {this.renderResults()}
       </div>;
   }

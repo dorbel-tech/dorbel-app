@@ -40,7 +40,7 @@ class MyProperties extends Component {
     } else if (results.length > 0) {
       return (
         <div>
-          <p className="title">הנכסים שלי</p>
+          <p className="my-properties-title">הנכסים שלי</p>
           <Grid fluid className="search-results-container">
             <Row>
               { results.map(listing => <ListingThumbnail listing={listing} key={listing.id} isMyProperties="true" />) }
@@ -52,12 +52,14 @@ class MyProperties extends Component {
     } else {
       return (<Grid fluid>
                 <Col lg={4} sm={6} xs={12}>
-                  <div className="dashboard-my-properties-empty">
-                    <NavLink className="add" to="/apartments/new_form">
-                      <div className="cross"><img src="https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/dashboard/add-property-icon.svg"/></div>
-                      <div className="title">הוסיפו נכס</div>
+                  <div className="my-properties-empty">
+                    <NavLink className="my-properties-add" to="/apartments/new_form">
+                      <div className="my-properties-cross">
+                        <img src="https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/dashboard/add-property-icon.svg" />
+                      </div>
+                      <div className="my-properties-title">הוסיפו נכס</div>
                     </NavLink>
-                    <div className="text">אין לכם נכסים קיימים. הוסיפו נכס בבעלותכם או את הדירה בה אתם גרים.</div>
+                    <div className="my-properties-text">אין לכם נכסים קיימים. הוסיפו נכס בבעלותכם או את הדירה בה אתם גרים.</div>
                   </div>
                 </Col>
               </Grid>);
@@ -65,7 +67,7 @@ class MyProperties extends Component {
   }
 
   render() {
-    return <div className="dashboard-my-properties-container">
+    return <div className="my-properties-container">
           {this.renderResults()}
       </div>;
   }
