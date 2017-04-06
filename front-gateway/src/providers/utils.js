@@ -34,13 +34,20 @@ function getListingSubTitle(listing) {
   return neighborhoodPrefix + building.city.city_name;
 }
 
-function getFloorLabel(listing, dataOnly) {
-  let label = (dataOnly ? '' : 'קומה ') + listing.apartment.floor;
-  const building = listing.apartment.building;
-  if (building.floors) { label += '/' + building.floors; }
-  if (building.elevator) { label += ' + מעלית'; }
+function getFloorLabel(listing) {
+  let label = getFloorTextValue(listing);
+  const elevator = listing.apartment.building.elevator;
+  if (elevator) { label += ' + מעלית'; }
 
   return label;
+}
+
+function getFloorTextValue(listing) {
+  let textValue = listing.apartment.floor;
+  const floors = listing.apartment.building.floors;
+  if (floors) { textValue += '/' + floors; }
+
+  return textValue;
 }
 
 function sortListingImages(listing) {
@@ -86,6 +93,7 @@ module.exports = {
   formatDate,
   formatDay,
   getFloorLabel,
+  getFloorTextValue,
   getListingStatusLabels,
   getListingSubTitle,
   getListingTitle,

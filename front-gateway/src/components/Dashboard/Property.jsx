@@ -92,7 +92,7 @@ class Property extends Component {
                     <div className="property-title-details-vr" />
                     <span>
                       <span className="property-title-details-sub-text property-title-details-last-text">קומה</span>
-                      {utils.getFloorLabel(listing, true)}</span>
+                      {utils.getFloorTextValue(listing)}</span>
                   </div>
                 </Col>
                 <Col md={4} sm={3} className="property-actions-wrapper">
