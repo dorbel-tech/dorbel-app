@@ -679,9 +679,9 @@ detective@^4.3.1:
     acorn "^3.1.0"
     defined "^1.0.0"
 
-"dorbel-shared@git://github.com/dorbel-tech/dorbel-shared#v1.0.15":
-  version "1.0.15"
-  resolved "git://github.com/dorbel-tech/dorbel-shared#756b7ba7046a9e7d92013185d4032d465192bb0e"
+"dorbel-shared@git://github.com/dorbel-tech/dorbel-shared#v1.0.17":
+  version "1.0.17"
+  resolved "git://github.com/dorbel-tech/dorbel-shared#af43d11cc4a5e02aaff488979a76ab9a4de6aebc"
   dependencies:
     analytics-node "^2.1.0"
     auth0 "^2.5.0"
@@ -1728,7 +1728,7 @@ lodash@^3.9.3, lodash@~3.10.1:
   version "3.10.1"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-3.10.1.tgz#5bf45e8e49ba4189e17d482789dfd15bd140b7b6"
 
-lodash@^4.13.1, lodash@^4.14.0, lodash@~4.17.2:
+lodash@^4.13.1, lodash@^4.14.0, lodash@^4.17.4, lodash@~4.17.2:
   version "4.17.4"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
 
