@@ -35,7 +35,7 @@ function getListingSubTitle(listing) {
 }
 
 function getFloorLabel(listing) {
-  let label = getFloorTextValue(listing);
+  let label = 'קומה ' + getFloorTextValue(listing);
   const elevator = listing.apartment.building.elevator;
   if (elevator) { label += ' + מעלית'; }
 
