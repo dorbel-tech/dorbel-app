@@ -14,8 +14,7 @@ export default class PropertyMenu extends React.Component {
 
   changeTab(relativeRoute) {
     const { router, property } = this.props;
-    let actionRoute = relativeRoute ? `/${relativeRoute}` : '';
-    router.setRoute(`/dashboard/my-properties/${property.id}${actionRoute}`);
+    router.setRoute(`/dashboard/my-properties/${property.id}/${relativeRoute}`);
   }
 
   render() {
