@@ -16,24 +16,24 @@ import LikeProvider from './LikeProvider';
 
 import utils from './utils';
 
-function loadAuthProvider(appStore, router) {
+function loadAuthProvider(appStore, router, apiProvider) {
   if (process.env.IS_CLIENT) {
     if (!window.dorbelConfig.AUTH0_FRONT_CLIENT_ID || !window.dorbelConfig.AUTH0_DOMAIN) {
       throw new Error('must set auth0 env vars');
     }
     const ClientAuthProvider = require('./auth/AuthProvider.client');
-    return  new ClientAuthProvider(window.dorbelConfig.AUTH0_FRONT_CLIENT_ID, window.dorbelConfig.AUTH0_DOMAIN, appStore.authStore, router);
+    return new ClientAuthProvider(window.dorbelConfig.AUTH0_FRONT_CLIENT_ID, window.dorbelConfig.AUTH0_DOMAIN, appStore.authStore, router, apiProvider);
   } else {
     const ServerAuthProvider = require('./auth/AuthProvider.server');
-    return  new ServerAuthProvider(appStore.authStore);
+    return new ServerAuthProvider(appStore.authStore);
   }
 }
 
 class AppProviders {
   constructor(appStore, router) {
-    this.authProvider = loadAuthProvider(appStore, router);
     this.cloudinaryProvider = new CloudinaryProvider();
     this.apiProvider = new ApiProvider(appStore);
+    this.authProvider = loadAuthProvider(appStore, router, this.apiProvider);
     this.oheProvider = new OheProvider(appStore, this.apiProvider);
     this.listingsProvider = new ListingsProvider(appStore,
       { api: this.apiProvider, cloudinary: this.cloudinaryProvider, ohe: this.oheProvider });
