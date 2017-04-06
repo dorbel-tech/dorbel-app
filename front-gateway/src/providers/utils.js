@@ -34,14 +34,6 @@ function getListingSubTitle(listing) {
   return neighborhoodPrefix + building.city.city_name;
 }
 
-function getFloorLabel(listing) {
-  let label = 'קומה ' + getFloorTextValue(listing);
-  const elevator = listing.apartment.building.elevator;
-  if (elevator) { label += ' + מעלית'; }
-
-  return label;
-}
-
 function getFloorTextValue(listing) {
   let textValue = listing.apartment.floor;
   const floors = listing.apartment.building.floors;
@@ -92,7 +84,6 @@ module.exports = {
   formatTime,
   formatDate,
   formatDay,
-  getFloorLabel,
   getFloorTextValue,
   getListingStatusLabels,
   getListingSubTitle,
