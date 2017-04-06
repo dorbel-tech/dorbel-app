@@ -15,6 +15,7 @@ const routes = [
   { route: '/dashboard', view: Dashboard, requireLogin: true },
   { route: '/dashboard/:action', view: Dashboard, requireLogin: true },
   { route: '/dashboard/:action/:propertyId', view: Dashboard, requireLogin: true },
+  { route: '/dashboard/:action/:propertyId/:tab', view: Dashboard, requireLogin: true },
   { route: '/apartments', view: Search },
   { route: '/apartments/new_form', view: UploadApartmentForm },
   { route: '/apartments/:listingId', view: Listing },

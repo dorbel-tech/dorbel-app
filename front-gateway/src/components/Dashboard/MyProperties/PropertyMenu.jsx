@@ -6,8 +6,8 @@ import autobind from 'react-autobind';
 import _ from 'lodash';
 
 const tabs = [
-  { relativeRoute: '', title: 'מודעת הדירה' },
-  { relativeRoute: 'events', title: 'מועדי ביקור' }
+  { relativeRoute: 'stats', title: 'סטטיסטיקות' },
+  { relativeRoute: 'ohe', title: 'מועדי ביקור' }
 ];
 
 @observer(['router'])
@@ -18,9 +18,9 @@ export default class PropertyMenu extends React.Component {
   }
 
   changeTab(relativeRoute) {
-    const { router, listing } = this.props;
+    const { router, property } = this.props;
     let actionRoute = relativeRoute ? `/${relativeRoute}` : '';
-    router.setRoute(`/dashboard/my-properties/${listing.id}${actionRoute}`);
+    router.setRoute(`/dashboard/my-properties/${property.id}${actionRoute}`);
   }
 
   render() {
@@ -28,7 +28,7 @@ export default class PropertyMenu extends React.Component {
     const activeTab = _.find(tabs, { relativeRoute: currentAction }) || tabs[0];
 
     return (
-      <Navbar className="tab-menu">
+      <Navbar className="property-menu tab-menu">
         <Nav bsStyle="tabs" activeKey={activeTab.relativeRoute} onSelect={this.changeTab}>
           {tabs.map(tab =>
             <NavItem key={tab.relativeRoute} eventKey={tab.relativeRoute}>

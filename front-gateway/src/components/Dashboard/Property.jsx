@@ -137,6 +137,7 @@ class Property extends Component {
 
 Property.wrappedComponent.propTypes = {
   propertyId: React.PropTypes.string.isRequired,
+  tab: React.PropTypes.string,
   appProviders: React.PropTypes.object,
   appStore: React.PropTypes.object,
   router: React.PropTypes.object

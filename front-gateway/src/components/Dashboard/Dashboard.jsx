@@ -30,7 +30,7 @@ class Dashboard extends Component {
   render() {
     let selectedActionItem;
     if (this.props.propertyId) {
-      selectedActionItem = {component: <Property propertyId={this.props.propertyId} />};
+      selectedActionItem = {component: <Property propertyId={this.props.propertyId} tab={this.props.tab} />};
     } else {
       selectedActionItem = find(MENU_ITEMS, {navTo: this.props.action});
     }
@@ -49,6 +49,7 @@ class Dashboard extends Component {
 Dashboard.wrappedComponent.propTypes = {
   action: React.PropTypes.string,
   propertyId: React.PropTypes.string,
+  tab: React.PropTypes.string,
   router: React.PropTypes.any
 };
 
