@@ -2,6 +2,9 @@
 @import "../sharedStyles/bsvars.scss";
 
 .my-profile-container {
+  width: 100%;
+  max-width: 785px;
+  margin: 0 auto;
   padding: 35px;
   margin-top: 50px;
 
@@ -45,12 +48,12 @@
       position: absolute;
       top: 34px;
       left: 33px;
-      color: $brand-danger;
+      color: $brand-green;
     }
   }
 
   @media (max-width: $screen-xs-max) {
-    margin: 35px 25px;
+    margin: 35px 10px;
     padding-bottom: 15px;
   }
 }
@@ -61,8 +64,8 @@
 
   .my-profile-picture {
     border-radius: 50%;
-    width: 150px;
-    height: 150px;
+    width: 130px;
+    height: 130px;
     margin-top: -75px;
   }
 }
