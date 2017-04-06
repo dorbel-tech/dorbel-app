@@ -5,7 +5,7 @@
 import React from 'react';
 import MyProperties from './MyProperties';
 import MyLikes from './MyLikes';
-import MyProfile from './MyProfile';
+import MyProfile from './Profile/Profile';
 
 const MENU_ITEMS = [
   { navTo: 'my-properties', menuText: 'הנכסים שלי', faIconClassName: 'fa-home', component: <MyProperties /> },
