@@ -9,10 +9,11 @@ class ListingInfo extends React.Component {
     autobind(this);
   }
 
-  getFloorLabel(apartment) {
-    let label = 'קומה ' + apartment.floor;
-    if (apartment.building.floors) { label += '/' + apartment.building.floors; }
-    if (apartment.building.elevator) { label += ' + מעלית'; }
+  getFloorLabel(listing) {
+    let label = 'קומה ' + utils.getFloorTextValue(listing);
+    const elevator = listing.apartment.building.elevator;
+    if (elevator) { label += ' + מעלית'; }
+
     return label;
   }
 
@@ -33,7 +34,7 @@ class ListingInfo extends React.Component {
         {this.renderInfoBox(utils.formatDate(listing.lease_start), 'dorbel-icon-date')}
         {this.renderInfoBox(listing.apartment.rooms + ' חדרים', 'dorbel-icon-rooms')}
         {this.renderInfoBox(listing.apartment.size + ' מ"ר', 'dorbel-icon-sqm')}
-        {this.renderInfoBox(this.getFloorLabel(listing.apartment), 'dorbel-icon-stairs')}
+        {this.renderInfoBox(this.getFloorLabel(listing), 'dorbel-icon-stairs')}
       </Row>
     );
   }

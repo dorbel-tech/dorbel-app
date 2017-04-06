@@ -7,7 +7,7 @@ module.exports = {
   },
   elements: {
     loginLink: {
-      selector: '.user-profile-badge-auth-text'
+      selector: '.user-profile-badge-auth'
     },
     userProfileBadge: {
       selector: '.user-profile-badge'

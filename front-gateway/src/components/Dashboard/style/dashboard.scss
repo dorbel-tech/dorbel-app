@@ -1,5 +1,5 @@
 .dashboard-container {
-  background-color: $gray-lighter;
+  background-color: $brand-white;
   height: 100%;
   position: relative;
 
@@ -17,7 +17,7 @@
   background-color: $brand-white;
   height: 100%;
   padding-top: 45px;
-  width: 246px;
+  width: 208px;
 
   @media (max-width: $screen-xs-max) {
     display: none;
@@ -51,14 +51,12 @@
 
 .dashboard-action-wrapper {
   background-color: $gray-lighter;
-  padding: 20px;
   left: 0;
   position: absolute;
-  right: 246px;
+  right: 208px;
   top: 0;
 
   @media (max-width: $screen-xs-max) {
-    padding: 20px 0;
     right: 0;
   }
 
