@@ -24,11 +24,8 @@ function* get() {
 function* patch() {
   logger.debug('Updating listing...');
   const listingId = this.params.listingId;
-  // TODO : only good for updating listing status 
-  const updatedData = this.request.body;
-  const listing = yield listingService.updateStatus(listingId, this.request.user, updatedData.status);
-  logger.info({ listing_id: listingId, status: updatedData.status }, 'Listing status updated');
-
+  const listing = yield listingService.update(listingId, this.request.user, this.request.body);
+  logger.info({ listing_id: listingId }, 'Listing updated');
   this.response.status = 200;
   this.response.body = listing;
 }

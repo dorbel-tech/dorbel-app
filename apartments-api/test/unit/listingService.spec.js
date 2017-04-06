@@ -75,7 +75,9 @@ describe('Listing Service', function () {
 
   });
 
-  describe('Update Listing Status', function () {
+  describe('Update Listing', function () {
+
+
     it('should update status for an existing listing', function* () {
       const listing = faker.getFakeListing();
       const user = { id: listing.publishing_user_id };
@@ -83,7 +85,7 @@ describe('Listing Service', function () {
       listing.update = sinon.stub().resolves(updatedListing);
       this.listingRepositoryMock.getById = sinon.stub().resolves(listing);
 
-      const result = yield this.listingService.updateStatus(listing.id, user, 'rented');
+      const result = yield this.listingService.update(listing.id, user, { status: 'rented' });
 
       __.assertThat(result, __.hasProperties(updatedListing));
     });
@@ -92,7 +94,7 @@ describe('Listing Service', function () {
       this.listingRepositoryMock.getById = sinon.stub().resolves(0);
 
       yield assertYieldedError(
-        () => this.listingService.updateStatus(1, {}, 'rented'),
+        () => this.listingService.update(1, {}, { status: 'rented' }),
         __.hasProperties({
           message: 'הדירה לא נמצאה',
           status: 404
@@ -105,7 +107,7 @@ describe('Listing Service', function () {
       const user = faker.getFakeUser();
 
       yield assertYieldedError(
-        () => this.listingService.updateStatus(1, user, 'rented'),
+        () => this.listingService.update(1, user, { status: 'rented' }),
         __.hasProperties({
           message: 'אין באפשרותך לערוך דירה זו',
           status: 403
@@ -120,7 +122,7 @@ describe('Listing Service', function () {
       listing.update = sinon.stub().resolves(updatedListing);
       this.listingRepositoryMock.getById = sinon.stub().resolves(listing);
 
-      const result = yield this.listingService.updateStatus(listing.id, user, 'rented');
+      const result = yield this.listingService.update(listing.id, user, { status: 'rented' });
 
       __.assertThat(result, __.hasProperties(updatedListing));
     });
@@ -131,7 +133,7 @@ describe('Listing Service', function () {
       const user = { id: listing.publishing_user_id };
 
       yield assertYieldedError(
-        () => this.listingService.updateStatus(1, user, 'listed'),
+        () => this.listingService.update(1, user, { status : 'listed' }),
         __.hasProperties({
           message: 'אין באפשרותך לשנות את סטטוס הדירה ל listed',
           status: 403

@@ -3,7 +3,8 @@ describe('Apartments API Integration', function () {
   const ApiClient = require('./apiClient.js');
   const __ = require('hamjest');
   const _ = require('lodash');
-  const faker = require('../shared/fakeObjectGenerator');
+  const fakeObjectGenerator = require('../shared/fakeObjectGenerator');
+  const faker = require('faker');
   const utils = require('./utils');
 
   // Integration tests run with static ID as they fill the message queue with app-events
@@ -12,11 +13,11 @@ describe('Apartments API Integration', function () {
   const ADMIN_INTEGRATION_TEST_USER_ID = '1483a989-b560-46c4-a759-12c2ebb4cdbf';
 
   before(function* () {
-    this.apiClient = yield ApiClient.init(faker.getFakeUser({
+    this.apiClient = yield ApiClient.init(fakeObjectGenerator.getFakeUser({
       id: INTEGRATION_TEST_USER_ID
     }));
 
-    this.adminApiClient = yield ApiClient.init(faker.getFakeUser({
+    this.adminApiClient = yield ApiClient.init(fakeObjectGenerator.getFakeUser({
       id: ADMIN_INTEGRATION_TEST_USER_ID,
       role: 'admin'
     }));
@@ -56,7 +57,7 @@ describe('Apartments API Integration', function () {
 
   describe('POST /listings', function() {
     it('should add listing and return it', function* () {
-      const newListing = faker.getFakeListing();
+      const newListing = fakeObjectGenerator.getFakeListing();
       const createdListingResp = yield this.apiClient.createListing(newListing).expect(201).end();
 
       yield this.adminApiClient.patchListing(createdListingResp.body.id, { status: 'listed' }).expect(200).end();
@@ -70,7 +71,7 @@ describe('Apartments API Integration', function () {
     });
 
     it('should fail to add a listing without monthly rent', function* () {
-      const newListing = faker.getFakeListing();
+      const newListing = fakeObjectGenerator.getFakeListing();
       delete newListing.monthly_rent;
 
       const response = yield this.apiClient.createListing(newListing).expect(400).end();
@@ -121,7 +122,7 @@ describe('Apartments API Integration', function () {
 
       before(function* () {
         // switch user for test purposes
-        otherApiClient = yield ApiClient.init(faker.getFakeUser({
+        otherApiClient = yield ApiClient.init(fakeObjectGenerator.getFakeUser({
           id: OTHER_INTEGRATION_TEST_USER_ID,
           role: 'admin'
         }));
@@ -134,7 +135,7 @@ describe('Apartments API Integration', function () {
       });
 
       it('should create a listing and expect it to be returned (pending)', function* () {
-        const createListingResponse = yield otherApiClient.createListing(faker.getFakeListing()).expect(201).end();
+        const createListingResponse = yield otherApiClient.createListing(fakeObjectGenerator.getFakeListing()).expect(201).end();
         createListingId = createListingResponse.body.id;
         let getListingResponse = yield otherApiClient.getListings({ q: { myProperties: true } }, true).expect(200).end();
 
@@ -179,7 +180,7 @@ describe('Apartments API Integration', function () {
 
   describe('GET /listings/{idOrSlug}', function () {
     before(function* () {
-      const postReponse = yield this.apiClient.createListing(faker.getFakeListing()).expect(201).end();
+      const postReponse = yield this.apiClient.createListing(fakeObjectGenerator.getFakeListing()).expect(201).end();
       yield this.adminApiClient.patchListing(postReponse.body.id, { status: 'listed' }).expect(200).end();
       postReponse.body.status = 'listed';
       this.createdListing = _.omit(postReponse.body, ['lease_end', 'updated_at']);
@@ -200,7 +201,7 @@ describe('Apartments API Integration', function () {
 
   describe('PATCH /listings/{id}', function () {
     before(function* () {
-      const postReponse = yield this.apiClient.createListing(faker.getFakeListing()).expect(201).end();
+      const postReponse = yield this.apiClient.createListing(fakeObjectGenerator.getFakeListing()).expect(201).end();
       yield this.adminApiClient.patchListing(postReponse.body.id, { status: 'listed' }).expect(200).end();
       this.createdListing = _.omit(postReponse.body, ['lease_end', 'updated_at']);
     });
@@ -208,6 +209,26 @@ describe('Apartments API Integration', function () {
     it('should update listing status', function* () {
       const response = yield this.apiClient.patchListing(this.createdListing.id, { status: 'rented' }).expect(200).end();
       __.assertThat(response.body.status, __.is('rented'));
+    });
+
+    it('should update entire listing with apartment and building properties', function* () {
+      const listingUpdate = { monthly_rent: faker.random.number() };
+      const apartmentUpdate = { rooms: faker.random.number() };
+      const buildingUpdate = { entrance: faker.random.number() };
+
+      const update = Object.assign({}, listingUpdate, { apartment: Object.assign({}, apartmentUpdate, { building: buildingUpdate})});
+
+      const response = yield this.apiClient.patchListing(this.createdListing.id, update).expect(200).end();
+      console.log(update);
+      console.log(response.body);
+
+      __.assertThat(response.body, __.allOf(
+        __.hasProperties(listingUpdate),
+        __.hasProperty('apartment', __.allOf(
+          __.hasProperties(apartmentUpdate),
+          __.hasProperty('building', __.hasProperties(buildingUpdate))
+        ))
+      ));
     });
   });
 
@@ -217,7 +238,7 @@ describe('Apartments API Integration', function () {
       const numOfApartments = 5;
 
       for (let i = 0; i < numOfApartments; i++) {
-        const newListing = faker.getFakeListing();
+        const newListing = fakeObjectGenerator.getFakeListing();
         const postReponse = yield this.apiClient.createListing(newListing).expect(201).end();
         yield this.adminApiClient.patchListing(postReponse.body.id, { status: 'listed' }).expect(200).end();
         this.createdListings.push(postReponse.body);

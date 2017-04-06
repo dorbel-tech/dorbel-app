@@ -12,6 +12,12 @@ const userManagement = shared.utils.userManagement;
 const permissionsService = require('./permissionsService');
 
 const DEFUALT_LISTING_LIST_LIMIT = 1000;
+const LISTING_PATCH_WHITELIST = [ 'status', 'monthly_rent', 'roommates', 'property_tax', 'board_fee', 'lease_start',
+  'lease_end', 'publishing_user_type', 'roommate_needed', 'directions' ];
+const APARTMENT_PATCH_WHITELIST = [ 'apt_number', 'size', 'rooms', 'floor', 'parking', 'sun_heated_boiler', 'pets',
+  'air_conditioning', 'balcony', 'security_bars', 'parquest_floor' ];
+const BUILDING_PATCH_WHITELIST = [ 'floors', 'elevator' ];
+
 
 // TODO : move this to dorbel-shared
 function CustomError(code, message) {
@@ -71,7 +77,7 @@ function* create(listing) {
   return createdListing;
 }
 
-function* updateStatus(listingId, user, status) {
+function* update(listingId, user, patch) {
   let listing = yield listingRepository.getById(listingId);
   const isPublishingUserOrAdmin = permissionsService.isPublishingUserOrAdmin(user, listing);
 
@@ -81,20 +87,29 @@ function* updateStatus(listingId, user, status) {
   } else if (!isPublishingUserOrAdmin) {
     logger.error({ listingId }, 'You cant update that listing');
     throw new CustomError(403, 'אין באפשרותך לערוך דירה זו');
-  } else if (getPossibleStatuses(listing, user).indexOf(status) < 0) {
+  } else if (patch.status && getPossibleStatuses(listing, user).indexOf(patch.status) < 0) {
     logger.error({ listingId }, 'You cant update this listing status');
-    throw new CustomError(403, 'אין באפשרותך לשנות את סטטוס הדירה ל ' + status);
+    throw new CustomError(403, 'אין באפשרותך לשנות את סטטוס הדירה ל ' + patch.status);
   }
 
-  const currentStatus = listing.status;
-  const result = yield listing.update({ status });
+  const previousStatus = listing.status;
 
-  if (process.env.NOTIFICATIONS_SNS_TOPIC_ARN) {
-    const messageBusEvent = messageBus.eventType['APARTMENT_' + status.toUpperCase()];
+  // TODO - transaction !
+  if (patch.apartment) {
+    if (patch.apartment.building) {
+      yield listing.apartment.building.update(_.pick(patch.apartment.building, BUILDING_PATCH_WHITELIST));
+    }
+    yield listing.apartment.update(_.pick(patch.apartment, APARTMENT_PATCH_WHITELIST));
+  }
+
+  const result = yield listing.update(_.pick(patch, LISTING_PATCH_WHITELIST));
+
+  if (patch.status && process.env.NOTIFICATIONS_SNS_TOPIC_ARN) {
+    const messageBusEvent = messageBus.eventType['APARTMENT_' + patch.status.toUpperCase()];
     messageBus.publish(process.env.NOTIFICATIONS_SNS_TOPIC_ARN, messageBusEvent, {
       city_id: listing.apartment.building.city_id,
       listing_id: listingId,
-      previous_status: currentStatus,
+      previous_status: previousStatus,
       user_uuid: listing.publishing_user_id
     });
   }
@@ -117,7 +132,7 @@ function* getByFilter(filterJSON, options = {}) {
   let listingQuery = {
     status: 'listed'
   };
-  
+
   let queryOptions = {
     order: getSortOption(filter.sort),
     limit: options.limit || DEFUALT_LISTING_LIST_LIMIT,
@@ -152,7 +167,7 @@ function* getByFilter(filterJSON, options = {}) {
       listingQuery.status = { $notIn: ['deleted'] };
     }
   }
-  
+
   if (filter.city === '*') {
     _.unset(filter, 'city');
   }
@@ -211,7 +226,7 @@ function* getById(id, user) {
 
   // Don't display deleted listings to anyone but admins.
   if (isDeleted && !isAdmin) {
-    throw new CustomError(403, 'Cant show deleted listing. User is not a admin. listingId: ' + listing.id);    
+    throw new CustomError(403, 'Cant show deleted listing. User is not a admin. listingId: ' + listing.id);
   }
 
   // Pending listing will be displayed to user who is listing publisher or admins only.
@@ -310,7 +325,7 @@ function getSortOption(sortStr) {
 
 module.exports = {
   create,
-  updateStatus,
+  update,
   getByFilter,
   getById,
   getBySlug,
