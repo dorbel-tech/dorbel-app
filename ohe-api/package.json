@@ -15,7 +15,7 @@
     "lint": "eslint --ext .js -f table src",
     "check": "satisfaction-status || yarn install",
     "wait": "./scripts/wait-for-it.sh ohe-api:3003 --timeout=180",
-    "wait:db": "./scripts/wait-for-it.sh db:3306 --timeout=180/"
+    "wait:db": "./scripts/wait-for-it.sh db:3306 --timeout=180"
   },
   "dependencies": {
     "babel-cli": "^6.22.2",
