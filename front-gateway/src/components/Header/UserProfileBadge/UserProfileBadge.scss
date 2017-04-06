@@ -20,11 +20,9 @@
       display: inline-block;
     }
 
-    .user-profile-badge-menu-desktop {
-      display: none;
-    }
-
-    .user-profile-badge-auth-logout {
+    .user-profile-badge-menu-desktop,
+    .user-profile-badge-auth-logout,
+    .header-profile-dashboard-menu-item {
       display: none;
     }
   }
@@ -38,7 +36,6 @@
     }
 
     .user-profile-badge-menu-desktop {
-      box-shadow: 0 30px 80px 10px rgba(0, 0, 0, 0.1);
       display: none;
       margin-top: -5px;
       width: 100%;
@@ -58,10 +55,11 @@
       }
 
       .nav.navbar-nav {
+        box-shadow: 0 30px 80px 10px rgba(0, 0, 0, 0.1);
         font-size: 13px !important;
-        height: 20px;
         width: 100%;
 
+        .header-profile-dashboard-menu-item,
         .user-profile-badge-auth {
           background-color: $brand-white;
           text-decoration: none !important;
@@ -76,10 +74,13 @@
             color: $gray-dark !important;
             float: right;
             font-size: 13px !important;
-            margin-right: 15px;
-            padding: 10px 0;
+            padding: 10px 15px;
             text-align: right;
             width: 100%;
+
+            &:hover {
+              background-color: $gray-lighter;
+            }
           }
         }
       }

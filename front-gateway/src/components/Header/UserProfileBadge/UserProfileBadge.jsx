@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import { Nav, NavItem } from 'react-bootstrap';
+import { MENU_ITEMS } from '../../Dashboard/DashboardShared';
 
 import './UserProfileBadge.scss';
 
@@ -13,12 +14,27 @@ class UserProfileBadge extends Component {
     };
   }
 
+  renderDashboardMenuItem(item) {
+    const itemPath = '/dashboard/' + item.navTo;
+    const isSelected = process.env.IS_CLIENT ? (location.pathname === itemPath) : false;
+
+    return <NavItem key={'header-profile-dashboard-menu-item-' + item.navTo}
+              onClick={(e) => this.routeTo(e, itemPath)}
+              href={itemPath}
+              className={'header-profile-dashboard-menu-item ' + (isSelected ? 'header-profile-dashboard-menu-item-selected' : '')}>
+        <i className={'header-profile-dashboard-menu-item-icon fa ' + item.faIconClassName}  aria-hidden="true"></i>
+        {item.menuText}
+      </NavItem>;
+  }
+
   renderAuthenticationLink(isLoggedIn) {
     const { authProvider } = this.props.appProviders;
+    const showDashboardMenu = process.env.NODE_ENV === 'development' && isLoggedIn;
 
     return isLoggedIn ?
       (
         <Nav>
+          {showDashboardMenu ? MENU_ITEMS.map((item) => this.renderDashboardMenuItem(item)) : null}
           <NavItem
             onClick={authProvider.logout}
             className="user-profile-badge-auth user-profile-badge-auth-logout">
