@@ -13,11 +13,7 @@ function* get() {
 
   this.response.status = 200;
 
-  if (!this.request.user) { 
-    this.response.set('Cache-Control', 'public, max-age=' + ONE_HOUR);
-  } else {
-    this.response.set('Cache-Control', 'no-cache');
-  }
+  shared.helpers.headers.setUserConditionalCacheHeader(this.request, this.response, ONE_HOUR);
   this.response.body = result;
 }
 

@@ -8,11 +8,7 @@ function* get() {
   const listingIdOrSlug = this.params.listingIdOrSlug;
   const isSlug = isNaN(listingIdOrSlug);
 
-  if (!this.request.user) {
-    this.response.set('Cache-Control', 'public, max-age=' + ONE_MINUTE);
-  } else {
-    this.response.set('Cache-Control', 'no-cache');
-  }
+  shared.helpers.headers.setUserConditionalCacheHeader(this.request, this.response, ONE_MINUTE);
 
   if (isSlug) {
     const encodedSlug = shared.utils.generic.normalizeSlug(listingIdOrSlug);

@@ -12,12 +12,7 @@ function* get() {
   const result = yield oheService.findByListing(listingIds, this.request.user, query);
   logger.info({ listingIds, eventCount: result.length }, 'Open house events for listings found');
 
-  if (!this.request.user) {
-    this.response.set('Cache-Control', 'public, max-age=' + ONE_MINUTE);
-  } else {
-    this.response.set('Cache-Control', 'no-cache');
-  }
-
+  shared.helpers.headers.setUserConditionalCacheHeader(this.request, this.response, ONE_MINUTE);
   this.response.status = 200;
   this.response.body = result;
 }

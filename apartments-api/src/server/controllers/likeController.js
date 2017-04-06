@@ -1,8 +1,9 @@
 'use strict';
 const likeService = require('../../services/likeService');
+const shared = require('dorbel-shared');
 
 function* get() {
-  this.response.set('Cache-Control', 'no-cache');
+  shared.helpers.headers.setNoCacheHeader(this.response);
   this.response.body = yield likeService.getUserLikes(this.request.user);
 }
 
