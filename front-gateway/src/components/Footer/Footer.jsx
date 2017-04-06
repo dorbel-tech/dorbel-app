@@ -14,7 +14,7 @@ export default class Footer extends React.Component {
           <Col sm={3} md={2} className="footer-logo-col">
             <NavLink to="/">
               <img className="footer-logo-image" alt="Dorbel"
-                src="https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/logo/dorbel_logo_white.svg" />
+                src="https://static.dorbel.com/images/logo/dorbel_logo_white.svg" />
             </NavLink>
             <div className="footer-logo-col-text">
               מערכת לניהול והשכרת דירות ונכסים, המאפשרת לנהל את כל התהליכים בקלות ואונליין.

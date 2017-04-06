@@ -20,7 +20,7 @@ class ListingInfo extends React.Component {
   renderInfoBox(title, svgName) {
     return (
       <Col xs={3} md={1} className="listing-info-item">
-        <img className="listing-info-item-image" src={'https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/icons/' + svgName + '.svg'} alt="" />
+        <img className="listing-info-item-image" src={'https://static.dorbel.com/images/icons/' + svgName + '.svg'} alt="" />
         <div className="listing-info-item-text">{title}</div>
       </Col>
     );

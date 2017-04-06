@@ -101,7 +101,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
               </ul>
             </div>
           </div>
-          <img src="https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/upload-apt-form/icon-signup-card.svg" alt="" />
+          <img src="https://static.dorbel.com/images/upload-apt-form/icon-signup-card.svg" alt="" />
         </Col>
 
         <Col md={7} className="upload-apt-left-container open-house-event-step">
