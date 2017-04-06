@@ -5,11 +5,6 @@ import { Nav, NavItem, Navbar } from 'react-bootstrap';
 import autobind from 'react-autobind';
 import _ from 'lodash';
 
-const tabs = [
-  { relativeRoute: 'stats', title: 'סטטיסטיקות' },
-  { relativeRoute: 'ohe', title: 'מועדי ביקור' }
-];
-
 @observer(['router'])
 export default class PropertyMenu extends React.Component {
   constructor(props) {
@@ -24,8 +19,8 @@ export default class PropertyMenu extends React.Component {
   }
 
   render() {
-    const { currentAction } = this.props;
-    const activeTab = _.find(tabs, { relativeRoute: currentAction }) || tabs[0];
+    const { currentTab, tabs } = this.props;
+    const activeTab = _.find(tabs, { relativeRoute: currentTab }) || tabs[0];
 
     return (
       <Navbar className="property-menu tab-menu">
@@ -43,6 +38,7 @@ export default class PropertyMenu extends React.Component {
 
 PropertyMenu.wrappedComponent.propTypes = {
   router: React.PropTypes.object,
+  currentTab: React.PropTypes.string,
   property: React.PropTypes.object.isRequired,
-  currentAction: React.PropTypes.string
+  tabs: React.PropTypes.array
 };

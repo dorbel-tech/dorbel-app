@@ -7,6 +7,7 @@ import CloudinaryImage from '../CloudinaryImage/CloudinaryImage';
 import ListingStatusSelector from '../Listing/components/ListingStatusSelector';
 import PropertyMenu from './MyProperties/PropertyMenu';
 import PropertyStats from './MyProperties/PropertyStats';
+import { find } from 'lodash';
 import utils from '~/providers/utils';
 
 import './Property.scss';
@@ -54,6 +55,12 @@ class Property extends Component {
     const sortedPropertyImages = utils.sortListingImages(property);
     const imageURL = sortedPropertyImages.length ? sortedPropertyImages[0].url : '';
     const followers = appStore.oheStore.countFollowersByListingId.get(this.props.propertyId);
+
+    const propertyTabs = [
+      { relativeRoute: 'stats', title: 'סטטיסטיקות', component: <PropertyStats listing={property} followers={followers || 0} /> },
+      { relativeRoute: 'ohe', title: 'מועדי ביקור', component: <PropertyStats listing={property} followers={followers || 0} /> },
+    ];
+    const selectedTab = find(propertyTabs, {relativeRoute: this.props.tab});
 
     const popoverMenu = (
       <Popover id="property-actions-menu" className="property-actions-menu">
@@ -126,10 +133,12 @@ class Property extends Component {
                 </Col>
               </Row>
               <Row className="property-menu-container">
-                <PropertyMenu property={property} />
+                <PropertyMenu property={property}
+                              tabs={propertyTabs}
+                              currentTab={selectedTab.relativeRoute} />
               </Row>
               <Row>
-                <PropertyStats listing={property} followers={followers || 0} />
+                {selectedTab ? selectedTab.component : null}
               </Row>
             </Grid>;
   }
