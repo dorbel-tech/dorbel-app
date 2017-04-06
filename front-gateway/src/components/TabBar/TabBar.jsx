@@ -1,24 +1,24 @@
 'use strict';
-import React from 'react';
+import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import { Nav, NavItem, Navbar } from 'react-bootstrap';
 
 import './TabBar.scss';
 
 @observer(['router'])
-export default class ListingMenu extends React.Component {
+export default class TabBar extends Component {
 
-  onClick(activeTab) {
-    this.setState({activeTabName: activeTab.name});
-    this.props.onClick(activeTab);
+  onChangeTab(activeTab) {
+    this.props.tabs.map((tab) => { tab.isActive = (tab.name == activeTab.name); });
+    this.props.onChangeTab(activeTab);
   }
 
   render() {
     return (
       <Navbar className="tab-bar">
-        <Nav bsStyle="tabs" onSelect={this.changeTab}>
+        <Nav bsStyle="tabs">
           {this.props.tabs.map(tab =>
-            <NavItem className={tab.isActive ? 'active' : ''} key={tab.title} onClick={() => { this.onClick(tab); }}>
+            <NavItem className={tab.isActive ? 'active' : ''} key={tab.title} onClick={() => { this.onChangeTab(tab); }}>
               {tab.title}
             </NavItem>
           )}
@@ -28,7 +28,7 @@ export default class ListingMenu extends React.Component {
   }
 }
 
-ListingMenu.wrappedComponent.propTypes = {
+TabBar.wrappedComponent.propTypes = {
   tabs: React.PropTypes.array.isRequired,
-  onClick: React.PropTypes.func
+  onChangeTab: React.PropTypes.func
 };
