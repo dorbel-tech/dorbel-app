@@ -60,11 +60,8 @@ class Property extends Component {
       { relativeRoute: 'stats', title: 'סטטיסטיקות', component: <PropertyStats listing={property} followers={followers || 0} /> },
       { relativeRoute: 'ohe', title: 'מועדי ביקור', component: <PropertyStats listing={property} followers={followers || 0} /> },
     ];
-    let selectedTab = find(propertyTabs, {relativeRoute: this.props.tab});
-    if (!selectedTab) {
-      // TODO: Add "default" tab logic.
-      selectedTab = propertyTabs[0];
-    }
+    // TODO: Add "default" tab logic.
+    const selectedTab = find(propertyTabs, {relativeRoute: this.props.tab}) || propertyTabs[0];
 
     const popoverMenu = (
       <Popover id="property-actions-menu" className="property-actions-menu">
