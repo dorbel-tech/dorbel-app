@@ -148,11 +148,10 @@ function* getByFilter(filterJSON, options = {}) {
     }
 
     if (filter.myProperties){
-
       if (!userManagement.isUserAdmin(options.user)) {    
         listingQuery.publishing_user_id = options.user.id;
       }
-      
+
       listingQuery.status = { $notIn: ['deleted'] };
     }
   }
