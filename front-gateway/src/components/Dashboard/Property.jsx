@@ -135,7 +135,7 @@ class Property extends Component {
               <Row className="property-menu-container">
                 <PropertyMenu property={property}
                               tabs={propertyTabs}
-                              currentTab={selectedTab.relativeRoute} />
+                              currentTab={selectedTab ? selectedTab.relativeRoute : null} />
               </Row>
               <Row>
                 {selectedTab ? selectedTab.component : null}
