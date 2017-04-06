@@ -16,12 +16,11 @@ class UserProfileBadge extends Component {
 
   renderDashboardMenuItem(item) {
     const itemPath = '/dashboard/' + item.navTo;
-    const isSelected = process.env.IS_CLIENT ? (location.pathname === itemPath) : false;
 
     return <NavItem key={'header-profile-dashboard-menu-item-' + item.navTo}
               onClick={(e) => this.routeTo(e, itemPath)}
               href={itemPath}
-              className={'header-profile-dashboard-menu-item ' + (isSelected ? 'header-profile-dashboard-menu-item-selected' : '')}>
+              className="header-profile-dashboard-menu-item">
         <i className={'header-profile-dashboard-menu-item-icon fa ' + item.faIconClassName}  aria-hidden="true"></i>
         {item.menuText}
       </NavItem>;
