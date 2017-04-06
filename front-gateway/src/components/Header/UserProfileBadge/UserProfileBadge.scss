@@ -22,7 +22,7 @@
 
     .user-profile-badge-menu-desktop,
     .user-profile-badge-auth-logout,
-    .header-profile-dashboard-menu-item {
+    .header-profile-menu-item {
       display: none;
     }
   }
@@ -59,7 +59,7 @@
         font-size: 13px !important;
         width: 100%;
 
-        .header-profile-dashboard-menu-item,
+        .header-profile-menu-item,
         .user-profile-badge-auth {
           background-color: $brand-white;
           text-decoration: none !important;
