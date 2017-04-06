@@ -12,7 +12,12 @@ function* get() {
   logger.info({ listing_id: listingId, followers_count: result.length }, 'Got followers by listing');
 
   this.response.status = 200;
-  this.response.set('Cache-Control', 'public, max-age=' + ONE_HOUR);
+
+  if (!this.request.user) { 
+    this.response.set('Cache-Control', 'public, max-age=' + ONE_HOUR);
+  } else {
+    this.response.set('Cache-Control', 'no-cache');
+  }
   this.response.body = result;
 }
 

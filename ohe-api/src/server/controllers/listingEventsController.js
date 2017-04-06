@@ -14,6 +14,8 @@ function* get() {
 
   if (!this.request.user) {
     this.response.set('Cache-Control', 'public, max-age=' + ONE_MINUTE);
+  } else {
+    this.response.set('Cache-Control', 'no-cache');
   }
 
   this.response.status = 200;

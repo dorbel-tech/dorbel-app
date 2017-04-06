@@ -12,7 +12,13 @@ function* get() {
   const result = yield openHouseEventsFinderService.find(id);
   logger.info({event_id: id}, 'Open house event found');
   this.response.status = 200;
-  this.response.set('Cache-Control', 'public, max-age=' + ONE_MINUTE);  
+
+  if (!this.request.user) {
+    this.response.set('Cache-Control', 'public, max-age=' + ONE_MINUTE);  
+  } else {
+    this.response.set('Cache-Control', 'no-cache');
+  }
+  
   this.response.body = result;
 }
 

@@ -2,6 +2,7 @@
 const likeService = require('../../services/likeService');
 
 function* get() {
+  this.response.set('Cache-Control', 'no-cache');
   this.response.body = yield likeService.getUserLikes(this.request.user);
 }
 
