@@ -7,24 +7,23 @@ import CloudinaryImage from '~/components/CloudinaryImage/CloudinaryImage';
 import { flushPromises } from '~/providers/utils';
 
 describe('Image Upload', () => {
-  let appStoreMock, appProvidersMock;
+  let editedListingStoreMock, appProvidersMock;
 
   beforeEach(() => {
-    appStoreMock = {
-      newListingStore: {
-        formValues: {
-          images: []
-        }
+    editedListingStoreMock = {
+      formValues: {
+        images: []
       }
     };
     appProvidersMock = {
-      listingsProvider: {
-        uploadImage: jest.fn().mockReturnValue(Promise.resolve())
+      listingImageProvider: {
+        uploadImage: jest.fn().mockReturnValue(Promise.resolve()),
+        deleteImage: jest.fn()
       }
     };
   });
 
-  const imageUpload = (props) => shallow(<ImageUpload.wrappedComponent appStore={appStoreMock} appProviders={appProvidersMock} {...props}/>);
+  const imageUpload = (props) => shallow(<ImageUpload.wrappedComponent editedListingStore={editedListingStoreMock} appProviders={appProvidersMock} {...props}/>);
 
   it('should render dropzone', () => {
     const wrapper = imageUpload();
@@ -38,7 +37,7 @@ describe('Image Upload', () => {
 
   it('should render complete images from store', () => {
     const image = { progress: 1, complete: true, src: 'asldfkjadlfjoij' };
-    appStoreMock.newListingStore.formValues.images.push(image);
+    editedListingStoreMock.formValues.images.push(image);
 
     const wrapper = imageUpload();
 
@@ -51,7 +50,7 @@ describe('Image Upload', () => {
 
   it('should render incomplete images from store', () => {
     const image = { progress: 0.6, complete: false, src: 'bvcmkjbhiuerhg' };
-    appStoreMock.newListingStore.formValues.images.push(image);
+    editedListingStoreMock.formValues.images.push(image);
 
     const wrapper = imageUpload();
 
@@ -68,14 +67,23 @@ describe('Image Upload', () => {
     // calling method directly since it is called by DropZone™
     imageUpload().instance().onChooseFile([ image ]);
 
-    expect(appProvidersMock.listingsProvider.uploadImage).toHaveBeenCalledWith(image);
+    expect(appProvidersMock.listingImageProvider.uploadImage).toHaveBeenCalledWith(image, editedListingStoreMock);
+  });
+
+  it('should send deleted images to provider', () => {
+    const image = { progress: 1, complete: true, src: 'asdfoiweflknasf' };
+    editedListingStoreMock.formValues.images.push(image);
+
+    const wrapper = imageUpload();
+    wrapper.find('.remove-image').simulate('click');
+    expect(appProvidersMock.listingImageProvider.deleteImage).toHaveBeenCalledWith(image, editedListingStoreMock);
   });
 
   it('should call onUploadStart and onUploadComplete', () => {
     const onUploadStart = jest.fn();
     const onUploadComplete = jest.fn();
     const deferred = Promise.defer();
-    appProvidersMock.listingsProvider = {
+    appProvidersMock.listingImageProvider = {
       uploadImage: jest.fn().mockReturnValue(deferred.promise)
     };
 

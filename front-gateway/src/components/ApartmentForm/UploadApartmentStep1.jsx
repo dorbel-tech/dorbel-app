@@ -32,6 +32,7 @@ class UploadApartmentStep1 extends UploadApartmentBaseStep.wrappedComponent {
         <Col md={7} className="upload-apt-left-container apartment-pictures-step">
           <div className="photos-upload">
             <ImageUpload
+              editedListingStore={this.props.appStore.newListingStore}
               onUploadStart={() => this.setState({ isReadyForNextStep: false })}
               onUploadComplete = {() => this.setState({ isReadyForNextStep: true })}
             />

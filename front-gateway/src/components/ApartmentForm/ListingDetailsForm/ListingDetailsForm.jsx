@@ -14,11 +14,11 @@ export default class ListingDetailsForm extends React.Component {
 
   componentDidMount() {
     // load form with existing values from store
-    this.refs.form.refs.formsy.reset(this.props.appStore.newListingStore.formValues);
+    this.refs.form.refs.formsy.reset(this.props.editedListingStore.formValues);
   }
 
   updateStore(changes) {
-    this.props.appStore.newListingStore.updateFormValues(changes);
+    this.props.editedListingStore.updateFormValues(changes);
   }
 
   getCityOptions() {
@@ -43,7 +43,7 @@ export default class ListingDetailsForm extends React.Component {
   }
 
   getNeighborhoodValue(options) {
-    var storedValue = this.props.appStore.newListingStore.formValues['apartment.building.neighborhood.id'];
+    var storedValue = this.props.editedListingStore.formValues['apartment.building.neighborhood.id'];
     if (storedValue && options.find(option => option.value === storedValue)) {
       return storedValue;
     } else {
@@ -63,14 +63,14 @@ export default class ListingDetailsForm extends React.Component {
   }
 
   render() {
-    const { newListingStore } = this.props.appStore;
+    const { editedListingStore } = this.props;
     const citySelectorOptions = this.getCityOptions();
-    const citySelectorValue = newListingStore.formValues['apartment.building.city.id'] || citySelectorOptions[0].value;
+    const citySelectorValue = editedListingStore.formValues['apartment.building.city.id'] || citySelectorOptions[0].value;
     const neighborhoodSelectorOptions = this.getNeighborhoodOptions(citySelectorValue);
     const neighborhoodSelectorValue = this.getNeighborhoodValue(neighborhoodSelectorOptions);
 
-    const roomOptions = newListingStore.roomOptions.slice(0);
-    if (!newListingStore.formValues.rooms) { roomOptions.unshift({ label: 'בחר' }); }
+    const roomOptions = editedListingStore.roomOptions.slice(0);
+    if (!editedListingStore.formValues.rooms) { roomOptions.unshift({ label: 'בחר' }); }
 
     return (
       <FormWrapper.Wrapper layout="vertical" onChange={this.updateStore} ref="form">
@@ -147,7 +147,7 @@ export default class ListingDetailsForm extends React.Component {
             <Col md={6}>
               <div className="form-group">
                 <label>תאריך כניסה לדירה</label>
-                <DatePicker name="apartment.entrance-date" value={newListingStore.formValues.lease_start} onChange={value => this.updateStore({ lease_start: value })} />
+                <DatePicker name="apartment.entrance-date" value={editedListingStore.formValues.lease_start} onChange={value => this.updateStore({ lease_start: value })} />
               </div>
             </Col>
             <Col md={6}>
@@ -171,5 +171,6 @@ export default class ListingDetailsForm extends React.Component {
 
 ListingDetailsForm.wrappedComponent.propTypes = {
   appStore: React.PropTypes.object,
-  appProviders: React.PropTypes.object
+  appProviders: React.PropTypes.object,
+  editedListingStore: React.PropTypes.object.isRequired
 };

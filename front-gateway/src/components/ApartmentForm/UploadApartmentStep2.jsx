@@ -1,9 +1,11 @@
 import React from 'react';
 import { Button, Col, Grid } from 'react-bootstrap';
 import autobind from 'react-autobind';
+import { observer } from 'mobx-react';
 import UploadApartmentBaseStep from './UploadApartmentBaseStep';
 import ListingDetailsForm from './ListingDetailsForm/ListingDetailsForm';
 
+@observer(['appProviders', 'appStore'])
 export default class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
   constructor(props) {
     super(props);
@@ -35,7 +37,10 @@ export default class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappe
           <img src="https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/upload-apt-form/icon-signup-folder.svg" alt="" />
         </Col>
         <Col md={7} className="upload-apt-left-container apartment-details-step">
-          <ListingDetailsForm ref="listingDetailsForm" />
+          <ListingDetailsForm
+            editedListingStore={this.props.appStore.newListingStore}
+            ref="listingDetailsForm"
+          />
           <Col xs={12} md={7} className="form-nav bottom">
             <span className="prev-step" onClick={this.clickBack}>
               <i className="apartment-details-previous-step fa fa-arrow-circle-o-right fa-2x" aria-hidden="true"></i>
@@ -54,3 +59,8 @@ export default class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappe
     );
   }
 }
+
+UploadApartmentStep2.wrappedComponent.propTypes = {
+  appProviders: React.PropTypes.object,
+  appStore: React.PropTypes.object,
+};

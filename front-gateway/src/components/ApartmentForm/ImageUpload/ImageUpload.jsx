@@ -4,7 +4,7 @@ import { Row } from 'react-bootstrap';
 import Dropzone from 'react-dropzone';
 import CloudinaryImage from '~/components/CloudinaryImage/CloudinaryImage';
 
-@observer(['appProviders', 'appStore'])
+@observer(['appProviders'])
 export default class ImageUpload extends React.Component {
   constructor(props) {
     super(props);
@@ -12,13 +12,13 @@ export default class ImageUpload extends React.Component {
   }
 
   onChooseFile(acceptedFiles) {
-    const { appProviders, onUploadComplete, onUploadStart} = this.props;
+    const { appProviders, editedListingStore, onUploadComplete, onUploadStart } = this.props;
 
     if (onUploadStart) {
       onUploadStart();
     }
 
-    let uploadPromises = acceptedFiles.map(file => appProviders.listingsProvider.uploadImage(file));
+    let uploadPromises = acceptedFiles.map(file => appProviders.listingImageProvider.uploadImage(file, editedListingStore));
     this.uploadImagePromises = this.uploadImagePromises.concat(uploadPromises);
     Promise.all(this.uploadImagePromises)
     .then(() => {
@@ -29,7 +29,8 @@ export default class ImageUpload extends React.Component {
   }
 
   renderImage(image, index) {
-    const { listingsProvider } = this.props.appProviders;
+    const { editedListingStore, appProviders } = this.props;
+    const { listingImageProvider } = appProviders;
     const progressPct = Math.round(image.progress * 100) + '%';
     const progressBarStyle = { width: progressPct };
 
@@ -41,7 +42,7 @@ export default class ImageUpload extends React.Component {
       </div>
     );
 
-    const deleteButton = (<div><a href="#" className="remove-image" onClick={() => listingsProvider.deleteImage(image)} >הסרה</a></div>);
+    const deleteButton = (<div><a href="#" className="remove-image" onClick={() => listingImageProvider.deleteImage(image, editedListingStore)} >הסרה</a></div>);
 
     return (
       <div key={index} className="image col-md-4 thumb">
@@ -55,7 +56,7 @@ export default class ImageUpload extends React.Component {
   }
 
   render() {
-    const images = this.props.appStore.newListingStore.formValues.images;
+    const images = this.props.editedListingStore.formValues.images;
 
     return (
       <form>
@@ -73,8 +74,8 @@ export default class ImageUpload extends React.Component {
 }
 
 ImageUpload.wrappedComponent.propTypes = {
-  appProviders: React.PropTypes.object,
-  appStore: React.PropTypes.object,
+  appProviders: React.PropTypes.object.isRequired,
+  editedListingStore: React.PropTypes.object.isRequired,
   onUploadStart: React.PropTypes.func,
   onUploadComplete: React.PropTypes.func
 };

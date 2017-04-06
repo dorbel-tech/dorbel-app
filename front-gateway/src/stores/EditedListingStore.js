@@ -1,12 +1,10 @@
 /**
- * This store should hold the values of the upload-apartment-form while it is being filled
+ * This store should hold the values of a listing being created (uploaded) or edited
  */
 import _ from 'lodash';
 import { observable, autorun } from 'mobx';
 import autobind from 'react-autobind';
 import localStorageHelper from './localStorageHelper';
-
-const localStorageKey = 'newListingStoreState';
 
 const roomOptions = _.range(1, 11, 0.5).map(num => ({ value: num, label: num }));
 
@@ -16,25 +14,27 @@ const defaultFormValues = {
   publishing_user_type: 'landlord'
 };
 
-export default class NewListingStore {
+export default class EditedListingStore {
   @observable formValues;
   @observable stepNumber = 0;
 
-  constructor(authStore) {
+  constructor(authStore, options) {
     this.authStore = authStore;
+    this.options = options || {};
     autobind(this);
     if (!this.attemptRestoreState()) {
       this.reset();
     }
 
     autorun(this.saveStore);
+    authStore.events.on('logout', this.reset);
   }
 
   reset() {
     this.formValues = Object.assign({}, defaultFormValues);
     this.stepNumber = 0;
-    if (process.env.IS_CLIENT) {
-      localStorage.removeItem(localStorageKey);
+    if (process.env.IS_CLIENT && this.options.localStorageKey) {
+      localStorage.removeItem(this.options.localStorageKey);
     }
   }
 
@@ -48,14 +48,18 @@ export default class NewListingStore {
   }
 
   saveStore() {
-    localStorageHelper.setItem(localStorageKey, this.toJson());
+    if (this.options.localStorageKey) {
+      localStorageHelper.setItem(this.options.localStorageKey, this.toJson());
+    }
   }
 
   attemptRestoreState() {
-    const previousState = localStorageHelper.getItem(localStorageKey);
-    if (previousState) {
-      Object.assign(this, previousState);
-      return true;
+    if (this.options.localStorageKey) {
+      const previousState = localStorageHelper.getItem(this.options.localStorageKey);
+      if (previousState) {
+        Object.assign(this, previousState);
+        return true;
+      }
     }
   }
 

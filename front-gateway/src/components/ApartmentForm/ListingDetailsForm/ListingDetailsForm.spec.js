@@ -4,9 +4,14 @@ import { shallow, mount } from 'enzyme';
 import ListingDetailsForm from './ListingDetailsForm';
 
 describe('Listing Details Form', () => {
-  let appStoreMock, appProvidersMock;
+  let appStoreMock, appProvidersMock, editedListingStoreMock;
 
   beforeEach(() => {
+    editedListingStoreMock = {
+      updateFormValues: jest.fn(),
+      formValues: {},
+      roomOptions: []
+    };
     appStoreMock = {
       cityStore: {
         cities: [ { id: 1, city_name: 'Gotham' } ]
@@ -15,11 +20,6 @@ describe('Listing Details Form', () => {
         neighborhoodsByCityId: {
           get: jest.fn()
         }
-      },
-      newListingStore: {
-        updateFormValues: jest.fn(),
-        formValues: {},
-        roomOptions: []
       }
     };
     appProvidersMock = {
@@ -32,11 +32,11 @@ describe('Listing Details Form', () => {
     };
   });
 
-  const listingDetailsForm = () => shallow(<ListingDetailsForm.wrappedComponent appStore={appStoreMock} appProviders={appProvidersMock} />);
+  const listingDetailsForm = () => shallow(<ListingDetailsForm.wrappedComponent appStore={appStoreMock} appProviders={appProvidersMock} editedListingStore={editedListingStoreMock} />);
 
   it('should match snapshot in empty state', () => {
-    appStoreMock.newListingStore.formValues.lease_start = (new Date(0)).toISOString(); // make this static for constant snapshot
-    const wrapper = mount(<ListingDetailsForm.wrappedComponent appStore={appStoreMock} appProviders={appProvidersMock} />);
+    editedListingStoreMock.formValues.lease_start = (new Date(0)).toISOString(); // make this static for constant snapshot
+    const wrapper = mount(<ListingDetailsForm.wrappedComponent appStore={appStoreMock} appProviders={appProvidersMock} editedListingStore={editedListingStoreMock}/>);
     expect(wrapper).toMatchSnapshot();
   });
 
@@ -67,7 +67,7 @@ describe('Listing Details Form', () => {
       { id: 1, city_name: 'dont choose me' },
       { id: 2, city_name: 'choose me !' }
     ];
-    appStoreMock.newListingStore.formValues['apartment.building.city.id'] = expectedValue;
+    editedListingStoreMock.formValues['apartment.building.city.id'] = expectedValue;
 
     const wrapper = listingDetailsForm();
     expect(wrapper.find({ label: 'עיר' }).props().value).toBe(expectedValue);
@@ -76,7 +76,7 @@ describe('Listing Details Form', () => {
   it('should load neighborhood options from store according to city id', () => {
     const cityId = 1;
     const neighborhood = { id: 1, neighborhood_name: 'The Hope' };
-    appStoreMock.newListingStore.formValues['apartment.building.city.id'] = cityId;
+    editedListingStoreMock.formValues['apartment.building.city.id'] = cityId;
     appStoreMock.neighborhoodStore.neighborhoodsByCityId.get.mockReturnValue([ neighborhood ]);
 
     const wrapper = listingDetailsForm();
@@ -87,7 +87,7 @@ describe('Listing Details Form', () => {
 
   it('should call provider to load neighborhoods and display loading', () => {
     const cityId = 1;
-    appStoreMock.newListingStore.formValues['apartment.building.city.id'] = cityId;
+    editedListingStoreMock.formValues['apartment.building.city.id'] = cityId;
     appStoreMock.neighborhoodStore.neighborhoodsByCityId.get.mockReturnValue(null);
 
     const wrapper = listingDetailsForm();

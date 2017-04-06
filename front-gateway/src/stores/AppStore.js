@@ -4,7 +4,7 @@ import OheStore from '~/stores/OheStore';
 import CityStore from '~/stores/CityStore';
 import NeighborhoodStore from '~/stores/NeighborhoodStore';
 import AuthStore from '~/stores/AuthStore';
-import NewListingStore from '~/stores/NewListingStore';
+import EditedListingStore from '~/stores/EditedListingStore';
 import SearchStore from '~/stores/SearchStore';
 import LikeStore from '~/stores/LikeStore';
 import { observable, action, autorun } from 'mobx';
@@ -30,7 +30,8 @@ export default class AppStore {
     this.oheStore = new OheStore(initialState.oheStore);
     this.cityStore = new CityStore(initialState.cityStore);
     this.neighborhoodStore = new NeighborhoodStore(initialState.neighborhoodStore);
-    this.newListingStore = new NewListingStore(this.authStore);
+    this.newListingStore = new EditedListingStore(this.authStore, { localStorageKey: 'newListingStoreState' });
+    this.editedListingStore = new EditedListingStore(this.authStore);
     this.searchStore = new SearchStore(initialState.searchStore);
     this.likeStore = new LikeStore(initialState.likeStore);
     this.metaData = initialState.metaData || {};
