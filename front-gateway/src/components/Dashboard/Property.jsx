@@ -60,7 +60,11 @@ class Property extends Component {
       { relativeRoute: 'stats', title: 'סטטיסטיקות', component: <PropertyStats listing={property} followers={followers || 0} /> },
       { relativeRoute: 'ohe', title: 'מועדי ביקור', component: <PropertyStats listing={property} followers={followers || 0} /> },
     ];
-    const selectedTab = find(propertyTabs, {relativeRoute: this.props.tab});
+    let selectedTab = find(propertyTabs, {relativeRoute: this.props.tab});
+    if (!selectedTab) {
+      // TODO: Add "default" tab logic.
+      selectedTab = propertyTabs[0];
+    }
 
     const popoverMenu = (
       <Popover id="property-actions-menu" className="property-actions-menu">
@@ -135,10 +139,10 @@ class Property extends Component {
               <Row className="property-menu-container">
                 <PropertyMenu property={property}
                               tabs={propertyTabs}
-                              currentTab={selectedTab ? selectedTab.relativeRoute : null} />
+                              currentTab={selectedTab.relativeRoute} />
               </Row>
               <Row>
-                {selectedTab ? selectedTab.component : null}
+                {selectedTab.component}
               </Row>
             </Grid>;
   }
