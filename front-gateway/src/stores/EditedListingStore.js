@@ -63,6 +63,40 @@ export default class EditedListingStore {
     }
   }
 
+  toListingObject() {
+    const formValues = this.formValues;
+    const listing = {};
+    // this is so we can use nested structure in our form attributes
+    Object.keys(formValues).filter(key => formValues.hasOwnProperty(key)).forEach(key => _.set(listing, key, formValues[key]));
+    listing.images = formValues.images.map((cloudinaryImage, index) => ({
+      url: cloudinaryImage.secure_url, display_order: index
+    }));
+
+    return listing;
+  }
+
+  fillFromListing(listing) {
+    var newFormValues = {};
+
+    // adapted from http://stackoverflow.com/questions/19098797/fastest-way-to-flatten-un-flatten-nested-json-objects but ignoring arrays
+    function recurse (value, fieldName) {
+      if (Object(value) !== value && value !== null) {
+        newFormValues[fieldName] = value;
+      } else if (Array.isArray(value)) {
+        // ignoring arrays
+      } else {
+        for (var p in value) {
+          recurse(value[p], fieldName ? fieldName + '.' + p : p);
+        }
+      }
+    }
+    recurse(listing, '');
+
+    newFormValues.images = listing.images.map(image => ({ src: image.url, complete: true }));
+
+    this.updateFormValues(newFormValues);
+  }
+
   toJson() {
     return {
       formValues: this.formValues,
