@@ -15,7 +15,7 @@ export default class ListingMenu extends React.Component {
 
   render() {
     return (
-      <Navbar className="listing-menu-tabs">
+      <Navbar className="tab-bar">
         <Nav bsStyle="tabs" onSelect={this.changeTab}>
           {this.props.tabs.map(tab =>
             <NavItem className={tab.isActive ? 'active' : ''} key={tab.title} onClick={() => { this.onClick(tab); }}>
