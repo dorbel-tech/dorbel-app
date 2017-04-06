@@ -19,7 +19,7 @@ function setRequestRenderState(context, appStore) {
     title: 'dorbel - מערכת לניהול והשכרת דירות ללא תיווך',
     description: 'השכרת דירות ללא תיווך. כל הפרטים שחשוב לדעת על הדירות בכדי לחסוך ביקורים מיותרים. בחרו מועד והירשמו לביקור בדירות בלחיצת כפתור.',
     image: {
-      url: 'https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/meta/homepage-middle-image.jpg',
+      url: 'https://static.dorbel.com/images/meta/homepage-middle-image.jpg',
       width: 1093,
       height: 320
     },

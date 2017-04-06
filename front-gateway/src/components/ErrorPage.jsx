@@ -13,7 +13,7 @@ class ErrorPage extends Component {
               'שגיאה ' + this.props.errorId + ' (שם לא רע לשגיאה)';
   }
   getErrorImage() {
-    let errImageUrl = 'https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/errors/';
+    let errImageUrl = 'https://static.dorbel.com/images/errors/';
     let errImageFile =  this.error400 ? '400-error.png' : '500-error.png';
     return errImageUrl + errImageFile;
   }

@@ -110,7 +110,7 @@ class PropertyStats extends Component {
                   <Col md={4}>
                     <div className="property-stats-service">
                       <img className="property-stats-image"
-                          src="https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/dashboard/service-publishing-icon.svg"/>
+                          src="https://static.dorbel.com/images/dashboard/service-publishing-icon.svg"/>
                       <div className="property-stats-title">פרסום הדירה</div>
                       <div>רוצים להשכיר מהר? הגדילו את חשיפת הדירה ע״י פרסום ממומן. הגיעו ליותר דיירים בפחות זמן</div>
                       <a className="property-stats-button btn btn-success"
@@ -120,7 +120,7 @@ class PropertyStats extends Component {
                   <Col md={4}>
                     <div className="property-stats-service">
                       <img className="property-stats-image"
-                          src="https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/dashboard/service-credit-score-icon.svg"/>
+                          src="https://static.dorbel.com/images/dashboard/service-credit-score-icon.svg"/>
                       <div className="property-stats-title">דו״ח נתוני אשראי</div>
                       <div>רוצים להיות בטוחים? לפני חתימה על חוזה חשוב לוודא שהדייר החדש והערבים יעמדו בתשלומים</div>
                       <a className="property-stats-button btn btn-success"
@@ -130,7 +130,7 @@ class PropertyStats extends Component {
                   <Col md={4}>
                     <div className="property-stats-service">
                       <img className="property-stats-image"
-                          src="https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/dashboard/service-photography-icon.svg"/>
+                          src="https://static.dorbel.com/images/dashboard/service-photography-icon.svg"/>
                       <div className="property-stats-title">צילום והצגת הדירה</div>
                       <div>אנו נצלם ונציג עבורכם את הדירה בפני הדיירים הפוטנציאליים כדי לחסוך לכם את ההגעה לכל ביקור</div>
                       <a className="property-stats-button btn btn-success"
