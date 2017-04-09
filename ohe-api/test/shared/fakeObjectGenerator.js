@@ -22,7 +22,6 @@ function generateEvent(variant) {
     is_active: true,
     start_time: moment().add(5, 'hours').toDate(),
     end_time: moment().add(6, 'hours').toDate(),
-    comments: 'בדיקה',
     max_attendies: 7,
     publishing_user_id: fakeUserId,
     listing_publishing_user_id: fakeUserId,
