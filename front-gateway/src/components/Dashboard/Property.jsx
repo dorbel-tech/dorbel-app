@@ -5,7 +5,9 @@ import { Button, Col, Grid, Row, OverlayTrigger, Popover } from 'react-bootstrap
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
 import CloudinaryImage from '../CloudinaryImage/CloudinaryImage';
 import ListingStatusSelector from '../Listing/components/ListingStatusSelector';
+import PropertyMenu from './MyProperties/PropertyMenu';
 import PropertyStats from './MyProperties/PropertyStats';
+import { find } from 'lodash';
 import utils from '~/providers/utils';
 
 import './Property.scss';
@@ -26,15 +28,15 @@ class Property extends Component {
   componentWillReceiveProps(nextProps) {
     if (this.props.propertyId != nextProps.propertyId) {
       this.props = nextProps;
-      this.loadFullListingDetails();
+      this.loadFullPropertyDetails();
     }
   }
 
   componentWillMount() {
-    this.loadFullListingDetails();
+    this.loadFullPropertyDetails();
   }
 
-  loadFullListingDetails() {
+  loadFullPropertyDetails() {
     let propertyId = this.props.propertyId;
     if (!this.props.appStore.listingStore.get(propertyId)) {
       this.setState({ isLoading: true });
@@ -49,10 +51,17 @@ class Property extends Component {
 
   render() {
     const { appStore } = this.props;
-    const listing = appStore.listingStore.get(this.props.propertyId);
-    const sortedListingImages = utils.sortListingImages(listing);
-    const imageURL = sortedListingImages.length ? sortedListingImages[0].url : '';
+    const property = appStore.listingStore.get(this.props.propertyId);
+    const sortedPropertyImages = utils.sortListingImages(property);
+    const imageURL = sortedPropertyImages.length ? sortedPropertyImages[0].url : '';
     const followers = appStore.oheStore.countFollowersByListingId.get(this.props.propertyId);
+
+    const propertyTabs = [
+      { relativeRoute: 'stats', title: 'סטטיסטיקות', component: <PropertyStats listing={property} followers={followers || 0} /> },
+      { relativeRoute: 'ohe', title: 'מועדי ביקור', component: <PropertyStats listing={property} followers={followers || 0} /> },
+    ];
+    // TODO: Add "default" tab logic.
+    const selectedTab = find(propertyTabs, {relativeRoute: this.props.tab}) || propertyTabs[0];
 
     const popoverMenu = (
       <Popover id="property-actions-menu" className="property-actions-menu">
@@ -74,25 +83,25 @@ class Property extends Component {
     return  <Grid fluid className="property-wrapper">
               <Row className="property-top-container">
                 <Col md={3} sm={3} xs={5} className="property-image-container">
-                  <CloudinaryImage src={imageURL} height={97} className="property-image"/>
-                  <ListingStatusSelector listing={listing} />
+                  <CloudinaryImage src={imageURL} height={125} className="property-image"/>
+                  <ListingStatusSelector listing={property} />
                 </Col>
                 <Col md={5} sm={6} xs={7} className="property-title-container">
                   <div className="property-title">
-                    {utils.getListingTitle(listing)}
+                    {utils.getListingTitle(property)}
                   </div>
                   <div className="property-title-details">
                     <span>
-                      {listing.apartment.rooms}</span>
+                      {property.apartment.rooms}</span>
                       <span className="property-title-details-sub-text"> חדרים</span>
                     <div className="property-title-details-vr" />
                     <span>
-                      {listing.apartment.size}</span>
+                      {property.apartment.size}</span>
                       <span className="property-title-details-sub-text"> מ"ר</span>
                     <div className="property-title-details-vr" />
                     <span>
                       <span className="property-title-details-sub-text property-title-details-last-text">קומה</span>
-                      {utils.getFloorTextValue(listing)}</span>
+                      {utils.getFloorTextValue(property)}</span>
                   </div>
                 </Col>
                 <Col md={4} sm={3} className="property-actions-wrapper">
@@ -105,7 +114,7 @@ class Property extends Component {
                     <div className="property-actions-vr" />
                     <div>
                       <span className="property-actions-title">
-                        {listing.totalLikes || 0}</span><br/>
+                        {property.totalLikes || 0}</span><br/>
                         <span className="property-actions-sub-title">לייקים</span>
                     </div>
                   </div>
@@ -124,8 +133,11 @@ class Property extends Component {
                   </div>
                 </Col>
               </Row>
+              <PropertyMenu path={'/dashboard/my-properties/' + property.id + '/'}
+                            tabs={propertyTabs}
+                            activeKey={selectedTab.relativeRoute} />
               <Row>
-                <PropertyStats listing={listing} followers={followers || 0} />
+                {selectedTab.component}
               </Row>
             </Grid>;
   }
@@ -133,6 +145,7 @@ class Property extends Component {
 
 Property.wrappedComponent.propTypes = {
   propertyId: React.PropTypes.string.isRequired,
+  tab: React.PropTypes.string,
   appProviders: React.PropTypes.object,
   appStore: React.PropTypes.object,
   router: React.PropTypes.object

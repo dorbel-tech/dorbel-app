@@ -40,7 +40,7 @@ export default class ListingMenu extends React.Component {
     const activeTab = _.find(tabs, { relativeRoute: currentAction }) || tabs[0];
 
     return (
-      <Navbar className="listing-menu-tabs">
+      <Navbar className="tab-menu">
         <Nav bsStyle="tabs" activeKey={activeTab.relativeRoute} onSelect={this.changeTab}>
           {tabs.map(tab =>
             <NavItem key={tab.relativeRoute} eventKey={tab.relativeRoute}>
