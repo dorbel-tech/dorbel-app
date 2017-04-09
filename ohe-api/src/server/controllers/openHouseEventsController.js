@@ -12,7 +12,8 @@ function* get() {
   const result = yield openHouseEventsFinderService.find(id);
   logger.info({event_id: id}, 'Open house event found');
   this.response.status = 200;
-  this.response.set('Cache-Control', 'public, max-age=' + ONE_MINUTE);  
+
+  shared.helpers.headers.setUserConditionalCacheHeader(this.request, this.response, ONE_MINUTE);  
   this.response.body = result;
 }
 
