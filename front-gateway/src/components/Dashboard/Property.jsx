@@ -4,7 +4,8 @@ import autobind from 'react-autobind';
 import { Button, Col, Grid, Row, OverlayTrigger, Popover } from 'react-bootstrap';
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
 import CloudinaryImage from '../CloudinaryImage/CloudinaryImage';
-import ListingStatusSelector from '../Listing/components/ListingStatusSelector';
+import ListingStatusSelector from './MyProperties/ListingStatusSelector';
+import OHEManager from '~/components/OHEManager/OHEManager';
 import PropertyMenu from './MyProperties/PropertyMenu';
 import PropertyStats from './MyProperties/PropertyStats';
 import { find } from 'lodash';
@@ -58,7 +59,7 @@ class Property extends Component {
 
     const propertyTabs = [
       { relativeRoute: 'stats', title: 'סטטיסטיקות', component: <PropertyStats listing={property} followers={followers || 0} /> },
-      { relativeRoute: 'ohe', title: 'מועדי ביקור', component: <PropertyStats listing={property} followers={followers || 0} /> },
+      { relativeRoute: 'ohe', title: 'מועדי ביקור', component: <OHEManager listing={property} /> },
     ];
     // TODO: Add "default" tab logic.
     const selectedTab = find(propertyTabs, {relativeRoute: this.props.tab}) || propertyTabs[0];
@@ -133,11 +134,9 @@ class Property extends Component {
                   </div>
                 </Col>
               </Row>
-              <Row className="property-menu-container">
-                <PropertyMenu path={'/dashboard/my-properties/' + property.id + '/'}
-                              tabs={propertyTabs}
-                              activeKey={selectedTab.relativeRoute} />
-              </Row>
+              <PropertyMenu path={'/dashboard/my-properties/' + property.id + '/'}
+                            tabs={propertyTabs}
+                            activeKey={selectedTab.relativeRoute} />
               <Row>
                 {selectedTab.component}
               </Row>

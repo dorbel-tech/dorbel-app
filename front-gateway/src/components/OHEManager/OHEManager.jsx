@@ -41,28 +41,26 @@ class OHEManager extends React.Component {
     const passedEvents = openHouseEvents.filter(event => moment(event.end_time).isBefore(Date.now()));
 
     return (
-      <Grid className="listing-events-container">
-        <Col xs={12}>
-          <Row>
-            <Button onClick={() => this.toggleAddModal(true)} className="listing-events-add-ohe pull-left">הוסף מועד +</Button>
-            <h3>מועדי ביקור הבאים</h3>
-          </Row>
-          <Row>
-            {comingEvents.length ?
-              comingEvents.map(ohe => <OHECard key={ohe.id} ohe={ohe} editable={true} />) :
-              <h5 className="listing-events-no-ohe-title">אין ביקורים קרובים</h5>}
-          </Row>
-          <Row>
-            <h3>מועדי ביקור שחלפו</h3>
-          </Row>
-          <Row>
-            {passedEvents.length ?
-              passedEvents.map(ohe => <OHECard key={ohe.id} ohe={ohe} />) :
-              <h5 className="listing-events-no-ohe-title">אין ביקורים שחלפו</h5>}
-          </Row>
-        </Col>
+      <Col xs={12} className="listing-events-container">
+        <div>
+          <Button onClick={() => this.toggleAddModal(true)} className="listing-events-add-ohe pull-left">הוסף מועד +</Button>
+          <h3>מועדי ביקור הבאים</h3>
+        </div>
+        <div>
+          {comingEvents.length ?
+            comingEvents.map(ohe => <OHECard key={ohe.id} ohe={ohe} editable={true} />) :
+            <h5 className="listing-events-no-ohe-title">אין ביקורים קרובים</h5>}
+        </div>
+        <div>
+          <h3>מועדי ביקור שחלפו</h3>
+        </div>
+        <div>
+          {passedEvents.length ?
+            passedEvents.map(ohe => <OHECard key={ohe.id} ohe={ohe} />) :
+            <h5 className="listing-events-no-ohe-title">אין ביקורים שחלפו</h5>}
+        </div>
         <AddOHEModal listing={listing} show={this.state.showAddOheModal} onClose={() => this.toggleAddModal(false)} />
-      </Grid>
+      </Col>
     );
   }
 }
