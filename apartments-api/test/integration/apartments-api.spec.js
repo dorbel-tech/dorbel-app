@@ -115,6 +115,7 @@ describe('Apartments API Integration', function () {
     describe('Filter: my listings', function () {
       // held outside before section because of a scoping issue
       let otherApiClient;
+      let adminApiClient;
 
       // global test var - populated in step 2
       let createListingId;
@@ -123,8 +124,13 @@ describe('Apartments API Integration', function () {
         // switch user for test purposes
         otherApiClient = yield ApiClient.init(faker.getFakeUser({
           id: OTHER_INTEGRATION_TEST_USER_ID,
-          role: 'admin'
+          role: 'user'
         }));
+
+        adminApiClient = yield ApiClient.init(faker.getFakeUser({
+          id: ADMIN_INTEGRATION_TEST_USER_ID,
+          role: 'admin'
+        }));        
       });
 
       it('should not return any listings', function* () {
@@ -158,7 +164,7 @@ describe('Apartments API Integration', function () {
       });
 
       function* testListingByStatus(status, shouldBeReturned = true) {
-        yield otherApiClient.patchListing(createListingId, { status }).expect(200).end();
+        yield adminApiClient.patchListing(createListingId, { status }).expect(200).end();
         const getListingResponse = yield otherApiClient.getListings({ q: { myProperties: true } }, true).expect(200).end();
 
         shouldBeReturned ? assertListingReturned(getListingResponse) : assertNothingReturned(getListingResponse);
