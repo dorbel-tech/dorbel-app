@@ -158,7 +158,7 @@ describe('Apartments API Integration', function () {
       });
 
       function* testListingByStatus(status, shouldBeReturned = true) {
-        yield otherApiClient.patchListing(createListingId, { status }).expect(200).end();
+        yield this.adminApiClient.patchListing(createListingId, { status }).expect(200).end();
         const getListingResponse = yield otherApiClient.getListings({ q: { myProperties: true } }, true).expect(200).end();
 
         shouldBeReturned ? assertListingReturned(getListingResponse) : assertNothingReturned(getListingResponse);
