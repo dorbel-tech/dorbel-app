@@ -8,7 +8,7 @@ const listingRepository = require('../apartmentsDb/repositories/listingRepositor
 const logger = shared.logger.getLogger(module);
 const cache = shared.utils.cache;
 
-const PAGE_VIEW_CACHE_TTL_SECONDS = moment.duration(4, 'hours').asSeconds();
+const PAGE_VIEW_CACHE_TTL_SECONDS = moment.duration(1, 'hours').asSeconds();
 const PAGE_VIEW_CACHE_KEY_PREFIX = 'listing_page_views_';
 
 analyticsProvider.init();

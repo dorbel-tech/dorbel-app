@@ -14,9 +14,6 @@ function define(sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    comments: {
-      type: DataTypes.STRING
-    },
     listing_id: {
       type: DataTypes.INTEGER,
       allowNull: false
