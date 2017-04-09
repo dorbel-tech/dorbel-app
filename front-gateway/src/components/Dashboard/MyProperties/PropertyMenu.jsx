@@ -2,7 +2,6 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 import { Nav, NavItem, Navbar } from 'react-bootstrap';
-import _ from 'lodash';
 
 @observer(['router'])
 export default class PropertyMenu extends React.Component {
