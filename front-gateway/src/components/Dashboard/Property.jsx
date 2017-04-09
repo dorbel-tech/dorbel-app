@@ -83,7 +83,7 @@ class Property extends Component {
     return  <Grid fluid className="property-wrapper">
               <Row className="property-top-container">
                 <Col md={3} sm={3} xs={5} className="property-image-container">
-                  <CloudinaryImage src={imageURL} height={97} className="property-image"/>
+                  <CloudinaryImage src={imageURL} height={125} className="property-image"/>
                   <ListingStatusSelector listing={property} />
                 </Col>
                 <Col md={5} sm={6} xs={7} className="property-title-container">
