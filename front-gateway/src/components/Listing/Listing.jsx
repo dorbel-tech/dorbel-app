@@ -62,7 +62,7 @@ class Listing extends Component {
   }
 
   render() {
-    const { appStore, action } = this.props;
+    const { appStore } = this.props;
     const listing = appStore.listingStore.get(this.props.listingId);
 
     if (this.state.isLoading) {
