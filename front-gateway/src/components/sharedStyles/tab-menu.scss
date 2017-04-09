@@ -5,6 +5,10 @@
   min-height: 0;
   z-index: 1;
 
+  > div {
+    width: 100%;
+  }
+
   .navbar-nav {
     margin-bottom: 0;
 
