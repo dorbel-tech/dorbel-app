@@ -39,15 +39,16 @@ module.exports = {
     apartmentForm
       .navigateToOpenHouseEventSection()
       .clearUserDetailsFields()
-      .submitApartment()
-      .expect.section('@successModal').to.not.be.present;
+      .submitApartment();
+    browser.pause(500);
+    apartmentForm.expect.section('@successModal').to.not.be.present;
     browser.end();
   },
   'should successfully submit a new apartment with logged in user': function (browser) {
     login();
-    apartmentForm
-      .fillAndSubmitApartment()
-      .expect.section('@successModal').to.be.visible;
+    apartmentForm.fillAndSubmitApartment();
+    browser.pause(500);
+    apartmentForm.expect.section('@successModal').to.be.present;
     common.waitForText(apartmentForm.section.successModal, '@successTitle', 'העלאת הדירה הושלמה!');
     browser.end();
   },
@@ -59,8 +60,9 @@ module.exports = {
     home.signUpInForm(user);
     apartmentForm
       .fillUserDetailsFields(user)
-      .submitApartment()
-      .expect.section('@successModal').to.be.visible;
+      .submitApartment();
+    browser.pause(500);
+    apartmentForm.expect.section('@successModal').to.be.present;
     common.waitForText(apartmentForm.section.successModal, '@successTitle', 'העלאת הדירה הושלמה!');
     browser.end();
   }    
