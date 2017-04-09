@@ -136,7 +136,7 @@ class Property extends Component {
               <Row className="property-menu-container">
                 <PropertyMenu path={'/dashboard/my-properties/' + property.id + '/'}
                               tabs={propertyTabs}
-                              currentTab={selectedTab.relativeRoute} />
+                              activeKey={selectedTab.relativeRoute} />
               </Row>
               <Row>
                 {selectedTab.component}
