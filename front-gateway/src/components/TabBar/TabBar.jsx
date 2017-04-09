@@ -8,17 +8,23 @@ import './TabBar.scss';
 @observer(['router'])
 export default class TabBar extends Component {
 
+  constructor(props){
+    super(props);
+    this.activeKey = props.activeKey || '';
+  }
+
   onChangeTab(activeTab) {
-    this.props.tabs.map((tab) => { tab.isActive = (tab.name == activeTab.name); });
+    this.activeKey = activeTab.key;
     this.props.onChangeTab(activeTab);
   }
 
   render() {
     return (
       <Navbar className="tab-bar">
-        <Nav bsStyle="tabs">
-          {this.props.tabs.map(tab =>
-            <NavItem className={tab.isActive ? 'active' : ''} key={tab.title} onClick={() => { this.onChangeTab(tab); }}>
+        <Nav bsStyle="tabs" activeKey={this.activeKey}>
+          {
+            this.props.tabs.map(tab =>
+            <NavItem key={tab.key} eventKey={tab.key} onClick={() => { this.onChangeTab(tab); }}>
               {tab.title}
             </NavItem>
           )}
@@ -30,5 +36,6 @@ export default class TabBar extends Component {
 
 TabBar.wrappedComponent.propTypes = {
   tabs: React.PropTypes.array.isRequired,
+  activeKey: React.PropTypes.string,
   onChangeTab: React.PropTypes.func
 };
