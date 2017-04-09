@@ -50,7 +50,6 @@ function* update(openHouseEvent) {
   return yield openHouseEvent.update({
     start_time: openHouseEvent.start_time,
     end_time: openHouseEvent.end_time,
-    comments: openHouseEvent.comments,
     max_attendies: openHouseEvent.max_attendies,
     is_active: openHouseEvent.is_active
   });
