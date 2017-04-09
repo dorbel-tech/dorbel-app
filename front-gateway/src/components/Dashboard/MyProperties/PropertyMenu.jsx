@@ -7,13 +7,12 @@ import _ from 'lodash';
 @observer(['router'])
 export default class PropertyMenu extends React.Component {
   render() {
-    const { currentTab, property, tabs, router } = this.props;
-    const activeTab = _.find(tabs, { relativeRoute: currentTab }) || tabs[0];
+    const { activeKey, path, tabs, router } = this.props;
 
     return (
       <Navbar className="property-menu tab-menu">
-        <Nav bsStyle="tabs" activeKey={activeTab.relativeRoute}
-             onSelect={(relativeRoute) => {router.setRoute('/dashboard/my-properties/' + property.id + '/' + relativeRoute);}}>
+        <Nav bsStyle="tabs" activeKey={activeKey}
+             onSelect={(relativeRoute) => {router.setRoute(path + relativeRoute);}}>
           {tabs.map(tab =>
             <NavItem key={tab.relativeRoute} eventKey={tab.relativeRoute}>
               {tab.title}
@@ -27,7 +26,7 @@ export default class PropertyMenu extends React.Component {
 
 PropertyMenu.wrappedComponent.propTypes = {
   router: React.PropTypes.object,
-  currentTab: React.PropTypes.string,
-  property: React.PropTypes.object.isRequired,
+  activeKey: React.PropTypes.string,
+  path: React.PropTypes.string.isRequired,
   tabs: React.PropTypes.array
 };
