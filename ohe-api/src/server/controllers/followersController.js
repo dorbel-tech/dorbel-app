@@ -12,7 +12,8 @@ function* get() {
   logger.info({ listing_id: listingId, followers_count: result.length }, 'Got followers by listing');
 
   this.response.status = 200;
-  this.response.set('Cache-Control', 'public, max-age=' + ONE_HOUR);
+
+  shared.helpers.headers.setUserConditionalCacheHeader(this.request, this.response, ONE_HOUR);
   this.response.body = result;
 }
 

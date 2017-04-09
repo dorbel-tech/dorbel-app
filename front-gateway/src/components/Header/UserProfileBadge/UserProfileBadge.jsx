@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import { Nav, NavItem } from 'react-bootstrap';
+import { MENU_ITEMS } from '../../Dashboard/DashboardShared';
 
 import './UserProfileBadge.scss';
 
@@ -13,15 +14,29 @@ class UserProfileBadge extends Component {
     };
   }
 
+  renderDashboardMenuItem(item) {
+    const itemPath = '/dashboard/' + item.navTo;
+
+    return <NavItem key={'header-profile-menu-item-' + item.navTo}
+              onClick={(e) => this.routeTo(e, itemPath)}
+              href={itemPath}
+              className="header-profile-menu-item">
+        <i className={'fa ' + item.faIconClassName}  aria-hidden="true"></i>
+        {item.menuText}
+      </NavItem>;
+  }
+
   renderAuthenticationLink(isLoggedIn) {
     const { authProvider } = this.props.appProviders;
+    const showDashboardMenu = process.env.NODE_ENV === 'development' && isLoggedIn;
 
     return isLoggedIn ?
       (
         <Nav>
+          {showDashboardMenu ? MENU_ITEMS.map((item) => this.renderDashboardMenuItem(item)) : null}
           <NavItem
             onClick={authProvider.logout}
-            className="user-profile-badge-auth-text">
+            className="user-profile-badge-auth user-profile-badge-auth-logout">
             <i className="fa fa-sign-out" />
             התנתק
           </NavItem>
@@ -32,7 +47,7 @@ class UserProfileBadge extends Component {
         <Nav>
           <NavItem 
             onClick={authProvider.showLoginModal}
-            className="user-profile-badge-auth-text">
+            className="user-profile-badge-auth">
             <i className="fa fa-sign-in" />
             התחבר
           </NavItem>
@@ -63,7 +78,7 @@ class UserProfileBadge extends Component {
               <i className="fa fa-user" />
             </div>
           </div>
-          <div className="user-profile-badge-auth-text-inline">
+          <div className="user-profile-badge-auth-inline">
             {this.renderAuthenticationLink(isLoggedIn)}
           </div>
         </div>

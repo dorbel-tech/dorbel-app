@@ -1,16 +1,17 @@
 'use strict';
 import promisify from 'es6-promisify';
 import auth0 from './auth0helper';
+import autobind from 'react-autobind';
 
 class AuthProvider {
-  constructor(clientId, domain, authStore, router) {
+  constructor(clientId, domain, authStore, router, apiProvider) {
+    autobind(this);
     this.lock = auth0.initLock(clientId, domain);
-    this.lock.on('authenticated', this.afterAuthentication.bind(this));
-    this.lock.on('hide', this.hideHandler.bind(this));
+    this.lock.on('authenticated', this.afterAuthentication);
+    this.lock.on('hide', this.hideHandler);
     this.authStore = authStore;
     this.router = router;
-    this.showLoginModal = this.showLoginModal.bind(this);
-    this.logout = this.logout.bind(this);
+    this.apiProvider = apiProvider;
     this.reportIdentifyAnalytics(this.authStore.profile);
   }
 
@@ -23,11 +24,11 @@ class AuthProvider {
   afterAuthentication(authResult) {
     this.authStore.setToken(authResult.idToken);
     this.getProfile(authResult)
-    .then(() => { // wait until profile is set because our previous state might depend on it
-      if (authResult.state) {
-        this.recoverStateAfterLogin(authResult.state);
-      }
-    });
+      .then(() => { // wait until profile is set because our previous state might depend on it
+        if (authResult.state) {
+          this.recoverStateAfterLogin(authResult.state);
+        }
+      });
   }
 
   recoverStateAfterLogin(stateString) {
@@ -36,7 +37,7 @@ class AuthProvider {
       if (stateBeforeLogin && stateBeforeLogin.pathname) {
         this.router.setRoute(stateBeforeLogin.pathname);
       }
-    } catch(ex) {
+    } catch (ex) {
       window.console.error('error parsing state after login');
     }
   }
@@ -44,15 +45,17 @@ class AuthProvider {
   getProfile(authResult) {
     // DEPRECATION NOTICE: This method will be soon deprecated, use `getUserInfo` instead
     return promisify(this.lock.getProfile, this.lock)(authResult.idToken)
-    .then(profile => {
-      let mappedProfile = auth0.mapAuth0Profile(profile);
-      this.authStore.setProfile(mappedProfile);
-      this.reportIdentifyAnalytics(mappedProfile);
-    })
-    .catch(error => {
-      window.console.log('Error loading the Profile', error);
-      throw error;
-    });
+      .then(this.setProfile)
+      .catch(error => {
+        window.console.log('Error loading the Profile', error);
+        throw error;
+      });
+  }
+
+  setProfile(profile) {
+    let mappedProfile = auth0.mapAuth0Profile(profile);
+    this.authStore.setProfile(mappedProfile);
+    this.reportIdentifyAnalytics(mappedProfile);
   }
 
   showLoginModal(backOnHide) {
@@ -70,14 +73,19 @@ class AuthProvider {
     });
   }
 
+  updateUserProfile(userProfile) {
+    return this.apiProvider.fetch('/api/apartments/v1/user-profile/', { method: 'PATCH', data: userProfile })
+      .then(this.setProfile);
+  }
+
   logout() {
     this.authStore.logout();
   }
 
   reportIdentifyAnalytics(profile) {
     // https://segment.com/docs/integrations/intercom/#identify
-    if (profile) { 
-      window.analytics.identify(profile.dorbel_user_id, profile); 
+    if (profile) {
+      window.analytics.identify(profile.dorbel_user_id, profile);
     }
   }
 }

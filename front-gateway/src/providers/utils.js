@@ -1,5 +1,5 @@
 /***
- * General utils modeule
+ * General utils module
  */
 'use strict';
 import _ from 'lodash';
@@ -34,8 +34,20 @@ function getListingSubTitle(listing) {
   return neighborhoodPrefix + building.city.city_name;
 }
 
+function getFloorTextValue(listing) {
+  let textValue = listing.apartment.floor;
+  const floors = listing.apartment.building.floors;
+  if (floors) { textValue += '/' + floors; }
+
+  return textValue;
+}
+
 function sortListingImages(listing) {
-  return listing.images.length ? _.orderBy(listing.images, ['display_order']) : [];
+  let listingImages = [];
+  if (listing && listing.images) {
+    listingImages = listing.images;
+  }
+  return listingImages.length ? _.orderBy(listingImages, ['display_order']) : [];
 }
 
 function getListingStatusLabels() {
@@ -72,10 +84,11 @@ module.exports = {
   formatTime,
   formatDate,
   formatDay,
+  getFloorTextValue,
+  getListingStatusLabels,
   getListingSubTitle,
   getListingTitle,
   sortListingImages,
-  getListingStatusLabels,
   promiseSeries,
   isMobile
 };

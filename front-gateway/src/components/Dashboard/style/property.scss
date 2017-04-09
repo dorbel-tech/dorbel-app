@@ -1,0 +1,194 @@
+.property-top-container {
+  background-color: $brand-white;
+}
+
+.property-image-container {
+  padding-right: 0;
+
+  .listing-status-container {
+    left: -25px;
+    top: 35px;
+
+    @media (max-width: $screen-xs-max) {
+      left: auto;
+      position: absolute;
+      right: 0;
+      top: 10px;
+    }
+  }
+
+  .listing-status-label {
+    display: none;
+  }
+
+  .listing-status-selector {
+    width: auto;
+
+    @media (max-width: $screen-xs-max) {
+      border-radius: 100px 0 0 100px;
+    }
+  }
+}
+
+.property-image {
+  height: 125px;
+  object-fit: cover;
+  width: 100%;
+
+  @media (max-width: $screen-xs-max) {
+    height: 97px;
+  }
+}
+
+.property-title-container {
+  color: #382e2f;
+  padding-right: 50px;
+  padding-top: 37px;
+
+  @media (max-width: $screen-xs-max) {
+    height: 97px;
+    padding-left: 5px;
+    padding-right: 0;
+    padding-top: 12px;
+  }
+}
+
+.property-title {
+  font-size: 20px;
+  padding-bottom: 7px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  @media (max-width: $screen-xs-max) {
+    font-size: 15px;
+    padding-left: 40px;
+    white-space: normal;
+  }
+}
+
+.property-title-details {
+  font-size: 16px;
+
+  @media (max-width: $screen-xs-max) {
+    bottom: 5px;
+    font-size: 13px;
+    left: 0;
+    position: absolute;
+    right: 0;
+    text-align: center;
+  }
+}
+
+.property-title-details-sub-text {
+  color: #9b9b9b;
+}
+
+.property-title-details-vr {
+  display: inline;
+  padding-left: 10px;
+
+  @media (max-width: $screen-xs-max) {
+    border-right: 1px solid $gray-light;
+    margin-right: 5px;
+    padding-left: 5px;
+  }
+}
+
+.property-title-details-last-text {
+  padding-left: 5px;
+}
+
+.property-actions-wrapper {
+  line-height: 36px;
+  padding-top: 30px;
+  text-align: center;
+
+  > div > div {
+    display: inline-block;
+    line-height: 20px;
+    vertical-align: middle;
+  }
+
+  @media (min-width: $screen-md-min) {
+    padding-top: 45px;
+  }
+}
+
+.property-action-container {
+  @media (min-width: $screen-md-min) {
+    display: inline;
+    padding-left: 12px;
+  }
+
+  @media (min-width: $screen-lg-min) {
+    padding-left: 30px;
+  }
+}
+
+.property-actions-details,
+.property-actions-preview-container {
+  @media (max-width: $screen-xs-max) {
+    display: none !important;
+  }
+}
+
+.property-actions-title {
+  color: $gray-dark;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.property-actions-sub-title {
+  color: #979797;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.property-actions-vr {
+  border-right: 1px solid $gray-light;
+  height: 25px;
+  margin-right: 10px;
+  padding-left: 10px;
+}
+
+.property-actions-preview-container,
+.property-actions-menu-container {
+  display: inline;
+  padding-left: 10px;
+
+  @media (min-width: $screen-lg-min) {
+    padding-left: 20px;
+  }
+}
+
+.property-preview-button {
+  border: 1px solid #979797;
+  border-radius: 4px;
+  height: 31px;
+  width: 77px;
+}
+
+.property-actions-menu-container {
+  cursor: pointer;
+
+  @media (max-width: $screen-xs-max) {
+    left: 5px;
+    padding: 13px;
+    position: absolute;
+    top: 0;
+  }
+}
+
+.property-actions-menu .popover-content {
+  padding: 0;
+}
+
+.property-actions-menu-item {
+  cursor: pointer;
+  padding: 18px;
+}
+
+.property-actions-menu-item-icon {
+  padding-left: 20px;
+  vertical-align: middle;
+}

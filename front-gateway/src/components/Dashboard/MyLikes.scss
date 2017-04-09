@@ -1,26 +1,26 @@
 @import "../sharedStyles/variables.scss";
 @import "../sharedStyles/bsvars.scss";
 
-.dashboard-my-likes-container {
-  padding-top: 35px;
+.my-likes-container {
+  padding: 55px 0 20px;
 
   @media (max-width: $screen-xs-max) {
-    padding-top: 0;
+    padding: 20px 0;
   }
 
-  .title {
+  .my-likes-title {
     padding: 0 15px 10px;
   }
 }
 
-.dashboard-my-likes-empty {
+.my-likes-empty {
   text-align: center;
 
   @media (max-width: $screen-xs-max) {
     padding: 10px;
   }
 
-  .text {
+  .my-likes-text {
     color: $gray;
     font-size: 14px;
     padding-top: 20px;

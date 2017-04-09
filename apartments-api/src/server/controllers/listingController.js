@@ -18,10 +18,7 @@ function* get() {
     options.offset = parseInt(this.request.query.offset) || undefined;
   }
 
-  if (!options.user) {
-    this.response.set('Cache-Control', 'public, max-age=' + ONE_MINUTE);
-  }
-
+  shared.helpers.headers.setUserConditionalCacheHeader(this.request, this.response, ONE_MINUTE);
   this.response.body = yield listingService.getByFilter(this.request.query.q, options);
 }
 

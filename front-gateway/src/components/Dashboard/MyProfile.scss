@@ -1,0 +1,75 @@
+@import "../sharedStyles/variables.scss";
+@import "../sharedStyles/bsvars.scss";
+
+.my-profile-container {
+  width: 100%;
+  max-width: 785px;
+  margin: 0 auto;
+  padding: 35px;
+  margin-top: 50px;
+
+  @media (max-width: $screen-xs-max) {
+    padding-top: 0;
+  }
+}
+
+.my-profile-title {
+  color: $gray;
+  font-size: 18px;
+  margin: 10px 0;
+  display: block;
+}
+
+.my-profile-edit-wrapper {
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  background-color: $brand-white;
+}
+
+.my-profile-form {
+  margin: 50px;
+
+  .form-group.has-error {
+    .glyphicon {
+      display: none;
+    }
+  }
+
+  .my-profile-input {
+    padding-bottom: 10px;
+    position: relative;
+
+    .control-label {
+      color: $gray-light;
+    }
+
+    .fa.fa-lock {
+      position: absolute;
+      top: 34px;
+      left: 33px;
+      color: $brand-green;
+    }
+  }
+
+  @media (max-width: $screen-xs-max) {
+    margin: 35px 10px;
+    padding-bottom: 15px;
+  }
+}
+
+.my-profile-picture-container {
+  margin: 0 auto;
+  text-align: center;
+
+  .my-profile-picture {
+    border-radius: 50%;
+    width: 130px;
+    height: 130px;
+    margin-top: -75px;
+  }
+}
+
+.my-profile-submit {
+  float: left;
+}

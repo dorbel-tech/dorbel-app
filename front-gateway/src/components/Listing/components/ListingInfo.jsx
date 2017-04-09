@@ -9,17 +9,18 @@ class ListingInfo extends React.Component {
     autobind(this);
   }
 
-  getFloorLabel(apartment) {
-    let label = 'קומה ' + apartment.floor;
-    if (apartment.building.floors) { label += '/' + apartment.building.floors; }
-    if (apartment.building.elevator) { label += ' + מעלית'; }
+  getFloorLabel(listing) {
+    let label = 'קומה ' + utils.getFloorTextValue(listing);
+    const elevator = listing.apartment.building.elevator;
+    if (elevator) { label += ' + מעלית'; }
+
     return label;
   }
 
   renderInfoBox(title, svgName) {
     return (
       <Col xs={3} md={1} className="listing-info-item">
-        <img className="listing-info-item-image" src={'https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/icons/' + svgName + '.svg'} alt="" />
+        <img className="listing-info-item-image" src={'https://static.dorbel.com/images/icons/' + svgName + '.svg'} alt="" />
         <div className="listing-info-item-text">{title}</div>
       </Col>
     );
@@ -33,7 +34,7 @@ class ListingInfo extends React.Component {
         {this.renderInfoBox(utils.formatDate(listing.lease_start), 'dorbel-icon-date')}
         {this.renderInfoBox(listing.apartment.rooms + ' חדרים', 'dorbel-icon-rooms')}
         {this.renderInfoBox(listing.apartment.size + ' מ"ר', 'dorbel-icon-sqm')}
-        {this.renderInfoBox(this.getFloorLabel(listing.apartment), 'dorbel-icon-stairs')}
+        {this.renderInfoBox(this.getFloorLabel(listing), 'dorbel-icon-stairs')}
       </Row>
     );
   }

@@ -101,7 +101,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
               </ul>
             </div>
           </div>
-          <img src="https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/upload-apt-form/icon-signup-card.svg" alt="" />
+          <img src="https://static.dorbel.com/images/upload-apt-form/icon-signup-card.svg" alt="" />
         </Col>
 
         <Col md={7} className="upload-apt-left-container open-house-event-step">
@@ -111,7 +111,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
               <AddOHEInput validations="oheValidation" name="ohe" onChange={this.handleChange.bind(this, 'open_house_event')} ohe={existingOhe} mode="new" />
               <Row>
                 <Col md={12}>
-                  <FRC.Textarea name="open_house_event.comments" rows={3} label="הכוונה לדירה בבניין (אם צריך)"
+                  <FRC.Textarea name="directions" rows={3} label="הכוונה לדירה בבניין (אם צריך)"
                     placeholder="(לדוגמא: הדלת הלבנה משמאל למדרגות)" />
                 </Col>
               </Row>

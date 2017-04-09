@@ -2,26 +2,9 @@ import React from 'react';
 import { observer } from 'mobx-react';
 import { Col } from 'react-bootstrap';
 import Icon from '~/components/Icon/Icon';
-import LikeButton from '~/components/LikeButton/LikeButton';
 
 @observer(['appStore'])
-class ListingInfo extends React.Component {
-
-  renderLikeCounter() {
-    const totalLikes = this.props.listing.totalLikes;
-    if (totalLikes && this.props.appStore.authStore.isLoggedIn) {
-      return (
-        <div className="like-button-total-likes-text">
-          <span>
-            {`${totalLikes} אוהבים את הדירה`}
-          </span>
-        </div>
-      );
-    }
-    else {
-      return null;
-    }
-  }
+class ListingSocial extends React.Component {
 
   render() {
     const listingId = this.props.listing.id;
@@ -29,7 +12,7 @@ class ListingInfo extends React.Component {
     const currentUrl = website_url + '/apartments/' + listingId;
 
     return (
-      <Col className="listing-social-share-wrapper">
+      <Col>
         שתפו
         <div className="listing-social-share-container">
           <a className="listing-social-share-item fa fa-facebook-f fb-desktop" href={'https://www.facebook.com/sharer.php?u=' + currentUrl + '?utm_source=apt_page_facebook_share'} target="_blank"></a>
@@ -39,18 +22,14 @@ class ListingInfo extends React.Component {
           <a className="listing-social-share-item fb-messenger-desktop" href={'https://www.facebook.com/dialog/send?app_id=1651579398444396&link=' + currentUrl + '?utm_source=apt_page_messenger_share' + '&redirect_uri=' + currentUrl + '?utm_source=apt_page_messenger_share'} target="_blank"><Icon iconName="dorbel-icon-social-fbmsg" /></a>
           <a className="listing-social-share-item fb-messenger-mobile" href={'fb-messenger://share/?link=' + currentUrl + '?utm_source=apt_page_messenger_share' + '&app_id=1651579398444396'}><Icon iconName="dorbel-icon-social-fbmsg" /></a>
         </div>
-        <div className="like-button-wrapper text-center">
-          <LikeButton listingId={listingId} showText="true" />
-          {this.renderLikeCounter()}
-        </div>
       </Col>
     );
   }
 }
 
-ListingInfo.propTypes = {
+ListingSocial.wrappedComponent.propTypes = {
   appStore: React.PropTypes.object,
   listing: React.PropTypes.object.isRequired
 };
 
-export default ListingInfo;
+export default ListingSocial;

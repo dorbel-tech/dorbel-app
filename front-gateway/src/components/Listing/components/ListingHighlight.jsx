@@ -1,6 +1,6 @@
 import React from 'react';
 
-class ListingInfo extends React.Component {
+class ListingHighlight extends React.Component {
   render() {
     const { listing } = this.props;
 
@@ -13,8 +13,8 @@ class ListingInfo extends React.Component {
   }
 }
 
-ListingInfo.propTypes = {
+ListingHighlight.propTypes = {
   listing: React.PropTypes.object.isRequired
 };
 
-export default ListingInfo;
+export default ListingHighlight;

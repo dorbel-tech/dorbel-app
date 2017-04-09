@@ -27,11 +27,11 @@ class ListingsProvider {
       });
   }
 
-  loadListingPageViews(listing) {
-    return this.apiProvider.fetch('/api/apartments/v1/page_views/listings/' + listing.id)
+  loadListingPageViews(listingId) {
+    return this.apiProvider.fetch('/api/apartments/v1/page_views/listings/' + listingId)
     .then(response => {
-      if (response[listing.id]) {
-        this.appStore.listingStore.listingViewsById.set(listing.id, response[listing.id].views);
+      if (response[listingId]) {
+        this.appStore.listingStore.listingViewsById.set(listingId, response[listingId].views);
       }
     });
   }

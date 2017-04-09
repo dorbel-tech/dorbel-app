@@ -1,26 +1,26 @@
 @import "../sharedStyles/variables.scss";
 @import "../sharedStyles/bsvars.scss";
 
-.dashboard-my-properties-container {
-  padding-top: 35px;
+.my-properties-container {
+  padding: 55px 0 20px;
 
   @media (max-width: $screen-xs-max) {
-    padding-top: 0;
+    padding: 20px 0;
   }
 
-  .title {
+  .my-properties-title {
     padding: 0 15px 10px;
   }
 }
 
-.dashboard-my-properties-empty {
+.my-properties-empty {
   text-align: center;
 
   @media (max-width: $screen-xs-max) {
     padding: 10px;
   }
 
-  a.add {
+  a.my-properties-add {
     box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.1);
     border: 1px solid #3398db;
     border-radius: 4px 4px 0 0;
@@ -32,7 +32,7 @@
       height: 249px;
     }
 
-    .cross {
+    .my-properties-cross {
       padding-top: 100px;
 
       @media (max-width: $screen-xs-max) {
@@ -40,17 +40,17 @@
       }
     }
 
-    .title {
+    .my-properties-title {
       padding-top: 50px;
     }
   }
 
-  a:hover.add {
+  a:hover.my-properties-add {
     box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.1);
     font-weight: bold;
   }
 
-  .text {
+  .my-properties-text {
     color: $gray;
     font-size: 13px;
     padding-top: 20px;

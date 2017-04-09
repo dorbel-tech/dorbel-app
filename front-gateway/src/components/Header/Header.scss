@@ -3,6 +3,7 @@
 
 .header-navbar {
   background: linear-gradient(90deg, #5f2982 0%, $brand-primary 100%) !important;
+  border: none;
   box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.3);
 
   .navbar-brand {
@@ -30,32 +31,79 @@
   }
 }
 
-@media (min-width: $screen-sm-min) {
-  .header-navbar-links .btn-publish {
-    background-color: #00b3e5;
-    border-radius: 4px;
-    margin: 10px 0;
-    height: 40px;
+.header-dashboard-menu-item {
+  &.header-dashboard-menu-item-selected {
+    border-right: 4px solid $gray-dark;
 
     > a {
+      margin-right: -4px;
+    }
+  }
+
+  @media (min-width: $screen-sm-min) {
+    display: none !important;
+  }
+}
+
+.header-dashboard-menu-item-icon {
+  font-size: 14px;
+  padding-left: 18px;
+  vertical-align: text-bottom;
+}
+
+.header-navbar-btn-publish {
+  background-color: #00b3e5;
+  margin: 10px 0;
+  height: 53px;
+
+  > a {
+    color: $brand-white !important;
+    line-height: 29px !important;
+
+    @media (max-width: $screen-xs-max) {
+      &::before {
+        content: '+';
+        font-family: FontAwesome;
+        margin-left: 5px;
+      }
+    }
+
+    @media (min-width: $screen-sm-min) {
       line-height: normal !important;
     }
+  }
+
+  @media (min-width: $screen-sm-min) {
+    border-radius: 4px;
+    height: 40px;
+  }
+}
+
+.header-navbar-profile-login-text {
+  border-top: 1px solid #cdcdcd;
+  margin: 0 20px;
+
+  > a {
+    padding: 20px 0 !important;
+  }
+
+  i {
+    margin-left: 18px;
+  }
+
+  @media (min-width: $screen-sm-min) {
+    display: none !important;
   }
 }
 
 @media (max-width: $screen-xs-max) {
-  .btn-publish > a {
-    color: $brand-white !important;
-    background-color: #00b3e5;
-  }
-
   .navbar-collapse {
     background-color: $brand-white;
   }
 
   .navbar-inverse .navbar-nav > li > a {
-    color: $gray-dark !important;
-    font-size: 16px;
+    color: $gray-dark;
+    font-size: 13px;
   }
 }
 
@@ -63,8 +111,8 @@
   opacity: 0.7;
 }
 
-@media (max-width: $screen-sm-max) {
-  .header-navbar-owner-services-navitem {
+.header-navbar-owner-services-navitem {
+  @media (max-width: $screen-sm-max) and (min-width: $screen-sm-min) {
     display: none !important;
   }
 }

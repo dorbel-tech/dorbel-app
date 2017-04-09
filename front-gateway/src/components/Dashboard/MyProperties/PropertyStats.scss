@@ -1,0 +1,243 @@
+@import "../../sharedStyles/variables.scss";
+@import "../../sharedStyles/bsvars.scss";
+
+$bubble-width-lg: 130px;
+$bubble-width-md: $bubble-width-lg;
+$bubble-width-sm: 90px;
+$bubble-width-xs-max: $bubble-width-sm;
+$bubble-width-xs-min: 70px;
+$line-width-lg: 100px;
+$line-width-md: 80px;
+$line-width-sm: 60px;
+$line-width-xs-max: $line-width-sm;
+$line-width-xs-min: 40px;
+$empty-color: $gray;
+$active-color: #3398db;
+
+@mixin add-active-color() {
+  color: $active-color !important;
+}
+
+.property-stats {
+  padding-bottom: 20px;
+  padding-top: 70px;
+  padding-right: 100px;
+
+  @media (max-width: $screen-md-max) {
+    padding-top: 50px;
+    padding-right: 80px;
+  }
+
+  @media (max-width: $screen-sm-max) {
+    padding-top: 30px;
+    padding-right: 60px;
+  }
+
+  @media (max-width: $screen-xs-max) {
+    padding: 10px 20px 0;
+  }
+
+  @media (max-width: $screen-xs-min) {
+    padding: 10px 7px 0;
+  }
+
+  .property-stats-number-not-empty {
+    @include add-active-color();
+  }
+
+  .property-stats-rent-title {
+    padding-bottom: 30px;
+
+    @media (max-width: $screen-sm-max) {
+      padding-bottom: 10px;
+    }
+  }
+
+  .property-stats-rented-check {
+    font-size: 26px;
+    color: $gray-lighter;
+    text-shadow: 0 0 2px #000;
+  }
+
+  .property-stats-numbers-row {
+    line-height: 80px;
+  }
+
+  .property-stats-number {
+    font-size: 40px;
+    display: inline-block;
+    width: $bubble-width-lg;
+    text-align: center;
+
+    @media (max-width: $screen-md-max) {
+      width: $bubble-width-md;
+    }
+
+    @media (max-width: $screen-sm-max) {
+      width: $bubble-width-sm;
+    }
+
+    @media (max-width: $screen-xs-max) {
+      width: $bubble-width-xs-max;
+    }
+
+    @media (max-width: $screen-xs-min) {
+      font-size: 30px;
+      width: $bubble-width-xs-min;
+    }
+  }
+
+  .property-stats-empty {
+    display: inline-block;
+    width: $line-width-lg;
+
+    @media (max-width: $screen-md-max) {
+      width: $line-width-md;
+    }
+
+    @media (max-width: $screen-sm-max) {
+      width: $line-width-sm;
+    }
+
+    @media (max-width: $screen-xs-max) {
+      width: $line-width-xs-max;
+    }
+
+    @media (max-width: $screen-xs-min) {
+      width: $line-width-xs-min;
+    }
+  }
+
+  .property-stats-line-not-empty {
+    @include add-active-color();
+
+    border-bottom: 1px solid $active-color !important;
+  }
+
+  .property-stats-line {
+    border-bottom: 1px $gray-dark solid;
+    display: inline-block;
+    width: $line-width-lg;
+    margin-bottom: 4px;
+
+    @media (max-width: $screen-md-max) {
+      width: $line-width-md;
+    }
+
+    @media (max-width: $screen-sm-max) {
+      width: $line-width-sm;
+      margin-bottom: 14px;
+    }
+
+    @media (max-width: $screen-xs-max) {
+      width: $line-width-xs-max;
+    }
+
+    @media (max-width: $screen-xs-min) {
+      width: $line-width-xs-min;
+    }
+  }
+
+  .property-stats-bubble-not-empty {
+    @include add-active-color();
+
+    border: 1px solid $active-color !important;
+  }
+
+  .property-stats-bubble {
+    border: 1px solid $gray-dark;
+    border-radius: 100px;
+    display: inline-block;
+    width: $bubble-width-lg;
+    text-align: center;
+
+    @media (max-width: $screen-md-max) {
+      width: $bubble-width-md;
+    }
+
+    @media (max-width: $screen-sm-max) {
+      width: $bubble-width-sm;
+    }
+
+    @media (max-width: $screen-xs-max) {
+      width: $bubble-width-xs-max;
+    }
+
+    @media (max-width: $screen-xs-min) {
+      border-radius: 15px;
+      width: $bubble-width-xs-min;
+    }
+
+    .property-stats-bubble-text {
+      padding: 10px;
+    }
+  }
+
+  .property-stats-listing-stats {
+    text-align: center;
+
+    .property-stats-card {
+      background-color: $brand-white;
+      border-radius: 2px;
+      box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.05);
+      padding: 20px;
+
+      @media (max-width: $screen-sm-max) {
+        padding: 10px 0;
+      }
+    }
+
+    .property-stats-number {
+      font-size: 24px;
+    }
+
+    .property-stats-title {
+      color: $gray-light;
+      font-size: 14px;
+    }
+  }
+
+  .property-stats-publishing-title,
+  .property-stats-services-title {
+    padding: 60px 0;
+
+    @media (max-width: $screen-sm-max) {
+      padding-top: 40px;
+      padding-bottom: 30px;
+    }
+  }
+
+  .property-stats-services {
+    .property-stats-service {
+      background-color: $brand-white;
+      border-radius: 2px;
+      box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.05);
+      min-height: 250px;
+      padding: 0 30px;
+      text-align: center;
+      font-size: 11px;
+
+      @media (max-width: $screen-sm-max) {
+        margin: 20px 0;
+        margin-bottom: 60px;
+      }
+
+      .property-stats-image {
+        margin-top: -40px;
+      }
+
+      .property-stats-title {
+        font-size: 16px;
+        font-weight: bold;
+        padding-top: 40px;
+        padding-bottom: 22px;
+      }
+
+      .property-stats-button {
+        font-size: 13px;
+        margin-top: 40px;
+        margin-bottom: 20px;
+      }
+    }
+  }
+}

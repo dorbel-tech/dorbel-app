@@ -2,15 +2,11 @@ import React, { Component } from 'react';
 import autobind from 'react-autobind';
 import { observer } from 'mobx-react';
 import NavLink from '~/components/NavLink';
-import MyProperties from '~/components/Dashboard/MyProperties';
-import MyLikes from '~/components/Dashboard/MyLikes';
+import { MENU_ITEMS } from './DashboardShared';
+import Property from './Property';
+import { find } from 'lodash';
 
 import './Dashboard.scss';
-
-const dashboardMenuItems = [
-  { navTo: 'my-properties', menuText: 'הנכסים שלי', faIconClassName: 'fa-home', component: <MyProperties/> },
-  { navTo: 'my-likes', menuText: 'דירות שאהבתי', faIconClassName: 'fa-heart', component:  <MyLikes/>}
-];
 
 @observer(['router'])
 class Dashboard extends Component {
@@ -32,12 +28,19 @@ class Dashboard extends Component {
   }
 
   render() {
+    let selectedActionItem;
+    if (this.props.propertyId) {
+      selectedActionItem = {component: <Property propertyId={this.props.propertyId} />};
+    } else {
+      selectedActionItem = find(MENU_ITEMS, {navTo: this.props.action});
+    }
+
     return <div className="dashboard-container">
         <div className="dashboard-menu-wrapper">
-          {dashboardMenuItems.map((item) => this.renderMenuItem(item))}
+          {MENU_ITEMS.map((item) => this.renderMenuItem(item))}
         </div>
         <div className="dashboard-action-wrapper">
-          {dashboardMenuItems.map((item) => this.props.action === item.navTo ? item.component : null )}          
+          {selectedActionItem ? selectedActionItem.component : null}
         </div>
       </div>;
   }
@@ -45,6 +48,7 @@ class Dashboard extends Component {
 
 Dashboard.wrappedComponent.propTypes = {
   action: React.PropTypes.string,
+  propertyId: React.PropTypes.string,
   router: React.PropTypes.any
 };
 
