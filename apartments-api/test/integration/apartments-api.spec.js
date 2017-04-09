@@ -123,7 +123,7 @@ describe('Apartments API Integration', function () {
         // switch user for test purposes
         otherApiClient = yield ApiClient.init(faker.getFakeUser({
           id: OTHER_INTEGRATION_TEST_USER_ID,
-          role: 'admin'
+          role: 'user'
         }));
       });
 
