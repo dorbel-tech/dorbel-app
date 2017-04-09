@@ -52,7 +52,6 @@ function* create(openHouseEvent, user) {
     start_time: start,
     end_time: end,
     listing_id: listing_id,
-    comments: openHouseEvent.comments,
     publishing_user_id: userId,
     is_active: true,
     max_attendies
@@ -64,7 +63,6 @@ function* create(openHouseEvent, user) {
     event_id: newEvent.id,
     start_time: openHouseEvent.start_time,
     end_time: openHouseEvent.end_time,
-    comments: openHouseEvent.comments,
     user_uuid: userId
   });
 
@@ -135,7 +133,6 @@ function* remove(eventId, user) {
     event_id: existingEvent.id,
     start_time: existingEvent.start_time,
     end_time: existingEvent.end_time,
-    comments: existingEvent.comments,
     user_uuid: existingEvent.publishing_user_id
   });
 
@@ -176,7 +173,6 @@ function convertEventModelToDTO(eventModel, userId) {
     start_time: eventModel.start_time,
     end_time: eventModel.end_time,
     max_attendies: eventModel.max_attendies,
-    comments: eventModel.comments,
     status: utilityFunctions.calculateOHEStatus(eventModel, userId)
   };
 }
