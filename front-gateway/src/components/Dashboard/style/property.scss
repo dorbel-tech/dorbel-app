@@ -118,16 +118,17 @@
 .property-action-container {
   @media (min-width: $screen-md-min) {
     display: inline;
-    padding-left: 12px;
+    padding-left: 6px;
   }
 
   @media (min-width: $screen-lg-min) {
-    padding-left: 30px;
+    padding-left: 20px;
   }
 }
 
 .property-actions-details,
-.property-actions-preview-container {
+.property-actions-preview-container,
+.property-actions-refresh-container {
   @media (max-width: $screen-xs-max) {
     display: none !important;
   }
@@ -152,6 +153,7 @@
   padding-left: 10px;
 }
 
+.property-actions-refresh-container,
 .property-actions-preview-container,
 .property-actions-menu-container {
   display: inline;
@@ -162,11 +164,14 @@
   }
 }
 
+.property-refresh-button {
+  border: 1px solid #979797;
+  border-radius: 4px;
+}
+
 .property-preview-button {
   border: 1px solid #979797;
   border-radius: 4px;
-  height: 31px;
-  width: 77px;
 }
 
 .property-actions-menu-container {
@@ -192,4 +197,12 @@
 .property-actions-menu-item-icon {
   padding-left: 20px;
   vertical-align: middle;
+}
+
+.propery-action-menu-item-show-mobile {
+  display: none;
+
+  @media (max-width: $screen-xs-max) {
+    display: block;
+  }
 }
