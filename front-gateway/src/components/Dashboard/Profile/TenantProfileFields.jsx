@@ -3,9 +3,12 @@ import { Row, Col } from 'react-bootstrap';
 import { FRC } from '~/components/FormWrapper/FormWrapper';
 
 class MyProfileFields extends Component {
+  static showPicture = false;
+  static pathParam = 'tenant_profile'
+
   render() {
-    let tenantProfile = this.props.profile.user_metadata.tenantProfile;
-    tenantProfile = tenantProfile ? tenantProfile : {
+    let tenant_profile = this.props.profile.user_metadata.tenant_profile;
+    tenant_profile =  tenant_profile || {
       about_you: '',
       work_place: '',
       position: '',
@@ -18,9 +21,9 @@ class MyProfileFields extends Component {
         <Row>
           <Col className="my-profile-input" sm={12}>
             <FRC.Textarea
-              value={tenantProfile.about_you}
+              value={tenant_profile.about_you}
               label="כמה מילים על עצמכם"
-              name="tenantProfile.about_you"
+              name="about_you"
               layout="vertical"
               placeholder="עזרו לבעל הדירה להכיר אתכם טוב יותר. איך אתם כשוכרים? לכמה זמן מעוניינים בדירה?"
             />
@@ -29,18 +32,18 @@ class MyProfileFields extends Component {
         <Row>
           <Col className="my-profile-input" sm={6}>
             <FRC.Input
-              value={tenantProfile.work_place}
+              value={tenant_profile.work_place}
               label="מקום עבודה"
-              name="tenantProfile.work_place"
+              name="work_place"
               layout="vertical"
               placeholder="שם החברה / ארגון"
             />
           </Col>
           <Col className="my-profile-input" sm={6}>
             <FRC.Input
-              value={tenantProfile.position}
+              value={tenant_profile.position}
               label="תפקיד"
-              name="tenantProfile.position"
+              name="position"
               layout="vertical"
               type="text"
               placeholder="התפקיד שלכם"
@@ -50,18 +53,18 @@ class MyProfileFields extends Component {
         <Row>
           <Col className="my-profile-input" sm={6}>
             <FRC.Input
-              value={tenantProfile.facebook_url}
+              value={tenant_profile.facebook_url}
               label="לינק לפרופיל הfacebook שלכם"
-              name="tenantProfile.facebook_url"
+              name="facebook_url"
               layout="vertical"
               placeholder="העתיקו את הלינק לכאן"
             />
           </Col>
           <Col className="my-profile-input" sm={6}>
             <FRC.Input
-              value={tenantProfile.linkedin_url}
-              label="מייל ליצירת קשר"
-              name="tenantProfile.linkedin_url"
+              value={tenant_profile.linkedin_url}
+              label="לינק לפרופיל הLinkedIn שלכם"
+              name="linkedin_url"
               layout="vertical"
               placeholder="העתיקו את הלינק לכאן"
             />

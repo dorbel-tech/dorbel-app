@@ -5,7 +5,8 @@ import { FRC } from '~/components/FormWrapper/FormWrapper';
 import './ProfileEditFields.scss';
 
 class MyProfileFields extends Component {
-  static showPicture = true;
+  static showPicture = true;  static 
+  pathParam = 'me'
 
   renderLockIcon() {
     return (
