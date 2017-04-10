@@ -1,10 +1,20 @@
 exports[`Search should display page views from listingStore 1`] = `
 <span
-  className="listing-page-views">
+  className="listing-page-views"
+  data-for="pave-views"
+  data-tip="נתון זה מתעדכן אחת לשעה">
   <i
     className="fa fa-eye" />
     
   9384
    צפיות
+  <ReactTooltip
+    effect="solid"
+    id="pave-views"
+    insecure={true}
+    place="top"
+    resizeHide={true}
+    type="dark"
+    wrapper="div" />
 </span>
 `;
