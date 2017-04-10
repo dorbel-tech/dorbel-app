@@ -49,6 +49,10 @@ class Property extends Component {
     this.props.router.setRoute(e.target.getAttribute('name'));
   }
 
+  refresh() {
+    location.reload(true);
+  }
+
   render() {
     const { appStore } = this.props;
     const property = appStore.listingStore.get(this.props.propertyId);
@@ -65,6 +69,14 @@ class Property extends Component {
 
     const popoverMenu = (
       <Popover id="property-actions-menu" className="property-actions-menu">
+        <div name={'/apartments/' + this.props.propertyId} className="property-actions-menu-item propery-action-menu-item-show-mobile" onClick={this.routeClickHandler}>
+          <i className="property-actions-menu-item-icon fa fa-eye"></i>
+          צפה
+        </div>
+        <div className="property-actions-menu-item propery-action-menu-item-show-mobile" onClick={this.refresh}>
+          <i className="property-actions-menu-item-icon fa fa-refresh" aria-hidden="true"></i>
+          רענון
+        </div>
         <div name={'/dashboard/my-properties/' + this.props.propertyId + '/edit'} className="property-actions-menu-item" onClick={this.routeClickHandler}>
           <i className="property-actions-menu-item-icon fa fa-pencil-square-o"  aria-hidden="true"></i>
           עריכת פרטי הנכס
@@ -119,6 +131,10 @@ class Property extends Component {
                     </div>
                   </div>
                   <div className="property-action-container">
+                    <div className="property-actions-refresh-container">
+                      <Button className="fa fa-refresh property-refresh-button" aria-hidden="true" 
+                         onClick={this.refresh}></Button>
+                    </div>
                     <div className="property-actions-preview-container">
                       <Button className="property-preview-button"
                               name={'/apartments/' + this.props.propertyId}
