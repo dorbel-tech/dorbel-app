@@ -1,11 +1,11 @@
 import React from 'react';
-import { observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import { Col, Row } from 'react-bootstrap';
 import DatePicker from '~/components/DatePicker/DatePicker';
 import FormWrapper, { FRC } from '~/components/FormWrapper/FormWrapper';
 import autobind from 'react-autobind';
 
-@observer(['appStore', 'appProviders'])
+@inject('appStore', 'appProviders') @observer
 export default class ListingDetailsForm extends React.Component {
   constructor(props) {
     super(props);

@@ -1,10 +1,10 @@
 import React from 'react';
-import { observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import { Row } from 'react-bootstrap';
 import Dropzone from 'react-dropzone';
 import CloudinaryImage from '~/components/CloudinaryImage/CloudinaryImage';
 
-@observer(['appProviders'])
+@inject('appProviders') @observer
 export default class ImageUpload extends React.Component {
   constructor(props) {
     super(props);

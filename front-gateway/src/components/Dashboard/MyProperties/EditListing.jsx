@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import autobind from 'react-autobind';
 import { Nav, NavItem, Navbar, Row, Grid, Col, Button } from 'react-bootstrap';
 import ImageUpload from '~/components/ApartmentForm/ImageUpload/ImageUpload';
@@ -11,7 +11,7 @@ const tabs = [
   { key: 'details', title: 'פרטי דירה', component: ListingDetailsForm }
 ];
 
-@observer(['appStore', 'appProviders'])
+@inject('appStore', 'appProviders') @observer
 export default class EditListing extends Component {
   constructor(props) {
     super(props);
