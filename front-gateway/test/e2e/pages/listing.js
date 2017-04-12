@@ -10,13 +10,10 @@ module.exports = {
       selector: '.listing-title-container'
     },
     landlordControls: {
-      selector: '.listing-status-container',
+      selector: '.listing-header',
       elements: {
-        listingMenuStatusDropdownToggle: {
-          selector: '.dropdown-toggle'
-        },
-        listingMenuStatusSelector_listed: {
-          selector: '.dropdown-menu #listed'
+        listingToDashboard: {
+          selector: '.listing-header-to-dashboard'
         }
       }
     },

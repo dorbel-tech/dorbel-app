@@ -27,6 +27,20 @@
   }
 }
 
+.listing-header-to-dashboard {
+	border: 1px solid $gray-lighter;
+	border-radius: 4px;
+	color: $gray-lighter;
+  display: block;
+	height: 30px;
+  line-height: 26px;
+  position: absolute;
+  right: 32px;
+  text-align: center;
+  top: 16px;
+	width: 100px;
+}
+
 .fixed-carousel {
   display: flex;
   direction: ltr;

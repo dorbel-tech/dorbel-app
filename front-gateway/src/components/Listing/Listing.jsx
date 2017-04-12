@@ -16,7 +16,7 @@ import utils from '~/providers/utils';
 
 import './Listing.scss';
 
-@observer(['appStore', 'appProviders', 'router'])
+@observer(['appStore', 'appProviders'])
 class Listing extends Component {
   constructor(props) {
     super(props);
@@ -108,7 +108,6 @@ Listing.wrappedComponent.propTypes = {
   listingId: React.PropTypes.string.isRequired,
   appProviders: React.PropTypes.object,
   appStore: React.PropTypes.object,
-  router: React.PropTypes.object,
   oheId: React.PropTypes.string,
   action: React.PropTypes.string
 };
