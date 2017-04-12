@@ -1,6 +1,10 @@
 .property-top-container,
-.property-menu-container {
+.property-menu {
   background-color: $brand-white;
+}
+
+.property-top-container {
+  border-bottom: 1px solid #F5F5F5;
 }
 
 .property-image-container {
