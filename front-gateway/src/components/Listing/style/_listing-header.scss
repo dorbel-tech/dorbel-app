@@ -28,18 +28,18 @@
 }
 
 .listing-header-to-dashboard {
-	border: 1px solid $gray-lighter;
-	border-radius: 4px;
-	color: $gray-lighter;
+  border: 1px solid $gray-lighter;
+  border-radius: 4px;
+  color: $gray-lighter;
   display: block;
   font-size: 13px;
-	height: 30px;
+  height: 30px;
   line-height: 28px;
   position: absolute;
   right: 32px;
   text-align: center;
   top: 16px;
-	width: 100px;
+  width: 100px;
 
   &:hover {
     color: $gray-lighter;
