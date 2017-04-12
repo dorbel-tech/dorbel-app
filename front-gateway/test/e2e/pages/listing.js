@@ -80,11 +80,6 @@ module.exports = {
         .navigate(url)
         .waitForElementVisible('body');
     },
-    changeListingStatus: function(status) {
-      return this.section.landlordControls
-        .click('@listingMenuStatusDropdownToggle')
-        .click('@listingMenuStatusSelector_' + status);
-    },
     clickFirstOhe: function() {
       return this.section.oheList.click('@firstEvent');
     },
