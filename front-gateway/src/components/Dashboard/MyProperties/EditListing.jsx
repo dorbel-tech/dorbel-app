@@ -36,8 +36,8 @@ export default class EditListing extends Component {
   }
 
   save() {
-    // let listing = this.props.appStore.editedListingStore.toListingObject();
-    // return this.props.appProviders.listingsProvider.uploadApartment(listing)
+    let listing = this.props.appStore.editedListingStore.toListingObject();
+    return this.props.appProviders.listingsProvider.updateListing(listing);
   }
 
   render() {
