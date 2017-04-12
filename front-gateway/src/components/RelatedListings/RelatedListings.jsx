@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import Listing from '../ListingThumbnail/ListingThumbnail.jsx';
 import '../ListingThumbnail/ListingThumbnail.scss';
 
-@observer(['appProviders'])
+@inject('appProviders') @observer
 class RelatedListings extends Component {
 
   constructor(props) {

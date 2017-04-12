@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import autobind from 'react-autobind';
 import { Col, Grid, Row } from 'react-bootstrap';
 import OHEList from './components/OHEList';
@@ -16,7 +16,7 @@ import utils from '~/providers/utils';
 
 import './Listing.scss';
 
-@observer(['appStore', 'appProviders'])
+@inject('appStore', 'appProviders') @observer
 class Listing extends Component {
   constructor(props) {
     super(props);

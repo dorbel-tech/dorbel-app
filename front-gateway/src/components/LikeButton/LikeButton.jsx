@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 
 import './LikeButton.scss';
 
-@observer(['appProviders', 'appStore'])
+@inject('appStore', 'appProviders') @observer
 class LikeButton extends Component {
 
   handleClick(e) {

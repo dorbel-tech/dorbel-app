@@ -1,12 +1,12 @@
 import React from 'react';
 import { Button, Col, Grid, Row } from 'react-bootstrap';
-import { observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import autobind from 'react-autobind';
 import UploadApartmentBaseStep from './UploadApartmentBaseStep';
 import DatePicker from '~/components/DatePicker/DatePicker';
 import FormWrapper from '~/components/FormWrapper/FormWrapper';
 
-@observer(['appStore', 'appProviders'])
+@inject('appStore', 'appProviders') @observer
 class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
   constructor(props) {
     super(props);

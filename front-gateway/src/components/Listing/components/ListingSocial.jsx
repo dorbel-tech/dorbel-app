@@ -1,9 +1,9 @@
 import React from 'react';
-import { observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import { Col } from 'react-bootstrap';
 import Icon from '~/components/Icon/Icon';
 
-@observer(['appStore'])
+@inject('appStore') @observer
 class ListingSocial extends React.Component {
 
   render() {

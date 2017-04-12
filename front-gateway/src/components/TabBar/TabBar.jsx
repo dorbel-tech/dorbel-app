@@ -1,11 +1,11 @@
 'use strict';
 import React, { Component } from 'react';
-import { observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import { Nav, NavItem, Navbar } from 'react-bootstrap';
 
 import './TabBar.scss';
 
-@observer(['router'])
+@inject('router') @observer
 export default class TabBar extends Component {
 
   constructor(props){

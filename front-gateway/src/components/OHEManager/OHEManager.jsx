@@ -1,5 +1,5 @@
 import React from 'react';
-import { observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import { Col, Button } from 'react-bootstrap';
 import OHECard from './OHECard';
 import AddOHEModal from './AddOHEModal';
@@ -8,7 +8,7 @@ import autobind from 'react-autobind';
 
 import './OHEManager.scss';
 
-@observer(['appStore', 'appProviders', 'router'])
+@inject('appStore', 'appProviders', 'router') @observer
 class OHEManager extends React.Component {
 
   constructor(props) {

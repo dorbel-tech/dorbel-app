@@ -1,9 +1,9 @@
 'use strict';
 import React from 'react';
-import { observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import ReactTooltip from 'react-tooltip';
 
-@observer(['appStore', 'appProviders', 'router'])
+@inject('appStore', 'appProviders', 'router') @observer
 class ListingPageViews extends React.Component {
   componentDidMount() {
     const { listing, appStore, appProviders } = this.props;
