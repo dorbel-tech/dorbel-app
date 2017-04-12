@@ -13,7 +13,7 @@ import TenantProfileFields from './Profile/TenantProfileFields';
 import './MyProfile.scss';
 
 @observer(['appStore', 'appProviders', 'router'])
-class Profile extends Component {
+class MyProfile extends Component {
   constructor(props) {
     super(props);
     autobind(this);
@@ -79,11 +79,11 @@ class Profile extends Component {
   }
 }
 
-Profile.wrappedComponent.propTypes = {
+MyProfile.wrappedComponent.propTypes = {
   appStore: React.PropTypes.object.isRequired,
   appProviders: React.PropTypes.object.isRequired,
   router: React.PropTypes.object.isRequired,
   section: React.PropTypes.string
 };
 
-export default Profile;
+export default MyProfile;
