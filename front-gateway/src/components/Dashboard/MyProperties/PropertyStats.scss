@@ -43,6 +43,10 @@ $active-color: #3398db;
 
   .property-stats-number-not-empty {
     @include add-active-color();
+
+    > a {
+      @include add-active-color();
+    }
   }
 
   .property-stats-rent-title {
@@ -142,6 +146,10 @@ $active-color: #3398db;
     @include add-active-color();
 
     border: 1px solid $active-color !important;
+
+    > a {
+      @include add-active-color();
+    }
   }
 
   .property-stats-bubble {
