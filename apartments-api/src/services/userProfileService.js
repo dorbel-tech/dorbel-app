@@ -49,16 +49,21 @@ function validateRequest(profileData) {
 
   const fieldMap = profileSectionParams[profileData.section];
   const keysToUpdate = _.keys(profileData.data);
-  const sectionFieldKeys = _.keys(fieldMap) || [];
+  const sectionFieldKeys = _.keys(fieldMap) || []; 
+  
+  keysToUpdate
+    .forEach((key) => {
+      if (sectionFieldKeys.indexOf(key) == -1) {
+        throw new errors.DomainValidationError('FieldNotAllowed', { field: key }, 'The update request contains an illegal, not white listed field!');
+      }
+    });
 
-  sectionFieldKeys.forEach((key) => {
-    if (keysToUpdate.indexOf(key) == -1) {
-      throw new errors.DomainValidationError('FieldNotAllowed', { field: key }, 'The update request contains an illegal, not white listed field!');
-    }
-    else if (fieldMap[key].isRequired && (profileData.data[key] == '' || profileData.data[key] == undefined)) {
-      throw new errors.DomainValidationError('RequiredFieldMissing', { field: key }, `The update request doesn't contain a value for the '${key}' required field`);
-    }
-  });
+  sectionFieldKeys
+    .forEach((key) => {
+      if (fieldMap[key].isRequired && (profileData.data[key] == '' || profileData.data[key] == undefined)) {
+        throw new errors.DomainValidationError('RequiredFieldMissing', { field: key }, `The update request doesn't contain a value for the '${key}' required field`);
+      }
+    });
 }
 
 module.exports = {

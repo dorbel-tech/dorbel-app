@@ -36,24 +36,24 @@ describe('Apartments API Likes service integration', function () {
       });
 
       it('should fail to set a property which is not whitelisted in userProfileService', function* () {
-        let clonedUserData = _.clone(this.updateData);
-        clonedUserData.role = 'admin';
+        let clonedUserData = _.cloneDeep(this.updateData);
+        clonedUserData.data.role = 'admin';
         const resp = yield this.apiClient.updateUserProfile(clonedUserData).expect(400).end();
 
         __.assertThat(resp.text, __.is('The update request contains an illegal, not white listed field!'));
       });
 
       it('should fail to set a required property with an empty string', function* () {
-        let clonedUserData = _.clone(this.updateData);
-        clonedUserData.first_name = '';
+        let clonedUserData = _.cloneDeep(this.updateData);
+        clonedUserData.data.first_name = '';
         const resp = yield this.apiClient.updateUserProfile(clonedUserData).expect(400).end();
 
         __.assertThat(resp.text, __.is('The update request doesn\'t contain a value for the \'first_name\' required field'));
       });
 
       it('should fail to set an illegal profile section', function* () {
-        let clonedUserData = _.clone(this.updateData);
-        clonedUserData.first_name = 'The update request doesn\'t contain a value for the \'first_name\' required field';
+        let clonedUserData = _.cloneDeep(this.updateData);
+        clonedUserData.section = 'someWeirdSectionName';
         const resp = yield this.apiClient.updateUserProfile(clonedUserData).expect(400).end();
 
         __.assertThat(resp.text, __.is('The update request was rejected because the supplied section is illegal'));
@@ -63,12 +63,12 @@ describe('Apartments API Likes service integration', function () {
       it('should successfuly update user profile', function* () {
         const resp = yield this.apiClient.updateUserProfile(this.updateData).expect(200).end();
         delete this.updateData.section;
-        
-        __.assertThat(resp.body.user_metadata, __.hasProperties(this.updateData));
+
+        __.assertThat(resp.body.user_metadata, __.hasProperties(this.updateData.data));
       });
 
       it('should fail to update without a section defined', function* () {
-        const resp = yield this.apiClient.updateUserProfile(this.updateData).expect(200).end();
+        const resp = yield this.apiClient.updateUserProfile(this.updateData).expect(400).end();
 
         __.assertThat(resp.text, __.is('The update request was rejected because no section was defined'));
       });
