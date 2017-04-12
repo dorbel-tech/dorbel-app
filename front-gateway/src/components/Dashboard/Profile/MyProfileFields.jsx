@@ -22,22 +22,22 @@ class MyProfileFields extends Component {
     return (
       <Row>
         <Row>
-          <FRC.Input value="main" name="profile_section" type="hidden"/>
+          <FRC.Input value="main" name="section" type="hidden"/>
           <Col className="my-profile-input" sm={6}>
-            <FRC.Input value={profile.first_name} label="שם פרטי" name="first_name" layout="vertical" type="text" required />
+            <FRC.Input value={profile.first_name} label="שם פרטי" name="data.first_name" layout="vertical" type="text" required />
           </Col>
           <Col className="my-profile-input" sm={6}>
-            <FRC.Input value={profile.last_name} label="שם משפחה" name="last_name" layout="vertical" type="text" required />
+            <FRC.Input value={profile.last_name} label="שם משפחה" name="data.last_name" layout="vertical" type="text" required />
             {this.renderLockIcon()}
           </Col>
         </Row>
         <Row>
           <Col className="my-profile-input" sm={6}>
-            <FRC.Input value={profile.phone} label="טלפון" name="phone" validations="isNumeric" layout="vertical" placeholder="שם פרטי" required />
+            <FRC.Input value={profile.phone} label="טלפון" name="data.phone" validations="isNumeric" layout="vertical" placeholder="שם פרטי" required />
             {this.renderLockIcon()}
           </Col>
           <Col className="my-profile-input" sm={6}>
-            <FRC.Input value={profile.email} label="מייל ליצירת קשר" validations="isEmail" name="email" layout="vertical" placeholder="שם משפחה" type="text" required />
+            <FRC.Input value={profile.email} label="מייל ליצירת קשר" validations="isEmail" name="data.email" layout="vertical" placeholder="שם משפחה" type="text" required />
           </Col>
         </Row>
       </Row>

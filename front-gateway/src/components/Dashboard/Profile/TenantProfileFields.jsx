@@ -18,12 +18,12 @@ class MyProfileFields extends Component {
     return (
       <Row>
         <Row>
-          <FRC.Input value="tenant_profile" name="profile_section" type="hidden"/>
+          <FRC.Input value="tenant_profile" name="section" type="hidden"/>
           <Col className="my-profile-input" sm={12}>
             <FRC.Textarea
               value={tenant_profile.about_you}
               label="כמה מילים על עצמכם"
-              name="about_you"
+              name="data.about_you"
               layout="vertical"
               placeholder="עזרו לבעל הדירה להכיר אתכם טוב יותר. איך אתם כשוכרים? לכמה זמן מעוניינים בדירה?"
             />
@@ -34,7 +34,7 @@ class MyProfileFields extends Component {
             <FRC.Input
               value={tenant_profile.work_place}
               label="מקום עבודה"
-              name="work_place"
+              name="data.work_place"
               layout="vertical"
               placeholder="שם החברה / ארגון"
             />
@@ -43,7 +43,7 @@ class MyProfileFields extends Component {
             <FRC.Input
               value={tenant_profile.position}
               label="תפקיד"
-              name="position"
+              name="data.position"
               layout="vertical"
               type="text"
               placeholder="התפקיד שלכם"
@@ -55,7 +55,7 @@ class MyProfileFields extends Component {
             <FRC.Input
               value={tenant_profile.facebook_url}
               label="לינק לפרופיל הfacebook שלכם"
-              name="facebook_url"
+              name="data.facebook_url"
               layout="vertical"
               placeholder="העתיקו את הלינק לכאן"
             />
@@ -64,7 +64,7 @@ class MyProfileFields extends Component {
             <FRC.Input
               value={tenant_profile.linkedin_url}
               label="לינק לפרופיל הLinkedIn שלכם"
-              name="linkedin_url"
+              name="data.linkedin_url"
               layout="vertical"
               placeholder="העתיקו את הלינק לכאן"
             />

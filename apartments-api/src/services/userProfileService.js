@@ -23,14 +23,11 @@ const ProfileSectionParams = {
 
 function* update(user, profileData) {
   if (user) {
-    const profileSectionName = profileData.profile_section;
-    delete profileData.profile_section;
-
-    validateProfileData(profileSectionName, profileData);
+    validateProfileData(profileData);
 
     logger.info({ user_uuid: user.id, userData: profileData }, 'Updating user details');
     const newUserProfile = yield userManagement.updateUserDetails(user.id, {
-      user_metadata: (profileSectionName == 'main') ? profileData : { [profileSectionName]: profileData }
+      user_metadata: (profileData.section == 'main') ? profileData.data : { [profileData.section]: profileData.data }
     });
     logger.info({ user_uuid: user.id, userData: newUserProfile }, 'Updated user details');
 
@@ -42,16 +39,16 @@ function* update(user, profileData) {
   }
 }
 
-function validateProfileData(profileSectionName, profileData) { // Allow only whitelisted fields
-  const fieldMap = ProfileSectionParams[profileSectionName];
-  const keysToUpdate = _.keys(profileData);
+function validateProfileData(profileData) { // Allow only whitelisted fields and validate required fields
+  const fieldMap = ProfileSectionParams[profileData.section];
+  const keysToUpdate = _.keys(profileData.data);
   const sectionFieldKeys = _.keys(fieldMap) || [];
 
   sectionFieldKeys.forEach((key) => {
     if (keysToUpdate.indexOf(key) == -1) {
       throw new errors.DomainValidationError('FieldNotAllowed', { field: key }, 'The update request contains an illegal, not white listed field!');
     }
-    else if (fieldMap[key].isRequired && (profileData[key] == '' || profileData[key] == undefined)) {
+    else if (fieldMap[key].isRequired && (profileData.data[key] == '' || profileData.data[key] == undefined)) {
       throw new errors.DomainValidationError('RequiredFieldMissing', { field: key }, `The update request doesn't contain a value for the '${key}' required field`);
     }
   });

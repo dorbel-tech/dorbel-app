@@ -18,11 +18,13 @@ describe('Apartments API Likes service integration', function () {
   describe('user-profile endpoint integration', function () {
     before(function* () {
       this.updateData = {
-        profile_section: 'main',
-        first_name: 'test',
-        last_name: 'user',
-        phone: '666666666',
-        email: 'test@user.com'
+        section: 'main',
+        data: {
+          first_name: 'test',
+          last_name: 'user',
+          phone: '666666666',
+          email: 'test@user.com'
+        }
       };
     });
 
@@ -51,7 +53,7 @@ describe('Apartments API Likes service integration', function () {
 
       it('should successfuly update user profile', function* () {
         const resp = yield this.apiClient.updateUserProfile(this.updateData).expect(200).end();
-
+        delete this.updateData.section;
         __.assertThat(resp.body.user_metadata, __.hasProperties(this.updateData));
       });
 
