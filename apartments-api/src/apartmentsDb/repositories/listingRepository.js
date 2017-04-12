@@ -211,6 +211,27 @@ function * update(listing, patch) {
       yield listing.update(listingPatch, { transaction });
     }
 
+    if (patch.images) {
+      // remove images that are not in patch
+      yield listing.images.filter(existingImage => {
+        const inPatch = _.find(patch.images, { url: existingImage.url });
+        return !inPatch;
+      }).map(imageToDelete => imageToDelete.destroy());
+
+      // create/update images from patch
+      yield patch.images.map((imageFromPatch, index) => {
+        const imageExists = _.find(listing.images, { url: imageFromPatch.url });
+        if (imageExists) {
+          imageExists.display_order = index;
+          return imageExists.save();
+        } else {
+          imageFromPatch.listing_id = listing.id;
+          imageFromPatch.display_order = index;
+          return models.image.create(imageFromPatch);
+        }
+      });
+    }
+
     yield transaction.commit();
     return yield listing.reload();
   } catch(ex) {

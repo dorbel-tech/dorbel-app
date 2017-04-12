@@ -34,7 +34,7 @@ function getFakeListing() {
     open_house_event_date: getDateString(),
     open_house_event_start_time: '07:00',
     open_house_event_end_time: '07:30',
-    images: [{ url: 'http://lorempixel.com/1000/500/?' + faker.random.number(9999) }],
+    images: [ getFakeImage() ],
     user: {
       phone: '123456789'
     },
@@ -43,6 +43,10 @@ function getFakeListing() {
 
   listing.apartment.building.toJSON = () => listing.apartment.building;
   return listing;
+}
+
+function getFakeImage() {
+  return { url: 'http://lorempixel.com/1000/500/?' + faker.random.number(9999) };
 }
 
 function getFakeUser(variant) {
@@ -54,5 +58,6 @@ function getFakeUser(variant) {
 
 module.exports = {
   getFakeListing,
-  getFakeUser
+  getFakeUser,
+  getFakeImage
 };
