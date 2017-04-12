@@ -37,10 +37,10 @@ exports[`OHECard should render correctly given default values 1`] = `
     <div
       className="ohe-card-menu" />
   </Panel>
-  <MobXStoreInjector
+  <inject-EditOHEModal-with-appProviders
     ohe={Object {}}
     onClose={[Function]} />
-  <MobXStoreInjector
+  <inject-DeleteOHEModal-with-appProviders
     ohe={Object {}}
     onClose={[Function]} />
 </div>
@@ -140,7 +140,7 @@ exports[`OHECard should render with a single registration 1`] = `
       </tbody>
     </Table>
   </Panel>
-  <MobXStoreInjector
+  <inject-EditOHEModal-with-appProviders
     ohe={
       Object {
         "registrations": Array [
@@ -157,7 +157,7 @@ exports[`OHECard should render with a single registration 1`] = `
       }
     }
     onClose={[Function]} />
-  <MobXStoreInjector
+  <inject-DeleteOHEModal-with-appProviders
     ohe={
       Object {
         "registrations": Array [
@@ -252,14 +252,14 @@ exports[`OHECard should render with an ohe menu 1`] = `
       </Uncontrolled(Dropdown)>
     </div>
   </Panel>
-  <MobXStoreInjector
+  <inject-EditOHEModal-with-appProviders
     ohe={
       Object {
         "id": "fakeId",
       }
     }
     onClose={[Function]} />
-  <MobXStoreInjector
+  <inject-DeleteOHEModal-with-appProviders
     ohe={
       Object {
         "id": "fakeId",
@@ -451,7 +451,7 @@ exports[`OHECard should render with multiple registrations 1`] = `
       </tbody>
     </Table>
   </Panel>
-  <MobXStoreInjector
+  <inject-EditOHEModal-with-appProviders
     ohe={
       Object {
         "registrations": Array [
@@ -490,7 +490,7 @@ exports[`OHECard should render with multiple registrations 1`] = `
       }
     }
     onClose={[Function]} />
-  <MobXStoreInjector
+  <inject-DeleteOHEModal-with-appProviders
     ohe={
       Object {
         "registrations": Array [

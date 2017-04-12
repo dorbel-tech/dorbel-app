@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import autobind from 'react-autobind';
 import { Grid, Row, Button } from 'react-bootstrap';
-import { observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import Filter from './Filter.jsx';
 import ListingThumbnail from '../ListingThumbnail/ListingThumbnail.jsx';
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
@@ -13,7 +13,7 @@ to the bottom of the scrollable area is below this margin.
 Currently this is just a little more than 2 rows of listings */
 const INFINITE_SCROLL_MARGIN = 900;
 
-@observer(['appStore', 'appProviders'])
+@inject('appStore', 'appProviders') @observer
 class Search extends Component {
   static hideFooter = true;
 

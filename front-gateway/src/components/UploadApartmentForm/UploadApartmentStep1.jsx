@@ -1,11 +1,11 @@
 import React from 'react';
 import { Button, Col, Grid, Row } from 'react-bootstrap';
 import Dropzone from 'react-dropzone';
-import { observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import CloudinaryImage from '../CloudinaryImage/CloudinaryImage';
 import UploadApartmentBaseStep from './UploadApartmentBaseStep';
 
-@observer(['appProviders', 'appStore'])
+@inject('appStore', 'appProviders') @observer
 class UploadApartmentStep1 extends UploadApartmentBaseStep.wrappedComponent {
 
   constructor(props) {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Row, Col, Modal, Button } from 'react-bootstrap';
-import { observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import Icon from '~/components/Icon/Icon';
 import FormWrapper from '~/components/FormWrapper/FormWrapper';
 
@@ -8,7 +8,7 @@ import '../style/OHERegisterModal.scss';
 
 const FRC = FormWrapper.FRC;
 
-@observer(['appStore', 'appProviders'])
+@inject('appStore', 'appProviders') @observer
 class OHERegisterModal extends React.Component {
   constructor(props) {
     super(props);

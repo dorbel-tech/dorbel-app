@@ -1,6 +1,6 @@
 'use strict';
 import React from 'react';
-import { observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import { Nav, NavItem, Navbar } from 'react-bootstrap';
 import autobind from 'react-autobind';
 import _ from 'lodash';
@@ -11,7 +11,7 @@ const tabs = [
   { relativeRoute: 'events', title: 'מועדי ביקור' }
 ];
 
-@observer(['router'])
+@inject('router') @observer
 export default class ListingMenu extends React.Component {
   constructor(props) {
     super(props);
@@ -23,8 +23,8 @@ export default class ListingMenu extends React.Component {
 
     return (
       <span>
-        <span data-tip="קבעו מועדי ביקור חדשים וצפו בנרשמים.">&nbsp;&nbsp;<i className="fa fa-info-circle" aria-hidden="true"></i></span>
-        <ReactTooltip type="dark" effect="solid" place="left" offset={tipOffset} />
+        <span data-tip="קבעו מועדי ביקור חדשים וצפו בנרשמים." data-for="ohe">&nbsp;&nbsp;<i className="fa fa-info-circle" aria-hidden="true"></i></span>
+        <ReactTooltip type="dark" effect="solid" place="left" offset={tipOffset} id="ohe"/>
       </span>
     );
   }

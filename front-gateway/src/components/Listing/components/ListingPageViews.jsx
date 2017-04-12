@@ -1,8 +1,9 @@
 'use strict';
 import React from 'react';
-import { observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
+import ReactTooltip from 'react-tooltip';
 
-@observer(['appStore', 'appProviders', 'router'])
+@inject('appStore', 'appProviders', 'router') @observer
 class ListingPageViews extends React.Component {
   componentDidMount() {
     const { listing, appStore, appProviders } = this.props;
@@ -21,8 +22,9 @@ class ListingPageViews extends React.Component {
     const views = appStore.listingStore.listingViewsById.get(listing.id);
 
     return (
-      <span className="listing-page-views">
+      <span className="listing-page-views" data-tip="נתון זה מתעדכן אחת לשעה" data-for="pave-views">
         <i className="fa fa-eye"></i>&nbsp; {views} צפיות
+        <ReactTooltip type="dark" effect="solid" place="top" id="pave-views"/>
       </span>
     );
   }

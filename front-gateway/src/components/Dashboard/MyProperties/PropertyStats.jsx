@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import { observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import { Col, Grid, Row } from 'react-bootstrap';
+import NavLink from '~/components/NavLink';
 import utils from '~/providers/utils';
 import moment from 'moment';
 
 import './PropertyStats.scss';
 
-@observer(['appStore', 'appProviders', 'router'])
+@inject('appStore', 'appProviders', 'router') @observer
 class PropertyStats extends Component {
   constructor(props) {
     super(props);
@@ -43,6 +44,7 @@ class PropertyStats extends Component {
     const listingCreatedAt = utils.formatDate(listing.created_at);
     const daysPassed = moment(Date.now()).diff(moment(listing.created_at), 'days');
     const listingRented = listing.status === 'rented' || listing.status === 'unlisted';
+    const oheTabUrl = '/dashboard/my-properties/' + listingId + '/ohe';
 
     return  <Grid fluid className="property-stats">
                 <Row className="property-stats-rent-title">
@@ -55,7 +57,8 @@ class PropertyStats extends Component {
                     <div className="property-stats-numbers-row">
                       <div className={'property-stats-number' + (views > 0 ? ' property-stats-number-not-empty': '')}>{views || 0}</div>
                       <div className="property-stats-empty"></div>
-                      <div className={'property-stats-number' + (registrations > 0 ? ' property-stats-number-not-empty': '')}>{registrations || 0}</div>
+                      <div className={'property-stats-number' + (registrations > 0 ? ' property-stats-number-not-empty': '')}>
+                        <NavLink to={oheTabUrl}>{registrations || 0}</NavLink></div>
                       <div className="property-stats-empty"></div>
                       <div className={'property-stats-number property-stats-rented-check' + (listingRented ? ' property-stats-number-not-empty': '')}>
                         <i className="fa fa-check" aria-hidden="true"></i>
@@ -67,7 +70,7 @@ class PropertyStats extends Component {
                       </div>
                       <div className={'property-stats-line' + (registrations > 0 ? ' property-stats-line-not-empty': '')}></div>
                       <div className={'property-stats-bubble' + (registrations > 0 ? ' property-stats-bubble-not-empty': '')}>
-                        <div className="property-stats-bubble-text">הרשמות לביקורים</div>
+                        <NavLink to={oheTabUrl}><div className="property-stats-bubble-text">הרשמות לביקורים</div></NavLink>
                       </div>
                       <div className={'property-stats-line' + (listingRented ? ' property-stats-line-not-empty': '')}></div>
                       <div className={'property-stats-bubble' + (listingRented ? ' property-stats-bubble-not-empty': '')}>

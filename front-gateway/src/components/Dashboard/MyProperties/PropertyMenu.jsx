@@ -1,9 +1,9 @@
 'use strict';
 import React from 'react';
-import { observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import { Nav, NavItem, Navbar } from 'react-bootstrap';
 
-@observer(['router'])
+@inject('router') @observer
 export default class PropertyMenu extends React.Component {
   render() {
     const { activeKey, path, tabs, router } = this.props;

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import autobind from 'react-autobind';
-import { observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import NavLink from '~/components/NavLink';
 import { MENU_ITEMS } from './DashboardShared';
 import Property from './Property';
@@ -8,7 +8,7 @@ import { find } from 'lodash';
 
 import './Dashboard.scss';
 
-@observer(['router'])
+@inject('router') @observer
 class Dashboard extends Component {
   static hideFooter = true;
 

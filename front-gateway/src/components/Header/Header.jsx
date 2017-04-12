@@ -1,6 +1,6 @@
 import React, { Component, PropTypes as T } from 'react';
 import autobind from 'react-autobind';
-import { observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import { Nav, Navbar, NavItem } from 'react-bootstrap';
 import isMobileJs from 'ismobilejs';
 import UserProfileBadge from './UserProfileBadge/UserProfileBadge';
@@ -8,7 +8,7 @@ import { MENU_ITEMS } from '../Dashboard/DashboardShared';
 
 import './Header.scss';
 
-@observer(['appProviders', 'appStore', 'router'])
+@inject('appStore', 'appProviders', 'router') @observer
 class Header extends Component {
   constructor(props) {
     super(props);

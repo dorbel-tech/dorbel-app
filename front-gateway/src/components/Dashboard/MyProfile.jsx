@@ -12,7 +12,7 @@ import TenantProfileFields from './Profile/TenantProfileFields';
 
 import './MyProfile.scss';
 
-@observer(['appStore', 'appProviders', 'router'])
+@inject('appStore', 'appProviders') @observer
 class MyProfile extends Component {
   constructor(props) {
     super(props);
