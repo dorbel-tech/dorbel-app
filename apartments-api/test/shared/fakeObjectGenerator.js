@@ -6,7 +6,7 @@ function getDateString() {
 }
 
 function getFakeListing() {
-  return {
+  const listing =  {
     status: 'listed',
     monthly_rent: faker.random.number(),
     lease_start: getDateString(),
@@ -40,6 +40,9 @@ function getFakeListing() {
     },
     slug: 'test-listing-' + faker.random.uuid() // This field has a unique constraint
   };
+
+  listing.apartment.building.toJSON = () => listing.apartment.building;
+  return listing;
 }
 
 function getFakeUser(variant) {

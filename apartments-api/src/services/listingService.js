@@ -83,7 +83,8 @@ function* update(listingId, user, patch) {
   const previousStatus = listing.status;
   patch = setListingAutoFields(patch);
   if (_.get(patch, 'apartment.building')) {
-    listing.apartment.building.geolocation = yield geoService.getGeoLocation(listing.apartment.building);
+    const mergedBuilding = _.merge({}, listing.apartment.building.toJSON(), patch.apartment.building);
+    patch.apartment.building.geolocation = yield geoService.getGeoLocation(mergedBuilding);
   }
 
   const result = yield listingRepository.update(listing, patch);
