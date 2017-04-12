@@ -16,10 +16,10 @@ function logout() {
   home.signOut();
 }
 
-function submitApartment() {
-  apartmentForm
-    .fillAndSubmitApartment()
-    .expect.section('@successModal').to.be.visible;
+function submitApartment(browser) {
+  apartmentForm.fillAndSubmitApartment();
+  browser.pause(500);
+  apartmentForm.expect.section('@successModal').to.be.present;
   common.waitForText(apartmentForm.section.successModal, '@successTitle', 'העלאת הדירה הושלמה!');
   // Get listingId from sucess modal dom element data-attr attribute.
   apartmentForm.section.successModal.getAttribute('@listingId', 'data-attr', function(result) {
@@ -52,7 +52,7 @@ module.exports = {
   },
   'landlord should submit a new apartment': function (browser) {
     login('landlord');
-    submitApartment();
+    submitApartment(browser);
     browser.end();
   },
   'admin should approve apartment': function (browser) {

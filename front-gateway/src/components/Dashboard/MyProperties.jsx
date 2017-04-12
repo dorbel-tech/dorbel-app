@@ -55,7 +55,7 @@ class MyProperties extends Component {
                   <div className="my-properties-empty">
                     <NavLink className="my-properties-add" to="/apartments/new_form">
                       <div className="my-properties-cross">
-                        <img src="https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/dashboard/add-property-icon.svg" />
+                        <img src="https://static.dorbel.com/images/dashboard/add-property-icon.svg" />
                       </div>
                       <div className="my-properties-title">הוסיפו נכס</div>
                     </NavLink>

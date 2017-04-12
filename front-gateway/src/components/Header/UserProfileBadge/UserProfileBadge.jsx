@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import { Nav, NavItem } from 'react-bootstrap';
+import { MENU_ITEMS } from '../../Dashboard/DashboardShared';
 
 import './UserProfileBadge.scss';
 
-@observer(['appProviders', 'appStore'])
+@observer(['appProviders', 'appStore', 'router'])
 class UserProfileBadge extends Component {
   constructor(props) {
     super(props);
@@ -13,12 +14,37 @@ class UserProfileBadge extends Component {
     };
   }
 
+  renderDashboardMenuItem(item) {
+    const itemPath = '/dashboard/' + item.navTo;
+
+    return (
+      <NavItem key={'header-profile-menu-item-' + item.navTo}
+        onClick={(e) => this.routeTo(e, itemPath)}
+        href={itemPath}
+        className="header-profile-menu-item">
+        
+        <i className={'fa ' + item.faIconClassName} aria-hidden="true"></i>
+        {item.menuText}
+      </NavItem>
+    );
+  }
+
+  routeTo(e, link) {
+    if ((e.metaKey || e.ctrlKey) && window) {
+      window.open(link);
+    } else if (this.props.router.setRoute) {
+      this.props.router.setRoute(link);
+    }
+  }
+
   renderAuthenticationLink(isLoggedIn) {
     const { authProvider } = this.props.appProviders;
+    const showDashboardMenu = process.env.NODE_ENV === 'development' && isLoggedIn;
 
     return isLoggedIn ?
       (
         <Nav>
+          {showDashboardMenu ? MENU_ITEMS.map((item) => this.renderDashboardMenuItem(item)) : null}
           <NavItem
             onClick={authProvider.logout}
             className="user-profile-badge-auth user-profile-badge-auth-logout">
@@ -30,7 +56,7 @@ class UserProfileBadge extends Component {
       :
       (
         <Nav>
-          <NavItem 
+          <NavItem
             onClick={authProvider.showLoginModal}
             className="user-profile-badge-auth">
             <i className="fa fa-sign-in" />
@@ -83,7 +109,7 @@ class UserProfileBadge extends Component {
         {this.renderPersonalData(isLoggedIn)}
         <div className={'user-profile-badge-menu-desktop ' + (this.state.displayMenu ? 'active' : '')}>
           <div className="triangle-up" />
-            {this.renderAuthenticationLink(isLoggedIn)}
+          {this.renderAuthenticationLink(isLoggedIn)}
         </div>
         <div className="user-profile-badge-menu-mobile">
           {this.renderAuthenticationLink(isLoggedIn)}
@@ -96,6 +122,7 @@ class UserProfileBadge extends Component {
 UserProfileBadge.wrappedComponent.propTypes = {
   appProviders: React.PropTypes.object,
   appStore: React.PropTypes.object,
+  router: React.PropTypes.object
 };
 
 export default UserProfileBadge;

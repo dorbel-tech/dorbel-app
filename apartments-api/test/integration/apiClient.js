@@ -90,6 +90,18 @@ class ApiClient {
       .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile));
   }
 
+  updateUserProfile(data, isAuthenticated=true) {
+    return isAuthenticated ?
+      this.request
+        .patch('/v1/user-profile')
+        .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile))
+        .send(data)
+      :
+      this.request
+        .patch('/v1/user-profile')
+        .send(data);
+  }
+
   static * init(userProfile) {
     let request;
 

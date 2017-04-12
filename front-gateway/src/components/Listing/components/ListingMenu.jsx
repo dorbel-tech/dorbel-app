@@ -23,8 +23,8 @@ export default class ListingMenu extends React.Component {
 
     return (
       <span>
-        <span data-tip="קבעו מועדי ביקור חדשים וצפו בנרשמים.">&nbsp;&nbsp;<i className="fa fa-info-circle" aria-hidden="true"></i></span>
-        <ReactTooltip type="dark" effect="solid" place="left" offset={tipOffset} />
+        <span data-tip="קבעו מועדי ביקור חדשים וצפו בנרשמים." data-for="ohe">&nbsp;&nbsp;<i className="fa fa-info-circle" aria-hidden="true"></i></span>
+        <ReactTooltip type="dark" effect="solid" place="left" offset={tipOffset} id="ohe"/>
       </span>
     );
   }
@@ -40,7 +40,7 @@ export default class ListingMenu extends React.Component {
     const activeTab = _.find(tabs, { relativeRoute: currentAction }) || tabs[0];
 
     return (
-      <Navbar className="listing-menu-tabs">
+      <Navbar className="tab-menu">
         <Nav bsStyle="tabs" activeKey={activeTab.relativeRoute} onSelect={this.changeTab}>
           {tabs.map(tab =>
             <NavItem key={tab.relativeRoute} eventKey={tab.relativeRoute}>
