@@ -30,20 +30,11 @@ function* create(listing) {
     throw new CustomError(409, 'הדירה שלך כבר קיימת במערכת');
   }
 
-  if (listing.lease_start && !listing.lease_end) {
-    // Upload form sends only lease_start so we default lease_end to after one year
-    listing.lease_end = moment(listing.lease_start).add(1, 'years').format('YYYY-MM-DD');
-  }
-
-  // In case that roomate is needed, the listing should allow roommates.
-  if (listing.roommate_needed) {
-    listing.roommates = true;
-  }
-
   // Force 'pending' status for new listings in order to prevent the possibility of setting the status using this API
   listing.status = 'pending';
 
-  let modifiedListing = yield geoService.setGeoLocation(listing);
+  let modifiedListing = setListingAutoFields(listing);
+  listing.apartment.building.geolocation = yield geoService.getGeoLocation(listing.apartment.building);
   let createdListing = yield listingRepository.create(modifiedListing);
 
   // TODO: Update user details can be done on client using user token.
@@ -90,6 +81,11 @@ function* update(listingId, user, patch) {
   }
 
   const previousStatus = listing.status;
+  patch = setListingAutoFields(patch);
+  if (_.get(patch, 'apartment.building')) {
+    listing.apartment.building.geolocation = yield geoService.getGeoLocation(listing.apartment.building);
+  }
+
   const result = yield listingRepository.update(listing, patch);
 
   if (patch.status && process.env.NOTIFICATIONS_SNS_TOPIC_ARN) {
@@ -103,6 +99,20 @@ function* update(listingId, user, patch) {
   }
 
   return yield enrichListingResponse(result, user);
+}
+
+function setListingAutoFields(listing) {
+  if (listing.lease_start && !listing.lease_end) {
+    // default lease_end to after one year
+    listing.lease_end = moment(listing.lease_start).add(1, 'years').format('YYYY-MM-DD');
+  }
+
+  // In case that roomate is needed, the listing should allow roommates.
+  if (listing.roommate_needed) {
+    listing.roommates = true;
+  }
+
+  return listing;
 }
 
 function* getByFilter(filterJSON, options = {}) {

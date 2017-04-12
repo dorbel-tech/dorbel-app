@@ -25,7 +25,7 @@ describe('Listing Repository', function () {
         yield this.listingRepo.create(fakeListing);
         __.assertThat('code', __.is('not reached'));
       } catch (error) {
-        __.assertThat(error.message, __.equalTo('did not find city'));
+        __.assertThat(error.message, __.equalTo('city not found'));
       }
     });
 
@@ -44,7 +44,7 @@ describe('Listing Repository', function () {
         yield this.listingRepo.create(fakeListing);
         __.assertThat('code', __.is('not reached'));
       } catch (error) {
-        __.assertThat(error.message, __.equalTo('did not find neighborhood'));
+        __.assertThat(error.message, __.equalTo('neighborhood not found'));
       }
     });
 

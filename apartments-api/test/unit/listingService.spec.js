@@ -14,11 +14,13 @@ describe('Listing Service', function () {
       create: sinon.stub().resolves(this.mockListing),
       getListingsForApartment: sinon.stub().resolves([]),
       list: sinon.spy(),
-      listingStatuses: [ 'pending', 'rented']
+      listingStatuses: [ 'pending', 'rented' ],
+      update: sinon.stub().resolves(this.mockListing)
     };
     mockRequire('../../src/apartmentsDb/repositories/listingRepository', this.listingRepositoryMock);
-    mockRequire('../../src/services/geoService', { setGeoLocation : l => l });
+    mockRequire('../../src/services/geoService', { getGeoLocation : sinon.stub().resolves(1) });
     sinon.stub(shared.utils.userManagement, 'updateUserDetails');
+    sinon.stub(shared.utils.userManagement, 'getUserDetails').resolves();
     this.listingService = require('../../src/services/listingService');
   });
 
@@ -77,12 +79,11 @@ describe('Listing Service', function () {
 
   describe('Update Listing', function () {
 
-
     it('should update status for an existing listing', function* () {
       const listing = faker.getFakeListing();
       const user = { id: listing.publishing_user_id };
       const updatedListing = Object.assign({}, listing, { status: 'rented' });
-      listing.update = sinon.stub().resolves(updatedListing);
+      this.listingRepositoryMock.update = sinon.stub().resolves(updatedListing);
       this.listingRepositoryMock.getById = sinon.stub().resolves(listing);
 
       const result = yield this.listingService.update(listing.id, user, { status: 'rented' });
@@ -119,7 +120,7 @@ describe('Listing Service', function () {
       const listing = faker.getFakeListing();
       const user = { role: 'admin', id: 'totally-fake' };
       const updatedListing = Object.assign({}, listing, { status: 'rented' });
-      listing.update = sinon.stub().resolves(updatedListing);
+      this.listingRepositoryMock.update = sinon.stub().resolves(updatedListing);
       this.listingRepositoryMock.getById = sinon.stub().resolves(listing);
 
       const result = yield this.listingService.update(listing.id, user, { status: 'rented' });
