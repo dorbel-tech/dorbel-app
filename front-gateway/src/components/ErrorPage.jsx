@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 
-@observer(['router'])
+@inject('router') @observer
 class ErrorPage extends Component {
   constructor(props) {
     super(props);

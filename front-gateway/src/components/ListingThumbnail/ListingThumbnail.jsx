@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import './ListingThumbnail.scss';
 import { Col } from 'react-bootstrap';
 import NavLink from '~/components/NavLink';
@@ -8,7 +8,7 @@ import CloudinaryImage from '../CloudinaryImage/CloudinaryImage';
 import LikeButton from '../LikeButton/LikeButton';
 import utils from '../../providers/utils';
 
-@observer(['appStore'])
+@inject('appStore') @observer
 class ListingThumbnail extends Component {
   getListingUrl(listing) {
     if (this.props.isMyProperties) {

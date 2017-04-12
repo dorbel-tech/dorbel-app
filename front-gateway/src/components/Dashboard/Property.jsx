@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import autobind from 'react-autobind';
 import { Button, Col, Grid, Row, OverlayTrigger, Popover } from 'react-bootstrap';
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
@@ -12,7 +12,7 @@ import utils from '~/providers/utils';
 
 import './Property.scss';
 
-@observer(['appStore', 'appProviders', 'router'])
+@inject('appStore', 'appProviders', 'router') @observer
 class Property extends Component {
   constructor(props) {
     super(props);

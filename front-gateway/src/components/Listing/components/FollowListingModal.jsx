@@ -1,12 +1,12 @@
 import React from 'react';
 import { Row, Modal, Button, Col } from 'react-bootstrap';
-import { observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import FormWrapper from '~/components/FormWrapper/FormWrapper';
 import autobind from 'react-autobind';
 
 const FRC = FormWrapper.FRC;
 
-@observer(['appStore', 'appProviders'])
+@inject('appStore', 'appProviders') @observer
 class FollowListingModal extends React.Component {
   constructor(props) {
     super(props);

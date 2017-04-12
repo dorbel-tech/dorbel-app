@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import { Nav, NavItem } from 'react-bootstrap';
 import { MENU_ITEMS } from '../../Dashboard/DashboardShared';
 
 import './UserProfileBadge.scss';
 
-@observer(['appProviders', 'appStore', 'router'])
+@inject('appStore', 'appProviders') @observer
 class UserProfileBadge extends Component {
   constructor(props) {
     super(props);

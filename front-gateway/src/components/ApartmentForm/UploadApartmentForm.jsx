@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { action } from 'mobx';
-import { observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import _ from 'lodash';
 import './UploadApartmentForm.scss';
 
@@ -10,7 +10,7 @@ const steps = [
   'UploadApartmentStep3'
 ].map(stepName => require('./' + stepName).default);
 
-@observer(['appStore', 'appProviders'])
+@inject('appStore', 'appProviders') @observer
 class UploadApartmentForm extends Component {
   static hideFooter = true;
 
