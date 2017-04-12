@@ -1,6 +1,6 @@
 'use strict';
 import React from 'react';
-import { observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import { Nav, NavItem, Navbar } from 'react-bootstrap';
 import autobind from 'react-autobind';
 import _ from 'lodash';
@@ -11,7 +11,7 @@ const tabs = [
   { relativeRoute: 'events', title: 'מועדי ביקור' }
 ];
 
-@observer(['router'])
+@inject('router') @observer
 export default class ListingMenu extends React.Component {
   constructor(props) {
     super(props);

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import { Col, Grid, Row } from 'react-bootstrap';
 import NavLink from '~/components/NavLink';
 import utils from '~/providers/utils';
@@ -7,7 +7,7 @@ import moment from 'moment';
 
 import './PropertyStats.scss';
 
-@observer(['appStore', 'appProviders', 'router'])
+@inject('appStore', 'appProviders', 'router') @observer
 class PropertyStats extends Component {
   constructor(props) {
     super(props);

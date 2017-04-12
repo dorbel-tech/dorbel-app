@@ -1,9 +1,9 @@
 import React from 'react';
-import { observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import { Col, Row } from 'react-bootstrap';
 import ListingAmenities from './ListingAmenities.jsx';
 
-@observer(['appProviders'])
+@inject('appProviders') @observer
 class ListingDescription extends React.Component {
   renderDescriptionRow(titleText, innerContent) {
     return  <Row className="listing-description-item">

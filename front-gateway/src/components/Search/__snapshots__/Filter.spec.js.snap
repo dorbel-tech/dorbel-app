@@ -1,5 +1,5 @@
 exports[`Filter should initialize correctly 1`] = `
-<MobXStoreInjector
+<inject-Filter-with-appStore-appProviders
   appProviders={
     Object {
       "cityProvider": Object {
@@ -633,5 +633,5 @@ exports[`Filter should initialize correctly 1`] = `
       </div>
     </div>
   </Filter>
-</MobXStoreInjector>
+</inject-Filter-with-appStore-appProviders>
 `;

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import AppHeader from '~/components/Header/Header';
 import AppFooter from '~/components/Footer/Footer';
 import Notifications from '~/components/Notifications/Notifications';
@@ -8,7 +8,7 @@ import moment from 'moment';
 
 moment.locale('he'); // TODO : dynamic locale
 
-@observer(['appStore'])
+@inject('appStore') @observer
 class App extends Component {
   render() {
     const { appStore } = this.props;

@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import autobind from 'react-autobind';
 import { Row, Col, OverlayTrigger, Tooltip } from 'react-bootstrap';
-import { observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import FormWrapper, { FRC } from '~/components/FormWrapper/FormWrapper';
 import SubmitButton from '~/components/SubmitButton/SubmitButton';
 
 import './MyProfile.scss';
 
-@observer(['appStore', 'appProviders'])
+@inject('appStore', 'appProviders') @observer
 class MyProfile extends Component {
   constructor(props) {
     super(props);

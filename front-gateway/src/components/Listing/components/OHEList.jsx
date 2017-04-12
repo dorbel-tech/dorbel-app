@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import _ from 'lodash';
 import autobind from 'react-autobind';
 
 import OHERegisterModal from './OHERegisterModal';
 import FollowListingModal from './FollowListingModal';
 
-@observer(['appStore', 'appProviders', 'router'])
+@inject('appStore', 'appProviders', 'router') @observer
 class OHEList extends Component {
   constructor(props) {
     super(props);
