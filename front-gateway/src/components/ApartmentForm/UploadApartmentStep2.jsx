@@ -34,7 +34,7 @@ export default class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappe
               </ul>
             </div>
           </div>
-          <img src="https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/upload-apt-form/icon-signup-folder.svg" alt="" />
+          <img src="https://static.dorbel.com/images/upload-apt-form/icon-signup-folder.svg" alt="" />
         </Col>
         <Col md={7} className="upload-apt-left-container apartment-details-step">
           <ListingDetailsForm
