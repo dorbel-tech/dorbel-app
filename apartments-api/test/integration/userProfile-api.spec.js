@@ -45,18 +45,33 @@ describe('Apartments API Likes service integration', function () {
 
       it('should fail to set a required property with an empty string', function* () {
         let clonedUserData = _.clone(this.updateData);
+        clonedUserData.first_name = '';
+        const resp = yield this.apiClient.updateUserProfile(clonedUserData).expect(400).end();
+
+        __.assertThat(resp.text, __.is('The update request doesn\'t contain a value for the \'first_name\' required field'));
+      });
+
+      it('should fail to set an illegal profile section', function* () {
+        let clonedUserData = _.clone(this.updateData);
         clonedUserData.first_name = 'The update request doesn\'t contain a value for the \'first_name\' required field';
         const resp = yield this.apiClient.updateUserProfile(clonedUserData).expect(400).end();
 
-        __.assertThat(resp.text, __.is('The update request contains an illegal, not white listed field!'));
+        __.assertThat(resp.text, __.is('The update request was rejected because the supplied section is illegal'));
       });
+
 
       it('should successfuly update user profile', function* () {
         const resp = yield this.apiClient.updateUserProfile(this.updateData).expect(200).end();
         delete this.updateData.section;
+        
         __.assertThat(resp.body.user_metadata, __.hasProperties(this.updateData));
       });
 
+      it('should fail to update without a section defined', function* () {
+        const resp = yield this.apiClient.updateUserProfile(this.updateData).expect(200).end();
+
+        __.assertThat(resp.text, __.is('The update request was rejected because no section was defined'));
+      });
     });
   });
 });

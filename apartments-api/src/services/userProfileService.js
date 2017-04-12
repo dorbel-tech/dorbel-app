@@ -5,7 +5,7 @@ const _ = require('lodash');
 const errors = shared.utils.domainErrors;
 const userManagement = shared.utils.userManagement;
 
-const ProfileSectionParams = {
+const profileSectionParams = {
   main: {
     first_name: { isRequired: true },
     last_name: { isRequired: true },
@@ -23,7 +23,7 @@ const ProfileSectionParams = {
 
 function* update(user, profileData) {
   if (user) {
-    validateProfileData(profileData);
+    validateRequest(profileData);
 
     logger.info({ user_uuid: user.id, userData: profileData }, 'Updating user details');
     const newUserProfile = yield userManagement.updateUserDetails(user.id, {
@@ -39,8 +39,15 @@ function* update(user, profileData) {
   }
 }
 
-function validateProfileData(profileData) { // Allow only whitelisted fields and validate required fields
-  const fieldMap = ProfileSectionParams[profileData.section];
+function validateRequest(profileData) {
+  if (!profileData.section) {
+    throw new errors.DomainValidationError('SectionNotDefined', 'The update request was rejected because no section was defined');
+  }
+  if (!profileSectionParams[profileData.section]) {
+    throw new errors.DomainValidationError('IllegalSection', 'The update request was rejected because the supplied section is illegal');
+  }
+  
+  const fieldMap = profileSectionParams[profileData.section];
   const keysToUpdate = _.keys(profileData.data);
   const sectionFieldKeys = _.keys(fieldMap) || [];
 
