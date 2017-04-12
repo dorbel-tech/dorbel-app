@@ -1,45 +1,8 @@
 {
-  "/user-profile/me": {
+  "/user-profile/": {
     "patch": {
       "summary": "Patches a single user",
       "description": "Patches a single user's details",
-      "parameters": [
-        {
-          "name": "body",
-          "in": "body",
-          "schema": {
-            "$ref": "#/definitions/userProfile"
-          }
-        },
-        {
-          "name": "x-user-profile",
-          "in": "header",
-          "required": true,
-          "type": "string",
-          "description": "Stringified JSON object with the user's profile information"
-        }
-      ],
-      "tags": [
-        "userProfileController",
-        "authenticated"
-      ],
-      "responses": {
-        "200": {
-          "description": "Update was succesful"
-        },
-        "default": {
-          "description": "Unexpected error",
-          "schema": {
-            "$ref": "#/definitions/Error"
-          }
-        }
-      }
-    }
-  },
-  "/user-profile/tenant_profile": {
-    "patch": {
-      "summary": "Patches a single user's tenant profile",
-      "description": "Patches a single user's tenant profile",
       "parameters": [
         {
           "name": "body",

@@ -73,8 +73,8 @@ class AuthProvider {
     });
   }
 
-  updateUserProfile(type, userProfile) {
-    return this.apiProvider.fetch(`/api/apartments/v1/user-profile/${type}`, { method: 'PATCH', data: userProfile })
+  updateUserProfile(userProfile) {
+    return this.apiProvider.fetch('/api/apartments/v1/user-profile/', { method: 'PATCH', data: userProfile })
       .then(this.setProfile);
   }
 

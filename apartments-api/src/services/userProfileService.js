@@ -6,13 +6,13 @@ const errors = shared.utils.domainErrors;
 const userManagement = shared.utils.userManagement;
 
 const whitelistedProfileParams = {
-  me: [
+  main: [
     'first_name',
     'last_name',
     'phone',
     'email'
   ],
-  tenant: [
+  tenant_profile: [
     'about_you',
     'work_place',
     'position',
@@ -21,13 +21,16 @@ const whitelistedProfileParams = {
   ]
 };
 
-function* update(user, profileType, profileData) {
+function* update(user, profileData) {
   if (user) {
-    throwErrorOnJunkParams(profileData);
+    const profileSection = profileData.profile_section;
+    delete profileData.profile_section;
+    
+    throwErrorOnJunkParams(profileSection, profileData);
 
     logger.info({ user_uuid: user.id, userData: profileData }, 'Updating user details');
     const newUserProfile = yield userManagement.updateUserDetails(user.id, {
-      user_metadata: (profileType == 'me') ? profileData : { [profileType]: profileData }
+      user_metadata: (profileSection == 'main') ? profileData : { [profileSection]: profileData }
     });
     logger.info({ user_uuid: user.id, userData: newUserProfile }, 'Updated user details');
 
@@ -39,10 +42,11 @@ function* update(user, profileType, profileData) {
   }
 }
 
-function throwErrorOnJunkParams(profileType, profileData) { // Allow only whitelisted fields
+function throwErrorOnJunkParams(profileSection, profileData) { // Allow only whitelisted fields
   const keysToUpdate = _.keys(profileData);
+  const allowedKeys = whitelistedProfileParams[profileSection] || [];
   keysToUpdate.forEach((key) => {
-    if (whitelistedProfileParams.indexOf(key) == -1) {
+    if (allowedKeys.indexOf(key) == -1) {
       throw new errors.DomainValidationError('FieldNotAllowed', { field: key }, 'The update request contains an illegal, not white listed, field!');
     }
   });

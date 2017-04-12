@@ -22,6 +22,7 @@ class MyProfileFields extends Component {
     return (
       <Row>
         <Row>
+          <FRC.Input value="main" name="profile_section" type="hidden"/>
           <Col className="my-profile-input" sm={6}>
             <FRC.Input value={profile.first_name} label="שם פרטי" name="first_name" layout="vertical" type="text" required />
           </Col>

@@ -4,7 +4,6 @@ import { FRC } from '~/components/FormWrapper/FormWrapper';
 
 class MyProfileFields extends Component {
   static showPicture = false;
-  static pathParam = 'tenant_profile'
 
   render() {
     let tenant_profile = this.props.profile.user_metadata.tenant_profile;
@@ -19,6 +18,7 @@ class MyProfileFields extends Component {
     return (
       <Row>
         <Row>
+          <FRC.Input value="tenant_profile" name="profile_section" type="hidden"/>
           <Col className="my-profile-input" sm={12}>
             <FRC.Textarea
               value={tenant_profile.about_you}

@@ -33,9 +33,13 @@ class Profile extends Component {
   }
 
   submit() {
-    const profile = this.refs.form.refs.formsy.getModel();
-    const pathParam = this.state.activeTab.content.pathParam;
-    return this.props.appProviders.authProvider.updateUserProfile(pathParam, profile);
+    let formsy = this.refs.form.refs.formsy;
+
+    if (formsy.isChanged()) {
+      const profile = formsy.getModel();
+      return this.props.appProviders.authProvider.updateUserProfile(profile)
+        .then(() => { formsy.reset(profile); }); // Set all form inputs as pristine
+    }
   }
 
   renderActiveSection(profile) {
