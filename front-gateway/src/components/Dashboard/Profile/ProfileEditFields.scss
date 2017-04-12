@@ -1,0 +1,25 @@
+@import "../../sharedStyles/variables.scss";
+@import "../../sharedStyles/bsvars.scss";
+
+.my-profile-input {
+  padding-bottom: 10px;
+  position: relative;
+
+  .control-label {
+    color: $gray-light;
+  }
+
+  .fa.fa-lock {
+    position: absolute;
+    top: 34px;
+    left: 33px;
+    color: $brand-green;
+  }
+
+  .form-group.has-error {
+    .glyphicon {
+      display: none;
+    }
+  }
+}
+

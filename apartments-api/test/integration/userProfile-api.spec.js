@@ -18,34 +18,60 @@ describe('Apartments API Likes service integration', function () {
   describe('user-profile endpoint integration', function () {
     before(function* () {
       this.updateData = {
-        first_name: 'test',
-        last_name: 'user',
-        phone: '666666666',
-        email: 'test@user.com'
+        section: 'main',
+        data: {
+          first_name: 'test',
+          last_name: 'user',
+          phone: '666666666',
+          email: 'test@user.com'
+        }
       };
     });
 
     describe('PATCH /user-profile', function () {
       it('should fail to update user profile when not logged in', function* () {
         const resp = yield this.apiClient.updateUserProfile(this.updateData, false).expect(401).end();
-        
+
         __.assertThat(resp.text, __.is('Not Authorized'));
       });
 
       it('should fail to set a property which is not whitelisted in userProfileService', function* () {
-        let clonedUserData = _.clone(this.updateData);
-        clonedUserData.role = 'admin';
+        let clonedUserData = _.cloneDeep(this.updateData);
+        clonedUserData.data.role = 'admin';
         const resp = yield this.apiClient.updateUserProfile(clonedUserData).expect(400).end();
-        
-        __.assertThat(resp.text, __.is('The update request contains an illegal, not white listed, field!'));
+
+        __.assertThat(resp.text, __.is('The update request contains an illegal, not white listed field!'));
       });
+
+      it('should fail to set a required property with an empty string', function* () {
+        let clonedUserData = _.cloneDeep(this.updateData);
+        clonedUserData.data.first_name = '';
+        const resp = yield this.apiClient.updateUserProfile(clonedUserData).expect(400).end();
+
+        __.assertThat(resp.text, __.is('The update request doesn\'t contain a value for the \'first_name\' required field'));
+      });
+
+      it('should fail to set an illegal profile section', function* () {
+        let clonedUserData = _.cloneDeep(this.updateData);
+        clonedUserData.section = 'someWeirdSectionName';
+        const resp = yield this.apiClient.updateUserProfile(clonedUserData).expect(400).end();
+
+        __.assertThat(resp.text, __.is('The update request was rejected because the supplied section is illegal'));
+      });
+
 
       it('should successfuly update user profile', function* () {
         const resp = yield this.apiClient.updateUserProfile(this.updateData).expect(200).end();
-        
-        __.assertThat(resp.body.user_metadata, __.hasProperties(this.updateData));
+        delete this.updateData.section;
+
+        __.assertThat(resp.body.user_metadata, __.hasProperties(this.updateData.data));
       });
 
+      it('should fail to update without a section defined', function* () {
+        const resp = yield this.apiClient.updateUserProfile(this.updateData).expect(400).end();
+
+        __.assertThat(resp.text, __.is('The update request was rejected because no section was defined'));
+      });
     });
   });
 });
