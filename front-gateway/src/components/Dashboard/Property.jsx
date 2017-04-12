@@ -7,6 +7,7 @@ import CloudinaryImage from '../CloudinaryImage/CloudinaryImage';
 import ListingStatusSelector from '../Listing/components/ListingStatusSelector';
 import PropertyMenu from './MyProperties/PropertyMenu';
 import PropertyStats from './MyProperties/PropertyStats';
+import EditApartment from './MyProperties/EditListing.jsx';
 import { find } from 'lodash';
 import utils from '~/providers/utils';
 
@@ -63,6 +64,7 @@ class Property extends Component {
     const propertyTabs = [
       { relativeRoute: 'stats', title: 'סטטיסטיקות', component: <PropertyStats listing={property} followers={followers || 0} /> },
       { relativeRoute: 'ohe', title: 'מועדי ביקור', component: <PropertyStats listing={property} followers={followers || 0} /> },
+      { relativeRoute: 'edit', title: 'עריכת בלה', component: <EditApartment listingId={this.props.propertyId} />, hideFromMenu: true }
     ];
     // TODO: Add "default" tab logic.
     const selectedTab = find(propertyTabs, {relativeRoute: this.props.tab}) || propertyTabs[0];
@@ -132,7 +134,7 @@ class Property extends Component {
                   </div>
                   <div className="property-action-container">
                     <div className="property-actions-refresh-container">
-                      <Button className="fa fa-refresh property-refresh-button" aria-hidden="true" 
+                      <Button className="fa fa-refresh property-refresh-button" aria-hidden="true"
                          onClick={this.refresh}></Button>
                     </div>
                     <div className="property-actions-preview-container">
@@ -149,9 +151,11 @@ class Property extends Component {
                   </div>
                 </Col>
               </Row>
-              <PropertyMenu path={'/dashboard/my-properties/' + property.id + '/'}
-                            tabs={propertyTabs}
-                            activeKey={selectedTab.relativeRoute} />
+              { selectedTab.hideFromMenu ? null :
+                  <PropertyMenu path={'/dashboard/my-properties/' + property.id + '/'}
+                    tabs={propertyTabs}
+                    activeKey={selectedTab.relativeRoute} />
+              }
               <Row>
                 {selectedTab.component}
               </Row>

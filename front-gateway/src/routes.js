@@ -8,9 +8,6 @@ import Login from '~/components/Login';
 import Health from '~/components/Health';
 import UploadApartmentForm from '~/components/ApartmentForm/UploadApartmentForm';
 
-// TEMPORARY
-import EditApartment from '~/components/Dashboard/MyProperties/EditListing.jsx';
-
 const routes = [
   { route: '/', view: Home },
   { route: '/health', view: Health },
@@ -23,10 +20,7 @@ const routes = [
   { route: '/apartments/new_form', view: UploadApartmentForm },
   { route: '/apartments/:listingId', view: Listing },
   { route: '/apartments/:listingId/:action', view: Listing, requireLogin: true },
-  { route: '/apartments/:listingId/:action/:oheId', view: Listing, requireLogin: true },
-
-  // TEMPORARY
-  { route: '/edit-apartment/:listingId', view: EditApartment, requireLogin: true }
+  { route: '/apartments/:listingId/:action/:oheId', view: Listing, requireLogin: true }
 ];
 
 module.exports = {
