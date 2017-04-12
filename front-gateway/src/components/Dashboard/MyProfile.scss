@@ -10,34 +10,35 @@
     top: 0;
     padding-top: 0;
   }
-}
 
-.tab-bar {
-  height: 45px;
-  background-color: $brand-white;
-  position: absolute;
-  width: 100%;
-  text-align: center;
+  .tab-bar {
+    height: 45px;
+    background-color: $brand-white;
+    position: absolute;
+    width: 100%;
+    text-align: center;
 
-  .container {
-    width: auto; //?
-    > ul {
-      display: inline-block;
-      float: none;
-      margin: 0 auto;
+    .container {
+      width: auto;
 
-      > li {
-        height: 45px;
-        margin: 0 35px;
+      > ul {
+        display: inline-block;
+        float: none;
+        margin: 0 auto;
 
-        @media (max-width: $screen-xs-max) {
-          min-width: 100px;
-          text-align: center;
-        }
-
-        a {
+        > li {
           height: 45px;
-          padding: 15px;
+          margin: 0 35px;
+
+          @media (max-width: $screen-xs-max) {
+            min-width: 100px;
+            text-align: center;
+          }
+
+          a {
+            height: 45px;
+            padding: 15px;
+          }
         }
       }
     }
