@@ -18,6 +18,7 @@ describe('Apartments API Likes service integration', function () {
   describe('user-profile endpoint integration', function () {
     before(function* () {
       this.updateData = {
+        profile_section: 'main',
         first_name: 'test',
         last_name: 'user',
         phone: '666666666',
@@ -28,7 +29,7 @@ describe('Apartments API Likes service integration', function () {
     describe('PATCH /user-profile', function () {
       it('should fail to update user profile when not logged in', function* () {
         const resp = yield this.apiClient.updateUserProfile(this.updateData, false).expect(401).end();
-        
+
         __.assertThat(resp.text, __.is('Not Authorized'));
       });
 
@@ -36,13 +37,21 @@ describe('Apartments API Likes service integration', function () {
         let clonedUserData = _.clone(this.updateData);
         clonedUserData.role = 'admin';
         const resp = yield this.apiClient.updateUserProfile(clonedUserData).expect(400).end();
-        
-        __.assertThat(resp.text, __.is('The update request contains an illegal, not white listed, field!'));
+
+        __.assertThat(resp.text, __.is('The update request contains an illegal, not white listed field!'));
+      });
+
+      it('should fail to set a required property with an empty string', function* () {
+        let clonedUserData = _.clone(this.updateData);
+        clonedUserData.first_name = 'The update request doesn\'t contain a value for the \'first_name\' required field';
+        const resp = yield this.apiClient.updateUserProfile(clonedUserData).expect(400).end();
+
+        __.assertThat(resp.text, __.is('The update request contains an illegal, not white listed field!'));
       });
 
       it('should successfuly update user profile', function* () {
         const resp = yield this.apiClient.updateUserProfile(this.updateData).expect(200).end();
-        
+
         __.assertThat(resp.body.user_metadata, __.hasProperties(this.updateData));
       });
 
