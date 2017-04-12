@@ -12,12 +12,6 @@ const userManagement = shared.utils.userManagement;
 const permissionsService = require('./permissionsService');
 
 const DEFUALT_LISTING_LIST_LIMIT = 1000;
-const LISTING_PATCH_WHITELIST = [ 'status', 'monthly_rent', 'roommates', 'property_tax', 'board_fee', 'lease_start',
-  'lease_end', 'publishing_user_type', 'roommate_needed', 'directions' ];
-const APARTMENT_PATCH_WHITELIST = [ 'apt_number', 'size', 'rooms', 'floor', 'parking', 'sun_heated_boiler', 'pets',
-  'air_conditioning', 'balcony', 'security_bars', 'parquest_floor' ];
-const BUILDING_PATCH_WHITELIST = [ 'floors', 'elevator' ];
-
 
 // TODO : move this to dorbel-shared
 function CustomError(code, message) {
@@ -79,12 +73,15 @@ function* create(listing) {
 
 function* update(listingId, user, patch) {
   let listing = yield listingRepository.getById(listingId);
-  const isPublishingUserOrAdmin = permissionsService.isPublishingUserOrAdmin(user, listing);
 
   if (!listing) {
     logger.error({ listingId }, 'Listing wasnt found');
     throw new CustomError(404, 'הדירה לא נמצאה');
-  } else if (!isPublishingUserOrAdmin) {
+  }
+
+  const isPublishingUserOrAdmin = listing && permissionsService.isPublishingUserOrAdmin(user, listing);
+
+  if (!isPublishingUserOrAdmin) {
     logger.error({ listingId }, 'You cant update that listing');
     throw new CustomError(403, 'אין באפשרותך לערוך דירה זו');
   } else if (patch.status && getPossibleStatuses(listing, user).indexOf(patch.status) < 0) {
@@ -93,16 +90,7 @@ function* update(listingId, user, patch) {
   }
 
   const previousStatus = listing.status;
-
-  // TODO - transaction !
-  if (patch.apartment) {
-    if (patch.apartment.building) {
-      yield listing.apartment.building.update(_.pick(patch.apartment.building, BUILDING_PATCH_WHITELIST));
-    }
-    yield listing.apartment.update(_.pick(patch.apartment, APARTMENT_PATCH_WHITELIST));
-  }
-
-  const result = yield listing.update(_.pick(patch, LISTING_PATCH_WHITELIST));
+  const result = yield listingRepository.update(listing, patch);
 
   if (patch.status && process.env.NOTIFICATIONS_SNS_TOPIC_ARN) {
     const messageBusEvent = messageBus.eventType['APARTMENT_' + patch.status.toUpperCase()];

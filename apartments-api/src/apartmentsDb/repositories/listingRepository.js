@@ -13,6 +13,12 @@ const cityAttributes = [ 'id', 'city_name' ];
 const neighborhoodAttributes = [ 'id', 'neighborhood_name', 'city_id' ];
 const imageAttributes = { exclude: [ 'created_at', 'updated_at' ] };
 
+const LISTING_UPDATE_WHITELIST = [ 'status', 'monthly_rent', 'roommates', 'property_tax', 'board_fee', 'lease_start',
+  'lease_end', 'publishing_user_type', 'roommate_needed', 'directions', 'description' ];
+const APARTMENT_UPDATE_WHITELIST = [ 'apt_number', 'size', 'rooms', 'floor', 'parking', 'sun_heated_boiler', 'pets',
+  'air_conditioning', 'balcony', 'security_bars', 'parquest_floor' ];
+const BUILDING_UPDATE_WHITELIST = [ 'floors', 'elevator', 'entrance' ];
+
 const fullListingDataInclude = [
   {
     model: models.apartment,
@@ -97,24 +103,6 @@ function getOneListing(where) {
 }
 
 function* create(listing) {
-  // TODO: add reference to country
-  // TODO: should much of this be in the listingService ? findOrCreate for building and apartment is actually business logic and not persistance logic |:
-  const city = yield models.city.findOne({
-    where: listing.apartment.building.city,
-    raw: true
-  });
-  if (!city) { throw new Error('did not find city'); }
-
-  const neighborhood = yield models.neighborhood.findOne({
-    where: listing.apartment.building.neighborhood,
-    raw: true
-  });
-  if (!neighborhood) { throw new Error('did not find neighborhood'); }
-
-  if (city.id !== neighborhood.city_id) { throw new Error('neighborhood doesnt match city'); }
-
-  listing.apartment.building.city_id = city.id;
-  listing.apartment.building.neighborhood_id = neighborhood.id;
   const building = yield buildingRepository.findOrCreate(listing.apartment.building);
 
   const apartment = yield apartmentRepository.findOrCreate(
@@ -127,8 +115,6 @@ function* create(listing) {
   newListing.apartment_id = apartment.id;
   let savedListing = yield newListing.save();
 
-  building.city = city;
-  building.neighborhood = neighborhood;
   apartment.building = building;
   savedListing.apartment = apartment;
 
@@ -198,6 +184,41 @@ function getSlugs(ids) {
   });
 }
 
+function * update(listing, patch) {
+  const transaction = yield db.db.transaction();
+  try {
+    const buildingRequest = _.get(patch, 'apartment.building');
+    const buildingPatch = _.pick(buildingRequest || {}, BUILDING_UPDATE_WHITELIST);
+    const apartmentPatch = _.pick(patch.apartment || {}, APARTMENT_UPDATE_WHITELIST);
+    const listingPatch = _.pick(patch, LISTING_UPDATE_WHITELIST);
+
+    // TODO : Merge Images !!!
+
+    // if main building properties change - we move apartment+listing to a different building
+    if (buildingRequest && models.building.isDifferentBuilding(listing.apartment.building, buildingRequest)) {
+      const mergedBuilding = _.merge({}, listing.apartment.building.toJSON(), buildingRequest);
+      const building = yield buildingRepository.findOrCreate(mergedBuilding, { transaction });
+      apartmentPatch.building_id = building.id;
+    } else if (!_.isEmpty(buildingPatch)) {
+      yield listing.apartment.building.update(buildingPatch, { transaction });
+    }
+
+    if (!_.isEmpty(apartmentPatch)) {
+      yield listing.apartment.update(apartmentPatch, { transaction });
+    }
+
+    if (!_.isEmpty(listingPatch)) {
+      yield listing.update(listingPatch, { transaction });
+    }
+
+    yield transaction.commit();
+    return yield listing.reload();
+  } catch(ex) {
+    yield transaction.rollback();
+    throw ex;
+  }
+}
+
 module.exports = {
   list,
   create,
@@ -205,5 +226,6 @@ module.exports = {
   getById: id => getOneListing({ id }),
   getBySlug: slug => getOneListing({ slug }),
   getSlugs,
+  update,
   listingStatuses: models.listing.attributes.status.values
 };
