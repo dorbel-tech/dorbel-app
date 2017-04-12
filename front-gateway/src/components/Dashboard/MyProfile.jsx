@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import autobind from 'react-autobind';
 import { Grid, Row } from 'react-bootstrap';
-import { observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import FormWrapper from '~/components/FormWrapper/FormWrapper';
 import SubmitButton from '~/components/SubmitButton/SubmitButton';
 import TabBar from '~/components/TabBar/TabBar';
