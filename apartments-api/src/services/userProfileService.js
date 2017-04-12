@@ -41,12 +41,12 @@ function* update(user, profileData) {
 
 function validateRequest(profileData) {
   if (!profileData.section) {
-    throw new errors.DomainValidationError('SectionNotDefined', 'The update request was rejected because no section was defined');
+    throw new errors.DomainValidationError('SectionNotDefined', { profileData }, 'The update request was rejected because no section was defined');
   }
   if (!profileSectionParams[profileData.section]) {
-    throw new errors.DomainValidationError('IllegalSection', 'The update request was rejected because the supplied section is illegal');
+    throw new errors.DomainValidationError('IllegalSection', { profileData }, 'The update request was rejected because the supplied section is illegal');
   }
-  
+
   const fieldMap = profileSectionParams[profileData.section];
   const keysToUpdate = _.keys(profileData.data);
   const sectionFieldKeys = _.keys(fieldMap) || [];
