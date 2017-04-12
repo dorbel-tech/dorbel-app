@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { action } from 'mobx';
-import { observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 
-@observer(['appStore', 'appProviders'])
+@inject('appStore', 'appProviders') @observer
 class UploadApartmentBaseStep extends Component {
   constructor(props) {
     super(props);

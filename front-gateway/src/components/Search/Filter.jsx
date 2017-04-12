@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import autobind from 'react-autobind';
 import { Button, Checkbox, Radio, Col, DropdownButton, Grid, MenuItem, Row } from 'react-bootstrap';
-import { observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import Nouislider from 'react-nouislider';
 import { range } from 'lodash';
 
@@ -33,7 +33,7 @@ const DEFAULT_FILTER_PARAMS = {
   liked: false // Display only listings that were liked by the user.
 };
 
-@observer(['appStore', 'appProviders'])
+@inject('appStore', 'appProviders') @observer
 class Filter extends Component {
   static hideFooter = true;
 

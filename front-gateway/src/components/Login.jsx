@@ -1,8 +1,8 @@
 'use strict';
 import React, { PropTypes as T } from 'react';
-import { observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 
-@observer(['appProviders','appStore'])
+@inject('appStore', 'appProviders') @observer
 export class Login extends React.Component {
   static propTypes = {
     appProviders: T.object,

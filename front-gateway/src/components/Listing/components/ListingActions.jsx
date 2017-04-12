@@ -1,10 +1,10 @@
 import React from 'react';
-import { observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import { Col } from 'react-bootstrap';
 import LikeButton from '~/components/LikeButton/LikeButton';
 import ListingPageViews from './ListingPageViews';
 
-@observer(['appStore'])
+@inject('appStore') @observer
 class ListingActions extends React.Component {
 
   renderLikeCounter() {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import autobind from 'react-autobind';
 import { Grid, Row, Col } from 'react-bootstrap';
-import { observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import ListingThumbnail from '../ListingThumbnail/ListingThumbnail.jsx';
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 import NavLink from '~/components/NavLink';
@@ -9,7 +9,7 @@ import NavLink from '~/components/NavLink';
 import './MyProperties.scss';
 
 // TODO: Add infinite scrolling support as introduced in Search.jsx to load more items.
-@observer(['appStore', 'appProviders'])
+@inject('appStore', 'appProviders') @observer
 class MyProperties extends Component {
   constructor(props) {
     super(props);

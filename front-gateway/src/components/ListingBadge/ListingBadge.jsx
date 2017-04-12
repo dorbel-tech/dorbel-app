@@ -1,11 +1,11 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { observer } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 import utils from '../../providers/utils';
 import './ListingBadge.scss';
 
-@observer(['appStore'])
+@inject('appStore') @observer
 class ListingBadge extends Component {
 
   getBadgeData() {
