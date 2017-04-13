@@ -21,7 +21,6 @@ export default class EditedListingStore {
   constructor(authStore, options) {
     this.authStore = authStore;
     this.options = options || {};
-    this.allowedKeys = {};
     autobind(this);
     if (!this.attemptRestoreState()) {
       this.reset();
@@ -69,7 +68,7 @@ export default class EditedListingStore {
     const listing = {};
     // this is so we can use nested structure in our form attributes
     Object.keys(formValues)
-      .filter(key => formValues.hasOwnProperty(key) && this.allowedKeys[key])
+      .filter(key => formValues.hasOwnProperty(key))
       .forEach(key => _.set(listing, key, formValues[key]));
 
     listing.images = formValues.images.map((image, index) => ({
@@ -79,7 +78,7 @@ export default class EditedListingStore {
     return listing;
   }
 
-  fillFromListing(listing) {
+  formValuesFromListing(listing) {
     var newFormValues = {};
 
     // adapted from http://stackoverflow.com/questions/19098797/fastest-way-to-flatten-un-flatten-nested-json-objects but ignoring arrays
@@ -98,11 +97,7 @@ export default class EditedListingStore {
 
     newFormValues.images = listing.images.map(image => ({ src: image.url, complete: true }));
 
-    this.updateFormValues(newFormValues);
-  }
-
-  registerKeys(keys) {
-    keys.forEach(key => this.allowedKeys[key] = true);
+    return newFormValues;
   }
 
   toJson() {

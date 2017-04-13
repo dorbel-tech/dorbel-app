@@ -14,10 +14,8 @@ export default class ListingDetailsForm extends React.Component {
 
   componentDidMount() {
     // load form with existing values from store
-    const { formsy } = this.refs.form.refs;
-    const { editedListingStore } = this.props;
-    formsy.reset(editedListingStore.formValues);
-    editedListingStore.registerKeys(formsy.inputs.map(i => i.element.name));
+    const { editedListingStore, values } = this.props;
+    this.refs.form.refs.formsy.reset(values || editedListingStore.formValues);
   }
 
   updateStore(changes) {
@@ -175,5 +173,6 @@ export default class ListingDetailsForm extends React.Component {
 ListingDetailsForm.wrappedComponent.propTypes = {
   appStore: React.PropTypes.object,
   appProviders: React.PropTypes.object,
-  editedListingStore: React.PropTypes.object.isRequired
+  editedListingStore: React.PropTypes.object.isRequired,
+  values: React.PropTypes.object
 };

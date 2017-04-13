@@ -13,10 +13,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
 
   componentDidMount() {
     // load form with existing values from store
-    const { formsy } = this.refs.form.refs;
-    const { newListingStore } = this.props.appStore;
-    formsy.reset(newListingStore.formValues);
-    newListingStore.registerKeys(formsy.inputs.map(i => i.element.name));
+    this.refs.form.refs.formsy.reset(this.props.appStore.newListingStore.formValues);
   }
 
   getHourOptions(hoursArray) {
