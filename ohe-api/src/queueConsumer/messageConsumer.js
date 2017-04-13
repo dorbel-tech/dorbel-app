@@ -18,6 +18,10 @@ function handleMessage(message) {
         // Mark all active OHEs as inactive.
         yield deactivateOHEs(message.dataPayload.listing_id);
         break;  
+      case 'APARTMENT_LISTED':
+        // Mark all inactive OHEs as deleted (when apartment was listed again).
+        yield deleteInactiveOHEs(message.dataPayload.listing_id);
+        break;  
       default:
         // In case that message requires no processing, skip it.        
         break;
@@ -28,8 +32,18 @@ function handleMessage(message) {
 function* deactivateOHEs(listingId) {
   const events = yield oheEventService.findByListing(listingId, oheServiceUser);
 
-  for (let i=0; i< events.length; i++) {
+  for (let i=0; i < events.length; i++) {
     yield oheEventService.deactivate(events[i].id, oheServiceUser);
+  }
+}
+
+function* deleteInactiveOHEs(listingId) {
+  const events = yield oheEventService.findByListing(listingId, oheServiceUser);
+
+  for (let i=0; i < events.length; i++) {
+    if (events[i].status === 'inactive') {
+      yield oheEventService.remove(events[i].id, oheServiceUser);
+    }
   }
 }
 
