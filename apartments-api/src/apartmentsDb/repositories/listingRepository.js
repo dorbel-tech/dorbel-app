@@ -201,9 +201,11 @@ function * update(listing, patch) {
 
     // if main building properties change - we move apartment+listing to a different building
     if (buildingRequest && currentBuilding.isDifferentBuilding(buildingRequest)) {
+      logger.trace('update to different building', { listing_id: listing.id });
       let mergedBuilding = _.merge({}, currentBuilding.toJSON(), buildingRequest);
       mergedBuilding = _.omit(mergedBuilding, ['geolocation']);
       newBuilding = yield buildingRepository.findOrCreate(mergedBuilding, { transaction });
+      logger.trace('found other building', { oldBuildingId: currentBuilding.id, newBuildingId: newBuilding.id });
       apartmentPatch.building_id = newBuilding.id;
       if (!newBuilding.geolocation) {
         buildingPatch.geolocation = yield geoProvider.getGeoLocation(newBuilding);
@@ -211,14 +213,17 @@ function * update(listing, patch) {
     }
 
     if (!_.isEmpty(buildingPatch)) {
+      logger.trace('updating building', { listing_id: listing.id });
       yield (newBuilding || currentBuilding).update(buildingPatch, { transaction });
     }
 
     if (!_.isEmpty(apartmentPatch)) {
+      logger.trace('updating apartment', { listing_id: listing.id });
       yield listing.apartment.update(apartmentPatch, { transaction });
     }
 
     if (!_.isEmpty(listingPatch)) {
+      logger.trace('updating listing', { listing_id: listing.id });
       yield listing.update(listingPatch, { transaction });
     }
 
@@ -243,6 +248,7 @@ function * update(listing, patch) {
       });
     }
 
+    logger.trace('updating ready to commit', { listing_id: listing.id });
     yield transaction.commit();
     return yield listing.reload();
   } catch(ex) {
