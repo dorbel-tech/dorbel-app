@@ -133,18 +133,20 @@ class Property extends Component {
                   </div>
                   <div className="property-action-container">
                     <div className="property-actions-refresh-container">
-                      <Button className="fa fa-refresh property-refresh-button" aria-hidden="true" 
+                      <Button className="fa fa-refresh property-action-button" aria-hidden="true"
                          onClick={this.refresh}></Button>
                     </div>
                     <div className="property-actions-preview-container">
-                      <Button className="property-preview-button"
+                      <Button className="property-action-button"
                               name={'/apartments/' + this.props.propertyId}
                               onClick={this.routeClickHandler}>צפה</Button>
                     </div>
                     <div className="property-actions-menu-container">
                       <OverlayTrigger trigger="click" placement="bottom" overlay={popoverMenu}
                                       container={this} containerPadding={5} rootClose>
-                        <i className="fa fa-bars" aria-hidden="true"></i>
+                        <Button className="property-action-button">
+                          <i className="fa fa-bars" aria-hidden="true"></i>
+                        </Button>
                       </OverlayTrigger>
                     </div>
                   </div>

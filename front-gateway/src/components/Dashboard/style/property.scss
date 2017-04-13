@@ -168,9 +168,9 @@
   }
 }
 
-.property-refresh-button,
-.property-preview-button {
-  border: 1px solid #979797;
+.property-action-button {
+  background-color: $brand-white !important;
+  border: 1px solid #979797 !important;
   border-radius: 4px;
 }
 
