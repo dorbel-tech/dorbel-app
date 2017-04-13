@@ -13,8 +13,8 @@ function handleMessage(message) {
 
   return co(function *() {
     switch (message.eventType) {
-      case 'APARTMENT_UNLISTED':
       case 'APARTMENT_RENTED':
+      case 'APARTMENT_UNLISTED':
         // Mark all active OHEs as inactive.
         yield deactivateOHEs(message.dataPayload.listing_id);
         break;  

@@ -37,8 +37,8 @@ class OHEManager extends React.Component {
 
     const openHouseEvents = this.props.appStore.oheStore.oheByListingId(listing.id);
 
-    const comingEvents = openHouseEvents.filter(event => moment(event.end_time).isAfter(Date.now()));
-    const passedEvents = openHouseEvents.filter(event => moment(event.end_time).isBefore(Date.now()));
+    const comingEvents = openHouseEvents.filter(event => (event.status !== 'inactive') &&  moment(event.end_time).isAfter(Date.now()));
+    const passedEvents = openHouseEvents.filter(event => (event.status === 'inactive') || moment(event.end_time).isBefore(Date.now()));
 
     return (
       <Col lg={8} md={10} xs={12} className="listing-events-container">

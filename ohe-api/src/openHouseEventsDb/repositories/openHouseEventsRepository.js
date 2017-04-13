@@ -7,7 +7,7 @@ const findInclude = [
   { model: models.registration, required: false, where: { is_active: true } }
 ];
 
-const defaultQuery = { status: 'active' };
+const defaultQuery = { status: { $ne: 'deleted' } }; // Any status but 'deleted'.
 
 function mapQuery(originalQuery) {
   let mappedQuery = {};
