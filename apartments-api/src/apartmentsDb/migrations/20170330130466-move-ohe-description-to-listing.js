@@ -3,7 +3,7 @@ const logger = require('dorbel-shared').logger.getLogger(module);
 
 module.exports = {
   up: function (queryInterface, Sequelize) {
-    queryInterface.sequelize.query(
+    return queryInterface.sequelize.query(
       'SELECT ohe.listing_id, ohe.comments ' +
       'FROM open_house_events.open_house_events AS ohe ' +
       'WHERE ohe.comments IS NOT NULL', { type: Sequelize.QueryTypes.SELECT })
@@ -37,7 +37,7 @@ module.exports = {
       'UPDATE open_house_events.open_house_events set comments = :comments ' +
       'WHERE listing_id = :listing_id';
 
-    queryInterface.sequelize.query(
+    return queryInterface.sequelize.query(
       listings_id_to_directions_sql, { type: Sequelize.QueryTypes.SELECT })
       .then((results) => {
         logger.info(`reverting ${results.length} listings`);

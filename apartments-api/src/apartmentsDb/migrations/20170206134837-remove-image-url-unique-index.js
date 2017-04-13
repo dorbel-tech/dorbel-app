@@ -2,6 +2,6 @@
 
 module.exports = {
   up: function (queryInterface) {
-    queryInterface.removeIndex('images', 'url');
+    return queryInterface.removeIndex('images', 'url');
   }
 };
