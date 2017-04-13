@@ -2,7 +2,7 @@
 
 module.exports = {
   up: function (queryInterface, Sequelize) {
-    queryInterface.addColumn(
+    return queryInterface.addColumn(
       'listings',
       'slug',
       Sequelize.STRING
@@ -10,7 +10,7 @@ module.exports = {
   },
 
   down: function (queryInterface) {
-    queryInterface.removeColumn(
+    return queryInterface.removeColumn(
       'listings',
       'slug'
     );

@@ -73,11 +73,11 @@ class Property extends Component {
 
     const popoverMenu = (
       <Popover id="property-actions-menu" className="property-actions-menu">
-        <div className="property-actions-menu-item propery-action-menu-item-show-mobile" onClick={this.gotoPublishedListing}>
-          <i className="property-actions-menu-item-icon fa fa-eye"></i>
+        <div className="property-actions-menu-item property-action-menu-item-show-mobile" onClick={this.gotoPublishedListing}>
+          <i className="property-actions-menu-item-icon fa fa-picture-o"></i>
           צפה
         </div>
-        <div className="property-actions-menu-item propery-action-menu-item-show-mobile" onClick={this.refresh}>
+        <div className="property-actions-menu-item property-action-menu-item-show-mobile" onClick={this.refresh}>
           <i className="property-actions-menu-item-icon fa fa-refresh" aria-hidden="true"></i>
           רענון
         </div>
@@ -91,17 +91,19 @@ class Property extends Component {
     const defaultHeaderButtons = (
       <div className="property-action-container">
         <div className="property-actions-refresh-container">
-          <Button className="fa fa-refresh property-refresh-button" aria-hidden="true"
-            onClick={this.refresh}></Button>
+          <Button className="fa fa-refresh property-action-button" aria-hidden="true"
+              onClick={this.refresh}></Button>
         </div>
         <div className="property-actions-preview-container">
-          <Button className="property-preview-button"
-                  onClick={this.gotoPublishedListing}>צפה</Button>
+          <Button className="fa fa-picture-o property-action-button"
+                  onClick={this.gotoPublishedListing}></Button>
         </div>
         <div className="property-actions-menu-container">
           <OverlayTrigger trigger="click" placement="bottom" overlay={popoverMenu}
                           container={this} containerPadding={5} rootClose>
-            <i className="fa fa-bars" aria-hidden="true"></i>
+            <Button className="property-action-button">
+              <i className="fa fa-bars" aria-hidden="true"></i>
+            </Button>
           </OverlayTrigger>
         </div>
       </div>

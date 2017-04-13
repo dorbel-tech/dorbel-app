@@ -2,10 +2,10 @@
 
 module.exports = {
   up: function (queryInterface) {
-    queryInterface.addIndex('likes', ['liked_user_id']);
+    return queryInterface.addIndex('likes', ['liked_user_id']);
   },
 
   down: function (queryInterface) {
-    queryInterface.removeIndex('likes', ['liked_user_id']);
+    return queryInterface.removeIndex('likes', ['liked_user_id']);
   }
 };

@@ -2,7 +2,7 @@
 
 module.exports = {
   up: function (queryInterface, Sequelize) {
-    queryInterface.createTable('likes',
+    return queryInterface.createTable('likes',
       {
         id: {
           type: Sequelize.INTEGER,
@@ -34,15 +34,16 @@ module.exports = {
           type: Sequelize.DATE,
           allowNull: false
         },
+      })
+      .then(() => {
+        queryInterface.addIndex('likes',
+          ['liked_user_id', 'listing_id'],
+          {
+            indexName: 'primary_compound_index',
+            indicesType: 'UNIQUE'
+          }
+        );
       });
-
-    queryInterface.addIndex('likes',
-      ['liked_user_id', 'listing_id'],
-      {
-        indexName: 'primary_compound_index',
-        indicesType: 'UNIQUE'
-      }
-    );
   },
 
   down: function (queryInterface) {

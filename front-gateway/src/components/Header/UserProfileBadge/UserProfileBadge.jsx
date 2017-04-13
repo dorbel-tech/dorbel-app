@@ -39,12 +39,11 @@ class UserProfileBadge extends Component {
 
   renderAuthenticationLink(isLoggedIn) {
     const { authProvider } = this.props.appProviders;
-    const showDashboardMenu = process.env.NODE_ENV === 'development' && isLoggedIn;
 
     return isLoggedIn ?
       (
         <Nav>
-          {showDashboardMenu ? MENU_ITEMS.map((item) => this.renderDashboardMenuItem(item)) : null}
+          {isLoggedIn ? MENU_ITEMS.map((item) => this.renderDashboardMenuItem(item)) : null}
           <NavItem
             onClick={authProvider.logout}
             className="user-profile-badge-auth user-profile-badge-auth-logout">

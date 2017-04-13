@@ -2,7 +2,7 @@
 
 module.exports = {
   up: function (queryInterface) {
-    queryInterface.addIndex(
+    return queryInterface.addIndex(
       'listings',
       ['slug'],
       {
@@ -13,6 +13,6 @@ module.exports = {
   },
 
   down: function (queryInterface) {
-    queryInterface.removeIndex('listings', 'ListingSlugIndex');
+    return queryInterface.removeIndex('listings', 'ListingSlugIndex');
   }
 };
