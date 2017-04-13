@@ -148,7 +148,9 @@ export default class ListingDetailsForm extends React.Component {
             <Col md={6}>
               <div className="form-group">
                 <label>תאריך כניסה לדירה</label>
-                <DatePicker name="apartment.entrance-date" value={editedListingStore.formValues.lease_start} onChange={value => this.updateStore({ lease_start: value })} />
+                <DatePicker
+                  name="apartment.entrance-date" value={editedListingStore.formValues.lease_start}
+                  calendarPlacement="top" onChange={value => this.updateStore({ lease_start: value })} />
               </div>
             </Col>
             <Col md={6}>
@@ -165,6 +167,8 @@ export default class ListingDetailsForm extends React.Component {
           </Row>
         </Row>
 
+        {this.props.children}
+
       </FormWrapper.Wrapper>
     );
   }
@@ -174,5 +178,6 @@ ListingDetailsForm.wrappedComponent.propTypes = {
   appStore: React.PropTypes.object,
   appProviders: React.PropTypes.object,
   editedListingStore: React.PropTypes.object.isRequired,
-  values: React.PropTypes.object
+  values: React.PropTypes.object,
+  children: React.PropTypes.node
 };

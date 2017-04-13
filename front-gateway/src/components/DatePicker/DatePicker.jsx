@@ -45,6 +45,7 @@ class DatePicker extends Component {
         dayLabels={weekdayLabels}
         dateFormat={dateFormat}
         disabled={this.props.disabled}
+        calendarPlacement={this.props.calendarPlacement}
         // these are revered because of RTL so need to be set
         previousButtonElement=">"
         nextButtonElement="<"
@@ -58,7 +59,8 @@ DatePicker.propTypes = {
   onChange: React.PropTypes.func,
   value: React.PropTypes.string,
   name: React.PropTypes.string,
-  disabled: React.PropTypes.bool
+  disabled: React.PropTypes.bool,
+  calendarPlacement: React.PropTypes.string
 };
 
 export default DatePicker;

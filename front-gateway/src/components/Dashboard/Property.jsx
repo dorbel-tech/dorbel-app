@@ -110,7 +110,7 @@ class Property extends Component {
     const editHeaderButtons = (
       <div className="property-action-container">
         <div className="property-actions-preview-container">
-          <Button className="property-preview-button" bsStyle="success"
+          <Button className="property-preview-button property-save-button"
                   onClick={() => editForm.wrappedInstance.save().then(this.gotoMyProperty)}>
                   שמור
           </Button>

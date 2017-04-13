@@ -49,15 +49,17 @@ function* create(listing) {
   });
 
   // Publish event trigger message to SNS for notifications dispatching.
-  messageBus.publish(process.env.NOTIFICATIONS_SNS_TOPIC_ARN, messageBus.eventType.APARTMENT_CREATED, {
-    city_id: listing.apartment.building.city_id,
-    listing_id: createdListing.id,
-    user_uuid: createdListing.publishing_user_id,
-    user_email: listing.user.email,
-    user_phone: generic.normalizePhone(listing.user.phone),
-    user_first_name: listing.user.firstname,
-    user_last_name: listing.user.lastname
-  });
+  if (process.env.NOTIFICATIONS_SNS_TOPIC_ARN) {
+    messageBus.publish(process.env.NOTIFICATIONS_SNS_TOPIC_ARN, messageBus.eventType.APARTMENT_CREATED, {
+      city_id: listing.apartment.building.city_id,
+      listing_id: createdListing.id,
+      user_uuid: createdListing.publishing_user_id,
+      user_email: listing.user.email,
+      user_phone: generic.normalizePhone(listing.user.phone),
+      user_first_name: listing.user.firstname,
+      user_last_name: listing.user.lastname
+    });
+  }
 
   return createdListing;
 }

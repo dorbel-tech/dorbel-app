@@ -3,11 +3,11 @@ import { inject, observer } from 'mobx-react';
 import autobind from 'react-autobind';
 import { Nav, NavItem, Navbar, Row, Grid, Col } from 'react-bootstrap';
 import ImageUpload from '~/components/ApartmentForm/ImageUpload/ImageUpload';
-import ListingDetailsForm from '~/components/ApartmentForm/ListingDetailsForm/ListingDetailsForm';
+import EditListingForm from './EditListingForm';
 
 const tabs = [
   { key: 'images', title: 'תמונות', component: ImageUpload },
-  { key: 'details', title: 'פרטי דירה', component: ListingDetailsForm }
+  { key: 'details', title: 'פרטי דירה', component: EditListingForm }
 ];
 
 @inject('appStore', 'appProviders') @observer
