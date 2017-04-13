@@ -73,8 +73,8 @@ class ListingsProvider {
       .then(() => { return createdListing; });
   }
 
-  updateListing(listing) {
-    return this.apiProvider.fetch('/api/apartments/v1/listings/' + listing.id, { method: 'PATCH', data: listing })
+  updateListing(listingId, data) {
+    return this.apiProvider.fetch('/api/apartments/v1/listings/' + listingId, { method: 'PATCH', data })
     .then((res) => {
       this.appStore.listingStore.set(res);
       return res;

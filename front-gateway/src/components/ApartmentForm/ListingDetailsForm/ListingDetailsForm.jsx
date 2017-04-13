@@ -14,7 +14,10 @@ export default class ListingDetailsForm extends React.Component {
 
   componentDidMount() {
     // load form with existing values from store
-    this.refs.form.refs.formsy.reset(this.props.editedListingStore.formValues);
+    const { formsy } = this.refs.form.refs;
+    const { editedListingStore } = this.props;
+    formsy.reset(editedListingStore.formValues);
+    editedListingStore.registerKeys(formsy.inputs.map(i => i.element.name));
   }
 
   updateStore(changes) {

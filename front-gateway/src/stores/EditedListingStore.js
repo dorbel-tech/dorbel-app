@@ -21,6 +21,7 @@ export default class EditedListingStore {
   constructor(authStore, options) {
     this.authStore = authStore;
     this.options = options || {};
+    this.allowedKeys = {};
     autobind(this);
     if (!this.attemptRestoreState()) {
       this.reset();
@@ -67,7 +68,10 @@ export default class EditedListingStore {
     const formValues = this.formValues;
     const listing = {};
     // this is so we can use nested structure in our form attributes
-    Object.keys(formValues).filter(key => formValues.hasOwnProperty(key)).forEach(key => _.set(listing, key, formValues[key]));
+    Object.keys(formValues)
+      .filter(key => formValues.hasOwnProperty(key) && this.allowedKeys[key])
+      .forEach(key => _.set(listing, key, formValues[key]));
+
     listing.images = formValues.images.map((image, index) => ({
       url: image.secure_url || image.src, display_order: index
     }));
@@ -95,6 +99,10 @@ export default class EditedListingStore {
     newFormValues.images = listing.images.map(image => ({ src: image.url, complete: true }));
 
     this.updateFormValues(newFormValues);
+  }
+
+  registerKeys(keys) {
+    keys.forEach(key => this.allowedKeys[key] = true);
   }
 
   toJson() {

@@ -7,7 +7,7 @@ const ValidationError = shared.utils.domainErrors.DomainValidationError;
 function* findOrCreate(building, options = {}) {
   // TODO: add reference to country
   const city = yield db.models.city.findOne({
-    where: building.city,
+    where: { id: building.city.id },
     raw: true
   });
   if (!city) {
@@ -15,7 +15,7 @@ function* findOrCreate(building, options = {}) {
   }
 
   const neighborhood = yield db.models.neighborhood.findOne({
-    where: building.neighborhood,
+    where: { id: building.neighborhood.id },
     raw: true
   });
   if (!neighborhood) {
@@ -27,7 +27,12 @@ function* findOrCreate(building, options = {}) {
   }
 
   const findOrCreateResult = yield db.models.building.findOrCreate({
-    where: _.pick(building, ['street_name', 'house_number', 'city_id', 'neighborhood_id']),
+    where: {
+      street_name: building.street_name,
+      house_number: building.house_number,
+      city_id: building.city.id,
+      neighborhood_id: building.neighborhood.id
+    },
     defaults: _.pick(building, ['geolocation', 'elevator']),
     transaction: options.transaction
   });

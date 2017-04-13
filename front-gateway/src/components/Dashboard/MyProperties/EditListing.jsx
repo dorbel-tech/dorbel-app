@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import autobind from 'react-autobind';
-import { Nav, NavItem, Navbar, Row, Grid, Col, Button } from 'react-bootstrap';
+import { Nav, NavItem, Navbar, Row, Grid } from 'react-bootstrap';
 import ImageUpload from '~/components/ApartmentForm/ImageUpload/ImageUpload';
 import ListingDetailsForm from '~/components/ApartmentForm/ListingDetailsForm/ListingDetailsForm';
 
@@ -24,8 +24,9 @@ export default class EditListing extends Component {
   }
 
   save() {
-    let listing = this.props.appStore.editedListingStore.toListingObject();
-    return this.props.appProviders.listingsProvider.updateListing(listing);
+    const { listing, appStore } = this.props;
+    const patch = appStore.editedListingStore.toListingObject();
+    return this.props.appProviders.listingsProvider.updateListing(listing.id, patch);
   }
 
   render() {
