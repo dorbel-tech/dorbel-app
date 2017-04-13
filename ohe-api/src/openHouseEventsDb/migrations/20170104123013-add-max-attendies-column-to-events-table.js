@@ -2,7 +2,7 @@
 
 module.exports = {
   up: function (queryInterface, Sequelize) {
-    queryInterface.addColumn('open_house_events', 'max_attendies',
+    return queryInterface.addColumn('open_house_events', 'max_attendies',
       {
         type: Sequelize.INTEGER,
         allowNull: false
@@ -11,6 +11,6 @@ module.exports = {
   },
 
   down: function (queryInterface) {
-    queryInterface.removeColumn('open_house_events', 'max_attendies');
+    return queryInterface.removeColumn('open_house_events', 'max_attendies');
   }
 };

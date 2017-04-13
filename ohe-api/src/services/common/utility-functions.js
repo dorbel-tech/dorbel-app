@@ -9,7 +9,9 @@ const userManagement = shared.utils.userManagement;
 const CLOSE_EVENT_IF_TOO_CLOSE = process.env.CLOSE_EVENT_IF_TOO_CLOSE || 90;
 
 function calculateOHEStatus(oheModel, userId) { // userId is the registred userId, not the creator of the listing
-  if (moment().isAfter(oheModel.start_time)) {
+  if (oheModel.status === 'inactive') {
+    return 'inactive';
+  } else if (moment().isAfter(oheModel.start_time)) {
     return 'expired';
   } else if (userId && _.find(oheModel.registrations, { registered_user_id: userId, is_active: true })) {
     return 'registered';
