@@ -70,11 +70,11 @@ class Property extends Component {
 
     const popoverMenu = (
       <Popover id="property-actions-menu" className="property-actions-menu">
-        <div name={'/apartments/' + this.props.propertyId} className="property-actions-menu-item propery-action-menu-item-show-mobile" onClick={this.routeClickHandler}>
-          <i className="property-actions-menu-item-icon fa fa-eye"></i>
+        <div name={'/apartments/' + this.props.propertyId} className="property-actions-menu-item property-action-menu-item-show-mobile" onClick={this.routeClickHandler}>
+          <i className="property-actions-menu-item-icon fa fa-picture-o"></i>
           צפה
         </div>
-        <div className="property-actions-menu-item propery-action-menu-item-show-mobile" onClick={this.refresh}>
+        <div className="property-actions-menu-item property-action-menu-item-show-mobile" onClick={this.refresh}>
           <i className="property-actions-menu-item-icon fa fa-refresh" aria-hidden="true"></i>
           רענון
         </div>
@@ -133,18 +133,20 @@ class Property extends Component {
                   </div>
                   <div className="property-action-container">
                     <div className="property-actions-refresh-container">
-                      <Button className="fa fa-refresh property-refresh-button" aria-hidden="true" 
+                      <Button className="fa fa-refresh property-action-button" aria-hidden="true"
                          onClick={this.refresh}></Button>
                     </div>
                     <div className="property-actions-preview-container">
-                      <Button className="property-preview-button"
+                      <Button className="fa fa-picture-o property-action-button"
                               name={'/apartments/' + this.props.propertyId}
-                              onClick={this.routeClickHandler}>צפה</Button>
+                              onClick={this.routeClickHandler}></Button>
                     </div>
                     <div className="property-actions-menu-container">
                       <OverlayTrigger trigger="click" placement="bottom" overlay={popoverMenu}
                                       container={this} containerPadding={5} rootClose>
-                        <i className="fa fa-bars" aria-hidden="true"></i>
+                        <Button className="property-action-button">
+                          <i className="fa fa-bars" aria-hidden="true"></i>
+                        </Button>
                       </OverlayTrigger>
                     </div>
                   </div>
