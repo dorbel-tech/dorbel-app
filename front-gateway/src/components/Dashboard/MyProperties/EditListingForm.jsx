@@ -1,15 +1,9 @@
 import React, { Component } from 'react';
-import autobind from 'react-autobind';
 import { Row, Col } from 'react-bootstrap';
 import ListingDetailsForm from '~/components/ApartmentForm/ListingDetailsForm/ListingDetailsForm';
 import { FRC } from '~/components/FormWrapper/FormWrapper';
 
 export default class EditListingForm extends Component {
-  constructor(props) {
-    super(props);
-    autobind(this);
-  }
-
   render() {
     const { publishing_user_type } = this.props.editedListingStore.formValues;
 

@@ -20,7 +20,7 @@ export default class EditListing extends Component {
 
   componentWillMount() {
     const { appStore, listing } = this.props;
-    this.formValues = appStore.editedListingStore.formValuesFromListing(listing);
+    appStore.editedListingStore.loadListing(listing);
   }
 
   save() {
@@ -46,7 +46,7 @@ export default class EditListing extends Component {
         <Row className="property-content-container property-edit-container">
           <Grid fluid>
             <Col sm={12}>
-              <activeTab.component editedListingStore={this.props.appStore.editedListingStore} values={this.formValues}/>
+              <activeTab.component editedListingStore={this.props.appStore.editedListingStore}/>
             </Col>
           </Grid>
         </Row>

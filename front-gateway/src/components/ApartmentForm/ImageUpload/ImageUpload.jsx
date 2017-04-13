@@ -12,9 +12,7 @@ export default class ImageUpload extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.values && this.props.values.images) {
-      this.props.editedListingStore.updateFormValues({ images: this.props.values.images });
-    }
+    this.props.editedListingStore.registerKeys([ 'images' ]);
   }
 
   onChooseFile(acceptedFiles) {
@@ -83,6 +81,5 @@ ImageUpload.wrappedComponent.propTypes = {
   appProviders: React.PropTypes.object.isRequired,
   editedListingStore: React.PropTypes.object.isRequired,
   onUploadStart: React.PropTypes.func,
-  onUploadComplete: React.PropTypes.func,
-  values: React.PropTypes.object
+  onUploadComplete: React.PropTypes.func
 };

@@ -245,3 +245,11 @@
   padding-right: 30px;
   padding-left: 30px;
 }
+
+.property-edit-menu-icon {
+  display: none !important;
+
+  @media (max-width: $screen-xs-max) {
+    display: block !important;
+  }
+}
