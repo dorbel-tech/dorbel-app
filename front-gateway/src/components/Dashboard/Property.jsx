@@ -78,10 +78,10 @@ class Property extends Component {
           <i className="property-actions-menu-item-icon fa fa-refresh" aria-hidden="true"></i>
           רענון
         </div>
-        <div name={'/dashboard/my-properties/' + this.props.propertyId + '/edit'} className="property-actions-menu-item" onClick={this.routeClickHandler}>
+        {/*<div name={'/dashboard/my-properties/' + this.props.propertyId + '/edit'} className="property-actions-menu-item" onClick={this.routeClickHandler}>
           <i className="property-actions-menu-item-icon fa fa-pencil-square-o"  aria-hidden="true"></i>
           עריכת פרטי הנכס
-        </div>
+        </div>*/}
       </Popover>
     );
 
