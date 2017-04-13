@@ -10,13 +10,10 @@ module.exports = {
       selector: '.listing-title-container'
     },
     landlordControls: {
-      selector: '.listing-status-container',
+      selector: '.listing-header',
       elements: {
-        listingMenuStatusDropdownToggle: {
-          selector: '.dropdown-toggle'
-        },
-        listingMenuStatusSelector_listed: {
-          selector: '.dropdown-menu #listed'
+        listingToDashboard: {
+          selector: '.listing-header-to-dashboard'
         }
       }
     },
@@ -79,11 +76,6 @@ module.exports = {
       return this
         .navigate(url)
         .waitForElementVisible('body');
-    },
-    changeListingStatus: function(status) {
-      return this.section.landlordControls
-        .click('@listingMenuStatusDropdownToggle')
-        .click('@listingMenuStatusSelector_' + status);
     },
     clickFirstOhe: function() {
       return this.section.oheList.click('@firstEvent');

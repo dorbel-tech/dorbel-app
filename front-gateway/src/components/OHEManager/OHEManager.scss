@@ -1,7 +1,12 @@
+@import "../sharedStyles/variables.scss";
+
 .listing-events-no-ohe-title {
   color: #9b9b9b;
 }
 
 .listing-events-add-ohe {
-  margin-top: 16px;
+  background-color: $gray-lighter !important;
+  border-color: $brand-green !important;
+  color: $brand-green !important;
+  margin-top: -9px;
 }
