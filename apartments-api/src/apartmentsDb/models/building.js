@@ -28,12 +28,14 @@ function define(sequelize, DataTypes) {
           onDelete: 'CASCADE'
         });
         models.building.belongsTo(models.neighborhood);
-      },
-      isDifferentBuilding: (building1, building2) => {
+      }
+    },
+    instanceMethods: {
+      isDifferentBuilding: function(otherBuilding) {
         return ['city.id', 'neighborhood.id', 'street_name', 'house_number', 'entrance'].some(field => {
-          const value1 = _.get(building1, field);
-          const value2 = _.get(building2, field);
-          return value1 && value2 && value1 !== value2; // both have value and not equal values
+          const otherValue = _.get(otherBuilding, field);
+          const thisValue = _.get(this, field);
+          return otherValue && thisValue && otherValue !== thisValue; // both have value and not equal values
         });
       }
     },

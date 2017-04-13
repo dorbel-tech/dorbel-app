@@ -5,8 +5,6 @@ const NodeGeocoder = require('node-geocoder');
 const cityRepository = require('../apartmentsDb/repositories/cityRepository');
 let geoCoderInstance = null;
 
-// TODO : separate 'services' from 'providers' ? YES !
-
 // NodeGeocoder client singleton class.
 class Geo{
   constructor() {

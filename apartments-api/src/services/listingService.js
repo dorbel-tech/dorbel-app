@@ -4,7 +4,7 @@ const moment = require('moment');
 const shared = require('dorbel-shared');
 const listingRepository = require('../apartmentsDb/repositories/listingRepository');
 const likeRepository = require('../apartmentsDb/repositories/likeRepository');
-const geoService = require('./geoService');
+const geoProvider = require('../providers/geoProvider');
 const logger = shared.logger.getLogger(module);
 const messageBus = shared.utils.messageBus;
 const generic = shared.utils.generic;
@@ -34,7 +34,7 @@ function* create(listing) {
   listing.status = 'pending';
 
   let modifiedListing = setListingAutoFields(listing);
-  listing.apartment.building.geolocation = yield geoService.getGeoLocation(listing.apartment.building);
+  listing.apartment.building.geolocation = yield geoProvider.getGeoLocation(listing.apartment.building);
   let createdListing = yield listingRepository.create(modifiedListing);
 
   // TODO: Update user details can be done on client using user token.
@@ -71,25 +71,22 @@ function* update(listingId, user, patch) {
   }
 
   const isPublishingUserOrAdmin = listing && permissionsService.isPublishingUserOrAdmin(user, listing);
+  const statusChanged = patch.status && patch.status !== listing.status;
 
   if (!isPublishingUserOrAdmin) {
     logger.error({ listingId }, 'You cant update that listing');
     throw new CustomError(403, 'אין באפשרותך לערוך דירה זו');
-  } else if (patch.status && patch.status !== listing.status && getPossibleStatuses(listing, user).indexOf(patch.status) < 0) {
+  } else if (statusChanged && getPossibleStatuses(listing, user).indexOf(patch.status) < 0) {
     logger.error({ listingId }, 'You cant update this listing status');
     throw new CustomError(403, 'אין באפשרותך לשנות את סטטוס הדירה ל ' + patch.status);
   }
 
   const previousStatus = listing.status;
   patch = setListingAutoFields(patch);
-  if (_.get(patch, 'apartment.building')) {
-    const mergedBuilding = _.merge({}, listing.apartment.building.toJSON(), patch.apartment.building);
-    patch.apartment.building.geolocation = yield geoService.getGeoLocation(mergedBuilding);
-  }
 
   const result = yield listingRepository.update(listing, patch);
 
-  if (patch.status && process.env.NOTIFICATIONS_SNS_TOPIC_ARN) {
+  if (statusChanged && process.env.NOTIFICATIONS_SNS_TOPIC_ARN) {
     const messageBusEvent = messageBus.eventType['APARTMENT_' + patch.status.toUpperCase()];
     messageBus.publish(process.env.NOTIFICATIONS_SNS_TOPIC_ARN, messageBusEvent, {
       city_id: listing.apartment.building.city_id,

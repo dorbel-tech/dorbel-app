@@ -7,6 +7,7 @@ const apartmentRepository = require('./apartmentRepository');
 const buildingRepository = require('./buildingRepository');
 const shared = require('dorbel-shared');
 const logger = shared.logger.getLogger(module);
+const geoProvider = require('../../providers/geoProvider');
 
 const listingAttributes = { exclude: [ 'lease_end', 'updated_at' ] };
 const apartmentAttributes = { exclude: [ 'created_at', 'updated_at' ] };
@@ -195,13 +196,22 @@ function * update(listing, patch) {
     const apartmentPatch = _.pick(patch.apartment || {}, APARTMENT_UPDATE_WHITELIST);
     const listingPatch = _.pick(patch, LISTING_UPDATE_WHITELIST);
 
+    const currentBuilding = listing.apartment.building;
+    let newBuilding;
+
     // if main building properties change - we move apartment+listing to a different building
-    if (buildingRequest && models.building.isDifferentBuilding(listing.apartment.building, buildingRequest)) {
-      const mergedBuilding = _.merge({}, listing.apartment.building.toJSON(), buildingRequest);
-      const building = yield buildingRepository.findOrCreate(mergedBuilding, { transaction });
-      apartmentPatch.building_id = building.id;
-    } else if (!_.isEmpty(buildingPatch)) {
-      yield listing.apartment.building.update(buildingPatch, { transaction });
+    if (buildingRequest && currentBuilding.isDifferentBuilding(buildingRequest)) {
+      let mergedBuilding = _.merge({}, currentBuilding.toJSON(), buildingRequest);
+      mergedBuilding = _.omit(mergedBuilding, ['geolocation']);
+      newBuilding = yield buildingRepository.findOrCreate(mergedBuilding, { transaction });
+      apartmentPatch.building_id = newBuilding.id;
+      if (!newBuilding.geolocation) {
+        buildingPatch.geolocation = yield geoProvider.getGeoLocation(newBuilding);
+      }
+    }
+
+    if (!_.isEmpty(buildingPatch)) {
+      yield (newBuilding || currentBuilding).update(buildingPatch, { transaction });
     }
 
     if (!_.isEmpty(apartmentPatch)) {

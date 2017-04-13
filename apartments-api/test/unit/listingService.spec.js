@@ -18,11 +18,11 @@ describe('Listing Service', function () {
       listingStatuses: [ 'pending', 'rented' ],
       update: sinon.stub().resolves(this.mockListing)
     };
-    this.geoLocationServiceMock = {
+    this.geoProviderMock = {
       getGeoLocation : sinon.stub().resolves(1)
     };
     mockRequire('../../src/apartmentsDb/repositories/listingRepository', this.listingRepositoryMock);
-    mockRequire('../../src/services/geoService', this.geoLocationServiceMock);
+    mockRequire('../../src/providers/geoProvider', this.geoProviderMock);
     sinon.stub(shared.utils.userManagement, 'updateUserDetails');
     sinon.stub(shared.utils.userManagement, 'getUserDetails').resolves();
     this.listingService = require('../../src/services/listingService');
@@ -31,7 +31,7 @@ describe('Listing Service', function () {
   afterEach(function() {
     this.listingRepositoryMock.list.reset();
     this.listingRepositoryMock.update.reset();
-    this.geoLocationServiceMock.getGeoLocation.reset();
+    this.geoProviderMock.getGeoLocation.reset();
   });
 
   after(() => mockRequire.stopAll());
@@ -148,7 +148,7 @@ describe('Listing Service', function () {
       );
     });
 
-    it('should call geoService when a listing building is changed', function* () {
+    it('should call geoProvider when a listing building is changed', function* () {
       const listing = faker.getFakeListing();
       const point = { lon:123, lat: 456 };
       const update = {
@@ -159,11 +159,11 @@ describe('Listing Service', function () {
         }
       };
       this.listingRepositoryMock.getById = sinon.stub().resolves(listing);
-      this.geoLocationServiceMock.getGeoLocation.resolves(point);
+      this.geoProviderMock.getGeoLocation.resolves(point);
 
       yield this.listingService.update(listing.id, { id: listing.publishing_user_id }, _.cloneDeep(update));
 
-      __.assertThat(this.geoLocationServiceMock.getGeoLocation.args[0][0], __.hasProperties(update.apartment.building));
+      __.assertThat(this.geoProviderMock.getGeoLocation.args[0][0], __.hasProperties(update.apartment.building));
       __.assertThat(this.listingRepositoryMock.update.args[0][1].apartment.building.geolocation, __.is(point));
     });
 
