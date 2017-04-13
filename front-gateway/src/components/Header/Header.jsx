@@ -74,8 +74,7 @@ class Header extends Component {
     const { authProvider } = this.props.appProviders;
     const { authStore } = this.props.appStore;
     const isLoggedIn = authStore.isLoggedIn;
-    const showDashboardMenu = process.env.NODE_ENV === 'development' && isLoggedIn;
-    const showPublishFirst = showDashboardMenu && isMobileJs.phone;
+    const showPublishFirst = isLoggedIn && isMobileJs.phone;
     const externalURL = 'https://www.dorbel.com';
 
     return (
@@ -93,7 +92,7 @@ class Header extends Component {
         <Navbar.Collapse>
           <UserProfileBadge />
           <Nav className="header-navbar-links">
-            {showDashboardMenu ? MENU_ITEMS.map((item) => this.renderDashboardMenuItem(item)) : null}
+            {isLoggedIn ? MENU_ITEMS.map((item) => this.renderDashboardMenuItem(item)) : null}
             {showPublishFirst ?
               <NavItem className="header-navbar-btn-publish" onClick={(e) => this.routeTo(e, '/apartments/new_form')}
                 href="/apartments/new_form">פרסמו דירה</NavItem>
