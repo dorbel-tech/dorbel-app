@@ -46,46 +46,15 @@ class Property extends Component {
     }
   }
 
-  routeClickHandler(e) {
-    this.props.router.setRoute(e.target.getAttribute('name'));
-  }
+  gotoPublishedListing = () => this.props.router.setRoute('/apartments/' + this.props.propertyId);
+  gotoMyProperty = () => this.props.router.setRoute('/dashboard/my-properties/' + this.props.propertyId);
+  gotoEditProperty = () => this.props.router.setRoute('/dashboard/my-properties/' + this.props.propertyId + '/edit');
 
   refresh() {
     location.reload(true);
   }
 
   render() {
-    const { appStore } = this.props;
-    const property = appStore.listingStore.get(this.props.propertyId);
-    const sortedPropertyImages = utils.sortListingImages(property);
-    const imageURL = sortedPropertyImages.length ? sortedPropertyImages[0].url : '';
-    const followers = appStore.oheStore.countFollowersByListingId.get(this.props.propertyId);
-
-    const propertyTabs = [
-      { relativeRoute: 'stats', title: 'סטטיסטיקות', component: <PropertyStats listing={property} followers={followers || 0} /> },
-      { relativeRoute: 'ohe', title: 'מועדי ביקור', component: <PropertyStats listing={property} followers={followers || 0} /> },
-      { relativeRoute: 'edit', title: 'עריכת בלה', component: <EditApartment listingId={this.props.propertyId} />, hideFromMenu: true }
-    ];
-    // TODO: Add "default" tab logic.
-    const selectedTab = find(propertyTabs, {relativeRoute: this.props.tab}) || propertyTabs[0];
-
-    const popoverMenu = (
-      <Popover id="property-actions-menu" className="property-actions-menu">
-        <div name={'/apartments/' + this.props.propertyId} className="property-actions-menu-item propery-action-menu-item-show-mobile" onClick={this.routeClickHandler}>
-          <i className="property-actions-menu-item-icon fa fa-eye"></i>
-          צפה
-        </div>
-        <div className="property-actions-menu-item propery-action-menu-item-show-mobile" onClick={this.refresh}>
-          <i className="property-actions-menu-item-icon fa fa-refresh" aria-hidden="true"></i>
-          רענון
-        </div>
-        <div name={'/dashboard/my-properties/' + this.props.propertyId + '/edit'} className="property-actions-menu-item" onClick={this.routeClickHandler}>
-          <i className="property-actions-menu-item-icon fa fa-pencil-square-o"  aria-hidden="true"></i>
-          עריכת פרטי הנכס
-        </div>
-      </Popover>
-    );
-
     if (this.state.isLoading) {
       return (
         <div className="loader-container">
@@ -93,6 +62,75 @@ class Property extends Component {
         </div>
       );
     }
+
+    const { appStore } = this.props;
+    const property = appStore.listingStore.get(this.props.propertyId);
+    const sortedPropertyImages = utils.sortListingImages(property);
+    const imageURL = sortedPropertyImages.length ? sortedPropertyImages[0].url : '';
+    const followers = appStore.oheStore.countFollowersByListingId.get(this.props.propertyId);
+    let editForm = null;
+
+    const popoverMenu = (
+      <Popover id="property-actions-menu" className="property-actions-menu">
+        <div className="property-actions-menu-item propery-action-menu-item-show-mobile" onClick={this.gotoPublishedListing}>
+          <i className="property-actions-menu-item-icon fa fa-eye"></i>
+          צפה
+        </div>
+        <div className="property-actions-menu-item propery-action-menu-item-show-mobile" onClick={this.refresh}>
+          <i className="property-actions-menu-item-icon fa fa-refresh" aria-hidden="true"></i>
+          רענון
+        </div>
+        <div className="property-actions-menu-item" onClick={this.gotoEditProperty}>
+          <i className="property-actions-menu-item-icon fa fa-pencil-square-o"  aria-hidden="true"></i>
+          עריכת פרטי הנכס
+        </div>
+      </Popover>
+    );
+
+    const defaultHeaderButtons = (
+      <div className="property-action-container">
+        <div className="property-actions-refresh-container">
+          <Button className="fa fa-refresh property-refresh-button" aria-hidden="true"
+            onClick={this.refresh}></Button>
+        </div>
+        <div className="property-actions-preview-container">
+          <Button className="property-preview-button"
+                  onClick={this.gotoPublishedListing}>צפה</Button>
+        </div>
+        <div className="property-actions-menu-container">
+          <OverlayTrigger trigger="click" placement="bottom" overlay={popoverMenu}
+                          container={this} containerPadding={5} rootClose>
+            <i className="fa fa-bars" aria-hidden="true"></i>
+          </OverlayTrigger>
+        </div>
+      </div>
+    );
+
+    const editHeaderButtons = (
+      <div className="property-action-container">
+        <div className="property-actions-preview-container">
+          <Button className="property-preview-button" bsStyle="success"
+                  onClick={() => editForm.wrappedInstance.save().then(this.gotoMyProperty)}>
+                  שמור
+          </Button>
+        </div>
+        <div className="property-actions-preview-container">
+          <Button className="property-preview-button"
+                  onClick={this.gotoMyProperty}>
+                  בטל
+          </Button>
+        </div>
+      </div>
+    );
+
+    const propertyTabs = [
+      { relativeRoute: 'stats', title: 'סטטיסטיקות', component: <PropertyStats listing={property} followers={followers || 0} /> },
+      { relativeRoute: 'ohe', title: 'מועדי ביקור', component: <PropertyStats listing={property} followers={followers || 0} /> },
+      { relativeRoute: 'edit', title: 'עריכת פרטי הנכס', component: <EditApartment listing={property} ref={form => editForm = form} />,
+        hideFromMenu: true, headerButtons: editHeaderButtons }
+    ];
+    // TODO: Add "default" tab logic.
+    const selectedTab = find(propertyTabs, {relativeRoute: this.props.tab}) || propertyTabs[0];
 
     return  <Grid fluid className="property-wrapper">
               <Row className="property-top-container">
@@ -132,23 +170,7 @@ class Property extends Component {
                         <span className="property-actions-sub-title">לייקים</span>
                     </div>
                   </div>
-                  <div className="property-action-container">
-                    <div className="property-actions-refresh-container">
-                      <Button className="fa fa-refresh property-refresh-button" aria-hidden="true"
-                         onClick={this.refresh}></Button>
-                    </div>
-                    <div className="property-actions-preview-container">
-                      <Button className="property-preview-button"
-                              name={'/apartments/' + this.props.propertyId}
-                              onClick={this.routeClickHandler}>צפה</Button>
-                    </div>
-                    <div className="property-actions-menu-container">
-                      <OverlayTrigger trigger="click" placement="bottom" overlay={popoverMenu}
-                                      container={this} containerPadding={5} rootClose>
-                        <i className="fa fa-bars" aria-hidden="true"></i>
-                      </OverlayTrigger>
-                    </div>
-                  </div>
+                  { selectedTab.headerButtons || defaultHeaderButtons }
                 </Col>
               </Row>
               { selectedTab.hideFromMenu ? null :

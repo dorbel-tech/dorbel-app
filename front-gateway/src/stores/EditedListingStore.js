@@ -68,8 +68,8 @@ export default class EditedListingStore {
     const listing = {};
     // this is so we can use nested structure in our form attributes
     Object.keys(formValues).filter(key => formValues.hasOwnProperty(key)).forEach(key => _.set(listing, key, formValues[key]));
-    listing.images = formValues.images.map((cloudinaryImage, index) => ({
-      url: cloudinaryImage.secure_url, display_order: index
+    listing.images = formValues.images.map((image, index) => ({
+      url: image.secure_url || image.src, display_order: index
     }));
 
     return listing;

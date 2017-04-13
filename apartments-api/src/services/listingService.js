@@ -75,7 +75,7 @@ function* update(listingId, user, patch) {
   if (!isPublishingUserOrAdmin) {
     logger.error({ listingId }, 'You cant update that listing');
     throw new CustomError(403, 'אין באפשרותך לערוך דירה זו');
-  } else if (patch.status && getPossibleStatuses(listing, user).indexOf(patch.status) < 0) {
+  } else if (patch.status && patch.status !== listing.status && getPossibleStatuses(listing, user).indexOf(patch.status) < 0) {
     logger.error({ listingId }, 'You cant update this listing status');
     throw new CustomError(403, 'אין באפשרותך לשנות את סטטוס הדירה ל ' + patch.status);
   }
@@ -162,7 +162,7 @@ function* getByFilter(filterJSON, options = {}) {
     }
 
     if (filter.myProperties){
-      if (!userManagement.isUserAdmin(options.user)) {    
+      if (!userManagement.isUserAdmin(options.user)) {
         listingQuery.publishing_user_id = options.user.id;
       }
 

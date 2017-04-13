@@ -5,6 +5,8 @@ const _ = require('lodash');
 const helper = require('./repositoryHelper');
 const apartmentRepository = require('./apartmentRepository');
 const buildingRepository = require('./buildingRepository');
+const shared = require('dorbel-shared');
+const logger = shared.logger.getLogger(module);
 
 const listingAttributes = { exclude: [ 'lease_end', 'updated_at' ] };
 const apartmentAttributes = { exclude: [ 'created_at', 'updated_at' ] };
@@ -185,14 +187,13 @@ function getSlugs(ids) {
 }
 
 function * update(listing, patch) {
+  logger.debug('updating listing');
   const transaction = yield db.db.transaction();
   try {
     const buildingRequest = _.get(patch, 'apartment.building');
     const buildingPatch = _.pick(buildingRequest || {}, BUILDING_UPDATE_WHITELIST);
     const apartmentPatch = _.pick(patch.apartment || {}, APARTMENT_UPDATE_WHITELIST);
     const listingPatch = _.pick(patch, LISTING_UPDATE_WHITELIST);
-
-    // TODO : Merge Images !!!
 
     // if main building properties change - we move apartment+listing to a different building
     if (buildingRequest && models.building.isDifferentBuilding(listing.apartment.building, buildingRequest)) {
