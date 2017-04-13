@@ -5,7 +5,6 @@ import { inject, observer } from 'mobx-react';
 import FormWrapper from '~/components/FormWrapper/FormWrapper';
 import SubmitButton from '~/components/SubmitButton/SubmitButton';
 import TabBar from '~/components/TabBar/TabBar';
-import _ from 'lodash';
 
 import MyProfileFields from './Profile/MyProfileFields';
 import TenantProfileFields from './Profile/TenantProfileFields';
@@ -23,7 +22,7 @@ class MyProfile extends Component {
     ];
 
     this.state = {
-      activeTab: _.find(this.tabs, { key: props.section }) || this.tabs[0],
+      activeTab: this.tabs[0],
       isValid: false
     };
   }
@@ -81,9 +80,7 @@ class MyProfile extends Component {
 
 MyProfile.wrappedComponent.propTypes = {
   appStore: React.PropTypes.object.isRequired,
-  appProviders: React.PropTypes.object.isRequired,
-  router: React.PropTypes.object.isRequired,
-  section: React.PropTypes.string
+  appProviders: React.PropTypes.object.isRequired
 };
 
 export default MyProfile;
