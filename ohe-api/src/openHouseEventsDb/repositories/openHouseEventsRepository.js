@@ -7,7 +7,7 @@ const findInclude = [
   { model: models.registration, required: false, where: { is_active: true } }
 ];
 
-const defaultQuery = { is_active: true };
+const defaultQuery = { status: 'active' };
 
 function mapQuery(originalQuery) {
   let mappedQuery = {};
@@ -51,7 +51,7 @@ function* update(openHouseEvent) {
     start_time: openHouseEvent.start_time,
     end_time: openHouseEvent.end_time,
     max_attendies: openHouseEvent.max_attendies,
-    is_active: openHouseEvent.is_active
+    status: openHouseEvent.status
   });
 }
 

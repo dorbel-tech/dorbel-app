@@ -51,7 +51,8 @@ function* buildTestSeed() {
     start_time: moment().add(1, 'days').set({ hour: 10, minute: 30, second: 0, millisecond: 0 }), // 10:30am tomorrow
     end_time: moment().add(1, 'days').set({ hour: 12, minute: 0, second: 0, millisecond: 0 }), // 12:00pm tomorrow
     max_attendies: 10,
-    is_active: true
+    is_active: true, // TODO: remove after migration to status is done.
+    status: 'active'
   });
 
   yield createFollowers();

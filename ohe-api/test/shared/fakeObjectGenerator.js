@@ -19,7 +19,8 @@ function generateEvent(variant) {
   return _.extend({
     id: 1,
     listing_id: 1,
-    is_active: true,
+    is_active: true, // TODO: remove after migration to status is done.
+    status: 'active',
     start_time: moment().add(5, 'hours').toDate(),
     end_time: moment().add(6, 'hours').toDate(),
     max_attendies: 7,

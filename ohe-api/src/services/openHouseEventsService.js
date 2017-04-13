@@ -53,7 +53,8 @@ function* create(openHouseEvent, user) {
     end_time: end,
     listing_id: listing_id,
     publishing_user_id: userId,
-    is_active: true,
+    is_active: true, // TODO: remove after migration to status is done.
+    status: 'active',
     max_attendies
   });
   logger.info({ user_uuid: userId, event_id: newEvent.id }, 'OHE created');
@@ -95,7 +96,7 @@ function* update(id, updateRequest, user) {
   validateEventParamters(start, end);
 
   const existingListingEvents = yield openHouseEventsRepository.findByListingId(existingEvent.listing_id);
-  const otherEvents = existingListingEvents.filter(otherEvent => otherEvent.id !== id && otherEvent.is_active);
+  const otherEvents = existingListingEvents.filter(otherEvent => otherEvent.id !== id && otherEvent.status === 'active');
   validateEventOverlap(otherEvents, start, end);
 
   existingEvent.start_time = start;
@@ -119,16 +120,35 @@ function* update(id, updateRequest, user) {
 }
 
 function* remove(eventId, user) {
+  return yield updateStatus(eventId, user, 'deleted');
+}
+
+function* deactivate(eventId, user) {
+  return yield updateStatus(eventId, user, 'inactive');
+}
+
+function* updateStatus(eventId, user, status) {
   let existingEvent = yield openHouseEventsFinderService.find(eventId);
 
   utilityFunctions.validateResourceOwnership(existingEvent.publishing_user_id, user);
+  const oldStatus = existingEvent.status;
 
-  existingEvent.is_active = false;
+  existingEvent.status = status;
 
   const result = yield openHouseEventsRepository.update(existingEvent);
-  logger.info({ user_uuid: existingEvent.publishing_user_id, event_id: existingEvent.id }, 'OHE marked as inactive');
+  logger.info({ user_uuid: existingEvent.publishing_user_id, event_id: existingEvent.id, old_satus: oldStatus, new_status: status }, 'OHE status changed');
 
-  notificationService.send(notificationService.eventType.OHE_DELETED, {
+  let eventType;
+  switch (status) {
+    case 'inactive':
+      eventType = notificationService.eventType.OHE_DEACTIVATED;
+      break;
+    case 'deleted':
+      eventType = notificationService.eventType.OHE_DELETED;
+      break;
+  }
+
+  notificationService.send(eventType, {
     listing_id: existingEvent.listing_id,
     event_id: existingEvent.id,
     start_time: existingEvent.start_time,
@@ -181,5 +201,6 @@ module.exports = {
   create,
   update,
   remove,
-  findByListing
+  findByListing,
+  deactivate
 };
