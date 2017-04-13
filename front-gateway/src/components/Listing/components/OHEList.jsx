@@ -146,21 +146,33 @@ class OHEList extends Component {
     }
   }
 
+  getListingNotification(listing) {
+    switch(listing.status) {
+      case 'pending':
+        return <span>המודעה ממתינה לאישור.<br/>כאן יופיעו מועדי הביקור לנכס ברגע שהוא יתפרסם.</span>;
+      case 'rented':
+        return <span>הדירה מושכרת כרגע. <br/>הרשמו על מנת לקבל עידכון ברגע שהדירה תוצע להשכרה שוב.</span>;
+      case 'unlisted':
+        return <span>המודעה לא פעילה. <br/>לפרסום המודעה היכנסו ולחצו על ניהול הנכס.</span>;
+
+      default:
+        return null;
+    }
+  }
+
   render() {
     const { listing, router, oheId, appStore } = this.props;
     const openHouseEvents = this.filterOHEsToDisplay(this.props.appStore.oheStore.oheByListingId(listing.id));
     const oheForModal = oheId ? appStore.oheStore.oheById.get(oheId) : null;
     const closeModal = () => router.setRoute('/apartments/' + listing.id);
     const oheSectionTitle = (listing.status === 'listed') ? 'בחרו מועד לביקור' : 'מועדי ביקור';
-    const listingRentedNotification = (listing.status !== 'listed') ?
-            <div className="listing-rented-notification">הדירה מושכרת כרגע. <br/>הרשמו על מנת לקבל עידכון ברגע שהדירה תוצע להשכרה שוב.</div> :
-            null;
+    
     return (
       <div className="list-group listing-choose-date-container">
         <h5 className="text-center listing-choose-date-title">{oheSectionTitle}</h5>
         <div className="ohe-list">{openHouseEvents.map(this.renderOpenHouseEvent)}</div>
         <div href="#" className="ohe-list-follow-container">
-          {listingRentedNotification}
+          <div className="listing-rented-notification">{this.getListingNotification(listing)}</div>
           {this.renderFollowItem(listing)}
           {this.renderListingFollowersCount(listing)}
         </div>
