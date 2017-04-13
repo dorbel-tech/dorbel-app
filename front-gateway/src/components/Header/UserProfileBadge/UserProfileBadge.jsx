@@ -5,7 +5,7 @@ import { MENU_ITEMS } from '../../Dashboard/DashboardShared';
 
 import './UserProfileBadge.scss';
 
-@inject('appStore', 'appProviders') @observer
+@inject('appStore', 'appProviders', 'router') @observer
 class UserProfileBadge extends Component {
   constructor(props) {
     super(props);
