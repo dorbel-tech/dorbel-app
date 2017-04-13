@@ -2,14 +2,16 @@
 
 module.exports = {
   up: function (queryInterface) {
-    queryInterface.removeIndex('neighborhoods', 'neighborhood_name');
-    queryInterface.addIndex(
-      'neighborhoods',
-      ['city_id', 'neighborhood_name'],
-      {
-        indexName: 'unique_city_neighborhood_name',
-        indicesType: 'UNIQUE'
-      }
-    );    
+    return queryInterface.removeIndex('neighborhoods', 'neighborhood_name')
+      .then(() => {
+        queryInterface.addIndex(
+          'neighborhoods',
+          ['city_id', 'neighborhood_name'],
+          {
+            indexName: 'unique_city_neighborhood_name',
+            indicesType: 'UNIQUE'
+          }
+        );
+      });
   }
 };
