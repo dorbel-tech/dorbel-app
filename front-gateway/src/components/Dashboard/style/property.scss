@@ -66,7 +66,7 @@
 
   @media (max-width: $screen-xs-max) {
     font-size: 15px;
-    padding-left: 40px;
+    padding-left: 45px;
     white-space: normal;
   }
 }
@@ -80,7 +80,6 @@
     left: 0;
     position: absolute;
     right: 0;
-    text-align: center;
   }
 }
 
@@ -105,7 +104,7 @@
 
 .property-actions-wrapper {
   line-height: 36px;
-  padding-top: 30px;
+  padding: 30px 0 0;
   text-align: center;
 
   > div > div {
@@ -120,13 +119,13 @@
 }
 
 .property-action-container {
+  @media (max-width: $screen-sm-max) {
+    margin-top: 6px;
+  }
+
   @media (min-width: $screen-md-min) {
     display: inline;
     padding-left: 6px;
-  }
-
-  @media (min-width: $screen-lg-min) {
-    padding-left: 20px;
   }
 }
 
@@ -158,20 +157,21 @@
 }
 
 .property-actions-refresh-container,
-.property-actions-preview-container,
-.property-actions-menu-container {
+.property-actions-preview-container {
   display: inline;
   padding-left: 10px;
 
-  @media (min-width: $screen-lg-min) {
-    padding-left: 20px;
+  @media (min-width: $screen-md-min) {
+    padding: 0 7px;
   }
 }
 
-.property-refresh-button,
-.property-preview-button {
-  border: 1px solid #979797;
+.property-action-button {
+  background-color: $brand-white !important;
+  border: 1px solid #979797 !important;
   border-radius: 4px;
+  height: 38px;
+  width: 38px;
 }
 
 .property-actions-menu-container {
@@ -179,9 +179,13 @@
 
   @media (max-width: $screen-xs-max) {
     left: 5px;
-    padding: 13px;
+    padding: 13px 5px 0;
     position: absolute;
     top: 0;
+  }
+
+  @media (min-width: $screen-md-min) {
+    padding-right: 7px;
   }
 }
 
@@ -199,7 +203,7 @@
   vertical-align: middle;
 }
 
-.propery-action-menu-item-show-mobile {
+.property-action-menu-item-show-mobile {
   display: none;
 
   @media (max-width: $screen-xs-max) {

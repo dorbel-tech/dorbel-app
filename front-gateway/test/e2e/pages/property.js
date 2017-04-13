@@ -10,7 +10,7 @@ module.exports = {
       selector: '.property-actions-wrapper',
       elements: {
         propertyRefresh: {
-          selector: '.property-refresh-button'
+          selector: '.fa-refresh.property-action-button'
         }
       }
     },
