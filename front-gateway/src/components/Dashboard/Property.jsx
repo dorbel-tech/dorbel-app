@@ -153,7 +153,7 @@ class Property extends Component {
               <PropertyMenu path={'/dashboard/my-properties/' + property.id + '/'}
                             tabs={propertyTabs}
                             activeKey={selectedTab.relativeRoute} />
-              <Row>
+              <Row className="property-content-container">
                 {selectedTab.component}
               </Row>
             </Grid>;
