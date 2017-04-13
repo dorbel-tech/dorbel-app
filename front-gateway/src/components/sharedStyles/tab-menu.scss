@@ -17,10 +17,6 @@
     float: none;
     margin: 0;
 
-    @media (max-width: $screen-xs-max) {
-      display: block;
-    }
-
     > li {
       border-bottom: 2px solid rgba(220, 220, 220, 0.9);
       margin: -1px 5px;

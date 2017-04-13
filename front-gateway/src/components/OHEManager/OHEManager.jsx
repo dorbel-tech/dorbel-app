@@ -41,7 +41,7 @@ class OHEManager extends React.Component {
     const passedEvents = openHouseEvents.filter(event => moment(event.end_time).isBefore(Date.now()));
 
     return (
-      <Col lg={6} lgOffset={3} md={8} mdOffset={2} xs={12} className="listing-events-container">
+      <Col lg={8} md={10} xs={12} className="listing-events-container">
         <div>
           <Button onClick={() => this.toggleAddModal(true)} className="listing-events-add-ohe pull-left">הוסף מועד +</Button>
           <h3>מועדי ביקור הבאים</h3>
