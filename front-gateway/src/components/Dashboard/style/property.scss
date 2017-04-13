@@ -66,7 +66,7 @@
 
   @media (max-width: $screen-xs-max) {
     font-size: 15px;
-    padding-left: 40px;
+    padding-left: 45px;
     white-space: normal;
   }
 }
@@ -80,7 +80,6 @@
     left: 0;
     position: absolute;
     right: 0;
-    text-align: center;
   }
 }
 
@@ -105,7 +104,7 @@
 
 .property-actions-wrapper {
   line-height: 36px;
-  padding-top: 30px;
+  padding: 30px 0 0;
   text-align: center;
 
   > div > div {
@@ -161,7 +160,7 @@
 .property-actions-preview-container,
 .property-actions-menu-container {
   display: inline;
-  padding-left: 10px;
+  padding-left: 2%;
 
   @media (min-width: $screen-lg-min) {
     padding-left: 20px;
@@ -179,7 +178,7 @@
 
   @media (max-width: $screen-xs-max) {
     left: 5px;
-    padding: 13px;
+    padding: 13px 5px;
     position: absolute;
     top: 0;
   }
