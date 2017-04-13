@@ -9,6 +9,7 @@ describe('Listing Details Form', () => {
   beforeEach(() => {
     editedListingStoreMock = {
       updateFormValues: jest.fn(),
+      registerKeys: jest.fn(),
       formValues: {},
       roomOptions: []
     };

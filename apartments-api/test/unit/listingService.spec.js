@@ -147,26 +147,6 @@ describe('Listing Service', function () {
         })
       );
     });
-
-    it('should call geoProvider when a listing building is changed', function* () {
-      const listing = faker.getFakeListing();
-      const point = { lon:123, lat: 456 };
-      const update = {
-        apartment: {
-          building: {
-            street_name: 'bla'
-          }
-        }
-      };
-      this.listingRepositoryMock.getById = sinon.stub().resolves(listing);
-      this.geoProviderMock.getGeoLocation.resolves(point);
-
-      yield this.listingService.update(listing.id, { id: listing.publishing_user_id }, _.cloneDeep(update));
-
-      __.assertThat(this.geoProviderMock.getGeoLocation.args[0][0], __.hasProperties(update.apartment.building));
-      __.assertThat(this.listingRepositoryMock.update.args[0][1].apartment.building.geolocation, __.is(point));
-    });
-
   });
 
   describe('Get related listings', function () {

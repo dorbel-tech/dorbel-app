@@ -33,9 +33,8 @@ describe('Listing Repository', function () {
       let fakeListing = {
         apartment: {
           building: {
-            neighborhood: {
-              neighborhood_name: 'bla'
-            }
+            city: { id: 1 },
+            neighborhood: { neighborhood_name: 'bla' }
           }
         }
       };

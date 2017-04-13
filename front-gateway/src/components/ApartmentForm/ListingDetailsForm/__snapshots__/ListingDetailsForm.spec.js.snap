@@ -32,6 +32,7 @@ exports[`Listing Details Form should match snapshot in empty state 1`] = `
       "formValues": Object {
         "lease_start": "1970-01-01T00:00:00.000Z",
       },
+      "registerKeys": [Function],
       "roomOptions": Array [],
       "updateFormValues": [Function],
     }
@@ -1642,12 +1643,13 @@ exports[`Listing Details Form should match snapshot in empty state 1`] = `
                         תאריך כניסה לדירה
                       </label>
                       <DatePicker
+                        calendarPlacement="top"
                         name="apartment.entrance-date"
                         onChange={[Function]}
                         value="1970-01-01T00:00:00.000Z">
                         <DatePicker
                           autoFocus={false}
-                          calendarPlacement="bottom"
+                          calendarPlacement="top"
                           cellPadding="5px"
                           clearButtonElement="×"
                           customControl={
@@ -1703,7 +1705,7 @@ exports[`Listing Details Form should match snapshot in empty state 1`] = `
                                 container={[Function]}
                                 delayHide={200}
                                 onHide={[Function]}
-                                placement="bottom"
+                                placement="top"
                                 rootClose={true}
                                 show={false}
                                 target={[Function]}>
@@ -1711,7 +1713,7 @@ exports[`Listing Details Form should match snapshot in empty state 1`] = `
                                   container={[Function]}
                                   delayHide={200}
                                   onHide={[Function]}
-                                  placement="bottom"
+                                  placement="top"
                                   rootClose={true}
                                   show={false}
                                   target={[Function]}
