@@ -8,7 +8,7 @@ import ListingStatusSelector from './MyProperties/ListingStatusSelector';
 import OHEManager from '~/components/OHEManager/OHEManager';
 import PropertyMenu from './MyProperties/PropertyMenu';
 import PropertyStats from './MyProperties/PropertyStats';
-import EditApartment from './MyProperties/EditListing.jsx';
+import EditListing from './MyProperties/EditListing.jsx';
 import { find } from 'lodash';
 import utils from '~/providers/utils';
 
@@ -84,7 +84,7 @@ class Property extends Component {
         <div className="property-actions-menu-item" onClick={this.gotoEditProperty}>
           <i className="property-actions-menu-item-icon fa fa-pencil-square-o"  aria-hidden="true"></i>
           עריכת פרטי הנכס
-        </div>}
+        </div>
       </Popover>
     );
 
@@ -127,8 +127,8 @@ class Property extends Component {
     const propertyTabs = [
       { relativeRoute: 'stats', title: 'סטטיסטיקות', component: <PropertyStats listing={property} followers={followers || 0} /> },
       { relativeRoute: 'ohe', title: 'מועדי ביקור', component: <OHEManager listing={property} /> },
-      { relativeRoute: 'edit', title: 'עריכת פרטי הנכס', component: <EditApartment listing={property} ref={form => editForm = form} />,
-        hideFromMenu: true, headerButtons: editHeaderButtons }
+      { relativeRoute: 'edit', title: 'עריכת פרטי הנכס', component: <EditListing listing={property} ref={form => editForm = form} />,
+        replaceNavbar: true, hideFromMenu: true, headerButtons: editHeaderButtons }
     ];
     // TODO: Add "default" tab logic.
     const selectedTab = find(propertyTabs, {relativeRoute: this.props.tab}) || propertyTabs[0];
@@ -174,14 +174,16 @@ class Property extends Component {
                   { selectedTab.headerButtons || defaultHeaderButtons }
                 </Col>
               </Row>
-              { selectedTab.hideFromMenu ? null :
+              { selectedTab.replaceNavbar ? null :
                   <PropertyMenu path={'/dashboard/my-properties/' + property.id + '/'}
-                    tabs={propertyTabs}
+                    tabs={propertyTabs.filter(tab => !tab.hideFromMenu)}
                     activeKey={selectedTab.relativeRoute} />
               }
-              <Row className="property-content-container">
-                {selectedTab.component}
-              </Row>
+              { selectedTab.replaceNavbar ? selectedTab.component :
+                  <Row className="property-content-container">
+                    {selectedTab.component}
+                  </Row>
+              }
             </Grid>;
   }
 }

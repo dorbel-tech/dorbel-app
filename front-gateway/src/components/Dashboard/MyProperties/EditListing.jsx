@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import autobind from 'react-autobind';
-import { Nav, NavItem, Navbar, Row, Grid } from 'react-bootstrap';
+import { Nav, NavItem, Navbar, Row, Grid, Col } from 'react-bootstrap';
 import ImageUpload from '~/components/ApartmentForm/ImageUpload/ImageUpload';
 import ListingDetailsForm from '~/components/ApartmentForm/ListingDetailsForm/ListingDetailsForm';
 
@@ -33,24 +33,24 @@ export default class EditListing extends Component {
     const { activeTab } = this.state;
 
     return (
-      <Grid fluid>
-        <Row>
-          <Navbar className="property-menu tab-menu">
-            <Nav bsStyle="tabs" activeKey={activeTab} onSelect={tab => this.setState({ activeTab: tab })}>
-              {tabs.map(tab =>
-                <NavItem key={tab.key} eventKey={tab}>
-                  {tab.title}
-                </NavItem>
-              )}
-            </Nav>
-          </Navbar>
-        </Row>
-        <Row>
-          <Grid fluid className="property-stats">
-            <activeTab.component editedListingStore={this.props.appStore.editedListingStore} />
+      <div>
+        <Navbar className="property-menu tab-menu">
+          <Nav bsStyle="tabs" activeKey={activeTab} onSelect={tab => this.setState({ activeTab: tab })}>
+            {tabs.map(tab =>
+              <NavItem key={tab.key} eventKey={tab}>
+                {tab.title}
+              </NavItem>
+            )}
+          </Nav>
+        </Navbar>
+        <Row className="property-content-container">
+          <Grid fluid>
+            <Col sm={12}>
+              <activeTab.component editedListingStore={this.props.appStore.editedListingStore} />
+            </Col>
           </Grid>
         </Row>
-      </Grid>
+      </div>
     );
   }
 }
