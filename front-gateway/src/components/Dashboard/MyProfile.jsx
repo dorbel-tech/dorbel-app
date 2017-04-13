@@ -54,7 +54,7 @@ class MyProfile extends Component {
       <Grid fluid className="profile-container">
         <TabBar tabs={this.tabs} activeKey={this.state.activeTab.key} onChangeTab={this.changeTab} />
         <Row className="profile-edit-wrapper">
-          <div className="profile-title">פרטי קשר</div>
+          <div className="profile-title">{this.state.activeTab.title}</div>
           <div className="profile-edit-container">
             <div className={this.state.activeTab.content.showPicture ? 'profile-picture-container' : 'hidden'}>
               <img className="profile-picture" src={profile.picture} />

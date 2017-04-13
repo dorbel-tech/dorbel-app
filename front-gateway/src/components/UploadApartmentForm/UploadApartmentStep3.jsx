@@ -32,7 +32,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
 
   onCloseSuccessModal() {
     this.props.appStore.newListingStore.reset();
-    window.location.href = 'https://www.dorbel.com/pages/services';
+    this.props.router.setRoute('/dashboard/my-properties/' + this.props.createdListingId);
   }
 
   renderUserDetails() {
