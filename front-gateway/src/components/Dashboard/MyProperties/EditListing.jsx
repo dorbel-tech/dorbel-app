@@ -43,7 +43,7 @@ export default class EditListing extends Component {
             )}
           </Nav>
         </Navbar>
-        <Row className="property-content-container">
+        <Row className="property-content-container property-edit-container">
           <Grid fluid>
             <Col sm={12}>
               <activeTab.component editedListingStore={this.props.appStore.editedListingStore} values={this.formValues}/>
