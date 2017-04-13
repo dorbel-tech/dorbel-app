@@ -71,7 +71,7 @@ class Property extends Component {
     const popoverMenu = (
       <Popover id="property-actions-menu" className="property-actions-menu">
         <div name={'/apartments/' + this.props.propertyId} className="property-actions-menu-item propery-action-menu-item-show-mobile" onClick={this.routeClickHandler}>
-          <i className="property-actions-menu-item-icon fa fa-eye"></i>
+          <i className="property-actions-menu-item-icon fa fa-picture-o"></i>
           צפה
         </div>
         <div className="property-actions-menu-item propery-action-menu-item-show-mobile" onClick={this.refresh}>
@@ -137,9 +137,9 @@ class Property extends Component {
                          onClick={this.refresh}></Button>
                     </div>
                     <div className="property-actions-preview-container">
-                      <Button className="property-action-button"
+                      <Button className="fa fa-picture-o property-action-button"
                               name={'/apartments/' + this.props.propertyId}
-                              onClick={this.routeClickHandler}>צפה</Button>
+                              onClick={this.routeClickHandler}></Button>
                     </div>
                     <div className="property-actions-menu-container">
                       <OverlayTrigger trigger="click" placement="bottom" overlay={popoverMenu}

@@ -123,10 +123,6 @@
     display: inline;
     padding-left: 6px;
   }
-
-  @media (min-width: $screen-lg-min) {
-    padding-left: 20px;
-  }
 }
 
 .property-actions-details,
@@ -157,13 +153,12 @@
 }
 
 .property-actions-refresh-container,
-.property-actions-preview-container,
-.property-actions-menu-container {
+.property-actions-preview-container {
   display: inline;
-  padding-left: 2%;
+  padding-left: 10px;
 
-  @media (min-width: $screen-lg-min) {
-    padding-left: 20px;
+  @media (min-width: $screen-md-min) {
+    padding: 0 7px;
   }
 }
 
@@ -171,6 +166,12 @@
   background-color: $brand-white !important;
   border: 1px solid #979797 !important;
   border-radius: 4px;
+  height: 38px;
+  width: 38px;
+
+  @media (max-width: $screen-sm-max) {
+    margin-top: 6px;
+  }
 }
 
 .property-actions-menu-container {
@@ -178,9 +179,13 @@
 
   @media (max-width: $screen-xs-max) {
     left: 5px;
-    padding: 13px 5px;
+    padding: 13px 5px 0;
     position: absolute;
     top: 0;
+  }
+
+  @media (min-width: $screen-md-min) {
+    padding-right: 7px;
   }
 }
 
