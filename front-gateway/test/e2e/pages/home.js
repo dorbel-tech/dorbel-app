@@ -45,10 +45,9 @@ module.exports = {
       browser.resizeWindow(320, 800);
     },
     clickProfileBadgeMenuItem: function (itemSelector) {
-      this.waitForElementVisible('@userProfileBadge')
-        .moveToElement('@userProfileBadge', 1, 1)
-        .waitForElementVisible('@userProfileBadgeMenu')
-        .moveToElement(itemSelector, 1, 1)
+      this
+        .moveToElement('@userProfileBadge', 5, 5)
+        .moveToElement(itemSelector, 5, 5)
         .click(itemSelector);
       return this;
     },
