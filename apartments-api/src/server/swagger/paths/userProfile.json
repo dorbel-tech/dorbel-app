@@ -1,15 +1,12 @@
 {
-  "/user-profile": {
+  "/user-profile/": {
     "patch": {
       "summary": "Patches a single user",
       "description": "Patches a single user's details",
       "parameters": [
         {
           "name": "body",
-          "in": "body",
-          "schema": {
-            "$ref": "#/definitions/userProfile"
-          }
+          "in": "body"
         },
         {
           "name": "x-user-profile",

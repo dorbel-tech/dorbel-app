@@ -4,7 +4,8 @@ import autobind from 'react-autobind';
 import { Button, Col, Grid, Row, OverlayTrigger, Popover } from 'react-bootstrap';
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
 import CloudinaryImage from '../CloudinaryImage/CloudinaryImage';
-import ListingStatusSelector from '../Listing/components/ListingStatusSelector';
+import ListingStatusSelector from './MyProperties/ListingStatusSelector';
+import OHEManager from '~/components/OHEManager/OHEManager';
 import PropertyMenu from './MyProperties/PropertyMenu';
 import PropertyStats from './MyProperties/PropertyStats';
 import EditApartment from './MyProperties/EditListing.jsx';
@@ -83,7 +84,7 @@ class Property extends Component {
         <div className="property-actions-menu-item" onClick={this.gotoEditProperty}>
           <i className="property-actions-menu-item-icon fa fa-pencil-square-o"  aria-hidden="true"></i>
           עריכת פרטי הנכס
-        </div>
+        </div>}
       </Popover>
     );
 
@@ -125,7 +126,7 @@ class Property extends Component {
 
     const propertyTabs = [
       { relativeRoute: 'stats', title: 'סטטיסטיקות', component: <PropertyStats listing={property} followers={followers || 0} /> },
-      { relativeRoute: 'ohe', title: 'מועדי ביקור', component: <PropertyStats listing={property} followers={followers || 0} /> },
+      { relativeRoute: 'ohe', title: 'מועדי ביקור', component: <OHEManager listing={property} /> },
       { relativeRoute: 'edit', title: 'עריכת פרטי הנכס', component: <EditApartment listing={property} ref={form => editForm = form} />,
         hideFromMenu: true, headerButtons: editHeaderButtons }
     ];
@@ -178,7 +179,7 @@ class Property extends Component {
                     tabs={propertyTabs}
                     activeKey={selectedTab.relativeRoute} />
               }
-              <Row>
+              <Row className="property-content-container">
                 {selectedTab.component}
               </Row>
             </Grid>;

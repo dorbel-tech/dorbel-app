@@ -56,13 +56,16 @@ module.exports = {
     browser.end();
   },
   'admin should approve apartment': function (browser) {
+    let property = browser.page.property();
+
     login('admin');
-    listing.navigateToListingPage(listing.url(listingId));
-    listing.expect.section('@landlordControls').to.be.visible;
-    listing.changeListingStatus('listed');
+    property.navigateToPropertyPage(property.url(listingId));
+    property.expect.section('@listingStatusSelector').to.be.visible;
+    property.changeListingStatus('listed');
+    property.refreshProperty();
+    property.section.listingStatusSelector
+      .expect.element('@listingMenuStatusDropdownToggle').text.to.equal('מפורסמת');
     logout();
-    browser.refresh();
-    listing.expect.section('@listingTitle').to.be.visible;
     browser.end();
   },
   'tenant should register to OHE': function (browser) {
