@@ -70,11 +70,11 @@ class Property extends Component {
 
     const popoverMenu = (
       <Popover id="property-actions-menu" className="property-actions-menu">
-        <div name={'/apartments/' + this.props.propertyId} className="property-actions-menu-item propery-action-menu-item-show-mobile" onClick={this.routeClickHandler}>
+        <div name={'/apartments/' + this.props.propertyId} className="property-actions-menu-item property-action-menu-item-show-mobile" onClick={this.routeClickHandler}>
           <i className="property-actions-menu-item-icon fa fa-picture-o"></i>
           צפה
         </div>
-        <div className="property-actions-menu-item propery-action-menu-item-show-mobile" onClick={this.refresh}>
+        <div className="property-actions-menu-item property-action-menu-item-show-mobile" onClick={this.refresh}>
           <i className="property-actions-menu-item-icon fa fa-refresh" aria-hidden="true"></i>
           רענון
         </div>

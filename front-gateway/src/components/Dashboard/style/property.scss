@@ -119,6 +119,10 @@
 }
 
 .property-action-container {
+  @media (max-width: $screen-sm-max) {
+    margin-top: 6px;
+  }
+
   @media (min-width: $screen-md-min) {
     display: inline;
     padding-left: 6px;
@@ -168,10 +172,6 @@
   border-radius: 4px;
   height: 38px;
   width: 38px;
-
-  @media (max-width: $screen-sm-max) {
-    margin-top: 6px;
-  }
 }
 
 .property-actions-menu-container {
@@ -203,7 +203,7 @@
   vertical-align: middle;
 }
 
-.propery-action-menu-item-show-mobile {
+.property-action-menu-item-show-mobile {
   display: none;
 
   @media (max-width: $screen-xs-max) {
