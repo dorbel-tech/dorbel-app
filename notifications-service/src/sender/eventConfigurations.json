@@ -42,6 +42,12 @@
     "dataEnrichment": [ "addCalendarInvite" ]
   },
   {
+    "eventType": "OHE_DEACTIVATED",
+    "notificationType": "ohe_cancelled_notify_registered_users",
+    "dataRetrieval": [ "getListingInfo", "getOheInfo", "sendToOheRegisteredUsers", "getUserDetails" ],
+    "dataEnrichment": [ "cancelCalendarInvite" ]
+  },  
+  {
     "eventType": "OHE_DELETED",
     "notificationType": "ohe_cancelled_notify_registered_users",
     "dataRetrieval": [ "getListingInfo", "getOheInfo", "sendToOheRegisteredUsers", "getUserDetails" ],
