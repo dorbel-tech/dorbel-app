@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import autobind from 'react-autobind';
-import { inject, observer } from 'mobx-react';
 import NavLink from '~/components/NavLink';
 import { MENU_ITEMS } from './DashboardShared';
 import Property from './Property';
