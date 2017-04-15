@@ -49,7 +49,7 @@ module.exports = {
     apartmentForm.fillAndSubmitApartment();
     browser.pause(500);
     apartmentForm.expect.section('@successModal').to.be.present;
-    common.waitForText(apartmentForm.section.successModal, '@successTitle', 'העלאת הדירה הושלמה!');
+    common.waitForText(apartmentForm.section.successModal, '@successTitle', 'תהליך העלאת פרטי הדירה הושלם בהצלחה!');
     browser.end();
   },
   'should successfully submit a new apartment while creating new user': function (browser) {
@@ -63,7 +63,7 @@ module.exports = {
       .submitApartment();
     browser.pause(500);
     apartmentForm.expect.section('@successModal').to.be.present;
-    common.waitForText(apartmentForm.section.successModal, '@successTitle', 'העלאת הדירה הושלמה!');
+    common.waitForText(apartmentForm.section.successModal, '@successTitle', 'תהליך העלאת פרטי הדירה הושלם בהצלחה!');
     browser.end();
   }    
 };
