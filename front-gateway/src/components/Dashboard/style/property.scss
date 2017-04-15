@@ -198,6 +198,12 @@
   padding: 18px;
 }
 
+.property-actions-edit-disabled {
+  color: $gray-light;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
 .property-actions-menu-item-icon {
   padding-left: 20px;
   vertical-align: middle;
