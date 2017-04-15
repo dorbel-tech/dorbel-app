@@ -134,7 +134,7 @@ class PropertyStats extends Component {
                     <div className="property-stats-service">
                       <img className="property-stats-image"
                           src="https://static.dorbel.com/images/dashboard/service-photography-icon.svg"/>
-                      <div className="property-stats-title">צילום והצגת הדירה</div>
+                      <div className="property-stats-title">צילום הדירה</div>
                       <div>אנו נצלם ונציג עבורכם את הדירה בפני הדיירים הפוטנציאליים כדי לחסוך לכם את ההגעה לכל ביקור</div>
                       <a className="property-stats-button btn btn-success"
                           href="https://www.dorbel.com/pages/services/hosted-viewings" target="_blank">לפרטים והזמנה</a>
