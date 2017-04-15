@@ -80,7 +80,7 @@ class Property extends Component {
         </div>
         <div name={'/dashboard/my-properties/' + this.props.propertyId + '/edit'}
              className="property-actions-menu-item property-actions-edit-disabled"
-             onClick={this.routeClickHandler}>
+             {/*onClick={this.routeClickHandler}*/}>
           <i className="property-actions-menu-item-icon fa fa-pencil-square-o"  aria-hidden="true"></i>
           עריכת פרטי הנכס (בקרוב)
         </div>
