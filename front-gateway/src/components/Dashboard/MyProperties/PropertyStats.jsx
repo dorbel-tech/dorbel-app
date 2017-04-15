@@ -43,7 +43,7 @@ class PropertyStats extends Component {
     const registrations = this.getNumberOfOheRegistrations(listingId);
     const listingCreatedAt = utils.formatDate(listing.created_at);
     const daysPassed = moment(Date.now()).diff(moment(listing.created_at), 'days');
-    const listingRented = listing.status === 'rented' || listing.status === 'unlisted';
+    const listingRented = listing.status === 'rented';
     const oheTabUrl = '/dashboard/my-properties/' + listingId + '/ohe';
 
     return  <Grid fluid className="property-stats">
@@ -74,7 +74,7 @@ class PropertyStats extends Component {
                       </div>
                       <div className={'property-stats-line' + (listingRented ? ' property-stats-line-not-empty': '')}></div>
                       <div className={'property-stats-bubble' + (listingRented ? ' property-stats-bubble-not-empty': '')}>
-                        <div className="property-stats-bubble-text">חתימת חוזה</div>
+                        <div className="property-stats-bubble-text">הושכרה</div>
                       </div>
                     </div>
                   </Col>
