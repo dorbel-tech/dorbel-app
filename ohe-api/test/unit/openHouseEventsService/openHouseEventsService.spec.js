@@ -46,7 +46,8 @@ describe('Open House Event Service', function () {
 
       this.openHouseEventsRepositoryMock.create = sinon.stub().resolves(faker.generateEvent({
         id: 1,
-        is_active: true
+        is_active: true,
+        status: 'active'
       }));
 
       let savedEvent = yield this.service.create(newEvent, user);
@@ -63,7 +64,8 @@ describe('Open House Event Service', function () {
 
       this.openHouseEventsRepositoryMock.create = sinon.stub().resolves(faker.generateEvent({
         id: 1,
-        is_active: true
+        is_active: true,
+        status: 'active'
       }));
 
       let savedEvent = yield this.service.create(newEvent, admin);
@@ -80,7 +82,8 @@ describe('Open House Event Service', function () {
 
       this.openHouseEventsRepositoryMock.create = sinon.stub().resolves(faker.generateEvent({
         id: 1,
-        is_active: true
+        is_active: true,
+        status: 'active'
       }));
 
       try {
@@ -197,11 +200,11 @@ describe('Open House Event Service', function () {
 
   describe('Remove Open House Event', function () {
 
-    it('should remove an existing event (set as not active)', function* () {
+    it('should remove an existing event (set as deleted)', function* () {
       let originalEvent = faker.generateEvent();
       this.openHouseEventsFinderServiceMock.find = sinon.stub().resolves(originalEvent);
 
-      let deletedEvent = faker.generateEvent({ is_active: false });
+      let deletedEvent = faker.generateEvent({ is_active: false, status: 'deleted' });
       this.openHouseEventsRepositoryMock.update = sinon.stub().resolves(deletedEvent);
 
       let deleteEventResponse = yield this.service.remove(originalEvent.id, { id: originalEvent.publishing_user_id });
@@ -210,11 +213,11 @@ describe('Open House Event Service', function () {
       __.assertThat(this.sendNotification.getCall(0).args[0], __.is(notificationService.eventType.OHE_DELETED));
     });
 
-    it('should remove an existing event as admin (set as not active)', function* () {
+    it('should remove an existing event as admin (set as deleted)', function* () {
       let originalEvent = faker.generateEvent();
       this.openHouseEventsFinderServiceMock.find = sinon.stub().resolves(originalEvent);
 
-      let deletedEvent = faker.generateEvent({ is_active: false });
+      let deletedEvent = faker.generateEvent({ is_active: false, status: 'deleted' });
       this.openHouseEventsRepositoryMock.update = sinon.stub().resolves(deletedEvent);
 
       let fakeAdmin = faker.getFakeUser({ role: 'admin' });
@@ -225,11 +228,11 @@ describe('Open House Event Service', function () {
       __.assertThat(this.sendNotification.getCall(0).args[0], __.is(notificationService.eventType.OHE_DELETED));
     });
 
-    it('should fail to remove an existing event as another user (set as not active)', function* () {
+    it('should fail to remove an existing event as another user (set as deleted)', function* () {
       let originalEvent = faker.generateEvent();
       this.openHouseEventsFinderServiceMock.find = sinon.stub().resolves(originalEvent);
 
-      let deletedEvent = faker.generateEvent({ is_active: false });
+      let deletedEvent = faker.generateEvent({ is_active: false, status: 'deleted' });
       this.openHouseEventsRepositoryMock.update = sinon.stub().resolves(deletedEvent);
 
       try {

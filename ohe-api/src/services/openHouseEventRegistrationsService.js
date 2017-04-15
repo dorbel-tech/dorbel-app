@@ -56,7 +56,7 @@ function* register(event_id, user) {
   return result;
 }
 
-function* unregister(event_id, user, sendNotification = true) {
+function* unregister(event_id, user) {
   let existingRegistration = yield repository.findRegistration(event_id, user.id);
   if (existingRegistration == undefined) {
     throw new errors.DomainNotFoundError('OpenHouseEventRegistrationNotFoundError',
@@ -74,17 +74,14 @@ function* unregister(event_id, user, sendNotification = true) {
     user_uuid: existingRegistration.registered_user_id
   }, 'Unregister to OHE');
 
-  // We unregister all users when event was canceled and don't want to notify all users about this action that wasn't done by them.
-  if (sendNotification) {
-    let existingEvent = yield openHouseEventsFinderService.find(existingRegistration.open_house_event_id);
-    
-    if (existingEvent) {
-      notificationService.send(notificationService.eventType.OHE_UNREGISTERED, {
-        listing_id: existingEvent.listing_id,
-        event_id: existingEvent.id,
-        user_uuid: existingRegistration.registered_user_id
-      });
-    }
+  let existingEvent = yield openHouseEventsFinderService.find(existingRegistration.open_house_event_id);
+  
+  if (existingEvent) {
+    notificationService.send(notificationService.eventType.OHE_UNREGISTERED, {
+      listing_id: existingEvent.listing_id,
+      event_id: existingEvent.id,
+      user_uuid: existingRegistration.registered_user_id
+    });
   }
 
   return result;

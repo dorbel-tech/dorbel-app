@@ -160,23 +160,37 @@ class OHEList extends Component {
     }
   }
 
+  renderOheList(closeModal) {
+    const { listing, oheId, appStore } = this.props;
+
+    // Display list of OHEs only in case property is listed.
+    if (listing.status === 'listed') {
+      const openHouseEvents = this.filterOHEsToDisplay(this.props.appStore.oheStore.oheByListingId(listing.id));
+      const oheForModal = oheId ? appStore.oheStore.oheById.get(oheId) : null;
+
+      return (
+        <div>
+          <div className="ohe-list">{openHouseEvents.map(this.renderOpenHouseEvent)}</div>
+          <OHERegisterModal ohe={oheForModal} onClose={closeModal} action={this.props.action} />
+        </div>
+      );
+    }
+  }
+
   render() {
-    const { listing, router, oheId, appStore } = this.props;
-    const openHouseEvents = this.filterOHEsToDisplay(this.props.appStore.oheStore.oheByListingId(listing.id));
-    const oheForModal = oheId ? appStore.oheStore.oheById.get(oheId) : null;
+    const { listing, router } = this.props;
     const closeModal = () => router.setRoute('/apartments/' + listing.id);
     const oheSectionTitle = (listing.status === 'listed') ? 'בחרו מועד לביקור' : 'מועדי ביקור';
     
     return (
       <div className="list-group listing-choose-date-container">
         <h5 className="text-center listing-choose-date-title">{oheSectionTitle}</h5>
-        <div className="ohe-list">{openHouseEvents.map(this.renderOpenHouseEvent)}</div>
+        {this.renderOheList(closeModal)}
         <div href="#" className="ohe-list-follow-container">
           <div className="listing-rented-notification">{this.getListingNotification(listing)}</div>
           {this.renderFollowItem(listing)}
           {this.renderListingFollowersCount(listing)}
-        </div>
-        <OHERegisterModal ohe={oheForModal} onClose={closeModal} action={this.props.action} />
+        </div>        
         <FollowListingModal listing={listing} onClose={closeModal} action={this.props.action} />
       </div>
     );
