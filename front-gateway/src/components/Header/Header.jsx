@@ -59,6 +59,11 @@ class Header extends Component {
     }
   }
 
+  headerToggleHandler(navExpanded) {
+    const intercomContainer = document.getElementById('intercom-container');
+    intercomContainer.style.display = navExpanded ? 'none' : 'block';
+  }
+
   componentDidMount() {
     this.mobileMenu = document.getElementsByClassName('navbar-collapse')[0];
     this.mobileMenuToggle = document.getElementsByClassName('navbar-toggle')[0];
@@ -78,7 +83,9 @@ class Header extends Component {
     const externalURL = 'https://www.dorbel.com';
 
     return (
-      <Navbar className="header-navbar" collapseOnSelect fixedTop fluid inverse>
+      <Navbar className="header-navbar"
+              collapseOnSelect fixedTop fluid inverse
+              onToggle={this.headerToggleHandler}>
         <Navbar.Header>
           <Navbar.Brand>
             <a href={externalURL}
