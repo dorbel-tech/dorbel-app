@@ -177,22 +177,42 @@ class OHEList extends Component {
     }
   }
 
+  renderTitle(listing, ohes) {
+    return (listing.status === 'listed' && ohes.length > 0) ?
+      (
+        <h5 className="listing-choose-date-title">
+          בחרו מועד לביקור
+        </h5>
+      )
+      :
+      (
+        <h5 className="text-center listing-choose-date-title">
+          <div>
+            אין מועדי ביקור לדירה.
+          </div>
+          <div>
+            הירשמו לקבלת עדכון על מועדי ביקור חדשים.
+          </div>
+        </h5>
+      );
+  }
+
   render() {
     const { listing, router } = this.props;
     const closeModal = () => router.setRoute('/apartments/' + listing.id);
-    const oheSectionTitle = (listing.status === 'listed') ? 'בחרו מועד לביקור' : 'מועדי ביקור';
-    
+    const ohes = this.props.appStore.oheStore.oheByListingId(listing.id);
+
     return (
       <div className="list-group listing-choose-date-container">
-        <h5 className="text-center listing-choose-date-title">{oheSectionTitle}</h5>
-        {this.renderOheList(closeModal)}
+        {this.renderTitle(listing, ohes)}
+        {this.renderOheList(ohes, closeModal)}
         <div href="#" className="ohe-list-follow-container">
           <div className="listing-rented-notification">{this.getListingNotification(listing)}</div>
           {this.renderFollowItem(listing)}
           {this.renderListingFollowersCount(listing)}
-        </div>        
+        </div>
         <FollowListingModal listing={listing} onClose={closeModal} action={this.props.action} />
-      </div>
+      </div >
     );
   }
 }
