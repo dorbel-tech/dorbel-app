@@ -18,7 +18,7 @@ class MyProfile extends Component {
     autobind(this);
     this.tabs = [
       { key: 'me', title: 'פרטי קשר', content: MyProfileFields },
-      { key: 'tenant', title: 'פרטי דייר', content: TenantProfileFields }
+      { key: 'tenant', title: 'פרופיל דייר', content: TenantProfileFields }
     ];
 
     this.state = {
