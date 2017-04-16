@@ -198,6 +198,11 @@
   padding: 18px;
 }
 
+.property-actions-edit-disabled {
+  color: $gray-light;
+  cursor: not-allowed;
+}
+
 .property-actions-menu-item-icon {
   padding-left: 20px;
   vertical-align: middle;
