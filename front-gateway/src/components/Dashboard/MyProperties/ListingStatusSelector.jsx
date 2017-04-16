@@ -18,7 +18,7 @@ class ListingStatusSelector extends React.Component {
     const { listing, appStore, appProviders } = this.props;
 
     const openHouseEvents = appStore.oheStore.oheByListingId(listing.id);
-    const listingHasActiveEvents = openHouseEvents.some(event => event.status == 'open');
+    const listingHasActiveEvents = openHouseEvents.some(event => ['inactive', 'expired'].indexOf(event.status) == -1);
 
     let confirmation = Promise.resolve(true);
 
