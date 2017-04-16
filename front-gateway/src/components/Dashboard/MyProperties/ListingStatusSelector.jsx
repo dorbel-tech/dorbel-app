@@ -18,7 +18,7 @@ class ListingStatusSelector extends React.Component {
     const { listing, appStore, appProviders } = this.props;
 
     const openHouseEvents = appStore.oheStore.oheByListingId(listing.id);
-    const listingHasActiveEvents = openHouseEvents.some(event => event.status !== 'expired');
+    const listingHasActiveEvents = openHouseEvents.some(event => ['inactive', 'expired'].indexOf(event.status) == -1);
 
     let confirmation = Promise.resolve(true);
 
@@ -59,7 +59,7 @@ class ListingStatusSelector extends React.Component {
           disabled={options.length === 0}
           title={currentStatus}
           onSelect={this.changeStatus}>
-            {options.map(status => <MenuItem id={status} key={status} eventKey={status}>{listingStatusLabels[status].actionLabel}</MenuItem>)}
+          {options.map(status => <MenuItem id={status} key={status} eventKey={status}>{listingStatusLabels[status].actionLabel}</MenuItem>)}
         </DropdownButton>
       </div>
     );
