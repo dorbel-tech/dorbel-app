@@ -160,12 +160,12 @@ class OHEList extends Component {
     }
   }
 
-  renderOheList(closeModal) {
+  renderOheList(ohes, closeModal) {
     const { listing, oheId, appStore } = this.props;
 
     // Display list of OHEs only in case property is listed.
     if (listing.status === 'listed') {
-      const openHouseEvents = this.filterOHEsToDisplay(this.props.appStore.oheStore.oheByListingId(listing.id));
+      const openHouseEvents = this.filterOHEsToDisplay(ohes);
       const oheForModal = oheId ? appStore.oheStore.oheById.get(oheId) : null;
 
       return (
