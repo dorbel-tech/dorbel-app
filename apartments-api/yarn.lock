@@ -4640,7 +4640,7 @@ sqlite3@^3.1.8:
     nan "~2.4.0"
     node-pre-gyp "~0.6.31"
 
-sqlstring@2.2.0, sqlstring@^2.2.0:
+sqlstring@2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/sqlstring/-/sqlstring-2.2.0.tgz#c3135c4ea8abcd7e7ee741a4966a891d86a4f191"
 
