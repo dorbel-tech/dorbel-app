@@ -95,8 +95,8 @@ $active-color: #3398db;
   .property-stats-line {
     border-bottom: 1px $gray-dark solid;
     display: inline-block;
-    width: $line-width-lg;
     margin-bottom: 4px;
+    width: $line-width-lg;
 
     @media (max-width: $screen-md-max) {
       width: $line-width-md;
@@ -130,8 +130,8 @@ $active-color: #3398db;
     border-radius: 100px;
     display: inline-block;
     text-align: center;
-    width: $bubble-width-lg;
     vertical-align: middle;
+    width: $bubble-width-lg;
 
     @media (max-width: $screen-md-max) {
       width: $bubble-width-md;
