@@ -64,7 +64,7 @@ class Filter extends Component {
   }
 
   citySelectHandler(cityId) {
-    this.setState({ city: cityId });
+    this.setState({ city: cityId }); // Unused but required for calling render
     this.filterObj.city = cityId;
 
     this.reloadResults();
