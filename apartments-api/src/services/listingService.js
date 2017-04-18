@@ -126,17 +126,16 @@ function* getByFilter(filterJSON, options = {}) {
 
   if (options.user) {
     if (userManagement.isUserAdmin(options.user)) {
-      filter.listed = filter.hasOwnProperty('listed') ? filter.listed : true;
-
-      const filteredStatuses = listingRepository.listingStatuses.filter(
-        status => !filter[status]
+      
+      const requestedStatuses = listingRepository.listingStatuses.filter(
+        status => !!filter[status]
       );
 
       // Check if admin filtered statuses manually.
-      if (filteredStatuses.length === 0) {
+      if (requestedStatuses.length === 0) {
         delete listingQuery.status;
       } else {
-        listingQuery.status = { $notIn: filteredStatuses };
+        listingQuery.status = { $in: requestedStatuses };
       }
     }
 
