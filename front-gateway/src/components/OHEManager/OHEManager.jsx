@@ -41,10 +41,10 @@ class OHEManager extends React.Component {
     const passedEvents = openHouseEvents.filter(event => (event.status === 'inactive') || moment(event.end_time).isBefore(Date.now()));
 
     return (
-      <Col lg={8} md={10} xs={12} className="listing-events-container">
+      <Col xs={12} className="listing-events-container">
         <div>
           <Button onClick={() => this.toggleAddModal(true)} className="listing-events-add-ohe pull-left">הוסף מועד +</Button>
-          <h3>מועדי ביקור הבאים</h3>
+          <h3 className="listing-events-title">מועדי ביקור הבאים</h3>
         </div>
         <div>
           {comingEvents.length ?
@@ -52,7 +52,7 @@ class OHEManager extends React.Component {
             <h5 className="listing-events-no-ohe-title">אין ביקורים קרובים</h5>}
         </div>
         <div>
-          <h3>מועדי ביקור שחלפו</h3>
+          <h3 className="listing-events-title">מועדי ביקור שחלפו</h3>
         </div>
         <div>
           {passedEvents.length ?
