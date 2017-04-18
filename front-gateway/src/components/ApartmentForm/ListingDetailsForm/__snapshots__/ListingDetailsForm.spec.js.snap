@@ -32,7 +32,6 @@ exports[`Listing Details Form should match snapshot in empty state 1`] = `
       "formValues": Object {
         "lease_start": "1970-01-01T00:00:00.000Z",
       },
-      "registerKeys": [Function],
       "roomOptions": Array [],
       "updateFormValues": [Function],
     }
