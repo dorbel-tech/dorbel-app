@@ -177,13 +177,19 @@ class OHEList extends Component {
   }
 
   renderTitle(listing, ohes) {
-    return (listing.status === 'listed' && ohes.length > 0) ?
-      (
+    if (listing.status === 'listed' && ohes.length > 0) {
+      return (
         <h5 className="listing-choose-date-title">
           בחרו מועד לביקור
         </h5>
       )
-      : null;
+    } else if (listing.status === 'listed' && ohes.length === 0) {
+      return (
+        <h5 className="listing-choose-date-title">
+           אין מועדי ביקור לדירה
+        </h5>
+      )
+    }
   }
 
   render() {
