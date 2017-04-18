@@ -153,7 +153,6 @@ class OHEList extends Component {
       case 'rented':
         return <span>הדירה מושכרת כרגע. <br/>הרשמו על מנת לקבל עידכון ברגע שהדירה תוצע להשכרה שוב.</span>;
       case 'unlisted':
-        return <span>המודעה לא פעילה. <br/>לפרסום המודעה </a>הכנסו לחשבונכם<a href={'/dashboard/my-properties/' + listing.id}> ועדכנו את הסטטוס שלה.</span>;
         return <span>המודעה לא פעילה. <br/>לפרסום המודעה הכנסו <a href={'/dashboard/my-properties/' + listing.id}>לחשבונכם ועדכנו</a> את הסטטוס שלה.</span>;
       default:
         return null;
