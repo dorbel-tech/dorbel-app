@@ -182,13 +182,13 @@ class OHEList extends Component {
         <h5 className="listing-choose-date-title">
           בחרו מועד לביקור
         </h5>
-      )
+      );
     } else if (listing.status === 'listed' && ohes.length === 0) {
       return (
         <h5 className="listing-choose-date-title">
            אין מועדי ביקור לדירה
         </h5>
-      )
+      );
     }
   }
 
