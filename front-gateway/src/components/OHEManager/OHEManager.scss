@@ -1,5 +1,9 @@
 @import "../sharedStyles/variables.scss";
 
+.listing-events-title {
+  margin: 0 0 20px;
+}
+
 .listing-events-no-ohe-title {
   color: #9b9b9b;
   margin-bottom: 45px;
@@ -9,5 +13,5 @@
   background-color: $gray-lighter !important;
   border-color: $brand-green !important;
   color: $brand-green !important;
-  margin-top: -9px;
+  margin-top: -3px;
 }

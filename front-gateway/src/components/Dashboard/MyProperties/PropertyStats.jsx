@@ -54,7 +54,7 @@ class PropertyStats extends Component {
                 </Row>
                 <Row>
                   <Col xs={12}>
-                    <div className="property-stats-numbers-row">
+                    <div>
                       <div className={'property-stats-number' + (views > 0 ? ' property-stats-number-not-empty': '')}>{views || 0}</div>
                       <div className="property-stats-empty"></div>
                       <div className={'property-stats-number' + (registrations > 0 ? ' property-stats-number-not-empty': '')}>
