@@ -32,7 +32,7 @@ function* getGeoLocation(building) {
 
     try {
       const res = yield geo.coder.geocode(fullAddress);
-      logger.trace({ res }, 'Got geo location of apartment.');
+      logger.trace({ fullAddress, res }, 'Got geo location of apartment.');
       if (res && res[0] && res[0].longitude) {
         var point = { type: 'Point', coordinates: [res[0].longitude, res[0].latitude] };
         return point;

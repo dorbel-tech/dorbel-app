@@ -11,10 +11,6 @@ export default class ImageUpload extends React.Component {
     this.uploadImagePromises = [];
   }
 
-  componentDidMount() {
-    this.props.editedListingStore.registerKeys([ 'images' ]);
-  }
-
   onChooseFile(acceptedFiles) {
     const { appProviders, editedListingStore, onUploadComplete, onUploadStart } = this.props;
 

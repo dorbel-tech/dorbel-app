@@ -17,12 +17,10 @@ export default class ListingDetailsForm extends React.Component {
     const { editedListingStore } = this.props;
     const { formsy } = this.refs.form.refs;
     formsy.reset(editedListingStore.formValues);
-    editedListingStore.registerKeys(Object.keys(formsy.getCurrentValues()));
   }
 
   updateStore(changes) {
     const { editedListingStore } = this.props;
-    editedListingStore.registerKeys(Object.keys(changes));
     editedListingStore.updateFormValues(changes);
   }
 

@@ -2,17 +2,12 @@
  * This store should hold the values of a listing being created (uploaded) or edited
  */
 import _ from 'lodash';
-import { observable, autorun } from 'mobx';
+import { observable, autorun, extendObservable } from 'mobx';
 import autobind from 'react-autobind';
 import localStorageHelper from './localStorageHelper';
+import FlatListing from './models/FlatListing';
 
 const roomOptions = _.range(1, 11, 0.5).map(num => ({ value: num, label: num }));
-
-const defaultFormValues = {
-  images: [],
-  'apartment.building.city.id': 1, // we have to initialize this so Mobx will re-render the form when it changes
-  publishing_user_type: 'landlord'
-};
 
 export default class EditedListingStore {
   @observable formValues;
@@ -21,7 +16,6 @@ export default class EditedListingStore {
   constructor(authStore, options) {
     this.authStore = authStore;
     this.options = options || {};
-    this.allowedKeys = {};
     autobind(this);
     if (!this.attemptRestoreState()) {
       this.reset();
@@ -32,7 +26,7 @@ export default class EditedListingStore {
   }
 
   reset() {
-    this.formValues = Object.assign({}, defaultFormValues);
+    this.formValues = new FlatListing();
     this.stepNumber = 0;
     if (process.env.IS_CLIENT && this.options.localStorageKey) {
       localStorage.removeItem(this.options.localStorageKey);
@@ -44,7 +38,7 @@ export default class EditedListingStore {
   }
 
   updateFormValues(newFormValues) {
-    this.formValues = Object.assign(this.formValues, newFormValues);
+    extendObservable(this.formValues, newFormValues);
     this.saveStore();
   }
 
@@ -69,7 +63,7 @@ export default class EditedListingStore {
     const listing = {};
     // this is so we can use nested structure in our form attributes
     Object.keys(formValues)
-      .filter(key => formValues.hasOwnProperty(key) && this.allowedKeys[key])
+      .filter(key => formValues.hasOwnProperty(key))
       .forEach(key => _.set(listing, key, formValues[key]));
 
     listing.images = formValues.images.map((image, index) => ({
@@ -80,32 +74,8 @@ export default class EditedListingStore {
   }
 
   loadListing(listing) {
-    var newFormValues = {};
-
-    // adapted from http://stackoverflow.com/questions/19098797/fastest-way-to-flatten-un-flatten-nested-json-objects but ignoring arrays
-    function recurse (value, fieldName) {
-      if (Object(value) !== value && value !== null) {
-        newFormValues[fieldName] = value;
-      } else if (Array.isArray(value)) {
-        // ignoring arrays
-      } else {
-        for (var p in value) {
-          recurse(value[p], fieldName ? fieldName + '.' + p : p);
-        }
-      }
-    }
-    recurse(listing, '');
-
-    newFormValues.images = listing.images.map(image => ({ src: image.url, complete: true }));
-
+    const newFormValues = new FlatListing(listing);
     this.updateFormValues(newFormValues);
-  }
-
-  registerKeys(keys) {
-    // Each component using this store will register the keys it needs
-    // toListingObject will include only allowed keys
-    // That's because when the store is loaded with a listing we get a lot of fields and we don't know which ones we need
-    keys.forEach(key => this.allowedKeys[key] = true);
   }
 
   toJson() {
@@ -114,5 +84,4 @@ export default class EditedListingStore {
       stepNumber: this.stepNumber
     };
   }
-
 }
