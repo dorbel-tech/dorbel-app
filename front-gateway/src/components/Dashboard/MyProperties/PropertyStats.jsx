@@ -43,7 +43,7 @@ class PropertyStats extends Component {
     const registrations = this.getNumberOfOheRegistrations(listingId);
     const listingCreatedAt = utils.formatDate(listing.created_at);
     const daysPassed = moment(Date.now()).diff(moment(listing.created_at), 'days');
-    const listingRented = listing.status === 'rented' || listing.status === 'unlisted';
+    const listingRented = listing.status === 'rented';
     const oheTabUrl = '/dashboard/my-properties/' + listingId + '/ohe';
 
     return  <Grid fluid className="property-stats">
@@ -74,7 +74,7 @@ class PropertyStats extends Component {
                       </div>
                       <div className={'property-stats-line' + (listingRented ? ' property-stats-line-not-empty': '')}></div>
                       <div className={'property-stats-bubble' + (listingRented ? ' property-stats-bubble-not-empty': '')}>
-                        <div className="property-stats-bubble-text">חתימת חוזה</div>
+                        <div className="property-stats-bubble-text">הושכרה</div>
                       </div>
                     </div>
                   </Col>
@@ -134,7 +134,7 @@ class PropertyStats extends Component {
                     <div className="property-stats-service">
                       <img className="property-stats-image"
                           src="https://static.dorbel.com/images/dashboard/service-photography-icon.svg"/>
-                      <div className="property-stats-title">צילום והצגת הדירה</div>
+                      <div className="property-stats-title">צילום הדירה</div>
                       <div>אנו נצלם ונציג עבורכם את הדירה בפני הדיירים הפוטנציאליים כדי לחסוך לכם את ההגעה לכל ביקור</div>
                       <a className="property-stats-button btn btn-success"
                           href="https://www.dorbel.com/pages/services/hosted-viewings" target="_blank">לפרטים והזמנה</a>

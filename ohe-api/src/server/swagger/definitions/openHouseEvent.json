@@ -19,6 +19,9 @@
       "is_active":{
         "type": "boolean"
       },
+      "status":{
+        "type": "string"
+      },      
       "registrations": {
         "type": "array",
         "items": {

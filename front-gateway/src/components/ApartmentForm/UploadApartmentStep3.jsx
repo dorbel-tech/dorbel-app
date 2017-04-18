@@ -138,21 +138,18 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
         <DorbelModal
           show={this.props.showSuccessModal}
           onClose={this.onCloseSuccessModal.bind(this)}
-          title="העלאת הדירה הושלמה!"
+          title="תהליך העלאת פרטי הדירה הושלם בהצלחה!"
           body={
             <div className="text-center" {...createdListingIdAttr}>
               <p>
-                תהליך העלאת פרטי הדירה הושלם בהצלחה.<br />
-                מודעתכם נמצאת כרגע בתהליך אישור. ברגע שהמודעה תעלה לאתר,
-                יישלח אליכם עדכון במייל ובהודעת טקסט. במידה ויהיה צורך,
-                ניצור עמכם קשר לפני כן.
+                מודעתכם נמצאת בתהליך אישור. עדכון יישלח אליכם ברגע שהיא תעלה לאתר.<br />
+                הנכם מועברים לחשבון החדש שלכם, בו תוכלו לנהל ולעקוב אחר נתוני הנכס.
               </p>
               <p>
-                תודה ויום נעים!<br />
                 צוות dorbel
               </p>
               <p>
-                <Button bsStyle="info" onClick={this.onCloseSuccessModal.bind(this)}>סגור</Button>
+                <Button bsStyle="info" onClick={this.onCloseSuccessModal.bind(this)}>קחו אותי לחשבון שלי</Button>
               </p>
             </div>
           }

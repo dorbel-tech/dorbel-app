@@ -6,8 +6,9 @@ class MyProfileFields extends Component {
   static showPicture = false;
 
   render() {
-    let tenant_profile = this.props.profile.user_metadata.tenant_profile;
-    tenant_profile =  tenant_profile || {
+    let profile = this.props.profile;
+    let user_metadata = profile.user_metadata || {};
+    let tenant_profile = user_metadata.tenant_profile || {
       about_you: '',
       work_place: '',
       position: '',
@@ -18,7 +19,7 @@ class MyProfileFields extends Component {
     return (
       <Row>
         <Row>
-          <FRC.Input value="tenant_profile" name="section" type="hidden"/>
+          <FRC.Input value="tenant_profile" name="section" type="hidden" />
           <Col className="my-profile-input" sm={12}>
             <FRC.Textarea
               value={tenant_profile.about_you}

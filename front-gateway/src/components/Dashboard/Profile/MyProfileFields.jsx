@@ -17,27 +17,27 @@ class MyProfileFields extends Component {
   }
 
   render() {
-    let profile = this.props.profile;
+    let user_metadata = this.props.profile.user_metadata || {};
     
     return (
       <Row>
         <Row>
           <FRC.Input value="main" name="section" type="hidden"/>
           <Col className="my-profile-input" sm={6}>
-            <FRC.Input value={profile.first_name} label="שם פרטי" name="data.first_name" layout="vertical" type="text" required />
+            <FRC.Input value={user_metadata.first_name} label="שם פרטי" name="data.first_name" layout="vertical" type="text" required />
           </Col>
           <Col className="my-profile-input" sm={6}>
-            <FRC.Input value={profile.last_name} label="שם משפחה" name="data.last_name" layout="vertical" type="text" required />
+            <FRC.Input value={user_metadata.last_name} label="שם משפחה" name="data.last_name" layout="vertical" type="text" required />
             {this.renderLockIcon()}
           </Col>
         </Row>
         <Row>
           <Col className="my-profile-input" sm={6}>
-            <FRC.Input value={profile.phone} label="טלפון" name="data.phone" validations="isNumeric" layout="vertical" placeholder="שם פרטי" required />
+            <FRC.Input value={user_metadata.phone} label="טלפון" name="data.phone" validations="isNumeric" layout="vertical" placeholder="שם פרטי" required />
             {this.renderLockIcon()}
           </Col>
           <Col className="my-profile-input" sm={6}>
-            <FRC.Input value={profile.email} label="מייל ליצירת קשר" validations="isEmail" name="data.email" layout="vertical" placeholder="שם משפחה" type="text" required />
+            <FRC.Input value={user_metadata.email} label="מייל ליצירת קשר" validations="isEmail" name="data.email" layout="vertical" placeholder="שם משפחה" type="text" required />
           </Col>
         </Row>
       </Row>

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import autobind from 'react-autobind';
-import { inject, observer } from 'mobx-react';
 import NavLink from '~/components/NavLink';
 import { MENU_ITEMS } from './DashboardShared';
 import Property from './Property';
@@ -8,7 +7,6 @@ import { find } from 'lodash';
 
 import './Dashboard.scss';
 
-@inject('router') @observer
 class Dashboard extends Component {
   static hideFooter = true;
 
@@ -46,11 +44,10 @@ class Dashboard extends Component {
   }
 }
 
-Dashboard.wrappedComponent.propTypes = {
+Dashboard.propTypes = {
   action: React.PropTypes.string,
   propertyId: React.PropTypes.string,
-  tab: React.PropTypes.string,
-  router: React.PropTypes.any
+  tab: React.PropTypes.string
 };
 
 export default Dashboard;

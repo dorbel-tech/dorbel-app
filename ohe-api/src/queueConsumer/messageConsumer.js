@@ -2,10 +2,7 @@
 const shared = require('dorbel-shared');
 const logger = shared.logger.getLogger(module);
 const messageBus = shared.utils.messageBus;
-const userManagement = shared.utils.userManagement;
 const oheEventService = require('../services/openHouseEventsService');
-const oheEventsFinderService = require('../services/openHouseEventsFinderService');
-const oheRegisterSercice = require('../services/openHouseEventRegistrationsService');
 const co = require('co');
 
 // Creating special notification service dummy user to handle data retrival from service in order to pass user validation checks.
@@ -16,15 +13,15 @@ function handleMessage(message) {
 
   return co(function *() {
     switch (message.eventType) {
-      case 'APARTMENT_UNLISTED':
       case 'APARTMENT_RENTED':
-        // Cancel all active OHEs.
-        yield cancleOHEs(message.dataPayload.listing_id);
+      case 'APARTMENT_UNLISTED':
+        // Mark all active OHEs as inactive.
+        yield deactivateOHEs(message.dataPayload.listing_id);
         break;  
-      case 'OHE_DELETED':
-        // Unregister users but don't send them notification.
-        yield unregisterUsers(message.dataPayload.event_id);
-        break;
+      case 'APARTMENT_LISTED':
+        // Mark all inactive OHEs as deleted (when apartment was listed again).
+        yield deleteInactiveOHEs(message.dataPayload.listing_id);
+        break;  
       default:
         // In case that message requires no processing, skip it.        
         break;
@@ -32,23 +29,20 @@ function handleMessage(message) {
   });
 }
 
-function* cancleOHEs(listingId) {
+function* deactivateOHEs(listingId) {
   const events = yield oheEventService.findByListing(listingId, oheServiceUser);
 
-  for (let i=0; i< events.length; i++) {
-    yield oheEventService.remove(events[i].id, oheServiceUser);
+  for (let i=0; i < events.length; i++) {
+    yield oheEventService.deactivate(events[i].id, oheServiceUser);
   }
 }
 
-function* unregisterUsers(eventId) {
-  const event = yield oheEventsFinderService.find(eventId);
+function* deleteInactiveOHEs(listingId) {
+  const events = yield oheEventService.findByListing(listingId, oheServiceUser);
 
-  if (event.registrations) {
-    for (let i=0; i< event.registrations.length; i++) {
-      let userId = event.registrations[i].registered_user_id;
-      const publishingUser = yield userManagement.getUserDetails(userId);
-      const user = { id: userId, role: publishingUser.role };
-      yield oheRegisterSercice.unregister(eventId, user, false);
+  for (let i=0; i < events.length; i++) {
+    if (events[i].status === 'inactive') {
+      yield oheEventService.remove(events[i].id, oheServiceUser);
     }
   }
 }

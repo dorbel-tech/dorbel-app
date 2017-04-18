@@ -28,8 +28,10 @@
 }
 
 .listing-header-to-dashboard {
+  background-color: rgba(0, 0, 0, 0.2);
   border: 1px solid $gray-lighter;
   border-radius: 4px;
+  box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.1);
   color: $gray-lighter;
   display: block;
   font-size: 13px;

@@ -15,6 +15,7 @@ const DEFAULT_FILTER_PARAMS = {
   unlisted: false,
 
   city: 1, // City selector default value.
+  sort: 'publish_date', // Default sort by radio group value.
   roommate: true, // Roommate search checkbox default value.
   empty: true, // Empty apartment for roommates checkbox default value.
   room: true, // Roommate looking for roommate/s checkbox default value.
@@ -63,6 +64,7 @@ class Filter extends Component {
   }
 
   citySelectHandler(cityId) {
+    this.setState({ city: cityId }); // Unused but required for calling render
     this.filterObj.city = cityId;
 
     this.reloadResults();
@@ -140,6 +142,7 @@ class Filter extends Component {
   }
 
   sortChangeHandler(e) {
+    this.setState({ sort: e.target.value });
     this.filterObj.sort = e.target.value;
 
     this.reloadResults();
@@ -206,12 +209,12 @@ class Filter extends Component {
         </div>
         <div className="sort-options">
           <div className="filter-input-wrapper">
-            <Radio value="publish_date" checked={this.filterObj.sort === 'publish_date' || !this.filterObj.sort} onChange={this.sortChangeHandler}>
+            <Radio value="publish_date" checked={this.state.sort === 'publish_date'} onChange={this.sortChangeHandler}>
               תאריך פרסום
               </Radio>
           </div>
           <div className="filter-input-wrapper">
-            <Radio value="lease_start" checked={this.filterObj.sort === 'lease_start'} onChange={this.sortChangeHandler}>
+            <Radio value="lease_start" checked={this.state.sort === 'lease_start'} onChange={this.sortChangeHandler}>
               תאריך כניסה
             </Radio>
           </div>
