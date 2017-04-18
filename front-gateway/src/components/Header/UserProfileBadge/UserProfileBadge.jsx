@@ -40,26 +40,15 @@ class UserProfileBadge extends Component {
   renderAuthenticationLink(isLoggedIn) {
     const { authProvider } = this.props.appProviders;
 
-    return isLoggedIn ?
+    return 
       (
         <Nav>
-          {isLoggedIn ? MENU_ITEMS.map((item) => this.renderDashboardMenuItem(item)) : null}
+          {MENU_ITEMS.map((item) => this.renderDashboardMenuItem(item))}
           <NavItem
-            onClick={authProvider.logout}
-            className="user-profile-badge-auth user-profile-badge-auth-logout">
-            <i className="fa fa-sign-out" />
-            התנתק
-          </NavItem>
-        </Nav>
-      )
-      :
-      (
-        <Nav>
-          <NavItem
-            onClick={authProvider.showLoginModal}
-            className="user-profile-badge-auth">
-            <i className="fa fa-sign-in" />
-            התחבר
+            onClick={isLoggedIn ? authProvider.logout : authProvider.showLoginModal}
+            className={isLoggedIn ? 'user-profile-badge-auth user-profile-badge-auth-logout' : 'user-profile-badge-auth'} >
+            <i className={isLoggedIn ? 'fa fa-sign-out' : 'fa fa-sign-in'} />
+            {isLoggedIn ? 'התנתק' : 'התחבר'}
           </NavItem>
         </Nav>
       );
