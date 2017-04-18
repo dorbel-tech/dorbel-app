@@ -141,13 +141,13 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
             <div className="text-center" {...createdListingIdAttr}>
               <p>
                 מודעתכם נמצאת בתהליך אישור. עדכון יישלח אליכם ברגע שהיא תעלה לאתר.<br />
-                הנכם מועברים לחשבון החדש שלכם, בו תוכלו מעתה לנהל את המודעה ולעקוב אחר נתוני הנכס.
+                הנכם מועברים לחשבון החדש שלכם, בו תוכלו לנהל ולעקוב אחר נתוני הנכס.
               </p>
               <p>
                 צוות dorbel
               </p>
               <p>
-                <Button bsStyle="info" onClick={this.onCloseSuccessModal.bind(this)}>קחו אותי לדשבורד</Button>
+                <Button bsStyle="info" onClick={this.onCloseSuccessModal.bind(this)}>קחו אותי לחשבון שלי</Button>
               </p>
             </div>
           }

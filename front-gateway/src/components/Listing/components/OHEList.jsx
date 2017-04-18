@@ -153,8 +153,7 @@ class OHEList extends Component {
       case 'rented':
         return <span>הדירה מושכרת כרגע. <br/>הרשמו על מנת לקבל עידכון ברגע שהדירה תוצע להשכרה שוב.</span>;
       case 'unlisted':
-        return <span>המודעה לא פעילה. <br/>לפרסום המודעה היכנסו ולחצו על ניהול הנכס.</span>;
-
+        return <span>המודעה לא פעילה. <br/>לפרסום המודעה הכנסו <a href={'/dashboard/my-properties/' + listing.id}>לחשבונכם ועדכנו</a> את הסטטוס שלה.</span>;
       default:
         return null;
     }
@@ -178,23 +177,19 @@ class OHEList extends Component {
   }
 
   renderTitle(listing, ohes) {
-    return (listing.status === 'listed' && ohes.length > 0) ?
-      (
+    if (listing.status === 'listed' && ohes.length > 0) {
+      return (
         <h5 className="listing-choose-date-title">
           בחרו מועד לביקור
         </h5>
-      )
-      :
-      (
-        <h5 className="text-center listing-choose-date-title">
-          <div>
-            אין מועדי ביקור לדירה.
-          </div>
-          <div>
-            הירשמו לקבלת עדכון על מועדי ביקור חדשים.
-          </div>
+      );
+    } else if (listing.status === 'listed' && ohes.length === 0) {
+      return (
+        <h5 className="listing-choose-date-title">
+           אין מועדי ביקור לדירה
         </h5>
       );
+    }
   }
 
   render() {
