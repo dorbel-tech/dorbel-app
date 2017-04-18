@@ -228,22 +228,22 @@ function * update(listing, patch) {
     }
 
     if (patch.images) {
-      // remove images that are not in patch
+      logger.trace('removing deleted images');
       yield listing.images.filter(existingImage => {
         const inPatch = _.find(patch.images, { url: existingImage.url });
         return !inPatch;
-      }).map(imageToDelete => imageToDelete.destroy());
+      }).map(imageToDelete => imageToDelete.destroy({ transaction }));
 
-      // create/update images from patch
+      logger.trace('creating / updating patched images');
       yield patch.images.map((imageFromPatch, index) => {
         const imageExists = _.find(listing.images, { url: imageFromPatch.url });
         if (imageExists) {
           imageExists.display_order = index;
-          return imageExists.save();
+          return imageExists.save({ transaction });
         } else {
           imageFromPatch.listing_id = listing.id;
           imageFromPatch.display_order = index;
-          return models.image.create(imageFromPatch);
+          return models.image.create(imageFromPatch, { transaction });
         }
       });
     }

@@ -24,9 +24,13 @@ export default class EditListing extends Component {
   }
 
   save() {
-    const { listing, appStore } = this.props;
+    const { listing, appStore, appProviders } = this.props;
     const patch = appStore.editedListingStore.toListingObject();
-    return this.props.appProviders.listingsProvider.updateListing(listing.id, patch);
+    return appProviders.listingsProvider.updateListing(listing.id, patch)
+      .catch(err => {
+        appProviders.notificationProvider.error(err);
+        throw err;
+      });
   }
 
   render() {
