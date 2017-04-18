@@ -36,7 +36,10 @@ class MyProfile extends Component {
 
     if (formsy.isChanged()) {
       const profile = formsy.getModel();
-      return this.props.appProviders.authProvider.updateUserProfile(profile);
+      const notificationProvider = this.props.appProviders.notificationProvider;
+      return this.props.appProviders.authProvider.updateUserProfile(profile)
+        .then(() => { notificationProvider.success('הפרטים עודכנו בהצלחה'); })
+        .catch(notificationProvider.error);
     }
   }
 

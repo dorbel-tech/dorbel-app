@@ -9,16 +9,24 @@ export default class NotificationProvider {
   // 3rd party module does't separate component from business logic...
 
   error(resp, options = {}) {
-
     const message = resp.response ? resp.response.data : 'אופס, משהו השתבש. נסו שנית מאוחר יותר.';
+    const notification = this.createNotificationObj('error', message, options);
+    this.notificationSystem.addNotification(notification);
+  }
 
-    this.notificationSystem.addNotification({
+  success(message, options = {}) {
+    const notification = this.createNotificationObj('success', message, options);
+    this.notificationSystem.addNotification(notification);
+  }
+
+  createNotificationObj(level, message, options) {
+    return {
       title: '',
       message: message,
-      level: 'error',
+      level: level,
       dismissible: options.dismissible || false,
       autoDismiss: options.autoDismiss || 5,
       position: options.position || 'bl'
-    });
+    };
   }
 }
