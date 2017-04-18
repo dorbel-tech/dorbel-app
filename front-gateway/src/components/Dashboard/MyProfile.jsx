@@ -36,8 +36,7 @@ class MyProfile extends Component {
 
     if (formsy.isChanged()) {
       const profile = formsy.getModel();
-      return this.props.appProviders.authProvider.updateUserProfile(profile)
-        .then(() => { formsy.reset(profile); }); // Set all form inputs as pristine
+      return this.props.appProviders.authProvider.updateUserProfile(profile);
     }
   }
 
