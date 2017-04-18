@@ -17,7 +17,7 @@ class MyProfileFields extends Component {
   }
 
   render() {
-    let user_metadata = this.props.profile.user_metadata;
+    let user_metadata = this.props.profile.user_metadata || {};
     
     return (
       <Row>
