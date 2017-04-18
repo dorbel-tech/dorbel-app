@@ -27,10 +27,11 @@ export default class EditListing extends Component {
     const { listing, appStore, appProviders } = this.props;
     const patch = appStore.editedListingStore.toListingObject();
     return appProviders.listingsProvider.updateListing(listing.id, patch)
-      .catch(err => {
-        appProviders.notificationProvider.error(err);
-        throw err;
-      });
+    .then(() => appProviders.notificationProvider.success('הדירה עודכנה בהצלחה'))
+    .catch(err => {
+      appProviders.notificationProvider.error(err);
+      throw err;
+    });
   }
 
   render() {
