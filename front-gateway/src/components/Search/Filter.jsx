@@ -64,6 +64,7 @@ class Filter extends Component {
   }
 
   citySelectHandler(cityId) {
+    this.setState({ city: cityId });
     this.filterObj.city = cityId;
 
     this.reloadResults();
