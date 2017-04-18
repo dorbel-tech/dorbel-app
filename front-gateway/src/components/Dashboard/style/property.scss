@@ -251,10 +251,13 @@
   padding-left: 30px;
 }
 
-.property-edit-menu-icon {
-  display: none !important;
-
+.property-edit-actions-mobile {
   @media (max-width: $screen-xs-max) {
-    display: block !important;
+    top: 23px;
+  }
+
+  button {
+    margin-right: 10px;
   }
 }
+

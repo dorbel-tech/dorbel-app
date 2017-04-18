@@ -48,7 +48,6 @@ class Property extends Component {
   }
 
   gotoPublishedListing = () => this.props.router.setRoute('/apartments/' + this.props.propertyId);
-  gotoMyProperty = () => this.props.router.setRoute('/dashboard/my-properties/' + this.props.propertyId);
   gotoEditProperty = () => this.props.router.setRoute('/dashboard/my-properties/' + this.props.propertyId + '/edit');
 
   refresh() {
@@ -109,41 +108,15 @@ class Property extends Component {
       </div>
     );
 
-    const editMobileMenu = (
-      <Popover id="property-actions-menu" className="property-actions-menu">
-        <div className="property-actions-menu-item property-action-menu-item-show-mobile"
-             onClick={() => editForm.wrappedInstance.save().then(this.gotoMyProperty)}>
-          <i className="property-actions-menu-item-icon fa fa-floppy-o"></i>
-          שמור
-        </div>
-        <div className="property-actions-menu-item property-action-menu-item-show-mobile" onClick={this.gotoMyProperty}>
-          <i className="property-actions-menu-item-icon fa fa-trash-o" aria-hidden="true"></i>
-          בטל
-        </div>
-      </Popover>
-    );
-
     const editHeaderButtons = (
       <div className="property-action-container">
-        <div className="property-actions-preview-container">
-          <Button className="property-preview-button property-save-button"
-                  onClick={() => editForm.wrappedInstance.save().then(this.gotoMyProperty)}>
-                  שמור
+        <div className="property-actions-menu-container property-edit-actions-mobile">
+          <Button bsStyle="success" onClick={() => editForm.wrappedInstance.save()}>
+            שמור
           </Button>
-        </div>
-        <div className="property-actions-preview-container">
-          <Button className="property-preview-button"
-                  onClick={this.gotoMyProperty}>
-                  בטל
+          <Button onClick={() => editForm.wrappedInstance.cancel()}>
+            בטל
           </Button>
-        </div>
-        <div className="property-actions-menu-container property-edit-menu-icon">
-          <OverlayTrigger trigger="click" placement="bottom" overlay={editMobileMenu}
-                          container={this} containerPadding={5} rootClose>
-            <Button className="property-action-button">
-              <i className="fa fa-bars" aria-hidden="true"></i>
-            </Button>
-          </OverlayTrigger>
         </div>
       </div>
     );
