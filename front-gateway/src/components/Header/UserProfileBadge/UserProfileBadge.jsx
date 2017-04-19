@@ -44,7 +44,7 @@ class UserProfileBadge extends Component {
           {MENU_ITEMS.map((item) => this.renderDashboardMenuItem(item))}
           <NavItem
             onClick={isLoggedIn ? authProvider.logout : authProvider.showLoginModal}
-            className={isLoggedIn ? 'user-profile-badge-auth user-profile-badge-auth-logout' : 'user-profile-badge-auth'} >
+            className={'user-profile-badge-auth' + (isLoggedIn ? ' user-profile-badge-auth-logout' : null)}>
             <i className={isLoggedIn ? 'fa fa-sign-out' : 'fa fa-sign-in'} />
             {isLoggedIn ? 'התנתק' : 'התחבר'}
           </NavItem>
@@ -102,7 +102,7 @@ class UserProfileBadge extends Component {
     return (
       <div className="user-profile-badge" onMouseEnter={() => { this.handleHover(true); }} onMouseLeave={() => { this.handleHover(false); }}>
         {this.renderPersonalData(isLoggedIn)}
-        <div className={'user-profile-badge-menu-desktop ' + (this.state.displayMenu ? 'active' : '')}>
+        <div className={'user-profile-badge-menu-desktop' + (this.state.displayMenu ? ' active' : null)}>
           <div className="triangle-up" />
           {this.renderMenu(isLoggedIn)}
         </div>
