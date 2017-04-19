@@ -114,10 +114,10 @@ class PropertyStats extends Component {
                     <div className="property-stats-service">
                       <img className="property-stats-image"
                           src="https://static.dorbel.com/images/dashboard/service-publishing-icon.svg"/>
-                      <div className="property-stats-title">פרסום הדירה</div>
-                      <div>רוצים להשכיר מהר? הגדילו את חשיפת הדירה ע״י פרסום ממומן. הגיעו ליותר דיירים בפחות זמן</div>
+                      <div className="property-stats-title">פרסום פרימיום</div>
+                      <div>הגדילו את חשיפת הדירה ע״י פרסום ממומן. הגיעו ליותר דיירים בפחות זמן</div>
                       <a className="property-stats-button btn btn-success"
-                          href="https://www.dorbel.com/pages/services/social-advertising" target="_blank">לפרטים והזמנה</a>
+                          href="https://www.dorbel.com/pages/services/social-advertising?utm_source=app&utm_medium=link&utm_campaign=my-properties" target="_blank">לפרטים והזמנה</a>
                     </div>
                   </Col>
                   <Col md={4}>
@@ -125,9 +125,9 @@ class PropertyStats extends Component {
                       <img className="property-stats-image"
                           src="https://static.dorbel.com/images/dashboard/service-credit-score-icon.svg"/>
                       <div className="property-stats-title">דו״ח נתוני אשראי</div>
-                      <div>רוצים להיות בטוחים? לפני חתימה על חוזה חשוב לוודא שהדייר החדש והערבים יעמדו בתשלומים</div>
+                      <div>הכירו את הדיירים הבאים שלכם חסכו הרבה כסף וצרות בעזרת בדיקה אחת פשוטה ומהירה</div>
                       <a className="property-stats-button btn btn-success"
-                          href="https://www.dorbel.com/pages/services/credit-report" target="_blank">לפרטים והזמנה</a>
+                          href="https://www.dorbel.com/pages/services/credit-report?utm_source=app&utm_medium=link&utm_campaign=my-properties" target="_blank">לפרטים והזמנה</a>
                     </div>
                   </Col>
                   <Col md={4}>
@@ -135,9 +135,9 @@ class PropertyStats extends Component {
                       <img className="property-stats-image"
                           src="https://static.dorbel.com/images/dashboard/service-photography-icon.svg"/>
                       <div className="property-stats-title">צילום הדירה</div>
-                      <div>אנו נצלם ונציג עבורכם את הדירה בפני הדיירים הפוטנציאליים כדי לחסוך לכם את ההגעה לכל ביקור</div>
+                      <div>מודעה עם תמונות טובות נחשפת לפי 5 יותר דיירים. הזמינו את הצלם שלנו עוד היום</div>
                       <a className="property-stats-button btn btn-success"
-                          href="https://www.dorbel.com/pages/services/hosted-viewings" target="_blank">לפרטים והזמנה</a>
+                          href="https://www.dorbel.com/pages/services/hosted-viewings?utm_source=app&utm_medium=link&utm_campaign=my-properties" target="_blank">לפרטים והזמנה</a>
                     </div>
                   </Col>
                 </Row>
