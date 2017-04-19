@@ -13,6 +13,10 @@ class OHEList extends Component {
     autobind(this);
 
     this.state = { oheForModal: null };
+
+    // in order to resolve Director router issue when navigating
+    // between apartments/{slug} and apartments/{id} on closeModal
+    this.currentPath = this.props.router.getPath();
   }
 
   renderListItem(params) {
@@ -194,7 +198,7 @@ class OHEList extends Component {
 
   render() {
     const { listing, router } = this.props;
-    const closeModal = () => router.setRoute('/apartments/' + listing.id);
+    const closeModal = () => router.setRoute(this.currentPath);
     const ohes = this.props.appStore.oheStore.oheByListingId(listing.id);
 
     return (
