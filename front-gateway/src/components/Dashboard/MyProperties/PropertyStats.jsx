@@ -44,7 +44,7 @@ class PropertyStats extends Component {
     const listingCreatedAt = utils.formatDate(listing.created_at);
     const daysPassed = moment(Date.now()).diff(moment(listing.created_at), 'days');
     const listingRented = listing.status === 'rented';
-    const oheTabUrl = '/dashboard/my-properties/' + listingId + '/ohe';
+    const oheTabUrl = utils.getDashPropertyPath(listing) + '/ohe';
 
     return  <Grid fluid className="property-stats">
                 <Row className="property-stats-rent-title">

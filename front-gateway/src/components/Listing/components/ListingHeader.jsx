@@ -32,7 +32,7 @@ export default class ListingHeader extends React.Component {
       <header className="listing-header">
         {isListingPublisherOrAdmin ?
           <NavLink className="listing-header-to-dashboard"
-                   to={'/dashboard/my-properties/' + listing.id}>
+                   to={utils.getDashPropertyPath(listing)}>
             לניהול הנכס
           </NavLink>
         : null}

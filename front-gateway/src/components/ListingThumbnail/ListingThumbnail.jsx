@@ -12,14 +12,10 @@ import utils from '../../providers/utils';
 class ListingThumbnail extends Component {
   getListingUrl(listing) {
     if (this.props.isMyProperties) {
-      return '/dashboard/my-properties/' + listing.id;
+      return utils.getDashPropertyPath(listing);
     } else {
-      return '/apartments/' + this.getListingPath(listing);
+      return utils.getListingPath(listing);
     }    
-  }
-  
-  getListingPath(listing) {
-    return listing.slug || listing.id;
   }
 
   getOheLabel() {

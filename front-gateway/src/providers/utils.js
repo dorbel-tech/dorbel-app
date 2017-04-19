@@ -22,6 +22,16 @@ function formatDay(date) {
   return moment.utc(date).local().format(dayFormat);
 }
 
+function getDashPropertyPath(listing) {
+  if (!listing) { return null; }
+  return '/dashboard/my-properties/' + listing.id;
+}
+
+function getListingPath(listing) {
+  if (!listing) { return null; }
+  return '/apartments/' + (listing.slug || listing.id);
+}
+
 function getListingTitle(listing) {
   return listing.title || `דירת ${listing.apartment.rooms} חד׳ ב${listing.apartment.building.street_name}`;
 }
@@ -84,10 +94,12 @@ module.exports = {
   formatTime,
   formatDate,
   formatDay,
+  getDashPropertyPath,
+  getListingPath,
+  getListingTitle,
+  getListingSubTitle,
   getFloorTextValue,
   getListingStatusLabels,
-  getListingSubTitle,
-  getListingTitle,
   sortListingImages,
   promiseSeries,
   isMobile
