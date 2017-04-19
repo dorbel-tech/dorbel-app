@@ -128,14 +128,12 @@ function* getByFilter(filterJSON, options = {}) {
     if (userManagement.isUserAdmin(options.user)) {
       
       const requestedStatuses = listingRepository.listingStatuses.filter(
-        status => !!filter[status]
+        status => !filter[status]
       );
 
       // Check if admin filtered statuses manually.
-      if (requestedStatuses.length === 0) {
-        delete listingQuery.status;
-      } else {
-        listingQuery.status = { $in: requestedStatuses };
+      if (requestedStatuses.length > 0) {
+        listingQuery.status = { $notIn: requestedStatuses };
       }
     }
 

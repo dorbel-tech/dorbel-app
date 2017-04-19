@@ -104,6 +104,7 @@ class Filter extends Component {
 
   adminFilterChangeHandler(e) {
     this.checkboxChangeHandler(e);
+    this.filterObj[e.target.name] = e.target.checked;
   }
 
   checkboxChangeHandler(e) {
