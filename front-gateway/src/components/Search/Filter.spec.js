@@ -79,7 +79,7 @@ describe('Filter', () => {
   });
 
   const checkboxTests = (name, results) => {
-    results = results || [[{city: 1, [name]: true}], [{city: 1, [name]: false}]];
+    results = results || [[{ city: 1, [name]: true }], [{ city: 1 }]];
 
     describe(name + ' checkbox', () => {
       it('should render the ' + name + ' checkbox according to the parsed location', () => {

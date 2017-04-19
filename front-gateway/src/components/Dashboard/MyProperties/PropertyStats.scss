@@ -28,10 +28,10 @@ $active-color: #3398db;
   }
 
   .property-stats-rent-title {
-    padding-bottom: 30px;
+    padding-bottom: 15px;
 
     @media (max-width: $screen-sm-max) {
-      padding-bottom: 10px;
+      padding-bottom: 5px;
     }
   }
 
@@ -39,10 +39,6 @@ $active-color: #3398db;
     font-size: 26px;
     color: $gray-lighter;
     text-shadow: 0 0 2px #000;
-  }
-
-  .property-stats-numbers-row {
-    line-height: 80px;
   }
 
   .property-stats-number {
@@ -99,8 +95,8 @@ $active-color: #3398db;
   .property-stats-line {
     border-bottom: 1px $gray-dark solid;
     display: inline-block;
-    width: $line-width-lg;
     margin-bottom: 4px;
+    width: $line-width-lg;
 
     @media (max-width: $screen-md-max) {
       width: $line-width-md;
@@ -108,7 +104,6 @@ $active-color: #3398db;
 
     @media (max-width: $screen-sm-max) {
       width: $line-width-sm;
-      margin-bottom: 14px;
     }
 
     @media (max-width: $screen-xs-max) {
@@ -134,8 +129,9 @@ $active-color: #3398db;
     border: 1px solid $gray-dark;
     border-radius: 100px;
     display: inline-block;
-    width: $bubble-width-lg;
     text-align: center;
+    vertical-align: middle;
+    width: $bubble-width-lg;
 
     @media (max-width: $screen-md-max) {
       width: $bubble-width-md;
@@ -185,12 +181,16 @@ $active-color: #3398db;
 
   .property-stats-publishing-title,
   .property-stats-services-title {
-    padding: 60px 0;
+    padding: 40px 0 30px;
 
     @media (max-width: $screen-sm-max) {
-      padding-top: 40px;
-      padding-bottom: 30px;
+      padding-top: 30px;
+      padding-bottom: 15px;
     }
+  }
+
+  .property-stats-services-title {
+    padding-bottom: 45px;
   }
 
   .property-stats-services {
