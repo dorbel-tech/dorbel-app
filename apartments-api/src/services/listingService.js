@@ -126,7 +126,6 @@ function* getByFilter(filterJSON, options = {}) {
 
   if (options.user) {
     if (userManagement.isUserAdmin(options.user)) {
-
       filter.listed = filter.hasOwnProperty('listed') ? filter.listed : true;
 
       const filteredStatuses = listingRepository.listingStatuses.filter(
