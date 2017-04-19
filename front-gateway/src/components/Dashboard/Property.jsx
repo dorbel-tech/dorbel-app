@@ -134,11 +134,11 @@ class Property extends Component {
                   </div>
                   <div className="property-action-container">
                     <div className="property-actions-refresh-container">
-                      <Button className="fa fa-refresh property-action-button" aria-hidden="true"
+                      <Button className="fa fa-refresh property-action-button" title="ריענון העמוד"
                          onClick={this.refresh}></Button>
                     </div>
                     <div className="property-actions-preview-container">
-                      <Button className="fa fa-picture-o property-action-button"
+                      <Button className="fa fa-picture-o property-action-button" title="צפייה במודעה"
                               name={'/apartments/' + this.props.propertyId}
                               onClick={this.routeClickHandler}></Button>
                     </div>
