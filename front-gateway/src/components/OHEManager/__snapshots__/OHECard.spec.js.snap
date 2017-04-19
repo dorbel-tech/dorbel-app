@@ -468,7 +468,7 @@ exports[`OHECard should render with multiple registrations 1`] = `
             "id": "fakeId2",
             "is_active": true,
             "user": Object {
-              "facebook_link": "fbLink2",
+              "facebook_url": "fbLink2",
               "first_name": "fn2",
               "last_name": "ln2",
               "phone": "123",
@@ -479,7 +479,7 @@ exports[`OHECard should render with multiple registrations 1`] = `
             "id": "fakeId3",
             "is_active": true,
             "user": Object {
-              "facebook_link": "fbLink3",
+              "facebook_url": "fbLink3",
               "first_name": "fn3",
               "last_name": "ln3",
               "phone": "456",
@@ -507,7 +507,7 @@ exports[`OHECard should render with multiple registrations 1`] = `
             "id": "fakeId2",
             "is_active": true,
             "user": Object {
-              "facebook_link": "fbLink2",
+              "facebook_url": "fbLink2",
               "first_name": "fn2",
               "last_name": "ln2",
               "phone": "123",
@@ -518,7 +518,7 @@ exports[`OHECard should render with multiple registrations 1`] = `
             "id": "fakeId3",
             "is_active": true,
             "user": Object {
-              "facebook_link": "fbLink3",
+              "facebook_url": "fbLink3",
               "first_name": "fn3",
               "last_name": "ln3",
               "phone": "456",

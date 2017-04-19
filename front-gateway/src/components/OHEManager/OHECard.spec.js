@@ -57,8 +57,8 @@ describe('OHECard', () => {
 
   it('should render with multiple registrations', () => {
     const fakeUser1 = {picture: 'pic1', first_name: 'fn1', last_name: 'ln1'};
-    const fakeUser2 = {picture: 'pic2', first_name: 'fn2', last_name: 'ln2', phone: '123', facebook_link: 'fbLink2'};
-    const fakeUser3 = {picture: 'pic3', first_name: 'fn3', last_name: 'ln3', phone: '456', facebook_link: 'fbLink3'};
+    const fakeUser2 = {picture: 'pic2', first_name: 'fn2', last_name: 'ln2', phone: '123', facebook_url: 'fbLink2'};
+    const fakeUser3 = {picture: 'pic3', first_name: 'fn3', last_name: 'ln3', phone: '456', facebook_url: 'fbLink3'};
     props.ohe.registrations = [
       {id: 'fakeId1', is_active: true, user: fakeUser1},
       {id: 'fakeId2', is_active: true, user: fakeUser2},
