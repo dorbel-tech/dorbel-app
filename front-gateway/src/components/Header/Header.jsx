@@ -99,7 +99,7 @@ class Header extends Component {
         <Navbar.Collapse>
           <UserProfileBadge />
           <Nav className="header-navbar-links">
-            {isLoggedIn ? MENU_ITEMS.map((item) => this.renderDashboardMenuItem(item)) : null}
+            {MENU_ITEMS.map((item) => this.renderDashboardMenuItem(item))}
             {showPublishFirst ?
               <NavItem className="header-navbar-btn-publish" onClick={(e) => this.routeTo(e, '/apartments/new_form')}
                 href="/apartments/new_form">פרסמו דירה</NavItem>
