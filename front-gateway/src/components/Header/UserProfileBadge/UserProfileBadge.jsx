@@ -109,7 +109,7 @@ class UserProfileBadge extends Component {
         <div className="user-profile-badge-menu-mobile">
           {this.renderMenu(isLoggedIn)}
         </div>
-      </div >
+      </div>
     );
   }
 }
