@@ -103,12 +103,18 @@ class Filter extends Component {
   }
 
   adminFilterChangeHandler(e) {
-    this.checkboxChangeHandler(e, false);
+    this.setState({ [e.target.name]: e.target.checked });
+    this.filterObj[e.target.name] = e.target.checked;
+
+    this.reloadResults();
   }
 
-  checkboxChangeHandler(e, falseOption) {
+  checkboxChangeHandler(e) {
     this.setState({ [e.target.name]: e.target.checked });
-    this.filterObj[e.target.name] = e.target.checked ? true : !!falseOption;
+    e.target.checked ?
+      this.filterObj[e.target.name] = true :
+      delete this.filterObj[e.target.name];
+    
     this.reloadResults();
   }
 
