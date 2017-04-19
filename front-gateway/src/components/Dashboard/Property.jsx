@@ -134,7 +134,7 @@ class Property extends Component {
                   </div>
                   <div className="property-action-container">
                     <div className="property-actions-refresh-container">
-                      <Button className="fa fa-refresh property-action-button" title="ריענון העמוד"
+                      <Button className="fa fa-refresh property-action-button" title="רענון העמוד"
                          onClick={this.refresh}></Button>
                     </div>
                     <div className="property-actions-preview-container">
