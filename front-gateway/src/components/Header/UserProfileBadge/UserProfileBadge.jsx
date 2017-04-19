@@ -49,7 +49,7 @@ class UserProfileBadge extends Component {
             {isLoggedIn ? 'התנתק' : 'התחבר'}
           </NavItem>
         </Nav>
-      );
+    );
   }
 
   renderPersonalData(isLoggedIn) {
