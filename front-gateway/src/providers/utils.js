@@ -22,8 +22,8 @@ function formatDay(date) {
   return moment.utc(date).local().format(dayFormat);
 }
 
-function getDashPropertyPath(listing) {
-  return '/dashboard/my-properties/' + listing.id;
+function getDashPropertyPath(listing, addPath = '') {
+  return '/dashboard/my-properties/' + listing.id + addPath;
 }
 
 function getListingPath(listing) {

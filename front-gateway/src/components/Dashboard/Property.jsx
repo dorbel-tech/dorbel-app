@@ -65,7 +65,7 @@ class Property extends Component {
             <i className="property-actions-menu-item-icon fa fa-refresh" aria-hidden="true"></i>
             רענון
           </div>
-          <div name={utils.getDashPropertyPath(property) + '/edit'}
+          <div name={utils.getDashPropertyPath(property, '/edit')}
               className="property-actions-menu-item property-actions-edit-disabled">
             <i className="property-actions-menu-item-icon fa fa-pencil-square-o"  aria-hidden="true"></i>
             עריכת פרטי הנכס (בקרוב)
@@ -155,7 +155,7 @@ class Property extends Component {
                   </div>
                 </Col>
               </Row>
-              <PropertyMenu path={utils.getDashPropertyPath(property) + '/'}
+              <PropertyMenu path={utils.getDashPropertyPath(property, '/')}
                             tabs={propertyTabs}
                             activeKey={selectedTab.relativeRoute} />
               <Row className="property-content-container">
