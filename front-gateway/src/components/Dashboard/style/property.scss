@@ -242,6 +242,13 @@
   }
 }
 
+.property-edit-container {
+  @media (max-width: $screen-xs-max) {
+    /* this is so intercom button won't hide the bottom of the form in mobile */
+    padding-bottom: 50px;
+  }
+}
+
 .property-edit-actions-mobile {
   @media (max-width: $screen-xs-max) {
     top: 23px;
