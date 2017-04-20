@@ -10,6 +10,7 @@ import PropertyMenu from './MyProperties/PropertyMenu';
 import PropertyStats from './MyProperties/PropertyStats';
 import { find } from 'lodash';
 import utils from '~/providers/utils';
+import { getListingPath, getDashMyPropsPath } from '~/routes';
 
 import './Property.scss';
 
@@ -57,7 +58,7 @@ class Property extends Component {
   renderPopoverMenu(property) {
     return (
         <Popover id="property-actions-menu" className="property-actions-menu">
-          <div name={utils.getListingPath(property)} className="property-actions-menu-item property-action-menu-item-show-mobile" onClick={this.routeClickHandler}>
+          <div name={getListingPath(property)} className="property-actions-menu-item property-action-menu-item-show-mobile" onClick={this.routeClickHandler}>
             <i className="property-actions-menu-item-icon fa fa-picture-o"></i>
             צפה
           </div>
@@ -65,13 +66,13 @@ class Property extends Component {
             <i className="property-actions-menu-item-icon fa fa-refresh" aria-hidden="true"></i>
             רענון
           </div>
-          <div name={utils.getDashPropertyPath(property, '/edit')}
+          <div name={getDashMyPropsPath(property, '/edit')}
               className="property-actions-menu-item property-actions-edit-disabled">
             <i className="property-actions-menu-item-icon fa fa-pencil-square-o"  aria-hidden="true"></i>
             עריכת פרטי הנכס (בקרוב)
           </div>
         </Popover>
-      );
+    );
   }
 
   render() {
@@ -141,7 +142,7 @@ class Property extends Component {
                     </div>
                     <div className="property-actions-preview-container">
                       <Button className="fa fa-picture-o property-action-button" title="צפייה במודעה"
-                              name={utils.getListingPath(property)}
+                              name={getListingPath(property)}
                               onClick={this.routeClickHandler}></Button>
                     </div>
                     <div className="property-actions-menu-container">
@@ -155,7 +156,7 @@ class Property extends Component {
                   </div>
                 </Col>
               </Row>
-              <PropertyMenu path={utils.getDashPropertyPath(property, '/')}
+              <PropertyMenu path={getDashMyPropsPath(property, '/')}
                             tabs={propertyTabs}
                             activeKey={selectedTab.relativeRoute} />
               <Row className="property-content-container">

@@ -6,6 +6,7 @@ import utils from '~/providers/utils';
 import NavLink from '~/components/NavLink';
 import ListingBadge from '~/components/ListingBadge/ListingBadge';
 import CloudinaryImage from '~/components/CloudinaryImage/CloudinaryImage';
+import {  getDashMyPropsPath } from '~/routes';
 
 let Flickity = 'div';
 let carouselClass = 'fixed-carousel';
@@ -32,7 +33,7 @@ export default class ListingHeader extends React.Component {
       <header className="listing-header">
         {isListingPublisherOrAdmin ?
           <NavLink className="listing-header-to-dashboard"
-                   to={utils.getDashPropertyPath(listing)}>
+                   to={getDashMyPropsPath(listing)}>
             לניהול הנכס
           </NavLink>
         : null}

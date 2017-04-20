@@ -7,14 +7,15 @@ import ListingBadge from '../ListingBadge/ListingBadge';
 import CloudinaryImage from '../CloudinaryImage/CloudinaryImage';
 import LikeButton from '../LikeButton/LikeButton';
 import utils from '../../providers/utils';
+import { getListingPath, getDashMyPropsPath } from '~/routes';
 
 @inject('appStore') @observer
 class ListingThumbnail extends Component {
   getListingUrl(listing) {
     if (this.props.isMyProperties) {
-      return utils.getDashPropertyPath(listing);
+      return getDashMyPropsPath(listing);
     } else {
-      return utils.getListingPath(listing);
+      return getListingPath(listing);
     }    
   }
 

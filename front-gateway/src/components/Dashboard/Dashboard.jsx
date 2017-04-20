@@ -33,6 +33,8 @@ class Dashboard extends Component {
       selectedActionItem = find(MENU_ITEMS, {navTo: this.props.action});
     }
 
+    console.log('MENU_ITEMS', MENU_ITEMS);
+
     return <div className="dashboard-container">
         <div className="dashboard-menu-wrapper">
           {MENU_ITEMS.map((item) => this.renderMenuItem(item))}

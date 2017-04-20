@@ -3,6 +3,7 @@ import { inject, observer } from 'mobx-react';
 import { Col, Grid, Row } from 'react-bootstrap';
 import NavLink from '~/components/NavLink';
 import utils from '~/providers/utils';
+import { getDashMyPropsPath } from '~/routes';
 import moment from 'moment';
 
 import './PropertyStats.scss';
@@ -46,7 +47,7 @@ class PropertyStats extends Component {
     const listingCreatedAt = utils.formatDate(listing.created_at);
     const daysPassed = moment(Date.now()).diff(moment(listing.created_at), 'days');
     const listingRented = listing.status === 'rented';
-    const oheTabUrl = utils.getDashPropertyPath(listing, '/ohe');
+    const oheTabUrl = getDashMyPropsPath(listing, '/ohe');
 
     return  <Grid fluid className="property-stats">
                 <Row className="property-stats-rent-title">
