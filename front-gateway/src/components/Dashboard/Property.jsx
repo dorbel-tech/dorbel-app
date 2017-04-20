@@ -48,8 +48,13 @@ class Property extends Component {
     }
   }
 
-  gotoPublishedListing = () => this.props.router.setRoute(getListingPath(property));
-  gotoEditProperty = () => this.props.router.setRoute(getDashMyPropsPath(property, '/edit'));
+  gotoPublishedListing(property) {
+    return this.props.router.setRoute(getListingPath(property));
+  }
+
+  gotoEditProperty(property){
+    return this.props.router.setRoute(getDashMyPropsPath(property, '/edit'));
+  }
 
   refresh() {
     location.reload(true);
@@ -58,7 +63,7 @@ class Property extends Component {
   renderPopoverMenu(property) {
     return (
         <Popover id="property-actions-menu" className="property-actions-menu">
-          <div name={getListingPath(property)} className="property-actions-menu-item property-action-menu-item-show-mobile" onClick={this.routeClickHandler}>
+          <div className="property-actions-menu-item property-action-menu-item-show-mobile" onClick={() => this.gotoPublishedListing(property)}>
             <i className="property-actions-menu-item-icon fa fa-picture-o"></i>
             צפה
           </div>
@@ -66,10 +71,9 @@ class Property extends Component {
             <i className="property-actions-menu-item-icon fa fa-refresh" aria-hidden="true"></i>
             רענון
           </div>
-          <div name={getDashMyPropsPath(property, '/edit')}
-              className="property-actions-menu-item property-actions-edit-disabled">
+          <div className="property-actions-menu-item" onClick={() =>this.gotoEditProperty(property)}>
             <i className="property-actions-menu-item-icon fa fa-pencil-square-o"  aria-hidden="true"></i>
-            עריכת פרטי הנכס (בקרוב)
+            עריכת פרטי הנכס
           </div>
         </Popover>
     );
@@ -99,7 +103,7 @@ class Property extends Component {
         </div>
         <div className="property-actions-preview-container">
           <Button className="fa fa-picture-o property-action-button" title="צפייה במודעה"
-                  onClick={this.gotoPublishedListing}></Button>
+                  onClick={() => this.gotoPublishedListing(property)}></Button>
         </div>
         <div className="property-actions-menu-container">
           <OverlayTrigger trigger="click" placement="bottom" overlay={this.renderPopoverMenu(property)}
