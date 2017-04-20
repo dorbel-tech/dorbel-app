@@ -8,8 +8,10 @@ import ListingStatusSelector from './MyProperties/ListingStatusSelector';
 import OHEManager from '~/components/OHEManager/OHEManager';
 import PropertyMenu from './MyProperties/PropertyMenu';
 import PropertyStats from './MyProperties/PropertyStats';
+import EditListing from './MyProperties/EditListing.jsx';
 import { find } from 'lodash';
 import utils from '~/providers/utils';
+import { getListingPath, getDashMyPropsPath } from '~/routesHelper';
 
 import './Property.scss';
 
@@ -46,46 +48,38 @@ class Property extends Component {
     }
   }
 
-  routeClickHandler(e) {
-    this.props.router.setRoute(e.target.getAttribute('name'));
+  gotoPublishedListing(property) {
+    return this.props.router.setRoute(getListingPath(property));
+  }
+
+  gotoEditProperty(property){
+    return this.props.router.setRoute(getDashMyPropsPath(property, '/edit'));
   }
 
   refresh() {
     location.reload(true);
   }
 
-  render() {
-    const { appStore } = this.props;
-    const property = appStore.listingStore.get(this.props.propertyId);
-    const sortedPropertyImages = utils.sortListingImages(property);
-    const imageURL = sortedPropertyImages.length ? sortedPropertyImages[0].url : '';
-    const followers = appStore.oheStore.countFollowersByListingId.get(this.props.propertyId);
-
-    const propertyTabs = [
-      { relativeRoute: 'stats', title: 'סטטיסטיקות', component: <PropertyStats listing={property} followers={followers || 0} /> },
-      { relativeRoute: 'ohe', title: 'מועדי ביקור', component: <OHEManager listing={property} /> },
-    ];
-    // TODO: Add "default" tab logic.
-    const selectedTab = find(propertyTabs, {relativeRoute: this.props.tab}) || propertyTabs[0];
-
-    const popoverMenu = (
-      <Popover id="property-actions-menu" className="property-actions-menu">
-        <div name={'/apartments/' + this.props.propertyId} className="property-actions-menu-item property-action-menu-item-show-mobile" onClick={this.routeClickHandler}>
-          <i className="property-actions-menu-item-icon fa fa-picture-o"></i>
-          צפה
-        </div>
-        <div className="property-actions-menu-item property-action-menu-item-show-mobile" onClick={this.refresh}>
-          <i className="property-actions-menu-item-icon fa fa-refresh" aria-hidden="true"></i>
-          רענון
-        </div>
-        <div name={'/dashboard/my-properties/' + this.props.propertyId + '/edit'}
-             className="property-actions-menu-item property-actions-edit-disabled">
-          <i className="property-actions-menu-item-icon fa fa-pencil-square-o"  aria-hidden="true"></i>
-          עריכת פרטי הנכס (בקרוב)
-        </div>
-      </Popover>
+  renderPopoverMenu(property) {
+    return (
+        <Popover id="property-actions-menu" className="property-actions-menu">
+          <div className="property-actions-menu-item property-action-menu-item-show-mobile" onClick={() => this.gotoPublishedListing(property)}>
+            <i className="property-actions-menu-item-icon fa fa-picture-o"></i>
+            צפה
+          </div>
+          <div className="property-actions-menu-item property-action-menu-item-show-mobile" onClick={this.refresh}>
+            <i className="property-actions-menu-item-icon fa fa-refresh" aria-hidden="true"></i>
+            רענון
+          </div>
+          <div className="property-actions-menu-item" onClick={() =>this.gotoEditProperty(property)}>
+            <i className="property-actions-menu-item-icon fa fa-pencil-square-o"  aria-hidden="true"></i>
+            עריכת פרטי הנכס
+          </div>
+        </Popover>
     );
+  }
 
+  render() {
     if (this.state.isLoading) {
       return (
         <div className="loader-container">
@@ -93,6 +87,56 @@ class Property extends Component {
         </div>
       );
     }
+
+    const { appStore } = this.props;
+    const property = appStore.listingStore.get(this.props.propertyId);
+    const sortedPropertyImages = utils.sortListingImages(property);
+    const imageURL = sortedPropertyImages.length ? sortedPropertyImages[0].url : '';
+    const followers = appStore.oheStore.countFollowersByListingId.get(this.props.propertyId);
+    let editForm = null;
+
+    const defaultHeaderButtons = (
+      <div className="property-action-container">
+        <div className="property-actions-refresh-container">
+          <Button className="fa fa-refresh property-action-button" title="רענון העמוד"
+              onClick={this.refresh}></Button>
+        </div>
+        <div className="property-actions-preview-container">
+          <Button className="fa fa-picture-o property-action-button" title="צפייה במודעה"
+                  onClick={() => this.gotoPublishedListing(property)}></Button>
+        </div>
+        <div className="property-actions-menu-container">
+          <OverlayTrigger trigger="click" placement="bottom" overlay={this.renderPopoverMenu(property)}
+                          container={this} containerPadding={5} rootClose>
+            <Button className="property-action-button">
+              <i className="fa fa-bars" aria-hidden="true"></i>
+            </Button>
+          </OverlayTrigger>
+        </div>
+      </div>
+    );
+
+    const editHeaderButtons = (
+      <div className="property-action-container">
+        <div className="property-actions-menu-container property-edit-actions-mobile">
+          <Button bsStyle="success" onClick={() => editForm.wrappedInstance.save()}>
+            שמור
+          </Button>
+          <Button onClick={() => editForm.wrappedInstance.cancel()}>
+            בטל
+          </Button>
+        </div>
+      </div>
+    );
+
+    const propertyTabs = [
+      { relativeRoute: 'stats', title: 'סטטיסטיקות', component: <PropertyStats listing={property} followers={followers || 0} /> },
+      { relativeRoute: 'ohe', title: 'מועדי ביקור', component: <OHEManager listing={property} /> },
+      { relativeRoute: 'edit', title: 'עריכת פרטי הנכס', component: <EditListing listing={property} ref={form => editForm = form} />,
+        replaceNavbar: true, hideFromMenu: true, headerButtons: editHeaderButtons }
+    ];
+    // TODO: Add "default" tab logic.
+    const selectedTab = find(propertyTabs, {relativeRoute: this.props.tab}) || propertyTabs[0];
 
     return  <Grid fluid className="property-wrapper">
               <Row className="property-top-container">
@@ -132,33 +176,19 @@ class Property extends Component {
                         <span className="property-actions-sub-title">לייקים</span>
                     </div>
                   </div>
-                  <div className="property-action-container">
-                    <div className="property-actions-refresh-container">
-                      <Button className="fa fa-refresh property-action-button" aria-hidden="true"
-                         onClick={this.refresh}></Button>
-                    </div>
-                    <div className="property-actions-preview-container">
-                      <Button className="fa fa-picture-o property-action-button"
-                              name={'/apartments/' + this.props.propertyId}
-                              onClick={this.routeClickHandler}></Button>
-                    </div>
-                    <div className="property-actions-menu-container">
-                      <OverlayTrigger trigger="click" placement="bottom" overlay={popoverMenu}
-                                      container={this} containerPadding={5} rootClose>
-                        <Button className="property-action-button">
-                          <i className="fa fa-bars" aria-hidden="true"></i>
-                        </Button>
-                      </OverlayTrigger>
-                    </div>
-                  </div>
+                  { selectedTab.headerButtons || defaultHeaderButtons }
                 </Col>
               </Row>
-              <PropertyMenu path={'/dashboard/my-properties/' + property.id + '/'}
-                            tabs={propertyTabs}
-                            activeKey={selectedTab.relativeRoute} />
-              <Row className="property-content-container">
-                {selectedTab.component}
-              </Row>
+              { selectedTab.replaceNavbar ? null :
+                  <PropertyMenu path={getDashMyPropsPath(property, '/')}
+                    tabs={propertyTabs.filter(tab => !tab.hideFromMenu)}
+                    activeKey={selectedTab.relativeRoute} />
+              }
+              { selectedTab.replaceNavbar ? selectedTab.component :
+                  <Row className="property-content-container">
+                    {selectedTab.component}
+                  </Row>
+              }
             </Grid>;
   }
 }

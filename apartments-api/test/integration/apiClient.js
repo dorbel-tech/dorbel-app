@@ -1,8 +1,13 @@
 'use strict';
 const app = require('../../src/index.js');
 const coSupertest = require('co-supertest');
+const fakeObjectGenerator = require('../shared/fakeObjectGenerator');
 
 const USER_PROFILE_HEADER = 'x-user-profile';
+// Integration tests run with static ID as they fill the message queue with app-events
+const INTEGRATION_TEST_USER_ID = '23821212-6191-4fda-b3e3-fdb8bf69a95d';
+const OTHER_INTEGRATION_TEST_USER_ID = '18b5d059-095f-4409-b5ab-4588f08d3a54';
+const ADMIN_INTEGRATION_TEST_USER_ID = '1483a989-b560-46c4-a759-12c2ebb4cdbf';
 
 class ApiClient {
   constructor(request, userProfile) {
@@ -116,5 +121,23 @@ class ApiClient {
   }
 }
 
+ApiClient.getInstance = function() {
+  return ApiClient.init(fakeObjectGenerator.getFakeUser({
+    id: INTEGRATION_TEST_USER_ID
+  }));
+};
+
+ApiClient.getAdminInstance = function() {
+  return ApiClient.init(fakeObjectGenerator.getFakeUser({
+    id: ADMIN_INTEGRATION_TEST_USER_ID,
+    role: 'admin'
+  }));
+};
+
+ApiClient.getOtherInstance = function() {
+  return ApiClient.init(fakeObjectGenerator.getFakeUser({
+    id: OTHER_INTEGRATION_TEST_USER_ID
+  }));
+};
 
 module.exports = ApiClient;

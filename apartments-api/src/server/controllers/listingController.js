@@ -26,7 +26,6 @@ function* post() {
   logger.debug('Creating new listing...');
   let newApartment = this.request.body;
   newApartment.publishing_user_id = this.request.user.id;
-  // TODO : this does find-or-create - we should return an error if the apartment already exists
   let createdListing = yield listingService.create(newApartment);
   let logObject = _.pick(createdListing, ['id', 'publishing_user_id']);
   logger.info({

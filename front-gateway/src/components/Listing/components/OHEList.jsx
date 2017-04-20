@@ -5,6 +5,7 @@ import autobind from 'react-autobind';
 
 import OHERegisterModal from './OHERegisterModal';
 import FollowListingModal from './FollowListingModal';
+import { getListingPath, getDashMyPropsPath } from '~/routesHelper';
 
 @inject('appStore', 'appProviders', 'router') @observer
 class OHEList extends Component {
@@ -153,7 +154,7 @@ class OHEList extends Component {
       case 'rented':
         return <span>הדירה מושכרת כרגע. <br/>הרשמו על מנת לקבל עידכון ברגע שהדירה תוצע להשכרה שוב.</span>;
       case 'unlisted':
-        return <span>המודעה לא פעילה. <br/>לפרסום המודעה הכנסו <a href={'/dashboard/my-properties/' + listing.id}>לחשבונכם ועדכנו</a> את הסטטוס שלה.</span>;
+        return <span>המודעה לא פעילה. <br/>לפרסום המודעה הכנסו <a href={getDashMyPropsPath(listing)}>לחשבונכם ועדכנו</a> את הסטטוס שלה.</span>;
       default:
         return null;
     }
@@ -194,7 +195,7 @@ class OHEList extends Component {
 
   render() {
     const { listing, router } = this.props;
-    const closeModal = () => router.setRoute('/apartments/' + listing.id);
+    const closeModal = () => router.setRoute(getListingPath(listing));
     const ohes = this.props.appStore.oheStore.oheByListingId(listing.id);
 
     return (

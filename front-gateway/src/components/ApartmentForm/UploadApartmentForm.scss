@@ -23,9 +23,7 @@
     display: block;
     height: 1px;
     margin-bottom: 30px;
-    margin-right: -65px;
     margin-top: 15px;
-    width: 130%;
   }
 
   .checkbox {
@@ -153,6 +151,11 @@
       }
     }
   }
+}
+
+.property-edit-container .form-section-headline {
+  text-align: right;
+  margin-bottom: 20px;
 }
 
 .form-section-headline {

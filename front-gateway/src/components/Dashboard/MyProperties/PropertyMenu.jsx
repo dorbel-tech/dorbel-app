@@ -12,7 +12,7 @@ export default class PropertyMenu extends React.Component {
       <Navbar className="property-menu tab-menu">
         <Nav bsStyle="tabs" activeKey={activeKey}
              onSelect={(relativeRoute) => {router.setRoute(path + relativeRoute);}}>
-          {tabs.map(tab =>
+          {tabs.filter(tab => !tab.hideFromMenu).map(tab =>
             <NavItem key={tab.relativeRoute} eventKey={tab.relativeRoute}>
               {tab.title}
             </NavItem>
