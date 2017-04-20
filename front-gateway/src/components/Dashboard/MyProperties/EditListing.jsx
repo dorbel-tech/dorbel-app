@@ -80,5 +80,6 @@ EditListing.wrappedComponent.propTypes = {
   listing: React.PropTypes.object.isRequired,
   appStore: React.PropTypes.object.isRequired,
   appProviders: React.PropTypes.object.isRequired,
+  router: React.PropTypes.object.isRequired
 };
 

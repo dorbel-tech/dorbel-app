@@ -29,15 +29,4 @@ export default class NotificationProvider {
       position: options.position || 'bl'
     };
   }
-
-  success(message) {
-    this.notificationSystem.addNotification({
-      title: '',
-      message: message,
-      level: 'success',
-      dismissible: false,
-      autoDismiss: 5,
-      position: 'bl'
-    });
-  }
 }
