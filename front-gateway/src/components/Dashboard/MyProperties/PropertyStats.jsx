@@ -18,7 +18,9 @@ class PropertyStats extends Component {
     let totalRegistrations = 0;
     
     openHouseEvents.map(ohe => {
-      totalRegistrations += ohe.registrations.length;
+      if (ohe.registrations) {
+        totalRegistrations += ohe.registrations.length;
+      }
     });
 
     return totalRegistrations;

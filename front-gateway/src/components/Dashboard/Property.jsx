@@ -54,6 +54,26 @@ class Property extends Component {
     location.reload(true);
   }
 
+  renderPopoverMenu(property) {
+    return (
+        <Popover id="property-actions-menu" className="property-actions-menu">
+          <div name={utils.getListingPath(property)} className="property-actions-menu-item property-action-menu-item-show-mobile" onClick={this.routeClickHandler}>
+            <i className="property-actions-menu-item-icon fa fa-picture-o"></i>
+            צפה
+          </div>
+          <div className="property-actions-menu-item property-action-menu-item-show-mobile" onClick={this.refresh}>
+            <i className="property-actions-menu-item-icon fa fa-refresh" aria-hidden="true"></i>
+            רענון
+          </div>
+          <div name={utils.getDashPropertyPath(property) + '/edit'}
+              className="property-actions-menu-item property-actions-edit-disabled">
+            <i className="property-actions-menu-item-icon fa fa-pencil-square-o"  aria-hidden="true"></i>
+            עריכת פרטי הנכס (בקרוב)
+          </div>
+        </Popover>
+      );
+  }
+
   render() {
     const { appStore } = this.props;
     const property = appStore.listingStore.get(this.props.propertyId);
@@ -67,24 +87,6 @@ class Property extends Component {
     ];
     // TODO: Add "default" tab logic.
     const selectedTab = find(propertyTabs, {relativeRoute: this.props.tab}) || propertyTabs[0];
-
-    const popoverMenu = (
-      <Popover id="property-actions-menu" className="property-actions-menu">
-        <div name={utils.getListingPath(property)} className="property-actions-menu-item property-action-menu-item-show-mobile" onClick={this.routeClickHandler}>
-          <i className="property-actions-menu-item-icon fa fa-picture-o"></i>
-          צפה
-        </div>
-        <div className="property-actions-menu-item property-action-menu-item-show-mobile" onClick={this.refresh}>
-          <i className="property-actions-menu-item-icon fa fa-refresh" aria-hidden="true"></i>
-          רענון
-        </div>
-        <div name={utils.getDashPropertyPath(property) + '/edit'}
-             className="property-actions-menu-item property-actions-edit-disabled">
-          <i className="property-actions-menu-item-icon fa fa-pencil-square-o"  aria-hidden="true"></i>
-          עריכת פרטי הנכס (בקרוב)
-        </div>
-      </Popover>
-    );
 
     if (this.state.isLoading) {
       return (
@@ -143,7 +145,7 @@ class Property extends Component {
                               onClick={this.routeClickHandler}></Button>
                     </div>
                     <div className="property-actions-menu-container">
-                      <OverlayTrigger trigger="click" placement="bottom" overlay={popoverMenu}
+                      <OverlayTrigger trigger="click" placement="bottom" overlay={this.renderPopoverMenu(property)}
                                       container={this} containerPadding={5} rootClose>
                         <Button className="property-action-button">
                           <i className="fa fa-bars" aria-hidden="true"></i>

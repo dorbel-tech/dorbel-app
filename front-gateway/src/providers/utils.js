@@ -23,12 +23,10 @@ function formatDay(date) {
 }
 
 function getDashPropertyPath(listing) {
-  if (!listing) { return null; }
   return '/dashboard/my-properties/' + listing.id;
 }
 
 function getListingPath(listing) {
-  if (!listing) { return null; }
   return '/apartments/' + (listing.slug || listing.id);
 }
 
