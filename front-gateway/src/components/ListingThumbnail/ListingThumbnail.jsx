@@ -15,9 +15,9 @@ class ListingThumbnail extends Component {
       return '/dashboard/my-properties/' + listing.id;
     } else {
       return '/apartments/' + this.getListingPath(listing);
-    }    
+    }
   }
-  
+
   getListingPath(listing) {
     return listing.slug || listing.id;
   }
@@ -94,7 +94,7 @@ class ListingThumbnail extends Component {
 ListingThumbnail.wrappedComponent.propTypes = {
   listing: React.PropTypes.object.isRequired,
   appStore: React.PropTypes.object.isRequired,
-  isMyProperties: React.PropTypes.string
+  isMyProperties: React.PropTypes.bool
 };
 
 export default ListingThumbnail;

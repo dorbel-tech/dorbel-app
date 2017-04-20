@@ -94,7 +94,7 @@ SearchResults.wrappedComponent.propTypes = {
   thumbnailProps: React.PropTypes.object
 };
 
-SearchResults.defaultProps = {
+SearchResults.wrappedComponent.defaultProps = {
   isReady: true,
   thumbnailProps: {}
 };
