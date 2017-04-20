@@ -49,10 +49,12 @@ class Listing extends Component {
         .then(() => this.setState({ isLoading: false }));
     } else {
       // Force render and scroll to top, since the store did not change.
-      this.setState({ listingId: listingId });
-      const wrapperElement = document.getElementsByClassName('listing-wrapper')[0];
-      if (wrapperElement) {
-        wrapperElement.scrollIntoView();
+      this.forceUpdate();
+      if (process.env.IS_CLIENT) {
+        const wrapperElement = document.getElementsByClassName('listing-wrapper')[0];
+        if (wrapperElement) {
+          wrapperElement.scrollIntoView();
+        }
       }
     }
   }
