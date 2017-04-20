@@ -80,6 +80,10 @@ function isMobile() {
   return isMobileJs.any;
 }
 
+function flushPromises() {
+  return new Promise(resolve => setImmediate(resolve));
+}
+
 module.exports = {
   formatTime,
   formatDate,
@@ -90,5 +94,6 @@ module.exports = {
   getListingStatusLabels,
   sortListingImages,
   promiseSeries,
-  isMobile
+  isMobile,
+  flushPromises
 };

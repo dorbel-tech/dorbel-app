@@ -6,7 +6,7 @@ import Home from '~/components/Home';
 import ErrorPage from '~/components/ErrorPage';
 import Login from '~/components/Login';
 import Health from '~/components/Health';
-import UploadApartmentForm from '~/components/UploadApartmentForm/UploadApartmentForm';
+import UploadApartmentForm from '~/components/ApartmentForm/UploadApartmentForm';
 import routesHelper from './routesHelper';
 
 const routes = [
