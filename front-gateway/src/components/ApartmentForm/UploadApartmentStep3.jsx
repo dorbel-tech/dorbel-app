@@ -78,7 +78,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
     } else {
       return (
         <Col sm={6}>
-          <Button bsStyle="success" block onClick={authProvider.showLoginModal}>וידוא פרטי קשר</Button>
+          <Button bsStyle="success" className="verify-user" block onClick={authProvider.showLoginModal}>וידוא פרטי קשר</Button>
         </Col>
       );
     }
@@ -126,11 +126,11 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
           </FormWrapper.Wrapper>
 
           <Col xs={12} md={7} className="form-nav bottom">
-            <span className="prev-step" onClick={this.clickBack.bind(this)}>
+            <span className="prev-step step3" onClick={this.clickBack.bind(this)}>
               <i className="open-house-event-previous-step fa fa-arrow-circle-o-right fa-2x" aria-hidden="true"></i>&nbsp; שלב קודם
             </span>
             <span>3/3</span>
-            <SubmitButton onClick={this.clickNext.bind(this)} className="step-btn"
+            <SubmitButton onClick={this.clickNext.bind(this)} className="step-btn step3"
               bsStyle={authStore.isLoggedIn ? 'success' : 'default'}
               disabled={!authStore.isLoggedIn} >שליחה וסיום</SubmitButton>
           </Col>
@@ -149,7 +149,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
                 צוות dorbel
               </p>
               <p>
-                <Button bsStyle="info" onClick={this.onCloseSuccessModal.bind(this)}>קחו אותי לחשבון שלי</Button>
+                <Button bsStyle="info submit-success" onClick={this.onCloseSuccessModal.bind(this)}>קחו אותי לחשבון שלי</Button>
               </p>
             </div>
           }
