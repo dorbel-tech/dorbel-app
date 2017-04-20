@@ -42,7 +42,7 @@ describe('OHECard', () => {
   });
 
   it('should render with a single registration', () => {
-    const fakeUser = {picture: 'pic', first_name: 'fn', last_name: 'ln'};
+    const fakeUser = {picture: 'pic', first_name: 'fn', last_name: 'ln', tenant_profile: { }};
     props.ohe.registrations = [
       {id: 'fakeId1', is_active: true, user: fakeUser}
     ];
