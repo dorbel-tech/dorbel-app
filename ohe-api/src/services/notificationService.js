@@ -5,7 +5,7 @@ const messageBus = shared.utils.messageBus;
 
 function send(messageType, data) {
   const topic = process.env.NOTIFICATIONS_SNS_TOPIC_ARN;
-  if (topic == undefined) {
+  if (!topic) {
     logger.debug(data, 'notification not sent for %s - topic is undefined', messageType);
     return;
   }

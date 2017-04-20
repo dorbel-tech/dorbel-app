@@ -16,11 +16,14 @@ class CloudinaryProvider {
     formData.append('file', file);
 
     return axios.post(baseUrl + 'image/upload', formData, { onUploadProgress })
-    .then(res => res.data);      
+    .then(res => res.data);
   }
 
   deleteImage(image) {
-    return axios.post(baseUrl + 'delete_by_token', { token: image.delete_token });
+    // TODO: when editing existing images (uploaded in previous sessions) - we don't have delete token and can't delete from cloudinary
+    if (image.delete_token) {
+      return axios.post(baseUrl + 'delete_by_token', { token: image.delete_token });
+    }
   }
 }
 

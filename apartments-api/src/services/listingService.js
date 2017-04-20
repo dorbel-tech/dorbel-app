@@ -4,7 +4,7 @@ const moment = require('moment');
 const shared = require('dorbel-shared');
 const listingRepository = require('../apartmentsDb/repositories/listingRepository');
 const likeRepository = require('../apartmentsDb/repositories/likeRepository');
-const geoService = require('./geoService');
+const geoProvider = require('../providers/geoProvider');
 const logger = shared.logger.getLogger(module);
 const messageBus = shared.utils.messageBus;
 const generic = shared.utils.generic;
@@ -30,20 +30,11 @@ function* create(listing) {
     throw new CustomError(409, 'הדירה שלך כבר קיימת במערכת');
   }
 
-  if (listing.lease_start && !listing.lease_end) {
-    // Upload form sends only lease_start so we default lease_end to after one year
-    listing.lease_end = moment(listing.lease_start).add(1, 'years').format('YYYY-MM-DD');
-  }
-
-  // In case that roomate is needed, the listing should allow roommates.
-  if (listing.roommate_needed) {
-    listing.roommates = true;
-  }
-
   // Force 'pending' status for new listings in order to prevent the possibility of setting the status using this API
   listing.status = 'pending';
 
-  let modifiedListing = yield geoService.setGeoLocation(listing);
+  let modifiedListing = setListingAutoFields(listing);
+  listing.apartment.building.geolocation = yield geoProvider.getGeoLocation(listing.apartment.building);
   let createdListing = yield listingRepository.create(modifiedListing);
 
   // TODO: Update user details can be done on client using user token.
@@ -58,48 +49,70 @@ function* create(listing) {
   });
 
   // Publish event trigger message to SNS for notifications dispatching.
-  messageBus.publish(process.env.NOTIFICATIONS_SNS_TOPIC_ARN, messageBus.eventType.APARTMENT_CREATED, {
-    city_id: listing.apartment.building.city_id,
-    listing_id: createdListing.id,
-    user_uuid: createdListing.publishing_user_id,
-    user_email: listing.user.email,
-    user_phone: generic.normalizePhone(listing.user.phone),
-    user_first_name: listing.user.firstname,
-    user_last_name: listing.user.lastname
-  });
+  if (process.env.NOTIFICATIONS_SNS_TOPIC_ARN) {
+    messageBus.publish(process.env.NOTIFICATIONS_SNS_TOPIC_ARN, messageBus.eventType.APARTMENT_CREATED, {
+      city_id: listing.apartment.building.city_id,
+      listing_id: createdListing.id,
+      user_uuid: createdListing.publishing_user_id,
+      user_email: listing.user.email,
+      user_phone: generic.normalizePhone(listing.user.phone),
+      user_first_name: listing.user.firstname,
+      user_last_name: listing.user.lastname
+    });
+  }
 
   return createdListing;
 }
 
-function* updateStatus(listingId, user, status) {
+function* update(listingId, user, patch) {
   let listing = yield listingRepository.getById(listingId);
-  const isPublishingUserOrAdmin = permissionsService.isPublishingUserOrAdmin(user, listing);
 
   if (!listing) {
     logger.error({ listingId }, 'Listing wasnt found');
     throw new CustomError(404, 'הדירה לא נמצאה');
-  } else if (!isPublishingUserOrAdmin) {
-    logger.error({ listingId }, 'You cant update that listing');
-    throw new CustomError(403, 'אין באפשרותך לערוך דירה זו');
-  } else if (getPossibleStatuses(listing, user).indexOf(status) < 0) {
-    logger.error({ listingId }, 'You cant update this listing status');
-    throw new CustomError(403, 'אין באפשרותך לשנות את סטטוס הדירה ל ' + status);
   }
 
-  const currentStatus = listing.status;
-  const result = yield listing.update({ status });
+  const isPublishingUserOrAdmin = listing && permissionsService.isPublishingUserOrAdmin(user, listing);
+  const statusChanged = patch.status && patch.status !== listing.status;
 
-  if (process.env.NOTIFICATIONS_SNS_TOPIC_ARN) {
-    const messageBusEvent = messageBus.eventType['APARTMENT_' + status.toUpperCase()];
+  if (!isPublishingUserOrAdmin) {
+    logger.error({ listingId }, 'You cant update that listing');
+    throw new CustomError(403, 'אין באפשרותך לערוך דירה זו');
+  } else if (statusChanged && getPossibleStatuses(listing, user).indexOf(patch.status) < 0) {
+    logger.error({ listingId }, 'You cant update this listing status');
+    throw new CustomError(403, 'אין באפשרותך לשנות את סטטוס הדירה ל ' + patch.status);
+  }
+
+  const previousStatus = listing.status;
+  patch = setListingAutoFields(patch);
+
+  const result = yield listingRepository.update(listing, patch);
+
+  if (statusChanged && process.env.NOTIFICATIONS_SNS_TOPIC_ARN) {
+    const messageBusEvent = messageBus.eventType['APARTMENT_' + patch.status.toUpperCase()];
     messageBus.publish(process.env.NOTIFICATIONS_SNS_TOPIC_ARN, messageBusEvent, {
       city_id: listing.apartment.building.city_id,
       listing_id: listingId,
-      previous_status: currentStatus,
+      previous_status: previousStatus,
       user_uuid: listing.publishing_user_id
     });
   }
 
   return yield enrichListingResponse(result, user);
+}
+
+function setListingAutoFields(listing) {
+  if (listing.lease_start && !listing.lease_end) {
+    // default lease_end to after one year
+    listing.lease_end = moment(listing.lease_start).add(1, 'years').format('YYYY-MM-DD');
+  }
+
+  // In case that roomate is needed, the listing should allow roommates.
+  if (listing.roommate_needed) {
+    listing.roommates = true;
+  }
+
+  return listing;
 }
 
 function* getByFilter(filterJSON, options = {}) {
@@ -117,7 +130,7 @@ function* getByFilter(filterJSON, options = {}) {
   let listingQuery = {
     status: 'listed'
   };
-  
+
   let queryOptions = {
     order: getSortOption(filter.sort),
     limit: options.limit || DEFUALT_LISTING_LIST_LIMIT,
@@ -148,14 +161,14 @@ function* getByFilter(filterJSON, options = {}) {
     }
 
     if (filter.myProperties){
-      if (!userManagement.isUserAdmin(options.user)) {    
+      if (!userManagement.isUserAdmin(options.user)) {
         listingQuery.publishing_user_id = options.user.id;
       }
 
       listingQuery.status = { $notIn: ['deleted'] };
     }
   }
-  
+
   if (filter.city === '*') {
     _.unset(filter, 'city');
   }
@@ -214,7 +227,7 @@ function* getById(id, user) {
 
   // Don't display deleted listings to anyone but admins.
   if (isDeleted && !isAdmin) {
-    throw new CustomError(403, 'Cant show deleted listing. User is not a admin. listingId: ' + listing.id);    
+    throw new CustomError(403, 'Cant show deleted listing. User is not a admin. listingId: ' + listing.id);
   }
 
   // Pending listing will be displayed to user who is listing publisher or admins only.
@@ -313,7 +326,7 @@ function getSortOption(sortStr) {
 
 module.exports = {
   create,
-  updateStatus,
+  update,
   getByFilter,
   getById,
   getBySlug,

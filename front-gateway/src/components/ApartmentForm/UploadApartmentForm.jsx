@@ -24,7 +24,7 @@ class UploadApartmentForm extends Component {
     let { newListingStore } = this.props.appStore;
 
     if (newListingStore.stepNumber === steps.length - 1) { // last
-      let listing = this.mapUploadApartmentFormToCreateListing(newListingStore.formValues);
+      let listing = newListingStore.toListingObject();
       return this.props.appProviders.listingsProvider.uploadApartment(listing)
         .then((uploadApartmentResp) => {
           this.setState({ showSuccessModal: true, createdListingId: uploadApartmentResp.id });
@@ -42,17 +42,6 @@ class UploadApartmentForm extends Component {
   prevStep() {
     let { newListingStore } = this.props.appStore;
     newListingStore.stepNumber--;
-  }
-
-  mapUploadApartmentFormToCreateListing(formValues) {
-    let listing = {};
-    // this is so we can use nested structure in our form attributes
-    Object.keys(formValues).filter(key => formValues.hasOwnProperty(key)).forEach(key => _.set(listing, key, formValues[key]));
-    listing.images = formValues.images.map((cloudinaryImage, index) => ({
-      url: cloudinaryImage.secure_url, display_order: index
-    }));
-
-    return listing;
   }
 
   scrollToFirstError(formsy) {

@@ -1,5 +1,6 @@
 'use strict';
 const mockRequire = require('mock-require');
+const _ = require('lodash');
 const __ = require('hamjest');
 var sinon = require('sinon');
 var faker = require('../shared/fakeObjectGenerator');
@@ -14,16 +15,23 @@ describe('Listing Service', function () {
       create: sinon.stub().resolves(this.mockListing),
       getListingsForApartment: sinon.stub().resolves([]),
       list: sinon.spy(),
-      listingStatuses: [ 'pending', 'rented']
+      listingStatuses: [ 'pending', 'rented' ],
+      update: sinon.stub().resolves(this.mockListing)
+    };
+    this.geoProviderMock = {
+      getGeoLocation : sinon.stub().resolves(1)
     };
     mockRequire('../../src/apartmentsDb/repositories/listingRepository', this.listingRepositoryMock);
-    mockRequire('../../src/services/geoService', { setGeoLocation : l => l });
+    mockRequire('../../src/providers/geoProvider', this.geoProviderMock);
     sinon.stub(shared.utils.userManagement, 'updateUserDetails');
+    sinon.stub(shared.utils.userManagement, 'getUserDetails').resolves();
     this.listingService = require('../../src/services/listingService');
   });
 
   afterEach(function() {
     this.listingRepositoryMock.list.reset();
+    this.listingRepositoryMock.update.reset();
+    this.geoProviderMock.getGeoLocation.reset();
   });
 
   after(() => mockRequire.stopAll());
@@ -75,15 +83,16 @@ describe('Listing Service', function () {
 
   });
 
-  describe('Update Listing Status', function () {
+  describe('Update Listing', function () {
+
     it('should update status for an existing listing', function* () {
       const listing = faker.getFakeListing();
       const user = { id: listing.publishing_user_id };
       const updatedListing = Object.assign({}, listing, { status: 'rented' });
-      listing.update = sinon.stub().resolves(updatedListing);
+      this.listingRepositoryMock.update = sinon.stub().resolves(updatedListing);
       this.listingRepositoryMock.getById = sinon.stub().resolves(listing);
 
-      const result = yield this.listingService.updateStatus(listing.id, user, 'rented');
+      const result = yield this.listingService.update(listing.id, user, { status: 'rented' });
 
       __.assertThat(result, __.hasProperties(updatedListing));
     });
@@ -92,7 +101,7 @@ describe('Listing Service', function () {
       this.listingRepositoryMock.getById = sinon.stub().resolves(0);
 
       yield assertYieldedError(
-        () => this.listingService.updateStatus(1, {}, 'rented'),
+        () => this.listingService.update(1, {}, { status: 'rented' }),
         __.hasProperties({
           message: 'הדירה לא נמצאה',
           status: 404
@@ -105,7 +114,7 @@ describe('Listing Service', function () {
       const user = faker.getFakeUser();
 
       yield assertYieldedError(
-        () => this.listingService.updateStatus(1, user, 'rented'),
+        () => this.listingService.update(1, user, { status: 'rented' }),
         __.hasProperties({
           message: 'אין באפשרותך לערוך דירה זו',
           status: 403
@@ -117,10 +126,10 @@ describe('Listing Service', function () {
       const listing = faker.getFakeListing();
       const user = { role: 'admin', id: 'totally-fake' };
       const updatedListing = Object.assign({}, listing, { status: 'rented' });
-      listing.update = sinon.stub().resolves(updatedListing);
+      this.listingRepositoryMock.update = sinon.stub().resolves(updatedListing);
       this.listingRepositoryMock.getById = sinon.stub().resolves(listing);
 
-      const result = yield this.listingService.updateStatus(listing.id, user, 'rented');
+      const result = yield this.listingService.update(listing.id, user, { status: 'rented' });
 
       __.assertThat(result, __.hasProperties(updatedListing));
     });
@@ -131,14 +140,13 @@ describe('Listing Service', function () {
       const user = { id: listing.publishing_user_id };
 
       yield assertYieldedError(
-        () => this.listingService.updateStatus(1, user, 'listed'),
+        () => this.listingService.update(1, user, { status : 'listed' }),
         __.hasProperties({
           message: 'אין באפשרותך לשנות את סטטוס הדירה ל listed',
           status: 403
         })
       );
     });
-
   });
 
   describe('Get related listings', function () {
@@ -162,3 +170,4 @@ describe('Listing Service', function () {
     });
   });
 });
+
