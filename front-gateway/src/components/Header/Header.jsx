@@ -50,15 +50,6 @@ class Header extends Component {
     }
   }
 
-  // Patch to close Bootstrap Navbar when clicked outside mobile menu area.
-  mobileMenuHandleClickOutside(e) {
-    const mobileMenuIsOpen = document.getElementsByClassName('navbar-collapse collapse in')[0];
-
-    if(!this.mobileMenu.contains(e.target) && mobileMenuIsOpen) {
-      this.mobileMenuToggle.click();
-    }
-  }
-
   headerToggleHandler(navExpanded) {
     const intercomContainer = document.getElementById('intercom-container');
     intercomContainer.style.display = navExpanded ? 'none' : 'block';
@@ -67,12 +58,6 @@ class Header extends Component {
   componentDidMount() {
     this.mobileMenu = document.getElementsByClassName('navbar-collapse')[0];
     this.mobileMenuToggle = document.getElementsByClassName('navbar-toggle')[0];
-
-    window.addEventListener('click', this.mobileMenuHandleClickOutside);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('click', this.mobileMenuHandleClickOutside);
   }
 
   render() {
@@ -99,7 +84,7 @@ class Header extends Component {
         <Navbar.Collapse>
           <UserProfileBadge />
           <Nav className="header-navbar-links">
-            {isLoggedIn ? MENU_ITEMS.map((item) => this.renderDashboardMenuItem(item)) : null}
+            {MENU_ITEMS.map((item) => this.renderDashboardMenuItem(item))}
             {showPublishFirst ?
               <NavItem className="header-navbar-btn-publish" onClick={(e) => this.routeTo(e, '/apartments/new_form')}
                 href="/apartments/new_form">פרסמו דירה</NavItem>

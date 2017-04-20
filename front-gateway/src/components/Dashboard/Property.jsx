@@ -90,11 +90,11 @@ class Property extends Component {
     const defaultHeaderButtons = (
       <div className="property-action-container">
         <div className="property-actions-refresh-container">
-          <Button className="fa fa-refresh property-action-button" aria-hidden="true"
+          <Button className="fa fa-refresh property-action-button" title="רענון העמוד"
               onClick={this.refresh}></Button>
         </div>
         <div className="property-actions-preview-container">
-          <Button className="fa fa-picture-o property-action-button"
+          <Button className="fa fa-picture-o property-action-button" title="צפייה במודעה"
                   onClick={this.gotoPublishedListing}></Button>
         </div>
         <div className="property-actions-menu-container">

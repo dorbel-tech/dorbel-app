@@ -22,7 +22,6 @@ class UserProfileBadge extends Component {
         onClick={(e) => this.routeTo(e, itemPath)}
         href={itemPath}
         className="header-profile-menu-item">
-        
         <i className={'fa ' + item.faIconClassName} aria-hidden="true"></i>
         {item.menuText}
       </NavItem>
@@ -37,36 +36,26 @@ class UserProfileBadge extends Component {
     }
   }
 
-  renderAuthenticationLink(isLoggedIn) {
+  renderMenu(isLoggedIn) {
     const { authProvider } = this.props.appProviders;
 
-    return isLoggedIn ?
-      (
+    return (
         <Nav>
-          {isLoggedIn ? MENU_ITEMS.map((item) => this.renderDashboardMenuItem(item)) : null}
+          {MENU_ITEMS.map((item) => this.renderDashboardMenuItem(item))}
           <NavItem
-            onClick={authProvider.logout}
-            className="user-profile-badge-auth user-profile-badge-auth-logout">
-            <i className="fa fa-sign-out" />
-            התנתק
+            onClick={isLoggedIn ? authProvider.logout : authProvider.showLoginModal}
+            className={'user-profile-badge-auth' + (isLoggedIn ? ' user-profile-badge-auth-logout' : '')}>
+            <i className={isLoggedIn ? 'fa fa-sign-out' : 'fa fa-sign-in'} />
+            {isLoggedIn ? 'התנתק' : 'התחבר'}
           </NavItem>
         </Nav>
-      )
-      :
-      (
-        <Nav>
-          <NavItem
-            onClick={authProvider.showLoginModal}
-            className="user-profile-badge-auth">
-            <i className="fa fa-sign-in" />
-            התחבר
-          </NavItem>
-        </Nav>
-      );
+    );
   }
 
   renderPersonalData(isLoggedIn) {
     const { authStore } = this.props.appStore;
+    const { authProvider } = this.props.appProviders;
+
     const profile = authStore.profile || {};
 
     return isLoggedIn ?
@@ -89,7 +78,14 @@ class UserProfileBadge extends Component {
             </div>
           </div>
           <div className="user-profile-badge-auth-inline">
-            {this.renderAuthenticationLink(isLoggedIn)}
+            <Nav>
+              <NavItem
+                onClick={authProvider.showLoginModal}
+                className="user-profile-badge-auth">
+                <i className="fa fa-sign-in"/>
+                התחבר
+              </NavItem>
+            </Nav>
           </div>
         </div>
       );
@@ -106,14 +102,14 @@ class UserProfileBadge extends Component {
     return (
       <div className="user-profile-badge" onMouseEnter={() => { this.handleHover(true); }} onMouseLeave={() => { this.handleHover(false); }}>
         {this.renderPersonalData(isLoggedIn)}
-        <div className={'user-profile-badge-menu-desktop ' + (this.state.displayMenu ? 'active' : '')}>
+        <div className={'user-profile-badge-menu-desktop' + (this.state.displayMenu ? ' active' : '')}>
           <div className="triangle-up" />
-          {this.renderAuthenticationLink(isLoggedIn)}
+          {this.renderMenu(isLoggedIn)}
         </div>
         <div className="user-profile-badge-menu-mobile">
-          {this.renderAuthenticationLink(isLoggedIn)}
+          {this.renderMenu(isLoggedIn)}
         </div>
-      </div >
+      </div>
     );
   }
 }
