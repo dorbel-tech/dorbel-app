@@ -5,6 +5,9 @@ const _ = require('lodash');
 const helper = require('./repositoryHelper');
 const apartmentRepository = require('./apartmentRepository');
 const buildingRepository = require('./buildingRepository');
+const shared = require('dorbel-shared');
+const logger = shared.logger.getLogger(module);
+const geoProvider = require('../../providers/geoProvider');
 
 const listingAttributes = { exclude: [ 'lease_end', 'updated_at' ] };
 const apartmentAttributes = { exclude: [ 'created_at', 'updated_at' ] };
@@ -12,6 +15,12 @@ const buildingAttributes = { exclude: [ 'created_at', 'updated_at' ] };
 const cityAttributes = [ 'id', 'city_name' ];
 const neighborhoodAttributes = [ 'id', 'neighborhood_name', 'city_id' ];
 const imageAttributes = { exclude: [ 'created_at', 'updated_at' ] };
+
+const LISTING_UPDATE_WHITELIST = [ 'status', 'monthly_rent', 'roommates', 'property_tax', 'board_fee', 'lease_start',
+  'lease_end', 'publishing_user_type', 'roommate_needed', 'directions', 'description' ];
+const APARTMENT_UPDATE_WHITELIST = [ 'apt_number', 'size', 'rooms', 'floor', 'parking', 'sun_heated_boiler', 'pets',
+  'air_conditioning', 'balcony', 'security_bars', 'parquest_floor' ];
+const BUILDING_UPDATE_WHITELIST = [ 'floors', 'elevator', 'entrance' ];
 
 const fullListingDataInclude = [
   {
@@ -97,24 +106,6 @@ function getOneListing(where) {
 }
 
 function* create(listing) {
-  // TODO: add reference to country
-  // TODO: should much of this be in the listingService ? findOrCreate for building and apartment is actually business logic and not persistance logic |:
-  const city = yield models.city.findOne({
-    where: listing.apartment.building.city,
-    raw: true
-  });
-  if (!city) { throw new Error('did not find city'); }
-
-  const neighborhood = yield models.neighborhood.findOne({
-    where: listing.apartment.building.neighborhood,
-    raw: true
-  });
-  if (!neighborhood) { throw new Error('did not find neighborhood'); }
-
-  if (city.id !== neighborhood.city_id) { throw new Error('neighborhood doesnt match city'); }
-
-  listing.apartment.building.city_id = city.id;
-  listing.apartment.building.neighborhood_id = neighborhood.id;
   const building = yield buildingRepository.findOrCreate(listing.apartment.building);
 
   const apartment = yield apartmentRepository.findOrCreate(
@@ -127,8 +118,6 @@ function* create(listing) {
   newListing.apartment_id = apartment.id;
   let savedListing = yield newListing.save();
 
-  building.city = city;
-  building.neighborhood = neighborhood;
   apartment.building = building;
   savedListing.apartment = apartment;
 
@@ -198,6 +187,76 @@ function getSlugs(ids) {
   });
 }
 
+function * update(listing, patch) {
+  logger.debug('updating listing');
+  const transaction = yield db.db.transaction();
+  try {
+    const buildingRequest = _.get(patch, 'apartment.building');
+    const buildingPatch = _.pick(buildingRequest || {}, BUILDING_UPDATE_WHITELIST);
+    const apartmentPatch = _.pick(patch.apartment || {}, APARTMENT_UPDATE_WHITELIST);
+    const listingPatch = _.pick(patch, LISTING_UPDATE_WHITELIST);
+
+    const currentBuilding = listing.apartment.building;
+    let newBuilding;
+
+    // if main building properties change - we move apartment+listing to a different building
+    if (buildingRequest && currentBuilding.isDifferentBuilding(buildingRequest)) {
+      logger.trace('update to different building', { listing_id: listing.id });
+      let mergedBuilding = _.merge({}, currentBuilding.toJSON(), buildingRequest);
+      mergedBuilding = _.omit(mergedBuilding, ['geolocation']);
+      newBuilding = yield buildingRepository.findOrCreate(mergedBuilding, { transaction });
+      logger.trace('found other building', { oldBuildingId: currentBuilding.id, newBuildingId: newBuilding.id });
+      apartmentPatch.building_id = newBuilding.id;
+      if (!newBuilding.geolocation) {
+        buildingPatch.geolocation = yield geoProvider.getGeoLocation(newBuilding);
+      }
+    }
+
+    if (!_.isEmpty(buildingPatch)) {
+      logger.trace('updating building', { listing_id: listing.id });
+      yield (newBuilding || currentBuilding).update(buildingPatch, { transaction });
+    }
+
+    if (!_.isEmpty(apartmentPatch)) {
+      logger.trace('updating apartment', { listing_id: listing.id });
+      yield listing.apartment.update(apartmentPatch, { transaction });
+    }
+
+    if (!_.isEmpty(listingPatch)) {
+      logger.trace('updating listing', { listing_id: listing.id });
+      yield listing.update(listingPatch, { transaction });
+    }
+
+    if (patch.images) {
+      logger.trace('removing deleted images');
+      yield listing.images.filter(existingImage => {
+        const inPatch = _.find(patch.images, { url: existingImage.url });
+        return !inPatch;
+      }).map(imageToDelete => imageToDelete.destroy({ transaction }));
+
+      logger.trace('creating / updating patched images');
+      yield patch.images.map((imageFromPatch, index) => {
+        const imageExists = _.find(listing.images, { url: imageFromPatch.url });
+        if (imageExists) {
+          imageExists.display_order = index;
+          return imageExists.save({ transaction });
+        } else {
+          imageFromPatch.listing_id = listing.id;
+          imageFromPatch.display_order = index;
+          return models.image.create(imageFromPatch, { transaction });
+        }
+      });
+    }
+
+    logger.trace('updating ready to commit', { listing_id: listing.id });
+    yield transaction.commit();
+    return yield listing.reload();
+  } catch(ex) {
+    yield transaction.rollback();
+    throw ex;
+  }
+}
+
 module.exports = {
   list,
   create,
@@ -205,5 +264,6 @@ module.exports = {
   getById: id => getOneListing({ id }),
   getBySlug: slug => getOneListing({ slug }),
   getSlugs,
+  update,
   listingStatuses: models.listing.attributes.status.values
 };

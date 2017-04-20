@@ -4,7 +4,8 @@ import { max } from 'lodash';
 import jwtDecode from 'jwt-decode';
 import localStorageHelper from './localStorageHelper';
 import cookieStorageHelper from './cookieStorageHelper';
-import NewListingStore from './NewListingStore';
+import EventEmitter from 'eventemitter3';
+
 
 const ID_TOKEN_KEY = 'id_token';
 const PROFILE_KEY = 'profile';
@@ -16,7 +17,7 @@ export default class AuthStore {
   constructor(initialState = {}) {
     this.setToken(localStorageHelper.getItem(ID_TOKEN_KEY) || initialState.idToken);
     this.setProfile(localStorageHelper.getItem(PROFILE_KEY) || initialState.profile);
-    this.newListingStore = new NewListingStore(this);
+    this.events = new EventEmitter();
   }
 
   @computed get isLoggedIn() {
@@ -27,7 +28,7 @@ export default class AuthStore {
     this.idToken = idToken;
 
     if (process.env.IS_CLIENT) {
-      
+
       localStorageHelper.setItem(ID_TOKEN_KEY, idToken);
 
       if (this.logoutTimer) {
@@ -62,7 +63,7 @@ export default class AuthStore {
   logout() {
     this.setToken(null);
     this.setProfile(null);
-    this.newListingStore.reset();
+    this.events.emit('logout');
 
     if (process.env.IS_CLIENT) {
       location.reload(false);

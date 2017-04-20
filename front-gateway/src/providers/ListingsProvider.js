@@ -2,7 +2,6 @@
  * ListingsProvider communicates with the Apartments API
  */
 'use strict';
-import { action } from 'mobx';
 import _ from 'lodash';
 import utils from './utils';
 
@@ -10,7 +9,6 @@ class ListingsProvider {
   constructor(appStore, providers) {
     this.appStore = appStore;
     this.apiProvider = providers.api;
-    this.cloudinaryProvider = providers.cloudinary;
     this.oheProvider = providers.ohe;
   }
 
@@ -75,31 +73,12 @@ class ListingsProvider {
       .then(() => { return createdListing; });
   }
 
-  @action
-  uploadImage(file) {
-    const imageStore = this.appStore.newListingStore.formValues.images;
-    const image = { complete: false, src: file.preview, progress: 0 };
-    imageStore.push(image);
-
-    const onProgress = action('image-upload-progress', e => image.progress = e.lengthComputable ? (e.loaded / e.total) : 0);
-
-    return this.cloudinaryProvider.upload(file, onProgress)
-    .then(action('image-upload-done', uploadedImage => {
-      image.complete = true;
-      image.src = `https://res.cloudinary.com/dorbel/${uploadedImage.resource_type}/${uploadedImage.type}/v${uploadedImage.version}/${uploadedImage.public_id}.${uploadedImage.format}`;
-      image.delete_token = uploadedImage.delete_token;
-      image.secure_url = uploadedImage.secure_url;
-      return uploadedImage;
-    }))
-    .catch(action(() => {
-      imageStore.remove(image); // remove method is available as this is a mobx observable array
-    }));
-  }
-
-  @action
-  deleteImage(image) {
-    this.appStore.newListingStore.formValues.images.remove(image);
-    return this.cloudinaryProvider.deleteImage(image);
+  updateListing(listingId, data) {
+    return this.apiProvider.fetch('/api/apartments/v1/listings/' + listingId, { method: 'PATCH', data })
+    .then((res) => {
+      this.appStore.listingStore.set(res);
+      return res;
+    });
   }
 
   updateListingStatus(listingId, status) {
