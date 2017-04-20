@@ -61,7 +61,7 @@ export default class EditListing extends Component {
         </Navbar>
         <Row className="property-content-container property-edit-container">
           <Grid fluid>
-            <Col sm={12}>
+            <Col xs={12} sm={12} lg={10} lgOffset={1}>
               <activeTab.component editedListingStore={this.props.appStore.editedListingStore}/>
               <Row className="property-edit-actions-mobile pull-left">
                 <Button bsStyle="success" onClick={this.save}>שמור</Button>
