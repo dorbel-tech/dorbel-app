@@ -5,7 +5,7 @@ import autobind from 'react-autobind';
 
 import OHERegisterModal from './OHERegisterModal';
 import FollowListingModal from './FollowListingModal';
-import { getListingPath, getDashMyPropsPath } from '~/routes';
+import { getListingPath, getDashMyPropsPath } from '~/routesHelper';
 
 @inject('appStore', 'appProviders', 'router') @observer
 class OHEList extends Component {

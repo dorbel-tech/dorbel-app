@@ -6,7 +6,7 @@ import utils from '~/providers/utils';
 import NavLink from '~/components/NavLink';
 import ListingBadge from '~/components/ListingBadge/ListingBadge';
 import CloudinaryImage from '~/components/CloudinaryImage/CloudinaryImage';
-import {  getDashMyPropsPath } from '~/routes';
+import {  getDashMyPropsPath } from '~/routesHelper';
 
 let Flickity = 'div';
 let carouselClass = 'fixed-carousel';

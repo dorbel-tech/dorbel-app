@@ -3,7 +3,7 @@ import { inject, observer } from 'mobx-react';
 import { Col, Grid, Row } from 'react-bootstrap';
 import NavLink from '~/components/NavLink';
 import utils from '~/providers/utils';
-import { getDashMyPropsPath } from '~/routes';
+import { getDashMyPropsPath } from '~/routesHelper';
 import moment from 'moment';
 
 import './PropertyStats.scss';

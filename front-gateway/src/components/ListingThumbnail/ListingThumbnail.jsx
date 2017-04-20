@@ -7,7 +7,7 @@ import ListingBadge from '../ListingBadge/ListingBadge';
 import CloudinaryImage from '../CloudinaryImage/CloudinaryImage';
 import LikeButton from '../LikeButton/LikeButton';
 import utils from '../../providers/utils';
-import { getListingPath, getDashMyPropsPath } from '~/routes';
+import { getListingPath, getDashMyPropsPath } from '~/routesHelper';
 
 @inject('appStore') @observer
 class ListingThumbnail extends Component {

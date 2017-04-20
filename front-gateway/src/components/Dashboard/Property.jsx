@@ -10,7 +10,7 @@ import PropertyMenu from './MyProperties/PropertyMenu';
 import PropertyStats from './MyProperties/PropertyStats';
 import { find } from 'lodash';
 import utils from '~/providers/utils';
-import { getListingPath, getDashMyPropsPath } from '~/routes';
+import { getListingPath, getDashMyPropsPath } from '~/routesHelper';
 
 import './Property.scss';
 
