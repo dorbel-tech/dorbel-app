@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Row, Col, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { FRC } from '~/components/FormWrapper/FormWrapper';
-import _ from 'lodash';
 
 import './ProfileEditFields.scss';
 
