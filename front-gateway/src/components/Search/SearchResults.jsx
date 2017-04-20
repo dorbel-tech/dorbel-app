@@ -1,11 +1,14 @@
+'use strict';
 /***
 * SearchResults components should display search results for main search, my properties, my likes
 * It will take the results from the SearchStore and activate the SearchProvider for paging, etc...
 **/
-'use strict';
 import React from 'react';
 import autobind from 'react-autobind';
-
+import { inject, observer } from 'mobx-react';
+import { Grid, Row } from 'react-bootstrap';
+import ListingThumbnail from '~/components/ListingThumbnail/ListingThumbnail.jsx';
+import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
 
 /* We will load another page when the distance from the bottom of the viewable area
 to the bottom of the scrollable area is below this margin.
@@ -20,6 +23,20 @@ export default class SearchResults extends React.Component {
     autobind(this);
   }
 
+  componentDidMount() {
+    if (process.env.IS_CLIENT) {
+      // scrolling is caught at the document level because this component doesnt actually scroll, it's parent does
+      document.addEventListener('scroll', this.handleScroll, true);
+    }
+  }
+
+  componentWillUnmount() {
+    if (process.env.IS_CLIENT) {
+      document.removeEventListener('scroll', this.handleScroll, true);
+    }
+  }
+
+
   handleScroll(e) {
     const { appProviders, appStore } = this.props;
     const target = e.target;
@@ -30,10 +47,9 @@ export default class SearchResults extends React.Component {
     }
   }
 
-
   render() {
-    const { searchStore, cityStore, title, noResultsContent } = this.props.appStore;
-    const isLoadingCities = cityStore.cities.length === 0;
+    const { title, noResultsContent, isReady, retryLink, appStore, thumbnailProps } = this.props;
+    const { searchStore } = appStore;
     const results = searchStore.searchResults();
 
     if (searchStore.searchError) {
@@ -41,10 +57,10 @@ export default class SearchResults extends React.Component {
         <div className="search-results-not-found">
           <b className="search-results-not-found-title">אופס!</b><br />
           הייתה תקלה כלשהי בחיפוש שביקשתם<br />
-          אנא <a href="/apartments">נסו שנית</a>
+          { retryLink || 'אנא נסו שנית' }
         </div>
       );
-    } else if (searchStore.isLoadingNewSearch || isLoadingCities) {
+    } else if (searchStore.isLoadingNewSearch || !isReady) {
       return (
         <div className="loader-container">
           <LoadingSpinner />
@@ -56,7 +72,7 @@ export default class SearchResults extends React.Component {
           { title || null }
           <Grid fluid className="search-results-container">
             <Row>
-              { results.map(listing => <ListingThumbnail listing={listing} key={listing.id} />) }
+              { results.map(listing => <ListingThumbnail listing={listing} key={listing.id} {...thumbnailProps} />) }
             </Row>
             { searchStore.isLoadingNextPage ? <Row><LoadingSpinner /></Row> : null}
           </Grid>
@@ -67,3 +83,19 @@ export default class SearchResults extends React.Component {
     }
   }
 }
+
+SearchResults.wrappedComponent.propTypes = {
+  appStore: React.PropTypes.object.isRequired,
+  appProviders: React.PropTypes.object.isRequired,
+  noResultsContent: React.PropTypes.node.isRequired,
+  title: React.PropTypes.node,
+  retryLink: React.PropTypes.node,
+  isReady: React.PropTypes.bool,
+  thumbnailProps: React.PropTypes.object
+};
+
+SearchResults.defaultProps = {
+  isReady: true,
+  thumbnailProps: {}
+};
+
