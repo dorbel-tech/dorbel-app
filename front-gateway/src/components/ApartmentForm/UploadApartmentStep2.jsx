@@ -42,13 +42,13 @@ export default class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappe
             ref="listingDetailsForm"
           />
           <Col xs={12} md={7} className="form-nav bottom">
-            <span className="prev-step" onClick={this.clickBack}>
+            <span className="prev-step step2" onClick={this.clickBack}>
               <i className="apartment-details-previous-step fa fa-arrow-circle-o-right fa-2x" aria-hidden="true"></i>
               &nbsp; שלב קודם
             </span>
             <span>2/3</span>
             <span className="next-step" onClick={this.clickNext}>
-              <Button bsStyle="success" className="step-btn">
+              <Button bsStyle="success" className="step-btn step2">
                 שלב הבא &nbsp;
                 <i className="apartment-details-next-step fa fa-arrow-circle-o-left fa-2x" aria-hidden="true"></i>
               </Button>
