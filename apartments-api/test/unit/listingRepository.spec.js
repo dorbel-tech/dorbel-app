@@ -10,6 +10,9 @@ describe('Listing Repository', function () {
   });
 
   describe('Add listing', function () {
+
+    // TODO : some of these tests are testing logic in the Building Repository - should be moved to buildingRepository.spec.js
+
     it('should fail if city is not found', function* () {
       let fakeListing = {
         apartment: {

@@ -42,10 +42,20 @@ class Listing extends Component {
 
   loadFullListingDetails() {
     let listingId = this.props.listingId;
+
     if (!this.props.appStore.listingStore.get(listingId)) {
       this.setState({ isLoading: true });
       this.props.appProviders.listingsProvider.loadFullListingDetails(listingId)
         .then(() => this.setState({ isLoading: false }));
+    } else {
+      // Force render and scroll to top, since the store did not change.
+      this.forceUpdate();
+      if (process.env.IS_CLIENT) {
+        const wrapperElement = document.getElementsByClassName('listing-wrapper')[0];
+        if (wrapperElement) {
+          wrapperElement.scrollIntoView();
+        }
+      }
     }
   }
 
@@ -73,7 +83,7 @@ class Listing extends Component {
       );
     }
 
-    return  <div>
+    return  <div className="listing-wrapper">
               <ListingHeader listing={listing} />
               <Col lgHidden mdHidden>
                 <ListingHighlight listing={listing} />
