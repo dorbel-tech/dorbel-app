@@ -85,6 +85,8 @@ function startRouter(appStore) {
 
     router.init();
   } else {
+    router.currentPath = '';
+    router.getPath = () => { return router.currentPath; };
     router.configure({
       notfound: callback => notFound(appStore, callback),
       async: true

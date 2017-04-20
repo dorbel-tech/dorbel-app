@@ -8,7 +8,10 @@ import { getCloudinaryParams } from './server/cloudinaryConfigProvider';
 
 function setRoute(router, path) {
   // this method is used to set the route in the server side and wait until it resolves
-  return new Promise(resolve => router.dispatch('on', path, resolve));
+  return new Promise(resolve => router.dispatch('on', path, () => {
+    router.currentPath = path;
+    resolve();
+  }));
 }
 
 function setRequestRenderState(context, appStore) {
