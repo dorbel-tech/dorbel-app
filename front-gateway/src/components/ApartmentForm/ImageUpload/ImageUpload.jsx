@@ -1,6 +1,6 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import { Row } from 'react-bootstrap';
+import { ProgressBar, Row } from 'react-bootstrap';
 import Dropzone from 'react-dropzone';
 import CloudinaryImage from '~/components/CloudinaryImage/CloudinaryImage';
 
@@ -31,15 +31,10 @@ export default class ImageUpload extends React.Component {
   renderImage(image, index) {
     const { editedListingStore, appProviders } = this.props;
     const { listingImageProvider } = appProviders;
-    const progressPct = Math.round(image.progress * 100) + '%';
-    const progressBarStyle = { width: progressPct };
+    const progressPct = Math.round(image.progress * 100);
 
     const progressBar = (
-      <div className="progress">
-        <div className="progress-bar" style={ progressBarStyle }>
-          {progressPct}
-        </div>
-      </div>
+      <ProgressBar now={progressPct} label={progressPct + '%'}/>
     );
 
     const deleteButton = (<div><a href="#" className="remove-image" onClick={() => listingImageProvider.deleteImage(image, editedListingStore)} >הסרה</a></div>);
