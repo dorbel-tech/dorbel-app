@@ -99,6 +99,10 @@
 @media (max-width: $screen-xs-max) {
   .navbar-collapse {
     background-color: $brand-white;
+    bottom: 0;
+    position: fixed;
+    top: 60px;
+    width: 100%;
   }
 
   .navbar-inverse .navbar-nav > li > a {

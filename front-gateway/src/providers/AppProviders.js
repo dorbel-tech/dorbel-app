@@ -13,6 +13,7 @@ import NotificationProvider from './NotificationProvider';
 import ModalProvider from './ModalProvider';
 import SearchProvider from './SearchProvider';
 import LikeProvider from './LikeProvider';
+import ListingImageProvider from './ListingImageProvider';
 
 import utils from './utils';
 
@@ -35,8 +36,8 @@ class AppProviders {
     this.apiProvider = new ApiProvider(appStore);
     this.authProvider = loadAuthProvider(appStore, router, this.apiProvider);
     this.oheProvider = new OheProvider(appStore, this.apiProvider);
-    this.listingsProvider = new ListingsProvider(appStore,
-      { api: this.apiProvider, cloudinary: this.cloudinaryProvider, ohe: this.oheProvider });
+    this.listingsProvider = new ListingsProvider(appStore, { api: this.apiProvider, ohe: this.oheProvider });
+    this.listingImageProvider = new ListingImageProvider({ cloudinary: this.cloudinaryProvider });
     this.cityProvider = new CityProvider(appStore, this.apiProvider);
     this.neighborhoodProvider = new NeighborhoodProvider(appStore, this.apiProvider);
     this.notificationProvider = new NotificationProvider();
