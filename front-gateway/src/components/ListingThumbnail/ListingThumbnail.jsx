@@ -7,19 +7,16 @@ import ListingBadge from '../ListingBadge/ListingBadge';
 import CloudinaryImage from '../CloudinaryImage/CloudinaryImage';
 import LikeButton from '../LikeButton/LikeButton';
 import utils from '../../providers/utils';
+import { getListingPath, getDashMyPropsPath } from '~/routesHelper';
 
 @inject('appStore') @observer
 class ListingThumbnail extends Component {
   getListingUrl(listing) {
     if (this.props.isMyProperties) {
-      return '/dashboard/my-properties/' + listing.id;
+      return getDashMyPropsPath(listing);
     } else {
-      return '/apartments/' + this.getListingPath(listing);
+      return getListingPath(listing);
     }    
-  }
-  
-  getListingPath(listing) {
-    return listing.slug || listing.id;
   }
 
   getOheLabel() {

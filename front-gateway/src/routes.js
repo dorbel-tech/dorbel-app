@@ -7,20 +7,21 @@ import ErrorPage from '~/components/ErrorPage';
 import Login from '~/components/Login';
 import Health from '~/components/Health';
 import UploadApartmentForm from '~/components/ApartmentForm/UploadApartmentForm';
+import routesHelper from './routesHelper';
 
 const routes = [
   { route: '/', view: Home },
   { route: '/health', view: Health },
   { route: '/login', view: Login },
-  { route: '/dashboard', view: Dashboard, requireLogin: true },
-  { route: '/dashboard/:action', view: Dashboard, requireLogin: true },
-  { route: '/dashboard/:action/:propertyId', view: Dashboard, requireLogin: true },
-  { route: '/dashboard/:action/:propertyId/:tab', view: Dashboard, requireLogin: true },
-  { route: '/apartments', view: Search },
-  { route: '/apartments/new_form', view: UploadApartmentForm },
-  { route: '/apartments/:listingId', view: Listing },
-  { route: '/apartments/:listingId/:action', view: Listing, requireLogin: true },
-  { route: '/apartments/:listingId/:action/:oheId', view: Listing, requireLogin: true }
+  { route: routesHelper.APARTMENTS_PREFIX, view: Search },
+  { route: routesHelper.APARTMENTS_PREFIX + '/new_form', view: UploadApartmentForm },
+  { route: routesHelper.APARTMENTS_PREFIX + '/:listingId', view: Listing },
+  { route: routesHelper.APARTMENTS_PREFIX + '/:listingId/:action', view: Listing, requireLogin: true },
+  { route: routesHelper.APARTMENTS_PREFIX + '/:listingId/:action/:oheId', view: Listing, requireLogin: true },
+  { route: routesHelper.DASHBOARD_PREFIX, view: Dashboard, requireLogin: true },
+  { route: routesHelper.DASHBOARD_PREFIX + '/:action', view: Dashboard, requireLogin: true },
+  { route: routesHelper.DASHBOARD_PREFIX + '/:action/:propertyId', view: Dashboard, requireLogin: true },
+  { route: routesHelper.DASHBOARD_PREFIX + '/:action/:propertyId/:tab', view: Dashboard, requireLogin: true }
 ];
 
 module.exports = {
