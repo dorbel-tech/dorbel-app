@@ -17,13 +17,7 @@ class MyProfileFields extends Component {
   }
 
   render() {
-    let user = this.props.profile;
-    let user_metadata = {
-      email: _.get(user, 'user_metadata.email') || user.email,
-      first_name: _.get(user, 'user_metadata.first_name') || user.given_name,
-      last_name: _.get(user, 'user_metadata.last_name') || user.family_name,
-      phone: _.get(user, 'user_metadata.phone'),
-    };
+    let profile = this.props.profile;
 
     return (
       <Row>
@@ -31,7 +25,7 @@ class MyProfileFields extends Component {
           <FRC.Input value="main" name="section" type="hidden" />
           <Col className="my-profile-input" sm={6}>
             <FRC.Input
-              value={user_metadata.first_name}
+              value={profile.first_name}
               label="שם פרטי" 
               name="data.first_name"
               layout="vertical"
@@ -40,7 +34,7 @@ class MyProfileFields extends Component {
           </Col>
           <Col className="my-profile-input" sm={6}>
             <FRC.Input
-              value={user_metadata.last_name}
+              value={profile.last_name}
               label="שם משפחה"
               name="data.last_name"
               layout="vertical"
@@ -52,7 +46,7 @@ class MyProfileFields extends Component {
         <Row>
           <Col className="my-profile-input" sm={6}>
             <FRC.Input
-              value={user_metadata.phone}
+              value={profile.phone}
               label="טלפון"
               name="data.phone"
               validations="isNumeric"
@@ -63,7 +57,7 @@ class MyProfileFields extends Component {
           </Col>
           <Col className="my-profile-input" sm={6}>
             <FRC.Input
-              value={user_metadata.email}
+              value={profile.email}
               label="מייל ליצירת קשר"
               validations="isEmail"
               name="data.email"
