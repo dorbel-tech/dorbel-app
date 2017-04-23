@@ -151,15 +151,15 @@ class Property extends Component {
                   <div className="property-title-details">
                     <span>
                       {property.apartment.rooms}</span>
-                      <span className="property-title-details-sub-text"> חדרים</span>
+                      <span className="property-title-details-sub-text">&nbsp;חדרים</span>
                     <div className="property-title-details-vr" />
                     <span>
                       {property.apartment.size}</span>
-                      <span className="property-title-details-sub-text"> מ"ר</span>
+                      <span className="property-title-details-sub-text">&nbsp;מ"ר</span>
                     <div className="property-title-details-vr" />
                     <span>
-                      <span className="property-title-details-sub-text property-title-details-last-text">קומה</span>
                       {utils.getFloorTextValue(property)}</span>
+                      <span className="property-title-details-sub-text">&nbsp;קומה</span>
                   </div>
                 </Col>
                 <Col md={4} sm={3} className="property-actions-wrapper">
