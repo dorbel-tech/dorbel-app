@@ -5,6 +5,21 @@ function getDateString() {
   return (new Date()).toISOString().substring(0, 10);
 }
 
+function getFakeBuilding(variant) {
+  return Object.assign({
+    street_name: 'רוטשילד',
+    house_number: '192',
+    city_id: 1,
+    city: {
+      id: 1
+    },
+    neighborhood_id: 1,
+    neighborhood: {
+      id: 1
+    }
+  }, variant);
+}
+
 function getFakeListing() {
   const listing =  {
     status: 'listed',
@@ -18,18 +33,7 @@ function getFakeListing() {
       rooms: 3,
       size: 35,
       floor: 3,
-      building: {
-        street_name: 'רוטשילד',
-        house_number: '192',
-        city_id: 1,
-        city: {
-          id: 1
-        },
-        neighborhood_id: 1,
-        neighborhood: {
-          id: 1
-        }
-      }
+      building: getFakeBuilding()
     },
     open_house_event_date: getDateString(),
     open_house_event_start_time: '07:00',
@@ -59,5 +63,6 @@ function getFakeUser(variant) {
 module.exports = {
   getFakeListing,
   getFakeUser,
-  getFakeImage
+  getFakeImage,
+  getFakeBuilding
 };

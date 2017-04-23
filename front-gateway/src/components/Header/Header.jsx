@@ -64,7 +64,7 @@ class Header extends Component {
     const { authProvider } = this.props.appProviders;
     const { authStore } = this.props.appStore;
     const isLoggedIn = authStore.isLoggedIn;
-    const showPublishFirst = isLoggedIn && isMobileJs.phone;
+    const showPublishFirst = isMobileJs.phone;
     const externalURL = 'https://www.dorbel.com';
 
     return (

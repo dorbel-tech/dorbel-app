@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Col } from 'react-bootstrap';
 import { FRC } from '~/components/FormWrapper/FormWrapper';
+import _ from 'lodash';
 
 class MyProfileFields extends Component {
   static showPicture = false;
@@ -12,7 +13,7 @@ class MyProfileFields extends Component {
       about_you: '',
       work_place: '',
       position: '',
-      facebook_url: '',
+      facebook_url: _.get(profile, 'identities[0].provider') === 'facebook' ? profile.link : '',
       linkedin_url: ''
     };
 
