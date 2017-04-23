@@ -53,7 +53,6 @@ function* create(openHouseEvent, user) {
     end_time: end,
     listing_id: listing_id,
     publishing_user_id: userId,
-    is_active: true, // TODO: remove after migration to status is done.
     status: 'active',
     max_attendies
   });

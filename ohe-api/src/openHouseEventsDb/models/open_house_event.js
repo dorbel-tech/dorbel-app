@@ -22,10 +22,6 @@ function define(sequelize, DataTypes) {
       type: DataTypes.UUID,
       allowNull: false
     },
-    is_active: { // TODO: remove after migration to status is done.
-      type: DataTypes.BOOLEAN,
-      allowNull: false
-    },
     status: {
       type: DataTypes.ENUM,
       values: ['active', 'inactive', 'deleted'],
