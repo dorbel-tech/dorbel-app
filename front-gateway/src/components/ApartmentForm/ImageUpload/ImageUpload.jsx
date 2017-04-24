@@ -31,13 +31,13 @@ export default class ImageUpload extends React.Component {
   renderImage(image, index) {
     const { editedListingStore, appProviders } = this.props;
     const { listingImageProvider } = appProviders;
-    const progressPct = Math.round(image.progress * 100);
+    const progressPct = image.progress * 100;
 
     const progressBar = (
-      <ProgressBar now={progressPct} label={progressPct + '%'}/>
+      <ProgressBar now={progressPct}/>
     );
 
-    const deleteButton = (<div><a href="#" className="remove-image" onClick={() => listingImageProvider.deleteImage(image, editedListingStore)} >הסרה</a></div>);
+    const deleteButton = (<div><a href="#" className="remove-image" onClick={() => listingImageProvider.deleteImage(image, editedListingStore)} >הסרת תמונה</a></div>);
 
     return (
       <div key={index} className="image col-md-4 thumb">
@@ -58,7 +58,7 @@ export default class ImageUpload extends React.Component {
         <Row className="thumbs">
           <Dropzone className="col-md-4 thumb" multiple={true} onDrop={this.onChooseFile.bind(this)}>
             <div className="thumb-inner add">
-              <span className="add-photo">הוסף תמונה +</span>
+              <span className="add-photo">הוספת תמונה +</span>
             </div>
           </Dropzone>
           {images.map(this.renderImage.bind(this))}
