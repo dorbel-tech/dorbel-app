@@ -31,7 +31,7 @@ class ListingInfo extends React.Component {
 
     return (
       <Row className="listing-info-container">
-        {this.renderInfoBox(utils.formatDate(listing.lease_start), 'dorbel-icon-date')}
+        {(listing.status === 'listed') && this.renderInfoBox(utils.formatDate(listing.lease_start), 'dorbel-icon-date')}
         {this.renderInfoBox(listing.apartment.rooms + ' חדרים', 'dorbel-icon-rooms')}
         {this.renderInfoBox(listing.apartment.size + ' מ"ר', 'dorbel-icon-sqm')}
         {this.renderInfoBox(this.getFloorLabel(listing), 'dorbel-icon-stairs')}
