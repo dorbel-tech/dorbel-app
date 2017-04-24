@@ -4,6 +4,7 @@ import { shallow } from 'enzyme';
 import ImageUpload from './ImageUpload';
 import Dropzone from 'react-dropzone';
 import CloudinaryImage from '~/components/CloudinaryImage/CloudinaryImage';
+import { ProgressBar } from 'react-bootstrap';
 import { flushPromises } from '~/providers/utils';
 
 describe('Image Upload', () => {
@@ -45,7 +46,7 @@ describe('Image Upload', () => {
     expect(images).toHaveLength(1);
     expect(images.first().props().src).toBe(image.src);
     expect(wrapper.find('.remove-image').exists()).toBe(true);
-    expect(wrapper.find('.progress').exists()).toBe(false);
+    expect(wrapper.find(ProgressBar).exists()).toBe(false);
   });
 
   it('should render incomplete images from store', () => {
@@ -58,7 +59,7 @@ describe('Image Upload', () => {
     expect(images).toHaveLength(1);
     expect(images.first().props().src).toBe(image.src);
     expect(wrapper.find('.remove-image').exists()).toBe(false);
-    expect(wrapper.find('.progress').exists()).toBe(true);
+    expect(wrapper.find(ProgressBar).exists()).toBe(true);
   });
 
   it('should send uploaded files to provider', () => {
