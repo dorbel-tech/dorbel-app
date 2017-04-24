@@ -12,13 +12,8 @@ class PropertyManage extends Component {
     const { listing } = this.props;
     const listingLeaseStart = utils.formatDate(listing.lease_start);
     const listingLeaseEnd = utils.formatDate(listing.lease_end);
-
-    let daysPassed;
-    if (listing.lease_end && listing.lease_start) {
-      daysPassed = moment(listing.lease_start).diff(moment(listing.lease_end), 'days');
-    } else {
-      daysPassed = false;
-    }
+    const listingSet = listing.lease_end && listing.lease_start;
+    const daysPassed = listingSet ? moment(listing.lease_start).diff(moment(listing.lease_end), 'days') : false;
     const daysPassedLabel = daysPassed || '---';
 
     return  <Grid fluid className="property-manage">
