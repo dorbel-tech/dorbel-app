@@ -54,12 +54,14 @@ describe('Image Upload', () => {
     editedListingStoreMock.formValues.images.push(image);
 
     const wrapper = imageUpload();
+    const progressBar = wrapper.find(ProgressBar);
 
     const images = wrapper.find(CloudinaryImage);
     expect(images).toHaveLength(1);
     expect(images.first().props().src).toBe(image.src);
     expect(wrapper.find('.remove-image').exists()).toBe(false);
-    expect(wrapper.find(ProgressBar).exists()).toBe(true);
+    expect(progressBar.exists()).toBe(true);
+    expect(progressBar.props().now).toBe(60);
   });
 
   it('should send uploaded files to provider', () => {
