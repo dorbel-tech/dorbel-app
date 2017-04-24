@@ -1,11 +1,14 @@
 import React from 'react';
-import { Table, Col, Button, Panel, Image, Dropdown, MenuItem } from 'react-bootstrap';
+import { inject } from 'mobx-react';
+import { Table, Col, Panel, Image, Dropdown, MenuItem } from 'react-bootstrap';
 import EditOHEModal from './EditOHEModal';
 import DeleteOHEModal from './DeleteOHEModal';
+import TenantProfile from '../TenantProfile/TenantProfile';
 import autobind from 'react-autobind';
 
 import './OHECard.scss';
 
+@inject('appProviders')
 class OHECard extends React.Component {
   constructor(props) {
     super(props);
@@ -41,6 +44,14 @@ class OHECard extends React.Component {
     }
   }
 
+  showTenantProfile(profile) {
+    this.props.appProviders.modalProvider.showInfoModal({
+      title: 'פרופיל דייר',
+      body: <TenantProfile profile={profile} />,
+      modalSize: 'small'
+    });
+  }
+
   renderRegistrations(registrations) {
     if (!registrations) { return null; }
 
@@ -48,15 +59,13 @@ class OHECard extends React.Component {
       <Table fill className="vertical-middle ohe-card-user-table">
         <tbody>
           {registrations.map(registration => (
-            <tr key={registration.id} className="ohe-card-user-table-row">
+            <tr key={registration.id} className="ohe-card-user-table-row" onClick={() => { this.showTenantProfile(registration.user); }}>
               <td className="ohe-card-user-image-cell"><Image src={registration.user.picture} circle /></td>
               <td className="ohe-card-user-name-cell">{registration.user.first_name} {registration.user.last_name}</td>
               <td className="ohe-card-user-status-cell">{registration.is_active ? 'מתכוון להגיע' : 'הגעה בוטלה'}</td>
               <td className="ohe-card-user-phone-cell"><a href={'tel:' + (registration.user.phone || ' ')}>{registration.user.phone || ' '}</a></td>
               <td className="ohe-card-user-links-cell">
-                <Button href={registration.user.tenant_profile.facebook_url} disabled={!registration.user.tenant_profile.facebook_url} bsStyle="link" target="_blank">
-                  <i className={'fa fa-2x fa-facebook-square ' + (registration.user.tenant_profile.facebook_url ? '' : 'ohe-card-facebook')}></i>
-                </Button>
+                <i className={'fa fa-2x fa-facebook-square ' + (registration.user.tenant_profile.facebook_url ? '' : 'ohe-card-facebook')}></i>
               </td>
             </tr>
           ))}
@@ -93,6 +102,7 @@ class OHECard extends React.Component {
 }
 
 OHECard.propTypes = {
+  appProviders: React.PropTypes.object,
   ohe: React.PropTypes.object.isRequired,
   editable: React.PropTypes.bool
 };

@@ -1,0 +1,99 @@
+@import "../sharedStyles/variables.scss";
+
+.tenant-profile {
+  font-weight: normal;
+
+  .tenant-profile-header {
+    position: relative;
+    height: 70px;
+    width: 100%;
+    border-bottom: 1px solid $gray-lighter;
+    margin-bottom: 10px;
+
+    .tenant-profile-header-content {
+      top: 10px;
+      margin: -15px 0;
+      position: relative;
+      z-index: 1;
+
+      label {
+        color: $gray-light;
+      }
+
+      img {
+        height: 50px;
+      }
+    }
+
+    .tenant-profile-header-backgound {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      top: 0;
+      left: 0;
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center -50px;
+      filter: blur(10px);
+      opacity: 0.3;
+      overflow: hidden;
+    }
+  }
+
+  .tenant-profile-field {
+    height: 100%;
+    line-height: 16px;
+
+    label {
+      font-size: 11px;
+      color: #979797;
+      vertical-align: middle;
+    }
+
+    span {
+      font-size: 15px;
+      color: $gray-dark;
+      white-space: pre-wrap;
+      vertical-align: middle;
+      float: left;
+    }
+
+    &.vertical {
+      label {
+        display: block;
+        float: none;
+      }
+
+      span {
+        float: none;
+      }
+    }
+
+    &.bordered {
+      padding-bottom: 20px;
+      border-bottom: 1px solid $gray-lighter;
+    }
+
+    &.padded-bottom {
+      padding-bottom: 10px;
+    }
+  }
+
+  .tenant-profile-social-links {
+    float: left;
+
+    .social-link {
+      padding: 0;
+      padding-right: 10px;
+
+      &[disabled] {
+        color: #cdcdcd;
+      }
+
+      .fa {
+        font-size: 20px;
+      }
+    }
+  }
+}
+

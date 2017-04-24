@@ -1,21 +1,12 @@
 import React, { Component } from 'react';
 import { Row, Col } from 'react-bootstrap';
 import { FRC } from '~/components/FormWrapper/FormWrapper';
-import _ from 'lodash';
 
-class MyProfileFields extends Component {
+class TenantProfileFields extends Component {
   static showPicture = false;
 
   render() {
-    let profile = this.props.profile;
-    let user_metadata = profile.user_metadata || {};
-    let tenant_profile = user_metadata.tenant_profile || {
-      about_you: '',
-      work_place: '',
-      position: '',
-      facebook_url: _.get(profile, 'identities[0].provider') === 'facebook' ? profile.link : '',
-      linkedin_url: ''
-    };
+    let tenant_profile = this.props.profile.tenant_profile;
 
     return (
       <Row>
@@ -77,8 +68,8 @@ class MyProfileFields extends Component {
   }
 }
 
-MyProfileFields.propTypes = {
+TenantProfileFields.propTypes = {
   profile: React.PropTypes.object.isRequired
 };
 
-export default MyProfileFields;
+export default TenantProfileFields;
