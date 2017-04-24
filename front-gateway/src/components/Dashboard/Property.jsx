@@ -65,7 +65,7 @@ class Property extends Component {
         <Popover id="property-actions-menu" className="property-actions-menu">
           <div className="property-actions-menu-item property-action-menu-item-show-mobile" onClick={() => this.gotoPublishedListing(property)}>
             <i className="property-actions-menu-item-icon fa fa-picture-o"></i>
-            צפה
+            לצפייה במודעה
           </div>
           <div className="property-actions-menu-item property-action-menu-item-show-mobile" onClick={this.refresh}>
             <i className="property-actions-menu-item-icon fa fa-refresh" aria-hidden="true"></i>
