@@ -106,7 +106,7 @@ class Property extends Component {
                   onClick={() => this.gotoPublishedListing(property)}></Button>
         </div>
         <div className="property-actions-menu-container">
-          <OverlayTrigger trigger="click" placement="bottom" overlay={this.renderPopoverMenu(property)}
+          <OverlayTrigger placement="bottom" overlay={this.renderPopoverMenu(property)}
                           container={this} containerPadding={5} rootClose>
             <Button className="property-action-button">
               <i className="fa fa-bars" aria-hidden="true"></i>
