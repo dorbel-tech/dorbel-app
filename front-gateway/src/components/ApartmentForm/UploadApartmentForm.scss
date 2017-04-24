@@ -71,8 +71,14 @@
   }
 
   &.add {
-    background-color: #e6dafe;
     border: 0;
+    box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.1);
+    transition: 0.1s;
+
+    &:hover {
+      cursor: pointer;
+      transform: scale(1.03);
+    }
   }
 }
 
@@ -288,4 +294,14 @@
 
 .uploaded-image {
   display: inline;
+  font-weight: normal;
+
+  .remove-image {
+    color: $brand-primary;
+  }
+
+  .progress {
+    border-radius: none;
+    height: 2px;
+  }
 }
