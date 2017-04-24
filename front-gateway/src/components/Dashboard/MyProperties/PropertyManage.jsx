@@ -1,47 +1,15 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import { ProgressBar, Col, Grid, Row } from 'react-bootstrap';
-import NavLink from '~/components/NavLink';
 import utils from '~/providers/utils';
-import { getDashMyPropsPath } from '~/routesHelper';
 import moment from 'moment';
 
 import './PropertyManage.scss';
 
-@inject('appStore', 'appProviders', 'router') @observer
+@inject('appProviders') @observer
 class PropertyManage extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  getNumberOfOheRegistrations(listingId) {
-    const openHouseEvents = this.props.appStore.oheStore.oheByListingId(listingId);
-    let totalRegistrations = 0;
-    
-    openHouseEvents.map(ohe => {
-      if (ohe.registrations) {
-        totalRegistrations += ohe.registrations.length;
-      }
-    });
-
-    return totalRegistrations;
-  }
-
-  componentDidMount() {
-    const { appStore, appProviders, listing } = this.props;
-    const listingId = listing.id;
-
-    if (!appStore.listingStore.listingViewsById.has(listingId)) {
-      appProviders.listingsProvider.loadListingPageViews(listingId);
-    }
-
-    appProviders.oheProvider.loadListingEvents(listingId);
-    appProviders.oheProvider.getFollowsForListing(listingId);
-  }
-
   render() {
-    const { appStore, listing } = this.props;
-    const listingId = listing.id;
+    const { listing } = this.props;
     const listingLeaseStart = utils.formatDate(listing.lease_start);
     const listingLeaseEnd = utils.formatDate(listing.lease_end);
 
@@ -84,9 +52,8 @@ class PropertyManage extends Component {
 }
 
 PropertyManage.wrappedComponent.propTypes = {
-  listing: React.PropTypes.object.isRequired,
-  appStore: React.PropTypes.object,
   appProviders: React.PropTypes.object.isRequired,
+  listing: React.PropTypes.object.isRequired
 };
 
 export default PropertyManage;
