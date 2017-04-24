@@ -103,6 +103,11 @@ table.vertical-middle > tbody > tr > td {
   vertical-align: middle;
 }
 
+a:hover {
+  color: inherit;
+  opacity: 0.7;
+}
+
 /* Disable user resize for all textareas */
 textarea {
   resize: none;

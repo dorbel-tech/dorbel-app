@@ -1,6 +1,6 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import { Row } from 'react-bootstrap';
+import { ProgressBar, Row } from 'react-bootstrap';
 import Dropzone from 'react-dropzone';
 import CloudinaryImage from '~/components/CloudinaryImage/CloudinaryImage';
 
@@ -31,18 +31,13 @@ export default class ImageUpload extends React.Component {
   renderImage(image, index) {
     const { editedListingStore, appProviders } = this.props;
     const { listingImageProvider } = appProviders;
-    const progressPct = Math.round(image.progress * 100) + '%';
-    const progressBarStyle = { width: progressPct };
+    const progressPct = image.progress * 100;
 
     const progressBar = (
-      <div className="progress">
-        <div className="progress-bar" style={ progressBarStyle }>
-          {progressPct}
-        </div>
-      </div>
+      <ProgressBar now={progressPct}/>
     );
 
-    const deleteButton = (<div><a href="#" className="remove-image" onClick={() => listingImageProvider.deleteImage(image, editedListingStore)} >הסרה</a></div>);
+    const deleteButton = (<div><a href="#" className="remove-image" onClick={() => listingImageProvider.deleteImage(image, editedListingStore)} >הסרת תמונה</a></div>);
 
     return (
       <div key={index} className="image col-md-4 thumb">
@@ -63,7 +58,7 @@ export default class ImageUpload extends React.Component {
         <Row className="thumbs">
           <Dropzone className="col-md-4 thumb" multiple={true} onDrop={this.onChooseFile.bind(this)}>
             <div className="thumb-inner add">
-              <span className="add-photo">הוסף תמונה +</span>
+              <span className="add-photo">הוספת תמונה +</span>
             </div>
           </Dropzone>
           {images.map(this.renderImage.bind(this))}

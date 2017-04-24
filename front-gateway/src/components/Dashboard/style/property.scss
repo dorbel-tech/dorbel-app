@@ -85,21 +85,18 @@
 
 .property-title-details-sub-text {
   color: #9b9b9b;
+  font-size: 14px;
 }
 
 .property-title-details-vr {
   display: inline;
-  padding-left: 10px;
+  padding-left: 12px;
 
   @media (max-width: $screen-xs-max) {
     border-right: 1px solid $gray-light;
     margin-right: 5px;
     padding-left: 5px;
   }
-}
-
-.property-title-details-last-text {
-  padding-left: 5px;
 }
 
 .property-actions-wrapper {
@@ -168,10 +165,19 @@
 
 .property-action-button {
   background-color: $brand-white !important;
-  border: 1px solid #979797 !important;
-  border-radius: 4px;
+  border: none !important;
   height: 38px;
   width: 38px;
+
+  &:active,
+  &:focus {
+    box-shadow: none !important;
+    outline: none !important;
+  }
+
+  &:hover {
+    opacity: 0.7;
+  }
 }
 
 .property-save-button {
