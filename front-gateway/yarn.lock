@@ -65,6 +65,10 @@ agent-base@2:
     extend "~3.0.0"
     semver "~5.0.1"
 
+agent-base@~1.0.1:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/agent-base/-/agent-base-1.0.2.tgz#6890d3fb217004b62b70f8928e0fae5f8952a706"
+
 ajv-keywords@^1.0.0, ajv-keywords@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/ajv-keywords/-/ajv-keywords-1.1.1.tgz#02550bc605a3e576041565628af972e06c549d50"
@@ -1907,7 +1911,7 @@ concat-map@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/concat-map/-/concat-map-0.0.1.tgz#d8a96bd77fd68df7793a73036a3ba0d5405d477b"
 
-concat-stream@^1.4.6:
+concat-stream@^1.4.6, concat-stream@^1.5.0:
   version "1.5.2"
   resolved "https://registry.yarnpkg.com/concat-stream/-/concat-stream-1.5.2.tgz#708978624d856af41a5a741defdd261da752c266"
   dependencies:
@@ -2487,9 +2491,9 @@ domutils@1.5.1, domutils@^1.5.1:
     dom-serializer "0"
     domelementtype "1"
 
-"dorbel-shared@git://github.com/dorbel-tech/dorbel-shared#v1.0.39":
-  version "1.0.39"
-  resolved "git://github.com/dorbel-tech/dorbel-shared#b94724ea34171fca5498bddd430e8465b577be67"
+"dorbel-shared@git://github.com/dorbel-tech/dorbel-shared#v1.0.40":
+  version "1.0.40"
+  resolved "git://github.com/dorbel-tech/dorbel-shared#0df24c46b4eeb88d87ef615c9eba045af4e5cacd"
   dependencies:
     analytics-node "^2.1.0"
     auth0 "2.5.0"
@@ -2502,6 +2506,7 @@ domutils@1.5.1, domutils@^1.5.1:
     jwt-decode "^2.1.0"
     lodash "~4.16.3"
     mock-require "^2.0.1"
+    newrelic "^1.38.2"
     nyc "^10.1.2"
     redis "^2.6.3"
     request "^2.81.0"
@@ -3787,6 +3792,14 @@ https-proxy-agent@1, https-proxy-agent@^1.0.0:
     debug "2"
     extend "3"
 
+https-proxy-agent@^0.3.5:
+  version "0.3.6"
+  resolved "https://registry.yarnpkg.com/https-proxy-agent/-/https-proxy-agent-0.3.6.tgz#713fa38e5d353f50eb14a342febe29033ed1619b"
+  dependencies:
+    agent-base "~1.0.1"
+    debug "2"
+    extend "3"
+
 iconv-lite@0.4.13:
   version "0.4.13"
   resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.13.tgz#1f88aba4ab0b1508e8312acc39345f36e992e2f2"
@@ -4509,7 +4522,7 @@ json-stable-stringify@^1.0.0, json-stable-stringify@^1.0.1:
   dependencies:
     jsonify "~0.0.0"
 
-json-stringify-safe@~5.0.1:
+json-stringify-safe@^5.0.0, json-stringify-safe@~5.0.1:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/json-stringify-safe/-/json-stringify-safe-5.0.1.tgz#1296a2d58fd45f19a0f6ce01d65701e2c735b6eb"
 
@@ -5362,6 +5375,16 @@ nested-error-stacks@^1.0.0:
 netmask@~1.0.4:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/netmask/-/netmask-1.0.6.tgz#20297e89d86f6f6400f250d9f4f6b4c1945fcd35"
+
+newrelic@^1.38.2:
+  version "1.38.2"
+  resolved "https://registry.yarnpkg.com/newrelic/-/newrelic-1.38.2.tgz#c14cda98fc682be7fe770996c65beca88c4b6884"
+  dependencies:
+    concat-stream "^1.5.0"
+    https-proxy-agent "^0.3.5"
+    json-stringify-safe "^5.0.0"
+    readable-stream "^1.1.13"
+    semver "^5.3.0"
 
 nightwatch-custom-commands-assertions@^1.0.5:
   version "1.0.5"
@@ -6609,7 +6632,7 @@ readable-stream@1.0.27-1:
     isarray "0.0.1"
     string_decoder "~0.10.x"
 
-readable-stream@1.1.x, readable-stream@^1.0.33, readable-stream@~1.1.9:
+readable-stream@1.1.x, readable-stream@^1.0.33, readable-stream@^1.1.13, readable-stream@~1.1.9:
   version "1.1.14"
   resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-1.1.14.tgz#7cf4c54ef648e3813084c636dd2079e166c081d9"
   dependencies:
