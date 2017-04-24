@@ -31,8 +31,7 @@ export default class ImageUpload extends React.Component {
   renderImage(image, index) {
     const { editedListingStore, appProviders } = this.props;
     const { listingImageProvider } = appProviders;
-    const progressPct = Math.round(image.progress * 100) + '%';
-    const progressBarStyle = { width: progressPct };
+    const progressPct = image.progress * 100;
 
     const progressBar = (
       <ProgressBar now={progressPct}/>
