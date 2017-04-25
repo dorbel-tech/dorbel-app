@@ -17,8 +17,52 @@
   height: 8px;
 }
 
+.property-manage-modal-body {
+  text-align: right;
+}
+
+.property-manage-modal-section-header {
+	color: #979797;
+	font-size: 12px;
+	font-weight: bold;
+	padding-bottom: 15px;
+}
+
+.property-manage-modal-picker-label {
+  display: inline-block;
+  text-align: center;
+  width: 108px;
+
+  &:first-child {
+    margin-left: 20px;
+  }
+}
+
 .property-manage-modal-picker-container {
+  height: 70px;
+
+  .property-manage-modal-start-picker-wrapper,
+  .property-manage-modal-end-picker-wrapper {
+    position: absolute;
+    top: 75px;
+    width: 108px;
+  }
+
+  .property-manage-modal-start-picker-wrapper {
+    right: 30px;
+  }
+
+  .property-manage-modal-end-picker-separator {
+    position: absolute;
+    right: 146px;
+    top: 82px;
+  }
+
+  .property-manage-modal-end-picker-wrapper {
+    right: 158px;
+  }
+
   .react-bootstrap-date-picker-custom-control {
-    width: 45%;
+    text-align: center;
   }
 }

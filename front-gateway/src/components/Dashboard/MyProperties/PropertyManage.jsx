@@ -30,27 +30,33 @@ class PropertyManage extends Component {
     this.newLeaseEnd = null;
 
     const modalBody = <div className="property-manage-modal-body">
+        <div className="property-manage-modal-section-header">
+          עדכנו את מועדי תחילת ותום השכירות
+        </div>
         <div>
-          <span className="pull-right">תחילת השכירות</span>
-          <span className="pull-left">תום השכירות</span>
+          <div className="property-manage-modal-picker-label">תחילת השכירות</div>
+          <div className="property-manage-modal-picker-label">תום השכירות</div>
         </div>
         <div className="property-manage-modal-picker-container">
-          <DatePicker value={listing.lease_start}
-                      onChange={this.leaseStartChange}
-                      calendarPlacement="bottom" />
-          <DatePicker value={listing.lease_end}
-                      onChange={this.leaseEndChange}
-                      calendarPlacement="bottom" />
+          <div className="property-manage-modal-start-picker-wrapper">
+            <DatePicker value={listing.lease_start}
+                        onChange={this.leaseStartChange}
+                        calendarPlacement="bottom" />
+          </div>
+          <div className="property-manage-modal-end-picker-separator">-</div>
+          <div className="property-manage-modal-end-picker-wrapper">
+            <DatePicker value={listing.lease_end}
+                        onChange={this.leaseEndChange}
+                        calendarPlacement="bottom" />
+          </div>
         </div>
       </div>;
 
     modalProvider.showConfirmationModal({
       title: 'עדכון תקופת שכירות',
-      heading: 'עדכנו את מועדי תחילת ותום השכירות',
       body: modalBody,
       confirmButton: 'עדכן פרטים',
-      confirmStyle: 'success',
-      modalSize: 'large'
+      confirmStyle: 'success'
     }).then(choice => {
       if (choice) {
         return listingsProvider.updateListing(listing.id,
