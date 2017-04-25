@@ -18,7 +18,7 @@ export default class ModalProvider {
         body: (
           <div className="text-center">
             { params.heading ? (<h4>{params.heading}</h4>) : null }
-            <p>{ params.body }</p>
+            { params.body }
             <Button onClick={() => close(true)} bsStyle={params.confirmStyle || 'danger'} block>{params.confirmButton || 'המשך'}</Button>
             <Button onClick={() => close(false)} block>{params.cancelButton || 'ביטול'}</Button>
           </div>

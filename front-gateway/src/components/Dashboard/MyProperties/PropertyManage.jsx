@@ -15,9 +15,19 @@ class PropertyManage extends Component {
     autobind(this);
   }
 
+  leaseStartChange(leaseStart) {
+    this.newLeaseStart = leaseStart;
+  }
+
+  leaseEndChange(leaseEnd) {
+    this.newLeaseEnd = leaseEnd;
+  }
+
   editLeaseDates() {
     const { listing } = this.props;
-    const { modalProvider } = this.props.appProviders;
+    const { listingsProvider, modalProvider } = this.props.appProviders;
+    this.newLeaseStart = null;
+    this.newLeaseEnd = null;
 
     const modalBody = <div className="property-manage-modal-body">
         <div>
@@ -25,9 +35,12 @@ class PropertyManage extends Component {
           <span className="pull-left">תום השכירות</span>
         </div>
         <div className="property-manage-modal-picker-container">
-          <DatePicker value={listing.lease_start} />
-          <span>-</span>
-          <DatePicker value={listing.lease_end} />
+          <DatePicker value={listing.lease_start}
+                      onChange={this.leaseStartChange}
+                      calendarPlacement="bottom" />
+          <DatePicker value={listing.lease_end}
+                      onChange={this.leaseEndChange}
+                      calendarPlacement="bottom" />
         </div>
       </div>;
 
@@ -36,8 +49,17 @@ class PropertyManage extends Component {
       heading: 'עדכנו את מועדי תחילת ותום השכירות',
       body: modalBody,
       confirmButton: 'עדכן פרטים',
-      confirmStyle: 'success'
-    });
+      confirmStyle: 'success',
+      modalSize: 'large'
+    }).then(choice => {
+      if (choice) {
+        return listingsProvider.updateListing(listing.id,
+          {
+            lease_start: this.newLeaseStart || listing.lease_start,
+            lease_end: this.newLeaseEnd || listing.lease_end
+          });
+      }
+    }).catch((err) => this.props.appProviders.notificationProvider.error(err));
   }
 
   render() {
