@@ -59,6 +59,7 @@ function mapAuth0Profile(auth0profile) {
     }
   }
   mappedProfile.role = _.get(auth0profile, 'app_metadata.role');
+  mappedProfile.id = _.get(auth0profile, 'app_metadata.dorbel_user_id');
 
   return mappedProfile;
 }

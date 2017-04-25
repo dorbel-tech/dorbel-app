@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Row, Col } from 'react-bootstrap';
 import { FRC } from '~/components/FormWrapper/FormWrapper';
 
+import './MyProfileEditFields.scss';
+
 class TenantProfileFields extends Component {
   static showPicture = false;
 

@@ -69,12 +69,12 @@
       }
     }
 
-    &.bordered {
+    &.border-bottom {
       padding-bottom: 20px;
       border-bottom: 1px solid $gray-lighter;
     }
 
-    &.padded-bottom {
+    &.pad-bottom {
       padding-bottom: 10px;
     }
   }
@@ -82,7 +82,7 @@
   .tenant-profile-social-links {
     float: left;
 
-    .social-link {
+    .tenant-profile-social-links-item {
       padding: 0;
       padding-right: 10px;
 

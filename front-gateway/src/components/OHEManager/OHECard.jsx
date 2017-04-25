@@ -24,6 +24,13 @@ class OHECard extends React.Component {
     this.setState({ showDeleteModal: show });
   }
 
+  showTenantProfileModal(profile) {
+    this.props.appProviders.modalProvider.showInfoModal({
+      title: 'פרופיל דייר',
+      body: <TenantProfile profile={profile} />,
+    });
+  }
+
   renderOheMenu() {
     const { ohe, editable } = this.props;
 
@@ -44,14 +51,6 @@ class OHECard extends React.Component {
     }
   }
 
-  showTenantProfile(profile) {
-    this.props.appProviders.modalProvider.showInfoModal({
-      title: 'פרופיל דייר',
-      body: <TenantProfile profile={profile} />,
-      modalSize: 'small'
-    });
-  }
-
   renderRegistrations(registrations) {
     if (!registrations) { return null; }
 
@@ -59,13 +58,13 @@ class OHECard extends React.Component {
       <Table fill className="vertical-middle ohe-card-user-table">
         <tbody>
           {registrations.map(registration => (
-            <tr key={registration.id} className="ohe-card-user-table-row" onClick={() => { this.showTenantProfile(registration.user); }}>
+            <tr key={registration.id} className="ohe-card-user-table-row" onClick={() => { this.showTenantProfileModal(registration.user); }}>
               <td className="ohe-card-user-image-cell"><Image src={registration.user.picture} circle /></td>
               <td className="ohe-card-user-name-cell">{registration.user.first_name} {registration.user.last_name}</td>
               <td className="ohe-card-user-status-cell">{registration.is_active ? 'מתכוון להגיע' : 'הגעה בוטלה'}</td>
-              <td className="ohe-card-user-phone-cell"><a href={'tel:' + (registration.user.phone || ' ')}>{registration.user.phone || ' '}</a></td>
+              <td className="ohe-card-user-phone-cell">{registration.user.phone || ' '}</td>
               <td className="ohe-card-user-links-cell">
-                <i className={'fa fa-2x fa-facebook-square ' + (registration.user.tenant_profile.facebook_url ? '' : 'ohe-card-facebook')}></i>
+                <i className={'fa fa-2x fa-facebook-square ' + (registration.user.user_metadata.tenant_profile.facebook_url ? '' : 'ohe-card-facebook')}></i>
               </td>
             </tr>
           ))}
