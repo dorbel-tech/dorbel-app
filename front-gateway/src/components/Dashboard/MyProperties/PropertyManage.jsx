@@ -72,10 +72,9 @@ class PropertyManage extends Component {
     const { listing } = this.props;
     const listingLeaseStart = utils.formatDate(listing.lease_start);
     const listingLeaseEnd = utils.formatDate(listing.lease_end);
-    const listingSet = listing.lease_end && listing.lease_start;
-    const leasePeriod = listingSet ? moment(listing.lease_start).diff(moment(listing.lease_end), 'days') : false;
-    const daysPassed = listingSet ? moment(listing.lease_start).diff(moment(), 'days') : false;
-    const daysLeft = listingSet ? leasePeriod - daysPassed : false;
+    const leasePeriod = moment(listing.lease_end).diff(moment(listing.lease_start), 'days');
+    const daysPassed = moment().diff(moment(listing.lease_start), 'days');
+    const daysLeft = leasePeriod - daysPassed;
     const leasePeriodLabel = leasePeriod || '-';
     const daysPassedLabel = daysPassed || '-';
     const daysLeftLabel = daysLeft || '-';
@@ -91,13 +90,14 @@ class PropertyManage extends Component {
                   <div>
                     משך תקופת שכירות נוכחית: {leasePeriodLabel} ימים
                   </div>
-                  <div onClick={this.editLeaseDates}>
-                    + הוספת מועדי תחילת ותום שכירות
+                  <div className="property-manage-lease-period-edit"
+                       onClick={this.editLeaseDates}>
+                    עריכת תקופת השכירות
                   </div>
                   <div>
-                    <span>{listingLeaseStart}</span>
-                    <ProgressBar now={0}/>
-                    <span>{listingLeaseEnd}</span>
+                    <div className="property-manage-lease-period-start">{listingLeaseStart}</div>
+                    <ProgressBar now={(daysPassed * 100) / leasePeriod}/>
+                    <div className="property-manage-lease-period-end">{listingLeaseEnd}</div>
                   </div>
                   <div>
                     תחילת שכירות

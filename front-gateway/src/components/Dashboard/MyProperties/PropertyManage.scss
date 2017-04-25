@@ -2,6 +2,7 @@
 @import "../../sharedStyles/bsvars.scss";
 
 .property-manage-lease-title {
+  font-size: 15px;
   padding-bottom: 30px;
 
   @media (max-width: $screen-sm-max) {
@@ -11,10 +12,34 @@
 
 .property-manage-lease-period {
   background-color: $brand-white;
-}
+  height: 155px;
+  padding: 30px;
+  position: relative;
 
-.property-manage-lease-period.progress {
-  height: 8px;
+  .property-manage-lease-period-edit {
+    left: 0;
+    position: absolute;
+    top: 0;
+  }
+
+  .property-manage-lease-period-start,
+  .property-manage-lease-period-end {
+    font-size: 13px;
+    position: absolute;
+    top: 56px;
+  }
+
+  .property-manage-lease-period-end {
+    left: 0;
+  }
+
+  .progress {
+    height: 8px;
+    left: 90px;
+    position: absolute;
+    right: 85px;
+    top: 60px;
+  }
 }
 
 .property-manage-modal-body {
