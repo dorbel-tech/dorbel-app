@@ -28,11 +28,13 @@ function* set(listingId, user, isLiked) {
 
 function publishLikeEvent(listingId, userId, isLiked) {
   const eventType = isLiked ? messageBus.eventType.LISTING_LIKED : messageBus.eventType.LISTING_UNLIKED;
-  messageBus.publish(process.env.NOTIFICATIONS_SNS_TOPIC_ARN, eventType, {
-    listing_id: listingId,
-    user_uuid: userId,
-    is_liked: isLiked
-  });
+  if (process.env.NOTIFICATIONS_SNS_TOPIC_ARN) {
+    messageBus.publish(process.env.NOTIFICATIONS_SNS_TOPIC_ARN, eventType, {
+      listing_id: listingId,
+      user_uuid: userId,
+      is_liked: isLiked
+    });
+  }
 }
 
 function handleSetError(error, listingId, user, isLiked) {
