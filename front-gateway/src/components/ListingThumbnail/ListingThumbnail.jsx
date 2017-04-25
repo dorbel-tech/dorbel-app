@@ -16,7 +16,7 @@ class ListingThumbnail extends Component {
       return getDashMyPropsPath(listing);
     } else {
       return getListingPath(listing);
-    }    
+    }
   }
 
   getOheLabel() {
@@ -91,7 +91,7 @@ class ListingThumbnail extends Component {
 ListingThumbnail.wrappedComponent.propTypes = {
   listing: React.PropTypes.object.isRequired,
   appStore: React.PropTypes.object.isRequired,
-  isMyProperties: React.PropTypes.string
+  isMyProperties: React.PropTypes.bool
 };
 
 export default ListingThumbnail;
