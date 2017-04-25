@@ -150,11 +150,11 @@ class OHEList extends Component {
   getListingNotification(listing) {
     switch(listing.status) {
       case 'pending':
-        return <span>המודעה ממתינה לאישור.<br/>כאן יופיעו מועדי הביקור לנכס ברגע שהוא יתפרסם.</span>;
+        return <span><h4>המודעה ממתינה לאישור</h4>כאן יופיעו מועדי הביקור לנכס ברגע שהוא יתפרסם.</span>;
       case 'rented':
-        return <span>הדירה מושכרת כרגע. <br/>הרשמו על מנת לקבל עידכון ברגע שהדירה תוצע להשכרה שוב.</span>;
+        return <span><h4>הדירה מושכרת כרגע</h4>הרשמו על מנת לקבל עידכון ברגע שהדירה תוצע להשכרה שוב.</span>;
       case 'unlisted':
-        return <span>המודעה לא פעילה. <br/>לפרסום המודעה הכנסו <a href={getDashMyPropsPath(listing)}>לחשבונכם ועדכנו</a> את הסטטוס שלה.</span>;
+        return <span><h4>המודעה לא פעילה</h4>לפרסום המודעה הכנסו <a href={getDashMyPropsPath(listing)}>לחשבונכם ועדכנו</a> את הסטטוס שלה.</span>;
       default:
         return null;
     }

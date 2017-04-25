@@ -16,6 +16,15 @@ class ListingDescription extends React.Component {
             </Row>;
   }
 
+  renderLeaseStart(listing) {
+    const utils = this.props.appProviders.utils;
+    if (listing.status === 'listed') {
+      return this.renderDescriptionRow('תאריך כניסה', <p>{utils.formatDate(listing.lease_start)}</p>);
+    } else {
+      return this.renderDescriptionRow('תאריך כניסה צפוי', <p>{utils.formatDate(listing.lease_end)}</p>);
+    }
+  }
+
   render() {
     const { listing } = this.props;
     const listingTax = <p> ארנונה: {listing.property_tax ? <span>{listing.property_tax}</span> : '--'}</p>;
@@ -24,7 +33,7 @@ class ListingDescription extends React.Component {
 
     return (
       <Row className="listing-description-container">
-        {this.renderDescriptionRow('תאריך כניסה', <p>{this.props.appProviders.utils.formatDate(listing.lease_start)}</p>)}
+        {this.renderLeaseStart(listing)}
         {this.renderDescriptionRow('תאור הנכס', <p>{listing.description || '(אין תאור)'}</p>)}
         <Row className="listing-description-item">
           <Col md={2}>
