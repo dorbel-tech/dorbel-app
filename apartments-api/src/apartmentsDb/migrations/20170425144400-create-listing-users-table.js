@@ -30,6 +30,14 @@ module.exports = {
           values: ['tenant', 'landlord'],
           allowNull: false,
           defaultValue: 'tenant'
+        },
+        created_at: {
+          type: Sequelize.DATE,
+          allowNull: false
+        },
+        updated_at: {
+          type: Sequelize.DATE,
+          allowNull: false
         }
       }
     );

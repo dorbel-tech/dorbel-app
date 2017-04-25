@@ -102,6 +102,13 @@ class ApiClient {
         .send(data);
   }
 
+  postTenant(listingId, tenant) {
+    return this.request
+      .post('/v1/listings/' + listingId + '/tenants')
+      .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile))
+      .send(tenant);
+  }
+
   static * init(userProfile) {
     let request;
 
@@ -123,7 +130,12 @@ class ApiClient {
 
 ApiClient.getInstance = function() {
   return ApiClient.init(fakeObjectGenerator.getFakeUser({
-    id: INTEGRATION_TEST_USER_ID
+    id: INTEGRATION_TEST_USER_ID,
+    // these are as they are in Auth0
+    email: 'test@test.com',
+    first_name: 'Test',
+    last_name: 'User',
+    phone: '123456789'
   }));
 };
 

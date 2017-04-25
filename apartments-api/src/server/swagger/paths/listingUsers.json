@@ -1,0 +1,35 @@
+{
+  "/listings/{listingId}/tenants" : {
+    "post": {
+      "summary": "Add tenant to listing",
+      "parameters": [
+        {
+          "name": "body",
+          "in": "body"
+        },
+        {
+          "name": "x-user-profile",
+          "in": "header",
+          "required": true,
+          "type": "string",
+          "description": "Stringified JSON object with the user's profile information"
+        }
+      ],
+      "tags": [
+        "listingUsersController",
+        "authenticated"
+      ],
+      "responses": {
+        "201": {
+          "description": "Tenant added succesfully"
+        },
+        "default": {
+          "description": "Unexpected error",
+          "schema": {
+            "$ref": "#/definitions/Error"
+          }
+        }
+      }
+    }
+  }
+}
