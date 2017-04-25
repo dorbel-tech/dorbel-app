@@ -94,16 +94,12 @@ class PropertyManage extends Component {
                        onClick={this.editLeaseDates}>
                     עריכת תקופת השכירות
                   </div>
-                  <div>
-                    <div className="property-manage-lease-period-start">{listingLeaseStart}</div>
-                    <ProgressBar now={(daysPassed * 100) / leasePeriod}/>
-                    <div className="property-manage-lease-period-end">{listingLeaseEnd}</div>
-                  </div>
-                  <div>
-                    תחילת שכירות
-                    {daysLeftLabel} ימים נותרו
-                    תום שכירות
-                  </div>
+                  <div className="property-manage-lease-period-start">{listingLeaseStart}</div>
+                  <div className="property-manage-lease-period-start-label">תחילת שכירות</div>
+                  <ProgressBar now={(daysPassed * 100) / leasePeriod}/>
+                  <div className="property-manage-lease-period-label">{daysLeftLabel} ימים נותרו</div>
+                  <div className="property-manage-lease-period-end">{listingLeaseEnd}</div>
+                  <div className="property-manage-lease-period-end-label">תום שכירות</div>
                 </Col>
               </Row>
             </Grid>;

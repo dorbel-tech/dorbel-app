@@ -29,7 +29,16 @@
     top: 56px;
   }
 
-  .property-manage-lease-period-end {
+  .property-manage-lease-period-start-label,
+  .property-manage-lease-period-end-label {
+    color: #979797;
+    font-size: 13px;
+    position: absolute;
+    top: 72px;
+  }
+
+  .property-manage-lease-period-end,
+  .property-manage-lease-period-end-label {
     left: 0;
   }
 
@@ -39,6 +48,16 @@
     position: absolute;
     right: 85px;
     top: 60px;
+  }
+
+  .property-manage-lease-period-label {
+    color: #979797;
+    font-size: 12px;
+    left: 100px;
+    position: absolute;
+    right: 100px;
+    text-align: center;
+    top: 72px;
   }
 }
 
