@@ -6,6 +6,7 @@ import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
 import CloudinaryImage from '../CloudinaryImage/CloudinaryImage';
 import ListingStatusSelector from './MyProperties/ListingStatusSelector';
 import OHEManager from '~/components/OHEManager/OHEManager';
+import PropertyManage from './MyProperties/PropertyManage';
 import PropertyMenu from './MyProperties/PropertyMenu';
 import PropertyStats from './MyProperties/PropertyStats';
 import EditListing from './MyProperties/EditListing.jsx';
@@ -130,8 +131,9 @@ class Property extends Component {
     );
 
     const propertyTabs = [
-      { relativeRoute: 'stats', title: 'סטטיסטיקות', component: <PropertyStats listing={property} followers={followers || 0} /> },
+      { relativeRoute: 'stats', title: 'סטטיסטיקה', component: <PropertyStats listing={property} followers={followers || 0} /> },
       { relativeRoute: 'ohe', title: 'מועדי ביקור', component: <OHEManager listing={property} /> },
+      { relativeRoute: 'manage', title: 'ניהול', component: <PropertyManage listing={property} /> },
       { relativeRoute: 'edit', title: 'עריכת פרטי הנכס', component: <EditListing listing={property} ref={form => editForm = form} />,
         replaceNavbar: true, hideFromMenu: true, headerButtons: editHeaderButtons }
     ];
