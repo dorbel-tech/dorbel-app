@@ -16,6 +16,10 @@
   padding: 30px;
   position: relative;
 
+  @media (max-width: $screen-sm-max) {
+    padding: 15px;
+  }
+
   .property-manage-lease-period-edit {
     color: $brand-info;
     cursor: pointer;
@@ -41,6 +45,10 @@
     padding-left: 5px;
     position: absolute;
     top: 56px;
+
+    @media (max-width: $screen-xs-max) {
+      top: 76px;
+    }
   }
 
   .property-manage-lease-period-start-label,
@@ -49,6 +57,10 @@
     font-size: 13px;
     position: absolute;
     top: 72px;
+
+    @media (max-width: $screen-xs-max) {
+      top: 92px;
+    }
   }
 
   .property-manage-lease-period-end,
@@ -67,6 +79,11 @@
   .progress {
     height: 8px;
     top: 60px;
+
+    @media (max-width: $screen-xs-max) {
+      left: 5px;
+      right: 16px;
+    }
   }
 
   .property-manage-lease-period-days-passed,
