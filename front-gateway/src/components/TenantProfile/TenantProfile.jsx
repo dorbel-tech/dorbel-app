@@ -93,7 +93,11 @@ class TenantProfile extends Component {
       <Row>
         <Col className="tenant-profile-field" xs={12}>
           <label>טלפון</label>
-          <span>{profile.phone || '-'}</span>
+          <span>
+            <a href={profile.phone ? `tel:${profile.phone}` : ''}>
+              <span>{profile.phone || '-'}</span>
+            </a>
+          </span>
         </Col>
       </Row>
     );
@@ -104,7 +108,9 @@ class TenantProfile extends Component {
       <Row>
         <Col className="tenant-profile-field pad-bottom" xs={12}>
           <label>דואר אלקטרוני</label>
-          <span>{profile.email}</span>
+          <a href={`mailto:${profile.email}`}>
+            <span>{profile.email}</span>
+          </a>
         </Col>
       </Row>
     );
@@ -121,7 +127,7 @@ class TenantProfile extends Component {
         {this.renderSocial(profile)}
         {this.renderPhone(profile)}
         {this.renderEmail(profile)}
-      </Row >
+      </Row>
     );
   }
 }
