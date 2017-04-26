@@ -46,7 +46,7 @@ class DatePicker extends Component {
         dateFormat={dateFormat}
         disabled={this.props.disabled}
         calendarPlacement={this.props.calendarPlacement}
-        // these are reversed because of RTL so need to be set
+        // These are reversed because of RTL
         previousButtonElement=">"
         nextButtonElement="<"
         onChange={this.handleChange.bind(this)}
