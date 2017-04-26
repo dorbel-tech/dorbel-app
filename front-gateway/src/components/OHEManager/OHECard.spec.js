@@ -12,7 +12,7 @@ describe('OHECard', () => {
     if (!shallowOHECard) {
       shallowOHECard = shallow(
         <OHECard {...props} />
-      );
+      ).dive();
     }
     return shallowOHECard;
   };
