@@ -16,7 +16,7 @@ class TenantProfile extends Component {
             <Col className="tenant-profile-field vertical" xs={8}>
               <div>
                 <label>שם</label>
-                <span>{`${profile.first_name} ${profile.last_name}`}</span>
+                <span>{`${profile.first_name || emptyFieldText} ${profile.last_name || emptyFieldText}`}</span>
               </div>
             </Col>
             <Col className="tenant-profile-header-content-picture" xs={4}>
@@ -94,9 +94,14 @@ class TenantProfile extends Component {
         <Col className="tenant-profile-field" xs={12}>
           <label>טלפון</label>
           <span>
-            <a href={profile.phone ? `tel:${profile.phone}` : ''}>
-              <span>{profile.phone || '-'}</span>
-            </a>
+            {
+              profile.phone ?
+                (<a href={`tel:${profile.phone}`}>
+                  <span>{profile.phone}</span>
+                </a>)
+                :
+                (<span>-</span>)
+            }
           </span>
         </Col>
       </Row>
