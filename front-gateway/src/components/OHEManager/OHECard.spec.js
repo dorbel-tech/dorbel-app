@@ -19,7 +19,8 @@ describe('OHECard', () => {
 
   beforeEach(() => {
     props = {
-      ohe: {}
+      ohe: {},
+      appProviders: {}
     };
     shallowOHECard = undefined;
   });
