@@ -98,7 +98,7 @@ class PropertyManage extends Component {
                   <div className="property-manage-lease-period-start">{listingLeaseStart}</div>
                   <div className="property-manage-lease-period-start-label">תחילת שכירות</div>
                   <div className="property-manage-lease-period-days-passed">{daysPassedLabel} ימים עברו</div>
-                  <ProgressBar now={daysPassed <= 0 ? 1 : daysPassed} max={leasePeriod}/>
+                  <ProgressBar now={daysPassed <= 0 ? (leasePeriod / 100) : daysPassed} max={leasePeriod}/>
                   <div className="property-manage-lease-period-days-left">{daysLeftLabel} ימים נותרו</div>
                   <div className="property-manage-lease-period-end">{listingLeaseEnd}</div>
                   <div className="property-manage-lease-period-end-label">תום שכירות</div>
