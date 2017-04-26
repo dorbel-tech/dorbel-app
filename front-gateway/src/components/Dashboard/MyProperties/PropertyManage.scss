@@ -17,9 +17,15 @@
   position: relative;
 
   .property-manage-lease-period-edit {
+    color: $brand-warning;
+    cursor: pointer;
     left: 0;
     position: absolute;
     top: 0;
+
+    &:hover {
+      opacity: 0.7;
+    }
   }
 
   .property-manage-lease-period-start,
@@ -50,13 +56,22 @@
     top: 60px;
   }
 
-  .property-manage-lease-period-label {
-    color: #979797;
+  .property-manage-lease-period-days-passed,
+  .property-manage-lease-period-days-left {
     font-size: 12px;
     left: 100px;
     position: absolute;
     right: 100px;
     text-align: center;
+  }
+
+  .property-manage-lease-period-days-passed {
+    color: #3398db;
+    top: 38px;
+  }
+
+  .property-manage-lease-period-days-left {
+    color: #979797;
     top: 72px;
   }
 }
@@ -66,10 +81,10 @@
 }
 
 .property-manage-modal-section-header {
-	color: #979797;
-	font-size: 12px;
-	font-weight: bold;
-	padding-bottom: 15px;
+  color: #979797;
+  font-size: 12px;
+  font-weight: bold;
+  padding-bottom: 15px;
 }
 
 .property-manage-modal-picker-label {
