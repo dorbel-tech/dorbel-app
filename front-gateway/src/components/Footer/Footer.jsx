@@ -11,36 +11,42 @@ export default class Footer extends React.Component {
     return (
       <Grid className="footer-container" fluid>
         <Row>
-          <Col sm={3} md={2} className="footer-logo-col">
-            <NavLink to="/">
-              <img className="footer-logo-image" alt="Dorbel"
-                src="https://static.dorbel.com/images/logo/dorbel_logo_white.svg" />
-            </NavLink>
-            <div className="footer-logo-col-text">
-              מערכת לניהול והשכרת דירות ונכסים, המאפשרת לנהל את כל התהליכים בקלות ואונליין.
-            </div>
+          <Col sm={6} md={6} className="footer-section-title">
+            מפת האתר
           </Col>
-          <Col sm={3} md={2} className="footer-links-col">
+          <Col sm={4} md={4} className="footer-section-title">
+            עקבו אחרינו
+          </Col>
+        </Row>
+        <Row>
+          <Col sm={2} md={2} className="footer-links-col">
             <NavLink to="/">דף הבית</NavLink>
-            <a href={externalURL + 'about_us'}>מי אנחנו</a>
-            <a href={externalURL + 'owner'}>בעלי דירות</a>
             <a href={externalURL + 'services'}>שירותי פרימיום</a>
+            <a href={externalURL + 'owner'}>בעלי דירות</a>
+            <NavLink to="/apartments/new_form">פרסמו דירה – חינם</NavLink>
           </Col>
-          <Col sm={3} md={2} className="footer-links-col">
-            <a href={externalURL + 'faq'}>שאלות נפוצות</a>
-            <a href="https://www.dorbel.com/blog">הבלוג שלנו</a>
-            <a href={externalURL + 'privacy_policy'}>מדיניות פרטיות</a>
-            <a href={externalURL + 'terms'}>תנאי שימוש</a>
-          </Col>
-          <Col sm={3} md={2} className="footer-links-col">
+          <Col sm={2} md={2} className="footer-links-col">
+            <a href={externalURL + 'about_us'}>מי אנחנו</a>
             <a href={externalURL + 'career'}>בואו לעבוד איתנו</a>
-            <a className="footer-links-follow-text">עקבו אחרינו :)</a>
+            <a href="https://www.dorbel.com/blog">הבלוג שלנו</a>
+            <NavLink to="/apartments">מצאו דירה – ללא תיווך</NavLink>            
+          </Col>
+          <Col sm={2} md={2} className="footer-links-col">
+            <a href={externalURL + 'faq'}>שאלות נפוצות</a>
+            <a href={externalURL + 'terms'}>תנאי שימוש</a>            
+            <a href={externalURL + 'privacy_policy'}>מדיניות פרטיות</a>
+          </Col>
+          <Col sm={4} md={4} className="footer-social-icons">
             <div>
               <a href="https://www.facebook.com/dorbel.home">
-                <i className="footer-links-follow-i fa fa-facebook-square" aria-hidden="true"></i></a>
+                <i className="footer-links-facebook fa fa-facebook" aria-hidden="true"></i></a>
               <a href="https://www.linkedin.com/company/dorbel">
-                <i className="footer-links-follow-i fa fa-linkedin-square" aria-hidden="true"></i></a>
+                <i className="footer-links-linkedin fa fa-linkedin" aria-hidden="true"></i></a>
             </div>
+          </Col>        </Row>
+        <Row>
+          <Col className="text-center footer-copyright">
+            dorbel Ltd 2017. All rights reserved.
           </Col>
         </Row>
       </Grid>
