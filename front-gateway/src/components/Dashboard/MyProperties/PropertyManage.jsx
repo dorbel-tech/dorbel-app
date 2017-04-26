@@ -88,11 +88,12 @@ class PropertyManage extends Component {
               <Row className="property-manage-lease-period">
                 <Col xs={12}>
                   <div>
-                    משך תקופת שכירות נוכחית: {leasePeriodLabel} ימים
+                    תקופת שכירות: {leasePeriodLabel} ימים
                   </div>
                   <div className="property-manage-lease-period-edit"
                        onClick={this.editLeaseDates}>
-                    עריכת תקופת השכירות
+                    <i className="property-manage-lease-period-edit-icon fa fa-pencil-square-o"  aria-hidden="true"></i>
+                    עריכה
                   </div>
                   <div className="property-manage-lease-period-start">{listingLeaseStart}</div>
                   <div className="property-manage-lease-period-start-label">תחילת שכירות</div>

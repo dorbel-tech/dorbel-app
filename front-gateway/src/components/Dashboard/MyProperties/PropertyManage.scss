@@ -17,14 +17,20 @@
   position: relative;
 
   .property-manage-lease-period-edit {
-    color: $brand-warning;
+    color: $brand-info;
     cursor: pointer;
     left: 5px;
     position: absolute;
+    text-decoration: underline;
     top: 0;
 
     &:hover {
       opacity: 0.7;
+    }
+
+    .property-manage-lease-period-edit-icon {
+      padding-left: 5px;
+      vertical-align: middle;
     }
   }
 
