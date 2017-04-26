@@ -19,7 +19,7 @@
   .property-manage-lease-period-edit {
     color: $brand-warning;
     cursor: pointer;
-    left: 0;
+    left: 5px;
     position: absolute;
     top: 0;
 
@@ -31,6 +31,8 @@
   .property-manage-lease-period-start,
   .property-manage-lease-period-end {
     font-size: 13px;
+    letter-spacing: 1px;
+    padding-left: 5px;
     position: absolute;
     top: 56px;
   }
@@ -45,23 +47,25 @@
 
   .property-manage-lease-period-end,
   .property-manage-lease-period-end-label {
-    left: 0;
+    left: 5px;
+  }
+
+  .progress,
+  .property-manage-lease-period-days-passed,
+  .property-manage-lease-period-days-left {
+    left: 75px;
+    position: absolute;
+    right: 100px;
   }
 
   .progress {
     height: 8px;
-    left: 90px;
-    position: absolute;
-    right: 85px;
     top: 60px;
   }
 
   .property-manage-lease-period-days-passed,
   .property-manage-lease-period-days-left {
     font-size: 12px;
-    left: 100px;
-    position: absolute;
-    right: 100px;
     text-align: center;
   }
 
