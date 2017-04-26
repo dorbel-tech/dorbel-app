@@ -17,6 +17,10 @@
     width: 50px;
   }
 
+  .ohe-card-user-table-row {
+    cursor: pointer;
+  }
+
   .ohe-card-user-status-cell {
     color: #3cb878;
   }
@@ -103,7 +107,8 @@
 
       .ohe-card-user-links-cell {
         left: -12px;
-        padding-top: 18px;
+        padding-left: 20px;
+        padding-top: 25px;
         position: absolute;
       }
     }
