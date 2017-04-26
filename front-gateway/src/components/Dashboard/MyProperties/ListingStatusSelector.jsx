@@ -26,7 +26,7 @@ class ListingStatusSelector extends React.Component {
       confirmation = appProviders.modalProvider.showConfirmationModal({
         title: 'סימון הדירה כמושכרת',
         heading: 'השכרתם את הדירה? בשעה טובה!',
-        body: 'שימו לב - למועדה זו מועדי ביקור פעילים. סימון הדירה כמושכרת יבטל את מועדי הביקור וישלח על כך עדכון לדיירים הרשומים, במידה וישנם.',
+        body: <p>שימו לב - למועדה זו מועדי ביקור פעילים. סימון הדירה כמושכרת יבטל את מועדי הביקור וישלח על כך עדכון לדיירים הרשומים, במידה וישנם.</p>,
         confirmButton: 'הדירה הושכרה',
         confirmStyle: 'primary'
       });
@@ -34,7 +34,7 @@ class ListingStatusSelector extends React.Component {
       confirmation = appProviders.modalProvider.showConfirmationModal({
         title: 'הפסקת פרסום המודעה',
         heading: 'ברצונכם לעצור את פרסום המודעה?',
-        body: 'שימו לב - למועדה זו מועדי ביקור פעילים. השהיית המודעה תבטל את מועדי הביקור הקיימים ותשלח על כך עדכון לדיירים הרשומים, במידה וישנם.',
+        body: <p>שימו לב - למועדה זו מועדי ביקור פעילים. השהיית המודעה תבטל את מועדי הביקור הקיימים ותשלח על כך עדכון לדיירים הרשומים, במידה וישנם.</p>,
         confirmButton: 'השהה מודעה'
       });
     }
