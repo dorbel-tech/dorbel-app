@@ -75,7 +75,7 @@ class TenantProfile extends Component {
             </Button>
             <Button
               href={profile.tenant_profile.facebook_url}
-              title={!this.props.isPreview ? 'אפשרו לבעל הדירה לדעת אם יש לכם חברים משותפים' : ''}
+              title={this.props.isPreview ? 'אפשרו לבעל הדירה לדעת אם יש לכם חברים משותפים' : ''}
               className="tenant-profile-social-links-item"
               disabled={!profile.tenant_profile.facebook_url}
               bsStyle="link"

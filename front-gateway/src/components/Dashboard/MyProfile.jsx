@@ -51,7 +51,7 @@ class MyProfile extends Component {
   showPreview(profile) {
     this.props.appProviders.modalProvider.showInfoModal({
       title: 'פרופיל דייר',
-      body: <TenantProfile profile={profile} />,
+      body: <TenantProfile profile={profile} isPreview={true}/>,
     });
   }
 

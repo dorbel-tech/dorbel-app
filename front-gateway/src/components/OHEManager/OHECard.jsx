@@ -64,7 +64,7 @@ class OHECard extends React.Component {
               <td className="ohe-card-user-status-cell">{registration.is_active ? 'מתכוון להגיע' : 'הגעה בוטלה'}</td>
               <td className="ohe-card-user-phone-cell">{registration.user.phone || ' '}</td>
               <td className="ohe-card-user-links-cell">
-                <i className={'fa fa-2x fa-facebook-square ' + (registration.user.user_metadata.tenant_profile.facebook_url ? '' : 'ohe-card-facebook')}></i>
+                <i className={'fa fa-2x fa-facebook-square ' + (registration.user.tenant_profile.facebook_url ? '' : 'ohe-card-facebook')}></i>
               </td>
             </tr>
           ))}
