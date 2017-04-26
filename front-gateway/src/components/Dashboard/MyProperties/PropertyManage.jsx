@@ -76,7 +76,7 @@ class PropertyManage extends Component {
     const daysPassed = moment().diff(moment(listing.lease_start), 'days');
     const daysLeft = leasePeriod - daysPassed;
     const leasePeriodLabel = leasePeriod || '-';
-    const daysPassedLabel = daysPassed || '-';
+    const daysPassedLabel = daysPassed < 0 ? 0 : daysPassed;
     const daysLeftLabel = daysLeft || '-';
 
     return  <Grid fluid className="property-manage">
@@ -88,7 +88,7 @@ class PropertyManage extends Component {
               <Row className="property-manage-lease-period">
                 <Col xs={12}>
                   <div>
-                    תקופת שכירות: {leasePeriodLabel} ימים
+                    תקופת השכירות: {leasePeriodLabel} ימים
                   </div>
                   <div className="property-manage-lease-period-edit"
                        onClick={this.editLeaseDates}>
@@ -98,7 +98,7 @@ class PropertyManage extends Component {
                   <div className="property-manage-lease-period-start">{listingLeaseStart}</div>
                   <div className="property-manage-lease-period-start-label">תחילת שכירות</div>
                   <div className="property-manage-lease-period-days-passed">{daysPassedLabel} ימים עברו</div>
-                  <ProgressBar now={(daysPassed * 100) / leasePeriod}/>
+                  <ProgressBar now={daysPassed <= 0 ? 1 : daysPassed} max={leasePeriod}/>
                   <div className="property-manage-lease-period-days-left">{daysLeftLabel} ימים נותרו</div>
                   <div className="property-manage-lease-period-end">{listingLeaseEnd}</div>
                   <div className="property-manage-lease-period-end-label">תום שכירות</div>
