@@ -61,11 +61,11 @@ class Property extends Component {
     location.reload(true);
   }
 
-  showActionsMenu(e) {
+  showActionsMenu() {
     this.setState({ showActionsMenu: true });
   }
 
-  hideActionsMenu(e) {
+  hideActionsMenu() {
     this.setState({ showActionsMenu: false });
   }
 
