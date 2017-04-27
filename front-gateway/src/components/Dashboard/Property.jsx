@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import autobind from 'react-autobind';
-import { Button, Col, Grid, Row, OverlayTrigger, Popover } from 'react-bootstrap';
+import { Button, Col, Grid, Row, Overlay, Popover } from 'react-bootstrap';
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
 import CloudinaryImage from '../CloudinaryImage/CloudinaryImage';
 import ListingStatusSelector from './MyProperties/ListingStatusSelector';
 import OHEManager from '~/components/OHEManager/OHEManager';
+import PropertyManage from './MyProperties/PropertyManage';
 import PropertyMenu from './MyProperties/PropertyMenu';
 import PropertyStats from './MyProperties/PropertyStats';
 import EditListing from './MyProperties/EditListing.jsx';
@@ -40,11 +41,16 @@ class Property extends Component {
   }
 
   loadFullPropertyDetails() {
-    let propertyId = this.props.propertyId;
-    if (!this.props.appStore.listingStore.get(propertyId)) {
+    const { propertyId, appStore, appProviders } = this.props;
+    if (!appStore.listingStore.get(propertyId)) {
       this.setState({ isLoading: true });
-      this.props.appProviders.listingsProvider.loadFullListingDetails(propertyId)
-        .then(() => this.setState({ isLoading: false }));
+      appProviders.listingsProvider.loadFullListingDetails(propertyId)
+        .then(() => {
+          const listing = appStore.listingStore.get(propertyId);
+          if (appStore.listingStore.isListingPublisherOrAdmin(listing)) {
+            this.setState({ isLoading: false });
+          }
+        });
     }
   }
 
@@ -60,22 +66,33 @@ class Property extends Component {
     location.reload(true);
   }
 
-  renderPopoverMenu(property) {
+  showActionsMenu() {
+    this.setState({ showActionsMenu: true });
+  }
+
+  hideActionsMenu() {
+    this.setState({ showActionsMenu: false });
+  }
+
+  renderActionsMenu(property) {
     return (
-        <Popover id="property-actions-menu" className="property-actions-menu">
-          <div className="property-actions-menu-item property-action-menu-item-show-mobile" onClick={() => this.gotoPublishedListing(property)}>
-            <i className="property-actions-menu-item-icon fa fa-picture-o"></i>
-            לצפייה במודעה
-          </div>
-          <div className="property-actions-menu-item property-action-menu-item-show-mobile" onClick={this.refresh}>
-            <i className="property-actions-menu-item-icon fa fa-refresh" aria-hidden="true"></i>
-            רענון
-          </div>
-          <div className="property-actions-menu-item" onClick={() =>this.gotoEditProperty(property)}>
-            <i className="property-actions-menu-item-icon fa fa-pencil-square-o"  aria-hidden="true"></i>
-            עריכת פרטי הנכס
-          </div>
-        </Popover>
+      <Popover onMouseEnter={this.showActionsMenu}
+               onMouseLeave={this.hideActionsMenu}
+               id="property-actions-menu"
+               className="property-actions-menu">
+        <div className="property-actions-menu-item property-action-menu-item-show-mobile" onClick={() => this.gotoPublishedListing(property)}>
+          <i className="property-actions-menu-item-icon fa fa-picture-o"></i>
+          לצפייה במודעה
+        </div>
+        <div className="property-actions-menu-item property-action-menu-item-show-mobile" onClick={this.refresh}>
+          <i className="property-actions-menu-item-icon fa fa-refresh" aria-hidden="true"></i>
+          רענון נתונים
+        </div>
+        <div className="property-actions-menu-item" onClick={() =>this.gotoEditProperty(property)}>
+          <i className="property-actions-menu-item-icon fa fa-pencil-square-o"  aria-hidden="true"></i>
+          עריכת פרטי הנכס
+        </div>
+      </Popover>
     );
   }
 
@@ -106,12 +123,21 @@ class Property extends Component {
                   onClick={() => this.gotoPublishedListing(property)}></Button>
         </div>
         <div className="property-actions-menu-container">
-          <OverlayTrigger trigger="click" placement="bottom" overlay={this.renderPopoverMenu(property)}
-                          container={this} containerPadding={5} rootClose>
-            <Button className="property-action-button">
-              <i className="fa fa-bars" aria-hidden="true"></i>
-            </Button>
-          </OverlayTrigger>
+          <Button className="property-action-button"
+                  onMouseEnter={this.showActionsMenu}
+                  onMouseLeave={this.hideActionsMenu}
+                  onClick={this.showActionsMenu}>
+            <i ref="propertyActionMenuButton"
+               className="fa fa-bars"
+               aria-hidden="true"></i>
+          </Button>
+          <Overlay show={this.state.showActionsMenu}
+                   onHide={this.hideActionsMenu}
+                   placement="bottom"
+                   target={this.refs.propertyActionMenuButton}
+                   rootClose>
+            {this.renderActionsMenu(property)}
+          </Overlay>
         </div>
       </div>
     );
@@ -130,8 +156,9 @@ class Property extends Component {
     );
 
     const propertyTabs = [
-      { relativeRoute: 'stats', title: 'סטטיסטיקות', component: <PropertyStats listing={property} followers={followers || 0} /> },
+      { relativeRoute: 'stats', title: 'סטטיסטיקה', component: <PropertyStats listing={property} followers={followers || 0} /> },
       { relativeRoute: 'ohe', title: 'מועדי ביקור', component: <OHEManager listing={property} /> },
+      { relativeRoute: 'manage', title: 'ניהול', component: <PropertyManage listing={property} /> },
       { relativeRoute: 'edit', title: 'עריכת פרטי הנכס', component: <EditListing listing={property} ref={form => editForm = form} />,
         replaceNavbar: true, hideFromMenu: true, headerButtons: editHeaderButtons }
     ];

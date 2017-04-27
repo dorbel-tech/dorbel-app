@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import autobind from 'react-autobind';
-import { Grid, Row } from 'react-bootstrap';
+import { Grid, Row, Button } from 'react-bootstrap';
 import { inject, observer } from 'mobx-react';
 import FormWrapper from '~/components/FormWrapper/FormWrapper';
 import SubmitButton from '~/components/SubmitButton/SubmitButton';
 import TabBar from '~/components/TabBar/TabBar';
+import TenantProfile from '../TenantProfile/TenantProfile';
 
-import MyProfileFields from './Profile/MyProfileFields';
-import TenantProfileFields from './Profile/TenantProfileFields';
+import MyProfileFields from './MyProfile/MyProfileFields';
+import MyTenantProfileFields from './MyProfile/MyTenantProfileFields';
 
 import './MyProfile.scss';
 
@@ -18,7 +19,7 @@ class MyProfile extends Component {
     autobind(this);
     this.tabs = [
       { key: 'me', title: 'פרטי קשר', content: MyProfileFields },
-      { key: 'tenant', title: 'פרופיל דייר', content: TenantProfileFields }
+      { key: 'tenant', title: 'פרופיל דייר', content: MyTenantProfileFields }
     ];
 
     this.state = {
@@ -47,15 +48,29 @@ class MyProfile extends Component {
     return (<this.state.activeTab.content profile={profile} />);
   }
 
+  showPreview(profile) {
+    this.props.appProviders.modalProvider.showInfoModal({
+      title: 'פרופיל דייר',
+      body: <TenantProfile profile={profile} isPreview={true}/>,
+    });
+  }
+
   render() {
     const { authStore } = this.props.appStore;
+
     const profile = authStore.profile;
 
     return (
       <Grid fluid className="profile-container">
         <TabBar tabs={this.tabs} activeKey={this.state.activeTab.key} onChangeTab={this.changeTab} />
         <Row className="profile-edit-wrapper">
-          <div className="profile-title">{this.state.activeTab.title}</div>
+          <div className="profile-header">
+            <div className="profile-title pull-right">{this.state.activeTab.title}</div>
+            <Button className="profile-preview pull-left" onClick={() => { this.showPreview(profile); }}>
+              תצוגה מקדימה&nbsp;
+              <i className='fa fa-external-link' />
+            </Button>
+          </div>
           <div className="profile-edit-container">
             <div className={this.state.activeTab.content.showPicture ? 'profile-picture-container' : 'hidden'}>
               <img className="profile-picture" src={profile.picture} />

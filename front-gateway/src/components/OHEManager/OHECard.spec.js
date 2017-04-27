@@ -12,14 +12,15 @@ describe('OHECard', () => {
     if (!shallowOHECard) {
       shallowOHECard = shallow(
         <OHECard {...props} />
-      );
+      ).dive();
     }
     return shallowOHECard;
   };
 
   beforeEach(() => {
     props = {
-      ohe: {}
+      ohe: {},
+      appProviders: {}
     };
     shallowOHECard = undefined;
   });

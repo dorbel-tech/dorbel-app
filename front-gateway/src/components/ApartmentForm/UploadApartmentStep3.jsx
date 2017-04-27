@@ -149,7 +149,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
                 צוות dorbel
               </p>
               <p>
-                <Button bsStyle="info submit-success" onClick={this.onCloseSuccessModal.bind(this)}>קחו אותי לחשבון שלי</Button>
+                <Button bsStyle="info" className="submit-success" onClick={this.onCloseSuccessModal.bind(this)}>קחו אותי לחשבון שלי</Button>
               </p>
             </div>
           }
