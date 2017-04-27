@@ -109,6 +109,12 @@ class ApiClient {
       .send(tenant);
   }
 
+  getTenants(listingId) {
+    return this
+      .request.get(`/v1/listings/${listingId}/tenants`)
+      .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile));
+  }
+
   static * init(userProfile) {
     let request;
 

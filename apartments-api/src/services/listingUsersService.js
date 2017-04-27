@@ -8,14 +8,9 @@ const errors = shared.utils.domainErrors;
 const userManagement = shared.utils.userManagement;
 
 function * create(listing_id, payload, requestingUser) {
-  // TODO: this first part is repeating in many places in the API
-  let listing = yield listingRepository.getById(listing_id);
+  yield getAndVerifyListing(listing_id, requestingUser);
 
-  if (!listing) {
-    throw new errors.DomainNotFoundError('listing not found', { listing_id }, 'listing not found');
-  } else if (!permissionsService.isPublishingUserOrAdmin(requestingUser, listing)) {
-    throw new errors.NotResourceOwnerError();
-  } else if (!payload.email && !payload.first_name) {
+  if (!payload.email && !payload.first_name) {
     throw new errors.DomainValidationError('missing params', payload, 'must include email or first_name');
   }
 
@@ -47,6 +42,33 @@ function * create(listing_id, payload, requestingUser) {
   return listingUsersRepository.create(userToCreate);
 }
 
+function * get(listing_id, requestingUser) {
+  yield getAndVerifyListing(listing_id, requestingUser);
+  const users = listingUsersRepository.getUsersForListing(listing_id);
+  return yield users.map(userFromDb => {
+    if (userFromDb.user_id) {
+      return userManagement.getPublicProfile(userFromDb.user_id)
+        .then(publicProfile => Object.assign(publicProfile, { id: userFromDb.id }));
+    } else {
+      return _.pick(userFromDb, [ 'email', 'first_name', 'last_name', 'phone_number', 'id' ]);
+    }
+  });
+}
+
+// TODO: this is repeating in many places in the API and should be moved to some place generic
+function * getAndVerifyListing(listing_id, requestingUser) {
+  const listing = yield listingRepository.getById(listing_id);
+
+  if (!listing) {
+    throw new errors.DomainNotFoundError('listing not found', { listing_id }, 'listing not found');
+  } else if (!permissionsService.isPublishingUserOrAdmin(requestingUser, listing)) {
+    throw new errors.NotResourceOwnerError();
+  }
+
+  return listing;
+}
+
 module.exports = {
-  create
+  create,
+  get: get
 };

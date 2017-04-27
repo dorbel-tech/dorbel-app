@@ -1,7 +1,7 @@
 'use strict';
 const listingUsersService = require('../../services/listingUsersService');
 
-function* post() {
+function * post() {
   const listingId = this.params.listingId;
   const userToCreate = this.request.body;
 
@@ -9,6 +9,13 @@ function* post() {
   this.response.status = 201;
 }
 
+function * get() {
+  const listingId = this.params.listingId;
+  this.response.body = yield listingUsersService.get(listingId, this.request.user);
+  this.response.status = 200;
+}
+
 module.exports = {
-  post
+  post,
+  get: get
 };
