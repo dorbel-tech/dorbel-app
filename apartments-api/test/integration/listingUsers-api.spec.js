@@ -1,6 +1,6 @@
 'use strict';
 const ApiClient = require('./apiClient.js');
-// const _ = require('lodash');
+const _ = require('lodash');
 const __ = require('hamjest');
 const fakeObjectGenerator = require('../shared/fakeObjectGenerator');
 const faker = require('faker');
@@ -43,7 +43,7 @@ describe.only('Apartments API Listing Users integration', function () {
         first_name: faker.name.firstName(),
         last_name: faker.name.lastName(),
         email: faker.internet.email(),
-        phone_number: faker.phone.phoneNumber()
+        phone: faker.phone.phoneNumber()
       };
 
       const response = yield this.apiClient.postTenant(this.createdListing.id, guestTenant).expect(201).end();
@@ -59,8 +59,8 @@ describe.only('Apartments API Listing Users integration', function () {
       __.assertThat(response.body, __.hasProperties({
         first_name: this.apiClient.userProfile.first_name,
         last_name: this.apiClient.userProfile.last_name,
-        phone_number: this.apiClient.userProfile.phone,
-        user_id: this.apiClient.userProfile.id
+        phone: this.apiClient.userProfile.phone,
+        user_uuid: this.apiClient.userProfile.id
       }));
     });
 
@@ -75,11 +75,7 @@ describe.only('Apartments API Listing Users integration', function () {
       // these assertions depend on the tenants created in the POST tenants tests
       __.assertThat(response.body, __.allOf(
         __.hasItems(
-          __.hasProperties({
-            first_name: this.apiClient.userProfile.first_name,
-            last_name: this.apiClient.userProfile.last_name,
-            phone: this.apiClient.userProfile.phone,
-          }),
+          __.hasProperties(_.pick(this.apiClient.userProfile, [ 'first_name', 'last_name', 'phone' ])),
           __.hasProperties(guestTenant)
         ),
         __.everyItem(__.hasProperties({ id: __.number(), first_name: __.string() }))

@@ -18,13 +18,13 @@ module.exports = {
             key: 'id'
           }
         },
-        user_id: {
+        user_uuid: {
           type: Sequelize.UUID
         },
         first_name: Sequelize.STRING,
         last_name: Sequelize.STRING,
         email: Sequelize.STRING,
-        phone_number: Sequelize.STRING,
+        phone: Sequelize.STRING,
         type: {
           type: Sequelize.ENUM,
           values: ['tenant', 'landlord'],

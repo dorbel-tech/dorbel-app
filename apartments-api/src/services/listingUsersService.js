@@ -15,29 +15,25 @@ function * create(listing_id, payload, requestingUser) {
   }
 
   let existingUser;
-  const userToCreate = {
-    listing_id,
-    email: payload.email
-  };
 
   if (payload.email) {
     existingUser = yield userManagement.getUserDetailsByEmail(payload.email);
   }
 
-  if (existingUser) {
-    Object.assign(userToCreate, {
-      user_id: _.get(existingUser, 'app_metadata.dorbel_user_id'),
-      first_name: _.get(existingUser, 'user_metadata.first_name'),
-      last_name: _.get(existingUser, 'user_metadata.last_name'),
-      phone_number: _.get(existingUser, 'user_metadata.phone')
-    });
-  } else {
-    Object.assign(userToCreate, {
-      first_name: payload.first_name,
-      last_name: payload.last_name,
-      phone_number: payload.phone_number
-    });
-  }
+  const userToCreate = existingUser ? {
+    listing_id,
+    user_uuid: _.get(existingUser, 'app_metadata.dorbel_user_id'),
+    email: _.get(existingUser, 'email'),
+    first_name: _.get(existingUser, 'user_metadata.first_name'),
+    last_name: _.get(existingUser, 'user_metadata.last_name'),
+    phone: _.get(existingUser, 'user_metadata.phone')
+  } : {
+    listing_id,
+    email: payload.email,
+    first_name: payload.first_name,
+    last_name: payload.last_name,
+    phone: payload.phone
+  };
 
   return listingUsersRepository.create(userToCreate);
 }
@@ -46,11 +42,11 @@ function * get(listing_id, requestingUser) {
   yield getAndVerifyListing(listing_id, requestingUser);
   const users = listingUsersRepository.getUsersForListing(listing_id);
   return yield users.map(userFromDb => {
-    if (userFromDb.user_id) {
-      return userManagement.getPublicProfile(userFromDb.user_id)
+    if (userFromDb.user_uuid) {
+      return userManagement.getPublicProfile(userFromDb.user_uuid)
         .then(publicProfile => Object.assign(publicProfile, { id: userFromDb.id }));
     } else {
-      return _.pick(userFromDb, [ 'email', 'first_name', 'last_name', 'phone_number', 'id' ]);
+      return _.pick(userFromDb, [ 'email', 'first_name', 'last_name', 'phone', 'id' ]);
     }
   });
 }
