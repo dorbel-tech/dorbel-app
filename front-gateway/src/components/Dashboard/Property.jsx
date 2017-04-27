@@ -81,7 +81,7 @@ class Property extends Component {
         </div>
         <div className="property-actions-menu-item property-action-menu-item-show-mobile" onClick={this.refresh}>
           <i className="property-actions-menu-item-icon fa fa-refresh" aria-hidden="true"></i>
-          רענון
+          רענון נתונים
         </div>
         <div className="property-actions-menu-item" onClick={() =>this.gotoEditProperty(property)}>
           <i className="property-actions-menu-item-icon fa fa-pencil-square-o"  aria-hidden="true"></i>
