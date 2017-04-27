@@ -73,7 +73,7 @@ describe('Listing Users Service', function () {
       yield assertYieldedError(
         () => this.listingUsersService.create(1, { last_name: 'only' }, requestingUser),
         __.hasProperties({
-          message: 'must include email or first_name',
+          message: 'must include first_name for non-registered user',
           status: 400
         })
       );

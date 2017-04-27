@@ -5,14 +5,11 @@ const listingUsersRepository = require('../apartmentsDb/repositories/listingUser
 const listingRepository = require('../apartmentsDb/repositories/listingRepository');
 const permissionsService = require('./permissionsService');
 const errors = shared.utils.domainErrors;
+const logger = shared.logger.getLogger(module);
 const userManagement = shared.utils.userManagement;
 
 function * create(listing_id, payload, requestingUser) {
   yield getAndVerifyListing(listing_id, requestingUser);
-
-  if (!payload.email && !payload.first_name) {
-    throw new errors.DomainValidationError('missing params', payload, 'must include email or first_name');
-  }
 
   // TODO : check for duplicate users on same listing
 
@@ -78,6 +75,7 @@ function * getAndVerifyListing(listing_id, requestingUser) {
   if (!listing) {
     throw new errors.DomainNotFoundError('listing not found', { listing_id }, 'listing not found');
   } else if (!permissionsService.isPublishingUserOrAdmin(requestingUser, listing)) {
+    logger.error({ resource_owner_id: listing.publishing_user_id, user_id: requestingUser.id }, 'Requesting user is not the resource owner!');
     throw new errors.NotResourceOwnerError();
   }
 
