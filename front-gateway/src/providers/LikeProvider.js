@@ -27,7 +27,13 @@ class LikeProvider {
     const method = isLiked ? 'POST' : 'DELETE';
     this.appStore.likeStore.likesByListingId.set(listingId, isLiked); 
     return this.apiProvider.fetch(`/api/apartments/v1/likes/${listingId}`, { method })
-      .catch(() => { this.appStore.likeStore.likesByListingId.set(listingId, !isLiked); });
+      .catch(() => { 
+        this.appStore.likeStore.likesByListingId.set(listingId, !isLiked); 
+
+        if (isLiked) {
+          window.analytics.track('client_wishlist_conversion'); // For Facebook conversion tracking.
+        }        
+      });
   }
 }
 

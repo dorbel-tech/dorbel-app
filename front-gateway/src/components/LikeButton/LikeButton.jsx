@@ -11,8 +11,7 @@ class LikeButton extends Component {
     e.preventDefault();
     if (this.props.appStore.authStore.isLoggedIn) {
       let wasLiked = this.props.appProviders.likeProvider.get(this.props.listingId);
-      this.props.appProviders.likeProvider.set(this.props.listingId, !wasLiked);
-      !wasLiked && window.analytics.track('client_wishlist_conversion'); // For Facebook conversion tracking.
+      this.props.appProviders.likeProvider.set(this.props.listingId, !wasLiked);  
 
       // Update listing.totalLikes if exists in listingStore 
       let listing = this.props.appStore.listingStore.get(this.props.listingId);

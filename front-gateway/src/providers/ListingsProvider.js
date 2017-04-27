@@ -70,7 +70,10 @@ class ListingsProvider {
         phone: listing.user.phone,
         email: listing.user.email
       }))
-      .then(() => { return createdListing; });
+      .then(() => { 
+        window.analytics.track('client_lead_conversion'); // For Facebook conversion tracking.
+        return createdListing; 
+      });
   }
 
   updateListing(listingId, data) {
