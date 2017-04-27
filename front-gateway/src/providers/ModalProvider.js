@@ -31,4 +31,30 @@ export default class ModalProvider {
       this.appStore.showModal = true;
     });
   }
+
+  showInfoModal(params) {
+    return new Promise((resolve) => {
+      const close = () => {
+        resolve(true);
+        this.appStore.showModal = false;
+      };
+
+      this.appStore.modalParams = {
+        title: params.title,
+        body: (
+          <div>
+            {params.heading ? (<h4>{params.heading}</h4>) : null}
+            <div>
+              {params.body}
+            </div>
+          </div>
+        ),
+        footer: params.footer,
+        modalSize: params.modalSize || 'small',
+        onClose: () => close()
+      };
+
+      this.appStore.showModal = true;
+    });
+  }
 }

@@ -46,11 +46,25 @@
   }
 }
 
-.profile-title {
-  color: $gray;
-  font-size: 18px;
-  margin: 10px 0;
-  display: block;
+.profile-header {
+  height: 35px;
+
+  .profile-title {
+    color: $gray;
+    font-size: 18px;
+    display: inline-block;
+  }
+
+  .profile-preview {
+    background-color: #eee !important;
+    border-color: #1cb039 !important;
+    color: #1cb039 !important;
+    outline: none;
+
+    i {
+      vertical-align: middle;
+    }
+  }
 }
 
 .profile-edit-wrapper {
@@ -61,6 +75,10 @@
 
 .profile-edit-container {
   background-color: $brand-white;
+
+  @media (max-width: $screen-xs-max) {
+    margin-top: 75px;
+  }
 }
 
 .profile-form {
