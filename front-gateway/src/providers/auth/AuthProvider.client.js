@@ -86,7 +86,7 @@ class AuthProvider {
   reportIdentifyAnalytics(profile) {
     // https://segment.com/docs/integrations/intercom/#identify
     if (profile) {
-      window.analytics.identify(profile.dorbel_user_id, profile);
+      window.analytics.identify(profile.id, profile);
     }
   }
 }
