@@ -39,7 +39,7 @@ describe('Open House Event Finder Service', function () {
         // __.assertThat('code', __.is('not reached'));
       }
       catch (error) {
-        __.assertThat(error.message, __.is('event does not exist'));
+        __.assertThat(error.message, __.is('האירוע לא קיים'));
       }
     });
   });
