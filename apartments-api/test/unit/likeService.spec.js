@@ -13,12 +13,13 @@ describe('Likes Service', function () {
       isLiked: sinon.stub().resolves(true),
       getUserLikes: sinon.stub().resolves([{ listing_id: this.mockListing.id }])
     };
+    process.env.NOTIFICATIONS_SNS_TOPIC_ARN = 'mocked';
 
     this.dorbelSharedMock = require('dorbel-shared');
     this.dorbelSharedMock.utils.messageBus.publish = sinon.spy();
     mockRequire('../../src/apartmentsDb/repositories/likeRepository', this.likeRepositoryMock);
     mockRequire('dorbel-shared', this.dorbelSharedMock);
-    
+
     this.likeService = require('../../src/services/likeService');
   });
 
