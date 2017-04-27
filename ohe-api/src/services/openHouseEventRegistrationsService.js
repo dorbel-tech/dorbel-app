@@ -61,7 +61,7 @@ function* unregister(event_id, user) {
   if (existingRegistration == undefined) {
     throw new errors.DomainNotFoundError('OpenHouseEventRegistrationNotFoundError',
       { ohe_id: event_id, user_uuid: user.id },
-      'רישום לא קיים');
+      'לא קיים רישום לאירוע');
   }
 
   utilityFunctions.validateResourceOwnership(existingRegistration.registered_user_id, user);

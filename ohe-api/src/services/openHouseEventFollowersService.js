@@ -21,7 +21,7 @@ function* follow(listingId, user) {
     if (alreadyFollow.length) {
       throw new errors.DomainValidationError('OpenHouseEventFollowerValidationError',
         { listing_id: listingId, user_uuid: user.id },
-        'משתמש כבר עוקב אחרי הנכס');
+        'המשתמש כבר עוקב אחרי הנכס');
     }
   }
 
