@@ -3,6 +3,7 @@
 var _ = require('lodash');
 var moment = require('moment');
 const shared = require('dorbel-shared');
+const logger = shared.logger.getLogger(module);
 const errors = shared.utils.domainErrors;
 const userManagement = shared.utils.userManagement;
 
@@ -26,6 +27,7 @@ function calculateOHEStatus(oheModel, userId) { // userId is the registred userI
 
 function validateResourceOwnership(resourceOwnerId, user) {
   if (!user || (!userManagement.isUserAdmin(user) && resourceOwnerId != user.id)) {
+    logger.error({ resource_owner_id: resourceOwnerId, user_id: user.id }, 'Requesting user is not the resource owner!');
     throw new errors.NotResourceOwnerError();
   }
 }

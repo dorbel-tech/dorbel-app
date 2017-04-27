@@ -82,7 +82,7 @@ function* update(id, updateRequest, user) {
 
   if (start.toDate().toDateString() !== existingEvent.start_time.toDateString() ||
       end.toDate().toDateString() !== existingEvent.end_time.toDateString()) {
-    throw new errors.DomainValidationError('OpenHouseEventValidationError', {}, 'not allowed to edit day');
+    throw new errors.DomainValidationError('OpenHouseEventValidationError', {}, 'אי אפשר לערוך תאריך');
   }
 
   const timeChanged = !start.isSame(existingEvent.start_time) || !end.isSame(existingEvent.end_time);

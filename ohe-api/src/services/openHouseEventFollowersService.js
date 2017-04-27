@@ -21,7 +21,7 @@ function* follow(listingId, user) {
     if (alreadyFollow.length) {
       throw new errors.DomainValidationError('OpenHouseEventFollowerValidationError',
         { listing_id: listingId, user_uuid: user.id },
-        'user already follows this listing');
+        'משתמש כבר עוקב אחרי הנכס');
     }
   }
 
@@ -54,7 +54,7 @@ function* unfollow(followId, user) {
   if (existingFollower == undefined) {
     throw new errors.DomainNotFoundError('OpenHouseEventFollowerNotFoundError',
       { follow_id: followId },
-      'follower does not exist');
+      'עוקב לא קיים');
   }
 
   utilityFunctions.validateResourceOwnership(existingFollower.following_user_id, user);

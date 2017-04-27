@@ -61,7 +61,7 @@ function* unregister(event_id, user) {
   if (existingRegistration == undefined) {
     throw new errors.DomainNotFoundError('OpenHouseEventRegistrationNotFoundError',
       { ohe_id: event_id, user_uuid: user.id },
-      'registration does not exist');
+      'רישום לא קיים');
   }
 
   utilityFunctions.validateResourceOwnership(existingRegistration.registered_user_id, user);
@@ -96,16 +96,16 @@ function validateEventRegistration(event, user_id) {
     case 'open':
       break;
     case 'expired':
-      errorMessage = 'cannot register to past event';
+      errorMessage = 'לא ניתן להרשם לאירועים שחלפו';
       break;
     case 'full':
-      errorMessage = 'event is full';
+      errorMessage = 'האירוע מלא';
       break;
     case 'registered':
-      errorMessage = 'user already registered to this event';
+      errorMessage = 'המשתמש כבר רשום לאירוע זה';
       break;
     case 'late':
-      errorMessage = 'to late to register';
+      errorMessage = 'מאוחר מדי להרשם, האירוע הולך להתחיל בקרוב';
   }
 
   if (errorMessage) {

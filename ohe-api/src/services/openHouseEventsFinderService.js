@@ -10,7 +10,7 @@ function* find(eventId) {
   if (existingEvent == undefined) {
     throw new errors.DomainNotFoundError('OpenHouseEventNotFoundError',
       { event_id: eventId },
-      'event does not exist');
+      'האירוע לא קיים');
   }
 
   return existingEvent;

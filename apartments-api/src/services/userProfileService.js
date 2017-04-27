@@ -34,7 +34,7 @@ function* update(user, profileData) {
     return newUserProfile;
   }
   else {
-    logger.error({ user_uuid: user.id, userData: profileData }, 'Not allowed to update user details');
+    logger.error({ userData: profileData }, 'Not allowed to update user details');
     throw new errors.NotResourceOwnerError();
   }
 }
