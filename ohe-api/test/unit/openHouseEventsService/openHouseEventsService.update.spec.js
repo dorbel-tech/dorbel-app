@@ -245,7 +245,7 @@ describe('Open House Event Service - update', function () {
     yield assertYieldedError(
       () => this.update(params),
       __.hasProperties({
-        message: 'not allowed to edit day',
+        message: 'לא ניתן לערוך תאריך לאירוע',
         status: 400
       })
     );

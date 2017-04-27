@@ -83,7 +83,7 @@ describe('Listing Followers Service', function () {
         __.assertThat('code', __.is('not reached'));
       }
       catch (error) {
-        __.assertThat(error.message, __.is('user already follows this listing'));
+        __.assertThat(error.message, __.is('המשתמש כבר עוקב אחרי הנכס'));
         __.assertThat(this.sendNotification.callCount, __.is(0));
       }
     });
@@ -112,7 +112,7 @@ describe('Listing Followers Service', function () {
         yield this.service.unfollow(1, fakeUser);
       }
       catch (error) {
-        __.assertThat(error.message, __.is('event does not exist'));
+        __.assertThat(error.message, __.is('עוקב לא קיים'));
         __.assertThat(this.sendNotification.callCount, __.is(0));
       }
     });
