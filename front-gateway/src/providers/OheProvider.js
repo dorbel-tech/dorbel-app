@@ -127,7 +127,7 @@ class OheProvider {
 
       if (this.appStore.authStore.isLoggedIn) {
         const user = this.appStore.authStore.profile;
-        usersFollowDetails = _.find(followers, { following_user_id: user.id });
+        usersFollowDetails = _.find(followers, { following_user_id: user.dorbel_user_id });
       }
 
       this.appStore.oheStore.usersFollowsByListingId.set(listing_id, usersFollowDetails);
