@@ -6,6 +6,7 @@ import autobind from 'react-autobind';
 class AuthProvider {
   constructor(clientId, domain, authStore, router, apiProvider) {
     autobind(this);
+
     this.lock = auth0.initLock(clientId, domain);
     this.lock.on('authenticated', this.afterAuthentication);
     this.lock.on('hide', this.hideHandler);

@@ -1,4 +1,5 @@
 'use strict';
+const _ = require('lodash');
 
 function initLock(clientId, domain) {
   const Auth0Lock = require('auth0-lock').default; // can only be required on client side
@@ -42,16 +43,25 @@ function initLock(clientId, domain) {
 }
 
 function mapAuth0Profile(auth0profile) {
-  const user_metadata = auth0profile.user_metadata || {};
-  const app_metadata = auth0profile.app_metadata || {};
+  const mappedProfile = {
+    email: _.get(auth0profile, 'user_metadata.email') || auth0profile.email,
+    first_name: _.get(auth0profile, 'user_metadata.first_name') || auth0profile.given_name,
+    last_name: _.get(auth0profile, 'user_metadata.last_name') || auth0profile.family_name,
+    phone: _.get(auth0profile, 'user_metadata.phone'),
+    picture: auth0profile.picture,
+    tenant_profile: _.get(auth0profile, 'user_metadata.tenant_profile')
+  };
 
-  return Object.assign({}, auth0profile, {
-    first_name: user_metadata.first_name || auth0profile.given_name,
-    last_name: user_metadata.last_name || auth0profile.family_name,
-    email: user_metadata.email || auth0profile.email,
-    phone: user_metadata.phone || auth0profile.phone,
-    role: app_metadata.role || 'user'
-  });
+  if (!mappedProfile.tenant_profile) {
+    mappedProfile.tenant_profile = {};
+    if (_.get(auth0profile, 'identities[0].provider') === 'facebook') {
+      mappedProfile.tenant_profile.facebook_url = auth0profile.link;
+    }
+  }
+  mappedProfile.role = _.get(auth0profile, 'app_metadata.role');
+  mappedProfile.id = _.get(auth0profile, 'app_metadata.dorbel_user_id');
+
+  return mappedProfile;
 }
 
 module.exports = {

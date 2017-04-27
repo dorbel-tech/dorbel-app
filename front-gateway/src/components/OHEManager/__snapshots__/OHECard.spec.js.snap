@@ -95,7 +95,8 @@ exports[`OHECard should render with a single registration 1`] = `
       striped={false}>
       <tbody>
         <tr
-          className="ohe-card-user-table-row">
+          className="ohe-card-user-table-row"
+          onClick={[Function]}>
           <td
             className="ohe-card-user-image-cell">
             <Image
@@ -118,23 +119,12 @@ exports[`OHECard should render with a single registration 1`] = `
           </td>
           <td
             className="ohe-card-user-phone-cell">
-            <a
-              href="tel: ">
-               
-            </a>
+             
           </td>
           <td
             className="ohe-card-user-links-cell">
-            <Button
-              active={false}
-              block={false}
-              bsClass="btn"
-              bsStyle="link"
-              disabled={true}
-              target="_blank">
-              <i
-                className="fa fa-2x fa-facebook-square ohe-card-facebook" />
-            </Button>
+            <i
+              className="fa fa-2x fa-facebook-square ohe-card-facebook" />
           </td>
         </tr>
       </tbody>
@@ -320,7 +310,8 @@ exports[`OHECard should render with multiple registrations 1`] = `
       striped={false}>
       <tbody>
         <tr
-          className="ohe-card-user-table-row">
+          className="ohe-card-user-table-row"
+          onClick={[Function]}>
           <td
             className="ohe-card-user-image-cell">
             <Image
@@ -343,27 +334,17 @@ exports[`OHECard should render with multiple registrations 1`] = `
           </td>
           <td
             className="ohe-card-user-phone-cell">
-            <a
-              href="tel: ">
-               
-            </a>
+             
           </td>
           <td
             className="ohe-card-user-links-cell">
-            <Button
-              active={false}
-              block={false}
-              bsClass="btn"
-              bsStyle="link"
-              disabled={true}
-              target="_blank">
-              <i
-                className="fa fa-2x fa-facebook-square ohe-card-facebook" />
-            </Button>
+            <i
+              className="fa fa-2x fa-facebook-square ohe-card-facebook" />
           </td>
         </tr>
         <tr
-          className="ohe-card-user-table-row">
+          className="ohe-card-user-table-row"
+          onClick={[Function]}>
           <td
             className="ohe-card-user-image-cell">
             <Image
@@ -386,28 +367,17 @@ exports[`OHECard should render with multiple registrations 1`] = `
           </td>
           <td
             className="ohe-card-user-phone-cell">
-            <a
-              href="tel:123">
-              123
-            </a>
+            123
           </td>
           <td
             className="ohe-card-user-links-cell">
-            <Button
-              active={false}
-              block={false}
-              bsClass="btn"
-              bsStyle="link"
-              disabled={false}
-              href="fbLink2"
-              target="_blank">
-              <i
-                className="fa fa-2x fa-facebook-square " />
-            </Button>
+            <i
+              className="fa fa-2x fa-facebook-square " />
           </td>
         </tr>
         <tr
-          className="ohe-card-user-table-row">
+          className="ohe-card-user-table-row"
+          onClick={[Function]}>
           <td
             className="ohe-card-user-image-cell">
             <Image
@@ -430,24 +400,12 @@ exports[`OHECard should render with multiple registrations 1`] = `
           </td>
           <td
             className="ohe-card-user-phone-cell">
-            <a
-              href="tel:456">
-              456
-            </a>
+            456
           </td>
           <td
             className="ohe-card-user-links-cell">
-            <Button
-              active={false}
-              block={false}
-              bsClass="btn"
-              bsStyle="link"
-              disabled={false}
-              href="fbLink3"
-              target="_blank">
-              <i
-                className="fa fa-2x fa-facebook-square " />
-            </Button>
+            <i
+              className="fa fa-2x fa-facebook-square " />
           </td>
         </tr>
       </tbody>
