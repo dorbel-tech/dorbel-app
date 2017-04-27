@@ -20,20 +20,21 @@ class PropertyManage extends Component {
   }
 
   closeManageLeaseModal(newLeaseStart, newLeaseEnd) {
+    const { appProviders, listing } = this.props;
+
+    if (newLeaseStart) {
+      appProviders.listingsProvider.updateListing(listing.id,
+        {
+          lease_start: newLeaseStart,
+          lease_end: newLeaseEnd
+        });
+    }
+
     this.setState({showManageLeaseModal: false});
   }
 
   editLeaseDates() {
     this.setState({showManageLeaseModal: true});
-//      if (choice) {
-//        return listingsProvider.updateListing(listing.id,
-//          {
-//            lease_start: this.newLeaseStart || listing.lease_start,
-//            lease_end: this.newLeaseEnd || listing.lease_end
-//          });
-//      }
-
-
 //    }).catch((err) => this.props.appProviders.notificationProvider.error(err));
   }
 
