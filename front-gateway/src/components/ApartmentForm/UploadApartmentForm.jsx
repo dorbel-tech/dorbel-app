@@ -26,7 +26,7 @@ class UploadApartmentForm extends Component {
     if (newListingStore.stepNumber === steps.length - 1) { // last
       let listing = newListingStore.toListingObject();
       return this.props.appProviders.listingsProvider.uploadApartment(listing)
-        .then((uploadApartmentResp) => {          
+        .then((uploadApartmentResp) => {
           this.setState({ showSuccessModal: true, createdListingId: uploadApartmentResp.id });
         })
         .catch((err) => {
