@@ -12,7 +12,7 @@ function* findOrCreate(building, options = {}) {
     raw: true
   });
   if (!city) {
-    logger.error({ city_id: city.id }, 'City not found!');
+    logger.error({ city_id: building.city.id }, 'City not found!');
     throw new ValidationError('city not found', building.city, 'העיר לא נמצאה');
   }
 
