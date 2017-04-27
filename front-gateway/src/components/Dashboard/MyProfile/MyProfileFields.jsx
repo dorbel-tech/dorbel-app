@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import { Row, Col, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { FRC } from '~/components/FormWrapper/FormWrapper';
 
-import './ProfileEditFields.scss';
+import './MyProfileEditFields.scss';
 
 class MyProfileFields extends Component {
   static showPicture = true; 
 
   renderLockIcon() {
     return (
-      <OverlayTrigger placement="top" overlay={<Tooltip id="will-not-be-public">לא יוצג באתר</Tooltip>}>
+      <OverlayTrigger placement="top" overlay={<Tooltip id="will-not-be-public">יוצג רק לבעלי הדירות שאליהן נרשמתם לביקור</Tooltip>}>
         <i className="fa fa-lock" />
       </OverlayTrigger>
     );

@@ -6,6 +6,7 @@ import autobind from 'react-autobind';
 class AuthProvider {
   constructor(clientId, domain, authStore, router, apiProvider) {
     autobind(this);
+
     this.lock = auth0.initLock(clientId, domain);
     this.lock.on('authenticated', this.afterAuthentication);
     this.lock.on('hide', this.hideHandler);
@@ -85,7 +86,11 @@ class AuthProvider {
   reportIdentifyAnalytics(profile) {
     // https://segment.com/docs/integrations/intercom/#identify
     if (profile) {
-      window.analytics.identify(profile.dorbel_user_id, profile);
+      window.analytics.identify(profile.id, profile);
+
+      if (profile.first_login) {
+        window.analytics.track('client_signup_conversion'); // For Facebook conversion tracking.
+      }
     }
   }
 }

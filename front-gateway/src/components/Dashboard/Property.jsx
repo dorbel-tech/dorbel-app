@@ -41,11 +41,16 @@ class Property extends Component {
   }
 
   loadFullPropertyDetails() {
-    let propertyId = this.props.propertyId;
-    if (!this.props.appStore.listingStore.get(propertyId)) {
+    const { propertyId, appStore, appProviders } = this.props;
+    if (!appStore.listingStore.get(propertyId)) {
       this.setState({ isLoading: true });
-      this.props.appProviders.listingsProvider.loadFullListingDetails(propertyId)
-        .then(() => this.setState({ isLoading: false }));
+      appProviders.listingsProvider.loadFullListingDetails(propertyId)
+        .then(() => {
+          const listing = appStore.listingStore.get(propertyId);
+          if (appStore.listingStore.isListingPublisherOrAdmin(listing)) {
+            this.setState({ isLoading: false });
+          }
+        });
     }
   }
 
