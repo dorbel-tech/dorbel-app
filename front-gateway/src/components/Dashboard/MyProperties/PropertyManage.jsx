@@ -35,7 +35,6 @@ class PropertyManage extends Component {
 
   editLeaseDates() {
     this.setState({showManageLeaseModal: true});
-//    }).catch((err) => this.props.appProviders.notificationProvider.error(err));
   }
 
   render() {
