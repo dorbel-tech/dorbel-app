@@ -122,14 +122,14 @@ class Property extends Component {
                   onMouseEnter={this.showActionsMenu}
                   onMouseLeave={this.hideActionsMenu}
                   onClick={this.showActionsMenu}>
-            <i ref="propertyActionMenuButton"
+            <i ref={(el) => { this.propertyActionMenuIcon = el; }}
                className="fa fa-bars"
                aria-hidden="true"></i>
           </Button>
           <Overlay show={this.state.showActionsMenu}
                    onHide={this.hideActionsMenu}
                    placement="bottom"
-                   target={this.refs.propertyActionMenuButton}
+                   target={this.propertyActionMenuIcon}
                    rootClose>
             {this.renderActionsMenu(property)}
           </Overlay>
