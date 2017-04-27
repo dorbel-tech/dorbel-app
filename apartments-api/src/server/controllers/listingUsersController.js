@@ -15,7 +15,14 @@ function * get() {
   this.response.status = 200;
 }
 
+function * remove() {
+  const listingUserId = this.params.listingUserId;
+  yield listingUsersService.remove(listingUserId, this.request.user);
+  this.response.status = 204;
+}
+
 module.exports = {
   post,
-  get: get
+  get: get,
+  delete: remove
 };

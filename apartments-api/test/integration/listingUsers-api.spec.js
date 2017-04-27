@@ -5,7 +5,7 @@ const __ = require('hamjest');
 const fakeObjectGenerator = require('../shared/fakeObjectGenerator');
 const faker = require('faker');
 
-describe.only('Apartments API Listing Users integration', function () {
+describe('Apartments API Listing Users integration', function () {
   let guestTenant;
 
   before(function * () {
@@ -92,6 +92,35 @@ describe.only('Apartments API Listing Users integration', function () {
 
     it('should return 404 when requesting teants for non-existing listing', function * () {
       yield this.apiClient.getTenants(1000000).expect(404).end();
+    });
+  });
+
+  describe('DELETE Listing tenants', function () {
+    let tenants;
+
+    before(function * () {
+      const getResponse = yield this.apiClient.getTenants(this.createdListing.id).expect(200).end();
+      tenants = getResponse.body;
+    });
+
+    it('should not allow to delete tenants for other landlords listing', function * () {
+      yield this.otherApiClient.removeTenant(this.createdListing.id, tenants[0].id).expect(403).end();
+    });
+
+    it('should return 404 when trying to delete non-existing teants ', function * () {
+      yield this.apiClient.removeTenant(this.createdListing.id, 1000000).expect(404).end();
+    });
+
+    it('should succesfully delete a tenant', function * () {
+      yield this.apiClient.removeTenant(this.createdListing.id, tenants[0].id).expect(204).end();
+      const getResponse = yield this.apiClient.getTenants(this.createdListing.id).expect(200).end();
+      __.assertThat(getResponse.body, __.not(__.hasItem(__.hasProperty('id', tenants[0].id))));
+    });
+
+    it('should allow admin to delete tenants for other landlords listing', function * () {
+      yield this.adminClient.removeTenant(this.createdListing.id, tenants[1].id).expect(204).end();
+      const getResponse = yield this.apiClient.getTenants(this.createdListing.id).expect(200).end();
+      __.assertThat(getResponse.body, __.not(__.hasItem(__.hasProperty('id', tenants[1].id))));
     });
   });
 });

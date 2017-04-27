@@ -110,8 +110,14 @@ class ApiClient {
   }
 
   getTenants(listingId) {
-    return this
-      .request.get(`/v1/listings/${listingId}/tenants`)
+    return this.request
+      .get(`/v1/listings/${listingId}/tenants`)
+      .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile));
+  }
+
+  removeTenant(listingId, tenantId) {
+    return this.request
+      .delete(`/v1/listings/${listingId}/tenants/${tenantId}`)
       .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile));
   }
 

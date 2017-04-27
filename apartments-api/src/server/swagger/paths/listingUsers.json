@@ -52,5 +52,28 @@
         }
       }
     }
+  },
+  "/listings/{listingId}/tenants/{listingUserId}" : {
+    "delete": {
+      "summary": "Delete tenants for a listing",
+      "parameters": [
+        {
+          "name": "x-user-profile",
+          "in": "header",
+          "required": true,
+          "type": "string",
+          "description": "Stringified JSON object with the user's profile information"
+        }
+      ],
+      "tags": [
+        "listingUsersController",
+        "authenticated"
+      ],
+      "responses": {
+        "204": {
+          "description": "Deleted"
+        }
+      }
+    }
   }
 }
