@@ -4,7 +4,7 @@
   "description": "API for dorbel apartments domain",
   "main": "src/index.js",
   "scripts": {
-    "db:migrate": "sequelize db:migrate",
+    "db:migrate": "sequelize db:migrate; wait",
     "db:seed": "sequelize db:seed:all",
     "start": "yarn run db:migrate && yarn run db:seed && babel-node src/index",
     "start:dev": "yarn run check; yarn run db:migrate; yarn run db:seed && yarn run test:seed && nodemon --exec babel-node --debug=5858 src/index | bunyan -o short",
