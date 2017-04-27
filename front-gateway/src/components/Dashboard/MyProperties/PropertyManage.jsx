@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import { ProgressBar, Col, Grid, Row } from 'react-bootstrap';
+import ManageLeaseModal from './ManageLeaseModal';
 import autobind from 'react-autobind';
-import DatePicker from '~/components/DatePicker/DatePicker';
 import utils from '~/providers/utils';
 import moment from 'moment';
 
@@ -13,59 +13,28 @@ class PropertyManage extends Component {
   constructor(props) {
     super(props);
     autobind(this);
+
+    this.state = {
+      showManageLeaseModal: false
+    };
   }
 
-  leaseStartChange(leaseStart) {
-    this.newLeaseStart = leaseStart;
-  }
-
-  leaseEndChange(leaseEnd) {
-    this.newLeaseEnd = leaseEnd;
+  closeManageLeaseModal(newLeaseStart, newLeaseEnd) {
+    this.setState({showManageLeaseModal: false});
   }
 
   editLeaseDates() {
-    const { listing } = this.props;
-    const { listingsProvider, modalProvider } = this.props.appProviders;
-    this.newLeaseStart = null;
-    this.newLeaseEnd = null;
+    this.setState({showManageLeaseModal: true});
+//      if (choice) {
+//        return listingsProvider.updateListing(listing.id,
+//          {
+//            lease_start: this.newLeaseStart || listing.lease_start,
+//            lease_end: this.newLeaseEnd || listing.lease_end
+//          });
+//      }
 
-    const modalBody = <div className="property-manage-modal-body">
-        <div className="property-manage-modal-section-header">
-          עדכנו את מועדי תחילת ותום השכירות
-        </div>
-        <div>
-          <div className="property-manage-modal-picker-label">תחילת השכירות</div>
-          <div className="property-manage-modal-picker-label">תום השכירות</div>
-        </div>
-        <div className="property-manage-modal-picker-container">
-          <div className="property-manage-modal-start-picker-wrapper">
-            <DatePicker value={listing.lease_start}
-                        onChange={this.leaseStartChange}
-                        calendarPlacement="bottom" />
-          </div>
-          <div className="property-manage-modal-end-picker-separator">-</div>
-          <div className="property-manage-modal-end-picker-wrapper">
-            <DatePicker value={listing.lease_end}
-                        onChange={this.leaseEndChange}
-                        calendarPlacement="bottom" />
-          </div>
-        </div>
-      </div>;
 
-    modalProvider.showConfirmationModal({
-      title: 'עדכון תקופת שכירות',
-      body: modalBody,
-      confirmButton: 'עדכן פרטים',
-      confirmStyle: 'success'
-    }).then(choice => {
-      if (choice) {
-        return listingsProvider.updateListing(listing.id,
-          {
-            lease_start: this.newLeaseStart || listing.lease_start,
-            lease_end: this.newLeaseEnd || listing.lease_end
-          });
-      }
-    }).catch((err) => this.props.appProviders.notificationProvider.error(err));
+//    }).catch((err) => this.props.appProviders.notificationProvider.error(err));
   }
 
   render() {
@@ -86,6 +55,9 @@ class PropertyManage extends Component {
                 </Col>
               </Row>
               <Row className="property-manage-lease-period">
+                <ManageLeaseModal listing={listing}
+                                  show={this.state.showManageLeaseModal}
+                                  onClose={this.closeManageLeaseModal}/>
                 <Col xs={12}>
                   <div>
                     תקופת השכירות: {leasePeriodLabel} ימים
