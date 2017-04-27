@@ -27,6 +27,7 @@ class UploadApartmentForm extends Component {
       let listing = newListingStore.toListingObject();
       return this.props.appProviders.listingsProvider.uploadApartment(listing)
         .then((uploadApartmentResp) => {
+          window.analytics.track('client_lead_conversion'); // For Facebook conversion tracking.
           this.setState({ showSuccessModal: true, createdListingId: uploadApartmentResp.id });
         })
         .catch((err) => {
