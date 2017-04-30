@@ -29,7 +29,7 @@ class LikeProvider {
     return this.apiProvider.fetch(`/api/apartments/v1/likes/${listingId}`, { method })
       .then(() => {
         if (isLiked) {
-          window.analytics.track('client_wishlist_conversion'); // For Facebook conversion tracking.
+          window.analytics.track('client_listing_liked', { listing_id: listingId }); // For Facebook conversion tracking.
         }              
       })
       .catch(() => { 

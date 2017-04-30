@@ -71,7 +71,7 @@ class ListingsProvider {
         email: listing.user.email
       }))
       .then(() => { 
-        window.analytics.track('client_lead_conversion'); // For Facebook conversion tracking.
+        window.analytics.track('client_apartment_created', { listing_id: createdListing.id }); // For Facebook conversion tracking.
         return createdListing; 
       });
   }

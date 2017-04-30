@@ -89,7 +89,7 @@ class AuthProvider {
       window.analytics.identify(profile.id, profile);
 
       if (profile.first_login) {
-        window.analytics.track('client_signup_conversion'); // For Facebook conversion tracking.
+        window.analytics.track('client_user_signup', { user_id: profile.id }); // For Facebook conversion tracking.
       }
     }
   }
