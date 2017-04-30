@@ -76,7 +76,7 @@ class ManageLeaseModal extends React.Component {
         <Button onClick={this.submit} bsStyle={'success'}
                 block disabled={!periodValid}
                 title={invalidTitle}>
-        עדכן פרטים
+          עדכן פרטים
         </Button>
       </div>;
 
