@@ -12,6 +12,7 @@ const roomOptions = _.range(1, 11, 0.5).map(num => ({ value: num, label: num }))
 export default class EditedListingStore {
   @observable formValues;
   @observable stepNumber = 0;
+  @observable disableSave = false;
 
   constructor(authStore, options) {
     this.authStore = authStore;
@@ -28,9 +29,14 @@ export default class EditedListingStore {
   reset() {
     this.formValues = new FlatListing();
     this.stepNumber = 0;
+    this.setDisableSave(false);
     if (process.env.IS_CLIENT && this.options.localStorageKey) {
       localStorage.removeItem(this.options.localStorageKey);
     }
+  }
+
+  setDisableSave(value) {
+    this.disableSave = value;
   }
 
   get roomOptions() {

@@ -14,6 +14,7 @@ export default class ImageUpload extends React.Component {
   onChooseFile(acceptedFiles) {
     const { appProviders, editedListingStore, onUploadComplete, onUploadStart } = this.props;
 
+    editedListingStore.setDisableSave(true);
     if (onUploadStart) {
       onUploadStart();
     }
@@ -22,6 +23,7 @@ export default class ImageUpload extends React.Component {
     this.uploadImagePromises = this.uploadImagePromises.concat(uploadPromises);
     Promise.all(this.uploadImagePromises)
     .then(() => {
+      editedListingStore.setDisableSave(false);
       if (onUploadComplete) {
         onUploadComplete();
       }

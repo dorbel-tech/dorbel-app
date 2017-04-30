@@ -12,6 +12,7 @@ describe('Image Upload', () => {
 
   beforeEach(() => {
     editedListingStoreMock = {
+      setDisableSave: jest.fn(),
       formValues: {
         images: []
       }
@@ -96,5 +97,18 @@ describe('Image Upload', () => {
     expect(onUploadComplete).not.toHaveBeenCalled();
     deferred.resolve();
     return flushPromises().then(() => expect(onUploadComplete).toHaveBeenCalled());
+  });
+
+  it('should call editedListingStore setDisableSave', () => {
+    const deferred = Promise.defer();
+    appProvidersMock.listingImageProvider = {
+      uploadImage: jest.fn().mockReturnValue(deferred.promise)
+    };
+
+    imageUpload().instance().onChooseFile([ { abc: 456 } ]);
+
+    expect(editedListingStoreMock.setDisableSave).toHaveBeenCalledWith(true);
+    deferred.resolve();
+    return flushPromises().then(() => expect(editedListingStoreMock.setDisableSave).toHaveBeenCalledWith());
   });
 });
