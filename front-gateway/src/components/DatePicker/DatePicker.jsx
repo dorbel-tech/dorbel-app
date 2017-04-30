@@ -16,6 +16,10 @@ class DatePicker extends Component {
     };
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({dateValue: nextProps.value});
+  }
+
   componentDidMount() {
     // informing of setting the default value
     this.handleChange(this.state.dateValue);
