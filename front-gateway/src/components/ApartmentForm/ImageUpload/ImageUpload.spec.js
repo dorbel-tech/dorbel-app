@@ -109,6 +109,6 @@ describe('Image Upload', () => {
 
     expect(editedListingStoreMock.setDisableSave).toHaveBeenCalledWith(true);
     deferred.resolve();
-    return flushPromises().then(() => expect(editedListingStoreMock.setDisableSave).toHaveBeenCalledWith());
+    return flushPromises().then(() => expect(editedListingStoreMock.setDisableSave).toHaveBeenCalledWith(false));
   });
 });
