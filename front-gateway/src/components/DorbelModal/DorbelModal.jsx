@@ -21,8 +21,8 @@ class DorbelModal extends React.Component {
     const { modalSize, title, body, footer } = (this.props.params || this.props);
 
     return (
-      <Modal show={this.props.show} bsSize={modalSize}>
-        <Modal.Header closeButton onHide={this.close}>
+      <Modal show={this.props.show} bsSize={modalSize} onHide={this.close}>
+        <Modal.Header closeButton>
           <Modal.Title>{title}</Modal.Title>
         </Modal.Header>
         <Modal.Body>

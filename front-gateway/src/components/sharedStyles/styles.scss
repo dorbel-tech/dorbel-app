@@ -80,8 +80,15 @@ a {
 }
 
 .modal-header .close {
-  left: 10px;
+  color: $gray-dark;
+  left: 14px;
+  top: 10px;
+  padding: 10px;
   position: absolute;
+
+  >span {
+    color:black;
+  }
 }
 
 .modal-title {
