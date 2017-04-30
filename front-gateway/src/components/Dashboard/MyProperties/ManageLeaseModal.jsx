@@ -49,6 +49,9 @@ class ManageLeaseModal extends React.Component {
     const leaseStartValue = moment(this.state.leaseStart).format();
     const leaseEndValue = moment(this.state.leaseEnd).format();
 
+    const periodValid = this.state.leaseStart < this.state.leaseEnd;
+    const invalidTitle = periodValid ? '' : 'תאריך תום השכירות חייב להיות מאוחר מתאריך תחילת השכירות';
+
     const modalBody = <div className="property-manage-modal-body">
         <div className="property-manage-modal-section-header">
           עדכנו את מועדי תחילת ותום השכירות
@@ -70,7 +73,11 @@ class ManageLeaseModal extends React.Component {
                         calendarPlacement="bottom" />
           </div>
         </div>
-        <Button onClick={this.submit} bsStyle={'success'} block>עדכן פרטים</Button>
+        <Button onClick={this.submit} bsStyle={'success'}
+                block disabled={!periodValid}
+                title={invalidTitle}>
+        עדכן פרטים
+        </Button>
       </div>;
 
     return (
