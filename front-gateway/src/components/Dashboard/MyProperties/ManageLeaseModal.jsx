@@ -15,15 +15,15 @@ class ManageLeaseModal extends React.Component {
     const { listing } = this.props;
 
     this.state = {
-      leaseStart: listing.lease_start,
-      leaseEnd: listing.lease_end
+      leaseStart: moment(listing.lease_start),
+      leaseEnd: moment(listing.lease_end)
     };
   }
 
   leaseStartChange(newLeaseStart) {
     this.setState({
       leaseStart: newLeaseStart,
-      leaseEnd: moment(newLeaseStart).add(1, 'year').format(moment.localeData()._longDateFormat.L)
+      leaseEnd: moment(newLeaseStart).add(1, 'year')
     });
   }
 
@@ -46,6 +46,9 @@ class ManageLeaseModal extends React.Component {
   }
 
   render() {
+    const leaseStartValue = moment(this.state.leaseStart).format();
+    const leaseEndValue = moment(this.state.leaseEnd).format();
+
     const modalBody = <div className="property-manage-modal-body">
         <div className="property-manage-modal-section-header">
           עדכנו את מועדי תחילת ותום השכירות
@@ -56,13 +59,13 @@ class ManageLeaseModal extends React.Component {
         </div>
         <div className="property-manage-modal-picker-container">
           <div className="property-manage-modal-start-picker-wrapper">
-            <DatePicker value={this.state.leaseStart}
+            <DatePicker value={leaseStartValue}
                         onChange={this.leaseStartChange}
                         calendarPlacement="bottom" />
           </div>
           <div className="property-manage-modal-end-picker-separator">-</div>
           <div className="property-manage-modal-end-picker-wrapper">
-            <DatePicker value={this.state.leaseEnd}
+            <DatePicker value={leaseEndValue}
                         onChange={this.leaseEndChange}
                         calendarPlacement="bottom" />
           </div>
