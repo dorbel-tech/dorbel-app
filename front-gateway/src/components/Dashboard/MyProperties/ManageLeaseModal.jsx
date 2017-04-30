@@ -23,7 +23,7 @@ class ManageLeaseModal extends React.Component {
   leaseStartChange(newLeaseStart) {
     this.setState({
       leaseStart: newLeaseStart,
-      leaseEnd: moment(newLeaseStart).add(1, 'y').format()
+      leaseEnd: moment(newLeaseStart).add(1, 'year').format(moment.localeData()._longDateFormat.L)
     });
   }
 
@@ -57,14 +57,12 @@ class ManageLeaseModal extends React.Component {
         <div className="property-manage-modal-picker-container">
           <div className="property-manage-modal-start-picker-wrapper">
             <DatePicker value={this.state.leaseStart}
-                        maxDate={this.state.leaseEnd}
                         onChange={this.leaseStartChange}
                         calendarPlacement="bottom" />
           </div>
           <div className="property-manage-modal-end-picker-separator">-</div>
           <div className="property-manage-modal-end-picker-wrapper">
             <DatePicker value={this.state.leaseEnd}
-                        minDate={this.state.leaseStart}
                         onChange={this.leaseEndChange}
                         calendarPlacement="bottom" />
           </div>
