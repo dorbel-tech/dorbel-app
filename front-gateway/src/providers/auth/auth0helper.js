@@ -43,6 +43,10 @@ function initLock(clientId, domain) {
 }
 
 function mapAuth0Profile(auth0profile) {
+// Important: If you change this code, something might break.
+// Please make sure it's compatible with the mapping in dorbel-shared/utils/userManagement.normalizePublicProfile
+// (similar comment there too)
+
   const mappedProfile = {
     email: _.get(auth0profile, 'user_metadata.email') || auth0profile.email,
     first_name: _.get(auth0profile, 'user_metadata.first_name') || auth0profile.given_name,
