@@ -9,39 +9,39 @@ class ManageLeaseModal extends React.Component {
   constructor(props) {
     super(props);
     autobind(this);
+
+    this.state = {};
   }
 
-  componentWillMount() {
-    const { listing } = this.props;
+  componentWillReceiveProps(nextProps) {
+    const { listing, show } = nextProps;
 
-    this.state = {
-      leaseStart: moment(listing.lease_start),
-      leaseEnd: moment(listing.lease_end)
-    };
+    if (show && !this.props.show) {
+      this.setState({
+        leaseStart: moment(listing.lease_start),
+        leaseEnd: moment(listing.lease_end)
+      });
+    }
   }
 
   leaseStartChange(newLeaseStart) {
     this.setState({
-      leaseStart: newLeaseStart,
+      leaseStart: moment(newLeaseStart),
       leaseEnd: moment(newLeaseStart).add(1, 'year')
     });
   }
 
   leaseEndChange(newLeaseEnd) {
-    this.setState({leaseEnd: newLeaseEnd});
+    this.setState({leaseEnd: moment(newLeaseEnd)});
   }
 
-  submit() {
+  confirmClickHandler() {
     this.close(true);
   }
 
-  close(submit) {
+  close(confirm) {
     if (this.props.onClose) {
-      if (submit) {
-        this.props.onClose(this.state.leaseStart, this.state.leaseEnd);
-      } else {
-        this.props.onClose();
-      }
+      this.props.onClose(confirm, this.state.leaseStart, this.state.leaseEnd);
     }
   }
 
@@ -73,7 +73,7 @@ class ManageLeaseModal extends React.Component {
                         calendarPlacement="bottom" />
           </div>
         </div>
-        <Button onClick={this.submit} bsStyle={'success'}
+        <Button onClick={this.confirmClickHandler} bsStyle={'success'}
                 block disabled={!periodValid}
                 title={invalidTitle}>
           עדכן פרטים

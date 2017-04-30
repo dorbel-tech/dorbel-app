@@ -19,10 +19,10 @@ class PropertyManage extends Component {
     };
   }
 
-  closeManageLeaseModal(newLeaseStart, newLeaseEnd) {
+  closeManageLeaseModal(confirm, newLeaseStart, newLeaseEnd) {
     const { appProviders, listing } = this.props;
 
-    if (newLeaseStart) {
+    if (confirm) {
       appProviders.listingsProvider.updateListing(listing.id,
         {
           lease_start: newLeaseStart,
