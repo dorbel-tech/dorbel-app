@@ -22,7 +22,7 @@ function formatDay(date) {
   return moment.utc(date).local().format(dayFormat);
 }
 
-function optimizeUrl(url, width, height) {
+function optimizeCloudinaryUrl(url, width, height) {
   let optionsStr = 'c_fit,f_auto,q_auto,e_improve';
   if (width) { optionsStr += ',w_' + width; }
   if (height) { optionsStr += ',h_' + height; }
@@ -95,7 +95,7 @@ module.exports = {
   formatTime,
   formatDate,
   formatDay,
-  optimizeUrl,
+  optimizeCloudinaryUrl,
   getFloorTextValue,
   getListingStatusLabels,
   getListingSubTitle,

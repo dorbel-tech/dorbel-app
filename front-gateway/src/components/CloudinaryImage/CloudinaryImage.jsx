@@ -4,7 +4,7 @@ import utils from '~/providers/utils';
 class CloudinaryImage extends Component {
 
   render() {
-    const imageUrl = utils.optimizeUrl(this.props.src, this.props.width, this.props.height);
+    const imageUrl = utils.optimizeCloudinaryUrl(this.props.src, this.props.width, this.props.height);
     return (
       <img className={this.props.className} src={imageUrl} />
     );
