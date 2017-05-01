@@ -104,19 +104,18 @@ function* update(listingId, user, patch) {
 
 // Send notification to updated users of important property fields being changed.
 function notifyListingChanged(listing, patch) {
-  let isMonthlyRentChanged = listing.monthly_rent !== patch.monthly_rent ? true : false;
-  let isLeaseStartChanged = listing.lease_start !== patch.lease_start ? true : false;
-  let isRoomsChanged = listing.apartment.rooms !== patch.apartment.rooms ? true : false;
-  let isStreetNameChanged = listing.apartment.building.street_name !== patch.apartment.building.street_name ? true : false;
-  let isHouseNumberChanged = listing.apartment.building.house_number !== patch.apartment.building.house_number ? true : false;
-  let isFloorChanged = listing.apartment.floor !== patch.apartment.floor ? true : false;
-  let isAptNumberChanged = listing.apartment.apt_number !== patch.apartment.apt_number ? true : false;
+  let isMonthlyRentChanged = (listing.monthly_rent !== patch.monthly_rent) ? true : false;
+  let isLeaseStartChanged = (listing.lease_start !== moment(patch.lease_start).format('YYYY-MM-DD')) ? true : false;
+  let isRoomsChanged = (listing.apartment.rooms !== patch.apartment.rooms) ? true : false;
+  let isStreetNameChanged = (listing.apartment.building.street_name !== patch.apartment.building.street_name) ? true : false;
+  let isHouseNumberChanged = (listing.apartment.building.house_number !== patch.apartment.building.house_number) ? true : false;
+  let isFloorChanged = (listing.apartment.floor !== patch.apartment.floor) ? true : false;
+  let isAptNumberChanged = (listing.apartment.apt_number !== patch.apartment.apt_number) ? true : false;
 
   if (process.env.NOTIFICATIONS_SNS_TOPIC_ARN) {
     if (isMonthlyRentChanged || isLeaseStartChanged || isRoomsChanged || isStreetNameChanged ||
         isHouseNumberChanged || isFloorChanged || isAptNumberChanged) {
-      const messageBusEvent = messageBus.eventType['LISTING_EDITED'];
-      messageBus.publish(process.env.NOTIFICATIONS_SNS_TOPIC_ARN, messageBusEvent, {
+      messageBus.publish(process.env.NOTIFICATIONS_SNS_TOPIC_ARN, messageBus.eventType.LISTING_EDITED, {
         listing_id: listing.id,
         user_uuid: listing.publishing_user_id,
         prev_monthly_rent: listing.monthly_rent,
