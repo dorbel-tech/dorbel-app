@@ -104,16 +104,35 @@ function* update(listingId, user, patch) {
 
 // Send notification to updated users of important property fields being changed.
 function notifyListingChanged(listing, patch) {
-  let isImportantFieldsChanged = false;
+  let isMonthlyRentChanged = listing.monthly_rent !== patch.monthly_rent ? true : false;
+  let isLeaseStartChanged = listing.lease_start !== patch.lease_start ? true : false;
+  let isRoomsChanged = listing.apartment.rooms !== patch.apartment.rooms ? true : false;
+  let isStreetNameChanged = listing.apartment.building.street_name !== patch.apartment.building.street_name ? true : false;
+  let isHouseNumberChanged = listing.apartment.building.house_number !== patch.apartment.building.house_number ? true : false;
+  let isFloorChanged = listing.apartment.floor !== patch.apartment.floor ? true : false;
+  let isAptNumberChanged = listing.apartment.apt_number !== patch.apartment.apt_number ? true : false;
 
   if (process.env.NOTIFICATIONS_SNS_TOPIC_ARN) {
-    if (isImportantFieldsChanged) {
+    if (isMonthlyRentChanged || isLeaseStartChanged || isRoomsChanged || isStreetNameChanged ||
+        isHouseNumberChanged || isFloorChanged || isAptNumberChanged) {
       const messageBusEvent = messageBus.eventType['LISTING_EDITED'];
       messageBus.publish(process.env.NOTIFICATIONS_SNS_TOPIC_ARN, messageBusEvent, {
-        city_id: listing.apartment.building.city_id,
-        listing_id: listingId,
-        previous_status: previousStatus,
-        user_uuid: listing.publishing_user_id
+        listing_id: listing.id,
+        user_uuid: listing.publishing_user_id,
+        prev_monthly_rent: listing.monthly_rent,
+        prev_lease_start: listing.lease_start,
+        prev_rooms: listing.apartment.rooms,
+        prev_street_name: listing.apartment.building.street_name,
+        prev_house_number: listing.apartment.building.house_number,
+        prev_floor: listing.apartment.floor,
+        prev_apt_number: listing.apartment.apt_number,
+        new_monthly_rent: patch.monthly_rent,
+        new_lease_start: patch.lease_start,
+        new_rooms: patch.apartment.rooms,
+        new_street_name: patch.apartment.building.street_name,
+        new_house_number: patch.apartment.building.house_number,
+        new_floor: patch.apartment.floor,
+        new_apt_number: patch.apartment.apt_number,
       });
     }
   }
