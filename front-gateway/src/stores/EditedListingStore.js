@@ -29,13 +29,13 @@ export default class EditedListingStore {
   reset() {
     this.formValues = new FlatListing();
     this.stepNumber = 0;
-    this.setDisableSave(false);
+    this.disableSave = false;
     if (process.env.IS_CLIENT && this.options.localStorageKey) {
       localStorage.removeItem(this.options.localStorageKey);
     }
   }
 
-  setDisableSave(value) {
+  set disableSave(value) {
     this.disableSave = value;
   }
 

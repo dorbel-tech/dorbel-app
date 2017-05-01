@@ -12,7 +12,7 @@ describe('Image Upload', () => {
 
   beforeEach(() => {
     editedListingStoreMock = {
-      setDisableSave: jest.fn(),
+      disableSave: jest.fn(),
       formValues: {
         images: []
       }
@@ -83,23 +83,7 @@ describe('Image Upload', () => {
     expect(appProvidersMock.listingImageProvider.deleteImage).toHaveBeenCalledWith(image, editedListingStoreMock);
   });
 
-  it('should call onUploadStart and onUploadComplete', () => {
-    const onUploadStart = jest.fn();
-    const onUploadComplete = jest.fn();
-    const deferred = Promise.defer();
-    appProvidersMock.listingImageProvider = {
-      uploadImage: jest.fn().mockReturnValue(deferred.promise)
-    };
-
-    imageUpload({ onUploadComplete, onUploadStart }).instance().onChooseFile([ { abc: 456 } ]);
-
-    expect(onUploadStart).toHaveBeenCalled();
-    expect(onUploadComplete).not.toHaveBeenCalled();
-    deferred.resolve();
-    return flushPromises().then(() => expect(onUploadComplete).toHaveBeenCalled());
-  });
-
-  it('should call editedListingStore setDisableSave', () => {
+  it('should set and unset editedListingStore disableSave', () => {
     const deferred = Promise.defer();
     appProvidersMock.listingImageProvider = {
       uploadImage: jest.fn().mockReturnValue(deferred.promise)
@@ -107,8 +91,8 @@ describe('Image Upload', () => {
 
     imageUpload().instance().onChooseFile([ { abc: 456 } ]);
 
-    expect(editedListingStoreMock.setDisableSave).toHaveBeenCalledWith(true);
+    expect(editedListingStoreMock.disableSave).toBeTruthy();
     deferred.resolve();
-    return flushPromises().then(() => expect(editedListingStoreMock.setDisableSave).toHaveBeenCalledWith(false));
+    return flushPromises().then(() => expect(editedListingStoreMock.disableSave).toBeFalsy());
   });
 });
