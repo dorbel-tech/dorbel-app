@@ -106,11 +106,11 @@ function* update(listingId, user, patch) {
 function notifyListingChanged(listing, patch) {
   let isMonthlyRentChanged = (listing.monthly_rent !== patch.monthly_rent) ? true : false;
   let isLeaseStartChanged = (moment(listing.lease_start).format('YYYY-MM-DD') !== moment(patch.lease_start).format('YYYY-MM-DD')) ? true : false;
-  let isRoomsChanged = (listing.apartment.rooms !== patch.apartment.rooms) ? true : false;
-  let isStreetNameChanged = (listing.apartment.building.street_name !== patch.apartment.building.street_name) ? true : false;
-  let isHouseNumberChanged = (listing.apartment.building.house_number !== patch.apartment.building.house_number) ? true : false;
-  let isFloorChanged = (listing.apartment.floor !== patch.apartment.floor) ? true : false;
-  let isAptNumberChanged = (listing.apartment.apt_number !== patch.apartment.apt_number) ? true : false;
+  let isRoomsChanged = listing.apartment.rooms !== patch.apartment.rooms;
+  let isStreetNameChanged = listing.apartment.building.street_name !== patch.apartment.building.street_name;
+  let isHouseNumberChanged = listing.apartment.building.house_number !== patch.apartment.building.house_number;
+  let isFloorChanged = listing.apartment.floor !== patch.apartment.floor;
+  let isAptNumberChanged = listing.apartment.apt_number !== patch.apartment.apt_number;
 
   if (process.env.NOTIFICATIONS_SNS_TOPIC_ARN) {
     if (isMonthlyRentChanged || isLeaseStartChanged || isRoomsChanged || isStreetNameChanged ||
