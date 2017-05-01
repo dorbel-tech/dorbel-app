@@ -73,7 +73,8 @@ function* update(listingId, user, patch) {
   }
 
   const isPublishingUserOrAdmin = listing && permissionsService.isPublishingUserOrAdmin(user, listing);
-  const statusChanged = patch.status && patch.status !== listing.status;
+  const previousStatus = listing.status;
+  const statusChanged = patch.status && patch.status !== previousStatus;
 
   if (!isPublishingUserOrAdmin) {
     logger.error({ listingId }, 'You cant update that listing');
@@ -83,7 +84,6 @@ function* update(listingId, user, patch) {
     throw new CustomError(403, 'אין באפשרותך לשנות את סטטוס הדירה ל ' + patch.status);
   }
 
-  const previousStatus = listing.status;
   patch = setListingAutoFields(patch);
 
   const result = yield listingRepository.update(listing, patch);
@@ -98,7 +98,25 @@ function* update(listingId, user, patch) {
     });
   }
 
+  notifyListingChanged(listing, patch);
   return yield enrichListingResponse(result, user);
+}
+
+// Send notification to updated users of important property fields being changed.
+function notifyListingChanged(listing, patch) {
+  let isImportantFieldsChanged = false;
+
+  if (process.env.NOTIFICATIONS_SNS_TOPIC_ARN) {
+    if (isImportantFieldsChanged) {
+      const messageBusEvent = messageBus.eventType['LISTING_EDITED'];
+      messageBus.publish(process.env.NOTIFICATIONS_SNS_TOPIC_ARN, messageBusEvent, {
+        city_id: listing.apartment.building.city_id,
+        listing_id: listingId,
+        previous_status: previousStatus,
+        user_uuid: listing.publishing_user_id
+      });
+    }
+  }
 }
 
 function setListingAutoFields(listing) {
