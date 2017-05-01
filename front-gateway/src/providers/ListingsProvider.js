@@ -35,16 +35,19 @@ class ListingsProvider {
   }
 
   getListingMetadata(listing) {
-    const sortedListingImages = utils.sortListingImages(listing);
-    const imageURL = sortedListingImages.length ? sortedListingImages[0].url : undefined;
-
+    const IMAGE_WIDTH = 1200;
+    const IMAGE_HEIGHT = 630;
+    const sortedListingImages = utils.sortListingImages(listing);    
+    let imageURL = sortedListingImages.length ? sortedListingImages[0].url : undefined;   
+    imageURL = utils.optimizeCloudinaryUrl(imageURL, IMAGE_WIDTH);
+    
     return {
       description: listing.description,
       title: 'dorbel - ' + listing.title,
       image: {
         url: imageURL,
-        width: 1200,
-        height: 630
+        width: IMAGE_WIDTH,
+        height: IMAGE_HEIGHT
       },
       url: this.getCanonicalUrl(listing)
     };
@@ -71,7 +74,7 @@ class ListingsProvider {
         email: listing.user.email
       }))
       .then(() => { 
-        window.analytics.track('client_lead_conversion'); // For Facebook conversion tracking.
+        window.analytics.track('client_apartment_created', { listing_id: createdListing.id }); // For Facebook conversion tracking.
         return createdListing; 
       });
   }

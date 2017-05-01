@@ -1,22 +1,12 @@
 import React, { Component } from 'react';
+import utils from '~/providers/utils';
 
 class CloudinaryImage extends Component {
 
-  getSrcUrl() {
-    let optionsStr = 'c_fit,f_auto,q_auto,e_improve';
-    if (this.props.height) {
-      optionsStr += ',h_' + this.props.height;
-    }
-    if (this.props.width) {
-      optionsStr += ',w_' + this.props.width;
-    }
-
-    return optionsStr ? this.props.src.replace('upload', 'upload/' + optionsStr) : this.props.src;
-  }
-
   render() {
+    const imageUrl = utils.optimizeCloudinaryUrl(this.props.src, this.props.width, this.props.height);
     return (
-      <img className={this.props.className} src={this.getSrcUrl()} />
+      <img className={this.props.className} src={imageUrl} />
     );
   }
 }

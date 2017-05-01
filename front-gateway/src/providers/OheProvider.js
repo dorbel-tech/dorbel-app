@@ -106,6 +106,7 @@ class OheProvider {
           email: user.email
         });
         event.status = 'registered';
+        window.analytics.track('client_ohe_registered', { user_id: user.user_id }); // For Facebook conversion tracking.
       });
   }
 
@@ -145,7 +146,10 @@ class OheProvider {
     .then(followDetails => {
       this.updateStoreWithFollow(listing.id, followDetails);
     })
-    .then(this.appStore.authStore.updateProfile({ email: user.email }));
+    .then(() => {
+      this.appStore.authStore.updateProfile({ email: user.email });
+      window.analytics.track('client_listing_follow', { user_id: user.user_id }); // For Facebook conversion tracking. 
+    });
   }
 
   unfollow(followDetails) {
