@@ -105,7 +105,7 @@ function* update(listingId, user, patch) {
 // Send notification to updated users of important property fields being changed.
 function notifyListingChanged(listing, patch) {
   let isMonthlyRentChanged = (listing.monthly_rent !== patch.monthly_rent) ? true : false;
-  let isLeaseStartChanged = (listing.lease_start !== moment(patch.lease_start).format('YYYY-MM-DD')) ? true : false;
+  let isLeaseStartChanged = (moment(listing.lease_start).format('YYYY-MM-DD') !== moment(patch.lease_start).format('YYYY-MM-DD')) ? true : false;
   let isRoomsChanged = (listing.apartment.rooms !== patch.apartment.rooms) ? true : false;
   let isStreetNameChanged = (listing.apartment.building.street_name !== patch.apartment.building.street_name) ? true : false;
   let isHouseNumberChanged = (listing.apartment.building.house_number !== patch.apartment.building.house_number) ? true : false;
