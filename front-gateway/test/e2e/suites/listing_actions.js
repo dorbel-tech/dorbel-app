@@ -70,6 +70,8 @@ module.exports = {
     listing.clickFirstOhe();
     listing.expect.section('@oheModal').to.be.visible;
     listing.fillOheRegisterUserDetailsAndSubmit();
+    browser.pause(500);
+    listing.dismissInfo();
     waitForRegisterText();
     browser.end();
   },
@@ -91,6 +93,8 @@ module.exports = {
     loginInListing('tenant');
     listing.expect.section('@oheModal').to.be.visible;
     listing.fillOheRegisterUserDetailsAndSubmit();
+    browser.pause(500);
+    listing.dismissInfo();
     waitForRegisterText();
     browser.end();
   },
