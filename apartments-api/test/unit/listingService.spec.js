@@ -92,7 +92,7 @@ describe('Listing Service', function () {
     it('should update status for an existing listing', function* () {
       const listing = faker.getFakeListing();
       const user = { id: listing.publishing_user_id };
-      const updatedListing = Object.assign({}, listing, { status: 'rented' });      
+      const updatedListing = Object.assign({}, listing, { status: 'rented' });
       this.listingRepositoryMock.update = sinon.stub().resolves(updatedListing);
       this.listingRepositoryMock.getById = sinon.stub().resolves(listing);
       this.likeRepositoryMock.getListingTotalLikes = sinon.stub().resolves(listing.id);
