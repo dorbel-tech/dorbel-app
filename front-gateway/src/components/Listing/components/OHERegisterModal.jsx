@@ -1,4 +1,5 @@
 import React from 'react';
+import autobind from 'react-autobind';
 import { Row, Col, Modal, Button } from 'react-bootstrap';
 import { inject, observer } from 'mobx-react';
 import Icon from '~/components/Icon/Icon';
@@ -12,11 +13,9 @@ const FRC = FormWrapper.FRC;
 class OHERegisterModal extends React.Component {
   constructor(props) {
     super(props);
+    autobind(this);
+
     this.state = { successfullyRegistered: false };
-    // TODO : stop this chaos and use https://github.com/andreypopp/autobind-decorator
-    this.close = this.close.bind(this);
-    this.register = this.register.bind(this);
-    this.unregister = this.unregister.bind(this);
   }
 
   register() {
