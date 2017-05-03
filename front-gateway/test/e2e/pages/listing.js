@@ -44,7 +44,7 @@ module.exports = {
           selector: 'button.btn-success'
         },
         ok: {
-          selector: 'button.btn-primary'
+          selector: '.ohe-register-modal-info-button'
         },
         cancel: {
           selector: 'button.btn-danger'

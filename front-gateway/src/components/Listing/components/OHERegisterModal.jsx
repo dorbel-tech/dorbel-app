@@ -66,7 +66,7 @@ class OHERegisterModal extends React.Component {
             </p>
           </Row>
           <Row>
-            <Button onClick={this.close} bsStyle="primary" bsSize="large" >אחלה!</Button>
+            <Button onClick={this.close} className="ohe-register-modal-info-button" bsStyle="primary" bsSize="large" >אחלה!</Button>
           </Row>
         </Modal.Body>
       </Modal>
