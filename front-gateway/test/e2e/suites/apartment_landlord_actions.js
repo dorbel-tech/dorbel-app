@@ -34,7 +34,7 @@ module.exports = {
       .expect.section('@openHouseEvent').to.not.be.present;
     browser.end();
   },
-  'should fail to submit a new apartment because of mising user details': function (browser) {
+  'should fail to submit a new apartment because of missing user details': function (browser) {
     login();    
     apartmentForm
       .navigateToOpenHouseEventSection()
