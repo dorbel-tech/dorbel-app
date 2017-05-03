@@ -17,7 +17,7 @@ function submitApartment(browser) {
   browser.pause(500);
   apartmentForm.expect.section('@successModal').to.be.present;
   common.waitForText(apartmentForm.section.successModal, '@successTitle', 'תהליך העלאת פרטי הדירה הושלם בהצלחה!');
-  // Get listingId from sucess modal dom element data-attr attribute.
+  // Get listingId from success modal dom element data-attr attribute.
   apartmentForm.section.successModal.getAttribute('@listingId', 'data-attr', function(result) {
     listingId = result.value;
   });
