@@ -82,11 +82,6 @@ module.exports = {
     },
     fillOheRegisterUserDetailsAndSubmit: function() {
       return this.section.oheModal.click('@submit')
-//        .waitForElementVisible('@ok')
-//        .click('@ok');
-    },
-    dismissInfo: function() {
-      return this.section.oheModal
         .waitForElementVisible('@ok')
         .click('@ok');
     },
