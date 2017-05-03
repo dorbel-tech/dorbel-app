@@ -12,6 +12,10 @@ function loginInListing(userType) {
   home.singInListing(user);
 }
 
+function logout() {
+  home.signOut();
+}
+
 function submitApartment(browser) {
   apartmentForm.fillAndSubmitApartment();
   browser.pause(500);
@@ -61,6 +65,7 @@ module.exports = {
     property.refreshProperty();
     property.section.listingStatusSelector
       .expect.element('@listingMenuStatusDropdownToggle').text.to.equal('מפורסמת');
+    logout();
     browser.end();
   },
   'tenant should register to OHE': function (browser) {
