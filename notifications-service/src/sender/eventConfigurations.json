@@ -25,6 +25,11 @@
     "dataRetrieval": [ "getListingInfo", "getListingOhesCount", "getUserDetails" ]
   },
   {
+    "eventType": "APARTMENT_EDITED",
+    "notificationType": "apartment_edited",
+    "dataRetrieval": [ "getListingInfo", "getOheInfo", "sendToOheRegisteredUsers", "getUserDetails" ]
+  },
+  {
     "eventType": "OHE_CREATED",
     "notificationType": "ohe_created",
     "dataRetrieval": [ "getListingInfo", "getOheInfo", "getUserDetails" ],
