@@ -18,10 +18,14 @@ describe('Listing Service', function () {
       listingStatuses: [ 'pending', 'rented' ],
       update: sinon.stub().resolves(this.mockListing)
     };
+    this.likeRepositoryMock = {
+      getListingTotalLikes: sinon.stub().resolves(this.mockListing)
+    };
     this.geoProviderMock = {
       getGeoLocation : sinon.stub().resolves(1)
     };
     mockRequire('../../src/apartmentsDb/repositories/listingRepository', this.listingRepositoryMock);
+    mockRequire('../../src/apartmentsDb/repositories/likeRepository', this.likeRepositoryMock);
     mockRequire('../../src/providers/geoProvider', this.geoProviderMock);
     sinon.stub(shared.utils.userManagement, 'updateUserDetails');
     sinon.stub(shared.utils.userManagement, 'getUserDetails').resolves();
@@ -88,12 +92,12 @@ describe('Listing Service', function () {
     it('should update status for an existing listing', function* () {
       const listing = faker.getFakeListing();
       const user = { id: listing.publishing_user_id };
-      const updatedListing = Object.assign({}, listing, { status: 'rented' });
+      const updatedListing = Object.assign({}, listing, { status: 'rented' });      
       this.listingRepositoryMock.update = sinon.stub().resolves(updatedListing);
       this.listingRepositoryMock.getById = sinon.stub().resolves(listing);
+      this.likeRepositoryMock.getListingTotalLikes = sinon.stub().resolves(listing.id);
 
-      const result = yield this.listingService.update(listing.id, user, { status: 'rented' });
-
+      const result = yield this.listingService.update(listing.id, user, updatedListing);
       __.assertThat(result, __.hasProperties(updatedListing));
     });
 
@@ -128,8 +132,9 @@ describe('Listing Service', function () {
       const updatedListing = Object.assign({}, listing, { status: 'rented' });
       this.listingRepositoryMock.update = sinon.stub().resolves(updatedListing);
       this.listingRepositoryMock.getById = sinon.stub().resolves(listing);
+      this.likeRepositoryMock.getListingTotalLikes = sinon.stub().resolves(listing.id);
 
-      const result = yield this.listingService.update(listing.id, user, { status: 'rented' });
+      const result = yield this.listingService.update(listing.id, user, updatedListing);
 
       __.assertThat(result, __.hasProperties(updatedListing));
     });
