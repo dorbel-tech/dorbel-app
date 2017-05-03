@@ -61,16 +61,17 @@ class ManageLeaseModal extends React.Component {
           <div className="property-manage-modal-picker-label">תום השכירות</div>
         </div>
         <div className="property-manage-modal-picker-container">
+          <div className="property-manage-modal-start-picker-fake-container"
+               ref={(el) => { this.leaseStartContainer = el; }} />
           <div className="property-manage-modal-start-picker-wrapper">
             <DatePicker value={leaseStartValue}
                         onChange={this.leaseStartChange}
-                        calendarPlacement="bottom" />
+                        calendarContainer={this.leaseStartContainer} />
           </div>
           <div className="property-manage-modal-end-picker-separator">-</div>
           <div className="property-manage-modal-end-picker-wrapper">
             <DatePicker value={leaseEndValue}
-                        onChange={this.leaseEndChange}
-                        calendarPlacement="bottom" />
+                        onChange={this.leaseEndChange} />
           </div>
         </div>
         <Button onClick={this.confirmClickHandler} bsStyle={'success'}

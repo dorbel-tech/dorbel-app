@@ -145,7 +145,8 @@ class Property extends Component {
     const editHeaderButtons = (
       <div className="property-action-container">
         <div className="property-actions-menu-container property-edit-actions-mobile">
-          <Button bsStyle="success" onClick={() => editForm.wrappedInstance.save()}>
+          <Button bsStyle="success" onClick={() => editForm.wrappedInstance.save()}
+                  disabled={appStore.editedListingStore.disableSave}>
             שמור
           </Button>
           <Button onClick={() => editForm.wrappedInstance.cancel()}>

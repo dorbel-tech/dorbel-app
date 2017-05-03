@@ -47,6 +47,7 @@ export default class EditListing extends Component {
 
   render() {
     const { activeTab } = this.state;
+    const { editedListingStore } = this.props.appStore;
 
     return (
       <div>
@@ -62,9 +63,9 @@ export default class EditListing extends Component {
         <Row className="property-content-container property-edit-container">
           <Grid fluid>
             <Col xs={12} sm={12} lg={10} lgOffset={1}>
-              <activeTab.component editedListingStore={this.props.appStore.editedListingStore}/>
+              <activeTab.component editedListingStore={editedListingStore}/>
               <Row className="property-edit-actions-mobile pull-left">
-                <Button bsStyle="success" onClick={this.save}>שמור</Button>
+                <Button bsStyle="success" onClick={this.save} disabled={editedListingStore.disableSave}>שמור</Button>
                 <Button onClick={this.cancel}>בטל</Button>
               </Row>
             </Col>
