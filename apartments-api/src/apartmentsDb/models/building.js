@@ -1,5 +1,4 @@
 'use strict';
-const _ = require('lodash');
 
 function define(sequelize, DataTypes) {
   return sequelize.define('building', {
