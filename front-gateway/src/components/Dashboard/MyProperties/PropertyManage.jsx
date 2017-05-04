@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
-import { ProgressBar, Col, Grid, Row } from 'react-bootstrap';
-import ManageLeaseModal from './ManageLeaseModal';
+import { ProgressBar, Col, Grid, Row, ListGroup, ListGroupItem } from 'react-bootstrap';
 import autobind from 'react-autobind';
-import utils from '~/providers/utils';
 import moment from 'moment';
+import utils from '~/providers/utils';
+import TenantRow from '~/components/TenantRow/TenantRow';
+import ManageLeaseModal from './ManageLeaseModal';
 
 import './PropertyManage.scss';
 
-@inject('appProviders') @observer
+@inject('appProviders', 'appStore') @observer
 class PropertyManage extends Component {
   constructor(props) {
     super(props);
@@ -17,6 +18,10 @@ class PropertyManage extends Component {
     this.state = {
       showManageLeaseModal: false
     };
+  }
+
+  componentWillMount() {
+    this.props.appProviders.listingsProvider.loadListingTenants(this.props.listing.id);
   }
 
   closeManageLeaseModal(confirm, newLeaseStart, newLeaseEnd) {
@@ -35,6 +40,28 @@ class PropertyManage extends Component {
 
   editLeaseDates() {
     this.setState({showManageLeaseModal: true});
+  }
+
+  renderTenants() {
+    const tenants = this.props.appStore.listingStore.listingTenantsById.get(this.props.listing.id);
+
+    if (!tenants) {
+      return <h5>טוען...</h5>;
+    } else if (tenants === 'error') {
+      return <h5>חלה שגיאה בטעינת הדיירים</h5>;
+    } else {
+      return (
+        <ListGroup>
+          {
+            tenants.map(tenant => (
+              <ListGroupItem key={tenant.id}>
+                <TenantRow tenant={tenant} />
+              </ListGroupItem>
+            ))
+          }
+        </ListGroup>
+      );
+    }
   }
 
   render() {
@@ -76,12 +103,23 @@ class PropertyManage extends Component {
                   <div className="property-manage-lease-period-end-label">תום שכירות</div>
                 </Col>
               </Row>
+              <Row className="property-manage-lease-title">
+                <Col xs={12}>
+                  דיירים נוכחים:
+                </Col>
+              </Row>
+              <Row>
+                <Col xs={12}>
+                  {this.renderTenants()}
+                </Col>
+              </Row>
             </Grid>;
   }
 }
 
 PropertyManage.wrappedComponent.propTypes = {
   appProviders: React.PropTypes.object.isRequired,
+  appStore: React.PropTypes.object.isRequired,
   listing: React.PropTypes.object.isRequired
 };
 

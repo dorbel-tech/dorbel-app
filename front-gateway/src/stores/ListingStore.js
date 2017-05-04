@@ -4,12 +4,14 @@ import autobind from 'react-autobind';
 export default class ListingStore {
   @observable listingsById;
   @observable listingViewsById;
+  @observable listingTenantsById;
   @observable isLoading = false;
 
   constructor(initialState = {}, authStore) {
     this.listingsById = asMap(initialState.listingsById || {});
     this.listingsBySlug = asMap(initialState.listingsBySlug || {});
     this.listingViewsById = asMap(initialState.listingViewsById || {});
+    this.listingTenantsById = asMap(initialState.listingTenantsById || {});
     this.authStore = authStore;
     autobind(this);
   }
@@ -61,7 +63,8 @@ export default class ListingStore {
     return {
       listingsById: this.listingsById,
       listingsBySlug: this.listingsBySlug,
-      listingViewsById: this.listingViewsById
+      listingViewsById: this.listingViewsById,
+      listingTenantsById: this.listingTenantsById
     };
   }
 }

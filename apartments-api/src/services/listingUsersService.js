@@ -75,6 +75,8 @@ function mapToListingUserResponse(listingUserFromDb, publicProfile) {
     Object.assign(listingUserResponse, publicProfile);
   }
 
+  listingUserResponse.tenant_profile = listingUserResponse.tenant_profile || {};
+
   return listingUserResponse;
 }
 

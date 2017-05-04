@@ -37,10 +37,10 @@ class ListingsProvider {
   getListingMetadata(listing) {
     const IMAGE_WIDTH = 1200;
     const IMAGE_HEIGHT = 630;
-    const sortedListingImages = utils.sortListingImages(listing);    
-    let imageURL = sortedListingImages.length ? sortedListingImages[0].url : undefined;   
+    const sortedListingImages = utils.sortListingImages(listing);
+    let imageURL = sortedListingImages.length ? sortedListingImages[0].url : undefined;
     imageURL = utils.optimizeCloudinaryUrl(imageURL, IMAGE_WIDTH);
-    
+
     return {
       description: listing.description,
       title: 'dorbel - ' + listing.title,
@@ -73,9 +73,9 @@ class ListingsProvider {
         phone: listing.user.phone,
         email: listing.user.email
       }))
-      .then(() => { 
+      .then(() => {
         window.analytics.track('client_apartment_created', { listing_id: createdListing.id }); // For Facebook conversion tracking.
-        return createdListing; 
+        return createdListing;
       });
   }
 
@@ -94,6 +94,12 @@ class ListingsProvider {
       listing.status = status;
       _.set(listing, 'meta.possibleStatuses', _.get(res, 'meta.possibleStatuses'));
     });
+  }
+
+  loadListingTenants(listing_id) {
+    return this.apiProvider.fetch(`/api/apartments/v1/listings/${listing_id}/tenants`)
+    .then(res => this.appStore.listingStore.listingTenantsById.set(listing_id, res))
+    .catch(() => this.appStore.listingStore.listingTenantsById.set(listing_id, 'error'));
   }
 
 }
