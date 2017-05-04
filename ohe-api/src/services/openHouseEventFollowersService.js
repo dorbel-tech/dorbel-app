@@ -45,7 +45,7 @@ function* follow(listingId, user) {
 
   notificationService.send(notificationService.eventType.OHE_FOLLOWED, {
     listing_id: listingId,
-    user_uuid: user.id
+    user_uuid: user.user_id
   });
 
   return result;
