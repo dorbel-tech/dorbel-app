@@ -86,16 +86,13 @@ describe('Integration - PATCH /listings/{id}', function () {
   });
 
   it('should change apartment details without changing apartment id', function * () {
-    const update = {
-      apartment: {
-        apt_number: faker.random.word()
-      }
-    };
+    let updatedListing = _.clone(createdListing);
+    updatedListing.apartment.apt_number = faker.random.word();
 
-    const response = yield apiClient.patchListing(createdListing.id, update).expect(200).end();
+    const response = yield apiClient.patchListing(createdListing.id, updatedListing).expect(200).end();
 
     __.assertThat(response.body.apartment, __.hasProperties({
-      apt_number: update.apartment.apt_number,
+      apt_number: updatedListing.apartment.apt_number,
       id: createdListing.apartment.id
     }));
   });
@@ -136,15 +133,14 @@ describe('Integration - PATCH /listings/{id}', function () {
   });
 
   it('should ignore non-whitelisted properties for update', function * () {
-    const update = {
-      publishing_user_id: faker.random.uuid(), // will be ignored
-      directions : faker.lorem.sentence()
-    };
+    let updatedListing = _.clone(createdListing);
+    updatedListing.publishing_user_id = faker.random.uuid(); // will be ignored
+    updatedListing.directions = faker.lorem.sentence();
 
-    const response = yield apiClient.patchListing(createdListing.id, update).expect(200).end();
+    const response = yield apiClient.patchListing(createdListing.id, updatedListing).expect(200).end();
 
     __.assertThat(response.body, __.hasProperties({
-      directions: update.directions,
+      directions: updatedListing.directions,
       publishing_user_id: createdListing.publishing_user_id
     }));
   });
@@ -167,7 +163,9 @@ describe('Integration - PATCH /listings/{id}', function () {
   });
 
   function * updateAndAssertImages(images) {
-    const response = yield apiClient.patchListing(createdListing.id, { images }).expect(200).end();
+    let updatedListing = _.clone(createdListing);
+    updatedListing.images = images;
+    const response = yield apiClient.patchListing(createdListing.id, updatedListing).expect(200).end();
 
     __.assertThat(response.body.images, __.allOf(
       __.hasSize(images.length),

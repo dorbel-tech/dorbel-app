@@ -72,6 +72,7 @@ function* update(listingId, user, patch) {
     throw new CustomError(404, 'הדירה לא נמצאה');
   }
 
+  const oldListing = _.cloneDeep(listing.get({ plain: true }));
   const isPublishingUserOrAdmin = listing && permissionsService.isPublishingUserOrAdmin(user, listing);
   const statusChanged = patch.status && patch.status !== listing.status;
 
@@ -84,7 +85,6 @@ function* update(listingId, user, patch) {
   }
 
   patch = setListingAutoFields(patch);
-  const oldListing = _.cloneDeep(listing.get({ plain: true }));
   const result = yield listingRepository.update(listing, patch);
   notifyListingChanged(oldListing, patch, statusChanged);
 
