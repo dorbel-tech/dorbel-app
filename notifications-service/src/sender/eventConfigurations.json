@@ -25,11 +25,6 @@
     "dataRetrieval": [ "getListingInfo", "getListingOhesCount", "getUserDetails" ]
   },
   {
-    "eventType": "APARTMENT_EDITED",
-    "notificationType": "apartment_edited",
-    "dataRetrieval": [ "getListingInfo", "getOheInfo", "sendToOheRegisteredUsers", "getUserDetails" ]
-  },
-  {
     "eventType": "OHE_CREATED",
     "notificationType": "ohe_created",
     "dataRetrieval": [ "getListingInfo", "getOheInfo", "getUserDetails" ],
@@ -91,5 +86,10 @@
   {
     "eventType": "LISTING_UNLIKED",
     "notificationType": "listing_unliked"
-  }    
+  },
+  {
+    "eventType": "LISTING_EDITED",
+    "notificationType": "listing_edited",
+    "dataRetrieval": [ "getListingInfo", "getListingOhes", "getUserDetails" ]
+  }
 ]
