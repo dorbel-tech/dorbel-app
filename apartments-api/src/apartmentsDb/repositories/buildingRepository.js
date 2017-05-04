@@ -35,10 +35,9 @@ function* findOrCreate(building, options = {}) {
       street_name: building.street_name,
       house_number: building.house_number,
       city_id: building.city.id,
-      neighborhood_id: building.neighborhood.id,
       entrance: building.entrance || null
     },
-    defaults: _.pick(building, ['geolocation', 'elevator', 'floors']),
+    defaults: _.pick(building, ['geolocation', 'elevator', 'floors', 'neighborhood_id']),
     transaction: options.transaction
   });
 

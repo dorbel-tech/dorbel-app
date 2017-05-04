@@ -200,8 +200,7 @@ function * update(listing, patch) {
     let newBuilding;
 
     // if main building properties change - we move apartment+listing to a different building
-    if (buildingRequest && currentBuilding.isDifferentBuilding(buildingRequest)) {
-      logger.trace('update to different building', { listing_id: listing.id });
+    if (buildingRequest) {
       let mergedBuilding = _.merge({}, currentBuilding.toJSON(), buildingRequest);
       mergedBuilding = _.omit(mergedBuilding, ['geolocation']);
       newBuilding = yield buildingRepository.findOrCreate(mergedBuilding, { transaction });
