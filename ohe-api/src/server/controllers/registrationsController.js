@@ -4,7 +4,7 @@ const logger = shared.logger.getLogger(module);
 const service = require('../../services/openHouseEventRegistrationsService');
 
 function* post() {
-  const eventId= this.request.body.open_house_event_id;
+  const eventId = this.request.body.open_house_event_id;
   let user = this.request.body.user_details;
   user.user_id = this.request.user.id;
   logger.debug({event_id: eventId, user_uuid: user.user_id}, 'Registering to an open house event...');
