@@ -1,9 +1,9 @@
 'use stric';
 const _ = require('lodash');
 var faker = require('faker');
-const E2E_USER_LANDLORD = { email: 'e2e-user@dorbel.com', password: 'e2e_test', firstName: 'Landlord', lastName: 'Test', phone: '123456789' };
-const E2E_USER_TENANT = { email: 'e2e-user-tenant@dorbel.com', password: 'e2e_test', firstName: 'Tenant', lastName: 'Test', phone: '011111111' };
-const E2E_USER_ADMIN = { email: 'e2e-user-admin@dorbel.com', password: 'e2e_test', firstName: 'Admin', lastName: 'Test', phone: '987654321' };
+const E2E_USER_LANDLORD = { email: 'end-to-end-user@dorbel.com', password: 'e2e_test', firstName: 'Landlord', lastName: 'Test', phone: '123456789' };
+const E2E_USER_TENANT = { email: 'end-to-end-tenant@dorbel.com', password: 'e2e_test', firstName: 'Tenant', lastName: 'Test', phone: '011111111' };
+const E2E_USER_ADMIN = { email: 'end-to-end-admin@dorbel.com', password: 'e2e_test', firstName: 'Admin', lastName: 'Test', phone: '987654321' };
 const E2E_USER_RANDOM = { 
   email: faker.internet.email(), 
   password: faker.internet.password(), 
