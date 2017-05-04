@@ -31,7 +31,7 @@ function define(sequelize, DataTypes) {
       }
     },
     indexes: [{
-      fields: ['city_id', 'street_name', 'house_number', 'entrance', 'neighborhood_id'],
+      fields: ['city_id', 'street_name', 'house_number', 'entrance'],
       unique: true
     }]
   });
