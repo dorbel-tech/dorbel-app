@@ -91,9 +91,10 @@ function* update(listingId, user, patch) {
   return yield enrichListingResponse(result, user);
 }
 
-// Send notification to updated users of important property fields being changed.
+// Send notifications to users on changes in listing
 function notifyListingChanged(oldListing, newListing, statusChanged) {
   if (process.env.NOTIFICATIONS_SNS_TOPIC_ARN) {
+    // Notify in case of listing status change.
     if (statusChanged) {
       const messageBusEvent = messageBus.eventType['APARTMENT_' + newListing.status.toUpperCase()];
       messageBus.publish(process.env.NOTIFICATIONS_SNS_TOPIC_ARN, messageBusEvent, {
@@ -102,7 +103,9 @@ function notifyListingChanged(oldListing, newListing, statusChanged) {
         previous_status: oldListing.status,
         user_uuid: oldListing.publishing_user_id
       });
-    } else {
+    } 
+    // Send notification to updated users of important property fields being changed.
+    else {
       const isMonthlyRentChanged = (oldListing.monthly_rent !== newListing.monthly_rent) ? true : false;
       const oldLeaseStart = moment(oldListing.lease_start).format('YYYY-MM-DD');
       const newLeaseStart = moment(newListing.lease_start).format('YYYY-MM-DD');
