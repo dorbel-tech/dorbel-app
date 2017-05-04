@@ -66,7 +66,6 @@ function* create(listing) {
 
 function* update(listingId, user, patch) {
   const listing = yield listingRepository.getById(listingId);
-  const oldListing = _.cloneDeep(listing.get({ plain: true }));
 
   if (!listing) {
     logger.error({ listingId }, 'Listing wasnt found');
@@ -85,6 +84,7 @@ function* update(listingId, user, patch) {
   }
 
   patch = setListingAutoFields(patch);
+  const oldListing = _.cloneDeep(listing.get({ plain: true }));
   const result = yield listingRepository.update(listing, patch);
   notifyListingChanged(oldListing, patch, statusChanged);
 
@@ -106,10 +106,10 @@ function notifyListingChanged(oldListing, newListing, statusChanged) {
     } 
     // Send notification to updated users of important property fields being changed.
     else {
-      const isMonthlyRentChanged = (oldListing.monthly_rent !== newListing.monthly_rent) ? true : false;
+      const isMonthlyRentChanged = oldListing.monthly_rent !== newListing.monthly_rent;
       const oldLeaseStart = moment(oldListing.lease_start).format('YYYY-MM-DD');
       const newLeaseStart = moment(newListing.lease_start).format('YYYY-MM-DD');
-      const isLeaseStartChanged = (oldLeaseStart !== newLeaseStart) ? true : false;
+      const isLeaseStartChanged = oldLeaseStart !== newLeaseStart;
       const isRoomsChanged = oldListing.apartment.rooms !== newListing.apartment.rooms;
       const isStreetNameChanged = oldListing.apartment.building.street_name !== newListing.apartment.building.street_name;
       const isHouseNumberChanged = oldListing.apartment.building.house_number !== newListing.apartment.building.house_number;

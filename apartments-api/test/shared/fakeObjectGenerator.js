@@ -46,6 +46,7 @@ function getFakeListing() {
   };
 
   listing.apartment.building.toJSON = () => listing.apartment.building;
+  listing.get = () => { return listing; };
   return listing;
 }
 

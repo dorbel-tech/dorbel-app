@@ -83,15 +83,9 @@ const dataRetrievalFunctions = {
   getListingOhesAndSendToOheRegisteredUsers: eventData => {
     return getListingOhes(eventData.listing_id)
       .then(response => {
-        let oheRegisteredUsers = [];
-        
-        if (response.length > 0) {
-          _.each(response, ohe => {
-            oheRegisteredUsers.push(getOheRegisteredUsers(ohe.id));
-          });
-        }
+        const getRegisteredUsersForAllOhes = response.map(ohe => getOheRegisteredUsers(ohe.id));
 
-        return Promise.all(oheRegisteredUsers)
+        return Promise.all(getRegisteredUsersForAllOhes)
           .then(results => {
             return {
               customRecipients: _.uniq(_.flatten(_.map(results, 'customRecipients')))
