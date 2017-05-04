@@ -13,20 +13,17 @@ function * create(listing_id, payload, requestingUser) {
 
   // TODO : check for duplicate users on same listing
 
-  let existingUser, userToCreate;
+  let publicProfile, userToCreate;
 
   if (payload.email) {
-    existingUser = yield userManagement.getUserDetailsByEmail(payload.email);
+    publicProfile = yield userManagement.getPublicProfileByEmail(payload.email);
   }
 
-  if (existingUser) {
+  if (publicProfile) {
+    // only saving these as the rest of the details should kept in Auth0
     userToCreate = {
       listing_id,
-      user_uuid: _.get(existingUser, 'app_metadata.dorbel_user_id'),
-      email: _.get(existingUser, 'email'),
-      first_name: _.get(existingUser, 'user_metadata.first_name'),
-      last_name: _.get(existingUser, 'user_metadata.last_name'),
-      phone: _.get(existingUser, 'user_metadata.phone')
+      user_uuid: publicProfile.id,
     };
   } else if (!payload.first_name) {
     throw new errors.DomainValidationError('missing params', payload, 'must include first_name for non-registered user');
@@ -40,7 +37,8 @@ function * create(listing_id, payload, requestingUser) {
     };
   }
 
-  return listingUsersRepository.create(userToCreate);
+  return listingUsersRepository.create(userToCreate)
+    .then(userFromDb => mapToListingUserResponse(userFromDb, publicProfile));
 }
 
 function * get(listing_id, requestingUser) {
@@ -49,9 +47,9 @@ function * get(listing_id, requestingUser) {
   return yield users.map(userFromDb => {
     if (userFromDb.user_uuid) {
       return userManagement.getPublicProfile(userFromDb.user_uuid)
-        .then(publicProfile => Object.assign(publicProfile, { id: userFromDb.id }));
+        .then(publicProfile => mapToListingUserResponse(userFromDb, publicProfile));
     } else {
-      return _.pick(userFromDb, [ 'email', 'first_name', 'last_name', 'phone', 'id' ]);
+      return mapToListingUserResponse(userFromDb);
     }
   });
 }
@@ -66,6 +64,18 @@ function * remove(listing_user_id, requestingUser) {
   yield getAndVerifyListing(listingUser.listing_id, requestingUser);
 
   return listingUsersRepository.remove(listing_user_id);
+}
+
+function mapToListingUserResponse(userFromDb, publicProfile) {
+  const listingUser = _.pick(userFromDb, [ 'email', 'first_name', 'last_name', 'phone', 'id', 'listing_id' ]);
+
+  if (userFromDb.user_uuid && !publicProfile) {
+    throw new errors.DomainNotFoundError('missing public profile', userFromDb, 'known user must have public profile');
+  } else if (userFromDb.user_uuid) {
+    return Object.assign({}, listingUser, _.omit(publicProfile, ['id']));
+  } else {
+    return listingUser;
+  }
 }
 
 // TODO: this is repeating in many places in the API and should be moved to some place generic

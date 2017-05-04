@@ -60,7 +60,7 @@ describe('Apartments API Listing Users integration', function () {
         first_name: this.apiClient.userProfile.first_name,
         last_name: this.apiClient.userProfile.last_name,
         phone: this.apiClient.userProfile.phone,
-        user_uuid: this.apiClient.userProfile.id
+        id: __.number()
       }));
     });
 

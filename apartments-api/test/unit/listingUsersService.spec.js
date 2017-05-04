@@ -2,6 +2,7 @@
 const mockRequire = require('mock-require');
 const __ = require('hamjest');
 var sinon = require('sinon');
+const faker = require('faker');
 const shared = require('dorbel-shared');
 const assertYieldedError = require('../shared/assertYieldedError');
 
@@ -10,7 +11,7 @@ describe('Listing Users Service', function () {
 
   before(function () {
     this.listingUsersRepositoryMock = {
-      create: sinon.stub(),
+      create: sinon.spy(user => Promise.resolve(Object.assign(user, { id: faker.random.number() }))),
       getUsersForListing: sinon.stub(),
       getUserById: sinon.stub(),
       remove: sinon.spy()
@@ -21,7 +22,7 @@ describe('Listing Users Service', function () {
 
     mockRequire('../../src/apartmentsDb/repositories/listingRepository', this.listingRepositoryMock);
     mockRequire('../../src/apartmentsDb/repositories/listingUsersRepository', this.listingUsersRepositoryMock);
-    sinon.stub(shared.utils.userManagement, 'getUserDetailsByEmail');
+    sinon.stub(shared.utils.userManagement, 'getPublicProfileByEmail');
     sinon.stub(shared.utils.userManagement, 'getPublicProfile');
     this.listingUsersService = require('../../src/services/listingUsersService');
   });
@@ -86,20 +87,20 @@ describe('Listing Users Service', function () {
       const listing_id = 1;
       const existingUser = {
         email,
-        user_metadata: { first_name },
-        app_metadata: { dorbel_user_id: user_uuid }
+        first_name,
+        id: user_uuid
       };
-      shared.utils.userManagement.getUserDetailsByEmail.resolves(existingUser);
+      shared.utils.userManagement.getPublicProfileByEmail.resolves(existingUser);
 
       yield this.listingUsersService.create(listing_id, { email }, requestingUser);
 
       __.assertThat(this.listingUsersRepositoryMock.create.args[0][0], __.hasProperties({
-        listing_id, user_uuid, email, first_name
+        listing_id, user_uuid
       }));
     });
 
     it('should create guest user with details from request', function * () {
-      shared.utils.userManagement.getUserDetailsByEmail.resolves(null);
+      shared.utils.userManagement.getPublicProfileByEmail.resolves(null);
       const userToCreate = {
         first_name: 'Pingi',
         last_name: 'Cohen'
@@ -110,13 +111,31 @@ describe('Listing Users Service', function () {
       __.assertThat(this.listingUsersRepositoryMock.create.args[0][0], __.hasProperties(userToCreate));
     });
 
-    it('should return the created object', function * () {
-      const createdUser = { abc: 123 };
-      this.listingUsersRepositoryMock.create.resolves(createdUser);
+    it('should return the mapped listing user when a guest', function * () {
+      const userToCreate = { first_name: 'George' };
 
-      const response = yield this.listingUsersService.create(1, { first_name: 'bla' }, requestingUser);
+      const response = yield this.listingUsersService.create(1, userToCreate, requestingUser);
 
-      __.assertThat(response, __.is(createdUser));
+      __.assertThat(response, __.hasProperties({
+        first_name: userToCreate.first_name,
+        id: __.number()
+      }));
+    });
+
+    it('should return the mapped listing user when identified', function * () {
+      const userToCreate = { email: 'George@monkey.com' };
+      const publicProfile = { first_name: 'Jojo', id: 999 };
+      shared.utils.userManagement.getPublicProfileByEmail.resolves(publicProfile);
+
+      const response = yield this.listingUsersService.create(1, userToCreate, requestingUser);
+
+      __.assertThat(response, __.hasProperties({
+        first_name: publicProfile.first_name,
+        id: __.allOf(
+          __.number(),
+          __.not(publicProfile.id) // the id should be the listing-user ID and not the user's own id
+        )
+      }));
     });
   });
 
