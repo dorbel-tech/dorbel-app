@@ -12,19 +12,15 @@ export default class ImageUpload extends React.Component {
   }
 
   onChooseFile(acceptedFiles) {
-    const { appProviders, editedListingStore, onUploadComplete, onUploadStart } = this.props;
+    const { appProviders, editedListingStore } = this.props;
 
-    if (onUploadStart) {
-      onUploadStart();
-    }
+    editedListingStore.disableSave = true;
 
     let uploadPromises = acceptedFiles.map(file => appProviders.listingImageProvider.uploadImage(file, editedListingStore));
     this.uploadImagePromises = this.uploadImagePromises.concat(uploadPromises);
     Promise.all(this.uploadImagePromises)
     .then(() => {
-      if (onUploadComplete) {
-        onUploadComplete();
-      }
+      editedListingStore.disableSave = false;
     });
   }
 
@@ -70,7 +66,5 @@ export default class ImageUpload extends React.Component {
 
 ImageUpload.wrappedComponent.propTypes = {
   appProviders: React.PropTypes.object.isRequired,
-  editedListingStore: React.PropTypes.object.isRequired,
-  onUploadStart: React.PropTypes.func,
-  onUploadComplete: React.PropTypes.func
+  editedListingStore: React.PropTypes.object.isRequired
 };

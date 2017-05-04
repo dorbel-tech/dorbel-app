@@ -93,16 +93,14 @@ class TenantProfile extends Component {
       <Row>
         <Col className="tenant-profile-field" xs={12}>
           <label>טלפון</label>
-          <span>
             {
               profile.phone ?
                 (<a href={`tel:${profile.phone}`}>
-                  <span>{profile.phone}</span>
+                  {profile.phone}
                 </a>)
                 :
                 (<span>-</span>)
             }
-          </span>
         </Col>
       </Row>
     );
@@ -114,7 +112,7 @@ class TenantProfile extends Component {
         <Col className="tenant-profile-field pad-bottom" xs={12}>
           <label>דואר אלקטרוני</label>
           <a href={`mailto:${profile.email}`}>
-            <span>{profile.email}</span>
+            {profile.email}
           </a>
         </Col>
       </Row>

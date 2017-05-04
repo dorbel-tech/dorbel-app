@@ -16,6 +16,10 @@ class DatePicker extends Component {
     };
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({dateValue: nextProps.value});
+  }
+
   componentDidMount() {
     // informing of setting the default value
     this.handleChange(this.state.dateValue);
@@ -46,6 +50,7 @@ class DatePicker extends Component {
         dateFormat={dateFormat}
         disabled={this.props.disabled}
         calendarPlacement={this.props.calendarPlacement}
+        calendarContainer={this.props.calendarContainer}
         // These are reversed because of RTL
         previousButtonElement=">"
         nextButtonElement="<"
@@ -60,7 +65,8 @@ DatePicker.propTypes = {
   value: React.PropTypes.string,
   name: React.PropTypes.string,
   disabled: React.PropTypes.bool,
-  calendarPlacement: React.PropTypes.string
+  calendarPlacement: React.PropTypes.string,
+  calendarContainer: React.PropTypes.object
 };
 
 export default DatePicker;

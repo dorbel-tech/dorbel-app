@@ -127,6 +127,15 @@
 .property-manage-modal-picker-container {
   height: 70px;
 
+  .property-manage-modal-start-picker-fake-container {
+    right: 80px;
+
+    #calendar {
+      left: -35px !important;
+    }
+  }
+
+  .property-manage-modal-start-picker-fake-container,
   .property-manage-modal-start-picker-wrapper,
   .property-manage-modal-end-picker-wrapper {
     position: absolute;

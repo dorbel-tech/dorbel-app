@@ -50,6 +50,11 @@
       vertical-align: middle;
     }
 
+    a {
+      float: left;
+      text-decoration: underline;
+    }
+
     span {
       font-size: 15px;
       color: $gray-dark;

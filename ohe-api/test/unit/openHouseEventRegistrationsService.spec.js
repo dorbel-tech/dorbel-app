@@ -72,7 +72,7 @@ describe('Open House Event Registration Service', function () {
         __.assertThat('code', __.is('not reached'));
       }
       catch (error) {
-        __.assertThat(error.message, __.is('user already registered to this event'));
+        __.assertThat(error.message, __.is('המשתמש כבר רשום לאירוע זה'));
         __.assertThat(this.sendNotification.callCount, __.is(0));
       }
     });
@@ -87,7 +87,7 @@ describe('Open House Event Registration Service', function () {
         __.assertThat('code', __.is('not reached'));
       }
       catch (error) {
-        __.assertThat(error.message, __.is('cannot register to past event'));
+        __.assertThat(error.message, __.is('לא ניתן להרשם לאירועים שחלפו'));
         __.assertThat(this.sendNotification.callCount, __.is(0));
       }
     });
@@ -105,7 +105,7 @@ describe('Open House Event Registration Service', function () {
         __.assertThat('code', __.is('not reached'));
       }
       catch (error) {
-        __.assertThat(error.message, __.is('to late to register'));
+        __.assertThat(error.message, __.is('מאוחר מדי להרשם, האירוע הולך להתחיל בקרוב'));
         __.assertThat(this.sendNotification.callCount, __.is(0));
       }
     });
@@ -124,7 +124,7 @@ describe('Open House Event Registration Service', function () {
         __.assertThat('code', __.is('not reached'));
       }
       catch (error) {
-        __.assertThat(error.message, __.is('event is full'));
+        __.assertThat(error.message, __.is('האירוע מלא'));
         __.assertThat(this.sendNotification.callCount, __.is(0));
       }
     });
@@ -152,7 +152,7 @@ describe('Open House Event Registration Service', function () {
         yield this.service.unregister(0, faker.getFakeUser());
       }
       catch (error) {
-        __.assertThat(error.message, __.is('registration does not exist'));
+        __.assertThat(error.message, __.is('לא קיים רישום לאירוע'));
         __.assertThat(this.sendNotification.callCount, __.is(0));
       }
     });

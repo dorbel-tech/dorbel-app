@@ -21,13 +21,17 @@ export class Login extends React.Component {
     const { appProviders, appStore } = this.props;
     if (appStore.authStore.isLoggedIn) {
       return (
-        <div>
+        <div className="login-screen">
           <h3>כבר מחובר</h3>
           <button onClick={appProviders.authProvider.logout}>להתנתק</button>
         </div>
       );      
     } else {
-      return <h3>מתחבר...</h3>;
+      return (
+        <div className="login-screen">
+          <h3>מתחבר...</h3>;
+        </div>
+      );
     }
   }
 }
