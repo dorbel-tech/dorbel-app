@@ -81,21 +81,21 @@ describe('Listing Users Service', function () {
     });
 
     it('should create tenant as existing user by email', function * () {
-      const user_uuid = 'asdfjlkjesafdsdfad';
+      const dorbel_user_id = 'asdfjlkjesafdsdfad';
       const first_name = 'Dudu';
       const email = 'Dudu1952@parpar.nehmad.co.il';
       const listing_id = 1;
       const existingUser = {
         email,
         first_name,
-        id: user_uuid
+        dorbel_user_id
       };
       shared.utils.userManagement.getPublicProfileByEmail.resolves(existingUser);
 
       yield this.listingUsersService.create(listing_id, { email }, requestingUser);
 
       __.assertThat(this.listingUsersRepositoryMock.create.args[0][0], __.hasProperties({
-        listing_id, user_uuid
+        listing_id, dorbel_user_id
       }));
     });
 
@@ -124,7 +124,7 @@ describe('Listing Users Service', function () {
 
     it('should return the mapped listing user when identified', function * () {
       const userToCreate = { email: 'George@monkey.com' };
-      const publicProfile = { first_name: 'Jojo', id: 999 };
+      const publicProfile = { first_name: 'Jojo', dorbel_user_id: 999 };
       shared.utils.userManagement.getPublicProfileByEmail.resolves(publicProfile);
 
       const response = yield this.listingUsersService.create(1, userToCreate, requestingUser);
@@ -133,7 +133,7 @@ describe('Listing Users Service', function () {
         first_name: publicProfile.first_name,
         id: __.allOf(
           __.number(),
-          __.not(publicProfile.id) // the id should be the listing-user ID and not the user's own id
+          __.not(publicProfile.dorbel_user_id) // the id should be the listing-user ID and not the user's dorbel_user_id
         )
       }));
     });
@@ -150,7 +150,7 @@ describe('Listing Users Service', function () {
     });
 
     it('should return auth0 public profile for registered user', function * () {
-      const registeredUser = { id: 7, user_uuid: 123 };
+      const registeredUser = { id: 7, dorbel_user_id: 123 };
       const publicProfile = { public: 'profile' };
       this.listingUsersRepositoryMock.getUsersForListing.resolves([ registeredUser ]);
       shared.utils.userManagement.getPublicProfile.resolves(publicProfile);

@@ -18,7 +18,7 @@ module.exports = {
             key: 'id'
           }
         },
-        user_uuid: {
+        dorbel_user_id: {
           type: Sequelize.UUID
         },
         first_name: Sequelize.STRING,

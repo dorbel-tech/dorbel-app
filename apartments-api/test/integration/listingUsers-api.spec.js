@@ -22,7 +22,8 @@ describe('Apartments API Listing Users integration', function () {
       const response = yield this.apiClient.postTenant(this.createdListing.id, { first_name }).expect(201).end();
       __.assertThat(response.body, __.hasProperties({
         first_name,
-        listing_id: this.createdListing.id.toString()
+        listing_id: this.createdListing.id.toString(),
+        id: __.number()
       }));
     });
 
