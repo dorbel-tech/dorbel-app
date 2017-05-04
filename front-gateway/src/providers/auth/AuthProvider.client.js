@@ -86,10 +86,10 @@ class AuthProvider {
   reportIdentifyAnalytics(profile) {
     // https://segment.com/docs/integrations/intercom/#identify
     if (profile) {
-      window.analytics.identify(profile.id, profile);
+      window.analytics.identify(profile.dorbel_user_id, profile);
 
       if (profile.first_login) {
-        window.analytics.track('client_user_signup', { user_id: profile.id }); // For Facebook conversion tracking.
+        window.analytics.track('client_user_signup', { user_id: profile.dorbel_user_id }); // For Facebook conversion tracking.
       }
     }
   }
