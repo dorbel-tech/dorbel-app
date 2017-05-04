@@ -215,10 +215,14 @@ module.exports = {
       return this;
     },
     clearUserDetailsFields: function () {      
-      this.section.openHouseEvent        
+      this.section.openHouseEvent
+        .click('@firstName')
         .clearValue('@firstName')
+        .click('@lastName')
         .clearValue('@lastName')
+        .click('@email')
         .clearValue('@email')
+        .click('@phone')
         .clearValue('@phone');
       return this;
     },
