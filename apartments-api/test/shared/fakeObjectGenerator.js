@@ -9,6 +9,7 @@ function getFakeBuilding(variant) {
   return Object.assign({
     street_name: 'רוטשילד',
     house_number: '192',
+    entrance: 1,
     city_id: 1,
     city: {
       id: 1

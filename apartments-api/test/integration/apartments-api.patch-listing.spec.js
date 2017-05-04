@@ -65,7 +65,15 @@ describe('Integration - PATCH /listings/{id}', function () {
     ));
   });
 
-  it('should move to a different building if building details changed', function * () {
+  it('should create new building when updating the same listing with different neighbourhood', function* () {
+    const oldListing = _.cloneDeep(createdListing);
+    let update = _.set({}, 'apartment.building.neighborhood.id', 2);
+    const response = yield apiClient.patchListing(createdListing.id, update).expect(200).end();
+
+    __.assertThat(oldListing.apartment.building.id, __.not(response.body.apartment.building.id));
+  });
+
+  it('should move to a different building if building details changed', function* () {
     const update = {
       apartment: {
         building: {
