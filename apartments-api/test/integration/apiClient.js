@@ -5,7 +5,7 @@ const fakeObjectGenerator = require('../shared/fakeObjectGenerator');
 
 const USER_PROFILE_HEADER = 'x-user-profile';
 // Integration tests run with static ID as they fill the message queue with app-events
-const INTEGRATION_TEST_USER_ID = '23821212-6191-4fda-b3e3-fdb8bf69a95d';
+const INTEGRATION_TEST_USER_ID = '36a204fa-41b7-4c87-a759-f8a449abadb8';
 const OTHER_INTEGRATION_TEST_USER_ID = '18b5d059-095f-4409-b5ab-4588f08d3a54';
 const ADMIN_INTEGRATION_TEST_USER_ID = '1483a989-b560-46c4-a759-12c2ebb4cdbf';
 
@@ -144,7 +144,7 @@ ApiClient.getInstance = function() {
   return ApiClient.init(fakeObjectGenerator.getFakeUser({
     id: INTEGRATION_TEST_USER_ID,
     // these are as they are in Auth0
-    email: 'test@test.com',
+    email: 'int-test-user@dorbel.com',
     first_name: 'Test',
     last_name: 'User',
     phone: '123456789'

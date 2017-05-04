@@ -38,7 +38,7 @@ function * create(listing_id, payload, requestingUser) {
   }
 
   return listingUsersRepository.create(listingUserToCreate)
-    .then(userFromDb => mapToListingUserResponse(userFromDb, publicUserProfile));
+    .then(listingUserFromDb => mapToListingUserResponse(listingUserFromDb, publicUserProfile));
 }
 
 function * get(listing_id, requestingUser) {
