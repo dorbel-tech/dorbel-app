@@ -32,7 +32,7 @@ describe('Apartments API Likes service integration', function () {
       it('should fail to update user profile when not logged in', function* () {
         const resp = yield this.apiClient.updateUserProfile(this.updateData, false).expect(401).end();
 
-        __.assertThat(resp.text, __.is('Not Authorized'));
+        __.assertThat(resp.text, __.matchesPattern('not authorized'));
       });
 
       it('should fail to set a property which is not whitelisted in userProfileService', function* () {
