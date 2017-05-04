@@ -39,6 +39,7 @@ module.exports = {
     apartmentForm
       .navigateToOpenHouseEventSection()
       .clearUserDetailsFields()
+      .fillOpenHouseEventDetailsAllFields()
       .submitApartment();
     browser.pause(500);
     apartmentForm.expect.section('@successModal').to.not.be.present;

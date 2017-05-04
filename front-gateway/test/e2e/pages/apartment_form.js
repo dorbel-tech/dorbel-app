@@ -216,13 +216,9 @@ module.exports = {
     },
     clearUserDetailsFields: function () {      
       this.section.openHouseEvent
-        .click('@firstName')
         .clearValue('@firstName')
-        .click('@lastName')
         .clearValue('@lastName')
-        .click('@email')
         .clearValue('@email')
-        .click('@phone')
         .clearValue('@phone');
       return this;
     },
