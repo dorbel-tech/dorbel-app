@@ -80,20 +80,22 @@ const dataRetrievalFunctions = {
   sendToOheRegisteredUsers: eventData => {
     return getOheRegisteredUsers(eventData.event_id);
   },
-  getListingOhes: eventData => {
+  getListingOhesAndSendToOheRegisteredUsers: eventData => {
     return getListingOhes(eventData.listing_id)
       .then(response => {
-        let customRecipients = [];
+        let oheRegisteredUsers = [];
         
         if (response.length > 0) {
           _.each(response, ohe => {
-            customRecipients.push(getOheRegisteredUsers(ohe.id));
+            oheRegisteredUsers.push(getOheRegisteredUsers(ohe.id));
           });
         }
 
-        return Promise.all(customRecipients)
+        return Promise.all(oheRegisteredUsers)
           .then(results => {
-            return results.reduce((prev, current) => Object.assign(prev, current), {});
+            return {
+              customRecipients: _.uniq(_.flatten(_.map(results, 'customRecipients')))
+            };
           });
       });
   }, 

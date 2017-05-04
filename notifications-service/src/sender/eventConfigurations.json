@@ -90,6 +90,6 @@
   {
     "eventType": "LISTING_EDITED",
     "notificationType": "listing_edited",
-    "dataRetrieval": [ "getListingInfo", "getListingOhes", "getUserDetails" ]
+    "dataRetrieval": [ "getListingInfo", "getListingOhesAndSendToOheRegisteredUsers", "getUserDetails" ]
   }
 ]
