@@ -34,17 +34,6 @@ module.exports = {
       .expect.section('@openHouseEvent').to.not.be.present;
     browser.end();
   },
-  'should fail to submit a new apartment because of missing user details': function (browser) {
-    login();    
-    apartmentForm
-      .navigateToOpenHouseEventSection()
-      .clearUserDetailsFields()
-      .fillOpenHouseEventDetailsAllFields()
-      .submitApartment();
-    browser.pause(500);
-    apartmentForm.expect.section('@successModal').to.not.be.present;
-    browser.end();
-  },
   'should successfully submit a new apartment with logged in user': function (browser) {
     login();
     apartmentForm.fillAndSubmitApartment();
