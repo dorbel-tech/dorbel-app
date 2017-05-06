@@ -42,8 +42,14 @@ class ApiClient {
     }
   }
 
-  getSingleListing(id) {
-    return this.request.get('/v1/listings/' + id);
+  getSingleListing(id, isAuthenticated) {
+    if (isAuthenticated) { // TODO: This is repeated alot... let's find a better way when possible
+      return this.request.get('/v1/listings/' + id)
+        .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile));
+    }
+    else {
+      return this.request.get('/v1/listings/' + id);
+    }
   }
 
   patchListing(id, data) {
