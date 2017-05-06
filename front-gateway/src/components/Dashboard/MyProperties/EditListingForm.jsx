@@ -5,7 +5,7 @@ import { FRC } from '~/components/FormWrapper/FormWrapper';
 
 export default class EditListingForm extends Component {
   render() {
-    const { publishing_user_type } = this.props.editedListingStore.formValues;
+    const { publishing_user_type, is_phone_visible } = this.props.editedListingStore.formValues;
 
     return (
       <ListingDetailsForm editedListingStore={this.props.editedListingStore} values={this.props.values}>
@@ -20,6 +20,14 @@ export default class EditListingForm extends Component {
             <Col md={6}>
               <FRC.RadioGroup name="publishing_user_type" value={publishing_user_type} type="inline" label="הגדר אותי במודעה כ:"
                 options={[{ label: 'בעל הדירה', value: 'landlord' }, { label: 'הדייר הנוכחי', value: 'tenant' }]} />
+            </Col>
+          </Row>
+          <Row>
+            <Col md={12}>
+              <label>טלפון:</label>
+              <div className="is-phone-visible-input">
+                <FRC.Checkbox name="is_phone_visible" label="הציגו את המספר שלי במודעה" value={is_phone_visible} />
+              </div>
             </Col>
           </Row>
         </Row>

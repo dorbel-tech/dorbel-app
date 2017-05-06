@@ -44,8 +44,8 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
 
     if (authStore.isLoggedIn) {
       // setting this up specificially because somehow it gets lost when logging in
-      const publishing_user_type = this.props.appStore.newListingStore.formValues.publishing_user_type;
-
+      const {publishing_user_type, is_phone_visible }= this.props.appStore.newListingStore.formValues.publishing_user_type;
+      
       return (
         <div>
           <Row>
@@ -60,11 +60,13 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
           <Row>
             <Col md={6}>
               <FRC.Input name="user.email" label="מייל" value={authStore.profile.email}
-                type="email" validations="isEmail" validationError="כתובת מייל לא תקינה" required />
+                typea="email" validations="isEmail" validationError="כתובת מייל לא תקינה" required />
             </Col>
             <Col md={6}>
-              <FRC.Input validations="isNumeric" name="user.phone" label="טלפון" value={authStore.profile.phone} validationError="מספר טלפון לא תקין" required
-                placeholder="(יוצג לדיירים שנרשמו לביקור בלבד)" />
+              <FRC.Input validations="isNumeric" name="user.phone" label="טלפון" value={authStore.profile.phone} validationError="מספר טלפון לא תקין" required />
+              <div className="is-phone-visible-input">
+                <FRC.Checkbox name="is_phone_visible" label="הציגו את המספר שלי במודעה" value={is_phone_visible}/>
+              </div>
             </Col>
           </Row>
           <Row>
@@ -88,7 +90,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
     const { authStore, newListingStore } = this.props.appStore;
     const existingOhe = _.get(newListingStore, 'formValues.open_house_event');
     const FRC = FormWrapper.FRC;
-    let createdListingIdAttr = {'data-attr': this.props.createdListingId};
+    let createdListingIdAttr = { 'data-attr': this.props.createdListingId };
 
     return (
       <Grid fluid className="upload-apt-wrapper">
