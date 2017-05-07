@@ -4,7 +4,7 @@ module.exports = {
   up: function (queryInterface, Sequelize) {
     queryInterface.addColumn(
       'listings',
-      'is_phone_visible',
+      'show_phone',
       {
         type: Sequelize.BOOLEAN,
         allowNull: false,
@@ -16,7 +16,7 @@ module.exports = {
   down: function (queryInterface) {
     queryInterface.removeColumn(
       'listings',
-      'is_phone_visible'
+      'show_phone'
     );
   }
 };

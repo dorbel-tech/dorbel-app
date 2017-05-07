@@ -8,13 +8,13 @@ describe('Apartments API - Expose publisher phone integration', function () {
   before(function* () {
     this.apiClient = yield ApiClient.getInstance();
 
-    // Create listing with is_phone_visible = true
+    // Create listing with show_phone = true
     const newListingWithPhoneObj = fakeObjectGenerator.getFakeListing();
-    newListingWithPhoneObj.is_phone_visible = true;
+    newListingWithPhoneObj.show_phone = true;
     const listingWithPhoneResp = yield this.apiClient.createListing(newListingWithPhoneObj).expect(201).end();
     this.listingWithPhone = listingWithPhoneResp.body;
 
-    // Create listing with is_phone_visible = false
+    // Create listing with show_phone = false
     const newListingWithoutPhoneObj = fakeObjectGenerator.getFakeListing();
     const listingWithoutPhoneResp = yield this.apiClient.createListing(newListingWithoutPhoneObj).expect(201).end();
     this.listingWithoutPhone = listingWithoutPhoneResp.body;
@@ -28,7 +28,7 @@ describe('Apartments API - Expose publisher phone integration', function () {
 
   describe('Listing with visible phone', function () {
     function __assertPhoneVisibleResp(resp, shouldReturnPhone) {
-      __.assertThat(resp.body, __.hasProperty('is_phone_visible', true));
+      __.assertThat(resp.body, __.hasProperty('show_phone', true));
 
       if (shouldReturnPhone) {
         __.assertThat(resp.body, __.hasProperty('publishing_user_phone'));
@@ -53,7 +53,7 @@ describe('Apartments API - Expose publisher phone integration', function () {
 
   describe('Listing without visible phone', function () {
     function __assertNoPhoneResp(resp) {
-      __.assertThat(resp.body, __.hasProperty('is_phone_visible', false));
+      __.assertThat(resp.body, __.hasProperty('show_phone', false));
       __.assertThat(resp.body, __.not(__.hasProperty('publishing_user_phone')));
     }
 

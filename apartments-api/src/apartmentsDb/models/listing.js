@@ -64,7 +64,7 @@ function define(sequelize, DataTypes) {
         type: DataTypes.STRING(255),
         defaultValue: null
       },
-      is_phone_visible: {
+      show_phone: {
         type: DataTypes.BOOLEAN,
         defaultValue: false
       },

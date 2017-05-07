@@ -43,7 +43,7 @@ function getFakeListing() {
       phone: '123456789'
     },
     slug: 'test-listing-' + faker.random.uuid(), // This field has a unique constraint
-    is_phone_visible: false
+    show_phone: false
   };
 
   listing.apartment.building.toJSON = () => listing.apartment.building;
