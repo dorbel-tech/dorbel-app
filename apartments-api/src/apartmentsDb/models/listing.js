@@ -63,7 +63,11 @@ function define(sequelize, DataTypes) {
       directions: {
         type: DataTypes.STRING(255),
         defaultValue: null
-      }
+      },
+      show_phone: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+      },
     },
     {
       classMethods: {
