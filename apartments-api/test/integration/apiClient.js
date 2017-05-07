@@ -6,8 +6,8 @@ const fakeObjectGenerator = require('../shared/fakeObjectGenerator');
 const USER_PROFILE_HEADER = 'x-user-profile';
 // Integration tests run with static ID as they fill the message queue with app-events
 const INTEGRATION_TEST_USER_ID = '36a204fa-41b7-4c87-a759-f8a449abadb8';
-const OTHER_INTEGRATION_TEST_USER_ID = '18b5d059-095f-4409-b5ab-4588f08d3a54';
-const ADMIN_INTEGRATION_TEST_USER_ID = '1483a989-b560-46c4-a759-12c2ebb4cdbf';
+const OTHER_INTEGRATION_TEST_USER_ID = '40031759-daa4-4b5d-ad69-5f7760894c80';
+const ADMIN_INTEGRATION_TEST_USER_ID = 'ecdf7910-2055-4553-9ccd-d730e1e4e73e';
 
 class ApiClient {
   constructor(request, userProfile) {

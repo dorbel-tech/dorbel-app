@@ -59,6 +59,7 @@ class Property extends Component {
   }
 
   gotoEditProperty(property){
+    this.hideActionsMenu();
     return this.props.router.setRoute(getDashMyPropsPath(property, '/edit'));
   }
 

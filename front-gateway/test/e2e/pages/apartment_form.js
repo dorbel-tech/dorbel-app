@@ -215,7 +215,7 @@ module.exports = {
       return this;
     },
     clearUserDetailsFields: function () {      
-      this.section.openHouseEvent        
+      this.section.openHouseEvent
         .clearValue('@firstName')
         .clearValue('@lastName')
         .clearValue('@email')
