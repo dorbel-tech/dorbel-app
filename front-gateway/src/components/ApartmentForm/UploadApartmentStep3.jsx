@@ -44,7 +44,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
 
     if (authStore.isLoggedIn) {
       // setting this up specificially because somehow it gets lost when logging in
-      const {publishing_user_type, is_phone_visible }= this.props.appStore.newListingStore.formValues.publishing_user_type;
+      const {publishing_user_type, show_phone }= this.props.appStore.newListingStore.formValues.publishing_user_type;
       
       return (
         <div>
@@ -65,7 +65,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
             <Col md={6}>
               <FRC.Input validations="isNumeric" name="user.phone" label="טלפון" value={authStore.profile.phone} validationError="מספר טלפון לא תקין" required />
               <div className="is-phone-visible-input">
-                <FRC.Checkbox name="is_phone_visible" label="הציגו את המספר שלי במודעה" value={is_phone_visible}/>
+                <FRC.Checkbox name="show_phone" label="הציגו את המספר שלי במודעה" value={show_phone}/>
               </div>
             </Col>
           </Row>

@@ -5,7 +5,7 @@ import { FRC } from '~/components/FormWrapper/FormWrapper';
 
 export default class EditListingForm extends Component {
   render() {
-    const { publishing_user_type, is_phone_visible } = this.props.editedListingStore.formValues;
+    const { publishing_user_type, show_phone } = this.props.editedListingStore.formValues;
 
     return (
       <ListingDetailsForm editedListingStore={this.props.editedListingStore} values={this.props.values}>
@@ -26,7 +26,7 @@ export default class EditListingForm extends Component {
             <Col md={12}>
               <label>טלפון:</label>
               <div className="is-phone-visible-input">
-                <FRC.Checkbox name="is_phone_visible" label="הציגו את המספר שלי במודעה" value={is_phone_visible} />
+                <FRC.Checkbox name="show_phone" label="הציגו את המספר שלי במודעה" value={show_phone} />
               </div>
             </Col>
           </Row>

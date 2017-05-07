@@ -36,7 +36,7 @@ class ListingDescription extends React.Component {
   }
 
   renderPhone(listing) {
-    if (listing.is_phone_visible) {
+    if (listing.show_phone) {
       if (this.state.showPhoneClicked) {
         return (
           <a href={`tel:${listing.publishing_user_phone}`}>
