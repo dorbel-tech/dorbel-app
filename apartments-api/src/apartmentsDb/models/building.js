@@ -30,17 +30,8 @@ function define(sequelize, DataTypes) {
         models.building.belongsTo(models.neighborhood);
       }
     },
-    instanceMethods: {
-      isDifferentBuilding: function(otherBuilding) {
-        return ['city.id', 'neighborhood.id', 'street_name', 'house_number', 'entrance'].some(field => {
-          const otherValue = _.get(otherBuilding, field);
-          const thisValue = _.get(this, field);
-          return otherValue && thisValue && otherValue !== thisValue; // both have value and not equal values
-        });
-      }
-    },
     indexes: [{
-      fields: ['city_id', 'street_name', 'house_number', 'entrance'],
+      fields: ['city_id', 'street_name', 'house_number', 'entrance', 'neighborhood_id'],
       unique: true
     }]
   });
