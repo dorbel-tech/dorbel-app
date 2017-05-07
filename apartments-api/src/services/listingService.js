@@ -65,13 +65,14 @@ function* create(listing) {
 }
 
 function* update(listingId, user, patch) {
-  let listing = yield listingRepository.getById(listingId);
+  const listing = yield listingRepository.getById(listingId);
 
   if (!listing) {
     logger.error({ listingId }, 'Listing wasnt found');
     throw new CustomError(404, 'הדירה לא נמצאה');
   }
 
+  const oldListing = _.cloneDeep(listing.get({ plain: true }));
   const isPublishingUserOrAdmin = listing && permissionsService.isPublishingUserOrAdmin(user, listing);
   const statusChanged = patch.status && patch.status !== listing.status;
 
@@ -83,22 +84,62 @@ function* update(listingId, user, patch) {
     throw new CustomError(403, 'אין באפשרותך לשנות את סטטוס הדירה ל ' + patch.status);
   }
 
-  const previousStatus = listing.status;
   patch = setListingAutoFields(patch);
-
   const result = yield listingRepository.update(listing, patch);
-
-  if (statusChanged && process.env.NOTIFICATIONS_SNS_TOPIC_ARN) {
-    const messageBusEvent = messageBus.eventType['APARTMENT_' + patch.status.toUpperCase()];
-    messageBus.publish(process.env.NOTIFICATIONS_SNS_TOPIC_ARN, messageBusEvent, {
-      city_id: listing.apartment.building.city_id,
-      listing_id: listingId,
-      previous_status: previousStatus,
-      user_uuid: listing.publishing_user_id
-    });
-  }
+  notifyListingChanged(oldListing, patch, statusChanged);
 
   return yield enrichListingResponse(result, user);
+}
+
+// Send notifications to users on changes in listing
+function notifyListingChanged(oldListing, newListing, statusChanged) {
+  if (process.env.NOTIFICATIONS_SNS_TOPIC_ARN) {
+    // Notify in case of listing status change.
+    if (statusChanged) {
+      const messageBusEvent = messageBus.eventType['APARTMENT_' + newListing.status.toUpperCase()];
+      messageBus.publish(process.env.NOTIFICATIONS_SNS_TOPIC_ARN, messageBusEvent, {
+        city_id: oldListing.apartment.building.city_id,
+        listing_id: oldListing.id,
+        previous_status: oldListing.status,
+        user_uuid: oldListing.publishing_user_id
+      });
+    } 
+    // Send notification to updated users of important property fields being changed.
+    else {
+      const isMonthlyRentChanged = oldListing.monthly_rent !== newListing.monthly_rent;
+      const oldLeaseStart = moment(oldListing.lease_start).format('YYYY-MM-DD');
+      const newLeaseStart = moment(newListing.lease_start).format('YYYY-MM-DD');
+      const isLeaseStartChanged = oldLeaseStart !== newLeaseStart;
+      const isRoomsChanged = oldListing.apartment.rooms !== newListing.apartment.rooms;
+      const isStreetNameChanged = oldListing.apartment.building.street_name !== newListing.apartment.building.street_name;
+      const isHouseNumberChanged = oldListing.apartment.building.house_number !== newListing.apartment.building.house_number;
+      const isFloorChanged = oldListing.apartment.floor !== newListing.apartment.floor;
+      const isAptNumberChanged = oldListing.apartment.apt_number !== newListing.apartment.apt_number;
+      const isListingEdited = isMonthlyRentChanged || isLeaseStartChanged || isRoomsChanged || isStreetNameChanged ||
+        isHouseNumberChanged || isFloorChanged || isAptNumberChanged;
+
+      if (isListingEdited) {
+        messageBus.publish(process.env.NOTIFICATIONS_SNS_TOPIC_ARN, messageBus.eventType.LISTING_EDITED, {
+          listing_id: oldListing.id,
+          user_uuid: oldListing.publishing_user_id,
+          prev_monthly_rent: oldListing.monthly_rent,
+          prev_lease_start: oldLeaseStart,
+          prev_rooms: oldListing.apartment.rooms,
+          prev_street_name: oldListing.apartment.building.street_name,
+          prev_house_number: oldListing.apartment.building.house_number,
+          prev_floor: oldListing.apartment.floor,
+          prev_apt_number: oldListing.apartment.apt_number,
+          new_monthly_rent: newListing.monthly_rent,
+          new_lease_start: newLeaseStart,
+          new_rooms: newListing.apartment.rooms,
+          new_street_name: newListing.apartment.building.street_name,
+          new_house_number: newListing.apartment.building.house_number,
+          new_floor: newListing.apartment.floor,
+          new_apt_number: newListing.apartment.apt_number,
+        });
+      }
+    }
+  }
 }
 
 function setListingAutoFields(listing) {
