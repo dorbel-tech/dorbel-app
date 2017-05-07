@@ -19,11 +19,12 @@ function* get() {
 
 function* post() {
   const listingId = this.request.body.listing_id;
-  let user = this.request.user;
-  logger.debug({ listing_id: listingId, user_uuid: user.id }, 'Following a listing...');
+  let user = this.request.body.user_details;
+  user.user_id = this.request.user.id;
+  logger.debug({ listing_id: listingId, user_uuid: user.user_id }, 'Following a listing...');
 
   const result = yield service.follow(listingId, user);
-  logger.info({ listing_id: listingId, user_uuid: user.id, follow_id: result.id }, 'Follower created');
+  logger.info({ listing_id: listingId, user_uuid: user.user_id, follow_id: result.id }, 'Follower created');
   this.response.status = 201;
   this.response.body = result;
 }

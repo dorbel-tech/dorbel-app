@@ -16,7 +16,7 @@ class TenantProfile extends Component {
             <Col className="tenant-profile-field vertical" xs={8}>
               <div>
                 <label>שם</label>
-                <span>{`${profile.first_name || emptyFieldText} ${profile.last_name || emptyFieldText}`}</span>
+                <span>{`${profile.first_name || emptyFieldText} ${profile.last_name || ''}`}</span>
               </div>
             </Col>
             <Col className="tenant-profile-header-content-picture" xs={4}>
