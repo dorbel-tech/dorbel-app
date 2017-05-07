@@ -52,7 +52,7 @@ export default class ListingStore {
     const profile = this.authStore.profile;
     if (!profile) { return false; }
 
-    const userIsListingPublisher = listing.publishing_user_id === profile.id;
+    const userIsListingPublisher = listing.publishing_user_id === profile.dorbel_user_id;
     const userIsAdmin = profile.role === 'admin';
     return userIsListingPublisher || userIsAdmin;
   }
