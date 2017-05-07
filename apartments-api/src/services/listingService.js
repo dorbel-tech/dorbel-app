@@ -322,7 +322,8 @@ function* enrichListingResponse(listing, user) {
       if ((permissionsService.isPublishingUserOrAdmin(user, listing))) {
         enrichedListing.totalLikes = yield likeRepository.getListingTotalLikes(listing.id);
       }
-      if (listing.show_phone) { // TODO: Implemented this way as discussed - should be different api call when possible
+       // TODO: Implemented this way as discussed - should be different api call when possible
+      if (listing.show_phone) {
         enrichedListing.publishing_user_phone = _.get(publishingUser, 'user_metadata.phone' || 'phone') || '';
       }
     }
