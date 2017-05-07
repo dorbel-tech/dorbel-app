@@ -30,6 +30,9 @@ function* findOrCreate(building, options = {}) {
     throw new ValidationError('neighborhood city mismatch', building, 'אין התאמה בין עיר לשכונה');
   }
 
+  // properties that are not part of the unique constraint but might still need to be updated 
+  const nonUniqueProps = Object.assign(_.pick(building, ['geolocation', 'elevator', 'floors']), { neighborhood_id: building.neighborhood.id });
+  
   const findOrCreateResult = yield db.models.building.findOrCreate({
     where: {
       street_name: building.street_name,
@@ -37,11 +40,17 @@ function* findOrCreate(building, options = {}) {
       city_id: building.city.id,
       entrance: building.entrance || null
     },
-    defaults: _.pick(building, ['geolocation', 'elevator', 'floors', 'neighborhood_id']),
+    defaults: nonUniqueProps,
     transaction: options.transaction
   });
 
   const buildingResult = findOrCreateResult[0];
+
+  // Find or create doen't update props if row was found - so we update them seperately if needed
+  if (!buildingResult.isNewRecord) {
+    buildingResult.update(nonUniqueProps, { transaction: options.transaction });
+  }
+
   buildingResult.city = city;
   buildingResult.neighborhood = neighborhood;
 
