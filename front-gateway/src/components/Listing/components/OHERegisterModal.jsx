@@ -46,8 +46,8 @@ class OHERegisterModal extends React.Component {
 
   renderSuccessModal(profile) {
     return (
-      <Modal show={true}>
-        <Modal.Header closeButton onHide={this.close}>
+      <Modal show={true} onHide={this.close}>
+        <Modal.Header closeButton>
           <Modal.Title>
             ההרשמה בוצעה בהצלחה!
           </Modal.Title>

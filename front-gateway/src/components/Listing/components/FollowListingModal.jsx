@@ -36,8 +36,8 @@ class FollowListingModal extends React.Component {
 
   renderFollowSuccess() {
     return (
-      <Modal show={true}>
-        <Modal.Header closeButton onHide={this.close}>
+      <Modal show={true} onHide={this.close}>
+        <Modal.Header closeButton>
           <Modal.Title>בקשתכם התקבלה</Modal.Title>
         </Modal.Header>
         <Modal.Body>
