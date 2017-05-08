@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import autobind from 'react-autobind';
 import { Grid, Col } from 'react-bootstrap';
 import { inject, observer } from 'mobx-react';
 import NavLink from '~/components/NavLink';
@@ -12,14 +11,11 @@ import './MyProperties.scss';
 class MyProperties extends Component {
   constructor(props) {
     super(props);
-    autobind(this);
 
     this.props.appProviders.searchProvider.search({
       'city': '*',
       'myProperties': true
     });
-
-    this.searchContainer = document.getElementsByClassName('dashboard-container')[0];
   }
 
   render() {
@@ -28,7 +24,6 @@ class MyProperties extends Component {
         <SearchResults
           title={ <p className="my-properties-title">הנכסים שלי</p> }
           thumbnailProps={ { isMyProperties: true } }
-          scrollTarget={this.searchContainer}
           noResultsContent={
             <Grid fluid>
               <Col lg={4} sm={6} xs={12}>

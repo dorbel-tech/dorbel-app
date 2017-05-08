@@ -61,15 +61,16 @@ class SearchProvider {
     return this.apiProvider.fetch('/api/apartments/v1/listings/' + listingId + '/related/');
   }
 
-  setLastScrollTop(scrollTop) {
-    this.lastPathname = location.pathname;
+  setLastScrollTop(scrollTop, scrollKey) {
+    this.lastScrollKey = scrollKey;
     this.appStore.searchStore.lastScrollTop = scrollTop;
   }
 
-  getLastScrollTop() {
-    if (this.lastPathname !== location.pathname) {
+  getLastScrollTop(scrollKey) {
+    if (this.lastScrollKey !== scrollKey) {
       return 0;
     }
+
     return this.appStore.searchStore.lastScrollTop;
   }
 }

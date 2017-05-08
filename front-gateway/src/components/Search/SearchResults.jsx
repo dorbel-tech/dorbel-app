@@ -24,14 +24,19 @@ export default class SearchResults extends React.Component {
 
   componentDidMount() {
     if (process.env.IS_CLIENT) {
+      this.scrollNotSet = true;
+      this.scrollKey = location.pathname;
+
       // scrolling is caught at the document level because this component doesn't actually scroll, it's parent does
       document.addEventListener('scroll', this.handleScroll, true);
     }
   }
 
   componentWillUnmount() {
-    const { searchProvider } = this.props.appProviders;
-    searchProvider.setLastScrollTop(this.props.scrollTarget.scrollTop);
+    const { appProviders, scrollTarget } = this.props;
+    if (scrollTarget) {
+      appProviders.searchProvider.setLastScrollTop(scrollTarget.scrollTop, this.scrollKey);
+    }
 
     if (process.env.IS_CLIENT) {
       document.removeEventListener('scroll', this.handleScroll, true);
@@ -39,14 +44,12 @@ export default class SearchResults extends React.Component {
   }
 
   componentDidUpdate() {
-    const { searchProvider } = this.props.appProviders;
+    const { appProviders, scrollTarget } = this.props;
+    const lastScrollTop = appProviders.searchProvider.getLastScrollTop(this.scrollKey);
 
-    if (!process.env.IS_CLIENT) {
-      return;
-    }
-
-    if (this.props.scrollTarget) {
-      this.props.scrollTarget.scrollTop = searchProvider.getLastScrollTop();
+    if (this.scrollNotSet && lastScrollTop > 0 && scrollTarget) {
+      scrollTarget.scrollTop = lastScrollTop;
+      this.scrollNotSet = false;
     }
   }
 

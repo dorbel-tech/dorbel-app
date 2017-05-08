@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import autobind from 'react-autobind';
 import { inject, observer } from 'mobx-react';
 import NavLink from '~/components/NavLink';
 import SearchResults from '~/components/Search/SearchResults';
@@ -11,14 +10,11 @@ import './MyLikes.scss';
 class MyLikes extends Component {
   constructor(props) {
     super(props);
-    autobind(this);
 
     this.props.appProviders.searchProvider.search({
       'city': '*',
       'liked': true
     });
-
-    this.searchContainer = document.getElementsByClassName('dashboard-container')[0];
   }
 
   render() {
@@ -27,7 +23,6 @@ class MyLikes extends Component {
         <SearchResults
           title={ <p className="my-likes-title">דירות שאהבתי</p> }
           thumbnailProps={ { openInNewWindow: true } }
-          scrollTarget={this.searchContainer}
           noResultsContent={
             <div className="my-likes-empty">
               <div className="my-likes-text"><b>טרם שמרתם דירות שאהבתם. </b><br/><br/>

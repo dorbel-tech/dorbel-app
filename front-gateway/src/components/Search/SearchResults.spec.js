@@ -62,10 +62,16 @@ describe('Search Results', () => {
   });
 
   it('should call setLastScrollTop with correct scroll top value when unmounting', () => {
+    const scrollTopMock = jest.fn();
+    const scrollKeyMock = jest.fn();
     const wrapper = searchResults();
-    scrollTarget.scrollTop = 150;
+
+    scrollTarget.scrollTop = scrollTopMock;
+    wrapper.instance().scrollKey = scrollKeyMock;
+
     wrapper.unmount();
-    expect(appProvidersMock.searchProvider.setLastScrollTop).toHaveBeenCalledWith(150);
+
+    expect(appProvidersMock.searchProvider.setLastScrollTop).toHaveBeenCalledWith(scrollTopMock, scrollKeyMock);
   });
 
   it('should call loadNextPage when scrolling down', () => {
