@@ -7,7 +7,7 @@ const openHouseEventsFinderService = require('./openHouseEventsFinderService');
 const openHouseEventsRepository = require('../openHouseEventsDb/repositories/openHouseEventsRepository');
 const moment = require('moment'); require('moment-range');
 const userManagement = shared.utils.user.management;
-const userPermissions = shared.utils.user.premissions;
+const userPermissions = shared.utils.user.permissions;
 const utilityFunctions = require('./common/utility-functions');
 
 function validateEventParamters(start, end) {
@@ -169,7 +169,7 @@ function* findByListing(listing_ids, user, additionalQuery) {
     const eventJson = event.toJSON();
     const eventDto = convertEventModelToDTO(eventJson, userId);
 
-    if (userId === event.publishing_user_id || (user && userPermissions.isUserAdmin(user))) { // publishing user
+    if (userId === event.publishing_user_id || userPermissions.isUserAdmin(user)) { // publishing user
       // get all the data about the registrations
       // TODO: move to seperate api call
       eventDto.registrations = eventJson.registrations;

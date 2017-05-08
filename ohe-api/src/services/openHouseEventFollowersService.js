@@ -5,7 +5,7 @@ const shared = require('dorbel-shared');
 const logger = shared.logger.getLogger(module);
 const errors = shared.utils.domainErrors;
 const userManagement = shared.utils.user.management;
-const userPermissions = shared.utils.user.premissions;
+const userPermissions = shared.utils.user.permissions;
 
 function* getByListing(listingId){
   return yield repository.findByListingId(listingId);

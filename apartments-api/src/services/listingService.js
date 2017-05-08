@@ -263,8 +263,8 @@ function* getById(id, user) {
 
   const isPending = listing.status === 'pending';
   const isDeleted = listing.status === 'deleted';
-  const isAdmin = user && userPermissions.isUserAdmin(user);
-  const isPublishingUserOrAdmin = user && userPermissions.isResourceOwnerOrAdmin(user, listing.publishing_user_id);
+  const isAdmin = userPermissions.isUserAdmin(user);
+  const isPublishingUserOrAdmin = userPermissions.isResourceOwnerOrAdmin(user, listing.publishing_user_id);
 
   // Don't display deleted listings to anyone but admins.
   if (isDeleted && !isAdmin) {
@@ -318,7 +318,7 @@ function* enrichListingResponse(listing, user) {
       possibleStatuses: getPossibleStatuses(listing, user)
     };
 
-    if (user && (userPermissions.isResourceOwnerOrAdmin(user, listing.publishing_user_id))) {
+    if (userPermissions.isResourceOwnerOrAdmin(user, listing.publishing_user_id)) {
       enrichedListing.totalLikes = yield likeRepository.getListingTotalLikes(listing.id);
     }
 

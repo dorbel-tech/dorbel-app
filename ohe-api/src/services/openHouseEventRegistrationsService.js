@@ -8,7 +8,7 @@ const logger = shared.logger.getLogger(module);
 const errors = shared.utils.domainErrors;
 const generic = shared.utils.generic;
 const userManagement = shared.utils.user.management;
-const userPermissions = shared.utils.user.premissions;
+const userPermissions = shared.utils.user.permissions;
 const utilityFunctions = require('./common/utility-functions');
 
 function* register(event_id, user) {
