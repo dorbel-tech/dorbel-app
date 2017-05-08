@@ -56,6 +56,11 @@ describe('Search Results', () => {
     expect(firstThumbnail.prop('listing')).toBe(mockResults);
   });
 
+  it('should call setLastScrollTop with correct scroll top value when scrolling', () => {
+    simulateScroll(850);
+    expect(appProvidersMock.searchProvider.setLastScrollTop).toHaveBeenCalledWith(150);
+  });
+
   it('should call loadNextPage when scrolling down', () => {
     appStoreMock.searchStore.hasMorePages = true;
     simulateScroll(850);
