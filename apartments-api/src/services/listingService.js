@@ -74,12 +74,11 @@ function* update(listingId, user, patch) {
 
   const oldListing = _.cloneDeep(listing.get({ plain: true }));
   const isPublishingUserOrAdmin = listing && userPermissions.isResourceOwnerOrAdmin(user, listing.publishing_user_id);
-  const isStatusChanged = patch.status && patch.status !== listing.status;
 
   if (!isPublishingUserOrAdmin) {
     logger.error({ listingId }, 'You cant update that listing');
     throw new CustomError(403, 'אין באפשרותך לערוך דירה זו');
-  } else if (isStatusChanged && getPossibleStatuses(listing, user).indexOf(patch.status) < 0) {
+  } else if (isStatusChanged(listing, patch) && getPossibleStatuses(listing, user).indexOf(patch.status) < 0) {
     logger.error({ listingId }, 'You cant update this listing status');
     throw new CustomError(403, 'אין באפשרותך לשנות את סטטוס הדירה ל ' + patch.status);
   }
@@ -91,14 +90,17 @@ function* update(listingId, user, patch) {
   return yield enrichListingResponse(result, user);
 }
 
+function isStatusChanged(oldListing, newListing) {
+  return newListing.status && newListing.status !== oldListing.status;
+}
+
 // Send notifications to users on changes in listing
 function notifyListingChanged(oldListing, newListing) {
   if (process.env.NOTIFICATIONS_SNS_TOPIC_ARN) {
-    const isStatusChanged = newListing.status && newListing.status !== newListing.status;
-    const isMonthlyRentChanged = oldListing.monthly_rent !== newListing.monthly_rent;
+    const isMonthlyRentSent = newListing.monthly_rent;
 
     // Notify in case of listing status change.
-    if (isStatusChanged) {
+    if (isStatusChanged(oldListing, newListing)) {
       const messageBusEvent = messageBus.eventType['APARTMENT_' + newListing.status.toUpperCase()];
       messageBus.publish(process.env.NOTIFICATIONS_SNS_TOPIC_ARN, messageBusEvent, {
         city_id: oldListing.apartment.building.city_id,
@@ -108,7 +110,8 @@ function notifyListingChanged(oldListing, newListing) {
       });
     } 
     // Send notification to updated users of important property fields being changed.
-    else if (isMonthlyRentChanged) {
+    else if (isMonthlyRentSent) {
+      const isMonthlyRentChanged = oldListing.monthly_rent !== newListing.monthly_rent;
       const oldLeaseStart = moment(oldListing.lease_start).format('YYYY-MM-DD');
       const newLeaseStart = moment(newListing.lease_start).format('YYYY-MM-DD');
       const isLeaseStartChanged = oldLeaseStart !== newLeaseStart;
