@@ -8,8 +8,8 @@ const geoProvider = require('../providers/geoProvider');
 const logger = shared.logger.getLogger(module);
 const messageBus = shared.utils.messageBus;
 const generic = shared.utils.generic;
-const userManagement = shared.utils.userManagement;
-const permissionsService = require('./permissionsService');
+const userManagement = shared.utils.user.management;
+const userPermissions = shared.utils.user.permissions;
 
 const DEFUALT_LISTING_LIST_LIMIT = 1000;
 
@@ -73,7 +73,7 @@ function* update(listingId, user, patch) {
   }
 
   const oldListing = _.cloneDeep(listing.get({ plain: true }));
-  const isPublishingUserOrAdmin = listing && permissionsService.isPublishingUserOrAdmin(user, listing);
+  const isPublishingUserOrAdmin = listing && userPermissions.isResourceOwnerOrAdmin(user, listing.publishing_user_id);
   const statusChanged = patch.status && patch.status !== listing.status;
 
   if (!isPublishingUserOrAdmin) {
@@ -179,7 +179,7 @@ function* getByFilter(filterJSON, options = {}) {
   };
 
   if (options.user) {
-    if (userManagement.isUserAdmin(options.user)) {
+    if (userPermissions.isUserAdmin(options.user)) {
       filter.listed = filter.hasOwnProperty('listed') ? filter.listed : true;
 
       const filteredStatuses = listingRepository.listingStatuses.filter(
@@ -202,7 +202,7 @@ function* getByFilter(filterJSON, options = {}) {
     }
 
     if (filter.myProperties){
-      if (!userManagement.isUserAdmin(options.user)) {
+      if (!userPermissions.isUserAdmin(options.user)) {
         listingQuery.publishing_user_id = options.user.id;
       }
 
@@ -263,8 +263,8 @@ function* getById(id, user) {
 
   const isPending = listing.status === 'pending';
   const isDeleted = listing.status === 'deleted';
-  const isAdmin = user && permissionsService.isAdmin(user, listing);
-  const isPublishingUserOrAdmin = user && permissionsService.isPublishingUserOrAdmin(user, listing);
+  const isAdmin = user && userPermissions.isUserAdmin(user);
+  const isPublishingUserOrAdmin = user && userPermissions.isResourceOwnerOrAdmin(user, listing.publishing_user_id);
 
   // Don't display deleted listings to anyone but admins.
   if (isDeleted && !isAdmin) {
@@ -292,11 +292,11 @@ function getPossibleStatuses(listing, user) {
   let possibleStatuses = [];
 
   if (user) {
-    if (userManagement.isUserAdmin(user)) {
+    if (userPermissions.isUserAdmin(user)) {
       // admin can change to all statuses
       possibleStatuses = listingRepository.listingStatuses;
     }
-    else if (permissionsService.isPublishingUser(user, listing) && isNotPendingDeleted(listing.status)) {
+    else if (userPermissions.isResourceOwner(user, listing.publishing_user_id) && isNotPendingDeleted(listing.status)) {
       // listing owner can change to anything but pending or deleted, unless the listing is pending
       possibleStatuses = listingRepository.listingStatuses.filter(status => isNotPendingDeleted(status));
     }
@@ -318,7 +318,7 @@ function* enrichListingResponse(listing, user) {
       possibleStatuses: getPossibleStatuses(listing, user)
     };
 
-    if (user && (permissionsService.isPublishingUserOrAdmin(user, listing))) {
+    if (user && (userPermissions.isResourceOwnerOrAdmin(user, listing.publishing_user_id))) {
       enrichedListing.totalLikes = yield likeRepository.getListingTotalLikes(listing.id);
     }
 

@@ -4,11 +4,12 @@ const notificationService = require('./notificationService');
 const openHouseEventsFinderService = require('./openHouseEventsFinderService');
 const repository = require('../openHouseEventsDb/repositories/openHouseEventRegistrationsRepository');
 const shared = require('dorbel-shared');
-const errors = shared.utils.domainErrors;
-const utilityFunctions = require('./common/utility-functions');
-const userManagement = shared.utils.userManagement;
-const generic = shared.utils.generic;
 const logger = shared.logger.getLogger(module);
+const errors = shared.utils.domainErrors;
+const generic = shared.utils.generic;
+const userManagement = shared.utils.user.management;
+const userPermissions = shared.utils.user.premissions;
+const utilityFunctions = require('./common/utility-functions');
 
 function* register(event_id, user) {
   let existingEvent = yield openHouseEventsFinderService.find(event_id);
@@ -64,7 +65,7 @@ function* unregister(event_id, user) {
       'לא קיים רישום לאירוע');
   }
 
-  utilityFunctions.validateResourceOwnership(existingRegistration.registered_user_id, user);
+  userPermissions.validateResourceOwnership(user, existingRegistration.following_user_id);
 
   existingRegistration.is_active = false;
   const result = yield repository.updateRegistration(existingRegistration);

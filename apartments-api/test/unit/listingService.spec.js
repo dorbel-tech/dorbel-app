@@ -27,8 +27,8 @@ describe('Listing Service', function () {
     mockRequire('../../src/apartmentsDb/repositories/listingRepository', this.listingRepositoryMock);
     mockRequire('../../src/apartmentsDb/repositories/likeRepository', this.likeRepositoryMock);
     mockRequire('../../src/providers/geoProvider', this.geoProviderMock);
-    sinon.stub(shared.utils.userManagement, 'updateUserDetails');
-    sinon.stub(shared.utils.userManagement, 'getUserDetails').resolves();
+    sinon.stub(shared.utils.user.management, 'updateUserDetails');
+    sinon.stub(shared.utils.user.management, 'getUserDetails').resolves();
     this.listingService = require('../../src/services/listingService');
   });
 

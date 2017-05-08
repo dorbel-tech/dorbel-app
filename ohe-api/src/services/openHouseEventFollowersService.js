@@ -2,10 +2,10 @@
 const notificationService = require('./notificationService');
 const repository = require('../openHouseEventsDb/repositories/openHouseEventFollowersRepository');
 const shared = require('dorbel-shared');
-const errors = shared.utils.domainErrors;
 const logger = shared.logger.getLogger(module);
-const userManagement = shared.utils.userManagement;
-const utilityFunctions = require('./common/utility-functions');
+const errors = shared.utils.domainErrors;
+const userManagement = shared.utils.user.management;
+const userPermissions = shared.utils.user.premissions;
 
 function* getByListing(listingId){
   return yield repository.findByListingId(listingId);
@@ -59,7 +59,7 @@ function* unfollow(followId, user) {
       'עוקב לא קיים');
   }
 
-  utilityFunctions.validateResourceOwnership(existingFollower.following_user_id, user);
+  userPermissions.validateResourceOwnership(user, existingFollower.following_user_id);
 
   existingFollower.is_active = false;
 
