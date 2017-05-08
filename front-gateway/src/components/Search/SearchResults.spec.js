@@ -30,7 +30,8 @@ describe('Search Results', () => {
     };
     appProvidersMock = {
       searchProvider: {
-        loadNextPage: jest.fn()
+        loadNextPage: jest.fn(),
+        setLastScrollTop: jest.fn()
       }
     };
   });
