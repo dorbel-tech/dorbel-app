@@ -323,8 +323,14 @@ function* enrichListingResponse(listing, user) {
       possibleStatuses: getPossibleStatuses(listing, user)
     };
 
-    if (userPermissions.isResourceOwnerOrAdmin(user, listing.publishing_user_id)) {
-      enrichedListing.totalLikes = yield likeRepository.getListingTotalLikes(listing.id);
+    if (user) {
+      if (userPermissions.isResourceOwnerOrAdmin(user, listing.publishing_user_id)) {
+        enrichedListing.totalLikes = yield likeRepository.getListingTotalLikes(listing.id);
+      }
+       // TODO: Implemented this way as discussed - should be different api call when possible
+      if (listing.show_phone) {
+        enrichedListing.publishing_user_phone = _.get(publishingUser, 'user_metadata.phone' || 'phone') || '';
+      }
     }
 
     return enrichedListing;
