@@ -84,11 +84,9 @@ function * getAndVerifyListing(listing_id, requestingUser) {
 
   if (!listing) {
     throw new errors.DomainNotFoundError('listing not found', { listing_id }, 'listing not found');
-  } else if (!userPermissions.isResourceOwnerOrAdmin(requestingUser, listing.publishing_user_id)) {
-    logger.error({ resource_owner_id: listing.publishing_user_id, user_id: requestingUser.id }, 'Requesting user is not the resource owner!');
-    throw new errors.NotResourceOwnerError();
-  }
+  } 
 
+  userPermissions.validateResourceOwnership(requestingUser, listing.publishing_user_id);
   return listing;
 }
 
