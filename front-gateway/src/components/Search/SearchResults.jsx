@@ -30,17 +30,21 @@ export default class SearchResults extends React.Component {
   }
 
   componentWillUnmount() {
+    const { searchProvider } = this.props.appProviders;
+    searchProvider.setLastScrollTop(this.props.scrollTarget.scrollTop);
+
     if (process.env.IS_CLIENT) {
       document.removeEventListener('scroll', this.handleScroll, true);
     }
   }
 
   componentDidUpdate() {
+    const { searchProvider } = this.props.appProviders;
+
     if (!process.env.IS_CLIENT) {
       return;
     }
 
-    const { searchProvider } = this.props.appProviders;
     if (this.props.scrollTarget) {
       this.props.scrollTarget.scrollTop = searchProvider.getLastScrollTop();
     }
@@ -51,7 +55,6 @@ export default class SearchResults extends React.Component {
     const target = e.target;
     const distanceFromBottom = target.scrollHeight - target.offsetHeight - target.scrollTop;
 
-    appProviders.searchProvider.setLastScrollTop(target.scrollTop);
     if (distanceFromBottom < INFINITE_SCROLL_MARGIN && appStore.searchStore.hasMorePages) {
       appProviders.searchProvider.loadNextPage();
     }
