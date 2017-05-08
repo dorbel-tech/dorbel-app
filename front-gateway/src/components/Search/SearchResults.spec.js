@@ -10,6 +10,7 @@ describe('Search Results', () => {
   let appStoreMock;
   let mockResults;
   let noResults;
+  let scrollTarget;
 
   beforeEach(() => {
     mockResults = {
@@ -34,9 +35,13 @@ describe('Search Results', () => {
         setLastScrollTop: jest.fn()
       }
     };
+    scrollTarget = {scrollTop: 0}
   });
 
-  const searchResults = () => shallow(<SearchResults.wrappedComponent appStore={appStoreMock} appProviders={appProvidersMock} noResultsContent={noResults} />);
+  const searchResults = () => shallow(<SearchResults.wrappedComponent appStore={appStoreMock}
+                                                                      appProviders={appProvidersMock}
+                                                                      noResultsContent={noResults}
+                                                                      scrollTarget={scrollTarget} />);
 
   const simulateScroll = (distanceFromBottom) => {
     const wrapper = searchResults();
@@ -56,8 +61,10 @@ describe('Search Results', () => {
     expect(firstThumbnail.prop('listing')).toBe(mockResults);
   });
 
-  it('should call setLastScrollTop with correct scroll top value when scrolling', () => {
-    simulateScroll(850);
+  it('should call setLastScrollTop with correct scroll top value when unmounting', () => {
+    const wrapper = searchResults();
+    scrollTarget.scrollTop = 150;
+    wrapper.unmount();
     expect(appProvidersMock.searchProvider.setLastScrollTop).toHaveBeenCalledWith(150);
   });
 
