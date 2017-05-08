@@ -17,7 +17,6 @@ const INFINITE_SCROLL_MARGIN = 900;
 
 @inject('appStore', 'appProviders') @observer
 export default class SearchResults extends React.Component {
-
   constructor(props) {
     super(props);
     autobind(this);
@@ -25,7 +24,7 @@ export default class SearchResults extends React.Component {
 
   componentDidMount() {
     if (process.env.IS_CLIENT) {
-      // scrolling is caught at the document level because this component doesnt actually scroll, it's parent does
+      // scrolling is caught at the document level because this component doesn't actually scroll, it's parent does
       document.addEventListener('scroll', this.handleScroll, true);
     }
   }
@@ -36,12 +35,23 @@ export default class SearchResults extends React.Component {
     }
   }
 
+  componentDidUpdate() {
+    if (!process.env.IS_CLIENT) {
+      return;
+    }
+
+    const { searchProvider } = this.props.appProviders;
+    if (this.props.scrollTarget) {
+      this.props.scrollTarget.scrollTop = searchProvider.getLastScrollTop();
+    }
+  }
 
   handleScroll(e) {
     const { appProviders, appStore } = this.props;
     const target = e.target;
     const distanceFromBottom = target.scrollHeight - target.offsetHeight - target.scrollTop;
 
+    appProviders.searchProvider.setLastScrollTop(target.scrollTop);
     if (distanceFromBottom < INFINITE_SCROLL_MARGIN && appStore.searchStore.hasMorePages) {
       appProviders.searchProvider.loadNextPage();
     }
@@ -91,7 +101,8 @@ SearchResults.wrappedComponent.propTypes = {
   title: React.PropTypes.node,
   retryLink: React.PropTypes.node,
   isReady: React.PropTypes.bool,
-  thumbnailProps: React.PropTypes.object
+  thumbnailProps: React.PropTypes.object,
+  scrollTarget: React.PropTypes.object
 };
 
 SearchResults.wrappedComponent.defaultProps = {

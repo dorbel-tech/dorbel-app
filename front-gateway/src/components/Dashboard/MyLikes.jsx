@@ -17,6 +17,8 @@ class MyLikes extends Component {
       'city': '*',
       'liked': true
     });
+
+    this.searchContainer = document.getElementsByClassName('dashboard-container')[0];
   }
 
   render() {
@@ -25,6 +27,7 @@ class MyLikes extends Component {
         <SearchResults
           title={ <p className="my-likes-title">דירות שאהבתי</p> }
           thumbnailProps={ { openInNewWindow: true } }
+          scrollTarget={this.searchContainer}
           noResultsContent={
             <div className="my-likes-empty">
               <div className="my-likes-text"><b>טרם שמרתם דירות שאהבתם. </b><br/><br/>

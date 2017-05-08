@@ -7,6 +7,7 @@ export default class ListingStore {
   @observable isLoadingNextPage = false;
   @observable hasMorePages = false;
   @observable searchError = false;
+  @observable lastScrollTop = 0;
 
   constructor(initialState) {
     this.searchResultsbyListingId = asMap(initialState || {});
@@ -29,6 +30,10 @@ export default class ListingStore {
 
   add(listings) {
     listings.forEach(listing => this.searchResultsbyListingId.set(listing.id, listing));
+  }
+
+  set lastScrollTop(value) {
+    this.lastScrollTop = value;
   }
 
   toJson() {
