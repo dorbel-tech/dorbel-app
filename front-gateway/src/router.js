@@ -100,7 +100,7 @@ function startRouter(appStore) {
 
 function notFound(appStore, callback) {
   appStore.setView(errorPage, { errorId: 404 });
-  callback();
+  callback(true); // passing true to callback in order to indicate 'not found'
 }
 
 module.exports = {
