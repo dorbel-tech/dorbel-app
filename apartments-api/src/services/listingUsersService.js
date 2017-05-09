@@ -81,8 +81,17 @@ function mapToListingUserResponse(listingUserFromDb, publicProfile) {
 }
 
 function getPicturePlaceholder(user) {
-  // assuming a minimum of first_name with one letter
-  const userInitials = user.first_name[0] + (user.last_name ? user.last_name[0] : '');
+  // expecting either first_name or email
+  let userInitials;
+  if (user.first_name) {
+    userInitials = user.first_name[0] + (user.last_name ? user.last_name[0] : '');
+  } else if (user.email) {
+    userInitials = user.email[0];
+  } else {
+    // no picture
+    return;
+  }
+
   return `https://dummyimage.com/50x50/5A1592/ffffff&text=+${userInitials.toUpperCase()}+`;
 }
 
@@ -92,7 +101,7 @@ function * getAndVerifyListing(listing_id, requestingUser) {
 
   if (!listing) {
     throw new errors.DomainNotFoundError('listing not found', { listing_id }, 'listing not found');
-  } 
+  }
 
   userPermissions.validateResourceOwnership(requestingUser, listing.publishing_user_id);
   return listing;
