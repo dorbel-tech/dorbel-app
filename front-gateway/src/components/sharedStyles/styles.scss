@@ -145,4 +145,8 @@ ul.nav.nav-tabs.navbar-nav {
   border-color: $brand-green !important;
   color: $brand-green !important;
   margin-top: -3px;
+
+  &:before {
+    content: "+ ";
+  }
 }

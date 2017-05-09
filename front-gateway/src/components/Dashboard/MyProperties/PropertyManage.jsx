@@ -116,7 +116,7 @@ class PropertyManage extends Component {
               <Row className="property-manage-lease-title">
                 <Col xs={12}>
                   דיירים נוכחים:
-                  <Button onClick={this.showAddTenantModal} className="add-button pull-left">+ הוסף דייר</Button>
+                  <Button onClick={this.showAddTenantModal} className="add-button pull-left">הוסף דייר</Button>
                 </Col>
               </Row>
               <Row>

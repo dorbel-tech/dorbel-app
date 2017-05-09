@@ -121,7 +121,6 @@ class ListingsProvider {
       listingTenants.remove(tenant);
     });
   }
-
 }
 
 module.exports = ListingsProvider;
