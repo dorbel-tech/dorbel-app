@@ -65,7 +65,7 @@ function* unregister(event_id, user) {
       'לא קיים רישום לאירוע');
   }
 
-  userPermissions.validateResourceOwnership(user, existingRegistration.following_user_id);
+  userPermissions.validateResourceOwnership(user, existingRegistration.registered_user_id);
 
   existingRegistration.is_active = false;
   const result = yield repository.updateRegistration(existingRegistration);
