@@ -22,7 +22,7 @@ function* runServer() {
   app.use(compress());
   getBuildOutputs(app);
   app.use(serve(config.dir.public, { maxage: STATIC_FILE_MAX_AGE_MS }));
-  app.use(shared.utils.userManagement.parseAuthToken);
+  app.use(shared.middleware.auth.parseAuthToken);
   yield apiProxy.loadProxy(app);
 
   koa_ejs(app, {

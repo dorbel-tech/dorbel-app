@@ -13,7 +13,7 @@ describe('Listing Followers Service', function () {
     this.repositoryMock = {};
     mockRequire('../../src/openHouseEventsDb/repositories/openHouseEventFollowersRepository', this.repositoryMock);
     this.service = require('../../src/services/openHouseEventFollowersService');
-    sinon.stub(shared.utils.userManagement, 'updateUserDetails');
+    sinon.stub(shared.utils.user.management, 'updateUserDetails');
   });
 
   beforeEach(function () {

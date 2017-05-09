@@ -6,7 +6,7 @@
 const _ = require('lodash');
 const request = require('request-promise'); 
 const shared = require('dorbel-shared');
-const userManagement = shared.utils.userManagement;
+const userManagement = shared.utils.user.management;
 const APT_API = process.env.APARTMENTS_API_URL;
 const OHE_API = process.env.OHE_API_URL;
 

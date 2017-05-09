@@ -22,8 +22,8 @@ describe('Listing Users Service', function () {
 
     mockRequire('../../src/apartmentsDb/repositories/listingRepository', this.listingRepositoryMock);
     mockRequire('../../src/apartmentsDb/repositories/listingUsersRepository', this.listingUsersRepositoryMock);
-    sinon.stub(shared.utils.userManagement, 'getPublicProfileByEmail');
-    sinon.stub(shared.utils.userManagement, 'getPublicProfile');
+    sinon.stub(shared.utils.user.management, 'getPublicProfileByEmail');
+    sinon.stub(shared.utils.user.management, 'getPublicProfile');
     this.listingUsersService = require('../../src/services/listingUsersService');
   });
 
@@ -90,7 +90,7 @@ describe('Listing Users Service', function () {
         first_name,
         dorbel_user_id
       };
-      shared.utils.userManagement.getPublicProfileByEmail.resolves(existingUser);
+      shared.utils.user.management.getPublicProfileByEmail.resolves(existingUser);
 
       yield this.listingUsersService.create(listing_id, { email }, requestingUser);
 
@@ -100,7 +100,7 @@ describe('Listing Users Service', function () {
     });
 
     it('should create guest user with details from request', function * () {
-      shared.utils.userManagement.getPublicProfileByEmail.resolves(null);
+      shared.utils.user.management.getPublicProfileByEmail.resolves(null);
       const userToCreate = {
         first_name: 'Pingi',
         last_name: 'Cohen'
@@ -125,7 +125,7 @@ describe('Listing Users Service', function () {
     it('should return the mapped listing user when identified', function * () {
       const userToCreate = { email: 'George@monkey.com' };
       const publicProfile = { first_name: 'Jojo', dorbel_user_id: 999 };
-      shared.utils.userManagement.getPublicProfileByEmail.resolves(publicProfile);
+      shared.utils.user.management.getPublicProfileByEmail.resolves(publicProfile);
 
       const response = yield this.listingUsersService.create(1, userToCreate, requestingUser);
 
@@ -153,7 +153,7 @@ describe('Listing Users Service', function () {
       const registeredUser = { id: 7, dorbel_user_id: 123 };
       const publicProfile = { public: 'profile' };
       this.listingUsersRepositoryMock.getUsersForListing.resolves([ registeredUser ]);
-      shared.utils.userManagement.getPublicProfile.resolves(publicProfile);
+      shared.utils.user.management.getPublicProfile.resolves(publicProfile);
 
       const users = yield this.listingUsersService.get(1, requestingUser);
 
