@@ -35,7 +35,7 @@ describe('Search Results', () => {
         setLastScrollTop: jest.fn()
       }
     };
-    scrollTarget = {scrollTop: 0}
+    scrollTarget = {scrollTop: 0};
   });
 
   const searchResults = () => shallow(<SearchResults.wrappedComponent appStore={appStoreMock}
