@@ -6,8 +6,6 @@ describe('Front Gateway API Integration', function () {
   let apiClient;
   before(function* () {
     apiClient = yield ApiClient.init();
-    yield apiClient.createListingWithSlug('123-slug');
-    yield apiClient.createListingWithSlug('123-slug slug');
   });
 
   it('should forward request to apartments API', function* () {
@@ -48,6 +46,13 @@ describe('Front Gateway API Integration', function () {
     const response = yield apiClient.get('/apartments/123-slug slug');
     __.assertThat(response, __.hasProperties({
       statusCode: 200,
+    }));
+  });
+
+  it('should return 404 for a non existing listing', function* () {
+    const response = yield apiClient.get('/apartments/SomeMadeUpSlug');
+    __.assertThat(response, __.hasProperties({
+      statusCode: 404,
     }));
   });
 

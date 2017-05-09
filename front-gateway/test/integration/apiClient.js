@@ -2,10 +2,6 @@
 const coSupertest = require('co-supertest');
 const net = require('net');
 const cheerio = require('cheerio');
-const fakeObjectGenerator = require('./fakeObjectGenerator');
-
-const USER_PROFILE_HEADER = 'x-user-profile';
-const ADMIN_INTEGRATION_TEST_USER_ID = '1483a989-b560-46c4-a759-12c2ebb4cdbf';
 
 function attemptConnection(port, host) {
   return new Promise((resolve, reject) => {
@@ -54,27 +50,6 @@ class ApiClient {
 
   get(url) {
     return this.request.get(url);
-  }
-
-  // TODO: This is a quick solution - We should consider moving apiClient to dorbel-shared
-  * createListingWithSlug(slug) {
-    const listing = fakeObjectGenerator.getFakeListing();
-    listing.slug = slug;
-
-    const userProfile = fakeObjectGenerator.getFakeUser({
-      id: ADMIN_INTEGRATION_TEST_USER_ID,
-      role: 'admin'
-    });
-
-    const createListingResponse = yield this.request.post('/api/apartments/v1/listings')
-      .set(USER_PROFILE_HEADER, JSON.stringify(userProfile))
-      .send(listing);
-
-    yield this.request.patch('/v1/listings/' + createListingResponse.id)
-      .set(USER_PROFILE_HEADER, JSON.stringify(userProfile))
-      .send({ status: 'listed' });
-
-    return createListingResponse.body;
   }
 
   * getHtml(url) {

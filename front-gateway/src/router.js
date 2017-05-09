@@ -1,5 +1,6 @@
 'use strict';
 import director from 'director';
+import _ from 'lodash';
 import { routingTable, login, errorPage } from './routes';
 
 function checkAuth(appStore) {
@@ -29,9 +30,10 @@ function setRoutes(router, appStore, appProviders) {
 
       if (!process.env.IS_CLIENT && routeConfig.view.serverPreRender) {
         routeConfig.view.serverPreRender(Object.assign({ router, appStore, appProviders }, routeProps))
-          .then(callback)
+          .then(() => { callback(); })
           .catch((err) => {
-            handleError(appStore, callback, err.response.status);
+            const statusCode = _.get(err, 'response.status') || 500; 
+            handleError(appStore, callback, statusCode);
           });
       } else {
         callback();
@@ -99,7 +101,7 @@ function startRouter(appStore) {
 
 function handleError(appStore, callback, statusCode) {
   appStore.setView(errorPage, { errorId: statusCode });
-  callback(statusCode); // passing 404 to callback in order to indicate 'not found'
+  callback(statusCode);
 }
 
 module.exports = {
