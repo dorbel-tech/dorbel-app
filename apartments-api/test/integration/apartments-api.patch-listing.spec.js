@@ -65,7 +65,7 @@ describe('Integration - PATCH /listings/{id}', function () {
     ));
   });
 
-  it('should move to a different building if building details changed', function * () {
+  it('should move to a different building if building details changed', function* () {
     const update = {
       apartment: {
         building: {
@@ -98,8 +98,9 @@ describe('Integration - PATCH /listings/{id}', function () {
   });
 
   it('should update building with details when not moving to a different building', function * () {
-    const update = _.set({}, 'apartment.building.elevator', !createdListing.apartment.building.elevator);
-
+    let update = _.set({}, 'apartment.building.elevator', !createdListing.apartment.building.elevator);
+    _.set(update, 'apartment.building.neighborhood.id', 2);
+    
     const response = yield apiClient.patchListing(createdListing.id, update).expect(200).end();
 
     __.assertThat(response.body.apartment.building, __.hasProperties({
