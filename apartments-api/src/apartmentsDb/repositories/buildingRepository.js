@@ -5,7 +5,7 @@ const shared = require('dorbel-shared');
 const logger = shared.logger.getLogger(module);
 const ValidationError = shared.utils.domainErrors.DomainValidationError;
 
-function* findOrCreate(building, options = {}) {
+function* updateOrCreate(building, options = {}) {
   // TODO: add reference to country
   const city = yield db.models.city.findOne({
     where: { id: building.city.id },
@@ -58,5 +58,5 @@ function* findOrCreate(building, options = {}) {
 }
 
 module.exports = {
-  findOrCreate
+  updateOrCreate
 };

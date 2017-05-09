@@ -106,7 +106,7 @@ function getOneListing(where) {
 }
 
 function* create(listing) {
-  const building = yield buildingRepository.findOrCreate(listing.apartment.building);
+  const building = yield buildingRepository.updateOrCreate(listing.apartment.building);
 
   const apartment = yield apartmentRepository.findOrCreate(
     listing.apartment.apt_number,
@@ -203,7 +203,7 @@ function * update(listing, patch) {
     if (buildingRequest) {
       let mergedBuilding = _.merge({}, currentBuilding.toJSON(), buildingRequest);
       mergedBuilding = _.omit(mergedBuilding, ['geolocation']);
-      newBuilding = yield buildingRepository.findOrCreate(mergedBuilding, { transaction });
+      newBuilding = yield buildingRepository.updateOrCreate(mergedBuilding, { transaction });
       logger.trace('found other building', { oldBuildingId: currentBuilding.id, newBuildingId: newBuilding.id });
       apartmentPatch.building_id = newBuilding.id;
       if (!newBuilding.geolocation) {
