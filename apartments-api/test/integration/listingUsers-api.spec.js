@@ -5,7 +5,7 @@ const __ = require('hamjest');
 const fakeObjectGenerator = require('../shared/fakeObjectGenerator');
 const faker = require('faker');
 
-describe.only('Apartments API Listing Users integration', function () {
+describe('Apartments API Listing Users integration', function () {
   let guestTenant;
 
   before(function * () {
