@@ -71,7 +71,7 @@ class ApiClient {
       .send(listing);
 
     yield this.request.patch('/v1/listings/' + createListingResponse.id)
-      .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile))
+      .set(USER_PROFILE_HEADER, JSON.stringify(userProfile))
       .send({ status: 'listed' });
 
     return createListingResponse.body;

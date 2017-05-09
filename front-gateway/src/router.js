@@ -19,7 +19,7 @@ function setRoutes(router, appStore, appProviders) {
   routingTable.forEach(routeConfig => {
     var routeParams = routeConfig.route.split('/').filter(routePart => routePart.charAt(0) === ':').map(routePart => routePart.substring(1));
 
-    const handleRoute = function() {
+    const handleRoute = function () {
       const callback = arguments[arguments.length - 1]; // last argument director sends is the callback
       // the rest of the arguments are matched to the route params by order the appear
       const routeProps = {};
@@ -30,16 +30,15 @@ function setRoutes(router, appStore, appProviders) {
       if (!process.env.IS_CLIENT && routeConfig.view.serverPreRender) {
         routeConfig.view.serverPreRender(Object.assign({ router, appStore, appProviders }, routeProps))
           .then(callback)
-          .catch(() => {
-            // TODO: Catch real server error code and pass it here.
-            handleError(appStore, callback, 500);
+          .catch((err) => {
+            handleError(appStore, callback, err.response.status);
           });
       } else {
         callback();
       }
     };
 
-    router.on(routeConfig.route, routeConfig.requireLogin ? [ checkAuth.bind(null, appStore), handleRoute ] : handleRoute);
+    router.on(routeConfig.route, routeConfig.requireLogin ? [checkAuth.bind(null, appStore), handleRoute] : handleRoute);
   });
 }
 
@@ -91,7 +90,7 @@ function startRouter(appStore) {
     });
   }
 
-  router.setRoutes = function(appStore, appProviders) {
+  router.setRoutes = function (appStore, appProviders) {
     setRoutes(router, appStore, appProviders);
   };
 
