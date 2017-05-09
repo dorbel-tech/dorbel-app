@@ -21,7 +21,10 @@ export default class TenantRow extends React.Component {
   }
 
   removeTenant(tenant) {
-    this.props.appProviders.listingsProvider.removeTenant(tenant);
+    const { appProviders } = this.props;
+    appProviders.listingsProvider.removeTenant(tenant)
+    .then(() => appProviders.notificationProvider.success('הדייר הוסר מרשימת השוכרים הנוכחיים שלך'))
+    .catch(appProviders.notificationProvider.error);
   }
 
   render() {
@@ -42,12 +45,12 @@ export default class TenantRow extends React.Component {
           <i className={'fa fa-2x fa-facebook-square ' + facebookClass}></i>
         </Col>
         <Col xs={2}>
-          <Dropdown id={'tenant' + tenant.id}>
+          <Dropdown id={'tenant' + tenant.id} className="pull-left">
             <Dropdown.Toggle noCaret bsStyle="link">
               <i className="fa fa-ellipsis-v" />
             </Dropdown.Toggle>
             <Dropdown.Menu className="dropdown-menu-left">
-              <MenuItem onClick={() => this.removeTenant(tenant)}>מחיקה</MenuItem>
+              <MenuItem onClick={() => this.removeTenant(tenant)}>הסר דייר</MenuItem>
             </Dropdown.Menu>
           </Dropdown>
         </Col>

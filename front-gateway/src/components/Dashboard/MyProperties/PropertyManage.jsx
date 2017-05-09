@@ -53,13 +53,11 @@ class PropertyManage extends Component {
     } else {
       return (
         <ListGroup>
-          {
-            tenants.map(tenant => (
-              <ListGroupItem key={tenant.id}>
+          { tenants.map(tenant => (
+              <ListGroupItem key={tenant.id} className="property-manage-tenant-item">
                 <TenantRow tenant={tenant} />
               </ListGroupItem>
-            ))
-          }
+            )) }
         </ListGroup>
       );
     }
@@ -118,9 +116,7 @@ class PropertyManage extends Component {
                 </Col>
               </Row>
               <Row>
-                <Col xs={12}>
-                  {this.renderTenants()}
-                </Col>
+                {this.renderTenants()}
               </Row>
             </Grid>;
   }
