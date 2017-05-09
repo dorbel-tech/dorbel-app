@@ -31,8 +31,8 @@ function setRoutes(router, appStore, appProviders) {
         routeConfig.view.serverPreRender(Object.assign({ router, appStore, appProviders }, routeProps))
           .then(callback)
           .catch(() => {
-            appStore.setView(errorPage, { errorId: 500 }); // TODO: Catch real server error code and pass it here.
-            callback();
+            // TODO: Catch real server error code and pass it here.
+            handleError(appStore, callback, 500);
           });
       } else {
         callback();
@@ -48,7 +48,7 @@ function startRouter(appStore) {
 
   if (process.env.IS_CLIENT) {
     router.configure({
-      notfound: callback => notFound(appStore, callback),
+      notfound: callback => handleError(appStore, callback, 404),
       html5history: true,
       strict: false,
       async: true,
@@ -86,7 +86,7 @@ function startRouter(appStore) {
     router.init();
   } else {
     router.configure({
-      notfound: callback => notFound(appStore, callback),
+      notfound: callback => handleError(appStore, callback, 404),
       async: true
     });
   }
@@ -98,9 +98,9 @@ function startRouter(appStore) {
   return router;
 }
 
-function notFound(appStore, callback) {
-  appStore.setView(errorPage, { errorId: 404 });
-  callback(true); // passing true to callback in order to indicate 'not found'
+function handleError(appStore, callback, statusCode) {
+  appStore.setView(errorPage, { errorId: statusCode });
+  callback(statusCode); // passing 404 to callback in order to indicate 'not found'
 }
 
 module.exports = {

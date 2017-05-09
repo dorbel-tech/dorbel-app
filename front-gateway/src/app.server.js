@@ -7,11 +7,11 @@ import { utils } from 'dorbel-shared';
 import { getCloudinaryParams } from './server/cloudinaryConfigProvider';
 
 function setRoute(router, context) {
-  // this method is used to set the route in the server side and wait until it resolves
+  // this method is used to set the route in the server side and wait until it resolves (usually called 'callback' on router.js)
   return new Promise((resolve) => {
-    router.dispatch('on', context.path, (notFound) => {
-      if (notFound) {
-        context.status = 404;
+    router.dispatch('on', context.path, (errCode) => {
+      if (errCode) {
+        context.status = errCode;
       }
       resolve();
     });
