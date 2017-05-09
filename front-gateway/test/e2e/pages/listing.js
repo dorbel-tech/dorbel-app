@@ -44,7 +44,7 @@ module.exports = {
           selector: 'button.btn-success'
         },
         ok: {
-          selector: 'button.btn-primary'
+          selector: '.ohe-register-modal-info-button'
         },
         cancel: {
           selector: 'button.btn-danger'
@@ -81,8 +81,7 @@ module.exports = {
       return this.section.oheList.click('@firstEvent');
     },
     fillOheRegisterUserDetailsAndSubmit: function() {
-      return this.section.oheModal
-        .click('@submit')
+      return this.section.oheModal.click('@submit')
         .waitForElementVisible('@ok')
         .click('@ok');
     },

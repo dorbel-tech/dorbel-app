@@ -17,7 +17,7 @@ const neighborhoodAttributes = [ 'id', 'neighborhood_name', 'city_id' ];
 const imageAttributes = { exclude: [ 'created_at', 'updated_at' ] };
 
 const LISTING_UPDATE_WHITELIST = [ 'status', 'monthly_rent', 'roommates', 'property_tax', 'board_fee', 'lease_start',
-  'lease_end', 'publishing_user_type', 'roommate_needed', 'directions', 'description' ];
+  'lease_end', 'publishing_user_type', 'roommate_needed', 'directions', 'description', 'show_phone' ];
 const APARTMENT_UPDATE_WHITELIST = [ 'apt_number', 'size', 'rooms', 'floor', 'parking', 'sun_heated_boiler', 'pets',
   'air_conditioning', 'balcony', 'security_bars', 'parquest_floor' ];
 const BUILDING_UPDATE_WHITELIST = [ 'floors', 'elevator', 'entrance' ];
@@ -106,7 +106,7 @@ function getOneListing(where) {
 }
 
 function* create(listing) {
-  const building = yield buildingRepository.findOrCreate(listing.apartment.building);
+  const building = yield buildingRepository.updateOrCreate(listing.apartment.building);
 
   const apartment = yield apartmentRepository.findOrCreate(
     listing.apartment.apt_number,
@@ -200,11 +200,10 @@ function * update(listing, patch) {
     let newBuilding;
 
     // if main building properties change - we move apartment+listing to a different building
-    if (buildingRequest && currentBuilding.isDifferentBuilding(buildingRequest)) {
-      logger.trace('update to different building', { listing_id: listing.id });
+    if (buildingRequest) {
       let mergedBuilding = _.merge({}, currentBuilding.toJSON(), buildingRequest);
       mergedBuilding = _.omit(mergedBuilding, ['geolocation']);
-      newBuilding = yield buildingRepository.findOrCreate(mergedBuilding, { transaction });
+      newBuilding = yield buildingRepository.updateOrCreate(mergedBuilding, { transaction });
       logger.trace('found other building', { oldBuildingId: currentBuilding.id, newBuildingId: newBuilding.id });
       apartmentPatch.building_id = newBuilding.id;
       if (!newBuilding.geolocation) {

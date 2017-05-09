@@ -2,10 +2,10 @@
 const notificationService = require('./notificationService');
 const repository = require('../openHouseEventsDb/repositories/openHouseEventFollowersRepository');
 const shared = require('dorbel-shared');
-const errors = shared.utils.domainErrors;
 const logger = shared.logger.getLogger(module);
-const userManagement = shared.utils.userManagement;
-const utilityFunctions = require('./common/utility-functions');
+const errors = shared.utils.domainErrors;
+const userManagement = shared.utils.user.management;
+const userPermissions = shared.utils.user.permissions;
 
 function* getByListing(listingId){
   return yield repository.findByListingId(listingId);
@@ -15,35 +15,37 @@ function* follow(listingId, user) {
   const existingFollowers = yield repository.findByListingId(listingId);
   if (existingFollowers) {
     const alreadyFollow = existingFollowers.filter(function (follower) {
-      return follower.following_user_id == user.id;
+      return follower.following_user_id == user.user_id;
     });
 
     if (alreadyFollow.length) {
       throw new errors.DomainValidationError('OpenHouseEventFollowerValidationError',
-        { listing_id: listingId, user_uuid: user.id },
+        { listing_id: listingId, user_uuid: user.user_id },
         'המשתמש כבר עוקב אחרי הנכס');
     }
   }
 
   const follower = {
     listing_id: listingId,
-    following_user_id: user.id,
+    following_user_id: user.user_id,
     is_active: true
   };
 
   const result = yield repository.createFollower(follower);
-  logger.info({ listing_id: listingId, user_uuid: user.id }, 'Listing was followed');
+  logger.info({ listing_id: listingId, user_uuid: user.user_id }, 'Listing was followed');
 
   // TODO: Update user details can be done on client using user token.
-  userManagement.updateUserDetails(user.id, {
-    user_metadata: {
-      email: user.email
-    }
-  });
+  if (user.email) {
+    userManagement.updateUserDetails(user.user_id, {
+      user_metadata: {
+        email: user.email
+      }
+    });
+  }
 
   notificationService.send(notificationService.eventType.OHE_FOLLOWED, {
     listing_id: listingId,
-    user_uuid: user.id
+    user_uuid: user.user_id
   });
 
   return result;
@@ -57,7 +59,7 @@ function* unfollow(followId, user) {
       'עוקב לא קיים');
   }
 
-  utilityFunctions.validateResourceOwnership(existingFollower.following_user_id, user);
+  userPermissions.validateResourceOwnership(user, existingFollower.following_user_id);
 
   existingFollower.is_active = false;
 

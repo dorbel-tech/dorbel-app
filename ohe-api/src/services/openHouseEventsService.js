@@ -2,12 +2,13 @@
 const shared = require('dorbel-shared');
 const errors = shared.utils.domainErrors;
 const logger = shared.logger.getLogger(module);
-const utilityFunctions = require('./common/utility-functions');
 const notificationService = require('./notificationService');
 const openHouseEventsFinderService = require('./openHouseEventsFinderService');
 const openHouseEventsRepository = require('../openHouseEventsDb/repositories/openHouseEventsRepository');
 const moment = require('moment'); require('moment-range');
-const userManagement = shared.utils.userManagement;
+const userManagement = shared.utils.user.management;
+const userPermissions = shared.utils.user.permissions;
+const utilityFunctions = require('./common/utility-functions');
 
 function validateEventParamters(start, end) {
   if (end.diff(start, 'minutes') < 30) {
@@ -36,7 +37,7 @@ function validateEventOverlap(existingListingEvents, start, end) {
 
 function* create(openHouseEvent, user) {
   const userId = openHouseEvent.listing_publishing_user_id || openHouseEvent.publishing_user_id;
-  utilityFunctions.validateResourceOwnership(userId, user);
+  userPermissions.validateResourceOwnership(user, userId);
 
   const listing_id = parseInt(openHouseEvent.listing_id);
   const start = moment(openHouseEvent.start_time, moment.ISO_8601, true);
@@ -75,7 +76,7 @@ function* update(id, updateRequest, user) {
   const old_start_time = existingEvent.start_time;
   const old_end_time = existingEvent.end_time;
 
-  utilityFunctions.validateResourceOwnership(existingEvent.publishing_user_id, user);
+  userPermissions.validateResourceOwnership(user, existingEvent.publishing_user_id);
 
   const start = moment(updateRequest.start_time || existingEvent.start_time, moment.ISO_8601, true);
   const end = moment(updateRequest.end_time || existingEvent.end_time, moment.ISO_8601, true);
@@ -129,7 +130,7 @@ function* deactivate(eventId, user) {
 function* updateStatus(eventId, user, status) {
   let existingEvent = yield openHouseEventsFinderService.find(eventId);
 
-  utilityFunctions.validateResourceOwnership(existingEvent.publishing_user_id, user);
+  userPermissions.validateResourceOwnership(user, existingEvent.publishing_user_id);
   const oldStatus = existingEvent.status;
 
   existingEvent.status = status;
@@ -168,7 +169,7 @@ function* findByListing(listing_ids, user, additionalQuery) {
     const eventJson = event.toJSON();
     const eventDto = convertEventModelToDTO(eventJson, userId);
 
-    if (userId === event.publishing_user_id || (user && userManagement.isUserAdmin(user))) { // publishing user
+    if (userId === event.publishing_user_id || userPermissions.isUserAdmin(user)) { // publishing user
       // get all the data about the registrations
       // TODO: move to seperate api call
       eventDto.registrations = eventJson.registrations;

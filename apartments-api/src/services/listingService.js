@@ -8,8 +8,8 @@ const geoProvider = require('../providers/geoProvider');
 const logger = shared.logger.getLogger(module);
 const messageBus = shared.utils.messageBus;
 const generic = shared.utils.generic;
-const userManagement = shared.utils.userManagement;
-const permissionsService = require('./permissionsService');
+const userManagement = shared.utils.user.management;
+const userPermissions = shared.utils.user.permissions;
 
 const DEFUALT_LISTING_LIST_LIMIT = 1000;
 
@@ -65,40 +65,86 @@ function* create(listing) {
 }
 
 function* update(listingId, user, patch) {
-  let listing = yield listingRepository.getById(listingId);
+  const listing = yield listingRepository.getById(listingId);
 
   if (!listing) {
     logger.error({ listingId }, 'Listing wasnt found');
     throw new CustomError(404, 'הדירה לא נמצאה');
   }
 
-  const isPublishingUserOrAdmin = listing && permissionsService.isPublishingUserOrAdmin(user, listing);
-  const statusChanged = patch.status && patch.status !== listing.status;
+  const oldListing = _.cloneDeep(listing.get({ plain: true }));
+  const isPublishingUserOrAdmin = listing && userPermissions.isResourceOwnerOrAdmin(user, listing.publishing_user_id);
 
   if (!isPublishingUserOrAdmin) {
     logger.error({ listingId }, 'You cant update that listing');
     throw new CustomError(403, 'אין באפשרותך לערוך דירה זו');
-  } else if (statusChanged && getPossibleStatuses(listing, user).indexOf(patch.status) < 0) {
+  } else if (isStatusChanged(listing, patch) && getPossibleStatuses(listing, user).indexOf(patch.status) < 0) {
     logger.error({ listingId }, 'You cant update this listing status');
     throw new CustomError(403, 'אין באפשרותך לשנות את סטטוס הדירה ל ' + patch.status);
   }
 
-  const previousStatus = listing.status;
   patch = setListingAutoFields(patch);
-
   const result = yield listingRepository.update(listing, patch);
-
-  if (statusChanged && process.env.NOTIFICATIONS_SNS_TOPIC_ARN) {
-    const messageBusEvent = messageBus.eventType['APARTMENT_' + patch.status.toUpperCase()];
-    messageBus.publish(process.env.NOTIFICATIONS_SNS_TOPIC_ARN, messageBusEvent, {
-      city_id: listing.apartment.building.city_id,
-      listing_id: listingId,
-      previous_status: previousStatus,
-      user_uuid: listing.publishing_user_id
-    });
-  }
+  notifyListingChanged(oldListing, patch);
 
   return yield enrichListingResponse(result, user);
+}
+
+function isStatusChanged(oldListing, newListing) {
+  return newListing.status && newListing.status !== oldListing.status;
+}
+
+// Send notifications to users on changes in listing
+function notifyListingChanged(oldListing, newListing) {
+  if (process.env.NOTIFICATIONS_SNS_TOPIC_ARN) {
+    const isMonthlyRentSent = newListing.monthly_rent;
+
+    // Notify in case of listing status change.
+    if (isStatusChanged(oldListing, newListing)) {
+      const messageBusEvent = messageBus.eventType['APARTMENT_' + newListing.status.toUpperCase()];
+      messageBus.publish(process.env.NOTIFICATIONS_SNS_TOPIC_ARN, messageBusEvent, {
+        city_id: oldListing.apartment.building.city_id,
+        listing_id: oldListing.id,
+        previous_status: oldListing.status,
+        user_uuid: oldListing.publishing_user_id
+      });
+    } 
+    // Send notification to updated users of important property fields being changed.
+    else if (isMonthlyRentSent) {
+      const isMonthlyRentChanged = oldListing.monthly_rent !== newListing.monthly_rent;
+      const oldLeaseStart = moment(oldListing.lease_start).format('YYYY-MM-DD');
+      const newLeaseStart = moment(newListing.lease_start).format('YYYY-MM-DD');
+      const isLeaseStartChanged = oldLeaseStart !== newLeaseStart;
+      const isRoomsChanged = oldListing.apartment.rooms !== newListing.apartment.rooms;
+      const isStreetNameChanged = oldListing.apartment.building.street_name !== newListing.apartment.building.street_name;
+      const isHouseNumberChanged = oldListing.apartment.building.house_number !== newListing.apartment.building.house_number;
+      const isFloorChanged = oldListing.apartment.floor !== newListing.apartment.floor;
+      const isAptNumberChanged = oldListing.apartment.apt_number !== newListing.apartment.apt_number;
+      const isListingEdited = isMonthlyRentChanged || isLeaseStartChanged || isRoomsChanged || isStreetNameChanged ||
+        isHouseNumberChanged || isFloorChanged || isAptNumberChanged;
+
+      if (isListingEdited) {
+        messageBus.publish(process.env.NOTIFICATIONS_SNS_TOPIC_ARN, messageBus.eventType.LISTING_EDITED, {
+          listing_id: oldListing.id,
+          user_uuid: oldListing.publishing_user_id,
+          prev_monthly_rent: oldListing.monthly_rent,
+          prev_lease_start: oldLeaseStart,
+          prev_rooms: oldListing.apartment.rooms,
+          prev_street_name: oldListing.apartment.building.street_name,
+          prev_house_number: oldListing.apartment.building.house_number,
+          prev_floor: oldListing.apartment.floor,
+          prev_apt_number: oldListing.apartment.apt_number,
+          new_monthly_rent: newListing.monthly_rent,
+          new_lease_start: newLeaseStart,
+          new_rooms: newListing.apartment.rooms,
+          new_street_name: newListing.apartment.building.street_name,
+          new_house_number: newListing.apartment.building.house_number,
+          new_floor: newListing.apartment.floor,
+          new_apt_number: newListing.apartment.apt_number,
+        });
+      }
+    }
+  }
 }
 
 function setListingAutoFields(listing) {
@@ -138,7 +184,7 @@ function* getByFilter(filterJSON, options = {}) {
   };
 
   if (options.user) {
-    if (userManagement.isUserAdmin(options.user)) {
+    if (userPermissions.isUserAdmin(options.user)) {
       filter.listed = filter.hasOwnProperty('listed') ? filter.listed : true;
 
       const filteredStatuses = listingRepository.listingStatuses.filter(
@@ -161,7 +207,7 @@ function* getByFilter(filterJSON, options = {}) {
     }
 
     if (filter.myProperties){
-      if (!userManagement.isUserAdmin(options.user)) {
+      if (!userPermissions.isUserAdmin(options.user)) {
         listingQuery.publishing_user_id = options.user.id;
       }
 
@@ -222,8 +268,8 @@ function* getById(id, user) {
 
   const isPending = listing.status === 'pending';
   const isDeleted = listing.status === 'deleted';
-  const isAdmin = user && permissionsService.isAdmin(user, listing);
-  const isPublishingUserOrAdmin = user && permissionsService.isPublishingUserOrAdmin(user, listing);
+  const isAdmin = userPermissions.isUserAdmin(user);
+  const isPublishingUserOrAdmin = userPermissions.isResourceOwnerOrAdmin(user, listing.publishing_user_id);
 
   // Don't display deleted listings to anyone but admins.
   if (isDeleted && !isAdmin) {
@@ -251,11 +297,11 @@ function getPossibleStatuses(listing, user) {
   let possibleStatuses = [];
 
   if (user) {
-    if (userManagement.isUserAdmin(user)) {
+    if (userPermissions.isUserAdmin(user)) {
       // admin can change to all statuses
       possibleStatuses = listingRepository.listingStatuses;
     }
-    else if (permissionsService.isPublishingUser(user, listing) && isNotPendingDeleted(listing.status)) {
+    else if (userPermissions.isResourceOwner(user, listing.publishing_user_id) && isNotPendingDeleted(listing.status)) {
       // listing owner can change to anything but pending or deleted, unless the listing is pending
       possibleStatuses = listingRepository.listingStatuses.filter(status => isNotPendingDeleted(status));
     }
@@ -277,8 +323,14 @@ function* enrichListingResponse(listing, user) {
       possibleStatuses: getPossibleStatuses(listing, user)
     };
 
-    if (user && (permissionsService.isPublishingUserOrAdmin(user, listing))) {
-      enrichedListing.totalLikes = yield likeRepository.getListingTotalLikes(listing.id);
+    if (user) {
+      if (userPermissions.isResourceOwnerOrAdmin(user, listing.publishing_user_id)) {
+        enrichedListing.totalLikes = yield likeRepository.getListingTotalLikes(listing.id);
+      }
+       // TODO: Implemented this way as discussed - should be different api call when possible
+      if (listing.show_phone) {
+        enrichedListing.publishing_user_phone = _.get(publishingUser, 'user_metadata.phone' || 'phone') || '';
+      }
     }
 
     return enrichedListing;

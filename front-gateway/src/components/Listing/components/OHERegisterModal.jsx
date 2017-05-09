@@ -1,4 +1,5 @@
 import React from 'react';
+import autobind from 'react-autobind';
 import { Row, Col, Modal, Button } from 'react-bootstrap';
 import { inject, observer } from 'mobx-react';
 import Icon from '~/components/Icon/Icon';
@@ -12,11 +13,9 @@ const FRC = FormWrapper.FRC;
 class OHERegisterModal extends React.Component {
   constructor(props) {
     super(props);
+    autobind(this);
+
     this.state = { successfullyRegistered: false };
-    // TODO : stop this chaos and use https://github.com/andreypopp/autobind-decorator
-    this.close = this.close.bind(this);
-    this.register = this.register.bind(this);
-    this.unregister = this.unregister.bind(this);
   }
 
   register() {
@@ -47,8 +46,8 @@ class OHERegisterModal extends React.Component {
 
   renderSuccessModal(profile) {
     return (
-      <Modal show={true}>
-        <Modal.Header closeButton onHide={this.close}>
+      <Modal show={true} onHide={this.close}>
+        <Modal.Header closeButton>
           <Modal.Title>
             ההרשמה בוצעה בהצלחה!
           </Modal.Title>
@@ -66,7 +65,7 @@ class OHERegisterModal extends React.Component {
             </p>
           </Row>
           <Row>
-            <Button onClick={this.close} bsStyle="primary" bsSize="large" >אחלה!</Button>
+            <Button onClick={this.close} className="ohe-register-modal-info-button" bsStyle="primary" bsSize="large" >אחלה!</Button>
           </Row>
         </Modal.Body>
       </Modal>

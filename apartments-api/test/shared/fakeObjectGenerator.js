@@ -9,6 +9,7 @@ function getFakeBuilding(variant) {
   return Object.assign({
     street_name: 'רוטשילד',
     house_number: '192',
+    entrance: 1,
     city_id: 1,
     city: {
       id: 1
@@ -42,10 +43,12 @@ function getFakeListing() {
     user: {
       phone: '123456789'
     },
-    slug: 'test-listing-' + faker.random.uuid() // This field has a unique constraint
+    slug: 'test-listing-' + faker.random.uuid(), // This field has a unique constraint
+    show_phone: false
   };
 
   listing.apartment.building.toJSON = () => listing.apartment.building;
+  listing.get = () => { return listing; };
   return listing;
 }
 

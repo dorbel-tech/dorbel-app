@@ -47,19 +47,19 @@ class ApiClient {
       .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile));
   }
 
-  createNewRegistration(existingEventId, user) {
+  createNewRegistration(eventId, user) {
     return this.request
       .post('/v1/event/registration')
       .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile))
       .send({
-        open_house_event_id: existingEventId,
+        open_house_event_id: eventId,
         user_details: user
       });
   }
 
-  deleteRegistration(existingEventId) {
+  deleteRegistration(eventId) {
     return this.request
-      .delete('/v1/event/registration/' + existingEventId)
+      .delete('/v1/event/registration/' + eventId)
       .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile));
   }
 
@@ -68,12 +68,13 @@ class ApiClient {
       .get('/v1/followers/by-listing/' + listingId);
   }
 
-  createNewFollower(listingId, follower) {
+  createNewFollower(listingId, user) {
     return this.request
       .post('/v1/follower')
-      .set(USER_PROFILE_HEADER, JSON.stringify(follower))
+      .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile))
       .send({
-        listing_id: listingId
+        listing_id: listingId,
+        user_details: user
       });
   }
 
