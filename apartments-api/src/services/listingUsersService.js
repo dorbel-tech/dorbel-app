@@ -76,8 +76,15 @@ function mapToListingUserResponse(listingUserFromDb, publicProfile) {
   }
 
   listingUserResponse.tenant_profile = listingUserResponse.tenant_profile || {};
+  listingUserResponse.picture = listingUserResponse.picture || getPicturePlaceholder(listingUserResponse);
 
   return listingUserResponse;
+}
+
+function getPicturePlaceholder(user) {
+  // assuming a minimum of first_name with one letter
+  const userInitials = user.first_name[0] + (user.last_name ? user.last_name[0] : '');
+  return `https://dummyimage.com/50x50/5A1592/ffffff&text=+${userInitials.toUpperCase()}+`;
 }
 
 // TODO: this is repeating in many places in the API and should be moved to some place generic

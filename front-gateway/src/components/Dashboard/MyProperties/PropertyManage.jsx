@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
-import { ProgressBar, Col, Grid, Row, ListGroup, ListGroupItem } from 'react-bootstrap';
+import { ProgressBar, Col, Grid, Row, ListGroup, ListGroupItem, Button } from 'react-bootstrap';
 import autobind from 'react-autobind';
 import moment from 'moment';
 import utils from '~/providers/utils';
-import TenantRow from '~/components/TenantRow/TenantRow';
+import TenantRow from '~/components/Tenants/TenantRow/TenantRow';
+import AddTenantModal from '~/components/Tenants/AddTenantModal/AddTenantModal';
 import ManageLeaseModal from './ManageLeaseModal';
 
 import './PropertyManage.scss';
@@ -64,6 +65,13 @@ class PropertyManage extends Component {
     }
   }
 
+  showAddTenantModal() {
+    this.props.appProviders.modalProvider.showInfoModal({
+      title: AddTenantModal.title,
+      body: <AddTenantModal listing_id={this.props.listing.id} />,
+    });
+  }
+
   render() {
     const { listing } = this.props;
     const listingLeaseStart = utils.formatDate(listing.lease_start);
@@ -106,6 +114,7 @@ class PropertyManage extends Component {
               <Row className="property-manage-lease-title">
                 <Col xs={12}>
                   דיירים נוכחים:
+                  <Button onClick={this.showAddTenantModal} className="add-button pull-left">+ הוסף דייר</Button>
                 </Col>
               </Row>
               <Row>

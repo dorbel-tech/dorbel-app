@@ -43,7 +43,7 @@ class OHEManager extends React.Component {
     return (
       <Col xs={12} className="listing-events-container">
         <div>
-          <Button onClick={() => this.toggleAddModal(true)} className="listing-events-add-ohe pull-left">הוסף מועד +</Button>
+          <Button onClick={() => this.toggleAddModal(true)} className="add-button pull-left">+ הוסף מועד</Button>
           <h3 className="listing-events-title">מועדי ביקור הבאים</h3>
         </div>
         <div>

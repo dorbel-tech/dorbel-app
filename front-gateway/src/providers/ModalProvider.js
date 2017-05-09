@@ -34,7 +34,8 @@ export default class ModalProvider {
 
   showInfoModal(params) {
     return new Promise((resolve) => {
-      const close = () => {
+      // expecting only one modal open each time so calling modalProvider.close() will close it
+      this.close = () => {
         resolve(true);
         this.appStore.showModal = false;
       };
@@ -51,7 +52,7 @@ export default class ModalProvider {
         ),
         footer: params.footer,
         modalSize: params.modalSize || 'small',
-        onClose: () => close()
+        onClose: () => this.close()
       };
 
       this.appStore.showModal = true;
