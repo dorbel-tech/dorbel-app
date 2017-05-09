@@ -28,7 +28,11 @@ class SearchProvider {
     };
 
     if (!loadNextPage) { // new search
-      searchStore.reset();
+      // Check if the store should be reset
+      if (params.q !== this.lastQ) {
+        searchStore.reset();
+        this.lastQ = params.q;
+      }
       searchStore.isLoadingNewSearch = true;
     } else { // next page
       searchStore.isLoadingNextPage = true;
