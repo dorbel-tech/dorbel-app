@@ -8,8 +8,8 @@ const geoProvider = require('../providers/geoProvider');
 const logger = shared.logger.getLogger(module);
 const messageBus = shared.utils.messageBus;
 const generic = shared.utils.generic;
-const userManagement = shared.utils.userManagement;
-const permissionsService = require('./permissionsService');
+const userManagement = shared.utils.user.management;
+const userPermissions = shared.utils.user.permissions;
 
 const DEFUALT_LISTING_LIST_LIMIT = 1000;
 
@@ -73,29 +73,34 @@ function* update(listingId, user, patch) {
   }
 
   const oldListing = _.cloneDeep(listing.get({ plain: true }));
-  const isPublishingUserOrAdmin = listing && permissionsService.isPublishingUserOrAdmin(user, listing);
-  const statusChanged = patch.status && patch.status !== listing.status;
+  const isPublishingUserOrAdmin = listing && userPermissions.isResourceOwnerOrAdmin(user, listing.publishing_user_id);
 
   if (!isPublishingUserOrAdmin) {
     logger.error({ listingId }, 'You cant update that listing');
     throw new CustomError(403, 'אין באפשרותך לערוך דירה זו');
-  } else if (statusChanged && getPossibleStatuses(listing, user).indexOf(patch.status) < 0) {
+  } else if (isStatusChanged(listing, patch) && getPossibleStatuses(listing, user).indexOf(patch.status) < 0) {
     logger.error({ listingId }, 'You cant update this listing status');
     throw new CustomError(403, 'אין באפשרותך לשנות את סטטוס הדירה ל ' + patch.status);
   }
 
   patch = setListingAutoFields(patch);
   const result = yield listingRepository.update(listing, patch);
-  notifyListingChanged(oldListing, patch, statusChanged);
+  notifyListingChanged(oldListing, patch);
 
   return yield enrichListingResponse(result, user);
 }
 
+function isStatusChanged(oldListing, newListing) {
+  return newListing.status && newListing.status !== oldListing.status;
+}
+
 // Send notifications to users on changes in listing
-function notifyListingChanged(oldListing, newListing, statusChanged) {
+function notifyListingChanged(oldListing, newListing) {
   if (process.env.NOTIFICATIONS_SNS_TOPIC_ARN) {
+    const isMonthlyRentSent = newListing.monthly_rent;
+
     // Notify in case of listing status change.
-    if (statusChanged) {
+    if (isStatusChanged(oldListing, newListing)) {
       const messageBusEvent = messageBus.eventType['APARTMENT_' + newListing.status.toUpperCase()];
       messageBus.publish(process.env.NOTIFICATIONS_SNS_TOPIC_ARN, messageBusEvent, {
         city_id: oldListing.apartment.building.city_id,
@@ -105,7 +110,7 @@ function notifyListingChanged(oldListing, newListing, statusChanged) {
       });
     } 
     // Send notification to updated users of important property fields being changed.
-    else {
+    else if (isMonthlyRentSent) {
       const isMonthlyRentChanged = oldListing.monthly_rent !== newListing.monthly_rent;
       const oldLeaseStart = moment(oldListing.lease_start).format('YYYY-MM-DD');
       const newLeaseStart = moment(newListing.lease_start).format('YYYY-MM-DD');
@@ -179,7 +184,7 @@ function* getByFilter(filterJSON, options = {}) {
   };
 
   if (options.user) {
-    if (userManagement.isUserAdmin(options.user)) {
+    if (userPermissions.isUserAdmin(options.user)) {
       filter.listed = filter.hasOwnProperty('listed') ? filter.listed : true;
 
       const filteredStatuses = listingRepository.listingStatuses.filter(
@@ -202,7 +207,7 @@ function* getByFilter(filterJSON, options = {}) {
     }
 
     if (filter.myProperties){
-      if (!userManagement.isUserAdmin(options.user)) {
+      if (!userPermissions.isUserAdmin(options.user)) {
         listingQuery.publishing_user_id = options.user.id;
       }
 
@@ -263,8 +268,8 @@ function* getById(id, user) {
 
   const isPending = listing.status === 'pending';
   const isDeleted = listing.status === 'deleted';
-  const isAdmin = user && permissionsService.isAdmin(user, listing);
-  const isPublishingUserOrAdmin = user && permissionsService.isPublishingUserOrAdmin(user, listing);
+  const isAdmin = userPermissions.isUserAdmin(user);
+  const isPublishingUserOrAdmin = userPermissions.isResourceOwnerOrAdmin(user, listing.publishing_user_id);
 
   // Don't display deleted listings to anyone but admins.
   if (isDeleted && !isAdmin) {
@@ -292,11 +297,11 @@ function getPossibleStatuses(listing, user) {
   let possibleStatuses = [];
 
   if (user) {
-    if (userManagement.isUserAdmin(user)) {
+    if (userPermissions.isUserAdmin(user)) {
       // admin can change to all statuses
       possibleStatuses = listingRepository.listingStatuses;
     }
-    else if (permissionsService.isPublishingUser(user, listing) && isNotPendingDeleted(listing.status)) {
+    else if (userPermissions.isResourceOwner(user, listing.publishing_user_id) && isNotPendingDeleted(listing.status)) {
       // listing owner can change to anything but pending or deleted, unless the listing is pending
       possibleStatuses = listingRepository.listingStatuses.filter(status => isNotPendingDeleted(status));
     }
@@ -319,7 +324,7 @@ function* enrichListingResponse(listing, user) {
     };
 
     if (user) {
-      if ((permissionsService.isPublishingUserOrAdmin(user, listing))) {
+      if (userPermissions.isResourceOwnerOrAdmin(user, listing.publishing_user_id)) {
         enrichedListing.totalLikes = yield likeRepository.getListingTotalLikes(listing.id);
       }
        // TODO: Implemented this way as discussed - should be different api call when possible

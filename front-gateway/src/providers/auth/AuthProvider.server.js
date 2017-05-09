@@ -15,7 +15,7 @@ class ServerAuthProvider {
     if (idToken) {
       this.authStore.setToken(idToken);
 
-      const profile = yield shared.utils.userManagement.getProfileFromIdToken(idToken);
+      const profile = yield shared.utils.user.management.getProfileFromIdToken(idToken);
       if (profile) {
         let mappedProfile = auth0.mapAuth0Profile(profile);
         this.authStore.setProfile(mappedProfile);

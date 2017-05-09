@@ -3,10 +3,9 @@ const shared = require('dorbel-shared');
 const _ = require('lodash');
 const listingUsersRepository = require('../apartmentsDb/repositories/listingUsersRepository');
 const listingRepository = require('../apartmentsDb/repositories/listingRepository');
-const permissionsService = require('./permissionsService');
 const errors = shared.utils.domainErrors;
-const logger = shared.logger.getLogger(module);
-const userManagement = shared.utils.userManagement;
+const userManagement = shared.utils.user.management;
+const userPermissions = shared.utils.user.permissions;
 
 function * create(listing_id, payload, requestingUser) {
   yield getAndVerifyListing(listing_id, requestingUser);
@@ -84,11 +83,9 @@ function * getAndVerifyListing(listing_id, requestingUser) {
 
   if (!listing) {
     throw new errors.DomainNotFoundError('listing not found', { listing_id }, 'listing not found');
-  } else if (!permissionsService.isPublishingUserOrAdmin(requestingUser, listing)) {
-    logger.error({ resource_owner_id: listing.publishing_user_id, user_id: requestingUser.id }, 'Requesting user is not the resource owner!');
-    throw new errors.NotResourceOwnerError();
-  }
+  } 
 
+  userPermissions.validateResourceOwnership(requestingUser, listing.publishing_user_id);
   return listing;
 }
 

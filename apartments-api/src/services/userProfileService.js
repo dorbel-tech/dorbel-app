@@ -3,7 +3,7 @@ const shared = require('dorbel-shared');
 const logger = shared.logger.getLogger(module);
 const _ = require('lodash');
 const errors = shared.utils.domainErrors;
-const userManagement = shared.utils.userManagement;
+const userManagement = shared.utils.user.management;
 
 const profileSectionParams = {
   main: {
