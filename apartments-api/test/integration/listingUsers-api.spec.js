@@ -5,7 +5,7 @@ const __ = require('hamjest');
 const fakeObjectGenerator = require('../shared/fakeObjectGenerator');
 const faker = require('faker');
 
-describe('Apartments API Listing Users integration', function () {
+describe.only('Apartments API Listing Users integration', function () {
   let guestTenant;
 
   before(function * () {
@@ -19,6 +19,16 @@ describe('Apartments API Listing Users integration', function () {
   describe('POST listing tenants', function () {
     it('should add a `guest` tenant to a listing', function * () {
       const first_name = faker.name.firstName();
+      const response = yield this.apiClient.postTenant(this.createdListing.id, { first_name }).expect(201).end();
+      __.assertThat(response.body, __.hasProperties({
+        first_name,
+        listing_id: this.createdListing.id.toString(),
+        id: __.number()
+      }));
+    });
+
+    it('should add a `guest` tenant with a hebrew first name', function * () {
+      const first_name = 'אבי';
       const response = yield this.apiClient.postTenant(this.createdListing.id, { first_name }).expect(201).end();
       __.assertThat(response.body, __.hasProperties({
         first_name,
