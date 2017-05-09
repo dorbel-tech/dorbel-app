@@ -4,7 +4,6 @@ const _ = require('lodash');
 const listingUsersRepository = require('../apartmentsDb/repositories/listingUsersRepository');
 const listingRepository = require('../apartmentsDb/repositories/listingRepository');
 const errors = shared.utils.domainErrors;
-const logger = shared.logger.getLogger(module);
 const userManagement = shared.utils.user.management;
 const userPermissions = shared.utils.user.permissions;
 
