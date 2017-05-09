@@ -21,7 +21,7 @@ class PropertyManage extends Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.appProviders.listingsProvider.loadListingTenants(this.props.listing.id);
   }
 
@@ -44,23 +44,27 @@ class PropertyManage extends Component {
   }
 
   renderTenants() {
-    const tenants = this.props.appStore.listingStore.listingTenantsById.get(this.props.listing.id);
+    let tenants = this.props.appStore.listingStore.listingTenantsById.get(this.props.listing.id);
 
     if (!tenants) {
       return <h5>טוען...</h5>;
     } else if (tenants === 'error') {
       return <h5>חלה שגיאה בטעינת הדיירים</h5>;
-    } else {
-      return (
-        <ListGroup>
-          { tenants.map(tenant => (
-              <ListGroupItem key={tenant.id} className="property-manage-tenant-item">
-                <TenantRow tenant={tenant} />
-              </ListGroupItem>
-            )) }
-        </ListGroup>
-      );
     }
+
+    if (tenants.length === 0) {
+      tenants = TenantRow.getEmptyTenantList();
+    }
+
+    return (
+      <ListGroup>
+        { tenants.map(tenant => (
+            <ListGroupItem key={tenant.id} disabled={tenant.disabled} className="property-manage-tenant-item">
+              <TenantRow tenant={tenant} />
+            </ListGroupItem>
+          )) }
+      </ListGroup>
+    );
   }
 
   showAddTenantModal() {

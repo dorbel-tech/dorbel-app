@@ -13,10 +13,19 @@ export default class TenantRow extends React.Component {
     autobind(this);
   }
 
-  showTenantProfileModal(profile) {
+  static getEmptyTenantList() {
+    // used as a placeholder for an empty list
+    return [
+      { id: 0, disabled: true, first_name: 'שם דייר נוכחי', picture: 'https://dummyimage.com/50x50/eeeeee/ffffff&text=' }
+    ];
+  }
+
+  showTenantProfileModal(tenant) {
+    if (tenant.disabled) { return; }
+
     this.props.appProviders.modalProvider.showInfoModal({
       title: 'פרופיל דייר',
-      body: <TenantProfile profile={profile} />,
+      body: <TenantProfile profile={tenant} />,
     });
   }
 
@@ -45,7 +54,7 @@ export default class TenantRow extends React.Component {
           <i className={'fa fa-2x fa-facebook-square ' + facebookClass}></i>
         </Col>
         <Col xs={2}>
-          <Dropdown id={'tenant' + tenant.id} className="pull-left">
+          <Dropdown id={'tenant' + tenant.id} className="pull-left" disabled={tenant.disabled}>
             <Dropdown.Toggle noCaret bsStyle="link">
               <i className="fa fa-ellipsis-v" />
             </Dropdown.Toggle>
