@@ -25,7 +25,7 @@ describe('Building Repository', function () {
       expectedBuilding.city_id = buildingToCreate.city.id;
       expectedBuilding.neighborhood_id = buildingToCreate.neighborhood.id;
 
-      const createdBuilding = yield this.buildingRepo.findOrCreate(buildingToCreate);
+      const createdBuilding = yield this.buildingRepo.updateOrCreate(buildingToCreate);
 
       __.assertThat(createdBuilding, __.hasProperties(expectedBuilding));
     });
@@ -34,8 +34,8 @@ describe('Building Repository', function () {
       const buildingToCreate1 = fakeObjectGenerator.getFakeBuilding({ street_name: faker.lorem.word(), entrance: faker.lorem.word() });
       const buildingToCreate2 = fakeObjectGenerator.getFakeBuilding({ street_name: buildingToCreate1.street_name, entrance: faker.lorem.word() });
 
-      const createdBuilding1 = yield this.buildingRepo.findOrCreate(buildingToCreate1);
-      const createdBuilding2 = yield this.buildingRepo.findOrCreate(buildingToCreate2);
+      const createdBuilding1 = yield this.buildingRepo.updateOrCreate(buildingToCreate1);
+      const createdBuilding2 = yield this.buildingRepo.updateOrCreate(buildingToCreate2);
 
       __.assertThat(createdBuilding1, __.allOf(
         __.hasProperty('entrance', buildingToCreate1.entrance),
