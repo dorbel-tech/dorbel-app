@@ -26,9 +26,6 @@ export default class SearchResults extends React.Component {
     if (process.env.IS_CLIENT) {
       this.scrollNotSet = true;
       this.scrollKey = location.pathname;
-      this.scrollTargets = ['search-container', 'dashboard-container', 'search-results-scroll'].map(
-        elClassName => document.getElementsByClassName(elClassName)[0]
-      ).filter(el => !!el);
 
       // scrolling is caught at the document level because this component doesn't actually scroll, it's parent does
       document.addEventListener('scroll', this.handleScroll, true);
@@ -39,7 +36,6 @@ export default class SearchResults extends React.Component {
     const { appProviders } = this.props;
 
     // Set setLastScrollTop only if the element scroll top is greater than 0
-    this.scrollTargets.forEach(el => console.log(el.scrollTop, ' ', el));
     this.scrollTargets.forEach(
         el => (el.scrollTop > 0) && appProviders.searchProvider.setLastScrollTop(el.scrollTop, this.scrollKey));
 
@@ -51,6 +47,13 @@ export default class SearchResults extends React.Component {
   componentDidUpdate() {
     const { appProviders } = this.props;
     const lastScrollTop = appProviders.searchProvider.getLastScrollTop(this.scrollKey);
+
+    if (!this.scrollTargets) {
+      this.scrollTargets = ['search-container', 'dashboard-container', 'search-results-scroll'].map(
+        elClassName => document.getElementsByClassName(elClassName)[0]
+      ).filter(el => !!el);
+    }
+    this.scrollTargets.forEach(el => console.log(el.scrollTop, ' ', el));
 
     console.log('update ', this.scrollNotSet, ' ', lastScrollTop, ' ', this.scrollTargets);
     if (this.scrollNotSet && lastScrollTop > 0) {
