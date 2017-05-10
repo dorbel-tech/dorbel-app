@@ -23,6 +23,8 @@ function setRequestRenderState(context, appStore) {
   // these are used to render the inital response in the index.ejs
   context.state = context.state || {};
   context.state.segment = process.env.SEGMENT_IO_WRITE_KEY; // segment key is not part of env vars but is used when rendering index.ejs
+  context.state.optimizely = process.env.OPTIMIZELY_KEY; // optimizely key is not part of env vars but is used when rendering index.ejs
+  context.state.hotjar = process.env.HOTJAR_KEY; // hotjar key is not part of env vars but is used when rendering index.ejs
   context.state.meta = _.defaults(appStore.metaData, {
     title: 'dorbel - מערכת לניהול והשכרת דירות ללא תיווך',
     description: 'השכרת דירות ללא תיווך. כל הפרטים שחשוב לדעת על הדירות בכדי לחסוך ביקורים מיותרים. בחרו מועד והירשמו לביקור בדירות בלחיצת כפתור.',
