@@ -1,6 +1,6 @@
 'use strict';
 const _ = require('lodash');
-const cookies = require('cookies.js');
+const localStorageHelper = require('../../stores/localStorageHelper');
 
 function initLock(clientId, domain) {
   const Auth0Lock = require('auth0-lock').default; // can only be required on client side
@@ -11,7 +11,7 @@ function initLock(clientId, domain) {
       redirectUrl: window.location.origin + '/login',
       responseType: 'token'
     },
-    initialScreen: cookies.getItem('returning_user') ? undefined : 'signUp',
+    initialScreen: localStorageHelper.getItem('returning_user') ? undefined : 'signUp',
     theme: {
       logo: 'https://res.cloudinary.com/dorbel/image/upload/c_scale,h_58,w_58/v1477485453/dorbel_logo_2_1_uvvf3j.png',
       primaryColor: '#1cb039'
