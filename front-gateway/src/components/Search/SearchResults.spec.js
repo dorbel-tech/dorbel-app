@@ -74,6 +74,27 @@ describe('Search Results', () => {
     expect(appProvidersMock.searchProvider.setLastScrollTop).toHaveBeenCalledWith(150, scrollKeyMock);
   });
 
+  // TODO implement this test
+  xit('should set scrollTop correctly for all scrollTargets each componentDidUpdate', () => {
+    const scrollKeyMock = jest.fn();
+    const wrapper = searchResults();
+
+    wrapper.instance().scrollTargets = [
+      {scrollTop: 0},
+      {scrollTop: 150},
+      {scrollTop: 0}
+    ];
+    wrapper.instance().scrollKey = scrollKeyMock;
+
+    wrapper.update();
+
+    expect(wrapper.instance().scrollTargets).toBe([
+      {scrollTop: 0},
+      {scrollTop: 150},
+      {scrollTop: 0}
+    ]);
+  });
+
   it('should call loadNextPage when scrolling down', () => {
     appStoreMock.searchStore.hasMorePages = true;
     simulateScroll(850);
