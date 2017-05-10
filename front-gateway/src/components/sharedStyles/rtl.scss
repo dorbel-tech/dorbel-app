@@ -53,3 +53,8 @@
 .input-addon-right {
   border-radius: 0 4px 4px 0 !important;
 }
+
+// heapanalytics.com tooltip overlay to fix the RTL issue.
+.heap-tooltip > * {
+  direction: ltr;
+}

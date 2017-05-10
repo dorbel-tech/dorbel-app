@@ -6,7 +6,6 @@ import localStorageHelper from './localStorageHelper';
 import cookieStorageHelper from './cookieStorageHelper';
 import EventEmitter from 'eventemitter3';
 
-
 const ID_TOKEN_KEY = 'id_token';
 const PROFILE_KEY = 'profile';
 
@@ -42,6 +41,8 @@ export default class AuthStore {
         // token might already be expired and then the duration is negative
         const logoutTimerDelay = max([0, durationUntilExpiryInMs]);
         this.logoutTimer = setTimeout(() => { this.logout(); }, logoutTimerDelay);
+        // Used to indicate if its returning user or not for auth0 lock to show relevant signup or login tab.
+        localStorageHelper.setItem('returning_user', true);
         // update expiry on cookieStorageHelper
         cookieStorageHelper.setItem(ID_TOKEN_KEY, idToken, new Date(tokenExpiryTimeInMs));
       } else {
