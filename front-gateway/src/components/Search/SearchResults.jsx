@@ -39,6 +39,7 @@ export default class SearchResults extends React.Component {
     const { appProviders } = this.props;
 
     // Set setLastScrollTop only if the element scroll top is greater than 0
+    this.scrollTargets.forEach(el => console.log(el.scrollTop, ' ', el));
     this.scrollTargets.forEach(
         el => (el.scrollTop > 0) && appProviders.searchProvider.setLastScrollTop(el.scrollTop, this.scrollKey));
 
@@ -51,8 +52,9 @@ export default class SearchResults extends React.Component {
     const { appProviders } = this.props;
     const lastScrollTop = appProviders.searchProvider.getLastScrollTop(this.scrollKey);
 
+    console.log('update ', this.scrollNotSet, ' ', lastScrollTop, ' ', this.scrollTargets);
     if (this.scrollNotSet && lastScrollTop > 0) {
-      setTimeout(() => this.scrollTargets.forEach(el => el.scrollTop = lastScrollTop), 4000);
+      setTimeout(() => this.scrollTargets.forEach(el => el.scrollTop = lastScrollTop), 1000);
 
       this.scrollNotSet = false;
     }
