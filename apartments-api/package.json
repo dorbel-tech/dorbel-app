@@ -4,6 +4,7 @@
   "description": "API for dorbel apartments domain",
   "main": "src/index.js",
   "scripts": {
+    "create:listings": "mocha --timeout 10000 --compilers js:babel-register test/shared/before-tests.js test/integration/apartments-api.spec.js",
     "db:migrate": "sequelize db:migrate",
     "db:seed": "sequelize db:seed:all",
     "start": "yarn run db:migrate && yarn run db:seed && babel-node src/index",

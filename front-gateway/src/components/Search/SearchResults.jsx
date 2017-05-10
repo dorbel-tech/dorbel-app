@@ -1,5 +1,5 @@
 'use strict';
-/***
+/**
 * SearchResults components should display search results for main search, my properties, my likes
 * It will take the results from the SearchStore and activate the SearchProvider for paging, etc...
 **/
@@ -47,8 +47,19 @@ export default class SearchResults extends React.Component {
     const { appProviders, scrollTarget } = this.props;
     const lastScrollTop = appProviders.searchProvider.getLastScrollTop(this.scrollKey);
 
-    if (this.scrollNotSet && lastScrollTop > 0 && scrollTarget) {
-      scrollTarget.scrollTop = lastScrollTop;
+    if (this.scrollNotSet && scrollTarget && lastScrollTop > 0) {
+      const scroll = (scrollTo) => {
+        if (scrollTarget.scrollTop >= scrollTo) {
+          return;
+        }
+
+        setTimeout(function() {
+          scrollTarget.scrollTop = scrollTarget.scrollTop + 10;
+          scroll(scrollTo);
+        }, 10);
+      };
+
+      scroll(lastScrollTop);
       this.scrollNotSet = false;
     }
   }
