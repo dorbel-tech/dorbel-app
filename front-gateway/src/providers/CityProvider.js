@@ -2,7 +2,6 @@
  * City provider communicates with the Apartments API to get city meta data
  */
 'use strict';
-import { action } from 'mobx';
 
 class CityProvider {
   constructor(appStore, apiProvider) {
@@ -11,8 +10,19 @@ class CityProvider {
   }
 
   loadCities() {
-    return this.apiProvider.fetch('/api/apartments/v1/cities')
-      .then(action(cities => this.appStore.cityStore.cities = cities));
+    const { cities } = this.appStore.cityStore;
+    return new Promise((resolve) => {
+      if (cities.length > 0) {
+        resolve();
+      }
+      else {
+        this.apiProvider.fetch('/api/apartments/v1/cities')
+          .then((citiesResp) => {
+            this.appStore.cityStore.cities = citiesResp;
+            resolve();
+          });
+      }
+    });
   }
 }
 

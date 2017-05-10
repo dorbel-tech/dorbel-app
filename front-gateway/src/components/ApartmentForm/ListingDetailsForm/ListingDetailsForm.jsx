@@ -9,6 +9,9 @@ import autobind from 'react-autobind';
 export default class ListingDetailsForm extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      areCitiesLoaded: false
+    };
     autobind(this);
   }
 
@@ -29,7 +32,8 @@ export default class ListingDetailsForm extends React.Component {
     if (cities.length) {
       return cities.map(city => ({ value: city.id, label: city.city_name }));
     } else {
-      this.props.appProviders.cityProvider.loadCities();
+      this.props.appProviders.cityProvider.loadCities()
+        .then(() => { this.setState({ areCitiesLoaded: true }); });
       return [{ value: 0, label: 'טוען...' }];
     }
   }
@@ -50,7 +54,7 @@ export default class ListingDetailsForm extends React.Component {
     if (storedValue && options.find(option => option.value === storedValue)) {
       return storedValue;
     } else {
-      return options[0].value;
+      return { value: 0, label: 'טוען...' };
     }
   }
 
@@ -69,7 +73,7 @@ export default class ListingDetailsForm extends React.Component {
     const { editedListingStore } = this.props;
     const citySelectorOptions = this.getCityOptions();
     const citySelectorValue = editedListingStore.formValues['apartment.building.city.id'] || citySelectorOptions[0].value;
-    const neighborhoodSelectorOptions = this.getNeighborhoodOptions(citySelectorValue);
+    const neighborhoodSelectorOptions = this.state.areCitiesLoaded ? this.getNeighborhoodOptions(citySelectorValue) : [{ label: 'טוען...' }];
     const neighborhoodSelectorValue = this.getNeighborhoodValue(neighborhoodSelectorOptions);
 
     const roomOptions = editedListingStore.roomOptions.slice(0);
