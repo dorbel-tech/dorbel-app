@@ -1,20 +1,23 @@
 'use strict';
 const _ = require('lodash');
+const cookies = require('cookies.js');
 
 function initLock(clientId, domain) {
   const Auth0Lock = require('auth0-lock').default; // can only be required on client side
+
+  // Lock customization - https://auth0.com/docs/libraries/lock/v10/customization
   return new Auth0Lock(clientId, domain, {
     auth: {
       redirectUrl: window.location.origin + '/login',
       responseType: 'token'
     },
-    // initialScreen: 'signUp',
+    initialScreen: cookies.getItem('returning_user') ? undefined : 'signUp',
     theme: {
       logo: 'https://res.cloudinary.com/dorbel/image/upload/c_scale,h_58,w_58/v1477485453/dorbel_logo_2_1_uvvf3j.png',
       primaryColor: '#1cb039'
     },
-    languageDictionary: {
-      title: 'הרשמו לזיהוי קל בהמשך ולעדכונים חשובים בלבד',
+    languageDictionary: { // https://github.com/auth0/lock/blob/master/src/i18n/en.js
+      title: 'ברוכים הבאים',
       welcome: 'היי %s!',
       signUpWithLabel: '%s',
       signupTitle: 'הרשמה',
@@ -28,7 +31,7 @@ function initLock(clientId, domain) {
       forgotPasswordAction: 'שכחתם סיסמא?',
       forgotPasswordInstructions: 'הכניסו את כתובת המייל שלכם. אנו נשלח אליכם מייל לאיפוס סיסמא.',
       forgotPasswordSubmitLabel: 'שלח',
-      signUpTerms: ' אני מסכים/ה <a href="https://www.dorbel.com/pages/terms" target="_blank">לתנאי השימוש </a><a href="https://www.dorbel.com/pages/privacy_policy" target="_blank">ומדיניות הפרטיות</a>',
+      signUpTerms: ' בהרשמה אני מסכים/ה <a href="https://www.dorbel.com/pages/terms" target="_blank">לתנאי השימוש </a><a href="https://www.dorbel.com/pages/privacy_policy" target="_blank">ומדיניות הפרטיות</a>',
       signUp: {
         user_exists: 'כתובת מייל קיימת, לחצו על ״כניסה״ ונסו שנית',
       },
@@ -37,7 +40,9 @@ function initLock(clientId, domain) {
       },
       success: {
         forgotPassword: 'מייל לאיפוס ססמתך נשלח אלייך זה עתה',
-      }
+      },
+      lastLoginInstructions: 'בפעם שעברה התחברתם עם',
+      notYourAccountAction: 'לא החשבון שלכם?',
     }
   });
 }
