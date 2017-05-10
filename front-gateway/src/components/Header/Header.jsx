@@ -64,7 +64,7 @@ class Header extends Component {
     const { authProvider } = this.props.appProviders;
     const { authStore } = this.props.appStore;
     const isLoggedIn = authStore.isLoggedIn;
-    const showPublishFirst = isMobileJs.phone;
+    const isMobile = isMobileJs.phone;
     const externalURL = 'https://www.dorbel.com';
 
     return (
@@ -85,9 +85,13 @@ class Header extends Component {
           <UserProfileBadge />
           <Nav className="header-navbar-links">
             {MENU_ITEMS.map((item) => this.renderDashboardMenuItem(item))}
-            {showPublishFirst ?
+            {isMobile ?
               <NavItem className="header-navbar-btn-publish" onClick={(e) => this.routeTo(e, '/apartments/new_form')}
                 href="/apartments/new_form">פרסמו דירה</NavItem>
+            :
+              null}
+            {isMobile ?
+              <NavItem onClick={(e) => this.routeTo(e, '/apartments')} href="/apartments">מצאו דירה</NavItem>
             :
               null}
             <NavItem onClick={this.redirect} href={externalURL + '/pages/about_us'}>
@@ -96,10 +100,13 @@ class Header extends Component {
               בעלי דירות</NavItem>
             <NavItem className="header-navbar-owner-services-navitem"
               onClick={this.redirect}
-              href={externalURL + '/pages/services'}>שירותי פרימיום</NavItem>
-            <NavItem onClick={(e) => this.routeTo(e, '/apartments')}
-              href="/apartments">מצאו דירה</NavItem>
-            {showPublishFirst ?
+              href={externalURL + '/pages/services'}>שירותי פרימיום</NavItem>            
+            {isMobile ?
+              null
+            :
+              <NavItem onClick={(e) => this.routeTo(e, '/apartments')} href="/apartments">מצאו דירה</NavItem>
+            }
+            {isMobile ?
               null
             :
               <NavItem className="header-navbar-btn-publish" onClick={(e) => this.routeTo(e, '/apartments/new_form')}
