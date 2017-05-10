@@ -1,5 +1,4 @@
 'use strict';
-const _ = require('lodash');
 
 function define(sequelize, DataTypes) {
   return sequelize.define('building', {
@@ -28,15 +27,6 @@ function define(sequelize, DataTypes) {
           onDelete: 'CASCADE'
         });
         models.building.belongsTo(models.neighborhood);
-      }
-    },
-    instanceMethods: {
-      isDifferentBuilding: function(otherBuilding) {
-        return ['city.id', 'neighborhood.id', 'street_name', 'house_number', 'entrance'].some(field => {
-          const otherValue = _.get(otherBuilding, field);
-          const thisValue = _.get(this, field);
-          return otherValue && thisValue && otherValue !== thisValue; // both have value and not equal values
-        });
       }
     },
     indexes: [{

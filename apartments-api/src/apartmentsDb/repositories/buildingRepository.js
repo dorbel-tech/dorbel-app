@@ -5,7 +5,7 @@ const shared = require('dorbel-shared');
 const logger = shared.logger.getLogger(module);
 const ValidationError = shared.utils.domainErrors.DomainValidationError;
 
-function* findOrCreate(building, options = {}) {
+function* updateOrCreate(building, options = {}) {
   // TODO: add reference to country
   const city = yield db.models.city.findOne({
     where: { id: building.city.id },
@@ -30,19 +30,27 @@ function* findOrCreate(building, options = {}) {
     throw new ValidationError('neighborhood city mismatch', building, 'אין התאמה בין עיר לשכונה');
   }
 
+  // properties that are not part of the unique constraint but might still need to be updated 
+  const nonUniqueProps = Object.assign(_.pick(building, ['geolocation', 'elevator', 'floors']), { neighborhood_id: building.neighborhood.id });
+  
   const findOrCreateResult = yield db.models.building.findOrCreate({
     where: {
       street_name: building.street_name,
       house_number: building.house_number,
       city_id: building.city.id,
-      neighborhood_id: building.neighborhood.id,
       entrance: building.entrance || null
     },
-    defaults: _.pick(building, ['geolocation', 'elevator', 'floors']),
+    defaults: nonUniqueProps,
     transaction: options.transaction
   });
 
   const buildingResult = findOrCreateResult[0];
+
+  // Find or create doen't update props if row was found - so we update them seperately if needed
+  if (!buildingResult.isNewRecord) {
+    buildingResult.update(nonUniqueProps, { transaction: options.transaction });
+  }
+
   buildingResult.city = city;
   buildingResult.neighborhood = neighborhood;
 
@@ -50,5 +58,5 @@ function* findOrCreate(building, options = {}) {
 }
 
 module.exports = {
-  findOrCreate
+  updateOrCreate
 };
