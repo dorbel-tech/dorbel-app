@@ -26,6 +26,9 @@ export default class SearchResults extends React.Component {
     if (process.env.IS_CLIENT) {
       this.scrollNotSet = true;
       this.scrollKey = location.pathname;
+      this.scrollTargets = ['search-container', 'dashboard-container', 'search-results-scroll'].map(
+        elClassName => document.getElementsByClassName(elClassName)[0]
+      ).filter(el => !!el);
 
       // scrolling is caught at the document level because this component doesn't actually scroll, it's parent does
       document.addEventListener('scroll', this.handleScroll, true);
@@ -33,10 +36,11 @@ export default class SearchResults extends React.Component {
   }
 
   componentWillUnmount() {
-    const { appProviders, scrollTarget } = this.props;
-    if (scrollTarget) {
-      appProviders.searchProvider.setLastScrollTop(scrollTarget.scrollTop, this.scrollKey);
-    }
+    const { appProviders } = this.props;
+
+    // Set setLastScrollTop only if the element scroll top is greater than 0
+    this.scrollTargets.forEach(
+        el => (el.scrollTop > 0) && appProviders.searchProvider.setLastScrollTop(el.scrollTop, this.scrollKey));
 
     if (process.env.IS_CLIENT) {
       document.removeEventListener('scroll', this.handleScroll, true);
@@ -44,13 +48,11 @@ export default class SearchResults extends React.Component {
   }
 
   componentDidUpdate() {
-    const { appProviders, scrollTarget } = this.props;
+    const { appProviders } = this.props;
     const lastScrollTop = appProviders.searchProvider.getLastScrollTop(this.scrollKey);
 
-    if (this.scrollNotSet && scrollTarget && lastScrollTop > 0) {
-      setTimeout(function() {
-        scrollTarget.scrollTop = lastScrollTop;
-      }, 1000);
+    if (this.scrollNotSet && lastScrollTop > 0) {
+      setTimeout(() => this.scrollTargets.forEach(el => el.scrollTop = lastScrollTop), 1000);
 
       this.scrollNotSet = false;
     }
@@ -110,8 +112,7 @@ SearchResults.wrappedComponent.propTypes = {
   title: React.PropTypes.node,
   retryLink: React.PropTypes.node,
   isReady: React.PropTypes.bool,
-  thumbnailProps: React.PropTypes.object,
-  scrollTarget: React.PropTypes.object
+  thumbnailProps: React.PropTypes.object
 };
 
 SearchResults.wrappedComponent.defaultProps = {

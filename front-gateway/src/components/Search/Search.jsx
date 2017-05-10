@@ -59,8 +59,7 @@ class Search extends Component {
     const isLoadingCities = cityStore.cities.length === 0;
 
     return <div className="search-container"
-                onScroll={this.handleScroll}
-                ref={(el) => { this.searchContainer = el; }}>
+                onScroll={this.handleScroll}>
         <Button className={'search-scroll-up ' + showScrollUpClass}
           onClick={this.scrollUpClickHandler}>
           בחזרה למעלה
@@ -70,7 +69,6 @@ class Search extends Component {
           <SearchResults
             isReady={!isLoadingCities}
             retryLink={<span>אנא <a href="/apartments">נסו שנית</a></span>}
-            scrollTarget={this.searchContainer}
             noResultsContent={
               <div className="search-results-not-found">
                 <b className="search-results-not-found-title">הלוואי והייתה לנו דירה בדיוק כזו.</b><br />
