@@ -48,18 +48,18 @@ export default class SearchResults extends React.Component {
     const { appProviders } = this.props;
     const lastScrollTop = appProviders.searchProvider.getLastScrollTop(this.scrollKey);
 
-    if (!this.scrollTargets) {
-      this.scrollTargets = ['search-container', 'dashboard-container', 'search-results-scroll'].map(
-        elClassName => document.getElementsByClassName(elClassName)[0]
-      ).filter(el => !!el);
-    }
-    this.scrollTargets.forEach(el => console.log(el.scrollTop, ' ', el));
-
-    console.log('update ', this.scrollNotSet, ' ', lastScrollTop, ' ', this.scrollTargets);
     if (this.scrollNotSet && lastScrollTop > 0) {
       setTimeout(() => this.scrollTargets.forEach(el => el.scrollTop = lastScrollTop), 1000);
 
       this.scrollNotSet = false;
+    }
+  }
+
+  updateScrollTargets(el) {
+    if (!this.scrollTargets) {
+      this.scrollTargets = ['search-container', 'dashboard-container'].map(
+        elClassName => document.getElementsByClassName(elClassName)[0]
+      ).filter(el => !!el).concat([el]);
     }
   }
 
@@ -94,7 +94,9 @@ export default class SearchResults extends React.Component {
       );
     } else if (results.length > 0) {
       return (
-        <div className="search-results-scroll" onScroll={this.handleScroll}>
+        <div className="search-results-scroll"
+             onScroll={this.handleScroll}
+             ref={this.updateScrollTargets}>
           { title || null }
           <Grid fluid className="search-results-container">
             <Row>
