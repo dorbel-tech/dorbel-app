@@ -52,7 +52,7 @@ export default class SearchResults extends React.Component {
     const lastScrollTop = appProviders.searchProvider.getLastScrollTop(this.scrollKey);
 
     if (this.scrollNotSet && lastScrollTop > 0) {
-      setTimeout(() => this.scrollTargets.forEach(el => el.scrollTop = lastScrollTop), 1000);
+      setTimeout(() => this.scrollTargets.forEach(el => el.scrollTop = lastScrollTop), 4000);
 
       this.scrollNotSet = false;
     }
