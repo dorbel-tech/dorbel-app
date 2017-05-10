@@ -55,11 +55,11 @@ export default class SearchResults extends React.Component {
     }
   }
 
-  updateScrollTargets(el) {
+  updateScrollTargets() {
     if (!this.scrollTargets) {
-      this.scrollTargets = ['search-container', 'dashboard-container'].map(
+      this.scrollTargets = ['search-container', 'dashboard-container', 'search-results-scroll'].map(
         elClassName => document.getElementsByClassName(elClassName)[0]
-      ).filter(el => !!el).concat([el]);
+      ).filter(el => !!el);
     }
   }
 
