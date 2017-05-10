@@ -263,7 +263,7 @@ function* getById(id, user) {
   let listing = yield listingRepository.getById(id);
 
   if (!listing) {
-    throw new CustomError(404, 'Cant get listing by Id. Listing does not exists. litingId: ' + id);
+    throw new CustomError(404, 'Cant get listing by Id. Listing does not exists. listingId: ' + id);
   }
 
   const isPending = listing.status === 'pending';
@@ -286,6 +286,11 @@ function* getById(id, user) {
 
 function* getBySlug(slug, user) {
   let listing = yield listingRepository.getBySlug(slug);
+
+  if (!listing) {
+    throw new CustomError(404, 'Cant get listing by slug. Listing does not exists. slug: ' + slug);
+  }
+
   return yield enrichListingResponse(listing, user);
 }
 

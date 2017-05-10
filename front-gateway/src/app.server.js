@@ -6,9 +6,17 @@ import shared from '~/app.shared';
 import { utils } from 'dorbel-shared';
 import { getCloudinaryParams } from './server/cloudinaryConfigProvider';
 
-function setRoute(router, path) {
-  // this method is used to set the route in the server side and wait until it resolves
-  return new Promise(resolve => router.dispatch('on', path, resolve));
+function setRoute(router, context) {
+  // this method is used to set the route in the server side and wait until it resolves (usually called 'callback' on router.js)
+  return new Promise((resolve) => {
+    router.dispatch('on', context.path, (errCode) => {
+      if (errCode) {
+        context.status = errCode;
+      }
+      resolve();
+    });
+  });
+
 }
 
 function setRequestRenderState(context, appStore) {
@@ -65,7 +73,7 @@ function* renderApp() {
   const entryPoint = shared.createAppEntryPoint();
   yield entryPoint.appProviders.authProvider.loginWithCookie(this.cookies);
   // set route will also trigger any data-fetching needed for the requested route
-  yield setRoute(entryPoint.router, this.path);
+  yield setRoute(entryPoint.router, this);
   // the stores are now filled with any data that was fetched
   const initialState = entryPoint.appStore.toJson();
   setRequestRenderState(this, entryPoint.appStore);

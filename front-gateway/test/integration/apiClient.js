@@ -52,7 +52,7 @@ class ApiClient {
     return this.request.get(url);
   }
 
-  * getHtml (url) {
+  * getHtml(url) {
     const response = yield this.get(url);
     const $html = cheerio.load(response.text);
     return this.extendCheerioOutput($html);
