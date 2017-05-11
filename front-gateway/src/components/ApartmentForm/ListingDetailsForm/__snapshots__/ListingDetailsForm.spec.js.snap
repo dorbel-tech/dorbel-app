@@ -177,7 +177,13 @@ exports[`Listing Details Form should match snapshot in empty state 1`] = `
                       validateOnSubmit={false}
                       validatePristine={false}
                       validationError=""
-                      validationErrors={Object {}}>
+                      validationErrors={Object {}}
+                      value={
+                        Object {
+                          "label": "טוען...",
+                          "value": 0,
+                        }
+                      }>
                       <Row
                         elementWrapperClassName={
                           Array [
@@ -223,7 +229,13 @@ exports[`Listing Details Form should match snapshot in empty state 1`] = `
                             onBlur={[Function]}
                             onChange={[Function]}
                             onFocus={[Function]}
-                            required={true}>
+                            required={true}
+                            value={
+                              Object {
+                                "label": "טוען...",
+                                "value": 0,
+                              }
+                            }>
                             <option>
                               טוען...
                             </option>
