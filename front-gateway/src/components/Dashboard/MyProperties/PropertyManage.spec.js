@@ -4,6 +4,7 @@ import { shallow } from 'enzyme';
 import PropertyManage from './PropertyManage';
 import TenantRow from '~/components/Tenants/TenantRow/TenantRow';
 import AddTenantModal from '~/components/Tenants/AddTenantModal/AddTenantModal';
+import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
 
 describe('Property Manage Page', () => {
   let appStoreMock, appProvidersMock, listingMock;
@@ -40,11 +41,11 @@ describe('Property Manage Page', () => {
     expect(wrapper.find(TenantRow)).toHaveLength(2);
   });
 
-  it('should say its loading if no tenant array', () => {
+  it('should show loading spinner if no tenant array', () => {
     appStoreMock.listingStore.listingTenantsById.get.mockReturnValue(null);
     const wrapper = propertyManage();
     expect(wrapper.find(TenantRow)).toHaveLength(0);
-    expect(wrapper.find('h5').text()).toEqual('טוען...');
+    expect(wrapper.find(LoadingSpinner)).toHaveLength(1);
   });
 
   it('should show the add-tenant modal when clicking on the button', () => {
