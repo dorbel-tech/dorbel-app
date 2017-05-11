@@ -18,10 +18,6 @@ class ListingsProvider {
         listing.title = utils.getListingTitle(listing);
         this.appStore.listingStore.set(listing);
         this.appStore.metaData = _.defaults(this.getListingMetadata(listing), this.appStore.metaData);
-        return Promise.all([
-          this.oheProvider.loadListingEvents(listing.id),
-          this.oheProvider.getFollowsForListing(listing.id)
-        ]);
       });
   }
 

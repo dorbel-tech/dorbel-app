@@ -8,7 +8,7 @@ import moment from 'moment';
 
 import './PropertyStats.scss';
 
-@inject('appStore', 'appProviders', 'router') @observer
+@inject('appStore', 'appProviders') @observer
 class PropertyStats extends Component {
   constructor(props) {
     super(props);
@@ -17,12 +17,12 @@ class PropertyStats extends Component {
   getNumberOfOheRegistrations(listingId) {
     const openHouseEvents = this.props.appStore.oheStore.oheByListingId(listingId);
     let totalRegistrations = 0;
-    
-    openHouseEvents.map(ohe => {
-      if (ohe.registrations) {
-        totalRegistrations += ohe.registrations.length;
-      }
-    });
+
+    if (openHouseEvents) {
+      openHouseEvents
+        .filter(ohe => ohe.registrations)
+        .forEach(ohe => totalRegistrations += ohe.registrations.length);
+    }
 
     return totalRegistrations;
   }
@@ -34,15 +34,12 @@ class PropertyStats extends Component {
     if (!appStore.listingStore.listingViewsById.has(listingId)) {
       appProviders.listingsProvider.loadListingPageViews(listingId);
     }
-
-    appProviders.oheProvider.loadListingEvents(listingId);
-    appProviders.oheProvider.getFollowsForListing(listingId);
   }
 
   render() {
     const { appStore, listing } = this.props;
     const listingId = listing.id;
-    const views = appStore.listingStore.listingViewsById.get(listingId);        
+    const views = appStore.listingStore.listingViewsById.get(listingId);
     const registrations = this.getNumberOfOheRegistrations(listingId);
     const listingCreatedAt = utils.formatDate(listing.created_at);
     const daysPassed = moment(Date.now()).diff(moment(listing.created_at), 'days');

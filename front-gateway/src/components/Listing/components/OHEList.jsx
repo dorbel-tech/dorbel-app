@@ -6,6 +6,7 @@ import autobind from 'react-autobind';
 import OHERegisterModal from './OHERegisterModal';
 import FollowListingModal from './FollowListingModal';
 import { getListingPath, getDashMyPropsPath } from '~/routesHelper';
+import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
 
 @inject('appStore', 'appProviders', 'router') @observer
 class OHEList extends Component {
@@ -14,6 +15,11 @@ class OHEList extends Component {
     autobind(this);
 
     this.state = { oheForModal: null };
+  }
+
+  componentDidMount() {
+    this.props.appProviders.oheProvider.loadListingEvents(this.props.listing.id);
+    this.props.appProviders.oheProvider.getFollowsForListing(this.props.listing.id);
   }
 
   renderListItem(params) {
@@ -193,10 +199,22 @@ class OHEList extends Component {
     }
   }
 
+  renderLoading() {
+    return (
+      <div className="ohe-list-loading-container listing-choose-date-container">
+        <LoadingSpinner />
+      </div>
+    );
+  }
+
   render() {
     const { listing, router } = this.props;
     const closeModal = () => router.setRoute(getListingPath(listing));
     const ohes = this.props.appStore.oheStore.oheByListingId(listing.id);
+
+    if (!ohes) {
+      return this.renderLoading();
+    }
 
     return (
       <div className="list-group listing-choose-date-container">

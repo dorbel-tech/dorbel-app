@@ -5,6 +5,7 @@ import OHECard from './OHECard';
 import AddOHEModal from './AddOHEModal';
 import moment from 'moment';
 import autobind from 'react-autobind';
+import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
 
 import './OHEManager.scss';
 
@@ -36,6 +37,10 @@ class OHEManager extends React.Component {
     }
 
     const openHouseEvents = this.props.appStore.oheStore.oheByListingId(listing.id);
+
+    if (!openHouseEvents) {
+      return <LoadingSpinner />;
+    }
 
     const comingEvents = openHouseEvents.filter(event => (event.status !== 'inactive') &&  moment(event.end_time).isAfter(Date.now()));
     const passedEvents = openHouseEvents.filter(event => (event.status === 'inactive') || moment(event.end_time).isBefore(Date.now()));
