@@ -58,8 +58,7 @@ class Search extends Component {
     const showScrollUpClass = this.state.showScrollUp ? 'search-scroll-up-show' : '';
     const isLoadingCities = cityStore.cities.length === 0;
 
-    return <div className="search-container"
-                onScroll={this.handleScroll}>
+    return <div className="search-container" onScroll={this.handleScroll}>
         <Button className={'search-scroll-up ' + showScrollUpClass}
           onClick={this.scrollUpClickHandler}>
           בחזרה למעלה
