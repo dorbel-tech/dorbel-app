@@ -13,15 +13,15 @@ class CityProvider {
   loadCities() {
     return new Promise((resolve, reject) => {
       let { cities } = this.appStore.cityStore;
-      if (!cities.length) {
+      if (!cities.length && !this.isLoadingCities) {
         this.isLoadingCities = true;
         this.apiProvider.fetch('/api/apartments/v1/cities')
           .then((citiesResp) => {
             this.appStore.cityStore.cities = citiesResp;
-            this.isLoadingCities = false;
             resolve();
           })
-          .catch(reject);
+          .catch(reject)
+          .then(() => { this.isLoadingCities = false; });
       }
       else { resolve(); }
     });

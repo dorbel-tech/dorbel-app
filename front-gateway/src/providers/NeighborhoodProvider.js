@@ -18,10 +18,13 @@ class NeighborhoodProvider {
         return this.apiProvider.fetch('/api/apartments/v1/neighborhoods/' + id)
           .then((neighborhoods) => {
             this.appStore.neighborhoodStore.neighborhoodsByCityId.set(id, neighborhoods);
-            delete this.currentlyGetting[id];
             resolve();
           })
-          .catch(reject);
+          .catch(reject)
+          .then(() => { delete this.currentlyGetting[id]; });
+      }
+      else {
+        resolve();
       }
     });
 

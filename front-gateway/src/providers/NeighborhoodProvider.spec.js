@@ -12,7 +12,10 @@ describe('Neighborhood Provider', () => {
     };
     appStoreMock = {
       neighborhoodStore: {
-        neighborhoodsByCityId: {}
+        neighborhoodsByCityId: {
+          set: () => { },
+          get: () => { }
+        }
       }
     };
 
@@ -23,7 +26,7 @@ describe('Neighborhood Provider', () => {
 
   describe('Load neighborhoods', () => {
     it('should call api only once', () => {
-      Promise.all([neighborhoodProvider.loadNeighborhoodByCityId(1), neighborhoodProvider.loadNeighborhoodByCityId(1)])
+      return Promise.all([neighborhoodProvider.loadNeighborhoodByCityId(1), neighborhoodProvider.loadNeighborhoodByCityId(1)])
         .then(() => expect(apiMock.fetch).toHaveBeenCalledTimes(1));
     });
   });

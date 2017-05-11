@@ -23,7 +23,7 @@ describe('City Provider', () => {
 
   describe('Load cities', () => {
     it('should call api only once', () => {
-      Promise.all([cityProvider.loadCities(), cityProvider.loadCities()])
+      return Promise.all([cityProvider.loadCities(), cityProvider.loadCities()])
         .then(() => expect(apiMock.fetch).toHaveBeenCalledTimes(1));
     });
   });
