@@ -24,7 +24,7 @@ export default class SearchResults extends React.Component {
 
   componentDidMount() {
     if (process.env.IS_CLIENT) {
-      this.scrollNotSet = true;
+      this.restoreScrollTop = true;
       this.scrollKey = location.pathname;
 
       // scrolling is caught at the document level because this component doesn't actually scroll, it's parent does
@@ -48,10 +48,10 @@ export default class SearchResults extends React.Component {
     const { appProviders } = this.props;
     const lastScrollTop = appProviders.searchProvider.getLastScrollTop(this.scrollKey);
 
-    if (this.scrollNotSet && lastScrollTop > 0) {
-      setTimeout(() => this.scrollTargets.forEach(el => el.scrollTop = lastScrollTop), 0);
+    if (this.restoreScrollTop && lastScrollTop > 0) {
+      setTimeout(() => this.scrollTargets.forEach(el => el.scrollTop = lastScrollTop), 200);
 
-      this.scrollNotSet = false;
+      this.restoreScrollTop = false;
     }
   }
 
