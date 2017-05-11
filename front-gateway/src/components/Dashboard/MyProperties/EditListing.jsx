@@ -71,7 +71,6 @@ export default class EditListing extends Component {
             </Col>
           </Grid>
         </Row>
-
       </div>
     );
   }
