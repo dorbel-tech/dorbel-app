@@ -22,14 +22,14 @@ describe('Front Gateway API Integration', function () {
   });
 
   it('should display url without slug', function* () {
-    const response = yield apiClient.get('/apartments/123');
+    const response = yield apiClient.get('/apartments/1');
     __.assertThat(response, __.hasProperties({
       statusCode: 200,
     }));
   });
 
   it('should display page with text slug', function* () {
-    const response = yield apiClient.get('/apartments/Slug');
+    const response = yield apiClient.get('/apartments/best-apt-test');
     __.assertThat(response, __.hasProperties({
       statusCode: 200,
     }));
@@ -49,11 +49,17 @@ describe('Front Gateway API Integration', function () {
     }));
   });
 
-  it('should redirect url with apostrophe, spaces, caps and not lowercase the url', function* () {
-    const response = yield apiClient.get('/apartments/123-SlUG With caps\'s');
+  it('should return 404 for a non existing listing', function* () {
+    const response = yield apiClient.get('/apartments/SomeMadeUpSlug');
     __.assertThat(response, __.hasProperties({
-      statusCode: 301,
-      headers: __.hasProperty('location', encodeURI('https://app.dorbel.com/apartments/123-SlUG With capss'))
+      statusCode: 404,
+    }));
+  });
+
+  it('should return 404 for a non existing route', function* () {
+    const response = yield apiClient.get('/someMadeUpRoute');
+    __.assertThat(response, __.hasProperties({
+      statusCode: 404,
     }));
   });
 

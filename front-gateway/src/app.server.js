@@ -6,15 +6,25 @@ import shared from '~/app.shared';
 import { utils } from 'dorbel-shared';
 import { getCloudinaryParams } from './server/cloudinaryConfigProvider';
 
-function setRoute(router, path) {
-  // this method is used to set the route in the server side and wait until it resolves
-  return new Promise(resolve => router.dispatch('on', path, resolve));
+function setRoute(router, context) {
+  // this method is used to set the route in the server side and wait until it resolves (usually called 'callback' on router.js)
+  return new Promise((resolve) => {
+    router.dispatch('on', context.path, (errCode) => {
+      if (errCode) {
+        context.status = errCode;
+      }
+      resolve();
+    });
+  });
+
 }
 
 function setRequestRenderState(context, appStore) {
   // these are used to render the inital response in the index.ejs
   context.state = context.state || {};
   context.state.segment = process.env.SEGMENT_IO_WRITE_KEY; // segment key is not part of env vars but is used when rendering index.ejs
+  context.state.optimizely = process.env.OPTIMIZELY_KEY; // optimizely key is not part of env vars but is used when rendering index.ejs
+  context.state.hotjar = process.env.HOTJAR_KEY; // hotjar key is not part of env vars but is used when rendering index.ejs
   context.state.meta = _.defaults(appStore.metaData, {
     title: 'dorbel - מערכת לניהול והשכרת דירות ללא תיווך',
     description: 'השכרת דירות ללא תיווך. כל הפרטים שחשוב לדעת על הדירות בכדי לחסוך ביקורים מיותרים. בחרו מועד והירשמו לביקור בדירות בלחיצת כפתור.',
@@ -65,7 +75,7 @@ function* renderApp() {
   const entryPoint = shared.createAppEntryPoint();
   yield entryPoint.appProviders.authProvider.loginWithCookie(this.cookies);
   // set route will also trigger any data-fetching needed for the requested route
-  yield setRoute(entryPoint.router, this.path);
+  yield setRoute(entryPoint.router, this);
   // the stores are now filled with any data that was fetched
   const initialState = entryPoint.appStore.toJson();
   setRequestRenderState(this, entryPoint.appStore);

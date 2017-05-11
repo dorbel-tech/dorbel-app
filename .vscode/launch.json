@@ -10,7 +10,8 @@
       "restart": true,
       "sourceMaps": true,
       "localRoot": "${workspaceRoot}/apartments-api",
-      "remoteRoot": "."
+      "remoteRoot": ".",
+      "smartStep": true
     },
     {
       "name": "apartments-api#unit-tests",
@@ -45,7 +46,8 @@
       "restart": true,
       "sourceMaps": true,
       "localRoot": "${workspaceRoot}/front-gateway",
-      "remoteRoot": "."
+      "remoteRoot": ".",
+      "smartStep": true
     },
     {
       "name": "notifications-service#attach",
@@ -56,7 +58,8 @@
       "restart": true,
       "sourceMaps": true,
       "localRoot": "${workspaceRoot}/notifications-service",
-      "remoteRoot": "."
+      "remoteRoot": ".",
+      "smartStep": true
     },
     {
       "name": "ohe-api#attach",
@@ -67,7 +70,8 @@
       "restart": true,
       "sourceMaps": true,
       "localRoot": "${workspaceRoot}/ohe-api",
-      "remoteRoot": "."
+      "remoteRoot": ".",
+      "smartStep": true
     }
   ]
 }

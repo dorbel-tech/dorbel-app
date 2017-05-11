@@ -18,6 +18,12 @@ function* buildTestSeed() {
   const telaviv = yield db.models.city.find({ name: 'תל אביב' });
   const merkazHair = yield db.models.neighborhood.find({ name: 'מרכז העיר', city: telaviv });
 
+  yield createApartment(telaviv, merkazHair, 1, 'best-apt-test');
+  yield createApartment(telaviv, merkazHair, 2, '123-slug');
+  yield createApartment(telaviv, merkazHair, 3, '123-slug slug');
+}
+
+function* createApartment(city, neighborhood, id, slug) {
   yield db.models.building.upsert({
     id: 1,
     street_name: 'שדרות רוטשילד',
@@ -25,13 +31,13 @@ function* buildTestSeed() {
     floors: 5,
     geolocation: { type: 'Point', coordinates: [34.7787543, 32.0708966] },
     elevator: 1,
-    city_id: telaviv.id,
-    neighborhood_id: merkazHair.id,
+    city_id: city.id,
+    neighborhood_id: neighborhood.id,
   });
 
   yield db.models.apartment.upsert({
-    id: 1,
-    apt_number: 11,
+    id: id,
+    apt_number: id,
     size: 65,
     rooms: 1.5,
     floor: 2,
@@ -42,7 +48,7 @@ function* buildTestSeed() {
   });
 
   yield db.models.listing.upsert({
-    id: 1,
+    id: id,
     title: 'דירה לבדיקה',
     description: 'הדירה של הבדיקות האוטומטיות',
     status: 'listed',
@@ -54,25 +60,25 @@ function* buildTestSeed() {
     lease_end: new Date(),
     publishing_user_id: TEST_USER_ID,
     publishing_user_type: 'landlord',
-    apartment_id: 1,
-    slug: 'best-apt-test'
+    apartment_id: id,
+    slug: slug
   });
 
   yield db.models.image.create({
     url: 'http://lorempixel.com/1000/500/?' + Math.round(Math.random() * 10000),
     display_order: 0,
-    listing_id: 1
+    listing_id: id
   });
 }
 
 if (require.main === module) {
   co(buildTestSeed)
-  .then(() => {
-    logger.info('test seed completed');
-    process.exit(0);
-  })
-  .catch(err => {
-    logger.error(err, 'test seed failed');
-    process.exit(1);
-  });
+    .then(() => {
+      logger.info('test seed completed');
+      process.exit(0);
+    })
+    .catch(err => {
+      logger.error(err, 'test seed failed');
+      process.exit(1);
+    });
 }

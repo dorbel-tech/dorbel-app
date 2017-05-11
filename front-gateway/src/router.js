@@ -1,5 +1,6 @@
 'use strict';
 import director from 'director';
+import _ from 'lodash';
 import { routingTable, login, errorPage } from './routes';
 
 function checkAuth(appStore) {
@@ -19,7 +20,7 @@ function setRoutes(router, appStore, appProviders) {
   routingTable.forEach(routeConfig => {
     var routeParams = routeConfig.route.split('/').filter(routePart => routePart.charAt(0) === ':').map(routePart => routePart.substring(1));
 
-    const handleRoute = function() {
+    const handleRoute = function () {
       const callback = arguments[arguments.length - 1]; // last argument director sends is the callback
       // the rest of the arguments are matched to the route params by order the appear
       const routeProps = {};
@@ -29,17 +30,17 @@ function setRoutes(router, appStore, appProviders) {
 
       if (!process.env.IS_CLIENT && routeConfig.view.serverPreRender) {
         routeConfig.view.serverPreRender(Object.assign({ router, appStore, appProviders }, routeProps))
-          .then(callback)
-          .catch(() => {
-            appStore.setView(errorPage, { errorId: 500 }); // TODO: Catch real server error code and pass it here.
-            callback();
+          .then(() => { callback(); })
+          .catch((err) => {
+            const statusCode = _.get(err, 'response.status') || 500; 
+            handleError(appStore, callback, statusCode);
           });
       } else {
         callback();
       }
     };
 
-    router.on(routeConfig.route, routeConfig.requireLogin ? [ checkAuth.bind(null, appStore), handleRoute ] : handleRoute);
+    router.on(routeConfig.route, routeConfig.requireLogin ? [checkAuth.bind(null, appStore), handleRoute] : handleRoute);
   });
 }
 
@@ -48,7 +49,7 @@ function startRouter(appStore) {
 
   if (process.env.IS_CLIENT) {
     router.configure({
-      notfound: callback => notFound(appStore, callback),
+      notfound: callback => handleError(appStore, callback, 404),
       html5history: true,
       strict: false,
       async: true,
@@ -86,21 +87,21 @@ function startRouter(appStore) {
     router.init();
   } else {
     router.configure({
-      notfound: callback => notFound(appStore, callback),
+      notfound: callback => handleError(appStore, callback, 404),
       async: true
     });
   }
 
-  router.setRoutes = function(appStore, appProviders) {
+  router.setRoutes = function (appStore, appProviders) {
     setRoutes(router, appStore, appProviders);
   };
 
   return router;
 }
 
-function notFound(appStore, callback) {
-  appStore.setView(errorPage, { errorId: 404 });
-  callback();
+function handleError(appStore, callback, statusCode) {
+  appStore.setView(errorPage, { errorId: statusCode });
+  callback(statusCode);
 }
 
 module.exports = {
