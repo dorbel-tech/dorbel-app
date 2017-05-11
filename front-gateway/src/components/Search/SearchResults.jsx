@@ -1,5 +1,5 @@
 'use strict';
-/***
+/**
 * SearchResults components should display search results for main search, my properties, my likes
 * It will take the results from the SearchStore and activate the SearchProvider for paging, etc...
 **/
@@ -17,7 +17,6 @@ const INFINITE_SCROLL_MARGIN = 900;
 
 @inject('appStore', 'appProviders') @observer
 export default class SearchResults extends React.Component {
-
   constructor(props) {
     super(props);
     autobind(this);
@@ -25,17 +24,46 @@ export default class SearchResults extends React.Component {
 
   componentDidMount() {
     if (process.env.IS_CLIENT) {
-      // scrolling is caught at the document level because this component doesnt actually scroll, it's parent does
+      this.restoreScrollTop = true;
+      this.scrollKey = location.pathname;
+
+      // scrolling is caught at the document level because this component doesn't actually scroll, it's parent does
       document.addEventListener('scroll', this.handleScroll, true);
     }
   }
 
   componentWillUnmount() {
+    const { appProviders } = this.props;
+
+    // Filter out targets with scroll top 0
+    const scrollTarget = this.scrollTargets.filter(el => el.scrollTop > 0)[0];
+    // If a relevant scroll target was found use it's scrollTop otherwise use 0
+    appProviders.searchProvider.setLastScrollTop(scrollTarget ? scrollTarget.scrollTop : 0, this.scrollKey);
+
     if (process.env.IS_CLIENT) {
       document.removeEventListener('scroll', this.handleScroll, true);
     }
   }
 
+  componentDidUpdate() {
+    const { appProviders } = this.props;
+    const lastScrollTop = appProviders.searchProvider.getLastScrollTop(this.scrollKey);
+
+    if (this.restoreScrollTop && lastScrollTop > 0) {
+      setTimeout(() => this.scrollTargets.forEach(el => el.scrollTop = lastScrollTop), 200);
+
+      this.restoreScrollTop = false;
+    }
+  }
+
+  // Set the relevant scroll targets if none were set before
+  setScrollTargets() {
+    if (!this.scrollTargets) {
+      this.scrollTargets = ['search-container', 'dashboard-container', 'search-results-scroll'].map(
+        elClassName => document.getElementsByClassName(elClassName)[0]
+      ).filter(el => !!el);
+    }
+  }
 
   handleScroll(e) {
     const { appProviders, appStore } = this.props;
@@ -68,7 +96,9 @@ export default class SearchResults extends React.Component {
       );
     } else if (results.length > 0) {
       return (
-        <div className="search-results-scroll" onScroll={this.handleScroll}>
+        <div className="search-results-scroll"
+             onScroll={this.handleScroll}
+             ref={this.setScrollTargets}>
           { title || null }
           <Grid fluid className="search-results-container">
             <Row>

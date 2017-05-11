@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import autobind from 'react-autobind';
 import { inject, observer } from 'mobx-react';
 import NavLink from '~/components/NavLink';
 import SearchResults from '~/components/Search/SearchResults';
@@ -11,7 +10,6 @@ import './MyLikes.scss';
 class MyLikes extends Component {
   constructor(props) {
     super(props);
-    autobind(this);
 
     this.props.appProviders.searchProvider.search({
       'city': '*',

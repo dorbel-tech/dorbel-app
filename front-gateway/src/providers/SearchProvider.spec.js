@@ -62,9 +62,26 @@ describe('SearchProvider', () => {
       });
   });
 
-  it('should not clear search when requesting next page', () => {
+  it('should not reset search when requesting next page', () => {
     return searchProvider.loadNextPage()
       .then(() => expect(appStoreMock.searchStore.reset).not.toHaveBeenCalled());
+  });
+
+  it('should not reset search store twice when searching with the same query', () => {
+    var someQuery = { abc: 123 };
+    return searchProvider.search(someQuery)
+      .then(() => {
+        expect(appProvidersMock.api.fetch).toHaveBeenCalledWith('/api/apartments/v1/listings', { params: {
+          q: JSON.stringify(someQuery),
+          limit: 15
+        }});
+        return searchProvider.search(someQuery);
+      })
+      .then(() => {
+        // TODO: Make this scenario call the api only once
+        //expect(appProvidersMock.api.fetch.mock.calls.length).toBe(1);
+        expect(appStoreMock.searchStore.reset.mock.calls.length).toBe(1);
+      });
   });
 
   it('should use same query when requesting next page', () => {
@@ -113,5 +130,34 @@ describe('SearchProvider', () => {
     .then(() => {
       expect(appProvidersMock.api.fetch).toHaveBeenCalledTimes(1);
     });
+  });
+
+  it('should set last scroll top correctly', () => {
+    const scrollTopMock = jest.fn();
+    const scrollKeyMock = jest.fn();
+
+    searchProvider.setLastScrollTop(scrollTopMock, scrollKeyMock);
+
+    expect(appStoreMock.searchStore.lastScrollTop).toBe(scrollTopMock);
+    expect(searchProvider.lastScrollKey).toBe(scrollKeyMock);
+  });
+
+  it('should return 0 as last scroll top for new scroll key', () => {
+    const scrollTopMock = jest.fn();
+    const scrollKeyMock = jest.fn();
+    const newScrollKeyMock = jest.fn();
+
+    searchProvider.setLastScrollTop(scrollTopMock, scrollKeyMock);
+
+    expect(searchProvider.getLastScrollTop(newScrollKeyMock)).toBe(0);
+  });
+
+  it('should getLastScrollTop correctly', () => {
+    const scrollTopMock = jest.fn();
+    const scrollKeyMock = jest.fn();
+
+    searchProvider.setLastScrollTop(scrollTopMock, scrollKeyMock);
+
+    expect(searchProvider.getLastScrollTop(scrollKeyMock)).toBe(scrollTopMock);
   });
 });
