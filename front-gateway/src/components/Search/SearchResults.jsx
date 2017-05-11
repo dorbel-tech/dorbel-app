@@ -38,7 +38,7 @@ export default class SearchResults extends React.Component {
     // Filter out targets with scroll top 0
     const scrollTarget = this.scrollTargets.filter(el => el.scrollTop > 0)[0];
     // If a relevant scroll target was found use it's scrollTop otherwise use 0
-    appProviders.searchProvider.setLastScrollTop(scrollTarget ? scrollTarget.scrollTop : 0, this.scrollKey));
+    appProviders.searchProvider.setLastScrollTop(scrollTarget ? scrollTarget.scrollTop : 0, this.scrollKey);
 
     if (process.env.IS_CLIENT) {
       document.removeEventListener('scroll', this.handleScroll, true);
