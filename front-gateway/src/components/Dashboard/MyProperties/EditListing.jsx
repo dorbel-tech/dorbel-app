@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import autobind from 'react-autobind';
-import { Nav, NavItem, Navbar, Row, Grid, Col, Button } from 'react-bootstrap';
+import { Row, Grid, Col, Button } from 'react-bootstrap';
+import TabBar from '~/components/TabBar/TabBar';
 import ImageUpload from '~/components/ApartmentForm/ImageUpload/ImageUpload';
 import EditListingForm from './EditListingForm';
 
@@ -21,6 +22,10 @@ export default class EditListing extends Component {
   componentWillMount() {
     const { appStore, listing } = this.props;
     appStore.editedListingStore.loadListing(listing);
+  }
+
+  changeTab(activeTab) {
+    this.setState({ activeTab });
   }
 
   gotoMyProperty() {
@@ -51,15 +56,7 @@ export default class EditListing extends Component {
 
     return (
       <div>
-        <Navbar className="property-menu tab-menu">
-          <Nav bsStyle="tabs" activeKey={activeTab} onSelect={tab => this.setState({ activeTab: tab })}>
-            {tabs.map(tab =>
-              <NavItem key={tab.key} eventKey={tab}>
-                {tab.title}
-              </NavItem>
-            )}
-          </Nav>
-        </Navbar>
+        <TabBar tabs={tabs} activeKey={activeTab.key} onChangeTab={this.changeTab} />
         <Row className="property-content-container property-edit-container">
           <Grid fluid>
             <Col xs={12} sm={12} lg={10} lgOffset={1}>
@@ -71,7 +68,6 @@ export default class EditListing extends Component {
             </Col>
           </Grid>
         </Row>
-
       </div>
     );
   }
