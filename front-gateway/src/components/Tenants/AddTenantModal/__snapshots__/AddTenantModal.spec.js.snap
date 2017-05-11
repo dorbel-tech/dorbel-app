@@ -1,0 +1,310 @@
+exports[`Add Tenant Modal should match snapshot in empty state 1`] = `
+<AddTenantModal
+  appProviders={
+    Object {
+      "listingsProvider": Object {
+        "addTenant": [Function],
+      },
+      "modalProvider": Object {
+        "close": [Function],
+      },
+    }
+  }
+  listing_id={58134}>
+  <div>
+    <p>
+      <b>
+        צרפו דייר חדש לדירה שהשכרתם
+      </b>
+      <br />
+      הדייר יקבל מייל עם הזמנה למלא את פרטיו, שיתווספו עבורכם אוטומטית למסך ניהול הדירה
+    </p>
+    <FormWrapper
+      layout="vertical">
+      <Formsy
+        className="form-vertical"
+        onChange={[Function]}
+        onError={[Function]}
+        onInvalid={[Function]}
+        onInvalidSubmit={[Function]}
+        onSubmit={[Function]}
+        onSuccess={[Function]}
+        onValid={[Function]}
+        onValidSubmit={[Function]}
+        preventExternalInvalidation={false}
+        validationErrors={null}>
+        <form
+          className="form-vertical"
+          onSubmit={[Function]}>
+          <Input
+            addonAfter={null}
+            addonBefore={null}
+            buttonAfter={null}
+            buttonBefore={null}
+            disabled={false}
+            label="אי-מייל"
+            name="email"
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            type="email"
+            validateOnSubmit={false}
+            validatePristine={false}
+            validationError=""
+            validationErrors={Object {}}
+            validations="isEmail">
+            <Row
+              elementWrapperClassName={
+                Array [
+                  "",
+                  undefined,
+                ]
+              }
+              fakeLabel={false}
+              hasErrors={false}
+              htmlFor="frc-email-1987260706"
+              label="אי-מייל"
+              labelClassName={
+                Array [
+                  "",
+                  undefined,
+                ]
+              }
+              layout="vertical"
+              required={false}
+              rowClassName={
+                Array [
+                  "",
+                  undefined,
+                ]
+              }>
+              <div
+                className="form-group">
+                <label
+                  className="control-label"
+                  data-required={false}
+                  htmlFor="frc-email-1987260706">
+                  אי-מייל
+                </label>
+                <input
+                  className="form-control"
+                  disabled={false}
+                  id="frc-email-1987260706"
+                  name="email"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onFocus={[Function]}
+                  type="email" />
+              </div>
+            </Row>
+          </Input>
+          <Input
+            addonAfter={null}
+            addonBefore={null}
+            buttonAfter={null}
+            buttonBefore={null}
+            disabled={false}
+            label="שם פרטי"
+            name="first_name"
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            required={true}
+            type="text"
+            validateOnSubmit={false}
+            validatePristine={false}
+            validationError=""
+            validationErrors={Object {}}>
+            <Row
+              elementWrapperClassName={
+                Array [
+                  "",
+                  undefined,
+                ]
+              }
+              fakeLabel={false}
+              hasErrors={false}
+              htmlFor="frc-first_name-1496701523"
+              label="שם פרטי"
+              labelClassName={
+                Array [
+                  "",
+                  undefined,
+                ]
+              }
+              layout="vertical"
+              required={true}
+              rowClassName={
+                Array [
+                  "",
+                  undefined,
+                ]
+              }>
+              <div
+                className="form-group">
+                <label
+                  className="control-label"
+                  data-required={true}
+                  htmlFor="frc-first_name-1496701523">
+                  שם פרטי
+                  <span
+                    className="required-symbol">
+                     *
+                  </span>
+                </label>
+                <input
+                  className="form-control"
+                  disabled={false}
+                  id="frc-first_name-1496701523"
+                  name="first_name"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onFocus={[Function]}
+                  required={true}
+                  type="text" />
+              </div>
+            </Row>
+          </Input>
+          <Input
+            addonAfter={null}
+            addonBefore={null}
+            buttonAfter={null}
+            buttonBefore={null}
+            disabled={false}
+            label="שם משפחה"
+            name="last_name"
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            type="text"
+            validateOnSubmit={false}
+            validatePristine={false}
+            validationError=""
+            validationErrors={Object {}}>
+            <Row
+              elementWrapperClassName={
+                Array [
+                  "",
+                  undefined,
+                ]
+              }
+              fakeLabel={false}
+              hasErrors={false}
+              htmlFor="frc-last_name--1017343626"
+              label="שם משפחה"
+              labelClassName={
+                Array [
+                  "",
+                  undefined,
+                ]
+              }
+              layout="vertical"
+              required={false}
+              rowClassName={
+                Array [
+                  "",
+                  undefined,
+                ]
+              }>
+              <div
+                className="form-group">
+                <label
+                  className="control-label"
+                  data-required={false}
+                  htmlFor="frc-last_name--1017343626">
+                  שם משפחה
+                </label>
+                <input
+                  className="form-control"
+                  disabled={false}
+                  id="frc-last_name--1017343626"
+                  name="last_name"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onFocus={[Function]}
+                  type="text" />
+              </div>
+            </Row>
+          </Input>
+          <Input
+            addonAfter={null}
+            addonBefore={null}
+            buttonAfter={null}
+            buttonBefore={null}
+            disabled={false}
+            label="טלפון"
+            name="phone"
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            type="text"
+            validateOnSubmit={false}
+            validatePristine={false}
+            validationError=""
+            validationErrors={Object {}}>
+            <Row
+              elementWrapperClassName={
+                Array [
+                  "",
+                  undefined,
+                ]
+              }
+              fakeLabel={false}
+              hasErrors={false}
+              htmlFor="frc-phone-1421578746"
+              label="טלפון"
+              labelClassName={
+                Array [
+                  "",
+                  undefined,
+                ]
+              }
+              layout="vertical"
+              required={false}
+              rowClassName={
+                Array [
+                  "",
+                  undefined,
+                ]
+              }>
+              <div
+                className="form-group">
+                <label
+                  className="control-label"
+                  data-required={false}
+                  htmlFor="frc-phone-1421578746">
+                  טלפון
+                </label>
+                <input
+                  className="form-control"
+                  disabled={false}
+                  id="frc-phone-1421578746"
+                  name="phone"
+                  onBlur={[Function]}
+                  onChange={[Function]}
+                  onFocus={[Function]}
+                  type="text" />
+              </div>
+            </Row>
+          </Input>
+          <Button
+            active={false}
+            block={true}
+            bsClass="btn"
+            bsStyle="success"
+            disabled={false}
+            onClick={[Function]}>
+            <button
+              className="btn btn-success btn-block"
+              disabled={false}
+              onClick={[Function]}
+              type="button">
+              אישור
+            </button>
+          </Button>
+        </form>
+      </Formsy>
+    </FormWrapper>
+  </div>
+</AddTenantModal>
+`;
