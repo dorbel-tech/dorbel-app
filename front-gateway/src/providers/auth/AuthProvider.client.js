@@ -90,6 +90,8 @@ class AuthProvider {
 
       if (profile.first_login) {
         window.analytics.track('client_user_signup', { user_id: profile.dorbel_user_id }); // For Facebook conversion tracking.
+        profile.first_login = false;
+        this.setProfile(profile);
       }
     }
   }

@@ -25,7 +25,7 @@ export class Login extends React.Component {
           <h3>כבר מחובר</h3>
           <button onClick={appProviders.authProvider.logout}>להתנתק</button>
         </div>
-      );      
+      );
     } else {
       return (
         <div className="login-screen">
