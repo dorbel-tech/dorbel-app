@@ -139,3 +139,14 @@ ul.nav.nav-tabs.navbar-nav {
   text-align: center;
   padding: 10px 0;
 }
+
+.add-button {
+  background-color: $gray-lighter !important;
+  border-color: $brand-green !important;
+  color: $brand-green !important;
+  margin-top: -3px;
+
+  &::before {
+    content: "+ ";
+  }
+}

@@ -7,6 +7,8 @@ const errors = shared.utils.domainErrors;
 const userManagement = shared.utils.user.management;
 const userPermissions = shared.utils.user.permissions;
 
+const PICTURE_PLACEHOLDER = 'https://static.dorbel.com/images/icons/user-picture-placeholder.png';
+
 function * create(listing_id, payload, requestingUser) {
   yield getAndVerifyListing(listing_id, requestingUser);
 
@@ -74,6 +76,9 @@ function mapToListingUserResponse(listingUserFromDb, publicProfile) {
     Object.assign(listingUserResponse, publicProfile);
   }
 
+  listingUserResponse.tenant_profile = listingUserResponse.tenant_profile || {};
+  listingUserResponse.picture = listingUserResponse.picture || PICTURE_PLACEHOLDER;
+
   return listingUserResponse;
 }
 
@@ -83,7 +88,7 @@ function * getAndVerifyListing(listing_id, requestingUser) {
 
   if (!listing) {
     throw new errors.DomainNotFoundError('listing not found', { listing_id }, 'listing not found');
-  } 
+  }
 
   userPermissions.validateResourceOwnership(requestingUser, listing.publishing_user_id);
   return listing;

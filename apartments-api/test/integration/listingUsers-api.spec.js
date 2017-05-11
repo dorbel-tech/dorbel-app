@@ -27,6 +27,16 @@ describe('Apartments API Listing Users integration', function () {
       }));
     });
 
+    it('should add a `guest` tenant with a hebrew first name', function * () {
+      const first_name = 'אבי';
+      const response = yield this.apiClient.postTenant(this.createdListing.id, { first_name }).expect(201).end();
+      __.assertThat(response.body, __.hasProperties({
+        first_name,
+        listing_id: this.createdListing.id.toString(),
+        id: __.number()
+      }));
+    });
+
     it('should not allow adding a tenant to another users listing', function * () {
       yield this.otherApiClient.postTenant(this.createdListing.id, {}).expect(403).end();
     });

@@ -5,7 +5,7 @@ import { inject, observer } from 'mobx-react';
 import FormWrapper from '~/components/FormWrapper/FormWrapper';
 import SubmitButton from '~/components/SubmitButton/SubmitButton';
 import TabBar from '~/components/TabBar/TabBar';
-import TenantProfile from '../TenantProfile/TenantProfile';
+import TenantProfile from '~/components/Tenants/TenantProfile/TenantProfile';
 
 import MyProfileFields from './MyProfile/MyProfileFields';
 import MyTenantProfileFields from './MyProfile/MyTenantProfileFields';

@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
-import { ProgressBar, Col, Grid, Row } from 'react-bootstrap';
-import ManageLeaseModal from './ManageLeaseModal';
+import { ProgressBar, Col, Grid, Row, ListGroup, ListGroupItem, Button } from 'react-bootstrap';
 import autobind from 'react-autobind';
-import utils from '~/providers/utils';
 import moment from 'moment';
+import utils from '~/providers/utils';
+import TenantRow from '~/components/Tenants/TenantRow/TenantRow';
+import AddTenantModal from '~/components/Tenants/AddTenantModal/AddTenantModal';
+import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
+import ManageLeaseModal from './ManageLeaseModal';
 
 import './PropertyManage.scss';
 
-@inject('appProviders') @observer
+@inject('appProviders', 'appStore') @observer
 class PropertyManage extends Component {
   constructor(props) {
     super(props);
@@ -17,6 +20,10 @@ class PropertyManage extends Component {
     this.state = {
       showManageLeaseModal: false
     };
+  }
+
+  componentDidMount() {
+    this.props.appProviders.listingsProvider.loadListingTenants(this.props.listing.id);
   }
 
   closeManageLeaseModal(confirm, newLeaseStart, newLeaseEnd) {
@@ -35,6 +42,37 @@ class PropertyManage extends Component {
 
   editLeaseDates() {
     this.setState({showManageLeaseModal: true});
+  }
+
+  renderTenants() {
+    let tenants = this.props.appStore.listingStore.listingTenantsById.get(this.props.listing.id);
+
+    if (!tenants) {
+      return <LoadingSpinner />;
+    } else if (tenants === 'error') {
+      return <h5>חלה שגיאה בטעינת הדיירים</h5>;
+    }
+
+    if (tenants.length === 0) {
+      tenants = TenantRow.getEmptyTenantList();
+    }
+
+    return (
+      <ListGroup>
+        { tenants.map(tenant => (
+            <ListGroupItem key={tenant.id} disabled={tenant.disabled} className="property-manage-tenant-item">
+              <TenantRow tenant={tenant} />
+            </ListGroupItem>
+          )) }
+      </ListGroup>
+    );
+  }
+
+  showAddTenantModal() {
+    this.props.appProviders.modalProvider.showInfoModal({
+      title: AddTenantModal.title,
+      body: <AddTenantModal listing_id={this.props.listing.id} />,
+    });
   }
 
   render() {
@@ -76,12 +114,22 @@ class PropertyManage extends Component {
                   <div className="property-manage-lease-period-end-label">תום שכירות</div>
                 </Col>
               </Row>
+              <Row className="property-manage-lease-title">
+                <Col xs={12}>
+                  דיירים נוכחים:
+                  <Button onClick={this.showAddTenantModal} className="add-button pull-left">הוסף דייר</Button>
+                </Col>
+              </Row>
+              <Row>
+                {this.renderTenants()}
+              </Row>
             </Grid>;
   }
 }
 
 PropertyManage.wrappedComponent.propTypes = {
   appProviders: React.PropTypes.object.isRequired,
+  appStore: React.PropTypes.object.isRequired,
   listing: React.PropTypes.object.isRequired
 };
 

@@ -37,10 +37,10 @@ class ListingsProvider {
   getListingMetadata(listing) {
     const IMAGE_WIDTH = 1200;
     const IMAGE_HEIGHT = 630;
-    const sortedListingImages = utils.sortListingImages(listing);    
-    let imageURL = sortedListingImages.length ? sortedListingImages[0].url : undefined;   
+    const sortedListingImages = utils.sortListingImages(listing);
+    let imageURL = sortedListingImages.length ? sortedListingImages[0].url : undefined;
     imageURL = utils.optimizeCloudinaryUrl(imageURL, IMAGE_WIDTH);
-    
+
     return {
       description: listing.description,
       title: 'dorbel - ' + listing.title,
@@ -73,9 +73,9 @@ class ListingsProvider {
         phone: listing.user.phone,
         email: listing.user.email
       }))
-      .then(() => { 
+      .then(() => {
         window.analytics.track('client_apartment_created', { listing_id: createdListing.id }); // For Facebook conversion tracking.
-        return createdListing; 
+        return createdListing;
       });
   }
 
@@ -96,6 +96,31 @@ class ListingsProvider {
     });
   }
 
+  loadListingTenants(listing_id) {
+    return this.apiProvider.fetch(`/api/apartments/v1/listings/${listing_id}/tenants`)
+    .then(res => this.appStore.listingStore.listingTenantsById.set(listing_id, res))
+    .catch(() => this.appStore.listingStore.listingTenantsById.set(listing_id, 'error'));
+  }
+
+  addTenant(listing_id, tenant) {
+    return this.apiProvider.fetch(`/api/apartments/v1/listings/${listing_id}/tenants`, { method: 'POST', data: tenant })
+    .then(addedTenant => {
+      const listingTenants = this.appStore.listingStore.listingTenantsById.get(listing_id);
+      if (listingTenants) {
+        listingTenants.push(addedTenant);
+      } else {
+        this.appStore.listingStore.listingTenantsById.set(listing_id, [ addedTenant ]);
+      }
+    });
+  }
+
+  removeTenant(tenant) {
+    return this.apiProvider.fetch(`/api/apartments/v1/listings/${tenant.listing_id}/tenants/${tenant.id}`, { method: 'DELETE' })
+    .then(() => {
+      const listingTenants = this.appStore.listingStore.listingTenantsById.get(tenant.listing_id);
+      listingTenants.remove(tenant);
+    });
+  }
 }
 
 module.exports = ListingsProvider;

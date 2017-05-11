@@ -3,7 +3,7 @@ import { inject } from 'mobx-react';
 import { Table, Col, Panel, Image, Dropdown, MenuItem } from 'react-bootstrap';
 import EditOHEModal from './EditOHEModal';
 import DeleteOHEModal from './DeleteOHEModal';
-import TenantProfile from '../TenantProfile/TenantProfile';
+import TenantProfile from '~/components/Tenants/TenantProfile/TenantProfile';
 import autobind from 'react-autobind';
 
 import './OHECard.scss';

@@ -15,6 +15,7 @@
   height: 155px;
   padding: 30px;
   position: relative;
+  margin-bottom: 30px;
 
   @media (max-width: $screen-sm-max) {
     padding: 15px;
@@ -160,4 +161,10 @@
   .react-bootstrap-date-picker-custom-control {
     text-align: center;
   }
+}
+
+.property-manage-tenant-item {
+  background-color: $brand-white !important;
+  border: 0;
+  margin-bottom: 2px;
 }
