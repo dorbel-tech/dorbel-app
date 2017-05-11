@@ -146,7 +146,7 @@ ul.nav.nav-tabs.navbar-nav {
   color: $brand-green !important;
   margin-top: -3px;
 
-  &:before {
+  &::before {
     content: "+ ";
   }
 }
