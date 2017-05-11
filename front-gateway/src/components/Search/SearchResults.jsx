@@ -35,9 +35,10 @@ export default class SearchResults extends React.Component {
   componentWillUnmount() {
     const { appProviders } = this.props;
 
-    // Set setLastScrollTop only if the element scroll top is greater than 0
-    this.scrollTargets.forEach(
-        el => (el.scrollTop > 0) && appProviders.searchProvider.setLastScrollTop(el.scrollTop, this.scrollKey));
+    // Filter out targets with scroll top 0
+    const scrollTarget = this.scrollTargets.filter(el => el.scrollTop > 0)[0];
+    // If a relevant scroll target was found use it's scrollTop otherwise use 0
+    appProviders.searchProvider.setLastScrollTop(scrollTarget ? scrollTarget.scrollTop : 0, this.scrollKey));
 
     if (process.env.IS_CLIENT) {
       document.removeEventListener('scroll', this.handleScroll, true);
