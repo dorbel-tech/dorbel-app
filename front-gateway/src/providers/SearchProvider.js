@@ -28,7 +28,11 @@ class SearchProvider {
     };
 
     if (!loadNextPage) { // new search
-      searchStore.reset();
+      // Check if the store should be reset
+      if (params.q !== this.lastQ) {
+        searchStore.reset();
+        this.lastQ = params.q;
+      }
       searchStore.isLoadingNewSearch = true;
     } else { // next page
       searchStore.isLoadingNextPage = true;
@@ -59,6 +63,19 @@ class SearchProvider {
 
   getRelatedListings(listingId) {
     return this.apiProvider.fetch('/api/apartments/v1/listings/' + listingId + '/related/');
+  }
+
+  setLastScrollTop(scrollTop, scrollKey) {
+    this.lastScrollKey = scrollKey;
+    this.appStore.searchStore.lastScrollTop = scrollTop;
+  }
+
+  getLastScrollTop(scrollKey) {
+    if (this.lastScrollKey !== scrollKey) {
+      return 0;
+    }
+
+    return this.appStore.searchStore.lastScrollTop;
   }
 }
 

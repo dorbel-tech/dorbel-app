@@ -30,12 +30,15 @@ describe('Search Results', () => {
     };
     appProvidersMock = {
       searchProvider: {
-        loadNextPage: jest.fn()
+        loadNextPage: jest.fn(),
+        setLastScrollTop: jest.fn()
       }
     };
   });
 
-  const searchResults = () => shallow(<SearchResults.wrappedComponent appStore={appStoreMock} appProviders={appProvidersMock} noResultsContent={noResults} />);
+  const searchResults = () => shallow(<SearchResults.wrappedComponent appStore={appStoreMock}
+                                                                      appProviders={appProvidersMock}
+                                                                      noResultsContent={noResults} />);
 
   const simulateScroll = (distanceFromBottom) => {
     const wrapper = searchResults();
@@ -53,6 +56,43 @@ describe('Search Results', () => {
     expect(thumbnails.length).toBe(appStoreMock.searchStore.searchResults().length);
     const firstThumbnail = thumbnails.at(0);
     expect(firstThumbnail.prop('listing')).toBe(mockResults);
+  });
+
+  it('should call setLastScrollTop with correct scroll top value when unmounting', () => {
+    const scrollKeyMock = jest.fn();
+    const wrapper = searchResults();
+
+    wrapper.instance().scrollTargets = [
+      {scrollTop: 0},
+      {scrollTop: 150},
+      {scrollTop: 0}
+    ];
+    wrapper.instance().scrollKey = scrollKeyMock;
+
+    wrapper.unmount();
+
+    expect(appProvidersMock.searchProvider.setLastScrollTop).toHaveBeenCalledWith(150, scrollKeyMock);
+  });
+
+  // TODO implement this test
+  xit('should set scrollTop correctly for all scrollTargets each componentDidUpdate', () => {
+    const scrollKeyMock = jest.fn();
+    const wrapper = searchResults();
+
+    wrapper.instance().scrollTargets = [
+      {scrollTop: 0},
+      {scrollTop: 150},
+      {scrollTop: 0}
+    ];
+    wrapper.instance().scrollKey = scrollKeyMock;
+
+    wrapper.update();
+
+    expect(wrapper.instance().scrollTargets).toBe([
+      {scrollTop: 0},
+      {scrollTop: 150},
+      {scrollTop: 0}
+    ]);
   });
 
   it('should call loadNextPage when scrolling down', () => {
