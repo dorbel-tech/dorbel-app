@@ -6,6 +6,7 @@ import moment from 'moment';
 import utils from '~/providers/utils';
 import TenantRow from '~/components/Tenants/TenantRow/TenantRow';
 import AddTenantModal from '~/components/Tenants/AddTenantModal/AddTenantModal';
+import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
 import ManageLeaseModal from './ManageLeaseModal';
 
 import './PropertyManage.scss';
@@ -47,7 +48,7 @@ class PropertyManage extends Component {
     let tenants = this.props.appStore.listingStore.listingTenantsById.get(this.props.listing.id);
 
     if (!tenants) {
-      return <h5>טוען...</h5>;
+      return <LoadingSpinner />;
     } else if (tenants === 'error') {
       return <h5>חלה שגיאה בטעינת הדיירים</h5>;
     }

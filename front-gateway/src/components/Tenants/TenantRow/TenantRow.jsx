@@ -16,7 +16,7 @@ export default class TenantRow extends React.Component {
   static getEmptyTenantList() {
     // used as a placeholder for an empty list
     return [
-      { id: 0, disabled: true, first_name: 'שם דייר נוכחי', picture: 'https://dummyimage.com/50x50/eeeeee/ffffff&text=' }
+      { id: 0, disabled: true, first_name: 'שם דייר נוכחי', picture: 'https://static.dorbel.com/images/icons/user-picture-placeholder.png' }
     ];
   }
 
@@ -44,10 +44,10 @@ export default class TenantRow extends React.Component {
 
     return (
       <Row className="tenant-row">
-        <Col xs={3} onClick={showProfile}>
+        <Col xs={2} md={1} onClick={showProfile}>
           <Image className="tenant-row-image" src={tenant.picture} circle />
         </Col>
-        <Col xs={5} onClick={showProfile}>
+        <Col xs={6} md={7} onClick={showProfile}>
           <span>{tenant.first_name} {tenant.last_name}</span>
         </Col>
         <Col xs={2} onClick={showProfile}>

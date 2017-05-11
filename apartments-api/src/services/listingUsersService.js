@@ -7,6 +7,8 @@ const errors = shared.utils.domainErrors;
 const userManagement = shared.utils.user.management;
 const userPermissions = shared.utils.user.permissions;
 
+const PICTURE_PLACEHOLDER = 'https://static.dorbel.com/images/icons/user-picture-placeholder.png';
+
 function * create(listing_id, payload, requestingUser) {
   yield getAndVerifyListing(listing_id, requestingUser);
 
@@ -75,24 +77,9 @@ function mapToListingUserResponse(listingUserFromDb, publicProfile) {
   }
 
   listingUserResponse.tenant_profile = listingUserResponse.tenant_profile || {};
-  listingUserResponse.picture = listingUserResponse.picture || getPicturePlaceholder(listingUserResponse);
+  listingUserResponse.picture = listingUserResponse.picture || PICTURE_PLACEHOLDER;
 
   return listingUserResponse;
-}
-
-function getPicturePlaceholder(user) {
-  // expecting either first_name or email
-  let userInitials;
-  if (user.first_name) {
-    userInitials = user.first_name[0] + (user.last_name ? user.last_name[0] : '');
-  } else if (user.email) {
-    userInitials = user.email[0];
-  } else {
-    // no picture
-    return;
-  }
-
-  return `https://dummyimage.com/50x50/5A1592/ffffff&text=+${userInitials.toUpperCase()}+`;
 }
 
 // TODO: this is repeating in many places in the API and should be moved to some place generic
