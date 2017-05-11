@@ -55,7 +55,8 @@ export default class SearchResults extends React.Component {
     }
   }
 
-  updateScrollTargets() {
+  // Set the relevant scroll targets if none were set before
+  setScrollTargets() {
     if (!this.scrollTargets) {
       this.scrollTargets = ['search-container', 'dashboard-container', 'search-results-scroll'].map(
         elClassName => document.getElementsByClassName(elClassName)[0]
@@ -96,7 +97,7 @@ export default class SearchResults extends React.Component {
       return (
         <div className="search-results-scroll"
              onScroll={this.handleScroll}
-             ref={this.updateScrollTargets}>
+             ref={this.setScrollTargets}>
           { title || null }
           <Grid fluid className="search-results-container">
             <Row>
