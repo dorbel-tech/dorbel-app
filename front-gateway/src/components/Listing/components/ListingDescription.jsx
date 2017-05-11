@@ -59,7 +59,9 @@ class ListingDescription extends React.Component {
 
   handleShowPhoneClick() {
     if (this.props.appStore.authStore.isLoggedIn) {
+      const { listing } = this.props;
       this.setState({ showPhoneClicked: true });
+      window.analytics.track('client_show_phone', { listing_id: listing.id, user_id: listing.publishing_user_id }); // For Facebook conversion tracking.       
     }
     else {
       this.props.appProviders.authProvider.showLoginModal();
