@@ -29,7 +29,7 @@ export class Login extends React.Component {
     } else {
       return (
         <div className="login-screen">
-          <h3>מתחבר...</h3>;
+          <h3>מתחבר...</h3>
         </div>
       );
     }
