@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import autobind from 'react-autobind';
-import { Grid, Row, Button } from 'react-bootstrap';
+import { Nav, NavItem, Navbar, Grid, Row, Button } from 'react-bootstrap';
 import { inject, observer } from 'mobx-react';
 import FormWrapper from '~/components/FormWrapper/FormWrapper';
 import SubmitButton from '~/components/SubmitButton/SubmitButton';
-import TabBar from '~/components/TabBar/TabBar';
 import TenantProfile from '~/components/Tenants/TenantProfile/TenantProfile';
 
 import MyProfileFields from './MyProfile/MyProfileFields';
@@ -26,10 +25,6 @@ class MyProfile extends Component {
       activeTab: this.tabs[0],
       isValid: false
     };
-  }
-
-  changeTab(activeTab) {
-    this.setState({ activeTab });
   }
 
   submit() {
@@ -57,12 +52,19 @@ class MyProfile extends Component {
 
   render() {
     const { authStore } = this.props.appStore;
-
     const profile = authStore.profile;
 
     return (
       <Grid fluid className="profile-container">
-        <TabBar tabs={this.tabs} activeKey={this.state.activeTab.key} onChangeTab={this.changeTab} />
+        <Navbar className="property-menu tab-menu">
+          <Nav bsStyle="tabs" activeKey={this.state.activeTab} onSelect={tab => this.setState({ activeTab: tab })}>
+            {this.tabs.map(tab =>
+              <NavItem key={tab.key} eventKey={tab}>
+                {tab.title}
+              </NavItem>
+            )}
+          </Nav>
+        </Navbar>
         <Row className="profile-edit-wrapper">
           <div className="profile-header">
             <div className="profile-title pull-right">{this.state.activeTab.title}</div>
