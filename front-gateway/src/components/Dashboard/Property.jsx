@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import autobind from 'react-autobind';
-import { Button, Col, Grid, Row, Overlay, Popover } from 'react-bootstrap';
+import { Button, Col, Grid, Row, Navbar, Overlay, Popover } from 'react-bootstrap';
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
 import CloudinaryImage from '../CloudinaryImage/CloudinaryImage';
 import ListingStatusSelector from './MyProperties/ListingStatusSelector';
 import OHEManager from '~/components/OHEManager/OHEManager';
 import PropertyManage from './MyProperties/PropertyManage';
-import PropertyMenu from './MyProperties/PropertyMenu';
 import PropertyStats from './MyProperties/PropertyStats';
 import EditListing from './MyProperties/EditListing.jsx';
 import { find } from 'lodash';
@@ -106,8 +105,9 @@ class Property extends Component {
       );
     }
 
-    const { appStore } = this.props;
+    const { appStore, router } = this.props;
     const property = appStore.listingStore.get(this.props.propertyId);
+    const propertyPath = getDashMyPropsPath(property, '/');
     const sortedPropertyImages = utils.sortListingImages(property);
     const imageURL = sortedPropertyImages.length ? sortedPropertyImages[0].url : '';
     const followers = appStore.oheStore.countFollowersByListingId.get(this.props.propertyId);
@@ -165,7 +165,7 @@ class Property extends Component {
         replaceNavbar: true, hideFromMenu: true, headerButtons: editHeaderButtons }
     ];
     // TODO: Add "default" tab logic.
-    const selectedTab = find(propertyTabs, {relativeRoute: this.props.tab}) || propertyTabs[0];
+    const activeTab = find(propertyTabs, {relativeRoute: this.props.tab}) || propertyTabs[0];
 
     return  <Grid fluid className="property-wrapper">
               <Row className="property-top-container">
@@ -205,17 +205,23 @@ class Property extends Component {
                         <span className="property-actions-sub-title">לייקים</span>
                     </div>
                   </div>
-                  { selectedTab.headerButtons || defaultHeaderButtons }
+                  { activeTab.headerButtons || defaultHeaderButtons }
                 </Col>
               </Row>
-              { selectedTab.replaceNavbar ? null :
-                  <PropertyMenu path={getDashMyPropsPath(property, '/')}
-                    tabs={propertyTabs.filter(tab => !tab.hideFromMenu)}
-                    activeKey={selectedTab.relativeRoute} />
+              { !activeTab.replaceNavbar &&
+                  <Navbar className="tab-menu">
+                    {propertyTabs.filter(tab => !tab.hideFromMenu).map(tab =>
+                      <Navbar.Text key={tab.relativeRoute}
+                                   className={activeTab === tab ? 'active' : ''}
+                                   onClick={() => {router.setRoute(propertyPath + tab.relativeRoute)}}>
+                        {tab.title}
+                      </Navbar.Text>
+                    )}
+                  </Navbar>
               }
-              { selectedTab.replaceNavbar ? selectedTab.component :
+              { activeTab.replaceNavbar ? activeTab.component :
                   <Row className="property-content-container">
-                    {selectedTab.component}
+                    {activeTab.component}
                   </Row>
               }
             </Grid>;

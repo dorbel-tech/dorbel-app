@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import autobind from 'react-autobind';
-import { Nav, NavItem, Navbar, Row, Grid, Col, Button } from 'react-bootstrap';
+import { NavItem, Navbar, Row, Grid, Col, Button } from 'react-bootstrap';
 import ImageUpload from '~/components/ApartmentForm/ImageUpload/ImageUpload';
 import EditListingForm from './EditListingForm';
 
@@ -51,14 +51,14 @@ export default class EditListing extends Component {
 
     return (
       <div>
-        <Navbar className="property-menu tab-menu">
-          <Nav bsStyle="tabs" activeKey={activeTab} onSelect={tab => this.setState({ activeTab: tab })}>
-            {tabs.map(tab =>
-              <NavItem key={tab.key} eventKey={tab}>
-                {tab.title}
-              </NavItem>
-            )}
-          </Nav>
+        <Navbar className="tab-menu">
+          {tabs.map(tab =>
+            <Navbar.Text key={tab.key}
+                         className={activeTab === tab ? 'active' : ''}
+                         onClick={() => this.setState({ activeTab: tab })}>
+              {tab.title}
+            </Navbar.Text>
+          )}
         </Navbar>
         <Row className="property-content-container property-edit-container">
           <Grid fluid>
