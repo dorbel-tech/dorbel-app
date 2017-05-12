@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import autobind from 'react-autobind';
-import { Navbar, Grid, Row, Button } from 'react-bootstrap';
+import { Tabs, Tab, Grid, Row, Button } from 'react-bootstrap';
 import { inject, observer } from 'mobx-react';
 import FormWrapper from '~/components/FormWrapper/FormWrapper';
 import SubmitButton from '~/components/SubmitButton/SubmitButton';
@@ -57,15 +57,12 @@ class MyProfile extends Component {
 
     return (
       <Grid fluid className="profile-container">
-        <Navbar className="tab-menu">
+        <Tabs className="tab-menu" activeKey={activeTab}
+              onSelect={(tab) => this.setState({ activeTab: tab })} id="my-profile-tabs">
           {this.tabs.map(tab =>
-            <Navbar.Text key={tab.key}
-                         className={activeTab === tab ? 'active' : ''}
-                         onClick={() => this.setState({ activeTab: tab })}>
-              {tab.title}
-            </Navbar.Text>
+            <Tab eventKey={tab} key={tab.key} title={tab.title}></Tab>
           )}
-        </Navbar>
+        </Tabs>
         <Row className="profile-edit-wrapper">
           <div className="profile-header">
             <div className="profile-title pull-right">{activeTab.title}</div>

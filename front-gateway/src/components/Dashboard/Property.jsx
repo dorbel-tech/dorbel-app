@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import autobind from 'react-autobind';
-import { Button, Col, Grid, Row, Navbar, Overlay, Popover } from 'react-bootstrap';
+import { Button, Col, Grid, Row, Tabs, Tab, Overlay, Popover } from 'react-bootstrap';
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
 import CloudinaryImage from '../CloudinaryImage/CloudinaryImage';
 import ListingStatusSelector from './MyProperties/ListingStatusSelector';
@@ -209,15 +209,12 @@ class Property extends Component {
                 </Col>
               </Row>
               { !activeTab.replaceNavbar &&
-                  <Navbar className="tab-menu">
+                  <Tabs className="tab-menu" activeKey={activeTab}
+                        onSelect={(tab) => router.setRoute(propertyPath + tab.relativeRoute)} id="property-menu-tabs">
                     {propertyTabs.filter(tab => !tab.hideFromMenu).map(tab =>
-                      <Navbar.Text key={tab.relativeRoute}
-                                   className={activeTab === tab ? 'active' : ''}
-                                   onClick={() => {router.setRoute(propertyPath + tab.relativeRoute)}}>
-                        {tab.title}
-                      </Navbar.Text>
+                      <Tab eventKey={tab} key={tab.key} title={tab.title}></Tab>
                     )}
-                  </Navbar>
+                  </Tabs>
               }
               { activeTab.replaceNavbar ? activeTab.component :
                   <Row className="property-content-container">

@@ -8,23 +8,26 @@
   min-height: 0;
   z-index: 1;
 
-  > div {
+  > ul {
     text-align: center;
-    width: 100%;
   }
 
-  p {
+  li {
     border-bottom: 2px solid rgba(220, 220, 220, 0.9);
-    color: #979797;
     cursor: pointer;
     display: inline-block;
     float: none;
-    margin: 1px 15px;
-    padding: 10px 15px;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    -webkit-user-select: none;
-    user-select: none;
+    margin: 2px 15px;
+
+    > a {
+      color: #979797;
+      border: none !important;
+
+      &:hover {
+        background-color: $brand-white !important;
+        color: inherit !important;
+      }
+    }
 
     &.active {
       border-bottom: 2px solid $brand-primary;
