@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import autobind from 'react-autobind';
-import { NavItem, Navbar, Row, Grid, Col, Button } from 'react-bootstrap';
+import { Navbar, Row, Grid, Col, Button } from 'react-bootstrap';
 import ImageUpload from '~/components/ApartmentForm/ImageUpload/ImageUpload';
 import EditListingForm from './EditListingForm';
 
