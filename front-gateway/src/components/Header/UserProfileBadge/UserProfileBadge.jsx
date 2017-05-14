@@ -9,6 +9,7 @@ import './UserProfileBadge.scss';
 class UserProfileBadge extends Component {
   constructor(props) {
     super(props);
+    this.routeTo = this.props.appProviders.navProvider.navigate;
     this.state = {
       displayMenu: false
     };
@@ -28,27 +29,19 @@ class UserProfileBadge extends Component {
     );
   }
 
-  routeTo(e, link) {
-    if ((e.metaKey || e.ctrlKey) && window) {
-      window.open(link);
-    } else if (this.props.router.setRoute) {
-      this.props.router.setRoute(link);
-    }
-  }
-
   renderMenu(isLoggedIn) {
     const { authProvider } = this.props.appProviders;
 
     return (
-        <Nav>
-          {MENU_ITEMS.map((item) => this.renderDashboardMenuItem(item))}
-          <NavItem
-            onClick={isLoggedIn ? authProvider.logout : authProvider.showLoginModal}
-            className={'user-profile-badge-auth' + (isLoggedIn ? ' user-profile-badge-auth-logout' : '')}>
-            <i className={isLoggedIn ? 'fa fa-sign-out' : 'fa fa-sign-in'} />
-            {isLoggedIn ? 'התנתק' : 'התחבר'}
-          </NavItem>
-        </Nav>
+      <Nav>
+        {MENU_ITEMS.map((item) => this.renderDashboardMenuItem(item))}
+        <NavItem
+          onClick={isLoggedIn ? authProvider.logout : authProvider.showLoginModal}
+          className={'user-profile-badge-auth' + (isLoggedIn ? ' user-profile-badge-auth-logout' : '')}>
+          <i className={isLoggedIn ? 'fa fa-sign-out' : 'fa fa-sign-in'} />
+          {isLoggedIn ? 'התנתק' : 'התחבר'}
+        </NavItem>
+      </Nav>
     );
   }
 
@@ -82,7 +75,7 @@ class UserProfileBadge extends Component {
               <NavItem
                 onClick={authProvider.showLoginModal}
                 className="user-profile-badge-auth">
-                <i className="fa fa-sign-in"/>
+                <i className="fa fa-sign-in" />
                 התחבר
               </NavItem>
             </Nav>
