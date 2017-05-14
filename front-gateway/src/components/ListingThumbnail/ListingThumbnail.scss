@@ -28,7 +28,7 @@
   }
 
   @media (min-width: $screen-md-min) {
-    transition: box-shadow .35s ease-out, transform .3s ease-out, opacity .2s ease-out;
+    transition: box-shadow 0.35s ease-out, transform 0.3s ease-out, opacity 0.2s ease-out;
   }
 
   &:hover {
