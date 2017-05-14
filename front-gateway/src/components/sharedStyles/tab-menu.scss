@@ -14,24 +14,32 @@
 
   li {
     border-bottom: 2px solid rgba(220, 220, 220, 0.9);
-    cursor: pointer;
     display: inline-block;
     float: none;
     margin: 2px 15px;
 
     > a {
-      color: #979797;
       border: none !important;
+      color: #979797;
+      cursor: pointer;
 
       &:hover {
         background-color: $brand-white !important;
-        color: inherit !important;
+      }
+
+      &:focus {
+        outline: none;
       }
     }
 
     &.active {
       border-bottom: 2px solid $brand-primary;
       color: $gray-dark;
+
+      > a {
+        color: $gray-dark !important;
+        opacity: 1;
+      }
     }
   }
 }

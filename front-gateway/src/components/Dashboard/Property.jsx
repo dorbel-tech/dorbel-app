@@ -212,7 +212,7 @@ class Property extends Component {
                   <Tabs className="tab-menu" activeKey={activeTab}
                         onSelect={(tab) => router.setRoute(propertyPath + tab.relativeRoute)} id="property-menu-tabs">
                     {propertyTabs.filter(tab => !tab.hideFromMenu).map(tab =>
-                      <Tab eventKey={tab} key={tab.key} title={tab.title}></Tab>
+                      <Tab eventKey={tab} key={tab.relativeRoute} title={tab.title}></Tab>
                     )}
                   </Tabs>
               }
