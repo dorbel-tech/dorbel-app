@@ -14,6 +14,7 @@ import ModalProvider from './ModalProvider';
 import SearchProvider from './SearchProvider';
 import LikeProvider from './LikeProvider';
 import ListingImageProvider from './ListingImageProvider';
+import NavProvider from './NavProvider';
 
 import utils from './utils';
 
@@ -44,6 +45,7 @@ class AppProviders {
     this.modalProvider = new ModalProvider(appStore);
     this.searchProvider = new SearchProvider(appStore, { api: this.apiProvider, ohe: this.oheProvider });
     this.likeProvider = new LikeProvider(appStore, this.apiProvider);
+    this.navProvider = new NavProvider(router);
     this.utils = utils;
   }
 }
