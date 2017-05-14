@@ -8,7 +8,7 @@ import { MENU_ITEMS } from '../Dashboard/DashboardShared';
 
 import './Header.scss';
 
-@inject('appStore', 'appProviders', 'router') @observer
+@inject('appStore', 'appProviders') @observer
 class Header extends Component {
   constructor(props) {
     super(props);
@@ -115,9 +115,5 @@ class Header extends Component {
     );
   }
 }
-
-Header.wrappedComponent.propTypes = {
-  router: React.PropTypes.any
-};
 
 export default Header;
