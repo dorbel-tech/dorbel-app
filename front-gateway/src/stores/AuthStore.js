@@ -52,8 +52,10 @@ export default class AuthStore {
   }
 
   setProfile(profile) {
-    this.profile = profile;
-    localStorageHelper.setItem(PROFILE_KEY, profile);
+    if (profile && profile.dorbel_user_id) {
+      this.profile = profile;
+      localStorageHelper.setItem(PROFILE_KEY, profile);
+    }
   }
 
   updateProfile(profile) {
