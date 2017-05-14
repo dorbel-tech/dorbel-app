@@ -5,7 +5,7 @@ import { MENU_ITEMS } from '../../Dashboard/DashboardShared';
 
 import './UserProfileBadge.scss';
 
-@inject('appStore', 'appProviders', 'router') @observer
+@inject('appStore', 'appProviders') @observer
 class UserProfileBadge extends Component {
   constructor(props) {
     super(props);
@@ -109,8 +109,7 @@ class UserProfileBadge extends Component {
 
 UserProfileBadge.wrappedComponent.propTypes = {
   appProviders: React.PropTypes.object,
-  appStore: React.PropTypes.object,
-  router: React.PropTypes.object
+  appStore: React.PropTypes.object
 };
 
 export default UserProfileBadge;

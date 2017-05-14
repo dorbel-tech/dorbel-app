@@ -79,12 +79,18 @@ class Header extends Component {
               :
               null}
             <NavItem className="header-navbar-owner-services-navitem"
-              onClick={(e) => this.routeTo(e, externalURL + '/pages/services')}
+              onClick={(e) => this.routeTo(e, externalURL + '/pages/services', true)}
               href={externalURL + '/pages/services'}>שירותי פרימיום</NavItem>
-            <NavItem onClick={(e) => this.routeTo(e, externalURL + '/pages/owner')}>
-              בעלי דירות</NavItem>
-            <NavItem onClick={(e) => this.routeTo(e, externalURL + '/pages/about_us')}>
-              מי אנחנו</NavItem>
+            <NavItem
+              onClick={(e) => this.routeTo(e, externalURL + '/pages/owner', true)}
+              href={externalURL + '/pages/owner'}>
+              בעלי דירות
+            </NavItem>
+            <NavItem
+              onClick={(e) => this.routeTo(e, externalURL + '/pages/about_us', true)}
+              href={externalURL + '/pages/about_us'}>
+              מי אנחנו
+            </NavItem>
             {isMobile ?
               null
               :
