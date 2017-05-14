@@ -62,7 +62,10 @@
     color: #1cb039 !important;
     outline: none;
 
-    i {
+    &::before {
+      content: '\f08e';
+      font-family: FontAwesome;
+      margin-left: 5px;
       vertical-align: middle;
     }
   }
