@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import autobind from 'react-autobind';
-import { Grid, Row, Button } from 'react-bootstrap';
+import { Tabs, Tab, Grid, Row, Button } from 'react-bootstrap';
 import { inject, observer } from 'mobx-react';
 import FormWrapper from '~/components/FormWrapper/FormWrapper';
 import SubmitButton from '~/components/SubmitButton/SubmitButton';
-import TabBar from '~/components/TabBar/TabBar';
 import TenantProfile from '~/components/Tenants/TenantProfile/TenantProfile';
 
 import MyProfileFields from './MyProfile/MyProfileFields';
@@ -26,10 +25,6 @@ class MyProfile extends Component {
       activeTab: this.tabs[0],
       isValid: false
     };
-  }
-
-  changeTab(activeTab) {
-    this.setState({ activeTab });
   }
 
   submit() {
@@ -57,22 +52,27 @@ class MyProfile extends Component {
 
   render() {
     const { authStore } = this.props.appStore;
-
     const profile = authStore.profile;
+    const activeTab = this.state.activeTab;
 
     return (
       <Grid fluid className="profile-container">
-        <TabBar tabs={this.tabs} activeKey={this.state.activeTab.key} onChangeTab={this.changeTab} />
+        <Tabs className="tab-menu" activeKey={activeTab}
+              onSelect={(tab) => this.setState({ activeTab: tab })} id="my-profile-tabs">
+          {this.tabs.map(tab =>
+            <Tab eventKey={tab} key={tab.key} title={tab.title}></Tab>
+          )}
+        </Tabs>
         <Row className="profile-edit-wrapper">
           <div className="profile-header">
-            <div className="profile-title pull-right">{this.state.activeTab.title}</div>
+            <div className="profile-title pull-right">{activeTab.title}</div>
             <Button className="profile-preview pull-left" onClick={() => { this.showPreview(profile); }}>
               תצוגה מקדימה&nbsp;
               <i className='fa fa-external-link' />
             </Button>
           </div>
           <div className="profile-edit-container">
-            <div className={this.state.activeTab.content.showPicture ? 'profile-picture-container' : 'hidden'}>
+            <div className={activeTab.content.showPicture ? 'profile-picture-container' : 'hidden'}>
               <img className="profile-picture" src={profile.picture} />
             </div>
             <Row>
