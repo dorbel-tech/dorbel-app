@@ -35,8 +35,9 @@ export default class SearchResults extends React.Component {
   componentWillUnmount() {
     const { appProviders } = this.props;
 
-    // Filter out targets with scroll top 0
+    // Empty search pages will have undefined scrollTargets
     this.scrollTargets = this.scrollTargets || [];
+    // Filter out targets with scroll top 0
     const scrollTarget = this.scrollTargets.filter(el => el.scrollTop > 0)[0];
     // If a relevant scroll target was found use it's scrollTop otherwise use 0
     appProviders.searchProvider.setLastScrollTop(scrollTarget ? scrollTarget.scrollTop : 0, this.scrollKey);
