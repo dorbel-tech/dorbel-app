@@ -28,6 +28,7 @@ $active-color: #3398db;
   }
 
   .property-stats-rent-title {
+    font-size: 15px;
     padding-bottom: 15px;
 
     @media (max-width: $screen-sm-max) {
@@ -181,6 +182,7 @@ $active-color: #3398db;
 
   .property-stats-publishing-title,
   .property-stats-services-title {
+    font-size: 15px;
     padding: 40px 0 30px;
 
     @media (max-width: $screen-sm-max) {
@@ -190,6 +192,7 @@ $active-color: #3398db;
   }
 
   .property-stats-services-title {
+    font-size: 15px;
     padding-bottom: 45px;
   }
 
