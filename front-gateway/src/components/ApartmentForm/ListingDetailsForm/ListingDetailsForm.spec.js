@@ -93,7 +93,7 @@ describe('Listing Details Form', () => {
     const wrapper = listingDetailsForm();
 
     expect(appProvidersMock.neighborhoodProvider.loadNeighborhoodByCityId).toHaveBeenCalledWith(cityId);
-    expect(wrapper.find({ label: 'שכונה' }).props().options).toContainEqual({ label: 'טוען...' });
+    expect(wrapper.find({ label: 'שכונה' }).props().options).toContainEqual({ value: 0, label: 'טוען...' });
   });
 
   // TODO : add many many tests - all the interaction with formsy should be tested (loading values from store, validation) ...
