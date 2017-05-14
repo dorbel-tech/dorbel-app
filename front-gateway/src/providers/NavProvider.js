@@ -1,5 +1,5 @@
 /**
- * Like provider communicates with the Apartments API to get user likes
+ * Nav provider handles navigation across the app
  */
 'use strict';
 
@@ -9,11 +9,13 @@ class NavProvider {
   }
 
   navigate(e, link) {
+    e.preventDefault(); // cancel the event so we don't get a reload.
     if ((e.metaKey || e.ctrlKey) && window) {
       window.open(link);
     } else if (this.props.router.setRoute) {
       this.props.router.setRoute(link);
     }
+    return false;
   }
 }
 
