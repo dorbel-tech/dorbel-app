@@ -20,7 +20,7 @@ export default class TabBar extends Component {
 
   render() {
     return (
-      <Navbar className="tab-bar">
+      <Navbar className="tab-menu">
         <Nav bsStyle="tabs" activeKey={this.activeKey}>
           {
             this.props.tabs.map(tab =>
