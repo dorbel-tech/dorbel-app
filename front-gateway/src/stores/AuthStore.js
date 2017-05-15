@@ -27,7 +27,6 @@ export default class AuthStore {
     this.idToken = idToken;
 
     if (process.env.IS_CLIENT) {
-
       localStorageHelper.setItem(ID_TOKEN_KEY, idToken);
 
       if (this.logoutTimer) {
@@ -46,6 +45,7 @@ export default class AuthStore {
         // update expiry on cookieStorageHelper
         cookieStorageHelper.setItem(ID_TOKEN_KEY, idToken, new Date(tokenExpiryTimeInMs));
       } else {
+        localStorageHelper.removeItem(ID_TOKEN_KEY);
         cookieStorageHelper.removeItem(ID_TOKEN_KEY);
       }
     }
@@ -55,6 +55,8 @@ export default class AuthStore {
     if (profile && profile.dorbel_user_id) {
       this.profile = profile;
       localStorageHelper.setItem(PROFILE_KEY, profile);
+    } else {
+      localStorageHelper.removeItem(ID_TOKEN_KEY);
     }
   }
 
