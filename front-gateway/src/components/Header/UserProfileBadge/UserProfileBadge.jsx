@@ -9,7 +9,7 @@ import './UserProfileBadge.scss';
 class UserProfileBadge extends Component {
   constructor(props) {
     super(props);
-    this.routeTo = this.props.appProviders.navProvider.navigate;
+    this.handleHrefClick = this.props.appProviders.navProvider.handleHrefClick;
     this.state = {
       displayMenu: false
     };
@@ -20,7 +20,7 @@ class UserProfileBadge extends Component {
 
     return (
       <NavItem key={'header-profile-menu-item-' + item.navTo}
-        onClick={(e) => this.routeTo(e, itemPath)}
+        onClick={this.handleHrefClick}
         href={itemPath}
         className="header-profile-menu-item">
         <i className={'fa ' + item.faIconClassName} aria-hidden="true"></i>

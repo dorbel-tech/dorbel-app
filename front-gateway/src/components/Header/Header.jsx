@@ -12,7 +12,7 @@ import './Header.scss';
 class Header extends Component {
   constructor(props) {
     super(props);
-    this.routeTo = this.props.appProviders.navProvider.navigate;
+    this.handleHrefClick = this.props.appProviders.navProvider.handleHrefClick;
     autobind(this);
   }
 
@@ -70,36 +70,36 @@ class Header extends Component {
           <Nav className="header-navbar-links">
             {MENU_ITEMS.map((item) => this.renderDashboardMenuItem(item))}
             {isMobile ?
-              <NavItem className="header-navbar-btn-publish" onClick={(e) => this.routeTo(e, '/apartments/new_form')}
+              <NavItem className="header-navbar-btn-publish" onClick={this.handleHrefClick}
                 href="/apartments/new_form">פרסמו דירה</NavItem>
               :
               null}
             {isMobile ?
-              <NavItem onClick={(e) => this.routeTo(e, '/apartments')} href="/apartments">מצאו דירה</NavItem>
+              <NavItem onClick={this.handleHrefClick} href="/apartments">מצאו דירה</NavItem>
               :
               null}
             <NavItem className="header-navbar-owner-services-navitem"
-              onClick={(e) => this.routeTo(e, externalURL + '/pages/services', true)}
+              onClick={this.handleHrefClick}
               href={externalURL + '/pages/services'}>שירותי פרימיום</NavItem>
             <NavItem
-              onClick={(e) => this.routeTo(e, externalURL + '/pages/owner', true)}
+              onClick={this.handleHrefClick}
               href={externalURL + '/pages/owner'}>
               בעלי דירות
             </NavItem>
             <NavItem
-              onClick={(e) => this.routeTo(e, externalURL + '/pages/about_us', true)}
+              onClick={this.handleHrefClick}
               href={externalURL + '/pages/about_us'}>
               מי אנחנו
             </NavItem>
             {isMobile ?
               null
               :
-              <NavItem onClick={(e) => this.routeTo(e, '/apartments')} href="/apartments">מצאו דירה</NavItem>
+              <NavItem onClick={this.handleHrefClick} href="/apartments">מצאו דירה</NavItem>
             }
             {isMobile ?
               null
               :
-              <NavItem className="header-navbar-btn-publish" onClick={(e) => this.routeTo(e, '/apartments/new_form')}
+              <NavItem className="header-navbar-btn-publish" onClick={this.handleHrefClick}
                 href="/apartments/new_form">פרסמו דירה</NavItem>
             }
             {isLoggedIn ?
