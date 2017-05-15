@@ -46,6 +46,7 @@ export default class AuthStore {
         cookieStorageHelper.setItem(ID_TOKEN_KEY, idToken, new Date(tokenExpiryTimeInMs));
       } else {
         localStorageHelper.removeItem(PROFILE_KEY);
+        localStorageHelper.setItem(ID_TOKEN_KEY);
         cookieStorageHelper.removeItem(ID_TOKEN_KEY);
       }
     }
