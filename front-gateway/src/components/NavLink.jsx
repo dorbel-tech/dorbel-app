@@ -4,16 +4,15 @@ import { inject } from 'mobx-react';
 
 @inject('appProviders')
 class NavLink extends Component {
-
   constructor(props){
     super(props);
-    this.routeTo = this.props.appProviders.navProvider.navigate;
+    this.handleHrefClick = this.props.appProviders.navProvider.handleHrefClick;
   }
 
   render() {
     const to = this.props.to;
     return (
-      <a href={to} onClick={(e) => this.routeTo(e, to)} className={this.props.className}>
+      <a href={to} onClick={this.handleHrefClick} className={this.props.className}>
         {this.props.children}
       </a>
     );

@@ -12,17 +12,17 @@ class NavProvider {
 
   handleHrefClick(e) {
     e.preventDefault(); // cancel the event so we don't get a reload.
-    const destination = e.target.href;
+    const destination = e.currentTarget.href;
     if ((e.metaKey || e.ctrlKey) && window) {
       window.open(destination);
     }
     else {
       // check if href is a route
-      if (destination.startsWith('/')) {
-        this.router.setRoute(destination);
+      if (destination.startsWith('http')) {
+        location.href = destination;
       }
       else {
-        location.href = destination;
+        this.router.setRoute(destination);
       }
     }
     return false;
