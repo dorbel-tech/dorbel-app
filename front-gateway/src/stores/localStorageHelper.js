@@ -27,7 +27,14 @@ function setItem(key, item) {
   }
 }
 
+function removeItem(key) {
+  if (process.env.IS_CLIENT) {
+    localStorage.removeItem(key);
+  }
+}
+
 module.exports = {
   getItem,
-  setItem
+  setItem,
+  removeItem
 };
