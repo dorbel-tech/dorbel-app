@@ -67,8 +67,7 @@ class MyProfile extends Component {
           <div className="profile-header">
             <div className="profile-title pull-right">{activeTab.title}</div>
             <Button className="profile-preview pull-left" onClick={() => { this.showPreview(profile); }}>
-              תצוגה מקדימה&nbsp;
-              <i className='fa fa-external-link' />
+              תצוגה מקדימה
             </Button>
           </div>
           <div className="profile-edit-container">
