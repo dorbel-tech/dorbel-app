@@ -17,7 +17,7 @@ class NavProvider {
       window.open(destination);
     }
     else {
-      // check if href is a route
+      // check if href is an external link
       if (destination.startsWith('http')) {
         location.href = destination;
       }
