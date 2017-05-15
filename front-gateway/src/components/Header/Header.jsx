@@ -26,7 +26,7 @@ class Header extends Component {
     const isSelected = process.env.IS_CLIENT ? (location.pathname === itemPath) : false;
 
     return <NavItem key={'header-dashboard-menu-item-' + item.navTo}
-      onClick={(e) => this.routeTo(e, itemPath)}
+      onClick={this.handleHrefClick}
       href={itemPath}
       className={'header-dashboard-menu-item ' + (isSelected ? 'header-dashboard-menu-item-selected' : '')}>
       <i className={'header-dashboard-menu-item-icon fa ' + item.faIconClassName} aria-hidden="true"></i>
