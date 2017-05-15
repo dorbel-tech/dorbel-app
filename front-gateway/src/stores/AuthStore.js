@@ -27,11 +27,7 @@ export default class AuthStore {
     this.idToken = idToken;
 
     if (process.env.IS_CLIENT) {
-      localStorageHelper.setItem(ID_TOKEN_KEY, idToken);
-
-      if (this.logoutTimer) {
-        clearTimeout(this.logoutTimer);
-      }
+      if (this.logoutTimer) { clearTimeout(this.logoutTimer); }
 
       if (idToken) {
         const tokenExpiryTime = jwtDecode(idToken).exp;
@@ -40,13 +36,14 @@ export default class AuthStore {
         // token might already be expired and then the duration is negative
         const logoutTimerDelay = max([0, durationUntilExpiryInMs]);
         this.logoutTimer = setTimeout(() => { this.logout(); }, logoutTimerDelay);
-        // Used to indicate if its returning user or not for auth0 lock to show relevant signup or login tab.
-        localStorageHelper.setItem('returning_user', true);
+
+        localStorageHelper.setItem(ID_TOKEN_KEY, idToken);
         // update expiry on cookieStorageHelper
         cookieStorageHelper.setItem(ID_TOKEN_KEY, idToken, new Date(tokenExpiryTimeInMs));
+        // Used to indicate if its returning user or not for auth0 lock to show relevant signup or login tab.
+        localStorageHelper.setItem('returning_user', true);
       } else {
-        localStorageHelper.removeItem(PROFILE_KEY);
-        localStorageHelper.setItem(ID_TOKEN_KEY);
+        localStorageHelper.removeItem(ID_TOKEN_KEY);
         cookieStorageHelper.removeItem(ID_TOKEN_KEY);
       }
     }
