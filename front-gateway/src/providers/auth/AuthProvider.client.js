@@ -52,7 +52,8 @@ class AuthProvider {
       });
   }
 
-  // Retry loading full user profile until we get dorbel_user_id  which is updated async using auth0 rules.
+  // Retry loading full user profile until we get dorbel_user_id which is updated async using auth0 rules.
+  // Especially relevant for just signed up users.
   reLoadFullProfile(authResult, profile) {
     if (profile.app_metadata.dorbel_user_id) {
       this.setProfile(profile);
