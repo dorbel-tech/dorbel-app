@@ -52,7 +52,10 @@ class Header extends Component {
 
   headerToggleHandler(navExpanded) {
     const intercomContainer = document.getElementById('intercom-container');
-    intercomContainer.style.display = navExpanded ? 'none' : 'block';
+
+    if (intercomContainer) {
+      intercomContainer.style.display = navExpanded ? 'none' : 'block';
+    }
   }
 
   componentDidMount() {
@@ -94,13 +97,13 @@ class Header extends Component {
               <NavItem onClick={(e) => this.routeTo(e, '/apartments')} href="/apartments">מצאו דירה</NavItem>
             :
               null}
-            <NavItem className="header-navbar-owner-services-navitem"
-              onClick={this.redirect}
-              href={externalURL + '/pages/services'}>שירותי פרימיום</NavItem>            
-            <NavItem onClick={this.redirect} href={externalURL + '/pages/owner'}>
-              בעלי דירות</NavItem>
             <NavItem onClick={this.redirect} href={externalURL + '/pages/about_us'}>
               מי אנחנו</NavItem>
+            <NavItem onClick={this.redirect} href={externalURL + '/pages/owner'}>
+              בעלי דירות</NavItem>
+            <NavItem className="header-navbar-owner-services-navitem"
+              onClick={this.redirect}
+              href={externalURL + '/pages/services'}>שירותי פרימיום</NavItem>
             {isMobile ?
               null
             :
