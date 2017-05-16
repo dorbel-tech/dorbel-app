@@ -14,6 +14,7 @@ class AuthProvider {
     this.router = router;
     this.apiProvider = apiProvider;
     this.reportIdentifyAnalytics(this.authStore.profile);
+    this.reLoadFullProfileCounter = 0;
   }
 
   hideHandler() {
@@ -45,7 +46,7 @@ class AuthProvider {
 
   getUserInfo(authResult) {
     return promisify(this.lock.getUserInfo, this.lock)(authResult.accessToken)
-      .then(profile => { this.reLoadFullProfile(authResult, profile); })
+      .then(profile => this.reLoadFullProfile(authResult, profile))
       .catch(error => {
         window.console.log('Error loading the Profile', error);
         throw error;
@@ -58,8 +59,9 @@ class AuthProvider {
     if (profile.app_metadata.dorbel_user_id) {
       this.setProfile(profile);
       this.reportSignup(profile);
-    } else {
-      this.getUserInfo(authResult); // Try to get it again.
+    } else if (this.reLoadFullProfileCounter < 5) {
+      window.setTimeout(() => { this.getUserInfo(authResult); }, 500); // Try to get it again.
+      this.getUserProfileRetryCounter++;
     }
   }
 
