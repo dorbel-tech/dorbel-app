@@ -29,11 +29,10 @@ class DorbelModal extends React.Component {
           {body}
         </Modal.Body>
         {
-          footer ?
+          footer &&
           (<Modal.Footer className="text-center">
             {footer}
           </Modal.Footer>)
-          : null
         }
       </Modal>
     );

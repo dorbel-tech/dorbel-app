@@ -13,22 +13,14 @@ export default class ModalProvider {
         this.appStore.showModal = false;
       };
 
-      this.appStore.modalParams = {
-        title: params.title,
-        body: (
-          <div className="text-center">
-            { params.heading && (<h4>{params.heading}</h4>) }
-            { params.body }
-            <Button onClick={() => close(true)} bsStyle={params.confirmStyle || 'danger'} block>{params.confirmButton || 'המשך'}</Button>
-            <Button onClick={() => close(false)} block>{params.cancelButton || 'ביטול'}</Button>
-          </div>
-        ),
-        footer: params.footer,
-        modalSize: params.modalSize || 'small',
-        onClose: () => close(false)
-      };
+      params.footer = (
+        <div>
+          <Button onClick={() => this.close(resolve, true)} bsStyle={params.confirmStyle || 'danger'} block>{params.confirmButton || 'המשך'}</Button>
+          <Button onClick={() => this.close(resolve, false)} block>{params.cancelButton || 'ביטול'}</Button>
+        </div>
+      )
 
-      this.appStore.showModal = true;
+      this.show(params, () => close(false), 'text-center');
     });
   }
 
@@ -40,22 +32,23 @@ export default class ModalProvider {
         this.appStore.showModal = false;
       };
 
-      this.appStore.modalParams = {
+      this.show(params, () => this.close());
+    });
+  }
+
+  show(params, closeHandler, bodyClass) {
+    this.appStore.modalParams = {
         title: params.title,
         body: (
-          <div>
-            {params.heading ? (<h4>{params.heading}</h4>) : null}
-            <div>
-              {params.body}
-            </div>
+          <div className={bodyClass}>
+            { params.heading && (<h4>{params.heading}</h4>) }
+            { params.body }
           </div>
         ),
         footer: params.footer,
         modalSize: params.modalSize || 'small',
-        onClose: () => this.close()
-      };
+        onClose: closeHandler};
 
-      this.appStore.showModal = true;
-    });
+    this.appStore.showModal = true;
   }
 }
