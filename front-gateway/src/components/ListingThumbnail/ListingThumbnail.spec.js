@@ -49,19 +49,22 @@ describe('Listing Thumbnail', () => {
       expect(oheIndication).toMatchSnapshot();
     });
 
-    it('should only display indication for open OHEs', () => {
+    it('should only display indication for open or registered OHEs', () => {
       const openCount = 3;
+      const registeredCount = 2;
       const closedCount = 4;
       appStoreMock.oheStore.isListingLoaded.mockReturnValue(true);
       appStoreMock.oheStore.oheByListingId.mockReturnValue([].concat(
-        Array(openCount).fill({ status: 'open' }), Array(closedCount).fill({ status: 'not open' })
+        Array(openCount).fill({ status: 'open' }),
+        Array(closedCount).fill({ status: 'not open' }),
+        Array(registeredCount).fill({ status: 'registered' })
       ));
 
       const rendered = renderThumbnail();
 
       const oheIndication = rendered.find('.apt-thumb-ohe-text');
       expect(oheIndication.exists()).toBe(true);
-      expect(oheIndication.text()).toBe(`${openCount} מועדי ביקור זמינים`);
+      expect(oheIndication.text()).toBe(`${openCount + registeredCount} מועדי ביקור זמינים`);
       expect(oheIndication).toMatchSnapshot();
     });
 

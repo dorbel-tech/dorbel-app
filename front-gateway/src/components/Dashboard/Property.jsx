@@ -21,7 +21,7 @@ class Property extends Component {
     super(props);
     autobind(this);
 
-    this.state = { isLoading: false };
+    this.state = { isLoading: true };
   }
 
   static serverPreRender(props) {
@@ -35,22 +35,19 @@ class Property extends Component {
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.loadFullPropertyDetails();
   }
 
   loadFullPropertyDetails() {
     const { propertyId, appStore, appProviders } = this.props;
-    if (!appStore.listingStore.get(propertyId)) {
-      this.setState({ isLoading: true });
-      appProviders.listingsProvider.loadFullListingDetails(propertyId)
-        .then(() => {
-          const listing = appStore.listingStore.get(propertyId);
-          if (appStore.listingStore.isListingPublisherOrAdmin(listing)) {
-            this.setState({ isLoading: false });
-          }
-        });
-    }
+    appProviders.oheProvider.loadListingEvents(propertyId);
+    appProviders.oheProvider.getFollowsForListing(propertyId);
+
+    const loadListing = appStore.listingStore.get(propertyId) ?
+      Promise.resolve() : appProviders.listingsProvider.loadFullListingDetails(propertyId);
+
+    loadListing.then(() => this.setState({ isLoading: false }));
   }
 
   gotoPublishedListing(property) {
@@ -97,16 +94,19 @@ class Property extends Component {
   }
 
   render() {
+    const { appStore, router } = this.props;
+    const property = appStore.listingStore.get(this.props.propertyId);
+
     if (this.state.isLoading) {
       return (
         <div className="loader-container">
           <LoadingSpinner />
         </div>
       );
+    } else if (!appStore.listingStore.isListingPublisherOrAdmin(property)) {
+      return null;
     }
 
-    const { appStore, router } = this.props;
-    const property = appStore.listingStore.get(this.props.propertyId);
     const propertyPath = getDashMyPropsPath(property, '/');
     const sortedPropertyImages = utils.sortListingImages(property);
     const imageURL = sortedPropertyImages.length ? sortedPropertyImages[0].url : '';

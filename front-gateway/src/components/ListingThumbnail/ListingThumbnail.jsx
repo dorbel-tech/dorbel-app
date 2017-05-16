@@ -9,6 +9,8 @@ import LikeButton from '../LikeButton/LikeButton';
 import utils from '../../providers/utils';
 import { getListingPath, getDashMyPropsPath } from '~/routesHelper';
 
+const openOrRegistered = ohe => (['open', 'registered'].indexOf(ohe.status) > -1);
+
 @inject('appStore') @observer
 class ListingThumbnail extends Component {
   getListingUrl(listing) {
@@ -23,7 +25,7 @@ class ListingThumbnail extends Component {
     const { listing, appStore }  = this.props;
 
     if (appStore.oheStore.isListingLoaded(listing.id)) {
-      const oheCount = appStore.oheStore.oheByListingId(listing.id).filter(ohe => ohe.status === 'open').length;
+      const oheCount = appStore.oheStore.oheByListingId(listing.id).filter(openOrRegistered).length;
       if (oheCount) {
         return <span className="pull-left apt-thumb-ohe-text">{oheCount} מועדי ביקור זמינים</span>;
       } else {

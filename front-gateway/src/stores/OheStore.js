@@ -23,7 +23,10 @@ export default class OheStore {
   }
 
   oheByListingId(listing_id) {
-    return _(this.oheById.values()).filter({ listing_id }).sortBy('start_time').value();
+    if (this.isListingLoaded(listing_id)) {
+      return _(this.oheById.values()).filter({ listing_id }).sortBy('start_time').value();
+    }
+    // undefined returned if listing is not loaded - so we can differ between not-loaded and no events
   }
 
   add(openHouseEvents) {
