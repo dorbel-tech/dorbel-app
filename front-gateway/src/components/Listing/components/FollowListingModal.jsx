@@ -40,7 +40,6 @@ class FollowListingModal extends React.Component {
       <DorbelModal
         show={true}
         onClose={this.close}
-        modalSize="large"
         title="בקשתכם התקבלה"
         body={
           <Row className='text-center'>
@@ -74,7 +73,6 @@ class FollowListingModal extends React.Component {
       <DorbelModal
         show={true}
         onClose={this.close}
-        modalSize="large"
         title={title}
         body={
           <Row className='text-center'>
@@ -113,7 +111,6 @@ class FollowListingModal extends React.Component {
       <DorbelModal
         show={true}
         onClose={close}
-        modalSize="large"
         title="בקשתכם התקבלה"
         body={
           <Row className='text-center'>
