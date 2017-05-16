@@ -1,6 +1,7 @@
 import React from 'react';
-import { Row, Modal, Button, Col } from 'react-bootstrap';
+import { Row, Button, Col } from 'react-bootstrap';
 import { inject, observer } from 'mobx-react';
+import DorbelModal from '~/components/DorbelModal/DorbelModal';
 import FormWrapper from '~/components/FormWrapper/FormWrapper';
 import autobind from 'react-autobind';
 
@@ -70,11 +71,12 @@ class FollowListingModal extends React.Component {
         'ברגע שהדירה תתפרסם להשכרה, נעדכן אתכם במייל, כך שתהיו הראשונים לדעת.';
 
     return (
-      <Modal show={true}>
-        <Modal.Header closeButton onHide={this.close}>
-          <Modal.Title>{title}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
+      <DorbelModal
+        show={true}
+        onClose={this.close}
+        modalSize="large"
+        title={title}
+        body={
           <Row className='text-center'>
             <Col xs={8} xsOffset={2} >
               <p>{content}</p>
@@ -85,13 +87,13 @@ class FollowListingModal extends React.Component {
               </FormWrapper.Wrapper>
             </Col>
           </Row>
-        </Modal.Body>
-        <Modal.Footer>
+        }
+        footer={
           <div className="text-center">
             לשאלות נוספות ויצירת קשר בנוגע לדירה שלחו לנו מייל: <a href="mailto:homesupport@dorbel.com?Subject=Hello%20again" target="_top">homesupport@dorbel.com</a>
           </div>
-        </Modal.Footer>
-      </Modal>
+        }
+      />
     );
   }
 
