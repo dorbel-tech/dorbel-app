@@ -60,7 +60,7 @@ class AuthProvider {
       this.setProfile(profile);
       this.reportSignup(profile);
     } else if (this.reLoadFullProfileCounter < 5) {
-      window.setTimeout(() => { this.getUserInfo(authResult); }, 500); // Try to get it again.
+      window.setTimeout(() => { this.getUserInfo(authResult); }, 1000); // Try to get it again after 1 second.
       this.getUserProfileRetryCounter++;
     }
   }
