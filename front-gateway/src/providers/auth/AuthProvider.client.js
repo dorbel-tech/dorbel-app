@@ -24,7 +24,7 @@ class AuthProvider {
 
   afterAuthentication(authResult) {
     this.authStore.setToken(authResult.idToken);
-    this.getProfile(authResult)
+    this.getUserInfo(authResult)
       .then(() => { // wait until profile is set because our previous state might depend on it
         if (authResult.state) {
           this.recoverStateAfterLogin(authResult.state);
@@ -43,9 +43,8 @@ class AuthProvider {
     }
   }
 
-  getProfile(authResult) {
-    // DEPRECATION NOTICE: This method will be soon deprecated, use `getUserInfo` instead
-    return promisify(this.lock.getProfile, this.lock)(authResult.idToken)
+  getUserInfo(authResult) {
+    return promisify(this.lock.getUserInfo, this.lock)(authResult.accessToken)
       .then(this.setProfile)
       .catch(error => {
         window.console.log('Error loading the Profile', error);
