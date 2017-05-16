@@ -110,24 +110,25 @@ class FollowListingModal extends React.Component {
 
     // show success modal anyway
     return (
-      <Modal show={true}>
-        <Modal.Header closeButton onHide={close}>
-          <Modal.Title>בקשתכם התקבלה</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
+      <DorbelModal
+        show={true}
+        onClose={close}
+        modalSize="large"
+        title="בקשתכם התקבלה"
+        body={
           <Row className='text-center'>
             <Col xs={8} xsOffset={2} >
               <p>כתובתכם הוסרה מרשימת התפוצה</p>
               <Button bsStyle="success" onClick={close}>סגור</Button>
             </Col>
           </Row>
-        </Modal.Body>
-        <Modal.Footer>
+        }
+        footer={
           <div className="text-center">
             לשאלות נוספות ויצירת קשר בנוגע לדירה שלחו לנו מייל: <a href="mailto:homesupport@dorbel.com?Subject=Hello%20again" target="_top">homesupport@dorbel.com</a>
           </div>
-        </Modal.Footer>
-      </Modal>
+        }
+      />
     );
   }
 
