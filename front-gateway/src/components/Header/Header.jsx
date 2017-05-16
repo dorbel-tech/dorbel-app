@@ -36,7 +36,10 @@ class Header extends Component {
 
   headerToggleHandler(navExpanded) {
     const intercomContainer = document.getElementById('intercom-container');
-    intercomContainer.style.display = navExpanded ? 'none' : 'block';
+
+    if (intercomContainer) {
+      intercomContainer.style.display = navExpanded ? 'none' : 'block';
+    }
   }
 
   componentDidMount() {
@@ -78,18 +81,16 @@ class Header extends Component {
               <NavItem onClick={this.handleHrefClick} href="/apartments">מצאו דירה</NavItem>
               :
               null}
-            <NavItem className="header-navbar-owner-services-navitem"
-              onClick={this.handleHrefClick}
-              href={externalURL + '/pages/services'}>שירותי פרימיום</NavItem>
-            <NavItem
-              onClick={this.handleHrefClick}
-              href={externalURL + '/pages/owner'}>
+            <NavItem onClick={this.handleHrefClick} href={externalURL + '/pages/about_us'}>
+              מי אנחנו
+            </NavItem>
+            <NavItem onClick={this.handleHrefClick} href={externalURL + '/pages/owner'}>
               בעלי דירות
             </NavItem>
-            <NavItem
+            <NavItem className="header-navbar-owner-services-navitem"
               onClick={this.handleHrefClick}
-              href={externalURL + '/pages/about_us'}>
-              מי אנחנו
+              href={externalURL + '/pages/services'}>
+              שירותי פרימיום
             </NavItem>
             {isMobile ?
               null

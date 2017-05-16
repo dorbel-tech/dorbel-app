@@ -5,6 +5,7 @@ import DatePicker from '~/components/DatePicker/DatePicker';
 import FormWrapper, { FRC } from '~/components/FormWrapper/FormWrapper';
 import autobind from 'react-autobind';
 
+const LOADING_OPTIONS_LABEL = { value: 0, label: 'טוען...' };
 @inject('appStore', 'appProviders') @observer
 export default class ListingDetailsForm extends React.Component {
   constructor(props) {
@@ -30,7 +31,7 @@ export default class ListingDetailsForm extends React.Component {
       return cities.map(city => ({ value: city.id, label: city.city_name }));
     } else {
       this.props.appProviders.cityProvider.loadCities();
-      return [{ value: 0, label: 'טוען...' }];
+      return [LOADING_OPTIONS_LABEL];
     }
   }
 
@@ -41,7 +42,7 @@ export default class ListingDetailsForm extends React.Component {
       return neighborhoods.map(neighborhood => ({ value: neighborhood.id, label: neighborhood.neighborhood_name }));
     } else {
       this.props.appProviders.neighborhoodProvider.loadNeighborhoodByCityId(cityId);
-      return [{ label: 'טוען...' }];
+      return [LOADING_OPTIONS_LABEL];
     }
   }
 
