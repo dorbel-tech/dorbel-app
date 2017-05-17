@@ -70,6 +70,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.BOOLEAN,
         defaultValue: false
       },
+      future_booking: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+      },
       created_at: {
         type: DataTypes.DATE,
       },
