@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
 
+// TODO: Simplify and cleanup the close handlers and delegates mess
 export default class ModalProvider {
   constructor(appStore) {
     this.appStore = appStore;
