@@ -44,7 +44,8 @@ function getFakeListing() {
       phone: '123456789'
     },
     slug: 'test-listing-' + faker.random.uuid(), // This field has a unique constraint
-    show_phone: false
+    show_phone: false,
+    future_booking: false
   };
 
   listing.apartment.building.toJSON = () => listing.apartment.building;
