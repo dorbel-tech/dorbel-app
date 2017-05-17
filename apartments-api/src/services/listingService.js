@@ -159,7 +159,7 @@ function setListingAutoFields(listing) {
   }
 
   // In case that listing was approved (listed) we can safely mark future_booking
-  // enabled by default, because we validated that all apartment details.
+  // enabled by default, because we validated all apartment details.
   if (listing.status === 'listed') {
     listing.future_booking = true;
   }
