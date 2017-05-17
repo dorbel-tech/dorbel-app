@@ -14,6 +14,7 @@ class AuthProvider {
     this.router = router;
     this.apiProvider = apiProvider;
     this.reportIdentifyAnalytics(this.authStore.profile);
+    this.reLoadFullProfileCounter = 0;
   }
 
   hideHandler() {
@@ -45,11 +46,31 @@ class AuthProvider {
 
   getUserInfo(authResult) {
     return promisify(this.lock.getUserInfo, this.lock)(authResult.accessToken)
-      .then(this.setProfile)
+      .then(profile => this.reLoadFullProfile(authResult, profile))
       .catch(error => {
         window.console.log('Error loading the Profile', error);
         throw error;
       });
+  }
+
+  // Retry loading full user profile until we get dorbel_user_id which is updated async using auth0 rules.
+  // Especially relevant for just signed up users.
+  reLoadFullProfile(authResult, profile) {
+    if (profile.app_metadata.dorbel_user_id) {
+      this.setProfile(profile);
+      this.reportSignup(profile);
+    } else if (this.reLoadFullProfileCounter < 5) {
+      window.setTimeout(() => { this.getUserInfo(authResult); }, 1000); // Try to get it again after 1 second.
+      this.reLoadFullProfileCounter++;
+    }
+  }
+
+  reportSignup(profile) {
+    if (profile && profile.app_metadata.first_login) {
+      window.analytics.track('client_user_signup', { user_id: profile.app_metadata.dorbel_user_id }); // For Facebook conversion tracking.
+      profile.app_metadata.first_login = false;
+      this.setProfile(profile);
+    }
   }
 
   setProfile(profile) {
@@ -86,12 +107,6 @@ class AuthProvider {
     // https://segment.com/docs/integrations/intercom/#identify
     if (profile) {
       window.analytics.identify(profile.dorbel_user_id, profile);
-
-      if (profile.first_login) {
-        window.analytics.track('client_user_signup', { user_id: profile.dorbel_user_id }); // For Facebook conversion tracking.
-        profile.first_login = false;
-        this.setProfile(profile);
-      }
     }
   }
 }

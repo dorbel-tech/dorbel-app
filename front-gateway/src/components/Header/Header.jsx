@@ -8,10 +8,11 @@ import { MENU_ITEMS } from '../Dashboard/DashboardShared';
 
 import './Header.scss';
 
-@inject('appStore', 'appProviders', 'router') @observer
+@inject('appStore', 'appProviders') @observer
 class Header extends Component {
   constructor(props) {
     super(props);
+    this.handleHrefClick = this.props.appProviders.navProvider.handleHrefClick;
     autobind(this);
   }
 
@@ -25,29 +26,12 @@ class Header extends Component {
     const isSelected = process.env.IS_CLIENT ? (location.pathname === itemPath) : false;
 
     return <NavItem key={'header-dashboard-menu-item-' + item.navTo}
-              onClick={(e) => this.routeTo(e, itemPath)}
-              href={itemPath}
-              className={'header-dashboard-menu-item ' + (isSelected ? 'header-dashboard-menu-item-selected' : '')}>
-        <i className={'header-dashboard-menu-item-icon fa ' + item.faIconClassName}  aria-hidden="true"></i>
-        {item.menuText}
-      </NavItem>;
-  }
-
-  redirect(e) {
-    const href = e.target.href;
-    if ((e.metaKey || e.ctrlKey) && window) {
-      window.open(href);
-    } else if (location) {
-      location.href = href;
-    }
-  }
-
-  routeTo(e, link) {
-    if ((e.metaKey || e.ctrlKey) && window) {
-      window.open(link);
-    } else if (this.props.router.setRoute) {
-      this.props.router.setRoute(link);
-    }
+      onClick={this.handleHrefClick}
+      href={itemPath}
+      className={'header-dashboard-menu-item ' + (isSelected ? 'header-dashboard-menu-item-selected' : '')}>
+      <i className={'header-dashboard-menu-item-icon fa ' + item.faIconClassName} aria-hidden="true"></i>
+      {item.menuText}
+    </NavItem>;
   }
 
   headerToggleHandler(navExpanded) {
@@ -72,14 +56,14 @@ class Header extends Component {
 
     return (
       <Navbar className="header-navbar"
-              collapseOnSelect fixedTop fluid inverse
-              onToggle={this.headerToggleHandler}>
+        collapseOnSelect fixedTop fluid inverse
+        onToggle={this.headerToggleHandler}>
         <Navbar.Header>
           <Navbar.Brand>
             <a href={externalURL}
               className="header-navbar-logo-anchor">
               <img src="https://static.dorbel.com/images/logo/dorbel_logo_white.svg"
-                alt="Dorbel" className="header-logo-image"/>
+                alt="Dorbel" className="header-logo-image" />
             </a>
           </Navbar.Brand>
           <Navbar.Toggle />
@@ -89,30 +73,34 @@ class Header extends Component {
           <Nav className="header-navbar-links">
             {MENU_ITEMS.map((item) => this.renderDashboardMenuItem(item))}
             {isMobile ?
-              <NavItem className="header-navbar-btn-publish" onClick={(e) => this.routeTo(e, '/apartments/new_form')}
+              <NavItem className="header-navbar-btn-publish" onClick={this.handleHrefClick}
                 href="/apartments/new_form">פרסמו דירה</NavItem>
-            :
+              :
               null}
             {isMobile ?
-              <NavItem onClick={(e) => this.routeTo(e, '/apartments')} href="/apartments">מצאו דירה</NavItem>
-            :
+              <NavItem onClick={this.handleHrefClick} href="/apartments">מצאו דירה</NavItem>
+              :
               null}
-            <NavItem onClick={this.redirect} href={externalURL + '/pages/about_us'}>
-              מי אנחנו</NavItem>
-            <NavItem onClick={this.redirect} href={externalURL + '/pages/owner'}>
-              בעלי דירות</NavItem>
+            <NavItem onClick={this.handleHrefClick} href={externalURL + '/pages/about_us'}>
+              מי אנחנו
+            </NavItem>
+            <NavItem onClick={this.handleHrefClick} href={externalURL + '/pages/owner'}>
+              בעלי דירות
+            </NavItem>
             <NavItem className="header-navbar-owner-services-navitem"
-              onClick={this.redirect}
-              href={externalURL + '/pages/services'}>שירותי פרימיום</NavItem>
+              onClick={this.handleHrefClick}
+              href={externalURL + '/pages/services'}>
+              שירותי פרימיום
+            </NavItem>
             {isMobile ?
               null
-            :
-              <NavItem onClick={(e) => this.routeTo(e, '/apartments')} href="/apartments">מצאו דירה</NavItem>
+              :
+              <NavItem onClick={this.handleHrefClick} href="/apartments">מצאו דירה</NavItem>
             }
             {isMobile ?
               null
-            :
-              <NavItem className="header-navbar-btn-publish" onClick={(e) => this.routeTo(e, '/apartments/new_form')}
+              :
+              <NavItem className="header-navbar-btn-publish" onClick={this.handleHrefClick}
                 href="/apartments/new_form">פרסמו דירה</NavItem>
             }
             {isLoggedIn ?
@@ -134,9 +122,5 @@ class Header extends Component {
     );
   }
 }
-
-Header.wrappedComponent.propTypes = {
-  router: React.PropTypes.any
-};
 
 export default Header;

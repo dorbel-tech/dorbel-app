@@ -1,31 +1,24 @@
 'use strict';
 import React, { Component } from 'react';
-import { inject, observer } from 'mobx-react';
+import { inject } from 'mobx-react';
 
-@inject('router') @observer
+@inject('appProviders')
 class NavLink extends Component {
   render() {
     const to = this.props.to;
+    const { handleHrefClick } = this.props.appProviders.navProvider;
+
     return (
-      <a href={to} onClick={(e) => this.routeTo(e, to)} className={this.props.className}>
+      <a href={to} onClick={handleHrefClick} className={this.props.className}>
         {this.props.children}
       </a>
     );
   }
-
-  routeTo(e, link) {
-    if (!(e.metaKey || e.ctrlKey) && this.props.router.setRoute) {
-      this.props.router.setRoute(link);
-      window.scrollTo(0, 0); // scroll to top, otherwise after click to other route, user stuck on same position.
-      e.preventDefault(); // cancel the event so we don't get a reload.
-      return false;
-    }
-  }
 }
 
 NavLink.wrappedComponent.propTypes = {
+  appProviders: React.PropTypes.object.isRequired,
   to: React.PropTypes.string,
-  router: React.PropTypes.any,
   className: React.PropTypes.string,
   children: React.PropTypes.any
 };
