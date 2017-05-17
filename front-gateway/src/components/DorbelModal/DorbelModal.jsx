@@ -3,6 +3,7 @@ import { Modal } from 'react-bootstrap';
 import autobind from 'react-autobind';
 import { get } from 'lodash';
 
+// TODO: Consider using Modal (and removing DorbelModal entirely) directly from ModalProvider
 class DorbelModal extends React.Component {
   constructor(props) {
     super(props);
@@ -29,11 +30,10 @@ class DorbelModal extends React.Component {
           {body}
         </Modal.Body>
         {
-          footer ?
+          footer &&
           (<Modal.Footer className="text-center">
             {footer}
           </Modal.Footer>)
-          : null
         }
       </Modal>
     );
