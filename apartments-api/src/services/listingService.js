@@ -108,7 +108,7 @@ function notifyListingChanged(oldListing, newListing) {
         previous_status: oldListing.status,
         user_uuid: oldListing.publishing_user_id
       });
-    } 
+    }
     // Send notification to updated users of important property fields being changed.
     else if (isMonthlyRentSent) {
       const isMonthlyRentChanged = oldListing.monthly_rent !== newListing.monthly_rent;
@@ -156,6 +156,12 @@ function setListingAutoFields(listing) {
   // In case that roomate is needed, the listing should allow roommates.
   if (listing.roommate_needed) {
     listing.roommates = true;
+  }
+
+  // In case that listing was approved (listed) we can safely mark future_booking
+  // enabled by default, because we validated that all apartment details.
+  if (listing.status === 'listed') {
+    listing.future_booking = true;
   }
 
   return listing;
