@@ -16,8 +16,8 @@ export default class ModalProvider {
 
       params.footer = (
         <div>
-          <Button onClick={() => this.close(resolve, true)} bsStyle={params.confirmStyle || 'danger'} block>{params.confirmButton || 'המשך'}</Button>
-          <Button onClick={() => this.close(resolve, false)} block>{params.cancelButton || 'ביטול'}</Button>
+          <Button onClick={() => close(true)} bsStyle={params.confirmStyle || 'danger'} block>{params.confirmButton || 'המשך'}</Button>
+          <Button onClick={() => close(false)} block>{params.cancelButton || 'ביטול'}</Button>
         </div>
       );
 
