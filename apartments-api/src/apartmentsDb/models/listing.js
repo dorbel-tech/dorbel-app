@@ -68,6 +68,10 @@ function define(sequelize, DataTypes) {
         type: DataTypes.BOOLEAN,
         defaultValue: false
       },
+      show_for_future_booking: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+      },
     },
     {
       classMethods: {

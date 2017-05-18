@@ -155,8 +155,6 @@ class OHEList extends Component {
 
   getListingNotification(listing) {
     switch(listing.status) {
-      case 'pending':
-        return <span><h4>המודעה ממתינה לאישור</h4>כאן יופיעו מועדי הביקור לנכס ברגע שהוא יתפרסם.</span>;
       case 'rented':
         return <span><h4>הדירה מושכרת כרגע</h4>הרשמו על מנת לקבל עידכון ברגע שהדירה תוצע להשכרה שוב.</span>;
       case 'unlisted':
@@ -169,8 +167,8 @@ class OHEList extends Component {
   renderOheList(ohes, closeModal) {
     const { listing, oheId, appStore } = this.props;
 
-    // Display list of OHEs only in case property is listed.
-    if (listing.status === 'listed') {
+    // Display list of OHEs only in case property is pending or listed.
+    if (this.isListingPendingOrListied(listing)) {
       const openHouseEvents = this.filterOHEsToDisplay(ohes);
       const oheForModal = oheId ? appStore.oheStore.oheById.get(oheId) : null;
 
@@ -183,14 +181,18 @@ class OHEList extends Component {
     }
   }
 
+  isListingPendingOrListied(listing) {
+    return (listing.status === 'pending' || listing.status === 'listed');
+  }
+
   renderTitle(listing, ohes) {
-    if (listing.status === 'listed' && ohes.length > 0) {
+    if (this.isListingPendingOrListied(listing) && ohes.length > 0) {
       return (
         <h5 className="listing-choose-date-title">
           בחרו מועד לביקור
         </h5>
       );
-    } else if (listing.status === 'listed' && ohes.length === 0) {
+    } else if (this.isListingPendingOrListied(listing) && ohes.length === 0) {
       return (
         <h5 className="listing-choose-date-title">
            אין מועדי ביקור לדירה
