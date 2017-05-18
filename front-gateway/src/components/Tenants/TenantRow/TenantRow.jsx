@@ -37,7 +37,7 @@ export default class TenantRow extends React.Component {
   }
 
   render() {
-    const { tenant, showTenantActionButtons } = this.props;
+    const { tenant, showActionButtons } = this.props;
     // setting showProfile on the columns separatley so the dropdown menu won't trigger the profile modal
     const showProfile = () => this.showTenantProfileModal(tenant);
     const facebookClass = tenant.tenant_profile && tenant.tenant_profile.facebook_url ? '' : 'tenant-row-no-facebook';
