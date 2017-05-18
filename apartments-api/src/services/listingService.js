@@ -158,10 +158,10 @@ function setListingAutoFields(listing) {
     listing.roommates = true;
   }
 
-  // In case that listing was approved (listed) we can safely mark future_booking
+  // In case that listing was approved (listed) we can safely mark show_for_future_booking
   // enabled by default, because we validated all apartment details.
   if (listing.status === 'listed') {
-    listing.future_booking = true;
+    listing.show_for_future_booking = true;
   }
 
   return listing;

@@ -4,7 +4,7 @@ module.exports = {
   up: function (queryInterface, Sequelize) {
     return queryInterface.addColumn(
       'listings',
-      'future_booking',
+      'show_for_future_booking',
       {
         type: Sequelize.BOOLEAN,
         allowNull: false,
@@ -16,7 +16,7 @@ module.exports = {
   down: function (queryInterface) {
     return queryInterface.removeColumn(
       'listings',
-      'future_booking'
+      'show_for_future_booking'
     );
   }
 };
