@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
-import { Col, Grid, Row } from 'react-bootstrap';
+import { Col, Grid, Row, Checkbox } from 'react-bootstrap';
 import NavLink from '~/components/NavLink';
 import utils from '~/providers/utils';
 import { getDashMyPropsPath } from '~/routesHelper';
 import moment from 'moment';
+import ReactTooltip from 'react-tooltip';
+import autobind from 'react-autobind';
 
 import './PropertyStats.scss';
 
@@ -12,6 +14,7 @@ import './PropertyStats.scss';
 class PropertyStats extends Component {
   constructor(props) {
     super(props);
+    autobind(this);
   }
 
   getNumberOfOheRegistrations(listingId) {
@@ -85,7 +88,7 @@ class PropertyStats extends Component {
                 תאריך פרסום המודעה: {listingCreatedAt || null}
               </Col>
             </Row>
-            <Row className="property-stats-listing-stats">
+            <Row className="property-stats-listing-stats text-center">
               <Col xs={4}>
                 <div className="property-stats-card">
                   <div className="property-stats-number">{this.props.followers}</div>
@@ -152,6 +155,7 @@ class PropertyStats extends Component {
     const listingLeaseStart = utils.formatDate(listing.lease_start);
     const daysPassed = moment(Date.now()).diff(moment(listing.lease_start), 'days');
     const manageTabUrl = getDashMyPropsPath(listing, '/manage');
+    const tipOffset = {top: -7, left: 2};
 
     return <Grid fluid className="property-stats">
             <Row className="property-stats-rent-title">
@@ -189,14 +193,14 @@ class PropertyStats extends Component {
                 <br/>
               </Col>
             </Row>
-            <Row className="property-stats-listing-stats">
-              <Col xs={4}>
+            <Row className="property-stats-listing-stats text-center">
+              <Col xs={6} md={5} lg={4}>
                 <div className="property-stats-card">
                   <div className="property-stats-number">{listingLeaseStart}</div>
                   <div className="property-stats-title">ההשכרה האחרונה</div>
                 </div>
               </Col>
-              <Col xs={4}>
+              <Col xs={6} md={5} lg={4}>
                 <div className="property-stats-card">
                   <div className="property-stats-number">{daysPassed || 0}</div>
                   <div className="property-stats-title">ימים שחלפו</div>
@@ -208,11 +212,26 @@ class PropertyStats extends Component {
                 <br/>
               </Col>
             </Row>
-            <Row className="property-stats-listing-stats">
-              <Col xs={12}>
-                <div className="property-stats-card">
-                  אפשר לדיירים לעקוב אחר הדירה להשכרה הבאה
+            <Row className="property-stats-listing-stats text-right">
+              <Col xs={12} md={10} lg={8}>
+                <div className="property-stats-card property-stats-card-with-padding">
+                  <Checkbox inline checked={listing.show_for_future_booking} onChange={this.updateFutureBooking}>
+                    אפשר לדיירים לעקוב אחר הדירה להשכרה הבאה
+                  </Checkbox>
+                  &nbsp;
+                  <span data-tip="אפשרו לדיירים שמחפשים דירה כמו שלכם למצוא אותה ולעקוב אחריה.
+                   כאשר הדירה תתפרסם להשכרה בעתיד,
+                    העוקבים שלה יקבלו עדכון ויוכלו להירשם לביקור במהירות.">
+                    <i className="fa fa-info-circle property-stats-info" aria-hidden="true">&nbsp;מה זה אומר?</i>
+                  </span>
+                  <ReactTooltip type="dark" effect="solid" place="left" offset={tipOffset}
+                                multiline className="property-stats-future-booking-tooltip"/>
                 </div>
+              </Col>
+            </Row>
+            <Row>
+              <Col xs={12}>
+                <br/>
               </Col>
             </Row>
             <Row className="property-stats-rent-title">
@@ -220,7 +239,20 @@ class PropertyStats extends Component {
                 עוקבים אחר הנכס:
               </Col>
             </Row>
+            <Row>
+              {this.renderFollowers()}
+            </Row>
            </Grid>;
+  }
+
+  updateFutureBooking(event) {
+    const { listing, appProviders } = this.props;
+    const data = { show_for_future_booking: event.target.checked };
+    return appProviders.listingsProvider.updateListing(listing.id, data);
+  }
+
+  renderFollowers() {
+    return null;
   }
 
   render() {

@@ -157,8 +157,6 @@ $active-color: #3398db;
   }
 
   .property-stats-listing-stats {
-    text-align: center;
-
     .property-stats-card {
       background-color: $brand-white;
       border-radius: 2px;
@@ -170,8 +168,18 @@ $active-color: #3398db;
       }
     }
 
+    .property-stats-card-with-padding {
+      @media (max-width: $screen-sm-max) {
+        padding: 10px;
+      }
+    }
+
     .property-stats-number {
       font-size: 24px;
+
+      @media (max-width: $screen-sm-max) {
+        font-size: 18px;
+      }
     }
 
     .property-stats-title {
@@ -228,5 +236,14 @@ $active-color: #3398db;
         margin-bottom: 20px;
       }
     }
+  }
+
+  .property-stats-info {
+    padding-right: 20px;
+    color: #979797;
+  }
+
+  .property-stats-future-booking-tooltip {
+    width: 290px;
   }
 }
