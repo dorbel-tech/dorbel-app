@@ -8,6 +8,7 @@ import moment from 'moment';
 import ReactTooltip from 'react-tooltip';
 import autobind from 'react-autobind';
 import TenantRow from '~/components/Tenants/TenantRow/TenantRow';
+import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
 
 import './PropertyStats.scss';
 
@@ -243,6 +244,13 @@ class PropertyStats extends Component {
     const { listing, appStore } = this.props;
     const followers = appStore.oheStore.followersByListingId.get(listing.id);
 
+    if (!followers) {
+      return <LoadingSpinner />;
+    }
+
+    if (followers.length === 0) {
+      return null;
+    }
     if (followers) {
       return (
         <ListGroup>
