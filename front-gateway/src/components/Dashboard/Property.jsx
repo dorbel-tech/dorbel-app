@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import { isObservableObject, toJS } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import autobind from 'react-autobind';
-import moment from 'moment';
 import { Button, Col, Grid, Row, Tabs, Tab, Overlay, Popover } from 'react-bootstrap';
-import { find, cloneDeep } from 'lodash';
+import { find } from 'lodash';
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
 import CloudinaryImage from '../CloudinaryImage/CloudinaryImage';
 import ListingStatusSelector from './MyProperties/ListingStatusSelector';
@@ -62,13 +60,7 @@ class Property extends Component {
   }
 
   republish(property) {
-    // TODO : get most of this out of here and into a provider
-    const { appStore, router } = this.props;
-    const newListing = isObservableObject(property) ? toJS(property) : cloneDeep(property);
-    newListing.lease_start = moment(property.lease_end).add(1, 'day').toISOString();
-    appStore.newListingStore.reset();
-    appStore.newListingStore.loadListing(newListing);
-    router.setRoute('/apartments/new_form');
+    this.props.appProviders.listingsProvider.republish(property);
   }
 
   refresh() {
@@ -101,10 +93,14 @@ class Property extends Component {
           <i className="property-actions-menu-item-icon fa fa-pencil-square-o"  aria-hidden="true"></i>
           עריכת פרטי הנכס
         </div>
-        <div className="property-actions-menu-item" onClick={() =>this.republish(property)}>
-          <i className="property-actions-menu-item-icon fa fa-undo"  aria-hidden="true"></i>
-          פרסום הנכס מחדש
-        </div>
+        {
+          this.props.appProviders.listingsProvider.isRepublishable(property) ?
+          <div className="property-actions-menu-item" onClick={() =>this.republish(property)}>
+            <i className="property-actions-menu-item-icon fa fa-undo"  aria-hidden="true"></i>
+            פרסום הנכס מחדש
+          </div>
+          : null
+        }
       </Popover>
     );
   }

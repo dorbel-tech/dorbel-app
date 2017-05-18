@@ -4,12 +4,15 @@
 'use strict';
 import _ from 'lodash';
 import utils from './utils';
+import { isObservableObject, toJS } from 'mobx';
+import moment from 'moment';
 
 class ListingsProvider {
-  constructor(appStore, providers) {
+  constructor(appStore, providers, router) {
     this.appStore = appStore;
     this.apiProvider = providers.api;
     this.oheProvider = providers.ohe;
+    this.router = router;
   }
 
   loadFullListingDetails(idOrSlug) {
@@ -116,6 +119,20 @@ class ListingsProvider {
       const listingTenants = this.appStore.listingStore.listingTenantsById.get(tenant.listing_id);
       listingTenants.remove(tenant);
     });
+  }
+
+  republish(property) {
+    const { newListingStore } = this.appStore;
+    const newListing = isObservableObject(property) ? toJS(property) : _.cloneDeep(property);
+    newListing.lease_start = moment(property.lease_end).add(1, 'day').toISOString();
+    newListingStore.reset();
+    newListingStore.loadListing(newListing);
+    this.router.setRoute('/apartments/new_form');
+  }
+
+  isRepublishable(listing) {
+    // TODO : add check that listing is also the 'active' listing of the apartment
+    return listing.status === 'rented' || listing.status === 'unlisted';
   }
 }
 
