@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
-import { Col, Grid, Row, Checkbox } from 'react-bootstrap';
+import { Col, Grid, Row, Checkbox, ListGroup, ListGroupItem } from 'react-bootstrap';
 import NavLink from '~/components/NavLink';
 import utils from '~/providers/utils';
 import { getDashMyPropsPath } from '~/routesHelper';
 import moment from 'moment';
 import ReactTooltip from 'react-tooltip';
 import autobind from 'react-autobind';
+import TenantRow from '~/components/Tenants/TenantRow/TenantRow';
 
 import './PropertyStats.scss';
 
@@ -252,7 +253,22 @@ class PropertyStats extends Component {
   }
 
   renderFollowers() {
-    return null;
+    const { listing, appStore } = this.props;
+    const followers = appStore.oheStore.usersFollowsByListingId.get(listing.id);
+
+    if (!followers) {
+        return <LoadingSpinner />;
+    }
+
+    return (
+      <ListGroup>
+        { followers.map(follower => (
+            <ListGroupItem key={follower.id} disabled={follower.disabled} className="property-manage-tenant-item">
+              <TenantRow follower={follower} />
+            </ListGroupItem>
+          )) }
+      </ListGroup>
+    );
   }
 
   render() {
