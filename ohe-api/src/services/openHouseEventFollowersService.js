@@ -8,7 +8,8 @@ const userManagement = shared.utils.user.management;
 const userPermissions = shared.utils.user.permissions;
 
 function* getByListing(listingId, user, publishing_user_id){
-  let followers = (yield repository.findByListingId(listingId)).map(f => f.toJSON());
+  let followers = yield repository.findByListingId(listingId);
+  followers = followers.map(f => f.toJSON());
   let promises = [];
 
   if (publishing_user_id && userPermissions.isResourceOwnerOrAdmin(user, publishing_user_id)) { // publishing user

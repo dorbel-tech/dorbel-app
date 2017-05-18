@@ -189,12 +189,7 @@ class PropertyStats extends Component {
                 </div>
               </Col>
             </Row>
-            <Row>
-              <Col xs={12}>
-                <br/>
-              </Col>
-            </Row>
-            <Row className="property-stats-listing-stats text-center">
+            <Row className="property-stats-listing-stats text-center property-stats-padding-top">
               <Col xs={6} md={5} lg={4}>
                 <div className="property-stats-card">
                   <div className="property-stats-number">{listingLeaseStart}</div>
@@ -208,12 +203,7 @@ class PropertyStats extends Component {
                 </div>
               </Col>
             </Row>
-            <Row>
-              <Col xs={12}>
-                <br/>
-              </Col>
-            </Row>
-            <Row className="property-stats-listing-stats text-right">
+            <Row className="property-stats-listing-stats text-right property-stats-padding-top">
               <Col xs={12} md={10} lg={8}>
                 <div className="property-stats-card property-stats-card-with-padding">
                   <Checkbox inline checked={listing.show_for_future_booking} onChange={this.updateFutureBooking}>
@@ -230,18 +220,15 @@ class PropertyStats extends Component {
                 </div>
               </Col>
             </Row>
-            <Row>
-              <Col xs={12}>
-                <br/>
-              </Col>
-            </Row>
-            <Row className="property-stats-rent-title">
+            <Row className="property-stats-rent-title property-stats-padding-top">
               <Col xs={12}>
                 עוקבים אחר הנכס:
               </Col>
             </Row>
             <Row>
-              {this.renderFollowers()}
+              <Col xs={12} md={10} lg={8}>
+                {this.renderFollowers()}
+              </Col>
             </Row>
            </Grid>;
   }
@@ -249,7 +236,7 @@ class PropertyStats extends Component {
   updateFutureBooking(event) {
     const { listing, appProviders } = this.props;
     const data = { show_for_future_booking: event.target.checked };
-    return appProviders.listingsProvider.updateListing(listing.id, data);
+    appProviders.listingsProvider.updateListing(listing.id, data);
   }
 
   renderFollowers() {
