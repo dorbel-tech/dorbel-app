@@ -254,21 +254,19 @@ class PropertyStats extends Component {
 
   renderFollowers() {
     const { listing, appStore } = this.props;
-    const followers = appStore.oheStore.usersFollowsByListingId.get(listing.id);
+    const followers = appStore.oheStore.followersByListingId.get(listing.id);
 
-    if (!followers) {
-        return <LoadingSpinner />;
+    if (followers) {
+      return (
+        <ListGroup>
+          { followers.map(follower => (
+              <ListGroupItem key={follower.id} disabled={follower.disabled} className="property-manage-tenant-item">
+                <TenantRow tenant={follower.user_details} />
+              </ListGroupItem>
+            )) }
+        </ListGroup>
+      );
     }
-
-    return (
-      <ListGroup>
-        { followers.map(follower => (
-            <ListGroupItem key={follower.id} disabled={follower.disabled} className="property-manage-tenant-item">
-              <TenantRow follower={follower} />
-            </ListGroupItem>
-          )) }
-      </ListGroup>
-    );
   }
 
   render() {
