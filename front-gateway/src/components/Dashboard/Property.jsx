@@ -41,15 +41,13 @@ class Property extends Component {
 
   loadFullPropertyDetails() {
     const { propertyId, appStore, appProviders } = this.props;
+    appProviders.oheProvider.loadListingEvents(propertyId);
+    appProviders.oheProvider.getFollowsForListing(propertyId);
 
     const loadListing = appStore.listingStore.get(propertyId) ?
       Promise.resolve() : appProviders.listingsProvider.loadFullListingDetails(propertyId);
-    loadListing.then(() => {
-      const listing = appStore.listingStore.get(propertyId);
-      appProviders.oheProvider.loadListingEvents(propertyId);
-      appProviders.oheProvider.getFollowsForListing(propertyId, listing.publishing_user_id);
-      this.setState({ isLoading: false })
-    });
+
+    loadListing.then(() => this.setState({ isLoading: false }));
   }
 
   gotoPublishedListing(property) {

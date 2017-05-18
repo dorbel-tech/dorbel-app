@@ -20,7 +20,7 @@ class OHEList extends Component {
   componentDidMount() {
     const { appProviders, listing } = this.props;
     appProviders.oheProvider.loadListingEvents(listing.id);
-    appProviders.oheProvider.getFollowsForListing(listing.id, listing.publishing_user_id);
+    appProviders.oheProvider.getFollowsForListing(listing.id);
   }
 
   renderListItem(params) {

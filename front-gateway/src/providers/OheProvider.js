@@ -120,11 +120,10 @@ class OheProvider {
   }
 
   // Follow listing
-  getFollowsForListing(listing_id, publishing_user_id) {
-    const query = publishing_user_id ? '?publishing_user_id=' + publishing_user_id : '';
-    return this.fetch('followers/by-listing/' + listing_id + query)
+  getFollowsForListing(listing_id, include_profile=false) {
+    return this.fetch('followers/by-listing/' + listing_id + '?include_profile=' + include_profile)
     .then(followers => {
-      if (publishing_user_id) {
+      if (include_profile) {
         this.appStore.oheStore.followersByListingId.set(listing_id, followers);
       }
 

@@ -6,11 +6,11 @@ const ONE_HOUR = 60 * 60;
 
 function* get() {
   const listingId = this.params.id;
-  const publishing_user_id = this.request.query.publishing_user_id;
+  const include_profile = this.request.query.include_profile;
 
   logger.debug({ listing_id: listingId }, 'Getting followers by listing...');
 
-  let result = yield service.getByListing(listingId, this.request.user, publishing_user_id);
+  let result = yield service.getByListing(listingId, this.request.user, include_profile);
   logger.info({ listing_id: listingId, followers_count: result.length }, 'Got followers by listing');
 
   this.response.status = 200;

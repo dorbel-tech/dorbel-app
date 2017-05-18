@@ -39,6 +39,10 @@ class PropertyStats extends Component {
     if (!appStore.listingStore.listingViewsById.has(listingId)) {
       appProviders.listingsProvider.loadListingPageViews(listingId);
     }
+
+    if (!appStore.oheStore.followersByListingId.has(listingId)) {
+      appProviders.oheProvider.getFollowsForListing(listingId, true);
+    }
   }
 
   renderListedStats() {
