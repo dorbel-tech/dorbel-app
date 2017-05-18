@@ -63,8 +63,13 @@ describe('Listings Provider', () => {
       expect(routerMock.setRoute).toHaveBeenCalledWith('/apartments/new_form');
     });
 
-    it('should rented listing is republishable', () => {
+    it.skip('should rented listing is republishable', () => {
+      // this is skipped until we release this feature
       expect(listingsProvider.isRepublishable({ status: 'rented' })).toBe(true);
+    });
+
+    it('should rented listing is NOT republishable', () => {
+      expect(listingsProvider.isRepublishable({ status: 'rented' })).toBe(false);
     });
 
     it('should listed listing is not republishable', () => {
