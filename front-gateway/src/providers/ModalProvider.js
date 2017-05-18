@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
 
+// TODO: Simplify and cleanup the close handlers and delegates mess
 export default class ModalProvider {
   constructor(appStore) {
     this.appStore = appStore;
@@ -13,22 +14,14 @@ export default class ModalProvider {
         this.appStore.showModal = false;
       };
 
-      this.appStore.modalParams = {
-        title: params.title,
-        body: (
-          <div className="text-center">
-            { params.heading && (<h4>{params.heading}</h4>) }
-            { params.body }
-            <Button onClick={() => close(true)} bsStyle={params.confirmStyle || 'danger'} block>{params.confirmButton || 'המשך'}</Button>
-            <Button onClick={() => close(false)} block>{params.cancelButton || 'ביטול'}</Button>
-          </div>
-        ),
-        footer: params.footer,
-        modalSize: params.modalSize || 'small',
-        onClose: () => close(false)
-      };
+      params.footer = (
+        <div>
+          <Button onClick={() => close(true)} bsStyle={params.confirmStyle || 'danger'} block>{params.confirmButton || 'המשך'}</Button>
+          <Button onClick={() => close(false)} block>{params.cancelButton || 'ביטול'}</Button>
+        </div>
+      );
 
-      this.appStore.showModal = true;
+      this.show(params, () => close(false), 'text-center');
     });
   }
 
@@ -40,22 +33,23 @@ export default class ModalProvider {
         this.appStore.showModal = false;
       };
 
-      this.appStore.modalParams = {
-        title: params.title,
-        body: (
-          <div>
-            {params.heading ? (<h4>{params.heading}</h4>) : null}
-            <div>
-              {params.body}
-            </div>
+      this.show(params, () => this.close());
+    });
+  }
+
+  show(params, closeHandler, bodyClass) {
+    this.appStore.modalParams = {
+      title: params.title,
+      body: (
+          <div className={bodyClass}>
+            { params.heading && (<h4>{params.heading}</h4>) }
+            { params.body }
           </div>
         ),
-        footer: params.footer,
-        modalSize: params.modalSize || 'small',
-        onClose: () => this.close()
-      };
+      footer: params.footer,
+      modalSize: params.modalSize || 'small',
+      onClose: closeHandler};
 
-      this.appStore.showModal = true;
-    });
+    this.appStore.showModal = true;
   }
 }
