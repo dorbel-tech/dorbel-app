@@ -9,7 +9,7 @@ const userPermissions = shared.utils.user.permissions;
 
 function* getByListing(listingId, user, include_profile){
   let followers = yield repository.findByListingId(listingId);
-  followers = followers.map(f => f.toJSON());
+  followers = followers.map(f => f.get({ plain: true }));
   let promises = [];
 
   // TODO: Missing check for user identity which leads to potential security threat!
