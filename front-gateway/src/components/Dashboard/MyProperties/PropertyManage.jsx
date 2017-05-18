@@ -61,7 +61,7 @@ class PropertyManage extends Component {
       <ListGroup>
         { tenants.map(tenant => (
             <ListGroupItem key={tenant.id} disabled={tenant.disabled} className="property-manage-tenant-item">
-              <TenantRow tenant={tenant} />
+              <TenantRow tenant={tenant} showActionButtons/>
             </ListGroupItem>
           )) }
       </ListGroup>
