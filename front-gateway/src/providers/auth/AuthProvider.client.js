@@ -56,7 +56,7 @@ class AuthProvider {
   // Retry loading full user profile until we get dorbel_user_id which is updated async using auth0 rules.
   // Especially relevant for just signed up users.
   reLoadFullProfile(authResult, profile) {
-    if (profile.app_metadata.dorbel_user_id) {
+    if (profile && profile.app_metadata && profile.app_metadata.dorbel_user_id) {
       this.setProfile(profile);
       this.reportSignup(profile);
     } else if (this.reLoadFullProfileCounter < 5) {
