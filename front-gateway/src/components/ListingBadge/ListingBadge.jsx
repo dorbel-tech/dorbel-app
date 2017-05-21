@@ -21,21 +21,7 @@ class ListingBadge extends Component {
     if (listingStatus != 'listed') {
       options.show = true;
       options.className = listingStatus;
-
-      switch (listingStatus) {
-        case 'pending':
-          options.text = listingStatusLabels.pending.label;
-          break;
-        case 'rented':
-          options.text = listingStatusLabels.rented.label;
-          break;
-        case 'unlisted':
-          options.text = listingStatusLabels.unlisted.label;
-          break;
-        case 'deleted':
-          options.text = listingStatusLabels.deleted.label;
-          break;
-      }
+      options.text = listingStatusLabels[listingStatus] ? listingStatusLabels[listingStatus].label : '';
     }
     else if (this.props.listing.roommate_needed) {
       options.show = true;

@@ -10,7 +10,9 @@ export default class FlatListing {
   constructor(listing) {
     if (listing) {
       VALID_KEYS.filter(key => !!_.get(listing, key)).forEach(key => this[key] = _.get(listing, key));
-      this.images = (listing.images || []).map(image => ({ src: image.url, complete: true }));
+      this.images = (listing.images || []).map(image => {
+        return { src: image.url, complete: true };
+      });
     } else {
       Object.assign(this, defaultFormValues);
     }

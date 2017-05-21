@@ -22,7 +22,9 @@ class ListingStatusSelector extends React.Component {
 
     let confirmation = Promise.resolve(true);
 
-    if (newStatus === 'rented' && listingHasActiveEvents) {
+    if (newStatus === 'republish') {
+      return appProviders.listingsProvider.republish(listing);
+    } else if (newStatus === 'rented' && listingHasActiveEvents) {
       confirmation = appProviders.modalProvider.showConfirmationModal({
         title: 'סימון הדירה כמושכרת',
         heading: 'השכרתם את הדירה? בשעה טובה!',
@@ -47,9 +49,13 @@ class ListingStatusSelector extends React.Component {
   }
 
   render() {
-    const { listing } = this.props;
+    const { listing, appProviders } = this.props;
     const currentStatus = listingStatusLabels[listing.status].label;
-    const options = _.get(listing, 'meta.possibleStatuses') || [];
+    let options = _.get(listing, 'meta.possibleStatuses') || [];
+
+    if (appProviders.listingsProvider.isRepublishable(listing)) {
+      options = options.concat([ 'republish' ]);
+    }
 
     return (
       <div className="listing-status-container">
