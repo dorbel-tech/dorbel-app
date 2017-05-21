@@ -31,7 +31,7 @@
 
 .filter-wrapper {
   background-color: $brand-white;
-  padding: 24px 0 0;
+  padding: 24px 15px 0;
 
   @media (max-width: $screen-sm-max) {
     @include box-shadow(0 2px 10px 0 rgba(0, 0, 0, 0.2));
@@ -43,15 +43,8 @@
     }
   }
 
-  @media (min-width: $screen-sm-min) {
-    margin: 0 auto;
-    width: 480px;
-  }
-
   @media (min-width: $screen-md-min) {
-    margin: 0;
-    padding: 39px 0;
-    width: 361px;
+    padding: 39px 15px;
   }
 }
 
@@ -72,20 +65,51 @@
   }
 }
 
-.filter-city-container {
-  text-align: center;
+.filter-trigger-container {
+  border: 1px solid #D8D8D8;
+  border-radius: 4px;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 15px;
+  height: 35px;
+  line-height: 32px;
+  padding-right: 13px;
+  text-align: right;
+  vertical-align: middle;
+  width: 100%;
 
-  .filter-city-dropdown {
-    height: 62px;
-    width: 285px;
+  @media (max-width: $screen-xs-max) {
+    height: 45px;
+    line-height: 41px;
+    margin: 10px auto;
+    padding: 0;
+    text-align: center;
   }
 }
 
-.filter-group-container {
-  border-bottom: 1px solid $gray-lighter;
-  font-size: 15px;
-  line-height: $line-height-computed;
-  padding: 22px 22px 26px;
+.filter-city-wrapper > div {
+  width: 100%;
+}
+
+.filter-city-dropdown {
+  background-color: $brand-white !important;
+  border: 1px solid #D8D8D8 !important;
+  border-radius: 4px !important;
+  box-shadow: none !important;
+  font-size: 15px !important;
+  line-height: 13px !important;
+  text-align: right;
+  width: 100%;
+
+  .caret {
+    display: none;
+  }
+
+  @media (max-width: $screen-xs-max) {
+    height: 45px;
+    margin: 10px auto;
+    text-align: center;
+  }
 }
 
 .filter-admin-switch {
@@ -115,19 +139,9 @@
   width: 50%;
 }
 
-.filter-sliders-container {
-  border-bottom: 1px solid $gray-lighter;
-  font-size: 13px;
-  line-height: $line-height-computed;
-  padding: 24px 46px 0;
-}
-
 .filter-amenities-container {
   font-size: 13px;
   line-height: $line-height-computed;
-  margin-right: 0 !important;
-  padding-right: 7px;
-  padding-top: 10px;
 
   .checkbox {
     padding-bottom: 15px;
@@ -139,29 +153,27 @@
   }
 }
 
-.size-slider {
-  position: relative;
+.filter-cost-popup,
+.filter-extra-popup,
+.filter-roomsnum-popup {
+  max-width: none;
+  width: 290px;
 }
 
-// i {
-//   background-color: $brand-primary;
-//   border-radius: 50%;
-//   color: $brand-white;
-//   cursor: pointer;
-//   display: none; // TODO: Implement modal (and restore display block).
-//   font-family: 'georgia';
-//   height: 16px;
-//   left: -30px;
-//   line-height: 14px;
-//   position: absolute;
-//   text-align: center;
-//   top: 59px;
-//   width: 14px;
-//   z-index: 9;
-// }
-
 // nouislider overrides
-.cost-slider {
+.filter-cost-popup,
+.filter-roomsnum-popup {
+  height: 100px;
+
+  .popover-content {
+    padding: 31px;
+  }
+
+  .noUi-target {
+    height: 4px;
+    width: 220px;
+  }
+
   .noUi-connect {
     background-color: $brand-primary;
   }
@@ -169,12 +181,6 @@
   .noUi-value-large {
     font-size: 15px;
 
-    &::before {
-      color: $gray-light;
-      content: "₪";
-      font-size: 12px;
-    }
-
     &:last-child::after {
       color: $brand-success;
       content: "+";
@@ -182,43 +188,10 @@
   }
 }
 
-.roomsnum-slider {
-  .noUi-connect {
-    background-color: lighten($brand-primary, 20%);
-  }
-
-  .noUi-value-large {
-    font-size: 16px;
-
-    &:last-child::after {
-      color: $brand-success;
-      content: "+";
-    }
-  }
-}
-
-.size-slider {
-  .noUi-connect {
-    background-color: lighten($brand-primary, 40%);
-  }
-
-  .noUi-value-large {
-    font-size: 12px;
-
-    &:last-child {
-      font-size: 16px;
-
-      &::after {
-        color: $brand-success;
-        content: "+";
-      }
-    }
-
-    &:nth-child(2)::after {
-      color: $gray-light;
-      font-size: 12px;
-    }
-  }
+.filter-cost-popup .noUi-value-large::before {
+  color: $gray-light;
+  content: "₪";
+  font-size: 12px;
 }
 
 .noUi-target * {
@@ -261,13 +234,4 @@
 .noUi-value-large {
   color: $brand-primary;
   padding-top: 5px;
-}
-
-.cost-slider,
-.roomsnum-slider,
-.size-slider {
-  > div {
-    height: 4px;
-    margin-bottom: 80px;
-  }
 }
