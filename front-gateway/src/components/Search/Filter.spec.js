@@ -41,7 +41,7 @@ describe('Filter', () => {
   });
 
   it('should initialize correctly', () => {
-    const expectedFilterObj = {'city': 1};
+    const expectedFilterObj = {'city': '*'};
 
     const cityDropdownButton = filter().find('#cityDropdown');
 

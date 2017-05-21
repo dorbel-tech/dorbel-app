@@ -211,7 +211,7 @@ class Filter extends Component {
                         }}
                         connect={true}
                         direction={'ltr'} />
-           </Popover>
+           </Popover>;
   }
 
   costPopup() {
@@ -226,7 +226,7 @@ class Filter extends Component {
                pips={{ mode: 'steps', density: 30 }}
                connect={true}
                direction={'ltr'} />
-           </Popover>
+           </Popover>;
   }
 
   extraPopup() {
@@ -275,7 +275,7 @@ class Filter extends Component {
                     </Checkbox>
                 </Col>
               </div>
-           </Popover>
+           </Popover>;
   }
 
   render() {
