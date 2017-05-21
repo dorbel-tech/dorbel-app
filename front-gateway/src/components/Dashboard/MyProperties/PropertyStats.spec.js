@@ -35,12 +35,14 @@ describe('Property Stats', () => {
       { registrations: new Array(3) },
       { }
     ];
+    listingMock.status = 'listed';
     appStoreMock.oheStore.oheByListingId.mockReturnValue(ohes);
     const wrapper = propertyStats();
     expect(getRegistrations(wrapper)).toBe(10);
   });
 
   it('should display 0 registrations if open house events are not loaded', () => {
+    listingMock.status = 'listed';
     appStoreMock.oheStore.oheByListingId.mockReturnValue(undefined);
     const wrapper = propertyStats();
     expect(getRegistrations(wrapper)).toBe(0);
