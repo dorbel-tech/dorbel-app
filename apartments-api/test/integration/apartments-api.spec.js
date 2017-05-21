@@ -99,6 +99,28 @@ describe('Apartments API Integration', function () {
       yield utils.clearAllUserLikes(this.apiClient);
     });
 
+    it('should return only the last listing for an apartment with multiple listings', function* () {
+      // Create 2 lisitngs for the same apartment, set the first to rented and the second to listed
+      const firstListing = fakeObjectGenerator.getFakeListing();
+      delete firstListing.slug;
+      const firstListingResp = yield this.apiClient.createListing(firstListing).expect(201).end();
+
+      yield this.adminApiClient.patchListing(firstListingResp.body.id, { status: 'rented' }).expect(200).end();
+
+      const secondListing = _.cloneDeep(firstListing);
+      const secondListingResp = yield this.apiClient.createListing(secondListing).expect(201).end();
+      yield this.adminApiClient.patchListing(secondListingResp.body.id, { status: 'listed' }).expect(200).end();
+
+      const getResponse = yield this.apiClient.getListings().expect(200).end();
+
+      const listingsForSameApartment = getResponse.body.filter((listing) => {
+        return (listing.id == (firstListingResp.body.id)) || (listing.id == (secondListingResp.body.id));
+      });
+
+      __.assertThat(listingsForSameApartment, __.hasSize(1));
+      __.assertThat(listingsForSameApartment[0].id, __.is(secondListingResp.body.id));
+    });
+
     // TODO : add at least some basic test for filters
 
     describe('Filter: my listings', function () {

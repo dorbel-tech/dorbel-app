@@ -3,8 +3,10 @@ const listing = require('./listing');
 
 function define(sequelize) {
   return sequelize.define('latest_listing',
+    // TODO: find a way to make read-only (either sequelize way is possible, or iterate and make setter throw an exception)
     listing.attributes,
     {
+      // TODO: find a way to inherit from listing model
       classMethods: {
         associate: models => {
           models.latest_listing.belongsTo(models.apartment, {
