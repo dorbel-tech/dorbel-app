@@ -51,7 +51,6 @@ class PropertyStats extends Component {
     const views = appStore.listingStore.listingViewsById.get(listingId);
     const registrations = this.getNumberOfOheRegistrations(listingId);
     const listingCreatedAt = utils.formatDate(listing.created_at);
-    const listingLeaseStart = utils.formatDate(listing.lease_start);
     const daysPassed = moment(Date.now()).diff(moment(listing.created_at), 'days');
     const listingRented = listing.status === 'rented';
     const oheTabUrl = getDashMyPropsPath(listing, '/ohe');
@@ -273,9 +272,9 @@ class PropertyStats extends Component {
     const listingPendingOrListed = (listing.status === 'pending' || listing.status === 'listed');
 
     return listingPendingOrListed ?
-        this.renderListedStats()
+        this.renderListedStats();
       :
-        this.renderRentedStats()
+        this.renderRentedStats();
   }
 }
 
