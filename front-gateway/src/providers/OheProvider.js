@@ -120,9 +120,13 @@ class OheProvider {
   }
 
   // Follow listing
-  getFollowsForListing(listing_id) {
-    return this.fetch('followers/by-listing/' + listing_id)
+  getFollowsForListing(listing_id, include_profile=false) {
+    return this.fetch('followers/by-listing/' + listing_id + '?include_profile=' + include_profile)
     .then(followers => {
+      if (include_profile) {
+        this.appStore.oheStore.followersByListingId.set(listing_id, followers);
+      }
+
       this.appStore.oheStore.countFollowersByListingId.set(listing_id, followers.length);
       let usersFollowDetails = null;
 
@@ -148,7 +152,7 @@ class OheProvider {
     })
     .then(() => {
       this.appStore.authStore.updateProfile({ email: user.email });
-      window.analytics.track('client_listing_follow', { user_id: user.user_id }); // For Facebook conversion tracking. 
+      window.analytics.track('client_listing_follow', { user_id: user.user_id }); // For Facebook conversion tracking.
     });
   }
 

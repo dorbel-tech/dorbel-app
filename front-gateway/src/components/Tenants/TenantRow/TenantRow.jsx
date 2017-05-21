@@ -37,7 +37,7 @@ export default class TenantRow extends React.Component {
   }
 
   render() {
-    const { tenant } = this.props;
+    const { tenant, showActionButtons } = this.props;
     // setting showProfile on the columns separatley so the dropdown menu won't trigger the profile modal
     const showProfile = () => this.showTenantProfileModal(tenant);
     const facebookClass = tenant.tenant_profile && tenant.tenant_profile.facebook_url ? '' : 'tenant-row-no-facebook';
@@ -48,21 +48,25 @@ export default class TenantRow extends React.Component {
           <Image className="tenant-row-image" src={tenant.picture} circle />
         </Col>
         <Col xs={6} md={7} onClick={showProfile}>
-          <span>{tenant.first_name} {tenant.last_name}</span>
+          <span>{tenant.first_name || 'אנונימי'} {tenant.last_name || ''}</span>
         </Col>
         <Col xs={2} onClick={showProfile}>
           <i className={'fa fa-2x fa-facebook-square ' + facebookClass}></i>
         </Col>
-        <Col xs={2}>
-          <Dropdown id={'tenant' + tenant.id} className="pull-left" disabled={tenant.disabled}>
-            <Dropdown.Toggle noCaret bsStyle="link">
-              <i className="fa fa-ellipsis-v" />
-            </Dropdown.Toggle>
-            <Dropdown.Menu className="dropdown-menu-left">
-              <MenuItem onClick={() => this.removeTenant(tenant)}>הסר דייר</MenuItem>
-            </Dropdown.Menu>
-          </Dropdown>
-        </Col>
+        { showActionButtons ?
+          <Col xs={2}>
+            <Dropdown id={'tenant' + tenant.id} className="pull-left" disabled={tenant.disabled}>
+              <Dropdown.Toggle noCaret bsStyle="link">
+                <i className="fa fa-ellipsis-v" />
+              </Dropdown.Toggle>
+              <Dropdown.Menu className="dropdown-menu-left">
+                <MenuItem onClick={() => this.removeTenant(tenant)}>הסר דייר</MenuItem>
+              </Dropdown.Menu>
+            </Dropdown>
+          </Col>
+          :
+          null
+        }
       </Row>
     );
   }
@@ -70,5 +74,6 @@ export default class TenantRow extends React.Component {
 
 TenantRow.propTypes = {
   appProviders: React.PropTypes.object,
-  tenant: React.PropTypes.object.isRequired
+  tenant: React.PropTypes.object.isRequired,
+  showActionButtons: React.PropTypes.bool
 };

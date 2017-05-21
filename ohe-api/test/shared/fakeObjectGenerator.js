@@ -40,12 +40,15 @@ function generateRegistration(variant) {
 }
 
 function generateFollower(variant) {
-  return _.extend({
+  let follower = _.extend({
     id: 1,
     listing_id: 1,
     following_user_id: fakeUserId,
     is_active: true
   }, variant);
+  follower.get = () => { return follower; };
+
+  return follower;
 }
 
 function getRandomNumber() {

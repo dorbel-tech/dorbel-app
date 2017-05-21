@@ -7,8 +7,25 @@ const errors = shared.utils.domainErrors;
 const userManagement = shared.utils.user.management;
 const userPermissions = shared.utils.user.permissions;
 
-function* getByListing(listingId){
-  return yield repository.findByListingId(listingId);
+function* getByListing(listingId, user, include_profile){
+  let followers = yield repository.findByListingId(listingId);
+  followers = followers.map(f => f.get({ plain: true }));
+  let promises = [];
+
+  // TODO: Missing check for user identity which leads to potential security threat!
+  if (include_profile == 'true') {
+    // get all the data about the followers
+    followers.forEach((follower) => {
+      const promiseForUser = userManagement.getPublicProfile(follower.following_user_id)
+        .then(user_details => {
+          follower.user_details = user_details;
+        });
+      promises.push(promiseForUser);
+    });
+  }
+
+  yield promises; // wait for it
+  return followers;
 }
 
 function* follow(listingId, user) {
