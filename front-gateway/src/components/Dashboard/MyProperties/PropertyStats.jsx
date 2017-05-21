@@ -239,8 +239,20 @@ class PropertyStats extends Component {
 
   updateFutureBooking(event) {
     const { listing, appProviders } = this.props;
-    const data = { show_for_future_booking: event.target.checked };
+    const allowFutureBooking = event.target.checked;
+    const data = { show_for_future_booking: allowFutureBooking };
+    const notificationProvider = this.props.appProviders.notificationProvider;
+
+    // TODO: Add a check for at least one image and if no images,
+    // send notification to user and do not allow future booking.
+    if (allowFutureBooking && listing.images && listing.images.length < 1) {
+      const err = { response: { data: 'אין באפשרותכם לאפשר את אופציה זו עד שתוסיפו לפחות תמונה אחת לנכס.' }};
+      notificationProvider.error(err);
+      return;
+    }
+
     appProviders.listingsProvider.updateListing(listing.id, data);
+    notificationProvider.success('עודכן בהצלחה. ');
   }
 
   renderFollowers() {
@@ -272,7 +284,7 @@ class PropertyStats extends Component {
     const listingPendingOrListed = (listing.status === 'pending' || listing.status === 'listed');
 
     return listingPendingOrListed ?
-        this.renderListedStats();
+        this.renderListedStats()
       :
         this.renderRentedStats();
   }
