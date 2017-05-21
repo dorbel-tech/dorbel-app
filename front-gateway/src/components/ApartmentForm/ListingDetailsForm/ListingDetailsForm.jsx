@@ -66,6 +66,38 @@ export default class ListingDetailsForm extends React.Component {
     }
   }
 
+  renderLeasePeriodRow(editedListingStore) {
+    const isManage = editedListingStore.uploadMode == 'manage';
+    const startLabel = isManage ? 'תאריך תחילת חוזה' : 'תאריך כניסה לדירה';
+    const endLabel = isManage ? 'תאריך סיום חוזה' : '';
+
+    return (
+      <Row>
+        <Col md={6}>
+          <div className="form-group">
+            <label>{startLabel}</label>
+            <DatePicker
+              name="apartment.entrance-date" value={editedListingStore.formValues.lease_start}
+              calendarPlacement="top" onChange={value => this.updateStore({ lease_start: value })} />
+          </div>
+        </Col>
+        {
+          !isManage ?
+            null 
+            :
+            <Col md={6}>
+              <div className="form-group">
+                <label>{endLabel}</label>
+                <DatePicker
+                  name="apartment.entrance-date" value={editedListingStore.formValues.lease_end}
+                  calendarPlacement="top" onChange={value => this.updateStore({ lease_end: value })} />
+              </div>
+            </Col>
+        }
+      </Row>
+    );
+  }
+
   render() {
     const { editedListingStore } = this.props;
     const citySelectorOptions = this.getCityOptions();
@@ -147,20 +179,11 @@ export default class ListingDetailsForm extends React.Component {
 
         <Row className="form-section">
           <div className="form-section-headline">חוזה ותשלומים</div>
-          <Row>
-            <Col md={6}>
-              <div className="form-group">
-                <label>תאריך כניסה לדירה</label>
-                <DatePicker
-                  name="apartment.entrance-date" value={editedListingStore.formValues.lease_start}
-                  calendarPlacement="top" onChange={value => this.updateStore({ lease_start: value })} />
-              </div>
-            </Col>
+          {this.renderLeasePeriodRow(editedListingStore)}
+          <Row className="form-section">
             <Col md={6}>
               <FRC.Input value="" name="monthly_rent" label="שכר דירה לחודש" type="number" required />
             </Col>
-          </Row>
-          <Row>
             <Col md={6}>
               <FRC.Input name="property_tax" label="ארנונה לחודשיים" type="number" />
             </Col>

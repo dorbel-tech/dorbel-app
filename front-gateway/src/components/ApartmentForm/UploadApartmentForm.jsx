@@ -16,8 +16,24 @@ class UploadApartmentForm extends Component {
 
   constructor(props) {
     super(props);
+    this.validateAndSetMode();
     this.state = {};
     props.appStore.metaData.title = 'dorbel - פרסמו דירה להשכרה תוך 2 דק׳';
+  }
+
+  validateAndSetMode() {
+    switch (this.props.mode) {
+      case 'publish':
+      case 'manage':
+        this.props.appStore.newListingStore.uploadMode = this.props.mode;
+        break;
+      default:
+        this.props.appStore.newListingStore.uploadMode = undefined;
+        if (process.env.IS_CLIENT) {
+          this.props.appProviders.navProvider.setRoute('/apartments/new_form');
+        }
+        break;
+    }
   }
 
   nextStep() {
@@ -70,7 +86,8 @@ class UploadApartmentForm extends Component {
 
 UploadApartmentForm.wrappedComponent.propTypes = {
   appStore: React.PropTypes.object,
-  appProviders: React.PropTypes.object
+  appProviders: React.PropTypes.object,
+  mode: React.PropTypes.string
 };
 
 export default UploadApartmentForm;
