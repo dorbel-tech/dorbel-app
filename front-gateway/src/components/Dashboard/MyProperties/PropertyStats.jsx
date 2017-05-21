@@ -243,7 +243,7 @@ class PropertyStats extends Component {
     const data = { show_for_future_booking: allowFutureBooking };
     const notificationProvider = this.props.appProviders.notificationProvider;
 
-    // TODO: Add a check for at least one image and if no images,
+    // A check for at least one image and if no images,
     // send notification to user and do not allow future booking.
     if (allowFutureBooking && listing.images && listing.images.length < 1) {
       const err = { response: { data: 'אין באפשרותכם לאפשר את אופציה זו עד שתוסיפו לפחות תמונה אחת לנכס.' }};
