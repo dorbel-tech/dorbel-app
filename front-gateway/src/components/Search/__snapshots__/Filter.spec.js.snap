@@ -63,574 +63,472 @@ exports[`Filter should initialize correctly 1`] = `
           </button>
         </Button>
       </div>
-      <div
-        className="filter-wrapper hide-mobile-filter">
+      <Grid
+        bsClass="container"
+        className="filter-wrapper hide-mobile-filter"
+        componentClass="div"
+        fluid={true}>
         <div
-          className="filter-city-container">
-          <DropdownButton
-            bsSize="large"
-            className="filter-city-dropdown"
-            id="cityDropdown"
-            onSelect={[Function]}
-            title="עיר: טוען...">
-            <Uncontrolled(Dropdown)
-              bsSize="large"
-              id="cityDropdown"
-              onSelect={[Function]}>
-              <Dropdown
-                bsClass="dropdown"
-                bsSize="large"
-                componentClass={[Function]}
-                id="cityDropdown"
-                onSelect={[Function]}
-                onToggle={[Function]}>
-                <ButtonGroup
-                  block={false}
-                  bsClass="btn-group"
-                  bsSize="large"
-                  className="dropdown"
-                  justified={false}
-                  vertical={false}>
-                  <div
-                    className="dropdown btn-group btn-group-lg">
-                    <DropdownToggle
-                      bsClass="dropdown-toggle"
-                      bsRole="toggle"
+          className="filter-wrapper hide-mobile-filter container-fluid">
+          <Row
+            bsClass="row"
+            componentClass="div">
+            <div
+              className="row">
+              <Col
+                bsClass="col"
+                componentClass="div"
+                xs={12}>
+                <div
+                  className="col-xs-12" />
+              </Col>
+            </div>
+          </Row>
+          <Row
+            bsClass="row"
+            componentClass="div">
+            <div
+              className="row">
+              <Col
+                bsClass="col"
+                className="filter-city-wrapper"
+                componentClass="div"
+                md={2}
+                mdOffset={2}
+                sm={3}>
+                <div
+                  className="filter-city-wrapper col-md-2 col-md-offset-2 col-sm-3">
+                  <DropdownButton
+                    bsSize="large"
+                    className="filter-city-dropdown"
+                    id="cityDropdown"
+                    onSelect={[Function]}
+                    title="עיר: כל הערים">
+                    <Uncontrolled(Dropdown)
                       bsSize="large"
-                      className="filter-city-dropdown"
                       id="cityDropdown"
-                      onClick={[Function]}
-                      onKeyDown={[Function]}
-                      open={false}
-                      useAnchor={false}>
-                      <Button
-                        active={false}
-                        aria-expanded={false}
-                        aria-haspopup={true}
-                        block={false}
-                        bsClass="btn"
+                      onSelect={[Function]}>
+                      <Dropdown
+                        bsClass="dropdown"
                         bsSize="large"
-                        bsStyle="default"
-                        className="filter-city-dropdown dropdown-toggle"
-                        disabled={false}
+                        componentClass={[Function]}
                         id="cityDropdown"
-                        onClick={[Function]}
-                        onKeyDown={[Function]}
-                        role="button">
-                        <button
-                          aria-expanded={false}
-                          aria-haspopup={true}
-                          className="filter-city-dropdown dropdown-toggle btn btn-lg btn-default"
-                          disabled={false}
-                          id="cityDropdown"
-                          onClick={[Function]}
-                          onKeyDown={[Function]}
-                          role="button"
-                          type="button">
-                          עיר: טוען...
-                           
-                          <span
-                            className="caret" />
-                        </button>
-                      </Button>
-                    </DropdownToggle>
-                    <DropdownMenu
-                      bsClass="dropdown-menu"
-                      bsRole="menu"
-                      labelledBy="cityDropdown"
-                      onClose={[Function]}
-                      onSelect={[Function]}
-                      pullRight={false}>
-                      <RootCloseWrapper
-                        disabled={true}
-                        event="click"
-                        onRootClose={[Function]}>
-                        <ul
-                          aria-labelledby="cityDropdown"
-                          className="dropdown-menu"
-                          role="menu">
-                          <MenuItem
-                            bsClass="dropdown"
-                            disabled={false}
-                            divider={false}
-                            eventKey="*"
-                            header={false}
-                            onKeyDown={[Function]}
-                            onSelect={[Function]}>
-                            <li
-                              className=""
-                              role="presentation">
-                              <SafeAnchor
-                                componentClass="a"
+                        onSelect={[Function]}
+                        onToggle={[Function]}>
+                        <ButtonGroup
+                          block={false}
+                          bsClass="btn-group"
+                          bsSize="large"
+                          className="dropdown"
+                          justified={false}
+                          vertical={false}>
+                          <div
+                            className="dropdown btn-group btn-group-lg">
+                            <DropdownToggle
+                              bsClass="dropdown-toggle"
+                              bsRole="toggle"
+                              bsSize="large"
+                              className="filter-city-dropdown"
+                              id="cityDropdown"
+                              onClick={[Function]}
+                              onKeyDown={[Function]}
+                              open={false}
+                              useAnchor={false}>
+                              <Button
+                                active={false}
+                                aria-expanded={false}
+                                aria-haspopup={true}
+                                block={false}
+                                bsClass="btn"
+                                bsSize="large"
+                                bsStyle="default"
+                                className="filter-city-dropdown dropdown-toggle"
+                                disabled={false}
+                                id="cityDropdown"
                                 onClick={[Function]}
                                 onKeyDown={[Function]}
-                                role="menuitem"
-                                tabIndex="-1">
-                                <a
-                                  href="#"
+                                role="button">
+                                <button
+                                  aria-expanded={false}
+                                  aria-haspopup={true}
+                                  className="filter-city-dropdown dropdown-toggle btn btn-lg btn-default"
+                                  disabled={false}
+                                  id="cityDropdown"
                                   onClick={[Function]}
                                   onKeyDown={[Function]}
-                                  role="menuitem"
-                                  tabIndex="-1">
-                                  כל הערים
-                                </a>
-                              </SafeAnchor>
-                            </li>
-                          </MenuItem>
-                        </ul>
-                      </RootCloseWrapper>
-                    </DropdownMenu>
-                  </div>
-                </ButtonGroup>
-              </Dropdown>
-            </Uncontrolled(Dropdown)>
-          </DropdownButton>
-        </div>
-        <div
-          className="sort-container filter-group-container">
-          <div
-            className="filter-switch-group-headersort-header">
-            <b>
-              סדר לפי
-            </b>
-          </div>
-          <div
-            className="sort-options">
-            <div
-              className="filter-input-wrapper">
-              <Radio
-                bsClass="radio"
-                checked={true}
-                disabled={false}
-                inline={false}
-                onChange={[Function]}
-                value="publish_date">
-                <div
-                  className="radio">
-                  <label>
-                    <input
-                      checked={true}
-                      disabled={false}
-                      onChange={[Function]}
-                      type="radio"
-                      value="publish_date" />
-                    תאריך פרסום
-                  </label>
+                                  role="button"
+                                  type="button">
+                                  עיר: כל הערים
+                                   
+                                  <span
+                                    className="caret" />
+                                </button>
+                              </Button>
+                            </DropdownToggle>
+                            <DropdownMenu
+                              bsClass="dropdown-menu"
+                              bsRole="menu"
+                              labelledBy="cityDropdown"
+                              onClose={[Function]}
+                              onSelect={[Function]}
+                              pullRight={false}>
+                              <RootCloseWrapper
+                                disabled={true}
+                                event="click"
+                                onRootClose={[Function]}>
+                                <ul
+                                  aria-labelledby="cityDropdown"
+                                  className="dropdown-menu"
+                                  role="menu">
+                                  <MenuItem
+                                    bsClass="dropdown"
+                                    disabled={false}
+                                    divider={false}
+                                    eventKey="*"
+                                    header={false}
+                                    onKeyDown={[Function]}
+                                    onSelect={[Function]}>
+                                    <li
+                                      className=""
+                                      role="presentation">
+                                      <SafeAnchor
+                                        componentClass="a"
+                                        onClick={[Function]}
+                                        onKeyDown={[Function]}
+                                        role="menuitem"
+                                        tabIndex="-1">
+                                        <a
+                                          href="#"
+                                          onClick={[Function]}
+                                          onKeyDown={[Function]}
+                                          role="menuitem"
+                                          tabIndex="-1">
+                                          כל הערים
+                                        </a>
+                                      </SafeAnchor>
+                                    </li>
+                                  </MenuItem>
+                                </ul>
+                              </RootCloseWrapper>
+                            </DropdownMenu>
+                          </div>
+                        </ButtonGroup>
+                      </Dropdown>
+                    </Uncontrolled(Dropdown)>
+                  </DropdownButton>
                 </div>
-              </Radio>
-            </div>
-            <div
-              className="filter-input-wrapper">
-              <Radio
-                bsClass="radio"
-                checked={false}
-                disabled={false}
-                inline={false}
-                onChange={[Function]}
-                value="lease_start">
+              </Col>
+              <Col
+                bsClass="col"
+                componentClass="div"
+                md={2}
+                sm={3}>
                 <div
-                  className="radio">
-                  <label>
-                    <input
-                      checked={false}
-                      disabled={false}
-                      onChange={[Function]}
-                      type="radio"
-                      value="lease_start" />
-                    תאריך כניסה
-                  </label>
+                  className="col-md-2 col-sm-3">
+                  <OverlayTrigger
+                    defaultOverlayShown={false}
+                    overlay={
+                      <Popover
+                        bsClass="popover"
+                        className="filter-roomsnum-popup"
+                        id="popup-rooms"
+                        placement="right">
+                        <Nouislider
+                          connect={true}
+                          direction="ltr"
+                          onChange={[Function]}
+                          pips={
+                            Object {
+                              "density": 30,
+                              "mode": "values",
+                              "values": Array [
+                                1,
+                                2,
+                                3,
+                                4,
+                                5,
+                              ],
+                            }
+                          }
+                          range={
+                            Object {
+                              "12.5%": 1.5,
+                              "25%": 2,
+                              "37.5%": 2.5,
+                              "50%": 3,
+                              "62.5%": 3.5,
+                              "75%": 4,
+                              "87.5%": 4.5,
+                              "max": 5,
+                              "min": 1,
+                            }
+                          }
+                          snap={true}
+                          start={
+                            Array [
+                              1,
+                              5,
+                            ]
+                          } />
+                      </Popover>
+                    }
+                    placement="bottom"
+                    rootClose={true}
+                    trigger="click">
+                    <div
+                      aria-describedby="popup-rooms"
+                      className="filter-trigger-container"
+                      onClick={[Function]}>
+                      חדרים
+                    </div>
+                  </OverlayTrigger>
                 </div>
-              </Radio>
+              </Col>
+              <Col
+                bsClass="col"
+                componentClass="div"
+                md={2}
+                sm={3}>
+                <div
+                  className="col-md-2 col-sm-3">
+                  <OverlayTrigger
+                    defaultOverlayShown={false}
+                    overlay={
+                      <Popover
+                        bsClass="popover"
+                        className="filter-cost-popup"
+                        id="popup-cost"
+                        placement="right">
+                        <Nouislider
+                          connect={true}
+                          direction="ltr"
+                          onChange={[Function]}
+                          pips={
+                            Object {
+                              "density": 30,
+                              "mode": "steps",
+                            }
+                          }
+                          range={
+                            Object {
+                              "max": 7000,
+                              "min": 1000,
+                            }
+                          }
+                          start={
+                            Array [
+                              1000,
+                              7000,
+                            ]
+                          }
+                          step={1000} />
+                      </Popover>
+                    }
+                    placement="bottom"
+                    rootClose={true}
+                    trigger="click">
+                    <div
+                      aria-describedby="popup-cost"
+                      className="filter-trigger-container"
+                      onClick={[Function]}>
+                      מחיר
+                    </div>
+                  </OverlayTrigger>
+                </div>
+              </Col>
+              <Col
+                bsClass="col"
+                componentClass="div"
+                md={2}
+                sm={3}>
+                <div
+                  className="col-md-2 col-sm-3">
+                  <OverlayTrigger
+                    defaultOverlayShown={false}
+                    overlay={
+                      <Popover
+                        bsClass="popover"
+                        className="filter-extra-popup"
+                        id="popup-extra"
+                        placement="right">
+                        <div
+                          className="sort-container filter-group-container">
+                          <div
+                            className="filter-switch-group-headersort-header">
+                            <b>
+                              סדר לפי
+                            </b>
+                          </div>
+                          <div
+                            className="sort-options">
+                            <div
+                              className="filter-input-wrapper">
+                              <Radio
+                                bsClass="radio"
+                                checked={true}
+                                disabled={false}
+                                inline={false}
+                                onChange={[Function]}
+                                value="publish_date">
+                                תאריך פרסום
+                              </Radio>
+                            </div>
+                            <div
+                              className="filter-input-wrapper">
+                              <Radio
+                                bsClass="radio"
+                                checked={false}
+                                disabled={false}
+                                inline={false}
+                                onChange={[Function]}
+                                value="lease_start">
+                                תאריך כניסה
+                              </Radio>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          className="filter-group-container">
+                          <Checkbox
+                            bsClass="checkbox"
+                            checked={true}
+                            className="filter-switch-group-header"
+                            disabled={false}
+                            inline={false}
+                            name="roommate"
+                            onChange={[Function]}>
+                            <b>
+                              הציגו לי דירות לשותפים
+                            </b>
+                          </Checkbox>
+                          <div
+                            className="filter-input-wrapper">
+                            <Checkbox
+                              bsClass="checkbox"
+                              checked={true}
+                              disabled={false}
+                              inline={false}
+                              name="empty"
+                              onChange={[Function]}>
+                              דירות ריקות לשותפים
+                            </Checkbox>
+                          </div>
+                          <div
+                            className="filter-input-wrapper">
+                            <Checkbox
+                              bsClass="checkbox"
+                              checked={true}
+                              disabled={false}
+                              inline={false}
+                              name="room"
+                              onChange={[Function]}>
+                              חדר בדירת שותפים
+                            </Checkbox>
+                          </div>
+                        </div>
+                        <div
+                          className="filter-amenities-container">
+                          <h5>
+                            <b>
+                              צמצמו את החיפוש
+                            </b>
+                          </h5>
+                          <Col
+                            bsClass="col"
+                            componentClass="div"
+                            xs={4}>
+                            <Checkbox
+                              bsClass="checkbox"
+                              checked={false}
+                              disabled={false}
+                              inline={false}
+                              name="park"
+                              onChange={[Function]}>
+                              חניה
+                            </Checkbox>
+                            <Checkbox
+                              bsClass="checkbox"
+                              checked={false}
+                              disabled={false}
+                              inline={false}
+                              name="balc"
+                              onChange={[Function]}>
+                              מרפסת
+                            </Checkbox>
+                          </Col>
+                          <Col
+                            bsClass="col"
+                            componentClass="div"
+                            xs={4}>
+                            <Checkbox
+                              bsClass="checkbox"
+                              checked={false}
+                              disabled={false}
+                              inline={false}
+                              name="ac"
+                              onChange={[Function]}>
+                              מזגן
+                            </Checkbox>
+                            <Checkbox
+                              bsClass="checkbox"
+                              checked={undefined}
+                              disabled={false}
+                              inline={false}
+                              name="ele"
+                              onChange={[Function]}>
+                              מעלית
+                            </Checkbox>
+                          </Col>
+                          <Col
+                            bsClass="col"
+                            componentClass="div"
+                            xs={4}>
+                            <Checkbox
+                              bsClass="checkbox"
+                              checked={false}
+                              disabled={false}
+                              inline={false}
+                              name="pet"
+                              onChange={[Function]}>
+                              מותר בע״ח
+                            </Checkbox>
+                            <Checkbox
+                              bsClass="checkbox"
+                              checked={undefined}
+                              disabled={false}
+                              inline={false}
+                              name="sb"
+                              onChange={[Function]}>
+                              סורגים
+                            </Checkbox>
+                          </Col>
+                        </div>
+                      </Popover>
+                    }
+                    placement="bottom"
+                    rootClose={true}
+                    trigger="click">
+                    <div
+                      aria-describedby="popup-extra"
+                      className="filter-trigger-container"
+                      onClick={[Function]}>
+                      פילטרים נוספים
+                    </div>
+                  </OverlayTrigger>
+                </div>
+              </Col>
             </div>
-          </div>
-        </div>
-        <div
-          className="filter-group-container">
-          <Checkbox
-            bsClass="checkbox"
-            checked={true}
-            className="filter-switch-group-header"
-            disabled={false}
-            inline={false}
-            name="roommate"
-            onChange={[Function]}>
+          </Row>
+          <div
+            className="filter-close">
             <div
-              className="filter-switch-group-header checkbox">
-              <label>
-                <input
-                  checked={true}
-                  disabled={false}
-                  name="roommate"
-                  onChange={[Function]}
-                  type="checkbox" />
-                <b>
-                  הציגו לי דירות לשותפים
-                </b>
-              </label>
-            </div>
-          </Checkbox>
-          <div
-            className="filter-input-wrapper">
-            <Checkbox
-              bsClass="checkbox"
-              checked={true}
-              disabled={false}
-              inline={false}
-              name="empty"
-              onChange={[Function]}>
-              <div
-                className="checkbox">
-                <label>
-                  <input
-                    checked={true}
-                    disabled={false}
-                    name="empty"
-                    onChange={[Function]}
-                    type="checkbox" />
-                  דירות ריקות לשותפים
-                </label>
-              </div>
-            </Checkbox>
-          </div>
-          <div
-            className="filter-input-wrapper">
-            <Checkbox
-              bsClass="checkbox"
-              checked={true}
-              disabled={false}
-              inline={false}
-              name="room"
-              onChange={[Function]}>
-              <div
-                className="checkbox">
-                <label>
-                  <input
-                    checked={true}
-                    disabled={false}
-                    name="room"
-                    onChange={[Function]}
-                    type="checkbox" />
-                  חדר בדירת שותפים
-                </label>
-              </div>
-            </Checkbox>
-          </div>
-        </div>
-        <div
-          className="filter-group-container">
-          <Checkbox
-            bsClass="checkbox"
-            checked={false}
-            className="filter-switch-group-header"
-            disabled={false}
-            inline={false}
-            name="liked"
-            onChange={[Function]}>
-            <div
-              className="filter-switch-group-header checkbox">
-              <label>
-                <input
-                  checked={false}
-                  disabled={false}
-                  name="liked"
-                  onChange={[Function]}
-                  type="checkbox" />
-                <i
-                  className="fa fa-heart like-filter-icon" />
-                <span>
-                  הציגו רק דירות שאהבתי
-                </span>
-              </label>
-            </div>
-          </Checkbox>
-        </div>
-        <div
-          className="filter-sliders-container">
-          <div
-            className="cost-slider">
-            <h5
-              className="text-center">
-              טווח מחירים
-            </h5>
-            <Nouislider
-              connect={true}
-              direction="ltr"
-              onChange={[Function]}
-              pips={
-                Object {
-                  "density": 30,
-                  "mode": "steps",
-                }
-              }
-              range={
-                Object {
-                  "max": 7000,
-                  "min": 1000,
-                }
-              }
-              start={
-                Array [
-                  1000,
-                  7000,
-                ]
-              }
-              step={1000}>
-              <div />
-            </Nouislider>
-          </div>
-          <div
-            className="roomsnum-slider">
-            <h5
-              className="text-center">
-              מספר חדרים
-            </h5>
-            <Nouislider
-              connect={true}
-              direction="ltr"
-              onChange={[Function]}
-              pips={
-                Object {
-                  "density": 30,
-                  "mode": "values",
-                  "values": Array [
-                    1,
-                    2,
-                    3,
-                    4,
-                    5,
-                  ],
-                }
-              }
-              range={
-                Object {
-                  "12.5%": 1.5,
-                  "25%": 2,
-                  "37.5%": 2.5,
-                  "50%": 3,
-                  "62.5%": 3.5,
-                  "75%": 4,
-                  "87.5%": 4.5,
-                  "max": 5,
-                  "min": 1,
-                }
-              }
-              snap={true}
-              start={
-                Array [
-                  1,
-                  5,
-                ]
-              }>
-              <div />
-            </Nouislider>
-          </div>
-          <div
-            className="size-slider">
-            <h5
-              className="text-center">
-              גודל נכס (במ\"ר)
-            </h5>
-            <Nouislider
-              connect={true}
-              direction="ltr"
-              onChange={[Function]}
-              pips={
-                Object {
-                  "density": 30,
-                  "mode": "steps",
-                }
-              }
-              range={
-                Object {
-                  "20%": 40,
-                  "40%": 60,
-                  "60%": 80,
-                  "80%": 100,
-                  "max": 120,
-                  "min": 26,
-                }
-              }
-              snap={true}
-              start={
-                Array [
-                  26,
-                  120,
-                ]
-              }>
-              <div />
-            </Nouislider>
-          </div>
-        </div>
-        <Grid
-          bsClass="container"
-          componentClass="div"
-          fluid={true}>
-          <div
-            className="container-fluid">
-            <Row
-              bsClass="row"
-              className="filter-amenities-container"
-              componentClass="div">
-              <div
-                className="filter-amenities-container row">
-                <h5>
-                  <b>
-                    צמצמו את החיפוש
-                  </b>
-                </h5>
-                <Col
-                  bsClass="col"
-                  componentClass="div"
-                  xs={4}>
-                  <div
-                    className="col-xs-4">
-                    <Checkbox
-                      bsClass="checkbox"
-                      checked={false}
-                      disabled={false}
-                      inline={false}
-                      name="park"
-                      onChange={[Function]}>
-                      <div
-                        className="checkbox">
-                        <label>
-                          <input
-                            checked={false}
-                            disabled={false}
-                            name="park"
-                            onChange={[Function]}
-                            type="checkbox" />
-                          חניה
-                        </label>
-                      </div>
-                    </Checkbox>
-                    <Checkbox
-                      bsClass="checkbox"
-                      checked={false}
-                      disabled={false}
-                      inline={false}
-                      name="balc"
-                      onChange={[Function]}>
-                      <div
-                        className="checkbox">
-                        <label>
-                          <input
-                            checked={false}
-                            disabled={false}
-                            name="balc"
-                            onChange={[Function]}
-                            type="checkbox" />
-                          מרפסת
-                        </label>
-                      </div>
-                    </Checkbox>
-                  </div>
-                </Col>
-                <Col
-                  bsClass="col"
-                  componentClass="div"
-                  xs={4}>
-                  <div
-                    className="col-xs-4">
-                    <Checkbox
-                      bsClass="checkbox"
-                      checked={false}
-                      disabled={false}
-                      inline={false}
-                      name="ac"
-                      onChange={[Function]}>
-                      <div
-                        className="checkbox">
-                        <label>
-                          <input
-                            checked={false}
-                            disabled={false}
-                            name="ac"
-                            onChange={[Function]}
-                            type="checkbox" />
-                          מזגן
-                        </label>
-                      </div>
-                    </Checkbox>
-                    <Checkbox
-                      bsClass="checkbox"
-                      disabled={false}
-                      inline={false}
-                      name="ele"
-                      onChange={[Function]}>
-                      <div
-                        className="checkbox">
-                        <label>
-                          <input
-                            disabled={false}
-                            name="ele"
-                            onChange={[Function]}
-                            type="checkbox" />
-                          מעלית
-                        </label>
-                      </div>
-                    </Checkbox>
-                  </div>
-                </Col>
-                <Col
-                  bsClass="col"
-                  componentClass="div"
-                  xs={4}>
-                  <div
-                    className="col-xs-4">
-                    <Checkbox
-                      bsClass="checkbox"
-                      checked={false}
-                      disabled={false}
-                      inline={false}
-                      name="pet"
-                      onChange={[Function]}>
-                      <div
-                        className="checkbox">
-                        <label>
-                          <input
-                            checked={false}
-                            disabled={false}
-                            name="pet"
-                            onChange={[Function]}
-                            type="checkbox" />
-                          מותר בע״ח
-                        </label>
-                      </div>
-                    </Checkbox>
-                    <Checkbox
-                      bsClass="checkbox"
-                      disabled={false}
-                      inline={false}
-                      name="sb"
-                      onChange={[Function]}>
-                      <div
-                        className="checkbox">
-                        <label>
-                          <input
-                            disabled={false}
-                            name="sb"
-                            onChange={[Function]}
-                            type="checkbox" />
-                          סורגים
-                        </label>
-                      </div>
-                    </Checkbox>
-                  </div>
-                </Col>
-              </div>
-            </Row>
-            <div
-              className="filter-close">
-              <div
-                className="filter-close-text"
-                onClick={[Function]}>
-                סנן וסגור
-              </div>
+              className="filter-close-text"
+              onClick={[Function]}>
+              סנן וסגור
             </div>
           </div>
-        </Grid>
-      </div>
+        </div>
+      </Grid>
     </div>
   </Filter>
 </inject-Filter-with-appStore-appProviders>

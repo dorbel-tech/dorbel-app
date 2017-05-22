@@ -41,7 +41,7 @@ describe('Filter', () => {
   });
 
   it('should initialize correctly', () => {
-    const expectedFilterObj = {'city': '*'};
+    const expectedFilterObj = {city: '*'};
 
     const cityDropdownButton = filter().find('#cityDropdown');
 
@@ -50,13 +50,13 @@ describe('Filter', () => {
     expect(history.pushState.calls.count()).toEqual(1);
     expect(props.appProviders.searchProvider.search).toHaveBeenCalledWith(expectedFilterObj);
     expect(props.appProviders.searchProvider.search.mock.calls.length).toEqual(1);
-    expect(cityDropdownButton.text()).toEqual('עיר: טוען... ');
+    expect(cityDropdownButton.text()).toEqual('עיר: כל הערים ');
 
     expect(mountedFilter).toMatchSnapshot();
   });
 
   it('should parse city from location', () => {
-    const expectedFilterObj = {'city': 2};
+    const expectedFilterObj = {city: 2};
     props.appStore.cityStore.cities = [{id: 2, city_name: 'test2'}];
     spyOn(JSON, 'parse').and.returnValue(expectedFilterObj);
 
@@ -69,7 +69,7 @@ describe('Filter', () => {
   it('should render cities correctly', () => {
     props.appStore.cityStore.cities = [{id: 2, city_name: 'test2'}];
 
-    const cityDropdownMenuItems = filter().find('.filter-city-container').find(MenuItem);
+    const cityDropdownMenuItems = filter().find('.filter-city-wrapper').find(MenuItem);
 
     expect(cityDropdownMenuItems.length).toEqual(2);
     expect(cityDropdownMenuItems.at(0).props().eventKey).toEqual('*');
@@ -79,7 +79,7 @@ describe('Filter', () => {
   });
 
   const checkboxTests = (name, results) => {
-    results = results || [[{ city: 1, [name]: true }], [{ city: 1 }]];
+    results = results || [[{ city: '*', [name]: true }], [{ city: 1 }]];
 
     describe(name + ' checkbox', () => {
       it('should render the ' + name + ' checkbox according to the parsed location', () => {
@@ -89,11 +89,13 @@ describe('Filter', () => {
         const check = filter().find('[name="' + name + '"]');
 
         expect(check.props().checked).toEqual(true);
-        //expect(check).toMatchSnapshot();
       });
 
       it('should call search on ' + name + ' checkbox change', () => {
-        const check = filter().find('[name="' + name + '"]');
+        const wrapper = filter();
+        const trigger = wrapper.find('.filter-trigger-container').filterWhere(n => n.text() === 'פילטרים נוספים');
+        trigger.simulate('click');
+        const check = wrapper.find('[name="' + name + '"]');
 
         check.simulate('change', {target: {name: name, checked: true}});
         expect(props.appProviders.searchProvider.search.mock.calls[1]).toEqual(results[0]);
@@ -105,9 +107,9 @@ describe('Filter', () => {
     });
   };
 
-  checkboxTests('roommate', [[{city: 1, room: 0}], [{city: 1, room: 0}]]);
-  checkboxTests('room', [[{city: 1, room: 0}], [{city: 1, room: 0}]]);
-  checkboxTests('empty', [[{city: 1, room: 1}], [{city: 1, room: 1}]]);
+  checkboxTests('roommate', [[{city: '*', room: 0}], [{city: '*', room: 0}]]);
+  checkboxTests('room', [[{city: '*', room: 0}], [{city: '*', room: 0}]]);
+  checkboxTests('empty', [[{city: '*', room: 1}], [{city: '*', room: 1}]]);
 
   checkboxTests('park');
   checkboxTests('balc');
