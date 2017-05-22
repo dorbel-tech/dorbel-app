@@ -329,7 +329,7 @@ class Filter extends Component {
           </Col>
         </Row>
         <Row>
-          <Col md={2} sm={3} className="filter-city-wrapper">
+          <Col md={2} mdOffset={2} sm={3} className="filter-city-wrapper">
             <DropdownButton id="cityDropdown" bsSize="large"
               className="filter-city-dropdown"
               title={'עיר: ' + cityTitle}

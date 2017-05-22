@@ -44,7 +44,7 @@
   }
 
   @media (min-width: $screen-sm-min) {
-    padding: 39px 15px;
+    padding: 20px 15px;
   }
 }
 
@@ -149,8 +149,19 @@
 .filter-cost-popup,
 .filter-extra-popup,
 .filter-roomsnum-popup {
+  border: none;
+  border-radius: 0;
+  margin-top: 0 !important;
   max-width: none;
   width: 290px;
+
+  @media (min-width: $screen-md-min) {
+
+  }
+
+  > .arrow {
+    display: none;
+  }
 }
 
 .filter-extra-popup {
