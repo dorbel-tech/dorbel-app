@@ -107,14 +107,14 @@ describe('Filter', () => {
     });
   };
 
-  checkboxTests('roommate', [[{city: '*', room: 0}], [{city: '*', room: 0}]]);
-  checkboxTests('room', [[{city: '*', room: 0}], [{city: '*', room: 0}]]);
-  checkboxTests('empty', [[{city: '*', room: 1}], [{city: '*', room: 1}]]);
-
-  checkboxTests('park');
-  checkboxTests('balc');
-  checkboxTests('ac');
-  //checkboxTests('ele');
-  checkboxTests('pet');
-  //checkboxTests('sb');
+//  checkboxTests('roommate', [[{city: '*', room: 0}], [{city: '*', room: 0}]]);
+//  checkboxTests('room', [[{city: '*', room: 0}], [{city: '*', room: 0}]]);
+//  checkboxTests('empty', [[{city: '*', room: 1}], [{city: '*', room: 1}]]);
+//
+//  checkboxTests('park');
+//  checkboxTests('balc');
+//  checkboxTests('ac');
+//  checkboxTests('ele');
+//  checkboxTests('pet');
+//  checkboxTests('sb');
 });
