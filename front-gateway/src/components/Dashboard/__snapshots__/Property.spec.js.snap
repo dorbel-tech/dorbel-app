@@ -1,0 +1,6 @@
+exports[`Property should render in loading state 1`] = `
+<div
+  className="loader-container">
+  <LoadingSpinner />
+</div>
+`;
