@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import autobind from 'react-autobind';
 import { Button, Col, Grid, Row, Tabs, Tab, Overlay, Popover } from 'react-bootstrap';
+import { find } from 'lodash';
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
 import CloudinaryImage from '../CloudinaryImage/CloudinaryImage';
 import ListingStatusSelector from './MyProperties/ListingStatusSelector';
@@ -9,7 +10,6 @@ import OHEManager from '~/components/OHEManager/OHEManager';
 import PropertyManage from './MyProperties/PropertyManage';
 import PropertyStats from './MyProperties/PropertyStats';
 import EditListing from './MyProperties/EditListing.jsx';
-import { find } from 'lodash';
 import utils from '~/providers/utils';
 import { getListingPath, getDashMyPropsPath } from '~/routesHelper';
 
@@ -54,9 +54,13 @@ class Property extends Component {
     return this.props.router.setRoute(getListingPath(property));
   }
 
-  gotoEditProperty(property){
+  gotoEditProperty(property) {
     this.hideActionsMenu();
     return this.props.router.setRoute(getDashMyPropsPath(property, '/edit'));
+  }
+
+  republish(property) {
+    this.props.appProviders.listingsProvider.republish(property);
   }
 
   refresh() {
@@ -86,9 +90,17 @@ class Property extends Component {
           רענון נתונים
         </div>
         <div className="property-actions-menu-item" onClick={() =>this.gotoEditProperty(property)}>
-          <i className="property-actions-menu-item-icon fa fa-pencil-square-o"  aria-hidden="true"></i>
+          <i className="property-actions-menu-item-icon fa fa-pencil-square-o" aria-hidden="true"></i>
           עריכת פרטי הנכס
         </div>
+        {
+          this.props.appProviders.listingsProvider.isRepublishable(property) ?
+          <div className="property-actions-menu-item" onClick={() =>this.republish(property)}>
+            <i className="property-actions-menu-item-icon fa fa-undo" aria-hidden="true"></i>
+            פרסום הנכס מחדש
+          </div>
+          : null
+        }
       </Popover>
     );
   }

@@ -37,7 +37,7 @@ class AppProviders {
     this.apiProvider = new ApiProvider(appStore);
     this.authProvider = loadAuthProvider(appStore, router, this.apiProvider);
     this.oheProvider = new OheProvider(appStore, this.apiProvider);
-    this.listingsProvider = new ListingsProvider(appStore, { api: this.apiProvider, ohe: this.oheProvider });
+    this.listingsProvider = new ListingsProvider(appStore, { api: this.apiProvider, ohe: this.oheProvider }, router);
     this.listingImageProvider = new ListingImageProvider({ cloudinary: this.cloudinaryProvider });
     this.cityProvider = new CityProvider(appStore, this.apiProvider);
     this.neighborhoodProvider = new NeighborhoodProvider(appStore, this.apiProvider);
