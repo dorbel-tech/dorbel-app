@@ -59,7 +59,7 @@ class ListingsProvider {
 
   uploadApartment(listing) {
     let createdListing;
-    const { uploadMode } = this.props.appStore.newListingStore;
+    const { uploadMode } = this.appStore.newListingStore;
     return this.apiProvider.fetch('/api/apartments/v1/listings', { method: 'POST', data: listing })
       .then((newListing) => createdListing = newListing)
       .then(() => { // TODO: move OHE creation to pub/sub messages on background

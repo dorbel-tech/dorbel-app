@@ -4,12 +4,16 @@ import { Col, Row } from 'react-bootstrap';
 import DatePicker from '~/components/DatePicker/DatePicker';
 import FormWrapper, { FRC } from '~/components/FormWrapper/FormWrapper';
 import autobind from 'react-autobind';
+import moment from 'moment';
 
 const LOADING_OPTIONS_LABEL = { value: 0, label: 'טוען...' };
 @inject('appStore', 'appProviders') @observer
 export default class ListingDetailsForm extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      isDateValid: this.isDateValid()
+    };
     autobind(this);
   }
 
@@ -21,8 +25,8 @@ export default class ListingDetailsForm extends React.Component {
   }
 
   updateStore(changes) {
-    const { editedListingStore } = this.props;
-    editedListingStore.updateFormValues(changes);
+    const { newListingStore } = this.props.appStore;
+    newListingStore.updateFormValues(changes);
   }
 
   getCityOptions() {
@@ -58,7 +62,7 @@ export default class ListingDetailsForm extends React.Component {
   // used outside of component
   getValidationErrors() {
     const formsy = this.refs.form.refs.formsy;
-    if (formsy.state.isValid) {
+    if (formsy.state.isValid && this.isDateValid()) {
       this.updateStore(this.refs.form.refs.formsy.getCurrentValues());
       return null;
     } else {
@@ -66,32 +70,50 @@ export default class ListingDetailsForm extends React.Component {
     }
   }
 
-  renderLeasePeriodRow(editedListingStore) {
+  handleDateChange(storeKey, value, isManage) {
+    this.updateStore({ [storeKey]: value });
+    if (isManage) {
+      if (storeKey == 'lease_start') {
+        this.updateStore({ lease_end: moment(value).add(1, 'year').format('YYYY-MM-DD') });
+      }
+      this.setState({ isDateValid: this.isDateValid() });
+    }
+  }
+
+  isDateValid() {
+    const { editedListingStore } = this.props;
+    if (editedListingStore.uploadMode == 'manage') {
+      let { lease_start, lease_end } = editedListingStore.formValues;
+      return moment().diff(lease_start, lease_end) < 0;
+    }
+    else { return true; }
+  }
+
+  renderLeasePeriodRow() {
+    const { editedListingStore } = this.props;
     const isManage = editedListingStore.uploadMode == 'manage';
     const startLabel = isManage ? 'תאריך תחילת חוזה' : 'תאריך כניסה לדירה';
     const endLabel = isManage ? 'תאריך סיום חוזה' : '';
 
     return (
-      <Row>
-        <Col md={6}>
-          <div className="form-group">
-            <label>{startLabel}</label>
-            <DatePicker
-              name="apartment.entrance-date" value={editedListingStore.formValues.lease_start}
-              calendarPlacement="top" onChange={value => this.updateStore({ lease_start: value })} />
-          </div>
+      <Row className="form-section">
+        <Col md={6} className={this.state.isDateValid ? '' : 'form-group has-error'}>
+          <label>{startLabel}</label>
+          <DatePicker
+            name="apartment.entrance-date" value={editedListingStore.formValues.lease_start}
+            calendarPlacement="top" onChange={value => this.handleDateChange('lease_start', value, isManage)} />
         </Col>
         {
           !isManage ?
-            null 
+            null
             :
             <Col md={6}>
-              <div className="form-group">
                 <label>{endLabel}</label>
                 <DatePicker
-                  name="apartment.entrance-date" value={editedListingStore.formValues.lease_end}
-                  calendarPlacement="top" onChange={value => this.updateStore({ lease_end: value })} />
-              </div>
+                  value={editedListingStore.formValues.lease_end || moment(editedListingStore.formValues.lease_start).add(1, 'year').format('YYYY-MM-DD')}
+                  name="apartment.entrance-date"
+                  calendarPlacement="top"
+                  onChange={value => this.handleDateChange('lease_end', value, true)} />
             </Col>
         }
       </Row>
@@ -177,9 +199,9 @@ export default class ListingDetailsForm extends React.Component {
           </Row>
         </Row>
 
-        <Row className="form-section">
+        <Row>
           <div className="form-section-headline">חוזה ותשלומים</div>
-          {this.renderLeasePeriodRow(editedListingStore)}
+          {this.renderLeasePeriodRow()}
           <Row className="form-section">
             <Col md={6}>
               <FRC.Input value="" name="monthly_rent" label="שכר דירה לחודש" type="number" required />
