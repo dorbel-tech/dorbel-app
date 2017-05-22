@@ -6,15 +6,19 @@ import FormWrapper, { FRC } from '~/components/FormWrapper/FormWrapper';
 import autobind from 'react-autobind';
 import moment from 'moment';
 
+import './ListingDetailsForm.scss';
+
 const LOADING_OPTIONS_LABEL = { value: 0, label: 'טוען...' };
 @inject('appStore', 'appProviders') @observer
 export default class ListingDetailsForm extends React.Component {
+  // IMPORTANT NOTE: DONT USE `appStore.newListingStore` HERE!
+  // ONLY USE props.editedListingStore
   constructor(props) {
     super(props);
+    autobind(this);
     this.state = {
       isDateValid: this.isDateValid()
     };
-    autobind(this);
   }
 
   componentDidMount() {
@@ -25,8 +29,8 @@ export default class ListingDetailsForm extends React.Component {
   }
 
   updateStore(changes) {
-    const { newListingStore } = this.props.appStore;
-    newListingStore.updateFormValues(changes);
+    const { editedListingStore } = this.props;
+    editedListingStore.updateFormValues(changes);
   }
 
   getCityOptions() {
@@ -76,15 +80,16 @@ export default class ListingDetailsForm extends React.Component {
       if (storeKey == 'lease_start') {
         this.updateStore({ lease_end: moment(value).add(1, 'year').format('YYYY-MM-DD') });
       }
-      this.setState({ isDateValid: this.isDateValid() });
     }
+
+    this.setState({ isDateValid: this.isDateValid() });
   }
 
   isDateValid() {
     const { editedListingStore } = this.props;
     if (editedListingStore.uploadMode == 'manage') {
       let { lease_start, lease_end } = editedListingStore.formValues;
-      return moment().diff(lease_start, lease_end) < 0;
+      return moment(lease_start).isBefore(lease_end);
     }
     else { return true; }
   }
@@ -92,12 +97,12 @@ export default class ListingDetailsForm extends React.Component {
   renderLeasePeriodRow() {
     const { editedListingStore } = this.props;
     const isManage = editedListingStore.uploadMode == 'manage';
-    const startLabel = isManage ? 'תאריך תחילת חוזה' : 'תאריך כניסה לדירה';
-    const endLabel = isManage ? 'תאריך סיום חוזה' : '';
+    const startLabel = isManage ? 'תחילת תקופת שכירות' : 'תאריך כניסה לדירה';
+    const endLabel = isManage ? 'סוף תקופת שכירות' : '';
 
     return (
       <Row className="form-section">
-        <Col md={6} className={this.state.isDateValid ? '' : 'form-group has-error'}>
+        <Col md={6}>
           <label>{startLabel}</label>
           <DatePicker
             name="apartment.entrance-date" value={editedListingStore.formValues.lease_start}
@@ -108,14 +113,17 @@ export default class ListingDetailsForm extends React.Component {
             null
             :
             <Col md={6}>
-                <label>{endLabel}</label>
-                <DatePicker
-                  value={editedListingStore.formValues.lease_end || moment(editedListingStore.formValues.lease_start).add(1, 'year').format('YYYY-MM-DD')}
-                  name="apartment.entrance-date"
-                  calendarPlacement="top"
-                  onChange={value => this.handleDateChange('lease_end', value, true)} />
+              <label>{endLabel}</label>
+              <DatePicker
+                value={editedListingStore.formValues.lease_end || moment(editedListingStore.formValues.lease_start).add(1, 'year').format('YYYY-MM-DD')}
+                name="apartment.entrance-date"
+                calendarPlacement="top"
+                onChange={value => this.handleDateChange('lease_end', value, true)} />
             </Col>
         }
+        <Col xs={12} className="listing-details-form-date-error-text" hidden={this.state.isDateValid}>
+          <label>תאריך תום השכירות חייב להיות מאוחר מתאריך תחילת השכירות</label>
+        </Col>
       </Row>
     );
   }
