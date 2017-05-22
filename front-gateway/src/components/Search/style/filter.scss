@@ -151,13 +151,10 @@
 .filter-roomsnum-popup {
   border: none;
   border-radius: 0;
-  margin-top: 0 !important;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  margin-top: 7px !important;
   max-width: none;
   width: 290px;
-
-  @media (min-width: $screen-md-min) {
-
-  }
 
   > .arrow {
     display: none;
