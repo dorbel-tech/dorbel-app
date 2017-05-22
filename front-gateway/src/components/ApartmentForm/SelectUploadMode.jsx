@@ -18,10 +18,10 @@ class SelectUploadMode extends Component {
     return (
       <Grid fluid className="select-upload-mode-wrapper">
         <Row>
-          <Col xs={5}>
+          <Col xs={2}>
             <Dashboard />
           </Col>
-          <Col xs={7}>
+          <Col xs={10}>
             <Row>
               <h3>האם אתם מעלים דירה להשכרה או דירה לניהול?</h3>
               <h4>בעוד 2 דק׳ תסיימו להעלות את הדירה לאתר! בחרו איזו דירה ברצונכם להעלות</h4>
