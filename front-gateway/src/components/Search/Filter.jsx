@@ -248,6 +248,30 @@ class Filter extends Component {
                   </div>
                 </div>
               </div>
+              <div className="filter-group-container">
+                <Checkbox name="roommate"
+                  checked={this.state.roommate}
+                  className="filter-switch-group-header"
+                  onChange={this.roommateChangeHandler}>
+                  <b>הציגו לי דירות לשותפים</b>
+                </Checkbox>
+                <div className="filter-input-wrapper">
+                  <Checkbox name="empty"
+                    checked={this.state.empty}
+                    disabled={!this.state.roommate || !this.state.room}
+                    onChange={this.roommateChangeHandler}>
+                    דירות ריקות לשותפים
+                    </Checkbox>
+                </div>
+                <div className="filter-input-wrapper">
+                  <Checkbox name="room"
+                    checked={this.state.room}
+                    disabled={!this.state.roommate || !this.state.empty}
+                    onChange={this.roommateChangeHandler}>
+                    חדר בדירת שותפים
+                    </Checkbox>
+                </div>
+              </div>
               <div className="filter-amenities-container">
                 <h5><b>צמצמו את החיפוש</b></h5>
                 <Col xs={4}>
@@ -333,35 +357,6 @@ class Filter extends Component {
             </OverlayTrigger>
           </Col>
         </Row>
-        <Row>
-          <Col xs={12}>
-            <div className="filter-group-container">
-              <Checkbox name="roommate"
-                checked={this.state.roommate}
-                className="filter-switch-group-header"
-                onChange={this.roommateChangeHandler}>
-                <b>הציגו לי דירות לשותפים</b>
-              </Checkbox>
-              <div className="filter-input-wrapper">
-                <Checkbox name="empty"
-                  checked={this.state.empty}
-                  disabled={!this.state.roommate || !this.state.room}
-                  onChange={this.roommateChangeHandler}>
-                  דירות ריקות לשותפים
-                  </Checkbox>
-              </div>
-              <div className="filter-input-wrapper">
-                <Checkbox name="room"
-                  checked={this.state.room}
-                  disabled={!this.state.roommate || !this.state.empty}
-                  onChange={this.roommateChangeHandler}>
-                  חדר בדירת שותפים
-                  </Checkbox>
-              </div>
-            </div>
-          </Col>
-        </Row>
-
         <div className="filter-close">
           <div className="filter-close-text" onClick={this.toggleHideFilter}>
             סנן וסגור

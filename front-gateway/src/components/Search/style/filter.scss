@@ -43,7 +43,7 @@
     }
   }
 
-  @media (min-width: $screen-md-min) {
+  @media (min-width: $screen-sm-min) {
     padding: 39px 15px;
   }
 }
@@ -114,14 +114,7 @@
 
 .filter-admin-switch {
   display: inline-block;
-
-  &:nth-child(even) {
-    width: 158px;
-  }
-
-  @media (max-width: $screen-sm-max) {
-    width: 158px;
-  }
+  width: 158px;
 }
 
 .filter-switch-group-header {
@@ -158,6 +151,12 @@
 .filter-roomsnum-popup {
   max-width: none;
   width: 290px;
+}
+
+.filter-extra-popup {
+  @media (min-width: $screen-sm-min) {
+    width: 345px;
+  }
 }
 
 // nouislider overrides
