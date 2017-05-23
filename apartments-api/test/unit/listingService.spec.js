@@ -76,6 +76,7 @@ describe('Listing Service', function () {
     it('should not create a new listing if apartment already has a non-closed listing', function* () {
       this.listingRepositoryMock.getListingsForApartment = sinon.stub().resolves([{ something: 1 }]);
       let newListing = faker.getFakeListing();
+      newListing.status = 'pending';
       try {
         yield this.listingService.create(newListing);
         __.assertThat('code', __.is('not reached'));

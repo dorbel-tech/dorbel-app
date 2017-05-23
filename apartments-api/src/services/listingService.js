@@ -21,17 +21,25 @@ function CustomError(code, message) {
 }
 
 function* create(listing) {
-  const existingOpenListingForApartment = yield listingRepository.getListingsForApartment(
-    listing.apartment,
-    { status: { $notIn: ['rented', 'unlisted', 'deleted'] } }
-  );
-  if (existingOpenListingForApartment && existingOpenListingForApartment.length) {
-    logger.error(existingOpenListingForApartment, 'Listing already exists');
-    throw new CustomError(409, 'הדירה שלך כבר קיימת במערכת');
+  if (['pending', 'rented'].indexOf(listing.status) < 0) {
+    throw new CustomError(400, `לא ניתן להעלות דירה ב status ${listing.status}`);
   }
 
-  // Force 'pending' status for new listings in order to prevent the possibility of setting the status using this API
-  listing.status = 'pending';
+  if (listing.status == 'pending') {
+    const existingOpenListingForApartment = yield listingRepository.getListingsForApartment(
+      listing.apartment,
+      { status: { $in: ['listed', 'pending'] } }
+    );
+
+    if (existingOpenListingForApartment && existingOpenListingForApartment.length) {
+      logger.error(existingOpenListingForApartment, 'Listing already exists');
+      throw new CustomError(409, 'הדירה שלך כבר קיימת במערכת');
+    }
+    else {
+      // Explicitly set the lease_end field it was set on client when in 'manage mode'
+      listing.lease_end = moment(listing.lease_start).add(1, 'year').format('YYYY-MM-DD');
+    }
+  }
 
   let modifiedListing = setListingAutoFields(listing);
   listing.apartment.building.geolocation = yield geoProvider.getGeoLocation(listing.apartment.building);
@@ -49,8 +57,12 @@ function* create(listing) {
   });
 
   // Publish event trigger message to SNS for notifications dispatching.
+  const messageType = listing.status == 'listed' ?
+    messageBus.eventType.APARTMENT_CREATED :
+    messageBus.eventType.APARTMENT_CREATED_FOR_MANAGEMENT;
+
   if (process.env.NOTIFICATIONS_SNS_TOPIC_ARN) {
-    messageBus.publish(process.env.NOTIFICATIONS_SNS_TOPIC_ARN, messageBus.eventType.APARTMENT_CREATED, {
+    messageBus.publish(process.env.NOTIFICATIONS_SNS_TOPIC_ARN, messageType, {
       city_id: listing.apartment.building.city_id,
       listing_id: createdListing.id,
       user_uuid: createdListing.publishing_user_id,
@@ -212,7 +224,7 @@ function* getByFilter(filterJSON, options = {}) {
       };
     }
 
-    if (filter.myProperties){
+    if (filter.myProperties) {
       if (!userPermissions.isUserAdmin(options.user)) {
         listingQuery.publishing_user_id = options.user.id;
       }
@@ -300,25 +312,31 @@ function* getBySlug(slug, user) {
   return yield enrichListingResponse(listing, user);
 }
 
-function isNotPendingDeleted(listingStatus) {
-  return listingStatus !== 'pending' && listingStatus !== 'deleted';
-}
-
 function getPossibleStatuses(listing, user) {
   let possibleStatuses = [];
-
   if (user) {
     if (userPermissions.isUserAdmin(user)) {
       // admin can change to all statuses
       possibleStatuses = listingRepository.listingStatuses;
-    }
-    else if (userPermissions.isResourceOwner(user, listing.publishing_user_id) && isNotPendingDeleted(listing.status)) {
-      // listing owner can change to anything but pending or deleted, unless the listing is pending
-      possibleStatuses = listingRepository.listingStatuses.filter(status => isNotPendingDeleted(status));
+    } else if (userPermissions.isResourceOwner(user, listing.publishing_user_id)) {
+      switch (listing.status) {
+        case 'pending':
+        case 'rented':
+          possibleStatuses = ['deleted', 'unlisted'];
+          break;
+        case 'unlisted':
+          possibleStatuses = ['deleted', 'rented'];
+          break;
+        case 'listed':
+          possibleStatuses = ['rented', 'deleted', 'unlisted'];
+          break;
+        default:
+          break;
+      }
     }
   }
 
-  return possibleStatuses.filter(status => status !== listing.status); // exclude current status
+  return possibleStatuses;
 }
 
 function* enrichListingResponse(listing, user) {
@@ -338,7 +356,7 @@ function* enrichListingResponse(listing, user) {
       if (userPermissions.isResourceOwnerOrAdmin(user, listing.publishing_user_id)) {
         enrichedListing.totalLikes = yield likeRepository.getListingTotalLikes(listing.id);
       }
-       // TODO: Implemented this way as discussed - should be different api call when possible
+      // TODO: Implemented this way as discussed - should be different api call when possible
       if (listing.show_phone) {
         enrichedListing.publishing_user_phone = _.get(publishingUser, 'user_metadata.phone' || 'phone') || '';
       }
