@@ -1621,130 +1621,149 @@ exports[`Listing Details Form should match snapshot in empty state 1`] = `
         </Row>
         <Row
           bsClass="row"
-          className="form-section"
           componentClass="div">
           <div
-            className="form-section row">
+            className="row">
             <div
               className="form-section-headline">
               חוזה ותשלומים
             </div>
             <Row
               bsClass="row"
+              className="form-section"
               componentClass="div">
               <div
-                className="row">
+                className="form-section row">
                 <Col
                   bsClass="col"
                   componentClass="div"
                   md={6}>
                   <div
                     className="col-md-6">
-                    <div
-                      className="form-group">
-                      <label>
-                        תאריך כניסה לדירה
-                      </label>
+                    <label>
+                      תאריך כניסה לדירה
+                    </label>
+                    <DatePicker
+                      calendarPlacement="top"
+                      name="apartment.entrance-date"
+                      onChange={[Function]}
+                      value="1970-01-01T00:00:00.000Z">
                       <DatePicker
+                        autoFocus={false}
                         calendarPlacement="top"
+                        cellPadding="5px"
+                        clearButtonElement="×"
+                        customControl={
+                          <input
+                            className="react-bootstrap-date-picker-custom-control"
+                            readOnly={true} />
+                        }
+                        dateFormat="MM/DD/YYYY"
+                        dayLabels={
+                          Array [
+                            "Su",
+                            "Mo",
+                            "Tu",
+                            "We",
+                            "Th",
+                            "Fr",
+                            "Sa",
+                          ]
+                        }
+                        disabled={false}
+                        monthLabels={
+                          Array [
+                            "January",
+                            "February",
+                            "March",
+                            "April",
+                            "May",
+                            "June",
+                            "July",
+                            "August",
+                            "September",
+                            "October",
+                            "November",
+                            "December",
+                          ]
+                        }
                         name="apartment.entrance-date"
+                        nextButtonElement="<"
                         onChange={[Function]}
+                        previousButtonElement=">"
+                        showClearButton={false}
+                        showTodayButton={false}
+                        todayButtonLabel="Today"
                         value="1970-01-01T00:00:00.000Z">
-                        <DatePicker
-                          autoFocus={false}
-                          calendarPlacement="top"
-                          cellPadding="5px"
-                          clearButtonElement="×"
-                          customControl={
-                            <input
-                              className="react-bootstrap-date-picker-custom-control"
-                              readOnly={true} />
-                          }
-                          dateFormat="MM/DD/YYYY"
-                          dayLabels={
-                            Array [
-                              "Su",
-                              "Mo",
-                              "Tu",
-                              "We",
-                              "Th",
-                              "Fr",
-                              "Sa",
-                            ]
-                          }
-                          disabled={false}
-                          monthLabels={
-                            Array [
-                              "January",
-                              "February",
-                              "March",
-                              "April",
-                              "May",
-                              "June",
-                              "July",
-                              "August",
-                              "September",
-                              "October",
-                              "November",
-                              "December",
-                            ]
-                          }
-                          name="apartment.entrance-date"
-                          nextButtonElement="<"
-                          onChange={[Function]}
-                          previousButtonElement=">"
-                          showClearButton={false}
-                          showTodayButton={false}
-                          todayButtonLabel="Today"
-                          value="1970-01-01T00:00:00.000Z">
-                          <InputGroup
-                            bsClass=""
+                        <InputGroup
+                          bsClass=""
+                          id={null}>
+                          <span
+                            className=""
                             id={null}>
-                            <span
-                              className=""
-                              id={null}>
+                            <Overlay
+                              animation={[Function]}
+                              container={[Function]}
+                              delayHide={200}
+                              onHide={[Function]}
+                              placement="top"
+                              rootClose={true}
+                              show={false}
+                              target={[Function]}>
                               <Overlay
-                                animation={[Function]}
                                 container={[Function]}
                                 delayHide={200}
                                 onHide={[Function]}
                                 placement="top"
                                 rootClose={true}
                                 show={false}
-                                target={[Function]}>
-                                <Overlay
-                                  container={[Function]}
-                                  delayHide={200}
-                                  onHide={[Function]}
-                                  placement="top"
-                                  rootClose={true}
-                                  show={false}
-                                  target={[Function]}
-                                  transition={[Function]} />
-                              </Overlay>
-                              <div />
-                              <input
-                                data-formattedvalue="01/01/1970"
-                                name="apartment.entrance-date"
-                                type="hidden"
-                                value="1970-01-01T12:00:00.000Z" />
-                              <input
-                                className="react-bootstrap-date-picker-custom-control"
-                                disabled={false}
-                                onBlur={[Function]}
-                                onChange={[Function]}
-                                onFocus={[Function]}
-                                onKeyDown={[Function]}
-                                placeholder="MM/DD/YYYY"
-                                readOnly={true}
-                                value="01/01/1970" />
-                            </span>
-                          </InputGroup>
-                        </DatePicker>
+                                target={[Function]}
+                                transition={[Function]} />
+                            </Overlay>
+                            <div />
+                            <input
+                              data-formattedvalue="01/01/1970"
+                              name="apartment.entrance-date"
+                              type="hidden"
+                              value="1970-01-01T12:00:00.000Z" />
+                            <input
+                              className="react-bootstrap-date-picker-custom-control"
+                              disabled={false}
+                              onBlur={[Function]}
+                              onChange={[Function]}
+                              onFocus={[Function]}
+                              onKeyDown={[Function]}
+                              placeholder="MM/DD/YYYY"
+                              readOnly={true}
+                              value="01/01/1970" />
+                          </span>
+                        </InputGroup>
                       </DatePicker>
-                    </div>
+                    </DatePicker>
                   </div>
                 </Col>
+                <Col
+                  bsClass="col"
+                  className="listing-details-form-date-error-text"
+                  componentClass="div"
+                  hidden={true}
+                  xs={12}>
+                  <div
+                    className="listing-details-form-date-error-text col-xs-12"
+                    hidden={true}>
+                    <label>
+                      תאריך תום השכירות חייב להיות מאוחר מתאריך תחילת השכירות
+                    </label>
+                  </div>
+                </Col>
+              </div>
+            </Row>
+            <Row
+              bsClass="row"
+              className="form-section"
+              componentClass="div">
+              <div
+                className="form-section row">
                 <Col
                   bsClass="col"
                   componentClass="div"
@@ -1822,13 +1841,6 @@ exports[`Listing Details Form should match snapshot in empty state 1`] = `
                     </Input>
                   </div>
                 </Col>
-              </div>
-            </Row>
-            <Row
-              bsClass="row"
-              componentClass="div">
-              <div
-                className="row">
                 <Col
                   bsClass="col"
                   componentClass="div"
