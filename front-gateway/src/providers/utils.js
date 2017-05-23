@@ -57,13 +57,15 @@ function sortListingImages(listing) {
   return listingImages.length ? _.orderBy(listingImages, ['display_order']) : [];
 }
 
+// TODO : this function does not belong in utils - it's a i18n thing and it's also static
 function getListingStatusLabels() {
   return {
     pending: { label: 'ממתינה לאישור', actionLabel: 'החזר את הדירה להמתנה' },
     listed: { label: 'מפורסמת', actionLabel: 'פרסם את הדירה' },
     rented: { label: 'מושכרת', actionLabel: 'הדירה הושכרה' },
     unlisted: { label: 'לא פעילה', actionLabel: 'השהה מודעה' },
-    deleted: { label: 'נמחקה', actionLabel: 'מחק מודעה' }
+    deleted: { label: 'נמחקה', actionLabel: 'מחק מודעה' },
+    republish: { label: '', actionLabel: 'פרסום הנכס מחדש' }
   };
 }
 
