@@ -122,7 +122,11 @@
 
 .filter-admin-switch {
   display: inline-block;
-  width: 158px;
+  width: 157px;
+
+  @media (max-width: $screen-xs-max) {
+    width: 130px;
+  }
 }
 
 .filter-switch-group-header {

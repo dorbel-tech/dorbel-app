@@ -3,48 +3,22 @@
   height: 100%;
   overflow-y: hidden;
   position: relative;
+
+  .search-results-not-found,
+  .search-results-scroll {
+    margin-top: 76px;
+    padding-top: 39px;
+
+    @media (max-width: $screen-xs-max) {
+      margin-top: 0;
+      padding-top: 20px;
+    }
+  }
 }
 
 .search-results-scroll {
   height: 100%;
-  margin-top: 76px;
   overflow-y: auto;
-  padding-top: 39px;
-
-  @media (max-width: $screen-xs-max) {
-    margin-top: 0;
-    padding-top: 20px;
-  }
-}
-
-.search-results-wrapper {
-  background-color: $gray-lighter;
-  margin-top: 117px;
-
-  @media (max-width: $screen-xs-max) {
-    height: 100%;
-    margin-top: 20px;
-
-    .search-results-scroll {
-      height: 100%;
-      overflow-y: scroll; /* has to be scroll, not auto */
-      -webkit-overflow-scrolling: touch;
-    }
-  }
-
-  .search-results-container {
-    background-color: $gray-lighter;
-
-    @media (max-width: $screen-xs-max) {
-      .thumbnail {
-        margin-bottom: 40px;
-      }
-    }
-  }
-
-  .loader-container {
-    top: -39px;
-  }
 }
 
 .search-results-not-found {

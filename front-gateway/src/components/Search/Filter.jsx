@@ -231,6 +231,7 @@ class Filter extends Component {
 
   extraPopup() {
     return <Popover className="filter-extra-popup" id="popup-extra">
+              {this.renderAdminFilter()}
               <div className="sort-container filter-group-container">
                 <div className="filter-switch-group-headersort-header">
                   <b>סדר לפי</b>
@@ -323,11 +324,6 @@ class Filter extends Component {
         </Button>
       </div>
       <Grid fluid className={'filter-wrapper' + (this.state.hideFilter ? ' hide-mobile-filter' : '')}>
-        <Row>
-          <Col xs={12}>
-            {this.renderAdminFilter()}
-          </Col>
-        </Row>
         <Row>
           <Col md={2} mdOffset={2} sm={3} className="filter-city-wrapper">
             <DropdownButton id="cityDropdown" bsSize="large"
