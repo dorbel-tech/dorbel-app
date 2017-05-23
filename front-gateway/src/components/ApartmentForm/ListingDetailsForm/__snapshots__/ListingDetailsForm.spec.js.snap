@@ -1621,19 +1621,20 @@ exports[`Listing Details Form should match snapshot in empty state 1`] = `
         </Row>
         <Row
           bsClass="row"
+          className="form-section"
           componentClass="div">
           <div
-            className="row">
+            className="form-section row">
             <div
               className="form-section-headline">
               חוזה ותשלומים
             </div>
             <Row
               bsClass="row"
-              className="form-section"
+              className="listing-details-form-date-row"
               componentClass="div">
               <div
-                className="form-section row">
+                className="listing-details-form-date-row row">
                 <Col
                   bsClass="col"
                   componentClass="div"
@@ -1760,16 +1761,15 @@ exports[`Listing Details Form should match snapshot in empty state 1`] = `
             </Row>
             <Row
               bsClass="row"
-              className="form-section"
               componentClass="div">
               <div
-                className="form-section row">
+                className="row">
                 <Col
                   bsClass="col"
                   componentClass="div"
-                  md={6}>
+                  md={4}>
                   <div
-                    className="col-md-6">
+                    className="col-md-4">
                     <Input
                       addonAfter={null}
                       addonBefore={null}
@@ -1844,9 +1844,9 @@ exports[`Listing Details Form should match snapshot in empty state 1`] = `
                 <Col
                   bsClass="col"
                   componentClass="div"
-                  md={6}>
+                  md={4}>
                   <div
-                    className="col-md-6">
+                    className="col-md-4">
                     <Input
                       addonAfter={null}
                       addonBefore={null}
@@ -1913,9 +1913,9 @@ exports[`Listing Details Form should match snapshot in empty state 1`] = `
                 <Col
                   bsClass="col"
                   componentClass="div"
-                  md={6}>
+                  md={4}>
                   <div
-                    className="col-md-6">
+                    className="col-md-4">
                     <Input
                       addonAfter={null}
                       addonBefore={null}
