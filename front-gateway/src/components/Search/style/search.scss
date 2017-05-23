@@ -18,7 +18,15 @@
 .search-results-scroll {
   background-color: $gray-lighter;
   height: 100%;
-  overflow-y: auto;
+
+  @media (min-width: $screen-md-min) {
+    overflow-y: auto;
+  }
+
+  @media (max-width: $screen-xs-max) {
+    overflow-y: scroll; /* has to be scroll, not auto */
+    -webkit-overflow-scrolling: touch;
+  }
 }
 
 .search-results-not-found {
