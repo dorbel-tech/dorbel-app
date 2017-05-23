@@ -13,6 +13,9 @@ describe('Listings Provider', () => {
       listingStore: {
         listingViewsById: {
           set: jest.fn()
+        },
+        listingsByApartmentId: {
+          get: jest.fn()
         }
       },
       newListingStore: {
@@ -63,16 +66,13 @@ describe('Listings Provider', () => {
       expect(routerMock.setRoute).toHaveBeenCalledWith('/apartments/new_form');
     });
 
-    it.skip('should rented listing is republishable', () => {
-      // this is skipped until we release this feature
-      expect(listingsProvider.isRepublishable({ status: 'rented' })).toBe(true);
+    it('should say rented listing is republishable', () => {
+      const listing = { status: 'rented', id: 7 };
+      appStoreMock.listingStore.listingsByApartmentId.get.mockReturnValue([ listing ]);
+      expect(listingsProvider.isRepublishable(listing)).toBe(true);
     });
 
-    it('should rented listing is NOT republishable', () => {
-      expect(listingsProvider.isRepublishable({ status: 'rented' })).toBe(false);
-    });
-
-    it('should listed listing is not republishable', () => {
+    it('should say listed listing is not republishable', () => {
       expect(listingsProvider.isRepublishable({ status: 'listed' })).toBe(false);
     });
   });

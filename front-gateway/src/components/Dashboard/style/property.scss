@@ -76,7 +76,7 @@
   font-size: 16px;
 
   @media (max-width: $screen-xs-max) {
-    bottom: 0px;
+    bottom: 0;
     font-size: 13px;
     left: 0;
     position: absolute;
@@ -263,7 +263,6 @@
 }
 
 .property-history-selector {
-
   @media (max-width: $screen-xs-max) {
     display: none !important;
   }
@@ -279,6 +278,6 @@
   }
 
   .btn-group {
-    width: 100%
+    width: 100%;
   }
 }
