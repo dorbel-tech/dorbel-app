@@ -60,15 +60,12 @@ describe('Listing Service', function () {
 
   describe('Create Listing', function () {
     it('should return the created listing for a valid listing', function* () {
-      const someFakeListing = faker.getFakeListing();
-      someFakeListing.status = 'pending';
-      let newListing = yield this.listingService.create(someFakeListing);
+      let newListing = yield this.listingService.create(faker.getFakeListing());
       __.assertThat(newListing, __.is(this.mockListing));
     });
 
     it('should create a new listing without any images', function* () {
       let badListing = faker.getFakeListing();
-      badListing.status = 'pending';
       badListing.images = [];
 
       let newListing = yield this.listingService.create(badListing);
@@ -78,7 +75,6 @@ describe('Listing Service', function () {
     it('should not create a new listing if apartment already has a non-closed listing', function* () {
       this.listingRepositoryMock.getListingsForApartment = sinon.stub().resolves([{ something: 1 }]);
       let newListing = faker.getFakeListing();
-      newListing.status = 'pending';
       try {
         yield this.listingService.create(newListing);
         __.assertThat('code', __.is('not reached'));
@@ -119,6 +115,7 @@ describe('Listing Service', function () {
 
     it('should update status for an existing listing', function* () {
       const listing = faker.getFakeListing();
+      listing.status = 'listed';
       const user = { id: listing.publishing_user_id };
       const updatedListing = Object.assign({}, listing, { status: 'rented' });
       this.listingRepositoryMock.update = sinon.stub().resolves(updatedListing);
