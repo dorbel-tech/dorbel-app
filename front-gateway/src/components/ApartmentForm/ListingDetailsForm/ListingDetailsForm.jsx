@@ -98,7 +98,7 @@ export default class ListingDetailsForm extends React.Component {
     const endLabel = isManage ? 'סוף תקופת שכירות' : '';
 
     return (
-      <Row className="form-section">
+      <Row className="listing-details-form-date-row">
         <Col md={6}>
           <label>{startLabel}</label>
           <DatePicker
@@ -106,9 +106,7 @@ export default class ListingDetailsForm extends React.Component {
             calendarPlacement="top" onChange={value => this.handleDateChange('lease_start', value, isManage)} />
         </Col>
         {
-          !isManage ?
-            null
-            :
+          isManage ?
             <Col md={6}>
               <label>{endLabel}</label>
               <DatePicker
@@ -117,6 +115,8 @@ export default class ListingDetailsForm extends React.Component {
                 calendarPlacement="top"
                 onChange={value => this.handleDateChange('lease_end', value, true)} />
             </Col>
+            :
+            null
         }
         <Col xs={12} className="listing-details-form-date-error-text" hidden={this.state.isDateValid}>
           <label>תאריך תום השכירות חייב להיות מאוחר מתאריך תחילת השכירות</label>
@@ -203,18 +203,18 @@ export default class ListingDetailsForm extends React.Component {
             <FRC.Checkbox name="roommate_needed" label='דרוש שותף/ה' rowClassName="checkbox-inline" />
           </Row>
         </Row>
-
-        <Row>
+        
+        <Row className="form-section">
           <div className="form-section-headline">חוזה ותשלומים</div>
           {this.renderLeasePeriodRow()}
-          <Row className="form-section">
-            <Col md={6}>
+          <Row>
+            <Col md={4}>
               <FRC.Input value="" name="monthly_rent" label="שכר דירה לחודש" type="number" required />
             </Col>
-            <Col md={6}>
+            <Col md={4}>
               <FRC.Input name="property_tax" label="ארנונה לחודשיים" type="number" />
             </Col>
-            <Col md={6}>
+            <Col md={4}>
               <FRC.Input name="board_fee" label="ועד בית לחודש" type="number" />
             </Col>
           </Row>
