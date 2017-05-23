@@ -19,7 +19,7 @@
   background-color: $gray-lighter;
   height: 100%;
 
-  @media (min-width: $screen-md-min) {
+  @media (min-width: $screen-sm-min) {
     overflow-y: auto;
   }
 
