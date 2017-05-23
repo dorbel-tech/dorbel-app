@@ -316,7 +316,7 @@ class Filter extends Component {
       cityTitle = city ? city.city_name : 'טוען...';
     }
 
-    return <div className="filter-component-wrapper">
+    return <div>
       <div className="filter-toggle-container">
         <Button onClick={this.toggleHideFilter}>
           {filterButtonText}

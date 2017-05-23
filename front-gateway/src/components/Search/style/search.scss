@@ -1,31 +1,19 @@
 .search-container {
   background-color: $gray-lighter;
   height: 100%;
+  overflow-y: hidden;
   position: relative;
-
-  @media (min-width: $screen-md-min) {
-    overflow: auto;
-  }
 }
 
-.search-scroll-up {
-  display: none;
-  position: fixed;
-  right: 125px;
-  top: 80px;
+.search-results-scroll {
+  height: 100%;
+  margin-top: 76px;
+  overflow-y: auto;
+  padding-top: 39px;
 
-  &::after {
-    content: '\f102';
-    font-family: FontAwesome;
-    margin-right: 5px;
-  }
-
-  &.search-scroll-up-show {
-    display: block;
-
-    @media (max-width: $screen-sm-max) {
-      display: none;
-    }
+  @media (max-width: $screen-xs-max) {
+    margin-top: 0;
+    padding-top: 20px;
   }
 }
 
