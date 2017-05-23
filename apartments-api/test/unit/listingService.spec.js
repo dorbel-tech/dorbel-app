@@ -15,14 +15,14 @@ describe('Listing Service', function () {
       create: sinon.stub().resolves(this.mockListing),
       getListingsForApartment: sinon.stub().resolves([]),
       list: sinon.spy(),
-      listingStatuses: [ 'pending', 'rented' ],
+      listingStatuses: ['pending', 'rented'],
       update: sinon.stub().resolves(this.mockListing)
     };
     this.likeRepositoryMock = {
       getListingTotalLikes: sinon.stub().resolves(this.mockListing)
     };
     this.geoProviderMock = {
-      getGeoLocation : sinon.stub().resolves(1)
+      getGeoLocation: sinon.stub().resolves(1)
     };
     mockRequire('../../src/apartmentsDb/repositories/listingRepository', this.listingRepositoryMock);
     mockRequire('../../src/apartmentsDb/repositories/likeRepository', this.likeRepositoryMock);
@@ -32,7 +32,7 @@ describe('Listing Service', function () {
     this.listingService = require('../../src/services/listingService');
   });
 
-  afterEach(function() {
+  afterEach(function () {
     this.listingRepositoryMock.list.reset();
     this.listingRepositoryMock.update.reset();
     this.geoProviderMock.getGeoLocation.reset();
@@ -59,14 +59,16 @@ describe('Listing Service', function () {
   });
 
   describe('Create Listing', function () {
-
     it('should return the created listing for a valid listing', function* () {
-      let newListing = yield this.listingService.create(faker.getFakeListing());
+      const someFakeListing = faker.getFakeListing();
+      someFakeListing.status = 'pending';
+      let newListing = yield this.listingService.create(someFakeListing);
       __.assertThat(newListing, __.is(this.mockListing));
     });
 
     it('should create a new listing without any images', function* () {
       let badListing = faker.getFakeListing();
+      badListing.status = 'pending';
       badListing.images = [];
 
       let newListing = yield this.listingService.create(badListing);
@@ -86,6 +88,31 @@ describe('Listing Service', function () {
       }
     });
 
+    it('should fail or succeed to create listing according to different statuses', function* () {
+      const statuses = [
+        { status: 'pending', shouldFail: false },
+        { status: 'rented', shouldFail: false },
+        { status: 'listed', shouldFail: true },
+        { status: 'unlisted', shouldFail: true },
+        { status: 'deleted', shouldFail: true },
+        { status: 'random', shouldFail: true },
+        { status: undefined, shouldFail: true },
+      ];
+
+      for (let i = 0; i < statuses.length; i++) {
+        let newListing = faker.getFakeListing();
+        newListing.status = statuses[i].status;
+        try {
+          yield this.listingService.create(newListing);
+          if (statuses[i].shouldFail) { __.assertThat('code', __.is('not reached')); }
+        }
+        catch (error) {
+          if (statuses[i].shouldFail) {
+            __.assertThat(error.message, __.is( `לא ניתן להעלות דירה ב status ${statuses[i].status}`));
+          }
+        }
+      }
+    });
   });
 
   describe('Update Listing', function () {
@@ -146,7 +173,7 @@ describe('Listing Service', function () {
       const user = { id: listing.publishing_user_id };
 
       yield assertYieldedError(
-        () => this.listingService.update(1, user, { status : 'listed' }),
+        () => this.listingService.update(1, user, { status: 'listed' }),
         __.hasProperties({
           message: 'אין באפשרותך לשנות את סטטוס הדירה ל listed',
           status: 403
