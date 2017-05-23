@@ -33,7 +33,7 @@ function* create(listing) {
 
     if (existingOpenListingForApartment && existingOpenListingForApartment.length) {
       logger.error(existingOpenListingForApartment, 'Listing already exists');
-      throw new CustomError(409, 'דירה זו כבר קיימת במערכת. לא ניתן לעלות אותה שוב.');
+      throw new CustomError(409, 'דירה זו כבר מפורסמת במערכת. לא ניתן להעלות אותה שוב.');
     }
     else {
       // Explicitly set the lease_end field for 'pending' listings
