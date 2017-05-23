@@ -36,7 +36,7 @@ function* create(listing) {
       throw new CustomError(409, 'הדירה שלך כבר קיימת במערכת');
     }
     else {
-      // Explicitly set the lease_end field it was set on client when in 'manage mode'
+      // Explicitly set the lease_end field for 'pending' listings
       listing.lease_end = moment(listing.lease_start).add(1, 'year').format('YYYY-MM-DD');
     }
   }
@@ -57,7 +57,7 @@ function* create(listing) {
   });
 
   // Publish event trigger message to SNS for notifications dispatching.
-  const messageType = listing.status == 'listed' ?
+  const messageType = listing.status == 'pending' ?
     messageBus.eventType.APARTMENT_CREATED :
     messageBus.eventType.APARTMENT_CREATED_FOR_MANAGEMENT;
 
