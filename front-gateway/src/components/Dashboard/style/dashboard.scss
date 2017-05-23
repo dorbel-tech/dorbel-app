@@ -2,15 +2,6 @@
   background-color: $gray-lighter;
   height: 100%;
   position: relative;
-
-  @media (min-width: $screen-md-min) {
-    overflow: auto;
-  }
-
-  @media (max-width: $screen-xs-max) {
-    overflow-y: scroll; /* has to be scroll, not auto */
-    -webkit-overflow-scrolling: touch;
-  }
 }
 
 .dashboard-menu-wrapper {
