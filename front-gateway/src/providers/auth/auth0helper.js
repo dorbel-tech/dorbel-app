@@ -56,7 +56,6 @@ function mapAuth0Profile(auth0profile) {
     last_name: _.get(auth0profile, 'user_metadata.last_name') || auth0profile.family_name,
     phone: _.get(auth0profile, 'user_metadata.phone'),
     picture: auth0profile.picture,
-    listing_id: _.get(auth0profile, 'user_metadata.listing_id'),
     tenant_profile: _.get(auth0profile, 'user_metadata.tenant_profile')
   };
 
