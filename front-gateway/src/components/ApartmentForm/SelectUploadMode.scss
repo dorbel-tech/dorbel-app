@@ -9,25 +9,26 @@
 
 .select-upload-mode-header {
   margin-top: 40px;
+}
 
-  .select-upload-mode-title {
-    font-size: 18px;
-    line-height: 21px;
-    color: $brand-brown;
-    margin-bottom: 12px;
-  }
+.select-upload-mode-title {
+  font-size: 18px;
+  line-height: 21px;
+  color: $brand-brown;
+  margin-bottom: 12px;
+}
 
-  .select-upload-mode-subtitle,
-  .select-upload-mode-footer {
+.select-upload-mode-subtitle,
+.select-upload-mode-footer {
+  font-size: 15px;
+  line-height: 17px;
+  text-align: center;
+  color: #9b9b9b;
+
+  a,
+  a:visited {
     font-size: 15px;
-    line-height: 17px;
-    text-align: center;
-    color: #9b9b9b;
-
-    a {
-      font-size: 15px;
-      color: #3398db;
-    }
+    color: #3398db;
   }
 }
 
