@@ -5,6 +5,7 @@
   text-align: center;
   padding-top: 30px;
   background-color: $gray-lighter;
+  margin: 0 auto;
 }
 
 .select-upload-mode-header {
@@ -15,6 +16,7 @@
   font-size: 18px;
   line-height: 21px;
   color: $brand-brown;
+  padding: 0 10px;
   margin-bottom: 12px;
 }
 
@@ -24,6 +26,7 @@
   line-height: 17px;
   text-align: center;
   color: #9b9b9b;
+  padding: 0 20px;
 
   a,
   a:visited {
@@ -33,9 +36,10 @@
 }
 
 .select-upload-mode-items-wrapper {
-  padding: 40px;
-  max-width: 600px;
+  padding: 40px 0;
   height: 100%;
+  width: 100%;
+  max-width: 600px;
   margin: 0 auto;
 }
 
@@ -54,7 +58,9 @@
   }
 
   .select-upload-mode-item-icon {
-    font-size: 90px;
+    margin-top: 45px;
+    margin-bottom: 35px;
+    height: 30px;
   }
 
   .select-upload-mode-item-subtext {

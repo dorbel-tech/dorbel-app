@@ -4,7 +4,7 @@ import { Col, Grid, Row } from 'react-bootstrap';
 import { inject } from 'mobx-react';
 import Dashboard from '../Dashboard/Dashboard';
 
-
+const UPLOAD_IMAGE_URL = 'https://static.dorbel.com/images/dashboard/add-property-icon-black.svg'
 @inject('appProviders')
 class SelectUploadMode extends Component {
   static hideFooter = true;
@@ -30,9 +30,7 @@ class SelectUploadMode extends Component {
                   <Row className="select-upload-mode-items-wrapper">
                     <Col md={6}>
                       <a href="/apartments/new_form/publish" onClick={this.handleHrefClick} className="select-upload-mode-item">
-                        <div className="select-upload-mode-item-icon">
-                          +
-                        </div>
+                        <img src={UPLOAD_IMAGE_URL} className="select-upload-mode-item-icon"/>
                         <div className="select-upload-mode-item-text">
                           פרסום דירה להשכרה
                         </div>
@@ -43,9 +41,7 @@ class SelectUploadMode extends Component {
                     </Col>
                     <Col md={6}>
                       <a href="/apartments/new_form/manage" onClick={this.handleHrefClick} className="select-upload-mode-item">
-                        <div className="select-upload-mode-item-icon">
-                          +
-                        </div>
+                        <img src={UPLOAD_IMAGE_URL} className="select-upload-mode-item-icon"/>
                         <div className="select-upload-mode-item-text">
                           העלאת דירה לניהול
                         </div>
