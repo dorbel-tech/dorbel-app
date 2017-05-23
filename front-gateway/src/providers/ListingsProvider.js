@@ -130,11 +130,8 @@ class ListingsProvider {
     this.router.setRoute('/apartments/new_form');
   }
 
-  isRepublishable() {
-    // TODO : add check that listing is also the 'active' listing of the apartment
-    // TODO : change this when we want to release it
-    // return listing.status === 'rented' || listing.status === 'unlisted';
-    return false;
+  isRepublishable(listing) {
+    return (listing.status === 'rented' || listing.status === 'unlisted') && this.isActiveListing(listing);
   }
 
   isActiveListing(listing) {
