@@ -6,6 +6,7 @@ import { find } from 'lodash';
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
 import CloudinaryImage from '../CloudinaryImage/CloudinaryImage';
 import ListingStatusSelector from './MyProperties/ListingStatusSelector';
+import PropertyHistorySelector from './PropertyHistorySelector/PropertyHistorySelector';
 import OHEManager from '~/components/OHEManager/OHEManager';
 import PropertyManage from './MyProperties/PropertyManage';
 import PropertyStats from './MyProperties/PropertyStats';
@@ -127,6 +128,9 @@ class Property extends Component {
 
     const defaultHeaderButtons = (
       <div className="property-action-container">
+        <div className="property-history-selector">
+          <PropertyHistorySelector apartment_id={property.apartment_id} />
+        </div>
         <div className="property-actions-refresh-container">
           <Button className="fa fa-refresh property-action-button" title="רענון העמוד"
               onClick={this.refresh}></Button>
@@ -181,42 +185,33 @@ class Property extends Component {
 
     return  <Grid fluid className="property-wrapper">
               <Row className="property-top-container">
-                <Col md={3} sm={3} xs={5} className="property-image-container">
+                <Col md={3} sm={3} xs={4} className="property-image-container">
                   <CloudinaryImage src={imageURL} height={125} className="property-image"/>
                   <ListingStatusSelector listing={property} />
                 </Col>
-                <Col md={5} sm={6} xs={7} className="property-title-container">
+                <Col md={5} sm={6} xs={8} className="property-title-container">
                   <div className="property-title">
                     {utils.getListingTitle(property)}
                   </div>
+                  <div className="property-history-selector-mobile">
+                    <PropertyHistorySelector apartment_id={property.apartment_id} />
+                  </div>
                   <div className="property-title-details">
-                    <span>
-                      {property.apartment.rooms}</span>
+                    <div className="property-title-details-sub">
+                      <span>{property.apartment.rooms}</span>
                       <span className="property-title-details-sub-text">&nbsp;חדרים</span>
-                    <div className="property-title-details-vr" />
-                    <span>
-                      {property.apartment.size}</span>
+                    </div>
+                    <div className="property-title-details-sub">
+                      <span>{property.apartment.size}</span>
                       <span className="property-title-details-sub-text">&nbsp;מ"ר</span>
-                    <div className="property-title-details-vr" />
-                    <span>
-                      {utils.getFloorTextValue(property)}</span>
+                    </div>
+                    <div className="property-title-details-sub">
+                      <span>{utils.getFloorTextValue(property)}</span>
                       <span className="property-title-details-sub-text">&nbsp;קומה</span>
+                    </div>
                   </div>
                 </Col>
                 <Col md={4} sm={3} className="property-actions-wrapper">
-                  <div className="property-action-container property-actions-details">
-                    <div>
-                      <span className="property-actions-title">
-                        {followers || 0}</span><br/>
-                        <span className="property-actions-sub-title">עוקבים</span>
-                    </div>
-                    <div className="property-actions-vr" />
-                    <div>
-                      <span className="property-actions-title">
-                        {property.totalLikes || 0}</span><br/>
-                        <span className="property-actions-sub-title">לייקים</span>
-                    </div>
-                  </div>
                   { activeTab.headerButtons || defaultHeaderButtons }
                 </Col>
               </Row>

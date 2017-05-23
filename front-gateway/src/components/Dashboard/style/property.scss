@@ -5,6 +5,7 @@
 
 .property-image-container {
   padding-right: 0;
+  padding-left: 0;
 
   .listing-status-container {
     left: -25px;
@@ -14,7 +15,7 @@
       left: auto;
       position: absolute;
       right: 0;
-      top: 18px;
+      top: 0;
     }
   }
 
@@ -32,13 +33,9 @@
 }
 
 .property-image {
-  height: 125px;
+  height: 133px;
   object-fit: cover;
   width: 100%;
-
-  @media (max-width: $screen-xs-max) {
-    height: 97px;
-  }
 }
 
 .property-title-container {
@@ -47,9 +44,9 @@
   padding-top: 37px;
 
   @media (max-width: $screen-xs-max) {
-    height: 97px;
-    padding-left: 5px;
-    padding-right: 0;
+    height: 133px;
+    padding-left: 15px;
+    padding-right: 15px;
     padding-top: 12px;
   }
 }
@@ -71,7 +68,7 @@
   font-size: 16px;
 
   @media (max-width: $screen-xs-max) {
-    bottom: 5px;
+    bottom: 0px;
     font-size: 13px;
     left: 0;
     position: absolute;
@@ -84,14 +81,22 @@
   font-size: 14px;
 }
 
-.property-title-details-vr {
+.property-title-details-sub {
   display: inline;
   padding-left: 12px;
 
   @media (max-width: $screen-xs-max) {
-    border-right: 1px solid $gray-light;
-    margin-right: 5px;
-    padding-left: 5px;
+    border-top: $gray-border;
+    float: right;
+    padding-bottom: 7px;
+    padding-left: 0;
+    padding-top: 7px;
+    text-align: center;
+    width: 33%;
+
+    &:not(:first-child) {
+      border-right: $gray-border;
+    }
   }
 }
 
@@ -118,7 +123,6 @@
 
   @media (min-width: $screen-md-min) {
     display: inline;
-    padding-left: 6px;
   }
 }
 
@@ -149,21 +153,15 @@
   padding-left: 10px;
 }
 
-.property-actions-refresh-container,
-.property-actions-preview-container {
-  display: inline;
-  padding-left: 10px;
-
-  @media (min-width: $screen-md-min) {
-    padding: 0 7px;
-  }
-}
-
 .property-action-button {
   background-color: $brand-white !important;
   border: none !important;
   height: 38px;
-  width: 38px;
+  width: 20px;
+
+  @media (max-width: $screen-xs-max) {
+    width: 38px;
+  }
 
   &:active,
   &:focus {
@@ -256,3 +254,23 @@
   }
 }
 
+.property-history-selector {
+
+  @media (max-width: $screen-xs-max) {
+    display: none !important;
+  }
+}
+
+.property-history-selector-mobile {
+  width: 100%;
+  display: none;
+
+  @media (max-width: $screen-xs-max) {
+    display: block;
+    margin-top: 15px;
+  }
+
+  .btn-group {
+    width: 100%
+  }
+}
