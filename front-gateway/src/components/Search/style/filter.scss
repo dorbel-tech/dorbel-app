@@ -31,13 +31,12 @@
 
 .filter-wrapper {
   background-color: $brand-white;
-  padding: 24px 15px 0;
 
-  @media (max-width: $screen-sm-max) {
-    @include box-shadow(0 2px 10px 0 rgba(0, 0, 0, 0.2));
-  }
+  @include box-shadow(0 2px 10px 0 rgba(0, 0, 0, 0.2));
 
   @media (max-width: $screen-xs-max) {
+    padding: 24px 15px 0;
+
     &.hide-mobile-filter {
       display: none;
     }
@@ -45,6 +44,9 @@
 
   @media (min-width: $screen-sm-min) {
     padding: 20px 15px;
+    position: fixed;
+    width: 100%;
+    z-index: 1;
   }
 }
 
@@ -78,6 +80,13 @@
   vertical-align: middle;
   width: 100%;
 
+  &::after {
+    content: '\f0d7';
+    font-family: FontAwesome;
+    left: 25px;
+    position: absolute;
+  }
+
   @media (max-width: $screen-xs-max) {
     height: 45px;
     line-height: 41px;
@@ -103,6 +112,13 @@
 
   .caret {
     display: none;
+  }
+
+  &::after {
+    content: '\f0d7';
+    font-family: FontAwesome;
+    left: 9px;
+    position: absolute;
   }
 
   @media (max-width: $screen-xs-max) {
