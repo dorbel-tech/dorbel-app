@@ -144,6 +144,20 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
     );
   }
 
+  renderPopupBodyText(newListingStore) {
+    return newListingStore.uploadMode == 'manage' ?
+      (
+        <p>הנכם מועברים לחשבון הדירה החדש שלכם, בו תוכלו לנהל ולעקוב אחר נתוני הנכס</p>
+      )
+      :
+      (
+        <p>
+          מודעתכם נמצאת בתהליך אישור. עדכון יישלח אליכם ברגע שהיא תעלה לאתר.<br />
+          הנכם מועברים לחשבון החדש שלכם, בו תוכלו לנהל ולעקוב אחר נתוני הנכס.
+        </p>
+      );
+  }
+
   render() {
     const { authStore, newListingStore } = this.props.appStore;
     let createdListingIdAttr = { 'data-attr': this.props.createdListingId };
@@ -177,10 +191,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
           title="תהליך העלאת פרטי הדירה הושלם בהצלחה!"
           body={
             <div className="text-center" {...createdListingIdAttr}>
-              <p>
-                מודעתכם נמצאת בתהליך אישור. עדכון יישלח אליכם ברגע שהיא תעלה לאתר.<br />
-                הנכם מועברים לחשבון החדש שלכם, בו תוכלו לנהל ולעקוב אחר נתוני הנכס.
-              </p>
+              {this.renderPopupBodyText(newListingStore)}
               <p>
                 צוות dorbel
               </p>
