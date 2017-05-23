@@ -52,7 +52,7 @@ export default class SearchResults extends React.Component {
   // Set the relevant scroll targets if none were set before
   setScrollTargets() {
     if (!this.scrollTargets) {
-      this.scrollTargets = ['search-results-scroll', 'dashboard-container'].map(
+      this.scrollTargets = ['search-results-scroll', 'dashboard-action-wrapper'].map(
         elClassName => document.getElementsByClassName(elClassName)[0]
       ).filter(el => !!el);
     }

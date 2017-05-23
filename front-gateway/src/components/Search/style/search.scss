@@ -1,5 +1,4 @@
 .search-container {
-  background-color: $gray-lighter;
   height: 100%;
   overflow-y: hidden;
   position: relative;
@@ -17,6 +16,7 @@
 }
 
 .search-results-scroll {
+  background-color: $gray-lighter;
   height: 100%;
   overflow-y: auto;
 }
