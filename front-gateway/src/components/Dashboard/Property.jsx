@@ -129,6 +129,7 @@ class Property extends Component {
     const historySelector = <PropertyHistorySelector apartment_id={property.apartment_id} listing_id={property.id} />;
     const isActiveListing = this.props.appProviders.listingsProvider.isActiveListing(property);
     const imageClass = 'property-image' + (isActiveListing ? '' : ' property-image-inactive');
+    const titleClass = 'property-title' + (isActiveListing ? '' : ' property-title-inactive');
     let editForm = null;
 
     const defaultHeaderButtons = (
@@ -195,7 +196,7 @@ class Property extends Component {
                   { isActiveListing && <ListingStatusSelector listing={property} /> }
                 </Col>
                 <Col md={5} sm={6} xs={8} className="property-title-container">
-                  <div className="property-title">
+                  <div className={titleClass}>
                     {utils.getListingTitle(property)}
                   </div>
                   <div className="property-history-selector-mobile">
