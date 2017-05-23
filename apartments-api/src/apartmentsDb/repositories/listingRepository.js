@@ -49,8 +49,10 @@ const fullListingDataInclude = [
 ];
 
 function list(query, options = {}) {
-  return models.latest_listing.findAll({
-    attributes: ['id', 'slug', 'title', 'monthly_rent', 'roommate_needed', 'lease_start', 'status', 'created_at'],
+  const modelName = options.oldListings ? 'listing' : 'latest_listing';
+
+  return models[modelName].findAll({
+    attributes: ['id', 'slug', 'title', 'monthly_rent', 'roommate_needed', 'lease_start', 'status', 'created_at', 'apartment_id'],
     where: query,
     include: [
       {
@@ -93,7 +95,7 @@ function list(query, options = {}) {
 
     limit: options.limit,
     offset: options.offset,
-    order: options.order ? 'latest_listing.' + options.order : undefined // workaround to prevent ambiguous field on order by
+    order: options.order ? modelName + '.' + options.order : undefined // workaround to prevent ambiguous field on order by
   });
 }
 

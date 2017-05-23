@@ -186,7 +186,8 @@ function* getByFilter(filterJSON, options = {}) {
   let queryOptions = {
     order: getSortOption(filter.sort),
     limit: options.limit || DEFUALT_LISTING_LIST_LIMIT,
-    offset: options.offset || 0
+    offset: options.offset || 0,
+    oldListings: filter.oldListings
   };
 
   if (options.user) {
@@ -253,7 +254,9 @@ function* getByFilter(filterJSON, options = {}) {
     // Apartment allows pets.
     pet: { set: 'apartmentQuery.pets', staticValue: true },
     // Apartment has security bars.
-    sb: { set: 'apartmentQuery.security_bars', staticValue: true }
+    sb: { set: 'apartmentQuery.security_bars', staticValue: true },
+    // Why do we need all these comments
+    apartment_id: { set: 'apartment_id', target: listingQuery }
   };
 
   Object.keys(filterMapping)

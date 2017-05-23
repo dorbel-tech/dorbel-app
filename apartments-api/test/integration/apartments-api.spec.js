@@ -70,6 +70,8 @@ describe('Apartments API Integration', function () {
   });
 
   describe('GET /listings', function () {
+    let apartmentIdWithTwoListings;
+
     it('should get listings', function* () {
       const getResponse = yield this.apiClient.getListings().expect(200).end();
       __.assertThat(getResponse.body, __.is(__.array()));
@@ -119,6 +121,23 @@ describe('Apartments API Integration', function () {
 
       __.assertThat(listingsForSameApartment, __.hasSize(1));
       __.assertThat(listingsForSameApartment[0].id, __.is(secondListingResp.body.id));
+      apartmentIdWithTwoListings = firstListingResp.body.apartment_id;
+    });
+
+    it('should return all the listings for an apartment with multiple listings WHEN oldListings = true', function* () {
+      // this is the request used to get the Property Listing History
+      // The preperation for this is already done in the previous test
+      const q = {
+        apartment_id: apartmentIdWithTwoListings,
+        oldListings: true,
+        myProperties: true
+      };
+      const getResponse = yield this.apiClient.getListings({ q }, true).expect(200).end();
+
+      __.assertThat(getResponse.body, __.allOf(
+        __.hasSize(2),
+        __.everyItem(__.hasProperty('apartment_id', apartmentIdWithTwoListings))
+      ));
     });
 
     // TODO : add at least some basic test for filters
