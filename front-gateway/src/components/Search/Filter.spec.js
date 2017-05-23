@@ -78,34 +78,34 @@ describe('Filter', () => {
     expect(cityDropdownMenuItems.at(1).text()).toEqual('test2');
   });
 
-  const checkboxTests = (name, results) => {
-    results = results || [[{ city: '*', [name]: true }], [{ city: 1 }]];
-
-    describe(name + ' checkbox', () => {
-      it('should render the ' + name + ' checkbox according to the parsed location', () => {
-        const expectedFilterObj = {[name]: true};
-        spyOn(JSON, 'parse').and.returnValue(expectedFilterObj);
-
-        const check = filter().find('[name="' + name + '"]');
-
-        expect(check.props().checked).toEqual(true);
-      });
-
-      it('should call search on ' + name + ' checkbox change', () => {
-        const wrapper = filter();
-        const trigger = wrapper.find('.filter-trigger-container').filterWhere(n => n.text() === 'פילטרים נוספים');
-        trigger.simulate('click');
-        const check = wrapper.find('[name="' + name + '"]');
-
-        check.simulate('change', {target: {name: name, checked: true}});
-        expect(props.appProviders.searchProvider.search.mock.calls[1]).toEqual(results[0]);
-
-        check.simulate('change', {target: {name: name, checked: false}});
-        expect(props.appProviders.searchProvider.search.mock.calls[2]).toEqual(results[1]);
-        expect(props.appProviders.searchProvider.search.mock.calls.length).toEqual(3);
-      });
-    });
-  };
+//  const checkboxTests = (name, results) => {
+//    results = results || [[{ city: '*', [name]: true }], [{ city: 1 }]];
+//
+//    describe(name + ' checkbox', () => {
+//      it('should render the ' + name + ' checkbox according to the parsed location', () => {
+//        const expectedFilterObj = {[name]: true};
+//        spyOn(JSON, 'parse').and.returnValue(expectedFilterObj);
+//
+//        const check = filter().find('[name="' + name + '"]');
+//
+//        expect(check.props().checked).toEqual(true);
+//      });
+//
+//      it('should call search on ' + name + ' checkbox change', () => {
+//        const wrapper = filter();
+//        const trigger = wrapper.find('.filter-trigger-container').filterWhere(n => n.text() === 'פילטרים נוספים');
+//        trigger.simulate('click');
+//        const check = wrapper.find('[name="' + name + '"]');
+//
+//        check.simulate('change', {target: {name: name, checked: true}});
+//        expect(props.appProviders.searchProvider.search.mock.calls[1]).toEqual(results[0]);
+//
+//        check.simulate('change', {target: {name: name, checked: false}});
+//        expect(props.appProviders.searchProvider.search.mock.calls[2]).toEqual(results[1]);
+//        expect(props.appProviders.searchProvider.search.mock.calls.length).toEqual(3);
+//      });
+//    });
+//  };
 
 //  checkboxTests('roommate', [[{city: '*', room: 0}], [{city: '*', room: 0}]]);
 //  checkboxTests('room', [[{city: '*', room: 0}], [{city: '*', room: 0}]]);
