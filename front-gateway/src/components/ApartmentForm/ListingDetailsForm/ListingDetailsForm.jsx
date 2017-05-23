@@ -76,12 +76,9 @@ export default class ListingDetailsForm extends React.Component {
 
   handleDateChange(storeKey, value, isManage) {
     this.updateStore({ [storeKey]: value });
-    if (isManage) {
-      if (storeKey == 'lease_start') {
-        this.updateStore({ lease_end: moment(value).add(1, 'year').format('YYYY-MM-DD') });
-      }
+    if (isManage && storeKey == 'lease_start') {
+      this.updateStore({ lease_end: moment(value).add(1, 'year').format('YYYY-MM-DD') });
     }
-
     this.setState({ isDateValid: this.isDateValid() });
   }
 
