@@ -28,7 +28,7 @@ function* create(listing) {
   if (listing.status == 'pending') {
     const existingOpenListingForApartment = yield listingRepository.getListingsForApartment(
       listing.apartment,
-      { status: { $in: ['listed', 'pending'] } }
+      { status:  ['listed', 'pending'] }
     );
 
     if (existingOpenListingForApartment && existingOpenListingForApartment.length) {
