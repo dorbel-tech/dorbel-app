@@ -43,8 +43,7 @@ exports[`Filter should initialize correctly 1`] = `
         },
       }
     }>
-    <div
-      className="filter-component-wrapper">
+    <div>
       <div
         className="filter-toggle-container">
         <Button
@@ -70,20 +69,6 @@ exports[`Filter should initialize correctly 1`] = `
         fluid={true}>
         <div
           className="filter-wrapper hide-mobile-filter container-fluid">
-          <Row
-            bsClass="row"
-            componentClass="div">
-            <div
-              className="row">
-              <Col
-                bsClass="col"
-                componentClass="div"
-                xs={12}>
-                <div
-                  className="col-xs-12" />
-              </Col>
-            </div>
-          </Row>
           <Row
             bsClass="row"
             componentClass="div">
