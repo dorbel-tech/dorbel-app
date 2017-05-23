@@ -5,6 +5,7 @@ export default class ListingStore {
   @observable listingsById;
   @observable listingViewsById;
   @observable listingTenantsById;
+  @observable listingsByApartmentId;
   @observable isLoading = false;
 
   constructor(initialState = {}, authStore) {
@@ -12,6 +13,7 @@ export default class ListingStore {
     this.listingsBySlug = asMap(initialState.listingsBySlug || {});
     this.listingViewsById = asMap(initialState.listingViewsById || {});
     this.listingTenantsById = asMap(initialState.listingTenantsById || {});
+    this.listingsByApartmentId = asMap(initialState.listingsByApartmentId || {});
     this.authStore = authStore;
     autobind(this);
   }

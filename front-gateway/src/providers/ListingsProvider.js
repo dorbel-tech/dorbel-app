@@ -136,6 +136,31 @@ class ListingsProvider {
     // return listing.status === 'rented' || listing.status === 'unlisted';
     return false;
   }
+
+  isActiveListing(listing) {
+    const { listingsByApartmentId } = this.appStore.listingStore;
+    const listingHistory = listingsByApartmentId.get(listing.apartment_id);
+    return listingHistory && listingHistory[0] && listingHistory[0].id === listing.id;
+  }
+
+  loadListingsForApartment(apartment_id) {
+    const { listingsByApartmentId } = this.appStore.listingStore;
+
+    if (listingsByApartmentId.has(apartment_id)) {
+      return; // already loaded or loading
+    }
+
+    const params = {
+      q: JSON.stringify({
+        apartment_id,
+        myProperties: true,
+        oldListings: true
+      })
+    };
+
+    return this.apiProvider.fetch('/api/apartments/v1/listings', { params })
+    .then(res => listingsByApartmentId.set(apartment_id, res));
+  }
 }
 
 module.exports = ListingsProvider;

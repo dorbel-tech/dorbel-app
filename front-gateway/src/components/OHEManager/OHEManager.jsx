@@ -36,7 +36,8 @@ class OHEManager extends React.Component {
       return null;
     }
 
-    const openHouseEvents = this.props.appStore.oheStore.oheByListingId(listing.id);
+    const openHouseEvents = appStore.oheStore.oheByListingId(listing.id);
+    const isActiveListing = appProviders.listingsProvider.isActiveListing(listing);
 
     if (!openHouseEvents) {
       return <LoadingSpinner />;
@@ -48,12 +49,12 @@ class OHEManager extends React.Component {
     return (
       <Col xs={12} className="listing-events-container">
         <div>
-          <Button onClick={() => this.toggleAddModal(true)} className="add-button pull-left">הוסף מועד</Button>
+          { isActiveListing && <Button onClick={() => this.toggleAddModal(true)} className="add-button pull-left">הוסף מועד</Button> }
           <h3 className="listing-events-title">מועדי ביקור הבאים</h3>
         </div>
         <div>
           {comingEvents.length ?
-            comingEvents.map(ohe => <OHECard key={ohe.id} ohe={ohe} editable={true} />) :
+            comingEvents.map(ohe => <OHECard key={ohe.id} ohe={ohe} editable={isActiveListing} />) :
             <h5 className="listing-events-no-ohe-title">אין ביקורים קרובים</h5>}
         </div>
         <div>

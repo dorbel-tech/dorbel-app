@@ -52,7 +52,7 @@ function list(query, options = {}) {
   const modelName = options.oldListings ? 'listing' : 'latest_listing';
 
   return models[modelName].findAll({
-    attributes: ['id', 'slug', 'title', 'monthly_rent', 'roommate_needed', 'lease_start', 'status', 'created_at', 'apartment_id'],
+    attributes: ['id', 'slug', 'title', 'monthly_rent', 'roommate_needed', 'lease_start', 'lease_end', 'status', 'created_at', 'apartment_id'],
     where: query,
     include: [
       {

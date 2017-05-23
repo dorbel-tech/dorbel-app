@@ -76,7 +76,7 @@ class Property extends Component {
     this.setState({ showActionsMenu: false });
   }
 
-  renderActionsMenu(property) {
+  renderActionsMenu(property, isActiveListing) {
     return (
       <Popover onMouseEnter={this.showActionsMenu}
                onMouseLeave={this.hideActionsMenu}
@@ -90,17 +90,19 @@ class Property extends Component {
           <i className="property-actions-menu-item-icon fa fa-refresh" aria-hidden="true"></i>
           רענון נתונים
         </div>
-        <div className="property-actions-menu-item" onClick={() =>this.gotoEditProperty(property)}>
-          <i className="property-actions-menu-item-icon fa fa-pencil-square-o" aria-hidden="true"></i>
-          עריכת פרטי הנכס
-        </div>
         {
-          this.props.appProviders.listingsProvider.isRepublishable(property) ?
+          isActiveListing &&
+          <div className="property-actions-menu-item" onClick={() =>this.gotoEditProperty(property)}>
+            <i className="property-actions-menu-item-icon fa fa-pencil-square-o" aria-hidden="true"></i>
+            עריכת פרטי הנכס
+          </div>
+        }
+        {
+          this.props.appProviders.listingsProvider.isRepublishable(property) &&
           <div className="property-actions-menu-item" onClick={() =>this.republish(property)}>
             <i className="property-actions-menu-item-icon fa fa-undo" aria-hidden="true"></i>
             פרסום הנכס מחדש
           </div>
-          : null
         }
       </Popover>
     );
@@ -124,12 +126,15 @@ class Property extends Component {
     const sortedPropertyImages = utils.sortListingImages(property);
     const imageURL = sortedPropertyImages.length ? sortedPropertyImages[0].url : '';
     const followers = appStore.oheStore.countFollowersByListingId.get(this.props.propertyId);
+    const historySelector = <PropertyHistorySelector apartment_id={property.apartment_id} listing_id={property.id} />;
+    const isActiveListing = this.props.appProviders.listingsProvider.isActiveListing(property);
+    const imageClass = 'property-image' + (isActiveListing ? '' : ' property-image-inactive');
     let editForm = null;
 
     const defaultHeaderButtons = (
       <div className="property-action-container">
         <div className="property-history-selector">
-          <PropertyHistorySelector apartment_id={property.apartment_id} />
+          {historySelector}
         </div>
         <div className="property-actions-refresh-container">
           <Button className="fa fa-refresh property-action-button" title="רענון העמוד"
@@ -153,7 +158,7 @@ class Property extends Component {
                    placement="bottom"
                    target={this.propertyActionMenuIcon}
                    rootClose>
-            {this.renderActionsMenu(property)}
+            {this.renderActionsMenu(property, isActiveListing)}
           </Overlay>
         </div>
       </div>
@@ -186,15 +191,15 @@ class Property extends Component {
     return  <Grid fluid className="property-wrapper">
               <Row className="property-top-container">
                 <Col md={3} sm={3} xs={4} className="property-image-container">
-                  <CloudinaryImage src={imageURL} height={125} className="property-image"/>
-                  <ListingStatusSelector listing={property} />
+                  <CloudinaryImage src={imageURL} height={125} className={imageClass}/>
+                  { isActiveListing && <ListingStatusSelector listing={property} /> }
                 </Col>
                 <Col md={5} sm={6} xs={8} className="property-title-container">
                   <div className="property-title">
                     {utils.getListingTitle(property)}
                   </div>
                   <div className="property-history-selector-mobile">
-                    <PropertyHistorySelector apartment_id={property.apartment_id} />
+                    {historySelector}
                   </div>
                   <div className="property-title-details">
                     <div className="property-title-details-sub">
