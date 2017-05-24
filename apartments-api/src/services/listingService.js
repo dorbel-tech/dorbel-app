@@ -76,7 +76,7 @@ function* create(listing) {
   });
 
   // Publish event trigger message to SNS for notifications dispatching.
-  const messageType = createdEventsByListingUploadMode[listing.status];
+  const messageType = createdEventsByListingUploadMode[listing.uploadMode];
 
   if (messageType) {
     if (process.env.NOTIFICATIONS_SNS_TOPIC_ARN) {
