@@ -72,6 +72,41 @@ describe('Listing Service', function () {
       __.assertThat(newListing, __.is(this.mockListing));
     });
 
+    it('should successfuly to create listings with different statuses', function* () {
+      const statuses = [
+        'pending',
+        'rented'
+      ];
+
+      for (let i = 0; i < statuses.length; i++) {
+        let newListing = faker.getFakeListing();
+        newListing.status = statuses[i];
+        yield this.listingService.create(newListing);
+      }
+    });
+
+    it('should fail to create listings with different statuses', function* () {
+      const statuses = [
+        'listed',
+        'unlisted',
+        'deleted',
+        'random',
+        undefined
+      ];
+
+      for (let i = 0; i < statuses.length; i++) {
+        let newListing = faker.getFakeListing();
+        newListing.status = statuses[i];
+        try {
+          yield this.listingService.create(newListing);
+          __.assertThat('code', __.is('not reached'));
+        }
+        catch (error) {
+          __.assertThat(error.message, __.is(`לא ניתן להעלות דירה ב status ${statuses[i]}`));
+        }
+      }
+    });
+
     it('should not create a new listing if apartment already has a non-closed listing', function* () {
       this.listingRepositoryMock.getListingsForApartment = sinon.stub().resolves([{ something: 1 }]);
       let newListing = faker.getFakeListing();
@@ -80,33 +115,7 @@ describe('Listing Service', function () {
         __.assertThat('code', __.is('not reached'));
       }
       catch (error) {
-        __.assertThat(error.message, __.is('הדירה שלך כבר קיימת במערכת'));
-      }
-    });
-
-    it('should fail or succeed to create listing according to different statuses', function* () {
-      const statuses = [
-        { status: 'pending', shouldFail: false },
-        { status: 'rented', shouldFail: false },
-        { status: 'listed', shouldFail: true },
-        { status: 'unlisted', shouldFail: true },
-        { status: 'deleted', shouldFail: true },
-        { status: 'random', shouldFail: true },
-        { status: undefined, shouldFail: true },
-      ];
-
-      for (let i = 0; i < statuses.length; i++) {
-        let newListing = faker.getFakeListing();
-        newListing.status = statuses[i].status;
-        try {
-          yield this.listingService.create(newListing);
-          if (statuses[i].shouldFail) { __.assertThat('code', __.is('not reached')); }
-        }
-        catch (error) {
-          if (statuses[i].shouldFail) {
-            __.assertThat(error.message, __.is( `לא ניתן להעלות דירה ב status ${statuses[i].status}`));
-          }
-        }
+        __.assertThat(error.message, __.is('דירה זו כבר מפורסמת במערכת. לא ניתן להעלות אותה שוב.'));
       }
     });
   });

@@ -13,6 +13,18 @@ const userPermissions = shared.utils.user.permissions;
 
 const DEFUALT_LISTING_LIST_LIMIT = 1000;
 
+const possibleStatusesByCurrentStatus = {
+  pending: ['deleted', 'unlisted'],
+  rented: ['deleted', 'unlisted'],
+  unlisted: ['deleted', 'rented'],
+  listed: ['rented', 'deleted', 'unlisted']
+};
+
+const createdEventsByListingStatus = {
+  pending: messageBus.eventType.APARTMENT_CREATED,
+  rented: messageBus.eventType.APARTMENT_CREATED_FOR_MANAGEMENT
+};
+
 // TODO : move this to dorbel-shared
 function CustomError(code, message) {
   let error = new Error(message);
@@ -28,7 +40,7 @@ function* create(listing) {
   if (listing.status == 'pending') {
     const existingOpenListingForApartment = yield listingRepository.getListingsForApartment(
       listing.apartment,
-      { status:  ['listed', 'pending'] }
+      { status: ['listed', 'pending'] }
     );
 
     if (existingOpenListingForApartment && existingOpenListingForApartment.length) {
@@ -57,22 +69,23 @@ function* create(listing) {
   });
 
   // Publish event trigger message to SNS for notifications dispatching.
-  const messageType = listing.status == 'pending' ?
-    messageBus.eventType.APARTMENT_CREATED :
-    messageBus.eventType.APARTMENT_CREATED_FOR_MANAGEMENT;
+  const messageType = createdEventsByListingStatus[listing.status];
 
-  if (process.env.NOTIFICATIONS_SNS_TOPIC_ARN) {
-    messageBus.publish(process.env.NOTIFICATIONS_SNS_TOPIC_ARN, messageType, {
-      city_id: listing.apartment.building.city_id,
-      listing_id: createdListing.id,
-      user_uuid: createdListing.publishing_user_id,
-      user_email: listing.user.email,
-      user_phone: generic.normalizePhone(listing.user.phone),
-      user_first_name: listing.user.firstname,
-      user_last_name: listing.user.lastname
-    });
+  if (messageType) {
+    if (process.env.NOTIFICATIONS_SNS_TOPIC_ARN) {
+      messageBus.publish(process.env.NOTIFICATIONS_SNS_TOPIC_ARN, messageType, {
+        city_id: listing.apartment.building.city_id,
+        listing_id: createdListing.id,
+        user_uuid: createdListing.publishing_user_id,
+        user_email: listing.user.email,
+        user_phone: generic.normalizePhone(listing.user.phone),
+        user_first_name: listing.user.firstname,
+        user_last_name: listing.user.lastname
+      });
+    }
   }
-
+  else { logger.error({listing}, 'Could not find notification type for created listing'); }
+  
   return createdListing;
 }
 
@@ -319,23 +332,9 @@ function getPossibleStatuses(listing, user) {
       // admin can change to all statuses
       possibleStatuses = listingRepository.listingStatuses;
     } else if (userPermissions.isResourceOwner(user, listing.publishing_user_id)) {
-      switch (listing.status) {
-        case 'pending':
-        case 'rented':
-          possibleStatuses = ['deleted', 'unlisted'];
-          break;
-        case 'unlisted':
-          possibleStatuses = ['deleted', 'rented'];
-          break;
-        case 'listed':
-          possibleStatuses = ['rented', 'deleted', 'unlisted'];
-          break;
-        default:
-          break;
-      }
+      possibleStatuses = possibleStatusesByCurrentStatus[listing.status] || [];
     }
   }
-
   return possibleStatuses;
 }
 
