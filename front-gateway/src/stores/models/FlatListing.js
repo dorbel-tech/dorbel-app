@@ -28,6 +28,7 @@ const VALID_KEYS = [
   // listing
   'publishing_user_type',
   'lease_start',
+  'lease_end',
   'description',
   'roommates',
   'roommate_needed',
