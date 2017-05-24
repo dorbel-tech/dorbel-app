@@ -36,11 +36,11 @@ function waitForRegisterText() {
 }
 
 function waitForUnFollowText() {
-  common.waitForText(listing.section.followContainer, '@followBtn', 'עדכנו אותי על מועדי ביקור חדשים');
+  common.waitForText(listing.section.followContainer, '@followBtn', 'הסירו אותי מרשימת העדכונים');
 }
 
 function waitForFollowText() {
-  common.waitForText(listing.section.followContainer, '@followBtn', 'הסירו אותי מרשימת העדכונים');
+  common.waitForText(listing.section.followContainer, '@followBtn', 'עדכנו אותי על מועדי ביקור חדשים');
 }
 
 module.exports = {
@@ -102,17 +102,21 @@ module.exports = {
   'tenant should follow listing': function (browser) {
     login('tenant');
     listing.navigateToListingPage(listing.url(listingId));
-    waitForUnFollowText();
-    listing.clickFollowButton();
+    browser.pause(500);
     waitForFollowText();
+    listing.clickFollowButton();
+    browser.pause(500);
+    waitForUnFollowText();
     browser.end();
   },
   'tenant should unfollow listing': function (browser) {
     login('tenant');
     listing.navigateToListingPage(listing.url(listingId));
-    waitForFollowText();
-    listing.clickFollowButton();
+    browser.pause(500);
     waitForUnFollowText();
+    listing.clickFollowButton();
+    browser.pause(500);
+    waitForFollowText();
     browser.end();
   }
 };

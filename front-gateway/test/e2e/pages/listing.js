@@ -52,7 +52,7 @@ module.exports = {
       }
     },
     followContainer: {
-      selector: '.ohe-list-follow-container',
+      selector: '.follow-container',
       elements: {
         followBtn: {
           selector: '.follow-action'

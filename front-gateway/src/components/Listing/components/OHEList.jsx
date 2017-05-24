@@ -125,27 +125,29 @@ class OHEList extends Component {
 
   renderFollowItem(listing) {
     const { appStore } = this.props;
-    let action, callToActionText, toolTipText, onClickFunction;
+    let callToActionText, toolTipText, onClickFunction;
     const userIsFollowing = appStore.oheStore.usersFollowsByListingId.get(listing.id);
     const tipOffset = {top: -7, left: -22};
 
     switch(listing.status) {
       case 'pending':
       case 'listed':
-        callToActionText = 'עדכנו אותי על מועדי ביקור חדשים';
+        callToActionText = userIsFollowing ?
+          'הסירו אותי מרשימת העדכונים' : 'עדכנו אותי על מועדי ביקור חדשים';
         toolTipText = 'אהבתם את הדירה אבל לא נוח לכם להגיע? ברגע שהדירה תתפרסם להשכרה, נעדכן אתכם במייל, כך שתהיו הראשונים לדעת.';
         break;
       case 'rented':
       case 'unlisted':
-        callToActionText = 'עדכנו אותי כשהדירה תתפרסם להשכרה';
+        callToActionText = userIsFollowing ?
+          'הסירו אותי מרשימת העדכונים' : 'עדכנו אותי כשהדירה תתפרסם להשכרה';
         toolTipText = 'אהבתם את הדירה אבל היא מושכרת כרגע? הרשמו על מנת לקבל עידכון ברגע שהדירה תוצע להשכרה שוב.';
         break;
     }
 
-    if (!userIsFollowing) {
-      onClickFunction = () => this.followListing(listing, true);
-    } else {
+    if (userIsFollowing) {
       onClickFunction = () => this.followListing(listing, false);
+    } else {
+      onClickFunction = () => this.followListing(listing, true);
     }
 
     return <div className="follow-container">
@@ -154,9 +156,7 @@ class OHEList extends Component {
       </span>
       <ReactTooltip type="dark" effect="solid" place="right" offset={tipOffset} multiline className="follow-tooltip"/>
       &nbsp;
-      <span className="follow-action" onClick={onClickFunction}>
-        {callToActionText}
-      </span>
+      <span className="follow-action" onClick={onClickFunction}>{callToActionText}</span>
     </div>;
   }
 
