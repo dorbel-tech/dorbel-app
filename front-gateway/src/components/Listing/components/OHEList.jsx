@@ -257,7 +257,7 @@ class OHEList extends Component {
           {this.renderFollowItem(listing)}
           {this.renderListingFollowersCount(listing)}
         </div>
-      </div >
+      </div>
     );
   }
 }
