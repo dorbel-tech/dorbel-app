@@ -2,11 +2,10 @@ import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import _ from 'lodash';
 import autobind from 'react-autobind';
-
 import OHERegisterModal from './OHERegisterModal';
-import FollowListingModal from './FollowListingModal';
 import { getListingPath, getDashMyPropsPath } from '~/routesHelper';
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
+import ReactTooltip from 'react-tooltip';
 
 @inject('appStore', 'appProviders', 'router') @observer
 class OHEList extends Component {
@@ -108,30 +107,60 @@ class OHEList extends Component {
     return oheConfig;
   }
 
+  followListing(listing, isFollow) {
+    const { appStore, appProviders } = this.props;
+
+    if (!appStore.authStore.isLoggedIn) {
+      appProviders.authProvider.showLoginModal();
+      return;
+    }
+
+    if (isFollow) {
+      appProviders.oheProvider.follow(listing, appStore.authStore.profile);
+    } else {
+      const usersFollowDetails = appStore.oheStore.usersFollowsByListingId.get(listing.id);
+      appProviders.oheProvider.unfollow(usersFollowDetails);
+    }
+  }
+
   renderFollowItem(listing) {
-    const { router } = this.props;
-    let onClickFunction = () => {
-      const currentRoute = router.getRoute().join('/');
-      router.setRoute(`/${currentRoute}/${action}`);
+    const { appStore } = this.props;
+    let action, callToActionText, toolTipText, onClickFunction;
+    const userIsFollowing = appStore.oheStore.usersFollowsByListingId.get(listing.id);
+    const tipOffset = {top: -7, left: -22};
+    const isRented = listing.status === 'rented';
+
+    switch(listing.status) {
+      case 'pending':
+      case 'listed':
+        callToActionText = 'עדכנו אותי על מועדי ביקור חדשים';
+        toolTipText = 'אהבתם את הדירה אבל לא נוח לכם להגיע? ברגע שהדירה תתפרסם להשכרה, נעדכן אתכם במייל, כך שתהיו הראשונים לדעת.';
+        break;
+      case 'rented':
+      case 'unlisted':
+        callToActionText = 'עדכנו אותי כשהדירה תתפרסם להשכרה';
+        toolTipText = 'אהבתם את הדירה אבל היא מושכרת כרגע? הרשמו על מנת לקבל עידכון ברגע שהדירה תוצע להשכרה שוב.';
+        break;
     };
 
-    let action = 'follow';
-    let callToActionText = 'עדכנו אותי על מועדי ביקור חדשים';
-
-    if (listing.status === 'rented' || listing.status === 'unlisted') {
-      callToActionText = 'עדכנו אותי כשהדירה תתפרסם להשכרה';
-    }
-
-    const userIsFollowing = this.props.appStore.oheStore.usersFollowsByListingId.get(listing.id);
-
-    if (userIsFollowing) {
+    if (!userIsFollowing) {
+      action = 'follow';
+      onClickFunction = () => this.followListing(listing, true);
+    } else {
       action = 'unfollow';
-      callToActionText = 'הסירו אותי מרשימת העדכונים';
+      onClickFunction = () => this.followListing(listing, false);
     }
 
-    return <span className="follow-action" onClick={onClickFunction}>
-      {callToActionText}
-    </span>;
+    return <div className="follow-container">
+      <span data-tip={toolTipText}>
+        <i className="fa fa-info-circle follow-icon" aria-hidden="true"></i>
+      </span>
+      <ReactTooltip type="dark" effect="solid" place="right" offset={tipOffset} multiline className="follow-tooltip"/>
+      &nbsp;
+      <span className="follow-action" onClick={onClickFunction}>
+        {callToActionText}
+      </span>
+    </div>;
   }
 
   filterOHEsToDisplay(ohes) {
@@ -228,7 +257,6 @@ class OHEList extends Component {
           {this.renderFollowItem(listing)}
           {this.renderListingFollowersCount(listing)}
         </div>
-        <FollowListingModal listing={listing} onClose={closeModal} action={this.props.action} />
       </div >
     );
   }

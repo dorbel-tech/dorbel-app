@@ -110,20 +110,6 @@
     width: 100%;
   }
 
-  i {
-    background-color: $brand-success;
-    border-radius: 50%;
-    color: $brand-white;
-    display: block;
-    font-family: Georgia, serif;
-    height: 30px;
-    line-height: 29px;
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: 30px;
-  }
-
   h4 {
     font-size: 14px;
     margin-top: 0;
@@ -135,18 +121,30 @@
     line-height: $line-height-computed*0.7;
   }
 
-  .follow-action {
-    border: 1px solid #3398db;
-    border-radius: 4px;
-    color: #3398db;
-    cursor: pointer;
-    padding: 6px 16px;
-    width: 250px;
+  .follow-container {
+    padding-left: 35px;
 
-    &:hover {
-      background-color: #3398db;
-      border-color: #3398db;
-      color: $brand-white;
+    .follow-action {
+      border: 1px solid #3398db;
+      border-radius: 4px;
+      color: #3398db;
+      cursor: pointer;
+      padding: 6px 16px;
+      width: 250px;
+
+      &:hover {
+        background-color: #3398db;
+        border-color: #3398db;
+        color: $brand-white;
+      }
+    }
+
+    .follow-icon {
+      padding: 10px;
+    }
+
+    .follow-tooltip {
+      width: 200px;
     }
   }
 }
