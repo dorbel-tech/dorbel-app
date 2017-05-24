@@ -33,15 +33,6 @@ export default class SearchResults extends React.Component {
   }
 
   componentWillUnmount() {
-    const { appProviders } = this.props;
-
-    // Empty search pages will have undefined scrollTargets
-    this.scrollTargets = this.scrollTargets || [];
-    // Filter out targets with scroll top 0
-    const scrollTarget = this.scrollTargets.filter(el => el.scrollTop > 0)[0];
-    // If a relevant scroll target was found use it's scrollTop otherwise use 0
-    appProviders.searchProvider.setLastScrollTop(scrollTarget ? scrollTarget.scrollTop : 0, this.scrollKey);
-
     if (process.env.IS_CLIENT) {
       document.removeEventListener('scroll', this.handleScroll, true);
     }
@@ -61,7 +52,7 @@ export default class SearchResults extends React.Component {
   // Set the relevant scroll targets if none were set before
   setScrollTargets() {
     if (!this.scrollTargets) {
-      this.scrollTargets = ['search-container', 'dashboard-container', 'search-results-scroll'].map(
+      this.scrollTargets = ['search-results-scroll', 'dashboard-action-wrapper'].map(
         elClassName => document.getElementsByClassName(elClassName)[0]
       ).filter(el => !!el);
     }
@@ -75,6 +66,13 @@ export default class SearchResults extends React.Component {
     if (distanceFromBottom < INFINITE_SCROLL_MARGIN && appStore.searchStore.hasMorePages) {
       appProviders.searchProvider.loadNextPage();
     }
+
+    // Empty search pages will have undefined scrollTargets
+    this.scrollTargets = this.scrollTargets || [];
+    // Filter out targets with scroll top 0
+    const scrollTarget = this.scrollTargets.filter(el => el.scrollTop > 0)[0];
+    // If a relevant scroll target was found use it's scrollTop otherwise use 0
+    appProviders.searchProvider.setLastScrollTop(scrollTarget ? scrollTarget.scrollTop : 0, this.scrollKey);
   }
 
   render() {

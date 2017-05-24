@@ -58,22 +58,6 @@ describe('Search Results', () => {
     expect(firstThumbnail.prop('listing')).toBe(mockResults);
   });
 
-  it('should call setLastScrollTop with correct scroll top value when unmounting', () => {
-    const scrollKeyMock = jest.fn();
-    const wrapper = searchResults();
-
-    wrapper.instance().scrollTargets = [
-      {scrollTop: 0},
-      {scrollTop: 150},
-      {scrollTop: 0}
-    ];
-    wrapper.instance().scrollKey = scrollKeyMock;
-
-    wrapper.unmount();
-
-    expect(appProvidersMock.searchProvider.setLastScrollTop).toHaveBeenCalledWith(150, scrollKeyMock);
-  });
-
   // TODO implement this test
   xit('should set scrollTop correctly for all scrollTargets each componentDidUpdate', () => {
     const scrollKeyMock = jest.fn();
@@ -93,6 +77,26 @@ describe('Search Results', () => {
       {scrollTop: 150},
       {scrollTop: 0}
     ]);
+  });
+
+  it('should call setLastScrollTop with correct scroll top value when scrolling', () => {
+    const scrollKeyMock = jest.fn();
+    const wrapper = searchResults();
+
+    wrapper.instance().scrollTargets = [
+      {scrollTop: 0},
+      {scrollTop: 150},
+      {scrollTop: 0}
+    ];
+    wrapper.instance().scrollKey = scrollKeyMock;
+
+    wrapper.simulate('scroll', { target: {
+      scrollHeight: 1000,
+      offsetHeight: 0,
+      scrollTop: 500
+    }});
+
+    expect(appProvidersMock.searchProvider.setLastScrollTop).toHaveBeenCalledWith(150, scrollKeyMock);
   });
 
   it('should call loadNextPage when scrolling down', () => {

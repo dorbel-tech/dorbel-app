@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import autobind from 'react-autobind';
-import { Button, Checkbox, Radio, Col, DropdownButton, Grid, MenuItem, Row } from 'react-bootstrap';
+import { Button, Checkbox, OverlayTrigger, Popover, Radio, Col, DropdownButton, Grid, MenuItem, Row } from 'react-bootstrap';
 import { inject, observer } from 'mobx-react';
 import Nouislider from 'react-nouislider';
 import { range } from 'lodash';
@@ -14,7 +14,7 @@ const DEFAULT_FILTER_PARAMS = {
   rented: false,
   unlisted: false,
 
-  city: 1, // City selector default value.
+  city: '*', // City selector default value.
   sort: 'publish_date', // Default sort by radio group value.
   roommate: true, // Roommate search checkbox default value.
   empty: true, // Empty apartment for roommates checkbox default value.
@@ -23,15 +23,12 @@ const DEFAULT_FILTER_PARAMS = {
   mre: 7000, // Monthly rent slider end default value.
   minRooms: 1, // Rooms number slider start default value.
   maxRooms: 5, // Rooms number slider end default value.
-  minSize: 26, // Apartment size slider start default value.
-  maxSize: 120, // Apartment size slider end default value.
   ac: false, // Apartment with air conditioning checkbox default value.
   balc: false, // Apartment with balcony checkbox default value.
   elev: false, // Apartment with elevator checkbox default value.
   park: false, // Apartment with parking checkbox default value.
   pet: false, // Apartment allowing pets checkbox default value.
-
-  liked: false // Display only listings that were liked by the user.
+  sb: false // Apartment with security bars checkbox default value.
 };
 
 @inject('appStore', 'appProviders') @observer
@@ -49,7 +46,13 @@ class Filter extends Component {
       this.filterObj = {};
     }
 
-    this.state = Object.assign({ hideFilter: true }, DEFAULT_FILTER_PARAMS, this.filterObj);
+    this.state = Object.assign({
+      hideFilter: true,
+      cityFilterClass: this.getCityFilterClass(),
+      extraFilterClass: this.getExtraFilterClass(),
+      mrFilterClass: this.getMRFilterClass(),
+      roomsFilterClass: this.getRoomsFilterClass()
+    }, DEFAULT_FILTER_PARAMS, this.filterObj);
   }
 
   componentDidMount() {
@@ -63,23 +66,44 @@ class Filter extends Component {
     }
   }
 
+  getCityFilterClass() {
+    const cityFilterActive = this.filterObj.city && (this.filterObj.city !== DEFAULT_FILTER_PARAMS.city);
+    return cityFilterActive ? 'filter-trigger-active' : '';
+  }
+
+  getRoomsFilterClass() {
+    const roomsFilterActive = this.filterObj.minRooms || this.filterObj.maxRooms;
+    return roomsFilterActive ? 'filter-trigger-active' : '';
+  }
+
+  getMRFilterClass() {
+    const mrFilterActive = this.filterObj.mrs || this.filterObj.mre;
+    return mrFilterActive ? 'filter-trigger-active' : '';
+  }
+
+  getExtraFilterClass() {
+    const extraFilterActive = this.filterObj.ac || this.filterObj.balc ||
+      this.filterObj.elev || this.filterObj.park ||
+      this.filterObj.pet || this.filterObj.sb;
+    return extraFilterActive ? 'filter-trigger-active' : '';
+  }
+
   citySelectHandler(cityId) {
-    this.setState({ city: cityId }); // Unused but required for calling render
+    //this.setState({ city: cityId }); // Unused but required for calling render
     this.filterObj.city = cityId;
+    this.setState({cityFilterClass: this.getCityFilterClass()});
 
     this.reloadResults();
   }
 
   mrSliderChangeHandler(mrStringArray, unused, monthly_rent) {
     this.sliderChangeHandler(monthly_rent, 'mrs', 'mre');
+    this.setState({mrFilterClass: this.getMRFilterClass()});
   }
 
   roomsSliderChangeHandler(roomsStringArray, unused, rooms) {
     this.sliderChangeHandler(rooms, 'minRooms', 'maxRooms');
-  }
-
-  sizeSliderChangeHandler(sizeStringArray, unused, sizes) {
-    this.sliderChangeHandler(sizes, 'minSize', 'maxSize');
+    this.setState({roomsFilterClass: this.getRoomsFilterClass()});
   }
 
   sliderChangeHandler(range, minProp, maxProp) {
@@ -114,7 +138,8 @@ class Filter extends Component {
     e.target.checked ?
       this.filterObj[e.target.name] = true :
       delete this.filterObj[e.target.name];
-    
+
+    this.setState({extraFilterClass: this.getExtraFilterClass()});
     this.reloadResults();
   }
 
@@ -133,18 +158,6 @@ class Filter extends Component {
     }
 
     this.reloadResults();
-  }
-
-  likedChangeHandler(e) {
-    if (this.props.appStore.authStore.isLoggedIn) {
-      this.setState({ liked: e.target.checked });
-      this.filterObj['liked'] = e.target.checked;
-      this.reloadResults();
-    }
-    else {
-      e.target.checked = false;
-      this.props.appProviders.authProvider.showLoginModal();
-    }
   }
 
   sortChangeHandler(e) {
@@ -207,26 +220,120 @@ class Filter extends Component {
     }
   }
 
-  renderSort() {
-    return (
-      <div className="sort-container filter-group-container">
-        <div className="filter-switch-group-headersort-header">
-          <b>סדר לפי</b>
-        </div>
-        <div className="sort-options">
-          <div className="filter-input-wrapper">
-            <Radio value="publish_date" checked={this.state.sort === 'publish_date'} onChange={this.sortChangeHandler}>
-              תאריך פרסום
-              </Radio>
-          </div>
-          <div className="filter-input-wrapper">
-            <Radio value="lease_start" checked={this.state.sort === 'lease_start'} onChange={this.sortChangeHandler}>
-              תאריך כניסה
-            </Radio>
-          </div>
-        </div>
-      </div>
-    );
+  roomsPopup() {
+    return <Popover className="filter-rooms-popup" id="popup-rooms">
+             <Nouislider onChange={this.roomsSliderChangeHandler}
+                        range={{
+                          min: DEFAULT_FILTER_PARAMS.minRooms,
+                          '12.5%': 1.5,
+                          '25%': 2,
+                          '37.5%': 2.5,
+                          '50%': 3,
+                          '62.5%': 3.5,
+                          '75%': 4,
+                          '87.5%': 4.5,
+                          max: DEFAULT_FILTER_PARAMS.maxRooms
+                        }}
+                        start={[this.state.minRooms, this.state.maxRooms]}
+                        snap={true}
+                        pips={{
+                          mode: 'values',
+                          values: range(DEFAULT_FILTER_PARAMS.minRooms,
+                            DEFAULT_FILTER_PARAMS.maxRooms + 1),
+                          density: 30
+                        }}
+                        connect={true}
+                        direction={'ltr'} />
+           </Popover>;
+  }
+
+  mrPopup() {
+    return <Popover className="filter-mr-popup" id="popup-mr">
+             <Nouislider onChange={this.mrSliderChangeHandler}
+               range={{
+                 min: DEFAULT_FILTER_PARAMS.mrs,
+                 max: DEFAULT_FILTER_PARAMS.mre
+               }}
+               start={[this.state.mrs, this.state.mre]}
+               step={DEFAULT_FILTER_PARAMS.mrs}
+               pips={{ mode: 'steps', density: 30 }}
+               connect={true}
+               direction={'ltr'} />
+           </Popover>;
+  }
+
+  extraPopup() {
+    return <Popover className="filter-extra-popup" id="popup-extra">
+              {this.renderAdminFilter()}
+              <div className="sort-container filter-group-container">
+                <div className="filter-switch-group-headersort-header">
+                  <b>סדר לפי</b>
+                </div>
+                <div className="sort-options">
+                  <div className="filter-input-wrapper">
+                    <Radio value="publish_date" checked={this.state.sort === 'publish_date'} onChange={this.sortChangeHandler}>
+                      תאריך פרסום
+                      </Radio>
+                  </div>
+                  <div className="filter-input-wrapper">
+                    <Radio value="lease_start" checked={this.state.sort === 'lease_start'} onChange={this.sortChangeHandler}>
+                      תאריך כניסה
+                    </Radio>
+                  </div>
+                </div>
+              </div>
+              <div className="filter-group-container">
+                <Checkbox name="roommate"
+                  checked={this.state.roommate}
+                  className="filter-switch-group-header"
+                  onChange={this.roommateChangeHandler}>
+                  <b>הציגו לי דירות לשותפים</b>
+                </Checkbox>
+                <div className="filter-input-wrapper">
+                  <Checkbox name="empty"
+                    checked={this.state.empty}
+                    disabled={!this.state.roommate || !this.state.room}
+                    onChange={this.roommateChangeHandler}>
+                    דירות ריקות לשותפים
+                    </Checkbox>
+                </div>
+                <div className="filter-input-wrapper">
+                  <Checkbox name="room"
+                    checked={this.state.room}
+                    disabled={!this.state.roommate || !this.state.empty}
+                    onChange={this.roommateChangeHandler}>
+                    חדר בדירת שותפים
+                    </Checkbox>
+                </div>
+              </div>
+              <div className="filter-amenities-container">
+                <h5><b>צמצמו את החיפוש</b></h5>
+                <Col xs={4}>
+                  <Checkbox name="park" checked={this.state.park} onChange={this.checkboxChangeHandler}>
+                    חניה
+                    </Checkbox>
+                  <Checkbox name="balc" checked={this.state.balc} onChange={this.checkboxChangeHandler}>
+                    מרפסת
+                    </Checkbox>
+                </Col>
+                <Col xs={4}>
+                  <Checkbox name="ac" checked={this.state.ac} onChange={this.checkboxChangeHandler}>
+                    מזגן
+                    </Checkbox>
+                  <Checkbox name="ele" checked={this.state.ele} onChange={this.checkboxChangeHandler}>
+                    מעלית
+                    </Checkbox>
+                </Col>
+                <Col xs={4}>
+                  <Checkbox name="pet" checked={this.state.pet} onChange={this.checkboxChangeHandler}>
+                    מותר בע״ח
+                    </Checkbox>
+                  <Checkbox name="sb" checked={this.state.sb} onChange={this.checkboxChangeHandler}>
+                    סורגים
+                    </Checkbox>
+                </Col>
+              </div>
+           </Popover>;
   }
 
   render() {
@@ -243,149 +350,48 @@ class Filter extends Component {
       cityTitle = city ? city.city_name : 'טוען...';
     }
 
-    return <div className="filter-component-wrapper">
+    return <div>
       <div className="filter-toggle-container">
         <Button onClick={this.toggleHideFilter}>
           {filterButtonText}
         </Button>
       </div>
-      <div className={'filter-wrapper' + (this.state.hideFilter ? ' hide-mobile-filter' : '')}>
-        <div className="filter-city-container">
-          <DropdownButton id="cityDropdown" bsSize="large"
-            className="filter-city-dropdown"
-            title={'עיר: ' + cityTitle}
-            onSelect={this.citySelectHandler}>
-            <MenuItem eventKey={'*'}>כל הערים</MenuItem>
-            {cities.map(city => <MenuItem key={city.id} eventKey={city.id}>{city.city_name}</MenuItem>)}
-          </DropdownButton>
-        </div>
-        {this.renderAdminFilter()}
-        {this.renderSort()}
-        <div className="filter-group-container">
-          <Checkbox name="roommate"
-            checked={this.state.roommate}
-            className="filter-switch-group-header"
-            onChange={this.roommateChangeHandler}>
-            <b>הציגו לי דירות לשותפים</b>
-          </Checkbox>
-          <div className="filter-input-wrapper">
-            <Checkbox name="empty"
-              checked={this.state.empty}
-              disabled={!this.state.roommate || !this.state.room}
-              onChange={this.roommateChangeHandler}>
-              דירות ריקות לשותפים
-              </Checkbox>
-          </div>
-          <div className="filter-input-wrapper">
-            <Checkbox name="room"
-              checked={this.state.room}
-              disabled={!this.state.roommate || !this.state.empty}
-              onChange={this.roommateChangeHandler}>
-              חדר בדירת שותפים
-              </Checkbox>
-          </div>
-        </div>
-        <div className="filter-group-container">
-          <Checkbox name="liked"
-            checked={this.state.liked}
-            className="filter-switch-group-header"
-            onChange={this.likedChangeHandler}>
-            <i className="fa fa-heart like-filter-icon" />
-            <span>הציגו רק דירות שאהבתי</span>
-          </Checkbox>
-        </div>
-        <div className="filter-sliders-container">
-          <div className="cost-slider">
-            <h5 className="text-center">טווח מחירים</h5>
-            <Nouislider onChange={this.mrSliderChangeHandler}
-              range={{
-                min: DEFAULT_FILTER_PARAMS.mrs,
-                max: DEFAULT_FILTER_PARAMS.mre
-              }}
-              start={[this.state.mrs, this.state.mre]}
-              step={DEFAULT_FILTER_PARAMS.mrs}
-              pips={{ mode: 'steps', density: 30 }}
-              connect={true}
-              direction={'ltr'} />
-          </div>
-          <div className="roomsnum-slider">
-            <h5 className="text-center">מספר חדרים</h5>
-            <Nouislider onChange={this.roomsSliderChangeHandler}
-              range={{
-                min: DEFAULT_FILTER_PARAMS.minRooms,
-                '12.5%': 1.5,
-                '25%': 2,
-                '37.5%': 2.5,
-                '50%': 3,
-                '62.5%': 3.5,
-                '75%': 4,
-                '87.5%': 4.5,
-                max: DEFAULT_FILTER_PARAMS.maxRooms
-              }}
-              start={[this.state.minRooms, this.state.maxRooms]}
-              snap={true}
-              pips={{
-                mode: 'values',
-                values: range(DEFAULT_FILTER_PARAMS.minRooms,
-                  DEFAULT_FILTER_PARAMS.maxRooms + 1),
-                density: 30
-              }}
-              connect={true}
-              direction={'ltr'} />
-          </div>
-          <div className="size-slider">
-            <h5 className="text-center">גודל נכס (במ"ר)</h5>
-            <Nouislider onChange={this.sizeSliderChangeHandler}
-              range={{
-                min: DEFAULT_FILTER_PARAMS.minSize,
-                '20%': 40,
-                '40%': 60,
-                '60%': 80,
-                '80%': 100,
-                max: DEFAULT_FILTER_PARAMS.maxSize
-              }}
-              start={[this.state.minSize, this.state.maxSize]}
-              snap={true}
-              pips={{ mode: 'steps', density: 30 }}
-              connect={true}
-              direction={'ltr'} />
+      <Grid fluid className={'filter-wrapper' + (this.state.hideFilter ? ' hide-mobile-filter' : '')}>
+        <Row>
+          <Col md={2} mdOffset={2} sm={3} className="filter-city-wrapper">
+            <DropdownButton id="cityDropdown" bsSize="large"
+              className={'filter-city-dropdown ' + this.state.cityFilterClass}
+              title={'עיר: ' + cityTitle}
+              onSelect={this.citySelectHandler}>
+              <MenuItem eventKey={'*'}>כל הערים</MenuItem>
+              {cities.map(city => <MenuItem key={city.id} eventKey={city.id}>{city.city_name}</MenuItem>)}
+            </DropdownButton>
+          </Col>
+          <Col md={2} sm={3}>
+            <OverlayTrigger placement="bottom" trigger="click" rootClose
+                            overlay={this.roomsPopup()}>
+              <div className={'filter-trigger-container ' + this.state.roomsFilterClass}>חדרים</div>
+            </OverlayTrigger>
+          </Col>
+          <Col md={2} sm={3}>
+            <OverlayTrigger placement="bottom" trigger="click" rootClose
+                            overlay={this.mrPopup()}>
+              <div className={'filter-trigger-container ' + this.state.mrFilterClass}>מחיר</div>
+            </OverlayTrigger>
+          </Col>
+          <Col md={2} sm={3}>
+            <OverlayTrigger placement="bottom" trigger="click" rootClose
+                            overlay={this.extraPopup()}>
+              <div className={'filter-trigger-container ' + this.state.extraFilterClass}>פילטרים נוספים</div>
+            </OverlayTrigger>
+          </Col>
+        </Row>
+        <div className="filter-close">
+          <div className="filter-close-text" onClick={this.toggleHideFilter}>
+            סנן וסגור
           </div>
         </div>
-        <Grid fluid>
-          <Row className="filter-amenities-container">
-            <h5><b>צמצמו את החיפוש</b></h5>
-            <Col xs={4}>
-              <Checkbox name="park" checked={this.state.park} onChange={this.checkboxChangeHandler}>
-                חניה
-                </Checkbox>
-              <Checkbox name="balc" checked={this.state.balc} onChange={this.checkboxChangeHandler}>
-                מרפסת
-                </Checkbox>
-            </Col>
-            <Col xs={4}>
-              <Checkbox name="ac" checked={this.state.ac} onChange={this.checkboxChangeHandler}>
-                מזגן
-                </Checkbox>
-              <Checkbox name="ele" checked={this.state.ele} onChange={this.checkboxChangeHandler}>
-                מעלית
-                </Checkbox>
-            </Col>
-            <Col xs={4}>
-              <Checkbox name="pet" checked={this.state.pet} onChange={this.checkboxChangeHandler}>
-                מותר בע״ח
-                </Checkbox>
-              <Checkbox name="sb" checked={this.state.sb} onChange={this.checkboxChangeHandler}>
-                סורגים
-                </Checkbox>
-            </Col>
-          </Row>
-          <div className="filter-close">
-            <div className="filter-close-text" onClick={this.toggleHideFilter}>
-              סנן וסגור
-            </div>
-          </div>
-        </Grid>
-      </div>
+      </Grid>
     </div>;
   }
 }

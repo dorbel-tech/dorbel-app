@@ -265,10 +265,6 @@ function* getByFilter(filterJSON, options = {}) {
     minRooms: { set: 'apartmentQuery.rooms.$gte' },
     // Apartment maximum number of rooms.
     maxRooms: { set: 'apartmentQuery.rooms.$lte' },
-    // Apartment minimum size.
-    minSize: { set: 'apartmentQuery.size.$gte' },
-    // Apartment maximum size.
-    maxSize: { set: 'apartmentQuery.size.$lte' },
     // Apartment has parking.
     park: { set: 'apartmentQuery.parking', staticValue: true },
     // Apartment has balcony.
