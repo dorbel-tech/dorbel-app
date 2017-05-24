@@ -99,37 +99,20 @@ module.exports = {
     waitForRegisterText();
     browser.end();
   },
-  'tenant should follow to be notified for new OHE': function (browser) {
+  'tenant should follow listing': function (browser) {
     login('tenant');
     listing.navigateToListingPage(listing.url(listingId));
     waitForUnFollowText();
-    listing.clickFollowOheButton();
-    listing.expect.section('@followModal').to.be.visible;
-    listing.followUserToOheUpdates();
-    browser.pause(500);
+    listing.clickFollowButton();
     waitForFollowText();
     browser.end();
   },
-  'tenant should unfollow to be notified of new OHE': function (browser) {
+  'tenant should unfollow listing': function (browser) {
     login('tenant');
     listing.navigateToListingPage(listing.url(listingId));
     waitForFollowText();
-    listing.clickFollowOheButton();
-    listing.expect.section('@followModal').to.be.visible;
-    listing.unFollowUserToOheUpdates();
-    browser.pause(500);
+    listing.clickFollowButton();
     waitForUnFollowText();
     browser.end();
-  },
-  'tenant should follow to be notified for new OHE while triggering login': function (browser) {
-    listing.navigateToListingPage(listing.url(listingId));
-    waitForUnFollowText();
-    listing.clickFollowOheButton();
-    loginInListing('tenant');
-    listing.expect.section('@followModal').to.be.visible;
-    listing.followUserToOheUpdates();
-    browser.pause(500);
-    waitForFollowText();
-    browser.end();
-  },  
+  }
 };
