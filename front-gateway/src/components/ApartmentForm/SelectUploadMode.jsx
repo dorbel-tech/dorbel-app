@@ -4,7 +4,7 @@ import { Col, Grid, Row } from 'react-bootstrap';
 import { inject } from 'mobx-react';
 import Dashboard from '../Dashboard/Dashboard';
 
-const UPLOAD_IMAGE_URL = 'https://static.dorbel.com/images/dashboard/add-property-icon-black.svg'
+const UPLOAD_IMAGE_URL = 'https://static.dorbel.com/images/dashboard/add-property-icon-black.svg';
 @inject('appProviders')
 class SelectUploadMode extends Component {
   static hideFooter = true;
