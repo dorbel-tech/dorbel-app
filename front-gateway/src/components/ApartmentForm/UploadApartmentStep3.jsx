@@ -44,89 +44,137 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
 
     if (authStore.isLoggedIn) {
       // setting this up specificially because somehow it gets lost when logging in
-      const {publishing_user_type, show_phone }= this.props.appStore.newListingStore.formValues.publishing_user_type;
-      
+      const { publishing_user_type, show_phone } = this.props.appStore.newListingStore.formValues.publishing_user_type;
+
       return (
-        <div>
-          <Row>
-            <Col md={6}>
-              <FRC.Input name="user.firstname" label="שם פרטי" value={authStore.profile.first_name} required />
-            </Col>
-            <Col md={6}>
-              <FRC.Input name="user.lastname" label="שם משפחה" value={authStore.profile.last_name} required
-                placeholder="(לא יוצג באתר)" />
-            </Col>
-          </Row>
-          <Row>
-            <Col md={6}>
-              <FRC.Input name="user.email" label="מייל" value={authStore.profile.email}
-                type="email" validations="isEmail" validationError="כתובת מייל לא תקינה" required />
-            </Col>
-            <Col md={6}>
-              <FRC.Input validations="isNumeric" name="user.phone" label="טלפון" value={authStore.profile.phone} validationError="מספר טלפון לא תקין" required />
-              <div className="is-phone-visible-input">
-                <FRC.Checkbox name="show_phone" label="הציגו את המספר שלי במודעה" value={show_phone}/>
-              </div>
-            </Col>
-          </Row>
-          <Row>
-            <Col md={6}>
-              <FRC.RadioGroup name="publishing_user_type" value={publishing_user_type} type="inline" label="הגדר אותי במודעה כ:"
-                options={[{ label: 'בעל הדירה', value: 'landlord' }, { label: 'הדייר הנוכחי', value: 'tenant' }]} />
-            </Col>
-          </Row>
-        </div>
+        <Row className="form-section">
+          <div className="form-section-headline">פרטי קשר</div>
+          <div>
+            <Row>
+              <Col md={6}>
+                <FRC.Input name="user.firstname" label="שם פרטי" value={authStore.profile.first_name} required />
+              </Col>
+              <Col md={6}>
+                <FRC.Input name="user.lastname" label="שם משפחה" value={authStore.profile.last_name} required
+                  placeholder="(לא יוצג באתר)" />
+              </Col>
+            </Row>
+            <Row>
+              <Col md={6}>
+                <FRC.Input name="user.email" label="מייל" value={authStore.profile.email}
+                  type="email" validations="isEmail" validationError="כתובת מייל לא תקינה" required />
+              </Col>
+              <Col md={6}>
+                <FRC.Input validations="isNumeric" name="user.phone" label="טלפון" value={authStore.profile.phone} validationError="מספר טלפון לא תקין" required />
+                <div className="is-phone-visible-input">
+                  <FRC.Checkbox name="show_phone" label="הציגו את המספר שלי במודעה" value={show_phone} />
+                </div>
+              </Col>
+            </Row>
+            <Row>
+              <Col md={6}>
+                <FRC.RadioGroup name="publishing_user_type" value={publishing_user_type} type="inline" label="הגדר אותי במודעה כ:"
+                  options={[{ label: 'בעל הדירה', value: 'landlord' }, { label: 'הדייר הנוכחי', value: 'tenant' }]} />
+              </Col>
+            </Row>
+          </div>
+        </Row>
       );
     } else {
       return (
-        <Col sm={6}>
-          <Button bsStyle="success" className="verify-user" block onClick={authProvider.showLoginModal}>וידוא פרטי קשר</Button>
-        </Col>
+        <Row className="form-section">
+          <div className="form-section-headline">פרטי קשר</div>
+          <Col sm={6}>
+            <Button bsStyle="success" className="verify-user" block onClick={authProvider.showLoginModal}>וידוא פרטי קשר</Button>
+          </Col>
+        </Row>
       );
     }
   }
 
+  renderOHEFields(newListingStore) {
+    if (newListingStore.uploadMode == 'publish') {
+      const existingOhe = _.get(newListingStore, 'formValues.open_house_event');
+      return (
+        <Row className="form-section">
+          <div className="form-section-headline">מועדי ביקור בדירה</div>
+          <AddOHEInput validations="oheValidation" name="ohe" onChange={this.handleChange.bind(this, 'open_house_event')} ohe={existingOhe} mode="new" />
+          <Row>
+            <Col md={12}>
+              <FormWrapper.FRC.Textarea name="directions" rows={3} label="הכוונה לדירה בבניין (אם צריך)"
+                placeholder="(לדוגמא: הדלת הלבנה משמאל למדרגות)" />
+            </Col>
+          </Row>
+        </Row>
+      );
+    }
+  }
+
+  renderSidePanel(newListingStore) {
+    let title = '';
+    let content;
+    switch (newListingStore.uploadMode) {
+      case 'publish':
+        title = 'מועד ביקור ופרטי קשר';
+        content = (
+          <ul className="upload-apt-right-container-step3-text-ul">
+            <li>בחרו מועד לדיירים לביקור בדירה</li>
+            <li>מומלץ לקבוע ביקור בשעות הבוקר/ערב</li>
+            <li>פרטי הקשר שלכם ישמשו לעדכונים חשובים בלבד!</li>
+          </ul>
+        );
+        break;
+      case 'manage':
+        title = 'פרטי קשר וסיום';
+        content = (
+          <h4>פרטי הקשר שלכם ישמשו לעדכונים חשובים בלבד!</h4>
+        );
+    }
+
+    return (
+      <Col md={5} className="upload-apt-right-container">
+        <div className="upload-apt-right-container-text-wrapper">
+          <div className="upload-apt-right-container-text-container">
+            <h1>{title}</h1>
+            {content}
+          </div>
+        </div>
+        <img src="https://static.dorbel.com/images/upload-apt-form/icon-signup-card.svg" alt="" />
+      </Col>
+    );
+  }
+
+  renderPopupBodyText(newListingStore) {
+    return newListingStore.uploadMode == 'manage' ?
+      (
+        <p>הנכם מועברים לחשבון הדירה החדש שלכם, בו תוכלו לנהל ולעקוב אחר נתוני הנכס</p>
+      )
+      :
+      (
+        <p>
+          מודעתכם נמצאת בתהליך אישור. עדכון יישלח אליכם ברגע שהיא תעלה לאתר.<br />
+          הנכם מועברים לחשבון החדש שלכם, בו תוכלו לנהל ולעקוב אחר נתוני הנכס.
+        </p>
+      );
+  }
+
   render() {
     const { authStore, newListingStore } = this.props.appStore;
-    const existingOhe = _.get(newListingStore, 'formValues.open_house_event');
-    const FRC = FormWrapper.FRC;
     let createdListingIdAttr = { 'data-attr': this.props.createdListingId };
 
     return (
       <Grid fluid className="upload-apt-wrapper">
-        <Col md={5} className="upload-apt-right-container">
-          <div className="upload-apt-right-container-text-wrapper">
-            <div className="upload-apt-right-container-text-container">
-              <h1>מועד ביקור ופרטי קשר</h1>
-              <ul className="upload-apt-right-container-step3-text-ul">
-                <li>בחרו מועד לדיירים לביקור בדירה</li>
-                <li>מומלץ לקבוע ביקור בשעות הבוקר/ערב</li>
-                <li>פרטי הקשר שלכם ישמשו לעדכונים חשובים בלבד!</li>
-              </ul>
-            </div>
-          </div>
-          <img src="https://static.dorbel.com/images/upload-apt-form/icon-signup-card.svg" alt="" />
-        </Col>
+        {this.renderSidePanel(newListingStore)}
 
         <Col md={7} className="upload-apt-left-container open-house-event-step">
           <FormWrapper.Wrapper layout="vertical" onChange={this.handleChanges} ref="form">
-            <Row className="form-section">
-              <div className="form-section-headline">מועדי ביקור בדירה</div>
-              <AddOHEInput validations="oheValidation" name="ohe" onChange={this.handleChange.bind(this, 'open_house_event')} ohe={existingOhe} mode="new" />
-              <Row>
-                <Col md={12}>
-                  <FRC.Textarea name="directions" rows={3} label="הכוונה לדירה בבניין (אם צריך)"
-                    placeholder="(לדוגמא: הדלת הלבנה משמאל למדרגות)" />
-                </Col>
-              </Row>
-            </Row>
-
-            <Row className="form-section">
-              <div className="form-section-headline">פרטי קשר</div>
-              {this.renderUserDetails()}
-            </Row>
+            {this.renderOHEFields(newListingStore)}
+            {this.renderUserDetails()}
+            <FormWrapper.FRC.Input
+              name="status"
+              value={newListingStore.uploadMode == 'manage' ? 'rented' : 'pending'}
+              type="hidden" />
           </FormWrapper.Wrapper>
-
           <Col xs={12} md={7} className="form-nav bottom">
             <span className="prev-step step3" onClick={this.clickBack.bind(this)}>
               <i className="open-house-event-previous-step fa fa-arrow-circle-o-right fa-2x" aria-hidden="true"></i>&nbsp; שלב קודם
@@ -143,10 +191,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
           title="תהליך העלאת פרטי הדירה הושלם בהצלחה!"
           body={
             <div className="text-center" {...createdListingIdAttr}>
-              <p>
-                מודעתכם נמצאת בתהליך אישור. עדכון יישלח אליכם ברגע שהיא תעלה לאתר.<br />
-                הנכם מועברים לחשבון החדש שלכם, בו תוכלו לנהל ולעקוב אחר נתוני הנכס.
-              </p>
+              {this.renderPopupBodyText(newListingStore)}
               <p>
                 צוות dorbel
               </p>
@@ -156,7 +201,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
             </div>
           }
         />
-      </Grid>
+      </Grid >
     );
   }
 }

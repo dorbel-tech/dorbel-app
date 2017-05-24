@@ -3,7 +3,7 @@ const common = require('../common');
 
 module.exports = {
   url: function(){
-    return common.getBaseUrl() + '/apartments/new_form';
+    return common.getBaseUrl() + '/apartments/new_form/publish';
   },
   sections: {
     apartmentPictures: {

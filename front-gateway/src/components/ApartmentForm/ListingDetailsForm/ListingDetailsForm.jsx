@@ -4,13 +4,21 @@ import { Col, Row } from 'react-bootstrap';
 import DatePicker from '~/components/DatePicker/DatePicker';
 import FormWrapper, { FRC } from '~/components/FormWrapper/FormWrapper';
 import autobind from 'react-autobind';
+import moment from 'moment';
+
+import './ListingDetailsForm.scss';
 
 const LOADING_OPTIONS_LABEL = { value: 0, label: 'טוען...' };
 @inject('appStore', 'appProviders') @observer
 export default class ListingDetailsForm extends React.Component {
+  // IMPORTANT NOTE: DONT USE `appStore.newListingStore` HERE!
+  // ONLY USE props.editedListingStore
   constructor(props) {
     super(props);
     autobind(this);
+    this.state = {
+      isDateValid: this.isDateValid()
+    };
   }
 
   componentDidMount() {
@@ -58,12 +66,63 @@ export default class ListingDetailsForm extends React.Component {
   // used outside of component
   getValidationErrors() {
     const formsy = this.refs.form.refs.formsy;
-    if (formsy.state.isValid) {
+    if (formsy.state.isValid && this.isDateValid()) {
       this.updateStore(this.refs.form.refs.formsy.getCurrentValues());
       return null;
     } else {
       return formsy;
     }
+  }
+
+  handleDateChange(storeKey, value, isManage) {
+    this.updateStore({ [storeKey]: value });
+    if (isManage && storeKey == 'lease_start') {
+      this.updateStore({ lease_end: moment(value).add(1, 'year').format('YYYY-MM-DD') });
+    }
+    this.setState({ isDateValid: this.isDateValid() });
+  }
+
+  isDateValid() {
+    const { editedListingStore } = this.props;
+    if (editedListingStore.uploadMode == 'manage') {
+      let { lease_start, lease_end } = editedListingStore.formValues;
+      return moment(lease_start).isBefore(lease_end);
+    }
+    else { return true; }
+  }
+
+  renderLeasePeriodRow() {
+    const { editedListingStore } = this.props;
+    const isManage = editedListingStore.uploadMode == 'manage';
+    const startLabel = isManage ? 'תחילת תקופת שכירות' : 'תאריך כניסה לדירה';
+    const endLabel = isManage ? 'סוף תקופת שכירות' : '';
+
+    return (
+      <Row className="listing-details-form-date-row">
+        <Col md={6}>
+          <label>{startLabel}</label>
+          <DatePicker
+            name="apartment.entrance-date" value={editedListingStore.formValues.lease_start}
+            calendarPlacement="top" onChange={value => this.handleDateChange('lease_start', value, isManage)} />
+        </Col>
+        {
+          isManage ?
+            <Col md={6}>
+              <label>{endLabel}</label>
+              <DatePicker
+                value={editedListingStore.formValues.lease_end || moment(editedListingStore.formValues.lease_start).add(1, 'year').format('YYYY-MM-DD')}
+                name="apartment.entrance-date"
+                calendarPlacement="top"
+                onChange={value => this.handleDateChange('lease_end', value, true)} />
+            </Col>
+            :
+            null
+        }
+        <Col xs={12} className="listing-details-form-date-error-text" hidden={this.state.isDateValid}>
+          <label>תאריך תום השכירות חייב להיות מאוחר מתאריך תחילת השכירות</label>
+        </Col>
+      </Row>
+    );
   }
 
   render() {
@@ -144,27 +203,18 @@ export default class ListingDetailsForm extends React.Component {
             <FRC.Checkbox name="roommate_needed" label='דרוש שותף/ה' rowClassName="checkbox-inline" />
           </Row>
         </Row>
-
+        
         <Row className="form-section">
           <div className="form-section-headline">חוזה ותשלומים</div>
+          {this.renderLeasePeriodRow()}
           <Row>
-            <Col md={6}>
-              <div className="form-group">
-                <label>תאריך כניסה לדירה</label>
-                <DatePicker
-                  name="apartment.entrance-date" value={editedListingStore.formValues.lease_start}
-                  calendarPlacement="top" onChange={value => this.updateStore({ lease_start: value })} />
-              </div>
-            </Col>
-            <Col md={6}>
+            <Col md={4}>
               <FRC.Input value="" name="monthly_rent" label="שכר דירה לחודש" type="number" required />
             </Col>
-          </Row>
-          <Row>
-            <Col md={6}>
+            <Col md={4}>
               <FRC.Input name="property_tax" label="ארנונה לחודשיים" type="number" />
             </Col>
-            <Col md={6}>
+            <Col md={4}>
               <FRC.Input name="board_fee" label="ועד בית לחודש" type="number" />
             </Col>
           </Row>

@@ -7,6 +7,7 @@ import ErrorPage from '~/components/ErrorPage';
 import Login from '~/components/Login';
 import Health from '~/components/Health';
 import UploadApartmentForm from '~/components/ApartmentForm/UploadApartmentForm';
+import SelectUploadMode from '~/components/ApartmentForm/SelectUploadMode';
 import routesHelper from './routesHelper';
 
 const routes = [
@@ -14,7 +15,8 @@ const routes = [
   { route: '/health', view: Health },
   { route: '/login', view: Login },
   { route: routesHelper.APARTMENTS_PREFIX, view: Search },
-  { route: routesHelper.APARTMENTS_PREFIX + '/new_form', view: UploadApartmentForm },
+  { route: routesHelper.APARTMENTS_PREFIX + '/new_form', view: SelectUploadMode },
+  { route: routesHelper.APARTMENTS_PREFIX + '/new_form/:mode', view: UploadApartmentForm },  
   { route: routesHelper.APARTMENTS_PREFIX + '/:listingId', view: Listing },
   { route: routesHelper.APARTMENTS_PREFIX + '/:listingId/:action', view: Listing, requireLogin: true },
   { route: routesHelper.APARTMENTS_PREFIX + '/:listingId/:action/:oheId', view: Listing, requireLogin: true },
