@@ -1,6 +1,5 @@
 'use strict';
 const mockRequire = require('mock-require');
-const _ = require('lodash');
 const __ = require('hamjest');
 var sinon = require('sinon');
 var faker = require('../shared/fakeObjectGenerator');
@@ -72,37 +71,34 @@ describe('Listing Service', function () {
       __.assertThat(newListing, __.is(this.mockListing));
     });
 
-    it('should successfuly to create listings with different statuses', function* () {
-      const statuses = [
-        'pending',
-        'rented'
+    it('should successfuly to create listings with the correct uploadModes', function* () {
+      const uploadModes = [
+        'publish',
+        'manage'
       ];
 
-      for (let i = 0; i < statuses.length; i++) {
+      for (let i = 0; i < uploadModes.length; i++) {
         let newListing = faker.getFakeListing();
-        newListing.status = statuses[i];
+        newListing.uploadMode = uploadModes[i];
         yield this.listingService.create(newListing);
       }
     });
 
-    it('should fail to create listings with different statuses', function* () {
-      const statuses = [
-        'listed',
-        'unlisted',
-        'deleted',
+    it('should fail to create listings with unknown uploadModes', function* () {
+      const uploadModes = [
         'random',
         undefined
       ];
 
-      for (let i = 0; i < statuses.length; i++) {
+      for (let i = 0; i < uploadModes.length; i++) {
         let newListing = faker.getFakeListing();
-        newListing.status = statuses[i];
+        newListing.uploadMode = uploadModes[i];
         try {
           yield this.listingService.create(newListing);
           __.assertThat('code', __.is('not reached'));
         }
         catch (error) {
-          __.assertThat(error.message, __.is(`לא ניתן להעלות דירה ב status ${statuses[i]}`));
+          __.assertThat(error.message, __.is(`לא ניתן להעלות דירה במצב ${newListing.uploadMode}`));
         }
       }
     });

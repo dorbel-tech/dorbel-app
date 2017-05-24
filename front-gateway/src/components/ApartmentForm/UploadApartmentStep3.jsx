@@ -170,10 +170,6 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
           <FormWrapper.Wrapper layout="vertical" onChange={this.handleChanges} ref="form">
             {this.renderOHEFields(newListingStore)}
             {this.renderUserDetails()}
-            <FormWrapper.FRC.Input
-              name="status"
-              value={newListingStore.uploadMode == 'manage' ? 'rented' : 'pending'}
-              type="hidden" />
           </FormWrapper.Wrapper>
           <Col xs={12} md={7} className="form-nav bottom">
             <span className="prev-step step3" onClick={this.clickBack.bind(this)}>

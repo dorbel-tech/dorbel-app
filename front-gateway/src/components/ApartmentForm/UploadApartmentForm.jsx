@@ -30,7 +30,7 @@ class UploadApartmentForm extends Component {
         if (newListingStore.uploadMode != this.props.mode) {
           newListingStore.stepNumber = 0; // Set step to 0 on mode change
         }
-        newListingStore.uploadMode = this.props.mode;
+        newListingStore.updateFormValues({uploadMode: this.props.mode});
         break;
 
       default: // handle invalid mode
