@@ -128,7 +128,6 @@ class OHEList extends Component {
     let action, callToActionText, toolTipText, onClickFunction;
     const userIsFollowing = appStore.oheStore.usersFollowsByListingId.get(listing.id);
     const tipOffset = {top: -7, left: -22};
-    const isRented = listing.status === 'rented';
 
     switch(listing.status) {
       case 'pending':
@@ -141,13 +140,11 @@ class OHEList extends Component {
         callToActionText = 'עדכנו אותי כשהדירה תתפרסם להשכרה';
         toolTipText = 'אהבתם את הדירה אבל היא מושכרת כרגע? הרשמו על מנת לקבל עידכון ברגע שהדירה תוצע להשכרה שוב.';
         break;
-    };
+    }
 
     if (!userIsFollowing) {
-      action = 'follow';
       onClickFunction = () => this.followListing(listing, true);
     } else {
-      action = 'unfollow';
       onClickFunction = () => this.followListing(listing, false);
     }
 
