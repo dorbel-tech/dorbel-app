@@ -28,6 +28,7 @@ const DEFAULT_FILTER_PARAMS = {
   elev: false, // Apartment with elevator checkbox default value.
   park: false, // Apartment with parking checkbox default value.
   pet: false, // Apartment allowing pets checkbox default value.
+  sb: false // Apartment with security bars checkbox default value.
 };
 
 @inject('appStore', 'appProviders') @observer
@@ -45,7 +46,13 @@ class Filter extends Component {
       this.filterObj = {};
     }
 
-    this.state = Object.assign({ hideFilter: true }, DEFAULT_FILTER_PARAMS, this.filterObj);
+    this.state = Object.assign({
+      hideFilter: true,
+      cityFilterClass: this.getCityFilterClass(),
+      extraFilterClass: this.getExtraFilterClass(),
+      mrFilterClass: this.getMRFilterClass(),
+      roomsFilterClass: this.getRoomsFilterClass()
+    }, DEFAULT_FILTER_PARAMS, this.filterObj);
   }
 
   componentDidMount() {
@@ -59,19 +66,44 @@ class Filter extends Component {
     }
   }
 
+  getCityFilterClass() {
+    const cityFilterActive = this.filterObj.city && (this.filterObj.city !== DEFAULT_FILTER_PARAMS.city);
+    return cityFilterActive ? 'filter-trigger-active' : '';
+  }
+
+  getRoomsFilterClass() {
+    const roomsFilterActive = this.filterObj.minRooms || this.filterObj.maxRooms;
+    return roomsFilterActive ? 'filter-trigger-active' : '';
+  }
+
+  getMRFilterClass() {
+    const mrFilterActive = this.filterObj.mrs || this.filterObj.mre;
+    return mrFilterActive ? 'filter-trigger-active' : '';
+  }
+
+  getExtraFilterClass() {
+    const extraFilterActive = this.filterObj.ac || this.filterObj.balc ||
+      this.filterObj.elev || this.filterObj.park ||
+      this.filterObj.pet || this.filterObj.sb;
+    return extraFilterActive ? 'filter-trigger-active' : '';
+  }
+
   citySelectHandler(cityId) {
-    this.setState({ city: cityId }); // Unused but required for calling render
+    //this.setState({ city: cityId }); // Unused but required for calling render
     this.filterObj.city = cityId;
+    this.setState({cityFilterClass: this.getCityFilterClass()});
 
     this.reloadResults();
   }
 
   mrSliderChangeHandler(mrStringArray, unused, monthly_rent) {
     this.sliderChangeHandler(monthly_rent, 'mrs', 'mre');
+    this.setState({mrFilterClass: this.getMRFilterClass()});
   }
 
   roomsSliderChangeHandler(roomsStringArray, unused, rooms) {
     this.sliderChangeHandler(rooms, 'minRooms', 'maxRooms');
+    this.setState({roomsFilterClass: this.getRoomsFilterClass()});
   }
 
   sliderChangeHandler(range, minProp, maxProp) {
@@ -106,7 +138,8 @@ class Filter extends Component {
     e.target.checked ?
       this.filterObj[e.target.name] = true :
       delete this.filterObj[e.target.name];
-    
+
+    this.setState({extraFilterClass: this.getExtraFilterClass()});
     this.reloadResults();
   }
 
@@ -188,7 +221,7 @@ class Filter extends Component {
   }
 
   roomsPopup() {
-    return <Popover className="filter-roomsnum-popup" id="popup-rooms">
+    return <Popover className="filter-rooms-popup" id="popup-rooms">
              <Nouislider onChange={this.roomsSliderChangeHandler}
                         range={{
                           min: DEFAULT_FILTER_PARAMS.minRooms,
@@ -214,8 +247,8 @@ class Filter extends Component {
            </Popover>;
   }
 
-  costPopup() {
-    return <Popover className="filter-cost-popup" id="popup-cost">
+  mrPopup() {
+    return <Popover className="filter-mr-popup" id="popup-mr">
              <Nouislider onChange={this.mrSliderChangeHandler}
                range={{
                  min: DEFAULT_FILTER_PARAMS.mrs,
@@ -327,7 +360,7 @@ class Filter extends Component {
         <Row>
           <Col md={2} mdOffset={2} sm={3} className="filter-city-wrapper">
             <DropdownButton id="cityDropdown" bsSize="large"
-              className="filter-city-dropdown"
+              className={'filter-city-dropdown ' + this.state.cityFilterClass}
               title={'עיר: ' + cityTitle}
               onSelect={this.citySelectHandler}>
               <MenuItem eventKey={'*'}>כל הערים</MenuItem>
@@ -337,19 +370,19 @@ class Filter extends Component {
           <Col md={2} sm={3}>
             <OverlayTrigger placement="bottom" trigger="click" rootClose
                             overlay={this.roomsPopup()}>
-              <div className="filter-trigger-container">חדרים</div>
+              <div className={'filter-trigger-container ' + this.state.roomsFilterClass}>חדרים</div>
             </OverlayTrigger>
           </Col>
           <Col md={2} sm={3}>
             <OverlayTrigger placement="bottom" trigger="click" rootClose
-                            overlay={this.costPopup()}>
-              <div className="filter-trigger-container">מחיר</div>
+                            overlay={this.mrPopup()}>
+              <div className={'filter-trigger-container ' + this.state.mrFilterClass}>מחיר</div>
             </OverlayTrigger>
           </Col>
           <Col md={2} sm={3}>
             <OverlayTrigger placement="bottom" trigger="click" rootClose
                             overlay={this.extraPopup()}>
-              <div className="filter-trigger-container">פילטרים נוספים</div>
+              <div className={'filter-trigger-container ' + this.state.extraFilterClass}>פילטרים נוספים</div>
             </OverlayTrigger>
           </Col>
         </Row>

@@ -80,6 +80,12 @@
     position: absolute;
   }
 
+  &.filter-trigger-active::after {
+    color: #3398db;
+    content: '\f058';
+    font-size: 22px;
+  }
+
   @media (max-width: $screen-xs-max) {
     height: 45px;
     line-height: 41px;
@@ -112,6 +118,12 @@
     font-family: FontAwesome;
     left: 9px;
     position: absolute;
+  }
+
+  &.filter-trigger-active::after {
+    color: #3398db;
+    content: '\f058';
+    font-size: 22px;
   }
 
   @media (max-width: $screen-xs-max) {
@@ -160,9 +172,9 @@
   }
 }
 
-.filter-cost-popup,
+.filter-mr-popup,
 .filter-extra-popup,
-.filter-roomsnum-popup {
+.filter-rooms-popup {
   border: none;
   border-radius: 0;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
@@ -182,8 +194,8 @@
 }
 
 // nouislider overrides
-.filter-cost-popup,
-.filter-roomsnum-popup {
+.filter-mr-popup,
+.filter-rooms-popup {
   height: 100px;
 
   .popover-content {
@@ -209,7 +221,7 @@
   }
 }
 
-.filter-cost-popup .noUi-value-large::before {
+.filter-mr-popup .noUi-value-large::before {
   color: $gray-light;
   content: "₪";
   font-size: 12px;
