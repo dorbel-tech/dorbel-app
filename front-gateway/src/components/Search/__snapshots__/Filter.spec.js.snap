@@ -85,7 +85,7 @@ exports[`Filter should initialize correctly 1`] = `
                   className="filter-city-wrapper col-md-2 col-md-offset-2 col-sm-3">
                   <DropdownButton
                     bsSize="large"
-                    className="filter-city-dropdown"
+                    className="filter-city-dropdown "
                     id="cityDropdown"
                     onSelect={[Function]}
                     title="עיר: כל הערים">
@@ -113,7 +113,7 @@ exports[`Filter should initialize correctly 1`] = `
                               bsClass="dropdown-toggle"
                               bsRole="toggle"
                               bsSize="large"
-                              className="filter-city-dropdown"
+                              className="filter-city-dropdown "
                               id="cityDropdown"
                               onClick={[Function]}
                               onKeyDown={[Function]}
@@ -127,7 +127,7 @@ exports[`Filter should initialize correctly 1`] = `
                                 bsClass="btn"
                                 bsSize="large"
                                 bsStyle="default"
-                                className="filter-city-dropdown dropdown-toggle"
+                                className="filter-city-dropdown  dropdown-toggle"
                                 disabled={false}
                                 id="cityDropdown"
                                 onClick={[Function]}
@@ -136,7 +136,7 @@ exports[`Filter should initialize correctly 1`] = `
                                 <button
                                   aria-expanded={false}
                                   aria-haspopup={true}
-                                  className="filter-city-dropdown dropdown-toggle btn btn-lg btn-default"
+                                  className="filter-city-dropdown  dropdown-toggle btn btn-lg btn-default"
                                   disabled={false}
                                   id="cityDropdown"
                                   onClick={[Function]}
@@ -215,7 +215,7 @@ exports[`Filter should initialize correctly 1`] = `
                     overlay={
                       <Popover
                         bsClass="popover"
-                        className="filter-roomsnum-popup"
+                        className="filter-rooms-popup"
                         id="popup-rooms"
                         placement="right">
                         <Nouislider
@@ -262,7 +262,7 @@ exports[`Filter should initialize correctly 1`] = `
                     trigger="click">
                     <div
                       aria-describedby="popup-rooms"
-                      className="filter-trigger-container"
+                      className="filter-trigger-container "
                       onClick={[Function]}>
                       חדרים
                     </div>
@@ -281,8 +281,8 @@ exports[`Filter should initialize correctly 1`] = `
                     overlay={
                       <Popover
                         bsClass="popover"
-                        className="filter-cost-popup"
-                        id="popup-cost"
+                        className="filter-mr-popup"
+                        id="popup-mr"
                         placement="right">
                         <Nouislider
                           connect={true}
@@ -313,8 +313,8 @@ exports[`Filter should initialize correctly 1`] = `
                     rootClose={true}
                     trigger="click">
                     <div
-                      aria-describedby="popup-cost"
-                      className="filter-trigger-container"
+                      aria-describedby="popup-mr"
+                      className="filter-trigger-container "
                       onClick={[Function]}>
                       מחיר
                     </div>
@@ -479,7 +479,7 @@ exports[`Filter should initialize correctly 1`] = `
                             </Checkbox>
                             <Checkbox
                               bsClass="checkbox"
-                              checked={undefined}
+                              checked={false}
                               disabled={false}
                               inline={false}
                               name="sb"
@@ -495,7 +495,7 @@ exports[`Filter should initialize correctly 1`] = `
                     trigger="click">
                     <div
                       aria-describedby="popup-extra"
-                      className="filter-trigger-container"
+                      className="filter-trigger-container "
                       onClick={[Function]}>
                       פילטרים נוספים
                     </div>
