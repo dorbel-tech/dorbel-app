@@ -198,7 +198,7 @@ class Property extends Component {
                     {utils.getListingTitle(property)}
                   </div>
                   <div className="property-history-selector-mobile">
-                    {historySelector}
+                    { !activeTab.headerButtons && historySelector }
                   </div>
                   <div className="property-title-details">
                     <div className="property-title-details-sub">
