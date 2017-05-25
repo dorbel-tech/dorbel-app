@@ -77,6 +77,9 @@ class Property extends Component {
   }
 
   renderActionsMenu(property, isActiveListing) {
+    const editItemClass = isActiveListing ? '' : ' property-actions-menu-item-disabled';
+    const editItemClick = isActiveListing ? () =>this.gotoEditProperty(property) : null;
+
     return (
       <Popover onMouseEnter={this.showActionsMenu}
                onMouseLeave={this.hideActionsMenu}
@@ -90,13 +93,10 @@ class Property extends Component {
           <i className="property-actions-menu-item-icon fa fa-refresh" aria-hidden="true"></i>
           רענון נתונים
         </div>
-        {
-          isActiveListing &&
-          <div className="property-actions-menu-item" onClick={() =>this.gotoEditProperty(property)}>
-            <i className="property-actions-menu-item-icon fa fa-pencil-square-o" aria-hidden="true"></i>
-            עריכת פרטי הנכס
-          </div>
-        }
+        <div className={'property-actions-menu-item' + editItemClass} onClick={editItemClick}>
+          <i className="property-actions-menu-item-icon fa fa-pencil-square-o" aria-hidden="true"></i>
+          עריכת פרטי הנכס
+        </div>
         {
           this.props.appProviders.listingsProvider.isRepublishable(property) &&
           <div className="property-actions-menu-item" onClick={() =>this.republish(property)}>
