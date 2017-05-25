@@ -3,15 +3,23 @@ const db = require('../dbConnectionProvider');
 const _ = require('lodash');
 const helper = require('./repositoryHelper');
 
-function* findOrCreate(apt_number: string, building_id: integer, apartment) {
-  const apartmentResult = yield db.models.apartment.findOrCreate({
+const UPSERT_WHITELIST = [ 'size', 'rooms', 'floor', 'parking', 'sun_heated_boiler', 'pets', 'air_conditioning', 'balcony', 'security_bars', 'parquet_floor' ];
+
+function* updateOrCreate(apt_number: string, building_id: integer, apartment) {
+  const findOrCreateResult = yield db.models.apartment.findOrCreate({
     where: { building_id, apt_number },
     defaults: _.pick(apartment, helper.getModelFieldNames(db.models.apartment))
   });
 
-  return apartmentResult[0];
+  const apartmentResult = findOrCreateResult[0];
+
+  if (!apartmentResult.isNewRecord) {
+    yield apartmentResult.update(_.pick(apartment, UPSERT_WHITELIST));
+  }
+
+  return apartmentResult;
 }
 
 module.exports = {
-  findOrCreate
+  updateOrCreate
 };

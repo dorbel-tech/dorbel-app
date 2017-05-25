@@ -28,7 +28,8 @@ class ApiClient {
         .replace(/%22/g, '"')
         .replace(/%7B/g, '{')
         .replace(/%7D/g, '}')
-        .replace(/%3A/g, ':');
+        .replace(/%3A/g, ':')
+        .replace(/%2C/g, ',');
     }
 
     if (isAuthenticated) {

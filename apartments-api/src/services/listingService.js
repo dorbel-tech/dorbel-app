@@ -85,7 +85,7 @@ function* create(listing) {
     }
   }
   else { logger.error({listing}, 'Could not find notification type for created listing'); }
-  
+
   return createdListing;
 }
 
@@ -211,7 +211,8 @@ function* getByFilter(filterJSON, options = {}) {
   let queryOptions = {
     order: getSortOption(filter.sort),
     limit: options.limit || DEFUALT_LISTING_LIST_LIMIT,
-    offset: options.offset || 0
+    offset: options.offset || 0,
+    oldListings: filter.oldListings
   };
 
   if (options.user) {
@@ -251,30 +252,22 @@ function* getByFilter(filterJSON, options = {}) {
   }
 
   var filterMapping = {
-    // Listing monthly rent start.
+    // Listing monthly rent start (minimum)
     mrs: { set: 'monthly_rent.$gte', target: listingQuery },
-    // Listing monthly rent end.
+    // Listing monthly rent end (maximum)
     mre: { set: 'monthly_rent.$lte', target: listingQuery },
     // Listing with a roomate (a roomate looking for roomate/s).
     room: { set: 'roommate_needed', target: listingQuery },
-    // Building city ID.
     city: { set: 'buildingQuery.city_id' },
-    // Building has elevator.
     ele: { set: 'buildingQuery.elevator', staticValue: true },
-    // Apartment minimum number of rooms.
     minRooms: { set: 'apartmentQuery.rooms.$gte' },
-    // Apartment maximum number of rooms.
     maxRooms: { set: 'apartmentQuery.rooms.$lte' },
-    // Apartment has parking.
     park: { set: 'apartmentQuery.parking', staticValue: true },
-    // Apartment has balcony.
     balc: { set: 'apartmentQuery.balcony', staticValue: true },
-    // Apartment has air conditioning.
     ac: { set: 'apartmentQuery.air_conditioning', staticValue: true },
-    // Apartment allows pets.
     pet: { set: 'apartmentQuery.pets', staticValue: true },
-    // Apartment has security bars.
-    sb: { set: 'apartmentQuery.security_bars', staticValue: true }
+    sb: { set: 'apartmentQuery.security_bars', staticValue: true },
+    apartment_id: { set: 'apartment_id', target: listingQuery }
   };
 
   Object.keys(filterMapping)

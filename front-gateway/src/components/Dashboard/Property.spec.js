@@ -14,10 +14,15 @@ describe('Property', () => {
       listingStore: {
         get: jest.fn(),
         listingViewsById: { get: jest.fn(), has: jest.fn() },
-        isListingPublisherOrAdmin: jest.fn().mockReturnValue(true)
+        isListingPublisherOrAdmin: jest.fn().mockReturnValue(true),
+        listingsByApartmentId: { get: jest.fn() }
       },
       oheStore: {
         countFollowersByListingId: { get: jest.fn() },
+        followersByListingId: {
+          get: jest.fn().mockReturnValue([]),
+          has: jest.fn()
+        },
         oheByListingId: jest.fn()
       },
       editedListingStore: {
@@ -29,7 +34,9 @@ describe('Property', () => {
         isRepublishable: jest.fn(),
         loadListingPageViews: jest.fn(),
         loadFullListingDetails: jest.fn(),
-        republish: jest.fn()
+        loadListingsForApartment: jest.fn(),
+        republish: jest.fn(),
+        isActiveListing: jest.fn().mockReturnValue(true)
       },
       oheProvider: {
         loadListingEvents: jest.fn(),
@@ -38,7 +45,8 @@ describe('Property', () => {
       navProvider: {}
     };
     propertyMock = {
-      id: '7',
+      id: 7,
+      apartment_id: 8,
       status: 'rented',
       apartment: {
         building: {}
@@ -46,10 +54,11 @@ describe('Property', () => {
     };
   });
 
-  const shallowProperty = () => shallow(<Property.wrappedComponent appStore={appStoreMock} appProviders={appProvidersMock} propertyId={propertyMock.id} />);
+  const shallowProperty = () => shallow(<Property.wrappedComponent appStore={appStoreMock} appProviders={appProvidersMock} propertyId={'' + propertyMock.id} />);
+  // TODO : mount is !!! terrible !!! here it needs a million dependencies - find a way to test without mount
   const mountProperty = () => mount(
     <Provider appStore={appStoreMock} appProviders={appProvidersMock} router={{}}>
-      <Property propertyId={propertyMock.id} />
+      <Property propertyId={'' + propertyMock.id} />
     </Provider>
   );
   const getLoadedProperty = () => {
@@ -81,7 +90,7 @@ describe('Property', () => {
     appProvidersMock.listingsProvider.loadFullListingDetails.mockReturnValue(Promise.resolve());
     const wrapper = mountProperty();
     expect(wrapper.find('LoadingSpinner')).toHaveLength(1);
-    expect(appProvidersMock.listingsProvider.loadFullListingDetails).toHaveBeenCalledWith(propertyMock.id);
+    expect(appProvidersMock.listingsProvider.loadFullListingDetails).toHaveBeenCalledWith('' + propertyMock.id);
     appStoreMock.listingStore.get.mockReturnValue(propertyMock);
     // this depends on ComponentDidMount + rerender after state.isLoading was changed
     return flushPromises().then(() => {

@@ -11,7 +11,13 @@ import './MyProperties.scss';
 class MyProperties extends Component {
   constructor(props) {
     super(props);
+  }
 
+  componentDidMount() {
+    // this is a workaround for duplicate results after re-publish and deleting listings
+    // because the search store is unique per listing-id and not per apartment-id
+    // and the MyProperties query isn't changing - the store/provider don't know they should reset+query again
+    this.props.appStore.searchStore.reset();
     this.props.appProviders.searchProvider.search({
       'city': '*',
       'myProperties': true

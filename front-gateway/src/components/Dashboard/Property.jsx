@@ -6,6 +6,7 @@ import { find } from 'lodash';
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
 import CloudinaryImage from '../CloudinaryImage/CloudinaryImage';
 import ListingStatusSelector from './MyProperties/ListingStatusSelector';
+import PropertyHistorySelector from './PropertyHistorySelector/PropertyHistorySelector';
 import OHEManager from '~/components/OHEManager/OHEManager';
 import PropertyManage from './MyProperties/PropertyManage';
 import PropertyStats from './MyProperties/PropertyStats';
@@ -42,7 +43,6 @@ class Property extends Component {
   loadFullPropertyDetails() {
     const { propertyId, appStore, appProviders } = this.props;
     appProviders.oheProvider.loadListingEvents(propertyId);
-    appProviders.oheProvider.getFollowsForListing(propertyId);
 
     const loadListing = appStore.listingStore.get(propertyId) ?
       Promise.resolve() : appProviders.listingsProvider.loadFullListingDetails(propertyId);
@@ -75,7 +75,10 @@ class Property extends Component {
     this.setState({ showActionsMenu: false });
   }
 
-  renderActionsMenu(property) {
+  renderActionsMenu(property, isActiveListing) {
+    const editItemClass = isActiveListing ? '' : ' property-actions-menu-item-disabled';
+    const editItemClick = isActiveListing ? () =>this.gotoEditProperty(property) : null;
+
     return (
       <Popover onMouseEnter={this.showActionsMenu}
                onMouseLeave={this.hideActionsMenu}
@@ -89,17 +92,16 @@ class Property extends Component {
           <i className="property-actions-menu-item-icon fa fa-refresh" aria-hidden="true"></i>
           רענון נתונים
         </div>
-        <div className="property-actions-menu-item" onClick={() =>this.gotoEditProperty(property)}>
+        <div className={'property-actions-menu-item' + editItemClass} onClick={editItemClick}>
           <i className="property-actions-menu-item-icon fa fa-pencil-square-o" aria-hidden="true"></i>
           עריכת פרטי הנכס
         </div>
         {
-          this.props.appProviders.listingsProvider.isRepublishable(property) ?
+          this.props.appProviders.listingsProvider.isRepublishable(property) &&
           <div className="property-actions-menu-item" onClick={() =>this.republish(property)}>
             <i className="property-actions-menu-item-icon fa fa-undo" aria-hidden="true"></i>
             פרסום הנכס מחדש
           </div>
-          : null
         }
       </Popover>
     );
@@ -122,11 +124,17 @@ class Property extends Component {
     const propertyPath = getDashMyPropsPath(property, '/');
     const sortedPropertyImages = utils.sortListingImages(property);
     const imageURL = sortedPropertyImages.length ? sortedPropertyImages[0].url : '';
-    const followers = appStore.oheStore.countFollowersByListingId.get(this.props.propertyId);
+    const historySelector = <PropertyHistorySelector apartment_id={property.apartment_id} listing_id={property.id} />;
+    const isActiveListing = this.props.appProviders.listingsProvider.isActiveListing(property);
+    const imageClass = 'property-image' + (isActiveListing ? '' : ' property-image-inactive');
+    const titleClass = 'property-title' + (isActiveListing ? '' : ' property-title-inactive');
     let editForm = null;
 
     const defaultHeaderButtons = (
       <div className="property-action-container">
+        <div className="property-history-selector">
+          {historySelector}
+        </div>
         <div className="property-actions-refresh-container">
           <Button className="fa fa-refresh property-action-button" title="רענון העמוד"
               onClick={this.refresh}></Button>
@@ -149,7 +157,7 @@ class Property extends Component {
                    placement="bottom"
                    target={this.propertyActionMenuIcon}
                    rootClose>
-            {this.renderActionsMenu(property)}
+            {this.renderActionsMenu(property, isActiveListing)}
           </Overlay>
         </div>
       </div>
@@ -170,7 +178,7 @@ class Property extends Component {
     );
 
     const propertyTabs = [
-      { relativeRoute: 'stats', title: 'סטטיסטיקה', component: <PropertyStats listing={property} followers={followers || 0} /> },
+      { relativeRoute: 'stats', title: 'סטטיסטיקה', component: <PropertyStats listing={property} /> },
       { relativeRoute: 'ohe', title: 'מועדי ביקור', component: <OHEManager listing={property} /> },
       { relativeRoute: 'manage', title: 'ניהול', component: <PropertyManage listing={property} /> },
       { relativeRoute: 'edit', title: 'עריכת פרטי הנכס', component: <EditListing listing={property} ref={form => editForm = form} />,
@@ -181,42 +189,33 @@ class Property extends Component {
 
     return  <Grid fluid className="property-wrapper">
               <Row className="property-top-container">
-                <Col md={3} sm={3} xs={5} className="property-image-container">
-                  <CloudinaryImage src={imageURL} height={125} className="property-image"/>
-                  <ListingStatusSelector listing={property} />
+                <Col md={3} sm={3} xs={4} className="property-image-container">
+                  <CloudinaryImage src={imageURL} height={125} className={imageClass}/>
+                  { isActiveListing && <ListingStatusSelector listing={property} /> }
                 </Col>
-                <Col md={5} sm={6} xs={7} className="property-title-container">
-                  <div className="property-title">
+                <Col md={5} sm={6} xs={8} className="property-title-container">
+                  <div className={titleClass}>
                     {utils.getListingTitle(property)}
                   </div>
+                  <div className="property-history-selector-mobile">
+                    { !activeTab.headerButtons && historySelector }
+                  </div>
                   <div className="property-title-details">
-                    <span>
-                      {property.apartment.rooms}</span>
+                    <div className="property-title-details-sub">
+                      <span>{property.apartment.rooms}</span>
                       <span className="property-title-details-sub-text">&nbsp;חדרים</span>
-                    <div className="property-title-details-vr" />
-                    <span>
-                      {property.apartment.size}</span>
+                    </div>
+                    <div className="property-title-details-sub">
+                      <span>{property.apartment.size}</span>
                       <span className="property-title-details-sub-text">&nbsp;מ"ר</span>
-                    <div className="property-title-details-vr" />
-                    <span>
-                      {utils.getFloorTextValue(property)}</span>
+                    </div>
+                    <div className="property-title-details-sub">
+                      <span>{utils.getFloorTextValue(property)}</span>
                       <span className="property-title-details-sub-text">&nbsp;קומה</span>
+                    </div>
                   </div>
                 </Col>
                 <Col md={4} sm={3} className="property-actions-wrapper">
-                  <div className="property-action-container property-actions-details">
-                    <div>
-                      <span className="property-actions-title">
-                        {followers || 0}</span><br/>
-                        <span className="property-actions-sub-title">עוקבים</span>
-                    </div>
-                    <div className="property-actions-vr" />
-                    <div>
-                      <span className="property-actions-title">
-                        {property.totalLikes || 0}</span><br/>
-                        <span className="property-actions-sub-title">לייקים</span>
-                    </div>
-                  </div>
                   { activeTab.headerButtons || defaultHeaderButtons }
                 </Col>
               </Row>

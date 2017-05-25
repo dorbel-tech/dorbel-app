@@ -129,16 +129,36 @@ class ListingsProvider {
     const { newListingStore } = this.appStore;
     const newListing = isObservableObject(property) ? toJS(property) : _.cloneDeep(property);
     newListing.lease_start = moment(property.lease_end).add(1, 'day').toISOString();
+    newListing.lease_end = undefined;
     newListingStore.reset();
     newListingStore.loadListing(newListing);
-    this.router.setRoute('/apartments/new_form');
+    this.router.setRoute('/apartments/new_form/publish');
   }
 
-  isRepublishable() {
-    // TODO : add check that listing is also the 'active' listing of the apartment
-    // TODO : change this when we want to release it
-    // return listing.status === 'rented' || listing.status === 'unlisted';
-    return false;
+  isRepublishable(listing) {
+    return (listing.status === 'rented' || listing.status === 'unlisted') && this.isActiveListing(listing);
+  }
+
+  isActiveListing(listing) {
+    const { listingsByApartmentId } = this.appStore.listingStore;
+    const listingHistory = listingsByApartmentId.get(listing.apartment_id);
+    return listingHistory && listingHistory[0] && listingHistory[0].id === listing.id;
+  }
+
+  loadListingsForApartment(apartment_id) {
+    const { listingsByApartmentId } = this.appStore.listingStore;
+
+    const params = {
+      q: JSON.stringify({
+        apartment_id,
+        myProperties: true,
+        oldListings: true,
+        sort: 'lease_start'
+      })
+    };
+
+    return this.apiProvider.fetch('/api/apartments/v1/listings', { params })
+    .then(listings => listingsByApartmentId.set(apartment_id, listings.reverse()));
   }
 }
 

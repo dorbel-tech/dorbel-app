@@ -12,6 +12,9 @@ describe('Property Stats', () => {
         oheByListingId: jest.fn(),
         followersByListingId: {
           get: jest.fn()
+        },
+        countFollowersByListingId: {
+          get: jest.fn().mockReturnValue(7)
         }
       },
       listingStore: {
@@ -26,7 +29,7 @@ describe('Property Stats', () => {
     };
   });
 
-  const propertyStats = () => shallow(<PropertyStats.wrappedComponent appStore={appStoreMock} appProviders={appProvidersMock} listing={listingMock} followers={7}/>);
+  const propertyStats = () => shallow(<PropertyStats.wrappedComponent appStore={appStoreMock} appProviders={appProvidersMock} listing={listingMock} />);
   const getRegistrations = wrapper => wrapper.find('.property-stats-number').at(1).childAt(0).node.props.children;
 
   it('should display total number of ohe registrations', () => {
