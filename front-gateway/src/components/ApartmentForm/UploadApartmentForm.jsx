@@ -4,6 +4,11 @@ import { inject, observer } from 'mobx-react';
 import _ from 'lodash';
 import './UploadApartmentForm.scss';
 
+const statusByUploadMode = {
+  publish: 'pending',
+  manage: 'rented'
+};
+
 const steps = [
   'UploadApartmentStep1',
   'UploadApartmentStep2',
@@ -24,21 +29,19 @@ class UploadApartmentForm extends Component {
   validateAndSetMode() {
     const { newListingStore } = this.props.appStore;
     newListingStore.attemptRestoreState();
-    switch (this.props.mode) {
-      case 'publish':
-      case 'manage':
-        if (newListingStore.uploadMode != this.props.mode) {
-          newListingStore.stepNumber = 0; // Set step to 0 on mode change
-        }
-        newListingStore.uploadMode = this.props.mode;
-        break;
-
-      default: // handle invalid mode
-        newListingStore.uploadMode = undefined;
-        if (process.env.IS_CLIENT) {
-          this.props.appProviders.navProvider.setRoute('/apartments/new_form');
-        }
-        break;
+    
+    if (statusByUploadMode[this.props.mode]) {
+      if (newListingStore.uploadMode != this.props.mode) {
+        newListingStore.stepNumber = 0; // Set step to 0 on mode change
+      }
+      newListingStore.uploadMode = this.props.mode;
+      newListingStore.updateFormValues({ status: statusByUploadMode[this.props.mode] });
+    }
+    else { // handle invalid mode
+      newListingStore.uploadMode = undefined;
+      if (process.env.IS_CLIENT) {
+        this.props.appProviders.navProvider.setRoute('/apartments/new_form');
+      }
     }
   }
 
