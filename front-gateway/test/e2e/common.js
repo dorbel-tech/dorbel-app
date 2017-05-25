@@ -34,7 +34,7 @@ function getSmallRandomNumber() {
 }
 
 function getMediumRandomNumber() {
-  return _.random(10, 100); // Return a random number between 10 and 100.
+  return _.random(10, 1000); // Return a random number between 10 and 100.
 }
 
 function getBigRandomNumber() {

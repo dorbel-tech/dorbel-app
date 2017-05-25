@@ -148,7 +148,7 @@ module.exports = {
     navigateToApartmentPictureSection: function () {
       this
         .navigate()
-        .waitForElementVisible('body');      
+        .waitForElementVisible('body');
       return this;
     },
     navigateToApartmentDetailsSection: function () {
@@ -173,19 +173,19 @@ module.exports = {
       return this;
     },
     goFromApartmentDetailsToOpenHouseEvent: function () {
-      this.section.apartmentDetails.click('@nextStep');      
+      this.section.apartmentDetails.click('@nextStep');
       return this;
     },
     goFromOpenHouseEventToApartmentDetails: function () {
-      this.section.openHouseEvent.click('@previousStep');      
+      this.section.openHouseEvent.click('@previousStep');
       return this;
     },
     fillApartmentDetailsAllFields: function () {
       this.section.apartmentDetails
-        .setValue('@street', 'כצנלסון')
+        .setValue('@street', 'בן יהודה')
         .setValue('@houseNumber', common.getMediumRandomNumber())
         .setValue('@apartmentNumber', common.getMediumRandomNumber())
-        .setValue('@buildingEntrance', 'א')
+        .setValue('@buildingEntrance', common.getSmallRandomNumber())
         .setValue('@apartmentFloor', common.getSmallRandomNumber())
         .setValue('@buildingFloors', common.getSmallRandomNumber())
         .setValue('@apartmentSize', common.getMediumRandomNumber())
@@ -214,7 +214,7 @@ module.exports = {
         .setValue('@eventEndTime', '09:00');
       return this;
     },
-    clearUserDetailsFields: function () {      
+    clearUserDetailsFields: function () {
       this.section.openHouseEvent
         .clearValue('@firstName')
         .clearValue('@lastName')
@@ -240,6 +240,6 @@ module.exports = {
         .fillOpenHouseEventDetailsAllFields()
         .submitApartment();
       return this;
-    }    
+    }
   }]
 };
