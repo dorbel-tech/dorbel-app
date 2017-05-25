@@ -14,10 +14,10 @@ const userPermissions = shared.utils.user.permissions;
 const DEFUALT_LISTING_LIST_LIMIT = 1000;
 
 const possibleStatusesByCurrentStatus = {
-  pending: ['deleted', 'unlisted'],
-  rented: ['deleted', 'unlisted'],
-  unlisted: ['deleted', 'rented'],
-  listed: ['rented', 'deleted', 'unlisted']
+  pending: ['unlisted', 'deleted'],
+  rented: ['unlisted', 'deleted'],
+  unlisted: ['rented', 'deleted'],
+  listed: ['rented', 'unlisted', 'deleted']
 };
 
 const createdEventsByListingStatus = {
