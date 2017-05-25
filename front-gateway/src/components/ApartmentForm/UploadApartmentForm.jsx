@@ -4,6 +4,11 @@ import { inject, observer } from 'mobx-react';
 import _ from 'lodash';
 import './UploadApartmentForm.scss';
 
+const statusByUploadMode = {
+  publish: 'pending',
+  manage: 'rented'
+}
+
 const steps = [
   'UploadApartmentStep1',
   'UploadApartmentStep2',
@@ -31,6 +36,7 @@ class UploadApartmentForm extends Component {
           newListingStore.stepNumber = 0; // Set step to 0 on mode change
         }
         newListingStore.uploadMode = this.props.mode;
+        newListingStore.updateFormValues({status: statusByUploadMode[this.props.mode]});
         break;
 
       default: // handle invalid mode

@@ -37,6 +37,7 @@ const VALID_KEYS = [
   'board_fee',
   'directions',
   'show_phone',
+  'status',
   // apartment
   'apartment.apt_number',
   'apartment.building.entrance',
