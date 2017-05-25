@@ -65,6 +65,7 @@ class PropertyStats extends Component {
     const daysPassed = moment(Date.now()).diff(moment(listing.created_at), 'days');
     const listingRented = listing.status === 'rented';
     const oheTabUrl = getDashMyPropsPath(listing, '/ohe');
+    const followersCount = appStore.oheStore.countFollowersByListingId.get(listingId);
 
     return <Grid fluid className="property-stats">
             <Row className="property-stats-rent-title">
@@ -107,7 +108,7 @@ class PropertyStats extends Component {
             <Row className="property-stats-listing-stats text-center">
               <Col xs={4}>
                 <div className="property-stats-card">
-                  <div className="property-stats-number">{this.props.followers}</div>
+                  <div className="property-stats-number">{followersCount || 0}</div>
                   <div className="property-stats-title">עוקבים</div>
                 </div>
               </Col>
@@ -168,6 +169,7 @@ class PropertyStats extends Component {
     const { appStore, listing } = this.props;
     const listingId = listing.id;
     const views = appStore.listingStore.listingViewsById.get(listingId);
+    const followersCount = appStore.oheStore.countFollowersByListingId.get(listingId);
     const listingLeaseStart = utils.formatDate(listing.lease_start);
     const daysPassed = moment(Date.now()).diff(moment(listing.lease_start), 'days');
     const manageTabUrl = getDashMyPropsPath(listing, '/manage');
@@ -185,7 +187,7 @@ class PropertyStats extends Component {
                   <div className="property-stats-number">{views || 0}</div>
                   <div className="property-stats-empty"></div>
                   <div className="property-stats-number">
-                    <NavLink to={manageTabUrl}>{this.props.followers}</NavLink></div>
+                    <NavLink to={manageTabUrl}>{followersCount || 0}</NavLink></div>
                   <div className="property-stats-empty"></div>
                   <div className="property-stats-number">{listing.totalLikes || 0}</div>
                 </div>
@@ -303,7 +305,6 @@ class PropertyStats extends Component {
 
 PropertyStats.wrappedComponent.propTypes = {
   listing: React.PropTypes.object.isRequired,
-  followers: React.PropTypes.number.isRequired,
   appStore: React.PropTypes.object,
   appProviders: React.PropTypes.object.isRequired,
 };

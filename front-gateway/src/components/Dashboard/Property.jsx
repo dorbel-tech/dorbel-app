@@ -43,7 +43,6 @@ class Property extends Component {
   loadFullPropertyDetails() {
     const { propertyId, appStore, appProviders } = this.props;
     appProviders.oheProvider.loadListingEvents(propertyId);
-    appProviders.oheProvider.getFollowsForListing(propertyId);
 
     const loadListing = appStore.listingStore.get(propertyId) ?
       Promise.resolve() : appProviders.listingsProvider.loadFullListingDetails(propertyId);
@@ -125,7 +124,6 @@ class Property extends Component {
     const propertyPath = getDashMyPropsPath(property, '/');
     const sortedPropertyImages = utils.sortListingImages(property);
     const imageURL = sortedPropertyImages.length ? sortedPropertyImages[0].url : '';
-    const followers = appStore.oheStore.countFollowersByListingId.get(this.props.propertyId);
     const historySelector = <PropertyHistorySelector apartment_id={property.apartment_id} listing_id={property.id} />;
     const isActiveListing = this.props.appProviders.listingsProvider.isActiveListing(property);
     const imageClass = 'property-image' + (isActiveListing ? '' : ' property-image-inactive');
@@ -180,7 +178,7 @@ class Property extends Component {
     );
 
     const propertyTabs = [
-      { relativeRoute: 'stats', title: 'סטטיסטיקה', component: <PropertyStats listing={property} followers={followers || 0} /> },
+      { relativeRoute: 'stats', title: 'סטטיסטיקה', component: <PropertyStats listing={property} /> },
       { relativeRoute: 'ohe', title: 'מועדי ביקור', component: <OHEManager listing={property} /> },
       { relativeRoute: 'manage', title: 'ניהול', component: <PropertyManage listing={property} /> },
       { relativeRoute: 'edit', title: 'עריכת פרטי הנכס', component: <EditListing listing={property} ref={form => editForm = form} />,
