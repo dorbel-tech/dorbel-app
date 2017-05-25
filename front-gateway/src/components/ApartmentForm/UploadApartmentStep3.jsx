@@ -33,8 +33,14 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
   }
 
   onCloseSuccessModal() {
-    this.props.appStore.newListingStore.reset();
-    this.props.router.setRoute('/dashboard/my-properties/' + this.props.createdListingId);
+    const createdListingId = this.props.createdListingId;
+    const {newListingStore} = this.props.appStore;
+    
+    let redirectPath = `/dashboard/my-properties/${createdListingId}/`;
+    redirectPath += newListingStore.uploadMode == 'manage' ? 'manage' : '';
+    
+    newListingStore.reset();
+    this.props.router.setRoute(redirectPath);
   }
 
   renderUserDetails() {
