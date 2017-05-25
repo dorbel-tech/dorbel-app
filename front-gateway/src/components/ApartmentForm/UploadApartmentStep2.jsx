@@ -12,6 +12,22 @@ export default class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappe
     autobind(this);
   }
 
+  renderSidePanelListItems() {
+    return (this.props.appStore.newListingStore.uploadMode == 'manage') ?
+      (
+        <ul>
+          <li>הקפידו למלא את כל הפרטים</li>
+        </ul>
+      )
+      :
+      (
+        <ul>
+          <li>הקפידו למלא את כל הפרטים</li>
+          <li>תיאור מלא יעזור למנוע ביקורים מיותרים</li>
+        </ul>
+      );
+  }
+
   clickNext() {
     const validationErrors = this.refs.listingDetailsForm.wrappedInstance.getValidationErrors();
     if (validationErrors) {
@@ -28,10 +44,7 @@ export default class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappe
           <div className="upload-apt-right-container-text-wrapper">
             <div className="upload-apt-right-container-text-container">
               <h1>מלאו את פרטי הדירה</h1>
-              <ul>
-                <li>הקפידו למלא את כל הפרטים</li>
-                <li>תיאור מלא יעזור למנוע ביקורים מיותרים</li>
-              </ul>
+              {this.renderSidePanelListItems()}
             </div>
           </div>
           <img src="https://static.dorbel.com/images/upload-apt-form/icon-signup-folder.svg" alt="" />

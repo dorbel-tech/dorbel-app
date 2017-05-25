@@ -30,9 +30,9 @@ class ListingActions extends React.Component {
       <Col sm={5} smPush={7} md={4} mdPush={4} className="listing-actions">
         <div className="like-button-wrapper text-center">
           <LikeButton listingId={listingId} showText="true" />
-          {this.renderLikeCounter()}
-        </div>        
-        { appStore.listingStore.isListingPublisherOrAdmin(listing) ? <ListingPageViews listing={listing} /> : null }                  
+          { appStore.listingStore.isListingPublisherOrAdmin(listing) ? this.renderLikeCounter() : null }
+        </div>
+        { appStore.listingStore.isListingPublisherOrAdmin(listing) ? <ListingPageViews listing={listing} /> : null }
       </Col>
     );
   }

@@ -10,6 +10,10 @@ class NavProvider {
     autobind(this);
   }
 
+  setRoute(route) {
+    this.router.setRoute(route);
+  }
+
   handleHrefClick(e) {
     e.preventDefault(); // cancel the event so we don't get a reload.
     if ((e.metaKey || e.ctrlKey) && window) {

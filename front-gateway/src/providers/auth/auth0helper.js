@@ -47,6 +47,8 @@ function initLock(clientId, domain) {
   });
 }
 
+// Make sure to sync this object in case of changing with dorbe-shared server object as well:
+// https://github.com/dorbel-tech/dorbel-shared/blob/master/src/utils/user/helpers.js#L6
 function mapAuth0Profile(auth0profile) {
   const mappedProfile = {
     email: _.get(auth0profile, 'user_metadata.email') || auth0profile.email,

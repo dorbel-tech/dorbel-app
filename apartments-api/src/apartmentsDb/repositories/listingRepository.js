@@ -139,16 +139,7 @@ function getListingsForApartment(apartment, listingQuery) {
     attributes: cityAttributes,
     required: true,
     where: {
-      id: apartment.building.city.city_id
-    }
-  };
-
-  const includeNeighborhood = {
-    model: models.neighborhood,
-    attributes: neighborhoodAttributes,
-    required: true,
-    where: {
-      id: apartment.building.neighborhood.neighborhood_id
+      id: apartment.building.city.id
     }
   };
 
@@ -160,7 +151,7 @@ function getListingsForApartment(apartment, listingQuery) {
       street_name: apartment.building.street_name,
       house_number: apartment.building.house_number
     },
-    include: [includeCity, includeNeighborhood]
+    include: includeCity
   }];
 
   const includeApartment = [{

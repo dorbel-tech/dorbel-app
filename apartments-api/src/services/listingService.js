@@ -13,6 +13,18 @@ const userPermissions = shared.utils.user.permissions;
 
 const DEFUALT_LISTING_LIST_LIMIT = 1000;
 
+const possibleStatusesByCurrentStatus = {
+  pending: ['unlisted', 'deleted'],
+  rented: ['unlisted', 'deleted'],
+  unlisted: ['rented', 'deleted'],
+  listed: ['rented', 'unlisted', 'deleted']
+};
+
+const createdEventsByListingStatus = {
+  pending: messageBus.eventType.APARTMENT_CREATED,
+  rented: messageBus.eventType.APARTMENT_CREATED_FOR_MANAGEMENT
+};
+
 // TODO : move this to dorbel-shared
 function CustomError(code, message) {
   let error = new Error(message);
@@ -21,17 +33,25 @@ function CustomError(code, message) {
 }
 
 function* create(listing) {
-  const existingOpenListingForApartment = yield listingRepository.getListingsForApartment(
-    listing.apartment,
-    { status: { $notIn: ['rented', 'unlisted', 'deleted'] } }
-  );
-  if (existingOpenListingForApartment && existingOpenListingForApartment.length) {
-    logger.error(existingOpenListingForApartment, 'Listing already exists');
-    throw new CustomError(409, 'הדירה שלך כבר קיימת במערכת');
+  if (['pending', 'rented'].indexOf(listing.status) < 0) {
+    throw new CustomError(400, `לא ניתן להעלות דירה ב status ${listing.status}`);
   }
 
-  // Force 'pending' status for new listings in order to prevent the possibility of setting the status using this API
-  listing.status = 'pending';
+  if (listing.status == 'pending') {
+    const existingOpenListingForApartment = yield listingRepository.getListingsForApartment(
+      listing.apartment,
+      { status: ['listed', 'pending'] }
+    );
+
+    if (existingOpenListingForApartment && existingOpenListingForApartment.length) {
+      logger.error(existingOpenListingForApartment, 'Listing already exists');
+      throw new CustomError(409, 'דירה זו כבר מפורסמת במערכת. לא ניתן להעלות אותה שוב.');
+    }
+    else {
+      // Explicitly set the lease_end field for 'pending' listings
+      listing.lease_end = moment(listing.lease_start).add(1, 'year').format('YYYY-MM-DD');
+    }
+  }
 
   let modifiedListing = setListingAutoFields(listing);
   listing.apartment.building.geolocation = yield geoProvider.getGeoLocation(listing.apartment.building);
@@ -49,17 +69,22 @@ function* create(listing) {
   });
 
   // Publish event trigger message to SNS for notifications dispatching.
-  if (process.env.NOTIFICATIONS_SNS_TOPIC_ARN) {
-    messageBus.publish(process.env.NOTIFICATIONS_SNS_TOPIC_ARN, messageBus.eventType.APARTMENT_CREATED, {
-      city_id: listing.apartment.building.city_id,
-      listing_id: createdListing.id,
-      user_uuid: createdListing.publishing_user_id,
-      user_email: listing.user.email,
-      user_phone: generic.normalizePhone(listing.user.phone),
-      user_first_name: listing.user.firstname,
-      user_last_name: listing.user.lastname
-    });
+  const messageType = createdEventsByListingStatus[listing.status];
+
+  if (messageType) {
+    if (process.env.NOTIFICATIONS_SNS_TOPIC_ARN) {
+      messageBus.publish(process.env.NOTIFICATIONS_SNS_TOPIC_ARN, messageType, {
+        city_id: listing.apartment.building.city_id,
+        listing_id: createdListing.id,
+        user_uuid: createdListing.publishing_user_id,
+        user_email: listing.user.email,
+        user_phone: generic.normalizePhone(listing.user.phone),
+        user_first_name: listing.user.firstname,
+        user_last_name: listing.user.lastname
+      });
+    }
   }
+  else { logger.error({listing}, 'Could not find notification type for created listing'); }
 
   return createdListing;
 }
@@ -213,7 +238,7 @@ function* getByFilter(filterJSON, options = {}) {
       };
     }
 
-    if (filter.myProperties){
+    if (filter.myProperties) {
       if (!userPermissions.isUserAdmin(options.user)) {
         listingQuery.publishing_user_id = options.user.id;
       }
@@ -237,8 +262,6 @@ function* getByFilter(filterJSON, options = {}) {
     ele: { set: 'buildingQuery.elevator', staticValue: true },
     minRooms: { set: 'apartmentQuery.rooms.$gte' },
     maxRooms: { set: 'apartmentQuery.rooms.$lte' },
-    minSize: { set: 'apartmentQuery.size.$gte' },
-    maxSize: { set: 'apartmentQuery.size.$lte' },
     park: { set: 'apartmentQuery.parking', staticValue: true },
     balc: { set: 'apartmentQuery.balcony', staticValue: true },
     ac: { set: 'apartmentQuery.air_conditioning', staticValue: true },
@@ -291,25 +314,17 @@ function* getBySlug(slug, user) {
   return yield enrichListingResponse(listing, user);
 }
 
-function isNotPendingDeleted(listingStatus) {
-  return listingStatus !== 'pending' && listingStatus !== 'deleted';
-}
-
 function getPossibleStatuses(listing, user) {
   let possibleStatuses = [];
-
   if (user) {
     if (userPermissions.isUserAdmin(user)) {
       // admin can change to all statuses
       possibleStatuses = listingRepository.listingStatuses;
-    }
-    else if (userPermissions.isResourceOwner(user, listing.publishing_user_id) && isNotPendingDeleted(listing.status)) {
-      // listing owner can change to anything but pending or deleted, unless the listing is pending
-      possibleStatuses = listingRepository.listingStatuses.filter(status => isNotPendingDeleted(status));
+    } else if (userPermissions.isResourceOwner(user, listing.publishing_user_id)) {
+      possibleStatuses = possibleStatusesByCurrentStatus[listing.status] || [];
     }
   }
-
-  return possibleStatuses.filter(status => status !== listing.status); // exclude current status
+  return possibleStatuses;
 }
 
 function* enrichListingResponse(listing, user) {
@@ -329,7 +344,7 @@ function* enrichListingResponse(listing, user) {
       if (userPermissions.isResourceOwnerOrAdmin(user, listing.publishing_user_id)) {
         enrichedListing.totalLikes = yield likeRepository.getListingTotalLikes(listing.id);
       }
-       // TODO: Implemented this way as discussed - should be different api call when possible
+      // TODO: Implemented this way as discussed - should be different api call when possible
       if (listing.show_phone) {
         enrichedListing.publishing_user_phone = _.get(publishingUser, 'user_metadata.phone' || 'phone') || '';
       }

@@ -13,7 +13,7 @@ class AuthProvider {
     this.authStore = authStore;
     this.router = router;
     this.apiProvider = apiProvider;
-    this.reportIdentifyAnalytics(this.authStore.profile);
+    this.reportUserIdentityToSegment(this.authStore.profile);
     this.reLoadFullProfileCounter = 0;
   }
 
@@ -76,7 +76,7 @@ class AuthProvider {
   setProfile(profile) {
     let mappedProfile = auth0.mapAuth0Profile(profile);
     this.authStore.setProfile(mappedProfile);
-    this.reportIdentifyAnalytics(mappedProfile);
+    this.reportUserIdentityToSegment(mappedProfile);
   }
 
   showLoginModal(backOnHide) {
@@ -103,10 +103,12 @@ class AuthProvider {
     this.authStore.logout();
   }
 
-  reportIdentifyAnalytics(profile) {
-    // https://segment.com/docs/integrations/intercom/#identify
+  reportUserIdentityToSegment(profile) {
+    // https://segment.com/docs/sources/website/analytics.js/#identify
+    // Need to identify user to Segemnt without updating its details.
+    // All updates are done through server dorbel-shared updateUserDetails function.
     if (profile) {
-      window.analytics.identify(profile.dorbel_user_id, profile);
+      window.analytics.identify(profile.dorbel_user_id);
     }
   }
 }

@@ -59,12 +59,15 @@ class ListingsProvider {
 
   uploadApartment(listing) {
     let createdListing;
+    const { uploadMode } = this.appStore.newListingStore;
     return this.apiProvider.fetch('/api/apartments/v1/listings', { method: 'POST', data: listing })
       .then((newListing) => createdListing = newListing)
       .then(() => { // TODO: move OHE creation to pub/sub messages on background
-        try {
-          this.oheProvider.createOhe(Object.assign({ listing_id: createdListing.id }, listing.open_house_event));
-        } catch (err) { /*eslint-disable eslint-enable*/ }
+        if (uploadMode == 'publish') {
+          try {
+            this.oheProvider.createOhe(Object.assign({ listing_id: createdListing.id }, listing.open_house_event));
+          } catch (err) { /*eslint-disable eslint-enable*/ }
+        }
       })
       .then(() => this.appStore.authStore.updateProfile({
         first_name: listing.user.firstname,
@@ -73,7 +76,8 @@ class ListingsProvider {
         email: listing.user.email
       }))
       .then(() => {
-        window.analytics.track('client_apartment_created', { listing_id: createdListing.id }); // For Facebook conversion tracking.
+        const eventName = (uploadMode == 'publish') ? 'client_apartment_created' : 'client_apartment_created_for_management';
+        window.analytics.track(eventName, { listing_id: createdListing.id }); // For Facebook conversion tracking.
         return createdListing;
       });
   }
