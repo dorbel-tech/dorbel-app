@@ -1,4 +1,5 @@
 import autobind from 'react-autobind';
+import _ from 'lodash';
 
 export default class NotificationProvider {
   constructor() {
@@ -9,7 +10,10 @@ export default class NotificationProvider {
   // 3rd party module does't separate component from business logic...
 
   error(resp, options = {}) {
-    const message = resp.response ? resp.response.data : 'אופס, משהו השתבש. נסו שנית מאוחר יותר.';
+    let message = 'אופס, משהו השתבש. נסו שנית מאוחר יותר.';
+    if (resp.response && resp.response.data && _.isString(resp.response.data)) {
+      message = resp.response.data;
+    }
     const notification = this.createNotificationObj('error', message, options);
     this.notificationSystem.addNotification(notification);
   }
