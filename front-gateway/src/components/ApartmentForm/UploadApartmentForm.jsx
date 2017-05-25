@@ -7,7 +7,7 @@ import './UploadApartmentForm.scss';
 const statusByUploadMode = {
   publish: 'pending',
   manage: 'rented'
-}
+};
 
 const steps = [
   'UploadApartmentStep1',
