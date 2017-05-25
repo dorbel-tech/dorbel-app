@@ -19,7 +19,7 @@ const imageAttributes = { exclude: [ 'created_at', 'updated_at' ] };
 const LISTING_UPDATE_WHITELIST = [ 'status', 'monthly_rent', 'roommates', 'property_tax', 'board_fee', 'lease_start',
   'lease_end', 'publishing_user_type', 'roommate_needed', 'directions', 'description', 'show_phone', 'show_for_future_booking' ];
 const APARTMENT_UPDATE_WHITELIST = [ 'apt_number', 'size', 'rooms', 'floor', 'parking', 'sun_heated_boiler', 'pets',
-  'air_conditioning', 'balcony', 'security_bars', 'parquest_floor' ];
+  'air_conditioning', 'balcony', 'security_bars', 'parquet_floor' ];
 const BUILDING_UPDATE_WHITELIST = [ 'floors', 'elevator', 'entrance' ];
 
 const fullListingDataInclude = [
@@ -110,7 +110,7 @@ function getOneListing(where) {
 function* create(listing) {
   const building = yield buildingRepository.updateOrCreate(listing.apartment.building);
 
-  const apartment = yield apartmentRepository.findOrCreate(
+  const apartment = yield apartmentRepository.updateOrCreate(
     listing.apartment.apt_number,
     building.id,
     listing.apartment
