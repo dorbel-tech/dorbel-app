@@ -56,9 +56,9 @@ class SelectUploadMode extends Component {
                   <Row className="select-upload-mode-footer">
                     <Col xs={12}>
                       <div className="select-upload-mode-footer">
-                        לפרסום דירה קיימת היכנסו ל
-                         <a href="/dashboard/my-properties" onClick={this.handleHrefClick}>נכסים שלי&nbsp;</a>
-                        ובחרו בנכס הרלוונטי
+                        לפרסום דירה קיימת היכנסו ל-&nbsp;
+                         <a href="/dashboard/my-properties" onClick={this.handleHrefClick}>נכסים שלי</a>
+                        , בחרו בנכס הרלוונטי ופרסמו אותו מחדש.
                         </div>
                     </Col>
                   </Row>
