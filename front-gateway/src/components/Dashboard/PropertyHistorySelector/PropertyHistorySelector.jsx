@@ -49,6 +49,7 @@ export default class PropertyHistorySelector extends React.Component {
 
   render() {
     const listings = this.props.appStore.listingStore.listingsByApartmentId.get(this.props.apartment_id);
+    let noCaret = false;
     let disabled = true;
     let title = 'טוען...';
 
@@ -59,13 +60,14 @@ export default class PropertyHistorySelector extends React.Component {
         disabled = true;
       } else {
         title = this.getListingTitle(listings[selectedListingIndex], selectedListingIndex);
-        disabled = listings.length === 1;
+        // when only one listing in history - disabled + no caret
+        disabled = noCaret = (listings.length === 1);
       }
     }
 
     return (
       <DropdownButton bsSize="small" block bsStyle="default" id="property-history-selector"
-        title={title} disabled={disabled} onSelect={this.selectListing}>
+        title={title} disabled={disabled} noCaret={noCaret} onSelect={this.selectListing}>
         { listings && listings.map(this.renderListingMenuItem) }
       </DropdownButton>
     );

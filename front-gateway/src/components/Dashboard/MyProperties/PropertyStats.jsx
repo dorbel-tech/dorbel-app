@@ -19,6 +19,30 @@ class PropertyStats extends Component {
     autobind(this);
   }
 
+  componentDidMount() {
+    this.loadListingStats();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.listing.id !== nextProps.listing.id) {
+      this.loadListingStats(nextProps.listing);
+    }
+  }
+
+  loadListingStats(listing) {
+    const { appStore, appProviders } = this.props;
+    listing = listing || this.props.listing;
+    const listingId = listing.id;
+
+    if (!appStore.listingStore.listingViewsById.has(listingId)) {
+      appProviders.listingsProvider.loadListingPageViews(listingId);
+    }
+
+    if (!appStore.oheStore.followersByListingId.has(listingId)) {
+      appProviders.oheProvider.getFollowsForListing(listingId, true);
+    }
+  }
+
   getNumberOfOheRegistrations(listingId) {
     const openHouseEvents = this.props.appStore.oheStore.oheByListingId(listingId);
     let totalRegistrations = 0;
@@ -30,19 +54,6 @@ class PropertyStats extends Component {
     }
 
     return totalRegistrations;
-  }
-
-  componentDidMount() {
-    const { appStore, appProviders, listing } = this.props;
-    const listingId = listing.id;
-
-    if (!appStore.listingStore.listingViewsById.has(listingId)) {
-      appProviders.listingsProvider.loadListingPageViews(listingId);
-    }
-
-    if (!appStore.oheStore.followersByListingId.has(listingId)) {
-      appProviders.oheProvider.getFollowsForListing(listingId, true);
-    }
   }
 
   renderListedStats() {
