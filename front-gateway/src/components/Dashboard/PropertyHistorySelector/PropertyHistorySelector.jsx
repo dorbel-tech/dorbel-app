@@ -54,8 +54,13 @@ export default class PropertyHistorySelector extends React.Component {
 
     if (listings) {
       const selectedListingIndex = _.findIndex(listings, { id: this.props.listing_id });
-      title = this.getListingTitle(listings[selectedListingIndex], selectedListingIndex);
-      disabled = listings.length === 0;
+      if (selectedListingIndex < 0) {
+        // the current listing might not be loaded yet
+        disabled = true;
+      } else {
+        title = this.getListingTitle(listings[selectedListingIndex], selectedListingIndex);
+        disabled = listings.length === 1;
+      }
     }
 
     return (

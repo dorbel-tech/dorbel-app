@@ -143,10 +143,6 @@ class ListingsProvider {
   loadListingsForApartment(apartment_id) {
     const { listingsByApartmentId } = this.appStore.listingStore;
 
-    if (listingsByApartmentId.has(apartment_id)) {
-      return; // already loaded or loading
-    }
-
     const params = {
       q: JSON.stringify({
         apartment_id,
