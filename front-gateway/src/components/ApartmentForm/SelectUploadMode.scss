@@ -10,13 +10,13 @@
 
 .select-upload-mode-header {
   margin-top: 40px;
+  padding: 0 20px;
 }
 
 .select-upload-mode-title {
   font-size: 18px;
   line-height: 21px;
   color: $brand-brown;
-  padding: 0 10px;
   margin-bottom: 12px;
 }
 
@@ -26,7 +26,8 @@
   line-height: 17px;
   text-align: center;
   color: #9b9b9b;
-  padding: 0 20px;
+  padding: 20px;
+  padding-top: 0;
 
   a,
   a:visited {
