@@ -147,12 +147,13 @@ class ListingsProvider {
       q: JSON.stringify({
         apartment_id,
         myProperties: true,
-        oldListings: true
+        oldListings: true,
+        sort: 'lease_start'
       })
     };
 
     return this.apiProvider.fetch('/api/apartments/v1/listings', { params })
-    .then(res => listingsByApartmentId.set(apartment_id, res));
+    .then(listings => listingsByApartmentId.set(apartment_id, listings.reverse()));
   }
 }
 
