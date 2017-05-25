@@ -15,14 +15,14 @@ describe('Listing Service', function () {
       create: sinon.stub().resolves(this.mockListing),
       getListingsForApartment: sinon.stub().resolves([]),
       list: sinon.spy(),
-      listingStatuses: [ 'pending', 'rented' ],
+      listingStatuses: ['pending', 'rented'],
       update: sinon.stub().resolves(this.mockListing)
     };
     this.likeRepositoryMock = {
       getListingTotalLikes: sinon.stub().resolves(this.mockListing)
     };
     this.geoProviderMock = {
-      getGeoLocation : sinon.stub().resolves(1)
+      getGeoLocation: sinon.stub().resolves(1)
     };
     mockRequire('../../src/apartmentsDb/repositories/listingRepository', this.listingRepositoryMock);
     mockRequire('../../src/apartmentsDb/repositories/likeRepository', this.likeRepositoryMock);
@@ -32,7 +32,7 @@ describe('Listing Service', function () {
     this.listingService = require('../../src/services/listingService');
   });
 
-  afterEach(function() {
+  afterEach(function () {
     this.listingRepositoryMock.list.reset();
     this.listingRepositoryMock.update.reset();
     this.geoProviderMock.getGeoLocation.reset();
@@ -59,7 +59,6 @@ describe('Listing Service', function () {
   });
 
   describe('Create Listing', function () {
-
     it('should return the created listing for a valid listing', function* () {
       let newListing = yield this.listingService.create(faker.getFakeListing());
       __.assertThat(newListing, __.is(this.mockListing));
@@ -73,6 +72,41 @@ describe('Listing Service', function () {
       __.assertThat(newListing, __.is(this.mockListing));
     });
 
+    it('should successfuly to create listings with different statuses', function* () {
+      const statuses = [
+        'pending',
+        'rented'
+      ];
+
+      for (let i = 0; i < statuses.length; i++) {
+        let newListing = faker.getFakeListing();
+        newListing.status = statuses[i];
+        yield this.listingService.create(newListing);
+      }
+    });
+
+    it('should fail to create listings with different statuses', function* () {
+      const statuses = [
+        'listed',
+        'unlisted',
+        'deleted',
+        'random',
+        undefined
+      ];
+
+      for (let i = 0; i < statuses.length; i++) {
+        let newListing = faker.getFakeListing();
+        newListing.status = statuses[i];
+        try {
+          yield this.listingService.create(newListing);
+          __.assertThat('code', __.is('not reached'));
+        }
+        catch (error) {
+          __.assertThat(error.message, __.is(`לא ניתן להעלות דירה ב status ${statuses[i]}`));
+        }
+      }
+    });
+
     it('should not create a new listing if apartment already has a non-closed listing', function* () {
       this.listingRepositoryMock.getListingsForApartment = sinon.stub().resolves([{ something: 1 }]);
       let newListing = faker.getFakeListing();
@@ -81,16 +115,16 @@ describe('Listing Service', function () {
         __.assertThat('code', __.is('not reached'));
       }
       catch (error) {
-        __.assertThat(error.message, __.is('הדירה שלך כבר קיימת במערכת'));
+        __.assertThat(error.message, __.is('דירה זו כבר מפורסמת במערכת. לא ניתן להעלות אותה שוב.'));
       }
     });
-
   });
 
   describe('Update Listing', function () {
 
     it('should update status for an existing listing', function* () {
       const listing = faker.getFakeListing();
+      listing.status = 'listed';
       const user = { id: listing.publishing_user_id };
       const updatedListing = Object.assign({}, listing, { status: 'rented' });
       this.listingRepositoryMock.update = sinon.stub().resolves(updatedListing);
@@ -145,7 +179,7 @@ describe('Listing Service', function () {
       const user = { id: listing.publishing_user_id };
 
       yield assertYieldedError(
-        () => this.listingService.update(1, user, { status : 'listed' }),
+        () => this.listingService.update(1, user, { status: 'listed' }),
         __.hasProperties({
           message: 'אין באפשרותך לשנות את סטטוס הדירה ל listed',
           status: 403
