@@ -52,21 +52,10 @@ module.exports = {
       }
     },
     followContainer: {
-      selector: '.ohe-list-follow-container',
+      selector: '.follow-container',
       elements: {
         followBtn: {
           selector: '.follow-action'
-        }
-      }
-    },
-    followModal: {
-      selector: '.modal-dialog',
-      elements: {
-        submit: {
-          selector: 'button.btn-success'
-        },
-        ok: {
-          selector: 'button.btn-success'
         }
       }
     }
@@ -88,17 +77,8 @@ module.exports = {
     oheUnRegisterUser: function() {
       return this.section.oheModal.click('@cancel');
     },
-    clickFollowOheButton: function() {
+    clickFollowButton: function() {
       return this.section.followContainer.click('@followBtn');
-    },
-    followUserToOheUpdates: function() {
-      return this.section.followModal
-        .click('@submit')
-        .waitForElementVisible('@ok')
-        .click('@ok');
-    },
-    unFollowUserToOheUpdates: function() {
-      return this.section.followModal.click('@ok');
     }
   }]
 };

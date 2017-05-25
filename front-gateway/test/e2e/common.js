@@ -4,22 +4,22 @@ var faker = require('faker');
 const E2E_USER_LANDLORD = { email: 'e2e-user@dorbel.com', password: 'e2e_test', firstName: 'Landlord', lastName: 'Test', phone: '123456789' };
 const E2E_USER_TENANT = { email: 'e2e-user-tenant@dorbel.com', password: 'e2e_test', firstName: 'Tenant', lastName: 'Test', phone: '011111111' };
 const E2E_USER_ADMIN = { email: 'e2e-user-admin@dorbel.com', password: 'e2e_test', firstName: 'Admin', lastName: 'Test', phone: '987654321' };
-const E2E_USER_RANDOM = { 
-  email: faker.internet.email(), 
-  password: faker.internet.password(), 
-  firstName: faker.name.firstName(), 
-  lastName: faker.name.lastName(), 
+const E2E_USER_RANDOM = {
+  email: faker.internet.email(),
+  password: faker.internet.password(),
+  firstName: faker.name.firstName(),
+  lastName: faker.name.lastName(),
   phone: faker.random.number()
 };
 
 function getTestUser(userType) {
   switch (userType) {
     case 'admin':
-      return E2E_USER_ADMIN;          
+      return E2E_USER_ADMIN;
     case 'landlord':
-      return E2E_USER_LANDLORD;          
+      return E2E_USER_LANDLORD;
     case 'tenant':
-      return E2E_USER_TENANT;          
+      return E2E_USER_TENANT;
     case 'random':
       return E2E_USER_RANDOM;
   }
@@ -34,7 +34,7 @@ function getSmallRandomNumber() {
 }
 
 function getMediumRandomNumber() {
-  return _.random(10, 100); // Return a random number between 10 and 100.
+  return _.random(10, 1000); // Return a random number between 10 and 100.
 }
 
 function getBigRandomNumber() {
@@ -43,7 +43,11 @@ function getBigRandomNumber() {
 
 function waitForText(context, element, text) {
   if (text) {
-    return context.waitForText(element, (t) => ( t === text ));
+    return context.waitForText(element, (t) => {
+      console.log('waitForText - expected text:', text);
+      console.log('waitForText - actual text:', t);
+      return t === text;
+    });
   }
 }
 
