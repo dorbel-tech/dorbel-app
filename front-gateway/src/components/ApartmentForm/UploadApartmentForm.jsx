@@ -29,6 +29,7 @@ class UploadApartmentForm extends Component {
   validateAndSetMode() {
     const { newListingStore } = this.props.appStore;
     newListingStore.attemptRestoreState();
+    
     if (statusByUploadMode[this.props.mode]) {
       if (newListingStore.uploadMode != this.props.mode) {
         newListingStore.stepNumber = 0; // Set step to 0 on mode change
