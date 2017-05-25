@@ -1,7 +1,7 @@
 'use-strict';
 import { observable, asMap, computed } from 'mobx';
 
-export default class ListingStore {
+export default class SearchStore {
   @observable searchResultsbyListingId;
   @observable isLoadingNewSearch = false;
   @observable isLoadingNextPage = false;
