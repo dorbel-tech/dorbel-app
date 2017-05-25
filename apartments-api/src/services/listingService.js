@@ -227,35 +227,23 @@ function* getByFilter(filterJSON, options = {}) {
   }
 
   var filterMapping = {
-    // Listing monthly rent start.
+    // Listing monthly rent start (minimum)
     mrs: { set: 'monthly_rent.$gte', target: listingQuery },
-    // Listing monthly rent end.
+    // Listing monthly rent end (maximum)
     mre: { set: 'monthly_rent.$lte', target: listingQuery },
     // Listing with a roomate (a roomate looking for roomate/s).
     room: { set: 'roommate_needed', target: listingQuery },
-    // Building city ID.
     city: { set: 'buildingQuery.city_id' },
-    // Building has elevator.
     ele: { set: 'buildingQuery.elevator', staticValue: true },
-    // Apartment minimum number of rooms.
     minRooms: { set: 'apartmentQuery.rooms.$gte' },
-    // Apartment maximum number of rooms.
     maxRooms: { set: 'apartmentQuery.rooms.$lte' },
-    // Apartment minimum size.
     minSize: { set: 'apartmentQuery.size.$gte' },
-    // Apartment maximum size.
     maxSize: { set: 'apartmentQuery.size.$lte' },
-    // Apartment has parking.
     park: { set: 'apartmentQuery.parking', staticValue: true },
-    // Apartment has balcony.
     balc: { set: 'apartmentQuery.balcony', staticValue: true },
-    // Apartment has air conditioning.
     ac: { set: 'apartmentQuery.air_conditioning', staticValue: true },
-    // Apartment allows pets.
     pet: { set: 'apartmentQuery.pets', staticValue: true },
-    // Apartment has security bars.
     sb: { set: 'apartmentQuery.security_bars', staticValue: true },
-    // Why do we need all these comments
     apartment_id: { set: 'apartment_id', target: listingQuery }
   };
 
