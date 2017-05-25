@@ -17,15 +17,11 @@ function handleMessage(message) {
       case 'APARTMENT_UNLISTED':
         // Mark all active OHEs as inactive.
         yield deactivateOHEs(message.dataPayload.listing_id);
-        break;  
-      case 'APARTMENT_LISTED':
-        // Mark all inactive OHEs as deleted (when apartment was listed again).
-        yield deleteInactiveOHEs(message.dataPayload.listing_id);
-        break;  
-      default:
-        // In case that message requires no processing, skip it.        
         break;
-    }  
+      default:
+        // In case that message requires no processing, skip it.
+        break;
+    }
   });
 }
 
@@ -37,16 +33,6 @@ function* deactivateOHEs(listingId) {
   }
 }
 
-function* deleteInactiveOHEs(listingId) {
-  const events = yield oheEventService.findByListing(listingId, oheServiceUser);
-
-  for (let i=0; i < events.length; i++) {
-    if (events[i].status === 'inactive') {
-      yield oheEventService.remove(events[i].id, oheServiceUser);
-    }
-  }
-}
-
 module.exports = {
-  handleMessage: messageBus.handleMessageWrapper.bind(null, handleMessage)  
+  handleMessage: messageBus.handleMessageWrapper.bind(null, handleMessage)
 };
