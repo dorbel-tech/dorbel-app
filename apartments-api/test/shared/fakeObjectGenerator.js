@@ -24,6 +24,7 @@ function getFakeBuilding(variant) {
 function getFakeListing() {
   const listing =  {
     status: 'pending',
+    uploadMode: 'publish',
     monthly_rent: faker.random.number(),
     lease_start: getDateString(),
     lease_end: getDateString(),

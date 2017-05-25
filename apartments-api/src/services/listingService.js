@@ -20,9 +20,14 @@ const possibleStatusesByCurrentStatus = {
   listed: ['rented', 'deleted', 'unlisted']
 };
 
-const createdEventsByListingStatus = {
-  pending: messageBus.eventType.APARTMENT_CREATED,
-  rented: messageBus.eventType.APARTMENT_CREATED_FOR_MANAGEMENT
+const listingStatusByUploadMode = {
+  publish: 'pending',
+  manage: 'rented'
+};
+
+const createdEventsByListingUploadMode = {
+  publish: messageBus.eventType.APARTMENT_CREATED,
+  manage: messageBus.eventType.APARTMENT_CREATED_FOR_MANAGEMENT
 };
 
 // TODO : move this to dorbel-shared
@@ -33,11 +38,13 @@ function CustomError(code, message) {
 }
 
 function* create(listing) {
-  if (['pending', 'rented'].indexOf(listing.status) < 0) {
-    throw new CustomError(400, `לא ניתן להעלות דירה ב status ${listing.status}`);
+  if (['manage', 'publish'].indexOf(listing.uploadMode) < 0) {
+    throw new CustomError(400, `לא ניתן להעלות דירה במצב ${listing.uploadMode}`);
   }
 
-  if (listing.status == 'pending') {
+  listing.status = listingStatusByUploadMode[listing.uploadMode];
+
+  if (listing.uploadMode == 'publish') {
     const existingOpenListingForApartment = yield listingRepository.getListingsForApartment(
       listing.apartment,
       { status: ['listed', 'pending'] }
@@ -69,7 +76,7 @@ function* create(listing) {
   });
 
   // Publish event trigger message to SNS for notifications dispatching.
-  const messageType = createdEventsByListingStatus[listing.status];
+  const messageType = createdEventsByListingUploadMode[listing.uploadMode];
 
   if (messageType) {
     if (process.env.NOTIFICATIONS_SNS_TOPIC_ARN) {
@@ -84,8 +91,8 @@ function* create(listing) {
       });
     }
   }
-  else { logger.error({listing}, 'Could not find notification type for created listing'); }
-  
+  else { logger.error({ listing }, 'Could not find notification type for created listing'); }
+
   return createdListing;
 }
 
