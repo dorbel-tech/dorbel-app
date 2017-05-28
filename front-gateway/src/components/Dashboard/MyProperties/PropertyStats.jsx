@@ -277,19 +277,18 @@ class PropertyStats extends Component {
     }
 
     if (followers.length === 0) {
-      return null;
+      return <h5 className="property-stats-no-followers-title">אין עוקבים אחר הנכס</h5>;
     }
-    if (followers) {
-      return (
-        <ListGroup>
-          { followers.map(follower => (
-              <ListGroupItem key={follower.id} disabled={follower.disabled} className="property-manage-tenant-item">
-                <TenantRow tenant={follower.user_details} />
-              </ListGroupItem>
-            )) }
-        </ListGroup>
-      );
-    }
+
+    return (
+      <ListGroup>
+        { followers.map(follower => (
+            <ListGroupItem key={follower.id} disabled={follower.disabled} className="property-manage-tenant-item">
+              <TenantRow tenant={follower.user_details} />
+            </ListGroupItem>
+          )) }
+      </ListGroup>
+    );
   }
 
   render() {
