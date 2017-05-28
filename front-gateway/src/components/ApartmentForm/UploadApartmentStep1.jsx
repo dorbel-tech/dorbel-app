@@ -6,6 +6,29 @@ import ImageUpload from './ImageUpload/ImageUpload.jsx';
 
 @inject('appStore', 'appProviders') @observer
 class UploadApartmentStep1 extends UploadApartmentBaseStep.wrappedComponent {
+
+  renderSidePanelText() {
+    return (this.props.appStore.newListingStore.uploadMode == 'manage') ?
+      (
+        <div className="upload-apt-right-container-text-container">
+          <h1>תמונות של הנכס</h1>
+          <div>הוסיפו תמונות של הנכס.</div>
+          <div>בהמשך תוכלו להוסיף או לעדכן תמונות בלחצית כפתור.</div>
+        </div>
+      )
+      :
+      (
+        <div className="upload-apt-right-container-text-container">
+          <h1>תמונות של הדירה</h1>
+          <ul>
+            <li>וודאו שהחדר מסודר</li>
+            <li>השתדלו לצלם כל חדר לרוחב ומ-2 זויות</li>
+            <li>תמונות טובות יחסכו לכם שאלות מיותרות</li>
+          </ul>
+        </div>
+      );
+  }
+
   render() {
     const { newListingStore } = this.props.appStore;
 
@@ -13,14 +36,7 @@ class UploadApartmentStep1 extends UploadApartmentBaseStep.wrappedComponent {
       <Grid fluid className="upload-apt-wrapper">
         <Col md={5} className="upload-apt-right-container">
           <div className="upload-apt-right-container-text-wrapper">
-            <div className="upload-apt-right-container-text-container">
-              <h1>תמונות של הדירה</h1>
-              <ul>
-                <li>וודאו שהחדר מסודר</li>
-                <li>השתדלו לצלם כל חדר לרוחב ומ-2 זויות</li>
-                <li>תמונות טובות יחסכו לכם שאלות מיותרות</li>
-              </ul>
-            </div>
+            {this.renderSidePanelText()}
           </div>
           <img src="https://static.dorbel.com/images/upload-apt-form/icon-signup-photos.svg" alt="Upload photos" />
         </Col>
