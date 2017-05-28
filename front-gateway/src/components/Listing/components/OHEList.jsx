@@ -108,18 +108,16 @@ class OHEList extends Component {
   }
 
   followListing(listing, isFollow) {
-    const { appStore, appProviders } = this.props;
+    const { appProviders } = this.props;
 
-    if (!appStore.authStore.isLoggedIn) {
-      appProviders.authProvider.showLoginModal();
+    if (appProviders.authProvider.shouldLogin()) {
       return;
     }
 
     if (isFollow) {
-      appProviders.oheProvider.follow(listing, appStore.authStore.profile);
+      appProviders.oheProvider.follow(listing);
     } else {
-      const usersFollowDetails = appStore.oheStore.usersFollowsByListingId.get(listing.id);
-      appProviders.oheProvider.unfollow(usersFollowDetails);
+      appProviders.oheProvider.unfollow(listing);
     }
   }
 

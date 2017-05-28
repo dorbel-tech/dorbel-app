@@ -139,7 +139,9 @@ class OheProvider {
     });
   }
 
-  follow(listing, user) {
+  follow(listing) {
+    const user = this.appStore.authStore.profile;
+
     return this.fetch('follower', {
       method: 'POST',
       data : {
@@ -155,12 +157,14 @@ class OheProvider {
     });
   }
 
-  unfollow(followDetails) {
+  unfollow(listing) {
+    const followDetails = this.appStore.oheStore.usersFollowsByListingId.get(listing.id);
+
     return this.fetch('follower/' + followDetails.id, {
       method: 'DELETE'
     })
     .then(() => {
-      this.updateStoreWithFollow(followDetails.listing_id, null);
+      this.updateStoreWithFollow(listing.id, null);
     });
   }
 

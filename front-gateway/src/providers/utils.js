@@ -62,7 +62,7 @@ function getListingStatusLabels() {
   return {
     pending: { label: 'ממתינה לאישור', actionLabel: 'החזר את הדירה להמתנה' },
     listed: { label: 'מפורסמת', actionLabel: 'פרסם את הדירה' },
-    rented: { label: 'מושכרת', actionLabel: 'הדירה הושכרה' },
+    rented: { label: 'טרם הושכרה', actionLabel: 'הדירה הושכרה', landlordLabel: 'מושכרת' },
     unlisted: { label: 'לא פעילה', actionLabel: 'השהה מודעה' },
     deleted: { label: 'נמחקה', actionLabel: 'מחק מודעה' },
     republish: { label: '', actionLabel: 'פרסום הנכס מחדש' }
