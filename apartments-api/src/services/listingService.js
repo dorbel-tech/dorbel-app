@@ -11,7 +11,7 @@ const generic = shared.utils.generic;
 const userManagement = shared.utils.user.management;
 const userPermissions = shared.utils.user.permissions;
 
-const DEFUALT_LISTING_LIST_LIMIT = 1000;
+const DEFUALT_LISTING_LIST_LIMIT = 15;
 
 const possibleStatusesByCurrentStatus = {
   pending: ['unlisted', 'deleted'],
@@ -199,8 +199,7 @@ function* getByFilter(filterJSON, options = {}) {
     try {
       filter = JSON.parse(filterJSON);
     } catch (e) {
-      logger.warn(e, 'failed to parse filter JSON');
-      filter = {};
+      throw new Error('failed to parse filter JSON');
     }
   }
 
