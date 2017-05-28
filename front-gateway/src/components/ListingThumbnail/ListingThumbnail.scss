@@ -67,6 +67,22 @@
   }
 }
 
+.apt-thumb-follow {
+  border: 1px solid #3398db;
+  border-radius: 4px;
+  color: #3398db;
+  cursor: pointer;
+  font-size: 13px;
+  padding: 6px 16px;
+  width: 88px;
+
+  &:hover {
+    background-color: #3398db;
+    border-color: #3398db;
+    color: $brand-white;
+  }
+}
+
 .apt-thumb-apt-image img {
   @include border-top-radius(3px);
 
@@ -79,6 +95,10 @@
 .apt-thumb-sub-text {
   color: #9b9b9b;
   font-size: 11px;
+}
+
+.apt-thumb-warning-sub-text {
+  color: #ea441a;
 }
 
 .apt-thumb-lease-immediate {

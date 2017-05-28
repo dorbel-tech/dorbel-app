@@ -107,25 +107,19 @@ class OHEList extends Component {
     return oheConfig;
   }
 
-  followListing(listing, isFollow) {
-    const { appStore, appProviders } = this.props;
+  followListing() {
+    const { appProviders, listing } = this.props;
 
-    if (!appStore.authStore.isLoggedIn) {
-      appProviders.authProvider.showLoginModal();
+    if (appProviders.authProvider.shouldLogin()) {
       return;
     }
 
-    if (isFollow) {
-      appProviders.oheProvider.follow(listing, appStore.authStore.profile);
-    } else {
-      const usersFollowDetails = appStore.oheStore.usersFollowsByListingId.get(listing.id);
-      appProviders.oheProvider.unfollow(usersFollowDetails);
-    }
+    appProviders.oheProvider.toggleFollow(listing);
   }
 
   renderFollowItem(listing) {
     const { appStore } = this.props;
-    let callToActionText, toolTipText, onClickFunction;
+    let callToActionText, toolTipText;
     const userIsFollowing = appStore.oheStore.usersFollowsByListingId.get(listing.id);
     const tipOffset = {top: -7, left: -22};
 
@@ -144,19 +138,13 @@ class OHEList extends Component {
         break;
     }
 
-    if (userIsFollowing) {
-      onClickFunction = () => this.followListing(listing, false);
-    } else {
-      onClickFunction = () => this.followListing(listing, true);
-    }
-
     return <div className="follow-container">
       <span data-tip={toolTipText}>
         <i className="fa fa-info-circle follow-icon" aria-hidden="true"></i>
       </span>
       <ReactTooltip type="dark" effect="solid" place="right" offset={tipOffset} multiline className="follow-tooltip"/>
       &nbsp;
-      <span className="follow-action" onClick={onClickFunction}>{callToActionText}</span>
+      <span className="follow-action" onClick={this.followListing}>{callToActionText}</span>
     </div>;
   }
 

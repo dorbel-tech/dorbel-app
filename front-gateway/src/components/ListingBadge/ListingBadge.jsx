@@ -9,19 +9,29 @@ import './ListingBadge.scss';
 class ListingBadge extends Component {
 
   getBadgeData() {
+    const { appStore, listing } = this.props;
+
     const options = {
       show: false,
       className: '',
       text: '',
     };
 
-    let listingStatus = this.props.listing.status;
+    let listingStatus = listing.status;
     const listingStatusLabels = utils.getListingStatusLabels();
 
     if (listingStatus != 'listed') {
-      options.show = true;
       options.className = listingStatus;
-      options.text = listingStatusLabels[listingStatus] ? listingStatusLabels[listingStatus].label : '';
+
+      const listingStatusLabel = listingStatusLabels[listingStatus];
+      if (listingStatusLabel) {
+        options.show = true;
+        if (listingStatusLabel.landlordLabel && appStore.listingStore.isListingPublisherOrAdmin(listing)) {
+          options.text = listingStatusLabel.landlordLabel;
+        } else {
+          options.text = listingStatusLabel.label;
+        }
+      }
     }
     else if (this.props.listing.roommate_needed) {
       options.show = true;
