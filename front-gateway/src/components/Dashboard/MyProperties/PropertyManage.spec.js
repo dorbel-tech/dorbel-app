@@ -20,6 +20,9 @@ describe('Property Manage Page', () => {
     appProvidersMock = {
       modalProvider: {
         showInfoModal: jest.fn()
+      },
+      listingsProvider: {
+        isActiveListing: jest.fn()
       }
     };
     listingMock = { id: 8 };
