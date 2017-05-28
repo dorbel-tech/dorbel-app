@@ -76,7 +76,7 @@ class PropertyManage extends Component {
   }
 
   render() {
-    const { listing } = this.props;
+    const { appProviders, listing } = this.props;
     const listingLeaseStart = utils.formatDate(listing.lease_start);
     const listingLeaseEnd = utils.formatDate(listing.lease_end);
     const leasePeriod = moment(listing.lease_end).diff(moment(listing.lease_start), 'days');
@@ -85,6 +85,7 @@ class PropertyManage extends Component {
     const leasePeriodLabel = leasePeriod || '-';
     const daysPassedLabel = daysPassed < 0 ? 0 : daysPassed;
     const daysLeftLabel = daysLeft || '-';
+    const isActiveListing = appProviders.listingsProvider.isActiveListing(listing);
 
     return  <Grid fluid className="property-manage">
               <Row className="property-manage-lease-title">
@@ -116,7 +117,7 @@ class PropertyManage extends Component {
               </Row>
               <Row className="property-manage-lease-title">
                 <Col xs={12}>
-                  דיירים נוכחים:
+                  { isActiveListing ? 'דיירים נוכחיים:' : 'דיירים קודמים:' }
                   <Button onClick={this.showAddTenantModal} className="add-button pull-left">הוסף דייר</Button>
                 </Col>
               </Row>
