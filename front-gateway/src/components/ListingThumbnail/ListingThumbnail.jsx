@@ -33,19 +33,14 @@ class ListingThumbnail extends Component {
     e.stopPropagation();
     e.preventDefault();
 
-    const { appStore, appProviders, listing } = this.props;
+    const { appProviders, listing } = this.props;
 
     if (appProviders.authProvider.shouldLogin()) {
       return;
     }
 
     appProviders.oheProvider.getFollowsForListing(listing.id).then(() => {
-      const isFollowing = appStore.oheStore.usersFollowsByListingId.get(listing.id);
-      if (isFollowing) {
-        appProviders.oheProvider.unfollow(listing);
-      } else {
-        appProviders.oheProvider.follow(listing);
-      }
+      appProviders.oheProvider.toggleFollow(listing);
     });
   }
 

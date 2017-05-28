@@ -107,18 +107,14 @@ class OHEList extends Component {
     return oheConfig;
   }
 
-  followListing(listing, isFollow) {
-    const { appProviders } = this.props;
+  followListing() {
+    const { appProviders, listing } = this.props;
 
     if (appProviders.authProvider.shouldLogin()) {
       return;
     }
 
-    if (isFollow) {
-      appProviders.oheProvider.follow(listing);
-    } else {
-      appProviders.oheProvider.unfollow(listing);
-    }
+    appProviders.oheProvider.toggleFollow(listing);
   }
 
   renderFollowItem(listing) {
@@ -142,19 +138,13 @@ class OHEList extends Component {
         break;
     }
 
-    if (userIsFollowing) {
-      onClickFunction = () => this.followListing(listing, false);
-    } else {
-      onClickFunction = () => this.followListing(listing, true);
-    }
-
     return <div className="follow-container">
       <span data-tip={toolTipText}>
         <i className="fa fa-info-circle follow-icon" aria-hidden="true"></i>
       </span>
       <ReactTooltip type="dark" effect="solid" place="right" offset={tipOffset} multiline className="follow-tooltip"/>
       &nbsp;
-      <span className="follow-action" onClick={onClickFunction}>{callToActionText}</span>
+      <span className="follow-action" onClick={this.followListing}>{callToActionText}</span>
     </div>;
   }
 

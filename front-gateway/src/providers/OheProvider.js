@@ -139,6 +139,16 @@ class OheProvider {
     });
   }
 
+  toggleFollow(listing) {
+    const followDetails = this.appStore.oheStore.usersFollowsByListingId.get(listing.id);
+
+    if (followDetails) {
+      this.unfollow(listing);
+    } else {
+      this.follow(listing);
+    }
+  }
+
   follow(listing) {
     const user = this.appStore.authStore.profile;
 
