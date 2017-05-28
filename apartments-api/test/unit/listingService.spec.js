@@ -48,7 +48,7 @@ describe('Listing Service', function () {
 
     it('should send default limit and offset to the repository', function* () {
       yield this.listingService.getByFilter();
-      __.assertThat(this.listingRepositoryMock.list.args[0][1], __.hasProperties({ limit: 1000, offset: 0 }));
+      __.assertThat(this.listingRepositoryMock.list.args[0][1], __.hasProperties({ limit: 15, offset: 0 }));
     });
 
     it('should send limit and offset to the repository', function* () {
