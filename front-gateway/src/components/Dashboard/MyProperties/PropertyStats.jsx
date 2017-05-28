@@ -215,7 +215,7 @@ class PropertyStats extends Component {
               </Col>
               <Col xs={6} md={5} lg={4}>
                 <div className="property-stats-card">
-                  <div className="property-stats-number">{daysPassed || 0}</div>
+                  <div className="property-stats-number">{(daysPassed > 0) ? (daysPassed || 0) : 'לא זמין' }</div>
                   <div className="property-stats-title">ימים שחלפו</div>
                 </div>
               </Col>
