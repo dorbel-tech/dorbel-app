@@ -50,7 +50,8 @@ class ListingStatusSelector extends React.Component {
 
   render() {
     const { listing, appProviders } = this.props;
-    const currentStatus = listingStatusLabels[listing.status].label;
+    const currentStatusLabel =
+      listingStatusLabels[listing.status].landlordLabel || listingStatusLabels[listing.status].label;
     let options = _.get(listing, 'meta.possibleStatuses') || [];
 
     if (appProviders.listingsProvider.isRepublishable(listing)) {
@@ -63,7 +64,7 @@ class ListingStatusSelector extends React.Component {
         <DropdownButton id="listing-status-selector"
           className="listing-status-selector"
           disabled={options.length === 0}
-          title={currentStatus}
+          title={currentStatusLabel}
           onSelect={this.changeStatus}>
           {options.map(status => <MenuItem id={status} key={status} eventKey={status}>{listingStatusLabels[status].actionLabel}</MenuItem>)}
         </DropdownButton>
