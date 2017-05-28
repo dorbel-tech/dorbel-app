@@ -227,10 +227,11 @@ class PropertyStats extends Component {
                     אפשר לדיירים לעקוב אחר הדירה להשכרה הבאה
                   </Checkbox>
                   &nbsp;
-                  <span data-tip="אפשרו לדיירים שמחפשים דירה כמו שלכם למצוא אותה ולעקוב אחריה.
+                  <span className="property-stats-info" data-tip="אפשרו לדיירים שמחפשים דירה כמו שלכם למצוא אותה ולעקוב אחריה.
                    כאשר הדירה תתפרסם להשכרה בעתיד,
                     העוקבים שלה יקבלו עדכון ויוכלו להירשם לביקור במהירות.">
-                    <i className="fa fa-info-circle property-stats-info" aria-hidden="true">&nbsp;מה זה אומר?</i>
+                    <i className="fa fa-info-circle" aria-hidden="true"></i>
+                    &nbsp;מה זה אומר?
                   </span>
                   <ReactTooltip type="dark" effect="solid" place="left" offset={tipOffset}
                                 multiline className="property-stats-future-booking-tooltip"/>
