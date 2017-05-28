@@ -119,7 +119,7 @@ class OHEList extends Component {
 
   renderFollowItem(listing) {
     const { appStore } = this.props;
-    let callToActionText, toolTipText, onClickFunction;
+    let callToActionText, toolTipText;
     const userIsFollowing = appStore.oheStore.usersFollowsByListingId.get(listing.id);
     const tipOffset = {top: -7, left: -22};
 

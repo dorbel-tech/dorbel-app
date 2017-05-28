@@ -157,7 +157,7 @@ class OheProvider {
           listing_id: listing.id,
           user_details: user
         }
-      }
+      };
     }
 
     let followPromise = this.fetch(target, payload)
