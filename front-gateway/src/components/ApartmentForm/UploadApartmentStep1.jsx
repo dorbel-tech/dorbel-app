@@ -7,7 +7,7 @@ import ImageUpload from './ImageUpload/ImageUpload.jsx';
 @inject('appStore', 'appProviders') @observer
 class UploadApartmentStep1 extends UploadApartmentBaseStep.wrappedComponent {
 
-  renderSidePanelListItems() {
+  renderSidePanelText() {
     return (this.props.appStore.newListingStore.uploadMode == 'manage') ?
       (
         <div className="upload-apt-right-container-text-container">
@@ -36,7 +36,7 @@ class UploadApartmentStep1 extends UploadApartmentBaseStep.wrappedComponent {
       <Grid fluid className="upload-apt-wrapper">
         <Col md={5} className="upload-apt-right-container">
           <div className="upload-apt-right-container-text-wrapper">
-            {this.renderSidePanelListItems()}
+            {this.renderSidePanelText()}
           </div>
           <img src="https://static.dorbel.com/images/upload-apt-form/icon-signup-photos.svg" alt="Upload photos" />
         </Col>
