@@ -9,9 +9,7 @@ describe('Ohe Provider', () => {
   let authStoreMock;
 
   beforeAll(() => {
-    apiMock = {
-      fetch: jest.fn().mockReturnValue(Promise.resolve())
-    };
+    apiMock = {fetch: jest.fn()};
     authMock = {shouldLogin: jest.fn()};
     oheStoreMock = {
       isListingLoaded: jest.fn().mockReturnValue(false),
