@@ -57,7 +57,7 @@ export default class UploadApartmentStep1 extends UploadApartmentBaseStep.wrappe
           <Col xs={12} md={7} className="form-nav bottom">
             <span>1/3</span>
             <span className="next-step" onClick={this.clickNext}>
-              <Button bsStyle="success" className="step-btn step2">
+              <Button bsStyle="success" className="step-btn step1">
                 שמור והמשך &nbsp;
                 <i className="apartment-details-next-step fa fa-arrow-circle-o-left fa-2x" aria-hidden="true"></i>
               </Button>

@@ -2,7 +2,7 @@
 const common = require('../common');
 
 module.exports = {
-  url: function(){
+  url: function () {
     return common.getBaseUrl() + '/apartments/new_form/publish';
   },
   sections: {
@@ -11,6 +11,9 @@ module.exports = {
       elements: {
         nextStep: {
           selector: 'i.apartment-pictures-next-step'
+        },
+        previousStep: {
+          selector: 'i.apartment-pictures-previous-step'
         }
       }
     },
@@ -89,9 +92,6 @@ module.exports = {
         boardFee: {
           selector: 'input[name="board_fee"]'
         },
-        previousStep: {
-          selector: 'i.apartment-details-previous-step'
-        },
         nextStep: {
           selector: 'i.apartment-details-next-step'
         }
@@ -145,38 +145,38 @@ module.exports = {
     }
   },
   commands: [{
-    navigateToApartmentPictureSection: function () {
+    navigateToApartmentDetailsSection: function () {
       this
         .navigate()
         .waitForElementVisible('body');
       return this;
     },
-    navigateToApartmentDetailsSection: function () {
+    navigateToApartmentPicturesSection: function () {
       this
-        .navigateToApartmentPictureSection()
-        .goFromApartmentPicturesToApartmentDetails();
+        .navigateToApartmentDetailsSection()
+        .goFromApartmentDetailsToApartmentPictures();
       return this;
     },
     navigateToOpenHouseEventSection: function () {
       this
-        .navigateToApartmentDetailsSection()
+        .navigateToApartmentPicturesSection()
         .fillApartmentDetailsAllFields()
         .goFromApartmentDetailsToOpenHouseEvent();
       return this;
     },
     goFromApartmentPicturesToApartmentDetails: function () {
-      this.section.apartmentPictures.click('@nextStep');
+      this.section.apartmentPictures.click('@previousStep');
       return this;
     },
     goFromApartmentDetailsToApartmentPictures: function () {
-      this.section.apartmentDetails.click('@previousStep');
-      return this;
-    },
-    goFromApartmentDetailsToOpenHouseEvent: function () {
       this.section.apartmentDetails.click('@nextStep');
       return this;
     },
-    goFromOpenHouseEventToApartmentDetails: function () {
+    goFromApartmentPicturesToOpenHouseEvent: function () {
+      this.section.apartmentPictures.click('@nextStep');
+      return this;
+    },
+    goFromOpenHouseEventToApartmentPictures: function () {
       this.section.openHouseEvent.click('@previousStep');
       return this;
     },

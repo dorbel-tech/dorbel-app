@@ -50,7 +50,7 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
             <ImageUpload editedListingStore={newListingStore} />
             <Col xs={12} md={7} className="form-nav bottom">
               <span className="prev-step step2" onClick={this.clickBack}>
-                <i className="apartment-details-previous-step fa fa-arrow-circle-o-right fa-2x" aria-hidden="true"></i>
+                <i className="apartment-pictures-previous-step fa fa-arrow-circle-o-right fa-2x" aria-hidden="true"></i>
                 &nbsp; חזור
               </span>
               <span>2/3</span>
