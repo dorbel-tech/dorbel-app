@@ -22,16 +22,18 @@ module.exports = {
       .then(() => {
         return queryInterface.sequelize.query(
           'CREATE VIEW latest_listings AS '+
-              'SELECT listings.* '+ 
-              'FROM '+
-                  '(SELECT apartment_id, MAX( lease_end ) as lease_end '+
-                  'FROM listings '+
-                  'GROUP BY apartment_id) as apt_id_lease_end ' +
-              'INNER JOIN listings ON ' +
-                  'listings.apartment_id = apt_id_lease_end.apartment_id ' +
-                  'AND listings.lease_end = apt_id_lease_end.lease_end ' +
-              'WHERE listings.status <> \'deleted\''
+              'SELECT listings.* '+
+              'FROM ( ' +
+		                  'SELECT id, apartment_id, MAX( lease_end ) as lease_end '+
+		                  'FROM listings '+
+		                  'WHERE listings.status <> \'deleted\' '+
+		                  'GROUP BY id,apartment_id '+
+	                  ') as apt_id_lease_end '
+              'INNER JOIN listings ON listings.id = apt_id_lease_end.id'
         , { type: Sequelize.QueryTypes.RAW });
+      })
+      .then(()=>{
+        return queryInterface.addIndex('listings', ['apartment_id', 'lease_end']);
       });
   },
 
