@@ -31,7 +31,7 @@ export default class ImageUpload extends React.Component {
       return false;
     }
     else{
-      return (this.props.editedListingStore.formValues.images.length <= 0)
+      return (this.props.editedListingStore.formValues.images.length <= 0);
     }
   }
 
