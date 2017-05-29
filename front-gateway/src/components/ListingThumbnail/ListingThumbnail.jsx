@@ -85,7 +85,7 @@ class ListingThumbnail extends Component {
     const listingMrTitle = isRented ? 'מחיר נוכחי ' : '';
 
     return (
-      <Col lg={4} sm={6} xs={12}>
+      <Col md={4} sm={6} xs={12}>
         <NavLink to={this.getListingUrl(listing)}
           className="thumbnail apt-thumb-container apt-thumb-container-single pull-right">
           <ListingBadge listing={listing} />
