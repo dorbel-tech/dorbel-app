@@ -91,11 +91,11 @@ describe('Ohe Provider', () => {
     beforeEach(() => {
       authStoreMock.profile = {user_id: 9};
       listingMock = {id: 999};
+
+      apiMock.fetch = jest.fn().mockReturnValue(Promise.resolve({}));
     });
 
-    it('should call fetch with correct target and payload', () => {
-      apiMock.fetch = jest.fn().mockReturnValue(Promise.resolve({}));
-
+    it('should follow listing by calling fetch', () => {
       return oheProvider.toggleFollow(listingMock)
       .then(() => expect(apiMock.fetch).toHaveBeenCalledWith(
         "/api/ohe/v1/follower",
@@ -105,6 +105,18 @@ describe('Ohe Provider', () => {
             user_details: authStoreMock.profile
           },
           method: "POST"
+        }));
+    });
+
+    it('should un-follow listing by calling fetch', () => {
+      const followDetailsMock = {id: 99};
+      oheStoreMock.usersFollowsByListingId.get.mockReturnValue(followDetailsMock);
+
+      return oheProvider.toggleFollow(listingMock)
+      .then(() => expect(apiMock.fetch).toHaveBeenCalledWith(
+        "/api/ohe/v1/follower/99",
+        {
+          method: "DELETE"
         }));
     });
   });
