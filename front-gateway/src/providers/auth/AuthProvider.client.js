@@ -79,6 +79,13 @@ class AuthProvider {
     this.reportUserIdentityToSegment(mappedProfile);
   }
 
+  shouldLogin(backOnHide) {
+    if (!this.authStore.isLoggedIn) {
+      this.showLoginModal(backOnHide);
+      return true;
+    }
+  }
+
   showLoginModal(backOnHide) {
     this.backOnHide = backOnHide === true;
     this.lock.show({

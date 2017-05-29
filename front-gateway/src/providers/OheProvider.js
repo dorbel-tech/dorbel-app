@@ -139,29 +139,37 @@ class OheProvider {
     });
   }
 
-  follow(listing, user) {
-    return this.fetch('follower', {
-      method: 'POST',
-      data : {
-        listing_id: listing.id,
-        user_details: user
-      }
-    })
-    .then(followDetails => {
-      this.updateStoreWithFollow(listing.id, followDetails);
-    })
-    .then(() => {
-      window.analytics.track('client_listing_follow', { user_id: user.user_id }); // For Facebook conversion tracking.
-    });
-  }
+  toggleFollow(listing) {
+    const followDetails = this.appStore.oheStore.usersFollowsByListingId.get(listing.id);
+    const user = this.appStore.authStore.profile;
 
-  unfollow(followDetails) {
-    return this.fetch('follower/' + followDetails.id, {
-      method: 'DELETE'
-    })
-    .then(() => {
-      this.updateStoreWithFollow(followDetails.listing_id, null);
-    });
+    let target;
+    let payload;
+
+    if (followDetails) {
+      target = 'follower/' + followDetails.id;
+      payload = {method: 'DELETE'};
+    } else {
+      target = 'follower';
+      payload = {
+        method: 'POST',
+        data : {
+          listing_id: listing.id,
+          user_details: user
+        }
+      };
+    }
+
+    let followPromise = this.fetch(target, payload)
+      .then(updateStoreWith => {
+        this.updateStoreWithFollow(listing.id, updateStoreWith.id ? updateStoreWith : null);
+      });
+
+    if (!followDetails) {
+      followPromise.then(() => {
+        window.analytics.track('client_listing_follow', { user_id: user.user_id }); // For Facebook conversion tracking.
+      });
+    }
   }
 
   updateStoreWithFollow(listingId, followDetails) {
