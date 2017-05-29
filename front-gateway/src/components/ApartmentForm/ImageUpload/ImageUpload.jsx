@@ -9,6 +9,7 @@ export default class ImageUpload extends React.Component {
   constructor(props) {
     super(props);
     this.uploadImagePromises = [];
+    this.props.editedListingStore.disableSave = this.shouldDisableSave();
   }
 
   onChooseFile(acceptedFiles) {
@@ -19,9 +20,19 @@ export default class ImageUpload extends React.Component {
     let uploadPromises = acceptedFiles.map(file => appProviders.listingImageProvider.uploadImage(file, editedListingStore));
     this.uploadImagePromises = this.uploadImagePromises.concat(uploadPromises);
     Promise.all(this.uploadImagePromises)
-    .then(() => {
-      editedListingStore.disableSave = false;
-    });
+      .then(() => {
+        editedListingStore.disableSave = false;
+      });
+  }
+
+  shouldDisableSave() {
+    const { editedListingStore } = this.props;
+    if (editedListingStore.uploadMode == 'manage') {
+      return false;
+    }
+    else{
+      return (this.props.editedListingStore.formValues.images.length <= 0)
+    }
   }
 
   renderImage(image, index) {
@@ -30,7 +41,7 @@ export default class ImageUpload extends React.Component {
     const progressPct = image.progress * 100;
 
     const progressBar = (
-      <ProgressBar now={progressPct}/>
+      <ProgressBar now={progressPct} />
     );
 
     const deleteButton = (<div><a href="#" className="remove-image" onClick={() => listingImageProvider.deleteImage(image, editedListingStore)} >הסרת תמונה</a></div>);

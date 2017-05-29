@@ -38,6 +38,9 @@ function* create(listing) {
   }
 
   if (listing.status == 'pending') {
+    // Disable uploading apartment for listing without images
+    if (!listing.images || !listing.images.length) { throw new CustomError(400, 'לא ניתן להעלות מודעה להשכרה ללא תמונות'); }
+
     const existingOpenListingForApartment = yield listingRepository.getListingsForApartment(
       listing.apartment,
       { status: ['listed', 'pending'] }

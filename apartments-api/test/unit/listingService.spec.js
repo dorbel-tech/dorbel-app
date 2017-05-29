@@ -10,7 +10,7 @@ const assertYieldedError = require('../shared/assertYieldedError');
 describe('Listing Service', function () {
 
   before(function () {
-    this.mockListing = { list: 'ing' };
+    this.mockListing = faker.getFakeListing();
     this.listingRepositoryMock = {
       create: sinon.stub().resolves(this.mockListing),
       getListingsForApartment: sinon.stub().resolves([]),
@@ -64,12 +64,26 @@ describe('Listing Service', function () {
       __.assertThat(newListing, __.is(this.mockListing));
     });
 
-    it('should create a new listing without any images', function* () {
+    it('should create a new listing for management without any images', function* () {
+      let newListing = faker.getFakeListing();
+      newListing.status = 'rented';
+      newListing.images = [];
+
+      newListing = yield this.listingService.create(newListing);
+      __.assertThat(newListing, __.is(this.mockListing));
+    });
+
+    it('should not create new listing without any images for publishing', function* () {
       let badListing = faker.getFakeListing();
       badListing.images = [];
 
-      let newListing = yield this.listingService.create(badListing);
-      __.assertThat(newListing, __.is(this.mockListing));
+      try {
+        yield this.listingService.create(badListing);
+        __.assertThat('code', __.is('not reached'));
+      }
+      catch (error) {
+        __.assertThat(error.message, __.is('לא ניתן להעלות מודעה להשכרה ללא תמונות'));
+      }
     });
 
     it('should successfuly to create listings with different statuses', function* () {
