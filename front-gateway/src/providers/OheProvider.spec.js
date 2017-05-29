@@ -5,18 +5,24 @@ describe('Ohe Provider', () => {
   let oheProvider;
   let oheStoreMock;
   let apiMock;
+  let authMock;
+  let authStoreMock;
 
   beforeAll(() => {
     apiMock = {
       fetch: jest.fn().mockReturnValue(Promise.resolve())
     };
+    authMock = {shouldLogin: jest.fn()};
     oheStoreMock = {
       isListingLoaded: jest.fn().mockReturnValue(false),
       markListingsAsLoaded: jest.fn(),
-      add: jest.fn()
+      add: jest.fn(),
+      usersFollowsByListingId: {get: jest.fn(), set: jest.fn()},
+      countFollowersByListingId: {get: jest.fn(), set: jest.fn()}
     };
+    authStoreMock = {};
 
-    oheProvider = new OheProvider({ oheStore: oheStoreMock }, apiMock);
+    oheProvider = new OheProvider({ authStore: authStoreMock, oheStore: oheStoreMock }, apiMock, authMock);
   });
 
   afterEach(() => jest.resetAllMocks());
@@ -78,6 +84,30 @@ describe('Ohe Provider', () => {
         expect(oheStoreMock.markListingsAsLoaded).toHaveBeenCalledWith([1,2,3,4,5]);
         expect(oheStoreMock.markListingsAsLoaded).toHaveBeenCalledWith([6,7,8,9]);
       });
+    });
+  });
+
+  describe('toggleFollow()', () => {
+    let listingMock;
+
+    beforeEach(() => {
+      authStoreMock.profile = {user_id: 9};
+      listingMock = {id: 999};
+    });
+
+    it('should call fetch with correct target and payload', () => {
+      apiMock.fetch = jest.fn().mockReturnValue(Promise.resolve({}));
+
+      return oheProvider.toggleFollow(listingMock)
+      .then(() => expect(apiMock.fetch).toHaveBeenCalledWith(
+        "/api/ohe/v1/follower",
+        {
+          data: {
+            listing_id: listingMock.id,
+            user_details: authStoreMock.profile
+          },
+          method: "POST"
+        }));
     });
   });
 });
