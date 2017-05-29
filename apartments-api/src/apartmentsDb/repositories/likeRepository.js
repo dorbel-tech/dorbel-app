@@ -33,6 +33,15 @@ function* getUserLikes(user) {
   });
 }
 
+function* findByListingId(listingId) {
+  return yield db.models.like.findAll({
+    where: {
+      listing_id: listingId,
+      is_active: true
+    }
+  });
+}
+
 function* getListingTotalLikes(listingId) {
   return yield db.models.like.count({
     where: {
@@ -46,6 +55,7 @@ function* getListingTotalLikes(listingId) {
 module.exports = {
   getUserLikes,
   getListingTotalLikes,
+  findByListingId,
   isLiked,
   set
 };
