@@ -35,10 +35,6 @@ class ListingThumbnail extends Component {
 
     const { appProviders, listing } = this.props;
 
-    if (appProviders.authProvider.shouldLogin()) {
-      return;
-    }
-
     appProviders.oheProvider.getFollowsForListing(listing.id).then(() => {
       appProviders.oheProvider.toggleFollow(listing);
     });
