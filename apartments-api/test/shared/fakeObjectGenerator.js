@@ -7,8 +7,8 @@ function getDateString() {
 
 function getFakeBuilding(variant) {
   return Object.assign({
-    street_name: 'רוטשילד',
-    house_number: '192',
+    street_name: faker.address.streetName(),
+    house_number: '' + faker.random.number(300),
     entrance: 1,
     city_id: 1,
     city: {
@@ -21,7 +21,7 @@ function getFakeBuilding(variant) {
   }, variant);
 }
 
-function getFakeListing() {
+function getFakeListing(variant) {
   const listing =  {
     status: 'pending',
     monthly_rent: faker.random.number(),
@@ -30,10 +30,10 @@ function getFakeListing() {
     publishing_user_id: faker.random.uuid(),
     publishing_user_type: 'landlord',
     apartment: {
-      apt_number: faker.random.number(99) + faker.random.word()[0], // like '57D'
-      rooms: 3,
-      size: 35,
-      floor: 3,
+      apt_number: faker.random.number(99) + faker.random.word()[0] + faker.random.word()[0], // like '57AB'
+      rooms: faker.random.number(10),
+      size: faker.random.number(120),
+      floor: faker.random.number(10),
       building: getFakeBuilding()
     },
     open_house_event_date: getDateString(),
@@ -49,8 +49,8 @@ function getFakeListing() {
   };
 
   listing.apartment.building.toJSON = () => listing.apartment.building;
-  listing.get = () => { return listing; };
-  return listing;
+  listing.get = () => listing;
+  return Object.assign(listing, variant);
 }
 
 function getFakeImage() {

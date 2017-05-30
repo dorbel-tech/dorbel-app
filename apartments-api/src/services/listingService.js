@@ -204,7 +204,7 @@ function* getByFilter(filterJSON, options = {}) {
   }
 
   let listingQuery = {
-    status: 'listed'
+    status: filter.futureBooking ? [ 'listed', 'rented' ] : 'listed'
   };
 
   let queryOptions = {
