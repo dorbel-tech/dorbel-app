@@ -26,12 +26,15 @@ module.exports = {
               'FROM '+
                   '(SELECT apartment_id, MAX( lease_end ) as lease_end '+
                   'FROM listings '+
+                  'WHERE listings.status <> \'deleted\' '+
                   'GROUP BY apartment_id) as apt_id_lease_end ' +
               'INNER JOIN listings ON ' +
                   'listings.apartment_id = apt_id_lease_end.apartment_id ' +
-                  'AND listings.lease_end = apt_id_lease_end.lease_end ' +
-              'WHERE listings.status <> \'deleted\''
+                  'AND listings.lease_end = apt_id_lease_end.lease_end '
         , { type: Sequelize.QueryTypes.RAW });
+      })
+      .then(()=>{
+        return queryInterface.addIndex('listings', ['apartment_id', 'lease_end']);
       });
   },
 
@@ -43,7 +46,11 @@ module.exports = {
           'CREATE VIEW latest_listings AS SELECT * FROM listings WHERE id IN ( ' +
           'SELECT MAX(id) FROM listings WHERE status != \'deleted\'' +
           'GROUP BY apartment_id' +
-          ')', { type: Sequelize.QueryTypes.RAW });
+          ')', { type: Sequelize.QueryTypes.RAW }
+          );
+      })
+      .then(()=>{
+        return queryInterface.removeIndex('listings', ['apartment_id', 'lease_end']);
       });
   }
 };
