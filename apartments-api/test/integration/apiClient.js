@@ -97,6 +97,11 @@ class ApiClient {
       .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile));
   }
 
+  getLikesByListing(listingId) {
+    return this.request
+      .get('/v1/likes/' + listingId);
+  }
+
   updateUserProfile(data, isAuthenticated=true) {
     return isAuthenticated ?
       this.request
