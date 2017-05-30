@@ -98,13 +98,13 @@ describe('Ohe Provider', () => {
     it('should follow listing by calling fetch', () => {
       return oheProvider.toggleFollow(listingMock)
       .then(() => expect(apiMock.fetch).toHaveBeenCalledWith(
-        "/api/ohe/v1/follower",
+        '/api/ohe/v1/follower',
         {
           data: {
             listing_id: listingMock.id,
             user_details: authStoreMock.profile
           },
-          method: "POST"
+          method: 'POST'
         }));
     });
 
@@ -114,9 +114,9 @@ describe('Ohe Provider', () => {
 
       return oheProvider.toggleFollow(listingMock)
       .then(() => expect(apiMock.fetch).toHaveBeenCalledWith(
-        "/api/ohe/v1/follower/99",
+        '/api/ohe/v1/follower/99',
         {
-          method: "DELETE"
+          method: 'DELETE'
         }));
     });
   });
