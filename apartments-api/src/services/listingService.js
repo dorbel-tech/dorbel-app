@@ -12,6 +12,7 @@ const userManagement = shared.utils.user.management;
 const userPermissions = shared.utils.user.permissions;
 
 const DEFUALT_LISTING_LIST_LIMIT = 15;
+const MAX_LISTING_LIST_LIMIT = 30;
 
 const possibleStatusesByCurrentStatus = {
   pending: ['unlisted', 'deleted'],
@@ -201,6 +202,10 @@ function* getByFilter(filterJSON, options = {}) {
     } catch (e) {
       throw new Error('failed to parse filter JSON');
     }
+  }
+
+  if (options.limit && options.limit > MAX_LISTING_LIST_LIMIT) {
+    throw new Error('Unable to return so many lising results in one query!');
   }
 
   let listingQuery = {
