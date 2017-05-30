@@ -1,5 +1,6 @@
 'use strict';
 var faker = require('faker');
+const fakeUserId = '00000000-0000-0000-0000-000000000001';
 
 function getDateString() {
   return (new Date()).toISOString().substring(0, 10);
@@ -64,9 +65,21 @@ function getFakeUser(variant) {
   }, variant);
 }
 
+function getFakeLike(variant) {
+  let like = Object.assign({
+    id: 1,
+    listing_id: 1,
+    liked_user_id: fakeUserId,
+    is_active: true
+  }, variant);
+  like.get = () => { return like; };
+  return like;
+}
+
 module.exports = {
   getFakeListing,
   getFakeUser,
   getFakeImage,
-  getFakeBuilding
+  getFakeBuilding,
+  getFakeLike
 };

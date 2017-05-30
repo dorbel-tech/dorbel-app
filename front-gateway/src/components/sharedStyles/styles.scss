@@ -139,6 +139,17 @@ textarea {
   resize: none;
 }
 
+/* React bootstrap dropdown */
+.dropdown-menu {
+  background-color: $brand-white !important;
+  border: none !important;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.175) !important;
+
+  > li > a {
+    padding: 5px 14px !important;
+  }
+}
+
 /* React bootstrap date picker */
 .react-bootstrap-date-picker-custom-control {
   border: 1px solid #ccc;

@@ -35,6 +35,13 @@ describe('Apartments API Likes service integration', function () {
       });
     });
 
+    describe('GET', function () {
+      it('should get likes by listing', function* () {
+        const response = yield this.apiClient.getLikesByListing(this.createdListingId).expect(200).end();
+        __.assertThat(response.body.length, __.is(1));
+      });
+    });
+
     describe('DELETE /likes/{listingId}', function () {
       it('should set listing as unliked', function* () {
         yield this.apiClient.unlikeListing(this.createdListingId).expect(200).end();

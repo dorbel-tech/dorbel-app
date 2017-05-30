@@ -5,18 +5,20 @@ describe('Ohe Provider', () => {
   let oheProvider;
   let oheStoreMock;
   let apiMock;
+  let authMock;
+  let authStoreMock;
 
   beforeAll(() => {
-    apiMock = {
-      fetch: jest.fn().mockReturnValue(Promise.resolve())
-    };
+    apiMock = {fetch: jest.fn()};
+    authMock = {shouldLogin: jest.fn()};
     oheStoreMock = {
       isListingLoaded: jest.fn().mockReturnValue(false),
       markListingsAsLoaded: jest.fn(),
       add: jest.fn()
     };
+    authStoreMock = {};
 
-    oheProvider = new OheProvider({ oheStore: oheStoreMock }, apiMock);
+    oheProvider = new OheProvider({ authStore: authStoreMock, oheStore: oheStoreMock }, apiMock, authMock);
   });
 
   afterEach(() => jest.resetAllMocks());
@@ -77,6 +79,55 @@ describe('Ohe Provider', () => {
         expect(oheStoreMock.markListingsAsLoaded).toHaveBeenCalledTimes(2);
         expect(oheStoreMock.markListingsAsLoaded).toHaveBeenCalledWith([1,2,3,4,5]);
         expect(oheStoreMock.markListingsAsLoaded).toHaveBeenCalledWith([6,7,8,9]);
+      });
+    });
+  });
+
+  describe('toggleFollow()', () => {
+    let listingMock;
+
+    beforeEach(() => {
+      authStoreMock.profile = {user_id: 9};
+      listingMock = {id: 999};
+      oheStoreMock.usersFollowsByListingId = {get: jest.fn(), set: jest.fn()};
+      oheStoreMock.countFollowersByListingId = {get: jest.fn().mockReturnValue(5), set: jest.fn()};
+      apiMock.fetch = jest.fn().mockReturnValue(Promise.resolve({}));
+    });
+
+    it('should follow listing by calling fetch', () => {
+      global.analytics = {track: jest.fn()};
+
+      return oheProvider.toggleFollow(listingMock)
+      .then(() => {
+        expect(apiMock.fetch).toHaveBeenCalledWith(
+          '/api/ohe/v1/follower',
+          {
+            data: {
+              listing_id: listingMock.id,
+              user_details: authStoreMock.profile
+            },
+            method: 'POST'
+          });
+        expect(oheStoreMock.usersFollowsByListingId.set).toHaveBeenCalledWith(999, null);
+        expect(oheStoreMock.countFollowersByListingId.set).toHaveBeenCalledWith(999, 4);
+        expect(window.analytics.track).toHaveBeenCalledWith('client_listing_follow', authStoreMock.profile);
+      });
+    });
+
+    it('should un-follow listing by calling fetch', () => {
+      const followDetailsMock = {id: 99};
+      apiMock.fetch = jest.fn().mockReturnValue(Promise.resolve(followDetailsMock));
+      oheStoreMock.usersFollowsByListingId.get.mockReturnValue(followDetailsMock);
+
+      return oheProvider.toggleFollow(listingMock)
+      .then(() => {
+        expect(apiMock.fetch).toHaveBeenCalledWith(
+          '/api/ohe/v1/follower/99',
+          {
+            method: 'DELETE'
+          });
+        expect(oheStoreMock.usersFollowsByListingId.set).toHaveBeenCalledWith(999, followDetailsMock);
+        expect(oheStoreMock.countFollowersByListingId.set).toHaveBeenCalledWith(999, 6);
       });
     });
   });

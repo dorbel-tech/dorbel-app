@@ -239,8 +239,12 @@ $active-color: #3398db;
   }
 
   .property-stats-info {
-    padding-right: 20px;
     color: #979797;
+    float: left;
+
+    > i {
+      vertical-align: middle;
+    }
   }
 
   .property-stats-future-booking-tooltip {

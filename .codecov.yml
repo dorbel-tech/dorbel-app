@@ -11,3 +11,7 @@ coverage:
 parsers:
   javascript:
     enable_partials: yes
+ignore:
+  - "admin"
+  - "admin-ohe"
+  - "**/src/*Db"
