@@ -7,6 +7,9 @@ import { range } from 'lodash';
 
 import './Filter.scss';
 
+const CITY_ALL_OPTION = { value: '*', label: 'כל הערים' };
+const NEIGHBORHOOD_ALL_OPTION = { value: '*', label: 'כל השכונות' };
+
 const DEFAULT_FILTER_PARAMS = {
   // Admin filter default values.
   listed: true,
@@ -92,6 +95,7 @@ class Filter extends Component {
     this.filterObj.city = cityId;
     this.setState({areaFilterClass: this.getAreaFilterClass()});
 
+    this.props.appProviders.neighborhoodProvider.loadNeighborhoodByCityId(cityId);
     this.reloadResults();
   }
 
@@ -220,13 +224,15 @@ class Filter extends Component {
   }
 
   areaPopup() {
-    const { cityStore } = this.props.appStore;
+    const { cityStore, neighborhoodStore } = this.props.appStore;
     const cities = cityStore.cities.length ? cityStore.cities : [];
     const cityId = this.filterObj.city || DEFAULT_FILTER_PARAMS.city;
+    const neighborhoods = neighborhoodStore.neighborhoodsByCityId.get(cityId) || [];
 
     let cityTitle;
-    if (cityId === '*') {
-      cityTitle = 'כל הערים';
+    let neighborhoodTitle = NEIGHBORHOOD_ALL_OPTION.label;
+    if (cityId === CITY_ALL_OPTION.value) {
+      cityTitle = CITY_ALL_OPTION.label;
     } else {
       const city = cities.find(c => c.id == cityId);
       cityTitle = city ? city.city_name : 'טוען...';
@@ -237,15 +243,15 @@ class Filter extends Component {
                 className="filter-area-dropdown"
                 title={'עיר: ' + cityTitle}
                 onSelect={this.citySelectHandler}>
-                <MenuItem eventKey={'*'}>כל הערים</MenuItem>
+                <MenuItem eventKey={CITY_ALL_OPTION.value}>{CITY_ALL_OPTION.label}</MenuItem>
                 {cities.map(city => <MenuItem key={city.id} eventKey={city.id}>{city.city_name}</MenuItem>)}
               </DropdownButton>
               <DropdownButton id="neighborhoodDropdown" bsSize="large"
                 className="filter-area-dropdown"
-                title={'עיר: ' + cityTitle}
+                title={'שכונה: ' + neighborhoodTitle}
                 onSelect={this.citySelectHandler}>
-                <MenuItem eventKey={'*'}>כל השכונות</MenuItem>
-                {cities.map(city => <MenuItem key={city.id} eventKey={city.id}>{city.city_name}</MenuItem>)}
+                <MenuItem eventKey={NEIGHBORHOOD_ALL_OPTION.value}>{NEIGHBORHOOD_ALL_OPTION.label}</MenuItem>
+                {neighborhoods.map(neighborhood => <MenuItem key={neighborhood.id} eventKey={neighborhood.id}>{neighborhood.neighborhood_name}</MenuItem>)}
               </DropdownButton>
            </Popover>;
   }
