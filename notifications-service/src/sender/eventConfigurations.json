@@ -51,7 +51,7 @@
     "notificationType": "ohe_cancelled_notify_registered_users",
     "dataRetrieval": [ "getListingInfo", "getOheInfo", "sendToOheRegisteredUsers", "getUserDetails" ],
     "dataEnrichment": [ "cancelCalendarInvite" ]
-  },  
+  },
   {
     "eventType": "OHE_DELETED",
     "notificationType": "ohe_cancelled_notify_registered_users",
@@ -76,17 +76,9 @@
     "dataEnrichment": [ "cancelCalendarInvite" ]
   },
   {
-    "eventType": "OHE_FOLLOWED",
-    "notificationType": "ohe_followed",
-    "dataRetrieval": [ "getListingInfo", "getListingFollowersCount", "getUserDetails" ]
-  },
-  {
-    "eventType": "OHE_UNFOLLOWED",
-    "notificationType": "ohe_unfollowed"
-  },
-  {
     "eventType": "LISTING_LIKED",
-    "notificationType": "listing_liked"
+    "notificationType": "listing_liked",
+    "dataRetrieval": [ "getListingInfo", "getListingFollowersCount", "getUserDetails" ]
   },
   {
     "eventType": "LISTING_UNLIKED",
