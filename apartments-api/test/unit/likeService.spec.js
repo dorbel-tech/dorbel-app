@@ -11,7 +11,8 @@ describe('Likes Service', function () {
     this.likeRepositoryMock = {
       set: sinon.stub().resolves(undefined),
       isLiked: sinon.stub().resolves(true),
-      getUserLikes: sinon.stub().resolves([{ listing_id: this.mockListing.id }])
+      getUserLikes: sinon.stub().resolves([{ listing_id: this.mockListing.id }]),
+      findByListingId: sinon.stub().resolves([{ listing_id: this.mockListing.id }])
     };
     this.listingRepositoryMock = {
       getById: sinon.stub().resolves([{ listing_id: this.mockListing.id }])
@@ -82,6 +83,24 @@ describe('Likes Service', function () {
       catch (error) {
         __.assertThat(this.sendNotification.callCount, __.is(0));
       }
+    });
+  });
+
+  describe('Get By Listing', function () {
+
+    it('should return active likes by listing id', function* () {
+      const like = faker.getFakeLike();
+      this.likeRepositoryMock.findByListingId = sinon.stub().resolves([like]);
+
+      const result = yield this.likeService.getByListing(1);
+      __.assertThat(result, __.is([like]));
+    });
+
+    it('should return empty array when no followers by listing id', function* () {
+      this.likeRepositoryMock.findByListingId = sinon.stub().resolves([]);
+
+      const result = yield this.likeService.getByListing(1);
+      __.assertThat(result, __.is([]));
     });
   });
 });
