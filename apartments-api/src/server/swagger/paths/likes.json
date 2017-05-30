@@ -13,7 +13,7 @@
         }
       ],
       "tags": [
-        "likeController",
+        "userLikeController",
         "authenticated"
       ],
       "responses": {
@@ -36,6 +36,35 @@
     }
   },
   "/likes/{listingId}": {
+    "get": {
+      "summary": "Get likes by listing",
+      "description": "Get active likes by listing id",
+      "parameters": [
+        {
+          "name": "listingId",
+          "in": "path",
+          "type":"integer",
+          "required": true
+        }
+      ],
+      "tags": [
+        "likeController"
+      ],
+      "responses": {
+        "200": {
+          "description": "Likes by listing",
+          "schema": {
+            "$ref": "#/definitions/Likes"
+          }
+        },
+        "default": {
+          "description": "Unexpected error",
+          "schema": {
+            "$ref": "#/definitions/Error"
+          }
+        }
+      }
+    },
     "post": {
       "summary": "Marks a listing as 'liked'",
       "description": "Marks a listing as 'liked'",
