@@ -29,6 +29,16 @@
   }
 }
 
+.search-results-container {
+  @media (min-width: $screen-sm-min) {
+    width: 630px;
+  }
+
+  @media (min-width: $screen-md-min) {
+    width: 968px;
+  }
+}
+
 .search-results-not-found {
   font-size: 15px;
   text-align: center;

@@ -100,7 +100,7 @@ export default class SearchResults extends React.Component {
              onScroll={this.handleScroll}
              ref={this.setScrollTargets}>
           { title || null }
-          <Grid fluid className="search-results-container">
+          <Grid className="search-results-container">
             <Row>
               { results.map(listing => <ListingThumbnail listing={listing} key={listing.id} {...thumbnailProps} />) }
             </Row>

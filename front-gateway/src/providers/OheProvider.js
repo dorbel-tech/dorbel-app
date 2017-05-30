@@ -9,9 +9,10 @@ import utils from './utils';
 const LOAD_LISTING_EVENTS_BATCH_SIZE = 5;
 
 class OheProvider {
-  constructor(appStore, apiProvider) {
+  constructor(appStore, apiProvider, authProvider) {
     this.appStore = appStore;
     this.apiProvider = apiProvider;
+    this.authProvider = authProvider;
     autobind(this);
   }
 
@@ -140,6 +141,10 @@ class OheProvider {
   }
 
   toggleFollow(listing) {
+    if (this.authProvider.shouldLogin()) {
+      return;
+    }
+
     const followDetails = this.appStore.oheStore.usersFollowsByListingId.get(listing.id);
     const user = this.appStore.authStore.profile;
 
@@ -170,6 +175,8 @@ class OheProvider {
         window.analytics.track('client_listing_follow', { user_id: user.user_id }); // For Facebook conversion tracking.
       });
     }
+
+    return followPromise;
   }
 
   updateStoreWithFollow(listingId, followDetails) {
