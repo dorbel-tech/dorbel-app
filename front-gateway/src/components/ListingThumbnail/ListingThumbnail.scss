@@ -8,6 +8,10 @@
   box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.1);
   opacity: 1 !important;
 
+  @media (min-width: $screen-sm-min) {
+    max-width: 292px;
+  }
+
   h5 {
     font-weight: 600;
     letter-spacing: 0.7px;

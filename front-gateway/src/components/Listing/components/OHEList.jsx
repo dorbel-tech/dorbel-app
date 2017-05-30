@@ -110,10 +110,6 @@ class OHEList extends Component {
   followListing() {
     const { appProviders, listing } = this.props;
 
-    if (appProviders.authProvider.shouldLogin()) {
-      return;
-    }
-
     appProviders.oheProvider.toggleFollow(listing);
   }
 

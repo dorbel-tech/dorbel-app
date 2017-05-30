@@ -35,10 +35,6 @@ class ListingThumbnail extends Component {
 
     const { appProviders, listing } = this.props;
 
-    if (appProviders.authProvider.shouldLogin()) {
-      return;
-    }
-
     appProviders.oheProvider.getFollowsForListing(listing.id).then(() => {
       appProviders.oheProvider.toggleFollow(listing);
     });
@@ -85,7 +81,7 @@ class ListingThumbnail extends Component {
     const listingMrTitle = isRented ? 'מחיר נוכחי ' : '';
 
     return (
-      <Col lg={4} sm={6} xs={12}>
+      <Col md={4} sm={6} xs={12}>
         <NavLink to={this.getListingUrl(listing)}
           className="thumbnail apt-thumb-container apt-thumb-container-single pull-right">
           <ListingBadge listing={listing} />
