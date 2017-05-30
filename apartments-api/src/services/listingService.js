@@ -210,7 +210,7 @@ function* getByFilter(filterJSON, options = {}) {
     listingQuery.$or = [
       { status: 'listed' },
       { status: 'rented',
-        lease_end: { $gte: moment().add(1, 'month').toDate() },
+        lease_end: { $gte: moment().add(1, 'month').toDate() }, // lease ends at least a month from now
         show_for_future_booking: true
       }
     ];
