@@ -1,6 +1,6 @@
 'use strict';
-const listingRepository = require('../apartmentsDb/repositories/listingRepository');
 const likeRepository = require('../apartmentsDb/repositories/likeRepository');
+const listingRepository = require('../apartmentsDb/repositories/listingRepository');
 const shared = require('dorbel-shared');
 const logger = shared.logger.getLogger(module);
 const errors = shared.utils.domainErrors;
