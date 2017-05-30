@@ -14,6 +14,4 @@ parsers:
 ignore:
   - "admin"
   - "admin-ohe"
-  - "**/src/*/migrations"
-  - "**/src/*/models"
-  - "**/src/*/seeds"
+  - "**/src/*Db"
