@@ -24,7 +24,7 @@ function* getByListing(listingId, user, include_profile) {
       // Get all the data about who liked a listing.
       likes.forEach((like) => {
         const promiseForUser = userManagement.getPublicProfile(like.following_user_id)
-          .then(user_details => { likes.user_details = user_details; });
+          .then(user_details => { like.user_details = user_details; });
         promises.push(promiseForUser);
       });
     }
