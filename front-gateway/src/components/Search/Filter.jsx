@@ -232,16 +232,21 @@ class Filter extends Component {
       cityTitle = city ? city.city_name : 'טוען...';
     }
 
-    return <Popover className="filter-rooms-popup" id="popup-rooms">
-              <div className="filter-city-wrapper">
-                <DropdownButton id="cityDropdown" bsSize="large"
-                  className="filter-city-dropdown"
-                  title={'עיר: ' + cityTitle}
-                  onSelect={this.citySelectHandler}>
-                  <MenuItem eventKey={'*'}>כל הערים</MenuItem>
-                  {cities.map(city => <MenuItem key={city.id} eventKey={city.id}>{city.city_name}</MenuItem>)}
-                </DropdownButton>
-              </div>
+    return <Popover className="filter-area-popup" id="popup-rooms">
+              <DropdownButton id="cityDropdown" bsSize="large"
+                className="filter-area-dropdown"
+                title={'עיר: ' + cityTitle}
+                onSelect={this.citySelectHandler}>
+                <MenuItem eventKey={'*'}>כל הערים</MenuItem>
+                {cities.map(city => <MenuItem key={city.id} eventKey={city.id}>{city.city_name}</MenuItem>)}
+              </DropdownButton>
+              <DropdownButton id="neighborhoodDropdown" bsSize="large"
+                className="filter-area-dropdown"
+                title={'עיר: ' + cityTitle}
+                onSelect={this.citySelectHandler}>
+                <MenuItem eventKey={'*'}>כל השכונות</MenuItem>
+                {cities.map(city => <MenuItem key={city.id} eventKey={city.id}>{city.city_name}</MenuItem>)}
+              </DropdownButton>
            </Popover>;
   }
 
@@ -372,7 +377,7 @@ class Filter extends Component {
       </div>
       <Grid fluid className={'filter-wrapper' + (this.state.hideFilter ? ' hide-mobile-filter' : '')}>
         <Row>
-          <Col md={2} sm={3}>
+          <Col md={2} mdOffset={2} sm={3}>
             <OverlayTrigger placement="bottom" trigger="click" rootClose
                             overlay={this.areaPopup()}>
               <div className={'filter-trigger-container ' + this.state.areaFilterClass}>מיקום</div>

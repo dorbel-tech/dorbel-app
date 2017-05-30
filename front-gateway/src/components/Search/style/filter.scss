@@ -95,11 +95,11 @@
   }
 }
 
-.filter-city-wrapper > div {
+.filter-area-popup div {
   width: 100%;
 }
 
-.filter-city-dropdown {
+.filter-area-dropdown {
   background-color: $brand-white !important;
   border: 1px solid #d8d8d8 !important;
   border-radius: 4px !important;
@@ -118,12 +118,6 @@
     font-family: FontAwesome;
     left: 9px;
     position: absolute;
-  }
-
-  &.filter-trigger-active::after {
-    color: #3398db;
-    content: '\f058';
-    font-size: 22px;
   }
 
   @media (max-width: $screen-xs-max) {
@@ -172,6 +166,7 @@
   }
 }
 
+.filter-area-popup,
 .filter-mr-popup,
 .filter-extra-popup,
 .filter-rooms-popup {
