@@ -99,6 +99,14 @@ class Filter extends Component {
     this.reloadResults();
   }
 
+  neighborhoodSelectHandler(neighborhoodId) {
+/*    this.filterObj.city = cityId;
+    this.setState({areaFilterClass: this.getAreaFilterClass()});
+
+    this.props.appProviders.neighborhoodProvider.loadNeighborhoodByCityId(cityId);
+    this.reloadResults();*/
+  }
+
   mrSliderChangeHandler(mrStringArray, unused, monthly_rent) {
     this.sliderChangeHandler(monthly_rent, 'mrs', 'mre');
     this.setState({mrFilterClass: this.getMRFilterClass()});
@@ -249,7 +257,7 @@ class Filter extends Component {
               <DropdownButton id="neighborhoodDropdown" bsSize="large"
                 className="filter-area-dropdown"
                 title={'שכונה: ' + neighborhoodTitle}
-                onSelect={this.citySelectHandler}>
+                onSelect={this.neighborhoodSelectHandler}>
                 <MenuItem eventKey={NEIGHBORHOOD_ALL_OPTION.value}>{NEIGHBORHOOD_ALL_OPTION.label}</MenuItem>
                 {neighborhoods.map(neighborhood => <MenuItem key={neighborhood.id} eventKey={neighborhood.id}>{neighborhood.neighborhood_name}</MenuItem>)}
               </DropdownButton>
