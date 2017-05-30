@@ -203,9 +203,21 @@ function* getByFilter(filterJSON, options = {}) {
     }
   }
 
-  let listingQuery = {
-    status: filter.futureBooking ? [ 'listed', 'rented' ] : 'listed'
-  };
+  const listingQuery = {};
+
+  if (filter.futureBooking) {
+    // TODO : what if there are other things that require $or ?
+    listingQuery.$or = [
+      { status: 'listed' },
+      { status: 'rented',
+        lease_end: { $gte: moment().add(1, 'month').toDate() },
+        show_for_future_booking: true
+      }
+    ];
+  } else {
+    listingQuery.status = 'listed';
+  }
+
 
   let queryOptions = {
     order: getSortOption(filter.sort),

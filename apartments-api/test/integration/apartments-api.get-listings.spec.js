@@ -1,5 +1,6 @@
 'use strict';
 const __ = require('hamjest');
+const moment = require('moment');
 const fakeObjectGenerator = require('../shared/fakeObjectGenerator');
 const utils = require('./utils');
 const _ = require('lodash');
@@ -153,7 +154,9 @@ describe('GET /listings', function () {
 
     before(function * () {
       // Create a rented listing
-      rentedListing = fakeObjectGenerator.getFakeListing({ status: 'rented' });
+      rentedListing = fakeObjectGenerator.getFakeListing(
+        { status: 'rented', lease_end: fakeObjectGenerator.getDateString(moment().add(2, 'months')) }
+      );
       const rentedListingResponse = yield this.apiClient.createListing(rentedListing).expect(201).end();
       rentedListing = rentedListingResponse.body;
       // Create a published listing
@@ -163,13 +166,16 @@ describe('GET /listings', function () {
       yield this.adminApiClient.patchListing(listedListing.id, { status: 'listed' }).expect(200).end();
     });
 
-    it('should not show rented apartment when futureBooking is false', function * () {
-      const getResponse = yield this.apiClient.getListings().expect(200).end();
-
+    const assertRentedIsNotShown = getResponse => {
       __.assertThat(getResponse.body, __.allOf(
         __.hasItem(__.hasProperty('id', listedListing.id)),
         __.not(__.hasItem(__.hasProperty('id', rentedListing.id)))
       ));
+    };
+
+    it('should not show rented apartment when futureBooking is false', function * () {
+      const getResponse = yield this.apiClient.getListings().expect(200).end();
+      assertRentedIsNotShown(getResponse);
     });
 
     it('should show both rented and listed apartments when futureBooking is true', function * () {
@@ -179,6 +185,20 @@ describe('GET /listings', function () {
         __.hasItem(__.hasProperty('id', listedListing.id)),
         __.hasItem(__.hasProperty('id', rentedListing.id))
       ));
+    });
+
+    it('should not show rented apartment when rent date is too soon', function * () {
+      const update = { lease_end: moment().add(1, 'week') };
+      yield this.adminApiClient.patchListing(rentedListing.id, update).expect(200).end();
+      const getResponse = yield this.apiClient.getListings({ q: { futureBooking: true } }).expect(200).end();
+      assertRentedIsNotShown(getResponse);
+    });
+
+    it('should not show rented apartment when should not be shown for future booking', function * () {
+      const update = { lease_end: moment().add(3, 'months'), show_for_future_booking: false };
+      yield this.adminApiClient.patchListing(rentedListing.id, update).expect(200).end();
+      const getResponse = yield this.apiClient.getListings({ q: { futureBooking: true } }).expect(200).end();
+      assertRentedIsNotShown(getResponse);
     });
   });
 });

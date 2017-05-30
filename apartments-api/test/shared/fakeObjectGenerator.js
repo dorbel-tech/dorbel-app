@@ -1,8 +1,8 @@
 'use strict';
 var faker = require('faker');
 
-function getDateString() {
-  return (new Date()).toISOString().substring(0, 10);
+function getDateString(date) {
+  return (date || new Date()).toISOString().substring(0, 10);
 }
 
 function getFakeBuilding(variant) {
@@ -68,5 +68,6 @@ module.exports = {
   getFakeListing,
   getFakeUser,
   getFakeImage,
-  getFakeBuilding
+  getFakeBuilding,
+  getDateString
 };
