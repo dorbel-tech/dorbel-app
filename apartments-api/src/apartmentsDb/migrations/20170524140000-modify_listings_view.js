@@ -33,14 +33,10 @@ module.exports = {
 
   down: function (queryInterface, Sequelize) {
     return queryInterface.sequelize.query(
-      'DROP VIEW latest_listings', { type: Sequelize.QueryTypes.RAW })
-      .then(()=>{
-        return queryInterface.sequelize.query(
-          'ALTER VIEW latest_listings AS SELECT * FROM listings WHERE id IN ( ' +
-          'SELECT MAX(id) FROM listings WHERE status != \'deleted\'' +
-          'GROUP BY apartment_id' +
-          ')', { type: Sequelize.QueryTypes.RAW }
+      'ALTER VIEW latest_listings AS SELECT * FROM listings WHERE id IN ( ' +
+      'SELECT MAX(id) FROM listings WHERE status != \'deleted\'' +
+      'GROUP BY apartment_id' +
+      ')', { type: Sequelize.QueryTypes.RAW }
           );
-      });
   }
 };
