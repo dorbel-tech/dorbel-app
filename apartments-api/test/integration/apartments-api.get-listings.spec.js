@@ -25,7 +25,6 @@ describe('GET /listings', function () {
     __.assertThat(firstRepsponse.body, __.hasSize(1));
     __.assertThat(secondResponse.body, __.hasSize(1));
     __.assertThat(firstRepsponse.body[0].id, __.is(__.not(secondResponse.body[0].id)));
-
   });
 
   it('should return only liked listings where liked: true', function* () {

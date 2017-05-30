@@ -7,6 +7,7 @@
 */
 'use strict';
 const co = require('co');
+const moment = require('moment');
 const db = require('../dbConnectionProvider');
 const shared = require('dorbel-shared');
 const logger = shared.logger.getLogger(module);
@@ -56,8 +57,8 @@ function* createApartment(city, neighborhood, id, slug) {
     roommates: 0,
     property_tax: 500,
     board_fee: 120,
-    lease_start: new Date(),
-    lease_end: new Date(),
+    lease_start: moment().add(id, 'day').toDate(),
+    lease_end: moment().add(id, 'day').add(1, 'year').toDate(),
     publishing_user_id: TEST_USER_ID,
     publishing_user_type: 'landlord',
     apartment_id: id,
