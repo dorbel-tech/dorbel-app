@@ -10,6 +10,7 @@ const messageBus = shared.utils.messageBus;
 const generic = shared.utils.generic;
 const userManagement = shared.utils.user.management;
 const userPermissions = shared.utils.user.permissions;
+const ValidationError = shared.utils.domainErrors.DomainValidationError;
 
 const DEFUALT_LISTING_LIST_LIMIT = 15;
 const MAX_LISTING_LIST_LIMIT = 30;
@@ -200,12 +201,12 @@ function* getByFilter(filterJSON, options = {}) {
     try {
       filter = JSON.parse(filterJSON);
     } catch (e) {
-      throw new Error('failed to parse filter JSON');
+      throw new ValidationError('Failed to parse filter JSON!');
     }
   }
 
   if (options.limit && options.limit > MAX_LISTING_LIST_LIMIT) {
-    throw new Error('Unable to return so many lising results in one query!');
+    throw new ValidationError('Unable to return so many lising results in one query! Limit asked: ' + options.limit);
   }
 
   let listingQuery = {
