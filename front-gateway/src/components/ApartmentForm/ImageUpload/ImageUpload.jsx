@@ -29,7 +29,7 @@ export default class ImageUpload extends React.Component {
       editedListingStore.disableSave = false;
     }
     else {
-      editedListingStore.disableSave = (this.props.editedListingStore.formValues.images.length <= 0);
+      editedListingStore.disableSave = (editedListingStore.formValues.images.length <= 0);
     }
   }
 
