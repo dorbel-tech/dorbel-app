@@ -246,9 +246,9 @@ module.exports = {
     //   return this;
     // },
     uploadImage: function () {
-      console.log({__dirname});
       this.section.apartmentPictures
-        .setValue('input[type="file"]', __dirname +'/resources/test.png')
+        .waitForElementVisible('.add-photo')
+        .setValue('input[type="file"]', __dirname + '/resources/test.png')
         .waitForElementVisible('.remove-image');
       return this;
     }
