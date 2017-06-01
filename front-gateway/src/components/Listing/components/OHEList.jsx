@@ -154,16 +154,6 @@ class OHEList extends Component {
     return appStore.listingStore.isListingPublisherOrAdmin(listing);
   }
 
-  renderListingFollowersCount(listing) {
-    let followersCount = this.props.appStore.oheStore.countFollowersByListingId.get(listing.id);
-
-    if (this.shouldFollowersCountBeVisible()) {
-      return <div className="listing-followers-count">{followersCount} נרשמו לעדכונים לדירה זו</div>;
-    } else {
-      return null;
-    }
-  }
-
   getListingNotification(listing) {
     switch(listing.status) {
       case 'rented':
@@ -236,7 +226,6 @@ class OHEList extends Component {
         <div href="#" className="ohe-list-follow-container">
           <div className="listing-rented-notification">{this.getListingNotification(listing)}</div>
           {this.renderFollowItem(listing)}
-          {this.renderListingFollowersCount(listing)}
         </div>
       </div>
     );

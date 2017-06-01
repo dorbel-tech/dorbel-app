@@ -18,7 +18,6 @@ describe('Property', () => {
         listingsByApartmentId: { get: jest.fn() }
       },
       oheStore: {
-        countFollowersByListingId: { get: jest.fn() },
         followersByListingId: {
           get: jest.fn().mockReturnValue([]),
           has: jest.fn()

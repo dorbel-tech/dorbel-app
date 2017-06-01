@@ -65,7 +65,6 @@ class PropertyStats extends Component {
     const daysPassed = moment(Date.now()).diff(moment(listing.created_at), 'days');
     const listingRented = listing.status === 'rented';
     const oheTabUrl = getDashMyPropsPath(listing, '/ohe');
-    const followersCount = appStore.oheStore.countFollowersByListingId.get(listingId);
 
     return <Grid fluid className="property-stats">
             <Row className="property-stats-rent-title">
@@ -108,14 +107,8 @@ class PropertyStats extends Component {
             <Row className="property-stats-listing-stats text-center">
               <Col xs={4}>
                 <div className="property-stats-card">
-                  <div className="property-stats-number">{followersCount || 0}</div>
-                  <div className="property-stats-title">עוקבים</div>
-                </div>
-              </Col>
-              <Col xs={4}>
-                <div className="property-stats-card">
                   <div className="property-stats-number">{listing.totalLikes || 0}</div>
-                  <div className="property-stats-title">לייקים</div>
+                  <div className="property-stats-title">עוקבים</div>
                 </div>
               </Col>
               <Col xs={4}>
@@ -169,7 +162,6 @@ class PropertyStats extends Component {
     const { appStore, listing } = this.props;
     const listingId = listing.id;
     const views = appStore.listingStore.listingViewsById.get(listingId);
-    const followersCount = appStore.oheStore.countFollowersByListingId.get(listingId);
     const listingLeaseStart = utils.formatDate(listing.lease_start);
     const daysPassed = moment(Date.now()).diff(moment(listing.lease_start), 'days');
     const manageTabUrl = getDashMyPropsPath(listing, '/manage');
@@ -186,9 +178,6 @@ class PropertyStats extends Component {
                 <div>
                   <div className="property-stats-number">{views || 0}</div>
                   <div className="property-stats-empty"></div>
-                  <div className="property-stats-number">
-                    <NavLink to={manageTabUrl}>{followersCount || 0}</NavLink></div>
-                  <div className="property-stats-empty"></div>
                   <div className="property-stats-number">{listing.totalLikes || 0}</div>
                 </div>
                 <div>
@@ -198,10 +187,6 @@ class PropertyStats extends Component {
                   <div className="property-stats-empty"></div>
                   <div className="property-stats-bubble">
                     <NavLink to={manageTabUrl}><div className="property-stats-bubble-text">עוקבים</div></NavLink>
-                  </div>
-                  <div className="property-stats-empty"></div>
-                  <div className="property-stats-bubble">
-                    <div className="property-stats-bubble-text">לייקים</div>
                   </div>
                 </div>
               </Col>
