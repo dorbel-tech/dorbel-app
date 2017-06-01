@@ -1,4 +1,5 @@
 import React from 'react';
+import autobind from 'react-autobind';
 import { inject, observer } from 'mobx-react';
 import { ProgressBar, Row } from 'react-bootstrap';
 import Dropzone from 'react-dropzone';
@@ -8,30 +9,27 @@ import CloudinaryImage from '~/components/CloudinaryImage/CloudinaryImage';
 export default class ImageUpload extends React.Component {
   constructor(props) {
     super(props);
+    autobind(this);
     this.uploadImagePromises = [];
-    this.props.editedListingStore.disableSave = this.shouldDisableSave();
+    this.shouldDisableSave();
   }
 
   onChooseFile(acceptedFiles) {
     const { appProviders, editedListingStore } = this.props;
 
-    editedListingStore.disableSave = true;
-
     let uploadPromises = acceptedFiles.map(file => appProviders.listingImageProvider.uploadImage(file, editedListingStore));
     this.uploadImagePromises = this.uploadImagePromises.concat(uploadPromises);
     Promise.all(this.uploadImagePromises)
-      .then(() => {
-        editedListingStore.disableSave = false;
-      });
+      .then(this.shouldDisableSave);
   }
 
   shouldDisableSave() {
     const { editedListingStore } = this.props;
     if (editedListingStore.uploadMode == 'manage') {
-      return false;
+      editedListingStore.disableSave = false;
     }
-    else{
-      return (this.props.editedListingStore.formValues.images.length <= 0);
+    else {
+      editedListingStore.disableSave = (this.props.editedListingStore.formValues.images.length <= 0);
     }
   }
 
@@ -44,7 +42,18 @@ export default class ImageUpload extends React.Component {
       <ProgressBar now={progressPct} />
     );
 
-    const deleteButton = (<div><a href="#" className="remove-image" onClick={() => listingImageProvider.deleteImage(image, editedListingStore)} >הסרת תמונה</a></div>);
+    const deleteButton = (
+      <div>
+        <a href="#"
+          className="remove-image"
+          onClick={() => {
+            listingImageProvider.deleteImage(image, editedListingStore);
+            this.shouldDisableSave();
+          }}>
+          הסרת תמונה
+          </a>
+      </div>
+    );
 
     return (
       <div key={index} className="image col-md-4 thumb">
