@@ -15,6 +15,8 @@ services:
     environment:
       NODE_ENV: ${NODE_ENV}
       SUMOLOGIC_COLLECTOR: ${SUMOLOGIC_COLLECTOR}
+      CLOUDINARY_SECRET: ${CLOUDINARY_SECRET}
+      CLOUDINARY_API_KEY: ${CLOUDINARY_API_KEY}
 
   notifications-service:
     volumes:
