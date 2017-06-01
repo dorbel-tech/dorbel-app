@@ -25,10 +25,16 @@ describe('Filter', () => {
         authStore: {},
         cityStore: {
           cities: []
+        },
+        neighborhoodStore: {
+          neighborhoodsByCityId: {
+            get: jest.fn()
+          }
         }
       },
       appProviders: {
         cityProvider: {loadCities: jest.fn()},
+        neighborhoodProvider: {loadNeighborhoodByCityId: jest.fn()},
         searchProvider: {
           search: jest.fn().mockReturnValue(Promise.resolve([]))
         },
@@ -43,38 +49,30 @@ describe('Filter', () => {
   it('should initialize correctly', () => {
     const expectedFilterObj = {city: '*'};
 
-    const cityDropdownButton = filter().find('#cityDropdown');
+    filter();
 
     expect(props.appProviders.cityProvider.loadCities).toHaveBeenCalledWith();
+    expect(props.appProviders.neighborhoodProvider.loadNeighborhoodByCityId).not.toHaveBeenCalled();
     expect(history.pushState).toHaveBeenCalledWith(expectedFilterObj, '', jasmine.any(String));
     expect(history.pushState.calls.count()).toEqual(1);
     expect(props.appProviders.searchProvider.search).toHaveBeenCalledWith(expectedFilterObj);
     expect(props.appProviders.searchProvider.search.mock.calls.length).toEqual(1);
-    expect(cityDropdownButton.text()).toEqual('עיר: כל הערים ');
 
     expect(mountedFilter).toMatchSnapshot();
   });
 
-  it('should parse city from location', () => {
+  it('should initialize with parsed filter object', () => {
     const expectedFilterObj = {city: 2};
-    props.appStore.cityStore.cities = [{id: 2, city_name: 'test2'}];
     spyOn(JSON, 'parse').and.returnValue(expectedFilterObj);
 
-    const cityDropdownButton = filter().find('#cityDropdown');
+    filter();
 
+    expect(props.appProviders.cityProvider.loadCities).toHaveBeenCalledWith();
+    expect(props.appProviders.neighborhoodProvider.loadNeighborhoodByCityId).toHaveBeenCalledWith(2);
     expect(props.appProviders.searchProvider.search).toHaveBeenCalledWith(expectedFilterObj);
-    expect(cityDropdownButton.text()).toEqual('עיר: test2 ');
-  });
-
-  it('should render cities correctly', () => {
-    props.appStore.cityStore.cities = [{id: 2, city_name: 'test2'}];
-
-    const cityDropdownMenuItems = filter().find('.filter-city-wrapper').find(MenuItem);
-
-    expect(cityDropdownMenuItems.length).toEqual(2);
-    expect(cityDropdownMenuItems.at(0).props().eventKey).toEqual('*');
-    expect(cityDropdownMenuItems.at(0).text()).toEqual('כל הערים');
-    expect(cityDropdownMenuItems.at(1).props().eventKey).toEqual(2);
-    expect(cityDropdownMenuItems.at(1).text()).toEqual('test2');
+    expect(history.pushState).toHaveBeenCalledWith(expectedFilterObj, '', jasmine.any(String));
+    expect(history.pushState.calls.count()).toEqual(1);
+    expect(props.appProviders.searchProvider.search).toHaveBeenCalledWith(expectedFilterObj);
+    expect(props.appProviders.searchProvider.search.mock.calls.length).toEqual(1);
   });
 });
