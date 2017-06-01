@@ -38,8 +38,8 @@ class PropertyStats extends Component {
       appProviders.listingsProvider.loadListingPageViews(listingId);
     }
 
-    if (!appStore.oheStore.followersByListingId.has(listingId)) {
-      appProviders.oheProvider.getFollowsForListing(listingId, true);
+    if (!appStore.likeStore.likesByListingId.has(listingId)) {
+      appProviders.likeProvider.getLikesForListing(listingId, true);
     }
   }
 
@@ -230,7 +230,7 @@ class PropertyStats extends Component {
             </Row>
             <Row>
               <Col xs={12}>
-                {this.renderFollowers()}
+                {this.renderLikedUsers()}
               </Col>
             </Row>
            </Grid>;
@@ -254,23 +254,23 @@ class PropertyStats extends Component {
     notificationProvider.success('עודכן בהצלחה. ');
   }
 
-  renderFollowers() {
+  renderLikedUsers() {
     const { listing, appStore } = this.props;
-    const followers = appStore.oheStore.followersByListingId.get(listing.id);
+    const likes = appStore.likeStore.likesByListingId.get(listing.id);
 
-    if (!followers) {
+    if (!likes) {
       return <LoadingSpinner />;
     }
 
-    if (followers.length === 0) {
+    if (likes.length === 0) {
       return <h5 className="property-stats-no-followers-title">אין עוקבים אחר הנכס</h5>;
     }
 
     return (
       <ListGroup>
-        { followers.map(follower => (
-            <ListGroupItem key={follower.id} disabled={follower.disabled} className="property-manage-tenant-item">
-              <TenantRow tenant={follower.user_details} />
+        { likes.map(like => (
+            <ListGroupItem key={like.id} disabled={like.disabled} className="property-manage-tenant-item">
+              <TenantRow tenant={like.user_details} />
             </ListGroupItem>
           )) }
       </ListGroup>
