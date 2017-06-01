@@ -249,7 +249,7 @@ module.exports = {
       this.section.apartmentPictures
         .waitForElementVisible('.add-photo')
         .setValue('input[type="file"]', __dirname + '/resources/test.png')
-        .waitForElementVisible('.remove-image');
+        .waitForElementVisible('.remove-image', 30000);
       return this;
     }
   }]
