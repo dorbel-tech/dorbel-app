@@ -27,7 +27,7 @@ module.exports = {
                 'GROUP BY apartment_id) as apt_id_lease_end ' +
             'INNER JOIN listings ON ' +
                 'listings.apartment_id = apt_id_lease_end.apartment_id ' +
-                'AND listings.lease_end = apt_id_lease_end.lease_end '
+                'AND listings.lease_end = apt_id_lease_end.lease_end'
         , { type: Sequelize.QueryTypes.RAW });
   },
 
