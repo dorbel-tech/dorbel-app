@@ -199,6 +199,15 @@ class Filter extends Component {
     this.props.appProviders.searchProvider.search(this.filterObj);
   }
 
+  getAreaTitle(areaId, allOption, areas, nameProp) {
+    if (areaId === allOption.value) {
+      return allOption.label;
+    } else {
+      const area = areas.find(a => a.id == areaId);
+      return area ? area[nameProp] : 'טוען...';
+    }
+  }
+
   toggleHideFilter() {
     this.setState({ hideFilter: !this.state.hideFilter });
   }
@@ -243,24 +252,10 @@ class Filter extends Component {
     const { cityStore, neighborhoodStore } = this.props.appStore;
     const cities = cityStore.cities.length ? cityStore.cities : [];
     const cityId = this.filterObj.city || DEFAULT_FILTER_PARAMS.city;
+    const cityTitle = this.getAreaTitle(cityId, CITY_ALL_OPTION, cities, 'city_name');
     const neighborhoodId = this.filterObj.neighborhood || DEFAULT_FILTER_PARAMS.neighborhood;
     const neighborhoods = neighborhoodStore.neighborhoodsByCityId.get(cityId) || [];
-
-    let cityTitle;
-    if (cityId === CITY_ALL_OPTION.value) {
-      cityTitle = CITY_ALL_OPTION.label;
-    } else {
-      const city = cities.find(c => c.id == cityId);
-      cityTitle = city ? city.city_name : 'טוען...';
-    }
-
-    let neighborhoodTitle;
-    if (neighborhoodId === NEIGHBORHOOD_ALL_OPTION.value) {
-      neighborhoodTitle = NEIGHBORHOOD_ALL_OPTION.label;
-    } else {
-      const neighborhood = neighborhoods.find(n => n.id == neighborhoodId);
-      neighborhoodTitle = neighborhood ? neighborhood.neighborhood_name : 'טוען...';
-    }
+    const neighborhoodTitle = this.getAreaTitle(neighborhoodId, NEIGHBORHOOD_ALL_OPTION, neighborhoods, 'neighborhood_name');
 
     return <Popover className="filter-area-popup" id="popup-rooms">
               <DropdownButton id="cityDropdown" bsSize="large"
