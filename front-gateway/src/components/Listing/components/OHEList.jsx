@@ -5,7 +5,6 @@ import autobind from 'react-autobind';
 import OHERegisterModal from './OHERegisterModal';
 import { getListingPath, getDashMyPropsPath } from '~/routesHelper';
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
-import ReactTooltip from 'react-tooltip';
 
 @inject('appStore', 'appProviders', 'router') @observer
 class OHEList extends Component {
