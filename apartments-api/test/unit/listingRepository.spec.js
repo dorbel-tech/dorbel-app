@@ -10,6 +10,7 @@ describe('Listing Repository', function () {
   });
 
   describe('Add listing', function () {
+    let createdListing;
 
     // TODO : some of these tests are testing logic in the Building Repository - should be moved to buildingRepository.spec.js
 
@@ -51,18 +52,21 @@ describe('Listing Repository', function () {
     });
 
     it('should succeed in creating a valid listing with everything in it', function* () {
-      let newListing = yield this.listingRepo.create(faker.getFakeListing());
+      createdListing = yield this.listingRepo.create(faker.getFakeListing());
 
       // we assume the in-memory database has been created right before this test
-      __.assertThat(newListing, __.hasProperty('id', 1));
-      __.assertThat(newListing.apartment, __.hasProperty('id', 1));
-      __.assertThat(newListing.apartment.building, __.hasProperty('id', 1));
-      __.assertThat(newListing.images[0], __.hasProperty('id', 1));
+      __.assertThat(createdListing, __.hasProperty('id', 1));
+      __.assertThat(createdListing.apartment, __.hasProperty('id', 1));
+      __.assertThat(createdListing.apartment.building, __.hasProperty('id', 1));
+      __.assertThat(createdListing.images[0], __.hasProperty('id', 1));
     });
 
     it('should not create new building if already exists', function* () {
-      // depends on faker.getFakeListing to return constant address but random apartment
-      let newListing = yield this.listingRepo.create(faker.getFakeListing());
+      let listingToCreate = faker.getFakeListing();
+      listingToCreate.apartment.building = createdListing.apartment.building;
+
+      let newListing = yield this.listingRepo.create(listingToCreate);
+
       __.assertThat(newListing, __.hasProperty('id', 2));
       __.assertThat(newListing.apartment, __.hasProperty('id', 2));
       __.assertThat(newListing.apartment.building, __.hasProperty('id', 1));

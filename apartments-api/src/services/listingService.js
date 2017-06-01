@@ -10,8 +10,10 @@ const messageBus = shared.utils.messageBus;
 const generic = shared.utils.generic;
 const userManagement = shared.utils.user.management;
 const userPermissions = shared.utils.user.permissions;
+const ValidationError = shared.utils.domainErrors.DomainValidationError;
 
 const DEFUALT_LISTING_LIST_LIMIT = 15;
+const MAX_LISTING_LIST_LIMIT = 30;
 
 const possibleStatusesByCurrentStatus = {
   pending: ['unlisted', 'deleted'],
@@ -199,13 +201,29 @@ function* getByFilter(filterJSON, options = {}) {
     try {
       filter = JSON.parse(filterJSON);
     } catch (e) {
-      throw new Error('failed to parse filter JSON');
+      throw new ValidationError('Failed to parse filter JSON!');
     }
   }
 
-  let listingQuery = {
-    status: 'listed'
-  };
+  if (options.limit && options.limit > MAX_LISTING_LIST_LIMIT) {
+    throw new ValidationError('Unable to return so many lising results in one query! Limit asked: ' + options.limit);
+  }
+
+  const listingQuery = {};
+
+  if (filter.futureBooking) {
+    // TODO : what if there are other things that require $or ?
+    listingQuery.$or = [
+      { status: 'listed' },
+      { status: 'rented',
+        lease_end: { $gte: moment().add(1, 'month').toDate() }, // lease ends at least a month from now
+        show_for_future_booking: true
+      }
+    ];
+  } else {
+    listingQuery.status = 'listed';
+  }
+
 
   let queryOptions = {
     order: getSortOption(filter.sort),
