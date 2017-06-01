@@ -18,10 +18,6 @@ describe('Property', () => {
         listingsByApartmentId: { get: jest.fn() }
       },
       oheStore: {
-        followersByListingId: {
-          get: jest.fn().mockReturnValue([]),
-          has: jest.fn()
-        },
         oheByListingId: jest.fn()
       },
       editedListingStore: {
@@ -38,8 +34,7 @@ describe('Property', () => {
         isActiveListing: jest.fn().mockReturnValue(true)
       },
       oheProvider: {
-        loadListingEvents: jest.fn(),
-        getFollowsForListing: jest.fn()
+        loadListingEvents: jest.fn()
       },
       navProvider: {}
     };

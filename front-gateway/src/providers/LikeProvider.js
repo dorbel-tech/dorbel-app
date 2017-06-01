@@ -56,7 +56,7 @@ class LikeProvider {
         usersLikeDetails = _.find(likes, { liked_user_id: profile.dorbel_user_id });
       }
 
-      this.appStore.oheStore.usersFollowsByListingId.set(listing_id, usersLikeDetails);
+      this.appStore.likeStore.likesByListingId.set(listing_id, usersLikeDetails);
     });
   }
 }

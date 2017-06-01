@@ -9,10 +9,7 @@ describe('Property Stats', () => {
   beforeEach(() => {
     appStoreMock = {
       oheStore: {
-        oheByListingId: jest.fn(),
-        followersByListingId: {
-          get: jest.fn()
-        }
+        oheByListingId: jest.fn()
       },
       listingStore: {
         listingViewsById: {
