@@ -18,6 +18,7 @@ const DEFAULT_FILTER_PARAMS = {
   unlisted: false,
 
   city: '*', // City selector default value.
+  neighborhood: '*', // Neighborhood selector default value.
   sort: 'publish_date', // Default sort by radio group value.
   roommate: true, // Roommate search checkbox default value.
   empty: true, // Empty apartment for roommates checkbox default value.
@@ -60,6 +61,7 @@ class Filter extends Component {
 
   componentDidMount() {
     this.props.appProviders.cityProvider.loadCities();
+    this.props.appProviders.neighborhoodProvider.loadNeighborhoodByCityId(this.filterObj.city);
     this.reloadResults();
 
     // Adjust roommates checkboxes state when provided with roommates data from
@@ -95,16 +97,16 @@ class Filter extends Component {
     this.filterObj.city = cityId;
     this.setState({areaFilterClass: this.getAreaFilterClass()});
 
+    this.filterObj.neighborhood = NEIGHBORHOOD_ALL_OPTION.value;
     this.props.appProviders.neighborhoodProvider.loadNeighborhoodByCityId(cityId);
     this.reloadResults();
   }
 
   neighborhoodSelectHandler(neighborhoodId) {
-/*    this.filterObj.city = cityId;
+    this.filterObj.neighborhood = neighborhoodId;
     this.setState({areaFilterClass: this.getAreaFilterClass()});
 
-    this.props.appProviders.neighborhoodProvider.loadNeighborhoodByCityId(cityId);
-    this.reloadResults();*/
+    this.reloadResults();
   }
 
   mrSliderChangeHandler(mrStringArray, unused, monthly_rent) {
@@ -235,15 +237,23 @@ class Filter extends Component {
     const { cityStore, neighborhoodStore } = this.props.appStore;
     const cities = cityStore.cities.length ? cityStore.cities : [];
     const cityId = this.filterObj.city || DEFAULT_FILTER_PARAMS.city;
+    const neighborhoodId = this.filterObj.neighborhood || DEFAULT_FILTER_PARAMS.neighborhood;
     const neighborhoods = neighborhoodStore.neighborhoodsByCityId.get(cityId) || [];
 
     let cityTitle;
-    let neighborhoodTitle = NEIGHBORHOOD_ALL_OPTION.label;
     if (cityId === CITY_ALL_OPTION.value) {
       cityTitle = CITY_ALL_OPTION.label;
     } else {
       const city = cities.find(c => c.id == cityId);
       cityTitle = city ? city.city_name : 'טוען...';
+    }
+
+    let neighborhoodTitle;
+    if (neighborhoodId === NEIGHBORHOOD_ALL_OPTION.value) {
+      neighborhoodTitle = NEIGHBORHOOD_ALL_OPTION.label;
+    } else {
+      const neighborhood = neighborhoods.find(n => n.id == neighborhoodId);
+      neighborhoodTitle = neighborhood ? neighborhood.neighborhood_name : 'טוען...';
     }
 
     return <Popover className="filter-area-popup" id="popup-rooms">
