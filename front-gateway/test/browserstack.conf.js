@@ -18,7 +18,7 @@ let nightwatch_config = {
     default: {
       desiredCapabilities: {
         project: 'dorbel-front-gateway',
-        platform: 'MAC',
+        platform: 'WIN8',
         browser: 'Chrome',
         browser_version: 55,
         resolution: '1280x1024',
