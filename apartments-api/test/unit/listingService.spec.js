@@ -1,6 +1,5 @@
 'use strict';
 const mockRequire = require('mock-require');
-const _ = require('lodash');
 const __ = require('hamjest');
 var sinon = require('sinon');
 var faker = require('../shared/fakeObjectGenerator');
@@ -55,6 +54,26 @@ describe('Listing Service', function () {
       const options = { limit: 7, offset: 6 };
       yield this.listingService.getByFilter('', options);
       __.assertThat(this.listingRepositoryMock.list.args[0][1], __.hasProperties(options));
+    });
+
+    it('should set default status of listed only', function * () {
+      yield this.listingService.getByFilter();
+      __.assertThat(this.listingRepositoryMock.list.args[0][0], __.hasProperties({ status: 'listed' }));
+    });
+
+    it('should set conditions for future booking', function * () {
+      yield this.listingService.getByFilter('{ "futureBooking": true }');
+      __.assertThat(this.listingRepositoryMock.list.args[0][0], __.allOf(
+        __.not(__.hasProperty('status')),
+        __.hasProperty('$or', __.contains(
+          __.hasProperty('status', 'listed'),
+          __.hasProperties({
+            status: 'rented',
+            lease_end: __.hasProperty('$gte', __.is(__.date())),
+            show_for_future_booking: true
+          })
+        ))
+      ));
     });
   });
 
