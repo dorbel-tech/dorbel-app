@@ -19,7 +19,6 @@ class OHEList extends Component {
   componentDidMount() {
     const { appProviders, listing } = this.props;
     appProviders.oheProvider.loadListingEvents(listing.id);
-    appProviders.oheProvider.getFollowsForListing(listing.id);
   }
 
   renderListItem(params) {
@@ -107,57 +106,15 @@ class OHEList extends Component {
     return oheConfig;
   }
 
-  followListing() {
-    const { appProviders, listing } = this.props;
-
-    appProviders.oheProvider.toggleFollow(listing);
-  }
-
-  renderFollowItem(listing) {
-    const { appStore } = this.props;
-    let callToActionText, toolTipText;
-    const userIsFollowing = appStore.oheStore.usersFollowsByListingId.get(listing.id);
-    const tipOffset = {top: -7, left: -22};
-
-    switch(listing.status) {
-      case 'pending':
-      case 'listed':
-        callToActionText = userIsFollowing ?
-          'הסירו אותי מרשימת העדכונים' : 'עדכנו אותי על מועדי ביקור חדשים';
-        toolTipText = 'אהבתם את הדירה אבל לא נוח לכם להגיע? כאשר יתווסף מועד ביקור חדש, נעדכן אתכם במייל, כך שתהיו הראשונים לדעת.';
-        break;
-      case 'rented':
-      case 'unlisted':
-        callToActionText = userIsFollowing ?
-          'הסירו אותי מרשימת העדכונים' : 'עדכנו אותי כשהדירה תתפרסם להשכרה';
-        toolTipText = 'אהבתם את הדירה אבל היא מושכרת כרגע? ברגע שהדירה תתפרסם להשכרה, נעדכן אתכם במייל, כך שתהיו הראשונים לדעת.';
-        break;
-    }
-
-    return <div className="follow-container">
-      <span data-tip={toolTipText}>
-        <i className="fa fa-info-circle follow-icon" aria-hidden="true"></i>
-      </span>
-      <ReactTooltip type="dark" effect="solid" place="right" offset={tipOffset} multiline className="follow-tooltip"/>
-      &nbsp;
-      <span className="follow-action" onClick={this.followListing}>{callToActionText}</span>
-    </div>;
-  }
-
   filterOHEsToDisplay(ohes) {
     const lastExpiredIndex = _.findLastIndex(ohes, { status: 'expired' });
     return lastExpiredIndex > -1 ? ohes.slice(lastExpiredIndex) : ohes;
   }
 
-  shouldFollowersCountBeVisible() {
-    const { appStore, listing } = this.props;
-    return appStore.listingStore.isListingPublisherOrAdmin(listing);
-  }
-
   getListingNotification(listing) {
     switch(listing.status) {
       case 'rented':
-        return <span><h4>הדירה מושכרת כרגע</h4>הרשמו על מנת לקבל עידכון ברגע שהדירה תוצע להשכרה שוב.</span>;
+        return <span><h4>הדירה מושכרת כרגע</h4>לחצו ״אהבתי״ על מנת לקבל עידכון ברגע שהדירה תוצע להשכרה שוב.</span>;
       case 'unlisted':
         return <span><h4>המודעה לא פעילה</h4>לפרסום המודעה הכנסו <a href={getDashMyPropsPath(listing)}>לחשבונכם ועדכנו</a> את הסטטוס שלה.</span>;
       default:
@@ -223,9 +180,8 @@ class OHEList extends Component {
       <div className="list-group listing-choose-date-container">
         {this.renderTitle(listing, ohes)}
         {this.renderOheList(ohes, closeModal)}
-        <div href="#" className="ohe-list-follow-container">
+        <div className="ohe-list-follow-container">
           <div className="listing-rented-notification">{this.getListingNotification(listing)}</div>
-          {this.renderFollowItem(listing)}
         </div>
       </div>
     );
