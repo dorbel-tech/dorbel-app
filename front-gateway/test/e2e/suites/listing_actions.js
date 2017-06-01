@@ -17,12 +17,22 @@ function logout() {
 }
 
 function submitApartment(browser) {
-  apartmentForm.fillAndSubmitApartment();
+  login('landlord');
+  apartmentForm.navigateToApartmentPicturesSection()
+    .uploadImage()
+    .goFromApartmentPicturesToOpenHouseEvent()
+    .expect.section('@openHouseEvent').to.be.visible;
+
+  apartmentForm
+    .fillOpenHouseEventDetailsAllFields()
+    .submitApartment();
+
   browser.pause(500);
   apartmentForm.expect.section('@successModal').to.be.present;
   common.waitForText(apartmentForm.section.successModal, '@successTitle', 'תהליך העלאת פרטי הדירה הושלם בהצלחה!');
+  browser.end();
   // Get listingId from success modal dom element data-attr attribute.
-  apartmentForm.section.successModal.getAttribute('@listingId', 'data-attr', function(result) {
+  apartmentForm.section.successModal.getAttribute('@listingId', 'data-attr', function (result) {
     listingId = result.value;
   });
 }

@@ -9,8 +9,11 @@ module.exports = {
     apartmentPictures: {
       selector: '.apartment-pictures-step',
       elements: {
+        addNewPhoto: {
+          selector: 'span.add-photo'
+        },
         nextStep: {
-          selector: 'i.apartment-pictures-next-step'
+          selector: '.step-btn.step2.btn.btn-success'
         },
         previousStep: {
           selector: 'i.apartment-pictures-previous-step'
@@ -154,16 +157,17 @@ module.exports = {
     navigateToApartmentPicturesSection: function () {
       this
         .navigateToApartmentDetailsSection()
+        .fillApartmentDetailsAllFields()
         .goFromApartmentDetailsToApartmentPictures();
       return this;
     },
-    navigateToOpenHouseEventSection: function () {
-      this
-        .navigateToApartmentPicturesSection()
-        .fillApartmentDetailsAllFields()
-        .goFromApartmentDetailsToOpenHouseEvent();
-      return this;
-    },
+    // navigateToOpenHouseEventSection: function () {
+    //   this
+    //     .navigateToApartmentPicturesSection()
+    //     .uploadImage()
+    //     .goFromApartmentPicturesToOpenHouseEvent();
+    //   return this;
+    // },
     goFromApartmentPicturesToApartmentDetails: function () {
       this.section.apartmentPictures.click('@previousStep');
       return this;
@@ -233,12 +237,18 @@ module.exports = {
       this.section.openHouseEvent.click('@submit');
       return this;
     },
-    fillAndSubmitApartment: function () {
-      this
-        // TODO: Add upload image functionality.
-        .navigateToOpenHouseEventSection()
-        .fillOpenHouseEventDetailsAllFields()
-        .submitApartment();
+    // fillAndSubmitApartment: function () {
+    //   this
+    //     // TODO: Add upload image functionality.
+    //     .navigateToOpenHouseEventSection()
+    //     .fillOpenHouseEventDetailsAllFields()
+    //     .submitApartment();
+    //   return this;
+    // },
+    uploadImage: function () {
+      this.section.apartmentPictures
+        .setValue('input[type="file"]', '/home/lxngxr/Pictures/47806048-random-image.png')
+        .waitForElementVisible('.remove-image');
       return this;
     }
   }]

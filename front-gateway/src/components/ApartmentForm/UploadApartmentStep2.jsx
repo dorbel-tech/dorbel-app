@@ -55,7 +55,7 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
               </span>
               <span>2/3</span>
               <span className="next-step" onClick={this.clickNext.bind(this)}>
-                <Button bsStyle="success" className="step-btn step1" disabled={newListingStore.disableSave}>
+                <Button bsStyle="success" className="step-btn step2" disabled={newListingStore.disableSave}>
                   שמור והמשך &nbsp;
                   <i className="apartment-pictures-next-step fa fa-arrow-circle-o-left fa-2x" aria-hidden="true"></i>
                 </Button>
