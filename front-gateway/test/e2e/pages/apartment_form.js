@@ -247,7 +247,7 @@ module.exports = {
     // },
     uploadImage: function () {
       this.section.apartmentPictures
-        .setValue('input[type="file"]', '/home/lxngxr/Pictures/47806048-random-image.png')
+        .setValue('input[type="file"]', './resources/test.png')
         .waitForElementVisible('.remove-image');
       return this;
     }
