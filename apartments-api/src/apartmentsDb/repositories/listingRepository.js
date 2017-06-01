@@ -73,8 +73,9 @@ function list(query, options = {}) {
             },
             {
               model: models.neighborhood,
-              attributes: ['neighborhood_name'],
-              required: true
+              attributes: ['id', 'neighborhood_name'],
+              required: true,
+              where: options.neighborhoodQuery || {}
             }
           ]
         }

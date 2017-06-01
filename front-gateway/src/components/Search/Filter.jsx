@@ -61,13 +61,19 @@ class Filter extends Component {
 
   componentDidMount() {
     this.props.appProviders.cityProvider.loadCities();
-    this.props.appProviders.neighborhoodProvider.loadNeighborhoodByCityId(this.filterObj.city);
+    this.loadNeighborhoods(this.state.city);
     this.reloadResults();
 
     // Adjust roommates checkboxes state when provided with roommates data from
     // the query params (location.search).
     if (this.filterObj.room) {
       this.setState({ empty: false });
+    }
+  }
+
+  loadNeighborhoods(cityId) {
+    if (cityId !== CITY_ALL_OPTION.value) {
+      this.props.appProviders.neighborhoodProvider.loadNeighborhoodByCityId(cityId);
     }
   }
 
@@ -98,7 +104,7 @@ class Filter extends Component {
     this.setState({areaFilterClass: this.getAreaFilterClass()});
 
     this.filterObj.neighborhood = NEIGHBORHOOD_ALL_OPTION.value;
-    this.props.appProviders.neighborhoodProvider.loadNeighborhoodByCityId(cityId);
+    this.loadNeighborhoods(cityId);
     this.reloadResults();
   }
 
