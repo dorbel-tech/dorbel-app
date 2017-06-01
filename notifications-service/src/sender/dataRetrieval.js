@@ -99,26 +99,26 @@ const dataRetrievalFunctions = {
     return getListingOhes(eventData.listing_id)
       .then(response => ({ ohesCount: response.length || 0 }));
   },
-  getListingFollowersCount: eventData => {
+  getListingLikesCount: eventData => {
     return getListingLikes(eventData.listing_id)
-      .then(followers => {
+      .then(likes => {
         return getListingInfo(eventData.listing_id)
         .then(listing => {
           return {
             customRecipients: [ listing.publishing_user_id ],
-            followersCount: followers.length
+            followersCount: likes.length
           };
         });
       });
   },
-  sendToListingFollowers: eventData => {
+  sendToListingLikedUsers: eventData => {
     return getListingLikes(eventData.listing_id)
       .then(response => {
-        // this notification will be sent to all the users who followed a listing
+        // this notification will be sent to all the users who liked a listing
         return {
           customRecipients: response
-            .filter(follower => follower.is_active)
-            .map(follower => follower.following_user_id)
+            .filter(like => like.is_active)
+            .map(like => like.liked_user_id)
         };
       });
   },

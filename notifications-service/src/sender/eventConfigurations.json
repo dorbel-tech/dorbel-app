@@ -17,7 +17,7 @@
   {
     "eventType": "APARTMENT_LISTED",
     "notificationType": "apartment_listed_notify_followers",
-    "dataRetrieval": [ "getListingInfo", "sendToListingFollowers", "getUserDetails" ]
+    "dataRetrieval": [ "getListingInfo", "sendToListingLikedUsers", "getUserDetails" ]
   },
   {
     "eventType": "APARTMENT_UNLISTED",
@@ -38,7 +38,7 @@
   {
     "eventType": "OHE_CREATED",
     "notificationType": "ohe_created_notify_followers",
-    "dataRetrieval": [ "getListingInfo", "getOheInfo", "sendToListingFollowers", "getUserDetails" ]
+    "dataRetrieval": [ "getListingInfo", "getOheInfo", "sendToListingLikedUsers", "getUserDetails" ]
   },
   {
     "eventType": "OHE_UPDATED",
@@ -78,7 +78,7 @@
   {
     "eventType": "LISTING_LIKED",
     "notificationType": "listing_liked",
-    "dataRetrieval": [ "getListingInfo", "getListingFollowersCount", "getUserDetails" ]
+    "dataRetrieval": [ "getListingInfo", "getListingLikesCount", "getUserDetails" ]
   },
   {
     "eventType": "LISTING_UNLIKED",
