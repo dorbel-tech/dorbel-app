@@ -38,54 +38,54 @@ module.exports = {
       .expect.section('@openHouseEvent').to.not.be.present;
     browser.end();
   },
-  'should go back from event details to previous screen': function (browser) {
-    apartmentForm
-      .navigateToApartmentPicturesSection();
-    home.fillSignIn(common.getTestUser('landlord'));
-    browser.pause(2500);
-    apartmentForm
-      .uploadImage()
-      .goFromApartmentPicturesToOpenHouseEvent()
-      .expect.section('@openHouseEvent').to.be.visible;
-    apartmentForm
-      .goFromOpenHouseEventToApartmentPictures()
-      .expect.section('@apartmentPictures').to.be.visible;
+  // 'should go back from event details to previous screen': function (browser) {
+  //   apartmentForm
+  //     .navigateToApartmentPicturesSection();
+  //   home.fillSignIn(common.getTestUser('landlord'));
+  //   browser.pause(2500);
+  //   apartmentForm
+  //     .uploadImage()
+  //     .goFromApartmentPicturesToOpenHouseEvent()
+  //     .expect.section('@openHouseEvent').to.be.visible;
+  //   apartmentForm
+  //     .goFromOpenHouseEventToApartmentPictures()
+  //     .expect.section('@apartmentPictures').to.be.visible;
 
-    browser.end();
-  },
-  'should successfully submit a new apartment with logged in user': function (browser) {
-    login();
-    apartmentForm.navigateToApartmentPicturesSection()
-      .uploadImage()
-      .goFromApartmentPicturesToOpenHouseEvent()
-      .expect.section('@openHouseEvent').to.be.visible;
+  //   browser.end();
+  // },
+  // 'should successfully submit a new apartment with logged in user': function (browser) {
+  //   login();
+  //   apartmentForm.navigateToApartmentPicturesSection()
+  //     .uploadImage()
+  //     .goFromApartmentPicturesToOpenHouseEvent()
+  //     .expect.section('@openHouseEvent').to.be.visible;
 
-    apartmentForm
-      .fillOpenHouseEventDetailsAllFields()
-      .submitApartment();
+  //   apartmentForm
+  //     .fillOpenHouseEventDetailsAllFields()
+  //     .submitApartment();
 
-    browser.pause(500);
-    apartmentForm.expect.section('@successModal').to.be.present;
-    common.waitForText(apartmentForm.section.successModal, '@successTitle', 'תהליך העלאת פרטי הדירה הושלם בהצלחה!');
-    browser.end();
-  },
-  'should successfully submit a new apartment while creating new user': function (browser) {
-    let user = common.getTestUser('random');
+  //   browser.pause(500);
+  //   apartmentForm.expect.section('@successModal').to.be.present;
+  //   common.waitForText(apartmentForm.section.successModal, '@successTitle', 'תהליך העלאת פרטי הדירה הושלם בהצלחה!');
+  //   browser.end();
+  // },
+  // 'should successfully submit a new apartment while creating new user': function (browser) {
+  //   let user = common.getTestUser('random');
 
-    apartmentForm.navigateToApartmentPicturesSection();
-    home.signUpInForm(user);
-    apartmentForm.uploadImage()
-      .goFromApartmentPicturesToOpenHouseEvent()
-      .expect.section('@openHouseEvent').to.be.visible;
+  //   apartmentForm.navigateToApartmentPicturesSection();
+  //   home.signUpInForm(user);
+  //   apartmentForm.uploadImage()
+  //     .goFromApartmentPicturesToOpenHouseEvent()
+  //     .expect.section('@openHouseEvent').to.be.visible;
 
-    apartmentForm
-      .fillOpenHouseEventDetailsAllFields()
-      .fillUserDetailsFields(user)
-      .submitApartment();
+  //   apartmentForm
+  //     .fillOpenHouseEventDetailsAllFields()
+  //     .fillUserDetailsFields(user)
+  //     .submitApartment();
 
-    browser.pause(500);
-    apartmentForm.expect.section('@successModal').to.be.present;
-    common.waitForText(apartmentForm.section.successModal, '@successTitle', 'תהליך העלאת פרטי הדירה הושלם בהצלחה!');
-    browser.end();
-  }
+  //   browser.pause(500);
+  //   apartmentForm.expect.section('@successModal').to.be.present;
+  //   common.waitForText(apartmentForm.section.successModal, '@successTitle', 'תהליך העלאת פרטי הדירה הושלם בהצלחה!');
+  //   browser.end();
+  // }
 };
