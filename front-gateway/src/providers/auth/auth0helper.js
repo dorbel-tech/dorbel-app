@@ -50,6 +50,10 @@ function initLock(clientId, domain) {
 // Make sure to sync this object in case of changing with dorbe-shared server object as well:
 // https://github.com/dorbel-tech/dorbel-shared/blob/master/src/utils/user/helpers.js#L6
 function mapAuth0Profile(auth0profile) {
+// Important: If you change this code, something might break.
+// Please make sure it's compatible with the mapping in dorbel-shared/utils/userManagement.normalizePublicProfile
+// (similar comment there too)
+
   const mappedProfile = {
     email: _.get(auth0profile, 'user_metadata.email') || auth0profile.email,
     first_name: _.get(auth0profile, 'user_metadata.first_name') || auth0profile.given_name,
