@@ -18,9 +18,10 @@ class AuthProvider {
   }
 
   hideHandler() {
-    if (this.backOnHide) {
-      history.back();
+    if (this.onHideCallback) {
+      this.onHideCallback();
     }
+    this.onHideCallback = undefined;
   }
 
   afterAuthentication(authResult) {
@@ -79,15 +80,16 @@ class AuthProvider {
     this.reportUserIdentityToSegment(mappedProfile);
   }
 
-  shouldLogin(backOnHide) {
+  shouldLogin(options) {
     if (!this.authStore.isLoggedIn) {
-      this.showLoginModal(backOnHide);
+      this.showLoginModal(options);
       return true;
     }
+    else { return false; }
   }
 
-  showLoginModal(backOnHide) {
-    this.backOnHide = backOnHide === true;
+  showLoginModal(options) {
+    this.onHideCallback = options.onHideCallback;
     this.lock.show({
       auth: {
         params: {

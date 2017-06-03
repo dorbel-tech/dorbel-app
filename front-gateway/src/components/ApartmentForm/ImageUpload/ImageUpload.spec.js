@@ -12,6 +12,7 @@ describe('Image Upload', () => {
 
   beforeEach(() => {
     editedListingStoreMock = {
+      uploadMode: 'publish',
       disableSave: jest.fn(),
       formValues: {
         images: []
@@ -25,7 +26,7 @@ describe('Image Upload', () => {
     };
   });
 
-  const imageUpload = (props) => shallow(<ImageUpload.wrappedComponent editedListingStore={editedListingStoreMock} appProviders={appProvidersMock} {...props}/>);
+  const imageUpload = (props) => shallow(<ImageUpload.wrappedComponent editedListingStore={editedListingStoreMock} appProviders={appProvidersMock} {...props} />);
 
   it('should render dropzone', () => {
     const wrapper = imageUpload();
@@ -69,7 +70,7 @@ describe('Image Upload', () => {
     const image = { abc: 123 };
 
     // calling method directly since it is called by DropZone™
-    imageUpload().instance().onChooseFile([ image ]);
+    imageUpload().instance().onChooseFile([image]);
 
     expect(appProvidersMock.listingImageProvider.uploadImage).toHaveBeenCalledWith(image, editedListingStoreMock);
   });
@@ -84,12 +85,16 @@ describe('Image Upload', () => {
   });
 
   it('should set and unset editedListingStore disableSave', () => {
+    // add image in order to be agnostic to uploadMode
+    const image = { complete: true, src: 'asdfoiweflknasf' };
+    editedListingStoreMock.formValues.images.push(image);
+
     const deferred = Promise.defer();
     appProvidersMock.listingImageProvider = {
       uploadImage: jest.fn().mockReturnValue(deferred.promise)
     };
 
-    imageUpload().instance().onChooseFile([ { abc: 456 } ]);
+    imageUpload().instance().onChooseFile([{ abc: 456 }]);
 
     expect(editedListingStoreMock.disableSave).toBeTruthy();
     deferred.resolve();

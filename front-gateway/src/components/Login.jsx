@@ -13,7 +13,7 @@ export class Login extends React.Component {
     const { appProviders, appStore } = this.props;
     const isLoggingIn = window.location.hash.indexOf('access_token') > -1;
     if (!appStore.authStore.isLoggedIn && !isLoggingIn) {
-      appProviders.authProvider.showLoginModal(true);
+      appProviders.authProvider.showLoginModal({ onHideCallback: () => { history.back(); } });
     }
   }
 
