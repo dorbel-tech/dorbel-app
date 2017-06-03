@@ -16,11 +16,12 @@ export default class ImageUpload extends React.Component {
 
   onChooseFile(acceptedFiles) {
     const { appProviders, editedListingStore } = this.props;
+    editedListingStore.disableSave = true;
 
     let uploadPromises = acceptedFiles.map(file => appProviders.listingImageProvider.uploadImage(file, editedListingStore));
     this.uploadImagePromises = this.uploadImagePromises.concat(uploadPromises);
     Promise.all(this.uploadImagePromises)
-      .then(this.shouldDisableSave);
+     .then(this.shouldDisableSave);
   }
 
   shouldDisableSave() {
@@ -47,6 +48,7 @@ export default class ImageUpload extends React.Component {
         <a href="#"
           className="remove-image"
           onClick={() => {
+            this.props.editedListingStore.disableSave = true;
             listingImageProvider.deleteImage(image, editedListingStore);
             this.shouldDisableSave();
           }}>
