@@ -88,7 +88,7 @@ class AuthProvider {
     else { return false; }
   }
 
-  showLoginModal(options) {
+  showLoginModal(options = {}) {
     this.onHideCallback = options.onHideCallback;
     this.lock.show({
       auth: {
