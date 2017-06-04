@@ -45,14 +45,17 @@
     @media (min-width: $screen-sm-min) {
       width: 350px;
 
+      // *** Overrides the grid cell size logic
       > div > div {
         width: 100%;
       }
     }
 
+    // *** Distinct breakpoint
     @media (min-width: 860px) {
       width: 644px;
 
+      // *** Overrides the grid cell size logic
       > div > div {
         width: 50%;
       }
@@ -61,6 +64,7 @@
     @media (min-width: $screen-lg-min) {
       width: 967px;
 
+      // *** Overrides the grid cell size logic
       > div > div {
         width: 33.33333%;
       }
