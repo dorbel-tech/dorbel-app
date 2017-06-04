@@ -5,6 +5,9 @@ exports[`Filter should initialize correctly 1`] = `
       "cityProvider": Object {
         "loadCities": [Function],
       },
+      "neighborhoodProvider": Object {
+        "loadNeighborhoodByCityId": [Function],
+      },
       "oheProvider": Object {
         "loadListingEvents": [Function],
       },
@@ -19,6 +22,11 @@ exports[`Filter should initialize correctly 1`] = `
       "cityStore": Object {
         "cities": Array [],
       },
+      "neighborhoodStore": Object {
+        "neighborhoodsByCityId": Object {
+          "get": [Function],
+        },
+      },
     }
   }>
   <Filter
@@ -26,6 +34,9 @@ exports[`Filter should initialize correctly 1`] = `
       Object {
         "cityProvider": Object {
           "loadCities": [Function],
+        },
+        "neighborhoodProvider": Object {
+          "loadNeighborhoodByCityId": [Function],
         },
         "oheProvider": Object {
           "loadListingEvents": [Function],
@@ -40,6 +51,11 @@ exports[`Filter should initialize correctly 1`] = `
         "authStore": Object {},
         "cityStore": Object {
           "cities": Array [],
+        },
+        "neighborhoodStore": Object {
+          "neighborhoodsByCityId": Object {
+            "get": [Function],
+          },
         },
       }
     }>
@@ -76,131 +92,62 @@ exports[`Filter should initialize correctly 1`] = `
               className="row">
               <Col
                 bsClass="col"
-                className="filter-city-wrapper"
                 componentClass="div"
                 md={2}
                 mdOffset={2}
                 sm={3}>
                 <div
-                  className="filter-city-wrapper col-md-2 col-md-offset-2 col-sm-3">
-                  <DropdownButton
-                    bsSize="large"
-                    className="filter-city-dropdown "
-                    id="cityDropdown"
-                    onSelect={[Function]}
-                    title="עיר: כל הערים">
-                    <Uncontrolled(Dropdown)
-                      bsSize="large"
-                      id="cityDropdown"
-                      onSelect={[Function]}>
-                      <Dropdown
-                        bsClass="dropdown"
-                        bsSize="large"
-                        componentClass={[Function]}
-                        id="cityDropdown"
-                        onSelect={[Function]}
-                        onToggle={[Function]}>
-                        <ButtonGroup
-                          block={false}
-                          bsClass="btn-group"
+                  className="col-md-2 col-md-offset-2 col-sm-3">
+                  <OverlayTrigger
+                    defaultOverlayShown={false}
+                    overlay={
+                      <Popover
+                        bsClass="popover"
+                        className="filter-area-popup"
+                        id="popup-rooms"
+                        placement="right">
+                        <DropdownButton
                           bsSize="large"
-                          className="dropdown"
-                          justified={false}
-                          vertical={false}>
-                          <div
-                            className="dropdown btn-group btn-group-lg">
-                            <DropdownToggle
-                              bsClass="dropdown-toggle"
-                              bsRole="toggle"
-                              bsSize="large"
-                              className="filter-city-dropdown "
-                              id="cityDropdown"
-                              onClick={[Function]}
-                              onKeyDown={[Function]}
-                              open={false}
-                              useAnchor={false}>
-                              <Button
-                                active={false}
-                                aria-expanded={false}
-                                aria-haspopup={true}
-                                block={false}
-                                bsClass="btn"
-                                bsSize="large"
-                                bsStyle="default"
-                                className="filter-city-dropdown  dropdown-toggle"
-                                disabled={false}
-                                id="cityDropdown"
-                                onClick={[Function]}
-                                onKeyDown={[Function]}
-                                role="button">
-                                <button
-                                  aria-expanded={false}
-                                  aria-haspopup={true}
-                                  className="filter-city-dropdown  dropdown-toggle btn btn-lg btn-default"
-                                  disabled={false}
-                                  id="cityDropdown"
-                                  onClick={[Function]}
-                                  onKeyDown={[Function]}
-                                  role="button"
-                                  type="button">
-                                  עיר: כל הערים
-                                   
-                                  <span
-                                    className="caret" />
-                                </button>
-                              </Button>
-                            </DropdownToggle>
-                            <DropdownMenu
-                              bsClass="dropdown-menu"
-                              bsRole="menu"
-                              labelledBy="cityDropdown"
-                              onClose={[Function]}
-                              onSelect={[Function]}
-                              pullRight={false}>
-                              <RootCloseWrapper
-                                disabled={true}
-                                event="click"
-                                onRootClose={[Function]}>
-                                <ul
-                                  aria-labelledby="cityDropdown"
-                                  className="dropdown-menu"
-                                  role="menu">
-                                  <MenuItem
-                                    bsClass="dropdown"
-                                    disabled={false}
-                                    divider={false}
-                                    eventKey="*"
-                                    header={false}
-                                    onKeyDown={[Function]}
-                                    onSelect={[Function]}>
-                                    <li
-                                      className=""
-                                      role="presentation">
-                                      <SafeAnchor
-                                        componentClass="a"
-                                        onClick={[Function]}
-                                        onKeyDown={[Function]}
-                                        role="menuitem"
-                                        tabIndex="-1">
-                                        <a
-                                          href="#"
-                                          onClick={[Function]}
-                                          onKeyDown={[Function]}
-                                          role="menuitem"
-                                          tabIndex="-1">
-                                          כל הערים
-                                        </a>
-                                      </SafeAnchor>
-                                    </li>
-                                  </MenuItem>
-                                </ul>
-                              </RootCloseWrapper>
-                            </DropdownMenu>
-                          </div>
-                        </ButtonGroup>
-                      </Dropdown>
-                    </Uncontrolled(Dropdown)>
-                  </DropdownButton>
+                          className="filter-area-dropdown"
+                          id="cityDropdown"
+                          onSelect={[Function]}
+                          title="עיר: כל הערים">
+                          <MenuItem
+                            bsClass="dropdown"
+                            disabled={false}
+                            divider={false}
+                            eventKey="*"
+                            header={false}>
+                            כל הערים
+                          </MenuItem>
+                        </DropdownButton>
+                        <DropdownButton
+                          bsSize="large"
+                          className="filter-area-dropdown"
+                          id="neighborhoodDropdown"
+                          onSelect={[Function]}
+                          title="שכונה: כל השכונות">
+                          <MenuItem
+                            bsClass="dropdown"
+                            disabled={false}
+                            divider={false}
+                            eventKey="*"
+                            header={false}>
+                            כל השכונות
+                          </MenuItem>
+                        </DropdownButton>
+                      </Popover>
+                    }
+                    placement="bottom"
+                    rootClose={true}
+                    trigger="click">
+                    <div
+                      aria-describedby="popup-rooms"
+                      className="filter-trigger-container "
+                      onClick={[Function]}>
+                      מיקום
+                    </div>
+                  </OverlayTrigger>
                 </div>
               </Col>
               <Col
