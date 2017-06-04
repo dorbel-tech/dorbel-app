@@ -1,7 +1,6 @@
 'use strict';
 import { mount } from 'enzyme';
 import React from 'react';
-import { MenuItem } from 'react-bootstrap';
 import Filter from './Filter';
 
 describe('Filter', () => {
