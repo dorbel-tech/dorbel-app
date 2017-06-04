@@ -29,13 +29,42 @@
   }
 }
 
-.search-results-container {
+.search-container .search-results-container {
   @media (min-width: $screen-sm-min) {
     width: 630px;
   }
 
   @media (min-width: $screen-md-min) {
     width: 968px;
+  }
+}
+
+.my-properties-container,
+.my-likes-container {
+  .search-results-container {
+    @media (min-width: $screen-sm-min) {
+      width: 350px;
+
+      > div > div {
+        width: 100%;
+      }
+    }
+
+    @media (min-width: $screen-md-min) {
+      width: 644px;
+
+      > div > div {
+        width: 50%;
+      }
+    }
+
+    @media (min-width: $screen-lg-min) {
+      width: 967px;
+
+      > div > div {
+        width: 33.33333%;
+      }
+    }
   }
 }
 
