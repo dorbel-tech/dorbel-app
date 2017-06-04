@@ -34,22 +34,28 @@ function CustomError(code, message) {
   return error;
 }
 
-function* create(listing) {
+function* create(listing, user) {
+  listing.publishing_user_id = user.id;
+
   if (['pending', 'rented'].indexOf(listing.status) < 0) {
     throw new CustomError(400, `לא ניתן להעלות דירה ב status ${listing.status}`);
+  }
+
+  const validationData = yield validate(listing.apartment, user);
+  if (validationData.belongsToOtherUser) {
+    logger.error({
+      requestingUser: user,
+      listing
+    }, 'Listing belongs to another user');
+    throw new CustomError(409, 'דירה זו משוייכת למשתשמש אחר. אנא וודאו את הפרטים/צרו קשר עימנו לתמיכה.');
   }
 
   if (listing.status == 'pending') {
     // Disable uploading apartment for listing without images
     if (!listing.images || !listing.images.length) { throw new CustomError(400, 'לא ניתן להעלות מודעה להשכרה ללא תמונות'); }
 
-    const existingOpenListingForApartment = yield listingRepository.getListingsForApartment(
-      listing.apartment,
-      { status: ['listed', 'pending'] }
-    );
-
-    if (existingOpenListingForApartment && existingOpenListingForApartment.length) {
-      logger.error(existingOpenListingForApartment, 'Listing already exists');
+    if (validationData.alreadyListed) {
+      logger.error(listing, 'Listing already exists');
       throw new CustomError(409, 'דירה זו כבר מפורסמת במערכת. לא ניתן להעלות אותה שוב.');
     }
     else {
@@ -89,7 +95,7 @@ function* create(listing) {
       });
     }
   }
-  else { logger.error({listing}, 'Could not find notification type for created listing'); }
+  else { logger.error({ listing }, 'Could not find notification type for created listing'); }
 
   return createdListing;
 }
@@ -218,7 +224,8 @@ function* getByFilter(filterJSON, options = {}) {
     // TODO : what if there are other things that require $or ?
     listingQuery.$or = [
       { status: 'listed' },
-      { status: 'rented',
+      {
+        status: 'rented',
         lease_end: { $gte: moment().add(1, 'month').toDate() }, // lease ends at least a month from now
         show_for_future_booking: true
       }
@@ -355,7 +362,7 @@ function* enrichListingResponse(listing, user) {
   if (listing) {
     const enrichedListing = listing.toJSON ? listing.toJSON() : _.cloneDeep(listing); // discard SQLize object for adding ad-hoc properties
 
-    const publishingUser = yield userManagement.getUserDetails(listing.publishing_user_id);
+    const publishingUser = yield userManagement.getUserDetails(user.id);
     if (publishingUser) {
       enrichedListing.publishing_user_first_name = _.get(publishingUser, 'user_metadata.first_name') || publishingUser.given_name;
     }
@@ -384,7 +391,7 @@ function* getRelatedListings(listingId, limit) {
   const listing = yield listingRepository.getById(listingId);
 
   if (!listing) { // Verify that the listing exists
-    throw new CustomError(404, 'Failed to get related listings. Listing does not exists. litingId: ' + listingId);
+    throw new CustomError(404, 'Failed to get related listings. Listing does not exists. listingId: ' + listingId);
   }
 
   const listingQuery = {
@@ -417,6 +424,26 @@ function getSortOption(sortStr) {
   }
 }
 
+function* validate(apartment, user) {
+  let result = {
+    belongsToOtherUser: false,
+    alreadyListed: false,
+    listing_id: 0
+  };
+
+  const validationData = yield listingRepository.getValidationDataForApartment(apartment);
+  if (validationData) {
+    result.listing_id = validationData.id;
+    if (user.id != validationData.publishing_user_id) {
+      result.belongsToOtherUser = true;
+    }
+    if (['listed', 'pending'].indexOf(validationData.status) >= 0) {
+      result.alreadyListed = true;
+    }
+  }
+  return result;
+}
+
 module.exports = {
   create,
   update,
@@ -424,4 +451,5 @@ module.exports = {
   getById,
   getBySlug,
   getRelatedListings,
+  validate
 };

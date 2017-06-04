@@ -8,7 +8,11 @@ import ImageUpload from './ImageUpload/ImageUpload.jsx';
 class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
 
   componentDidMount() {
-    this.props.appProviders.authProvider.shouldLogin({ onHideCallback: this.clickBack });
+    const { authProvider, listingsProvider } = this.props.appProviders;
+    if (!authProvider.shouldLogin({ onHideCallback: this.clickBack })) {
+      const { newListingStore } = this.props.appStore;
+      listingsProvider.validateApartment(newListingStore.toListingObject());
+    }
   }
 
   renderSidePanelText() {

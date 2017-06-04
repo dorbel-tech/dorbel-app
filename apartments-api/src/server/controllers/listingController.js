@@ -25,8 +25,7 @@ function* get() {
 function* post() {
   logger.debug('Creating new listing...');
   let newApartment = this.request.body;
-  newApartment.publishing_user_id = this.request.user.id;
-  let createdListing = yield listingService.create(newApartment);
+  let createdListing = yield listingService.create(newApartment, this.request.user);
   let logObject = _.pick(createdListing, ['id', 'publishing_user_id']);
   logger.info({
     listing_id: logObject.id,

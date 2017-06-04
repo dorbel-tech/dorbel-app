@@ -161,5 +161,45 @@
         }
       }
     }
+  },
+  "/listings/validate": {
+    "post": {
+      "summary": "Validate a listing by apartment before submiting for publish",
+      "description": "Checks whether and aparmtnet exists, it's listing status and it's publishing user_id",
+      "parameters": [
+        {
+          "name": "apartment",
+          "in": "body",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/Apartment"
+          }
+        },
+        {
+          "name": "x-user-profile",
+          "in": "header",
+          "required": true,
+          "type": "string",
+          "description": "Stringified JSON object with the user's profile information"
+        }
+      ],
+      "tags": [
+        "listingValidationController",
+        "authenticated"
+      ],
+      "responses": {
+        "200": {
+          "schema": {
+            "type": "object"
+          }
+        },
+        "default": {
+          "description": "Unexpected error",
+          "schema": {
+            "$ref": "#/definitions/Error"
+          }
+        }
+      }
+    }
   }
 }
