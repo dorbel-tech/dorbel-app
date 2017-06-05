@@ -2,23 +2,28 @@
 import { observable, asMap } from 'mobx';
 
 export default class LikeStore {
-  @observable likesByListingId;
+  @observable userLikesByListingId;
 
   constructor(initialState = {}) {
-    if (initialState.likesByListingId) {
-      this.init(initialState.likesByListingId);
+    initialState = initialState || {};
+
+    if (initialState.userLikesByListingId) {
+      this.init(initialState.userLikesByListingId);
     }
     else {
-      this.likesByListingId = asMap({});
+      this.userLikesByListingId = asMap({});
     }
+
+    this.likesByListingId = asMap(initialState.likesByListingId || {});
   }
 
   init(listingIdMap) {
-    this.likesByListingId = asMap(listingIdMap);
+    this.userLikesByListingId = asMap(listingIdMap);
   }
 
   toJson() {
     return {
+      userLikesByListingId: this.userLikesByListingId,
       likesByListingId: this.likesByListingId,
     };
   }
