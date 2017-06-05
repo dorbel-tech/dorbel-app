@@ -259,14 +259,14 @@ class Filter extends Component {
 
     return <Popover className="filter-area-popup" id="popup-rooms">
               <DropdownButton id="cityDropdown" bsSize="large"
-                className="filter-area-dropdown"
+                className="filter-area-dropdown" noCaret
                 title={'עיר: ' + cityTitle}
                 onSelect={this.citySelectHandler}>
                 <MenuItem eventKey={CITY_ALL_OPTION.value}>{CITY_ALL_OPTION.label}</MenuItem>
                 {cities.map(city => <MenuItem key={city.id} eventKey={city.id}>{city.city_name}</MenuItem>)}
               </DropdownButton>
               <DropdownButton id="neighborhoodDropdown" bsSize="large"
-                className="filter-area-dropdown"
+                className="filter-area-dropdown" noCaret
                 title={'שכונה: ' + neighborhoodTitle}
                 onSelect={this.neighborhoodSelectHandler}>
                 <MenuItem eventKey={NEIGHBORHOOD_ALL_OPTION.value}>{NEIGHBORHOOD_ALL_OPTION.label}</MenuItem>
