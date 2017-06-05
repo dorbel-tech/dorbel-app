@@ -28,41 +28,15 @@ class ListingThumbnail extends Component {
     }
   }
 
-  handleLike(e) {
-    // We need both to prevent the navigation
-    e.stopPropagation();
-    e.preventDefault();
-
-    const { appProviders, listing } = this.props;
-
-    appProviders.likeProvider.get(listing.id).then((wasLiked) => {
-      appProviders.likeProvider.set(listing, !wasLiked);
-    });
-  }
-
   getOheLabel() {
     const { listing, appStore }  = this.props;
 
     if (appStore.oheStore.isListingLoaded(listing.id)) {
-      if (listing.status === 'rented') {
-        const userIsLiking = appStore.likeStore.userLikesByListingId.get(listing.id);
-        const callToActionText = userIsLiking ? 'הפסק עדכונים' : 'עדכנו אותי';
-        return <span className="pull-left">
-                <span className="apt-thumb-follow" onClick={this.handleLike}>{callToActionText}</span>
-              </span>;
+      const oheCount = appStore.oheStore.oheByListingId(listing.id).filter(openOrRegistered).length;
+      if (oheCount) {
+        return <span className="pull-left apt-thumb-ohe-text">{oheCount} מועדי ביקור זמינים</span>;
       } else {
-        const oheCount = appStore.oheStore.oheByListingId(listing.id).filter(openOrRegistered).length;
-        if (oheCount) {
-          return <span className="pull-left apt-thumb-ohe-text">{oheCount} מועדי ביקור זמינים</span>;
-        } else {
-          return (
-            <span className="pull-left">
-              <span className="apt-thumb-no-ohe">אין מועדי ביקור</span>
-              &nbsp;
-              <span className="apt-thumb-ohe-text">עדכנו אותי</span>
-            </span>
-          );
-        }
+        return <span className="pull-left apt-thumb-no-ohe">אין מועדי ביקור</span>;
       }
     } else {
       return null;
@@ -115,7 +89,10 @@ class ListingThumbnail extends Component {
             <span className="apt-thumb-sub-text apt-thumb-warning-sub-text">{listingMrTitle}</span>
             {listing.monthly_rent}
             <span className="apt-thumb-sub-text"> ₪</span>
-            { this.getOheLabel() }
+            <div className="apt-thumb-details-like">
+              <LikeButton listingId={listing.id} showText/>
+            </div>
+            { isRented ? null : this.getOheLabel() }
           </div>
         </NavLink>
       </Col>
