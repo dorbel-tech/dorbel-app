@@ -75,13 +75,9 @@ describe('Listing Thumbnail', () => {
       const rendered = renderThumbnail();
 
       const oheIndication = rendered.find('.apt-thumb-no-ohe');
-      const oheLink = rendered.find('.apt-thumb-ohe-text');
       expect(oheIndication.exists()).toBe(true);
       expect(oheIndication.text()).toBe('אין מועדי ביקור');
       expect(oheIndication).toMatchSnapshot();
-      expect(oheLink.exists()).toBe(true);
-      expect(oheLink.text()).toBe('עדכנו אותי');
-      expect(oheLink).toMatchSnapshot();
     });
 
     it('should not render anything when listing events are not loaded', () => {
