@@ -34,7 +34,7 @@ class ListingActions extends React.Component {
     return (
       <Col sm={5} smPush={7} md={4} mdPush={4} className="listing-actions">
         <div className="listing-actions-like-button-wrapper">
-          <LikeButton listingId={listing.id} showText="true" />
+          <LikeButton listingId={listing.id} showText />
           { isListingPublisherOrAdmin ? this.renderLikeCounter() : this.renderLikeDescription() }
         </div>
         { isListingPublisherOrAdmin ? <ListingPageViews listing={listing} /> : null }
