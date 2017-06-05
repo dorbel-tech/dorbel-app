@@ -162,10 +162,10 @@
       }
     }
   },
-  "/listings/validate": {
+  "/listings/validation": {
     "post": {
-      "summary": "Validate a listing by apartment before submiting for publish",
-      "description": "Checks whether and aparmtnet exists, it's listing status and it's publishing user_id",
+      "summary": "Validate a listing by apartment",
+      "description": "Returns and object that indicates if a listing exists for the apartment, if it's already listed and if it belongs to the current user",
       "parameters": [
         {
           "name": "apartment",

@@ -45,7 +45,7 @@ class AppProviders {
     this.modalProvider = new ModalProvider(appStore);
     this.searchProvider = new SearchProvider(appStore, { api: this.apiProvider, ohe: this.oheProvider });
     this.likeProvider = new LikeProvider(appStore, this.apiProvider);
-    this.navProvider = new NavProvider(router);
+    this.navProvider = new NavProvider(appStore, router);
     this.utils = utils;
   }
 }

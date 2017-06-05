@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { action } from 'mobx';
 import { inject, observer } from 'mobx-react';
+import autobind from 'react-autobind';
 
 @inject('appStore', 'appProviders') @observer
 class UploadApartmentBaseStep extends Component {
   constructor(props) {
     super(props);
+    autobind(this);
     this.state = { formValues: {} };
     this.handleChanges = this.handleChanges.bind(this);
     this.clickNext = this.clickNext.bind(this);

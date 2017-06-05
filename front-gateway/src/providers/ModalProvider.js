@@ -37,18 +37,26 @@ export default class ModalProvider {
     });
   }
 
-  show(params, closeHandler, bodyClass) {
+  show(params) {
     this.appStore.modalParams = {
       title: params.title,
       body: (
-          <div className={bodyClass}>
-            { params.heading && (<h4>{params.heading}</h4>) }
-            { params.body }
+        <div className="text-center">
+          <div className={params.bodyClass}>
+            {params.heading && (<h4>{params.heading}</h4>)}
+            {params.body}
           </div>
-        ),
+        </div>
+      ),
       footer: params.footer,
       modalSize: params.modalSize || 'small',
-      onClose: closeHandler};
+      onClose: () => {
+        if(params.closeHandler){
+          params.closeHandler();
+        }
+        this.appStore.showModal = false;
+      }
+    };
 
     this.appStore.showModal = true;
   }

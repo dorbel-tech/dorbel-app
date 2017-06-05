@@ -309,3 +309,23 @@
 .is-phone-visible-input {
   margin-top: -25px;
 }
+
+.upload-apartment-validation-popup {
+  font-size: 15px;
+
+  .upload-apartment-validation-popup-link {
+    color: #3398db;
+  }
+
+  .upload-apartment-validation-popup-button-wrapper {
+    margin-top: 15px;
+
+    .upload-apartment-validation-popup-button {
+      margin: 5px;
+
+      .fa {
+        margin-top: 5px;
+      }
+    }
+  }
+}

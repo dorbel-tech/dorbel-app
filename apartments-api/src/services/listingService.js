@@ -36,33 +36,7 @@ function CustomError(code, message) {
 
 function* create(listing, user) {
   listing.publishing_user_id = user.id;
-
-  if (['pending', 'rented'].indexOf(listing.status) < 0) {
-    throw new CustomError(400, `לא ניתן להעלות דירה ב status ${listing.status}`);
-  }
-
-  const validationData = yield validate(listing.apartment, user);
-  if (validationData.belongsToOtherUser) {
-    logger.error({
-      requestingUser: user,
-      listing
-    }, 'Listing belongs to another user');
-    throw new CustomError(409, 'דירה זו משוייכת למשתשמש אחר. אנא וודאו את הפרטים/צרו קשר עימנו לתמיכה.');
-  }
-
-  if (listing.status == 'pending') {
-    // Disable uploading apartment for listing without images
-    if (!listing.images || !listing.images.length) { throw new CustomError(400, 'לא ניתן להעלות מודעה להשכרה ללא תמונות'); }
-
-    if (validationData.alreadyListed) {
-      logger.error(listing, 'Listing already exists');
-      throw new CustomError(409, 'דירה זו כבר מפורסמת במערכת. לא ניתן להעלות אותה שוב.');
-    }
-    else {
-      // Explicitly set the lease_end field for 'pending' listings
-      listing.lease_end = moment(listing.lease_start).add(1, 'year').format('YYYY-MM-DD');
-    }
-  }
+  yield handleNewListingValidation(listing, user);
 
   let modifiedListing = setListingAutoFields(listing);
   listing.apartment.building.geolocation = yield geoProvider.getGeoLocation(listing.apartment.building);
@@ -98,6 +72,37 @@ function* create(listing, user) {
   else { logger.error({ listing }, 'Could not find notification type for created listing'); }
 
   return createdListing;
+}
+
+function* handleNewListingValidation(listing, user) {
+  if (['pending', 'rented'].indexOf(listing.status) < 0) {
+    throw new CustomError(400, `לא ניתן להעלות דירה ב status ${listing.status}`);
+  }
+
+  const validationData = yield getValidationData(listing.apartment, user);
+  if (validationData.listing_id) {
+    const loggerObj = {
+      requestingUser: user,
+      listing,
+      validationData
+    };
+
+    switch (validationData.status) {
+      case 'belongsToOtherUser':
+        logger.error(loggerObj, 'Apartment belongs to another user');
+        throw new CustomError(409, 'דירה זו משוייכת למשתשמש אחר. אנא וודאו את הפרטים/צרו קשר עימנו לתמיכה.');
+      case 'alreadyListed':
+        logger.error(loggerObj, 'Aparment already listed');
+        throw new CustomError(409, 'דירה זו כבר מפורסמת במערכת. לא ניתן להעלות אותה שוב.');
+      default:
+        break;
+    }
+  }
+
+  // Disable uploading apartment for listing without images
+  if (listing.status == 'pending') {
+    if (!listing.images || !listing.images.length) { throw new CustomError(400, 'לא ניתן להעלות מודעה להשכרה ללא תמונות'); }
+  }
 }
 
 function* update(listingId, user, patch) {
@@ -184,8 +189,8 @@ function notifyListingChanged(oldListing, newListing) {
 }
 
 function setListingAutoFields(listing) {
-  if (listing.lease_start && !listing.lease_end) {
-    // default lease_end to after one year
+  // default lease_end to after one year
+  if (listing.lease_start && (!listing.lease_end || listing.status == 'pending')) {
     listing.lease_end = moment(listing.lease_start).add(1, 'years').format('YYYY-MM-DD');
   }
 
@@ -362,7 +367,7 @@ function* enrichListingResponse(listing, user) {
   if (listing) {
     const enrichedListing = listing.toJSON ? listing.toJSON() : _.cloneDeep(listing); // discard SQLize object for adding ad-hoc properties
 
-    const publishingUser = yield userManagement.getUserDetails(user.id);
+    const publishingUser = yield userManagement.getUserDetails(listing.publishing_user_id);
     if (publishingUser) {
       enrichedListing.publishing_user_first_name = _.get(publishingUser, 'user_metadata.first_name') || publishingUser.given_name;
     }
@@ -424,21 +429,22 @@ function getSortOption(sortStr) {
   }
 }
 
-function* validate(apartment, user) {
+function* getValidationData(apartment, user) {
   let result = {
-    belongsToOtherUser: false,
-    alreadyListed: false,
+    status: 'OK',
     listing_id: 0
   };
-
+  
   const validationData = yield listingRepository.getValidationDataForApartment(apartment);
   if (validationData) {
     result.listing_id = validationData.id;
+    result.status = 'alreadyExists';
+
     if (user.id != validationData.publishing_user_id) {
-      result.belongsToOtherUser = true;
+      result.status = 'belongsToOtherUser';
     }
-    if (['listed', 'pending'].indexOf(validationData.status) >= 0) {
-      result.alreadyListed = true;
+    else if (['listed', 'pending'].indexOf(validationData.status) > -1) {
+      result.status = 'alreadyListed';
     }
   }
   return result;
@@ -451,5 +457,5 @@ module.exports = {
   getById,
   getBySlug,
   getRelatedListings,
-  validate
+  getValidationData
 };

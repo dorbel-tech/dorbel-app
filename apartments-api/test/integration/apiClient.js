@@ -102,7 +102,7 @@ class ApiClient {
       .get('/v1/likes/' + listingId);
   }
 
-  updateUserProfile(data, isAuthenticated=true) {
+  updateUserProfile(data, isAuthenticated = true) {
     return isAuthenticated ?
       this.request
         .patch('/v1/user-profile')
@@ -133,6 +133,13 @@ class ApiClient {
       .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile));
   }
 
+  getValidationData(apartment) {
+    return this.request
+      .post('/v1/listings/validation')
+      .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile))
+      .send({apartment});
+  }
+
   static * init(userProfile) {
     let request;
 
@@ -152,7 +159,7 @@ class ApiClient {
   }
 }
 
-ApiClient.getInstance = function() {
+ApiClient.getInstance = function () {
   return ApiClient.init(fakeObjectGenerator.getFakeUser({
     id: INTEGRATION_TEST_USER_ID,
     // these are as they are in Auth0
@@ -163,14 +170,14 @@ ApiClient.getInstance = function() {
   }));
 };
 
-ApiClient.getAdminInstance = function() {
+ApiClient.getAdminInstance = function () {
   return ApiClient.init(fakeObjectGenerator.getFakeUser({
     id: ADMIN_INTEGRATION_TEST_USER_ID,
     role: 'admin'
   }));
 };
 
-ApiClient.getOtherInstance = function() {
+ApiClient.getOtherInstance = function () {
   return ApiClient.init(fakeObjectGenerator.getFakeUser({
     id: OTHER_INTEGRATION_TEST_USER_ID
   }));

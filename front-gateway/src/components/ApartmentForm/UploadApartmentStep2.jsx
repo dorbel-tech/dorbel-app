@@ -11,7 +11,94 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
     const { authProvider, listingsProvider } = this.props.appProviders;
     if (!authProvider.shouldLogin({ onHideCallback: this.clickBack })) {
       const { newListingStore } = this.props.appStore;
-      listingsProvider.validateApartment(newListingStore.toListingObject());
+      listingsProvider.validateApartment(newListingStore.toListingObject())
+        .then(this.handleValidationResponse);
+    }
+  }
+
+  handleValidationResponse(validationResp) {
+    const { modalProvider, navProvider } = this.props.appProviders;
+    if (validationResp) {
+      switch (validationResp.status) {
+        case 'belongsToOtherUser':
+          modalProvider.show({
+            bodyClass: 'upload-apartment-validation-popup',
+            title: 'דירה זו כבר קיימת באתר!',
+            body: (
+              <div>
+                <div>
+                  אנא וודאו שפרטי הדירה נכונים.
+                      </div>
+                <div>
+                  אם דירה זו שייכת לכם צרו עמנו קשר או
+                  &nbsp;<a className="upload-apartment-validation-popup-link" href="mailto:contact@dorbel.com">שלחו לנו מייל</a>
+                </div>
+              </div>
+            ),
+            closeHandler: this.clickBack
+          });
+          break;
+        case 'alreadyListed':
+          modalProvider.show({
+            bodyClass: 'upload-apartment-validation-popup',
+            title: 'דירה זו כבר קיימת בחשבונכם!',
+            body: (
+              <div>
+                <div>
+                  רוצים לעדכן את המודעה?
+                </div>
+                <div>
+                  בחרו מה ברצונכם לעשות:
+                </div>
+                <div className="upload-apartment-validation-popup-button-wrapper">
+                  <Button
+                    href={`/dashboard/my-properties/${validationResp.listing_id}/edit`}
+                    onClick={navProvider.handleHrefClick}
+                    className="upload-apartment-validation-popup-button"
+                    bsStyle="info">
+                    עריכת פרטי דירה
+                  </Button>
+                  <Button
+                    href={`/dashboard/my-properties/${validationResp.listing_id}/ohe`}
+                    onClick={navProvider.handleHrefClick}
+                    className="upload-apartment-validation-popup-button"
+                    bsStyle="info">
+                    <i className="fa fa-plus" />&nbsp;
+                    הוספת מועד ביקור
+                  </Button>
+                </div>
+              </div>
+            ),
+            closeHandler: () => {
+              this.clickBack();
+            }
+          });
+          break;
+        case 'alreadyExists':
+          modalProvider.show({
+            bodyClass: 'upload-apartment-validation-popup',
+            title: 'דירה זו כבר קיימת בחשבונכם!',
+            body: (
+              <div>
+                <div>
+                  שימו לב - שליחת הטופס תעדכן את פרטי הדירה הקיימת.
+                  <div>
+                    באפשרותכם גם&nbsp;
+                    <a
+                      className="upload-apartment-validation-popup-link"
+                      href={`/dashboard/my-properties/${validationResp.listing_id}`}>
+                      להכנס לחשבון הדירה
+                    </a>
+                  </div>
+                  ולנהל אותה משם
+                </div>
+              </div>
+            )
+          });
+          break;
+        default:
+          break;
+      }
     }
   }
 

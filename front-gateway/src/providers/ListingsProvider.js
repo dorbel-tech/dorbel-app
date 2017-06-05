@@ -162,10 +162,7 @@ class ListingsProvider {
   }
 
   validateApartment(listing) {
-    return this.apiProvider.fetch('/api/apartments/v1/listings/validate', { method: 'POST', data: { apartment: listing.apartment } })
-      .then((validationResp) => {
-        console.log(validationResp);
-      });
+    return this.apiProvider.fetch('/api/apartments/v1/listings/validation', { method: 'POST', data: { apartment: listing.apartment } });
   }
 }
 
