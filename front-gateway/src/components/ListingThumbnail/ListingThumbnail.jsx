@@ -94,7 +94,7 @@ class ListingThumbnail extends Component {
                 {utils.getListingTitle(listing)}
               </div>
               <div className="apt-thumb-details-like">
-                <LikeButton listingId={listing.id} />
+                <LikeButton listingId={listing.id} showText/>
               </div>
             </div>
             <div className="apt-thumb-details-address">
