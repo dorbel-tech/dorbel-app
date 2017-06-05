@@ -69,9 +69,7 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
                 </div>
               </div>
             ),
-            closeHandler: () => {
-              this.clickBack();
-            }
+            closeHandler: this.clickBack
           });
           break;
         case 'alreadyExists':
