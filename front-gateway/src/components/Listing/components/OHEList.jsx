@@ -190,7 +190,7 @@ class OHEList extends Component {
       <div className="list-group listing-choose-date-container">
         {this.renderTitle(listing, ohes)}
         {this.renderOheList(ohes, closeModal)}
-        <div className="ohe-list-follow-container">
+        <div className="ohe-list-notification-container">
           <div className="listing-rented-notification">{this.getListingNotification(listing)}</div>
         </div>
       </div>
