@@ -11,28 +11,33 @@ class ListingActions extends React.Component {
     const totalLikes = this.props.listing.totalLikes;
     if (totalLikes && this.props.appStore.authStore.isLoggedIn) {
       return (
-        <div className="like-button-total-likes-text">
-          <span>
-            {`${totalLikes} אוהבים את הדירה`}
-          </span>
+        <div className="listing-actions-like-button-sub-text">
+          {`${totalLikes} אוהבים את הדירה`}
         </div>
       );
     } else {
-      return null;
+      return this.renderLikeDescription();
     }
   }
 
+  renderLikeDescription() {
+    return (
+      <div className="listing-actions-like-button-sub-text">
+      </div>
+    );
+  }
+
   render() {
-    const listingId = this.props.listing.id;
     const { listing, appStore } = this.props;
+    const isListingPublisherOrAdmin = appStore.listingStore.isListingPublisherOrAdmin(listing);
 
     return (
       <Col sm={5} smPush={7} md={4} mdPush={4} className="listing-actions">
-        <div className="like-button-wrapper text-center">
-          <LikeButton listingId={listingId} showText="true" />
-          { appStore.listingStore.isListingPublisherOrAdmin(listing) ? this.renderLikeCounter() : null }
+        <div className="listing-actions-like-button-wrapper">
+          <LikeButton listingId={listing.id} showText="true" />
+          { isListingPublisherOrAdmin ? this.renderLikeCounter() : this.renderLikeDescription() }
         </div>
-        { appStore.listingStore.isListingPublisherOrAdmin(listing) ? <ListingPageViews listing={listing} /> : null }
+        { isListingPublisherOrAdmin ? <ListingPageViews listing={listing} /> : null }
       </Col>
     );
   }
