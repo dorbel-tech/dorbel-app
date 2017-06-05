@@ -1,4 +1,5 @@
 @import "../sharedStyles/bsvars.scss";
+@import "../sharedStyles/variables.scss";
 
 .ohe-card-row {
   padding-bottom: 10px;
@@ -75,7 +76,7 @@
 
     .ohe-card-user-table {
       .ohe-card-user-table-row {
-        border-bottom: 1px solid $gray-lighter;
+        border-bottom: $gray-border;
       }
 
       td {

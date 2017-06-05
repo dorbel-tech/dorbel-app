@@ -15,7 +15,7 @@
   margin: 0;
 
   &:not(:first-child):not(:last-child) {
-    border-bottom: 1px solid $gray-lighter;
+    border-bottom: $gray-border;
   }
 
   p {
