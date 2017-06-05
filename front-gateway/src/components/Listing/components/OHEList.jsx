@@ -145,13 +145,13 @@ class OHEList extends Component {
   renderTitle(listing, ohes) {
     if (this.isListingPendingOrListied(listing) && ohes.length > 0) {
       return (
-        <h5 className="listing-choose-date-title">
+        <h5 className="listing-choose-ohe-title">
           בחרו מועד לביקור
         </h5>
       );
     } else if (this.isListingPendingOrListied(listing) && ohes.length === 0) {
       return (
-        <h5 className="listing-choose-date-title">
+        <h5 className="listing-choose-ohe-title">
            אין מועדי ביקור לדירה
         </h5>
       );
@@ -160,7 +160,7 @@ class OHEList extends Component {
 
   renderLoading() {
     return (
-      <div className="ohe-list-loading-container listing-choose-date-container">
+      <div className="ohe-list-loading-container listing-choose-ohe-container">
         <LoadingSpinner />
       </div>
     );
@@ -176,7 +176,7 @@ class OHEList extends Component {
     }
 
     return (
-      <div className="list-group listing-choose-date-container">
+      <div className="list-group listing-choose-ohe-container">
         {this.renderTitle(listing, ohes)}
         {this.renderOheList(ohes, closeModal)}
         <div className="ohe-list-notification-container">

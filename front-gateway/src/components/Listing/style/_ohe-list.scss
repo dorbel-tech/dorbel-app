@@ -1,17 +1,16 @@
-.listing-choose-date-container {
+.listing-choose-ohe-container {
   box-shadow: 0 2px 20px 0 rgba(0, 0, 0, 0.15);
   margin-bottom: 15px;
 
-  .listing-choose-date-title {
-    border-bottom: 1px solid $gray-lighter;
+  .listing-choose-ohe-title {
     color: $gray-dark;
     margin: 0 20px;
-    padding: 10px 0;
+    padding: 25px 0;
   }
 
   .list-group-item {
     border: none;
-    border-bottom: 1px solid $gray-lighter;
+    border-top: $gray-border;
     border-radius: 0;
     margin: 0 20px;
     padding: 5px;
@@ -93,7 +92,7 @@
   color: #4a4a4a;
   font-size: 13px;
   line-height: 21px;
-  padding: 10px 0;
+  padding: 25px 10px;
 }
 
 .ohe-list-notification-container {
