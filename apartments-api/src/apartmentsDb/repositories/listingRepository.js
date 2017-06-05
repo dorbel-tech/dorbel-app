@@ -181,7 +181,7 @@ function getSlugs(ids) {
   });
 }
 
-function* update(listing, patch) {
+function * update(listing, patch) {
   logger.debug('updating listing');
   const transaction = yield db.db.transaction();
   try {
@@ -244,7 +244,7 @@ function* update(listing, patch) {
     logger.trace('updating ready to commit', { listing_id: listing.id });
     yield transaction.commit();
     return yield listing.reload();
-  } catch (ex) {
+  } catch(ex) {
     yield transaction.rollback();
     throw ex;
   }
