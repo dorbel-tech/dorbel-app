@@ -77,22 +77,6 @@
   }
 }
 
-.apt-thumb-follow {
-  border: 1px solid #3398db;
-  border-radius: 4px;
-  color: #3398db;
-  cursor: pointer;
-  font-size: 13px;
-  padding: 6px 16px;
-  width: 88px;
-
-  &:hover {
-    background-color: #3398db;
-    border-color: #3398db;
-    color: $brand-white;
-  }
-}
-
 .apt-thumb-apt-image img {
   @include border-top-radius(3px);
 
@@ -131,25 +115,6 @@
       display: inline-block;
       width: 90%;
     }
-
-    .apt-thumb-details-like {
-      float: left;
-
-      .like-button {
-        background-color: $brand-white;
-        border: none;
-        color: #ea441a;
-        width: auto;
-
-        .like-button-text {
-          padding-left: 0;
-        }
-
-        i {
-          color: #ea441a;
-        }
-      }
-    }
   }
 
   .apt-thumb-details-address {
@@ -172,6 +137,38 @@
     .apt-thumb-details-extra-date {
       color: $gray-dark;
       float: left;
+    }
+  }
+}
+
+// TODO: temporary class for AB testing
+.apt-thumb-details-header .apt-thumb-details-like {
+  display: none;
+}
+
+// TODO: temporary class for AB testing
+.apt-thumb-caption .apt-thumb-details-like {
+  display: block;
+}
+
+.apt-thumb-details-like {
+  float: left;
+
+  .like-button.like-button-with-text,
+  .like-button.like-button-with-text.like-button-liked {
+    background-color: $brand-white;
+    border: none;
+    color: #ea441a;
+    height: auto;
+    width: auto;
+
+    .like-button-text {
+      padding-left: 0;
+    }
+
+    i {
+      color: #ea441a;
+      padding: 0 8px;
     }
   }
 }
