@@ -7,7 +7,7 @@
     position: relative;
     height: 70px;
     width: 100%;
-    border-bottom: 1px solid $gray-lighter;
+    border-bottom: $gray-border;
     margin-bottom: 10px;
 
     .tenant-profile-header-content {
@@ -76,7 +76,7 @@
 
     &.border-bottom {
       padding-bottom: 20px;
-      border-bottom: 1px solid $gray-lighter;
+      border-bottom: $gray-border;
     }
 
     &.pad-bottom {
