@@ -26,11 +26,11 @@ class ListingsProvider {
 
   loadListingPageViews(listingId) {
     return this.apiProvider.fetch('/api/apartments/v1/page_views/listings/' + listingId)
-      .then(response => {
-        if (response[listingId]) {
-          this.appStore.listingStore.listingViewsById.set(listingId, response[listingId].views);
-        }
-      });
+    .then(response => {
+      if (response[listingId]) {
+        this.appStore.listingStore.listingViewsById.set(listingId, response[listingId].views);
+      }
+    });
   }
 
   getListingMetadata(listing) {
@@ -84,10 +84,10 @@ class ListingsProvider {
 
   updateListing(listingId, data) {
     return this.apiProvider.fetch('/api/apartments/v1/listings/' + listingId, { method: 'PATCH', data })
-      .then((res) => {
-        this.appStore.listingStore.set(res);
-        return res;
-      });
+    .then((res) => {
+      this.appStore.listingStore.set(res);
+      return res;
+    });
   }
 
   updateListingStatus(listingId, status) {
