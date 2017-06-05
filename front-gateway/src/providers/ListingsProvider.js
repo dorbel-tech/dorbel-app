@@ -92,37 +92,37 @@ class ListingsProvider {
 
   updateListingStatus(listingId, status) {
     return this.apiProvider.fetch('/api/apartments/v1/listings/' + listingId, { method: 'PATCH', data: { status } })
-      .then((res) => {
-        let listing = this.appStore.listingStore.listingsById.get(listingId);
-        listing.status = status;
-        _.set(listing, 'meta.possibleStatuses', _.get(res, 'meta.possibleStatuses'));
-      });
+    .then((res) => {
+      let listing = this.appStore.listingStore.listingsById.get(listingId);
+      listing.status = status;
+      _.set(listing, 'meta.possibleStatuses', _.get(res, 'meta.possibleStatuses'));
+    });
   }
 
   loadListingTenants(listing_id) {
     return this.apiProvider.fetch(`/api/apartments/v1/listings/${listing_id}/tenants`)
-      .then(res => this.appStore.listingStore.listingTenantsById.set(listing_id, res))
-      .catch(() => this.appStore.listingStore.listingTenantsById.set(listing_id, 'error'));
+    .then(res => this.appStore.listingStore.listingTenantsById.set(listing_id, res))
+    .catch(() => this.appStore.listingStore.listingTenantsById.set(listing_id, 'error'));
   }
 
   addTenant(listing_id, tenant) {
     return this.apiProvider.fetch(`/api/apartments/v1/listings/${listing_id}/tenants`, { method: 'POST', data: tenant })
-      .then(addedTenant => {
-        const listingTenants = this.appStore.listingStore.listingTenantsById.get(listing_id);
-        if (listingTenants) {
-          listingTenants.push(addedTenant);
-        } else {
-          this.appStore.listingStore.listingTenantsById.set(listing_id, [addedTenant]);
-        }
-      });
+    .then(addedTenant => {
+      const listingTenants = this.appStore.listingStore.listingTenantsById.get(listing_id);
+      if (listingTenants) {
+        listingTenants.push(addedTenant);
+      } else {
+        this.appStore.listingStore.listingTenantsById.set(listing_id, [ addedTenant ]);
+      }
+    });
   }
 
   removeTenant(tenant) {
     return this.apiProvider.fetch(`/api/apartments/v1/listings/${tenant.listing_id}/tenants/${tenant.id}`, { method: 'DELETE' })
-      .then(() => {
-        const listingTenants = this.appStore.listingStore.listingTenantsById.get(tenant.listing_id);
-        listingTenants.remove(tenant);
-      });
+    .then(() => {
+      const listingTenants = this.appStore.listingStore.listingTenantsById.get(tenant.listing_id);
+      listingTenants.remove(tenant);
+    });
   }
 
   republish(property) {
