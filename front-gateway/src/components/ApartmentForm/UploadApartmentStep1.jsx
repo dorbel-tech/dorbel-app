@@ -1,16 +1,11 @@
 import React from 'react';
 import { Button, Col, Grid } from 'react-bootstrap';
-import autobind from 'react-autobind';
 import { inject, observer } from 'mobx-react';
 import UploadApartmentBaseStep from './UploadApartmentBaseStep';
 import ListingDetailsForm from './ListingDetailsForm/ListingDetailsForm';
 
 @inject('appProviders', 'appStore') @observer
 export default class UploadApartmentStep1 extends UploadApartmentBaseStep.wrappedComponent {
-  constructor(props) {
-    super(props);
-    autobind(this);
-  }
 
   renderSidePanelListItems() {
     return (this.props.appStore.newListingStore.uploadMode == 'manage') ?

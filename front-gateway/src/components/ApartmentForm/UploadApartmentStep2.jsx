@@ -28,7 +28,7 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
               <div>
                 <div>
                   אנא וודאו שפרטי הדירה נכונים.
-                      </div>
+                </div>
                 <div>
                   אם דירה זו שייכת לכם צרו עמנו קשר או
                   &nbsp;<a className="upload-apartment-validation-popup-link" href="mailto:contact@dorbel.com">שלחו לנו מייל</a>
