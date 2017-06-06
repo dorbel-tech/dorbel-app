@@ -391,7 +391,7 @@ class Filter extends Component {
       </div>
       <Grid fluid className={'filter-wrapper' + (this.state.hideFilter ? ' hide-mobile-filter' : '')}>
         <Row>
-          <Col md={6} mdOffset={2} sm={3} className="filter-dropdown-wrapper">
+          <Col mdOffset={2} sm={6} className="filter-dropdown-wrapper">
             <DropdownButton id="cityDropdown" bsSize="large"
               className={'filter-dropdown ' + this.state.cityFilterClass}
               title={'עיר: ' + cityTitle}
@@ -400,7 +400,7 @@ class Filter extends Component {
               {cities.map(city => <MenuItem key={city.id} eventKey={city.id}>{city.city_name}</MenuItem>)}
             </DropdownButton>
           </Col>
-          <Col md={4} sm={3}>
+          <Col md={4} sm={6}>
             <Checkbox name="futureBooking" className="filter-future-booking-switch"
                       checked={this.state.futureBooking} onChange={this.checkboxChangeHandler}>
               הראו לי דירות שטרם פורסמו <span className="filter-future-booking-new">חדש!</span>
