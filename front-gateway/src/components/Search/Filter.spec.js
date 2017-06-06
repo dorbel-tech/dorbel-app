@@ -46,7 +46,7 @@ describe('Filter', () => {
   });
 
   it('should initialize correctly', () => {
-    const expectedFilterObj = {city: '*'};
+    const expectedFilterObj = {futureBooking: true};
 
     filter();
 
