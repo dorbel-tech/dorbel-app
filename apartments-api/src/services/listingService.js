@@ -199,6 +199,7 @@ function setListingAutoFields(listing) {
 
 function* getByFilter(filterJSON, options = {}) {
   // TODO: Switch to regex test instead of try-catch.
+  // TODO: filter string-to-json belongs in the controller layer - it's an interface detail and not a business concern
   let filter = {};
   if (filterJSON) {
     try {
@@ -265,6 +266,8 @@ function* getByFilter(filterJSON, options = {}) {
 
       listingQuery.status = { $notIn: ['deleted'] };
     }
+  } else if (!options.user && (filter.myProperties || filter.liked)) {
+    throw CustomError(403, 'unauthorized for this view');
   }
 
   if (filter.city === '*') {
