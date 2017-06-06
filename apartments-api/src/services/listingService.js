@@ -436,11 +436,14 @@ function* getValidationData(apartment, user) {
 
   const queryOptions = {
     listingAttributes: ['id', 'status', 'publishing_user_id'],
-    buildingQuery: {
+    
+    // Add entrance to query if defined
+    buildingQuery: Object.assign({
       city_id: apartment.building.city.id,
       street_name: apartment.building.street_name,
-      house_number: apartment.building.house_number
-    },
+      house_number: apartment.building.house_number,
+    }, apartment.building.entrance ? { entrance: apartment.building.entrance } : {}),
+    
     apartmentQuery: {
       apt_number: apartment.apt_number
     }
