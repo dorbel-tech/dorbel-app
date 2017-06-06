@@ -403,7 +403,7 @@ class Filter extends Component {
           <Col md={4} sm={3}>
             <Checkbox name="futureBooking" className="filter-future-booking-switch"
                       checked={this.state.futureBooking} onChange={this.checkboxChangeHandler}>
-              הראו לי דירות שטרם פורסמו
+              הראו לי דירות שטרם פורסמו <span className="filter-future-booking-new">חדש!</span>
             </Checkbox>
           </Col>
         </Row>
