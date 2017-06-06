@@ -32,7 +32,9 @@ const DEFAULT_FILTER_PARAMS = {
   elev: false, // Apartment with elevator checkbox default value.
   park: false, // Apartment with parking checkbox default value.
   pet: false, // Apartment allowing pets checkbox default value.
-  sb: false // Apartment with security bars checkbox default value.
+  sb: false, // Apartment with security bars checkbox default value.
+
+  futureBooking: true // Future booking apartments checkbox default value.
 };
 
 @inject('appStore', 'appProviders') @observer
@@ -52,7 +54,8 @@ class Filter extends Component {
 
     this.state = Object.assign({
       hideFilter: true,
-      areaFilterClass: this.getAreaFilterClass(),
+      cityFilterClass: this.getCityFilterClass(),
+      neighborhoodFilterClass: this.getNeighborhoodFilterClass(),
       extraFilterClass: this.getExtraFilterClass(),
       mrFilterClass: this.getMRFilterClass(),
       roomsFilterClass: this.getRoomsFilterClass()
@@ -77,8 +80,13 @@ class Filter extends Component {
     }
   }
 
-  getAreaFilterClass() {
+  getCityFilterClass() {
     const areaFilterActive = this.filterObj.city && (this.filterObj.city !== DEFAULT_FILTER_PARAMS.city);
+    return areaFilterActive ? 'filter-trigger-active' : '';
+  }
+
+  getNeighborhoodFilterClass() {
+    const areaFilterActive = this.filterObj.neighborhood && (this.filterObj.neighborhood !== DEFAULT_FILTER_PARAMS.neighborhood);
     return areaFilterActive ? 'filter-trigger-active' : '';
   }
 
@@ -101,7 +109,7 @@ class Filter extends Component {
 
   citySelectHandler(cityId) {
     this.filterObj.city = cityId;
-    this.setState({areaFilterClass: this.getAreaFilterClass()});
+    this.setState({cityFilterClass: this.getCityFilterClass()});
 
     this.filterObj.neighborhood = NEIGHBORHOOD_ALL_OPTION.value;
     this.loadNeighborhoods(cityId);
@@ -110,7 +118,7 @@ class Filter extends Component {
 
   neighborhoodSelectHandler(neighborhoodId) {
     this.filterObj.neighborhood = neighborhoodId;
-    this.setState({areaFilterClass: this.getAreaFilterClass()});
+    this.setState({neighborhoodFilterClass: this.getNeighborhoodFilterClass()});
 
     this.reloadResults();
   }
@@ -187,8 +195,8 @@ class Filter extends Component {
   }
 
   reloadResults() {
-    if (!this.filterObj.city) {
-      this.filterObj.city = DEFAULT_FILTER_PARAMS.city;
+    if (!this.filterObj.futureBooking) {
+      this.filterObj.futureBooking = DEFAULT_FILTER_PARAMS.futureBooking;
     }
 
     const search = '?q=' + encodeURIComponent(JSON.stringify(this.filterObj));
@@ -248,33 +256,6 @@ class Filter extends Component {
     }
   }
 
-  areaPopup() {
-    const { cityStore, neighborhoodStore } = this.props.appStore;
-    const cities = cityStore.cities.length ? cityStore.cities : [];
-    const cityId = this.filterObj.city || DEFAULT_FILTER_PARAMS.city;
-    const cityTitle = this.getAreaTitle(cityId, CITY_ALL_OPTION, cities, 'city_name');
-    const neighborhoodId = this.filterObj.neighborhood || DEFAULT_FILTER_PARAMS.neighborhood;
-    const neighborhoods = neighborhoodStore.neighborhoodsByCityId.get(cityId) || [];
-    const neighborhoodTitle = this.getAreaTitle(neighborhoodId, NEIGHBORHOOD_ALL_OPTION, neighborhoods, 'neighborhood_name');
-
-    return <Popover className="filter-area-popup" id="popup-rooms">
-              <DropdownButton id="cityDropdown" bsSize="large"
-                className="filter-area-dropdown"
-                title={'עיר: ' + cityTitle}
-                onSelect={this.citySelectHandler}>
-                <MenuItem eventKey={CITY_ALL_OPTION.value}>{CITY_ALL_OPTION.label}</MenuItem>
-                {cities.map(city => <MenuItem key={city.id} eventKey={city.id}>{city.city_name}</MenuItem>)}
-              </DropdownButton>
-              <DropdownButton id="neighborhoodDropdown" bsSize="large"
-                className="filter-area-dropdown"
-                title={'שכונה: ' + neighborhoodTitle}
-                onSelect={this.neighborhoodSelectHandler}>
-                <MenuItem eventKey={NEIGHBORHOOD_ALL_OPTION.value}>{NEIGHBORHOOD_ALL_OPTION.label}</MenuItem>
-                {neighborhoods.map(neighborhood => <MenuItem key={neighborhood.id} eventKey={neighborhood.id}>{neighborhood.neighborhood_name}</MenuItem>)}
-              </DropdownButton>
-           </Popover>;
-  }
-
   roomsPopup() {
     return <Popover className="filter-rooms-popup" id="popup-rooms">
              <Nouislider onChange={this.roomsSliderChangeHandler}
@@ -328,7 +309,7 @@ class Filter extends Component {
                   <div className="filter-input-wrapper">
                     <Radio value="publish_date" checked={this.state.sort === 'publish_date'} onChange={this.sortChangeHandler}>
                       תאריך פרסום
-                      </Radio>
+                    </Radio>
                   </div>
                   <div className="filter-input-wrapper">
                     <Radio value="lease_start" checked={this.state.sort === 'lease_start'} onChange={this.sortChangeHandler}>
@@ -350,7 +331,7 @@ class Filter extends Component {
                     disabled={!this.state.roommate || !this.state.room}
                     onChange={this.roommateChangeHandler}>
                     דירות ריקות לשותפים
-                    </Checkbox>
+                  </Checkbox>
                 </div>
                 <div className="filter-input-wrapper">
                   <Checkbox name="room"
@@ -358,7 +339,7 @@ class Filter extends Component {
                     disabled={!this.state.roommate || !this.state.empty}
                     onChange={this.roommateChangeHandler}>
                     חדר בדירת שותפים
-                    </Checkbox>
+                  </Checkbox>
                 </div>
               </div>
               <div className="filter-amenities-container">
@@ -366,32 +347,40 @@ class Filter extends Component {
                 <Col xs={4}>
                   <Checkbox name="park" checked={this.state.park} onChange={this.checkboxChangeHandler}>
                     חניה
-                    </Checkbox>
+                  </Checkbox>
                   <Checkbox name="balc" checked={this.state.balc} onChange={this.checkboxChangeHandler}>
                     מרפסת
-                    </Checkbox>
+                  </Checkbox>
                 </Col>
                 <Col xs={4}>
                   <Checkbox name="ac" checked={this.state.ac} onChange={this.checkboxChangeHandler}>
                     מזגן
-                    </Checkbox>
+                  </Checkbox>
                   <Checkbox name="ele" checked={this.state.ele} onChange={this.checkboxChangeHandler}>
                     מעלית
-                    </Checkbox>
+                  </Checkbox>
                 </Col>
                 <Col xs={4}>
                   <Checkbox name="pet" checked={this.state.pet} onChange={this.checkboxChangeHandler}>
                     מותר בע״ח
-                    </Checkbox>
+                  </Checkbox>
                   <Checkbox name="sb" checked={this.state.sb} onChange={this.checkboxChangeHandler}>
                     סורגים
-                    </Checkbox>
+                  </Checkbox>
                 </Col>
               </div>
            </Popover>;
   }
 
   render() {
+    const { cityStore, neighborhoodStore } = this.props.appStore;
+    const cities = cityStore.cities.length ? cityStore.cities : [];
+    const cityId = this.filterObj.city || DEFAULT_FILTER_PARAMS.city;
+    const cityTitle = this.getAreaTitle(cityId, CITY_ALL_OPTION, cities, 'city_name');
+    const neighborhoodId = this.filterObj.neighborhood || DEFAULT_FILTER_PARAMS.neighborhood;
+    const neighborhoods = neighborhoodStore.neighborhoodsByCityId.get(cityId) || [];
+    const neighborhoodTitle = this.getAreaTitle(neighborhoodId, NEIGHBORHOOD_ALL_OPTION, neighborhoods, 'neighborhood_name');
+
     const filterButtonText = this.state.hideFilter ? 'סנן תוצאות' : 'סגור';
 
     return <div>
@@ -402,11 +391,31 @@ class Filter extends Component {
       </div>
       <Grid fluid className={'filter-wrapper' + (this.state.hideFilter ? ' hide-mobile-filter' : '')}>
         <Row>
-          <Col md={2} mdOffset={2} sm={3}>
-            <OverlayTrigger placement="bottom" trigger="click" rootClose
-                            overlay={this.areaPopup()}>
-              <div className={'filter-trigger-container ' + this.state.areaFilterClass}>מיקום</div>
-            </OverlayTrigger>
+          <Col md={6} mdOffset={2} sm={3} className="filter-dropdown-wrapper">
+            <DropdownButton id="cityDropdown" bsSize="large"
+              className={'filter-dropdown ' + this.state.cityFilterClass}
+              title={'עיר: ' + cityTitle}
+              onSelect={this.citySelectHandler}>
+              <MenuItem eventKey={'*'}>כל הערים</MenuItem>
+              {cities.map(city => <MenuItem key={city.id} eventKey={city.id}>{city.city_name}</MenuItem>)}
+            </DropdownButton>
+          </Col>
+          <Col md={4} sm={3}>
+            <Checkbox name="futureBooking" className="filter-future-booking-switch"
+                      checked={this.state.futureBooking} onChange={this.checkboxChangeHandler}>
+              הראו לי דירות שטרם פורסמו
+            </Checkbox>
+          </Col>
+        </Row>
+        <Row>
+          <Col md={2} mdOffset={2} sm={3} className="filter-dropdown-wrapper">
+            <DropdownButton id="neighborhoodDropdown" bsSize="large"
+              className={'filter-dropdown ' + this.state.neighborhoodFilterClass}
+              title={'שכונה: ' + neighborhoodTitle}
+              onSelect={this.neighborhoodSelectHandler}>
+              <MenuItem eventKey={NEIGHBORHOOD_ALL_OPTION.value}>{NEIGHBORHOOD_ALL_OPTION.label}</MenuItem>
+              {neighborhoods.map(neighborhood => <MenuItem key={neighborhood.id} eventKey={neighborhood.id}>{neighborhood.neighborhood_name}</MenuItem>)}
+            </DropdownButton>
           </Col>
           <Col md={2} sm={3}>
             <OverlayTrigger placement="bottom" trigger="click" rootClose

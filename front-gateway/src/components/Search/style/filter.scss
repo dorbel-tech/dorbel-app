@@ -95,19 +95,21 @@
   }
 }
 
-.filter-area-popup div {
-  margin: 7px 0;
+.filter-dropdown-wrapper > div {
   width: 100%;
 }
 
-.filter-area-dropdown {
+.filter-dropdown {
   background-color: $brand-white !important;
   border: 1px solid #d8d8d8 !important;
   border-radius: 4px !important;
   box-shadow: none !important;
   font-size: 15px !important;
   line-height: 13px !important;
+  overflow: hidden;
+  padding-left: 25px !important;
   text-align: right;
+  text-overflow: ellipsis;
   width: 100%;
 
   .caret {
@@ -121,11 +123,23 @@
     position: absolute;
   }
 
+  &.filter-trigger-active::after {
+    color: #3398db;
+    content: '\f058';
+    font-size: 22px;
+  }
+
   @media (max-width: $screen-xs-max) {
     height: 45px;
     margin: 10px auto;
     text-align: center;
   }
+}
+
+.filter-future-booking-switch {
+  color: #4D4D4D;
+  font-size: 18px;
+  margin: 7px 0 22px;
 }
 
 .filter-admin-switch {
