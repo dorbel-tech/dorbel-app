@@ -1,6 +1,7 @@
 'use strict';
 const app = require('../../src/index.js');
 const coSupertest = require('co-supertest');
+const _ = require('lodash');
 const fakeObjectGenerator = require('../shared/fakeObjectGenerator');
 
 const USER_PROFILE_HEADER = 'x-user-profile';
@@ -23,6 +24,7 @@ class ApiClient {
   }
 
   getListings(query, isAuthenticated) {
+    query = _.cloneDeep(query);
     if (query && query.q) { // Fix special character encoding in filter json
       query.q = encodeURIComponent(JSON.stringify(query.q))
         .replace(/%22/g, '"')

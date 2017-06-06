@@ -42,6 +42,10 @@ describe('GET /listings', function () {
     yield utils.clearAllUserLikes(this.apiClient);
   });
 
+  it('should return error when requesting my likes and not authenticated', function* () {
+    yield this.apiClient.getListings({ q: { liked: true } }, false).expect(403).end();
+  });
+
   it('should return only the last listing for an apartment with multiple listings', function* () {
     // Create 2 lisitngs for the same apartment, set the first to rented and the second to listed
     const firstListing = fakeObjectGenerator.getFakeListing();
@@ -84,6 +88,7 @@ describe('GET /listings', function () {
   // TODO : add at least some basic test for filters
 
   describe('Filter: my listings', function () {
+    const myPropertiesQuery = { q: { myProperties: true } };
     // held outside before section because of a scoping issue
     let otherApiClient, adminApiClient;
 
@@ -95,12 +100,12 @@ describe('GET /listings', function () {
       otherApiClient = yield ApiClient.getOtherInstance();
       adminApiClient = this.adminApiClient;
       // Change this user's existing listings to deleted so we could run the tests consistently
-      const myExistingListings = yield otherApiClient.getListings({ q: { myProperties: true } }, true).expect(200).end();
+      const myExistingListings = yield otherApiClient.getListings(myPropertiesQuery, true).expect(200).end();
       yield myExistingListings.body.map(listing => adminApiClient.patchListing(listing.id, { status: 'deleted' }).expect(200).end());
     });
 
     it('should not return any listings', function* () {
-      let getListingResponse = yield otherApiClient.getListings({ q: { myProperties: true } }, true).expect(200).end();
+      let getListingResponse = yield otherApiClient.getListings(myPropertiesQuery, true).expect(200).end();
 
       assertNothingReturned(getListingResponse);
     });
@@ -108,7 +113,7 @@ describe('GET /listings', function () {
     it('should create a listing and expect it to be returned (pending)', function* () {
       const createListingResponse = yield otherApiClient.createListing(fakeObjectGenerator.getFakeListing()).expect(201).end();
       createListingId = createListingResponse.body.id;
-      let getListingResponse = yield otherApiClient.getListings({ q: { myProperties: true } }, true).expect(200).end();
+      let getListingResponse = yield otherApiClient.getListings(myPropertiesQuery, true).expect(200).end();
 
       assertListingReturned(getListingResponse);
     });
@@ -131,7 +136,7 @@ describe('GET /listings', function () {
 
     function* testListingByStatus(status, shouldBeReturned = true) {
       yield adminApiClient.patchListing(createListingId, { status }).expect(200).end();
-      const getListingResponse = yield otherApiClient.getListings({ q: { myProperties: true } }, true).expect(200).end();
+      const getListingResponse = yield otherApiClient.getListings(myPropertiesQuery, true).expect(200).end();
 
       shouldBeReturned ? assertListingReturned(getListingResponse) : assertNothingReturned(getListingResponse);
     }
@@ -146,6 +151,10 @@ describe('GET /listings', function () {
       __.assertThat(getListingResponse.body, __.is(__.array()));
       __.assertThat(getListingResponse.body, __.hasSize(0));
     }
+
+    it('should return error when not authenticated', function* () {
+      yield this.apiClient.getListings(myPropertiesQuery, false).expect(403).end();
+    });
   });
 
   describe('future booking search', function() {

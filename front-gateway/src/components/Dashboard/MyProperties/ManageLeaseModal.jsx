@@ -87,6 +87,7 @@ class ManageLeaseModal extends React.Component {
         onClose={this.close}
         title="עדכון תקופת שכירות"
         body={modalBody}
+        modalSize="small"
       />
     );
   }

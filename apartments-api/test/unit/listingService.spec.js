@@ -7,6 +7,15 @@ const shared = require('dorbel-shared');
 const assertYieldedError = require('../shared/assertYieldedError');
 
 describe('Listing Service', function () {
+  let assertUnauthorized = function (query) {
+    return assertYieldedError(
+      () => this.listingService.getByFilter(JSON.stringify(query)),
+      __.hasProperties({
+        message: 'unauthorized for this view',
+        status: 403
+      })
+    );
+  };
 
   before(function () {
     this.mockUser = faker.getFakeUser();
@@ -29,6 +38,7 @@ describe('Listing Service', function () {
     sinon.stub(shared.utils.user.management, 'updateUserDetails');
     sinon.stub(shared.utils.user.management, 'getUserDetails').resolves();
     this.listingService = require('../../src/services/listingService');
+    assertUnauthorized = assertUnauthorized.bind(this);
   });
 
   afterEach(function () {
@@ -74,6 +84,14 @@ describe('Listing Service', function () {
           })
         ))
       ));
+    });
+
+    it('should throw an error for my-properties without user object', function* () {
+      yield assertUnauthorized({ myProperties: true });
+    });
+
+    it('should throw an error for my-likes without user object', function* () {
+      yield assertUnauthorized({ liked: true });
     });
   });
 

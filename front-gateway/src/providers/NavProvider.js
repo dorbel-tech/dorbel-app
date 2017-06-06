@@ -17,8 +17,7 @@ class NavProvider {
 
   handleHrefClick(e) {
     e.preventDefault(); // cancel the event so we don't get a reload.
-    this.appStore.showModal = false;
-    
+
     if ((e.metaKey || e.ctrlKey) && window) {
       window.open(e.currentTarget.href);
     }
@@ -28,6 +27,7 @@ class NavProvider {
         location.href = e.currentTarget.href;
       }
       else {
+        this.appStore.showModal = false;
         this.router.setRoute(e.currentTarget.pathname);
       }
     }
