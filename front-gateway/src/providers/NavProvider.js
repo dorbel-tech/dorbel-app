@@ -5,8 +5,9 @@
 import autobind from 'react-autobind';
 
 class NavProvider {
-  constructor(router) {
+  constructor(appStore, router) {
     this.router = router;
+    this.appStore = appStore;
     autobind(this);
   }
 
@@ -16,6 +17,8 @@ class NavProvider {
 
   handleHrefClick(e) {
     e.preventDefault(); // cancel the event so we don't get a reload.
+    this.appStore.showModal = false;
+
     if ((e.metaKey || e.ctrlKey) && window) {
       window.open(e.currentTarget.href);
     }
