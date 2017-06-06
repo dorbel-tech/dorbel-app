@@ -19,9 +19,7 @@ function logout() {
 }
 
 function submitApartment(browser) {
-  //  login('landlord');
   apartmentForm
-    //    .navigate()
     .navigateToApartmentPicturesSection()
     .uploadImage()
     .goFromApartmentPicturesToOpenHouseEvent()

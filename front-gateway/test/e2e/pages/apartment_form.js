@@ -1,7 +1,7 @@
 'use stric';
 const common = require('../common');
 const imagePath = common.IS_CI ? 'C:/Users/hello/Desktop/images/logo1.jpg' : __dirname + '/resources/test.png';
-
+console.log('************ ENV='+process.env.NODE_ENV);
 module.exports = {
   url: function () {
     return common.getBaseUrl() + '/apartments/new_form/publish';
@@ -250,7 +250,7 @@ module.exports = {
       this.section.apartmentPictures
         .waitForElementVisible('.add-photo')
         .setValue('input[type="file"]', imagePath)
-        .waitForElementVisible('.remove-image', 30000);
+        .waitForElementVisible('.remove-image', 5000);
       return this;
     }
   }]
