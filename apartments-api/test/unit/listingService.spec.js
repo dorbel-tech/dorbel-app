@@ -13,8 +13,7 @@ describe('Listing Service', function () {
     this.mockListing = faker.getFakeListing();
     this.listingRepositoryMock = {
       create: sinon.stub().resolves(this.mockListing),
-      getValidationDataForApartment: sinon.stub().resolves(undefined),
-      list: sinon.spy(),
+      list: sinon.stub().resolves(undefined),
       listingStatuses: ['pending', 'rented'],
       update: sinon.stub().resolves(this.mockListing),
     };
@@ -142,7 +141,7 @@ describe('Listing Service', function () {
     });
 
     it('should not create a new listing if apartment already has a non-closed listing', function* () {
-      this.listingRepositoryMock.getValidationDataForApartment = sinon.stub().resolves({ id: 1, status: 'pending', publishing_user_id: this.mockUser.id });
+      this.listingRepositoryMock.list = sinon.stub().resolves([{ id: 1, status: 'pending', publishing_user_id: this.mockUser.id }]);
       let newListing = faker.getFakeListing();
       try {
         yield this.listingService.create(newListing, this.mockUser);
@@ -154,7 +153,7 @@ describe('Listing Service', function () {
     });
 
     it('should not create a new listing if the apartment belongs to another user\'s listing', function* () {
-      this.listingRepositoryMock.getValidationDataForApartment = sinon.stub().resolves({ id: 1,  status: 'rented', publishing_user_id: 'someFakeUserId123' });
+      this.listingRepositoryMock.list = sinon.stub().resolves([{ id: 1,  status: 'rented', publishing_user_id: 'someFakeUserId123' }]);
       let newListing = faker.getFakeListing();
       try {
         yield this.listingService.create(newListing, this.mockUser);

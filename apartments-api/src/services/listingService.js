@@ -36,7 +36,7 @@ function CustomError(code, message) {
 
 function* create(listing, user) {
   listing.publishing_user_id = user.id;
-  yield handleNewListingValidation(listing, user);
+  yield validateNewListing(listing, user);
 
   let modifiedListing = setListingAutoFields(listing);
   listing.apartment.building.geolocation = yield geoProvider.getGeoLocation(listing.apartment.building);
@@ -74,7 +74,7 @@ function* create(listing, user) {
   return createdListing;
 }
 
-function* handleNewListingValidation(listing, user) {
+function* validateNewListing(listing, user) {
   if (['pending', 'rented'].indexOf(listing.status) < 0) {
     throw new CustomError(400, `לא ניתן להעלות דירה ב status ${listing.status}`);
   }
@@ -100,8 +100,8 @@ function* handleNewListingValidation(listing, user) {
   }
 
   // Disable uploading apartment for listing without images
-  if (listing.status == 'pending') {
-    if (!listing.images || !listing.images.length) { throw new CustomError(400, 'לא ניתן להעלות מודעה להשכרה ללא תמונות'); }
+  if (listing.status == 'pending' && (!listing.images || !listing.images.length)) {
+    throw new CustomError(400, 'לא ניתן להעלות מודעה להשכרה ללא תמונות');
   }
 }
 
@@ -433,16 +433,28 @@ function* getValidationData(apartment, user) {
     status: 'OK',
     listing_id: 0
   };
-  
-  const validationData = yield listingRepository.getValidationDataForApartment(apartment);
-  if (validationData) {
-    result.listing_id = validationData.id;
+
+  const queryOptions = {
+    listingAttributes: ['id', 'status', 'publishing_user_id'],
+    buildingQuery: {
+      city_id: apartment.building.city.id,
+      street_name: apartment.building.street_name,
+      house_number: apartment.building.house_number
+    },
+    apartmentQuery: {
+      apt_number: apartment.apt_number
+    }
+  };
+
+  const validationData = yield listingRepository.list(undefined, queryOptions);
+  if (validationData && validationData.length) {
+    result.listing_id = validationData[0].id;
     result.status = 'alreadyExists';
 
-    if (user.id != validationData.publishing_user_id) {
+    if (user.id != validationData[0].publishing_user_id) {
       result.status = 'belongsToOtherUser';
     }
-    else if (['listed', 'pending'].indexOf(validationData.status) > -1) {
+    else if (['listed', 'pending'].indexOf(validationData[0].status) > -1) {
       result.status = 'alreadyListed';
     }
   }

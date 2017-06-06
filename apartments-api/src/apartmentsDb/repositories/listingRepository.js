@@ -52,7 +52,7 @@ function list(query, options = {}) {
   const modelName = options.oldListings ? 'listing' : 'latest_listing';
 
   return models[modelName].findAll({
-    attributes: ['id', 'slug', 'title', 'monthly_rent', 'roommate_needed', 'lease_start', 'lease_end', 'status', 'created_at', 'apartment_id'],
+    attributes: options.listingAttributes || ['id', 'slug', 'title', 'monthly_rent', 'roommate_needed', 'lease_start', 'lease_end', 'status', 'created_at', 'apartment_id'],
     where: query,
     include: [
       {
@@ -132,45 +132,6 @@ function* create(listing) {
   }
 
   return savedListing;
-}
-
-function getValidationDataForApartment(apartment) {
-
-  const includeCity = {
-    model: models.city,
-    attributes: cityAttributes,
-    required: true,
-    where: {
-      id: apartment.building.city.id
-    }
-  };
-
-  const includeBuildings = [{
-    model: models.building,
-    attributes: buildingAttributes,
-    required: true,
-    where: {
-      street_name: apartment.building.street_name,
-      house_number: apartment.building.house_number
-    },
-    include: includeCity
-  }];
-
-  const includeApartment = [{
-    model: models.apartment,
-    attributes: apartmentAttributes,
-    required: true,
-    where: {
-      apt_number: apartment.apt_number
-    },
-    include: includeBuildings
-  }];
-
-  return models.latest_listing.findOne({
-    attributes: ['id', 'status', 'publishing_user_id'],
-    include: includeApartment,
-    raw: true
-  });
 }
 
 function getSlugs(ids) {
@@ -253,7 +214,6 @@ function * update(listing, patch) {
 module.exports = {
   list,
   create,
-  getValidationDataForApartment,
   getById: id => getOneListing({ id }),
   getBySlug: slug => getOneListing({ slug }),
   getSlugs,

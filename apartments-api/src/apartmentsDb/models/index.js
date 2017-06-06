@@ -9,6 +9,7 @@ function load(sequelize) {
   fs.readdirSync(__dirname)
   .filter(file => file !== 'index.js')
   .filter(file => file !== '.DS_Store')
+  .filter(file => file !== 'shared')
   .forEach(file => {
     var model = sequelize.import(path.join(__dirname, file));
     models[model.name] = model;
