@@ -92,71 +92,310 @@ exports[`Filter should initialize correctly 1`] = `
               className="row">
               <Col
                 bsClass="col"
+                className="filter-dropdown-wrapper"
+                componentClass="div"
+                mdOffset={2}
+                sm={6}
+                smOffset={1}>
+                <div
+                  className="filter-dropdown-wrapper col-md-offset-2 col-sm-6 col-sm-offset-1">
+                  <DropdownButton
+                    bsSize="large"
+                    className="filter-dropdown "
+                    id="cityDropdown"
+                    onSelect={[Function]}
+                    title="עיר: כל הערים">
+                    <Uncontrolled(Dropdown)
+                      bsSize="large"
+                      id="cityDropdown"
+                      onSelect={[Function]}>
+                      <Dropdown
+                        bsClass="dropdown"
+                        bsSize="large"
+                        componentClass={[Function]}
+                        id="cityDropdown"
+                        onSelect={[Function]}
+                        onToggle={[Function]}>
+                        <ButtonGroup
+                          block={false}
+                          bsClass="btn-group"
+                          bsSize="large"
+                          className="dropdown"
+                          justified={false}
+                          vertical={false}>
+                          <div
+                            className="dropdown btn-group btn-group-lg">
+                            <DropdownToggle
+                              bsClass="dropdown-toggle"
+                              bsRole="toggle"
+                              bsSize="large"
+                              className="filter-dropdown "
+                              id="cityDropdown"
+                              onClick={[Function]}
+                              onKeyDown={[Function]}
+                              open={false}
+                              useAnchor={false}>
+                              <Button
+                                active={false}
+                                aria-expanded={false}
+                                aria-haspopup={true}
+                                block={false}
+                                bsClass="btn"
+                                bsSize="large"
+                                bsStyle="default"
+                                className="filter-dropdown  dropdown-toggle"
+                                disabled={false}
+                                id="cityDropdown"
+                                onClick={[Function]}
+                                onKeyDown={[Function]}
+                                role="button">
+                                <button
+                                  aria-expanded={false}
+                                  aria-haspopup={true}
+                                  className="filter-dropdown  dropdown-toggle btn btn-lg btn-default"
+                                  disabled={false}
+                                  id="cityDropdown"
+                                  onClick={[Function]}
+                                  onKeyDown={[Function]}
+                                  role="button"
+                                  type="button">
+                                  עיר: כל הערים
+                                   
+                                  <span
+                                    className="caret" />
+                                </button>
+                              </Button>
+                            </DropdownToggle>
+                            <DropdownMenu
+                              bsClass="dropdown-menu"
+                              bsRole="menu"
+                              labelledBy="cityDropdown"
+                              onClose={[Function]}
+                              onSelect={[Function]}
+                              pullRight={false}>
+                              <RootCloseWrapper
+                                disabled={true}
+                                event="click"
+                                onRootClose={[Function]}>
+                                <ul
+                                  aria-labelledby="cityDropdown"
+                                  className="dropdown-menu"
+                                  role="menu">
+                                  <MenuItem
+                                    bsClass="dropdown"
+                                    disabled={false}
+                                    divider={false}
+                                    eventKey="*"
+                                    header={false}
+                                    onKeyDown={[Function]}
+                                    onSelect={[Function]}>
+                                    <li
+                                      className=""
+                                      role="presentation">
+                                      <SafeAnchor
+                                        componentClass="a"
+                                        onClick={[Function]}
+                                        onKeyDown={[Function]}
+                                        role="menuitem"
+                                        tabIndex="-1">
+                                        <a
+                                          href="#"
+                                          onClick={[Function]}
+                                          onKeyDown={[Function]}
+                                          role="menuitem"
+                                          tabIndex="-1">
+                                          כל הערים
+                                        </a>
+                                      </SafeAnchor>
+                                    </li>
+                                  </MenuItem>
+                                </ul>
+                              </RootCloseWrapper>
+                            </DropdownMenu>
+                          </div>
+                        </ButtonGroup>
+                      </Dropdown>
+                    </Uncontrolled(Dropdown)>
+                  </DropdownButton>
+                </div>
+              </Col>
+              <Col
+                bsClass="col"
+                componentClass="div"
+                md={4}
+                sm={5}
+                xsHidden={true}>
+                <div
+                  className="col-md-4 col-sm-5 hidden-xs">
+                  <Checkbox
+                    bsClass="checkbox"
+                    checked={true}
+                    className="filter-future-booking-switch"
+                    disabled={false}
+                    inline={false}
+                    onChange={[Function]}>
+                    <div
+                      className="filter-future-booking-switch checkbox">
+                      <label>
+                        <input
+                          checked={true}
+                          disabled={false}
+                          onChange={[Function]}
+                          type="checkbox" />
+                        הראו לי דירות שטרם פורסמו 
+                        <span
+                          className="filter-future-booking-new">
+                          חדש!
+                        </span>
+                      </label>
+                    </div>
+                  </Checkbox>
+                </div>
+              </Col>
+            </div>
+          </Row>
+          <Row
+            bsClass="row"
+            componentClass="div">
+            <div
+              className="row">
+              <Col
+                bsClass="col"
+                className="filter-dropdown-wrapper"
                 componentClass="div"
                 md={2}
                 mdOffset={2}
-                sm={3}>
+                sm={2}
+                smOffset={1}>
                 <div
-                  className="col-md-2 col-md-offset-2 col-sm-3">
-                  <OverlayTrigger
-                    defaultOverlayShown={false}
-                    overlay={
-                      <Popover
-                        bsClass="popover"
-                        className="filter-area-popup"
-                        id="popup-rooms"
-                        placement="right">
-                        <DropdownButton
+                  className="filter-dropdown-wrapper col-md-2 col-md-offset-2 col-sm-2 col-sm-offset-1">
+                  <DropdownButton
+                    bsSize="large"
+                    className="filter-dropdown "
+                    id="neighborhoodDropdown"
+                    onSelect={[Function]}
+                    title="שכונה: כל השכונות">
+                    <Uncontrolled(Dropdown)
+                      bsSize="large"
+                      id="neighborhoodDropdown"
+                      onSelect={[Function]}>
+                      <Dropdown
+                        bsClass="dropdown"
+                        bsSize="large"
+                        componentClass={[Function]}
+                        id="neighborhoodDropdown"
+                        onSelect={[Function]}
+                        onToggle={[Function]}>
+                        <ButtonGroup
+                          block={false}
+                          bsClass="btn-group"
                           bsSize="large"
-                          className="filter-area-dropdown"
-                          id="cityDropdown"
-                          onSelect={[Function]}
-                          title="עיר: כל הערים">
-                          <MenuItem
-                            bsClass="dropdown"
-                            disabled={false}
-                            divider={false}
-                            eventKey="*"
-                            header={false}>
-                            כל הערים
-                          </MenuItem>
-                        </DropdownButton>
-                        <DropdownButton
-                          bsSize="large"
-                          className="filter-area-dropdown"
-                          id="neighborhoodDropdown"
-                          onSelect={[Function]}
-                          title="שכונה: כל השכונות">
-                          <MenuItem
-                            bsClass="dropdown"
-                            disabled={false}
-                            divider={false}
-                            eventKey="*"
-                            header={false}>
-                            כל השכונות
-                          </MenuItem>
-                        </DropdownButton>
-                      </Popover>
-                    }
-                    placement="bottom"
-                    rootClose={true}
-                    trigger="click">
-                    <div
-                      aria-describedby="popup-rooms"
-                      className="filter-trigger-container "
-                      onClick={[Function]}>
-                      מיקום
-                    </div>
-                  </OverlayTrigger>
+                          className="dropdown"
+                          justified={false}
+                          vertical={false}>
+                          <div
+                            className="dropdown btn-group btn-group-lg">
+                            <DropdownToggle
+                              bsClass="dropdown-toggle"
+                              bsRole="toggle"
+                              bsSize="large"
+                              className="filter-dropdown "
+                              id="neighborhoodDropdown"
+                              onClick={[Function]}
+                              onKeyDown={[Function]}
+                              open={false}
+                              useAnchor={false}>
+                              <Button
+                                active={false}
+                                aria-expanded={false}
+                                aria-haspopup={true}
+                                block={false}
+                                bsClass="btn"
+                                bsSize="large"
+                                bsStyle="default"
+                                className="filter-dropdown  dropdown-toggle"
+                                disabled={false}
+                                id="neighborhoodDropdown"
+                                onClick={[Function]}
+                                onKeyDown={[Function]}
+                                role="button">
+                                <button
+                                  aria-expanded={false}
+                                  aria-haspopup={true}
+                                  className="filter-dropdown  dropdown-toggle btn btn-lg btn-default"
+                                  disabled={false}
+                                  id="neighborhoodDropdown"
+                                  onClick={[Function]}
+                                  onKeyDown={[Function]}
+                                  role="button"
+                                  type="button">
+                                  שכונה: כל השכונות
+                                   
+                                  <span
+                                    className="caret" />
+                                </button>
+                              </Button>
+                            </DropdownToggle>
+                            <DropdownMenu
+                              bsClass="dropdown-menu"
+                              bsRole="menu"
+                              labelledBy="neighborhoodDropdown"
+                              onClose={[Function]}
+                              onSelect={[Function]}
+                              pullRight={false}>
+                              <RootCloseWrapper
+                                disabled={true}
+                                event="click"
+                                onRootClose={[Function]}>
+                                <ul
+                                  aria-labelledby="neighborhoodDropdown"
+                                  className="dropdown-menu"
+                                  role="menu">
+                                  <MenuItem
+                                    bsClass="dropdown"
+                                    disabled={false}
+                                    divider={false}
+                                    eventKey="*"
+                                    header={false}
+                                    onKeyDown={[Function]}
+                                    onSelect={[Function]}>
+                                    <li
+                                      className=""
+                                      role="presentation">
+                                      <SafeAnchor
+                                        componentClass="a"
+                                        onClick={[Function]}
+                                        onKeyDown={[Function]}
+                                        role="menuitem"
+                                        tabIndex="-1">
+                                        <a
+                                          href="#"
+                                          onClick={[Function]}
+                                          onKeyDown={[Function]}
+                                          role="menuitem"
+                                          tabIndex="-1">
+                                          כל השכונות
+                                        </a>
+                                      </SafeAnchor>
+                                    </li>
+                                  </MenuItem>
+                                </ul>
+                              </RootCloseWrapper>
+                            </DropdownMenu>
+                          </div>
+                        </ButtonGroup>
+                      </Dropdown>
+                    </Uncontrolled(Dropdown)>
+                  </DropdownButton>
                 </div>
               </Col>
               <Col
                 bsClass="col"
                 componentClass="div"
                 md={2}
-                sm={3}>
+                sm={2}>
                 <div
-                  className="col-md-2 col-sm-3">
+                  className="col-md-2 col-sm-2">
                   <OverlayTrigger
                     defaultOverlayShown={false}
                     overlay={
@@ -220,9 +459,9 @@ exports[`Filter should initialize correctly 1`] = `
                 bsClass="col"
                 componentClass="div"
                 md={2}
-                sm={3}>
+                sm={2}>
                 <div
-                  className="col-md-2 col-sm-3">
+                  className="col-md-2 col-sm-2">
                   <OverlayTrigger
                     defaultOverlayShown={false}
                     overlay={
@@ -447,6 +686,39 @@ exports[`Filter should initialize correctly 1`] = `
                       פילטרים נוספים
                     </div>
                   </OverlayTrigger>
+                </div>
+              </Col>
+              <Col
+                bsClass="col"
+                componentClass="div"
+                lgHidden={true}
+                mdHidden={true}
+                smHidden={true}>
+                <div
+                  className="hidden-lg hidden-md hidden-sm">
+                  <Checkbox
+                    bsClass="checkbox"
+                    checked={true}
+                    className="filter-future-booking-switch"
+                    disabled={false}
+                    inline={false}
+                    onChange={[Function]}>
+                    <div
+                      className="filter-future-booking-switch checkbox">
+                      <label>
+                        <input
+                          checked={true}
+                          disabled={false}
+                          onChange={[Function]}
+                          type="checkbox" />
+                        הראו לי דירות שטרם פורסמו 
+                        <span
+                          className="filter-future-booking-new">
+                          חדש!
+                        </span>
+                      </label>
+                    </div>
+                  </Checkbox>
                 </div>
               </Col>
             </div>
