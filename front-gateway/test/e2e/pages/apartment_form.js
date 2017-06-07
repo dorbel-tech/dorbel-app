@@ -4,20 +4,20 @@ const imagePath = common.IS_CI ? 'C:/Users/hello/Desktop/images/logo1.jpg' : __d
 
 module.exports = {
   url: function () {
-    return common.getBaseUrl() + '/apartments/new_form/publish';
+    return common.getBaseUrl() + '/apartments/new_form/';
+  },
+  props: {
+    mode: 'publish'
   },
   sections: {
-    apartmentPictures: {
-      selector: '.apartment-pictures-step',
+    selectUploadMode: {
+      selector: '.select-upload-mode-wrapper',
       elements: {
-        addNewPhoto: {
-          selector: 'span.add-photo'
+        publishLink:{
+          selector: 'a[href="/apartments/new_form/publish"]'
         },
-        nextStep: {
-          selector: '.step-btn.step2.btn.btn-success'
-        },
-        previousStep: {
-          selector: 'i.apartment-pictures-previous-step'
+        manageLink:{
+          selector: 'a[href="/apartments/new_form/manage"]'
         }
       }
     },
@@ -84,6 +84,9 @@ module.exports = {
         entranceDate: {
           selector: 'input[name="apartment.entrance-date"] + input'
         },
+        exitDate: {
+          selector: 'input[name="apartment.exit-date"] + input'
+        },
         entranceDateCalendar: {
           selector: '#calendar'
         },
@@ -98,6 +101,20 @@ module.exports = {
         },
         nextStep: {
           selector: 'i.apartment-details-next-step'
+        }
+      }
+    },
+    apartmentPictures: {
+      selector: '.apartment-pictures-step',
+      elements: {
+        addNewPhoto: {
+          selector: 'span.add-photo'
+        },
+        nextStep: {
+          selector: '.step-btn.step2.btn.btn-success'
+        },
+        previousStep: {
+          selector: 'i.apartment-pictures-previous-step'
         }
       }
     },
@@ -152,7 +169,10 @@ module.exports = {
     navigateToApartmentDetailsSection: function () {
       this
         .navigate()
-        .waitForElementVisible('body');
+        .waitForElementVisible('body')
+        .selectUploadMode()
+        .checkApartmentDetailsRederedInputs();
+
       return this;
     },
     navigateToApartmentPicturesSection: function () {
@@ -162,13 +182,6 @@ module.exports = {
         .goFromApartmentDetailsToApartmentPictures();
       return this;
     },
-    // navigateToOpenHouseEventSection: function () {
-    //   this
-    //     .navigateToApartmentPicturesSection()
-    //     .uploadImage()
-    //     .goFromApartmentPicturesToOpenHouseEvent();
-    //   return this;
-    // },
     goFromApartmentPicturesToApartmentDetails: function () {
       this.section.apartmentPictures.click('@previousStep');
       return this;
@@ -238,19 +251,36 @@ module.exports = {
       this.section.openHouseEvent.click('@submit');
       return this;
     },
-    // fillAndSubmitApartment: function () {
-    //   this
-    //     // TODO: Add upload image functionality.
-    //     .navigateToOpenHouseEventSection()
-    //     .fillOpenHouseEventDetailsAllFields()
-    //     .submitApartment();
-    //   return this;
-    // },
     uploadImage: function () {
       this.section.apartmentPictures
         .waitForElementVisible('.add-photo')
         .setValue('input[type="file"]', imagePath)
         .waitForElementVisible('.remove-image', 5000);
+      return this;
+    },
+    checkApartmentDetailsRederedInputs: function () {
+      const assert = this.section.apartmentDetails.assert;
+      switch (this.props.mode) {
+        case 'publish':
+          assert.elementNotPresent('@exitDate');
+          break;
+        case 'manage':
+          assert.elementPresent('@exitDate');
+          break;
+      }
+    },
+    selectUploadMode: function () {
+      const uploadModeSection = this.section.selectUploadMode;
+      switch (this.props.mode) {
+        case 'publish':
+          uploadModeSection.click('@publishLink');
+          break;
+        case 'manage':
+          uploadModeSection.click('@manageLink');
+          break;
+      }
+      
+      this.section.apartmentDetails.waitForElementVisible('body');
       return this;
     }
   }]

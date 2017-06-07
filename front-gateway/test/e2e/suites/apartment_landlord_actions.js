@@ -12,6 +12,7 @@ module.exports = {
     home = browser.page.home();
     home.resizeDesktop(browser);
     apartmentForm = browser.page.apartment_form();
+    apartmentForm.props.mode = 'publish';
   },
   'should go back from apartment pictures to previous screen if user doesnt sign in': function (browser) {
     apartmentForm
@@ -29,14 +30,11 @@ module.exports = {
     apartmentForm.expect.section('@apartmentDetails').to.be.visible;
     browser.end();
   },
-  'should fail to go to step3 no pictures were uploaded in step2': function (browser) {
-    apartmentForm
-      .navigateToApartmentPicturesSection();
-    home.fillSignIn(common.getTestUser('landlord'));
-    browser.pause(2500);
-    apartmentForm.goFromApartmentPicturesToOpenHouseEvent()
-      .expect.section('@openHouseEvent').to.not.be.present;
-    browser.end();
+  'should fail to go to step3 no pictures were uploaded in step2 (uploadMode = publish)': function (browser) {
+    tryNavigatingToStep3WithoutPics(browser);
+  },
+  'should proceed to step3 when no pictures were uploaded in step2 (uploadMode = manage)': function (browser) {
+    tryNavigatingToStep3WithoutPics(browser, 'manage');
   },
   'should go back from event details to previous screen': function (browser) {
     apartmentForm
@@ -54,24 +52,13 @@ module.exports = {
     browser.end();
   },
   'should successfully submit a new apartment with logged in user': function (browser) {
-    login();
-    apartmentForm.navigateToApartmentPicturesSection()
-      .uploadImage()
-      .goFromApartmentPicturesToOpenHouseEvent()
-      .expect.section('@openHouseEvent').to.be.visible;
-
-    apartmentForm
-      .fillOpenHouseEventDetailsAllFields()
-      .submitApartment();
-
-    browser.pause(500);
-    apartmentForm.expect.section('@successModal').to.be.present;
-    common.waitForText(apartmentForm.section.successModal, '@successTitle', 'תהליך העלאת פרטי הדירה הושלם בהצלחה!');
-    browser.end();
+    submitApartment(browser);
+  },
+  'should successfully submit a new apartment for management with logged in user': function (browser) {
+    submitApartment(browser, 'manage');
   },
   'should successfully submit a new apartment while creating new user': function (browser) {
     let user = common.getTestUser('random');
-
     apartmentForm.navigateToApartmentPicturesSection();
     home.signUpInForm(user);
     apartmentForm.uploadImage()
@@ -89,3 +76,40 @@ module.exports = {
     browser.end();
   }
 };
+
+function submitApartment(browser, uploadMode='publish') {
+  apartmentForm.props.mode = uploadMode;
+  login();
+
+  apartmentForm.navigateToApartmentPicturesSection()
+    .uploadImage()
+    .goFromApartmentPicturesToOpenHouseEvent();
+
+  if (apartmentForm.props.mode == 'publish') {
+    apartmentForm.expect.section('@openHouseEvent').to.be.visible;
+    apartmentForm.fillOpenHouseEventDetailsAllFields();
+  }
+
+  apartmentForm
+    .submitApartment();
+
+  browser.pause(500);
+  apartmentForm.expect.section('@successModal').to.be.present;
+  common.waitForText(apartmentForm.section.successModal, '@successTitle', 'תהליך העלאת פרטי הדירה הושלם בהצלחה!');
+  browser.end();
+}
+
+function tryNavigatingToStep3WithoutPics(browser, uploadMode='publish') {
+  apartmentForm.props.mode = uploadMode;
+  apartmentForm
+    .navigateToApartmentPicturesSection();
+  home.fillSignIn(common.getTestUser('landlord'));
+  browser.pause(2500);
+  apartmentForm.goFromApartmentPicturesToOpenHouseEvent();
+
+  uploadMode == 'publish' ?
+    apartmentForm.expect.section('@openHouseEvent').to.not.be.present :
+    apartmentForm.expect.section('@openHouseEvent').to.be.present;
+
+  browser.end();
+}
