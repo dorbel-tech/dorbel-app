@@ -391,7 +391,7 @@ class Filter extends Component {
       </div>
       <Grid fluid className={'filter-wrapper' + (this.state.hideFilter ? ' hide-mobile-filter' : '')}>
         <Row>
-          <Col mdOffset={2} sm={6} className="filter-dropdown-wrapper">
+          <Col mdOffset={2} sm={6} smOffset={1} className="filter-dropdown-wrapper">
             <DropdownButton id="cityDropdown" bsSize="large"
               className={'filter-dropdown ' + this.state.cityFilterClass}
               title={'עיר: ' + cityTitle}
@@ -400,7 +400,7 @@ class Filter extends Component {
               {cities.map(city => <MenuItem key={city.id} eventKey={city.id}>{city.city_name}</MenuItem>)}
             </DropdownButton>
           </Col>
-          <Col md={4} sm={6}>
+          <Col md={4} sm={5} xsHidden>
             <Checkbox name="futureBooking" className="filter-future-booking-switch"
                       checked={this.state.futureBooking} onChange={this.checkboxChangeHandler}>
               הראו לי דירות שטרם פורסמו <span className="filter-future-booking-new">חדש!</span>
@@ -408,7 +408,7 @@ class Filter extends Component {
           </Col>
         </Row>
         <Row>
-          <Col md={2} mdOffset={2} sm={3} className="filter-dropdown-wrapper">
+          <Col md={2} mdOffset={2} sm={2} smOffset={1} className="filter-dropdown-wrapper">
             <DropdownButton id="neighborhoodDropdown" bsSize="large"
               className={'filter-dropdown ' + this.state.neighborhoodFilterClass}
               title={'שכונה: ' + neighborhoodTitle}
@@ -417,13 +417,13 @@ class Filter extends Component {
               {neighborhoods.map(neighborhood => <MenuItem key={neighborhood.id} eventKey={neighborhood.id}>{neighborhood.neighborhood_name}</MenuItem>)}
             </DropdownButton>
           </Col>
-          <Col md={2} sm={3}>
+          <Col md={2} sm={2}>
             <OverlayTrigger placement="bottom" trigger="click" rootClose
                             overlay={this.roomsPopup()}>
               <div className={'filter-trigger-container ' + this.state.roomsFilterClass}>חדרים</div>
             </OverlayTrigger>
           </Col>
-          <Col md={2} sm={3}>
+          <Col md={2} sm={2}>
             <OverlayTrigger placement="bottom" trigger="click" rootClose
                             overlay={this.mrPopup()}>
               <div className={'filter-trigger-container ' + this.state.mrFilterClass}>מחיר</div>
@@ -434,6 +434,12 @@ class Filter extends Component {
                             overlay={this.extraPopup()}>
               <div className={'filter-trigger-container ' + this.state.extraFilterClass}>פילטרים נוספים</div>
             </OverlayTrigger>
+          </Col>
+          <Col lgHidden mdHidden smHidden>
+            <Checkbox name="futureBooking" className="filter-future-booking-switch"
+                      checked={this.state.futureBooking} onChange={this.checkboxChangeHandler}>
+              הראו לי דירות שטרם פורסמו <span className="filter-future-booking-new">חדש!</span>
+            </Checkbox>
           </Col>
         </Row>
         <div className="filter-close">
