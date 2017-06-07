@@ -158,7 +158,11 @@ class ListingsProvider {
     };
 
     return this.apiProvider.fetch('/api/apartments/v1/listings', { params })
-    .then(listings => listingsByApartmentId.set(apartment_id, listings.reverse()));
+      .then(listings => listingsByApartmentId.set(apartment_id, listings.reverse()));
+  }
+
+  validateApartment(listing) {
+    return this.apiProvider.fetch('/api/apartments/v1/listings/validation', { method: 'POST', data: { apartment: listing.apartment } });
   }
 }
 

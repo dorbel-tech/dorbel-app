@@ -1,9 +1,12 @@
 'use strict';
 import React, { PropTypes as T } from 'react';
 import { inject, observer } from 'mobx-react';
+import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
 
 @inject('appStore', 'appProviders') @observer
 export class Login extends React.Component {
+  static hideFooter = true;
+
   static propTypes = {
     appProviders: T.object,
     appStore: T.object
@@ -18,21 +21,11 @@ export class Login extends React.Component {
   }
 
   render() {
-    const { appProviders, appStore } = this.props;
-    if (appStore.authStore.isLoggedIn) {
-      return (
-        <div className="login-screen">
-          <h3>כבר מחובר</h3>
-          <button onClick={appProviders.authProvider.logout}>להתנתק</button>
-        </div>
-      );
-    } else {
-      return (
-        <div className="login-screen">
-          <h3>מתחבר...</h3>
-        </div>
-      );
-    }
+    return (
+      <div className="loader-container">
+        <LoadingSpinner />
+      </div>
+    );
   }
 }
 

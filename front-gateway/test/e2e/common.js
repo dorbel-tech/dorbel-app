@@ -11,6 +11,7 @@ const E2E_USER_RANDOM = {
   lastName: faker.name.lastName(),
   phone: faker.random.number()
 };
+const IS_CI = process.env.NODE_ENV == 'ci';
 
 function getTestUser(userType) {
   switch (userType) {
@@ -57,5 +58,6 @@ module.exports = {
   getSmallRandomNumber,
   getMediumRandomNumber,
   getBigRandomNumber,
-  waitForText
+  waitForText,
+  IS_CI
 };
