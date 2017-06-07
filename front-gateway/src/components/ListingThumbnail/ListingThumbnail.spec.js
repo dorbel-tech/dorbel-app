@@ -6,6 +6,7 @@ import ListingThumbnail from './ListingThumbnail';
 
 describe('Listing Thumbnail', () => {
   let appStoreMock;
+  let listing;
 
   beforeAll(() => {
     appStoreMock = {
@@ -19,23 +20,44 @@ describe('Listing Thumbnail', () => {
     };
   });
 
-  describe('OHE indication', () => {
-    function renderThumbnail() {
-      const listing = {
-        id: 777,
-        images: [],
-        apartment: {
-          building: {
-            neighborhood: {},
-            city: {}
-          }
+  beforeEach(() => {
+    listing = {
+      id: 777,
+      images: [],
+      apartment: {
+        building: {
+          neighborhood: {},
+          city: {}
         }
-      };
+      }
+    };
+  });
 
-      const rendered = shallow(<ListingThumbnail.wrappedComponent appStore={appStoreMock} listing={listing} />);
-      return rendered.children().children(); // ListingThumbnail contains a Col which contains a NavLink
-    }
+  const renderThumbnail = () => {
+    const rendered = shallow(<ListingThumbnail.wrappedComponent appStore={appStoreMock} listing={listing} />);
+    return rendered.children().children(); // ListingThumbnail contains a Col which contains a NavLink
+  }
 
+  describe('Listing lease start', () => {
+    it('should display appropriate text for lease_start in the past', () => {
+      listing.lease_start = "1-1-1990";
+
+      const rendered = renderThumbnail();
+
+      const leaseStart = rendered.find('.apt-thumb-lease-immediate');
+      expect(leaseStart.text()).toBe('מיידי');
+    });
+    it('should display appropriate text for lease_start which is today', () => {
+      listing.lease_start = (new Date()).toDateString();
+
+      const rendered = renderThumbnail();
+
+      const leaseStart = rendered.find('.apt-thumb-lease-immediate');
+      expect(leaseStart.text()).toBe('מיידי');
+    });
+  });
+
+  describe('OHE indication', () => {
     it('should display OHEs when they are already loaded', () => {
       const oheCount = 7;
       appStoreMock.oheStore.isListingLoaded.mockReturnValue(true);
