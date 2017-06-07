@@ -18,13 +18,13 @@ describe('Listing Service', function () {
   };
 
   before(function () {
+    this.mockUser = faker.getFakeUser();
     this.mockListing = faker.getFakeListing();
     this.listingRepositoryMock = {
       create: sinon.stub().resolves(this.mockListing),
-      getListingsForApartment: sinon.stub().resolves([]),
-      list: sinon.spy(),
+      list: sinon.stub().resolves(undefined),
       listingStatuses: ['pending', 'rented'],
-      update: sinon.stub().resolves(this.mockListing)
+      update: sinon.stub().resolves(this.mockListing),
     };
     this.likeRepositoryMock = {
       getListingTotalLikes: sinon.stub().resolves(this.mockListing)
@@ -66,12 +66,12 @@ describe('Listing Service', function () {
       __.assertThat(this.listingRepositoryMock.list.args[0][1], __.hasProperties(options));
     });
 
-    it('should set default status of listed only', function * () {
+    it('should set default status of listed only', function* () {
       yield this.listingService.getByFilter();
       __.assertThat(this.listingRepositoryMock.list.args[0][0], __.hasProperties({ status: 'listed' }));
     });
 
-    it('should set conditions for future booking', function * () {
+    it('should set conditions for future booking', function* () {
       yield this.listingService.getByFilter('{ "futureBooking": true }');
       __.assertThat(this.listingRepositoryMock.list.args[0][0], __.allOf(
         __.not(__.hasProperty('status')),
@@ -97,7 +97,7 @@ describe('Listing Service', function () {
 
   describe('Create Listing', function () {
     it('should return the created listing for a valid listing', function* () {
-      let newListing = yield this.listingService.create(faker.getFakeListing());
+      let newListing = yield this.listingService.create(faker.getFakeListing(), this.mockUser);
       __.assertThat(newListing, __.is(this.mockListing));
     });
 
@@ -106,7 +106,7 @@ describe('Listing Service', function () {
       newListing.status = 'rented';
       newListing.images = [];
 
-      newListing = yield this.listingService.create(newListing);
+      newListing = yield this.listingService.create(newListing, this.mockUser);
       __.assertThat(newListing, __.is(this.mockListing));
     });
 
@@ -115,7 +115,7 @@ describe('Listing Service', function () {
       badListing.images = [];
 
       try {
-        yield this.listingService.create(badListing);
+        yield this.listingService.create(badListing, this.mockUser);
         __.assertThat('code', __.is('not reached'));
       }
       catch (error) {
@@ -132,7 +132,7 @@ describe('Listing Service', function () {
       for (let i = 0; i < statuses.length; i++) {
         let newListing = faker.getFakeListing();
         newListing.status = statuses[i];
-        yield this.listingService.create(newListing);
+        yield this.listingService.create(newListing, this.mockUser);
       }
     });
 
@@ -149,7 +149,7 @@ describe('Listing Service', function () {
         let newListing = faker.getFakeListing();
         newListing.status = statuses[i];
         try {
-          yield this.listingService.create(newListing);
+          yield this.listingService.create(newListing, this.mockUser);
           __.assertThat('code', __.is('not reached'));
         }
         catch (error) {
@@ -159,14 +159,26 @@ describe('Listing Service', function () {
     });
 
     it('should not create a new listing if apartment already has a non-closed listing', function* () {
-      this.listingRepositoryMock.getListingsForApartment = sinon.stub().resolves([{ something: 1 }]);
+      this.listingRepositoryMock.list = sinon.stub().resolves([{ id: 1, status: 'pending', publishing_user_id: this.mockUser.id }]);
       let newListing = faker.getFakeListing();
       try {
-        yield this.listingService.create(newListing);
+        yield this.listingService.create(newListing, this.mockUser);
         __.assertThat('code', __.is('not reached'));
       }
       catch (error) {
         __.assertThat(error.message, __.is('דירה זו כבר מפורסמת במערכת. לא ניתן להעלות אותה שוב.'));
+      }
+    });
+
+    it('should not create a new listing if the apartment belongs to another user\'s listing', function* () {
+      this.listingRepositoryMock.list = sinon.stub().resolves([{ id: 1,  status: 'rented', publishing_user_id: 'someFakeUserId123' }]);
+      let newListing = faker.getFakeListing();
+      try {
+        yield this.listingService.create(newListing, this.mockUser);
+        __.assertThat('code', __.is('not reached'));
+      }
+      catch (error) {
+        __.assertThat(error.message, __.is('דירה זו משוייכת למשתשמש אחר. אנא וודאו את הפרטים/צרו קשר עימנו לתמיכה.'));
       }
     });
   });
@@ -248,7 +260,7 @@ describe('Listing Service', function () {
         __.assertThat('code', __.is('not reached'));
       }
       catch (error) {
-        __.assertThat(error.message, __.is('Failed to get related listings. Listing does not exists. litingId: 0'));
+        __.assertThat(error.message, __.is('Failed to get related listings. Listing does not exists. listingId: 0'));
       }
     });
 
