@@ -139,14 +139,15 @@
 
 .filter-future-booking-switch {
   color: #4d4d4d;
+  display: inline-block;
   font-size: 15px;
-  line-height: 10px;
+  line-height: 19px;
   margin: 7px 0 27px;
+}
 
-  @media (max-width: $screen-xs-max) {
-    margin-top: 20px;
-    text-align: center;
-  }
+.filter-future-booking-switch-mobile-wrapper {
+  margin-top: 20px;
+  text-align: center;
 }
 
 .filter-future-booking-new {
@@ -154,8 +155,13 @@
   border-radius: 2px;
   color: $brand-white;
   font-size: 11px;
-  padding: 1px 3px;
+  margin-right: 5px;
+  padding: 0 3px;
   vertical-align: super;
+}
+
+.filter-future-booking-tooltip {
+  width: 179px;
 }
 
 .filter-admin-switch {

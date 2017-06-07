@@ -4,11 +4,15 @@ import { Button, Checkbox, OverlayTrigger, Popover, Radio, Col, DropdownButton, 
 import { inject, observer } from 'mobx-react';
 import Nouislider from 'react-nouislider';
 import { range } from 'lodash';
+import ReactTooltip from 'react-tooltip';
 
 import './Filter.scss';
 
+const NEW_TIP_OFFSET = {top: -10, left: -17};
+
 const CITY_ALL_OPTION = { value: '*', label: 'כל הערים' };
 const NEIGHBORHOOD_ALL_OPTION = { value: '*', label: 'כל השכונות' };
+
 
 const DEFAULT_FILTER_PARAMS = {
   // Admin filter default values.
@@ -34,7 +38,7 @@ const DEFAULT_FILTER_PARAMS = {
   pet: false, // Apartment allowing pets checkbox default value.
   sb: false, // Apartment with security bars checkbox default value.
 
-  futureBooking: true // Future booking apartments checkbox default value.
+  futureBooking: false // Future booking apartments checkbox default value.
 };
 
 @inject('appStore', 'appProviders') @observer
@@ -170,13 +174,6 @@ class Filter extends Component {
     this.reloadResults();
   }
 
-  futureBookingChangeHandler(e) {
-    this.setState({ futureBooking: e.target.checked });
-    this.filterObj.futureBooking = e.target.checked;
-
-    this.reloadResults();
-  }
-
   roommateChangeHandler(e) {
     this.setState({ [e.target.name]: e.target.checked });
 
@@ -202,10 +199,6 @@ class Filter extends Component {
   }
 
   reloadResults() {
-    if (!this.filterObj.hasOwnProperty('futureBooking')) {
-      this.filterObj.futureBooking = DEFAULT_FILTER_PARAMS.futureBooking;
-    }
-
     const search = '?q=' + encodeURIComponent(JSON.stringify(this.filterObj));
     const title = document ? document.title : '';
 
@@ -408,10 +401,14 @@ class Filter extends Component {
             </DropdownButton>
           </Col>
           <Col md={4} sm={5} xsHidden>
-            <Checkbox className="filter-future-booking-switch"
-                      checked={this.state.futureBooking} onChange={this.futureBookingChangeHandler}>
-              הראו לי דירות שטרם פורסמו <span className="filter-future-booking-new">חדש!</span>
+            <Checkbox name="futureBooking" className="filter-future-booking-switch"
+                      checked={this.state.futureBooking} onChange={this.checkboxChangeHandler}>
+              הראו לי דירות שטרם פורסמו
             </Checkbox>
+            <span className="filter-future-booking-new"
+                  data-tip="חדש! תכננו את מעבר הדירה הבא! מעכשיו תוכלו לגלות דירות מושכרות, לעקוב אחריהן ולהיות הראשונים לדעת כשהן מתפנות">חדש!</span>
+            <ReactTooltip type="dark" effect="solid" place="bottom"
+                          offset={NEW_TIP_OFFSET} className="filter-future-booking-tooltip"/>
           </Col>
         </Row>
         <Row>
@@ -442,11 +439,15 @@ class Filter extends Component {
               <div className={'filter-trigger-container ' + this.state.extraFilterClass}>פילטרים נוספים</div>
             </OverlayTrigger>
           </Col>
-          <Col lgHidden mdHidden smHidden>
-            <Checkbox className="filter-future-booking-switch"
-                      checked={this.state.futureBooking} onChange={this.futureBookingChangeHandler}>
-              הראו לי דירות שטרם פורסמו <span className="filter-future-booking-new">חדש!</span>
+          <Col lgHidden mdHidden smHidden className="filter-future-booking-switch-mobile-wrapper">
+            <Checkbox name="futureBooking" className="filter-future-booking-switch"
+                      checked={this.state.futureBooking} onChange={this.checkboxChangeHandler}>
+              הראו לי דירות שטרם פורסמו
             </Checkbox>
+            <span className="filter-future-booking-new"
+                  data-tip="חדש! תכננו את מעבר הדירה הבא! מעכשיו תוכלו לגלות דירות מושכרות, לעקוב אחריהן ולהיות הראשונים לדעת כשהן מתפנות">חדש!</span>
+            <ReactTooltip type="dark" effect="solid" place="bottom"
+                          offset={NEW_TIP_OFFSET} className="filter-future-booking-tooltip"/>
           </Col>
         </Row>
         <div className="filter-close">
