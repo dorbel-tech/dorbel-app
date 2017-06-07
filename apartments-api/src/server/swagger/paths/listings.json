@@ -161,5 +161,45 @@
         }
       }
     }
+  },
+  "/listings/validation": {
+    "post": {
+      "summary": "Validate a listing by apartment",
+      "description": "Returns and object that indicates if a listing exists for the apartment, if it's already listed and if it belongs to the current user",
+      "parameters": [
+        {
+          "name": "apartment",
+          "in": "body",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/Apartment"
+          }
+        },
+        {
+          "name": "x-user-profile",
+          "in": "header",
+          "required": true,
+          "type": "string",
+          "description": "Stringified JSON object with the user's profile information"
+        }
+      ],
+      "tags": [
+        "listingValidationController",
+        "authenticated"
+      ],
+      "responses": {
+        "200": {
+          "schema": {
+            "type": "object"
+          }
+        },
+        "default": {
+          "description": "Unexpected error",
+          "schema": {
+            "$ref": "#/definitions/Error"
+          }
+        }
+      }
+    }
   }
 }

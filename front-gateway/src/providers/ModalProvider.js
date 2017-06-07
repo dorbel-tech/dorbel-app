@@ -14,6 +14,8 @@ export default class ModalProvider {
         this.appStore.showModal = false;
       };
 
+      params.bodyClass = 'text-center';
+
       params.footer = (
         <div>
           <Button onClick={() => close(true)} bsStyle={params.confirmStyle || 'danger'} block>{params.confirmButton || 'המשך'}</Button>
@@ -21,7 +23,7 @@ export default class ModalProvider {
         </div>
       );
 
-      this.show(params, () => close(false), 'text-center');
+      this.show(params, () => close(false));
     });
   }
 
@@ -37,18 +39,26 @@ export default class ModalProvider {
     });
   }
 
-  show(params, closeHandler, bodyClass) {
+  show(params) {
     this.appStore.modalParams = {
       title: params.title,
       body: (
-          <div className={bodyClass}>
+        <div className="text-center">
+          <div className={params.bodyClass}>
             { params.heading && (<h4>{params.heading}</h4>) }
             { params.body }
           </div>
-        ),
+        </div>
+      ),
       footer: params.footer,
       modalSize: params.modalSize || 'small',
-      onClose: closeHandler};
+      onClose: () => {
+        if(params.closeHandler){
+          params.closeHandler();
+        }
+        this.appStore.showModal = false;
+      }
+    };
 
     this.appStore.showModal = true;
   }

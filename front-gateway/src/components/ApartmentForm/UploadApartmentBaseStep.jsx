@@ -1,12 +1,18 @@
 import React, { Component } from 'react';
 import { action } from 'mobx';
 import { inject, observer } from 'mobx-react';
+import autobind from 'react-autobind';
 
 @inject('appStore', 'appProviders') @observer
 class UploadApartmentBaseStep extends Component {
   constructor(props) {
     super(props);
+    autobind(this);
     this.state = { formValues: {} };
+    
+    // TODO: refactor 
+    // These lines were here because when removed, back functionality doesn't work on step2 for some reason - 
+    // Should be checked when refactoring 
     this.handleChanges = this.handleChanges.bind(this);
     this.clickNext = this.clickNext.bind(this);
     this.clickBack = this.clickBack.bind(this);
