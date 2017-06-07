@@ -1,5 +1,6 @@
 'use stric';
 const common = require('../common');
+const imagePath = common.IS_CI ? 'C:/Users/hello/Desktop/images/logo1.jpg' : __dirname + '/resources/test.png';
 
 module.exports = {
   url: function () {
@@ -248,8 +249,8 @@ module.exports = {
     uploadImage: function () {
       this.section.apartmentPictures
         .waitForElementVisible('.add-photo')
-        .setValue('input[type="file"]', __dirname + '/resources/test.png')
-        .waitForElementVisible('.remove-image', 30000);
+        .setValue('input[type="file"]', imagePath)
+        .waitForElementVisible('.remove-image', 5000);
       return this;
     }
   }]
