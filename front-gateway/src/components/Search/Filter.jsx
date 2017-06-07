@@ -170,6 +170,13 @@ class Filter extends Component {
     this.reloadResults();
   }
 
+  futureBookingChangeHandler(e) {
+    this.setState({ futureBooking: e.target.checked });
+    this.filterObj.futureBooking = e.target.checked;
+
+    this.reloadResults();
+  }
+
   roommateChangeHandler(e) {
     this.setState({ [e.target.name]: e.target.checked });
 
@@ -195,7 +202,7 @@ class Filter extends Component {
   }
 
   reloadResults() {
-    if (!this.filterObj.futureBooking) {
+    if (!this.filterObj.hasOwnProperty('futureBooking')) {
       this.filterObj.futureBooking = DEFAULT_FILTER_PARAMS.futureBooking;
     }
 
@@ -401,8 +408,8 @@ class Filter extends Component {
             </DropdownButton>
           </Col>
           <Col md={4} sm={5} xsHidden>
-            <Checkbox name="futureBooking" className="filter-future-booking-switch"
-                      checked={this.state.futureBooking} onChange={this.checkboxChangeHandler}>
+            <Checkbox className="filter-future-booking-switch"
+                      checked={this.state.futureBooking} onChange={this.futureBookingChangeHandler}>
               הראו לי דירות שטרם פורסמו <span className="filter-future-booking-new">חדש!</span>
             </Checkbox>
           </Col>
@@ -436,8 +443,8 @@ class Filter extends Component {
             </OverlayTrigger>
           </Col>
           <Col lgHidden mdHidden smHidden>
-            <Checkbox name="futureBooking" className="filter-future-booking-switch"
-                      checked={this.state.futureBooking} onChange={this.checkboxChangeHandler}>
+            <Checkbox className="filter-future-booking-switch"
+                      checked={this.state.futureBooking} onChange={this.futureBookingChangeHandler}>
               הראו לי דירות שטרם פורסמו <span className="filter-future-booking-new">חדש!</span>
             </Checkbox>
           </Col>
