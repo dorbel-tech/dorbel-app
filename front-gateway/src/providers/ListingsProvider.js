@@ -132,7 +132,8 @@ class ListingsProvider {
     newListing.lease_end = undefined;
     newListingStore.reset();
     newListingStore.loadListing(newListing);
-    this.router.setRoute('/apartments/new_form/publish');
+    newListingStore.uploadMode = 'republish';
+    this.router.setRoute('/apartments/new_form/republish');
   }
 
   isRepublishable(listing) {
