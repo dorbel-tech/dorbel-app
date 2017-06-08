@@ -6,6 +6,7 @@ import './UploadApartmentForm.scss';
 
 const statusByUploadMode = {
   publish: 'pending',
+  republish: 'pending',
   manage: 'rented'
 };
 

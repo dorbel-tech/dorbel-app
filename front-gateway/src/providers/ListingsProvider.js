@@ -132,7 +132,7 @@ class ListingsProvider {
     newListing.lease_end = undefined;
     newListingStore.reset();
     newListingStore.loadListing(newListing);
-    this.router.setRoute('/apartments/new_form/publish');
+    this.router.setRoute('/apartments/new_form/republish');
   }
 
   isRepublishable(listing) {
