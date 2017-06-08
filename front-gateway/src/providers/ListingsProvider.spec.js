@@ -63,7 +63,7 @@ describe('Listings Provider', () => {
 
     it('should route to new form', () => {
       listingsProvider.republish({});
-      expect(routerMock.setRoute).toHaveBeenCalledWith('/apartments/new_form/publish');
+      expect(routerMock.setRoute).toHaveBeenCalledWith('/apartments/new_form/republish');
     });
 
     it('should say rented listing is republishable', () => {

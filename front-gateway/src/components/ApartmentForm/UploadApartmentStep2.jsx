@@ -18,6 +18,7 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
 
   handleValidationResponse(validationResp) {
     const { modalProvider, navProvider } = this.props.appProviders;
+    const { newListingStore } = this.props.appStore;
     if (validationResp) {
       switch (validationResp.status) {
         case 'belongsToOtherUser':
@@ -73,26 +74,27 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
           });
           break;
         case 'alreadyExists':
-          modalProvider.show({
-            bodyClass: 'upload-apartment-validation-popup',
-            title: 'דירה זו כבר קיימת בחשבונכם!',
-            body: (
-              <div>
+          if (newListingStore.uploadMode != 'republish') {
+            modalProvider.show({
+              bodyClass: 'upload-apartment-validation-popup',
+              title: 'דירה זו כבר קיימת בחשבונכם!',
+              body: (
                 <div>
-                  שימו לב - שליחת הטופס תעדכן את פרטי הדירה הקיימת.
                   <div>
-                    באפשרותכם גם&nbsp;
-                    <a
-                      className="upload-apartment-validation-popup-link"
-                      href={`/dashboard/my-properties/${validationResp.listing_id}`}>
-                      להכנס לחשבון הדירה
-                    </a>
+                    שימו לב - שליחת הטופס תעדכן את פרטי הדירה הקיימת.
+                    <div>
+                      באפשרותכם גם&nbsp;
+                      <a className="upload-apartment-validation-popup-link"
+                        href={`/dashboard/my-properties/${validationResp.listing_id}`}>
+                        להכנס לחשבון הדירה
+                      </a>
+                    </div>
+                    ולנהל אותה משם
                   </div>
-                  ולנהל אותה משם
                 </div>
-              </div>
-            )
-          });
+              )
+            });
+          }
           break;
         default:
           break;
