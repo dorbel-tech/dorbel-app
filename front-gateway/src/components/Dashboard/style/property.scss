@@ -63,7 +63,7 @@
 
   @media (max-width: $screen-xs-max) {
     font-size: 15px;
-    padding-left: 45px;
+    padding-left: 60px;
     white-space: normal;
   }
 }
@@ -161,6 +161,20 @@
   padding-left: 10px;
 }
 
+.property-actions-menu-container > .property-action-button {
+  border: 1px solid #c4c4c4 !important;
+  border-radius: 2px;
+  font-size: 12px;
+  height: 20px;
+  margin-right: 14px;
+  padding: 0 6px;
+  width: 55px;
+
+  > i {
+    margin-right: 3px;
+  }
+}
+
 .property-action-button {
   background-color: $brand-white !important;
   border: none !important;
@@ -191,7 +205,7 @@
   cursor: pointer;
 
   @media (max-width: $screen-xs-max) {
-    left: 5px;
+    left: 10px;
     padding: 13px 5px 0;
     position: absolute;
     top: 0;
@@ -268,6 +282,9 @@
 }
 
 .property-history-selector {
+  display: block !important;
+  margin-top: 10px;
+
   @media (max-width: $screen-xs-max) {
     display: none !important;
   }
