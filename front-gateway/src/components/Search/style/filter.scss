@@ -50,6 +50,7 @@
     color: #00f;
     cursor: pointer;
     display: inline-block;
+    font-size: 15px;
     margin-bottom: 10px;
     padding: 15px;
     text-decoration: underline;
@@ -95,19 +96,21 @@
   }
 }
 
-.filter-area-popup div {
-  margin: 7px 0;
+.filter-dropdown-wrapper > div {
   width: 100%;
 }
 
-.filter-area-dropdown {
+.filter-dropdown {
   background-color: $brand-white !important;
   border: 1px solid #d8d8d8 !important;
   border-radius: 4px !important;
   box-shadow: none !important;
   font-size: 15px !important;
   line-height: 13px !important;
+  overflow: hidden;
+  padding-left: 25px !important;
   text-align: right;
+  text-overflow: ellipsis;
   width: 100%;
 
   .caret {
@@ -121,11 +124,44 @@
     position: absolute;
   }
 
+  &.filter-trigger-active::after {
+    color: #3398db;
+    content: '\f058';
+    font-size: 22px;
+  }
+
   @media (max-width: $screen-xs-max) {
     height: 45px;
     margin: 10px auto;
     text-align: center;
   }
+}
+
+.filter-future-booking-switch {
+  color: #4d4d4d;
+  display: inline-block;
+  font-size: 15px;
+  line-height: 19px;
+  margin: 7px 0 27px;
+}
+
+.filter-future-booking-switch-mobile-wrapper {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.filter-future-booking-new {
+  background-color: #e74c3c;
+  border-radius: 2px;
+  color: $brand-white;
+  font-size: 11px;
+  margin-right: 5px;
+  padding: 0 3px;
+  vertical-align: super;
+}
+
+.filter-future-booking-tooltip {
+  width: 179px;
 }
 
 .filter-admin-switch {
