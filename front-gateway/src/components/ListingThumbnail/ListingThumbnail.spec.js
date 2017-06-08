@@ -1,6 +1,7 @@
 'use strict';
 import React from 'react';
 import { shallow } from 'enzyme';
+import utils from '~/providers/utils';
 
 import ListingThumbnail from './ListingThumbnail';
 
@@ -54,6 +55,16 @@ describe('Listing Thumbnail', () => {
 
       const leaseStart = rendered.find('.apt-thumb-lease-immediate');
       expect(leaseStart.text()).toBe('מיידי');
+    });
+    it('should display appropriate text for lease_start in the future', () => {
+      let tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      listing.lease_start = tomorrow.toDateString();
+
+      const rendered = renderThumbnail();
+
+      const leaseStart = rendered.find('.apt-thumb-lease-date');
+      expect(leaseStart.text()).toBe(utils.formatDate(tomorrow));
     });
   });
 
