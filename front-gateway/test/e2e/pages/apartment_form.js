@@ -1,16 +1,23 @@
 'use stric';
 const common = require('../common');
+const imagePath = common.IS_CI ? 'C:/Users/hello/Desktop/images/logo1.jpg' : __dirname + '/resources/test.png';
 
 module.exports = {
-  url: function(){
+  url: function () {
     return common.getBaseUrl() + '/apartments/new_form/publish';
   },
   sections: {
     apartmentPictures: {
       selector: '.apartment-pictures-step',
       elements: {
+        addNewPhoto: {
+          selector: 'span.add-photo'
+        },
         nextStep: {
-          selector: 'i.apartment-pictures-next-step'
+          selector: '.step-btn.step2.btn.btn-success'
+        },
+        previousStep: {
+          selector: 'i.apartment-pictures-previous-step'
         }
       }
     },
@@ -89,9 +96,6 @@ module.exports = {
         boardFee: {
           selector: 'input[name="board_fee"]'
         },
-        previousStep: {
-          selector: 'i.apartment-details-previous-step'
-        },
         nextStep: {
           selector: 'i.apartment-details-next-step'
         }
@@ -145,38 +149,39 @@ module.exports = {
     }
   },
   commands: [{
-    navigateToApartmentPictureSection: function () {
+    navigateToApartmentDetailsSection: function () {
       this
         .navigate()
         .waitForElementVisible('body');
       return this;
     },
-    navigateToApartmentDetailsSection: function () {
-      this
-        .navigateToApartmentPictureSection()
-        .goFromApartmentPicturesToApartmentDetails();
-      return this;
-    },
-    navigateToOpenHouseEventSection: function () {
+    navigateToApartmentPicturesSection: function () {
       this
         .navigateToApartmentDetailsSection()
         .fillApartmentDetailsAllFields()
-        .goFromApartmentDetailsToOpenHouseEvent();
+        .goFromApartmentDetailsToApartmentPictures();
       return this;
     },
+    // navigateToOpenHouseEventSection: function () {
+    //   this
+    //     .navigateToApartmentPicturesSection()
+    //     .uploadImage()
+    //     .goFromApartmentPicturesToOpenHouseEvent();
+    //   return this;
+    // },
     goFromApartmentPicturesToApartmentDetails: function () {
-      this.section.apartmentPictures.click('@nextStep');
+      this.section.apartmentPictures.click('@previousStep');
       return this;
     },
     goFromApartmentDetailsToApartmentPictures: function () {
-      this.section.apartmentDetails.click('@previousStep');
-      return this;
-    },
-    goFromApartmentDetailsToOpenHouseEvent: function () {
       this.section.apartmentDetails.click('@nextStep');
       return this;
     },
-    goFromOpenHouseEventToApartmentDetails: function () {
+    goFromApartmentPicturesToOpenHouseEvent: function () {
+      this.section.apartmentPictures.click('@nextStep');
+      return this;
+    },
+    goFromOpenHouseEventToApartmentPictures: function () {
       this.section.openHouseEvent.click('@previousStep');
       return this;
     },
@@ -233,12 +238,19 @@ module.exports = {
       this.section.openHouseEvent.click('@submit');
       return this;
     },
-    fillAndSubmitApartment: function () {
-      this
-        // TODO: Add upload image functionality.
-        .navigateToOpenHouseEventSection()
-        .fillOpenHouseEventDetailsAllFields()
-        .submitApartment();
+    // fillAndSubmitApartment: function () {
+    //   this
+    //     // TODO: Add upload image functionality.
+    //     .navigateToOpenHouseEventSection()
+    //     .fillOpenHouseEventDetailsAllFields()
+    //     .submitApartment();
+    //   return this;
+    // },
+    uploadImage: function () {
+      this.section.apartmentPictures
+        .waitForElementVisible('.add-photo')
+        .setValue('input[type="file"]', imagePath)
+        .waitForElementVisible('.remove-image', 5000);
       return this;
     }
   }]

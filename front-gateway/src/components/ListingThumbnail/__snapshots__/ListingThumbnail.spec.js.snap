@@ -8,15 +8,8 @@ exports[`Listing Thumbnail OHE indication should display OHEs when they are alre
 
 exports[`Listing Thumbnail OHE indication should display indication for a loaded listing with no events 1`] = `
 <span
-  className="apt-thumb-no-ohe">
+  className="pull-left apt-thumb-no-ohe">
   אין מועדי ביקור
-</span>
-`;
-
-exports[`Listing Thumbnail OHE indication should display indication for a loaded listing with no events 2`] = `
-<span
-  className="apt-thumb-ohe-text">
-  עדכנו אותי
 </span>
 `;
 

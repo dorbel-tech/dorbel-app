@@ -35,6 +35,9 @@ module.exports = {
     },
     submitLogin: {
       selector: '.upload-apt-left-container button.btn-success'
+    },
+    dismissLoginButton: {
+      selector: '.auth0-lock-close-button'
     }
   },
   commands: [{
@@ -95,6 +98,11 @@ module.exports = {
     },
     validateSignIn: function () {
       this.waitForElementVisible('@loggedInIndication');
+      return this;
+    },
+    dismissSingInForm: function () {
+      this.waitForElementVisible('@loginTab')
+        .click('@dismissLoginButton');
       return this;
     }
   }]

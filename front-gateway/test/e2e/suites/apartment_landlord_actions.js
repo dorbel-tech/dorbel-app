@@ -1,4 +1,4 @@
-'use stric';
+'use strict';
 const common = require('../common');
 let home, apartmentForm;
 
@@ -13,30 +13,57 @@ module.exports = {
     home.resizeDesktop(browser);
     apartmentForm = browser.page.apartment_form();
   },
-  'should go back from apartment details to previous screen': function (browser) {
+  'should go back from apartment pictures to previous screen if user doesnt sign in': function (browser) {
     apartmentForm
-      .navigateToApartmentDetailsSection()
-      .goFromApartmentDetailsToApartmentPictures()
-      .expect.section('@apartmentPictures').to.be.visible;
+      .navigateToApartmentPicturesSection();
+    home.dismissSingInForm();
+    apartmentForm.expect.section('@apartmentDetails').to.be.visible;
+    browser.end();
+  },
+  'should go back from apartment pictures to previous screen': function (browser) {
+    apartmentForm
+      .navigateToApartmentPicturesSection();
+    home.fillSignIn(common.getTestUser('landlord'));
+    browser.pause(2500);
+    apartmentForm.goFromApartmentPicturesToApartmentDetails();
+    apartmentForm.expect.section('@apartmentDetails').to.be.visible;
+    browser.end();
+  },
+  'should fail to go to step3 no pictures were uploaded in step2': function (browser) {
+    apartmentForm
+      .navigateToApartmentPicturesSection();
+    home.fillSignIn(common.getTestUser('landlord'));
+    browser.pause(2500);
+    apartmentForm.goFromApartmentPicturesToOpenHouseEvent()
+      .expect.section('@openHouseEvent').to.not.be.present;
     browser.end();
   },
   'should go back from event details to previous screen': function (browser) {
     apartmentForm
-      .navigateToOpenHouseEventSection()
-      .goFromOpenHouseEventToApartmentDetails()
-      .expect.section('@apartmentDetails').to.be.visible;
-    browser.end();
-  },  
-  'should fail to go to step3 as user details in step2 were not filled': function (browser) {
+      .navigateToApartmentPicturesSection();
+    home.fillSignIn(common.getTestUser('landlord'));
+    browser.pause(2500);
     apartmentForm
-      .navigateToApartmentDetailsSection()
-      .goFromApartmentDetailsToOpenHouseEvent()
-      .expect.section('@openHouseEvent').to.not.be.present;
+      .uploadImage()
+      .goFromApartmentPicturesToOpenHouseEvent()
+      .expect.section('@openHouseEvent').to.be.visible;
+    apartmentForm
+      .goFromOpenHouseEventToApartmentPictures()
+      .expect.section('@apartmentPictures').to.be.visible;
+
     browser.end();
   },
   'should successfully submit a new apartment with logged in user': function (browser) {
     login();
-    apartmentForm.fillAndSubmitApartment();
+    apartmentForm.navigateToApartmentPicturesSection()
+      .uploadImage()
+      .goFromApartmentPicturesToOpenHouseEvent()
+      .expect.section('@openHouseEvent').to.be.visible;
+
+    apartmentForm
+      .fillOpenHouseEventDetailsAllFields()
+      .submitApartment();
+
     browser.pause(500);
     apartmentForm.expect.section('@successModal').to.be.present;
     common.waitForText(apartmentForm.section.successModal, '@successTitle', 'תהליך העלאת פרטי הדירה הושלם בהצלחה!');
@@ -44,16 +71,21 @@ module.exports = {
   },
   'should successfully submit a new apartment while creating new user': function (browser) {
     let user = common.getTestUser('random');
-    apartmentForm
-        .navigateToOpenHouseEventSection()
-        .fillOpenHouseEventDetailsAllFields();
+
+    apartmentForm.navigateToApartmentPicturesSection();
     home.signUpInForm(user);
+    apartmentForm.uploadImage()
+      .goFromApartmentPicturesToOpenHouseEvent()
+      .expect.section('@openHouseEvent').to.be.visible;
+
     apartmentForm
+      .fillOpenHouseEventDetailsAllFields()
       .fillUserDetailsFields(user)
       .submitApartment();
+
     browser.pause(500);
     apartmentForm.expect.section('@successModal').to.be.present;
     common.waitForText(apartmentForm.section.successModal, '@successTitle', 'תהליך העלאת פרטי הדירה הושלם בהצלחה!');
     browser.end();
-  }    
+  }
 };

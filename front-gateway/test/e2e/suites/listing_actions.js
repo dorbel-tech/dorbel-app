@@ -4,7 +4,9 @@ let home, apartmentForm, listing, listingId;
 
 function login(userType) {
   let user = common.getTestUser(userType);
-  home.navigate().signIn(user);
+  home.navigate()
+    .waitForElementVisible('body')
+    .signIn(user);
 }
 
 function loginInListing(userType) {
@@ -17,14 +19,26 @@ function logout() {
 }
 
 function submitApartment(browser) {
-  apartmentForm.fillAndSubmitApartment();
+  apartmentForm
+    .navigateToApartmentPicturesSection()
+    .uploadImage()
+    .goFromApartmentPicturesToOpenHouseEvent()
+    .expect.section('@openHouseEvent').to.be.visible;
+
+  apartmentForm
+    .fillOpenHouseEventDetailsAllFields()
+    .submitApartment();
+
   browser.pause(500);
   apartmentForm.expect.section('@successModal').to.be.present;
   common.waitForText(apartmentForm.section.successModal, '@successTitle', 'תהליך העלאת פרטי הדירה הושלם בהצלחה!');
+  
   // Get listingId from success modal dom element data-attr attribute.
-  apartmentForm.section.successModal.getAttribute('@listingId', 'data-attr', function(result) {
+  apartmentForm.section.successModal.getAttribute('@listingId', 'data-attr', function (result) {
     listingId = result.value;
   });
+  
+  browser.end();
 }
 
 function waitForUnRegisterText() {

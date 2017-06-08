@@ -1,6 +1,7 @@
 'use strict';
 const app = require('../../src/index.js');
 const coSupertest = require('co-supertest');
+const _ = require('lodash');
 const fakeObjectGenerator = require('../shared/fakeObjectGenerator');
 
 const USER_PROFILE_HEADER = 'x-user-profile';
@@ -23,6 +24,7 @@ class ApiClient {
   }
 
   getListings(query, isAuthenticated) {
+    query = _.cloneDeep(query);
     if (query && query.q) { // Fix special character encoding in filter json
       query.q = encodeURIComponent(JSON.stringify(query.q))
         .replace(/%22/g, '"')
@@ -102,7 +104,7 @@ class ApiClient {
       .get('/v1/likes/' + listingId);
   }
 
-  updateUserProfile(data, isAuthenticated=true) {
+  updateUserProfile(data, isAuthenticated = true) {
     return isAuthenticated ?
       this.request
         .patch('/v1/user-profile')
@@ -131,6 +133,13 @@ class ApiClient {
     return this.request
       .delete(`/v1/listings/${listingId}/tenants/${tenantId}`)
       .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile));
+  }
+
+  getValidationData(apartment) {
+    return this.request
+      .post('/v1/listings/validation')
+      .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile))
+      .send({apartment});
   }
 
   static * init(userProfile) {

@@ -179,7 +179,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
           </FormWrapper.Wrapper>
           <Col xs={12} md={7} className="form-nav bottom">
             <span className="prev-step step3" onClick={this.clickBack.bind(this)}>
-              <i className="open-house-event-previous-step fa fa-arrow-circle-o-right fa-2x" aria-hidden="true"></i>&nbsp; שלב קודם
+              <i className="open-house-event-previous-step fa fa-arrow-circle-o-right fa-2x" aria-hidden="true"></i>&nbsp; חזור
             </span>
             <span>3/3</span>
             <SubmitButton onClick={this.clickNext.bind(this)} className="step-btn step3"

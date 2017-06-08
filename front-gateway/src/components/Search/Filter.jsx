@@ -7,6 +7,9 @@ import { range } from 'lodash';
 
 import './Filter.scss';
 
+const CITY_ALL_OPTION = { value: '*', label: 'כל הערים' };
+const NEIGHBORHOOD_ALL_OPTION = { value: '*', label: 'כל השכונות' };
+
 const DEFAULT_FILTER_PARAMS = {
   // Admin filter default values.
   listed: true,
@@ -15,6 +18,7 @@ const DEFAULT_FILTER_PARAMS = {
   unlisted: false,
 
   city: '*', // City selector default value.
+  neighborhood: '*', // Neighborhood selector default value.
   sort: 'publish_date', // Default sort by radio group value.
   roommate: true, // Roommate search checkbox default value.
   empty: true, // Empty apartment for roommates checkbox default value.
@@ -48,7 +52,7 @@ class Filter extends Component {
 
     this.state = Object.assign({
       hideFilter: true,
-      cityFilterClass: this.getCityFilterClass(),
+      areaFilterClass: this.getAreaFilterClass(),
       extraFilterClass: this.getExtraFilterClass(),
       mrFilterClass: this.getMRFilterClass(),
       roomsFilterClass: this.getRoomsFilterClass()
@@ -57,6 +61,7 @@ class Filter extends Component {
 
   componentDidMount() {
     this.props.appProviders.cityProvider.loadCities();
+    this.loadNeighborhoods(this.state.city);
     this.reloadResults();
 
     // Adjust roommates checkboxes state when provided with roommates data from
@@ -66,9 +71,15 @@ class Filter extends Component {
     }
   }
 
-  getCityFilterClass() {
-    const cityFilterActive = this.filterObj.city && (this.filterObj.city !== DEFAULT_FILTER_PARAMS.city);
-    return cityFilterActive ? 'filter-trigger-active' : '';
+  loadNeighborhoods(cityId) {
+    if (cityId !== CITY_ALL_OPTION.value) {
+      this.props.appProviders.neighborhoodProvider.loadNeighborhoodByCityId(cityId);
+    }
+  }
+
+  getAreaFilterClass() {
+    const areaFilterActive = this.filterObj.city && (this.filterObj.city !== DEFAULT_FILTER_PARAMS.city);
+    return areaFilterActive ? 'filter-trigger-active' : '';
   }
 
   getRoomsFilterClass() {
@@ -89,9 +100,17 @@ class Filter extends Component {
   }
 
   citySelectHandler(cityId) {
-    //this.setState({ city: cityId }); // Unused but required for calling render
     this.filterObj.city = cityId;
-    this.setState({cityFilterClass: this.getCityFilterClass()});
+    this.setState({areaFilterClass: this.getAreaFilterClass()});
+
+    this.filterObj.neighborhood = NEIGHBORHOOD_ALL_OPTION.value;
+    this.loadNeighborhoods(cityId);
+    this.reloadResults();
+  }
+
+  neighborhoodSelectHandler(neighborhoodId) {
+    this.filterObj.neighborhood = neighborhoodId;
+    this.setState({areaFilterClass: this.getAreaFilterClass()});
 
     this.reloadResults();
   }
@@ -180,6 +199,15 @@ class Filter extends Component {
     this.props.appProviders.searchProvider.search(this.filterObj);
   }
 
+  getAreaTitle(areaId, allOption, areas, nameProp) {
+    if (areaId === allOption.value) {
+      return allOption.label;
+    } else {
+      const area = areas.find(a => a.id == areaId);
+      return area ? area[nameProp] : 'טוען...';
+    }
+  }
+
   toggleHideFilter() {
     this.setState({ hideFilter: !this.state.hideFilter });
   }
@@ -218,6 +246,33 @@ class Filter extends Component {
         </Checkbox>
       </div>;
     }
+  }
+
+  areaPopup() {
+    const { cityStore, neighborhoodStore } = this.props.appStore;
+    const cities = cityStore.cities.length ? cityStore.cities : [];
+    const cityId = this.filterObj.city || DEFAULT_FILTER_PARAMS.city;
+    const cityTitle = this.getAreaTitle(cityId, CITY_ALL_OPTION, cities, 'city_name');
+    const neighborhoodId = this.filterObj.neighborhood || DEFAULT_FILTER_PARAMS.neighborhood;
+    const neighborhoods = neighborhoodStore.neighborhoodsByCityId.get(cityId) || [];
+    const neighborhoodTitle = this.getAreaTitle(neighborhoodId, NEIGHBORHOOD_ALL_OPTION, neighborhoods, 'neighborhood_name');
+
+    return <Popover className="filter-area-popup" id="popup-rooms">
+              <DropdownButton id="cityDropdown" bsSize="large"
+                className="filter-area-dropdown" noCaret
+                title={'עיר: ' + cityTitle}
+                onSelect={this.citySelectHandler}>
+                <MenuItem eventKey={CITY_ALL_OPTION.value}>{CITY_ALL_OPTION.label}</MenuItem>
+                {cities.map(city => <MenuItem key={city.id} eventKey={city.id}>{city.city_name}</MenuItem>)}
+              </DropdownButton>
+              <DropdownButton id="neighborhoodDropdown" bsSize="large"
+                className="filter-area-dropdown" noCaret
+                title={'שכונה: ' + neighborhoodTitle}
+                onSelect={this.neighborhoodSelectHandler}>
+                <MenuItem eventKey={NEIGHBORHOOD_ALL_OPTION.value}>{NEIGHBORHOOD_ALL_OPTION.label}</MenuItem>
+                {neighborhoods.map(neighborhood => <MenuItem key={neighborhood.id} eventKey={neighborhood.id}>{neighborhood.neighborhood_name}</MenuItem>)}
+              </DropdownButton>
+           </Popover>;
   }
 
   roomsPopup() {
@@ -337,18 +392,7 @@ class Filter extends Component {
   }
 
   render() {
-    const { cityStore } = this.props.appStore;
-    const cities = cityStore.cities.length ? cityStore.cities : [];
-    const cityId = this.filterObj.city || DEFAULT_FILTER_PARAMS.city;
     const filterButtonText = this.state.hideFilter ? 'סנן תוצאות' : 'סגור';
-
-    let cityTitle;
-    if (cityId === '*') {
-      cityTitle = 'כל הערים';
-    } else {
-      const city = cities.find(c => c.id == cityId);
-      cityTitle = city ? city.city_name : 'טוען...';
-    }
 
     return <div>
       <div className="filter-toggle-container">
@@ -358,14 +402,11 @@ class Filter extends Component {
       </div>
       <Grid fluid className={'filter-wrapper' + (this.state.hideFilter ? ' hide-mobile-filter' : '')}>
         <Row>
-          <Col md={2} mdOffset={2} sm={3} className="filter-city-wrapper">
-            <DropdownButton id="cityDropdown" bsSize="large"
-              className={'filter-city-dropdown ' + this.state.cityFilterClass}
-              title={'עיר: ' + cityTitle}
-              onSelect={this.citySelectHandler}>
-              <MenuItem eventKey={'*'}>כל הערים</MenuItem>
-              {cities.map(city => <MenuItem key={city.id} eventKey={city.id}>{city.city_name}</MenuItem>)}
-            </DropdownButton>
+          <Col md={2} mdOffset={2} sm={3}>
+            <OverlayTrigger placement="bottom" trigger="click" rootClose
+                            overlay={this.areaPopup()}>
+              <div className={'filter-trigger-container ' + this.state.areaFilterClass}>מיקום</div>
+            </OverlayTrigger>
           </Col>
           <Col md={2} sm={3}>
             <OverlayTrigger placement="bottom" trigger="click" rootClose
