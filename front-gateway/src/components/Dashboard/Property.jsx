@@ -144,10 +144,10 @@ class Property extends Component {
           <Button className="property-action-button"
                   onMouseEnter={this.showActionsMenu}
                   onMouseLeave={this.hideActionsMenu}
-                  onClick={this.showActionsMenu}>
+                  onClick={this.showActionsMenu}
+                  ref={(el) => { this.propertyActionMenuIcon = el; }}>
             תפריט
-            <i ref={(el) => { this.propertyActionMenuIcon = el; }}
-               className="fa fa-caret-down"
+            <i className="fa fa-caret-down"
                aria-hidden="true"></i>
           </Button>
           <Overlay show={this.state.showActionsMenu}
