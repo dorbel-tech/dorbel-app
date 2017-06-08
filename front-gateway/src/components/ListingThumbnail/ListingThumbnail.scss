@@ -32,10 +32,12 @@
   }
 
   @media (min-width: $screen-sm-min) {
+    margin-bottom: 30px;
     max-width: 292px;
   }
 
   @media (min-width: $screen-md-min) {
+    max-width: 645px;
     transition: box-shadow 0.35s ease-out, transform 0.3s ease-out, opacity 0.2s ease-out;
   }
 
