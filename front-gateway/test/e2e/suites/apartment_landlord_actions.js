@@ -14,6 +14,15 @@ module.exports = {
     apartmentForm = browser.page.apartment_form();
     apartmentForm.props.mode = 'publish';
   },
+  'should not display exitDate input on upload for publish': function () {
+    apartmentForm.navigateToApartmentDetailsSection()
+      .section.apartmentDetails.assert.elementNotPresent('@exitDate');
+  },
+  'should display exitDate input on upload for manage': function () {
+    apartmentForm.props.mode = 'manage';
+    apartmentForm.navigateToApartmentDetailsSection()
+      .section.apartmentDetails.assert.elementPresent('@exitDate');
+  },
   'should go back from apartment pictures to previous screen if user doesnt sign in': function (browser) {
     apartmentForm
       .navigateToApartmentPicturesSection();
@@ -77,7 +86,7 @@ module.exports = {
   }
 };
 
-function submitApartment(browser, uploadMode='publish') {
+function submitApartment(browser, uploadMode = 'publish') {
   apartmentForm.props.mode = uploadMode;
   login();
 
@@ -99,7 +108,7 @@ function submitApartment(browser, uploadMode='publish') {
   browser.end();
 }
 
-function tryNavigatingToStep3WithoutPics(browser, uploadMode='publish') {
+function tryNavigatingToStep3WithoutPics(browser, uploadMode = 'publish') {
   apartmentForm.props.mode = uploadMode;
   apartmentForm
     .navigateToApartmentPicturesSection();

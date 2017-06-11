@@ -170,8 +170,7 @@ module.exports = {
       this
         .navigate()
         .waitForElementVisible('body')
-        .selectUploadMode()
-        .checkApartmentDetailsRederedInputs();
+        .selectUploadMode();
 
       return this;
     },
@@ -257,17 +256,6 @@ module.exports = {
         .setValue('input[type="file"]', imagePath)
         .waitForElementVisible('.remove-image', 5000);
       return this;
-    },
-    checkApartmentDetailsRederedInputs: function () {
-      const assert = this.section.apartmentDetails.assert;
-      switch (this.props.mode) {
-        case 'publish':
-          assert.elementNotPresent('@exitDate');
-          break;
-        case 'manage':
-          assert.elementPresent('@exitDate');
-          break;
-      }
     },
     selectUploadMode: function () {
       const uploadModeSection = this.section.selectUploadMode;
