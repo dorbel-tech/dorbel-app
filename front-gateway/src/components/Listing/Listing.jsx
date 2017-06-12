@@ -47,11 +47,10 @@ class Listing extends Component {
 
   shouldShowSharePopup() {
     if (location.search.includes('?showSharePopup')) {
-      history.replaceState(undefined, document.title, location.href);
-      const { modalProvider } = this.props.appProviders;
-      const currentUrl = location.href.split('?')[0];
+      const currentUrlClean = location.href.split('?')[0];
+      history.replaceState(undefined, document.title, currentUrlClean);
 
-      modalProvider.showInfoModal({
+      this.props.appProviders.modalProvider.showInfoModal({
         body:
         <div className="listing-approved-share-modal">
           <h1 className="listing-approved-share-modal-title">יאיי! דירתכם עלתה לאתר.</h1>
@@ -66,8 +65,7 @@ class Listing extends Component {
               <div>
                 <div className="listing-approved-share-modal-button-wrapper">
                   <Button
-                    href={'whatsapp://send'}
-                    data-href={currentUrl + '?utm_source=apt_page_whatsapp_share'}>
+                    href={`whatsapp://send?text=${currentUrlClean}`}>
                     שתפו ב
                     -&nbsp;
                 <img src="https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/icons/whatsapp.svg" />
@@ -75,7 +73,7 @@ class Listing extends Component {
                 </div>
                 <div className="listing-approved-share-modal-button-wrapper">
                   <Button
-                    href={'fb://publish/profile/#me?text=' + currentUrl + '?utm_source=apt_page_facebook_share'}>
+                    href={'fb://publish/profile/#me?text=' + currentUrlClean + '?utm_source=apt_page_facebook_share'}>
                     שתפו ב-
                     &nbsp;
                     <img src="https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/icons/facebook.svg" />
@@ -87,7 +85,7 @@ class Listing extends Component {
             (
               <div className="listing-approved-share-modal-button-wrapper">
                 <Button
-                  href={'https://www.facebook.com/sharer.php?u=' + currentUrl + '?utm_source=apt_page_facebook_share'}
+                  href={'https://www.facebook.com/sharer.php?u=' + currentUrlClean + '?utm_source=apt_page_facebook_share'}
                   className="rented-congrats-modal-button" >
                   שתפו ב-
                   &nbsp;
