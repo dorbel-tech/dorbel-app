@@ -1,0 +1,42 @@
+.listing-approved-share-modal {
+  .listing-approved-share-modal-title {
+    color: #428bca;
+    margin-top: -30px;
+  }
+
+  .listing-approved-share-modal-heading {
+    font-size: 25px;
+
+    .bold {
+      font-weight: bold;
+    }
+  }
+
+  .listing-approved-share-modal-body-text {
+    font-size: 20px;
+    color: $gray;
+    max-width: 345px;
+    padding: 15px 0;
+    margin: 0 auto;
+  }
+
+  .listing-approved-share-modal-button-wrapper {
+    display: inline-block;
+    margin: 0 15px;
+
+    img {
+      height: 25px;
+    }
+  }
+
+  .listing-approved-share-modal-contact-us {
+    font-size: 18px;
+    color: $gray-light;
+    margin-top: 20px;
+
+    a,
+    a:active {
+      color: $gray-light;
+    }
+  }
+}
