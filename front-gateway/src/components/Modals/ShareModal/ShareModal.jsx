@@ -14,17 +14,17 @@ class ShareModal extends Component {
           <div>
             <div className="listing-share-modal-button">
               <a href={'fb-messenger://share/?link=' + shareUrl + '?utm_source=apt_page_messenger_share' + '&app_id=1651579398444396'}>
-                <img src="https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/icons/facebook-messenger.svg" />
+                <img src="https://static.dorbel.com/images/icons/facebook-messenger.svg" />
               </a>
             </div>
             <div className="listing-share-modal-button">
               <a href={`whatsapp://send?text=${shareUrl}`}>
-                <img src="https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/icons/whatsapp.svg" />
+                <img src="https://static.dorbel.com/images/icons/whatsapp.svg" />
               </a>
             </div>
             <div className="listing-share-modal-button">
               <a href={'fb://publish/profile/#me?text=' + shareUrl + '?utm_source=apt_page_facebook_share'}>
-                <img src="https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/icons/facebook.svg" />
+                <img src="https://static.dorbel.com/images/icons/facebook.svg" />
               </a>
             </div>
           </div>
@@ -33,7 +33,7 @@ class ShareModal extends Component {
         (
           <div className="listing-share-modal-button">
             <a href={'https://www.facebook.com/sharer.php?u=' + shareUrl + '?utm_source=apt_page_facebook_share'}>
-              <img src="https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/icons/facebook.svg" />
+              <img src="https://static.dorbel.com/images/icons/facebook.svg" />
             </a>
           </div>
         );
