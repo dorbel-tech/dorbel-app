@@ -111,7 +111,7 @@ export default class ListingDetailsForm extends React.Component {
               <label>{endLabel}</label>
               <DatePicker
                 value={editedListingStore.formValues.lease_end || moment(editedListingStore.formValues.lease_start).add(1, 'year').format('YYYY-MM-DD')}
-                name="apartment.entrance-date"
+                name="apartment.exit-date"
                 calendarPlacement="top"
                 onChange={value => this.handleDateChange('lease_end', value, true)} />
             </Col>
