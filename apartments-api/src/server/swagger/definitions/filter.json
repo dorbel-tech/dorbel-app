@@ -1,0 +1,28 @@
+{
+  "Filter": {
+    "type": "object",
+    "properties": {
+      "email_notification": { "type": "boolean" },
+      "city": { "type": "integer" },
+      "neighborhood": { "type": "integer" },
+      "mrs": { "type": "number" },
+      "mre": { "type": "number" },
+      "minRooms": { "type": "number" },
+      "maxRooms": { "type": "number" },
+      "ac": { "type": "boolean" },
+      "balc": { "type": "boolean" },
+      "ele": { "type": "boolean" },
+      "park": { "type": "boolean" },
+      "pet": { "type": "boolean" },
+      "sb": { "type": "boolean" },
+      "futueBooking": { "type": "boolean" }
+    },
+    "required": [
+      "city",
+      "mrs",
+      "mre",
+      "minRooms",
+      "maxRooms"
+    ]
+  }
+}
