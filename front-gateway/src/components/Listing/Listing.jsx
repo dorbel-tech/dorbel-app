@@ -50,7 +50,7 @@ class Listing extends Component {
 
   shouldShowShareModal() {
     if (location.search.includes(shareModalQueryString)) {
-      const currentUrlClean = location.href.replace(shareModalQueryString, '');
+      const currentUrlClean = location.href.split('?')[0];
       history.replaceState(undefined, document.title, currentUrlClean);
 
       this.props.appProviders.modalProvider.showInfoModal({

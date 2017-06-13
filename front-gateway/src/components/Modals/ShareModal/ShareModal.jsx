@@ -32,7 +32,7 @@ class ShareModal extends Component {
         :
         (
           <div className="listing-share-modal-button">
-            <a href={'https://www.facebook.com/sharer.php?u=' + shareUrl + '?utm_source=apt_page_facebook_share'}>
+            <a href={'https://www.facebook.com/sharer.php?u=' + shareUrl + '?utm_source=apt_page_facebook_share'} target="_blank">
               <img src="https://static.dorbel.com/images/icons/facebook.svg" />
             </a>
           </div>
