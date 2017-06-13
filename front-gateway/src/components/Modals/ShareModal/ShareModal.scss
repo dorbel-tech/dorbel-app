@@ -1,16 +1,19 @@
-.listing-approved-share-modal {
-  @media (min-width: $screen-sm-min) {
+@import "../../sharedStyles/variables.scss";
+@import "../../sharedStyles/bsvars.scss";
+
+.listing-share-modal {
+  @media (min-width: $screen-sm-max) {
     margin-top: 10px;
     margin-bottom: 10px;
   }
 
-  .listing-approved-share-modal-title {
+  .listing-share-modal-title {
     font-size: 24px;
     color: #428bca;
     margin-top: -30px;
   }
 
-  .listing-approved-share-modal-heading {
+  .listing-share-modal-heading {
     font-size: 18px;
 
     .bold {
@@ -18,7 +21,7 @@
     }
   }
 
-  .listing-approved-share-modal-body-text {
+  .listing-share-modal-body-text {
     font-size: 16px;
     color: $gray;
     max-width: 345px;
@@ -26,7 +29,7 @@
     margin: 0 auto;
   }
 
-  .listing-approved-share-modal-button-wrapper {
+  .listing-share-modal-button-wrapper {
     display: inline-block;
     margin: 0 15px;
 
@@ -35,7 +38,7 @@
     }
   }
 
-  .listing-approved-share-modal-contact-us {
+  .listing-share-modal-contact-us {
     font-size: 16px;
     color: $gray-light;
     margin-top: 20px;

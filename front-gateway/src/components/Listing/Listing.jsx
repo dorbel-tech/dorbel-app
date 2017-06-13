@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import autobind from 'react-autobind';
-import { Col, Grid, Row, Button } from 'react-bootstrap';
+import { Col, Grid, Row } from 'react-bootstrap';
 import OHEList from './components/OHEList';
 import ListingDescription from './components/ListingDescription';
 import ListingHighlight from './components/ListingHighlight';
@@ -12,10 +12,13 @@ import ApartmentLocation from '~/components/MapWrapper/MapWrapper';
 import RelatedListings from '~/components/RelatedListings/RelatedListings';
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
 import ListingActions from './components/ListingActions';
+import ShareModal from '~/components/Modals/ShareModal/ShareModal';
+
 import utils from '~/providers/utils';
-import ismobilejs from 'ismobilejs';
 
 import './Listing.scss';
+
+const sharePopupQueryString = '?showSharePopup';
 
 @inject('appStore', 'appProviders') @observer
 class Listing extends Component {
@@ -46,59 +49,19 @@ class Listing extends Component {
   }
 
   shouldShowSharePopup() {
-    if (location.search.includes('?showSharePopup')) {
-      const currentUrlClean = location.href.split('?')[0];
+    if (location.search.includes(sharePopupQueryString)) {
+      const currentUrlClean = location.href.replace(sharePopupQueryString, '');
       history.replaceState(undefined, document.title, currentUrlClean);
 
       this.props.appProviders.modalProvider.showInfoModal({
-        body:
-        <div className="listing-approved-share-modal">
-          <h1 className="listing-approved-share-modal-title">יאיי! דירתכם עלתה לאתר.</h1>
-          <div className="listing-approved-share-modal-heading">
-            מה עכשיו? <span className="bold">שתפו את המודעה!</span>
-          </div>
-          <div className="listing-approved-share-modal-body-text">
-            שתפו את מודעת הדירה ברשתות החברתיות והגיעו למקסימום דיירים במינימום זמן
-          </div>
-          {ismobilejs.phone ?
-            (
-              <div>
-                <div className="listing-approved-share-modal-button-wrapper">
-                  <Button
-                    href={`whatsapp://send?text=${currentUrlClean}`}>
-                    שתפו ב
-                    -&nbsp;
-                <img src="https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/icons/whatsapp.svg" />
-                  </Button>
-                </div>
-                <div className="listing-approved-share-modal-button-wrapper">
-                  <Button
-                    href={'fb://publish/profile/#me?text=' + currentUrlClean + '?utm_source=apt_page_facebook_share'}>
-                    שתפו ב-
-                    &nbsp;
-                    <img src="https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/icons/facebook.svg" />
-                  </Button>
-                </div>
-              </div>
-            )
-            :
-            (
-              <div className="listing-approved-share-modal-button-wrapper">
-                <Button
-                  href={'https://www.facebook.com/sharer.php?u=' + currentUrlClean + '?utm_source=apt_page_facebook_share'}
-                  className="rented-congrats-modal-button" >
-                  שתפו ב-
-                  &nbsp;
-                <img src="https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/icons/facebook.svg" />
-                </Button>
-              </div>
-            )
-          }
-          <div className="listing-approved-share-modal-contact-us">
-            לשאלות נוספות ויצירת קשר בנוגע לדירה שלחו לנו מייל: <a href="mailto:homesupport@dorbel.com">homesupport@dorbel.com</a>
-          </div>
-        </div>,
-        modalSize: 'large'
+        body: <ShareModal
+          shareUrl={currentUrlClean}
+          title="יאיי! דירתכם עלתה לאוויר."
+          heading="מה עכשיו? "
+          headingBold="שתפו את המודעה!"
+          content="שתפו את מודעת הדירה ברשתות החברתיות והגיעו למקסימום דיירים במינימום זמן"
+        />,
+        modalSize: ShareModal.modalSize
       });
     }
   }
