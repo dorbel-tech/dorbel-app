@@ -49,8 +49,7 @@ class ShareModal extends Component {
         <div className="listing-share-modal-content">
           {content}
         </div>
-
-
+        {this.renderShareButtons()}
         <div className="listing-share-modal-contact-us">
           נתקלתם בבעיה? שלחו לנו הודעה דרך העיגול הסגול מימין למטה
         </div>
