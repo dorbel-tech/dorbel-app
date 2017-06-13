@@ -6,7 +6,6 @@ import AddOHEModal from './AddOHEModal';
 import moment from 'moment';
 import autobind from 'react-autobind';
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
-import ShareModal from '~/components/Modals/ShareModal/ShareModal';
 
 import './OHEManager.scss';
 
@@ -28,20 +27,17 @@ class OHEManager extends React.Component {
   showSharePopup() {
     const listingUrl = `${location.protocol}//${location.hostname}/apartments/${this.props.listing.id}`;
 
-    this.props.appProviders.modalProvider.showInfoModal({
-      body: <ShareModal
-        shareUrl={listingUrl}
-        title="ברכות, מועד ביקור חדש נקבע בהצלחה!"
-        content={
-          <p>
-            רוצים להגיע לעוד דיירים?
-            <b> שתפו את המודעה</b>
-            <br />
-            ברשתות החברתיות והגיעו למקסימום דיירים במינימום זמן
-          </p>
-        }
-      />,
-      modalSize: ShareModal.modalSize
+    this.props.appProviders.modalProvider.showShareModal({
+      shareUrl: listingUrl,
+      title: 'ברכות, מועד ביקור חדש נקבע בהצלחה!',
+      content: (
+        <p>
+          רוצים להגיע לעוד דיירים?
+          <b> שתפו את המודעה</b>
+          <br />
+          ברשתות החברתיות והגיעו למקסימום דיירים במינימום זמן
+        </p>
+      )
     });
   }
 

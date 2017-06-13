@@ -12,7 +12,6 @@ import ApartmentLocation from '~/components/MapWrapper/MapWrapper';
 import RelatedListings from '~/components/RelatedListings/RelatedListings';
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
 import ListingActions from './components/ListingActions';
-import ShareModal from '~/components/Modals/ShareModal/ShareModal';
 
 import utils from '~/providers/utils';
 
@@ -53,20 +52,17 @@ class Listing extends Component {
       const currentUrlClean = location.href.split('?')[0];
       history.replaceState(undefined, document.title, currentUrlClean);
 
-      this.props.appProviders.modalProvider.showInfoModal({
-        body: <ShareModal
-          shareUrl={currentUrlClean}
-          title={<p>יאיי! דירתכם עלתה לאוויר</p>}
-          content={
-            <p>
-              מה עכשיו?
-              <b> שתפו את המודעה</b>
-              <br />
-              ברשתות החברתיות והגיעו למקסימום דיירים במינימום זמן
-            </p>
-          }
-        />,
-        modalSize: ShareModal.modalSize
+      this.props.appProviders.modalProvider.showShareModal({
+        shareUrl: currentUrlClean,
+        title: 'יאיי! דירתכם עלתה לאוויר',
+        content: (
+          <p>
+            מה עכשיו?
+            <b> שתפו את המודעה</b>
+            <br />
+            ברשתות החברתיות והגיעו למקסימום דיירים במינימום זמן
+          </p>
+        )
       });
     }
   }
