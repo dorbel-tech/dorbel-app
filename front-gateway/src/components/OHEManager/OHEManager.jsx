@@ -6,7 +6,7 @@ import AddOHEModal from './AddOHEModal';
 import moment from 'moment';
 import autobind from 'react-autobind';
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
-import ShareModal from '~/components/Modals/shareModal/ShareModal';
+import ShareModal from '~/components/Modals/ShareModal/ShareModal';
 
 import './OHEManager.scss';
 

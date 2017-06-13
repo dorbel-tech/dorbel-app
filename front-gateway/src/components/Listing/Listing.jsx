@@ -18,7 +18,7 @@ import utils from '~/providers/utils';
 
 import './Listing.scss';
 
-const sharePopupQueryString = '?showSharePopup';
+const shareModalQueryString = '?showShareModal';
 
 @inject('appStore', 'appProviders') @observer
 class Listing extends Component {
@@ -45,12 +45,12 @@ class Listing extends Component {
   }
 
   componentDidMount() {
-    this.shouldShowSharePopup();
+    this.shouldShowShareModal();
   }
 
-  shouldShowSharePopup() {
-    if (location.search.includes(sharePopupQueryString)) {
-      const currentUrlClean = location.href.replace(sharePopupQueryString, '');
+  shouldShowShareModal() {
+    if (location.search.includes(shareModalQueryString)) {
+      const currentUrlClean = location.href.replace(shareModalQueryString, '');
       history.replaceState(undefined, document.title, currentUrlClean);
 
       this.props.appProviders.modalProvider.showInfoModal({
