@@ -13,23 +13,12 @@
     margin-top: -30px;
   }
 
-  .listing-share-modal-heading {
+  .listing-share-modal-content {
     font-size: 18px;
-
-    .bold {
-      font-weight: bold;
-    }
+    padding-bottom: 15px;
   }
 
-  .listing-share-modal-body-text {
-    font-size: 16px;
-    color: $gray;
-    max-width: 345px;
-    padding: 15px 0;
-    margin: 0 auto;
-  }
-
-  .listing-share-modal-button-wrapper {
+  .listing-share-modal-button {
     display: inline-block;
     margin: 0 15px;
 
@@ -39,7 +28,7 @@
   }
 
   .listing-share-modal-contact-us {
-    font-size: 16px;
+    font-size: 13px;
     color: $gray-light;
     margin-top: 20px;
 

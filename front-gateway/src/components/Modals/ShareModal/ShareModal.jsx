@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Button } from 'react-bootstrap';
 import ismobilejs from 'ismobilejs';
 
 import './ShareModal.scss';
@@ -8,64 +7,46 @@ class ShareModal extends Component {
   static modalSize = 'large';
 
   render() {
-    const { shareUrl, title, heading, headingBold, content } = this.props;
+    const { shareUrl, title, content } = this.props;
 
     return (
       <div className="listing-share-modal">
         <h1 className="listing-share-modal-title">{title}</h1>
-        <div className="listing-share-modal-heading">
-          {heading}
-          <span className="bold">
-            {headingBold}
-          </span>
-        </div>
-        <div className="listing-share-modal-body-text">
+        <div className="listing-share-modal-content">
           {content}
         </div>
-        {ismobilejs.phone ?
+
+        {!ismobilejs.phone ?
           (
             <div>
-              <div className="listing-share-modal-button-wrapper">
-                <Button
-                  href={'fb-messenger://share/?link=' + shareUrl + '?utm_source=apt_page_messenger_share' + '&app_id=1651579398444396'}>
-                  שתפו ב-
-                    &nbsp;
-                    <img src="https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/icons/facebook-messenger.svg" />
-                </Button>
+              <div className="listing-share-modal-button">
+                <a href={'fb-messenger://share/?link=' + shareUrl + '?utm_source=apt_page_messenger_share' + '&app_id=1651579398444396'}>
+                  <img src="https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/icons/facebook-messenger.svg" />
+                </a>
               </div>
-              <div className="listing-share-modal-button-wrapper">
-                <Button
-                  href={`whatsapp://send?text=${shareUrl}`}>
-                  שתפו ב
-                    -&nbsp;
-                <img src="https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/icons/whatsapp.svg" />
-                </Button>
+              <div className="listing-share-modal-button">
+                <a href={`whatsapp://send?text=${shareUrl}`}>
+                  <img src="https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/icons/whatsapp.svg" />
+                </a>
               </div>
-              <div className="listing-share-modal-button-wrapper">
-                <Button
-                  href={'fb://publish/profile/#me?text=' + shareUrl + '?utm_source=apt_page_facebook_share'}>
-                  שתפו ב-
-                    &nbsp;
-                    <img src="https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/icons/facebook.svg" />
-                </Button>
+              <div className="listing-share-modal-button">
+                <a href={'fb://publish/profile/#me?text=' + shareUrl + '?utm_source=apt_page_facebook_share'}>
+                  <img src="https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/icons/facebook.svg" />
+                </a>
               </div>
             </div>
           )
           :
           (
-            <div className="listing-share-modal-button-wrapper">
-              <Button
-                href={'https://www.facebook.com/sharer.php?u=' + shareUrl + '?utm_source=apt_page_facebook_share'}
-                className="rented-congrats-modal-button" >
-                שתפו ב-
-                  &nbsp;
+            <div className="listing-share-modal-button">
+              <a href={'https://www.facebook.com/sharer.php?u=' + shareUrl + '?utm_source=apt_page_facebook_share'}>
                 <img src="https://s3.eu-central-1.amazonaws.com/dorbel-site-assets/images/icons/facebook.svg" />
-              </Button>
+              </a>
             </div>
           )
         }
         <div className="listing-share-modal-contact-us">
-          לשאלות נוספות ויצירת קשר בנוגע לדירה שלחו לנו מייל: <a href="mailto:homesupport@dorbel.com">homesupport@dorbel.com</a>
+          נתקלתם בבעיה? שלחו לנו הודעה דרך העיגול הסגול מימין למטה
         </div>
       </div>
     );
@@ -74,10 +55,8 @@ class ShareModal extends Component {
 
 ShareModal.propTypes = {
   shareUrl: React.PropTypes.string.isRequired,
-  title: React.PropTypes.string,
-  heading: React.PropTypes.string,
-  headingBold: React.PropTypes.string,
-  content: React.PropTypes.string
+  title: React.PropTypes.node,
+  content: React.PropTypes.node
 };
 
 export default ShareModal;

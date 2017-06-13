@@ -27,14 +27,19 @@ class OHEManager extends React.Component {
 
   showSharePopup() {
     const listingUrl = `${location.protocol}//${location.hostname}/apartments/${this.props.listing.id}`;
-    
+
     this.props.appProviders.modalProvider.showInfoModal({
       body: <ShareModal
         shareUrl={listingUrl}
         title="ברכות, מועד ביקור חדש נקבע בהצלחה!"
-        heading="רוצים להגיע לעוד דיירים? "
-        headingBold="שתפו את המודעה!"
-        content="שתפו את מודעת הדירה ברשתות החברתיות והגיעו למקסימום דיירים במינימום זמן"
+        content={
+          <p>
+            רוצים להגיע לעוד דיירים?
+            <b> שתפו את המודעה</b>
+            <br />
+            ברשתות החברתיות והגיעו למקסימום דיירים במינימום זמן
+          </p>
+        }
       />,
       modalSize: ShareModal.modalSize
     });

@@ -56,10 +56,15 @@ class Listing extends Component {
       this.props.appProviders.modalProvider.showInfoModal({
         body: <ShareModal
           shareUrl={currentUrlClean}
-          title="יאיי! דירתכם עלתה לאוויר."
-          heading="מה עכשיו? "
-          headingBold="שתפו את המודעה!"
-          content="שתפו את מודעת הדירה ברשתות החברתיות והגיעו למקסימום דיירים במינימום זמן"
+          title={<p>יאיי! דירתכם עלתה לאוויר</p>}
+          content={
+            <p>
+              מה עכשיו?
+              <b> שתפו את המודעה</b>
+              <br />
+              ברשתות החברתיות והגיעו למקסימום דיירים במינימום זמן
+            </p>
+          }
         />,
         modalSize: ShareModal.modalSize
       });
