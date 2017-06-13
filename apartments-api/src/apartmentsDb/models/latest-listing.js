@@ -1,10 +1,10 @@
 'use strict';
-const listing = require('./listing');
+const listingAttributes = require('./shared/listingAttributes');
 
 function define(sequelize) {
   return sequelize.define('latest_listing',
     // TODO: find a way to make read-only (either sequelize way is possible, or iterate and make setter throw an exception)
-    listing.attributes,
+    listingAttributes,
     {
       // TODO: find a way to inherit from listing model
       classMethods: {

@@ -274,12 +274,14 @@
 }
 
 .property-history-selector-mobile {
-  width: 100%;
+  bottom: 45px;
   display: none;
+  left: 15px;
+  position: absolute;
+  right: 15px;
 
   @media (max-width: $screen-xs-max) {
     display: block;
-    margin-top: 15px;
   }
 
   .btn-group {

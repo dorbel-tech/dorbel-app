@@ -70,7 +70,15 @@ class ListingThumbnail extends Component {
   }
 
   render() {
-    const { listing } = this.props;
+    const { listing, thumbIndex } = this.props;
+    let mdColSize = 4;
+    if (thumbIndex !== undefined) {
+      // TODO: Check if charAt(0) is better performance wise
+      const indexMod = thumbIndex % 10;
+      if (indexMod === 0 || indexMod === 6) {
+        mdColSize *= 2;
+      }
+    }
     const isRented = listing.status === 'rented';
     const sortedListingImages = utils.sortListingImages(listing);
     const imageURL = sortedListingImages.length ? sortedListingImages[0].url : '';
@@ -81,7 +89,7 @@ class ListingThumbnail extends Component {
     const listingMrTitle = isRented ? 'מחיר נוכחי ' : '';
 
     return (
-      <Col md={4} sm={6} xs={12}>
+      <Col md={mdColSize} sm={6} xs={12}>
         <NavLink to={this.getListingUrl(listing)}
           className="thumbnail apt-thumb-container apt-thumb-container-single pull-right">
           <ListingBadge listing={listing} />
@@ -127,7 +135,8 @@ ListingThumbnail.wrappedComponent.propTypes = {
   listing: React.PropTypes.object.isRequired,
   appProviders: React.PropTypes.object,
   appStore: React.PropTypes.object.isRequired,
-  isMyProperties: React.PropTypes.bool
+  isMyProperties: React.PropTypes.bool,
+  thumbIndex: React.PropTypes.number
 };
 
 export default ListingThumbnail;

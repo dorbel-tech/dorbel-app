@@ -102,7 +102,7 @@ export default class SearchResults extends React.Component {
           { title || null }
           <Grid className="search-results-container">
             <Row>
-              { results.map(listing => <ListingThumbnail listing={listing} key={listing.id} {...thumbnailProps} />) }
+              { results.map((listing, idx) => <ListingThumbnail listing={listing} key={listing.id} thumbIndex={idx} {...thumbnailProps} />) }
             </Row>
             { searchStore.isLoadingNextPage ? <Row><LoadingSpinner /></Row> : null}
           </Grid>

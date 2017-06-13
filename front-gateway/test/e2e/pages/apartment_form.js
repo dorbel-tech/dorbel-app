@@ -1,16 +1,23 @@
 'use stric';
 const common = require('../common');
+const imagePath = common.IS_CI ? 'C:/Users/hello/Desktop/images/logo1.jpg' : __dirname + '/resources/test.png';
 
 module.exports = {
-  url: function(){
-    return common.getBaseUrl() + '/apartments/new_form/publish';
+  url: function () {
+    return common.getBaseUrl() + '/apartments/new_form/';
+  },
+  props: {
+    mode: 'publish'
   },
   sections: {
-    apartmentPictures: {
-      selector: '.apartment-pictures-step',
+    selectUploadMode: {
+      selector: '.select-upload-mode-wrapper',
       elements: {
-        nextStep: {
-          selector: 'i.apartment-pictures-next-step'
+        publishLink:{
+          selector: 'a[href="/apartments/new_form/publish"]'
+        },
+        manageLink:{
+          selector: 'a[href="/apartments/new_form/manage"]'
         }
       }
     },
@@ -77,6 +84,9 @@ module.exports = {
         entranceDate: {
           selector: 'input[name="apartment.entrance-date"] + input'
         },
+        exitDate: {
+          selector: 'input[name="apartment.exit-date"] + input'
+        },
         entranceDateCalendar: {
           selector: '#calendar'
         },
@@ -89,11 +99,22 @@ module.exports = {
         boardFee: {
           selector: 'input[name="board_fee"]'
         },
-        previousStep: {
-          selector: 'i.apartment-details-previous-step'
-        },
         nextStep: {
           selector: 'i.apartment-details-next-step'
+        }
+      }
+    },
+    apartmentPictures: {
+      selector: '.apartment-pictures-step',
+      elements: {
+        addNewPhoto: {
+          selector: 'span.add-photo'
+        },
+        nextStep: {
+          selector: '.step-btn.step2.btn.btn-success'
+        },
+        previousStep: {
+          selector: 'i.apartment-pictures-previous-step'
         }
       }
     },
@@ -145,38 +166,34 @@ module.exports = {
     }
   },
   commands: [{
-    navigateToApartmentPictureSection: function () {
-      this
-        .navigate()
-        .waitForElementVisible('body');
-      return this;
-    },
     navigateToApartmentDetailsSection: function () {
       this
-        .navigateToApartmentPictureSection()
-        .goFromApartmentPicturesToApartmentDetails();
+        .navigate()
+        .waitForElementVisible('body')
+        .selectUploadMode();
+
       return this;
     },
-    navigateToOpenHouseEventSection: function () {
+    navigateToApartmentPicturesSection: function () {
       this
         .navigateToApartmentDetailsSection()
         .fillApartmentDetailsAllFields()
-        .goFromApartmentDetailsToOpenHouseEvent();
+        .goFromApartmentDetailsToApartmentPictures();
       return this;
     },
     goFromApartmentPicturesToApartmentDetails: function () {
-      this.section.apartmentPictures.click('@nextStep');
+      this.section.apartmentPictures.click('@previousStep');
       return this;
     },
     goFromApartmentDetailsToApartmentPictures: function () {
-      this.section.apartmentDetails.click('@previousStep');
-      return this;
-    },
-    goFromApartmentDetailsToOpenHouseEvent: function () {
       this.section.apartmentDetails.click('@nextStep');
       return this;
     },
-    goFromOpenHouseEventToApartmentDetails: function () {
+    goFromApartmentPicturesToOpenHouseEvent: function () {
+      this.section.apartmentPictures.click('@nextStep');
+      return this;
+    },
+    goFromOpenHouseEventToApartmentPictures: function () {
       this.section.openHouseEvent.click('@previousStep');
       return this;
     },
@@ -233,12 +250,25 @@ module.exports = {
       this.section.openHouseEvent.click('@submit');
       return this;
     },
-    fillAndSubmitApartment: function () {
-      this
-        // TODO: Add upload image functionality.
-        .navigateToOpenHouseEventSection()
-        .fillOpenHouseEventDetailsAllFields()
-        .submitApartment();
+    uploadImage: function () {
+      this.section.apartmentPictures
+        .waitForElementVisible('.add-photo')
+        .setValue('input[type="file"]', imagePath)
+        .waitForElementVisible('.remove-image', 5000);
+      return this;
+    },
+    selectUploadMode: function () {
+      const uploadModeSection = this.section.selectUploadMode;
+      switch (this.props.mode) {
+        case 'publish':
+          uploadModeSection.click('@publishLink');
+          break;
+        case 'manage':
+          uploadModeSection.click('@manageLink');
+          break;
+      }
+      
+      this.section.apartmentDetails.waitForElementVisible('body');
       return this;
     }
   }]

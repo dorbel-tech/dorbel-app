@@ -34,26 +34,9 @@ function CustomError(code, message) {
   return error;
 }
 
-function* create(listing) {
-  if (['pending', 'rented'].indexOf(listing.status) < 0) {
-    throw new CustomError(400, `לא ניתן להעלות דירה ב status ${listing.status}`);
-  }
-
-  if (listing.status == 'pending') {
-    const existingOpenListingForApartment = yield listingRepository.getListingsForApartment(
-      listing.apartment,
-      { status: ['listed', 'pending'] }
-    );
-
-    if (existingOpenListingForApartment && existingOpenListingForApartment.length) {
-      logger.error(existingOpenListingForApartment, 'Listing already exists');
-      throw new CustomError(409, 'דירה זו כבר מפורסמת במערכת. לא ניתן להעלות אותה שוב.');
-    }
-    else {
-      // Explicitly set the lease_end field for 'pending' listings
-      listing.lease_end = moment(listing.lease_start).add(1, 'year').format('YYYY-MM-DD');
-    }
-  }
+function* create(listing, user) {
+  listing.publishing_user_id = user.id;
+  yield validateNewListing(listing, user);
 
   let modifiedListing = setListingAutoFields(listing);
   listing.apartment.building.geolocation = yield geoProvider.getGeoLocation(listing.apartment.building);
@@ -86,9 +69,40 @@ function* create(listing) {
       });
     }
   }
-  else { logger.error({listing}, 'Could not find notification type for created listing'); }
+  else { logger.error({ listing }, 'Could not find notification type for created listing'); }
 
   return createdListing;
+}
+
+function* validateNewListing(listing, user) {
+  if (['pending', 'rented'].indexOf(listing.status) < 0) {
+    throw new CustomError(400, `לא ניתן להעלות דירה ב status ${listing.status}`);
+  }
+
+  const validationData = yield getValidationData(listing.apartment, user);
+  if (validationData.listing_id) {
+    const loggerObj = {
+      requestingUser: user,
+      listing,
+      validationData
+    };
+
+    switch (validationData.status) {
+      case 'belongsToOtherUser':
+        logger.error(loggerObj, 'Apartment belongs to another user');
+        throw new CustomError(409, 'דירה זו משוייכת למשתשמש אחר. אנא וודאו את הפרטים/צרו קשר עימנו לתמיכה.');
+      case 'alreadyListed':
+        logger.error(loggerObj, 'Aparment already listed');
+        throw new CustomError(409, 'דירה זו כבר מפורסמת במערכת. לא ניתן להעלות אותה שוב.');
+      default:
+        break;
+    }
+  }
+
+  // Disable uploading apartment for listing without images
+  if (listing.status == 'pending' && (!listing.images || !listing.images.length)) {
+    throw new CustomError(400, 'לא ניתן להעלות מודעה להשכרה ללא תמונות');
+  }
 }
 
 function* update(listingId, user, patch) {
@@ -175,8 +189,8 @@ function notifyListingChanged(oldListing, newListing) {
 }
 
 function setListingAutoFields(listing) {
-  if (listing.lease_start && !listing.lease_end) {
-    // default lease_end to after one year
+  // default lease_end to after one year
+  if (listing.lease_start && (!listing.lease_end || listing.status == 'pending')) {
     listing.lease_end = moment(listing.lease_start).add(1, 'years').format('YYYY-MM-DD');
   }
 
@@ -196,6 +210,7 @@ function setListingAutoFields(listing) {
 
 function* getByFilter(filterJSON, options = {}) {
   // TODO: Switch to regex test instead of try-catch.
+  // TODO: filter string-to-json belongs in the controller layer - it's an interface detail and not a business concern
   let filter = {};
   if (filterJSON) {
     try {
@@ -262,10 +277,15 @@ function* getByFilter(filterJSON, options = {}) {
 
       listingQuery.status = { $notIn: ['deleted'] };
     }
+  } else if (!options.user && (filter.myProperties || filter.liked)) {
+    throw CustomError(403, 'unauthorized for this view');
   }
 
   if (filter.city === '*') {
     _.unset(filter, 'city');
+  }
+  if (filter.neighborhood === '*') {
+    _.unset(filter, 'neighborhood');
   }
 
   var filterMapping = {
@@ -276,6 +296,7 @@ function* getByFilter(filterJSON, options = {}) {
     // Listing with a roomate (a roomate looking for roomate/s).
     room: { set: 'roommate_needed', target: listingQuery },
     city: { set: 'buildingQuery.city_id' },
+    neighborhood: { set: 'neighborhoodQuery.id' },
     ele: { set: 'buildingQuery.elevator', staticValue: true },
     minRooms: { set: 'apartmentQuery.rooms.$gte' },
     maxRooms: { set: 'apartmentQuery.rooms.$lte' },
@@ -377,7 +398,7 @@ function* getRelatedListings(listingId, limit) {
   const listing = yield listingRepository.getById(listingId);
 
   if (!listing) { // Verify that the listing exists
-    throw new CustomError(404, 'Failed to get related listings. Listing does not exists. litingId: ' + listingId);
+    throw new CustomError(404, 'Failed to get related listings. Listing does not exists. listingId: ' + listingId);
   }
 
   const listingQuery = {
@@ -410,6 +431,42 @@ function getSortOption(sortStr) {
   }
 }
 
+function* getValidationData(apartment, user) {
+  let result = {
+    status: 'OK',
+    listing_id: 0
+  };
+
+  const queryOptions = {
+    listingAttributes: ['id', 'status', 'publishing_user_id'],
+    
+    // Add entrance to query if defined
+    buildingQuery: Object.assign({
+      city_id: apartment.building.city.id,
+      street_name: apartment.building.street_name,
+      house_number: apartment.building.house_number,
+    }, apartment.building.entrance ? { entrance: apartment.building.entrance } : {}),
+    
+    apartmentQuery: {
+      apt_number: apartment.apt_number
+    }
+  };
+
+  const validationData = yield listingRepository.list(undefined, queryOptions);
+  if (validationData && validationData.length) {
+    result.listing_id = validationData[0].id;
+    result.status = 'alreadyExists';
+
+    if (user.id != validationData[0].publishing_user_id && !userPermissions.isUserAdmin(user)) {
+      result.status = 'belongsToOtherUser';
+    }
+    else if (['listed', 'pending'].indexOf(validationData[0].status) > -1) {
+      result.status = 'alreadyListed';
+    }
+  }
+  return result;
+}
+
 module.exports = {
   create,
   update,
@@ -417,4 +474,5 @@ module.exports = {
   getById,
   getBySlug,
   getRelatedListings,
+  getValidationData
 };

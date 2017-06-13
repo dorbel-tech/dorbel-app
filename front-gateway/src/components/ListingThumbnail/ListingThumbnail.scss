@@ -8,14 +8,14 @@
   box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.1);
   opacity: 1 !important;
 
-  @media (min-width: $screen-sm-min) {
-    max-width: 292px;
-  }
-
   h5 {
     font-weight: 600;
     letter-spacing: 0.7px;
     padding: 5px;
+  }
+
+  .related-listings-title {
+    margin: 0 0 25px;
   }
 }
 
@@ -31,7 +31,13 @@
     top: 150px;
   }
 
+  @media (min-width: $screen-sm-min) {
+    margin-bottom: 30px;
+    max-width: 292px;
+  }
+
   @media (min-width: $screen-md-min) {
+    max-width: 645px;
     transition: box-shadow 0.35s ease-out, transform 0.3s ease-out, opacity 0.2s ease-out;
   }
 

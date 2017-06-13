@@ -132,7 +132,7 @@ class ListingsProvider {
     newListing.lease_end = undefined;
     newListingStore.reset();
     newListingStore.loadListing(newListing);
-    this.router.setRoute('/apartments/new_form/publish');
+    this.router.setRoute('/apartments/new_form/republish');
   }
 
   isRepublishable(listing) {
@@ -158,7 +158,11 @@ class ListingsProvider {
     };
 
     return this.apiProvider.fetch('/api/apartments/v1/listings', { params })
-    .then(listings => listingsByApartmentId.set(apartment_id, listings.reverse()));
+      .then(listings => listingsByApartmentId.set(apartment_id, listings.reverse()));
+  }
+
+  validateApartment(listing) {
+    return this.apiProvider.fetch('/api/apartments/v1/listings/validation', { method: 'POST', data: { apartment: listing.apartment } });
   }
 }
 

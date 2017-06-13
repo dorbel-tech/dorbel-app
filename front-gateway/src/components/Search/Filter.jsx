@@ -4,8 +4,15 @@ import { Button, Checkbox, OverlayTrigger, Popover, Radio, Col, DropdownButton, 
 import { inject, observer } from 'mobx-react';
 import Nouislider from 'react-nouislider';
 import { range } from 'lodash';
+import ReactTooltip from 'react-tooltip';
 
 import './Filter.scss';
+
+const NEW_TIP_OFFSET = {top: -10, left: -17};
+
+const CITY_ALL_OPTION = { value: '*', label: 'כל הערים' };
+const NEIGHBORHOOD_ALL_OPTION = { value: '*', label: 'כל השכונות' };
+
 
 const DEFAULT_FILTER_PARAMS = {
   // Admin filter default values.
@@ -15,6 +22,7 @@ const DEFAULT_FILTER_PARAMS = {
   unlisted: false,
 
   city: '*', // City selector default value.
+  neighborhood: '*', // Neighborhood selector default value.
   sort: 'publish_date', // Default sort by radio group value.
   roommate: true, // Roommate search checkbox default value.
   empty: true, // Empty apartment for roommates checkbox default value.
@@ -28,7 +36,9 @@ const DEFAULT_FILTER_PARAMS = {
   elev: false, // Apartment with elevator checkbox default value.
   park: false, // Apartment with parking checkbox default value.
   pet: false, // Apartment allowing pets checkbox default value.
-  sb: false // Apartment with security bars checkbox default value.
+  sb: false, // Apartment with security bars checkbox default value.
+
+  futureBooking: false // Future booking apartments checkbox default value.
 };
 
 @inject('appStore', 'appProviders') @observer
@@ -49,6 +59,7 @@ class Filter extends Component {
     this.state = Object.assign({
       hideFilter: true,
       cityFilterClass: this.getCityFilterClass(),
+      neighborhoodFilterClass: this.getNeighborhoodFilterClass(),
       extraFilterClass: this.getExtraFilterClass(),
       mrFilterClass: this.getMRFilterClass(),
       roomsFilterClass: this.getRoomsFilterClass()
@@ -57,6 +68,7 @@ class Filter extends Component {
 
   componentDidMount() {
     this.props.appProviders.cityProvider.loadCities();
+    this.loadNeighborhoods(this.state.city);
     this.reloadResults();
 
     // Adjust roommates checkboxes state when provided with roommates data from
@@ -66,9 +78,20 @@ class Filter extends Component {
     }
   }
 
+  loadNeighborhoods(cityId) {
+    if (cityId !== CITY_ALL_OPTION.value) {
+      this.props.appProviders.neighborhoodProvider.loadNeighborhoodByCityId(cityId);
+    }
+  }
+
   getCityFilterClass() {
-    const cityFilterActive = this.filterObj.city && (this.filterObj.city !== DEFAULT_FILTER_PARAMS.city);
-    return cityFilterActive ? 'filter-trigger-active' : '';
+    const areaFilterActive = this.filterObj.city && (this.filterObj.city !== DEFAULT_FILTER_PARAMS.city);
+    return areaFilterActive ? 'filter-trigger-active' : '';
+  }
+
+  getNeighborhoodFilterClass() {
+    const areaFilterActive = this.filterObj.neighborhood && (this.filterObj.neighborhood !== DEFAULT_FILTER_PARAMS.neighborhood);
+    return areaFilterActive ? 'filter-trigger-active' : '';
   }
 
   getRoomsFilterClass() {
@@ -89,9 +112,17 @@ class Filter extends Component {
   }
 
   citySelectHandler(cityId) {
-    //this.setState({ city: cityId }); // Unused but required for calling render
     this.filterObj.city = cityId;
     this.setState({cityFilterClass: this.getCityFilterClass()});
+
+    this.filterObj.neighborhood = NEIGHBORHOOD_ALL_OPTION.value;
+    this.loadNeighborhoods(cityId);
+    this.reloadResults();
+  }
+
+  neighborhoodSelectHandler(neighborhoodId) {
+    this.filterObj.neighborhood = neighborhoodId;
+    this.setState({neighborhoodFilterClass: this.getNeighborhoodFilterClass()});
 
     this.reloadResults();
   }
@@ -168,16 +199,21 @@ class Filter extends Component {
   }
 
   reloadResults() {
-    if (!this.filterObj.city) {
-      this.filterObj.city = DEFAULT_FILTER_PARAMS.city;
-    }
-
     const search = '?q=' + encodeURIComponent(JSON.stringify(this.filterObj));
     const title = document ? document.title : '';
 
     history.pushState(this.filterObj, title, search);
 
     this.props.appProviders.searchProvider.search(this.filterObj);
+  }
+
+  getAreaTitle(areaId, allOption, areas, nameProp) {
+    if (areaId === allOption.value) {
+      return allOption.label;
+    } else {
+      const area = areas.find(a => a.id == areaId);
+      return area ? area[nameProp] : 'טוען...';
+    }
   }
 
   toggleHideFilter() {
@@ -273,7 +309,7 @@ class Filter extends Component {
                   <div className="filter-input-wrapper">
                     <Radio value="publish_date" checked={this.state.sort === 'publish_date'} onChange={this.sortChangeHandler}>
                       תאריך פרסום
-                      </Radio>
+                    </Radio>
                   </div>
                   <div className="filter-input-wrapper">
                     <Radio value="lease_start" checked={this.state.sort === 'lease_start'} onChange={this.sortChangeHandler}>
@@ -295,7 +331,7 @@ class Filter extends Component {
                     disabled={!this.state.roommate || !this.state.room}
                     onChange={this.roommateChangeHandler}>
                     דירות ריקות לשותפים
-                    </Checkbox>
+                  </Checkbox>
                 </div>
                 <div className="filter-input-wrapper">
                   <Checkbox name="room"
@@ -303,7 +339,7 @@ class Filter extends Component {
                     disabled={!this.state.roommate || !this.state.empty}
                     onChange={this.roommateChangeHandler}>
                     חדר בדירת שותפים
-                    </Checkbox>
+                  </Checkbox>
                 </div>
               </div>
               <div className="filter-amenities-container">
@@ -311,44 +347,41 @@ class Filter extends Component {
                 <Col xs={4}>
                   <Checkbox name="park" checked={this.state.park} onChange={this.checkboxChangeHandler}>
                     חניה
-                    </Checkbox>
+                  </Checkbox>
                   <Checkbox name="balc" checked={this.state.balc} onChange={this.checkboxChangeHandler}>
                     מרפסת
-                    </Checkbox>
+                  </Checkbox>
                 </Col>
                 <Col xs={4}>
                   <Checkbox name="ac" checked={this.state.ac} onChange={this.checkboxChangeHandler}>
                     מזגן
-                    </Checkbox>
+                  </Checkbox>
                   <Checkbox name="ele" checked={this.state.ele} onChange={this.checkboxChangeHandler}>
                     מעלית
-                    </Checkbox>
+                  </Checkbox>
                 </Col>
                 <Col xs={4}>
                   <Checkbox name="pet" checked={this.state.pet} onChange={this.checkboxChangeHandler}>
                     מותר בע״ח
-                    </Checkbox>
+                  </Checkbox>
                   <Checkbox name="sb" checked={this.state.sb} onChange={this.checkboxChangeHandler}>
                     סורגים
-                    </Checkbox>
+                  </Checkbox>
                 </Col>
               </div>
            </Popover>;
   }
 
   render() {
-    const { cityStore } = this.props.appStore;
+    const { cityStore, neighborhoodStore } = this.props.appStore;
     const cities = cityStore.cities.length ? cityStore.cities : [];
     const cityId = this.filterObj.city || DEFAULT_FILTER_PARAMS.city;
-    const filterButtonText = this.state.hideFilter ? 'סנן תוצאות' : 'סגור';
+    const cityTitle = this.getAreaTitle(cityId, CITY_ALL_OPTION, cities, 'city_name');
+    const neighborhoodId = this.filterObj.neighborhood || DEFAULT_FILTER_PARAMS.neighborhood;
+    const neighborhoods = neighborhoodStore.neighborhoodsByCityId.get(cityId) || [];
+    const neighborhoodTitle = this.getAreaTitle(neighborhoodId, NEIGHBORHOOD_ALL_OPTION, neighborhoods, 'neighborhood_name');
 
-    let cityTitle;
-    if (cityId === '*') {
-      cityTitle = 'כל הערים';
-    } else {
-      const city = cities.find(c => c.id == cityId);
-      cityTitle = city ? city.city_name : 'טוען...';
-    }
+    const filterButtonText = this.state.hideFilter ? 'סנן תוצאות' : 'סגור';
 
     return <div>
       <div className="filter-toggle-container">
@@ -358,22 +391,43 @@ class Filter extends Component {
       </div>
       <Grid fluid className={'filter-wrapper' + (this.state.hideFilter ? ' hide-mobile-filter' : '')}>
         <Row>
-          <Col md={2} mdOffset={2} sm={3} className="filter-city-wrapper">
+          <Col mdOffset={2} sm={6} smOffset={1} className="filter-dropdown-wrapper">
             <DropdownButton id="cityDropdown" bsSize="large"
-              className={'filter-city-dropdown ' + this.state.cityFilterClass}
+              className={'filter-dropdown ' + this.state.cityFilterClass}
               title={'עיר: ' + cityTitle}
               onSelect={this.citySelectHandler}>
               <MenuItem eventKey={'*'}>כל הערים</MenuItem>
               {cities.map(city => <MenuItem key={city.id} eventKey={city.id}>{city.city_name}</MenuItem>)}
             </DropdownButton>
           </Col>
-          <Col md={2} sm={3}>
+          <Col md={4} sm={5} xsHidden>
+            <Checkbox name="futureBooking" className="filter-future-booking-switch"
+                      checked={this.state.futureBooking} onChange={this.checkboxChangeHandler}>
+              הראו לי דירות שטרם פורסמו
+            </Checkbox>
+            <span className="filter-future-booking-new"
+                  data-tip="חדש! תכננו את מעבר הדירה הבא! מעכשיו תוכלו לגלות דירות מושכרות, לעקוב אחריהן ולהיות הראשונים לדעת כשהן מתפנות">חדש!</span>
+            <ReactTooltip type="dark" effect="solid" place="bottom"
+                          offset={NEW_TIP_OFFSET} className="filter-future-booking-tooltip"/>
+          </Col>
+        </Row>
+        <Row>
+          <Col md={2} mdOffset={2} sm={2} smOffset={1} className="filter-dropdown-wrapper">
+            <DropdownButton id="neighborhoodDropdown" bsSize="large"
+              className={'filter-dropdown ' + this.state.neighborhoodFilterClass}
+              title={'שכונה: ' + neighborhoodTitle}
+              onSelect={this.neighborhoodSelectHandler}>
+              <MenuItem eventKey={NEIGHBORHOOD_ALL_OPTION.value}>{NEIGHBORHOOD_ALL_OPTION.label}</MenuItem>
+              {neighborhoods.map(neighborhood => <MenuItem key={neighborhood.id} eventKey={neighborhood.id}>{neighborhood.neighborhood_name}</MenuItem>)}
+            </DropdownButton>
+          </Col>
+          <Col md={2} sm={2}>
             <OverlayTrigger placement="bottom" trigger="click" rootClose
                             overlay={this.roomsPopup()}>
               <div className={'filter-trigger-container ' + this.state.roomsFilterClass}>חדרים</div>
             </OverlayTrigger>
           </Col>
-          <Col md={2} sm={3}>
+          <Col md={2} sm={2}>
             <OverlayTrigger placement="bottom" trigger="click" rootClose
                             overlay={this.mrPopup()}>
               <div className={'filter-trigger-container ' + this.state.mrFilterClass}>מחיר</div>
@@ -384,6 +438,16 @@ class Filter extends Component {
                             overlay={this.extraPopup()}>
               <div className={'filter-trigger-container ' + this.state.extraFilterClass}>פילטרים נוספים</div>
             </OverlayTrigger>
+          </Col>
+          <Col lgHidden mdHidden smHidden className="filter-future-booking-switch-mobile-wrapper">
+            <Checkbox name="futureBooking" className="filter-future-booking-switch"
+                      checked={this.state.futureBooking} onChange={this.checkboxChangeHandler}>
+              הראו לי דירות שטרם פורסמו
+            </Checkbox>
+            <span className="filter-future-booking-new"
+                  data-tip="חדש! תכננו את מעבר הדירה הבא! מעכשיו תוכלו לגלות דירות מושכרות, לעקוב אחריהן ולהיות הראשונים לדעת כשהן מתפנות">חדש!</span>
+            <ReactTooltip type="dark" effect="solid" place="bottom"
+                          offset={NEW_TIP_OFFSET} className="filter-future-booking-tooltip"/>
           </Col>
         </Row>
         <div className="filter-close">

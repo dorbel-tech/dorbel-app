@@ -37,7 +37,7 @@ class RelatedListings extends Component {
       return (
         <div className="container-fluid apt-thumb-container">
           <div className="container">
-            <h4>נכסים דומים</h4>
+            <h4 className="related-listings-title">נכסים דומים</h4>
             <div className="row">
               {
                 this.state.relatedListings.map((listing) => <Listing listing={listing} key={listing.id} />)
