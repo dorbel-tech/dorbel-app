@@ -87,9 +87,9 @@ class OHEManager extends React.Component {
             passedEvents.map(ohe => <OHECard key={ohe.id} ohe={ohe} />) :
             <h5 className="listing-events-no-ohe-title">אין ביקורים שחלפו</h5>}
         </div>
-        <AddOHEModal listing={listing} show={this.state.showAddOheModal} onClose={(val) => {
+        <AddOHEModal listing={listing} show={this.state.showAddOheModal} onClose={(isOheCreated) => {
           this.toggleAddModal(false);
-          if (val) {
+          if (isOheCreated) {
             this.showSharePopup();
           }
         }} />
