@@ -61,21 +61,21 @@ describe('Data Retrieval Integration', function () {
     __.assertThat(oheInfo.ohe.publishing_user_id, __.is(oheInfo.customRecipients[0]));
   });
 
-  it('should get listing followers', function* () {
-    const listingFollowers = yield this.retrieve('sendToListingFollowers', {
+  it('should get listing likes', function* () {
+    const listingLikes = yield this.retrieve('sendToListingLikedUsers', {
       listing_id: fixtures.listing_id
     });
-    
-    __.assertThat(listingFollowers.customRecipients, __.is(REGISTERED_USERS));
+
+    __.assertThat(listingLikes.customRecipients, __.is(REGISTERED_USERS));
   });
 
-  it('should get listing followers count', function* () {
-    const followersCountRes = yield this.retrieve('getListingFollowersCount', {
+  it('should get listing likes count', function* () {
+    const likersCountRes = yield this.retrieve('getListingLikesCount', {
       listing_id: fixtures.listing_id
     });
-    
-    __.assertThat(followersCountRes.followersCount, __.is(2));
-    __.assertThat(followersCountRes.customRecipients, __.is([fixtures.staticUser.id]));
+
+    __.assertThat(likersCountRes.followersCount, __.is(2));
+    __.assertThat(likersCountRes.customRecipients, __.is([fixtures.staticUser.id]));
   });
 
   it('should get listing OHEs count', function* () {
@@ -90,7 +90,7 @@ describe('Data Retrieval Integration', function () {
     const OheUsers = yield this.retrieve('sendToOheRegisteredUsers', {
       event_id: fixtures.event_id
     });
-    
+
     __.assertThat(OheUsers.customRecipients, __.is(REGISTERED_USERS));
   });
 
