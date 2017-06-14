@@ -50,14 +50,6 @@ module.exports = {
           selector: 'button.btn-danger'
         }
       }
-    },
-    followContainer: {
-      selector: '.follow-container',
-      elements: {
-        followBtn: {
-          selector: '.follow-action'
-        }
-      }
     }
   },
   commands: [{
@@ -76,9 +68,6 @@ module.exports = {
     },
     oheUnRegisterUser: function() {
       return this.section.oheModal.click('@cancel');
-    },
-    clickFollowButton: function() {
-      return this.section.followContainer.click('@followBtn');
     }
   }]
 };
