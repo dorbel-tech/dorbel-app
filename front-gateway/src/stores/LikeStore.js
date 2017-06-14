@@ -3,7 +3,6 @@ import { observable, asMap } from 'mobx';
 
 export default class LikeStore {
   @observable userLikesByListingId;
-  @observable likesByListingId;
 
   constructor(initialState = {}) {
     initialState = initialState || {};
