@@ -69,6 +69,12 @@ class ListingThumbnail extends Component {
     }
   }
 
+  getListingDateStr(isRented) {
+    const { listing } = this.props;
+    const listingLeaseDate = isRented ? listing.lease_end : listing.lease_start;
+    return new Date(listingLeaseDate) <= Date.now() ? 'מיידי' : utils.formatDate(listingLeaseDate);
+  }
+
   render() {
     const { listing, thumbIndex } = this.props;
     let mdColSize = 4;
@@ -85,7 +91,7 @@ class ListingThumbnail extends Component {
 
     const listingDateTitle = isRented ? 'כניסה משוערת ' : 'תאריך כניסה ';
     const classLeaseDate = new Date(listing.lease_start) <= Date.now() ? 'apt-thumb-lease-immediate' : 'apt-thumb-lease-date';
-    const listingDateStr = new Date(listing.lease_start) <= Date.now() ? 'מיידי' : utils.formatDate(listing.lease_start);
+    const listingDateStr = this.getListingDateStr(isRented);
     const listingMrTitle = isRented ? 'מחיר נוכחי ' : '';
 
     return (
