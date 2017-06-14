@@ -6,8 +6,6 @@ export default class OheStore {
   @observable _loadedListingIds;
   // TODO: these should be encapsultaed in the store and not directly exposed
   @observable oheById;
-  @observable usersFollowsByListingId;
-  @observable countFollowersByListingId;
 
   constructor(initialState) {
     initialState = initialState || {};
@@ -16,9 +14,6 @@ export default class OheStore {
       initialState.oheById = _.mapValues(initialState.oheById, ohe => new OheModel(ohe));
     }
 
-    this.followersByListingId = asMap(initialState.followersByListingId || {});
-    this.countFollowersByListingId = asMap(initialState.countFollowersByListingId || {});
-    this.usersFollowsByListingId = asMap(initialState.usersFollowsByListingId || {});
     this.oheById = asMap(initialState.oheById || {});
     this._loadedListingIds = asMap(this.oheById.values().reduce((byId, ohe) => (byId[ohe.listing_id] = true, byId), {}));
   }
@@ -47,9 +42,6 @@ export default class OheStore {
   toJson() {
     return {
       oheById: this.oheById,
-      followersByListingId: this.followersByListingId,
-      countFollowersByListingId: this.countFollowersByListingId,
-      usersFollowsByListingId: this.usersFollowsByListingId,
     };
   }
 

@@ -28,15 +28,15 @@ class ListingThumbnail extends Component {
     }
   }
 
-  handleFollow(e) {
+  handleLike(e) {
     // We need both to prevent the navigation
     e.stopPropagation();
     e.preventDefault();
 
     const { appProviders, listing } = this.props;
 
-    appProviders.oheProvider.getFollowsForListing(listing.id).then(() => {
-      appProviders.oheProvider.toggleFollow(listing);
+    appProviders.likeProvider.get(listing.id).then((wasLiked) => {
+      appProviders.likeProvider.set(listing, !wasLiked);
     });
   }
 
@@ -45,10 +45,10 @@ class ListingThumbnail extends Component {
 
     if (appStore.oheStore.isListingLoaded(listing.id)) {
       if (listing.status === 'rented') {
-        const userIsFollowing = appStore.oheStore.usersFollowsByListingId.get(listing.id);
-        const callToActionText = userIsFollowing ? 'הפסק עדכונים' : 'עדכנו אותי';
+        const userIsLiking = appStore.likeStore.userLikesByListingId.get(listing.id);
+        const callToActionText = userIsLiking ? 'הפסק עדכונים' : 'עדכנו אותי';
         return <span className="pull-left">
-                <span className="apt-thumb-follow" onClick={this.handleFollow}>{callToActionText}</span>
+                <span className="apt-thumb-follow" onClick={this.handleLike}>{callToActionText}</span>
               </span>;
       } else {
         const oheCount = appStore.oheStore.oheByListingId(listing.id).filter(openOrRegistered).length;
