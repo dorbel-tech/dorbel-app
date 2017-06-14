@@ -116,8 +116,7 @@ class OHEList extends Component {
         return (
           <span>
             <h4>הדירה מושכרת כרגע</h4>
-            <p>אהבתם את הדירה? רוצים לדעת לפני כולם כשהיא תתפנה שוב? מעכשיו ניתן לגלות דירות מושכרות, לשמור אותן ולקבל עדכון כדי להיות הראשונים לדעת כשהן מתפנות.</p>
-            <h4>לחצו על ׳אהבתי׳ לשמירת הנכס</h4>
+            <p>אהבתם את הדירה? רוצים לדעת לפני כולם כשהיא תתפנה שוב? לחצו על ׳אהבתי׳ לשמירת הדירה ולקבלת עדכון כשהיא עומדת להתפנות.</p>
           </span>
         );
       case 'unlisted':
@@ -144,6 +143,7 @@ class OHEList extends Component {
         <div>
           <div className="ohe-list">{openHouseEvents.map(this.renderOpenHouseEvent)}</div>
           <OHERegisterModal ohe={oheForModal} onClose={closeModal} action={this.props.action} />
+          <div className="listing-ohe-box-text text-center">אהבתם את הדירה אבל לא יכולים להגיע? לחצו על ׳אהבתי׳ לשמירת הדירה וקבלת עדכונים למועדי ביקור חדשים.</div>
         </div>
       );
     }
