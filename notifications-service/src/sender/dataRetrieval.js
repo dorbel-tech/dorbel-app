@@ -1,10 +1,10 @@
-/** 
- * This module provides data retrieval functions needed by the notification-sender 
- * To fetch the different data needed by each notification type before it is sent 
- */ 
-'use strict'; 
+/**
+ * This module provides data retrieval functions needed by the notification-sender
+ * To fetch the different data needed by each notification type before it is sent
+ */
+'use strict';
 const _ = require('lodash');
-const request = require('request-promise'); 
+const request = require('request-promise');
 const shared = require('dorbel-shared');
 const userManagement = shared.utils.user.management;
 const APT_API = process.env.APARTMENTS_API_URL;
@@ -22,12 +22,12 @@ function getListingInfo(listingId) {
   return request.get(`${APT_API}/v1/listings/${listingId}`, requestOptions);
 }
 
-function getOheInfo(oheId) {
-  return request.get(`${OHE_API}/v1/event/${oheId}`, requestOptions);
+function getListingLikes(listingId) {
+  return request.get(`${APT_API}/v1/likes/${listingId}`, requestOptions);
 }
 
-function getListingFollowers(listingId) {
-  return request.get(`${OHE_API}/v1/followers/by-listing/${listingId}`, requestOptions);
+function getOheInfo(oheId) {
+  return request.get(`${OHE_API}/v1/event/${oheId}`, requestOptions);
 }
 
 function getListingOhes(listingId) {
@@ -43,10 +43,10 @@ function getOheRegisteredUsers(oheId) {
           .filter(registration => registration.is_active)
           .map(registration => registration.registered_user_id)
       };
-    });  
+    });
 }
 
-const dataRetrievalFunctions = { 
+const dataRetrievalFunctions = {
   getListingInfo: eventData => {
     return getListingInfo(eventData.listing_id)
       .then(listing => {
@@ -56,8 +56,10 @@ const dataRetrievalFunctions = {
             listing.publishing_user_phone = _.get(listingUser, 'user_metadata.phone') || listingUser.phone;
             // Reducing object size by removing unused data.
             listing.apartment.building.neighborhood = undefined;
+            listing.apartment.building.geolocation = undefined;
+            listing.meta = undefined;
             listing.images = undefined;
-            return { listing };        
+            return { listing };
           });
       });
   },
@@ -92,53 +94,57 @@ const dataRetrievalFunctions = {
             };
           });
       });
-  }, 
+  },
   getListingOhesCount: eventData => {
     return getListingOhes(eventData.listing_id)
       .then(response => ({ ohesCount: response.length || 0 }));
   },
-  getListingFollowersCount: eventData => {
-    return getListingFollowers(eventData.listing_id)
-      .then(followers => { 
+  getListingLikesCount: eventData => {
+    return getListingLikes(eventData.listing_id)
+      .then(likes => {
         return getListingInfo(eventData.listing_id)
         .then(listing => {
           return {
-            customRecipients: [ listing.publishing_user_id ],          
-            followersCount: followers.length 
+            customRecipients: [ listing.publishing_user_id ],
+            followersCount: likes.length
           };
         });
       });
   },
-  sendToListingFollowers: eventData => {
-    return getListingFollowers(eventData.listing_id)
+  sendToListingLikedUsers: eventData => {
+    return getListingLikes(eventData.listing_id)
       .then(response => {
-        // this notification will be sent to all the users who followed a listing
+        // this notification will be sent to all the users who liked a listing
         return {
           customRecipients: response
-            .filter(follower => follower.is_active)
-            .map(follower => follower.following_user_id)
+            .filter(like => like.is_active)
+            .map(like => like.liked_user_id)
         };
       });
   },
   getUserDetails: eventData => {
     return userManagement.getPublicProfile(eventData.user_uuid)
-      .then(userProfile => ({ user_profile: userProfile }));
+      .then(userProfile => {
+        // Reducing object size by removing unused data.
+        userProfile.tenant_profile = undefined;
+        return { user_profile: userProfile };
+      });
   }
 };
 
 function getAdditonalData(eventConfig, eventData) {
-  const dataRequired = eventConfig.dataRetrieval || [];   
-  return Promise.all( 
-    dataRequired 
-    .filter(retrievalFunctionName => dataRetrievalFunctions[retrievalFunctionName]) // only take ones that actually exist 
-    .map(retrievalFunctionName => dataRetrievalFunctions[retrievalFunctionName](eventData)) // run the functions 
-  ) 
-  .then(results => { 
+  const dataRequired = eventConfig.dataRetrieval || [];
+  return Promise.all(
+    dataRequired
+    .filter(retrievalFunctionName => dataRetrievalFunctions[retrievalFunctionName]) // only take ones that actually exist
+    .map(retrievalFunctionName => dataRetrievalFunctions[retrievalFunctionName](eventData)) // run the functions
+  )
+  .then(results => {
     // all results are returned as one object, duplicate keys will be removed
-    // prioritizing according to the order in eventConfig.dataRetrieval  
-    return results.reduce((prev, current) => Object.assign(prev, current), {}); 
-  }); 
-} 
+    // prioritizing according to the order in eventConfig.dataRetrieval
+    return results.reduce((prev, current) => Object.assign(prev, current), {});
+  });
+}
 
 module.exports = {
   getAdditonalData
