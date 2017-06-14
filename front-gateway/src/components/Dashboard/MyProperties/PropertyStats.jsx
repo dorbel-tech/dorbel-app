@@ -218,7 +218,7 @@ class PropertyStats extends Component {
                     <i className="fa fa-info-circle" aria-hidden="true"></i>
                     &nbsp;מה זה אומר?
                   </span>
-                  <ReactTooltip type="dark" effect="solid" place="left" offset={tipOffset}
+                  <ReactTooltip type="dark" effect="solid" place="top" offset={tipOffset}
                                 multiline className="property-stats-future-booking-tooltip"/>
                 </div>
               </Col>
