@@ -4,8 +4,6 @@ import _ from 'lodash';
 import { DropdownButton, MenuItem, Button } from 'react-bootstrap';
 import autobind from 'react-autobind';
 import utils from '~/providers/utils';
-import NavLink from '~/components/NavLink';
-import { getDashMyPropsPath } from '~/routesHelper';
 
 import './ListingStatusSelector.scss';
 
@@ -48,29 +46,26 @@ class ListingStatusSelector extends React.Component {
     confirmation.then(choice => {
       if (choice) {
         return appProviders.listingsProvider.updateListingStatus(listing.id, newStatus)
-        .then(() => this.postStatusChange(newStatus));
+          .then(() => this.postStatusChange(newStatus));
       }
     }).catch((err) => this.props.appProviders.notificationProvider.error(err));
   }
 
   postStatusChange(newStatus) {
-    const { listing, appProviders } = this.props;
+    const { appProviders } = this.props;
 
     if (newStatus === 'rented') {
       appProviders.modalProvider.showInfoModal({
         title: <div className="rented-congrats-modal-title">ברכות על השכרת הדירה!</div>,
-        bodyClass: 'text-center',
         body: <div>
           <h4 className="rented-congrats-modal-text">האם מצאת את הדיירים החדשים שלך באמצעות dorbel?</h4>
           <Button onClick={() => appProviders.modalProvider.close()} className="rented-congrats-modal-button" bsStyle="info">כן! תודה לכם</Button>
           <Button onClick={() => appProviders.modalProvider.close()} className="rented-congrats-modal-button" bsStyle="primary">לצערי לא</Button>
         </div>,
         footer: <div className="text-center">
-          באפשרותך לנהל את השכרת הדירה מ
-          <NavLink to={getDashMyPropsPath(listing, '/manage')}>עמוד הניהול</NavLink>
-          &nbsp;שלך ולהוסיף את הדיירים החדשים לעמוד זה
+          מה הלאה? המשיכו לעמוד הניהול בחשבון הנכס שלכם והוסיפו את פרטי הקשר של הדיירים
         </div>,
-        modalSize: 'large'
+        modalSize: 'small'
       });
     }
   }
@@ -82,7 +77,7 @@ class ListingStatusSelector extends React.Component {
     let options = _.get(listing, 'meta.possibleStatuses') || [];
 
     if (appProviders.listingsProvider.isRepublishable(listing)) {
-      options = options.concat([ 'republish' ]);
+      options = options.concat(['republish']);
     }
 
     return (
