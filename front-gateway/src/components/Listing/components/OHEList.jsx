@@ -113,9 +113,20 @@ class OHEList extends Component {
   getListingNotification(listing) {
     switch(listing.status) {
       case 'rented':
-        return <span><h4>הדירה מושכרת כרגע</h4>לחצו ״אהבתי״ על מנת לקבל עידכון ברגע שהדירה תוצע להשכרה שוב.</span>;
+        return (
+          <span>
+            <h4>הדירה מושכרת כרגע</h4>
+            <p>אהבתם את הדירה? רוצים לדעת לפני כולם כשהיא תתפנה שוב? מעכשיו ניתן לגלות דירות מושכרות, לשמור אותן ולקבל עדכון כדי להיות הראשונים לדעת כשהן מתפנות.</p>
+            <h4>לחצו על ׳אהבתי׳ לשמירת הנכס</h4>
+          </span>
+        );
       case 'unlisted':
-        return <span><h4>המודעה לא פעילה</h4>לפרסום המודעה הכנסו <a href={getDashMyPropsPath(listing)}>לחשבונכם ועדכנו</a> את הסטטוס שלה.</span>;
+        return (
+          <span>
+            <h4>המודעה לא פעילה</h4>
+            <p>לפרסום המודעה הכנסו <a href={getDashMyPropsPath(listing)}>לחשבונכם ועדכנו</a> את הסטטוס שלה.</p>
+          </span>
+        );
       default:
         return null;
     }
