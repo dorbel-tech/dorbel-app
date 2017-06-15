@@ -66,7 +66,7 @@ export default class ListingDetailsForm extends React.Component {
   // used outside of component
   getValidationErrors() {
     const formsy = this.refs.form.refs.formsy;
-    this.props.editedListingStore.isListingDetailsFromValid = formsy.state.isValid;
+    this.props.editedListingStore.isFromValid = formsy.state.isValid;
 
     if (formsy.state.isValid && this.isDateValid()) {
       this.updateStore(this.refs.form.refs.formsy.getCurrentValues());

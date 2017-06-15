@@ -157,8 +157,8 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
                 &nbsp; חזור
               </span>
               <span>2/3</span>
-              <span className="next-step" onClick={this.clickNext.bind(this)} data-tip="נא להוסיף תמונות">
-                <Button bsStyle="success" className="step-btn step2" disabled={newListingStore.disableSave}>
+              <span className="next-step" data-tip="נא להוסיף תמונות">
+                <Button bsStyle="success" className="step-btn step2" onClick={this.clickNext.bind(this)} disabled={newListingStore.disableSave}>
                   שמור והמשך &nbsp;
                   <i className="apartment-pictures-next-step fa fa-arrow-circle-o-left fa-2x" aria-hidden="true"></i>
                 </Button>
