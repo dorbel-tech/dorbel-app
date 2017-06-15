@@ -14,6 +14,8 @@ export default class EditedListingStore {
   @observable formValues;
   @observable stepNumber = 0;
   @observable disableSave = false;
+  @observable uploadedImagesCount = 0;
+  @observable isFromValid = true;
 
   constructor(authStore, options) {
     this.authStore = authStore;
@@ -31,6 +33,9 @@ export default class EditedListingStore {
     this.formValues = new FlatListing();
     this.stepNumber = 0;
     this.disableSave = false;
+    this.uploadedImagesCount = 0;
+    this.isFromValid = true;
+
     if (process.env.IS_CLIENT && this.options.localStorageKey) {
       localStorage.removeItem(this.options.localStorageKey);
     }
@@ -38,6 +43,14 @@ export default class EditedListingStore {
 
   set disableSave(value) {
     this.disableSave = value;
+  }
+
+  set uploadedImagesCount(value) {
+    this.uploadedImagesCount = value;
+  }
+
+  set isFromValid(value) {
+    this.isFromValid = value;
   }
 
   get roomOptions() {

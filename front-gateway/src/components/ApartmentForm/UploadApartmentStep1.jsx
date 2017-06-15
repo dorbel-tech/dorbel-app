@@ -3,6 +3,8 @@ import { Button, Col, Grid } from 'react-bootstrap';
 import { inject, observer } from 'mobx-react';
 import UploadApartmentBaseStep from './UploadApartmentBaseStep';
 import ListingDetailsForm from './ListingDetailsForm/ListingDetailsForm';
+import ReactTooltip from 'react-tooltip';
+import NavLink from '~/components/NavLink';
 
 @inject('appProviders', 'appStore') @observer
 export default class UploadApartmentStep1 extends UploadApartmentBaseStep.wrappedComponent {
@@ -33,6 +35,8 @@ export default class UploadApartmentStep1 extends UploadApartmentBaseStep.wrappe
   }
 
   render() {
+    const editedListingStore = this.props.appStore.newListingStore;
+
     return (
       <Grid fluid className="upload-apt-wrapper">
         <Col md={5} className="upload-apt-right-container">
@@ -46,17 +50,22 @@ export default class UploadApartmentStep1 extends UploadApartmentBaseStep.wrappe
         </Col>
         <Col md={7} className="upload-apt-left-container apartment-details-step">
           <ListingDetailsForm
-            editedListingStore={this.props.appStore.newListingStore}
+            editedListingStore={editedListingStore}
             ref="listingDetailsForm"
           />
           <Col xs={12} md={7} className="form-nav bottom">
+            <NavLink to="/apartments/new_form" className="prev-step step1">
+              <i className="apartment-pictures-previous-step fa fa-arrow-circle-o-right fa-2x" aria-hidden="true"></i>
+              &nbsp; חזור
+            </NavLink>
             <span>1/3</span>
-            <span className="next-step" onClick={this.clickNext}>
-              <Button bsStyle="success" className="step-btn step1">
+            <span className="next-step" data-tip="שדה חובה חסר">
+              <Button bsStyle="success" className="step-btn step1" onClick={this.clickNext}>
                 שמור והמשך &nbsp;
                 <i className="apartment-details-next-step fa fa-arrow-circle-o-left fa-2x" aria-hidden="true"></i>
               </Button>
             </span>
+            <ReactTooltip type="dark" effect="solid" place="top" disable={editedListingStore.isFromValid}/>
           </Col>
         </Col>
       </Grid>
