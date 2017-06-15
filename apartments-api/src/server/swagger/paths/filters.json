@@ -1,0 +1,154 @@
+{
+  "/filters": {
+    "get": {
+      "summary": "Get current user's saved filter",
+      "parameters": [
+        {
+          "name": "x-user-profile",
+          "in": "header",
+          "required": true,
+          "type": "string",
+          "description": "Stringified JSON object with the user's profile information"
+        }
+      ],
+      "tags": [
+        "filterController",
+        "authenticated"
+      ],
+      "responses": {
+        "200": {
+          "description": "Filters",
+          "schema": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/Filter"
+            }
+          }
+        },
+        "default": {
+          "description": "Unexpected error",
+          "schema": {
+            "$ref": "#/definitions/Error"
+          }
+        }
+      }
+    },
+    "post": {
+      "summary": "Save a filter",
+      "parameters": [
+        {
+          "name": "body",
+          "in": "body",
+          "schema": {
+            "$ref": "#/definitions/Filter"
+          }
+        },
+        {
+          "name": "x-user-profile",
+          "in": "header",
+          "required": true,
+          "type": "string",
+          "description": "Stringified JSON object with the user's profile information"
+        }
+      ],
+      "tags": [
+        "filterController",
+        "authenticated"
+      ],
+      "responses": {
+        "200": {
+          "description": "operation was successful",
+          "schema": {
+            "$ref": "#/definitions/Filter"
+          }
+        },
+        "default": {
+          "description": "Unexpected error",
+          "schema": {
+            "$ref": "#/definitions/Error"
+          }
+        }
+      }
+    }
+  },
+  "/filters/{filterId}" : {
+    "put": {
+      "summary": "Updates a filter",
+      "parameters": [
+        {
+          "name": "filterId",
+          "in": "path",
+          "description": "filter id",
+          "type": "integer",
+          "required": true
+        },
+        {
+          "name": "body",
+          "in": "body",
+          "schema": {
+            "$ref": "#/definitions/Filter"
+          }
+        },
+        {
+          "name": "x-user-profile",
+          "in": "header",
+          "required": true,
+          "type": "string",
+          "description": "Stringified JSON object with the user's profile information"
+        }
+      ],
+      "tags": [
+        "filterController",
+        "authenticated"
+      ],
+      "responses": {
+        "200": {
+          "description": "operation was successful",
+          "schema": {
+            "$ref": "#/definitions/Filter"
+          }
+        },
+        "default": {
+          "description": "Unexpected error",
+          "schema": {
+            "$ref": "#/definitions/Error"
+          }
+        }
+      }
+    },
+    "delete": {
+      "summary": "Remove a filter",
+      "parameters": [
+        {
+          "name": "filterId",
+          "in": "path",
+          "description": "filter id",
+          "type": "integer",
+          "required": true
+        },
+        {
+          "name": "x-user-profile",
+          "in": "header",
+          "required": true,
+          "type": "string",
+          "description": "Stringified JSON object with the user's profile information"
+        }
+      ],
+      "tags": [
+        "filterController",
+        "authenticated"
+      ],
+      "responses": {
+        "204": {
+          "description": "Successful delete"
+        },
+        "default": {
+          "description": "Unexpected error",
+          "schema": {
+            "$ref": "#/definitions/Error"
+          }
+        }
+      }
+    }
+  }
+}
