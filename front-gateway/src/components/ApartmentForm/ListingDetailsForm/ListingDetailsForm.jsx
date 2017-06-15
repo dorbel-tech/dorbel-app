@@ -66,6 +66,8 @@ export default class ListingDetailsForm extends React.Component {
   // used outside of component
   getValidationErrors() {
     const formsy = this.refs.form.refs.formsy;
+    this.props.editedListingStore.isFromValid = formsy.state.isValid;
+
     if (formsy.state.isValid && this.isDateValid()) {
       this.updateStore(this.refs.form.refs.formsy.getCurrentValues());
       return null;
@@ -203,7 +205,7 @@ export default class ListingDetailsForm extends React.Component {
             <FRC.Checkbox name="roommate_needed" label='דרוש שותף/ה' rowClassName="checkbox-inline" />
           </Row>
         </Row>
-        
+
         <Row className="form-section">
           <div className="form-section-headline">חוזה ותשלומים</div>
           {this.renderLeasePeriodRow()}
