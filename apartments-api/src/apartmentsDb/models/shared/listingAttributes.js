@@ -71,6 +71,10 @@ const attributes = {
   show_for_future_booking: {
     type: DataTypes.BOOLEAN,
     defaultValue: false
+  },
+  property_value: {
+    type: DataTypes.INTEGER,
+    defaultValue: null
   }
 };
 

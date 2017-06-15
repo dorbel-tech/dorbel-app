@@ -91,7 +91,8 @@ function* createApartment(city, neighborhood, id, slug) {
     publishing_user_id: TEST_USER_ID,
     publishing_user_type: 'landlord',
     apartment_id: id,
-    slug: slug
+    slug: slug,
+    property_value: 1500000
   });
 
   yield db.models.image.create({

@@ -86,6 +86,14 @@ describe('GET /listings', function () {
     ));
   });
 
+  it('should not return the property_value field', function* () {
+    const getResponse = yield this.apiClient.getListings({}, true).expect(200).end();
+
+    __.assertThat(getResponse.body, __.allOf(
+      __.everyItem(__.not(__.hasProperty('property_value')))
+    ));
+  });
+
   // TODO : add at least some basic test for filters
 
   describe('Filter: my listings', function () {

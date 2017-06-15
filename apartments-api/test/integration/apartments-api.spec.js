@@ -73,7 +73,7 @@ describe('Apartments API Integration', function () {
       const postReponse = yield this.apiClient.createListing(fakeObjectGenerator.getFakeListing()).expect(201).end();
       yield this.adminApiClient.patchListing(postReponse.body.id, { status: 'listed' }).expect(200).end();
       postReponse.body.status = 'listed';
-      this.createdListing = _.omit(postReponse.body, ['lease_end', 'updated_at']);
+      this.createdListing = _.omit(postReponse.body, ['lease_end', 'updated_at', 'property_value']);
     });
 
     it('should return a single listing by id', function* () {
@@ -86,6 +86,26 @@ describe('Apartments API Integration', function () {
       const getResponse = yield this.apiClient.getSingleListing(this.createdListing.slug).expect(200).end();
       // TODO : this is a very shallow check
       __.assertThat(getResponse.body, __.hasProperties(this.createdListing));
+    });
+
+    it('should return the property_value field (property owner)', function* () {
+      const getResponse = yield this.apiClient.getSingleListing(this.createdListing.slug).expect(200).end();
+      __.assertThat(getResponse.body, __.hasProperties('property_value'));
+    });
+
+    it('should return the property_value field (admin)', function* () {
+      const getResponse = yield this.apiClient.getSingleListing(this.createdListing.slug).expect(200).end();
+      __.assertThat(getResponse.body, __.hasProperties('property_value'));
+    });
+
+    it('should *NOT* return the property_value field (any other user)', function* () {
+      const getResponse = yield this.apiClient.getSingleListing(this.createdListing.slug).expect(200).end();
+      __.assertThat(getResponse.body, __.not(__.hasProperty('property_value')));
+    });
+
+    it('should *NOT* return the property_value field (anonymous user)', function* () {
+      const getResponse = yield this.anonymousApiClient.getSingleListing(this.createdListing.slug).expect(200).end();
+      __.assertThat(getResponse.body, __.not(__.hasProperty('property_value')));
     });
   });
 
