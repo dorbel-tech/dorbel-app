@@ -108,7 +108,7 @@ export default class ListingDetailsForm extends React.Component {
             calendarPlacement="top" onChange={value => this.handleDateChange('lease_start', value, isManage)} />
         </Col>
         {
-          (isManage || this.props.loadedFrom == 'editForm') ?
+          (isManage || this.props.showLeaseEnd) ?
             <Col md={6}>
               <label>{endLabel}</label>
               <DatePicker
@@ -234,5 +234,5 @@ ListingDetailsForm.wrappedComponent.propTypes = {
   appProviders: React.PropTypes.object,
   editedListingStore: React.PropTypes.object.isRequired,
   children: React.PropTypes.node,
-  loadedFrom: React.PropTypes.string
+  showLeaseEnd: React.PropTypes.bool
 };
