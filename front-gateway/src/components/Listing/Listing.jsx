@@ -12,9 +12,12 @@ import ApartmentLocation from '~/components/MapWrapper/MapWrapper';
 import RelatedListings from '~/components/RelatedListings/RelatedListings';
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
 import ListingActions from './components/ListingActions';
+
 import utils from '~/providers/utils';
 
 import './Listing.scss';
+
+const shareModalQueryString = '?showShareModal';
 
 @inject('appStore', 'appProviders') @observer
 class Listing extends Component {
@@ -38,6 +41,30 @@ class Listing extends Component {
 
   componentWillMount() {
     this.loadFullListingDetails();
+  }
+
+  componentDidMount() {
+    this.shouldShowShareModal();
+  }
+
+  shouldShowShareModal() {
+    if (location.search.includes(shareModalQueryString)) {
+      const currentUrlClean = location.href.split('?')[0];
+      history.replaceState(undefined, document.title, currentUrlClean);
+
+      this.props.appProviders.modalProvider.showShareModal({
+        shareUrl: currentUrlClean,
+        title: 'יאיי! דירתכם עלתה לאוויר',
+        content: (
+          <p>
+            מה עכשיו?
+            <b> שתפו את המודעה</b>
+            <br />
+            ברשתות החברתיות והגיעו למקסימום דיירים במינימום זמן
+          </p>
+        )
+      });
+    }
   }
 
   loadFullListingDetails() {
@@ -83,34 +110,34 @@ class Listing extends Component {
       );
     }
 
-    return  <div className="listing-wrapper">
-              <ListingHeader listing={listing} />
-              <Col lgHidden mdHidden>
-                <ListingHighlight listing={listing} />
-              </Col>
-              <Grid className="listing-container">
-                <Row className="listing-title-section">
-                  <ListingActions listing={listing} />
-                  <Col sm={7} smPull={5} md={4} mdPull={4} className="listing-title-container">
-                    <h2 className="listing-title">{utils.getListingTitle(listing)}</h2>
-                    <h4 className="listing-sub-title">{utils.getListingSubTitle(listing)}</h4>
-                    <ListingSocial listing={listing} />
-                  </Col>
-                </Row>
-                <ListingInfo listing={listing} />
-                <Row>
-                  <Col md={4} xs={12} className="listing-ohe-box">
-                    <Col smHidden xsHidden>
-                      <ListingHighlight listing={listing} />
-                    </Col>
-                    <OHEList listing={listing} oheId={this.props.oheId} action={this.props.action} />
-                  </Col>
-                </Row>
-                <ListingDescription listing={listing} />
-              </Grid>
-              {this.renderListingLocation(listing.apartment.building.geolocation)}
-              <RelatedListings listingId={listing.id} />
-            </div>;
+    return <div className="listing-wrapper">
+      <ListingHeader listing={listing} />
+      <Col lgHidden mdHidden>
+        <ListingHighlight listing={listing} />
+      </Col>
+      <Grid className="listing-container">
+        <Row className="listing-title-section">
+          <ListingActions listing={listing} />
+          <Col sm={7} smPull={5} md={4} mdPull={4} className="listing-title-container">
+            <h2 className="listing-title">{utils.getListingTitle(listing)}</h2>
+            <h4 className="listing-sub-title">{utils.getListingSubTitle(listing)}</h4>
+            <ListingSocial listing={listing} />
+          </Col>
+        </Row>
+        <ListingInfo listing={listing} />
+        <Row>
+          <Col md={4} xs={12} className="listing-ohe-box">
+            <Col smHidden xsHidden>
+              <ListingHighlight listing={listing} />
+            </Col>
+            <OHEList listing={listing} oheId={this.props.oheId} action={this.props.action} />
+          </Col>
+        </Row>
+        <ListingDescription listing={listing} />
+      </Grid>
+      {this.renderListingLocation(listing.apartment.building.geolocation)}
+      <RelatedListings listingId={listing.id} />
+    </div>;
   }
 }
 
