@@ -199,9 +199,10 @@ function setListingAutoFields(listing) {
     listing.roommates = true;
   }
 
-  // In case that listing was approved (listed) we can safely mark show_for_future_booking
-  // enabled by default, because we validated all apartment details.
-  if (listing.status === 'listed') {
+  // In case that listing was approved (listed) or submitted for manage and have images,
+  // we can safely show_for_future_booking enabled by default, because we validated all apartment details.
+  if ((listing.status === 'listed') ||
+      (listing.status === 'rented' && listing.images && listing.images.length > 0)) {
     listing.show_for_future_booking = true;
   }
 
@@ -439,14 +440,14 @@ function* getValidationData(apartment, user) {
 
   const queryOptions = {
     listingAttributes: ['id', 'status', 'publishing_user_id'],
-    
+
     // Add entrance to query if defined
     buildingQuery: Object.assign({
       city_id: apartment.building.city.id,
       street_name: apartment.building.street_name,
       house_number: apartment.building.house_number,
     }, apartment.building.entrance ? { entrance: apartment.building.entrance } : {}),
-    
+
     apartmentQuery: {
       apt_number: apartment.apt_number
     }

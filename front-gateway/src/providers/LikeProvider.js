@@ -2,7 +2,6 @@
  * Like provider communicates with the Apartments API to get user likes
  */
 'use strict';
-import _ from 'lodash';
 
 class LikeProvider {
   constructor(appStore, apiProvider) {
@@ -44,20 +43,7 @@ class LikeProvider {
 
   getLikesForListing(listing_id, include_profile=false) {
     return this.fetch('likes/' + listing_id + '?include_profile=' + include_profile)
-    .then(likes => {
-      if (include_profile) {
-        this.appStore.likeStore.likesByListingId.set(listing_id, likes);
-      }
-
-      let usersLikeDetails = null;
-
-      if (this.appStore.authStore.isLoggedIn) {
-        const profile = this.appStore.authStore.profile;
-        usersLikeDetails = _.find(likes, { liked_user_id: profile.dorbel_user_id });
-      }
-
-      this.appStore.likeStore.likesByListingId.set(listing_id, usersLikeDetails);
-    });
+    .then(likes => this.appStore.likeStore.likesByListingId.set(listing_id, likes));
   }
 }
 
