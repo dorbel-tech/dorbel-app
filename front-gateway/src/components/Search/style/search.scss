@@ -1,11 +1,10 @@
 .search-container {
   height: 100%;
-  overflow-y: hidden;
+  overflow-y: scroll;
   position: relative;
 
   .search-results-not-found,
   .search-results-scroll {
-    margin-top: 129px;
     padding: 39px 0 120px;
 
     @media (max-width: $screen-xs-max) {
@@ -16,7 +15,6 @@
 }
 
 .search-results-scroll {
-  background-color: $gray-lighter;
   height: 100%;
 
   @media (min-width: $screen-sm-min) {

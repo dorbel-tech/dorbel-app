@@ -3,6 +3,9 @@ import autobind from 'react-autobind';
 import _ from 'lodash';
 import { inject, observer } from 'mobx-react';
 import { Row, Col, Checkbox } from 'react-bootstrap';
+import { isMobile } from '~/providers/utils';
+
+import './SavedFilters.scss';
 
 @inject('appStore', 'appProviders') @observer
 export default class SavedFilters extends React.Component {
@@ -43,23 +46,22 @@ export default class SavedFilters extends React.Component {
     }
   }
 
-  renderFilter(filter) {
+  renderFilter(filter, index) {
     const city = this.props.appStore.cityStore.cities.find(city => city.id === filter.city);
     const cityName = city && city.city_name;
 
 
     return (
-      <Col key={filter.id} md={2}>
-        <Checkbox
-          checked={this.state.selectedFilterId === filter.id}
-          onClick={() => this.selectFilter(filter)}>
-          <svg width="40" height="50" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="20" cy="20" r="20"/>
+      <Col key={filter.id} sm={2} xs={12} className="saved-filter-wrapper">
+        <Checkbox checked={this.state.selectedFilterId === filter.id}
+                  onClick={() => this.selectFilter(filter)}>
+          <svg className={'saved-filter-circle saved-filter-circle-' + index } xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50%" cy="50%" r="40%"/>
           </svg>
           <span>
-            {cityName},
+            {cityName},&nbsp;
             {this.getRangeLabel(filter.minRooms, filter.maxRooms)} חד'
-            <br/>
+            { isMobile() ? ', ' : <br/> }
             {this.getRangeLabel(filter.mrs, filter.mre)} ש"ח
           </span>
         </Checkbox>
@@ -76,9 +78,9 @@ export default class SavedFilters extends React.Component {
     }
 
     return (
-      <Row>
-        <Col md={2} mdOffset={2}>
-          חיפושים אחרונים
+      <Row className="saved-filters-row">
+        <Col sm={2} smOffset={2} xs={12}>
+          <span className="saved-filters-title">חיפושים אחרונים</span>
         </Col>
         {filters.map(this.renderFilter)}
       </Row>

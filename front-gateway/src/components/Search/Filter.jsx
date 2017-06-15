@@ -9,6 +9,7 @@ import _ from 'lodash';
 
 import './Filter.scss';
 import SavedFilters from './SavedFilters/SavedFilters';
+import { isMobile } from '~/providers/utils';
 
 const NEW_TIP_OFFSET = {top: -10, left: -17};
 
@@ -415,6 +416,9 @@ class Filter extends Component {
         </Button>
       </div>
       <Grid fluid className={'filter-wrapper' + (this.state.hideFilter ? ' hide-mobile-filter' : '')}>
+        {
+          isMobile() && authStore.isLoggedIn && <SavedFilters onFilterChange={this.loadFilter}/>
+        }
         <Row>
           <Col mdOffset={2} sm={6} smOffset={1} className="filter-dropdown-wrapper">
             <DropdownButton id="cityDropdown" bsSize="large"
@@ -464,8 +468,8 @@ class Filter extends Component {
               <div className={'filter-trigger-container ' + this.state.extraFilterClass}>פילטרים נוספים</div>
             </OverlayTrigger>
           </Col>
-          <Col mdOffset={1} md={1} smOffset={1} sm={1}>
-            <Button bsStyle="info" onClick={this.saveFilter}>
+          <Col sm={2} >
+            <Button block bsStyle="info" onClick={this.saveFilter}>
               שמור חיפוש
             </Button>
           </Col>
@@ -481,7 +485,7 @@ class Filter extends Component {
           </Col>
         </Row>
         {
-          authStore.isLoggedIn && <SavedFilters onFilterChange={this.loadFilter}/>
+          !isMobile() && authStore.isLoggedIn && <SavedFilters onFilterChange={this.loadFilter}/>
         }
         <div className="filter-close">
           <div className="filter-close-text" onClick={this.toggleHideFilter}>

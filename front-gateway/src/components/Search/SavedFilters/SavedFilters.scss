@@ -1,0 +1,49 @@
+@import "../../sharedStyles/bsvars.scss";
+
+.saved-filters-row {
+  @media (min-width: $screen-sm-min) {
+    align-items: center;
+    display: flex;
+    margin-top: 15px;
+  }
+}
+
+.saved-filters-title {
+  font-size: 15px;
+}
+
+.saved-filter-wrapper label {
+  align-items: center;
+  display: flex;
+  font-size: 15px;
+
+  input {
+    margin-top: 0;
+  }
+
+  @media (max-width: $screen-sm-min) {
+    font-size: 13px;
+  }
+}
+
+.saved-filter-circle {
+  width: 40px;
+  height: 40px;
+
+  @media (max-width: $screen-sm-min) {
+    width: 17px;
+    height: 17px;
+  }
+}
+
+.saved-filter-circle-0 {
+  fill: #24CAAA;
+}
+
+.saved-filter-circle-1 {
+  fill: #3B5998;
+}
+
+.saved-filter-circle-2 {
+  fill: #E8E8E8;
+}
