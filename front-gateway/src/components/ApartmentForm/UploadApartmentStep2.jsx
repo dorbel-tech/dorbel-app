@@ -136,7 +136,8 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
 
   render() {
     const { newListingStore } = this.props.appStore;
-    const isUploadedImages = (newListingStore.uploadedImagesCount > 0) ? true : false;
+    const isManageMode = this.props.appStore.newListingStore.uploadMode == 'manage';
+    const isHideTooltip = isManageMode || newListingStore.uploadedImagesCount > 0;
 
     return (
       <Grid fluid className="upload-apt-wrapper">
@@ -156,13 +157,13 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
                 &nbsp; חזור
               </span>
               <span>2/3</span>
-              <span className="next-step" onClick={this.clickNext.bind(this)} data-tip="נא להוסיף תמונה אחת לפחות">
+              <span className="next-step" onClick={this.clickNext.bind(this)} data-tip="נא להוסיף תמונות">
                 <Button bsStyle="success" className="step-btn step2" disabled={newListingStore.disableSave}>
                   שמור והמשך &nbsp;
                   <i className="apartment-pictures-next-step fa fa-arrow-circle-o-left fa-2x" aria-hidden="true"></i>
                 </Button>
               </span>
-              <ReactTooltip type="dark" effect="solid" place="top" disable={isUploadedImages}/>
+              <ReactTooltip type="dark" effect="solid" place="top" disable={isHideTooltip}/>
             </Col>
           </div>
         </Col>

@@ -4,6 +4,7 @@ import { inject, observer } from 'mobx-react';
 import UploadApartmentBaseStep from './UploadApartmentBaseStep';
 import ListingDetailsForm from './ListingDetailsForm/ListingDetailsForm';
 import ReactTooltip from 'react-tooltip';
+import NavLink from '~/components/NavLink';
 
 @inject('appProviders', 'appStore') @observer
 export default class UploadApartmentStep1 extends UploadApartmentBaseStep.wrappedComponent {
@@ -35,6 +36,7 @@ export default class UploadApartmentStep1 extends UploadApartmentBaseStep.wrappe
 
   render() {
     const editedListingStore = this.props.appStore.newListingStore;
+
     return (
       <Grid fluid className="upload-apt-wrapper">
         <Col md={5} className="upload-apt-right-container">
@@ -52,10 +54,10 @@ export default class UploadApartmentStep1 extends UploadApartmentBaseStep.wrappe
             ref="listingDetailsForm"
           />
           <Col xs={12} md={7} className="form-nav bottom">
-            <span className="prev-step step1" onClick={this.clickBack}>
+            <NavLink to="/apartments/new_form" className="prev-step step1">
               <i className="apartment-pictures-previous-step fa fa-arrow-circle-o-right fa-2x" aria-hidden="true"></i>
               &nbsp; חזור
-            </span>
+            </NavLink>
             <span>1/3</span>
             <span className="next-step" onClick={this.clickNext} data-tip="שדה חובה חסר">
               <Button bsStyle="success" className="step-btn step1">
