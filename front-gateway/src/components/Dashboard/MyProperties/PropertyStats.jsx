@@ -199,7 +199,7 @@ class PropertyStats extends Component {
               </Col>
               <Col xs={6} md={5} lg={4}>
                 <div className="property-stats-card">
-                  <div className="property-stats-number">{ leaseStats.daysPassed > 0 ? leaseStats.daysPassed : 0 }</div>
+                  <div className="property-stats-number">{leaseStats.daysPassedLabel}</div>
                   <div className="property-stats-title">ימים עברו</div>
                 </div>
               </Col>

@@ -79,7 +79,6 @@ class PropertyManage extends Component {
     const { appProviders, listing } = this.props;
     const leaseStats = utils.getListingLeaseStats(listing);
     const leasePeriodLabel = leaseStats.leasePeriod || '-';
-    const daysPassedLabel = leaseStats.daysPassed < 0 ? 0 : leaseStats.daysPassed;
     const isActiveListing = appProviders.listingsProvider.isActiveListing(listing);
 
     return  <Grid fluid className="property-manage">
@@ -103,7 +102,7 @@ class PropertyManage extends Component {
                   </div>
                   <div className="property-manage-lease-period-start">{leaseStats.leaseStart}</div>
                   <div className="property-manage-lease-period-start-label">תחילת שכירות</div>
-                  <div className="property-manage-lease-period-days-passed">{daysPassedLabel} ימים עברו</div>
+                  <div className="property-manage-lease-period-days-passed">{leaseStats.daysPassedLabel} ימים עברו</div>
                   <ProgressBar now={leaseStats.daysPassed <= 0 ? (leaseStats.leasePeriod / 100) : leaseStats.daysPassed} max={leaseStats.leasePeriod}/>
                   <div className="property-manage-lease-period-days-left">{leaseStats.daysLeft} ימים נותרו</div>
                   <div className="property-manage-lease-period-end">{leaseStats.leaseEnd}</div>

@@ -39,6 +39,7 @@ function getListingLeaseStats(listing) {
   const leasePeriod = moment(listing.lease_end).diff(moment(listing.lease_start), 'days');
   const daysPassedUntilToday = moment().diff(moment(listing.lease_start), 'days');
   const daysPassed = daysPassedUntilToday < leasePeriod ? daysPassedUntilToday : leasePeriod;
+  const daysPassedLabel = daysPassed > 0 ? daysPassed : 0;
   const dasysLeftUntilToday = (leasePeriod - daysPassed);
   const daysLeft = dasysLeftUntilToday > leasePeriod ? leasePeriod : dasysLeftUntilToday;
 
@@ -47,6 +48,7 @@ function getListingLeaseStats(listing) {
     leaseEnd,
     leasePeriod,
     daysPassed,
+    daysPassedLabel,
     daysLeft
   };
 }
