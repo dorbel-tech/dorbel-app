@@ -24,6 +24,24 @@ class OHEManager extends React.Component {
     this.setState({ showAddOheModal });
   }
 
+  showSharePopup() {
+    const listingUrl = `${location.protocol}//${location.hostname}/apartments/${this.props.listing.id}`;
+
+    this.props.appProviders.modalProvider.showShareModal({
+      shareUrl: listingUrl,
+      title: 'ברכות, מועד ביקור חדש נקבע בהצלחה!',
+      content: (
+        <p>
+          רוצים להגיע לעוד דיירים?
+          <b> שתפו את המודעה</b>
+          <br />
+          ברשתות החברתיות והגיעו למקסימום דיירים במינימום זמן
+        </p>
+      )
+    });
+  }
+
+
   render() {
     const { listing, appStore, appProviders, router } = this.props;
 
@@ -43,13 +61,13 @@ class OHEManager extends React.Component {
       return <LoadingSpinner />;
     }
 
-    const comingEvents = openHouseEvents.filter(event => (event.status !== 'inactive') &&  moment(event.end_time).isAfter(Date.now()));
+    const comingEvents = openHouseEvents.filter(event => (event.status !== 'inactive') && moment(event.end_time).isAfter(Date.now()));
     const passedEvents = openHouseEvents.filter(event => (event.status === 'inactive') || moment(event.end_time).isBefore(Date.now()));
 
     return (
       <Col xs={12} className="listing-events-container">
         <div>
-          { isActiveListing && <Button onClick={() => this.toggleAddModal(true)} className="add-button pull-left">הוסף מועד</Button> }
+          {isActiveListing && <Button onClick={() => this.toggleAddModal(true)} className="add-button pull-left">הוסף מועד</Button>}
           <h3 className="listing-events-title">מועדי ביקור הבאים</h3>
         </div>
         <div>
@@ -65,7 +83,12 @@ class OHEManager extends React.Component {
             passedEvents.map(ohe => <OHECard key={ohe.id} ohe={ohe} />) :
             <h5 className="listing-events-no-ohe-title">אין ביקורים שחלפו</h5>}
         </div>
-        <AddOHEModal listing={listing} show={this.state.showAddOheModal} onClose={() => this.toggleAddModal(false)} />
+        <AddOHEModal listing={listing} show={this.state.showAddOheModal} onClose={(isOheCreated) => {
+          this.toggleAddModal(false);
+          if (isOheCreated) {
+            this.showSharePopup();
+          }
+        }} />
       </Col>
     );
   }
