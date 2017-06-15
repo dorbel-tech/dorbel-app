@@ -5,8 +5,10 @@ import { inject, observer } from 'mobx-react';
 import Nouislider from 'react-nouislider';
 import { range } from 'lodash';
 import ReactTooltip from 'react-tooltip';
+import _ from 'lodash';
 
 import './Filter.scss';
+import SavedFilters from './SavedFilters/SavedFilters';
 
 const NEW_TIP_OFFSET = {top: -10, left: -17};
 
@@ -56,13 +58,18 @@ class Filter extends Component {
       this.filterObj = {};
     }
 
-    this.state = Object.assign({
+    this.state = this.getDefaultState();
+  }
+
+  getDefaultState() {
+    return Object.assign({
       hideFilter: true,
       cityFilterClass: this.getCityFilterClass(),
       neighborhoodFilterClass: this.getNeighborhoodFilterClass(),
       extraFilterClass: this.getExtraFilterClass(),
       mrFilterClass: this.getMRFilterClass(),
-      roomsFilterClass: this.getRoomsFilterClass()
+      roomsFilterClass: this.getRoomsFilterClass(),
+      empty: !this.filterObj.room
     }, DEFAULT_FILTER_PARAMS, this.filterObj);
   }
 
@@ -70,12 +77,6 @@ class Filter extends Component {
     this.props.appProviders.cityProvider.loadCities();
     this.loadNeighborhoods(this.state.city);
     this.reloadResults();
-
-    // Adjust roommates checkboxes state when provided with roommates data from
-    // the query params (location.search).
-    if (this.filterObj.room) {
-      this.setState({ empty: false });
-    }
   }
 
   loadNeighborhoods(cityId) {
@@ -218,6 +219,30 @@ class Filter extends Component {
 
   toggleHideFilter() {
     this.setState({ hideFilter: !this.state.hideFilter });
+  }
+
+  saveFilter() {
+    const { appProviders } = this.props;
+    if (!appProviders.authProvider.shouldLogin()) {
+      appProviders.searchProvider.saveFilter(this.filterObj)
+      .catch(err => {
+        let heading = _.get(err, 'response.data');
+
+        if (_.get(err, 'response.data[0].type') === 'Validation error' ||
+            _.get(err, 'response.data.error')  === 'Validation Failed') {
+          heading = 'על מנת לשמור חיפוש - יש לבחור עיר, מחיר, ומספר חדרים';
+        }
+
+        appProviders.modalProvider.showInfoModal({ title: 'אופס...', heading });
+      });
+    }
+  }
+
+  loadFilter(filterObj) {
+    Object.keys(filterObj).filter(key => filterObj[key] === null).forEach(key => delete filterObj[key]);
+    this.filterObj = filterObj;
+    this.setState(this.getDefaultState());
+    this.reloadResults();
   }
 
   renderAdminFilter() {
@@ -373,7 +398,7 @@ class Filter extends Component {
   }
 
   render() {
-    const { cityStore, neighborhoodStore } = this.props.appStore;
+    const { cityStore, neighborhoodStore, authStore } = this.props.appStore;
     const cities = cityStore.cities.length ? cityStore.cities : [];
     const cityId = this.filterObj.city || DEFAULT_FILTER_PARAMS.city;
     const cityTitle = this.getAreaTitle(cityId, CITY_ALL_OPTION, cities, 'city_name');
@@ -421,13 +446,13 @@ class Filter extends Component {
               {neighborhoods.map(neighborhood => <MenuItem key={neighborhood.id} eventKey={neighborhood.id}>{neighborhood.neighborhood_name}</MenuItem>)}
             </DropdownButton>
           </Col>
-          <Col md={2} sm={2}>
+          <Col md={1} sm={1}>
             <OverlayTrigger placement="bottom" trigger="click" rootClose
                             overlay={this.roomsPopup()}>
               <div className={'filter-trigger-container ' + this.state.roomsFilterClass}>חדרים</div>
             </OverlayTrigger>
           </Col>
-          <Col md={2} sm={2}>
+          <Col md={1} sm={1}>
             <OverlayTrigger placement="bottom" trigger="click" rootClose
                             overlay={this.mrPopup()}>
               <div className={'filter-trigger-container ' + this.state.mrFilterClass}>מחיר</div>
@@ -438,6 +463,11 @@ class Filter extends Component {
                             overlay={this.extraPopup()}>
               <div className={'filter-trigger-container ' + this.state.extraFilterClass}>פילטרים נוספים</div>
             </OverlayTrigger>
+          </Col>
+          <Col mdOffset={1} md={1} smOffset={1} sm={1}>
+            <Button bsStyle="info" onClick={this.saveFilter}>
+              שמור חיפוש
+            </Button>
           </Col>
           <Col lgHidden mdHidden smHidden className="filter-future-booking-switch-mobile-wrapper">
             <Checkbox name="futureBooking" className="filter-future-booking-switch"
@@ -450,6 +480,9 @@ class Filter extends Component {
                           offset={NEW_TIP_OFFSET} className="filter-future-booking-tooltip"/>
           </Col>
         </Row>
+        {
+          authStore.isLoggedIn && <SavedFilters onFilterChange={this.loadFilter}/>
+        }
         <div className="filter-close">
           <div className="filter-close-text" onClick={this.toggleHideFilter}>
             סנן וסגור
