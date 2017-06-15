@@ -162,8 +162,7 @@ class PropertyStats extends Component {
     const { appStore, listing } = this.props;
     const listingId = listing.id;
     const views = appStore.listingStore.listingViewsById.get(listingId);
-    const listingLeaseStart = utils.formatDate(listing.lease_start);
-    const daysPassed = moment(Date.now()).diff(moment(listing.lease_start), 'days');
+    const leaseStats = utils.getListingLeaseStats(listing);
     const manageTabUrl = getDashMyPropsPath(listing, '/manage');
     const tipOffset = {top: -7, left: 2};
 
@@ -186,7 +185,7 @@ class PropertyStats extends Component {
                   </div>
                   <div className="property-stats-empty"></div>
                   <div className="property-stats-bubble">
-                    <NavLink to={manageTabUrl}><div className="property-stats-bubble-text">עוקבים</div></NavLink>
+                    <NavLink to={manageTabUrl}><div className="property-stats-bubble-text">לייקים</div></NavLink>
                   </div>
                 </div>
               </Col>
@@ -194,14 +193,14 @@ class PropertyStats extends Component {
             <Row className="property-stats-listing-stats text-center property-stats-padding-top">
               <Col xs={6} md={5} lg={4}>
                 <div className="property-stats-card">
-                  <div className="property-stats-number">{listingLeaseStart}</div>
+                  <div className="property-stats-number">{leaseStats.leaseStart}</div>
                   <div className="property-stats-title">ההשכרה האחרונה</div>
                 </div>
               </Col>
               <Col xs={6} md={5} lg={4}>
                 <div className="property-stats-card">
-                  <div className="property-stats-number">{(daysPassed > 0) ? (daysPassed || 0) : 'לא זמין' }</div>
-                  <div className="property-stats-title">ימים שחלפו</div>
+                  <div className="property-stats-number">{ leaseStats.daysPassed > 0 ? leaseStats.daysPassed : 0 }</div>
+                  <div className="property-stats-title">ימים עברו</div>
                 </div>
               </Col>
             </Row>

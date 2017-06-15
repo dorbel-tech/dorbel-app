@@ -33,6 +33,24 @@ function getListingTitle(listing) {
   return listing.title || `דירת ${listing.apartment.rooms} חד׳ ב${listing.apartment.building.street_name}`;
 }
 
+function getListingLeaseStats(listing) {
+  const leaseStart = formatDate(listing.lease_start);
+  const leaseEnd = formatDate(listing.lease_end);
+  const leasePeriod = moment(listing.lease_end).diff(moment(listing.lease_start), 'days');
+  const daysPassedUntilToday = moment().diff(moment(listing.lease_start), 'days');
+  const daysPassed = daysPassedUntilToday < leasePeriod ? daysPassedUntilToday : leasePeriod;
+  const dasysLeftUntilToday = (leasePeriod - daysPassed);
+  const daysLeft = dasysLeftUntilToday > leasePeriod ? leasePeriod : dasysLeftUntilToday;
+
+  return {
+    leaseStart,
+    leaseEnd,
+    leasePeriod,
+    daysPassed,
+    daysLeft
+  };
+}
+
 function getListingSubTitle(listing) {
   const building = listing.apartment.building;
   const neighborhoodName = building.neighborhood.neighborhood_name;
@@ -102,6 +120,7 @@ module.exports = {
   getListingStatusLabels,
   getListingSubTitle,
   getListingTitle,
+  getListingLeaseStats,
   sortListingImages,
   promiseSeries,
   isMobile,
