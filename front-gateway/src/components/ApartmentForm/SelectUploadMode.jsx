@@ -27,7 +27,7 @@ class SelectUploadMode extends Component {
               <a href="/apartments/new_form/publish" onClick={this.handleHrefClick} className="select-upload-mode-item">
                 <img src="https://static.dorbel.com/images/upload-apt-form/dorbel-rent-icon.svg" className="select-upload-mode-item-icon" />
                 <div className="select-upload-mode-item-text">
-                  פרסום דירה להשכרה
+                  פרסום נכס להשכרה
                 </div>
                 <div className="select-upload-mode-item-subtext">
                   (מחפשים דיירים חדשים)
@@ -38,7 +38,7 @@ class SelectUploadMode extends Component {
               <a href="/apartments/new_form/manage" onClick={this.handleHrefClick} className="select-upload-mode-item">
                 <img src="https://static.dorbel.com/images/upload-apt-form/dorbel-manage-icon.svg" className="select-upload-mode-item-icon" />
                 <div className="select-upload-mode-item-text">
-                  העלאת דירה לניהול
+                  הוספת נכס מושכר לניהול
                 </div>
                 <div className="select-upload-mode-item-subtext">
                   (יש לי דיירים קיימים)
