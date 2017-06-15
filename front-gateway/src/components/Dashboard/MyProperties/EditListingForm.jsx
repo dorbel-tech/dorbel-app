@@ -8,7 +8,7 @@ export default class EditListingForm extends Component {
     const { publishing_user_type, show_phone } = this.props.editedListingStore.formValues;
 
     return (
-      <ListingDetailsForm editedListingStore={this.props.editedListingStore} values={this.props.values}>
+      <ListingDetailsForm editedListingStore={this.props.editedListingStore} values={this.props.values} loadedFrom="editForm">
         <Row className="form-section">
           <Row>
             <Col md={12}>

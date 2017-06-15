@@ -97,7 +97,7 @@ export default class ListingDetailsForm extends React.Component {
     const { editedListingStore } = this.props;
     const isManage = editedListingStore.uploadMode == 'manage';
     const startLabel = isManage ? 'תחילת תקופת שכירות' : 'תאריך כניסה לדירה';
-    const endLabel = isManage ? 'סוף תקופת שכירות' : '';
+    const endLabel = isManage ? 'סוף תקופת שכירות' : 'תאריך פינוי דירה';
 
     return (
       <Row className="listing-details-form-date-row">
@@ -108,7 +108,7 @@ export default class ListingDetailsForm extends React.Component {
             calendarPlacement="top" onChange={value => this.handleDateChange('lease_start', value, isManage)} />
         </Col>
         {
-          isManage ?
+          (isManage || this.props.loadedFrom == 'editForm') ?
             <Col md={6}>
               <label>{endLabel}</label>
               <DatePicker
@@ -233,5 +233,6 @@ ListingDetailsForm.wrappedComponent.propTypes = {
   appStore: React.PropTypes.object,
   appProviders: React.PropTypes.object,
   editedListingStore: React.PropTypes.object.isRequired,
-  children: React.PropTypes.node
+  children: React.PropTypes.node,
+  loadedFrom: React.PropTypes.string
 };
