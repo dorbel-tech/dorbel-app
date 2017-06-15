@@ -81,7 +81,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DATE,
       },
       property_value: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.DECIMAL(10, 2),
         defaultValue: null
       }
     },
