@@ -457,7 +457,7 @@ function* getValidationData(apartment, user) {
     result.listing_id = validationData[0].id;
     result.status = 'alreadyExists';
 
-    if (user.id != validationData[0].publishing_user_id) {
+    if (user.id != validationData[0].publishing_user_id && !userPermissions.isUserAdmin(user)) {
       result.status = 'belongsToOtherUser';
     }
     else if (['listed', 'pending'].indexOf(validationData[0].status) > -1) {

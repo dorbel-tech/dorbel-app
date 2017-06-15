@@ -17,9 +17,10 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
   }
 
   handleValidationResponse(validationResp) {
-    const { modalProvider, navProvider } = this.props.appProviders;
-    const { newListingStore } = this.props.appStore;
     if (validationResp) {
+      const { modalProvider, navProvider } = this.props.appProviders;
+      const { newListingStore } = this.props.appStore;
+
       switch (validationResp.status) {
         case 'belongsToOtherUser':
           modalProvider.show({
@@ -28,11 +29,16 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
             body: (
               <div>
                 <div>
-                  אנא וודאו שפרטי הדירה נכונים.
+                  אנא וודאו שפרטי הדירה נכונים
                 </div>
                 <div>
-                  אם דירה זו שייכת לכם צרו עמנו קשר או
-                  &nbsp;<a className="upload-apartment-validation-popup-link" href="mailto:contact@dorbel.com">שלחו לנו מייל</a>
+                  <Button className="upload-apartment-validation-popup-back-button" onClick={this.clickBack}>חזור לפרטי הדירה</Button>
+                </div>
+                <div className="upload-apartment-validation-popup-contact-us">
+                  אם דירה זו שייכת לכם צרו עמנו קשר
+                  <div> או&nbsp;
+                  <a className="upload-apartment-validation-popup-link" href="mailto:contact@dorbel.com">שלחו לנו מייל</a>
+                  </div>
                 </div>
               </div>
             ),
@@ -83,11 +89,14 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
                   <div>
                     שימו לב - שליחת הטופס תעדכן את פרטי הדירה הקיימת.
                     <div>
-                      באפשרותכם גם&nbsp;
-                      <a className="upload-apartment-validation-popup-link"
-                        href={`/dashboard/my-properties/${validationResp.listing_id}`}>
-                        להכנס לחשבון הדירה
-                      </a>
+                      <br />
+                      באפשרותכם גם
+                      <div>
+                        <a className="upload-apartment-validation-popup-link"
+                          href={`/dashboard/my-properties/${validationResp.listing_id}`}>
+                          להכנס לחשבון הדירה
+                        </a>
+                      </div>
                     </div>
                     ולנהל אותה משם
                   </div>

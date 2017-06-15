@@ -23,7 +23,7 @@ function* getByListing(listingId, user, include_profile) {
     if (userPermissions.isResourceOwnerOrAdmin(user, listing.publishing_user_id)) {
       // Get all the data about who liked a listing.
       likes.forEach((like) => {
-        const promiseForUser = userManagement.getPublicProfile(like.following_user_id)
+        const promiseForUser = userManagement.getPublicProfile(like.liked_user_id)
           .then(user_details => { like.user_details = user_details; });
         promises.push(promiseForUser);
       });

@@ -5,7 +5,6 @@ import autobind from 'react-autobind';
 import OHERegisterModal from './OHERegisterModal';
 import { getListingPath, getDashMyPropsPath } from '~/routesHelper';
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
-import ReactTooltip from 'react-tooltip';
 
 @inject('appStore', 'appProviders', 'router') @observer
 class OHEList extends Component {
@@ -19,7 +18,6 @@ class OHEList extends Component {
   componentDidMount() {
     const { appProviders, listing } = this.props;
     appProviders.oheProvider.loadListingEvents(listing.id);
-    appProviders.oheProvider.getFollowsForListing(listing.id);
   }
 
   renderListItem(params) {
@@ -107,69 +105,27 @@ class OHEList extends Component {
     return oheConfig;
   }
 
-  followListing() {
-    const { appProviders, listing } = this.props;
-
-    appProviders.oheProvider.toggleFollow(listing);
-  }
-
-  renderFollowItem(listing) {
-    const { appStore } = this.props;
-    let callToActionText, toolTipText;
-    const userIsFollowing = appStore.oheStore.usersFollowsByListingId.get(listing.id);
-    const tipOffset = {top: -7, left: -22};
-
-    switch(listing.status) {
-      case 'pending':
-      case 'listed':
-        callToActionText = userIsFollowing ?
-          'הסירו אותי מרשימת העדכונים' : 'עדכנו אותי על מועדי ביקור חדשים';
-        toolTipText = 'אהבתם את הדירה אבל לא נוח לכם להגיע? כאשר יתווסף מועד ביקור חדש, נעדכן אתכם במייל, כך שתהיו הראשונים לדעת.';
-        break;
-      case 'rented':
-      case 'unlisted':
-        callToActionText = userIsFollowing ?
-          'הסירו אותי מרשימת העדכונים' : 'עדכנו אותי כשהדירה תתפרסם להשכרה';
-        toolTipText = 'אהבתם את הדירה אבל היא מושכרת כרגע? ברגע שהדירה תתפרסם להשכרה, נעדכן אתכם במייל, כך שתהיו הראשונים לדעת.';
-        break;
-    }
-
-    return <div className="follow-container">
-      <span data-tip={toolTipText}>
-        <i className="fa fa-info-circle follow-icon" aria-hidden="true"></i>
-      </span>
-      <ReactTooltip type="dark" effect="solid" place="right" offset={tipOffset} multiline className="follow-tooltip"/>
-      &nbsp;
-      <span className="follow-action" onClick={this.followListing}>{callToActionText}</span>
-    </div>;
-  }
-
   filterOHEsToDisplay(ohes) {
     const lastExpiredIndex = _.findLastIndex(ohes, { status: 'expired' });
     return lastExpiredIndex > -1 ? ohes.slice(lastExpiredIndex) : ohes;
   }
 
-  shouldFollowersCountBeVisible() {
-    const { appStore, listing } = this.props;
-    return appStore.listingStore.isListingPublisherOrAdmin(listing);
-  }
-
-  renderListingFollowersCount(listing) {
-    let followersCount = this.props.appStore.oheStore.countFollowersByListingId.get(listing.id);
-
-    if (this.shouldFollowersCountBeVisible()) {
-      return <div className="listing-followers-count">{followersCount} נרשמו לעדכונים לדירה זו</div>;
-    } else {
-      return null;
-    }
-  }
-
   getListingNotification(listing) {
     switch(listing.status) {
       case 'rented':
-        return <span><h4>הדירה מושכרת כרגע</h4>הרשמו על מנת לקבל עידכון ברגע שהדירה תוצע להשכרה שוב.</span>;
+        return (
+          <span>
+            <h4>הדירה מושכרת כרגע</h4>
+            <p>אהבתם את הדירה? רוצים לדעת לפני כולם כשהיא תתפנה שוב? לחצו על ׳אהבתי׳ לשמירת הדירה ולקבלת עדכון כשהיא עומדת להתפנות.</p>
+          </span>
+        );
       case 'unlisted':
-        return <span><h4>המודעה לא פעילה</h4>לפרסום המודעה הכנסו <a href={getDashMyPropsPath(listing)}>לחשבונכם ועדכנו</a> את הסטטוס שלה.</span>;
+        return (
+          <span>
+            <h4>המודעה לא פעילה</h4>
+            <p>לפרסום המודעה הכנסו <a href={getDashMyPropsPath(listing)}>לחשבונכם ועדכנו</a> את הסטטוס שלה.</p>
+          </span>
+        );
       default:
         return null;
     }
@@ -187,6 +143,7 @@ class OHEList extends Component {
         <div>
           <div className="ohe-list">{openHouseEvents.map(this.renderOpenHouseEvent)}</div>
           <OHERegisterModal ohe={oheForModal} onClose={closeModal} action={this.props.action} />
+          <div className="listing-ohe-box-text text-center">אהבתם את הדירה אבל לא יכולים להגיע? לחצו על ׳אהבתי׳ לשמירת הדירה וקבלת עדכונים למועדי ביקור חדשים.</div>
         </div>
       );
     }
@@ -233,10 +190,8 @@ class OHEList extends Component {
       <div className="list-group listing-choose-date-container">
         {this.renderTitle(listing, ohes)}
         {this.renderOheList(ohes, closeModal)}
-        <div href="#" className="ohe-list-follow-container">
+        <div className="ohe-list-follow-container">
           <div className="listing-rented-notification">{this.getListingNotification(listing)}</div>
-          {this.renderFollowItem(listing)}
-          {this.renderListingFollowersCount(listing)}
         </div>
       </div>
     );
