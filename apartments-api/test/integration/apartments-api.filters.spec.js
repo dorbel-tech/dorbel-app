@@ -4,7 +4,7 @@ const __ = require('hamjest');
 const faker = require('faker');
 const ApiClient = require('./apiClient.js');
 
-describe('GET /listings', function () {
+describe('Apartments API - saved filters - ', function () {
 
   function createFilter() {
     return {

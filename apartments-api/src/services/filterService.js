@@ -3,7 +3,8 @@ const shared = require('dorbel-shared');
 const filterRepository = require('../apartmentsDb/repositories/filterRepository');
 
 const MAX_FILTERS_PER_USER = 3;
-const filterEqualityFields = [ 'city', 'neighborhood', 'mrs', 'mre', 'minRooms', 'maxRooms', 'ac', 'balc', 'ele', 'park', 'pet', 'sb', 'futueBooking' ];
+const filterEqualityFields = [ 'city', 'neighborhood', 'min_monthly_rent', 'max_monthly_rent', 'min_rooms', 'max_rooms',
+  'air_conditioning', 'balcony', 'elevator', 'parking', 'pets', 'security_bars', 'future_booking' ];
 const filterUpdateFields = filterEqualityFields.concat(['email_notification']);
 const errors = shared.utils.domainErrors;
 
