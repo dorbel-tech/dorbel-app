@@ -7,17 +7,19 @@ describe('Apartments API Integration', function () {
 
   before(function* () {
     this.apiClient = yield ApiClient.getInstance();
+    this.otherApiClient = yield ApiClient.getOtherInstance();
+    this.anonymousApiClient = yield ApiClient.getAnonymousInstance();
     this.adminApiClient = yield ApiClient.getAdminInstance();
   });
 
-  describe('GET /health', function() {
+  describe('GET /health', function () {
     it('should be healthy', function* () {
       const res = yield this.apiClient.getHealth();
       __.assertThat(res, __.hasProperty('status', 200));
     });
   });
 
-  describe('GET /cities', function() {
+  describe('GET /cities', function () {
     it('should return cities', function* () {
       const cities = _.get(yield this.apiClient.getCities(), 'body');
 
@@ -29,7 +31,7 @@ describe('Apartments API Integration', function () {
     });
   });
 
-  describe('GET /neighborhoods', function() {
+  describe('GET /neighborhoods', function () {
     it('should return neighborhoods', function* () {
       const cities = _.get(yield this.apiClient.getCities(), 'body');
       const neighborhoods = _.get(yield this.apiClient.getNeighborhoods(cities[0].id), 'body');
@@ -42,7 +44,7 @@ describe('Apartments API Integration', function () {
     });
   });
 
-  describe('POST /listings', function() {
+  describe('POST /listings', function () {
     it('should add listing and return it', function* () {
       const newListing = fakeObjectGenerator.getFakeListing();
       const createdListingResp = yield this.apiClient.createListing(newListing).expect(201).end();
@@ -158,7 +160,7 @@ describe('Apartments API Integration', function () {
 
   describe('GET /page_views/listings/{listingIds}', function () {
     it('should get listing page views', function* () {
-      const response = yield this.apiClient.getListingPageViews([1,2]);
+      const response = yield this.apiClient.getListingPageViews([1, 2]);
 
       __.assertThat(response.body, __.everyItem(__.hasProperty('views')));
     });
