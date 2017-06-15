@@ -2,7 +2,6 @@
  * Like provider communicates with the Apartments API to get user likes
  */
 'use strict';
-import _ from 'lodash';
 
 class LikeProvider {
   constructor(appStore, apiProvider) {
