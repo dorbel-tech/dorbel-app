@@ -211,4 +211,8 @@ ApiClient.getOtherInstance = function() {
   }));
 };
 
+ApiClient.getAnonymousInstance = function () {
+  return ApiClient.init();
+};
+
 module.exports = ApiClient;

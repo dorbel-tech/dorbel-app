@@ -383,10 +383,16 @@ function* enrichListingResponse(listing, user) {
       if (userPermissions.isResourceOwnerOrAdmin(user, listing.publishing_user_id)) {
         enrichedListing.totalLikes = yield likeRepository.getListingTotalLikes(listing.id);
       }
+      else {
+        delete enrichedListing.property_value;
+      }
       // TODO: Implemented this way as discussed - should be different api call when possible
       if (listing.show_phone) {
         enrichedListing.publishing_user_phone = _.get(publishingUser, 'user_metadata.phone' || 'phone') || '';
       }
+    }
+    else {
+      delete enrichedListing.property_value;
     }
 
     return enrichedListing;

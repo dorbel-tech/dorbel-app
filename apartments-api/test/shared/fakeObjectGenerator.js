@@ -46,7 +46,8 @@ function getFakeListing(variant) {
     },
     slug: 'test-listing-' + faker.random.uuid(), // This field has a unique constraint
     show_phone: false,
-    show_for_future_booking: true
+    show_for_future_booking: true,
+    property_value: faker.random.number(100000, 5000000)
   };
 
   listing.apartment.building.toJSON = () => listing.apartment.building;
