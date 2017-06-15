@@ -142,6 +142,32 @@ class ApiClient {
       .send({apartment});
   }
 
+  getFilters() {
+    return this.request
+      .get('/v1/filters')
+      .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile));
+  }
+
+  deleteFilter(filterId) {
+    return this.request
+      .delete(`/v1/filters/${filterId}`)
+      .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile));
+  }
+
+  createFilter(filter) {
+    return this.request
+      .post('/v1/filters')
+      .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile))
+      .send(filter);
+  }
+
+  putFilter(filterId, filter) {
+    return this.request
+      .put(`/v1/filters/${filterId}`)
+      .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile))
+      .send(filter);
+  }
+
   static * init(userProfile) {
     let request;
 
