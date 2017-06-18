@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import { ProgressBar, Col, Grid, Row, ListGroup, ListGroupItem, Button } from 'react-bootstrap';
 import autobind from 'react-autobind';
-import moment from 'moment';
 import utils from '~/providers/utils';
 import TenantRow from '~/components/Tenants/TenantRow/TenantRow';
 import AddTenantModal from '~/components/Tenants/AddTenantModal/AddTenantModal';
