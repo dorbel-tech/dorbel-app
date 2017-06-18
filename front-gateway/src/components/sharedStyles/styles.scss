@@ -139,7 +139,8 @@ textarea {
 .dropdown-menu {
   background-color: $brand-white !important;
   border: none !important;
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.175) !important;
+  border-radius: 0;
+  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.175) !important;
   max-height: 300px;
   overflow-y: auto;
 
