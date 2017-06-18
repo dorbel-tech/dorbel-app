@@ -133,9 +133,10 @@
   }
 }
 
-.property-actions-details,
 .property-actions-preview-container,
 .property-actions-refresh-container {
+  width: 35px;
+
   @media (max-width: $screen-xs-max) {
     display: none !important;
   }
@@ -209,7 +210,8 @@
   }
 
   @media (min-width: $screen-md-min) {
-    padding-right: 7px;
+    border-right: $gray-border;
+    margin: 0 20px;
   }
 }
 
