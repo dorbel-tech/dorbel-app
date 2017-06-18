@@ -392,7 +392,7 @@ class Filter extends Component {
       <Grid fluid className={'filter-wrapper' + (this.state.hideFilter ? ' hide-mobile-filter' : '')}>
         <Row>
           <Col mdOffset={2} sm={6} smOffset={1} className="filter-dropdown-wrapper">
-            <DropdownButton id="cityDropdown" bsSize="large"
+            <DropdownButton id="cityDropdown" bsSize="large" noCaret
               className={'filter-dropdown ' + this.state.cityFilterClass}
               title={'עיר: ' + cityTitle}
               onSelect={this.citySelectHandler}>
@@ -414,7 +414,7 @@ class Filter extends Component {
         </Row>
         <Row>
           <Col md={2} mdOffset={2} sm={2} smOffset={1} className="filter-dropdown-wrapper">
-            <DropdownButton id="neighborhoodDropdown" bsSize="large"
+            <DropdownButton id="neighborhoodDropdown" bsSize="large" noCaret
               className={'filter-dropdown ' + this.state.neighborhoodFilterClass}
               title={'שכונה: ' + neighborhoodTitle}
               onSelect={this.neighborhoodSelectHandler}>
