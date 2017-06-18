@@ -37,11 +37,11 @@ describe('Listing Thumbnail', () => {
   const renderThumbnail = () => {
     const rendered = shallow(<ListingThumbnail.wrappedComponent appStore={appStoreMock} listing={listing} />);
     return rendered.children().children(); // ListingThumbnail contains a Col which contains a NavLink
-  }
+  };
 
   describe('Listing lease start', () => {
     it('should display appropriate text for lease_start in the past', () => {
-      listing.lease_start = "1-1-1990";
+      listing.lease_start = '1-1-1990';
 
       const rendered = renderThumbnail();
 

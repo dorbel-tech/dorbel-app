@@ -103,6 +103,7 @@ exports[`Filter should initialize correctly 1`] = `
                     bsSize="large"
                     className="filter-dropdown "
                     id="cityDropdown"
+                    noCaret={true}
                     onSelect={[Function]}
                     title="עיר: כל הערים">
                     <Uncontrolled(Dropdown)
@@ -131,6 +132,7 @@ exports[`Filter should initialize correctly 1`] = `
                               bsSize="large"
                               className="filter-dropdown "
                               id="cityDropdown"
+                              noCaret={true}
                               onClick={[Function]}
                               onKeyDown={[Function]}
                               open={false}
@@ -160,9 +162,6 @@ exports[`Filter should initialize correctly 1`] = `
                                   role="button"
                                   type="button">
                                   עיר: כל הערים
-                                   
-                                  <span
-                                    className="caret" />
                                 </button>
                               </Button>
                             </DropdownToggle>
@@ -296,6 +295,7 @@ exports[`Filter should initialize correctly 1`] = `
                     bsSize="large"
                     className="filter-dropdown "
                     id="neighborhoodDropdown"
+                    noCaret={true}
                     onSelect={[Function]}
                     title="שכונה: כל השכונות">
                     <Uncontrolled(Dropdown)
@@ -324,6 +324,7 @@ exports[`Filter should initialize correctly 1`] = `
                               bsSize="large"
                               className="filter-dropdown "
                               id="neighborhoodDropdown"
+                              noCaret={true}
                               onClick={[Function]}
                               onKeyDown={[Function]}
                               open={false}
@@ -353,9 +354,6 @@ exports[`Filter should initialize correctly 1`] = `
                                   role="button"
                                   type="button">
                                   שכונה: כל השכונות
-                                   
-                                  <span
-                                    className="caret" />
                                 </button>
                               </Button>
                             </DropdownToggle>
