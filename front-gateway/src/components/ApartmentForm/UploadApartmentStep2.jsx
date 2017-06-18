@@ -3,6 +3,7 @@ import { Button, Col, Grid } from 'react-bootstrap';
 import { inject, observer } from 'mobx-react';
 import UploadApartmentBaseStep from './UploadApartmentBaseStep';
 import ImageUpload from './ImageUpload/ImageUpload.jsx';
+import ReactTooltip from 'react-tooltip';
 
 @inject('appStore', 'appProviders') @observer
 class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
@@ -17,9 +18,10 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
   }
 
   handleValidationResponse(validationResp) {
-    const { modalProvider, navProvider } = this.props.appProviders;
-    const { newListingStore } = this.props.appStore;
     if (validationResp) {
+      const { modalProvider, navProvider } = this.props.appProviders;
+      const { newListingStore } = this.props.appStore;
+
       switch (validationResp.status) {
         case 'belongsToOtherUser':
           modalProvider.show({
@@ -28,11 +30,16 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
             body: (
               <div>
                 <div>
-                  אנא וודאו שפרטי הדירה נכונים.
+                  אנא וודאו שפרטי הדירה נכונים
                 </div>
                 <div>
-                  אם דירה זו שייכת לכם צרו עמנו קשר או
-                  &nbsp;<a className="upload-apartment-validation-popup-link" href="mailto:contact@dorbel.com">שלחו לנו מייל</a>
+                  <Button className="upload-apartment-validation-popup-back-button" onClick={this.clickBack}>חזור לפרטי הדירה</Button>
+                </div>
+                <div className="upload-apartment-validation-popup-contact-us">
+                  אם דירה זו שייכת לכם צרו עמנו קשר
+                  <div> או&nbsp;
+                  <a className="upload-apartment-validation-popup-link" href="mailto:contact@dorbel.com">שלחו לנו מייל</a>
+                  </div>
                 </div>
               </div>
             ),
@@ -83,11 +90,14 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
                   <div>
                     שימו לב - שליחת הטופס תעדכן את פרטי הדירה הקיימת.
                     <div>
-                      באפשרותכם גם&nbsp;
-                      <a className="upload-apartment-validation-popup-link"
-                        href={`/dashboard/my-properties/${validationResp.listing_id}`}>
-                        להכנס לחשבון הדירה
-                      </a>
+                      <br />
+                      באפשרותכם גם
+                      <div>
+                        <a className="upload-apartment-validation-popup-link"
+                          href={`/dashboard/my-properties/${validationResp.listing_id}`}>
+                          להכנס לחשבון הדירה
+                        </a>
+                      </div>
                     </div>
                     ולנהל אותה משם
                   </div>
@@ -126,6 +136,8 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
 
   render() {
     const { newListingStore } = this.props.appStore;
+    const isManageMode = this.props.appStore.newListingStore.uploadMode == 'manage';
+    const isHideTooltip = isManageMode || newListingStore.uploadedImagesCount > 0;
 
     return (
       <Grid fluid className="upload-apt-wrapper">
@@ -145,12 +157,13 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
                 &nbsp; חזור
               </span>
               <span>2/3</span>
-              <span className="next-step" onClick={this.clickNext.bind(this)}>
-                <Button bsStyle="success" className="step-btn step2" disabled={newListingStore.disableSave}>
+              <span className="next-step" data-tip="נא להוסיף תמונות">
+                <Button bsStyle="success" className="step-btn step2" onClick={this.clickNext.bind(this)} disabled={newListingStore.disableSave}>
                   שמור והמשך &nbsp;
                   <i className="apartment-pictures-next-step fa fa-arrow-circle-o-left fa-2x" aria-hidden="true"></i>
                 </Button>
               </span>
+              <ReactTooltip type="dark" effect="solid" place="top" disable={isHideTooltip}/>
             </Col>
           </div>
         </Col>

@@ -66,6 +66,8 @@ export default class ListingDetailsForm extends React.Component {
   // used outside of component
   getValidationErrors() {
     const formsy = this.refs.form.refs.formsy;
+    this.props.editedListingStore.isFromValid = formsy.state.isValid;
+
     if (formsy.state.isValid && this.isDateValid()) {
       this.updateStore(this.refs.form.refs.formsy.getCurrentValues());
       return null;
@@ -95,7 +97,7 @@ export default class ListingDetailsForm extends React.Component {
     const { editedListingStore } = this.props;
     const isManage = editedListingStore.uploadMode == 'manage';
     const startLabel = isManage ? 'תחילת תקופת שכירות' : 'תאריך כניסה לדירה';
-    const endLabel = isManage ? 'סוף תקופת שכירות' : '';
+    const endLabel = isManage ? 'סוף תקופת שכירות' : 'תאריך פינוי דירה';
 
     return (
       <Row className="listing-details-form-date-row">
@@ -106,12 +108,12 @@ export default class ListingDetailsForm extends React.Component {
             calendarPlacement="top" onChange={value => this.handleDateChange('lease_start', value, isManage)} />
         </Col>
         {
-          isManage ?
+          (isManage || this.props.showLeaseEnd) ?
             <Col md={6}>
               <label>{endLabel}</label>
               <DatePicker
                 value={editedListingStore.formValues.lease_end || moment(editedListingStore.formValues.lease_start).add(1, 'year').format('YYYY-MM-DD')}
-                name="apartment.entrance-date"
+                name="apartment.exit-date"
                 calendarPlacement="top"
                 onChange={value => this.handleDateChange('lease_end', value, true)} />
             </Col>
@@ -203,7 +205,7 @@ export default class ListingDetailsForm extends React.Component {
             <FRC.Checkbox name="roommate_needed" label='דרוש שותף/ה' rowClassName="checkbox-inline" />
           </Row>
         </Row>
-        
+
         <Row className="form-section">
           <div className="form-section-headline">חוזה ותשלומים</div>
           {this.renderLeasePeriodRow()}
@@ -231,5 +233,6 @@ ListingDetailsForm.wrappedComponent.propTypes = {
   appStore: React.PropTypes.object,
   appProviders: React.PropTypes.object,
   editedListingStore: React.PropTypes.object.isRequired,
-  children: React.PropTypes.node
+  children: React.PropTypes.node,
+  showLeaseEnd: React.PropTypes.bool
 };

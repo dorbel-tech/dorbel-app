@@ -12,7 +12,35 @@ const db = require('../dbConnectionProvider');
 const shared = require('dorbel-shared');
 const logger = shared.logger.getLogger(module);
 const TEST_USER_ID = '23821212-6191-4fda-b3e3-fdb8bf69a95d';
-
+const TEST_LISTING_ID = 1;
+const TEST_LIKES = {
+  // used for is_active = true entries
+  real: [
+    {
+      email: 'ohetest1@dorbel-test.com', // email and password: added just in case we ever need to make changes in auth0
+      password: '123456',
+      id: '9212ce50-bc25-4737-afc7-74207b9ebadb',
+      db_record_id: 1 // added to prevent duplicate follower/ohe registartion entries in upsert
+    },
+    {
+      email: 'ohetest2@dorbel-test.com',
+      password: '123456',
+      id: '9a3a66cb-143b-444f-a153-025ffd4db4ed',
+      db_record_id: 2
+    }
+  ],
+  // used for is_active = false entries
+  fake: [
+    {
+      id: '00000000-mock-test-user-000000000001',
+      db_record_id: 3
+    },
+    {
+      id: '00000000-mock-test-user-000000000002',
+      db_record_id: 4
+    }
+  ]
+};
 function* buildTestSeed() {
   yield db.connect();
 
@@ -22,6 +50,7 @@ function* buildTestSeed() {
   yield createApartment(telaviv, merkazHair, 1, 'best-apt-test');
   yield createApartment(telaviv, merkazHair, 2, '123-slug');
   yield createApartment(telaviv, merkazHair, 3, '123-slug slug');
+  yield createLikes();
 }
 
 function* createApartment(city, neighborhood, id, slug) {
@@ -62,13 +91,34 @@ function* createApartment(city, neighborhood, id, slug) {
     publishing_user_id: TEST_USER_ID,
     publishing_user_type: 'landlord',
     apartment_id: id,
-    slug: slug
+    slug: slug,
+    property_value: 1500000
   });
 
   yield db.models.image.create({
     url: 'http://lorempixel.com/1000/500/?' + Math.round(Math.random() * 10000),
     display_order: 0,
     listing_id: id
+  });
+}
+
+function* createLikes() {
+  yield TEST_LIKES.real.map(function* (user) {
+    yield db.models.like.upsert({
+      id: user.db_record_id,
+      listing_id: TEST_LISTING_ID,
+      liked_user_id: user.id,
+      is_active: true
+    });
+  });
+
+  yield TEST_LIKES.fake.map(function* (user) {
+    yield db.models.like.upsert({
+      id: user.db_record_id,
+      listing_id: TEST_LISTING_ID,
+      liked_user_id: user.id,
+      is_active: false
+    });
   });
 }
 

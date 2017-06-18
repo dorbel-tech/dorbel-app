@@ -240,9 +240,11 @@
   text-align: center;
   z-index: 999;
 
+  > a,
   > span {
     display: inline-block;
     line-height: 38px;
+    color: $gray;
   }
 
   .prev-step,
@@ -311,7 +313,19 @@
 }
 
 .upload-apartment-validation-popup {
-  font-size: 15px;
+  font-size: 18px;
+  line-height: 23px;
+  color: $gray-light;
+  min-height: 150px;
+
+  .upload-apartment-validation-popup-contact-us {
+    margin-top: 45px;
+    font-size: 13px;
+  }
+
+  .upload-apartment-validation-popup-back-button {
+    margin-top: 20px;
+  }
 
   .upload-apartment-validation-popup-link {
     color: #3398db;

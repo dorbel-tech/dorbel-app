@@ -9,13 +9,7 @@ describe('OHE List', () => {
   beforeEach(() => {
     appStoreMock = {
       oheStore: {
-        oheByListingId: jest.fn(),
-        usersFollowsByListingId: {
-          get: jest.fn()
-        },
-        countFollowersByListingId: {
-          get: jest.fn()
-        }
+        oheByListingId: jest.fn()
       },
       listingStore: {
         isListingPublisherOrAdmin: jest.fn()

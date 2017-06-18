@@ -32,12 +32,12 @@ function submitApartment(browser) {
   browser.pause(500);
   apartmentForm.expect.section('@successModal').to.be.present;
   common.waitForText(apartmentForm.section.successModal, '@successTitle', 'תהליך העלאת פרטי הדירה הושלם בהצלחה!');
-  
+
   // Get listingId from success modal dom element data-attr attribute.
   apartmentForm.section.successModal.getAttribute('@listingId', 'data-attr', function (result) {
     listingId = result.value;
   });
-  
+
   browser.end();
 }
 
@@ -47,14 +47,6 @@ function waitForUnRegisterText() {
 
 function waitForRegisterText() {
   common.waitForText(listing.section.oheList, '@firstEventText', 'רשום לביקור');
-}
-
-function waitForUnFollowText() {
-  common.waitForText(listing.section.followContainer, '@followBtn', 'הסירו אותי מרשימת העדכונים');
-}
-
-function waitForFollowText() {
-  common.waitForText(listing.section.followContainer, '@followBtn', 'עדכנו אותי על מועדי ביקור חדשים');
 }
 
 module.exports = {
@@ -111,26 +103,6 @@ module.exports = {
     listing.expect.section('@oheModal').to.be.visible;
     listing.fillOheRegisterUserDetailsAndSubmit();
     waitForRegisterText();
-    browser.end();
-  },
-  'tenant should follow listing': function (browser) {
-    login('tenant');
-    listing.navigateToListingPage(listing.url(listingId));
-    browser.pause(500);
-    waitForFollowText();
-    listing.clickFollowButton();
-    browser.pause(500);
-    waitForUnFollowText();
-    browser.end();
-  },
-  'tenant should unfollow listing': function (browser) {
-    login('tenant');
-    listing.navigateToListingPage(listing.url(listingId));
-    browser.pause(500);
-    waitForUnFollowText();
-    listing.clickFollowButton();
-    browser.pause(500);
-    waitForFollowText();
     browser.end();
   }
 };
