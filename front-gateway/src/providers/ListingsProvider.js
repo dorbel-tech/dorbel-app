@@ -63,7 +63,7 @@ class ListingsProvider {
     return this.apiProvider.fetch('/api/apartments/v1/listings', { method: 'POST', data: listing })
       .then((newListing) => createdListing = newListing)
       .then(() => { // TODO: move OHE creation to pub/sub messages on background
-        if (uploadMode == 'publish') {
+        if (uploadMode == 'publish' || uploadMode == 'republish') {
           try {
             this.oheProvider.createOhe(Object.assign({ listing_id: createdListing.id }, listing.open_house_event));
           } catch (err) { /*eslint-disable eslint-enable*/ }
