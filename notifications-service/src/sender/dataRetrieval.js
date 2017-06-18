@@ -112,7 +112,7 @@ const dataRetrievalFunctions = {
       });
   },
   sendToListingLikedUsers: eventData => {
-    return getListingLikes(eventData.listing_id)
+    return getListingLikes(eventData.original_listing_id) // Send to original liting liked users.
       .then(response => {
         // this notification will be sent to all the users who liked a listing
         return {

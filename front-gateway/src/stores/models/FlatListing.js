@@ -38,6 +38,7 @@ const VALID_KEYS = [
   'directions',
   'show_phone',
   'status',
+  'original_listing_id',
   // apartment
   'apartment.apt_number',
   'apartment.building.entrance',
