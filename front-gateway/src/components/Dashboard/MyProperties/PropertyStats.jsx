@@ -4,7 +4,6 @@ import { Col, Grid, Row, Checkbox, ListGroup, ListGroupItem } from 'react-bootst
 import NavLink from '~/components/NavLink';
 import utils from '~/providers/utils';
 import { getDashMyPropsPath } from '~/routesHelper';
-import moment from 'moment';
 import ReactTooltip from 'react-tooltip';
 import autobind from 'react-autobind';
 import TenantRow from '~/components/Tenants/TenantRow/TenantRow';
@@ -62,7 +61,7 @@ class PropertyStats extends Component {
     const views = appStore.listingStore.listingViewsById.get(listingId);
     const registrations = this.getNumberOfOheRegistrations(listingId);
     const listingCreatedAt = utils.formatDate(listing.created_at);
-    const daysPassed = moment(Date.now()).diff(moment(listing.created_at), 'days');
+    const leaseStats = utils.getListingLeaseStats(listing);
     const listingRented = listing.status === 'rented';
     const oheTabUrl = getDashMyPropsPath(listing, '/ohe');
 
@@ -113,7 +112,7 @@ class PropertyStats extends Component {
               </Col>
               <Col xs={4}>
                 <div className="property-stats-card">
-                  <div className="property-stats-number">{daysPassed || 0}</div>
+                  <div className="property-stats-number">{leaseStats.daysPassedLabel}</div>
                   <div className="property-stats-title">ימים שחלפו</div>
                 </div>
               </Col>
