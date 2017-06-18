@@ -4,7 +4,6 @@ import { Col, Grid, Row, Checkbox, ListGroup, ListGroupItem } from 'react-bootst
 import NavLink from '~/components/NavLink';
 import utils from '~/providers/utils';
 import { getDashMyPropsPath } from '~/routesHelper';
-import moment from 'moment';
 import ReactTooltip from 'react-tooltip';
 import autobind from 'react-autobind';
 import TenantRow from '~/components/Tenants/TenantRow/TenantRow';
@@ -62,7 +61,7 @@ class PropertyStats extends Component {
     const views = appStore.listingStore.listingViewsById.get(listingId);
     const registrations = this.getNumberOfOheRegistrations(listingId);
     const listingCreatedAt = utils.formatDate(listing.created_at);
-    const daysPassed = moment(Date.now()).diff(moment(listing.created_at), 'days');
+    const leaseStats = utils.getListingLeaseStats(listing);
     const listingRented = listing.status === 'rented';
     const oheTabUrl = getDashMyPropsPath(listing, '/ohe');
 
@@ -113,7 +112,7 @@ class PropertyStats extends Component {
               </Col>
               <Col xs={4}>
                 <div className="property-stats-card">
-                  <div className="property-stats-number">{daysPassed || 0}</div>
+                  <div className="property-stats-number">{leaseStats.daysPassedLabel}</div>
                   <div className="property-stats-title">ימים שחלפו</div>
                 </div>
               </Col>
@@ -162,8 +161,7 @@ class PropertyStats extends Component {
     const { appStore, listing } = this.props;
     const listingId = listing.id;
     const views = appStore.listingStore.listingViewsById.get(listingId);
-    const listingLeaseStart = utils.formatDate(listing.lease_start);
-    const daysPassed = moment(Date.now()).diff(moment(listing.lease_start), 'days');
+    const leaseStats = utils.getListingLeaseStats(listing);
     const manageTabUrl = getDashMyPropsPath(listing, '/manage');
     const tipOffset = {top: -7, left: 2};
 
@@ -186,7 +184,7 @@ class PropertyStats extends Component {
                   </div>
                   <div className="property-stats-empty"></div>
                   <div className="property-stats-bubble">
-                    <NavLink to={manageTabUrl}><div className="property-stats-bubble-text">עוקבים</div></NavLink>
+                    <NavLink to={manageTabUrl}><div className="property-stats-bubble-text">לייקים</div></NavLink>
                   </div>
                 </div>
               </Col>
@@ -194,14 +192,14 @@ class PropertyStats extends Component {
             <Row className="property-stats-listing-stats text-center property-stats-padding-top">
               <Col xs={6} md={5} lg={4}>
                 <div className="property-stats-card">
-                  <div className="property-stats-number">{listingLeaseStart}</div>
+                  <div className="property-stats-number">{leaseStats.leaseStart}</div>
                   <div className="property-stats-title">ההשכרה האחרונה</div>
                 </div>
               </Col>
               <Col xs={6} md={5} lg={4}>
                 <div className="property-stats-card">
-                  <div className="property-stats-number">{(daysPassed > 0) ? (daysPassed || 0) : 'לא זמין' }</div>
-                  <div className="property-stats-title">ימים שחלפו</div>
+                  <div className="property-stats-number">{leaseStats.daysPassedLabel}</div>
+                  <div className="property-stats-title">ימים עברו</div>
                 </div>
               </Col>
             </Row>
