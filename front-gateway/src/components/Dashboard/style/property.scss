@@ -63,7 +63,7 @@
 
   @media (max-width: $screen-xs-max) {
     font-size: 15px;
-    padding-left: 45px;
+    padding-left: 60px;
     white-space: normal;
   }
 }
@@ -116,7 +116,6 @@
   > div > div {
     display: inline-block;
     line-height: 20px;
-    vertical-align: middle;
   }
 
   @media (min-width: $screen-md-min) {
@@ -134,9 +133,10 @@
   }
 }
 
-.property-actions-details,
 .property-actions-preview-container,
 .property-actions-refresh-container {
+  width: 35px;
+
   @media (max-width: $screen-xs-max) {
     display: none !important;
   }
@@ -159,6 +159,18 @@
   height: 25px;
   margin-right: 10px;
   padding-left: 10px;
+}
+
+.property-actions-menu-container > .property-action-button {
+  font-size: 12px;
+  height: 20px;
+  margin-right: 14px;
+  padding: 0 6px;
+  width: 55px;
+
+  > i {
+    margin-right: 7px;
+  }
 }
 
 .property-action-button {
@@ -191,19 +203,30 @@
   cursor: pointer;
 
   @media (max-width: $screen-xs-max) {
-    left: 5px;
+    left: 10px;
     padding: 13px 5px 0;
     position: absolute;
     top: 0;
   }
 
   @media (min-width: $screen-md-min) {
-    padding-right: 7px;
+    border-right: $gray-border;
+    margin: 0 20px;
   }
 }
 
-.property-actions-menu .popover-content {
-  padding: 0;
+.property-actions-menu {
+  border: none !important;
+  border-radius: 0;
+  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.175);
+
+  > .arrow {
+    display: none;
+  }
+
+  .popover-content {
+    padding: 0;
+  }
 }
 
 .property-actions-menu-item {
@@ -268,6 +291,19 @@
 }
 
 .property-history-selector {
+  display: block !important;
+  margin-top: 10px;
+
+  > .dropdown {
+    width: 150px;
+  }
+
+  .caret {
+    height: 6px;
+    margin-right: 5px;
+    vertical-align: middle;
+  }
+
   @media (max-width: $screen-xs-max) {
     display: none !important;
   }
