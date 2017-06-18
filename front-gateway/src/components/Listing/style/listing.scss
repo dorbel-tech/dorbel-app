@@ -38,7 +38,9 @@
   }
 
   .listing-ohe-box-text {
-    padding: 30px 30px 0;
+    border-top: $gray-border;
+    margin: 0 20px;
+    padding: 30px 10px 0;
     font-size: 12px;
   }
 }
