@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import { ProgressBar, Col, Grid, Row, ListGroup, ListGroupItem, Button } from 'react-bootstrap';
 import autobind from 'react-autobind';
-import moment from 'moment';
 import utils from '~/providers/utils';
 import TenantRow from '~/components/Tenants/TenantRow/TenantRow';
 import AddTenantModal from '~/components/Tenants/AddTenantModal/AddTenantModal';
@@ -77,14 +76,8 @@ class PropertyManage extends Component {
 
   render() {
     const { appProviders, listing } = this.props;
-    const listingLeaseStart = utils.formatDate(listing.lease_start);
-    const listingLeaseEnd = utils.formatDate(listing.lease_end);
-    const leasePeriod = moment(listing.lease_end).diff(moment(listing.lease_start), 'days');
-    const daysPassed = moment().diff(moment(listing.lease_start), 'days');
-    const daysLeft = leasePeriod - daysPassed;
-    const leasePeriodLabel = leasePeriod || '-';
-    const daysPassedLabel = daysPassed < 0 ? 0 : daysPassed;
-    const daysLeftLabel = daysLeft || '-';
+    const leaseStats = utils.getListingLeaseStats(listing);
+    const leasePeriodLabel = leaseStats.leasePeriod || '-';
     const isActiveListing = appProviders.listingsProvider.isActiveListing(listing);
 
     return  <Grid fluid className="property-manage">
@@ -106,12 +99,12 @@ class PropertyManage extends Component {
                     <i className="property-manage-lease-period-edit-icon fa fa-pencil-square-o"  aria-hidden="true"></i>
                     עריכה
                   </div>
-                  <div className="property-manage-lease-period-start">{listingLeaseStart}</div>
+                  <div className="property-manage-lease-period-start">{leaseStats.leaseStart}</div>
                   <div className="property-manage-lease-period-start-label">תחילת שכירות</div>
-                  <div className="property-manage-lease-period-days-passed">{daysPassedLabel} ימים עברו</div>
-                  <ProgressBar now={daysPassed <= 0 ? (leasePeriod / 100) : daysPassed} max={leasePeriod}/>
-                  <div className="property-manage-lease-period-days-left">{daysLeftLabel} ימים נותרו</div>
-                  <div className="property-manage-lease-period-end">{listingLeaseEnd}</div>
+                  <div className="property-manage-lease-period-days-passed">{leaseStats.daysPassedLabel} ימים עברו</div>
+                  <ProgressBar now={leaseStats.daysPassed <= 0 ? (leaseStats.leasePeriod / 100) : leaseStats.daysPassed} max={leaseStats.leasePeriod}/>
+                  <div className="property-manage-lease-period-days-left">{leaseStats.daysLeft} ימים נותרו</div>
+                  <div className="property-manage-lease-period-end">{leaseStats.leaseEnd}</div>
                   <div className="property-manage-lease-period-end-label">תום שכירות</div>
                 </Col>
               </Row>
