@@ -113,10 +113,6 @@
   text-overflow: ellipsis;
   width: 100%;
 
-  .caret {
-    display: none;
-  }
-
   &::after {
     content: '\f0d7';
     font-family: FontAwesome;
@@ -156,9 +152,9 @@
   border-radius: 2px;
   color: $brand-white;
   font-size: 11px;
-  margin-right: 5px;
+  margin-right: 10px;
   padding: 0 3px;
-  vertical-align: super;
+  vertical-align: text-bottom;
 }
 
 .filter-future-booking-tooltip {
