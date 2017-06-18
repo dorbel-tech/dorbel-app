@@ -61,6 +61,7 @@ function* create(listing, user) {
       messageBus.publish(process.env.NOTIFICATIONS_SNS_TOPIC_ARN, messageType, {
         city_id: listing.apartment.building.city_id,
         listing_id: createdListing.id,
+        original_listing_id: listing.original_listing_id,
         user_uuid: createdListing.publishing_user_id,
         user_email: listing.user.email,
         user_phone: generic.normalizePhone(listing.user.phone),
@@ -146,6 +147,7 @@ function notifyListingChanged(oldListing, newListing) {
       messageBus.publish(process.env.NOTIFICATIONS_SNS_TOPIC_ARN, messageBusEvent, {
         city_id: oldListing.apartment.building.city_id,
         listing_id: oldListing.id,
+        original_listing_id: oldListing.original_listing_id,
         previous_status: oldListing.status,
         user_uuid: oldListing.publishing_user_id
       });
