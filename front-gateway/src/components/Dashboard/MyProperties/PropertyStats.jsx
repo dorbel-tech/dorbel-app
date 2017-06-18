@@ -105,13 +105,13 @@ class PropertyStats extends Component {
               </Col>
             </Row>
             <Row className="property-stats-listing-stats text-center">
-              <Col xs={4}>
+              <Col xs={6}>
                 <div className="property-stats-card">
                   <div className="property-stats-number">{listing.totalLikes || 0}</div>
                   <div className="property-stats-title">עוקבים</div>
                 </div>
               </Col>
-              <Col xs={4}>
+              <Col xs={6}>
                 <div className="property-stats-card">
                   <div className="property-stats-number">{daysPassed || 0}</div>
                   <div className="property-stats-title">ימים שחלפו</div>
