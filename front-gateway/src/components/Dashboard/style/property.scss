@@ -292,6 +292,16 @@
   display: block !important;
   margin-top: 10px;
 
+  > .dropdown {
+    width: 150px;
+  }
+
+  .caret {
+    height: 6px;
+    margin-right: 5px;
+    vertical-align: middle;
+  }
+
   @media (max-width: $screen-xs-max) {
     display: none !important;
   }

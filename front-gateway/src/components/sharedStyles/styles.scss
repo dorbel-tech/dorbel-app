@@ -136,6 +136,13 @@ textarea {
 }
 
 /* React bootstrap dropdown */
+.dropdown > button {
+  &:focus,
+  &:hover {
+    background-color: $brand-white !important;
+  }
+}
+
 .dropdown-menu {
   background-color: $brand-white !important;
   border: none !important;
