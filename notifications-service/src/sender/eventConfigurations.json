@@ -12,7 +12,8 @@
   {
     "eventType": "APARTMENT_LISTED",
     "notificationType": "apartment_listed",
-    "dataRetrieval": [ "getListingInfo", "getUserDetails" ]
+    "dataRetrieval": [ "getListingInfo", "getListingOheInfo", "getUserDetails" ],
+    "dataEnrichment": [ "addCalendarInvite" ]
   },
   {
     "eventType": "APARTMENT_LISTED",

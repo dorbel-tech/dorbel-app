@@ -129,7 +129,11 @@ const dataRetrievalFunctions = {
         userProfile.tenant_profile = undefined;
         return { user_profile: userProfile };
       });
-  }
+  },
+  getListingOheInfo: eventData => {
+    return getListingOhes(eventData.listing_id)
+      .then(response => ({ ohe: response[0] }));
+  },
 };
 
 function getAdditonalData(eventConfig, eventData) {
