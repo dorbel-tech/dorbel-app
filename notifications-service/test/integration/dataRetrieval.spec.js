@@ -63,8 +63,8 @@ describe('Data Retrieval Integration', function () {
   });
 
   it('should get listing likes', function* () {
-    const listingLikes = yield this.retrieve('sendToListingLikedUsers', {
-      listing_id: fixtures.listing_id
+    const listingLikes = yield this.retrieve('sendToApartmentLikedUsers', {
+      apartment_id: fixtures.apartment_id
     });
 
     __.assertThat(listingLikes.customRecipients, __.is(REGISTERED_USERS));
@@ -72,7 +72,8 @@ describe('Data Retrieval Integration', function () {
 
   it('should get listing likes count', function* () {
     const likersCountRes = yield this.retrieve('getApartmentLikesCount', {
-      apartment_id: fixtures.apartment_id
+      apartment_id: fixtures.apartment_id,
+      listing_id: fixtures.listing_id
     });
 
     __.assertThat(likersCountRes.followersCount, __.is(2));
