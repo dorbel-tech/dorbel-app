@@ -22,10 +22,11 @@ function define(sequelize, DataTypes) {
             onDelete: 'CASCADE'
           };
           models.like.belongsTo(models.listing, options);
+          models.like.belongsTo(models.apartment, options);
         }
       },
       indexes: [{
-        fields: ['listing_id', 'liked_user_id'],
+        fields: ['apartment_id', 'liked_user_id'],
         unique: true
       }]
     });
