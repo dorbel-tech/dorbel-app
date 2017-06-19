@@ -53,6 +53,8 @@ class Filter extends Component {
     autobind(this);
 
     // TODO: Switch to regex test instead of try-catch.
+    // TODO: The active filter should be managed in the search store and not in the component
+    props.appProviders.searchProvider.resetActiveFilter();
     try {
       this.filterObj = JSON.parse(decodeURIComponent(location.search.replace(/^\?q=|.*&q=([^&#]*)&.*/, '$1')));
     } catch (e) {

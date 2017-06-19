@@ -20,18 +20,19 @@ export default class SavedFilters extends React.Component {
     onFilterChange: React.PropTypes.func
   }
 
-  state = {
-    selectedFilterId: null
-  }
-
   componentDidMount() {
     this.props.appProviders.searchProvider.loadSavedFilters();
   }
 
   selectFilter(filter) {
-    this.setState({ selectedFilterId: filter.id });
-    if (this.props.onFilterChange) {
-      this.props.onFilterChange(_.cloneDeep(filter));
+    const { searchStore } = this.props.appStore;
+    
+    if (filter.id === searchStore.activeFilterId) { // toggle off
+      this.props.appStore.searchStore.activeFilterId = null;
+    } else { // select filter
+      this.props.appStore.searchStore.activeFilterId = filter.id;
+      const currentFilter = _.omit(filter, ['dorbel_user_id', 'id']);
+      this.props.onFilterChange && this.props.onFilterChange(currentFilter);
     }
   }
 
@@ -47,13 +48,13 @@ export default class SavedFilters extends React.Component {
   }
 
   renderFilter(filter, index) {
-    const city = this.props.appStore.cityStore.cities.find(city => city.id === filter.city);
+    const { appStore } = this.props;
+    const city = appStore.cityStore.cities.find(city => city.id === filter.city);
     const cityName = city && city.city_name;
-
 
     return (
       <Col key={filter.id} sm={2} xs={12} className="saved-filter-wrapper">
-        <Checkbox checked={this.state.selectedFilterId === filter.id}
+        <Checkbox checked={appStore.searchStore.activeFilterId === filter.id}
                   onClick={() => this.selectFilter(filter)}>
           <svg className={'saved-filter-circle saved-filter-circle-' + index } xmlns="http://www.w3.org/2000/svg">
             <circle cx="50%" cy="50%" r="40%"/>

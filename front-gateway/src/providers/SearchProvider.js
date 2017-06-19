@@ -88,6 +88,7 @@ class SearchProvider {
   }
 
   saveFilter(filter) {
+    const { searchStore } = this.appStore;
     filter = _.cloneDeep(filter);
     if (filter.neighborhood === '*') {
       filter.neighborhood = undefined;
@@ -96,13 +97,20 @@ class SearchProvider {
     let url = FILTERS_URL;
     let method = 'POST';
 
-    if (filter.id) { // filter is not new
-      url += '/' + filter.id;
+    if (searchStore.activeFilterId) { // filter is not new
+      url += '/' + searchStore.activeFilterId;
       method = 'PUT';
     }
 
     return this.apiProvider.fetch(url, { method, data: filter })
-    .then(updatedFilter => this.appStore.searchStore.filters.set(updatedFilter.id, updatedFilter));
+    .then(updatedFilter => {
+      searchStore.filters.set(updatedFilter.id, updatedFilter);
+      searchStore.activeFilterId = updatedFilter.id;
+    });
+  }
+
+  resetActiveFilter() {
+    this.appStore.searchStore.activeFilterId = null;
   }
 }
 
