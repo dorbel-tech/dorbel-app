@@ -64,6 +64,7 @@ class PropertyStats extends Component {
     const leaseStats = utils.getListingLeaseStats(listing);
     const listingRented = listing.status === 'rented';
     const oheTabUrl = getDashMyPropsPath(listing, '/ohe');
+    const likes = appStore.likeStore.likesByListingId.get(listing.id);
 
     return <Grid fluid className="property-stats">
             <Row className="property-stats-rent-title">
@@ -106,8 +107,8 @@ class PropertyStats extends Component {
             <Row className="property-stats-listing-stats text-center">
               <Col xs={6}>
                 <div className="property-stats-card">
-                  <div className="property-stats-number">{listing.totalLikes || 0}</div>
-                  <div className="property-stats-title">עוקבים</div>
+                  <div className="property-stats-number">{likes ? likes.length : 0}</div>
+                  <div className="property-stats-title">לייקים</div>
                 </div>
               </Col>
               <Col xs={6}>
@@ -164,6 +165,7 @@ class PropertyStats extends Component {
     const leaseStats = utils.getListingLeaseStats(listing);
     const manageTabUrl = getDashMyPropsPath(listing, '/manage');
     const tipOffset = {top: -7, left: 2};
+    const likes = appStore.likeStore.likesByListingId.get(listing.id);
 
     return <Grid fluid className="property-stats">
             <Row className="property-stats-rent-title">
@@ -176,7 +178,7 @@ class PropertyStats extends Component {
                 <div>
                   <div className="property-stats-number">{views || 0}</div>
                   <div className="property-stats-empty"></div>
-                  <div className="property-stats-number">{listing.totalLikes || 0}</div>
+                  <div className="property-stats-number">{likes ? likes.length : 0}</div>
                 </div>
                 <div>
                   <div className="property-stats-bubble">
