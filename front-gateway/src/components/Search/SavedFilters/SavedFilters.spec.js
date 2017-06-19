@@ -51,4 +51,24 @@ describe('Saved Filters', () => {
     expect(filterLabel).toContain('עד 6000 ש"ח');
   });
 
+  it('should select a new active filter', () => {
+    const mockFilter = { id: 1 };
+    props.appStore.searchStore.filters.values.mockReturnValue([mockFilter]);
+    
+    const wrapper = savedFilters();    
+    wrapper.find('Checkbox').first().simulate('click');
+
+    expect(props.appStore.searchStore.activeFilterId).toBe(mockFilter.id);
+  });
+
+  it('should fire onFilterChange for selected filter without extra params', () => {
+    const mockFilter = { id: 1, dorbel_user_id: 3, city: 5 };
+    props.appStore.searchStore.filters.values.mockReturnValue([mockFilter]);
+    
+    const wrapper = savedFilters();    
+    wrapper.find('Checkbox').first().simulate('click');
+
+    expect(props.onFilterChange).toHaveBeenCalledWith({ city: 5 });
+  });
+
 });

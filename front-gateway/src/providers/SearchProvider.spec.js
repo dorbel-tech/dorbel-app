@@ -22,7 +22,10 @@ describe('SearchProvider', () => {
     appStoreMock = {
       searchStore: {
         reset: jest.fn(),
-        add: jest.fn()
+        add: jest.fn(),
+        filters: {
+          set: jest.fn()
+        }
       }
     };
 
@@ -159,5 +162,42 @@ describe('SearchProvider', () => {
     searchProvider.setLastScrollTop(scrollTopMock, scrollKeyMock);
 
     expect(searchProvider.getLastScrollTop(scrollKeyMock)).toBe(scrollTopMock);
+  });
+
+  describe('saved filters', () => {
+    it('should load saved filters into store', () => {
+      const mockFilters = [{ id: 1 }, { id: 2 }];
+      appProvidersMock.api.fetch.mockReturnValue(Promise.resolve(mockFilters));
+      return searchProvider.loadSavedFilters().then(() => {
+        expect(appStoreMock.searchStore.filters.set).toHaveBeenCalledTimes(2);
+        expect(appStoreMock.searchStore.filters.set).toHaveBeenCalledWith(mockFilters[0].id, mockFilters[0]);
+        expect(appStoreMock.searchStore.filters.set).toHaveBeenCalledWith(mockFilters[1].id, mockFilters[1]);
+      });
+    });  
+
+    it('should save new filter, update store and make new filter active', () => {
+      const mockFilter = { city: 5 };
+      const mockReturnFilter = { id: 8 };
+      appProvidersMock.api.fetch.mockReturnValue(Promise.resolve(mockReturnFilter));
+
+      return searchProvider.saveFilter(mockFilter).then(() => {
+        expect(appProvidersMock.api.fetch).toHaveBeenCalledWith('/api/apartments/v1/filters', { method: 'POST', data: mockFilter });
+        expect(appStoreMock.searchStore.filters.set).toHaveBeenCalledWith(mockReturnFilter.id, mockReturnFilter);
+        expect(appStoreMock.searchStore.activeFilterId).toBe(mockReturnFilter.id);
+      });
+    });
+
+    it('should clear neighborhood:* from filter', () => {
+      const mockFilter = { city: 5, neighborhood: '*' };
+      return searchProvider.saveFilter(mockFilter).then(() => {
+        expect(appProvidersMock.api.fetch.mock.calls[0][1].data.neighborhood).toBeUndefined();
+      });
+    });
+
+    it('should reset active filter', () => {
+      appStoreMock.searchStore.activeFilterId = 8;
+      searchProvider.resetActiveFilter();
+      expect(appStoreMock.searchStore.activeFilterId).toBeNull();
+    });
   });
 });
