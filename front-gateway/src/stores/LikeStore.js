@@ -17,8 +17,8 @@ export default class LikeStore {
     this.likesByListingId = asMap(initialState.likesByListingId || {});
   }
 
-  init(listingIdMap) {
-    this.myLikes = asMap(listingIdMap);
+  init(apartmentIdMap) {
+    this.myLikes = asMap(apartmentIdMap);
   }
 
   toJson() {

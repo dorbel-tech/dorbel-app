@@ -18,9 +18,9 @@ class LikeProvider {
     if (this.appStore.authStore.isLoggedIn && !this.isSyncedWithServer) {
       this.isSyncedWithServer = true; // Sync once with server
       this.fetch('likes/user')
-        .then((likedApartmentIdArr) => {
+        .then((myLikes) => {
           let likesMap = {};
-          likedApartmentIdArr.map((apartmentId) => likesMap[apartmentId] = true);
+          myLikes.map(like => likesMap[like.apartment_id] = true);
           this.appStore.likeStore.init(likesMap);
         });
     }
