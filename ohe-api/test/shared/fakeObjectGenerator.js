@@ -18,6 +18,7 @@ function getFakeUser(variant) {
 function generateEvent(variant) {
   return _.extend({
     id: 1,
+    apartment_id: 1,
     listing_id: 1,
     status: 'active',
     start_time: moment().add(5, 'hours').toDate(),

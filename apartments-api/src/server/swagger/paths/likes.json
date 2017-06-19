@@ -35,7 +35,7 @@
       }
     }
   },
-  "/likes/{listingId}": {
+  "/likes/by-listing/{listingId}": {
     "get": {
       "summary": "Get likes by listing",
       "description": "Get active likes by listing id",
@@ -48,7 +48,7 @@
         }
       ],
       "tags": [
-        "likeController"
+        "listingLikeController"
       ],
       "responses": {
         "200": {
@@ -64,15 +64,46 @@
           }
         }
       }
-    },
-    "post": {
-      "summary": "Marks a listing as 'liked'",
-      "description": "Marks a listing as 'liked'",
+    }
+  },
+  "/likes/{apartmentId}": {
+    "get": {
+      "summary": "Get likes by apartment",
+      "description": "Get active likes by apartment id",
       "parameters": [
         {
-          "name": "listingId",
+          "name": "apartmentId",
           "in": "path",
-          "description": "id of listing to like",
+          "type":"integer",
+          "required": true
+        }
+      ],
+      "tags": [
+        "likeController"
+      ],
+      "responses": {
+        "200": {
+          "description": "Likes by apartment",
+          "schema": {
+            "$ref": "#/definitions/Likes"
+          }
+        },
+        "default": {
+          "description": "Unexpected error",
+          "schema": {
+            "$ref": "#/definitions/Error"
+          }
+        }
+      }
+    },
+    "post": {
+      "summary": "Marks an apartment as liked",
+      "description": "Marks an apartment as liked",
+      "parameters": [
+        {
+          "name": "apartmentId",
+          "in": "path",
+          "description": "id of apartment to like",
           "type": "string",
           "required": true
         },
@@ -101,13 +132,13 @@
       }
     },
     "delete": {
-      "summary": "Marks a listing as 'unliked'",
-      "description": "Marks a listing as 'unliked'",
+      "summary": "Marks an apartment as unliked",
+      "description": "Marks an apartment as unliked",
       "parameters": [
         {
-          "name": "listingId",
+          "name": "apartmentId",
           "in": "path",
-          "description": "id of listing to unlike",
+          "description": "id of apartment to unlike",
           "type": "string",
           "required": true
         },

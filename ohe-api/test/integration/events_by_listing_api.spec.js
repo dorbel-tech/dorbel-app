@@ -17,6 +17,7 @@ describe('Open House Events By Listing API Integration', function () {
     const ohe = {
       start_time: moment().add(startsIn, 'hours').toISOString(),
       end_time: moment().add(startsIn + 1, 'hours').toISOString(),
+      apartment_id: faker.getRandomNumber(),
       listing_id: listingId,
       publishing_user_id: fakeUser.id,
       listing_publishing_user_id: fakeUser.id,

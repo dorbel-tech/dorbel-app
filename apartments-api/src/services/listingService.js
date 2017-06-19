@@ -60,6 +60,7 @@ function* create(listing, user) {
     if (process.env.NOTIFICATIONS_SNS_TOPIC_ARN) {
       messageBus.publish(process.env.NOTIFICATIONS_SNS_TOPIC_ARN, messageType, {
         city_id: listing.apartment.building.city_id,
+        apartment_id: createdListing.apartment_id,
         listing_id: createdListing.id,
         user_uuid: createdListing.publishing_user_id,
         user_email: listing.user.email,
@@ -144,8 +145,9 @@ function notifyListingChanged(oldListing, newListing) {
     if (isStatusChanged(oldListing, newListing)) {
       const messageBusEvent = messageBus.eventType['APARTMENT_' + newListing.status.toUpperCase()];
       messageBus.publish(process.env.NOTIFICATIONS_SNS_TOPIC_ARN, messageBusEvent, {
-        city_id: oldListing.apartment.building.city_id,
+        apartment_id: oldListing.apartment_id,
         listing_id: oldListing.id,
+        city_id: oldListing.apartment.building.city_id,
         previous_status: oldListing.status,
         user_uuid: oldListing.publishing_user_id
       });
@@ -166,6 +168,7 @@ function notifyListingChanged(oldListing, newListing) {
 
       if (isListingEdited) {
         messageBus.publish(process.env.NOTIFICATIONS_SNS_TOPIC_ARN, messageBus.eventType.LISTING_EDITED, {
+          apartment_id: oldListing.apartment_id,
           listing_id: oldListing.id,
           user_uuid: oldListing.publishing_user_id,
           prev_monthly_rent: oldListing.monthly_rent,
@@ -381,7 +384,7 @@ function* enrichListingResponse(listing, user) {
 
     if (user) {
       if (userPermissions.isResourceOwnerOrAdmin(user, listing.publishing_user_id)) {
-        enrichedListing.totalLikes = yield likeRepository.getListingTotalLikes(listing.id);
+        enrichedListing.totalLikes = yield likeRepository.getApartmentTotalLikes(listing.apartment_id);
       }
       else {
         delete enrichedListing.property_value;

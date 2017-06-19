@@ -14,35 +14,35 @@ class LikeProvider {
     return this.apiProvider.fetch('/api/apartments/v1/' + path, options);
   }
 
-  get(listingId) {
+  get(apartmentId) {
     if (this.appStore.authStore.isLoggedIn && !this.isSyncedWithServer) {
       this.isSyncedWithServer = true; // Sync once with server
       this.fetch('likes/user')
-        .then((likedListingIdArr) => {
+        .then((likedApartmentIdArr) => {
           let likesMap = {};
-          likedListingIdArr.map((listingId) => likesMap[listingId] = true);
+          likedApartmentIdArr.map((apartmentId) => likesMap[apartmentId] = true);
           this.appStore.likeStore.init(likesMap);
         });
     }
-    return this.appStore.likeStore.userLikesByListingId.get(listingId);
+    return this.appStore.likeStore.myLikes.get(apartmentId);
   }
 
-  set(listingId, isLiked) {
+  set(apartmentId, listingId, isLiked) {
     const method = isLiked ? 'POST' : 'DELETE';
-    this.appStore.likeStore.userLikesByListingId.set(listingId, isLiked);
-    return this.fetch(`likes/${listingId}`, { method })
+    this.appStore.likeStore.myLikes.set(apartmentId, isLiked);
+    return this.fetch(`likes/${apartmentId}`, { method, data: { listing_id: listingId } })
       .then(() => {
         if (isLiked) {
-          window.analytics.track('client_listing_liked', { listing_id: listingId }); // For Facebook conversion tracking.
+          window.analytics.track('client_listing_liked', { apartment_id: apartmentId, listing_id: listingId }); // For Facebook conversion tracking.
         }
       })
       .catch(() => {
-        this.appStore.likeStore.userLikesByListingId.set(listingId, !isLiked);
+        this.appStore.likeStore.myLikes.set(apartmentId, !isLiked);
       });
   }
 
   getLikesForListing(listing_id, include_profile=false) {
-    return this.fetch('likes/' + listing_id + '?include_profile=' + include_profile)
+    return this.fetch('likes/by-listing/' + listing_id + '?include_profile=' + include_profile)
     .then(likes => this.appStore.likeStore.likesByListingId.set(listing_id, likes));
   }
 }

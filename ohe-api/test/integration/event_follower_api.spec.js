@@ -35,6 +35,7 @@ describe('Followers API Integration', function () {
         const ohe = {
           start_time: today.add(1, 'hours').toISOString(),
           end_time: today.add(2, 'hours').toISOString(),
+          apartment_id: faker.getRandomNumber(),
           listing_id: faker.getRandomNumber(),
           publishing_user_id: fakeUser.id,
           listing_publishing_user_id: fakeUser.id,
@@ -44,7 +45,7 @@ describe('Followers API Integration', function () {
         const follower = fakeUser;
         const registrationResponse =
           yield this.apiClient.createNewFollower(response.body.id, follower).expect(201).end();
-          
+
         yield this.apiClient.deleteFollower(registrationResponse.body.id, follower).expect(200).end();
       });
 

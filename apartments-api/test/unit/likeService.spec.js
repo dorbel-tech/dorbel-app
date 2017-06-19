@@ -10,7 +10,6 @@ describe('Likes Service', function () {
     this.mockListing = faker.getFakeListing();
     this.likeRepositoryMock = {
       set: sinon.stub().resolves(undefined),
-      isLiked: sinon.stub().resolves(true),
       getUserLikes: sinon.stub().resolves([{ listing_id: this.mockListing.id }]),
       findByListingId: sinon.stub().resolves([{ listing_id: this.mockListing.id }])
     };
