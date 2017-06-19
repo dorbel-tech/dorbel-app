@@ -106,6 +106,7 @@ function* createLikes() {
   yield TEST_LIKES.real.map(function* (user) {
     yield db.models.like.upsert({
       id: user.db_record_id,
+      apartment_id: TEST_LISTING_ID,
       listing_id: TEST_LISTING_ID,
       liked_user_id: user.id,
       is_active: true
@@ -115,6 +116,7 @@ function* createLikes() {
   yield TEST_LIKES.fake.map(function* (user) {
     yield db.models.like.upsert({
       id: user.db_record_id,
+      apartment_id: TEST_LISTING_ID,
       listing_id: TEST_LISTING_ID,
       liked_user_id: user.id,
       is_active: false
