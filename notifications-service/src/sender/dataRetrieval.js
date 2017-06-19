@@ -22,8 +22,12 @@ function getListingInfo(listingId) {
   return request.get(`${APT_API}/v1/listings/${listingId}`, requestOptions);
 }
 
-function getListingLikes(apartmentId) {
+function getApartmentLikes(apartmentId) {
   return request.get(`${APT_API}/v1/likes/${apartmentId}`, requestOptions);
+}
+
+function getListingLikes(listingId) {
+  return request.get(`${APT_API}/v1/likes/by-listing/${listingId}`, requestOptions);
 }
 
 function getOheInfo(oheId) {
@@ -99,8 +103,8 @@ const dataRetrievalFunctions = {
     return getListingOhes(eventData.listing_id)
       .then(response => ({ ohesCount: response.length || 0 }));
   },
-  getListingLikesCount: eventData => {
-    return getListingLikes(eventData.apartment_id)
+  getApartmentLikesCount: eventData => {
+    return getApartmentLikes(eventData.apartment_id)
       .then(likes => {
         return getListingInfo(eventData.listing_id)
         .then(listing => {
@@ -111,8 +115,19 @@ const dataRetrievalFunctions = {
         });
       });
   },
+  sendToApartmentLikedUsers: eventData => {
+    return getApartmentLikes(eventData.apartment_id)
+      .then(response => {
+        // this notification will be sent to all the users who liked an apartment
+        return {
+          customRecipients: response
+            .filter(like => like.is_active)
+            .map(like => like.liked_user_id)
+        };
+      });
+  },
   sendToListingLikedUsers: eventData => {
-    return getListingLikes(eventData.apartment_id)
+    return getListingLikes(eventData.listing_id)
       .then(response => {
         // this notification will be sent to all the users who liked a listing
         return {
