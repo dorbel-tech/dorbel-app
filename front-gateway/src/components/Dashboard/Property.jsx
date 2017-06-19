@@ -132,9 +132,6 @@ class Property extends Component {
 
     const defaultHeaderButtons = (
       <div className="property-action-container">
-        <div className="property-history-selector">
-          {historySelector}
-        </div>
         <div className="property-actions-refresh-container">
           <Button className="fa fa-refresh property-action-button" title="רענון העמוד"
               onClick={this.refresh}></Button>
@@ -147,9 +144,10 @@ class Property extends Component {
           <Button className="property-action-button"
                   onMouseEnter={this.showActionsMenu}
                   onMouseLeave={this.hideActionsMenu}
-                  onClick={this.showActionsMenu}>
-            <i ref={(el) => { this.propertyActionMenuIcon = el; }}
-               className="fa fa-bars"
+                  onClick={this.showActionsMenu}
+                  ref={(el) => { this.propertyActionMenuIcon = el; }}>
+            תפריט
+            <i className="fa fa-caret-down"
                aria-hidden="true"></i>
           </Button>
           <Overlay show={this.state.showActionsMenu}
@@ -159,6 +157,9 @@ class Property extends Component {
                    rootClose>
             {this.renderActionsMenu(property, isActiveListing)}
           </Overlay>
+        </div>
+        <div className="property-history-selector">
+          {historySelector}
         </div>
       </div>
     );

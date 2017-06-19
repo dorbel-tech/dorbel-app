@@ -32,6 +32,8 @@ export default class ImageUpload extends React.Component {
     else {
       editedListingStore.disableSave = (editedListingStore.formValues.images.length <= 0);
     }
+
+    editedListingStore.uploadedImagesCount = editedListingStore.formValues.images.length;
   }
 
   renderImage(image, index) {

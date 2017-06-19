@@ -65,7 +65,7 @@ LikeButton.wrappedComponent.propTypes = {
   appStore: React.PropTypes.object.isRequired,
   appProviders: React.PropTypes.object.isRequired,
   listingId: React.PropTypes.number.isRequired,
-  showText: React.PropTypes.string
+  showText: React.PropTypes.bool
 };
 
 export default LikeButton;

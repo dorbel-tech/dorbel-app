@@ -112,10 +112,6 @@
   text-overflow: ellipsis;
   width: 100%;
 
-  .caret {
-    display: none;
-  }
-
   &::after {
     content: '\f0d7';
     font-family: FontAwesome;
@@ -140,13 +136,14 @@
   color: #4d4d4d;
   display: inline-block;
   font-size: 15px;
-  line-height: 19px;
+  line-height: 17px;
   margin: 7px 0 27px;
 }
 
 .filter-future-booking-switch-mobile-wrapper {
   margin-top: 20px;
   text-align: center;
+  line-height: 20px;
 }
 
 .filter-future-booking-new {
@@ -154,9 +151,9 @@
   border-radius: 2px;
   color: $brand-white;
   font-size: 11px;
-  margin-right: 5px;
+  margin-right: 10px;
   padding: 0 3px;
-  vertical-align: super;
+  vertical-align: text-bottom;
 }
 
 .filter-future-booking-tooltip {

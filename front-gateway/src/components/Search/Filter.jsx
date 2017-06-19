@@ -423,7 +423,7 @@ class Filter extends Component {
         }
         <Row>
           <Col mdOffset={2} sm={6} smOffset={1} className="filter-dropdown-wrapper">
-            <DropdownButton id="cityDropdown" bsSize="large"
+            <DropdownButton id="cityDropdown" bsSize="large" noCaret
               className={'filter-dropdown ' + this.state.cityFilterClass}
               title={'עיר: ' + cityTitle}
               onSelect={this.citySelectHandler}>
@@ -432,19 +432,20 @@ class Filter extends Component {
             </DropdownButton>
           </Col>
           <Col md={4} sm={5} xsHidden>
-            <Checkbox name="futureBooking" className="filter-future-booking-switch"
-                      checked={this.state.futureBooking} onChange={this.checkboxChangeHandler}>
-              הראו לי דירות שטרם פורסמו
-            </Checkbox>
-            <span className="filter-future-booking-new"
-                  data-tip="חדש! תכננו את מעבר הדירה הבא! מעכשיו תוכלו לגלות דירות מושכרות, לעקוב אחריהן ולהיות הראשונים לדעת כשהן מתפנות">חדש!</span>
+            <span data-tip="חדש! תכננו את מעבר הדירה הבא! מעכשיו תוכלו לגלות דירות מושכרות, לעקוב אחריהן ולהיות הראשונים לדעת כשהן מתפנות">
+              <Checkbox name="futureBooking" className="filter-future-booking-switch"
+                        checked={this.state.futureBooking} onChange={this.checkboxChangeHandler}>
+                הראו לי דירות שטרם פורסמו
+              </Checkbox>
+              <span className="filter-future-booking-new">חדש!</span>
+            </span>
             <ReactTooltip type="dark" effect="solid" place="bottom"
                           offset={NEW_TIP_OFFSET} className="filter-future-booking-tooltip"/>
           </Col>
         </Row>
         <Row>
           <Col md={2} mdOffset={2} sm={2} smOffset={1} className="filter-dropdown-wrapper">
-            <DropdownButton id="neighborhoodDropdown" bsSize="large"
+            <DropdownButton id="neighborhoodDropdown" bsSize="large" noCaret
               className={'filter-dropdown ' + this.state.neighborhoodFilterClass}
               title={'שכונה: ' + neighborhoodTitle}
               onSelect={this.neighborhoodSelectHandler}>

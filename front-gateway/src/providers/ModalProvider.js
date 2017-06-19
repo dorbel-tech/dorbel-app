@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
+import ShareModal from '~/components/Modals/ShareModal/ShareModal';
 
 // TODO: Simplify and cleanup the close handlers and delegates mess
 export default class ModalProvider {
@@ -36,6 +37,16 @@ export default class ModalProvider {
       };
 
       this.show(params, () => this.close());
+    });
+  }
+
+  showShareModal(params) {
+    this.show({
+      body: <ShareModal
+        shareUrl={params.shareUrl}
+        title={params.title}
+        content={params.content} />,
+      modalSize: ShareModal.modalSize
     });
   }
 

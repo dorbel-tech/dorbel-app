@@ -2,7 +2,7 @@
   padding: 15px;
 
   @media (min-width: $screen-md-min) {
-    border-bottom: 1px solid $gray-lighter;
+    border-bottom: $gray-border;
   }
 }
 

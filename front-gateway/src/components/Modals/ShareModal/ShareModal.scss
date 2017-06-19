@@ -1,0 +1,40 @@
+@import "../../sharedStyles/variables.scss";
+@import "../../sharedStyles/bsvars.scss";
+
+.listing-share-modal {
+  @media (min-width: $screen-sm-max) {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .listing-share-modal-title {
+    font-size: 24px;
+    color: #428bca;
+    margin-top: -30px;
+  }
+
+  .listing-share-modal-content {
+    font-size: 18px;
+    padding-bottom: 15px;
+  }
+
+  .listing-share-modal-button {
+    display: inline-block;
+    margin: 0 15px;
+
+    img {
+      height: 25px;
+    }
+  }
+
+  .listing-share-modal-contact-us {
+    font-size: 13px;
+    color: $gray-light;
+    margin-top: 20px;
+
+    a,
+    a:active {
+      color: $gray-light;
+    }
+  }
+}

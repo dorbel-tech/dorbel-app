@@ -1,17 +1,16 @@
-.listing-choose-date-container {
+.listing-choose-ohe-container {
   box-shadow: 0 2px 20px 0 rgba(0, 0, 0, 0.15);
   margin-bottom: 15px;
 
-  .listing-choose-date-title {
-    border-bottom: 1px solid $gray-lighter;
+  .listing-choose-ohe-title {
     color: $gray-dark;
     margin: 0 20px;
-    padding: 10px 0;
+    padding: 25px 0;
   }
 
   .list-group-item {
     border: none;
-    border-bottom: 1px solid $gray-lighter;
+    border-top: $gray-border;
     border-radius: 0;
     margin: 0 20px;
     padding: 5px;
@@ -93,59 +92,11 @@
   color: #4a4a4a;
   font-size: 13px;
   line-height: 21px;
-  padding: 10px;
+  padding: 25px 10px;
 }
 
-.listing-followers-count {
-  color: #555;
-  font-size: 11px;
-  padding-top: 12px;
-}
-
-.ohe-list-follow-container {
+.ohe-list-notification-container {
   text-align: center;
-
-  img {
-    width: 100%;
-  }
-
-  h4 {
-    font-size: 14px;
-    margin-top: 0;
-    padding: 0;
-  }
-
-  h5 {
-    padding-top: 15px;
-    line-height: $line-height-computed*0.7;
-  }
-
-  .follow-container {
-    padding-left: 35px;
-
-    .follow-action {
-      border: 1px solid #3398db;
-      border-radius: 4px;
-      color: #3398db;
-      cursor: pointer;
-      padding: 6px 16px;
-      width: 250px;
-
-      &:hover {
-        background-color: #3398db;
-        border-color: #3398db;
-        color: $brand-white;
-      }
-    }
-
-    .follow-icon {
-      padding: 10px;
-    }
-
-    .follow-tooltip {
-      width: 200px;
-    }
-  }
 }
 
 .ohe-list-loading-container {

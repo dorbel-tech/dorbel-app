@@ -7,6 +7,7 @@ import UploadApartmentBaseStep from './UploadApartmentBaseStep';
 import FormWrapper from '~/components/FormWrapper/FormWrapper';
 import AddOHEInput from '~/components/AddOHEInput/AddOHEInput';
 import SubmitButton from '~/components/SubmitButton/SubmitButton';
+import ReactTooltip from 'react-tooltip';
 
 @inject('appStore', 'appProviders', 'router') @observer
 class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
@@ -28,6 +29,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
       this.props.appStore.newListingStore.updateFormValues(this.refs.form.refs.formsy.getCurrentValues());
       return super.clickNext();
     } else {
+      this.props.appStore.newListingStore.isFromValid = formsy.state.isValid;
       this.props.onValidationError(formsy);
     }
   }
@@ -35,10 +37,10 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
   onCloseSuccessModal() {
     const createdListingId = this.props.createdListingId;
     const {newListingStore} = this.props.appStore;
-    
+
     let redirectPath = `/dashboard/my-properties/${createdListingId}/`;
     redirectPath += newListingStore.uploadMode == 'manage' ? 'manage' : '';
-    
+
     newListingStore.reset();
     this.props.router.setRoute(redirectPath);
   }
@@ -99,7 +101,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
   }
 
   renderOHEFields(newListingStore) {
-    if (newListingStore.uploadMode == 'publish') {
+    if (newListingStore.uploadMode == 'publish' || newListingStore.uploadMode == 'republish') {
       const existingOhe = _.get(newListingStore, 'formValues.open_house_event');
       return (
         <Row className="form-section">
@@ -182,9 +184,12 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
               <i className="open-house-event-previous-step fa fa-arrow-circle-o-right fa-2x" aria-hidden="true"></i>&nbsp; חזור
             </span>
             <span>3/3</span>
-            <SubmitButton onClick={this.clickNext.bind(this)} className="step-btn step3"
-              bsStyle={authStore.isLoggedIn ? 'success' : 'default'}
-              disabled={!authStore.isLoggedIn} >שליחה וסיום</SubmitButton>
+            <span className="next-step" data-tip="שדה חובה חסר">
+              <SubmitButton onClick={this.clickNext.bind(this)} className="step-btn step3"
+                bsStyle={authStore.isLoggedIn ? 'success' : 'default'}
+                disabled={!authStore.isLoggedIn} >שליחה וסיום</SubmitButton>
+            </span>
+            <ReactTooltip type="dark" effect="solid" place="top" disable={newListingStore.isFromValid}/>
           </Col>
         </Col>
         <DorbelModal

@@ -113,6 +113,7 @@ exports[`Filter should initialize correctly 1`] = `
                     bsSize="large"
                     className="filter-dropdown "
                     id="cityDropdown"
+                    noCaret={true}
                     onSelect={[Function]}
                     title="עיר: כל הערים">
                     <Uncontrolled(Dropdown)
@@ -141,6 +142,7 @@ exports[`Filter should initialize correctly 1`] = `
                               bsSize="large"
                               className="filter-dropdown "
                               id="cityDropdown"
+                              noCaret={true}
                               onClick={[Function]}
                               onKeyDown={[Function]}
                               open={false}
@@ -170,9 +172,6 @@ exports[`Filter should initialize correctly 1`] = `
                                   role="button"
                                   type="button">
                                   עיר: כל הערים
-                                   
-                                  <span
-                                    className="caret" />
                                 </button>
                               </Button>
                             </DropdownToggle>
@@ -237,31 +236,33 @@ exports[`Filter should initialize correctly 1`] = `
                 xsHidden={true}>
                 <div
                   className="col-md-4 col-sm-5 hidden-xs">
-                  <Checkbox
-                    bsClass="checkbox"
-                    checked={false}
-                    className="filter-future-booking-switch"
-                    disabled={false}
-                    inline={false}
-                    name="futureBooking"
-                    onChange={[Function]}>
-                    <div
-                      className="filter-future-booking-switch checkbox">
-                      <label>
-                        <input
-                          checked={false}
-                          disabled={false}
-                          name="futureBooking"
-                          onChange={[Function]}
-                          type="checkbox" />
-                        הראו לי דירות שטרם פורסמו
-                      </label>
-                    </div>
-                  </Checkbox>
                   <span
-                    className="filter-future-booking-new"
                     data-tip="חדש! תכננו את מעבר הדירה הבא! מעכשיו תוכלו לגלות דירות מושכרות, לעקוב אחריהן ולהיות הראשונים לדעת כשהן מתפנות">
-                    חדש!
+                    <Checkbox
+                      bsClass="checkbox"
+                      checked={false}
+                      className="filter-future-booking-switch"
+                      disabled={false}
+                      inline={false}
+                      name="futureBooking"
+                      onChange={[Function]}>
+                      <div
+                        className="filter-future-booking-switch checkbox">
+                        <label>
+                          <input
+                            checked={false}
+                            disabled={false}
+                            name="futureBooking"
+                            onChange={[Function]}
+                            type="checkbox" />
+                          הראו לי דירות שטרם פורסמו
+                        </label>
+                      </div>
+                    </Checkbox>
+                    <span
+                      className="filter-future-booking-new">
+                      חדש!
+                    </span>
                   </span>
                   <ReactTooltip
                     className="filter-future-booking-tooltip"
@@ -304,6 +305,7 @@ exports[`Filter should initialize correctly 1`] = `
                     bsSize="large"
                     className="filter-dropdown "
                     id="neighborhoodDropdown"
+                    noCaret={true}
                     onSelect={[Function]}
                     title="שכונה: כל השכונות">
                     <Uncontrolled(Dropdown)
@@ -332,6 +334,7 @@ exports[`Filter should initialize correctly 1`] = `
                               bsSize="large"
                               className="filter-dropdown "
                               id="neighborhoodDropdown"
+                              noCaret={true}
                               onClick={[Function]}
                               onKeyDown={[Function]}
                               open={false}
@@ -361,9 +364,6 @@ exports[`Filter should initialize correctly 1`] = `
                                   role="button"
                                   type="button">
                                   שכונה: כל השכונות
-                                   
-                                  <span
-                                    className="caret" />
                                 </button>
                               </Button>
                             </DropdownToggle>
