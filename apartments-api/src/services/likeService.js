@@ -9,8 +9,7 @@ const userManagement = shared.utils.user.management;
 const userPermissions = shared.utils.user.permissions;
 
 function* getUserLikes(user) {
-  let likeObjects = yield likeRepository.getUserLikes(user);
-  return likeObjects.map(item => item.apartment_id);
+  return yield likeRepository.getUserLikes(user);
 }
 
 function* getByListing(listingId, user, include_profile) {

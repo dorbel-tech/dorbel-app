@@ -81,16 +81,18 @@ class ApiClient {
     return this.request.get('/v1/health');
   }
 
-  likeApartment(apartmentId) {
+  likeApartment(apartmentId, listingId) {
     return this.request
       .post('/v1/likes/' + apartmentId)
-      .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile));
+      .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile))
+      .send({ listing_id: listingId });
   }
 
-  unlikeApartment(apartmentId) {
+  unlikeApartment(apartmentId, listingId) {
     return this.request
       .delete('/v1/likes/' + apartmentId)
-      .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile));
+      .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile))
+      .send({ listing_id: listingId });
   }
 
   getLikesByApartment(apartmentId) {

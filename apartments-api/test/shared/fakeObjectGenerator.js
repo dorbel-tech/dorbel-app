@@ -30,7 +30,6 @@ function getFakeListing(variant) {
     lease_end: getDateString(),
     publishing_user_id: faker.random.uuid(),
     publishing_user_type: 'landlord',
-    apartment_id: 1,
     apartment: {
       apt_number: faker.random.number(99) + faker.random.word()[0] + faker.random.word()[0], // like '57AB'
       rooms: faker.random.number(10),

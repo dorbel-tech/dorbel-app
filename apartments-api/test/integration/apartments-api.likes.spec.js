@@ -28,11 +28,11 @@ describe('Apartments API Likes service integration', function () {
 
     describe('POST /likes/{apartmentId}', function () {
       it('should set listing as liked', function* () {
-        yield this.apiClient.likeApartment(this.createdApartmentId).expect(200).end();
+        yield this.apiClient.likeApartment(this.createdApartmentId, this.createdListingId).expect(200).end();
       });
 
       it('fail to set non existing listing as liked', function* () {
-        yield this.apiClient.likeApartment(0).expect(404).end();
+        yield this.apiClient.likeApartment(0, 0).expect(404).end();
       });
     });
 
@@ -51,11 +51,11 @@ describe('Apartments API Likes service integration', function () {
     });
     describe('DELETE /likes/{listingId}', function () {
       it('should set listing as unliked', function* () {
-        yield this.apiClient.unlikeApartment(this.createdApartmentId).expect(200).end();
+        yield this.apiClient.unlikeApartment(this.createdApartmentId, this.createdListingId).expect(200).end();
       });
 
       it('fail to set non existing listing as unliked', function* () {
-        yield this.apiClient.likeApartment(0).expect(404).end();
+        yield this.apiClient.likeApartment(0, 0).expect(404).end();
       });
     });
 
@@ -68,7 +68,7 @@ describe('Apartments API Likes service integration', function () {
       });
 
       it('get user\'s liked listings (user has likes)', function* () {
-        yield this.apiClient.likeApartment(this.createdApartmentId).expect(200).end();
+        yield this.apiClient.likeApartment(this.createdApartmentId, this.createdListingId).expect(200).end();
 
         const likesResponse = yield this.apiClient.getUserLikes().expect(200).end();
 
@@ -77,8 +77,7 @@ describe('Apartments API Likes service integration', function () {
       });
 
       it('get user\'s liked listings (user has only unlikes)', function* () {
-        yield this.apiClient.unlikeApartment(this.createdApartmentId).expect(200).end();
-
+        yield this.apiClient.unlikeApartment(this.createdApartmentId, this.createdListingId).expect(200).end();
         const likesResponse = yield this.apiClient.getUserLikes().expect(200).end();
 
         __.assertThat(likesResponse.body, __.is(__.array()));
