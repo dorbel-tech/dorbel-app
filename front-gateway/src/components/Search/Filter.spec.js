@@ -32,11 +32,15 @@ describe('Filter', () => {
         }
       },
       appProviders: {
+        authProvider: {
+          shouldLogin: jest.fn().mockReturnValue(true)
+        },
         cityProvider: {loadCities: jest.fn()},
         neighborhoodProvider: {loadNeighborhoodByCityId: jest.fn()},
         searchProvider: {
           search: jest.fn().mockReturnValue(Promise.resolve([])),
-          resetActiveFilter: jest.fn()
+          resetActiveFilter: jest.fn(),
+          saveFilter: jest.fn().mockReturnValue(Promise.resolve())
         },
         oheProvider: {
           loadListingEvents: jest.fn()
@@ -79,5 +83,24 @@ describe('Filter', () => {
   it('should reset active filter on load', () => {
     filter();
     expect(props.appProviders.searchProvider.resetActiveFilter).toHaveBeenCalled();
+  });
+
+  it('should check for login when clicking on save filter', () => {    
+    filter();
+    const saveButton = mountedFilter.find('Button').findWhere(n => n.text() === 'שמור חיפוש').first();
+    saveButton.simulate('click');
+    expect(props.appProviders.authProvider.shouldLogin).toHaveBeenCalled();
+  });
+
+  it('should save filter when logged in and clicking on save filter', () => {
+    const mockFilter = { city: 2 };
+    spyOn(JSON, 'parse').and.returnValue(mockFilter);
+    props.appProviders.authProvider.shouldLogin.mockReturnValue(false);
+
+    filter();
+    const saveButton = mountedFilter.find('Button').findWhere(n => n.text() === 'שמור חיפוש').first();
+    saveButton.simulate('click');
+
+    expect(props.appProviders.searchProvider.saveFilter).toHaveBeenCalledWith(mockFilter);
   });
 });

@@ -2,6 +2,9 @@ exports[`Filter should initialize correctly 1`] = `
 <inject-Filter-with-appStore-appProviders
   appProviders={
     Object {
+      "authProvider": Object {
+        "shouldLogin": [Function],
+      },
       "cityProvider": Object {
         "loadCities": [Function],
       },
@@ -13,6 +16,7 @@ exports[`Filter should initialize correctly 1`] = `
       },
       "searchProvider": Object {
         "resetActiveFilter": [Function],
+        "saveFilter": [Function],
         "search": [Function],
       },
     }
@@ -33,6 +37,9 @@ exports[`Filter should initialize correctly 1`] = `
   <Filter
     appProviders={
       Object {
+        "authProvider": Object {
+          "shouldLogin": [Function],
+        },
         "cityProvider": Object {
           "loadCities": [Function],
         },
@@ -44,6 +51,7 @@ exports[`Filter should initialize correctly 1`] = `
         },
         "searchProvider": Object {
           "resetActiveFilter": [Function],
+          "saveFilter": [Function],
           "search": [Function],
         },
       }
