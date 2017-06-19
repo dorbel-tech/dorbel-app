@@ -26,10 +26,6 @@ function getApartmentLikes(apartmentId) {
   return request.get(`${APT_API}/v1/likes/${apartmentId}`, requestOptions);
 }
 
-function getListingLikes(listingId) {
-  return request.get(`${APT_API}/v1/likes/by-listing/${listingId}`, requestOptions);
-}
-
 function getOheInfo(oheId) {
   return request.get(`${OHE_API}/v1/event/${oheId}`, requestOptions);
 }
@@ -119,17 +115,6 @@ const dataRetrievalFunctions = {
     return getApartmentLikes(eventData.apartment_id)
       .then(response => {
         // this notification will be sent to all the users who liked an apartment
-        return {
-          customRecipients: response
-            .filter(like => like.is_active)
-            .map(like => like.liked_user_id)
-        };
-      });
-  },
-  sendToListingLikedUsers: eventData => {
-    return getListingLikes(eventData.listing_id)
-      .then(response => {
-        // this notification will be sent to all the users who liked a listing
         return {
           customRecipients: response
             .filter(like => like.is_active)

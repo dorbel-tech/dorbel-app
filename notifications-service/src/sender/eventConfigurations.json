@@ -39,7 +39,7 @@
   {
     "eventType": "OHE_CREATED",
     "notificationType": "ohe_created_notify_followers",
-    "dataRetrieval": [ "getListingInfo", "getOheInfo", "sendToListingLikedUsers", "getUserDetails" ]
+    "dataRetrieval": [ "getListingInfo", "getOheInfo", "sendToApartmentLikedUsers", "getUserDetails" ]
   },
   {
     "eventType": "OHE_UPDATED",

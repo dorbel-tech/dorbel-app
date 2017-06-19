@@ -11,6 +11,7 @@ const fixtures = {
     id: '23821212-6191-4fda-b3e3-fdb8bf69a95d',
     email: 'test@test.com'
   },
+  apartment_id: 1,
   listing_id: 1,
   event_id: 1
 };
@@ -70,8 +71,8 @@ describe('Data Retrieval Integration', function () {
   });
 
   it('should get listing likes count', function* () {
-    const likersCountRes = yield this.retrieve('getListingLikesCount', {
-      listing_id: fixtures.listing_id
+    const likersCountRes = yield this.retrieve('getApartmentLikesCount', {
+      apartment_id: fixtures.apartment_id
     });
 
     __.assertThat(likersCountRes.followersCount, __.is(2));
