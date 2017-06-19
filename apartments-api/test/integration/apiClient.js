@@ -81,22 +81,21 @@ class ApiClient {
     return this.request.get('/v1/health');
   }
 
-  likeListing(apartmentId) {
+  likeApartment(apartmentId) {
     return this.request
       .post('/v1/likes/' + apartmentId)
       .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile));
   }
 
-  unlikeListing(apartmentId) {
+  unlikeApartment(apartmentId) {
     return this.request
       .delete('/v1/likes/' + apartmentId)
       .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile));
   }
 
-  getUserLikes() {
+  getLikesByApartment(apartmentId) {
     return this.request
-      .get('/v1/likes/user')
-      .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile));
+      .get('/v1/likes/' + apartmentId);
   }
 
   getLikesByListing(listingId) {
@@ -104,9 +103,10 @@ class ApiClient {
       .get('/v1/likes/by-listing/' + listingId);
   }
 
-  getLikesByApartment(apartmentId) {
+  getUserLikes() {
     return this.request
-      .get('/v1/likes/' + apartmentId);
+      .get('/v1/likes/user')
+      .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile));
   }
 
   updateUserProfile(data, isAuthenticated = true) {
