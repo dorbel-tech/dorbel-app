@@ -33,7 +33,7 @@ describe('Likes Service', function () {
   describe('Get user\'s likes', function () {
     it('should return an array containing the mockListing id', function* () {
       let likesResp = yield this.likeService.getUserLikes(faker.getFakeUser());
-      __.assertThat(likesResp, __.is([{ apartment_id: this.mockListing.apartment_id, listing_id: this.mockListing.listing_id }]));
+      __.assertThat(likesResp, __.is([{ listing_id: this.mockListing.id }]));
     });
 
     it('should return an empty array because there are no likes', function* () {
