@@ -12,6 +12,7 @@ exports[`Filter should initialize correctly 1`] = `
         "loadListingEvents": [Function],
       },
       "searchProvider": Object {
+        "resetActiveFilter": [Function],
         "search": [Function],
       },
     }
@@ -42,6 +43,7 @@ exports[`Filter should initialize correctly 1`] = `
           "loadListingEvents": [Function],
         },
         "searchProvider": Object {
+          "resetActiveFilter": [Function],
           "search": [Function],
         },
       }
@@ -413,10 +415,10 @@ exports[`Filter should initialize correctly 1`] = `
               <Col
                 bsClass="col"
                 componentClass="div"
-                md={2}
-                sm={2}>
+                md={1}
+                sm={1}>
                 <div
-                  className="col-md-2 col-sm-2">
+                  className="col-md-1 col-sm-1">
                   <OverlayTrigger
                     defaultOverlayShown={false}
                     overlay={
@@ -479,10 +481,10 @@ exports[`Filter should initialize correctly 1`] = `
               <Col
                 bsClass="col"
                 componentClass="div"
-                md={2}
-                sm={2}>
+                md={1}
+                sm={1}>
                 <div
-                  className="col-md-2 col-sm-2">
+                  className="col-md-1 col-sm-1">
                   <OverlayTrigger
                     defaultOverlayShown={false}
                     overlay={
@@ -707,6 +709,29 @@ exports[`Filter should initialize correctly 1`] = `
                       פילטרים נוספים
                     </div>
                   </OverlayTrigger>
+                </div>
+              </Col>
+              <Col
+                bsClass="col"
+                componentClass="div"
+                sm={2}>
+                <div
+                  className="col-sm-2">
+                  <Button
+                    active={false}
+                    block={true}
+                    bsClass="btn"
+                    bsStyle="info"
+                    disabled={false}
+                    onClick={[Function]}>
+                    <button
+                      className="btn btn-info btn-block"
+                      disabled={false}
+                      onClick={[Function]}
+                      type="button">
+                      שמור חיפוש
+                    </button>
+                  </Button>
                 </div>
               </Col>
               <Col

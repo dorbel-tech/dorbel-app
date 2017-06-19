@@ -40,9 +40,7 @@ describe('Apartments API - saved filters - ', function () {
   it('should fail to create a new filter with missing fields', function * () {
     yield this.apiClient.createFilter({
       city: faker.random.number(20),
-      mre: faker.random.number(10000),
-      mrs: faker.random.number(10000),
-      minRooms: faker.random.number(20)
+      mre: faker.random.number(10000)
     }).expect(400).end();
   });
 

@@ -35,7 +35,8 @@ describe('Filter', () => {
         cityProvider: {loadCities: jest.fn()},
         neighborhoodProvider: {loadNeighborhoodByCityId: jest.fn()},
         searchProvider: {
-          search: jest.fn().mockReturnValue(Promise.resolve([]))
+          search: jest.fn().mockReturnValue(Promise.resolve([])),
+          resetActiveFilter: jest.fn()
         },
         oheProvider: {
           loadListingEvents: jest.fn()
@@ -73,5 +74,10 @@ describe('Filter', () => {
     expect(history.pushState.calls.count()).toEqual(1);
     expect(props.appProviders.searchProvider.search).toHaveBeenCalledWith(expectedFilterObj);
     expect(props.appProviders.searchProvider.search.mock.calls.length).toEqual(1);
+  });
+
+  it('should reset active filter on load', () => {
+    filter();
+    expect(props.appProviders.searchProvider.resetActiveFilter).toHaveBeenCalled();
   });
 });
