@@ -70,6 +70,7 @@ function getFakeUser(variant) {
 function getFakeLike(variant) {
   let like = Object.assign({
     id: 1,
+    apartment_id: 1,
     listing_id: 1,
     liked_user_id: fakeUserId,
     is_active: true
