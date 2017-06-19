@@ -101,7 +101,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
   }
 
   renderOHEFields(newListingStore) {
-    if (newListingStore.uploadMode == 'publish') {
+    if (newListingStore.uploadMode == 'publish' || newListingStore.uploadMode == 'republish') {
       const existingOhe = _.get(newListingStore, 'formValues.open_house_event');
       return (
         <Row className="form-section">
