@@ -130,6 +130,7 @@ class ListingsProvider {
     const newListing = isObservableObject(property) ? toJS(property) : _.cloneDeep(property);
     newListing.lease_start = moment(property.lease_end).add(1, 'day').toISOString();
     newListing.lease_end = undefined;
+    newListing.original_listing_id = property.id;
     newListingStore.reset();
     newListingStore.loadListing(newListing);
     this.router.setRoute('/apartments/new_form/republish');

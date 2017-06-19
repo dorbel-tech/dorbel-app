@@ -75,6 +75,10 @@ const attributes = {
   property_value: {
     type: DataTypes.DECIMAL(10, 2),
     defaultValue: null
+  },
+  original_listing_id: {
+    type: DataTypes.INTEGER,
+    defaultValue: null
   }
 };
 
