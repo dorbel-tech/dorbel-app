@@ -63,7 +63,7 @@ export default class SavedFilters extends React.Component {
           <span>
             {cityName}, {rangeLabel}&nbsp;חד'
             { isMobile() ? ', ' : <br/> }
-            {this.getRangeLabel(filter.mrs, filter.mre)} ש"ח
+            {this.getRangeLabel(filter.mrs, filter.mre)}&nbsp;ש"ח
           </span>
         </Checkbox>
       </Col>

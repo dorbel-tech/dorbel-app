@@ -47,8 +47,8 @@ describe('Saved Filters', () => {
 
     expect(renderedFilters).toHaveLength(1);
     expect(filterLabel).toContain(props.appStore.cityStore.cities[0].city_name);
-    expect(filterLabel).toContain('7+ חד');
-    expect(filterLabel).toContain('עד 6000 ש"ח');
+    expect(filterLabel).toContain('7+\xa0חד');
+    expect(filterLabel).toMatch(/עד\s6000\sש"ח/);
   });
 
   it('should select a new active filter', () => {

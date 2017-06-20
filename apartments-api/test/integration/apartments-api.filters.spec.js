@@ -49,7 +49,7 @@ describe('Apartments API - saved filters - ', function () {
     yield this.apiClient.createFilter(createFilter()).expect(200).end();
     yield this.apiClient.createFilter(createFilter()).expect(200).end();
     const { text: error } = yield this.apiClient.createFilter(createFilter()).expect(400).end();
-    __.assertThat(error, __.is('לא ניתן לשמור יותר משלושה חיפושים'));
+    __.assertThat(error, __.containsString('לא ניתן לשמור יותר משלושה חיפושים'));
   });
 
   it('should get filters', function * () {
