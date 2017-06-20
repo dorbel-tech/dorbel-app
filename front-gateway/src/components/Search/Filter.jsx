@@ -132,7 +132,7 @@ class Filter extends Component {
   }
 
   mrSliderChangeHandler(mrStringArray, unused, monthly_rent) {
-    this.sliderChangeHandler(monthly_rent, 'mrs', 'mre');
+    this.sliderChangeHandler(monthly_rent.map(Math.round), 'mrs', 'mre');
     this.setState({mrFilterClass: this.getMRFilterClass()});
   }
 
@@ -233,7 +233,7 @@ class Filter extends Component {
 
         if (_.get(err, 'response.data[0].type') === 'Validation error' ||
             _.get(err, 'response.data.error')  === 'Validation Failed') {
-          heading = 'על מנת לשמור חיפוש - יש לבחור עיר, מחיר, ומספר חדרים';
+          heading = 'על מנת לשמור חיפוש - יש לבחור עיר, מספר חדרים ומחיר';
         }
 
         appProviders.modalProvider.showInfoModal({ title: 'אופס...', heading });
@@ -245,6 +245,7 @@ class Filter extends Component {
     Object.keys(filterObj).filter(key => filterObj[key] === null).forEach(key => delete filterObj[key]);
     this.filterObj = filterObj;
     this.setState(this.getDefaultState());
+    this.loadNeighborhoods(filterObj.city); // make sure neighborhoods are loaded for this city
     this.reloadResults();
   }
 

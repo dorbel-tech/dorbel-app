@@ -17,7 +17,7 @@ function * create(filterToCreate, user) {
   }
 
   if (usersExistingFilters.length >= MAX_FILTERS_PER_USER) {
-    throw new errors.DomainValidationError('max_filters_reached', null, 'לא ניתן לשמור יותר משלושה חיפושים');
+    throw new errors.DomainValidationError('max_filters_reached', null, 'לא ניתן לשמור יותר משלושה חיפושים. לשמירת חיפוש נוסף עדכנו את אחד הקיימים.');
   }
 
   filterToCreate.dorbel_user_id = user.id;
