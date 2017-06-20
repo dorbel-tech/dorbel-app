@@ -3,7 +3,7 @@ const mockRequire = require('mock-require');
 const __ = require('hamjest');
 var sinon = require('sinon');
 
-describe.only('Filters Service', function () {
+describe('Filters Service', function () {
 
   before(function () {
     this.mockFilter = {
