@@ -36,17 +36,6 @@ class MonthlyReport extends Component {
     };
   }
 
-  static serverPreRender(props) {
-    if (!props.appProviders.authProvider.shouldLogin()) {
-      const { listingsProvider } = props.appProviders;
-      return Promise.all([
-        listingsProvider.loadFullListingDetails(props.listingId),
-        listingsProvider.loadListingTenants(props.listingId)
-      ]);
-    }
-    else { return new Promise((resolve) => { resolve(); }); }
-  }
-
   loadFullListingDetails(listingId) {
     if (!this.listingStore.get(listingId)) {
       this.setState({ isLoading: true });
@@ -113,17 +102,17 @@ class MonthlyReport extends Component {
       undefined
       :
       (
-        <Row className="monthly-report-future-booking-section">
+        <Row className="monthly-report-future-booking">
           <Col xs={2}>
             <a
-              className="monthly-report-future-booking-section-icon"
+              className="monthly-report-future-booking-icon"
               onClick={this.navProvider.handleHrefClick}
               href={`/dashboard/my-properties/${listing.id}/stats`}>
               <img src="https://static.dorbel.com/images/icons/monthly-report/future-booking-on.svg" />
             </a>
           </Col>
           <Col xs={10}>
-            <div className="monthly-report-future-booking-section-text">
+            <div className="monthly-report-future-booking-text">
               דירתך אינה נמצאת במאגר הדירות להשכרה עתידית של דורבל.
                 באמצעות שינוי בהגדרות תוכלו לאפשר לדיירים למצוא ולעקוב אחר הנכס שלכם כשהוא מושכר
                 במטרה לקבל עדכון כאשר הוא מתפנה למען תהליך השכרה מהיר ונוח יותר בעתיד.
@@ -187,11 +176,13 @@ class MonthlyReport extends Component {
 
           {hasTenants ?
             undefined :
-            <Button className="current-tenants-section-add-button"
-              href={`/dashboard/my-properties/${listing.id}/manage`}
-              onClick={this.navProvider.handleHrefClick}>
-              + להוספת דיירים
-            </Button>}
+            <div>
+              <Button className="current-tenants-section-add-button"
+                href={`/dashboard/my-properties/${listing.id}/manage`}
+                onClick={this.navProvider.handleHrefClick}>
+                + להוספת דיירים
+              </Button>
+            </div>}
         </div>);
 
     }
@@ -213,13 +204,15 @@ class MonthlyReport extends Component {
             <span>
               היכנסו לחשבונכם באתר dorbel לצפייה בנתונים נוספים בנוגע לנכס שלכם ולאפשרויות נוספות לניהול חכם יותר שלו.
             </span>
-            <Button
-              href={`/dashboard/my-properties/${listing.id}`}
-              onClick={this.navProvider.handleHrefClick}
-              className="go-to-dashboard-section-button">
-              <i className="fa fa-home" />&nbsp;
-              לניהול הנכס
-            </Button>
+            <div>
+              <Button
+                href={`/dashboard/my-properties/${listing.id}`}
+                onClick={this.navProvider.handleHrefClick}
+                className="go-to-dashboard-section-button">
+                <i className="fa fa-home" />&nbsp;
+                לניהול הנכס
+              </Button>
+            </div>
           </div>
         } />
     );

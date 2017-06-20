@@ -1,5 +1,4 @@
 @import "../sharedStyles/variables.scss";
-@import "../sharedStyles/bsvars.scss";
 
 .monthly-report-main-grid {
   width: 500px;
@@ -36,14 +35,14 @@
   }
 }
 
-.monthly-report-future-booking-section {
+.monthly-report-future-booking {
   margin: 33px 0;
 
-  .monthly-report-future-booking-section-icon {
+  .monthly-report-future-booking-icon {
     margin-top: 3px;
   }
 
-  .monthly-report-future-booking-section-text {
+  .monthly-report-future-booking-text {
     color: $gray-light;
     font-size: 13px;
     line-height: 18px;
@@ -99,7 +98,6 @@
   .go-to-dashboard-section-button {
     color: $brand-white;
     background-color: #3398db;
-    display: block;
     margin-top: 10px;
   }
 }
@@ -108,7 +106,6 @@
   .current-tenants-section-add-button {
     color: $brand-white;
     background-color: #3398db;
-    display: block;
     margin-top: 10px;
   }
 }
