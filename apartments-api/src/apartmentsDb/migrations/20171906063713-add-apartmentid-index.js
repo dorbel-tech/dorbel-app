@@ -7,7 +7,11 @@ module.exports = {
       'apartment_id',
       {
         type: Sequelize.INTEGER,
-        allowNull: false
+        allowNull: false,
+        references: {
+          model: 'apartments',
+          key: 'id'
+        }
       }
     )
     .then(() => {
