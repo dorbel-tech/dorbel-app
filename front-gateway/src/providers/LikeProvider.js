@@ -30,7 +30,7 @@ class LikeProvider {
   set(apartmentId, listingId, isLiked) {
     const method = isLiked ? 'POST' : 'DELETE';
     this.appStore.likeStore.myLikes.set(apartmentId, isLiked);
-    return this.fetch(`likes/${apartmentId}`, { method, data: { listing_id: listingId } })
+    return this.fetch(`apartments/${apartmentId}/likes`, { method, data: { listing_id: listingId } })
       .then(() => {
         if (isLiked) {
           window.analytics.track('client_listing_liked', { apartment_id: apartmentId, listing_id: listingId }); // For Facebook conversion tracking.
@@ -41,9 +41,9 @@ class LikeProvider {
       });
   }
 
-  getLikesForListing(listing_id, include_profile=false) {
-    return this.fetch('likes/by-listing/' + listing_id + '?include_profile=' + include_profile)
-    .then(likes => this.appStore.likeStore.likesByListingId.set(listing_id, likes));
+  getLikesForListing(listingId, includeProfile=false) {
+    return this.fetch(`listings/${listingId}/likes?include_profile=${includeProfile}`)
+    .then(likes => this.appStore.likeStore.likesByListingId.set(listingId, likes));
   }
 }
 

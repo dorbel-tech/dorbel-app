@@ -23,7 +23,7 @@ function getListingInfo(listingId) {
 }
 
 function getApartmentLikes(apartmentId) {
-  return request.get(`${APT_API}/v1/likes/${apartmentId}`, requestOptions);
+  return request.get(`${APT_API}/v1/apartments/${apartmentId}/likes`, requestOptions);
 }
 
 function getOheInfo(oheId) {

@@ -83,26 +83,26 @@ class ApiClient {
 
   likeApartment(apartmentId, listingId) {
     return this.request
-      .post('/v1/likes/' + apartmentId)
+      .post('/v1/apartments/' + apartmentId + '/likes')
       .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile))
       .send({ listing_id: listingId });
   }
 
   unlikeApartment(apartmentId, listingId) {
     return this.request
-      .delete('/v1/likes/' + apartmentId)
+      .delete('/v1/apartments/' + apartmentId + '/likes')
       .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile))
       .send({ listing_id: listingId });
   }
 
   getLikesByApartment(apartmentId) {
     return this.request
-      .get('/v1/likes/' + apartmentId);
+      .get('/v1/apartments/' + apartmentId + '/likes');
   }
 
   getLikesByListing(listingId) {
     return this.request
-      .get('/v1/likes/by-listing/' + listingId);
+      .get('/v1/listings/' + listingId + '/likes');
   }
 
   getUserLikes() {

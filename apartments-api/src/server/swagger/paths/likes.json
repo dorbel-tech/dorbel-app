@@ -35,7 +35,7 @@
       }
     }
   },
-  "/likes/by-listing/{listingId}": {
+  "/listings/{listingId}/likes": {
     "get": {
       "summary": "Get likes by listing",
       "description": "Get active likes by listing id",
@@ -66,7 +66,7 @@
       }
     }
   },
-  "/likes/{apartmentId}": {
+  "/apartments/{apartmentId}/likes": {
     "get": {
       "summary": "Get likes by apartment",
       "description": "Get active likes by apartment id",
