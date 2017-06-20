@@ -65,7 +65,7 @@ class ListingsProvider {
       .then(() => {
         if (listing.open_house_event) {
           try {
-            this.oheProvider.createOhe(Object.assign({ listing_id: createdListing.id }, listing.open_house_event));
+            this.oheProvider.createOhe(Object.assign({ apartment_id: createdListing.apartment_id, listing_id: createdListing.id }, listing.open_house_event));
           } catch (err) { /*eslint-disable eslint-enable*/ }
         }
       })

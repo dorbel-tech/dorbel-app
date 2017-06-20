@@ -9,8 +9,7 @@ const userManagement = shared.utils.user.management;
 const userPermissions = shared.utils.user.permissions;
 
 function* getUserLikes(user) {
-  let likeObjects = yield likeRepository.getUserLikes(user);
-  return likeObjects.map(item => item.listing_id);
+  return yield likeRepository.getUserLikes(user);
 }
 
 function* getByListing(listingId, user, include_profile) {
@@ -34,26 +33,33 @@ function* getByListing(listingId, user, include_profile) {
   return likes;
 }
 
-function* set(listingId, user, isLiked) {
+function* getByApartment(apartmentId) {
+  let likes = yield likeRepository.findByApartmentId(apartmentId);
+  return likes.map(f => f.get({ plain: true }));
+}
+
+function* set(apartmentId, listingId, user, isLiked) {
   try {
-    yield likeRepository.set(listingId, user.id, isLiked);
+    yield likeRepository.set(apartmentId, listingId, user.id, isLiked);
   } catch (error) {
-    handleSetError(error, listingId, user, isLiked);
+    handleSetError(error, apartmentId, listingId, user, isLiked);
   }
 
   logger.info({
+    apartment_id: apartmentId,
     listing_id: listingId,
     user_uuid: user.id,
     is_liked: isLiked
-  }, `listing is ${isLiked ? 'liked' : 'unliked'}`);
+  }, `apartment is ${isLiked ? 'liked' : 'unliked'}`);
 
-  publishLikeEvent(listingId, user.id, isLiked);
+  publishLikeEvent(apartmentId, listingId, user.id, isLiked);
 }
 
-function publishLikeEvent(listingId, userId, isLiked) {
+function publishLikeEvent(apartmentId, listingId, userId, isLiked) {
   const eventType = isLiked ? messageBus.eventType.LISTING_LIKED : messageBus.eventType.LISTING_UNLIKED;
   if (process.env.NOTIFICATIONS_SNS_TOPIC_ARN) {
     messageBus.publish(process.env.NOTIFICATIONS_SNS_TOPIC_ARN, eventType, {
+      apartment_id: apartmentId,
       listing_id: listingId,
       user_uuid: userId,
       is_liked: isLiked
@@ -61,16 +67,17 @@ function publishLikeEvent(listingId, userId, isLiked) {
   }
 }
 
-function handleSetError(error, listingId, user, isLiked) {
+function handleSetError(error, apartmentId, listingId, user, isLiked) {
   if (error.name == 'SequelizeForeignKeyConstraintError') { // hide DB related information in case an error is thrown
     throw new errors.DomainNotFoundError(
       'LikeServiceNonExistingListingError', {
         error,
         user,
+        apartment_id: apartmentId,
         listing_id: listingId,
         is_liked: isLiked
       },
-      `Could not ${isLiked ? 'like' : 'unlike'} listing`
+      `Could not ${isLiked ? 'like' : 'unlike'} apartment`
     );
   } else {
     throw error;
@@ -80,5 +87,6 @@ function handleSetError(error, listingId, user, isLiked) {
 module.exports = {
   getUserLikes,
   getByListing,
+  getByApartment,
   set
 };

@@ -11,6 +11,7 @@ class AddOHEModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      apartment_id: props.listing.apartment_id,
       listing_id: props.listing.id,
       // Required to assign OHE to apartment owner and not to admin (in case Admin adds it).
       listing_publishing_user_id: props.listing.publishing_user_id

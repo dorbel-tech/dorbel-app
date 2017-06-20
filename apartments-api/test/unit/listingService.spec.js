@@ -27,7 +27,7 @@ describe('Listing Service', function () {
       update: sinon.stub().resolves(this.mockListing),
     };
     this.likeRepositoryMock = {
-      getListingTotalLikes: sinon.stub().resolves(this.mockListing)
+      getApartmentTotalLikes: sinon.stub().resolves(this.mockListing)
     };
     this.geoProviderMock = {
       getGeoLocation: sinon.stub().resolves(1)
@@ -192,7 +192,7 @@ describe('Listing Service', function () {
       const updatedListing = Object.assign({}, listing, { status: 'rented' });
       this.listingRepositoryMock.update = sinon.stub().resolves(updatedListing);
       this.listingRepositoryMock.getById = sinon.stub().resolves(listing);
-      this.likeRepositoryMock.getListingTotalLikes = sinon.stub().resolves(listing.id);
+      this.likeRepositoryMock.getApartmentTotalLikes = sinon.stub().resolves(listing.apartment_id);
 
       const result = yield this.listingService.update(listing.id, user, updatedListing);
       __.assertThat(result, __.hasProperties(updatedListing));
@@ -229,7 +229,7 @@ describe('Listing Service', function () {
       const updatedListing = Object.assign({}, listing, { status: 'rented' });
       this.listingRepositoryMock.update = sinon.stub().resolves(updatedListing);
       this.listingRepositoryMock.getById = sinon.stub().resolves(listing);
-      this.likeRepositoryMock.getListingTotalLikes = sinon.stub().resolves(listing.id);
+      this.likeRepositoryMock.getApartmentTotalLikes = sinon.stub().resolves(listing.apartment_id);
 
       const result = yield this.listingService.update(listing.id, user, updatedListing);
 

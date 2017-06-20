@@ -1,21 +1,9 @@
 'use strict';
 const db = require('../dbConnectionProvider');
 
-function* isLiked(listingId, user) {
-  let res = yield db.models.like.findOne({
-    where: {
-      listing_id: listingId,
-      liked_user_id: user.id,
-      is_active: true
-    },
-    raw: true // readonly get - no need for full sequlize instances
-  });
-
-  return !!res;
-}
-
-function* set(listingId, userId, isLiked) {
+function* set(apartmentId, listingId, userId, isLiked) {
   yield db.models.like.upsert({
+    apartment_id: apartmentId,
     listing_id: listingId,
     liked_user_id: userId,
     is_active: isLiked
@@ -28,7 +16,7 @@ function* getUserLikes(user) {
       liked_user_id: user.id,
       is_active: true
     },
-    attributes: ['listing_id'],
+    attributes: ['apartment_id', 'listing_id'],
     raw: true
   });
 }
@@ -42,10 +30,19 @@ function* findByListingId(listingId) {
   });
 }
 
-function* getListingTotalLikes(listingId) {
+function* findByApartmentId(apartmentId) {
+  return yield db.models.like.findAll({
+    where: {
+      apartment_id: apartmentId,
+      is_active: true
+    }
+  });
+}
+
+function* getApartmentTotalLikes(apartmentId) {
   return yield db.models.like.count({
     where: {
-      listing_id: listingId,
+      apartment_id: apartmentId,
       is_active: true
     },
     raw: true
@@ -54,8 +51,8 @@ function* getListingTotalLikes(listingId) {
 
 module.exports = {
   getUserLikes,
-  getListingTotalLikes,
+  getApartmentTotalLikes,
   findByListingId,
-  isLiked,
+  findByApartmentId,
   set
 };

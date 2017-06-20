@@ -22,57 +22,63 @@ describe('Apartments API Likes service integration', function () {
   describe('Likes service integration', function () {
     before(function* () {
       const postReponse = yield this.apiClient.createListing(faker.getFakeListing()).expect(201).end();
+      this.createdApartmentId = postReponse.body.apartment_id;
       this.createdListingId = postReponse.body.id;
     });
 
-    describe('POST /likes/{listingId}', function () {
-      it('should set listing as liked', function* () {
-        yield this.apiClient.likeListing(this.createdListingId).expect(200).end();
+    describe('POST /apartments/{apartmentId}/likes', function () {
+      it('should set apartment as liked', function* () {
+        yield this.apiClient.likeApartment(this.createdApartmentId, this.createdListingId).expect(200).end();
       });
 
-      it('fail to set non existing listing as liked', function* () {
-        yield this.apiClient.likeListing(0).expect(404).end();
+      it('fail to set non existing apartment as liked', function* () {
+        yield this.apiClient.likeApartment(0, 0).expect(404).end();
       });
     });
 
     describe('GET', function () {
-      it('should get likes by listing', function* () {
+      it('GET should get likes by listing', function* () {
         const response = yield this.apiClient.getLikesByListing(this.createdListingId).expect(200).end();
         __.assertThat(response.body.length, __.is(1));
       });
     });
 
-    describe('DELETE /likes/{listingId}', function () {
-      it('should set listing as unliked', function* () {
-        yield this.apiClient.unlikeListing(this.createdListingId).expect(200).end();
+    describe('GET', function () {
+      it('should get likes by apartment', function* () {
+        const response = yield this.apiClient.getLikesByApartment(this.createdApartmentId).expect(200).end();
+        __.assertThat(response.body.length, __.is(1));
+      });
+    });
+    describe('DELETE /apartments/{apartmentId}/likes', function () {
+      it('should set apartment as unliked', function* () {
+        yield this.apiClient.unlikeApartment(this.createdApartmentId, this.createdListingId).expect(200).end();
       });
 
-      it('fail to set non existing listing as unliked', function* () {
-        yield this.apiClient.likeListing(0).expect(404).end();
+      it('fail to set non existing apartment as unliked', function* () {
+        yield this.apiClient.likeApartment(0, 0).expect(404).end();
       });
     });
 
     describe('GET /likes/user', function () {
-      it('get user\'s liked listings (user has no likes)', function* () {
+      it('get user\'s liked apartments (user has no likes)', function* () {
         const likesResponse = yield this.apiClient.getUserLikes().expect(200).end();
 
         __.assertThat(likesResponse.body, __.is(__.array()));
         __.assertThat(likesResponse.body, __.hasSize(0));
       });
 
-      it('get user\'s liked listings (user has likes)', function* () {
-        yield this.apiClient.likeListing(this.createdListingId).expect(200).end();
+      it('get user\'s liked apartments (user has likes)', function* () {
+        yield this.apiClient.likeApartment(this.createdApartmentId, this.createdListingId).expect(200).end();
 
-        const likesResponse = yield this.apiClient.getUserLikes(this.createdListingId).expect(200).end();
+        const likesResponse = yield this.apiClient.getUserLikes().expect(200).end();
 
         __.assertThat(likesResponse.body, __.is(__.array()));
         __.assertThat(likesResponse.body, __.hasSize(1));
       });
 
-      it('get user\'s liked listings (user has only unlikes)', function* () {
-        yield this.apiClient.unlikeListing(this.createdListingId).expect(200).end();
-
-        const likesResponse = yield this.apiClient.getUserLikes(this.createdListingId).expect(200).end();
+      it('get user\'s liked apartments (user has only unlikes)', function* () {
+        yield this.apiClient.unlikeApartment(this.createdApartmentId, this.createdListingId).expect(200).end();
+        const likesResponse = yield this.apiClient.getUserLikes().expect(200).end();
 
         __.assertThat(likesResponse.body, __.is(__.array()));
         __.assertThat(likesResponse.body, __.hasSize(0));

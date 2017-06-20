@@ -10,10 +10,10 @@ class LikeButton extends Component {
     e.stopPropagation();
     e.preventDefault();
     if (this.props.appStore.authStore.isLoggedIn) {
-      let wasLiked = this.props.appProviders.likeProvider.get(this.props.listingId);
-      this.props.appProviders.likeProvider.set(this.props.listingId, !wasLiked);
+      let wasLiked = this.props.appProviders.likeProvider.get(this.props.apartmentId);
+      this.props.appProviders.likeProvider.set(this.props.apartmentId, this.props.listingId, !wasLiked);
 
-      // Update listing.totalLikes if exists in listingStore 
+      // Update listing.totalLikes if exists in listingStore
       let listing = this.props.appStore.listingStore.get(this.props.listingId);
       if (listing) {
         listing.totalLikes = listing.totalLikes || 0;
@@ -47,7 +47,7 @@ class LikeButton extends Component {
     let isLiked = false;
 
     if (this.props.appStore.authStore.isLoggedIn) {
-      isLiked = this.props.appProviders.likeProvider.get(this.props.listingId);
+      isLiked = this.props.appProviders.likeProvider.get(this.props.apartmentId);
     }
 
     return (
@@ -64,6 +64,7 @@ class LikeButton extends Component {
 LikeButton.wrappedComponent.propTypes = {
   appStore: React.PropTypes.object.isRequired,
   appProviders: React.PropTypes.object.isRequired,
+  apartmentId: React.PropTypes.number.isRequired,
   listingId: React.PropTypes.number.isRequired,
   showText: React.PropTypes.bool
 };

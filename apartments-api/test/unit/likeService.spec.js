@@ -10,9 +10,9 @@ describe('Likes Service', function () {
     this.mockListing = faker.getFakeListing();
     this.likeRepositoryMock = {
       set: sinon.stub().resolves(undefined),
-      isLiked: sinon.stub().resolves(true),
       getUserLikes: sinon.stub().resolves([{ listing_id: this.mockListing.id }]),
-      findByListingId: sinon.stub().resolves([{ listing_id: this.mockListing.id }])
+      findByListingId: sinon.stub().resolves([{ listing_id: this.mockListing.id }]),
+      findByApartmentId: sinon.stub().resolves([{ apartment_id: this.mockListing.apartment_id }]),
     };
     this.listingRepositoryMock = {
       getById: sinon.stub().resolves([{ listing_id: this.mockListing.id }])
@@ -33,7 +33,7 @@ describe('Likes Service', function () {
   describe('Get user\'s likes', function () {
     it('should return an array containing the mockListing id', function* () {
       let likesResp = yield this.likeService.getUserLikes(faker.getFakeUser());
-      __.assertThat(likesResp, __.is([this.mockListing.listing_id]));
+      __.assertThat(likesResp, __.is([{ listing_id: this.mockListing.id }]));
     });
 
     it('should return an empty array because there are no likes', function* () {
@@ -54,30 +54,30 @@ describe('Likes Service', function () {
       this.sendNotification = this.dorbelSharedMock.utils.messageBus.publish.reset();
     });
 
-    it('Set a listing as liked', function* () {
+    it('Set an apartment as liked', function* () {
       const user = faker.getFakeUser();
 
-      yield this.likeService.set(1, user, true);
+      yield this.likeService.set(1, 1, user, true);
 
       __.assertThat(this.sendNotification.calledOnce, __.is(true));
       __.assertThat(this.sendNotification.getCall(0).args[1], __.is('LISTING_LIKED'));
     });
 
-    it('Set a listing as unliked', function* () {
+    it('Set an apartment as unliked', function* () {
       const user = faker.getFakeUser();
 
-      yield this.likeService.set(1, user, false);
+      yield this.likeService.set(1, 1, user, false);
 
       __.assertThat(this.sendNotification.calledOnce, __.is(true));
       __.assertThat(this.sendNotification.getCall(0).args[1], __.is('LISTING_UNLIKED'));
     });
 
-    it('Should throw an error if the listing_id doesn\'t belong to an actual listing', function* () {
+    it('Should throw an error if the apartment_id doesn\'t belong to an actual apartment', function* () {
       const user = faker.getFakeUser();
       this.likeRepositoryMock.set = sinon.stub().throws();
 
       try {
-        yield this.likeService.set(0, user, true);
+        yield this.likeService.set(0, 0, user, true);
         __.assertThat('code', __.is('not reached'));
       }
       catch (error) {
@@ -100,6 +100,21 @@ describe('Likes Service', function () {
       this.likeRepositoryMock.findByListingId = sinon.stub().resolves([]);
 
       const result = yield this.likeService.getByListing(1);
+      __.assertThat(result, __.is([]));
+    });
+
+    it('should return active likes by apartment id', function* () {
+      const like = faker.getFakeLike();
+      this.likeRepositoryMock.findByApartmentId = sinon.stub().resolves([like]);
+
+      const result = yield this.likeService.getByApartment(1);
+      __.assertThat(result, __.is([like]));
+    });
+
+    it('should return empty array when no followers by apartment id', function* () {
+      this.likeRepositoryMock.findByApartmentId = sinon.stub().resolves([]);
+
+      const result = yield this.likeService.getByApartment(1);
       __.assertThat(result, __.is([]));
     });
   });

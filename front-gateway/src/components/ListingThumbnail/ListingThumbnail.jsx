@@ -82,7 +82,7 @@ class ListingThumbnail extends Component {
                 {utils.getListingTitle(listing)}
               </div>
               <div className="apt-thumb-details-like">
-                <LikeButton listingId={listing.id} showText/>
+                <LikeButton apartmentId={listing.apartment_id} listingId={listing.id} showText/>
               </div>
             </div>
             <div className="apt-thumb-details-address">
@@ -104,7 +104,7 @@ class ListingThumbnail extends Component {
             {listing.monthly_rent}
             <span className="apt-thumb-sub-text"> ₪</span>
             <div className="apt-thumb-details-like">
-              <LikeButton listingId={listing.id} showText/>
+              <LikeButton apartmentId={listing.apartment_id} listingId={listing.id} showText/>
             </div>
             { isRented ? null : this.getOheLabel() }
           </div>

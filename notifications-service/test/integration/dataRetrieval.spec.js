@@ -11,6 +11,7 @@ const fixtures = {
     id: '23821212-6191-4fda-b3e3-fdb8bf69a95d',
     email: 'test@test.com'
   },
+  apartment_id: 1,
   listing_id: 1,
   event_id: 1
 };
@@ -62,15 +63,16 @@ describe('Data Retrieval Integration', function () {
   });
 
   it('should get listing likes', function* () {
-    const listingLikes = yield this.retrieve('sendToListingLikedUsers', {
-      listing_id: fixtures.listing_id
+    const listingLikes = yield this.retrieve('sendToApartmentLikedUsers', {
+      apartment_id: fixtures.apartment_id
     });
 
     __.assertThat(listingLikes.customRecipients, __.is(REGISTERED_USERS));
   });
 
   it('should get listing likes count', function* () {
-    const likersCountRes = yield this.retrieve('getListingLikesCount', {
+    const likersCountRes = yield this.retrieve('getApartmentLikesCount', {
+      apartment_id: fixtures.apartment_id,
       listing_id: fixtures.listing_id
     });
 
