@@ -3,6 +3,7 @@ const _ = require('lodash');
 const __ = require('hamjest');
 const faker = require('faker');
 const ApiClient = require('./apiClient.js');
+const fakeObjectGenerator = require('../shared/fakeObjectGenerator');
 
 describe('Apartments API - saved filters - ', function () {
 
@@ -87,6 +88,47 @@ describe('Apartments API - saved filters - ', function () {
 
   it('should not update a non-existing filter', function * () {
     yield this.apiClient.putFilter(99999, createFilter()).expect(404).end();
+  });
+
+  describe('matching filters endpoint - ', function () {
+    let filter, listing;
+    // As the listing->filter matching is actually done in DB queries, much of the testing will need to be integration testing
+    before(function* () {
+      this.adminClient = yield ApiClient.getAdminInstance();
+      // delete any filters the admin might have already
+      const { body: existingFilters } = yield this.adminClient.getFilters().expect(200).end();
+      yield existingFilters.map(filter => this.adminClient.deleteFilter(filter.id).expect(204).end());
+    });
+
+    it('should match filter', function * () {
+      const newListing = fakeObjectGenerator.getFakeListing();
+      const { body: createdListing } = yield this.adminClient.createListing(newListing).expect(201).end();
+      const newFilter = {
+        email_notification: true,
+        city: newListing.apartment.building.city_id,
+        mrs: newListing.monthly_rent - 1, 
+        mre: newListing.monthly_rent + 1, 
+        minRooms: newListing.apartment.rooms - 1,
+        maxRooms: newListing.apartment.rooms + 1,
+      };
+      const { body: createdFilter } = yield this.adminClient.createFilter(newFilter).expect(200).end();
+
+      const { body: matchedFilters } = yield this.adminClient.getFilters({ matchingListingId: createdListing.id }).expect(200).end();
+
+      __.assertThat(matchedFilters, __.hasItem(__.hasProperty('id', createdFilter.id)));
+      filter = createdFilter;
+      listing = createdListing;
+    });
+
+    it('should not match filter with email_notification: false', function * () {
+      filter.email_notification = false;
+      yield this.adminClient.putFilter(filter.id, filter).expect(200).end();
+      
+      const { body: matchedFilters } = yield this.adminClient.getFilters({ matchingListingId: listing.id }).expect(200).end();
+
+      __.assertThat(matchedFilters, __.isEmpty());
+    });
+    
   });
 
 });

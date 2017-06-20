@@ -149,9 +149,10 @@ class ApiClient {
       .send({apartment});
   }
 
-  getFilters() {
+  getFilters(query) {
     return this.request
       .get('/v1/filters')
+      .query(query)
       .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile));
   }
 
