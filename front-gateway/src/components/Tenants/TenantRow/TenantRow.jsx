@@ -44,7 +44,7 @@ export default class TenantRow extends React.Component {
 
     return (
       <Row className="tenant-row">
-        <Col xs={2} md={1} onClick={showProfile}>
+        <Col xs={2} md={this.props.mode == 'responsive' ? 1 : 2} onClick={showProfile}>
           <Image className="tenant-row-image" src={tenant.picture} circle />
         </Col>
         <Col xs={6} md={7} onClick={showProfile}>
@@ -72,8 +72,13 @@ export default class TenantRow extends React.Component {
   }
 }
 
+TenantRow.defaultProps = {
+  mode: 'responsive'
+};
+
 TenantRow.propTypes = {
   appProviders: React.PropTypes.object,
   tenant: React.PropTypes.object.isRequired,
-  showActionButtons: React.PropTypes.bool
+  showActionButtons: React.PropTypes.bool,
+  mode: React.PropTypes.string
 };
