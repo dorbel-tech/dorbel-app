@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
-import talkjs from '~/talk'
+import talkjs from '~/talk';
 
 import './MyMessages.scss';
 
@@ -16,30 +16,30 @@ class MyMessages extends Component {
     talkjs.init();
 
     Talk.ready.then(() => {
-        var me = new Talk.User({
-            id: profile.dorbel_user_id,
-            name: profile.first_name,
-            email: profile.email,
-            photoUrl: profile.picture,
-            welcomeMessage: "Hey there! Love to chat :-)"
-        });
-        var other = new Talk.User({
-            id: "12345",
-            name: "George Looney",
-            email: "george@looney.net",
-            photoUrl: "https://talkjs.com/docs/img/george.jpg",
-            welcomeMessage: "Hey there! How are you? :-)"
-        });
-        window.talkSession = new Talk.Session({
-            appId: "taEQQ8AS",
-            publishableKey: "pk_test_7L5d4GmL6LAj26pjg31VZVY",
-            me: me
-        });
+      var me = new Talk.User({
+        id: profile.dorbel_user_id,
+        name: profile.first_name,
+        email: profile.email,
+        photoUrl: profile.picture,
+        welcomeMessage: 'Hey there! Love to chat :-)'
+      });
+      var other = new Talk.User({
+        id: '12345',
+        name: 'George Looney',
+        email: 'george@looney.net',
+        photoUrl: 'https://talkjs.com/docs/img/george.jpg',
+        welcomeMessage: 'Hey there! How are you? :-)'
+      });
+      window.talkSession = new Talk.Session({
+        appId: 'taEQQ8AS',
+        publishableKey: 'pk_test_7L5d4GmL6LAj26pjg31VZVY',
+        me: me
+      });
 
         //var conversation = talkSession.getOrStartConversation(other);
         //var inbox = talkSession.createInbox({selected: conversation});
-        var inbox = talkSession.createInbox();
-        inbox.mount(document.getElementById("talkjs-inbox-container"));
+      var inbox = talkSession.createInbox();
+      inbox.mount(document.getElementById('talkjs-inbox-container'));
     });
   }
 
