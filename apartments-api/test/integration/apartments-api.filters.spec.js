@@ -40,9 +40,7 @@ describe('Apartments API - saved filters - ', function () {
   it('should fail to create a new filter with missing fields', function * () {
     yield this.apiClient.createFilter({
       city: faker.random.number(20),
-      mre: faker.random.number(10000),
-      mrs: faker.random.number(10000),
-      minRooms: faker.random.number(20)
+      mre: faker.random.number(10000)
     }).expect(400).end();
   });
 
@@ -51,7 +49,7 @@ describe('Apartments API - saved filters - ', function () {
     yield this.apiClient.createFilter(createFilter()).expect(200).end();
     yield this.apiClient.createFilter(createFilter()).expect(200).end();
     const { text: error } = yield this.apiClient.createFilter(createFilter()).expect(400).end();
-    __.assertThat(error, __.is('לא ניתן לשמור יותר משלושה חיפושים'));
+    __.assertThat(error, __.containsString('לא ניתן לשמור יותר משלושה חיפושים'));
   });
 
   it('should get filters', function * () {

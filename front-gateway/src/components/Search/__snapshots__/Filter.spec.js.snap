@@ -2,6 +2,9 @@ exports[`Filter should initialize correctly 1`] = `
 <inject-Filter-with-appStore-appProviders
   appProviders={
     Object {
+      "authProvider": Object {
+        "shouldLogin": [Function],
+      },
       "cityProvider": Object {
         "loadCities": [Function],
       },
@@ -12,6 +15,8 @@ exports[`Filter should initialize correctly 1`] = `
         "loadListingEvents": [Function],
       },
       "searchProvider": Object {
+        "resetActiveFilter": [Function],
+        "saveFilter": [Function],
         "search": [Function],
       },
     }
@@ -32,6 +37,9 @@ exports[`Filter should initialize correctly 1`] = `
   <Filter
     appProviders={
       Object {
+        "authProvider": Object {
+          "shouldLogin": [Function],
+        },
         "cityProvider": Object {
           "loadCities": [Function],
         },
@@ -42,6 +50,8 @@ exports[`Filter should initialize correctly 1`] = `
           "loadListingEvents": [Function],
         },
         "searchProvider": Object {
+          "resetActiveFilter": [Function],
+          "saveFilter": [Function],
           "search": [Function],
         },
       }
@@ -94,11 +104,12 @@ exports[`Filter should initialize correctly 1`] = `
                 bsClass="col"
                 className="filter-dropdown-wrapper"
                 componentClass="div"
-                mdOffset={2}
-                sm={6}
+                lgOffset={2}
+                md={4}
+                sm={3}
                 smOffset={1}>
                 <div
-                  className="filter-dropdown-wrapper col-md-offset-2 col-sm-6 col-sm-offset-1">
+                  className="filter-dropdown-wrapper col-lg-offset-2 col-md-4 col-sm-3 col-sm-offset-1">
                   <DropdownButton
                     bsSize="large"
                     className="filter-dropdown "
@@ -220,77 +231,12 @@ exports[`Filter should initialize correctly 1`] = `
               </Col>
               <Col
                 bsClass="col"
-                componentClass="div"
-                md={4}
-                sm={5}
-                xsHidden={true}>
-                <div
-                  className="col-md-4 col-sm-5 hidden-xs">
-                  <span
-                    data-tip="חדש! תכננו את מעבר הדירה הבא! מעכשיו תוכלו לגלות דירות מושכרות, לעקוב אחריהן ולהיות הראשונים לדעת כשהן מתפנות">
-                    <Checkbox
-                      bsClass="checkbox"
-                      checked={false}
-                      className="filter-future-booking-switch"
-                      disabled={false}
-                      inline={false}
-                      name="futureBooking"
-                      onChange={[Function]}>
-                      <div
-                        className="filter-future-booking-switch checkbox">
-                        <label>
-                          <input
-                            checked={false}
-                            disabled={false}
-                            name="futureBooking"
-                            onChange={[Function]}
-                            type="checkbox" />
-                          הראו לי דירות שטרם פורסמו
-                        </label>
-                      </div>
-                    </Checkbox>
-                    <span
-                      className="filter-future-booking-new">
-                      חדש!
-                    </span>
-                  </span>
-                  <ReactTooltip
-                    className="filter-future-booking-tooltip"
-                    effect="solid"
-                    insecure={true}
-                    offset={
-                      Object {
-                        "left": -17,
-                        "top": -10,
-                      }
-                    }
-                    place="bottom"
-                    resizeHide={true}
-                    type="dark"
-                    wrapper="div">
-                    <wrapper
-                      className="__react_component_tooltip place-top type-dark "
-                      data-id="tooltip" />
-                  </ReactTooltip>
-                </div>
-              </Col>
-            </div>
-          </Row>
-          <Row
-            bsClass="row"
-            componentClass="div">
-            <div
-              className="row">
-              <Col
-                bsClass="col"
                 className="filter-dropdown-wrapper"
                 componentClass="div"
-                md={2}
-                mdOffset={2}
-                sm={2}
-                smOffset={1}>
+                lg={2}
+                sm={3}>
                 <div
-                  className="filter-dropdown-wrapper col-md-2 col-md-offset-2 col-sm-2 col-sm-offset-1">
+                  className="filter-dropdown-wrapper col-lg-2 col-sm-3">
                   <DropdownButton
                     bsSize="large"
                     className="filter-dropdown "
@@ -413,10 +359,74 @@ exports[`Filter should initialize correctly 1`] = `
               <Col
                 bsClass="col"
                 componentClass="div"
-                md={2}
-                sm={2}>
+                md={4}
+                sm={5}
+                xsHidden={true}>
                 <div
-                  className="col-md-2 col-sm-2">
+                  className="col-md-4 col-sm-5 hidden-xs">
+                  <span
+                    data-tip="חדש! תכננו את מעבר הדירה הבא! מעכשיו תוכלו לגלות דירות מושכרות, לעקוב אחריהן ולהיות הראשונים לדעת כשהן מתפנות">
+                    <Checkbox
+                      bsClass="checkbox"
+                      checked={false}
+                      className="filter-future-booking-switch"
+                      disabled={false}
+                      inline={false}
+                      name="futureBooking"
+                      onChange={[Function]}>
+                      <div
+                        className="filter-future-booking-switch checkbox">
+                        <label>
+                          <input
+                            checked={false}
+                            disabled={false}
+                            name="futureBooking"
+                            onChange={[Function]}
+                            type="checkbox" />
+                          הראו לי דירות שטרם פורסמו
+                        </label>
+                      </div>
+                    </Checkbox>
+                    <span
+                      className="filter-future-booking-new">
+                      חדש!
+                    </span>
+                  </span>
+                  <ReactTooltip
+                    className="filter-future-booking-tooltip"
+                    effect="solid"
+                    insecure={true}
+                    offset={
+                      Object {
+                        "left": -17,
+                        "top": -10,
+                      }
+                    }
+                    place="bottom"
+                    resizeHide={true}
+                    type="dark"
+                    wrapper="div">
+                    <wrapper
+                      className="__react_component_tooltip place-top type-dark "
+                      data-id="tooltip" />
+                  </ReactTooltip>
+                </div>
+              </Col>
+            </div>
+          </Row>
+          <Row
+            bsClass="row"
+            componentClass="div">
+            <div
+              className="row">
+              <Col
+                bsClass="col"
+                componentClass="div"
+                lgOffset={2}
+                sm={2}
+                smOffset={1}>
+                <div
+                  className="col-lg-offset-2 col-sm-2 col-sm-offset-1">
                   <OverlayTrigger
                     defaultOverlayShown={false}
                     overlay={
@@ -479,10 +489,9 @@ exports[`Filter should initialize correctly 1`] = `
               <Col
                 bsClass="col"
                 componentClass="div"
-                md={2}
                 sm={2}>
                 <div
-                  className="col-md-2 col-sm-2">
+                  className="col-sm-2">
                   <OverlayTrigger
                     defaultOverlayShown={false}
                     overlay={
@@ -531,10 +540,10 @@ exports[`Filter should initialize correctly 1`] = `
               <Col
                 bsClass="col"
                 componentClass="div"
-                md={2}
+                lg={2}
                 sm={3}>
                 <div
-                  className="col-md-2 col-sm-3">
+                  className="col-lg-2 col-sm-3">
                   <OverlayTrigger
                     defaultOverlayShown={false}
                     overlay={
@@ -707,6 +716,30 @@ exports[`Filter should initialize correctly 1`] = `
                       פילטרים נוספים
                     </div>
                   </OverlayTrigger>
+                </div>
+              </Col>
+              <Col
+                bsClass="col"
+                componentClass="div"
+                lg={2}
+                sm={3}>
+                <div
+                  className="col-lg-2 col-sm-3">
+                  <Button
+                    active={false}
+                    block={true}
+                    bsClass="btn"
+                    bsStyle="info"
+                    disabled={false}
+                    onClick={[Function]}>
+                    <button
+                      className="btn btn-info btn-block"
+                      disabled={false}
+                      onClick={[Function]}
+                      type="button">
+                      שמור חיפוש
+                    </button>
+                  </Button>
                 </div>
               </Col>
               <Col

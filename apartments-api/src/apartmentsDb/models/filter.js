@@ -23,7 +23,9 @@ module.exports = function define(sequelize, DataTypes) {
     {
       validate: {
         minimalFilter() {
-          if (['city', 'min_monthly_rent', 'max_monthly_rent', 'min_rooms', 'max_rooms'].some(field => !this.dataValues.hasOwnProperty(field))) {
+          if (!this.city ||
+              !(this.min_monthly_rent || this.max_monthly_rent) ||
+              !(this.min_rooms || this.max_rooms)) {
             throw new Error('Missing filter minimal fields');
           }
         }
