@@ -161,7 +161,6 @@ class MonthlyReport extends Component {
       let tenants = this.props.appStore.listingStore.listingTenantsById.get(listing.id);
       const hasTenants = (tenants.length > 0);
       tenants = hasTenants ? tenants : TenantRow.getEmptyTenantList();
-
       body =
         (<div className="current-tenants-section">
           <ListGroup>
@@ -173,9 +172,9 @@ class MonthlyReport extends Component {
               ))
             }
           </ListGroup>
-
           {hasTenants ?
-            undefined :
+            undefined
+            :
             <div>
               <Button className="current-tenants-section-add-button"
                 href={`/dashboard/my-properties/${listing.id}/manage`}
@@ -184,7 +183,6 @@ class MonthlyReport extends Component {
               </Button>
             </div>}
         </div>);
-
     }
 
     return (
