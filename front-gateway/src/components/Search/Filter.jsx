@@ -422,13 +422,22 @@ class Filter extends Component {
           isMobile() && authStore.isLoggedIn && <SavedFilters onFilterChange={this.loadFilter}/>
         }
         <Row>
-          <Col mdOffset={2} sm={6} smOffset={1} className="filter-dropdown-wrapper">
+          <Col lgOffset={2} smOffset={1} sm={3} md={4} className="filter-dropdown-wrapper">
             <DropdownButton id="cityDropdown" bsSize="large" noCaret
               className={'filter-dropdown ' + this.state.cityFilterClass}
               title={'עיר: ' + cityTitle}
               onSelect={this.citySelectHandler}>
               <MenuItem eventKey={'*'}>כל הערים</MenuItem>
               {cities.map(city => <MenuItem key={city.id} eventKey={city.id}>{city.city_name}</MenuItem>)}
+            </DropdownButton>
+          </Col>
+          <Col sm={3} lg={2} className="filter-dropdown-wrapper">
+            <DropdownButton id="neighborhoodDropdown" bsSize="large" noCaret
+              className={'filter-dropdown ' + this.state.neighborhoodFilterClass}
+              title={'שכונה: ' + neighborhoodTitle}
+              onSelect={this.neighborhoodSelectHandler}>
+              <MenuItem eventKey={NEIGHBORHOOD_ALL_OPTION.value}>{NEIGHBORHOOD_ALL_OPTION.label}</MenuItem>
+              {neighborhoods.map(neighborhood => <MenuItem key={neighborhood.id} eventKey={neighborhood.id}>{neighborhood.neighborhood_name}</MenuItem>)}
             </DropdownButton>
           </Col>
           <Col md={4} sm={5} xsHidden>
@@ -443,35 +452,26 @@ class Filter extends Component {
                           offset={NEW_TIP_OFFSET} className="filter-future-booking-tooltip"/>
           </Col>
         </Row>
-        <Row>
-          <Col md={2} mdOffset={2} sm={2} smOffset={1} className="filter-dropdown-wrapper">
-            <DropdownButton id="neighborhoodDropdown" bsSize="large" noCaret
-              className={'filter-dropdown ' + this.state.neighborhoodFilterClass}
-              title={'שכונה: ' + neighborhoodTitle}
-              onSelect={this.neighborhoodSelectHandler}>
-              <MenuItem eventKey={NEIGHBORHOOD_ALL_OPTION.value}>{NEIGHBORHOOD_ALL_OPTION.label}</MenuItem>
-              {neighborhoods.map(neighborhood => <MenuItem key={neighborhood.id} eventKey={neighborhood.id}>{neighborhood.neighborhood_name}</MenuItem>)}
-            </DropdownButton>
-          </Col>
-          <Col md={1} sm={1}>
+        <Row>          
+          <Col lgOffset={2} smOffset={1} sm={2}>
             <OverlayTrigger placement="bottom" trigger="click" rootClose
                             overlay={this.roomsPopup()}>
               <div className={'filter-trigger-container ' + this.state.roomsFilterClass}>חדרים</div>
             </OverlayTrigger>
           </Col>
-          <Col md={1} sm={1}>
+          <Col sm={2}>
             <OverlayTrigger placement="bottom" trigger="click" rootClose
                             overlay={this.mrPopup()}>
               <div className={'filter-trigger-container ' + this.state.mrFilterClass}>מחיר</div>
             </OverlayTrigger>
           </Col>
-          <Col md={2} sm={3}>
+          <Col sm={3} lg={2}>
             <OverlayTrigger placement="bottom" trigger="click" rootClose
                             overlay={this.extraPopup()}>
               <div className={'filter-trigger-container ' + this.state.extraFilterClass}>פילטרים נוספים</div>
             </OverlayTrigger>
           </Col>
-          <Col sm={2} >
+          <Col sm={3} lg={2} >
             <Button block bsStyle="info" onClick={this.saveFilter}>
               שמור חיפוש
             </Button>

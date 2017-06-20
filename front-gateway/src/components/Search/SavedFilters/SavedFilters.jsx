@@ -39,11 +39,11 @@ export default class SavedFilters extends React.Component {
   getRangeLabel(min, max) {
     // expecting either min, max, or both
     if (min && max) {
-      return `${min} - ${max}`;
+      return min + '\xa0-\xa0' + max;
     } else if (min && !max) {
       return `${min}+`;
     } else {
-      return `עד ${max}`;
+      return `עד\xa0${max}`;
     }
   }
 
@@ -51,6 +51,7 @@ export default class SavedFilters extends React.Component {
     const { appStore } = this.props;
     const city = appStore.cityStore.cities.find(city => city.id === filter.city);
     const cityName = city && city.city_name;
+    const rangeLabel = this.getRangeLabel(filter.minRooms, filter.maxRooms);
 
     return (
       <Col key={filter.id} sm={2} xs={12} className="saved-filter-wrapper">
@@ -60,8 +61,7 @@ export default class SavedFilters extends React.Component {
             <circle cx="50%" cy="50%" r="40%"/>
           </svg>
           <span>
-            {cityName},&nbsp;
-            {this.getRangeLabel(filter.minRooms, filter.maxRooms)} חד'
+            {cityName}, {rangeLabel}&nbsp;חד'
             { isMobile() ? ', ' : <br/> }
             {this.getRangeLabel(filter.mrs, filter.mre)} ש"ח
           </span>
