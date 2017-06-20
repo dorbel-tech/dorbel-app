@@ -9,6 +9,7 @@ import OheProvider from './OheProvider';
 import CityProvider from './CityProvider';
 import NeighborhoodProvider from './NeighborhoodProvider';
 import CloudinaryProvider from './CloudinaryProvider';
+import MessagingProvider from './MessagingProvider';
 import NotificationProvider from './NotificationProvider';
 import ModalProvider from './ModalProvider';
 import SearchProvider from './SearchProvider';
@@ -34,6 +35,7 @@ function loadAuthProvider(appStore, router, apiProvider) {
 class AppProviders {
   constructor(appStore, router) {
     this.cloudinaryProvider = new CloudinaryProvider();
+    this.messagingProvider = new MessagingProvider();
     this.apiProvider = new ApiProvider(appStore);
     this.authProvider = loadAuthProvider(appStore, router, this.apiProvider);
     this.oheProvider = new OheProvider(appStore, this.apiProvider, this.authProvider);

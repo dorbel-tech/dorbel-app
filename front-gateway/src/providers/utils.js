@@ -113,6 +113,14 @@ function flushPromises() {
   return new Promise(resolve => setImmediate(resolve));
 }
 
+function setIntercomStyle(display) {
+  const intercomContainer = document.getElementById('intercom-container');
+
+  if (intercomContainer) {
+    intercomContainer.style.display = display;
+  }
+}
+
 module.exports = {
   formatTime,
   formatDate,
@@ -126,5 +134,6 @@ module.exports = {
   sortListingImages,
   promiseSeries,
   isMobile,
-  flushPromises
+  flushPromises,
+  setIntercomStyle
 };

@@ -3,6 +3,7 @@ import autobind from 'react-autobind';
 import { inject, observer } from 'mobx-react';
 import { Col, Row, Button } from 'react-bootstrap';
 import ListingAmenities from './ListingAmenities.jsx';
+import { setIntercomStyle } from '~/providers/utils';
 
 @inject('appProviders', 'appStore') @observer
 class ListingDescription extends React.Component {
@@ -57,6 +58,13 @@ class ListingDescription extends React.Component {
     }
   }
 
+  renderMsg(listing) {
+    return <Button onClick={this.handleMsgClick}>
+             <i className="fa fa-comment" />
+             &nbsp;שלח הודעה
+           </Button>;
+  }
+
   handleShowPhoneClick() {
     if (this.props.appStore.authStore.isLoggedIn) {
       const { listing } = this.props;
@@ -66,6 +74,41 @@ class ListingDescription extends React.Component {
     else {
       this.props.appProviders.authProvider.showLoginModal();
     }
+  }
+
+  handleMsgClick() {
+    const profile = this.props.appStore.authStore.profile;
+
+    Talk.ready.then(() => {
+      var me = new Talk.User({
+        id: profile.dorbel_user_id,
+        name: profile.first_name,
+        email: profile.email,
+        photoUrl: profile.picture,
+        welcomeMessage: 'Hey there! Love to chat :-)'
+      });
+      var landlord = new Talk.User({
+        id: '12345',
+        name: 'George Looney',
+        email: 'george@looney.net',
+        photoUrl: 'https://talkjs.com/docs/img/george.jpg',
+        welcomeMessage: 'Hey there! How are you? :-)'
+      });
+      window.talkSession = new Talk.Session({
+        appId: 'taEQQ8AS',
+        publishableKey: 'pk_test_7L5d4GmL6LAj26pjg31VZVY',
+        me: me
+      });
+
+      var conversation = talkSession.getOrStartConversation(landlord, {
+        topicId: "order_83562938",
+        subject: "Hair Wax 5 Gallons"
+      });
+      var popup = talkSession.createPopup(conversation);
+      popup.mount();
+
+      setIntercomStyle('none');
+    });
   }
 
   render() {
@@ -91,6 +134,7 @@ class ListingDescription extends React.Component {
             <div>
               <p>{listing.publishing_user_first_name || 'אנונימי'}</p>
               {this.renderPhone(listing)}
+              {this.renderMsg(listing)}
             </div>
           )
         }

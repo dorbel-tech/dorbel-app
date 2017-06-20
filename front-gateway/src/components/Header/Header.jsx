@@ -5,6 +5,7 @@ import { Nav, Navbar, NavItem } from 'react-bootstrap';
 import isMobileJs from 'ismobilejs';
 import UserProfileBadge from './UserProfileBadge/UserProfileBadge';
 import { MENU_ITEMS } from '../Dashboard/DashboardShared';
+import { setIntercomStyle } from '~/providers/utils';
 
 import './Header.scss';
 
@@ -35,11 +36,7 @@ class Header extends Component {
   }
 
   headerToggleHandler(navExpanded) {
-    const intercomContainer = document.getElementById('intercom-container');
-
-    if (intercomContainer) {
-      intercomContainer.style.display = navExpanded ? 'none' : 'block';
-    }
+    setIntercomStyle(navExpanded ? 'none' : 'block');
   }
 
   componentDidMount() {
