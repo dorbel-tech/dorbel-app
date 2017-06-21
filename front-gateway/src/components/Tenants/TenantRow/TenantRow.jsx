@@ -35,7 +35,7 @@ export default class TenantRow extends React.Component {
     const { tenant } = this.props;
     const { messagingProvider } = this.props.appProviders;
 
-    Talk.ready.then(() => {
+    global.window.Talk.ready.then(() => {
       const conversation = messagingProvider.getOrStartConversation(tenant.dorbel_user_id, {
         topicId: tenant.listing_id
       });

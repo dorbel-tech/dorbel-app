@@ -79,7 +79,7 @@ class ListingDescription extends React.Component {
     const listing = this.props.listing;
     const { messagingProvider, utils } = this.props.appProviders;
 
-    Talk.ready.then(() => {
+    global.window.Talk.ready.then(() => {
       const conversation = messagingProvider.getOrStartConversation(listing.publishing_user_id, {
         topicId: listing.listing_id,
         subject: utils.getListingTitle(listing)

@@ -11,8 +11,8 @@ class MessagingProvider {
   init() {
     this.talkjs(global.window, document, []);
 
-    Talk.ready.then(() => {
-      const me = new Talk.User({
+    global.window.Talk.ready.then(() => {
+      const me = new global.window.Talk.User({
         id: this.profile.dorbel_user_id,
         name: this.profile.first_name,
         email: this.profile.email,
@@ -21,7 +21,7 @@ class MessagingProvider {
         welcomeMessage: 'Hey there! Love to chat :-)'
       });
 
-      this.talkSession = new Talk.Session({
+      this.talkSession = new global.window.Talk.Session({
         appId: 'taEQQ8AS',
         publishableKey: 'pk_test_7L5d4GmL6LAj26pjg31VZVY',
         me: me
@@ -35,7 +35,7 @@ class MessagingProvider {
   }
 
   getOrStartConversation(withUserId, options) {
-    const withUser = new Talk.User({id: 9, name: 'Amos', email: 'amos@dorbel.com'});
+    const withUser = new global.window.Talk.User({id: 9, name: 'Amos', email: 'amos@dorbel.com'});
 //    const withUser = new Talk.User({
 //      id: withUserId,
 //      email: 'amos@dorbel.com',

@@ -13,7 +13,7 @@ class MyMessages extends Component {
   componentDidMount() {
     const { messagingProvider } = this.props.appProviders;
 
-    Talk.ready.then(() => {
+    global.window.Talk.ready.then(() => {
       var inbox = messagingProvider.talkSession.createInbox();
       inbox.mount(document.getElementById('talkjs-inbox-container'));
 
