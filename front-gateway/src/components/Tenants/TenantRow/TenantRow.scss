@@ -1,6 +1,15 @@
 .tenant-row {
   display: flex;
   align-items: center;
+
+  i:not(disabled) {
+    cursor: pointer;
+  }
+
+  .tenant-row-msg-icon {
+    font-size: 20px;
+    margin-right: 10px;
+  }
 }
 
 .tenant-row-image {

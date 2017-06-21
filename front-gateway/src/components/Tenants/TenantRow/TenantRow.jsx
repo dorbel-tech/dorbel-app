@@ -3,6 +3,7 @@ import autobind from 'react-autobind';
 import { inject } from 'mobx-react';
 import { Col, Row, Image, Dropdown, MenuItem } from 'react-bootstrap';
 import TenantProfile from '~/components/Tenants/TenantProfile/TenantProfile';
+import { setIntercomStyle } from '~/providers/utils';
 
 import './TenantRow.scss';
 
@@ -29,6 +30,21 @@ export default class TenantRow extends React.Component {
     });
   }
 
+  handleMsgClick() {
+    const { tenant } = this.props;
+    const { messagingProvider } = this.props.appProviders;
+
+    Talk.ready.then(() => {
+      const conversation = messagingProvider.getOrStartConversation(tenant.dorbel_user_id, {
+        topicId: tenant.listing_id
+      });
+      const popup = messagingProvider.talkSession.createPopup(conversation);
+      popup.mount();
+
+      setIntercomStyle('none');
+    });
+  }
+
   removeTenant(tenant) {
     const { appProviders } = this.props;
     appProviders.listingsProvider.removeTenant(tenant)
@@ -50,8 +66,9 @@ export default class TenantRow extends React.Component {
         <Col xs={6} md={7} onClick={showProfile}>
           <span>{tenant.first_name || 'אנונימי'} {tenant.last_name || ''}</span>
         </Col>
-        <Col xs={2} onClick={showProfile}>
-          <i className={'fa fa-2x fa-facebook-square ' + facebookClass}></i>
+        <Col xs={2}>
+          <i className={'fa fa-2x fa-facebook-square ' + facebookClass} onClick={showProfile}></i>
+          <i className="fa fa-comment tenant-row-msg-icon" onClick={this.handleMsgClick}></i>
         </Col>
         { showActionButtons ?
           <Col xs={2}>
