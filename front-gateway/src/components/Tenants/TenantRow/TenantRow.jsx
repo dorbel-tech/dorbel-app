@@ -66,8 +66,8 @@ export default class TenantRow extends React.Component {
           <span>{tenant.first_name || 'אנונימי'} {tenant.last_name || ''}</span>
         </Col>
         <Col xs={2}>
-          <i className={'fa fa-2x fa-facebook-square ' + facebookClass} onClick={this.showTenantProfileModal}></i>
-          <i className="fa fa-comment tenant-row-msg-icon" onClick={this.handleMsgClick}></i>
+          {!tenant.disabled && <i className={'fa fa-2x fa-facebook-square ' + facebookClass} onClick={this.showTenantProfileModal}></i>}
+          {!tenant.disabled && <i className="fa fa-comment tenant-row-msg-icon" onClick={this.handleMsgClick}></i>}
         </Col>
         { showActionButtons ?
           <Col xs={2}>
