@@ -3,6 +3,8 @@ import { observable, asMap, computed } from 'mobx';
 
 export default class SearchStore {
   @observable searchResultsbyListingId;
+  @observable filters;
+  @observable activeFilterId = null;
   @observable isLoadingNewSearch = false;
   @observable isLoadingNextPage = false;
   @observable hasMorePages = false;
@@ -11,6 +13,7 @@ export default class SearchStore {
 
   constructor(initialState) {
     this.searchResultsbyListingId = asMap(initialState || {});
+    this.filters = asMap({});
   }
 
   @computed get length() {

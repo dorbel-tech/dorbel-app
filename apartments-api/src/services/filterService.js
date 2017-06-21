@@ -17,7 +17,7 @@ function * create(filterToCreate, user) {
   }
 
   if (usersExistingFilters.length >= MAX_FILTERS_PER_USER) {
-    throw new errors.DomainValidationError('max_filters_reached', null, 'לא ניתן לשמור יותר משלושה חיפושים');
+    throw new errors.DomainValidationError('max_filters_reached', null, 'לא ניתן לשמור יותר משלושה חיפושים. לשמירת חיפוש נוסף עדכנו את אחד הקיימים.');
   }
 
   filterToCreate.dorbel_user_id = user.id;
@@ -39,6 +39,10 @@ function * update(filterId, filterUpdate, user) {
     return duplicateFilter;
   }
 
+  // set null instead of undefined so we are overwriting the existing filter and not merging into it
+  Object.keys(filterUpdate).filter(key => filterUpdate[key] === undefined).forEach(key => filterUpdate[key] = null);
+  // email_notification can't be null so it will be false if undefined or null
+  filterUpdate.email_notification = !!filterUpdate.email_notification;
   yield filter.update(filterUpdate, { fields: filterUpdateFields });
   return filter;
 }

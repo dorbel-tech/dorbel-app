@@ -18,6 +18,7 @@ describe('Open House Events API Integration', function () {
         const ohe = {
           start_time: today.add(12, 'hours').toISOString(),
           end_time: today.add(13, 'hours').toISOString(),
+          apartment_id: faker.getRandomNumber(),
           listing_id: faker.getRandomNumber(),
           publishing_user_id: fakeUser.id,
           listing_publishing_user_id: fakeUser.id,
@@ -28,10 +29,10 @@ describe('Open House Events API Integration', function () {
 
         yield this.apiClient.createNewRegistration(newEvent.id, fakeUser).expect(201).end();
         yield this.apiClient.findEvent(newEvent.id).expect(200).end();
-        
+
         const existingEventResponse = yield this.apiClient.findEvent(newEvent.id).expect(200).end();
         const existingEvent = existingEventResponse.body;
-        
+
         __.assertThat(newEvent.id, __.is(existingEvent.id));
         __.assertThat(existingEvent.registrations.length, __.is(1));
       });
@@ -47,6 +48,7 @@ describe('Open House Events API Integration', function () {
         const ohe = {
           start_time: today.add(7, 'hours').toISOString(),
           end_time: today.add(8, 'hours').toISOString(),
+          apartment_id: faker.getRandomNumber(),
           listing_id: faker.getRandomNumber(),
           publishing_user_id: fakeUser.id,
           listing_publishing_user_id: fakeUser.id,
@@ -62,6 +64,7 @@ describe('Open House Events API Integration', function () {
         const ohe = {
           start_time: today.add(9, 'hours').toISOString(),
           end_time: today.add(10, 'hours').toISOString(),
+          apartment_id: faker.getRandomNumber(),
           listing_id: faker.getRandomNumber(),
           publishing_user_id: fakeUser.id,
           listing_publishing_user_id: fakeUser.id,
@@ -78,6 +81,7 @@ describe('Open House Events API Integration', function () {
           id: 0,
           start_time: today.add(11, 'hours').toISOString(),
           end_time: today.add(12, 'hours').toISOString(),
+          apartment_id: faker.getRandomNumber(),
           listing_id: faker.getRandomNumber(),
           publishing_user_id: fakeUser.id,
           listing_publishing_user_id: fakeUser.id,
@@ -92,6 +96,7 @@ describe('Open House Events API Integration', function () {
         const ohe = {
           start_time: today.add(13, 'hours').toISOString(),
           end_time: today.add(14, 'hours').toISOString(),
+          apartment_id: faker.getRandomNumber(),
           listing_id: faker.getRandomNumber(),
           publishing_user_id: fakeUser.id,
           listing_publishing_user_id: fakeUser.id,

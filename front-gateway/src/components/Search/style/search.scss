@@ -5,7 +5,6 @@
 
   .search-results-not-found,
   .search-results-scroll {
-    margin-top: 129px;
     padding: 39px 0 120px;
 
     @media (max-width: $screen-xs-max) {
@@ -13,10 +12,13 @@
       padding: 20px 0 0;
     }
   }
+
+  @media (max-width: $screen-xs-max) {
+    overflow-y: scroll;
+  }
 }
 
 .search-results-scroll {
-  background-color: $gray-lighter;
   height: 100%;
 
   @media (min-width: $screen-sm-min) {

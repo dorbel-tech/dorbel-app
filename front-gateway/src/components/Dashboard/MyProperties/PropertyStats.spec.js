@@ -15,6 +15,11 @@ describe('Property Stats', () => {
         listingViewsById: {
           get: jest.fn()
         }
+      },
+      likeStore: {
+        likesByListingId: {
+          get: jest.fn()
+        }
       }
     };
     appProvidersMock = {};

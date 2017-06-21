@@ -5,8 +5,11 @@ import { inject, observer } from 'mobx-react';
 import Nouislider from 'react-nouislider';
 import { range } from 'lodash';
 import ReactTooltip from 'react-tooltip';
+import _ from 'lodash';
 
 import './Filter.scss';
+import SavedFilters from './SavedFilters/SavedFilters';
+import { isMobile } from '~/providers/utils';
 
 const NEW_TIP_OFFSET = {top: -10, left: -17};
 
@@ -50,19 +53,26 @@ class Filter extends Component {
     autobind(this);
 
     // TODO: Switch to regex test instead of try-catch.
+    // TODO: The active filter should be managed in the search store and not in the component
+    props.appProviders.searchProvider.resetActiveFilter();
     try {
       this.filterObj = JSON.parse(decodeURIComponent(location.search.replace(/^\?q=|.*&q=([^&#]*)&.*/, '$1')));
     } catch (e) {
       this.filterObj = {};
     }
 
-    this.state = Object.assign({
+    this.state = this.getDefaultState();
+  }
+
+  getDefaultState() {
+    return Object.assign({
       hideFilter: true,
       cityFilterClass: this.getCityFilterClass(),
       neighborhoodFilterClass: this.getNeighborhoodFilterClass(),
       extraFilterClass: this.getExtraFilterClass(),
       mrFilterClass: this.getMRFilterClass(),
-      roomsFilterClass: this.getRoomsFilterClass()
+      roomsFilterClass: this.getRoomsFilterClass(),
+      empty: !this.filterObj.room
     }, DEFAULT_FILTER_PARAMS, this.filterObj);
   }
 
@@ -70,12 +80,6 @@ class Filter extends Component {
     this.props.appProviders.cityProvider.loadCities();
     this.loadNeighborhoods(this.state.city);
     this.reloadResults();
-
-    // Adjust roommates checkboxes state when provided with roommates data from
-    // the query params (location.search).
-    if (this.filterObj.room) {
-      this.setState({ empty: false });
-    }
   }
 
   loadNeighborhoods(cityId) {
@@ -128,7 +132,7 @@ class Filter extends Component {
   }
 
   mrSliderChangeHandler(mrStringArray, unused, monthly_rent) {
-    this.sliderChangeHandler(monthly_rent, 'mrs', 'mre');
+    this.sliderChangeHandler(monthly_rent.map(Math.round), 'mrs', 'mre');
     this.setState({mrFilterClass: this.getMRFilterClass()});
   }
 
@@ -218,6 +222,31 @@ class Filter extends Component {
 
   toggleHideFilter() {
     this.setState({ hideFilter: !this.state.hideFilter });
+  }
+
+  saveFilter() {
+    const { appProviders } = this.props;
+    if (!appProviders.authProvider.shouldLogin()) {
+      appProviders.searchProvider.saveFilter(this.filterObj)
+      .catch(err => {
+        let heading = _.get(err, 'response.data');
+
+        if (_.get(err, 'response.data[0].type') === 'Validation error' ||
+            _.get(err, 'response.data.error')  === 'Validation Failed') {
+          heading = 'על מנת לשמור חיפוש - יש לבחור עיר, מספר חדרים ומחיר';
+        }
+
+        appProviders.modalProvider.showInfoModal({ title: 'אופס...', heading });
+      });
+    }
+  }
+
+  loadFilter(filterObj) {
+    Object.keys(filterObj).filter(key => filterObj[key] === null).forEach(key => delete filterObj[key]);
+    this.filterObj = filterObj;
+    this.setState(this.getDefaultState());
+    this.loadNeighborhoods(filterObj.city); // make sure neighborhoods are loaded for this city
+    this.reloadResults();
   }
 
   renderAdminFilter() {
@@ -373,7 +402,7 @@ class Filter extends Component {
   }
 
   render() {
-    const { cityStore, neighborhoodStore } = this.props.appStore;
+    const { cityStore, neighborhoodStore, authStore } = this.props.appStore;
     const cities = cityStore.cities.length ? cityStore.cities : [];
     const cityId = this.filterObj.city || DEFAULT_FILTER_PARAMS.city;
     const cityTitle = this.getAreaTitle(cityId, CITY_ALL_OPTION, cities, 'city_name');
@@ -390,14 +419,26 @@ class Filter extends Component {
         </Button>
       </div>
       <Grid fluid className={'filter-wrapper' + (this.state.hideFilter ? ' hide-mobile-filter' : '')}>
+        {
+          isMobile() && authStore.isLoggedIn && <SavedFilters onFilterChange={this.loadFilter}/>
+        }
         <Row>
-          <Col mdOffset={2} sm={6} smOffset={1} className="filter-dropdown-wrapper">
+          <Col lgOffset={2} smOffset={1} sm={3} md={4} className="filter-dropdown-wrapper">
             <DropdownButton id="cityDropdown" bsSize="large" noCaret
               className={'filter-dropdown ' + this.state.cityFilterClass}
               title={'עיר: ' + cityTitle}
               onSelect={this.citySelectHandler}>
               <MenuItem eventKey={'*'}>כל הערים</MenuItem>
               {cities.map(city => <MenuItem key={city.id} eventKey={city.id}>{city.city_name}</MenuItem>)}
+            </DropdownButton>
+          </Col>
+          <Col sm={3} lg={2} className="filter-dropdown-wrapper">
+            <DropdownButton id="neighborhoodDropdown" bsSize="large" noCaret
+              className={'filter-dropdown ' + this.state.neighborhoodFilterClass}
+              title={'שכונה: ' + neighborhoodTitle}
+              onSelect={this.neighborhoodSelectHandler}>
+              <MenuItem eventKey={NEIGHBORHOOD_ALL_OPTION.value}>{NEIGHBORHOOD_ALL_OPTION.label}</MenuItem>
+              {neighborhoods.map(neighborhood => <MenuItem key={neighborhood.id} eventKey={neighborhood.id}>{neighborhood.neighborhood_name}</MenuItem>)}
             </DropdownButton>
           </Col>
           <Col md={4} sm={5} xsHidden>
@@ -412,33 +453,29 @@ class Filter extends Component {
                           offset={NEW_TIP_OFFSET} className="filter-future-booking-tooltip"/>
           </Col>
         </Row>
-        <Row>
-          <Col md={2} mdOffset={2} sm={2} smOffset={1} className="filter-dropdown-wrapper">
-            <DropdownButton id="neighborhoodDropdown" bsSize="large" noCaret
-              className={'filter-dropdown ' + this.state.neighborhoodFilterClass}
-              title={'שכונה: ' + neighborhoodTitle}
-              onSelect={this.neighborhoodSelectHandler}>
-              <MenuItem eventKey={NEIGHBORHOOD_ALL_OPTION.value}>{NEIGHBORHOOD_ALL_OPTION.label}</MenuItem>
-              {neighborhoods.map(neighborhood => <MenuItem key={neighborhood.id} eventKey={neighborhood.id}>{neighborhood.neighborhood_name}</MenuItem>)}
-            </DropdownButton>
-          </Col>
-          <Col md={2} sm={2}>
+        <Row>          
+          <Col lgOffset={2} smOffset={1} sm={2}>
             <OverlayTrigger placement="bottom" trigger="click" rootClose
                             overlay={this.roomsPopup()}>
               <div className={'filter-trigger-container ' + this.state.roomsFilterClass}>חדרים</div>
             </OverlayTrigger>
           </Col>
-          <Col md={2} sm={2}>
+          <Col sm={2}>
             <OverlayTrigger placement="bottom" trigger="click" rootClose
                             overlay={this.mrPopup()}>
               <div className={'filter-trigger-container ' + this.state.mrFilterClass}>מחיר</div>
             </OverlayTrigger>
           </Col>
-          <Col md={2} sm={3}>
+          <Col sm={3} lg={2}>
             <OverlayTrigger placement="bottom" trigger="click" rootClose
                             overlay={this.extraPopup()}>
               <div className={'filter-trigger-container ' + this.state.extraFilterClass}>פילטרים נוספים</div>
             </OverlayTrigger>
+          </Col>
+          <Col sm={3} lg={2} >
+            <Button block bsStyle="info" onClick={this.saveFilter}>
+              שמור חיפוש
+            </Button>
           </Col>
           <Col lgHidden mdHidden smHidden className="filter-future-booking-switch-mobile-wrapper">
             <Checkbox name="futureBooking" className="filter-future-booking-switch"
@@ -451,6 +488,9 @@ class Filter extends Component {
                           offset={NEW_TIP_OFFSET} className="filter-future-booking-tooltip"/>
           </Col>
         </Row>
+        {
+          !isMobile() && authStore.isLoggedIn && <SavedFilters onFilterChange={this.loadFilter}/>
+        }
         <div className="filter-close">
           <div className="filter-close-text" onClick={this.toggleHideFilter}>
             סנן וסגור

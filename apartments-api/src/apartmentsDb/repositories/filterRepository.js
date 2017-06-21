@@ -7,8 +7,7 @@ function create(filter) {
 
 function getByUser(dorbel_user_id) {
   return db.models.filter.findAll({
-    where: { dorbel_user_id },
-    raw: true
+    where: { dorbel_user_id }
   });
 }
 

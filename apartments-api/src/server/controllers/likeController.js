@@ -5,13 +5,13 @@ const logger = shared.logger.getLogger(module);
 const ONE_HOUR = 60 * 60;
 
 function* get() {
-  const listingId = this.params.listingId;
+  const apartmentId = this.params.apartmentId;
   const include_profile = this.request.query.include_profile;
 
-  logger.debug({ listing_id: listingId }, 'Getting likes by listing...');
+  logger.debug({ apartment_id: apartmentId }, 'Getting likes by apartment...');
 
-  let result = yield likeService.getByListing(listingId, this.request.user, include_profile);
-  logger.info({ listing_id: listingId, likes_count: result.length }, 'Got likes by listing');
+  let result = yield likeService.getByApartment(apartmentId, this.request.user, include_profile);
+  logger.info({ apartment_id: apartmentId, likes_count: result.length }, 'Got likes by listing');
 
   this.response.status = 200;
 
@@ -29,8 +29,9 @@ function* remove() {
 
 function* handleLikeSet(context, isLiked) {
   const user = context.request.user;
-  const listingId = context.params.listingId;
-  yield likeService.set(listingId, user, isLiked);
+  const apartmentId = context.params.apartmentId;
+  const data = context.request.body;
+  yield likeService.set(apartmentId, data.listing_id, user, isLiked);
   context.response.status = 200;
 }
 

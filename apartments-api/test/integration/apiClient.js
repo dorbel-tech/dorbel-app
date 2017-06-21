@@ -81,27 +81,34 @@ class ApiClient {
     return this.request.get('/v1/health');
   }
 
-  likeListing(listingId) {
+  likeApartment(apartmentId, listingId) {
     return this.request
-      .post('/v1/likes/' + listingId)
-      .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile));
+      .post('/v1/apartments/' + apartmentId + '/likes')
+      .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile))
+      .send({ listing_id: listingId });
   }
 
-  unlikeListing(listingId) {
+  unlikeApartment(apartmentId, listingId) {
     return this.request
-      .delete('/v1/likes/' + listingId)
-      .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile));
+      .delete('/v1/apartments/' + apartmentId + '/likes')
+      .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile))
+      .send({ listing_id: listingId });
+  }
+
+  getLikesByApartment(apartmentId) {
+    return this.request
+      .get('/v1/apartments/' + apartmentId + '/likes');
+  }
+
+  getLikesByListing(listingId) {
+    return this.request
+      .get('/v1/listings/' + listingId + '/likes');
   }
 
   getUserLikes() {
     return this.request
       .get('/v1/likes/user')
       .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile));
-  }
-
-  getLikesByListing(listingId) {
-    return this.request
-      .get('/v1/likes/' + listingId);
   }
 
   updateUserProfile(data, isAuthenticated = true) {

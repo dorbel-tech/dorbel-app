@@ -2,9 +2,11 @@
  * SearchProvider communicates with the Apartments API (Future search API?)
  */
 'use strict';
+import _ from 'lodash';
 import { isMobile } from './utils';
 
 const PAGE_SIZE = isMobile() ? 9 : 15;
+const FILTERS_URL = '/api/apartments/v1/filters';
 
 class SearchProvider {
   constructor(appStore, appProviders) {
@@ -76,6 +78,39 @@ class SearchProvider {
     }
 
     return this.appStore.searchStore.lastScrollTop;
+  }
+
+  loadSavedFilters() {
+    return this.apiProvider.fetch(FILTERS_URL)
+    .then(filters => {
+      filters.forEach(filter => this.appStore.searchStore.filters.set(filter.id, filter));
+    });
+  }
+
+  saveFilter(filter) {
+    const { searchStore } = this.appStore;
+    filter = _.cloneDeep(filter);
+    if (filter.neighborhood === '*') {
+      filter.neighborhood = undefined;
+    }
+
+    let url = FILTERS_URL;
+    let method = 'POST';
+
+    if (searchStore.activeFilterId) { // filter is not new
+      url += '/' + searchStore.activeFilterId;
+      method = 'PUT';
+    }
+
+    return this.apiProvider.fetch(url, { method, data: filter })
+    .then(updatedFilter => {
+      searchStore.filters.set(updatedFilter.id, updatedFilter);
+      searchStore.activeFilterId = updatedFilter.id;
+    });
+  }
+
+  resetActiveFilter() {
+    this.appStore.searchStore.activeFilterId = null;
   }
 }
 

@@ -18,11 +18,7 @@
       "futueBooking": { "type": "boolean" }
     },
     "required": [
-      "city",
-      "mrs",
-      "mre",
-      "minRooms",
-      "maxRooms"
+      "city"
     ]
   }
 }

@@ -32,7 +32,7 @@ describe('GET /listings', function () {
     yield utils.clearAllUserLikes(this.apiClient);
 
     const prepGetListingResponse = yield this.apiClient.getListings({ limit: 2 }).expect(200).end();
-    yield this.apiClient.likeListing(prepGetListingResponse.body[1].id).expect(200).end();
+    yield this.apiClient.likeApartment(prepGetListingResponse.body[1].apartment_id, prepGetListingResponse.body[1].id).expect(200).end();
 
     const getListingResponse = yield this.apiClient.getListings({ q: { liked: true } }, true).expect(200).end();
 

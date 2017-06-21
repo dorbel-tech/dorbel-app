@@ -17,9 +17,10 @@ describe('Open House Events Registration API Integration', function () {
         const ohe = {
           start_time: today.add(3, 'hours').toISOString(),
           end_time: today.add(4, 'hours').toISOString(),
+          apartment_id: faker.getRandomNumber(),
           listing_id: faker.getRandomNumber(),
           publishing_user_id: fakeUser.id,
-          listing_publishing_user_id: fakeUser.id,          
+          listing_publishing_user_id: fakeUser.id,
           max_attendies: 15
         };
         const response = yield this.apiClient.createNewEvent(ohe).expect(201).end();
@@ -35,11 +36,12 @@ describe('Open House Events Registration API Integration', function () {
     describe('DELETE', function () {
       it('should delete a registation', function* () {
         const ohe = {
-          start_time: today.add(5, 'hours').toISOString(),
-          end_time: today.add(6, 'hours').toISOString(),
+          apartment_id: faker.getRandomNumber(),
           listing_id: faker.getRandomNumber(),
           publishing_user_id: fakeUser.id,
           listing_publishing_user_id: fakeUser.id,
+          start_time: today.add(5, 'hours').toISOString(),
+          end_time: today.add(6, 'hours').toISOString(),
           max_attendies: 15
         };
         const response = yield this.apiClient.createNewEvent(ohe).expect(201).end();
