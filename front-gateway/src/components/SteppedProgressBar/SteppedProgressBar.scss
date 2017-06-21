@@ -1,0 +1,51 @@
+@import "../sharedStyles/variables.scss";
+
+.stepped-progress-bar {
+  direction: ltr;
+
+  .progress {
+    border-radius: 15px;
+  }
+
+  .progress,
+  .progress-bar {
+    //height: 16px;
+    line-height: 12px;
+
+    .step {
+      float: left;
+
+      &.incomplete {
+        background-color: #d8d8d8;
+      }
+
+      &.complete {
+        background-color: #3cb878;
+      }
+
+      &.current {
+        background-color: #3398db;
+      }
+
+      &::after {
+        content: "";
+        width: 1px;
+        background-color: $brand-white;
+        opacity: 0.6;
+        float: right;
+        height: 75%;
+        margin-top: 7.5%;
+      }
+    }
+  }
+
+  .step-marks {
+    width: 100%;
+    display: inline-block;
+    text-align: center;
+
+    .step-mark-item {
+      display: inline-block;
+    }
+  }
+}
