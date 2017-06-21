@@ -86,12 +86,6 @@ class MonthlyReport extends Component {
             <br />
             Copyright © 2017 dorbel technologies ltd, All rights reserved.
           </div>
-
-          <div className="monthly-report-footer-contact">
-            מייל זה נשלח אליכם בעקבות פעולה שביצעתם באתר ובכדי לעדכן אתכם לגביה. זהו אינו ניוזלטר  :)
-            <br />
-            כתובת המייל שלנו לפניות: contact@dorbel.com
-          </div>
         </Col>
       </Row>
     );
@@ -113,10 +107,12 @@ class MonthlyReport extends Component {
           </Col>
           <Col xs={10}>
             <div className="monthly-report-future-booking-text">
-              דירתך אינה נמצאת במאגר הדירות להשכרה עתידית של דורבל.
-                באמצעות שינוי בהגדרות תוכלו לאפשר לדיירים למצוא ולעקוב אחר הנכס שלכם כשהוא מושכר
-                במטרה לקבל עדכון כאשר הוא מתפנה למען תהליך השכרה מהיר ונוח יותר בעתיד.
-                &nbsp;
+              דירתך
+              <span className="darker">&nbsp;אינה&nbsp;</span>
+              נמצאת במאגר הדירות להשכרה עתידית של דורבל.
+              באמצעות שינוי בהגדרות תוכלו לאפשר לדיירים למצוא ולעקוב אחר הנכס שלכם כשהוא מושכר
+              במטרה לקבל עדכון כאשר הוא מתפנה למען תהליך השכרה מהיר ונוח יותר בעתיד.
+              &nbsp;
               <a href={`/dashboard/my-properties/${listing.id}/stats`}
                 onClick={this.navProvider.handleHrefClick}>
                 הכנס לשינוי הגדרות

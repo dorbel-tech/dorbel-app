@@ -19,18 +19,19 @@
   }
 
   .monthly-report-footer {
+    border-top: 2px solid $gray-lighter;
+    margin-top: 15px;
+    margin-right: 25px;
+    margin-left: 10px;
     color: $gray-light;
     font-family: Arial;
     font-size: 9px;
     line-height: 14px;
-    margin-right: 25px;
+    background-image: url('https://static.dorbel.com/images/icons/monthly-report/footer-watermark.svg');
+    background-size: 100% 100%;
 
     .monthly-report-footer-copyrights {
       margin: 20px 0;
-    }
-
-    .monthly-report-footer-contact {
-      margin-top: 15px;
     }
   }
 }
@@ -47,6 +48,10 @@
     font-size: 13px;
     line-height: 18px;
     margin-right: 5px;
+
+    .darker {
+      color: $gray-dark;
+    }
   }
 
   a,
