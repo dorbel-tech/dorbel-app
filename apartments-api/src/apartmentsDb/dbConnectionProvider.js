@@ -15,7 +15,7 @@ module.exports.connect = function* connect() {
         max: 100,
         min: 0
       },
-      logging: process.env.SHOW_SQL_QUERIES || false,
+      logging: true,
       define: { // default definitions for models
         underscored: true,
         charset: 'utf8',
