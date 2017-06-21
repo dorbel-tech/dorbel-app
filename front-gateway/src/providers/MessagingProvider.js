@@ -17,6 +17,7 @@ class MessagingProvider {
         name: this.profile.first_name,
         email: this.profile.email,
         photoUrl: this.profile.picture,
+        configuration: 'general',
         welcomeMessage: 'Hey there! Love to chat :-)'
       });
 
@@ -34,7 +35,12 @@ class MessagingProvider {
   }
 
   getOrStartConversation(withUserId, options) {
-    const withUser = new Talk.User({id: withUserId});
+    const withUser = new Talk.User({id: 9, name: 'Amos', email: 'amos@dorbel.com'});
+//    const withUser = new Talk.User({
+//      id: withUserId,
+//      email: 'amos@dorbel.com',
+//      name: 'Amos'
+//    });
 
     return this.talkSession.getOrStartConversation(withUser, options || {});
   }

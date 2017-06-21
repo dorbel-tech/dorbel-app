@@ -21,7 +21,8 @@ export default class TenantRow extends React.Component {
     ];
   }
 
-  showTenantProfileModal(tenant) {
+  showTenantProfileModal() {
+    const { tenant } = this.props;
     if (tenant.disabled) { return; }
 
     this.props.appProviders.modalProvider.showInfoModal({
@@ -45,8 +46,8 @@ export default class TenantRow extends React.Component {
     });
   }
 
-  removeTenant(tenant) {
-    const { appProviders } = this.props;
+  removeTenant() {
+    const { appProviders, tenant } = this.props;
     appProviders.listingsProvider.removeTenant(tenant)
     .then(() => appProviders.notificationProvider.success('הדייר הוסר מרשימת השוכרים הנוכחיים שלך'))
     .catch(appProviders.notificationProvider.error);
@@ -54,20 +55,18 @@ export default class TenantRow extends React.Component {
 
   render() {
     const { tenant, showActionButtons } = this.props;
-    // setting showProfile on the columns separatley so the dropdown menu won't trigger the profile modal
-    const showProfile = () => this.showTenantProfileModal(tenant);
     const facebookClass = tenant.tenant_profile && tenant.tenant_profile.facebook_url ? '' : 'tenant-row-no-facebook';
 
     return (
       <Row className="tenant-row">
-        <Col xs={2} md={1} onClick={showProfile}>
+        <Col xs={2} md={1} onClick={this.showTenantProfileModal}>
           <Image className="tenant-row-image" src={tenant.picture} circle />
         </Col>
-        <Col xs={6} md={7} onClick={showProfile}>
+        <Col xs={6} md={7} onClick={this.showTenantProfileModal}>
           <span>{tenant.first_name || 'אנונימי'} {tenant.last_name || ''}</span>
         </Col>
         <Col xs={2}>
-          <i className={'fa fa-2x fa-facebook-square ' + facebookClass} onClick={showProfile}></i>
+          <i className={'fa fa-2x fa-facebook-square ' + facebookClass} onClick={this.showTenantProfileModal}></i>
           <i className="fa fa-comment tenant-row-msg-icon" onClick={this.handleMsgClick}></i>
         </Col>
         { showActionButtons ?
@@ -77,7 +76,7 @@ export default class TenantRow extends React.Component {
                 <i className="fa fa-ellipsis-v" />
               </Dropdown.Toggle>
               <Dropdown.Menu className="dropdown-menu-left">
-                <MenuItem onClick={() => this.removeTenant(tenant)}>הסר דייר</MenuItem>
+                <MenuItem onClick={this.removeTenant}>הסר דייר</MenuItem>
               </Dropdown.Menu>
             </Dropdown>
           </Col>
