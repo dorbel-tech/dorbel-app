@@ -23,7 +23,7 @@ export default class Footer extends React.Component {
             <NavLink to="/">דף הבית</NavLink>
             <a href={externalURL + 'services'}>שירותי פרימיום</a>
             <a href={externalURL + 'owner'}>בעלי דירות</a>
-            <NavLink to="/apartments/new_form">פרסמו דירה – חינם</NavLink>
+            <NavLink to="/properties/submit">פרסמו דירה – חינם</NavLink>
           </Col>
           <Col sm={2} md={2} className="footer-links-col">
             <a href={externalURL + 'about_us'}>מי אנחנו</a>

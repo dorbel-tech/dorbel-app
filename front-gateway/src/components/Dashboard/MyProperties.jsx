@@ -34,7 +34,7 @@ class MyProperties extends Component {
             <Grid fluid>
               <Col lg={4} sm={6} xs={12}>
                 <div className="my-properties-empty">
-                  <NavLink className="my-properties-add" to="/apartments/new_form">
+                  <NavLink className="my-properties-add" to="/properties/submit">
                     <div className="my-properties-cross">
                       <img src="https://static.dorbel.com/images/dashboard/add-property-icon.svg" />
                     </div>

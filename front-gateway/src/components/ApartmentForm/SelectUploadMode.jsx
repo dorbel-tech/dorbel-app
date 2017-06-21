@@ -24,7 +24,7 @@ class SelectUploadMode extends Component {
           </Row>
           <Row className="select-upload-mode-items-wrapper">
             <Col md={6}>
-              <a href="/apartments/new_form/publish" onClick={this.handleHrefClick} className="select-upload-mode-item">
+              <a href="/properties/submit/publish" onClick={this.handleHrefClick} className="select-upload-mode-item">
                 <img src="https://static.dorbel.com/images/upload-apt-form/dorbel-rent-icon.svg" className="select-upload-mode-item-icon" />
                 <div className="select-upload-mode-item-text">
                   פרסום נכס להשכרה
@@ -35,7 +35,7 @@ class SelectUploadMode extends Component {
               </a>
             </Col>
             <Col md={6}>
-              <a href="/apartments/new_form/manage" onClick={this.handleHrefClick} className="select-upload-mode-item">
+              <a href="/properties/submit/manage" onClick={this.handleHrefClick} className="select-upload-mode-item">
                 <img src="https://static.dorbel.com/images/upload-apt-form/dorbel-manage-icon.svg" className="select-upload-mode-item-icon" />
                 <div className="select-upload-mode-item-text">
                   הוספת נכס מושכר לניהול

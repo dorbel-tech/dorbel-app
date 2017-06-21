@@ -7,7 +7,7 @@ import ListingBadge from '../ListingBadge/ListingBadge';
 import CloudinaryImage from '../CloudinaryImage/CloudinaryImage';
 import LikeButton from '../LikeButton/LikeButton';
 import utils from '../../providers/utils';
-import { getListingPath, getDashMyPropsPath } from '~/routesHelper';
+import { getPropertyPath, getDashMyPropsPath } from '~/routesHelper';
 
 import './ListingThumbnail.scss';
 
@@ -24,7 +24,7 @@ class ListingThumbnail extends Component {
     if (this.props.isMyProperties) {
       return getDashMyPropsPath(listing);
     } else {
-      return getListingPath(listing);
+      return getPropertyPath(listing);
     }
   }
 

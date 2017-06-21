@@ -14,10 +14,10 @@ module.exports = {
       selector: '.select-upload-mode-wrapper',
       elements: {
         publishLink:{
-          selector: 'a[href="/apartments/new_form/publish"]'
+          selector: 'a[href="/properties/submit/publish"]'
         },
         manageLink:{
-          selector: 'a[href="/apartments/new_form/manage"]'
+          selector: 'a[href="/properties/submit/manage"]'
         }
       }
     },
@@ -267,7 +267,7 @@ module.exports = {
           uploadModeSection.click('@manageLink');
           break;
       }
-      
+
       this.section.apartmentDetails.waitForElementVisible('body');
       return this;
     }

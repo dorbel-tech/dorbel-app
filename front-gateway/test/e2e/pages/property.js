@@ -2,8 +2,8 @@
 const common = require('../common');
 
 module.exports = {
-  url: function(propertyId, tab){
-    return common.getBaseUrl() + '/dashboard/my-properties/' + propertyId + '/' + (tab || '');
+  url: function(listingId, tab){
+    return common.getBaseUrl() + '/dashboard/my-properties/' + listingId + '/' + (tab || '');
   },
   sections: {
     propertyActions: {

@@ -8,22 +8,21 @@ import Login from '~/components/Login';
 import Health from '~/components/Health';
 import UploadApartmentForm from '~/components/ApartmentForm/UploadApartmentForm';
 import SelectUploadMode from '~/components/ApartmentForm/SelectUploadMode';
-import routesHelper from './routesHelper';
 
 const routes = [
   { route: '/', view: Home },
   { route: '/health', view: Health },
   { route: '/login', view: Login },
-  { route: routesHelper.SEARCH_PREFIX, view: Search },
-  { route: routesHelper.APARTMENTS_PREFIX + '/new_form', view: SelectUploadMode },
-  { route: routesHelper.APARTMENTS_PREFIX + '/new_form/:mode', view: UploadApartmentForm },
-  { route: routesHelper.APARTMENTS_PREFIX + '/:listingId', view: Listing },
-  { route: routesHelper.APARTMENTS_PREFIX + '/:listingId/:action', view: Listing, requireLogin: true },
-  { route: routesHelper.APARTMENTS_PREFIX + '/:listingId/:action/:oheId', view: Listing, requireLogin: true },
-  { route: routesHelper.DASHBOARD_PREFIX, view: Dashboard, requireLogin: true },
-  { route: routesHelper.DASHBOARD_PREFIX + '/:action', view: Dashboard, requireLogin: true },
-  { route: routesHelper.DASHBOARD_PREFIX + '/:action/:propertyId', view: Dashboard, requireLogin: true },
-  { route: routesHelper.DASHBOARD_PREFIX + '/:action/:propertyId/:tab', view: Dashboard, requireLogin: true }
+  { route: '/search', view: Search },
+  { route: '/properties/submit', view: SelectUploadMode },
+  { route: '/properties/submit/:mode', view: UploadApartmentForm },
+  { route: '/properties/:apartmentId', view: Listing },
+  { route: '/properties/:apartmentId/:action', view: Listing, requireLogin: true },
+  { route: '/properties/:apartmentId/:action/:oheId', view: Listing, requireLogin: true },
+  { route: '/dashboard', view: Dashboard, requireLogin: true },
+  { route: '/dashboard/:action', view: Dashboard, requireLogin: true },
+  { route: '/dashboard/:action/:listingId', view: Dashboard, requireLogin: true },
+  { route: '/dashboard/:action/:listingId/:tab', view: Dashboard, requireLogin: true }
 ];
 
 module.exports = {

@@ -74,7 +74,7 @@ class Header extends Component {
             {MENU_ITEMS.map((item) => this.renderDashboardMenuItem(item))}
             {isMobile ?
               <NavItem className="header-navbar-btn-publish" onClick={this.handleHrefClick}
-                href="/apartments/new_form">פרסמו דירה</NavItem>
+                href="/properties/submit">פרסמו דירה</NavItem>
               :
               null}
             {isMobile ?
@@ -101,7 +101,7 @@ class Header extends Component {
               null
               :
               <NavItem className="header-navbar-btn-publish" onClick={this.handleHrefClick}
-                href="/apartments/new_form">פרסמו דירה</NavItem>
+                href="/properties/submit">פרסמו דירה</NavItem>
             }
             {isLoggedIn ?
               <NavItem onClick={authProvider.logout}
