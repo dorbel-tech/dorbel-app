@@ -57,7 +57,7 @@ class ListingDescription extends React.Component {
     }
   }
 
-  renderMsg(listing) {
+  renderMsg() {
     return <Button onClick={this.handleMsgClick}>
              <i className="fa fa-comment" />
              &nbsp;שלח הודעה
