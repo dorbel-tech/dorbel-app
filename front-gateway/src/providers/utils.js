@@ -74,7 +74,7 @@ function sortListingImages(listing) {
   if (listing && listing.images) {
     listingImages = listing.images;
   }
-  return listingImages.length ? _.orderBy(listingImages, ['display_order']) : [];
+  return listingImages.length ? _.orderBy(listingImages, ['display_order']) : [{ url: 'https://static.dorbel.com/images/meta/no-image-placeholder.svg' }];
 }
 
 // TODO : this function does not belong in utils - it's a i18n thing and it's also static
