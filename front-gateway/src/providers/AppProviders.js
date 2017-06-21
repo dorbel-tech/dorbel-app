@@ -35,9 +35,9 @@ function loadAuthProvider(appStore, router, apiProvider) {
 class AppProviders {
   constructor(appStore, router) {
     this.cloudinaryProvider = new CloudinaryProvider();
-    this.messagingProvider = new MessagingProvider();
     this.apiProvider = new ApiProvider(appStore);
     this.authProvider = loadAuthProvider(appStore, router, this.apiProvider);
+    this.messagingProvider = new MessagingProvider(appStore.authStore.profile);
     this.oheProvider = new OheProvider(appStore, this.apiProvider, this.authProvider);
     this.listingsProvider = new ListingsProvider(appStore, { api: this.apiProvider, ohe: this.oheProvider }, router);
     this.listingImageProvider = new ListingImageProvider({ cloudinary: this.cloudinaryProvider });

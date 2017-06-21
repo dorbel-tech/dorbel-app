@@ -3,7 +3,6 @@ import autobind from 'react-autobind';
 import { inject, observer } from 'mobx-react';
 import { Col, Row, Button } from 'react-bootstrap';
 import ListingAmenities from './ListingAmenities.jsx';
-import { setIntercomStyle } from '~/providers/utils';
 
 @inject('appProviders', 'appStore') @observer
 class ListingDescription extends React.Component {
@@ -69,7 +68,7 @@ class ListingDescription extends React.Component {
     if (this.props.appStore.authStore.isLoggedIn) {
       const { listing } = this.props;
       this.setState({ showPhoneClicked: true });
-      window.analytics.track('client_show_phone', { listing_id: listing.id, user_id: listing.publishing_user_id }); // For Facebook conversion tracking.       
+      window.analytics.track('client_show_phone', { listing_id: listing.id, user_id: listing.publishing_user_id }); // For Facebook conversion tracking.
     }
     else {
       this.props.appProviders.authProvider.showLoginModal();
@@ -77,37 +76,18 @@ class ListingDescription extends React.Component {
   }
 
   handleMsgClick() {
-    const profile = this.props.appStore.authStore.profile;
+    const listing = this.props.listing;
+    const { messagingProvider, utils } = this.props.appProviders;
 
     Talk.ready.then(() => {
-      var me = new Talk.User({
-        id: profile.dorbel_user_id,
-        name: profile.first_name,
-        email: profile.email,
-        photoUrl: profile.picture,
-        welcomeMessage: 'Hey there! Love to chat :-)'
+      const conversation = messagingProvider.getOrStartConversation(listing.publishing_user_id, {
+        topicId: listing.listing_id,
+        subject: utils.getListingTitle(listing)
       });
-      var landlord = new Talk.User({
-        id: '12345',
-        name: 'George Looney',
-        email: 'george@looney.net',
-        photoUrl: 'https://talkjs.com/docs/img/george.jpg',
-        welcomeMessage: 'Hey there! How are you? :-)'
-      });
-      window.talkSession = new Talk.Session({
-        appId: 'taEQQ8AS',
-        publishableKey: 'pk_test_7L5d4GmL6LAj26pjg31VZVY',
-        me: me
-      });
-
-      var conversation = talkSession.getOrStartConversation(landlord, {
-        topicId: "order_83562938",
-        subject: "Hair Wax 5 Gallons"
-      });
-      var popup = talkSession.createPopup(conversation);
+      const popup = messagingProvider.talkSession.createPopup(conversation);
       popup.mount();
 
-      setIntercomStyle('none');
+      utils.setIntercomStyle('none');
     });
   }
 
