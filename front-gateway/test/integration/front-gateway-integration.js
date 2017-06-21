@@ -88,8 +88,8 @@ describe('Front Gateway API Integration', function () {
       __.assertThat(apartmentPageImage, __.not(__.equalTo(homepageImage)));
     });
 
-    it('should render apartments page urls with own url', function* () {
-      yield assertUrls('/apartments');
+    it('should render search page urls with own url', function* () {
+      yield assertUrls('/search');
     });
 
     it('should render new apartment form urls with own url', function* () {

@@ -23,7 +23,7 @@ class Search extends Component {
         <Filter />
         <SearchResults
           isReady={!isLoadingCities}
-          retryLink={<span>אנא <a href="/apartments">נסו שנית</a></span>}
+          retryLink={<span>אנא <a href="/search">נסו שנית</a></span>}
           noResultsContent={
             <div className="search-results-not-found">
               <b className="search-results-not-found-title">הלוואי והייתה לנו דירה בדיוק כזו.</b><br />
