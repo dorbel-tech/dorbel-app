@@ -17,7 +17,15 @@ describe('Front Gateway API Integration', function () {
     const response = yield apiClient.get('/apartments/new');
     __.assertThat(response, __.hasProperties({
       statusCode: 301,
-      headers: __.hasProperty('location', 'https://app.dorbel.com/apartments/new_form')
+      headers: __.hasProperty('location', '/apartments/new_form')
+    }));
+  });
+
+  it('should redirect /apartments to /search', function* () {
+    const response = yield apiClient.get('/apartments');
+    __.assertThat(response, __.hasProperties({
+      statusCode: 301,
+      headers: __.hasProperty('location', '/search')
     }));
   });
 
