@@ -44,7 +44,7 @@ export default class TenantRow extends React.Component {
       id: tenant.dorbel_user_id,
       name: tenant.first_name,
       email: tenant.email
-    }
+    };
     const conversation = messagingProvider.getOrStartConversation(withUserObj, {
       topicId: tenant.listing_id
       // TODO: Missing subject

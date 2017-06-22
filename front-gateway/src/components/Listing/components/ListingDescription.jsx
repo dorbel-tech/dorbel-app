@@ -90,7 +90,7 @@ class ListingDescription extends React.Component {
         id: listing.publishing_user_id,
         name: listing.publishing_user_first_name,
         email: listing.publishing_user_email
-      }
+      };
       const conversation = messagingProvider.getOrStartConversation(withUserObj, {
         topicId: listing.listing_id,
         subject: utils.getListingTitle(listing)
