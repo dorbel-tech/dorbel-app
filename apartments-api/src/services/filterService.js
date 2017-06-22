@@ -9,6 +9,7 @@ const filterUpdateFields = [ 'city', 'neighborhood', 'min_monthly_rent', 'max_mo
 const errors = shared.utils.domainErrors;
 
 function * create(filterToCreate, user) {
+  normalizeFilterFields(filterToCreate);
   const usersExistingFilters = yield filterRepository.getByUser(user.id);
 
   const duplicateFilter = checkForDuplicateFilters(usersExistingFilters, filterToCreate);
@@ -25,6 +26,7 @@ function * create(filterToCreate, user) {
 }
 
 function * update(filterId, filterUpdate, user) {
+  normalizeFilterFields(filterUpdate);
   const filter = yield filterRepository.getById(filterId);
 
   if (!filter) {
@@ -39,10 +41,6 @@ function * update(filterId, filterUpdate, user) {
     return duplicateFilter;
   }
 
-  // set null instead of undefined so we are overwriting the existing filter and not merging into it
-  Object.keys(filterUpdate).filter(key => filterUpdate[key] === undefined).forEach(key => filterUpdate[key] = null);
-  // email_notification can't be null so it will be false if undefined or null
-  filterUpdate.email_notification = !!filterUpdate.email_notification;
   yield filter.update(filterUpdate, { fields: filterUpdateFields });
   return filter;
 }
@@ -90,18 +88,15 @@ function mapListingToMatchingFilterQuery(listing) {
 }
 
 function nullOrEqualTo(value) {
-  return { $or: [
-      { $eq: null },
-      { $eq: value }
-    ]
-  };
+  return nullOrModifier('$eq', value);
 }
 
 function nullOrModifier(modifier, value) {
-  return { $or: {
-      $eq: null,
-      [modifier]: value
-    }
+  return { 
+    $or: [
+      { $eq: null },
+      { [modifier]: value }
+    ]
   };
 }
 
@@ -111,6 +106,13 @@ function checkForDuplicateFilters(usersExistingFilters, newFilter) {
 
 function filtersAreEqual(filter1, filter2) {
   return filterUpdateFields.every(field => filter1[field] == filter2[field]);
+}
+
+function normalizeFilterFields(filter) {
+  // set null instead of undefined so we are overwriting the existing filter and not merging into it
+  Object.keys(filter).filter(key => filter[key] === undefined).forEach(key => filter[key] = null);
+  // email_notification can't be null so it will be false if undefined or null
+  filter.email_notification = !!filter.email_notification;
 }
 
 module.exports = {

@@ -9,19 +9,19 @@ describe('Apartments API - saved filters - ', function () {
 
   function createFilter() {
     return {
-      city: faker.random.number(20),
-      mre: faker.random.number(10000),
-      mrs: faker.random.number(10000),
-      minRooms: faker.random.number(20),
-      maxRooms: faker.random.number(20),
+      city: faker.random.number({ min: 1, max: 20 }),
+      mre: faker.random.number({ min: 1, max: 10000 }),
+      mrs: faker.random.number({ min: 1, max: 10000 }),
+      minRooms: faker.random.number({ min: 1, max: 20 }),
+      maxRooms: faker.random.number({ min: 1, max: 20 })
     };
   }
 
-  before(function* () {
+  before(function * () {
     this.apiClient = yield ApiClient.getInstance();
     // delete all existing filters of the test user
     const { body: existingFilters } = yield this.apiClient.getFilters().expect(200).end();
-    yield existingFilters.map(filter => this.apiClient.deleteFilter(filter.id).expect(204).end());
+    yield existingFilters.map(filter => this.apiClient.deleteFilter(filter.id).expect(204).end());        
   });
 
   it('should create new filter', function * () {
@@ -91,44 +91,109 @@ describe('Apartments API - saved filters - ', function () {
   });
 
   describe('matching filters endpoint - ', function () {
-    let filter, listing;
+    let matchingFilter, unmatchingFilter, listing, adminClient;
     // As the listing->filter matching is actually done in DB queries, much of the testing will need to be integration testing
-    before(function* () {
-      this.adminClient = yield ApiClient.getAdminInstance();
-      // delete any filters the admin might have already
-      const { body: existingFilters } = yield this.adminClient.getFilters().expect(200).end();
-      yield existingFilters.map(filter => this.adminClient.deleteFilter(filter.id).expect(204).end());
+
+    const getMatchingFilter = (mrsDelta) => ({
+      email_notification: true,
+      city: listing.apartment.building.city_id,
+      mrs: listing.monthly_rent - (mrsDelta || 0), 
+      minRooms: listing.apartment.rooms,
     });
 
-    it('should match filter', function * () {
-      const newListing = fakeObjectGenerator.getFakeListing();
-      const { body: createdListing } = yield this.adminClient.createListing(newListing).expect(201).end();
-      const newFilter = {
-        email_notification: true,
-        city: newListing.apartment.building.city_id,
-        mrs: newListing.monthly_rent - 1, 
-        mre: newListing.monthly_rent + 1, 
-        minRooms: newListing.apartment.rooms - 1,
-        maxRooms: newListing.apartment.rooms + 1,
-      };
-      const { body: createdFilter } = yield this.adminClient.createFilter(newFilter).expect(200).end();
+    function * assertMatchingFilters() {
+      yield adminClient.putFilter(unmatchingFilter.id, unmatchingFilter).expect(200).end();
+      yield adminClient.putFilter(matchingFilter.id, matchingFilter).expect(200).end();
+      const { body: matchedFilters } = yield adminClient.getFilters({ matchingListingId: listing.id }).expect(200).end();
 
-      const { body: matchedFilters } = yield this.adminClient.getFilters({ matchingListingId: createdListing.id }).expect(200).end();
+      __.assertThat(matchedFilters, __.allOf(
+        __.hasItem(__.hasProperty('id', matchingFilter.id)),
+        __.not(__.hasItem(__.hasProperty('id', unmatchingFilter.id)))
+      ));
+    }
 
-      __.assertThat(matchedFilters, __.hasItem(__.hasProperty('id', createdFilter.id)));
-      filter = createdFilter;
-      listing = createdListing;
+    before(function* () {
+      adminClient = yield ApiClient.getAdminInstance();
+      // delete any filters the admin might have already
+      const { body: existingFilters } = yield adminClient.getFilters().expect(200).end();
+      yield existingFilters.map(filter => adminClient.deleteFilter(filter.id).expect(204).end());
+      // create a listing to play with
+      listing = fakeObjectGenerator.getFakeListing();
+      const { body: createdListing } = yield adminClient.createListing(listing).expect(201).end();
+      listing.id = createdListing.id;
+      // create some filters to test - both are created in a matching state
+      matchingFilter = (yield adminClient.createFilter(getMatchingFilter()).expect(200).end()).body;      
+      unmatchingFilter = (yield adminClient.createFilter(getMatchingFilter(1)).expect(200).end()).body;
+    });
+
+    beforeEach(function * () {
+      // reset both filters to matching state
+      yield adminClient.putFilter(matchingFilter.id, getMatchingFilter()).expect(200).end();      
+      yield adminClient.putFilter(unmatchingFilter.id, getMatchingFilter(1)).expect(200).end();
     });
 
     it('should not match filter with email_notification: false', function * () {
-      filter.email_notification = false;
-      yield this.adminClient.putFilter(filter.id, filter).expect(200).end();
-      
-      const { body: matchedFilters } = yield this.adminClient.getFilters({ matchingListingId: listing.id }).expect(200).end();
+      unmatchingFilter.email_notification = false;
+      yield assertMatchingFilters();
+    });
 
-      __.assertThat(matchedFilters, __.isEmpty());
+    it('should match filter by neighborhood', function * () {
+      matchingFilter.neigborhood = listing.apartment.building.neighborhood_id;
+      unmatchingFilter.neigborhood = listing.apartment.building.neighborhood_id + 1;
+      yield assertMatchingFilters();
     });
     
-  });
+    it('should not match filters by minimum monthly rent', function * () {
+      unmatchingFilter.mrs = listing.monthly_rent + 1;
+      yield assertMatchingFilters();
+    });
 
+    it('should match filter by max monthly rent', function * () {
+      matchingFilter.mre = listing.monthly_rent;
+      unmatchingFilter.mre = listing.monthly_rent - 1;
+      yield assertMatchingFilters();
+    });
+
+    it('should match filter by min rooms', function * () {
+      unmatchingFilter.minRooms = listing.apartment.rooms + 1;
+      yield assertMatchingFilters();
+    });
+
+    it('should match filter by max rooms', function * () {
+      unmatchingFilter.maxRooms = listing.apartment.rooms - 1;
+      yield assertMatchingFilters();
+    });
+
+    it('should match filter by apartment amenity', function * () {
+      matchingFilter.air_conditioning = !!listing.apartment.air_conditioning;
+      unmatchingFilter.air_conditioning = !listing.apartment.air_conditioning;
+      yield assertMatchingFilters();
+    });
+
+    it('should match filter by building amenity', function * () {
+      matchingFilter.elevator = !!listing.apartment.building.elevator;
+      unmatchingFilter.elevator = !listing.apartment.building.elevator;
+      yield assertMatchingFilters();
+    });
+
+    it('should match by future booking', function * () {
+      yield adminClient.patchListing(listing.id, {
+        status: 'rented',
+        show_for_future_booking: true
+      });
+      matchingFilter.futureBooking = true;
+      unmatchingFilter.futureBooking = false;
+      yield assertMatchingFilters();
+    });
+
+    it('should not match by future booking if listing is not meant to be shown for future booking', function * () {
+      yield adminClient.patchListing(listing.id, { show_for_future_booking: false });
+      matchingFilter.futureBooking = true;
+      yield adminClient.putFilter(matchingFilter.id, matchingFilter).expect(200).end();
+
+      const { body: matchedFilters } = yield adminClient.getFilters({ matchingListingId: listing.id }).expect(200).end();
+
+      __.assertThat(matchedFilters, __.not(__.hasItem(__.hasProperty('id', matchingFilter.id))));
+    });
+  });
 });
