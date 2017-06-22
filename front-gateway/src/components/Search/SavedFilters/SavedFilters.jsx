@@ -55,7 +55,7 @@ export default class SavedFilters extends React.Component {
     const rangeLabel = this.getRangeLabel(filter.minRooms, filter.maxRooms);
 
     return (
-      <Col key={filter.id} sm={2} xs={12} className="saved-filter-wrapper">
+      <Col key={filter.id} sm={3} md={3} lg={2} xs={12} className="saved-filter-wrapper">
         <Checkbox checked={appStore.searchStore.activeFilterId === filter.id}
                   onClick={() => this.selectFilter(filter)}>
           <svg className={'saved-filter-circle saved-filter-circle-' + index } xmlns="http://www.w3.org/2000/svg">
@@ -81,7 +81,7 @@ export default class SavedFilters extends React.Component {
 
     return (
       <Row className="saved-filters-row">
-        <Col sm={2} smOffset={2} xs={12}>
+        <Col smOffset={0} sm={2} mdOffset={1} md={1} lgOffset={2} lg={2} xs={12}>
           <span className="saved-filters-title">חיפושים שמורים</span>
         </Col>
         {filters.map(this.renderFilter)}

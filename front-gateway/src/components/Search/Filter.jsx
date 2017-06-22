@@ -6,10 +6,12 @@ import Nouislider from 'react-nouislider';
 import { range } from 'lodash';
 import ReactTooltip from 'react-tooltip';
 import _ from 'lodash';
+import moment from 'moment';
 
 import './Filter.scss';
 import SavedFilters from './SavedFilters/SavedFilters';
 import { isMobile } from '~/providers/utils';
+import DatePicker from '~/components/DatePicker/DatePicker';
 
 const NEW_TIP_OFFSET = {top: -10, left: -17};
 
@@ -40,7 +42,8 @@ const DEFAULT_FILTER_PARAMS = {
   park: false, // Apartment with parking checkbox default value.
   pet: false, // Apartment allowing pets checkbox default value.
   sb: false, // Apartment with security bars checkbox default value.
-
+  minLease: moment().toISOString(),
+  maxLease: moment().add(1, 'month').toISOString(),
   futureBooking: false // Future booking apartments checkbox default value.
 };
 
@@ -72,6 +75,7 @@ class Filter extends Component {
       extraFilterClass: this.getExtraFilterClass(),
       mrFilterClass: this.getMRFilterClass(),
       roomsFilterClass: this.getRoomsFilterClass(),
+      leaseStartFilterClass: this.getLeaseStartFilterClass(),
       empty: !this.filterObj.room
     }, DEFAULT_FILTER_PARAMS, this.filterObj);
   }
@@ -108,6 +112,11 @@ class Filter extends Component {
     return mrFilterActive ? 'filter-trigger-active' : '';
   }
 
+  getLeaseStartFilterClass() {
+    const leaseStartFilterActive = this.filterObj.minLease || this.filterObj.maxLease;
+    return leaseStartFilterActive ? 'filter-trigger-active' : '';
+  }
+
   getExtraFilterClass() {
     const extraFilterActive = this.filterObj.ac || this.filterObj.balc ||
       this.filterObj.elev || this.filterObj.park ||
@@ -139,6 +148,13 @@ class Filter extends Component {
   roomsSliderChangeHandler(roomsStringArray, unused, rooms) {
     this.sliderChangeHandler(rooms, 'minRooms', 'maxRooms');
     this.setState({roomsFilterClass: this.getRoomsFilterClass()});
+  }
+
+  leaseStartDateChange(field, date) {
+    this.setState({ [field]: date });
+    this.filterObj[field] = date;
+    this.setState({leaseStartFilterClass: this.getLeaseStartFilterClass()});
+    this.reloadResults();
   }
 
   sliderChangeHandler(range, minProp, maxProp) {
@@ -327,6 +343,15 @@ class Filter extends Component {
            </Popover>;
   }
 
+  leaseStartPopup() {
+    return <Popover className="filter-lease-start-popup" id="popup-lease-start">
+             <h5><b>מתאריך:</b></h5>
+             <DatePicker value={this.state.minLease} onChange={this.leaseStartDateChange.bind(this, 'minLease')}/>
+             <h5><b>עד תאריך:</b></h5>
+             <DatePicker value={this.state.maxLease} onChange={this.leaseStartDateChange.bind(this, 'maxLease')}/>
+           </Popover>;
+  }
+
   extraPopup() {
     return <Popover className="filter-extra-popup" id="popup-extra">
               {this.renderAdminFilter()}
@@ -423,8 +448,8 @@ class Filter extends Component {
         {
           isMobile() && authStore.isLoggedIn && <SavedFilters onFilterChange={this.loadFilter}/>
         }
-        <Row>
-          <Col lgOffset={2} smOffset={1} sm={3} md={4} className="filter-dropdown-wrapper">
+        <Row>          
+          <Col smOffset={0} sm={4} mdOffset={1} md={4} lgOffset={2} className="filter-dropdown-wrapper">
             <DropdownButton id="cityDropdown" bsSize="large" noCaret
               className={'filter-dropdown ' + this.state.cityFilterClass}
               title={'עיר: ' + cityTitle}
@@ -442,7 +467,7 @@ class Filter extends Component {
               {neighborhoods.map(neighborhood => <MenuItem key={neighborhood.id} eventKey={neighborhood.id}>{neighborhood.neighborhood_name}</MenuItem>)}
             </DropdownButton>
           </Col>
-          <Col md={4} sm={5} xsHidden>
+          <Col sm={5} md={4} xsHidden>
             <span data-tip="חדש! תכננו את מעבר הדירה הבא! מעכשיו תוכלו לגלות דירות מושכרות, לעקוב אחריהן ולהיות הראשונים לדעת כשהן מתפנות">
               <Checkbox name="futureBooking" className="filter-future-booking-switch"
                         checked={this.state.futureBooking} onChange={this.checkboxChangeHandler}>
@@ -455,25 +480,30 @@ class Filter extends Component {
           </Col>
         </Row>
         <Row>          
-          <Col lgOffset={2} smOffset={1} sm={2}>
+          <Col sm={2} smOffset={0} mdOffset={1} lgOffset={2} lg={1}>
             <OverlayTrigger placement="bottom" trigger="click" rootClose
                             overlay={this.roomsPopup()}>
               <div className={'filter-trigger-container ' + this.state.roomsFilterClass}>חדרים</div>
             </OverlayTrigger>
           </Col>
-          <Col sm={2}>
+          <Col sm={2} lg={1}>
             <OverlayTrigger placement="bottom" trigger="click" rootClose
                             overlay={this.mrPopup()}>
               <div className={'filter-trigger-container ' + this.state.mrFilterClass}>מחיר</div>
             </OverlayTrigger>
           </Col>
-          <Col sm={3} lg={2}>
+          <Col sm={3} md={2}>
+            <OverlayTrigger placement="bottom" trigger="click" rootClose overlay={this.leaseStartPopup()}>
+              <div className={'filter-trigger-container ' + this.state.leaseStartFilterClass}>תאריך כניסה</div>
+            </OverlayTrigger>
+          </Col>
+          <Col sm={3} md={2}>
             <OverlayTrigger placement="bottom" trigger="click" rootClose
                             overlay={this.extraPopup()}>
               <div className={'filter-trigger-container ' + this.state.extraFilterClass}>פילטרים נוספים</div>
             </OverlayTrigger>
           </Col>
-          <Col sm={3} lg={2} >
+          <Col sm={2}>
             <Button id="saveFilterButton" block bsStyle="info" onClick={this.saveFilter}>
               {saveFilterButtonText}
             </Button>
