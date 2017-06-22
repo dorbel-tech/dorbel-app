@@ -6,13 +6,19 @@ import ListingAmenities from './ListingAmenities.jsx';
 
 @inject('appProviders', 'appStore') @observer
 class ListingDescription extends React.Component {
-
   constructor(props) {
     super(props);
     autobind(this);
     this.state = {
       showPhoneClicked: false
     };
+  }
+
+  componentWillUnmount() {
+    const { utils } = this.props.appProviders;
+
+    this.popup && this.popup.destroy();
+    utils.setIntercomStyle('block');
   }
 
   renderDescriptionRow(titleText, innerContent) {
@@ -80,12 +86,17 @@ class ListingDescription extends React.Component {
     const { messagingProvider, utils } = this.props.appProviders;
 
     global.window.Talk.ready.then(() => {
-      const conversation = messagingProvider.getOrStartConversation(listing.publishing_user_id, {
+      const withUserObj = {
+        id: listing.publishing_user_id,
+        name: listing.publishing_user_first_name,
+        email: listing.publishing_user_email
+      }
+      const conversation = messagingProvider.getOrStartConversation(withUserObj, {
         topicId: listing.listing_id,
         subject: utils.getListingTitle(listing)
       });
-      const popup = messagingProvider.talkSession.createPopup(conversation);
-      popup.mount();
+      this.popup = messagingProvider.talkSession.createPopup(conversation);
+      this.popup.mount();
 
       utils.setIntercomStyle('none');
     });

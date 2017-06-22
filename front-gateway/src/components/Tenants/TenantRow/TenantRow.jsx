@@ -14,6 +14,11 @@ export default class TenantRow extends React.Component {
     autobind(this);
   }
 
+  componentWillUnmount() {
+    this.popup && this.popup.destroy();
+    setIntercomStyle('block');
+  }
+
   static getEmptyTenantList() {
     // used as a placeholder for an empty list
     return [
@@ -36,11 +41,17 @@ export default class TenantRow extends React.Component {
     const { messagingProvider } = this.props.appProviders;
 
     global.window.Talk.ready.then(() => {
-      const conversation = messagingProvider.getOrStartConversation(tenant.dorbel_user_id, {
+      const withUserObj = {
+        id: tenant.dorbel_user_id,
+        name: tenant.first_name,
+        email: tenant.email
+      }
+      const conversation = messagingProvider.getOrStartConversation(withUserObj, {
         topicId: tenant.listing_id
+        // TODO: Missing subject
       });
-      const popup = messagingProvider.talkSession.createPopup(conversation);
-      popup.mount();
+      this.popup = messagingProvider.talkSession.createPopup(conversation);
+      this.popup.mount();
 
       setIntercomStyle('none');
     });

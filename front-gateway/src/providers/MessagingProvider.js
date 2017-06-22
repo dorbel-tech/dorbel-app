@@ -34,13 +34,8 @@ class MessagingProvider {
     t.Talk={ready:{then:function(f){if(k){return new k(function(r,e){l.push([f,r,e]);});}l.push([f]);},catch:function(){return k&&new k();},c:l}};
   }
 
-  getOrStartConversation(withUserId, options) {
-    const withUser = new global.window.Talk.User({id: 9, name: 'Amos', email: 'amos@dorbel.com'});
-//    const withUser = new Talk.User({
-//      id: withUserId,
-//      email: 'amos@dorbel.com',
-//      name: 'Amos'
-//    });
+  getOrStartConversation(withUserObj, options) {
+    const withUser = new global.window.Talk.User(withUserObj);
 
     return this.talkSession.getOrStartConversation(withUser, options || {});
   }
