@@ -7,11 +7,6 @@ class ReportSection extends Component {
   static hideFooter = true;
   static hideHeader = true;
 
-
-  static serverPreRender(props) {
-    return props.appProviders.listingsProvider.loadFullListingDetails(props.listingId);
-  }
-
   render() {
     return (
       <Row className='report-section'>

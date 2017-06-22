@@ -3,7 +3,7 @@ const common = require('../common');
 
 module.exports = {
   url: function(){
-    return common.getBaseUrl() + '/apartments';
+    return common.getBaseUrl() + '/search';
   },
   sections: {
     searchFilter: {
@@ -15,7 +15,7 @@ module.exports = {
       }
     }
   },
-  commands: [{  
+  commands: [{
     selectCity: function() {
       return this.section.searchFilter.getValue('@city');
     },
