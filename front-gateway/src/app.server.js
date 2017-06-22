@@ -60,9 +60,9 @@ function* renderApp() {
 
   // Old apartments page redirect to properties page.
   if (this.path.startsWith('/apartments/')) {
-    const apartmnetId = 1;
+    const apartmnetId = 1; // TODO: get from url.
     this.status = 301;
-    return this.redirect('/properties/' + apartmnetId); // TODO: get from DB.
+    return this.redirect('/properties/' + apartmnetId);
   }
 
   const envVars = {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
-import Listing from '../ListingThumbnail/ListingThumbnail.jsx';
+import ListingThumbnail from '../ListingThumbnail/ListingThumbnail.jsx';
 import '../ListingThumbnail/ListingThumbnail.scss';
 
 @inject('appProviders') @observer
@@ -12,8 +12,8 @@ class RelatedListings extends Component {
   }
 
   componentDidMount() {
-    const listingId = this.props.listingId;
-    this.props.appProviders.searchProvider.getRelatedListings(listingId)
+    const apartmentId = this.props.apartmentId;
+    this.props.appProviders.searchProvider.getRelatedListings(apartmentId)
       .then(relatedListings => {
         if (relatedListings) {
           this.setState({
@@ -24,7 +24,7 @@ class RelatedListings extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.listingId != nextProps.listingId) {
+    if (this.props.apartmentId != nextProps.apartmentId) {
       this.props = nextProps;
       this.componentDidMount();
     }
@@ -40,7 +40,7 @@ class RelatedListings extends Component {
             <h4 className="related-listings-title">נכסים דומים</h4>
             <div className="row">
               {
-                this.state.relatedListings.map((listing) => <Listing listing={listing} key={listing.id} />)
+                this.state.relatedListings.map((listing) => <ListingThumbnail listing={listing} key={listing.id} />)
               }
             </div>
           </div>
@@ -54,7 +54,7 @@ class RelatedListings extends Component {
 }
 
 RelatedListings.wrappedComponent.propTypes = {
-  listingId: React.PropTypes.number.isRequired,
+  apartmentId: React.PropTypes.number.isRequired,
   appProviders: React.PropTypes.object.isRequired
 };
 

@@ -15,6 +15,16 @@ class ListingsProvider {
     this.router = router;
   }
 
+  loadFullListingDetailsByApartmentId(id) {
+    return this.apiProvider.fetch('/api/apartments/v1/listings/by-apartment/' + id)
+      .then(listing => {
+        listing.title = utils.getListingTitle(listing);
+        this.appStore.listingStore.set(listing);
+        this.appStore.listingStore.setLastByApartentId(listing);
+        this.appStore.metaData = _.defaults(this.getListingMetadata(listing), this.appStore.metaData);
+      });
+  }
+
   loadFullListingDetails(idOrSlug) {
     return this.apiProvider.fetch('/api/apartments/v1/listings/' + idOrSlug)
       .then(listing => {
