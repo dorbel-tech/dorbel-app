@@ -3,7 +3,7 @@ import autobind from 'react-autobind';
 import { inject } from 'mobx-react';
 import { Col, Row, Image, Dropdown, MenuItem } from 'react-bootstrap';
 import TenantProfile from '~/components/Tenants/TenantProfile/TenantProfile';
-import { setIntercomStyle, getListingTitle } from '~/providers/utils';
+import { setIntercomStyle } from '~/providers/utils';
 
 import './TenantRow.scss';
 
