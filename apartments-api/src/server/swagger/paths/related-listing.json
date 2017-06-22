@@ -1,13 +1,13 @@
 {
-    "/listings/{listingId}/related": {
+    "/listings/{apartmentId}/related": {
         "get": {
-            "summary": "Get related listings",
+            "summary": "Get related listings by apartmentId",
             "description": "Get related listings with all their details",
             "parameters": [
                 {
-                    "name": "listingId",
+                    "name": "apartmentId",
                     "in": "path",
-                    "description": "id of listing",
+                    "description": "id of apartment",
                     "type": "integer",
                     "required": true
                 }

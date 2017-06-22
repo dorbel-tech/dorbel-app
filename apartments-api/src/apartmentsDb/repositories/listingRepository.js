@@ -44,7 +44,8 @@ const fullListingDataInclude = [
   },
   {
     model: models.image,
-    attributes: imageAttributes
+    attributes: imageAttributes,
+    limit: 1
   }
 ];
 
@@ -104,7 +105,19 @@ function getOneListing(where) {
   return models.listing.findOne({
     attributes: listingAttributes,
     where,
-    include: fullListingDataInclude
+    include: fullListingDataInclude,
+  });
+}
+
+function getLastListingByApartmentId(apartmentId) {
+  return models.listing.findOne({
+    attributes: listingAttributes,
+    where: {
+      apartment_id: apartmentId,
+      status: { $notIn: ['deleted'] }
+    },
+    include: fullListingDataInclude,
+    order: 'id DESC',
   });
 }
 
@@ -216,6 +229,7 @@ module.exports = {
   create,
   getById: id => getOneListing({ id }),
   getBySlug: slug => getOneListing({ slug }),
+  getByApartmentId: getLastListingByApartmentId,
   getSlugs,
   update,
   listingStatuses: models.listing.attributes.status.values
