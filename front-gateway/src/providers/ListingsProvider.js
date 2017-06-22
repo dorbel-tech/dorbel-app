@@ -15,7 +15,7 @@ class ListingsProvider {
     this.router = router;
   }
 
-  loadFullListingDetailsByApartmentId(id) {
+  loadListingByApartmentId(id) {
     return this.apiProvider.fetch('/api/apartments/v1/listings/by-apartment/' + id)
       .then(listing => {
         listing.title = utils.getListingTitle(listing);

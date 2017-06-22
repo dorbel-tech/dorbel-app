@@ -29,7 +29,7 @@ class Listing extends Component {
   }
 
   static serverPreRender(props) {
-    return props.appProviders.listingsProvider.loadFullListingDetailsByApartmentId(props.apartmentId);
+    return props.appProviders.listingsProvider.loadListingByApartmentId(props.apartmentId);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -72,7 +72,7 @@ class Listing extends Component {
 
     if(!appStore.listingStore.getByApartmentId(apartmentId)) {
       this.setState({ isLoading: true });
-      appProviders.listingsProvider.loadFullListingDetailsByApartmentId(apartmentId)
+      appProviders.listingsProvider.loadListingByApartmentId(apartmentId)
         .then(() => this.setState({ isLoading: false }));
     } else {
       // Force render and scroll to top, since the store did not change.
