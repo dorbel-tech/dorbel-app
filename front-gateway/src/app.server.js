@@ -67,7 +67,10 @@ function* renderApp() {
     return request.get(url, options) // Get listing from apartments-api.
       .then(listing => {
         this.status = 301;
-        return this.redirect('/properties/' + listing.apartment_id);
+        return this.redirect('/properties/' + listing.apartment_id + this.search);
+      })
+      .catch(() => { // If listing wasn't found.
+        return this.redirect('/search');
       });
   }
 
