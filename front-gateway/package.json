@@ -90,6 +90,7 @@
     "react-nouislider": "^2.0.0",
     "react-spinkit": "^1.1.11",
     "react-tooltip": "^3.2.7",
+    "request-promise": "^4.2.1",
     "sass-loader": "^4.1.1",
     "satisfaction": "^3.0.0",
     "sinon": "^1.17.6",

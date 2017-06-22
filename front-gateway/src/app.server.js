@@ -2,6 +2,7 @@
 import { renderToString } from 'react-dom/server';
 import 'ignore-styles';
 import _ from 'lodash';
+import request from 'request-promise';
 import shared from '~/app.shared';
 import { getCloudinaryParams } from './server/cloudinaryConfigProvider';
 
@@ -15,7 +16,6 @@ function setRoute(router, context) {
       resolve();
     });
   });
-
 }
 
 function setRequestRenderState(context, appStore) {
@@ -60,9 +60,15 @@ function* renderApp() {
 
   // Old apartments page redirect to properties page.
   if (this.path.startsWith('/apartments/')) {
-    const apartmnetId = 1; // TODO: get from url.
-    this.status = 301;
-    return this.redirect('/properties/' + apartmnetId);
+    const listingId = this.path.split('/').pop(-1); // Get listingId from path.
+    const url = `${this.protocol}://${this.host}/api/apartments/v1/listings/${listingId}`;
+    const options = { json: true };
+
+    return request.get(url, options) // Get listing from apartments-api.
+      .then(listing => {
+        this.status = 301;
+        return this.redirect('/properties/' + listing.apartment_id);
+      });
   }
 
   const envVars = {

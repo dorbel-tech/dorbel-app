@@ -104,8 +104,8 @@ class Listing extends Component {
   }
 
   render() {
-    const { appStore } = this.props;
-    const listing = appStore.listingStore.getByApartmentId(this.props.apartmentId);
+    const { apartmentId, appStore } = this.props;
+    const listing = appStore.listingStore.getByApartmentId(apartmentId);
 
     if (this.state.isLoading) {
       return (
