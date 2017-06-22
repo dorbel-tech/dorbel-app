@@ -29,11 +29,11 @@ export default class Footer extends React.Component {
             <a href={externalURL + 'about_us'}>מי אנחנו</a>
             <a href={externalURL + 'career'}>בואו לעבוד איתנו</a>
             <a href="https://www.dorbel.com/blog">הבלוג שלנו</a>
-            <NavLink to="/apartments">מצאו דירה – ללא תיווך</NavLink>            
+            <NavLink to="/search">מצאו דירה – ללא תיווך</NavLink>
           </Col>
           <Col sm={2} md={2} className="footer-links-col">
             <a href={externalURL + 'faq'}>שאלות נפוצות</a>
-            <a href={externalURL + 'terms'}>תנאי שימוש</a>            
+            <a href={externalURL + 'terms'}>תנאי שימוש</a>
             <a href={externalURL + 'privacy_policy'}>מדיניות פרטיות</a>
           </Col>
           <Col sm={4} md={4} className="footer-social-icons">
