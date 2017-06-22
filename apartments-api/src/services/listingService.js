@@ -391,6 +391,9 @@ function* enrichListingResponse(listing, user) {
       else {
         delete enrichedListing.property_value;
       }
+      if (publishingUser) {
+        enrichedListing.publishing_user_email = _.get(publishingUser, 'user_metadata.email') || publishingUser.email;
+      }
       // TODO: Implemented this way as discussed - should be different api call when possible
       if (listing.show_phone) {
         enrichedListing.publishing_user_phone = _.get(publishingUser, 'user_metadata.phone' || 'phone') || '';

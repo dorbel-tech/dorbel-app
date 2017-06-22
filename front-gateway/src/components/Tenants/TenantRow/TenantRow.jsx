@@ -40,16 +40,17 @@ export default class TenantRow extends React.Component {
     const { tenant } = this.props;
     const { messagingProvider } = this.props.appProviders;
 
+    const withUserObj = {
+      id: tenant.dorbel_user_id,
+      name: tenant.first_name,
+      email: tenant.email
+    }
+    const conversation = messagingProvider.getOrStartConversation(withUserObj, {
+      topicId: tenant.listing_id
+      // TODO: Missing subject
+    });
+
     global.window.Talk.ready.then(() => {
-      const withUserObj = {
-        id: tenant.dorbel_user_id,
-        name: tenant.first_name,
-        email: tenant.email
-      }
-      const conversation = messagingProvider.getOrStartConversation(withUserObj, {
-        topicId: tenant.listing_id
-        // TODO: Missing subject
-      });
       this.popup = messagingProvider.talkSession.createPopup(conversation);
       this.popup.mount();
 

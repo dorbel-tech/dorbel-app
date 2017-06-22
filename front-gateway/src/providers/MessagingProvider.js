@@ -1,22 +1,31 @@
 'use strict';
 
 class MessagingProvider {
-  constructor(profile) {
-    this.profile = profile;
+  constructor(authStore) {
+    this.authStore = authStore;
 
-    // will only work on client side
-    global.window && this.init();
+    this.initTalkJS();
   }
 
-  init() {
-    this.talkjs(global.window, document, []);
+  initTalkJS() {
+    // will only work on client side
+    global.window &&
+      this.talkjs(global.window, document, []) &&
+      this.initTalkSession();
+  }
 
-    global.window.Talk.ready.then(() => {
+  initTalkSession() {
+    if (this.talkSession || !this.authStore.isLoggedIn) {
+      return false;
+    }
+
+    // will only work on client side
+    global.window && global.window.Talk.ready.then(() => {
       const me = new global.window.Talk.User({
-        id: this.profile.dorbel_user_id,
-        name: this.profile.first_name,
-        email: this.profile.email,
-        photoUrl: this.profile.picture,
+        id: this.authStore.profile.dorbel_user_id,
+        name: this.authStore.profile.first_name,
+        email: this.authStore.profile.email,
+        photoUrl: this.authStore.profile.picture,
         configuration: 'general',
         welcomeMessage: 'Hey there! Love to chat :-)'
       });
@@ -27,6 +36,8 @@ class MessagingProvider {
         me: me
       });
     });
+
+    return true;
   }
 
   talkjs(t,a,l,k,j,s) {
@@ -35,13 +46,15 @@ class MessagingProvider {
   }
 
   getOrStartConversation(withUserObj, options) {
-    const withUser = new global.window.Talk.User(withUserObj);
+    if (this.initTalkSession()) {
+      global.window.Talk.ready.then(() => {
+        const withUser = new global.window.Talk.User(withUserObj);
 
-    return this.talkSession.getOrStartConversation(withUser, options || {});
-  }
-
-  getTalkSession() {
-    return this.talkSession;
+        return this.talkSession.getOrStartConversation(withUser, options || {});
+      });
+    } else {
+      // TODO: Handle edge case by throwing an exception?
+    }
   }
 }
 

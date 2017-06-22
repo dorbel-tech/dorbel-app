@@ -82,10 +82,10 @@ class ListingDescription extends React.Component {
   }
 
   handleMsgClick() {
-    const listing = this.props.listing;
-    const { messagingProvider, utils } = this.props.appProviders;
+    if (this.props.appStore.authStore.isLoggedIn) {
+      const listing = this.props.listing;
+      const { messagingProvider, utils } = this.props.appProviders;
 
-    global.window.Talk.ready.then(() => {
       const withUserObj = {
         id: listing.publishing_user_id,
         name: listing.publishing_user_first_name,
@@ -95,11 +95,16 @@ class ListingDescription extends React.Component {
         topicId: listing.listing_id,
         subject: utils.getListingTitle(listing)
       });
-      this.popup = messagingProvider.talkSession.createPopup(conversation);
-      this.popup.mount();
 
-      utils.setIntercomStyle('none');
-    });
+      global.window.Talk.ready.then(() => {
+        this.popup = messagingProvider.talkSession.createPopup(conversation);
+        this.popup.mount();
+
+        utils.setIntercomStyle('none');
+      });
+    } else {
+      this.props.appProviders.authProvider.showLoginModal();
+    }
   }
 
   render() {
