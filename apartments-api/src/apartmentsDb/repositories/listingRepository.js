@@ -119,7 +119,7 @@ function getLastListingByApartmentId(apartmentId) {
       status: { $notIn: ['deleted'] }
     },
     include: fullListingDataInclude,
-    order: 'id DESC',
+    order: 'id DESC', // Order by latest listingId to have it on top of results.
   });
 }
 
