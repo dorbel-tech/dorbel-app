@@ -32,6 +32,7 @@ exports[`Filter should initialize correctly 1`] = `
           "get": [Function],
         },
       },
+      "searchStore": Object {},
     }
   }>
   <Filter
@@ -67,6 +68,7 @@ exports[`Filter should initialize correctly 1`] = `
             "get": [Function],
           },
         },
+        "searchStore": Object {},
       }
     }>
     <div>
@@ -731,10 +733,12 @@ exports[`Filter should initialize correctly 1`] = `
                     bsClass="btn"
                     bsStyle="info"
                     disabled={false}
+                    id="saveFilterButton"
                     onClick={[Function]}>
                     <button
                       className="btn btn-info btn-block"
                       disabled={false}
+                      id="saveFilterButton"
                       onClick={[Function]}
                       type="button">
                       שמור חיפוש

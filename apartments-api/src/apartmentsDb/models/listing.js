@@ -14,7 +14,6 @@ function define(sequelize) {
             onDelete: 'CASCADE'
           });
           models.listing.hasMany(models.image);
-          models.listing.hasMany(models.like);
         }
       }
     });

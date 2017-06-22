@@ -26,9 +26,10 @@ export default class SavedFilters extends React.Component {
 
   selectFilter(filter) {
     const { searchStore } = this.props.appStore;
-    
+
     if (filter.id === searchStore.activeFilterId) { // toggle off
       this.props.appStore.searchStore.activeFilterId = null;
+      this.props.onFilterChange && this.props.onFilterChange({});
     } else { // select filter
       this.props.appStore.searchStore.activeFilterId = filter.id;
       const currentFilter = _.omit(filter, ['dorbel_user_id', 'id']);
@@ -81,7 +82,7 @@ export default class SavedFilters extends React.Component {
     return (
       <Row className="saved-filters-row">
         <Col sm={2} smOffset={2} xs={12}>
-          <span className="saved-filters-title">חיפושים אחרונים</span>
+          <span className="saved-filters-title">חיפושים שמורים</span>
         </Col>
         {filters.map(this.renderFilter)}
       </Row>

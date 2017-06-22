@@ -60,37 +60,39 @@ function list(query, options = {}) {
         attributes: ['size', 'rooms'],
         required: true,
         where: options.apartmentQuery || {},
-        include: {
-          model: models.building,
-          attributes: ['street_name'],
-          required: true,
-          where: options.buildingQuery || {},
-          include: [
-            {
-              model: models.city,
-              attributes: ['id', 'city_name'],
-              required: true
-            },
-            {
-              model: models.neighborhood,
-              attributes: ['id', 'neighborhood_name'],
-              required: true,
-              where: options.neighborhoodQuery || {}
-            }
-          ]
-        }
+        include: [
+          {
+            model: models.building,
+            attributes: ['street_name'],
+            required: true,
+            where: options.buildingQuery || {},
+            include: [
+              {
+                model: models.city,
+                attributes: ['id', 'city_name'],
+                required: true
+              },
+              {
+                model: models.neighborhood,
+                attributes: ['id', 'neighborhood_name'],
+                required: true,
+                where: options.neighborhoodQuery || {}
+              }
+            ]
+          },
+          {
+            model: models.like,
+            attributes: [],
+            required: !!options.likeQuery,
+            where: options.likeQuery
+          }
+        ]
       },
       {
         model: models.image,
         attributes: ['listing_id', 'url', 'display_order'],
         order: 'display_order ASC',
         limit: 1,
-      },
-      {
-        model: models.like,
-        attributes: [],
-        required: !!options.likeQuery,
-        where: options.likeQuery,
       }
     ],
 
