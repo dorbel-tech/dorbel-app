@@ -16,7 +16,7 @@ function define(sequelize) {
             onDelete: 'CASCADE'
           });
           models.latest_listing.hasMany(models.image, { foreignKey: 'listing_id' });
-          models.latest_listing.hasMany(models.like, { foreignKey: 'listing_id' });
+          models.latest_listing.hasMany(models.like, { foreignKey: 'apartment_id' });
         }
       }
     });

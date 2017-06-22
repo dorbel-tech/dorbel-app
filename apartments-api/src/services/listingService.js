@@ -268,6 +268,8 @@ function* getByFilter(filterJSON, options = {}) {
     }
 
     if (filter.liked) {
+      listingQuery.status = { $notIn: ['deleted'] };
+
       queryOptions.likeQuery = {
         is_active: true,
         liked_user_id: options.user.id
