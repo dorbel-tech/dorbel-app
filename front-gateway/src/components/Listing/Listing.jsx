@@ -71,14 +71,9 @@ class Listing extends Component {
     const { apartmentId, appStore, appProviders } = this.props;
 
     if(!appStore.listingStore.getByApartmentId(apartmentId)) {
+      this.setState({ isLoading: true });
       appProviders.listingsProvider.loadFullListingDetailsByApartmentId(apartmentId)
-        .then(listing => {
-          if (listing && !appStore.listingStore.get(listing.id)) {
-            this.setState({ isLoading: true });
-            appProviders.listingsProvider.loadFullListingDetails(listing.id)
-              .then(() => this.setState({ isLoading: false }));
-          }
-        });
+        .then(() => this.setState({ isLoading: false }));
     } else {
       // Force render and scroll to top, since the store did not change.
       this.forceUpdate();
