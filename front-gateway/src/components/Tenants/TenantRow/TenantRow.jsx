@@ -32,8 +32,8 @@ export default class TenantRow extends React.Component {
   removeTenant(tenant) {
     const { appProviders } = this.props;
     appProviders.listingsProvider.removeTenant(tenant)
-    .then(() => appProviders.notificationProvider.success('הדייר הוסר מרשימת השוכרים הנוכחיים שלך'))
-    .catch(appProviders.notificationProvider.error);
+      .then(() => appProviders.notificationProvider.success('הדייר הוסר מרשימת השוכרים הנוכחיים שלך'))
+      .catch(appProviders.notificationProvider.error);
   }
 
   render() {
@@ -44,7 +44,7 @@ export default class TenantRow extends React.Component {
 
     return (
       <Row className="tenant-row">
-        <Col xs={2} md={1} onClick={showProfile}>
+        <Col xs={2} md={this.props.mode == 'responsive' ? 1 : 2} onClick={tenant.disabled ? undefined : showProfile }>
           <Image className="tenant-row-image" src={tenant.picture} circle />
         </Col>
         <Col xs={6} md={7} onClick={showProfile}>
@@ -53,7 +53,7 @@ export default class TenantRow extends React.Component {
         <Col xs={2} onClick={showProfile}>
           <i className={'fa fa-2x fa-facebook-square ' + facebookClass}></i>
         </Col>
-        { showActionButtons ?
+        {showActionButtons ?
           <Col xs={2}>
             <Dropdown id={'tenant' + tenant.id} className="pull-left" disabled={tenant.disabled}>
               <Dropdown.Toggle noCaret bsStyle="link">
@@ -72,8 +72,13 @@ export default class TenantRow extends React.Component {
   }
 }
 
+TenantRow.defaultProps = {
+  mode: 'responsive'
+};
+
 TenantRow.propTypes = {
   appProviders: React.PropTypes.object,
   tenant: React.PropTypes.object.isRequired,
-  showActionButtons: React.PropTypes.bool
+  showActionButtons: React.PropTypes.bool,
+  mode: React.PropTypes.string
 };

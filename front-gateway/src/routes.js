@@ -8,6 +8,7 @@ import Login from '~/components/Login';
 import Health from '~/components/Health';
 import UploadApartmentForm from '~/components/ApartmentForm/UploadApartmentForm';
 import SelectUploadMode from '~/components/ApartmentForm/SelectUploadMode';
+import MonthlyReport from '~/components/MonthlyReport/MonthlyReport';
 
 const routes = [
   { route: '/', view: Home },
@@ -22,7 +23,8 @@ const routes = [
   { route: '/dashboard', view: Dashboard, requireLogin: true },
   { route: '/dashboard/:action', view: Dashboard, requireLogin: true },
   { route: '/dashboard/:action/:listingId', view: Dashboard, requireLogin: true },
-  { route: '/dashboard/:action/:listingId/:tab', view: Dashboard, requireLogin: true }
+  { route: '/dashboard/:action/:listingId/:tab', view: Dashboard, requireLogin: true },
+  { route: '/monthly-report/:listingId/:monthNumber', view: MonthlyReport, requireLogin: true }
 ];
 
 module.exports = {

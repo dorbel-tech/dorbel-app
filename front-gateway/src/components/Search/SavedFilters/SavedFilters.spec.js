@@ -71,4 +71,15 @@ describe('Saved Filters', () => {
     expect(props.onFilterChange).toHaveBeenCalledWith({ city: 5 });
   });
 
+  it('should fire onFilterChange with empty filter when un-selecting filter', () => {
+    const mockFilter = { id: 1, city: 7 };
+    props.appStore.searchStore.filters.values.mockReturnValue([mockFilter]);
+    props.appStore.searchStore.activeFilterId = mockFilter.id;
+    
+    const wrapper = savedFilters();    
+    wrapper.find('Checkbox').first().simulate('click');
+
+    expect(props.onFilterChange).toHaveBeenCalledWith({});
+  });
+
 });
