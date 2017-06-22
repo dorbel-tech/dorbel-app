@@ -75,7 +75,7 @@ class Header extends Component {
               :
               null}
             {isMobile ?
-              <NavItem onClick={this.handleHrefClick} href="/apartments">מצאו דירה</NavItem>
+              <NavItem onClick={this.handleHrefClick} href="/search">מצאו דירה</NavItem>
               :
               null}
             <NavItem onClick={this.handleHrefClick} href={externalURL + '/pages/about_us'}>
@@ -92,7 +92,7 @@ class Header extends Component {
             {isMobile ?
               null
               :
-              <NavItem onClick={this.handleHrefClick} href="/apartments">מצאו דירה</NavItem>
+              <NavItem onClick={this.handleHrefClick} href="/search">מצאו דירה</NavItem>
             }
             {isMobile ?
               null

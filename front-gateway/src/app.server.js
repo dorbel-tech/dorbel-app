@@ -50,7 +50,7 @@ function* renderApp() {
   // Old apartment submit form to new one redirect.
   if (this.path === '/apartments/new') {
     this.status = 301;
-    return this.redirect('https://app.dorbel.com/apartments/new_form');
+    return this.redirect('/apartments/new_form');
   }
 
   // redirect in case slug has an apostrophe
@@ -58,9 +58,15 @@ function* renderApp() {
   if (this.path.match(/\/apartments\//) && (this.path.includes('\'') || this.path.includes('%27'))) {
     let pathArr = this.path.split('/');
     const normalizedSlug = decodeURIComponent(utils.generic.normalizeSlug(pathArr[pathArr.length -1]));
-    
+
     this.status = 301;
-    return this.redirect('https://app.dorbel.com/apartments/' + normalizedSlug);
+    return this.redirect('/apartments/' + normalizedSlug);
+  }
+
+  // Old apartments search redirect to new one.
+  if (this.path === '/apartments' || this.path.startsWith('/apartments?q=')) {
+    this.status = 301;
+    return this.redirect('/search' + this.search);
   }
 
   const envVars = {
