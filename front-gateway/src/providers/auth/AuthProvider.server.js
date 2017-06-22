@@ -8,6 +8,10 @@ class ServerAuthProvider {
     this.authStore = authStore;
   }
 
+  shouldLogin(){
+    return this.authStore.isLoggedIn;
+  }
+
   * loginWithCookie(cookieProvider) {
     // not so happy with this flow - the store should be the one to access the cookie :|
     const idToken = cookieProvider.get('id_token');

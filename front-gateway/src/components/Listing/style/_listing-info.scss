@@ -6,6 +6,10 @@
   }
 }
 
+.static-listing-info-container {
+  padding: 15px;
+}
+
 .listing-info-item {
   padding: 5px 0;
   text-align: center;
@@ -22,6 +26,10 @@
   @media (max-width: $screen-xs-max) {
     padding: 5px;
   }
+}
+
+.static-listing-info-item {
+  text-align: center;
 }
 
 .listing-info-item-image {

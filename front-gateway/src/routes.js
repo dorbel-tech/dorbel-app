@@ -8,12 +8,14 @@ import Login from '~/components/Login';
 import Health from '~/components/Health';
 import UploadApartmentForm from '~/components/ApartmentForm/UploadApartmentForm';
 import SelectUploadMode from '~/components/ApartmentForm/SelectUploadMode';
+import MonthlyReport from '~/components/MonthlyReport/MonthlyReport';
 import routesHelper from './routesHelper';
 
 const routes = [
   { route: '/', view: Home },
   { route: '/health', view: Health },
   { route: '/login', view: Login },
+  { route: '/monthly-report/:listingId/:monthNumber', view: MonthlyReport, requireLogin: true },
   { route: routesHelper.SEARCH_PREFIX, view: Search },
   { route: routesHelper.APARTMENTS_PREFIX + '/new_form', view: SelectUploadMode },
   { route: routesHelper.APARTMENTS_PREFIX + '/new_form/:mode', view: UploadApartmentForm },
