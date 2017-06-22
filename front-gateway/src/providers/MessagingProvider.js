@@ -19,22 +19,19 @@ class MessagingProvider {
       return false;
     }
 
-    // will only work on client side
-    global.window && global.window.Talk.ready.then(() => {
-      const me = new global.window.Talk.User({
-        id: this.authStore.profile.dorbel_user_id,
-        name: this.authStore.profile.first_name,
-        email: this.authStore.profile.email,
-        photoUrl: this.authStore.profile.picture,
-        configuration: 'general',
-        welcomeMessage: 'Hey there! Love to chat :-)'
-      });
+    const me = new global.window.Talk.User({
+      id: this.authStore.profile.dorbel_user_id,
+      name: this.authStore.profile.first_name,
+      email: this.authStore.profile.email,
+      photoUrl: this.authStore.profile.picture,
+      configuration: 'general',
+      welcomeMessage: 'Hey there! Love to chat :-)'
+    });
 
-      this.talkSession = new global.window.Talk.Session({
-        appId: 'taEQQ8AS',
-        publishableKey: 'pk_test_7L5d4GmL6LAj26pjg31VZVY',
-        me: me
-      });
+    this.talkSession = new global.window.Talk.Session({
+      appId: 'taEQQ8AS',
+      publishableKey: 'pk_test_7L5d4GmL6LAj26pjg31VZVY',
+      me: me
     });
 
     return true;
@@ -47,11 +44,9 @@ class MessagingProvider {
 
   getOrStartConversation(withUserObj, options) {
     if (this.initTalkSession()) {
-      global.window.Talk.ready.then(() => {
-        const withUser = new global.window.Talk.User(withUserObj);
+      const withUser = new global.window.Talk.User(withUserObj);
 
-        return this.talkSession.getOrStartConversation(withUser, options || {});
-      });
+      return this.talkSession.getOrStartConversation(withUser, options || {});
     } else {
       // TODO: Handle edge case by throwing an exception?
     }

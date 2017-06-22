@@ -16,7 +16,7 @@ describe('Tenant Row', () => {
     };
   });
 
-  const tenantRow = (tenant) => shallow(<TenantRow.wrappedComponent tenant={tenant} appProviders={appProvidersMock} />);
+  const tenantRow = (tenant) => shallow(<TenantRow.wrappedComponent tenant={tenant} listingTitle="Listing Title" appProviders={appProvidersMock} />);
 
   it('should show tenant first name and last name', () => {
     const tenant = { first_name: faker.name.firstName(), last_name: faker.name.lastName() };

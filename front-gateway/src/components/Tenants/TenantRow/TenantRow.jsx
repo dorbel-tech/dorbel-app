@@ -3,7 +3,7 @@ import autobind from 'react-autobind';
 import { inject } from 'mobx-react';
 import { Col, Row, Image, Dropdown, MenuItem } from 'react-bootstrap';
 import TenantProfile from '~/components/Tenants/TenantProfile/TenantProfile';
-import { setIntercomStyle } from '~/providers/utils';
+import { setIntercomStyle, getListingTitle } from '~/providers/utils';
 
 import './TenantRow.scss';
 
@@ -37,21 +37,21 @@ export default class TenantRow extends React.Component {
   }
 
   handleMsgClick() {
-    const { tenant } = this.props;
+    const { tenant, listingTitle } = this.props;
     const { messagingProvider } = this.props.appProviders;
 
-    const withUserObj = {
-      id: tenant.dorbel_user_id,
-      name: tenant.first_name,
-      email: tenant.email,
-      configuration: 'general'
-    };
-    const conversation = messagingProvider.getOrStartConversation(withUserObj, {
-      topicId: tenant.listing_id
-      // TODO: Missing subject
-    });
-
     global.window.Talk.ready.then(() => {
+      const withUserObj = {
+        id: tenant.dorbel_user_id,
+        name: tenant.first_name,
+        email: tenant.email,
+        configuration: 'general'
+      };
+      const conversation = messagingProvider.getOrStartConversation(withUserObj, {
+        topicId: tenant.listing_id,
+        subject: listingTitle
+      });
+
       this.popup = messagingProvider.talkSession.createPopup(conversation);
       this.popup.mount();
 
@@ -104,5 +104,6 @@ export default class TenantRow extends React.Component {
 TenantRow.propTypes = {
   appProviders: React.PropTypes.object,
   tenant: React.PropTypes.object.isRequired,
+  listingTitle: React.PropTypes.string.isRequired,
   showActionButtons: React.PropTypes.bool
 };

@@ -86,18 +86,18 @@ class ListingDescription extends React.Component {
       const listing = this.props.listing;
       const { messagingProvider, utils } = this.props.appProviders;
 
-      const withUserObj = {
-        id: listing.publishing_user_id,
-        name: listing.publishing_user_first_name,
-        email: listing.publishing_user_email,
-        configuration: 'general'
-      };
-      const conversation = messagingProvider.getOrStartConversation(withUserObj, {
-        topicId: listing.listing_id,
-        subject: utils.getListingTitle(listing)
-      });
-
       global.window.Talk.ready.then(() => {
+        const withUserObj = {
+          id: listing.publishing_user_id,
+          name: listing.publishing_user_first_name,
+          email: listing.publishing_user_email,
+          configuration: 'general'
+        };
+        const conversation = messagingProvider.getOrStartConversation(withUserObj, {
+          topicId: listing.listing_id,
+          subject: utils.getListingTitle(listing)
+        });
+
         this.popup = messagingProvider.talkSession.createPopup(conversation);
         this.popup.mount();
 
