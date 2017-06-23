@@ -46,13 +46,14 @@ class SteppedProgressBar extends Component {
       <Grid fluid className="stepped-progress-bar">
         <Row>
           <Col xs={12}>
-            {pointerText ?
-              <Row>
-                <Col className="current-step-pointer" style={{ marginLeft: this.calculateIndicatorOffset(currentStepIndex, stepWidth) + '%' }}>
-                  <span className="current-step-pointer-text">{pointerText}</span>
-                </Col>
-              </Row> :
-              undefined}
+            {
+              pointerText ?
+                <Row>
+                  <Col className="current-step-pointer" style={{ marginLeft: this.calculateIndicatorOffset(currentStepIndex, stepWidth) + '%' }}>
+                    <span className="current-step-pointer-text">{pointerText}</span>
+                  </Col>
+                </Row> : undefined
+            }
             <Row className="progress-bar-row">
               <Col>
                 <ProgressBar children={this.renderSteps(steps, currentStepIndex, stepWidth)} />
