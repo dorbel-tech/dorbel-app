@@ -29,6 +29,7 @@ export default class SavedFilters extends React.Component {
 
     if (filter.id === searchStore.activeFilterId) { // toggle off
       this.props.appStore.searchStore.activeFilterId = null;
+      this.props.onFilterChange && this.props.onFilterChange({});
     } else { // select filter
       this.props.appStore.searchStore.activeFilterId = filter.id;
       const currentFilter = _.omit(filter, ['dorbel_user_id', 'id']);
