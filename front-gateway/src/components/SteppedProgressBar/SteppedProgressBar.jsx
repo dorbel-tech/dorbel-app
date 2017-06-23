@@ -1,33 +1,32 @@
 import React, { Component } from 'react';
-import { Row, Col, ProgressBar } from 'react-bootstrap';
+import { Grid, Row, Col, ProgressBar } from 'react-bootstrap';
 
 import './SteppedProgressBar.scss';
 
 class SteppedProgressBar extends Component {
-  renderSteps() {
-    const { steps, currentStepIndex } = this.props;
+  renderSteps(steps, currentStepIndex, stepWidth) {
 
-    return steps.map((step, stepIndex) => {
+    return steps.map((step, index) => {
       let stepClasses = 'step ';
-      if (stepIndex > currentStepIndex) {
-        stepClasses += 'incomplete ';
-      }
-      else if (stepIndex < currentStepIndex) {
+      if (index < currentStepIndex) {
         stepClasses += 'complete';
       }
-      else {
+      else if (index == currentStepIndex) {
         stepClasses += 'current';
       }
 
-      return <ProgressBar now={100 / steps.length} key={stepIndex} className={stepClasses} />;
+      return (
+        <ProgressBar now={stepWidth} key={index} className={stepClasses} />
+      );
     });
   }
 
-  renderStepMarks() {
-    const { steps } = this.props;
-    return steps.map((step) => {
+  renderStepMarks(steps, currentStepIndex, stepWidth) {
+    return steps.map((step, index) => {
+      const stepMarkClasses = (index != currentStepIndex) ? 'step-mark-item' : 'step-mark-item current';
+
       return (
-        <div className="step-mark-item" style={{ width: 100 / steps.length + '%' }}>
+        <div className={stepMarkClasses} key={index} style={{ width: stepWidth + '%' }}>
           <span>
             {step}
           </span>
@@ -36,32 +35,50 @@ class SteppedProgressBar extends Component {
     });
   }
 
+  calculateIndicatorOffset(currentStepIndex, stepWidth) {
+    return ((stepWidth * currentStepIndex) + (stepWidth / 2)) - 15;
+  }
 
   render() {
+    const { steps, currentStepIndex, pointerText } = this.props;
+    const stepWidth = 100 / steps.length;
     return (
-      <Row className="stepped-progress-bar">
-        <Col xs={12}>
-          <Row>
-            <Col>
-              <ProgressBar>
-                {this.renderSteps()}
-              </ProgressBar>
-            </Col>
-          </Row>
-          <Row>
-            <Col className="step-marks">
-              {this.renderStepMarks()}
-            </Col>
-          </Row>
-        </Col>
-      </Row>
+      <Grid fluid className="stepped-progress-bar">
+        <Row>
+          <Col xs={12}>
+            {pointerText ?
+              <Row>
+                <Col>
+                  <div className="current-step-pointer" style={{ marginLeft: this.calculateIndicatorOffset(currentStepIndex, stepWidth) + '%' }}>
+                    <span className="current-step-pointer-text">{pointerText}</span>
+                    <span className="current-step-pointer-triangle">
+                      <div>&#x25BC;</div>
+                    </span>
+                  </div>
+                </Col>
+              </Row> :
+              undefined}
+            <Row className="progress-bar-row">
+              <Col>
+                <ProgressBar children={this.renderSteps(steps, currentStepIndex, stepWidth)} />
+              </Col>
+            </Row>
+            <Row>
+              <Col className="step-marks">
+                {this.renderStepMarks(steps, currentStepIndex, stepWidth)}
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+      </Grid>
     );
   }
 }
 
 SteppedProgressBar.propTypes = {
   steps: React.PropTypes.array.isRequired,
-  currentStepIndex: React.PropTypes.number.isRequired
+  currentStepIndex: React.PropTypes.number.isRequired,
+  pointerText: React.PropTypes.string
 };
 
 export default SteppedProgressBar;

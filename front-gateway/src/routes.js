@@ -15,7 +15,7 @@ const routes = [
   { route: '/', view: Home },
   { route: '/health', view: Health },
   { route: '/login', view: Login },
-  { route: '/monthly-report/:listingId/:monthNumber', view: MonthlyReport, requireLogin: true },
+  { route: '/monthly-report/:listingId/:year/:month', view: MonthlyReport, requireLogin: true },
   { route: routesHelper.SEARCH_PREFIX, view: Search },
   { route: routesHelper.APARTMENTS_PREFIX + '/new_form', view: SelectUploadMode },
   { route: routesHelper.APARTMENTS_PREFIX + '/new_form/:mode', view: UploadApartmentForm },

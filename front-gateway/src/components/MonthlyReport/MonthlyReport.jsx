@@ -5,7 +5,7 @@ import { Grid, Row, Col, Button, ListGroup, ListGroupItem } from 'react-bootstra
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
 import ListingInfo from '~/components/Listing/components/ListingInfo';
 import TenantRow from '~/components/Tenants/TenantRow/TenantRow';
-import SteppedProgressBar from '~/components/SteppedProgressBar/SteppedProgressBar';
+import LeaseStats from '~/components/LeaseStats/LeaseStats';
 import ReportSection from './ReportSection/ReportSection';
 
 import './MonthlyReport.scss';
@@ -92,12 +92,17 @@ class MonthlyReport extends Component {
     );
   }
 
-  renderStatsSection(listing) {
+  renderStatsSection(listing, month, year) {
     return (
       <ReportSection
         title="פרטי הנכס"
         iconSrc="https://static.dorbel.com/images/icons/monthly-report/property-details.svg"
-        body={<SteppedProgressBar steps={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]} currentStepIndex={3} />}
+        body={
+          <LeaseStats
+            listing={listing}
+            month={month}
+            year={year}
+          />}
       />
     );
   }
@@ -233,7 +238,7 @@ class MonthlyReport extends Component {
         <Grid fluid className="monthly-report-main-grid">
           {this.renderHeader()}
           {this.renderPropertyDetailsSection(listing)}
-          {this.renderStatsSection(listing)}
+          {this.renderStatsSection(listing, this.props.month, this.props.year)}
           {this.renderFutureBookingSection(listing)}
           {this.renderTenantsSection(listing)}
           {this.renderGoToDashboardSection(listing)}
@@ -248,7 +253,8 @@ MonthlyReport.wrappedComponent.propTypes = {
   appProviders: React.PropTypes.object,
   appStore: React.PropTypes.object,
   listingId: React.PropTypes.string.isRequired,
-  monthNumber: React.PropTypes.string.isRequired
+  month: React.PropTypes.string.isRequired,
+  year: React.PropTypes.string.isRequired
 };
 
 
