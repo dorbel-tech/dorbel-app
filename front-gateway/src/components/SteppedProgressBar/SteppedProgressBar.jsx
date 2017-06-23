@@ -48,13 +48,8 @@ class SteppedProgressBar extends Component {
           <Col xs={12}>
             {pointerText ?
               <Row>
-                <Col>
-                  <div className="current-step-pointer" style={{ marginLeft: this.calculateIndicatorOffset(currentStepIndex, stepWidth) + '%' }}>
-                    <span className="current-step-pointer-text">{pointerText}</span>
-                    <span className="current-step-pointer-triangle">
-                      <div>&#x25BC;</div>
-                    </span>
-                  </div>
+                <Col className="current-step-pointer" style={{ marginLeft: this.calculateIndicatorOffset(currentStepIndex, stepWidth) + '%' }}>
+                  <span className="current-step-pointer-text">{pointerText}</span>
                 </Col>
               </Row> :
               undefined}

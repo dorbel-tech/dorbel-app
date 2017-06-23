@@ -30,8 +30,7 @@
           background-color: $brand-white;
           opacity: 0.6;
           float: right;
-          height: 75%;
-          margin-top: 7.5%;
+          height: 100%;
           margin-right: -1px;
         }
       }
@@ -77,22 +76,20 @@
     border-radius: 20px;
     margin-bottom: 15px;
     text-align: center;
-    display: flex;               /* establish flex container */
-    align-items: center;
-    position: relative;
+    font-size: 22px;
+    line-height: 40px;
 
     .current-step-pointer-text {
-      font-size: 22px;
       color: $brand-white;
+      display: inline-block;
       margin: 0 auto;
     }
 
-    .current-step-pointer-triangle {
+    &::after {
+      content: '▼';
       display: block;
-      position: absolute;
-      bottom: -14px;
       color: #3398db;
-      left: 45%;
+      line-height: 10px;
     }
   }
 }
