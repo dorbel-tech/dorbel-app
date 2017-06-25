@@ -2,12 +2,8 @@
   padding: 15px;
 
   @media (min-width: $screen-md-min) {
-    border-bottom: $gray-border;
+    border-bottom: 1px solid $gray-lighter;
   }
-}
-
-.static-listing-info-container {
-  padding: 15px;
 }
 
 .listing-info-item {
@@ -26,10 +22,6 @@
   @media (max-width: $screen-xs-max) {
     padding: 5px;
   }
-}
-
-.static-listing-info-item {
-  text-align: center;
 }
 
 .listing-info-item-image {
