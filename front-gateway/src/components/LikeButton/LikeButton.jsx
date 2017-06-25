@@ -11,7 +11,14 @@ class LikeButton extends Component {
     e.preventDefault();
     if (this.props.appStore.authStore.isLoggedIn) {
       let wasLiked = this.props.appProviders.likeProvider.get(this.props.apartmentId);
-      this.props.appProviders.likeProvider.set(this.props.apartmentId, this.props.listingId, !wasLiked);
+      this.props.appProviders.likeProvider.set(this.props.apartmentId, this.props.listingId, !wasLiked)
+      .then(() => {
+        if (!wasLiked) {
+          this.props.appProviders.notificationProvider.success('הדירה נשמרה בהצלחה לרשימת הדירות שאהבתם');
+        } else {
+          this.props.appProviders.notificationProvider.success('הדירה הוסרה בהצלחה מרשימת ההדירות שאהבתם');
+        }
+      });
 
       // Update listing.totalLikes if exists in listingStore
       let listing = this.props.appStore.listingStore.get(this.props.listingId);
