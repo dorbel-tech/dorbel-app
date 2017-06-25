@@ -269,6 +269,7 @@ function* getByFilter(filterJSON, options = {}) {
 
     if (filter.liked) {
       listingQuery.status = { $notIn: ['deleted'] };
+      queryOptions.limit = undefined; // Since no pagination in liked apartments, removing limit.
 
       queryOptions.likeQuery = {
         is_active: true,
