@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Grid, Row, Col } from 'react-bootstrap';
-import SteppedProgressBar from '../SteppedProgressBar/SteppedProgressBar';
+import SteppedProgressBar from '../../SteppedProgressBar/SteppedProgressBar';
 import moment from 'moment';
 
 class LeaseStats extends Component {
@@ -18,8 +18,14 @@ class LeaseStats extends Component {
     return monthList;
   }
 
-  getCurrentMonthIndex(year, month, leaseStart) {
-    return moment({ year, month }).diff(leaseStart, 'months');
+  getStatsHeader(monthsToLeaseEnd) {
+    if (monthsToLeaseEnd >= 0) {
+      const className = monthsToLeaseEnd > 2 ? '' : 'about-to-end';
+      return <div className={className}>{`נותרו ${monthsToLeaseEnd} חודשים עד תום החוזה`}</div>;
+    }
+    else {
+      return <div className="">{`נותרו ${monthsToLeaseEnd} חודשים עד תום החוזה`}</div>;
+    }
   }
 
   render() {
@@ -27,18 +33,27 @@ class LeaseStats extends Component {
 
     const leaseStart = moment(listing.lease_start);
     const leaseEnd = moment(listing.lease_end);
+    const reportDate = moment({ year, month });
+
+    const currentMonthIndex = reportDate.diff(leaseStart, 'months');
+    const monthsToLeaseEnd = leaseEnd.diff(reportDate, 'months');
 
     return (
-      <Grid fluid>
+      <Grid fluid className="lease-stats">
+        <Row className="lease-stats-header">
+          <Col xs={12}>
+            {this.getStatsHeader(monthsToLeaseEnd)}
+          </Col>
+        </Row>
         <Row>
           <Col xs={12}>
             <SteppedProgressBar
               steps={this.getMonthList(leaseStart, leaseEnd)}
-              currentStepIndex={this.getCurrentMonthIndex(year, month, leaseStart)}
+              currentStepIndex={currentMonthIndex}
               pointerText={'₪' + listing.monthly_rent.toLocaleString()} />
           </Col>
         </Row>
-      </Grid>
+      </Grid >
     );
   }
 }

@@ -70,14 +70,15 @@
 
   .current-step-pointer {
     float: left;
-    width: 30%;
+    width: 25%;
     height: 40px;
     background-color: #3398db;
     border-radius: 20px;
     margin-bottom: 15px;
     text-align: center;
-    font-size: 22px;
+    font-size: 18px;
     line-height: 40px;
+    box-shadow: 0 7px 4px 0 rgba(0, 0, 0, 0.2);
 
     .current-step-pointer-text {
       color: $brand-white;
@@ -89,7 +90,7 @@
       content: '▼';
       display: block;
       color: #3398db;
-      line-height: 10px;
+      line-height: 5px;
     }
   }
 }

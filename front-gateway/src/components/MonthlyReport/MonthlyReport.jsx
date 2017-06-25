@@ -5,8 +5,9 @@ import { Grid, Row, Col, Button, ListGroup, ListGroupItem } from 'react-bootstra
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
 import ListingInfo from '~/components/Listing/components/ListingInfo';
 import TenantRow from '~/components/Tenants/TenantRow/TenantRow';
-import LeaseStats from '~/components/LeaseStats/LeaseStats';
+
 import ReportSection from './ReportSection/ReportSection';
+import LeaseStats from './LeaseStats/LeaseStats';
 
 import './MonthlyReport.scss';
 

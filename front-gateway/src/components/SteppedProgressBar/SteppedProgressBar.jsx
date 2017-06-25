@@ -36,7 +36,7 @@ class SteppedProgressBar extends Component {
   }
 
   calculateIndicatorOffset(currentStepIndex, stepWidth) {
-    return ((stepWidth * currentStepIndex) + (stepWidth / 2)) - 15;
+    return ((stepWidth * currentStepIndex) + (stepWidth / 2)) - 12.5;
   }
 
   render() {
