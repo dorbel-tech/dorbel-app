@@ -368,6 +368,8 @@ function* getById(id, user) {
 }
 
 function* getBySlug(slug, user) {
+  // TODO: Remove once all legacy listing urls with slug are outdated.
+  logger.warn('You are using deprecated function, please use getByApartmentId instead!');
   let listing = yield listingRepository.getBySlug(slug);
 
   if (!listing) {
