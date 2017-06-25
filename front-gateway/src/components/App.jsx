@@ -17,19 +17,19 @@ class App extends Component {
       footer: appStore.currentView.hideFooter ? (() => null) : AppFooter
     };
 
-    let viewClassName = appStore.currentView.behindHeader ? '' : 'app-content-with-header';
+    let viewClassName = (appStore.currentView.hideHeader || appStore.currentView.behindHeader) ? '' : 'app-content-with-header';
     if (appStore.currentView.hideFooter) { viewClassName += ' full-height'; }
 
     return (
       <div className="full-height">
-        <AppHeader />
+        {appStore.currentView.hideHeader ? null : <AppHeader />}
         <div className={viewClassName}>
           <appStore.currentView {...appStore.routeParams} />
         </div>
         <components.footer />
         <components.mobxDevTools />
         <Notifications />
-        <DorbelModal show={appStore.showModal} params={appStore.modalParams}/>
+        <DorbelModal show={appStore.showModal} params={appStore.modalParams} />
       </div>
     );
   }

@@ -402,7 +402,7 @@ class Filter extends Component {
   }
 
   render() {
-    const { cityStore, neighborhoodStore, authStore } = this.props.appStore;
+    const { cityStore, neighborhoodStore, authStore, searchStore } = this.props.appStore;
     const cities = cityStore.cities.length ? cityStore.cities : [];
     const cityId = this.filterObj.city || DEFAULT_FILTER_PARAMS.city;
     const cityTitle = this.getAreaTitle(cityId, CITY_ALL_OPTION, cities, 'city_name');
@@ -411,6 +411,7 @@ class Filter extends Component {
     const neighborhoodTitle = this.getAreaTitle(neighborhoodId, NEIGHBORHOOD_ALL_OPTION, neighborhoods, 'neighborhood_name');
 
     const filterButtonText = this.state.hideFilter ? 'סנן תוצאות' : 'סגור';
+    const saveFilterButtonText = searchStore.activeFilterId ? 'עדכן חיפוש' : 'שמור חיפוש';
 
     return <div>
       <div className="filter-toggle-container">
@@ -473,8 +474,8 @@ class Filter extends Component {
             </OverlayTrigger>
           </Col>
           <Col sm={3} lg={2} >
-            <Button block bsStyle="info" onClick={this.saveFilter}>
-              שמור חיפוש
+            <Button id="saveFilterButton" block bsStyle="info" onClick={this.saveFilter}>
+              {saveFilterButtonText}
             </Button>
           </Col>
           <Col lgHidden mdHidden smHidden className="filter-future-booking-switch-mobile-wrapper">
