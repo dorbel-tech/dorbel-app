@@ -45,7 +45,8 @@ export default class TenantRow extends React.Component {
         id: tenant.dorbel_user_id,
         name: tenant.first_name,
         email: tenant.email,
-        configuration: 'general'
+        configuration: 'general',
+        welcomeMessage: 'באפשרותך לשלוח הודעה לדייר. במידה והוא אינו מחובר הודעתך תישלך אליו למייל.'
       };
       const conversation = messagingProvider.getOrStartConversation(withUserObj, {
         topicId: tenant.listing_id,

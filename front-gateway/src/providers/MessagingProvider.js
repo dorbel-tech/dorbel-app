@@ -20,8 +20,7 @@ class MessagingProvider {
         name: this.authStore.profile.first_name,
         email: this.authStore.profile.email,
         photoUrl: this.authStore.profile.picture,
-        configuration: 'general',
-        welcomeMessage: 'הי, אשמח לשוחח :)'
+        configuration: 'general'
       });
 
       return true;

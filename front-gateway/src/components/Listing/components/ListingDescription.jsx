@@ -91,7 +91,8 @@ class ListingDescription extends React.Component {
           id: listing.publishing_user_id,
           name: listing.publishing_user_first_name,
           email: listing.publishing_user_email,
-          configuration: 'general'
+          configuration: 'general',
+          welcomeMessage: 'באפשרותך לשלוח הודעה לבעל הדירה. במידה והוא אינו מחובר הודעתך תישלך אליו למייל.'
         };
         const conversation = messagingProvider.getOrStartConversation(withUserObj, {
           topicId: listing.listing_id,
