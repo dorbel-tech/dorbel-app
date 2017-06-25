@@ -3,7 +3,7 @@ import autobind from 'react-autobind';
 import { inject } from 'mobx-react';
 import { Col, Row, Image, Dropdown, MenuItem } from 'react-bootstrap';
 import TenantProfile from '~/components/Tenants/TenantProfile/TenantProfile';
-import { setIntercomStyle } from '~/providers/utils';
+import { hideIntercom } from '~/providers/utils';
 
 import './TenantRow.scss';
 
@@ -16,7 +16,7 @@ export default class TenantRow extends React.Component {
 
   componentWillUnmount() {
     this.popup && this.popup.destroy();
-    setIntercomStyle('block');
+    hideIntercom(false);
   }
 
   static getEmptyTenantList() {
@@ -55,7 +55,7 @@ export default class TenantRow extends React.Component {
       this.popup = messagingProvider.talkSession.createPopup(conversation);
       this.popup.mount();
 
-      setIntercomStyle('none');
+      hideIntercom(true);
     });
   }
 

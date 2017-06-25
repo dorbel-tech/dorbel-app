@@ -113,11 +113,11 @@ function flushPromises() {
   return new Promise(resolve => setImmediate(resolve));
 }
 
-function setIntercomStyle(display) {
+function hideIntercom(bool) {
   const intercomContainer = document.getElementById('intercom-container');
 
   if (intercomContainer) {
-    intercomContainer.style.display = display;
+    intercomContainer.style.display = bool ? 'none' : 'block';
   }
 }
 
@@ -135,5 +135,5 @@ module.exports = {
   promiseSeries,
   isMobile,
   flushPromises,
-  setIntercomStyle
+  hideIntercom
 };

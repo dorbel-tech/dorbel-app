@@ -5,7 +5,7 @@ import { Nav, Navbar, NavItem } from 'react-bootstrap';
 import isMobileJs from 'ismobilejs';
 import UserProfileBadge from './UserProfileBadge/UserProfileBadge';
 import { MENU_ITEMS } from '../Dashboard/DashboardShared';
-import { setIntercomStyle } from '~/providers/utils';
+import { hideIntercom } from '~/providers/utils';
 
 import './Header.scss';
 
@@ -35,10 +35,6 @@ class Header extends Component {
     </NavItem>;
   }
 
-  headerToggleHandler(navExpanded) {
-    setIntercomStyle(navExpanded ? 'none' : 'block');
-  }
-
   componentDidMount() {
     this.mobileMenu = document.getElementsByClassName('navbar-collapse')[0];
     this.mobileMenuToggle = document.getElementsByClassName('navbar-toggle')[0];
@@ -54,7 +50,7 @@ class Header extends Component {
     return (
       <Navbar className="header-navbar"
         collapseOnSelect fixedTop fluid inverse
-        onToggle={this.headerToggleHandler}>
+        onToggle={hideIntercom}>
         <Navbar.Header>
           <Navbar.Brand>
             <a href={externalURL}

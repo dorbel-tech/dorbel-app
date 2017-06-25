@@ -18,7 +18,7 @@ class ListingDescription extends React.Component {
     const { utils } = this.props.appProviders;
 
     this.popup && this.popup.destroy();
-    utils.setIntercomStyle('block');
+    utils.hideIntercom(false);
   }
 
   renderDescriptionRow(titleText, innerContent) {
@@ -101,7 +101,7 @@ class ListingDescription extends React.Component {
         this.popup = messagingProvider.talkSession.createPopup(conversation);
         this.popup.mount();
 
-        utils.setIntercomStyle('none');
+        utils.hideIntercom(true);
       });
     } else {
       this.props.appProviders.authProvider.showLoginModal();

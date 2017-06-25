@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
-import { setIntercomStyle } from '~/providers/utils';
+import { hideIntercom } from '~/providers/utils';
 
 import './MyMessages.scss';
 
@@ -18,7 +18,7 @@ class MyMessages extends Component {
         var inbox = messagingProvider.talkSession.createInbox();
         inbox.mount(document.getElementById('talkjs-inbox-container'));
 
-        setIntercomStyle('none');
+        hideIntercom(true);
       }
     });
   }
