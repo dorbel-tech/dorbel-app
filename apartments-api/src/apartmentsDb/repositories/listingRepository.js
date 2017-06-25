@@ -111,15 +111,14 @@ function getOneListing(where) {
   });
 }
 
-function getLastListingByApartmentId(apartmentId) {
-  return models.listing.findOne({
+function getLatestListingByApartmentId(apartmentId) {
+  return models.latest_listing.findOne({
     attributes: listingAttributes,
     where: {
       apartment_id: apartmentId,
       status: { $notIn: ['deleted'] }
     },
-    include: fullListingDataInclude,
-    order: 'id DESC', // Order by latest listingId to have it on top of results.
+    include: fullListingDataInclude
   });
 }
 
@@ -231,7 +230,7 @@ module.exports = {
   create,
   getById: id => getOneListing({ id }),
   getBySlug: slug => getOneListing({ slug }),
-  getByApartmentId: getLastListingByApartmentId,
+  getByApartmentId: getLatestListingByApartmentId,
   getSlugs,
   update,
   listingStatuses: models.listing.attributes.status.values

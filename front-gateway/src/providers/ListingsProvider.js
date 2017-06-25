@@ -20,7 +20,7 @@ class ListingsProvider {
       .then(listing => {
         listing.title = utils.getListingTitle(listing);
         this.appStore.listingStore.set(listing);
-        this.appStore.listingStore.setLastByApartentId(listing);
+        this.appStore.listingStore.setLastByApartmentId(listing);
         this.appStore.metaData = _.defaults(this.getListingMetadata(listing), this.appStore.metaData);
       });
   }

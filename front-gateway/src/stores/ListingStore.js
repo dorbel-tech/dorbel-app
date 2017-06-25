@@ -41,7 +41,7 @@ export default class ListingStore {
     }
   }
 
-  setLastByApartentId(listing) {
+  setLastByApartmentId(listing) {
     this.lastListingByApartmentId.set(listing.apartment_id, listing);
   }
 
