@@ -73,4 +73,8 @@ export default class ModalProvider {
 
     this.appStore.showModal = true;
   }
+
+  close() {
+    this.appStore.showModal = false;
+  }
 }

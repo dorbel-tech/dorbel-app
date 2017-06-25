@@ -119,7 +119,7 @@ class MonthlyReport extends Component {
               className="monthly-report-future-booking-icon"
               onClick={this.navProvider.handleHrefClick}
               href={`/dashboard/my-properties/${listing.id}/stats`}>
-              <img src="https://static.dorbel.com/images/icons/monthly-report/future-booking-on.svg" />
+              <img src="https://static.dorbel.com/images/icons/monthly-report/future-booking.svg" />
             </a>
           </Col>
           <Col xs={10}>
