@@ -14,24 +14,32 @@ class MessagingProvider {
       this.initTalkSession();
   }
 
-  initTalkSession() {
-    if (this.talkSession || !this.authStore.isLoggedIn) {
-      return false;
+  initTalkUser() {
+    if (this.authStore.isLoggedIn) {
+      this.talkUser = new global.window.Talk.User({
+        id: this.authStore.profile.dorbel_user_id,
+        name: this.authStore.profile.first_name,
+        email: this.authStore.profile.email,
+        photoUrl: this.authStore.profile.picture,
+        configuration: 'general',
+        welcomeMessage: 'Hey there! Love to chat :-)'
+      });
+
+      return true;
     }
 
-    const me = new global.window.Talk.User({
-      id: this.authStore.profile.dorbel_user_id,
-      name: this.authStore.profile.first_name,
-      email: this.authStore.profile.email,
-      photoUrl: this.authStore.profile.picture,
-      configuration: 'general',
-      welcomeMessage: 'Hey there! Love to chat :-)'
-    });
+    return false;
+  }
+
+  initTalkSession() {
+    if (!this.initTalkUser()) {
+      return false;
+    }
 
     this.talkSession = new global.window.Talk.Session({
       appId: 'taEQQ8AS',
       publishableKey: 'pk_test_7L5d4GmL6LAj26pjg31VZVY',
-      me: me
+      me: this.talkUser
     });
 
     return true;
