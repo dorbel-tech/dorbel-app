@@ -1,6 +1,7 @@
 import React from 'react';
 import { Grid, Row, Col } from 'react-bootstrap';
 import NavLink from '~/components/NavLink';
+import { SEARCH_PREFIX } from '~/routesHelper';
 
 import './Footer.scss';
 
@@ -29,7 +30,7 @@ export default class Footer extends React.Component {
             <a href={externalURL + 'about_us'}>מי אנחנו</a>
             <a href={externalURL + 'career'}>בואו לעבוד איתנו</a>
             <a href="https://www.dorbel.com/blog">הבלוג שלנו</a>
-            <NavLink to="/search">מצאו דירה – ללא תיווך</NavLink>
+            <NavLink to={SEARCH_PREFIX}>מצאו דירה – ללא תיווך</NavLink>
           </Col>
           <Col sm={2} md={2} className="footer-links-col">
             <a href={externalURL + 'faq'}>שאלות נפוצות</a>

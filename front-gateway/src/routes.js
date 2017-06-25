@@ -9,21 +9,22 @@ import Health from '~/components/Health';
 import UploadApartmentForm from '~/components/ApartmentForm/UploadApartmentForm';
 import SelectUploadMode from '~/components/ApartmentForm/SelectUploadMode';
 import MonthlyReport from '~/components/MonthlyReport/MonthlyReport';
+import routesHelper from './routesHelper';
 
 const routes = [
   { route: '/', view: Home },
   { route: '/health', view: Health },
   { route: '/login', view: Login },
-  { route: '/search', view: Search },
-  { route: '/properties/submit', view: SelectUploadMode },
-  { route: '/properties/submit/:mode', view: UploadApartmentForm },
-  { route: '/properties/:apartmentId', view: Listing },
-  { route: '/properties/:apartmentId/:action', view: Listing, requireLogin: true },
-  { route: '/properties/:apartmentId/:action/:oheId', view: Listing, requireLogin: true },
-  { route: '/dashboard', view: Dashboard, requireLogin: true },
-  { route: '/dashboard/:action', view: Dashboard, requireLogin: true },
-  { route: '/dashboard/:action/:listingId', view: Dashboard, requireLogin: true },
-  { route: '/dashboard/:action/:listingId/:tab', view: Dashboard, requireLogin: true },
+  { route: routesHelper.SEARCH_PREFIX, view: Search },
+  { route: routesHelper.PROPERTIES_PREFIX + '/submit', view: SelectUploadMode },
+  { route: routesHelper.PROPERTIES_PREFIX + '/submit/:mode', view: UploadApartmentForm },
+  { route: routesHelper.PROPERTIES_PREFIX + '/:apartmentId', view: Listing },
+  { route: routesHelper.PROPERTIES_PREFIX + '/:apartmentId/:action', view: Listing, requireLogin: true },
+  { route: routesHelper.PROPERTIES_PREFIX + '/:apartmentId/:action/:oheId', view: Listing, requireLogin: true },
+  { route: routesHelper.DASHBOARD_PREFIX, view: Dashboard, requireLogin: true },
+  { route: routesHelper.DASHBOARD_PREFIX + '/:action', view: Dashboard, requireLogin: true },
+  { route: routesHelper.DASHBOARD_PREFIX + '/:action/:listingId', view: Dashboard, requireLogin: true },
+  { route: routesHelper.DASHBOARD_PREFIX + '/:action/:listingId/:tab', view: Dashboard, requireLogin: true },
   { route: '/monthly-report/:listingId/:monthNumber', view: MonthlyReport, requireLogin: true }
 ];
 

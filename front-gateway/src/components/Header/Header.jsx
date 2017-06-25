@@ -5,6 +5,7 @@ import { Nav, Navbar, NavItem } from 'react-bootstrap';
 import isMobileJs from 'ismobilejs';
 import UserProfileBadge from './UserProfileBadge/UserProfileBadge';
 import { MENU_ITEMS } from '../Dashboard/DashboardShared';
+import { SEARCH_PREFIX } from '~/routesHelper';
 
 import './Header.scss';
 
@@ -78,7 +79,7 @@ class Header extends Component {
               :
               null}
             {isMobile ?
-              <NavItem onClick={this.handleHrefClick} href="/search">מצאו דירה</NavItem>
+              <NavItem onClick={this.handleHrefClick} href={SEARCH_PREFIX}>מצאו דירה</NavItem>
               :
               null}
             <NavItem onClick={this.handleHrefClick} href={externalURL + '/pages/about_us'}>
@@ -95,7 +96,7 @@ class Header extends Component {
             {isMobile ?
               null
               :
-              <NavItem onClick={this.handleHrefClick} href="/search">מצאו דירה</NavItem>
+              <NavItem onClick={this.handleHrefClick} href={SEARCH_PREFIX}>מצאו דירה</NavItem>
             }
             {isMobile ?
               null
