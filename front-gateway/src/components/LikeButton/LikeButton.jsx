@@ -16,11 +16,10 @@ class LikeButton extends Component {
       let wasLiked = appProviders.likeProvider.get(apartmentId);
       appProviders.likeProvider.set(apartmentId, listingId, !wasLiked)
       .then(() => {
-        if (!wasLiked) {
-          appProviders.notificationProvider.success('הדירה נשמרה בהצלחה לרשימת הדירות שאהבתם');
-        } else {
-          appProviders.notificationProvider.success('הדירה הוסרה בהצלחה מרשימת ההדירות שאהבתם');
-        }
+        const likeNotification = wasLiked ?
+          'הדירה הוסרה בהצלחה מרשימת ההדירות שאהבתם' :
+          'הדירה נשמרה בהצלחה לרשימת הדירות שאהבתם';
+        appProviders.notificationProvider.success(likeNotification);
       });
 
       // Update listing.totalLikes if exists in listingStore
