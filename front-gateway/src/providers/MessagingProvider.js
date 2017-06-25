@@ -22,7 +22,7 @@ class MessagingProvider {
         email: this.authStore.profile.email,
         photoUrl: this.authStore.profile.picture,
         configuration: 'general',
-        welcomeMessage: 'Hey there! Love to chat :-)'
+        welcomeMessage: 'הי, אשמח לשוחח :)'
       });
 
       return true;
