@@ -7,29 +7,32 @@ import './LikeButton.scss';
 class LikeButton extends Component {
 
   handleClick(e) {
+    const { apartmentId, listingId, appStore, appProviders } = this.props;
+
     e.stopPropagation();
     e.preventDefault();
-    if (this.props.appStore.authStore.isLoggedIn) {
-      let wasLiked = this.props.appProviders.likeProvider.get(this.props.apartmentId);
-      this.props.appProviders.likeProvider.set(this.props.apartmentId, this.props.listingId, !wasLiked)
+
+    if (appStore.authStore.isLoggedIn) {
+      let wasLiked = appProviders.likeProvider.get(apartmentId);
+      appProviders.likeProvider.set(apartmentId, listingId, !wasLiked)
       .then(() => {
         if (!wasLiked) {
-          this.props.appProviders.notificationProvider.success('הדירה נשמרה בהצלחה לרשימת הדירות שאהבתם');
+          appProviders.notificationProvider.success('הדירה נשמרה בהצלחה לרשימת הדירות שאהבתם');
         } else {
-          this.props.appProviders.notificationProvider.success('הדירה הוסרה בהצלחה מרשימת ההדירות שאהבתם');
+          appProviders.notificationProvider.success('הדירה הוסרה בהצלחה מרשימת ההדירות שאהבתם');
         }
       });
 
       // Update listing.totalLikes if exists in listingStore
-      let listing = this.props.appStore.listingStore.get(this.props.listingId);
+      let listing = appStore.listingStore.get(listingId);
       if (listing) {
         listing.totalLikes = listing.totalLikes || 0;
         listing.totalLikes = wasLiked ? listing.totalLikes - 1 : listing.totalLikes + 1;
-        this.props.appStore.listingStore.set(listing);
+        appStore.listingStore.set(listing);
       }
     }
     else {
-      this.props.appProviders.authProvider.showLoginModal();
+      appProviders.authProvider.showLoginModal();
     }
   }
 
