@@ -106,7 +106,7 @@ function getOneListing(where) {
   return models.listing.findOne({
     attributes: listingAttributes,
     where,
-    include: fullListingDataInclude,
+    include: fullListingDataInclude
   });
 }
 

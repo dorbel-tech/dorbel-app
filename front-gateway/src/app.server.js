@@ -2,7 +2,7 @@
 import { renderToString } from 'react-dom/server';
 import 'ignore-styles';
 import _ from 'lodash';
-import request from 'request-promise';
+import request from 'axios';
 import shared from '~/app.shared';
 import { getCloudinaryParams } from './server/cloudinaryConfigProvider';
 
@@ -62,12 +62,11 @@ function* renderApp() {
   if (this.path.startsWith('/apartments/')) {
     const listingId = this.path.split('/').pop(-1); // Get listingId from path.
     const url = `${this.protocol}://${this.host}/api/apartments/v1/listings/${listingId}`;
-    const options = { json: true };
 
-    return request.get(url, options) // Get listing from apartments-api.
-      .then(listing => {
+    return request.get(url) // Get listing from apartments-api.
+      .then(response => {
         this.status = 301;
-        return this.redirect('/properties/' + listing.apartment_id + this.search);
+        return this.redirect('/properties/' + response.data.apartment_id + this.search);
       })
       .catch(() => { // If listing wasn't found.
         return this.redirect('/search');
