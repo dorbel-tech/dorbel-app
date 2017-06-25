@@ -131,7 +131,7 @@ class ListingDescription extends React.Component {
             <div>
               <p>{listing.publishing_user_first_name || 'אנונימי'}</p>
               {this.renderPhone(listing)}
-              {this.renderMsg(listing)}
+              {this.renderMsg()}
             </div>
           )
         }
