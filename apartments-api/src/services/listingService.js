@@ -376,9 +376,9 @@ function* enrichListingResponse(listing, user) {
   if (listing) {
     const enrichedListing = listing.toJSON ? listing.toJSON() : _.cloneDeep(listing); // discard SQLize object for adding ad-hoc properties
 
-    const publishingUser = yield userManagement.getUserDetails(listing.publishing_user_id);
-    if (publishingUser) {
-      enrichedListing.publishing_user_first_name = _.get(publishingUser, 'user_metadata.first_name') || publishingUser.given_name;
+    const publishingUserProfile = yield userManagement.getPublicProfile(listing.publishing_user_id);
+    if (publishingUserProfile) {
+      enrichedListing.publishing_user_first_name = publishingUserProfile.first_name;
     }
 
     enrichedListing.meta = {
@@ -392,12 +392,12 @@ function* enrichListingResponse(listing, user) {
       else {
         delete enrichedListing.property_value;
       }
-      if (publishingUser) {
-        enrichedListing.publishing_user_email = _.get(publishingUser, 'user_metadata.email') || publishingUser.email;
+      if (publishingUserProfile) {
+        enrichedListing.publishing_user_email = publishingUserProfile.email;
       }
       // TODO: Implemented this way as discussed - should be different api call when possible
       if (listing.show_phone) {
-        enrichedListing.publishing_user_phone = _.get(publishingUser, 'user_metadata.phone' || 'phone') || '';
+        enrichedListing.publishing_user_phone = publishingUserProfile.phone || '';
       }
     }
     else {
