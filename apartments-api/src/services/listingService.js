@@ -331,15 +331,8 @@ function* getByApartmentId(id, user) {
     throw new CustomError(404, 'Cant get listing by apartmentId. Listing does not exists. apartmentId: ' + id);
   }
 
-  const isPending = listing.status === 'pending';
-  const isPublishingUserOrAdmin = userPermissions.isResourceOwnerOrAdmin(user, listing.publishing_user_id);
-
-  // Pending listing will be displayed to user who is listing publisher or admins only.
-  if (isPending && !isPublishingUserOrAdmin) {
-    throw new CustomError(403, 'Cant show pending listing by apartment. User is not a publisher of listingId: ' + listing.id);
-  } else {
-    return yield enrichListingResponse(listing, user);
-  }
+  validateListing(listing, user);
+  return yield enrichListingResponse(listing, user);
 }
 
 function* getById(id, user) {
@@ -349,6 +342,11 @@ function* getById(id, user) {
     throw new CustomError(404, 'Cant get listing by Id. Listing does not exists. listingId: ' + id);
   }
 
+  validateListing(listing, user);
+  return yield enrichListingResponse(listing, user);
+}
+
+function validateListing(listing, user) {
   const isPending = listing.status === 'pending';
   const isDeleted = listing.status === 'deleted';
   const isAdmin = userPermissions.isUserAdmin(user);
@@ -362,8 +360,6 @@ function* getById(id, user) {
   // Pending listing will be displayed to user who is listing publisher or admins only.
   if (isPending && !isPublishingUserOrAdmin) {
     throw new CustomError(403, 'Cant show pending listing. User is not a publisher of listingId: ' + listing.id);
-  } else {
-    return yield enrichListingResponse(listing, user);
   }
 }
 
