@@ -3,6 +3,7 @@ import { Grid, Col } from 'react-bootstrap';
 import { inject, observer } from 'mobx-react';
 import NavLink from '~/components/NavLink';
 import SearchResults from '~/components/Search/SearchResults';
+import { PROPERTY_SUBMIT_PREFIX } from '~/routesHelper';
 
 import './MyProperties.scss';
 
@@ -34,7 +35,7 @@ class MyProperties extends Component {
             <Grid fluid>
               <Col lg={4} sm={6} xs={12}>
                 <div className="my-properties-empty">
-                  <NavLink className="my-properties-add" to="/properties/submit">
+                  <NavLink className="my-properties-add" to={PROPERTY_SUBMIT_PREFIX}>
                     <div className="my-properties-cross">
                       <img src="https://static.dorbel.com/images/dashboard/add-property-icon.svg" />
                     </div>

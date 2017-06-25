@@ -2,6 +2,7 @@ import React from 'react';
 import { Grid, Row, Col } from 'react-bootstrap';
 import NavLink from '~/components/NavLink';
 import { SEARCH_PREFIX } from '~/routesHelper';
+import { PROPERTY_SUBMIT_PREFIX } from '~/routesHelper';
 
 import './Footer.scss';
 
@@ -24,7 +25,7 @@ export default class Footer extends React.Component {
             <NavLink to="/">דף הבית</NavLink>
             <a href={externalURL + 'services'}>שירותי פרימיום</a>
             <a href={externalURL + 'owner'}>בעלי דירות</a>
-            <NavLink to="/properties/submit">פרסמו דירה – חינם</NavLink>
+            <NavLink to={PROPERTY_SUBMIT_PREFIX}>פרסמו דירה – חינם</NavLink>
           </Col>
           <Col sm={2} md={2} className="footer-links-col">
             <a href={externalURL + 'about_us'}>מי אנחנו</a>

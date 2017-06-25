@@ -1,6 +1,7 @@
 'use strict';
 
 const PROPERTIES_PREFIX = '/properties';
+const PROPERTY_SUBMIT_PREFIX = '/properties/submit';
 const DASHBOARD_PREFIX = '/dashboard';
 const SEARCH_PREFIX = '/search';
 
@@ -14,6 +15,7 @@ function getDashMyPropsPath(listing, addPath = '') {
 
 module.exports = {
   PROPERTIES_PREFIX,
+  PROPERTY_SUBMIT_PREFIX,
   DASHBOARD_PREFIX,
   SEARCH_PREFIX,
   getDashMyPropsPath,
