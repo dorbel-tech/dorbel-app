@@ -49,7 +49,7 @@ function* create(listing, user) {
       last_name: listing.user.lastname,
       email: listing.user.email,
       phone: generic.normalizePhone(listing.user.phone),
-      listing_id: createdListing.id
+      apartment_id: createdListing.apartment_id
     }
   });
 
