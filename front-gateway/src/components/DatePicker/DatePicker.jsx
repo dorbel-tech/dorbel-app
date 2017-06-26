@@ -3,33 +3,39 @@ import React, { Component } from 'react';
 import ReactBootstrapDatePicker from 'react-bootstrap-date-picker';
 import { FormControl, InputGroup, Glyphicon } from 'react-bootstrap';
 import moment from 'moment';
+import _ from 'lodash';
 
 const monthLabels = moment.months(); // moment locales are set in App.jsx
 const weekdayLabels = moment.weekdaysMin();
 const dateFormat = moment.localeData()._longDateFormat.L;
 
 class CustomControl extends Component {
+  static propTypes = {
+    onClear: React.PropTypes.func,
+    showClearButton: React.PropTypes.bool
+  }
+
   clear() {
     this.props.onClear && this.props.onClear();
   }
 
   render() {
-    // The readOnly attribute prevents mobile devices
-    // from popping up the keyboard on input touch.
-    const { showClearButton, onClear, ...restOfProps } = this.props;
+    const restOfProps = _.omit(this.props, ['showClearButton', 'onClear']);
     const inputProps = {
+      // The readOnly attribute prevents mobile devices
+      // from popping up the keyboard on input touch.
       readOnly: true,
       className: 'react-bootstrap-date-picker-custom-control',
       ...restOfProps
     };
 
-    if (showClearButton) {
-      return <InputGroup>
+    if (this.props.showClearButton) {
+      return (<InputGroup>
         <FormControl {...inputProps} />
         <InputGroup.Addon><Glyphicon glyph="remove" onClick={this.clear.bind(this)}/></InputGroup.Addon>
-      </InputGroup>;
+      </InputGroup>);
     } else {
-      return <input {...inputProps} />
+      return <input {...inputProps} />;
     }
   }
 }
@@ -37,14 +43,17 @@ class CustomControl extends Component {
 class DatePicker extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      dateValue: this.props.value,
-      name: this.props.name
-    };
+
+    let defaultDateValue = this.props.value;
 
     if (!this.props.placeholder && !this.props.value) {
-      this.state.dateValue = moment().add(1, 'days').format(); // default to tommorrow
+      defaultDateValue = moment().add(1, 'days').format(); // default to tommorrow
     }
+
+    this.state = {
+      dateValue: defaultDateValue,
+      name: this.props.name
+    };
   }
 
   componentWillReceiveProps(nextProps) {
@@ -99,11 +108,8 @@ DatePicker.propTypes = {
   calendarPlacement: React.PropTypes.string,
   calendarContainer: React.PropTypes.object,
   placeholder: React.PropTypes.string,
-  showClearButton: React.PropTypes.bool
+  showClearButton: React.PropTypes.bool,
+  onClear: React.PropTypes.func
 };
 
 export default DatePicker;
-
-
-
-

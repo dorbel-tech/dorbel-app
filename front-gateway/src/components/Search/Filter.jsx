@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import autobind from 'react-autobind';
-import { Button, Checkbox, OverlayTrigger, Popover, Radio, Col, DropdownButton, Grid, MenuItem, Row } from 'react-bootstrap';
+import { Button, Checkbox, OverlayTrigger, Popover, Col, DropdownButton, Grid, MenuItem, Row } from 'react-bootstrap';
 import { inject, observer } from 'mobx-react';
 import Nouislider from 'react-nouislider';
 import { range } from 'lodash';
 import ReactTooltip from 'react-tooltip';
 import _ from 'lodash';
-import moment from 'moment';
 
 import './Filter.scss';
 import SavedFilters from './SavedFilters/SavedFilters';
