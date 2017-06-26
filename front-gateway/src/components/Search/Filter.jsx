@@ -149,10 +149,12 @@ class Filter extends Component {
   }
 
   leaseStartDateChange(field, date) {
-    this.setState({ [field]: date });
-    this.filterObj[field] = date;
-    this.setState({leaseStartFilterClass: this.getLeaseStartFilterClass()});
-    this.reloadResults();
+    if (this.state[field] !== date) {
+      this.setState({ [field]: date });
+      this.filterObj[field] = date;
+      this.setState({leaseStartFilterClass: this.getLeaseStartFilterClass()});
+      this.reloadResults();
+    }
   }
 
   sliderChangeHandler(range, minProp, maxProp) {
