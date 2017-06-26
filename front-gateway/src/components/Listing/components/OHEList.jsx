@@ -3,7 +3,7 @@ import { inject, observer } from 'mobx-react';
 import _ from 'lodash';
 import autobind from 'react-autobind';
 import OHERegisterModal from './OHERegisterModal';
-import { getListingPath, getDashMyPropsPath } from '~/routesHelper';
+import { getPropertyPath, getDashMyPropsPath } from '~/routesHelper';
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
 
 @inject('appStore', 'appProviders', 'router') @observer
@@ -179,7 +179,7 @@ class OHEList extends Component {
 
   render() {
     const { listing, router } = this.props;
-    const closeModal = () => router.setRoute(getListingPath(listing));
+    const closeModal = () => router.setRoute(getPropertyPath(listing));
     const ohes = this.props.appStore.oheStore.oheByListingId(listing.id);
 
     if (!ohes) {

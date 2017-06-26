@@ -9,7 +9,7 @@ const shared = require('dorbel-shared');
 const logger = shared.logger.getLogger(module);
 const geoProvider = require('../../providers/geoProvider');
 
-const listingAttributes = { exclude: [ 'updated_at' ] };
+const listingAttributes = { exclude: [ 'property_value', 'updated_at' ] };
 const apartmentAttributes = { exclude: [ 'created_at', 'updated_at' ] };
 const buildingAttributes = { exclude: [ 'created_at', 'updated_at' ] };
 const cityAttributes = [ 'id', 'city_name' ];
@@ -106,6 +106,17 @@ function getOneListing(where) {
   return models.listing.findOne({
     attributes: listingAttributes,
     where,
+    include: fullListingDataInclude
+  });
+}
+
+function getLatestListingByApartmentId(apartmentId) {
+  return models.latest_listing.findOne({
+    attributes: listingAttributes,
+    where: {
+      apartment_id: apartmentId,
+      status: { $notIn: ['deleted'] }
+    },
     include: fullListingDataInclude
   });
 }
@@ -218,6 +229,7 @@ module.exports = {
   create,
   getById: id => getOneListing({ id }),
   getBySlug: slug => getOneListing({ slug }),
+  getByApartmentId: getLatestListingByApartmentId,
   getSlugs,
   update,
   listingStatuses: models.listing.attributes.status.values

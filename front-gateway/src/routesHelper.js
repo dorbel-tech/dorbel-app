@@ -1,11 +1,12 @@
 'use strict';
 
-const APARTMENTS_PREFIX = '/apartments';
+const PROPERTIES_PREFIX = '/properties';
+const PROPERTY_SUBMIT_PREFIX = '/properties/submit';
 const DASHBOARD_PREFIX = '/dashboard';
 const SEARCH_PREFIX = '/search';
 
-function getListingPath(listing) {
-  return APARTMENTS_PREFIX + '/' + (listing.slug || listing.id);
+function getPropertyPath(listing) {
+  return PROPERTIES_PREFIX + '/' + listing.apartment_id;
 }
 
 function getDashMyPropsPath(listing, addPath = '') {
@@ -13,9 +14,10 @@ function getDashMyPropsPath(listing, addPath = '') {
 }
 
 module.exports = {
-  APARTMENTS_PREFIX,
+  PROPERTIES_PREFIX,
+  PROPERTY_SUBMIT_PREFIX,
   DASHBOARD_PREFIX,
   SEARCH_PREFIX,
-  getListingPath,
-  getDashMyPropsPath
+  getDashMyPropsPath,
+  getPropertyPath
 };

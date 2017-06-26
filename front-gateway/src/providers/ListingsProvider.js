@@ -6,6 +6,7 @@ import _ from 'lodash';
 import utils from './utils';
 import { isObservableObject, toJS } from 'mobx';
 import moment from 'moment';
+import routesHelper from '~/routesHelper';
 
 class ListingsProvider {
   constructor(appStore, providers, router) {
@@ -13,6 +14,16 @@ class ListingsProvider {
     this.apiProvider = providers.api;
     this.oheProvider = providers.ohe;
     this.router = router;
+  }
+
+  loadListingByApartmentId(id) {
+    return this.apiProvider.fetch('/api/apartments/v1/listings/by-apartment/' + id)
+      .then(listing => {
+        listing.title = utils.getListingTitle(listing);
+        this.appStore.listingStore.set(listing);
+        this.appStore.listingStore.setLastByApartmentId(listing);
+        this.appStore.metaData = _.defaults(this.getListingMetadata(listing), this.appStore.metaData);
+      });
   }
 
   loadFullListingDetails(idOrSlug) {
@@ -53,8 +64,7 @@ class ListingsProvider {
   }
 
   getCanonicalUrl(listing) {
-    let listingUrl = process.env.FRONT_GATEWAY_URL + '/apartments/';
-    return listingUrl += listing.slug || listing.id;
+    return process.env.FRONT_GATEWAY_URL + routesHelper.getPropertyPath(listing);
   }
 
   uploadApartment(listing) {
@@ -132,7 +142,7 @@ class ListingsProvider {
     newListing.lease_end = undefined;
     newListingStore.reset();
     newListingStore.loadListing(newListing);
-    this.router.setRoute('/apartments/new_form/republish');
+    this.router.setRoute('/properties/submit/republish');
   }
 
   isRepublishable(listing) {
