@@ -4,8 +4,10 @@ import { inject, observer } from 'mobx-react';
 import { Nav, Navbar, NavItem } from 'react-bootstrap';
 import isMobileJs from 'ismobilejs';
 import UserProfileBadge from './UserProfileBadge/UserProfileBadge';
-import { MENU_ITEMS } from '../Dashboard/DashboardShared';
 import { hideIntercom } from '~/providers/utils';
+import { MENU_ITEMS } from '../Dashboard/DashboardShared';
+import { SEARCH_PREFIX } from '~/routesHelper';
+import { PROPERTY_SUBMIT_PREFIX } from '~/routesHelper';
 
 import './Header.scss';
 
@@ -67,11 +69,11 @@ class Header extends Component {
             {MENU_ITEMS.map((item) => this.renderDashboardMenuItem(item))}
             {isMobile ?
               <NavItem className="header-navbar-btn-publish" onClick={this.handleHrefClick}
-                href="/apartments/new_form">פרסמו דירה</NavItem>
+                href={PROPERTY_SUBMIT_PREFIX}>פרסמו דירה</NavItem>
               :
               null}
             {isMobile ?
-              <NavItem onClick={this.handleHrefClick} href="/search">מצאו דירה</NavItem>
+              <NavItem onClick={this.handleHrefClick} href={SEARCH_PREFIX}>מצאו דירה</NavItem>
               :
               null}
             <NavItem onClick={this.handleHrefClick} href={externalURL + '/pages/about_us'}>
@@ -88,13 +90,13 @@ class Header extends Component {
             {isMobile ?
               null
               :
-              <NavItem onClick={this.handleHrefClick} href="/search">מצאו דירה</NavItem>
+              <NavItem onClick={this.handleHrefClick} href={SEARCH_PREFIX}>מצאו דירה</NavItem>
             }
             {isMobile ?
               null
               :
               <NavItem className="header-navbar-btn-publish" onClick={this.handleHrefClick}
-                href="/apartments/new_form">פרסמו דירה</NavItem>
+                href={PROPERTY_SUBMIT_PREFIX}>פרסמו דירה</NavItem>
             }
             {isLoggedIn ?
               <NavItem onClick={authProvider.logout}

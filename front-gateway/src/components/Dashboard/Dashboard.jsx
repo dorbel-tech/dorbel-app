@@ -31,8 +31,8 @@ class Dashboard extends Component {
       selectedActionItem = { component: this.props.externalComponent };
     }
     else {
-      if (this.props.propertyId) {
-        selectedActionItem = { component: <Property propertyId={this.props.propertyId} tab={this.props.tab} /> };
+      if (this.props.listingId) {
+        selectedActionItem = { component: <Property listingId={this.props.listingId} tab={this.props.tab} /> };
       } else {
         selectedActionItem = find(MENU_ITEMS, { navTo: this.props.action });
       }
@@ -50,7 +50,7 @@ class Dashboard extends Component {
 
 Dashboard.propTypes = {
   action: React.PropTypes.string,
-  propertyId: React.PropTypes.string,
+  listingId: React.PropTypes.string,
   tab: React.PropTypes.string,
   externalComponent: React.PropTypes.node
 };

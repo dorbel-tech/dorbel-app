@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import Filter from './Filter.jsx';
 import SearchResults from '~/components/Search/SearchResults';
+import { SEARCH_PREFIX } from '~/routesHelper';
 
 import './Search.scss';
 
@@ -23,7 +24,7 @@ class Search extends Component {
         <Filter />
         <SearchResults
           isReady={!isLoadingCities}
-          retryLink={<span>אנא <a href="/search">נסו שנית</a></span>}
+          retryLink={<span>אנא <a href={SEARCH_PREFIX}>נסו שנית</a></span>}
           noResultsContent={
             <div className="search-results-not-found">
               <b className="search-results-not-found-title">הלוואי והייתה לנו דירה בדיוק כזו.</b><br />

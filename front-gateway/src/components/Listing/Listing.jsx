@@ -29,11 +29,11 @@ class Listing extends Component {
   }
 
   static serverPreRender(props) {
-    return props.appProviders.listingsProvider.loadFullListingDetails(props.listingId);
+    return props.appProviders.listingsProvider.loadListingByApartmentId(props.apartmentId);
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.listingId != nextProps.listingId) {
+    if (this.props.apartmentId != nextProps.apartmentId) {
       this.props = nextProps;
       this.loadFullListingDetails();
     }
@@ -68,11 +68,11 @@ class Listing extends Component {
   }
 
   loadFullListingDetails() {
-    let listingId = this.props.listingId;
+    const { apartmentId, appStore, appProviders } = this.props;
 
-    if (!this.props.appStore.listingStore.get(listingId)) {
+    if(!appStore.listingStore.getByApartmentId(apartmentId)) {
       this.setState({ isLoading: true });
-      this.props.appProviders.listingsProvider.loadFullListingDetails(listingId)
+      appProviders.listingsProvider.loadListingByApartmentId(apartmentId)
         .then(() => this.setState({ isLoading: false }));
     } else {
       // Force render and scroll to top, since the store did not change.
@@ -99,8 +99,8 @@ class Listing extends Component {
   }
 
   render() {
-    const { appStore } = this.props;
-    const listing = appStore.listingStore.get(this.props.listingId);
+    const { apartmentId, appStore } = this.props;
+    const listing = appStore.listingStore.getByApartmentId(apartmentId);
 
     if (this.state.isLoading) {
       return (
@@ -136,13 +136,13 @@ class Listing extends Component {
         <ListingDescription listing={listing} />
       </Grid>
       {this.renderListingLocation(listing.apartment.building.geolocation)}
-      <RelatedListings listingId={listing.id} />
+      <RelatedListings apartmentId={listing.apartment_id} />
     </div>;
   }
 }
 
 Listing.wrappedComponent.propTypes = {
-  listingId: React.PropTypes.string.isRequired,
+  apartmentId: React.PropTypes.string.isRequired,
   appProviders: React.PropTypes.object,
   appStore: React.PropTypes.object,
   oheId: React.PropTypes.string,

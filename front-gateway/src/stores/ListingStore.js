@@ -3,6 +3,7 @@ import autobind from 'react-autobind';
 
 export default class ListingStore {
   @observable listingsById;
+  @observable lastListingByApartmentId;
   @observable listingViewsById;
   @observable listingTenantsById;
   @observable listingsByApartmentId;
@@ -10,6 +11,7 @@ export default class ListingStore {
 
   constructor(initialState = {}, authStore) {
     this.listingsById = asMap(initialState.listingsById || {});
+    this.lastListingByApartmentId = asMap(initialState.lastListingByApartmentId || {});
     this.listingsBySlug = asMap(initialState.listingsBySlug || {});
     this.listingViewsById = asMap(initialState.listingViewsById || {});
     this.listingTenantsById = asMap(initialState.listingTenantsById || {});
@@ -27,11 +29,20 @@ export default class ListingStore {
     }
   }
 
+  getByApartmentId(apartmentId){
+    return this.lastListingByApartmentId.get(apartmentId);
+  }
+
   set(listing) {
     this.listingsById.set(listing.id, listing);
+
     if (listing.slug) {
       this.listingsBySlug.set(listing.slug, listing);
     }
+  }
+
+  setLastByApartmentId(listing) {
+    this.lastListingByApartmentId.set(listing.apartment_id, listing);
   }
 
   @computed get apartments() {
@@ -42,6 +53,7 @@ export default class ListingStore {
     // TODO: Remove the clear and use the computed listings to filter the view.
     this.listingsById.clear();
     this.listingsBySlug.clear();
+    this.lastListingByApartmentId.clear();
     listings.forEach(this.add);
 
     this.isLoading = false;
@@ -64,6 +76,7 @@ export default class ListingStore {
   toJson() {
     return {
       listingsById: this.listingsById,
+      lastListingByApartmentId: this.lastListingByApartmentId,
       listingsBySlug: this.listingsBySlug,
       listingViewsById: this.listingViewsById,
       listingTenantsById: this.listingTenantsById

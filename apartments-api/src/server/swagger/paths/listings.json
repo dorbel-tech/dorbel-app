@@ -201,5 +201,37 @@
         }
       }
     }
+  },
+  "/listings/by-apartment/{apartmentId}": {
+    "get": {
+      "summary": "Get a single listing by apartmentId",
+      "description": "Get a single listing with all it's details",
+      "parameters": [
+        {
+          "name": "apartmentId",
+          "in": "path",
+          "description": "{id} of apartment",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "tags": [
+        "listingApartmentController"
+      ],
+      "responses": {
+        "200": {
+          "description": "A listing",
+          "schema": {
+            "$ref": "#/definitions/Listing"
+          }
+        },
+        "default": {
+          "description": "Unexpected error",
+          "schema": {
+            "$ref": "#/definitions/Error"
+          }
+        }
+      }
+    }
   }
 }

@@ -5,6 +5,7 @@ import UploadApartmentBaseStep from './UploadApartmentBaseStep';
 import ListingDetailsForm from './ListingDetailsForm/ListingDetailsForm';
 import ReactTooltip from 'react-tooltip';
 import NavLink from '~/components/NavLink';
+import { PROPERTY_SUBMIT_PREFIX } from '~/routesHelper';
 
 @inject('appProviders', 'appStore') @observer
 export default class UploadApartmentStep1 extends UploadApartmentBaseStep.wrappedComponent {
@@ -54,7 +55,7 @@ export default class UploadApartmentStep1 extends UploadApartmentBaseStep.wrappe
             ref="listingDetailsForm"
           />
           <Col xs={12} md={7} className="form-nav bottom">
-            <NavLink to="/apartments/new_form" className="prev-step step1">
+            <NavLink to={PROPERTY_SUBMIT_PREFIX} className="prev-step step1">
               <i className="apartment-pictures-previous-step fa fa-arrow-circle-o-right fa-2x" aria-hidden="true"></i>
               &nbsp; חזור
             </NavLink>

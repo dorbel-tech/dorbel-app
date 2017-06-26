@@ -6,6 +6,7 @@ import AddOHEModal from './AddOHEModal';
 import moment from 'moment';
 import autobind from 'react-autobind';
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
+import routesHelper from '~/routesHelper';
 
 import './OHEManager.scss';
 
@@ -25,7 +26,8 @@ class OHEManager extends React.Component {
   }
 
   showSharePopup() {
-    const listingUrl = `${location.protocol}//${location.hostname}/apartments/${this.props.listing.id}`;
+    const listing = this.props.listing;
+    const listingUrl = `${location.protocol}//${location.hostname}${routesHelper.getPropertyPath(listing)}`;
 
     this.props.appProviders.modalProvider.showShareModal({
       shareUrl: listingUrl,
