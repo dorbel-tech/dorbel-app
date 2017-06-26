@@ -69,14 +69,7 @@ export default class ListingStore {
     if (!profile) { return false; }
 
     const userIsListingPublisher = listing.publishing_user_id === profile.dorbel_user_id;
-    return userIsListingPublisher || this.userIsAdmin();
-  }
-
-  userIsAdmin() {
-    const profile = this.authStore.profile;
-    if (!profile) { return false; }
-
-    return profile.role === 'admin';
+    return userIsListingPublisher || this.authStore.userIsAdmin();
   }
 
   toJson() {

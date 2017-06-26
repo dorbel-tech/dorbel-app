@@ -250,8 +250,8 @@ class Filter extends Component {
   }
 
   renderAdminFilter() {
-    const { listingStore } = this.props.appStore;
-    const userIsAdmin = listingStore.userIsAdmin();
+    const { authStore } = this.props.appStore;
+    const userIsAdmin = authStore.userIsAdmin();
 
     if (userIsAdmin) {
       return <div className="filter-group-container">
