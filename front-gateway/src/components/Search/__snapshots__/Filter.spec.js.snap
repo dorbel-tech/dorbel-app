@@ -108,10 +108,11 @@ exports[`Filter should initialize correctly 1`] = `
                 componentClass="div"
                 lgOffset={2}
                 md={4}
-                sm={3}
-                smOffset={1}>
+                mdOffset={1}
+                sm={4}
+                smOffset={0}>
                 <div
-                  className="filter-dropdown-wrapper col-lg-offset-2 col-md-4 col-sm-3 col-sm-offset-1">
+                  className="filter-dropdown-wrapper col-lg-offset-2 col-md-4 col-md-offset-1 col-sm-4 col-sm-offset-0">
                   <DropdownButton
                     bsSize="large"
                     className="filter-dropdown "
@@ -424,11 +425,13 @@ exports[`Filter should initialize correctly 1`] = `
               <Col
                 bsClass="col"
                 componentClass="div"
+                lg={1}
                 lgOffset={2}
+                mdOffset={1}
                 sm={2}
-                smOffset={1}>
+                smOffset={0}>
                 <div
-                  className="col-lg-offset-2 col-sm-2 col-sm-offset-1">
+                  className="col-lg-1 col-lg-offset-2 col-md-offset-1 col-sm-2 col-sm-offset-0">
                   <OverlayTrigger
                     defaultOverlayShown={false}
                     overlay={
@@ -491,9 +494,10 @@ exports[`Filter should initialize correctly 1`] = `
               <Col
                 bsClass="col"
                 componentClass="div"
+                lg={1}
                 sm={2}>
                 <div
-                  className="col-sm-2">
+                  className="col-lg-1 col-sm-2">
                   <OverlayTrigger
                     defaultOverlayShown={false}
                     overlay={
@@ -542,10 +546,59 @@ exports[`Filter should initialize correctly 1`] = `
               <Col
                 bsClass="col"
                 componentClass="div"
-                lg={2}
+                md={2}
                 sm={3}>
                 <div
-                  className="col-lg-2 col-sm-3">
+                  className="col-md-2 col-sm-3">
+                  <OverlayTrigger
+                    defaultOverlayShown={false}
+                    overlay={
+                      <Popover
+                        bsClass="popover"
+                        className="filter-lease-start-popup"
+                        id="popup-lease-start"
+                        placement="right">
+                        <h5>
+                          <b>
+                            מתאריך:
+                          </b>
+                        </h5>
+                        <DatePicker
+                          onChange={[Function]}
+                          placeholder="בחרו תאריך התחלה"
+                          showClearButton={true}
+                          value={undefined} />
+                        <h5>
+                          <b>
+                            עד תאריך:
+                          </b>
+                        </h5>
+                        <DatePicker
+                          onChange={[Function]}
+                          placeholder="בחרו תאריך סיום"
+                          showClearButton={true}
+                          value={undefined} />
+                      </Popover>
+                    }
+                    placement="bottom"
+                    rootClose={true}
+                    trigger="click">
+                    <div
+                      aria-describedby="popup-lease-start"
+                      className="filter-trigger-container "
+                      onClick={[Function]}>
+                      תאריך כניסה
+                    </div>
+                  </OverlayTrigger>
+                </div>
+              </Col>
+              <Col
+                bsClass="col"
+                componentClass="div"
+                md={2}
+                sm={3}>
+                <div
+                  className="col-md-2 col-sm-3">
                   <OverlayTrigger
                     defaultOverlayShown={false}
                     overlay={
@@ -554,42 +607,6 @@ exports[`Filter should initialize correctly 1`] = `
                         className="filter-extra-popup"
                         id="popup-extra"
                         placement="right">
-                        <div
-                          className="sort-container filter-group-container">
-                          <div
-                            className="filter-switch-group-headersort-header">
-                            <b>
-                              סדר לפי
-                            </b>
-                          </div>
-                          <div
-                            className="sort-options">
-                            <div
-                              className="filter-input-wrapper">
-                              <Radio
-                                bsClass="radio"
-                                checked={true}
-                                disabled={false}
-                                inline={false}
-                                onChange={[Function]}
-                                value="publish_date">
-                                תאריך פרסום
-                              </Radio>
-                            </div>
-                            <div
-                              className="filter-input-wrapper">
-                              <Radio
-                                bsClass="radio"
-                                checked={false}
-                                disabled={false}
-                                inline={false}
-                                onChange={[Function]}
-                                value="lease_start">
-                                תאריך כניסה
-                              </Radio>
-                            </div>
-                          </div>
-                        </div>
                         <div
                           className="filter-group-container">
                           <Checkbox
@@ -723,10 +740,9 @@ exports[`Filter should initialize correctly 1`] = `
               <Col
                 bsClass="col"
                 componentClass="div"
-                lg={2}
-                sm={3}>
+                sm={2}>
                 <div
-                  className="col-lg-2 col-sm-3">
+                  className="col-sm-2">
                   <Button
                     active={false}
                     block={true}

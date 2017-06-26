@@ -1655,9 +1655,9 @@ exports[`Listing Details Form should match snapshot in empty state 1`] = `
                         cellPadding="5px"
                         clearButtonElement="×"
                         customControl={
-                          <input
-                            className="react-bootstrap-date-picker-custom-control"
-                            readOnly={true} />
+                          <CustomControl
+                            onClear={[Function]}
+                            showClearButton={false} />
                         }
                         dateFormat="MM/DD/YYYY"
                         dayLabels={
@@ -1692,15 +1692,15 @@ exports[`Listing Details Form should match snapshot in empty state 1`] = `
                         nextButtonElement="<"
                         onChange={[Function]}
                         previousButtonElement=">"
-                        showClearButton={false}
+                        showClearButton={true}
                         showTodayButton={false}
                         todayButtonLabel="Today"
                         value="1970-01-01T00:00:00.000Z">
                         <InputGroup
-                          bsClass=""
+                          bsClass="input-group"
                           id={null}>
                           <span
-                            className=""
+                            className="input-group"
                             id={null}>
                             <Overlay
                               animation={[Function]}
@@ -1727,16 +1727,27 @@ exports[`Listing Details Form should match snapshot in empty state 1`] = `
                               name="apartment.entrance-date"
                               type="hidden"
                               value="1970-01-01T12:00:00.000Z" />
-                            <input
-                              className="react-bootstrap-date-picker-custom-control"
+                            <CustomControl
                               disabled={false}
                               onBlur={[Function]}
                               onChange={[Function]}
+                              onClear={[Function]}
                               onFocus={[Function]}
                               onKeyDown={[Function]}
                               placeholder="MM/DD/YYYY"
-                              readOnly={true}
-                              value="01/01/1970" />
+                              showClearButton={false}
+                              value="01/01/1970">
+                              <input
+                                className="react-bootstrap-date-picker-custom-control"
+                                disabled={false}
+                                onBlur={[Function]}
+                                onChange={[Function]}
+                                onFocus={[Function]}
+                                onKeyDown={[Function]}
+                                placeholder="MM/DD/YYYY"
+                                readOnly={true}
+                                value="01/01/1970" />
+                            </CustomControl>
                           </span>
                         </InputGroup>
                       </DatePicker>
