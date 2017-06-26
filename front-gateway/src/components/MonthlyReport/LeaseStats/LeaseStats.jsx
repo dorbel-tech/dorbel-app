@@ -7,6 +7,7 @@ import SteppedProgressBar from '../../SteppedProgressBar/SteppedProgressBar';
 import moment from 'moment';
 
 import './LeaseStats.scss';
+
 @inject('appProviders')
 class LeaseStats extends Component {
   constructor(props) {
@@ -45,18 +46,30 @@ class LeaseStats extends Component {
   }
 
   renderStatsHeader(monthsToLeaseEnd) {
-    if (monthsToLeaseEnd > 0) {
-      return <div className={monthsToLeaseEnd <= 2 ? 'about-to-end' : ''}>
-        <img src="https://static.dorbel.com/images/icons/monthly-report/bell.svg" />
-        {`נותרו ${monthsToLeaseEnd} חודשים עד תום החוזה`}
-      </div>;
+    let className = '';
+    let imgSrc = 'https://static.dorbel.com/images/icons/monthly-report/bell.svg';
+    let text = `נותרו ${monthsToLeaseEnd} חודשים עד תום החוזה`;
+
+    if (monthsToLeaseEnd <= 0) {
+      className = 'ended';
+      imgSrc = 'https://static.dorbel.com/images/icons/monthly-report/bell-ended.svg';
+      text = 'החוזה נגמר. פרסמו שוב את הדירה';
     }
-    else {
-      return <div className="ended">החוזה נגמר. פרסמו שוב את הדירה</div>;
+    else if (monthsToLeaseEnd <= 2) {
+      className = 'near-end';
+      imgSrc = 'https://static.dorbel.com/images/icons/monthly-report/bell-near-end.svg';
     }
+
+    return (
+      <div className={className}>
+        <img src={imgSrc} />
+        {text}
+      </div>
+    );
+
   }
 
-  showUpdatePropertyValuePopup() {
+  showUpdatePropertyValuePopup(propertyValue) {
     const { modalProvider, listingsProvider } = this.props.appProviders;
     modalProvider.show({
       title: 'עדכון שווי נכס',
@@ -64,7 +77,7 @@ class LeaseStats extends Component {
         <div>
           <FormWrapper.Wrapper ref={ref => this.form = ref} layout="vertical">
             <span>עדכנו את שווי הנכס לקבלת חישוב תשואה מדוייקת עבור הנכס שלכם</span>
-            <FRC.Input type="number" name="property_value" />
+            <FRC.Input type="number" value={propertyValue} name="property_value" />
             <Button
               bsStyle="success"
               onClick={() => {
@@ -72,7 +85,7 @@ class LeaseStats extends Component {
                 const { property_value } = this.form.refs.formsy.getModel();
                 if (parseInt(property_value)) {
                   listingsProvider.updateListing(this.props.listing.id, { property_value })
-                  .then(modalProvider.close());
+                    .then(modalProvider.close());
                 }
                 else {
                   formsy.submit();
@@ -147,7 +160,7 @@ class LeaseStats extends Component {
               <div className="summary-box-text">
                 שווי הנכס (מוערך)
               </div>
-              <div className="summary-box-link" onClick={this.showUpdatePropertyValuePopup}>
+              <div className="summary-box-link" onClick={() => this.showUpdatePropertyValuePopup(propertyValue)}>
                 עדכן שווי נכס
               </div>
             </Col>
