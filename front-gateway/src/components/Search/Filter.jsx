@@ -41,9 +41,7 @@ const DEFAULT_FILTER_PARAMS = {
   elev: false, // Apartment with elevator checkbox default value.
   park: false, // Apartment with parking checkbox default value.
   pet: false, // Apartment allowing pets checkbox default value.
-  sb: false, // Apartment with security bars checkbox default value.
-  minLease: moment().toISOString(),
-  maxLease: moment().add(1, 'month').toISOString(),
+  sb: false, // Apartment with security bars checkbox default value.  
   futureBooking: false // Future booking apartments checkbox default value.
 };
 
@@ -346,9 +344,11 @@ class Filter extends Component {
   leaseStartPopup() {
     return <Popover className="filter-lease-start-popup" id="popup-lease-start">
              <h5><b>מתאריך:</b></h5>
-             <DatePicker value={this.state.minLease} onChange={this.leaseStartDateChange.bind(this, 'minLease')}/>
+             <DatePicker placeholder="בחרו תאריך התחלה" value={this.state.minLease} showClearButton={true}
+                onChange={this.leaseStartDateChange.bind(this, 'minLease')}/>
              <h5><b>עד תאריך:</b></h5>
-             <DatePicker value={this.state.maxLease} onChange={this.leaseStartDateChange.bind(this, 'maxLease')}/>
+             <DatePicker placeholder="בחרו תאריך סיום" value={this.state.maxLease} showClearButton={true}
+                onChange={this.leaseStartDateChange.bind(this, 'maxLease')}/>
            </Popover>;
   }
 
