@@ -69,7 +69,7 @@ class DatePicker extends Component {
   render() {
     let customControl = <input readOnly className="react-bootstrap-date-picker-custom-control" />;    
     if (this.props.showClearButton) {
-      customControl = <InputWithClearButton onClear={this.clear.bind(this)} />
+      customControl = <InputWithClearButton onClear={this.clear.bind(this)} />;
     }
 
     return (
