@@ -30,7 +30,7 @@ class UploadApartmentForm extends Component {
   validateAndSetMode() {
     const { newListingStore } = this.props.appStore;
     newListingStore.attemptRestoreState();
-    
+
     if (statusByUploadMode[this.props.mode]) {
       if (newListingStore.uploadMode != this.props.mode) {
         newListingStore.stepNumber = 0; // Set step to 0 on mode change
@@ -41,7 +41,7 @@ class UploadApartmentForm extends Component {
     else { // handle invalid mode
       newListingStore.uploadMode = undefined;
       if (process.env.IS_CLIENT) {
-        this.props.appProviders.navProvider.setRoute('/apartments/new_form');
+        this.props.appProviders.navProvider.setRoute('/properties/submit');
       }
     }
   }

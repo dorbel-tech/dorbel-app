@@ -1,12 +1,13 @@
 'use strict';
-var __ = require('hamjest');
+const __ = require('hamjest');
 const inMemoryDb = require('../shared/inMemoryDb');
-var faker = require('../shared/fakeObjectGenerator');
+const mockRequire = require('mock-require');
+const faker = require('../shared/fakeObjectGenerator');
 
 describe('Listing Repository', function () {
   before(function * () {
     yield inMemoryDb.connect();
-    this.listingRepo = require('../../src/apartmentsDb/repositories/listingRepository');
+    this.listingRepo = mockRequire.reRequire('../../src/apartmentsDb/repositories/listingRepository');
   });
 
   describe('Add listing', function () {

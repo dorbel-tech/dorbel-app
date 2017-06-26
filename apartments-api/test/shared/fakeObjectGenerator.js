@@ -25,14 +25,14 @@ function getFakeBuilding(variant) {
 function getFakeListing(variant) {
   const listing =  {
     status: 'pending',
-    monthly_rent: faker.random.number(),
+    monthly_rent: faker.random.number({ min: 1000, max: 9000 }),
     lease_start: getDateString(),
     lease_end: getDateString(),
     publishing_user_id: faker.random.uuid(),
     publishing_user_type: 'landlord',
     apartment: {
       apt_number: faker.random.number(99) + faker.random.word()[0] + faker.random.word()[0], // like '57AB'
-      rooms: faker.random.number(10),
+      rooms: faker.random.number({ min: 2, max: 10 }),
       size: faker.random.number(120),
       floor: faker.random.number(10),
       building: getFakeBuilding()

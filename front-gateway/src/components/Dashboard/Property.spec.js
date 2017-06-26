@@ -48,11 +48,11 @@ describe('Property', () => {
     };
   });
 
-  const shallowProperty = () => shallow(<Property.wrappedComponent appStore={appStoreMock} appProviders={appProvidersMock} propertyId={'' + propertyMock.id} />);
+  const shallowProperty = () => shallow(<Property.wrappedComponent appStore={appStoreMock} appProviders={appProvidersMock} listingId={'' + propertyMock.id} />);
   // TODO : mount is !!! terrible !!! here it needs a million dependencies - find a way to test without mount
   const mountProperty = () => mount(
     <Provider appStore={appStoreMock} appProviders={appProvidersMock} router={{}}>
-      <Property propertyId={'' + propertyMock.id} />
+      <Property listingId={'' + propertyMock.id} />
     </Provider>
   );
   const getLoadedProperty = () => {

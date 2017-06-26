@@ -15,17 +15,17 @@ const routes = [
   { route: '/', view: Home },
   { route: '/health', view: Health },
   { route: '/login', view: Login },
-  { route: '/monthly-report/:listingId/:year/:month', view: MonthlyReport, requireLogin: true },
   { route: routesHelper.SEARCH_PREFIX, view: Search },
-  { route: routesHelper.APARTMENTS_PREFIX + '/new_form', view: SelectUploadMode },
-  { route: routesHelper.APARTMENTS_PREFIX + '/new_form/:mode', view: UploadApartmentForm },
-  { route: routesHelper.APARTMENTS_PREFIX + '/:listingId', view: Listing },
-  { route: routesHelper.APARTMENTS_PREFIX + '/:listingId/:action', view: Listing, requireLogin: true },
-  { route: routesHelper.APARTMENTS_PREFIX + '/:listingId/:action/:oheId', view: Listing, requireLogin: true },
+  { route: routesHelper.PROPERTIES_PREFIX + '/submit', view: SelectUploadMode },
+  { route: routesHelper.PROPERTIES_PREFIX + '/submit/:mode', view: UploadApartmentForm },
+  { route: routesHelper.PROPERTIES_PREFIX + '/:apartmentId', view: Listing },
+  { route: routesHelper.PROPERTIES_PREFIX + '/:apartmentId/:action', view: Listing, requireLogin: true },
+  { route: routesHelper.PROPERTIES_PREFIX + '/:apartmentId/:action/:oheId', view: Listing, requireLogin: true },
   { route: routesHelper.DASHBOARD_PREFIX, view: Dashboard, requireLogin: true },
   { route: routesHelper.DASHBOARD_PREFIX + '/:action', view: Dashboard, requireLogin: true },
-  { route: routesHelper.DASHBOARD_PREFIX + '/:action/:propertyId', view: Dashboard, requireLogin: true },
-  { route: routesHelper.DASHBOARD_PREFIX + '/:action/:propertyId/:tab', view: Dashboard, requireLogin: true }
+  { route: routesHelper.DASHBOARD_PREFIX + '/:action/:listingId', view: Dashboard, requireLogin: true },
+  { route: routesHelper.DASHBOARD_PREFIX + '/:action/:listingId/:tab', view: Dashboard, requireLogin: true },
+  { route: '/monthly-report/:listingId/:year/:month', view: MonthlyReport, requireLogin: true }
 ];
 
 module.exports = {

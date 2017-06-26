@@ -12,14 +12,14 @@ const moment = require('moment');
 const TEST_USER_ID = '23821212-6191-4fda-b3e3-fdb8bf69a95d';
 const TEST_OHE_ID = 1;
 const TEST_LISTING_ID = 1;
-const TEST_FOLLOWERS = {
+const TEST_REGISTRATIONS = {
   // used for is_active = true entries
-  real: [ 
+  real: [
     {
       email: 'ohetest1@dorbel-test.com', // email and password: added just in case we ever need to make changes in auth0
       password: '123456',
       id: '9212ce50-bc25-4737-afc7-74207b9ebadb',
-      db_record_id: 1 // added to prevent duplicate follower/ohe registartion entries in upsert
+      db_record_id: 1 // added to prevent duplicate ohe registartion entries in upsert
     },
     {
       email: 'ohetest2@dorbel-test.com',
@@ -54,38 +54,24 @@ function* buildTestSeed() {
     status: 'active'
   });
 
-  yield createFollowers();
+  yield createRegistrations();
 }
 
-function* createFollowers() {
-  yield TEST_FOLLOWERS.real.map(function* (user) {
+function* createRegistrations() {
+  yield TEST_REGISTRATIONS.real.map(function* (user) {
     yield db.models.registration.upsert({
       id: user.db_record_id,
       open_house_event_id: TEST_OHE_ID,
       registered_user_id: user.id,
-      is_active: true
-    });
-
-    yield db.models.follower.upsert({
-      id: user.db_record_id,
-      listing_id: TEST_LISTING_ID,
-      following_user_id: user.id,
       is_active: true
     });
   });
 
-  yield TEST_FOLLOWERS.fake.map(function* (user) {
+  yield TEST_REGISTRATIONS.fake.map(function* (user) {
     yield db.models.registration.upsert({
       id: user.db_record_id,
       open_house_event_id: TEST_OHE_ID,
       registered_user_id: user.id,
-      is_active: false
-    });
-
-    yield db.models.follower.upsert({
-      id: user.db_record_id,
-      listing_id: TEST_LISTING_ID,
-      following_user_id: user.id,
       is_active: false
     });
   });

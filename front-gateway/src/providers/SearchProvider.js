@@ -63,8 +63,8 @@ class SearchProvider {
     return this.search(this.appStore.query, true);
   }
 
-  getRelatedListings(listingId) {
-    return this.apiProvider.fetch('/api/apartments/v1/listings/' + listingId + '/related/');
+  getRelatedListings(apartmentId) {
+    return this.apiProvider.fetch('/api/apartments/v1/listings/' + apartmentId + '/related/');
   }
 
   setLastScrollTop(scrollTop, scrollKey) {
