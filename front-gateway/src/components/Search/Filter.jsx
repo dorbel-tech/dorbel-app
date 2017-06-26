@@ -490,6 +490,15 @@ class Filter extends Component {
           </Col>
         </Row>
         {
+          searchStore.activeFilterId && <Row>
+            <Col lgOffset={2} smOffset={1}>
+              <Checkbox name="emailNotification" checked={this.state.emailNotification} onChange={this.checkboxChangeHandler}>
+                עדכנו אותי במייל על דירות חדשות לחיפוש זה
+              </Checkbox>
+            </Col>
+          </Row>
+        }
+        {
           !isMobile() && authStore.isLoggedIn && <SavedFilters onFilterChange={this.loadFilter}/>
         }
         <div className="filter-close">

@@ -26,6 +26,10 @@ function getApartmentLikes(apartmentId) {
   return request.get(`${APT_API}/v1/apartments/${apartmentId}/likes`, requestOptions);
 }
 
+function getMatchingFiltersByListingId(listingId) {
+  return request.get(`${APT_API}/v1/filters?matchingListingId=${listingId}`, requestOptions);
+}
+
 function getOheInfo(oheId) {
   return request.get(`${OHE_API}/v1/event/${oheId}`, requestOptions);
 }
@@ -134,6 +138,14 @@ const dataRetrievalFunctions = {
     return getListingOhes(eventData.listing_id)
       .then(response => ({ ohe: response[0] }));
   },
+  getMatchingFilters: eventData => {
+    return getMatchingFiltersByListingId(eventData.listing_id)
+      .then(matchingFilters => {
+        return {
+          customRecipients: _.uniq(_.map(matchingFilters, 'dorbel_user_id'))
+        };
+      });
+  }
 };
 
 function getAdditonalData(eventConfig, eventData) {
