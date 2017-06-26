@@ -2,14 +2,15 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { Col } from 'react-bootstrap';
 import Icon from '~/components/Icon/Icon';
+import routesHelper from '~/routesHelper';
 
 @inject('appStore') @observer
 class ListingSocial extends React.Component {
 
   render() {
-    const listingId = this.props.listing.id;
+    const listing = this.props.listing;
     const website_url = process.env.FRONT_GATEWAY_URL || 'https://app.dorbel.com';
-    const currentUrl = website_url + '/apartments/' + listingId;
+    const currentUrl = website_url + routesHelper.getPropertyPath(listing);
 
     return (
       <Col>

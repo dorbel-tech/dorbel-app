@@ -6,6 +6,7 @@ import _ from 'lodash';
 import utils from './utils';
 import { isObservableObject, toJS } from 'mobx';
 import moment from 'moment';
+import routesHelper from '~/routesHelper';
 
 class ListingsProvider {
   constructor(appStore, providers, router) {
@@ -63,8 +64,7 @@ class ListingsProvider {
   }
 
   getCanonicalUrl(listing) {
-    let propertyUrl = process.env.FRONT_GATEWAY_URL + '/properties/';
-    return propertyUrl += listing.apartment_id;
+    return process.env.FRONT_GATEWAY_URL + routesHelper.getPropertyPath(listing);
   }
 
   uploadApartment(listing) {
