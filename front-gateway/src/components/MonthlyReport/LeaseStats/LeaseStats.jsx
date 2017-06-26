@@ -11,6 +11,7 @@ import './LeaseStats.scss';
 const ONE_MILLION = 1000000;
 const ROOM_IN_TLV_VALUE = 900000;
 const ROOM_OUTSIDE_TLV_VALUE = 500000;
+const TLV_CITY_ID = 1;
 @inject('appProviders')
 class LeaseStats extends Component {
   constructor(props) {
@@ -36,7 +37,7 @@ class LeaseStats extends Component {
       return listing.property_value;
     }
     else {
-      const roomValue = listing.apartment.building.city_id == 1 ? ROOM_IN_TLV_VALUE : ROOM_OUTSIDE_TLV_VALUE;
+      const roomValue = listing.apartment.building.city_id == TLV_CITY_ID ? ROOM_IN_TLV_VALUE : ROOM_OUTSIDE_TLV_VALUE;
       return roomValue * listing.apartment.rooms;
     }
   }

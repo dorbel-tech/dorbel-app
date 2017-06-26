@@ -16,7 +16,7 @@ class App extends Component {
       const metaElement = document.getElementsByName('viewport');
       if (currentView.viewportWidth && (window.screen.width < currentView.viewportWidth)) {
         const ratio = window.screen.width / currentView.viewportWidth;
-        metaElement[0].setAttribute('content', `initial-scale=${ratio}, maximum-scale=1.0, user-scalable=no`);
+        metaElement[0].setAttribute('content', `initial-scale=${ratio}, maximum-scale=1.0, user-scalable=yes`);
       }
       else {
         metaElement[0].setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no');
