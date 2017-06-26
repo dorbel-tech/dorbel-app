@@ -13,9 +13,7 @@ class App extends Component {
   setViewport() {
     if (process.env.IS_CLIENT) {
       const { currentView } = this.props.appStore;
-
-      const metaElement = document.createElement('meta');
-      metaElement.name = 'viewport';
+      const metaElement = document.getElementsByName('viewport');
       if (currentView.viewportWidth) {
         const ratio = window.screen.width / currentView.viewportWidth;
         metaElement.content = `width=${window.screen.width}, initial-scale=${ratio}, user-scalable=yes`;
@@ -23,8 +21,6 @@ class App extends Component {
       else {
         metaElement.content = 'width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no';
       }
-
-      document.getElementsByTagName('head')[0].appendChild(metaElement);
     }
   }
 
