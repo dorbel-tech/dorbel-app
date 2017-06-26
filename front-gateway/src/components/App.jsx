@@ -5,6 +5,7 @@ import AppFooter from '~/components/Footer/Footer';
 import Notifications from '~/components/Notifications/Notifications';
 import DorbelModal from '~/components/DorbelModal/DorbelModal';
 import moment from 'moment';
+import ismobilejs from 'ismobilejs';
 
 moment.locale('he'); // TODO : dynamic locale
 
@@ -14,7 +15,7 @@ class App extends Component {
     if (process.env.IS_CLIENT) {
       const { currentView } = this.props.appStore;
       const metaElement = document.getElementsByName('viewport');
-      if (currentView.viewportWidth && (window.screen.width < currentView.viewportWidth)) {
+      if (currentView.viewportWidth && (window.screen.width < currentView.viewportWidth) && ismobilejs.isMobile) {
         const ratio = window.screen.width / currentView.viewportWidth;
         metaElement[0].setAttribute('content', `initial-scale=${ratio}, maximum-scale=2.0, user-scalable=yes`);
       }
