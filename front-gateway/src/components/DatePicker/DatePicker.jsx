@@ -9,10 +9,9 @@ const monthLabels = moment.months(); // moment locales are set in App.jsx
 const weekdayLabels = moment.weekdaysMin();
 const dateFormat = moment.localeData()._longDateFormat.L;
 
-class CustomControl extends Component {
+class InputWithClearButton extends Component {
   static propTypes = {
-    onClear: React.PropTypes.func,
-    showClearButton: React.PropTypes.bool
+    onClear: React.PropTypes.func    
   }
 
   clear() {
@@ -20,23 +19,12 @@ class CustomControl extends Component {
   }
 
   render() {
-    const restOfProps = _.omit(this.props, ['showClearButton', 'onClear']);
-    const inputProps = {
-      // The readOnly attribute prevents mobile devices
-      // from popping up the keyboard on input touch.
-      readOnly: true,
-      className: 'react-bootstrap-date-picker-custom-control',
-      ...restOfProps
-    };
+    const inputProps = _.omit(this.props, ['onClear']);
 
-    if (this.props.showClearButton) {
-      return (<InputGroup>
-        <FormControl {...inputProps} />
-        <InputGroup.Addon><Glyphicon glyph="remove" onClick={this.clear.bind(this)}/></InputGroup.Addon>
-      </InputGroup>);
-    } else {
-      return <input {...inputProps} />;
-    }
+    return (<InputGroup>
+      <FormControl {...inputProps} readOnly className="react-bootstrap-date-picker-custom-control" />
+      <InputGroup.Addon onClick={this.clear.bind(this)} ><Glyphicon glyph="remove"/></InputGroup.Addon>
+    </InputGroup>);
   }
 }
 
@@ -79,9 +67,14 @@ class DatePicker extends Component {
   }
 
   render() {
+    let customControl = <input readOnly className="react-bootstrap-date-picker-custom-control" />;    
+    if (this.props.showClearButton) {
+      customControl = <InputWithClearButton onClear={this.clear.bind(this)} />
+    }
+
     return (
       <ReactBootstrapDatePicker
-        customControl={<CustomControl showClearButton={!!this.props.showClearButton} onClear={this.clear.bind(this)} />}
+        customControl={customControl}
         value={this.state.dateValue}
         name={this.state.name}
         monthLabels={monthLabels}
@@ -91,6 +84,7 @@ class DatePicker extends Component {
         calendarPlacement={this.props.calendarPlacement}
         calendarContainer={this.props.calendarContainer}
         placeholder={this.props.placeholder}
+        showClearButton={false}
         // These are reversed because of RTL
         previousButtonElement=">"
         nextButtonElement="<"

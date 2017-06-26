@@ -339,10 +339,12 @@ class Filter extends Component {
   leaseStartPopup() {
     return <Popover className="filter-lease-start-popup" id="popup-lease-start">
              <h5><b>מתאריך:</b></h5>
-             <DatePicker placeholder="בחרו תאריך התחלה" value={this.state.minLease} showClearButton={true}
+             <DatePicker placeholder="בחרו תאריך התחלה" value={this.state.minLease} 
+                showClearButton={true} calendarContainer={this}
                 onChange={this.leaseStartDateChange.bind(this, 'minLease')}/>
              <h5><b>עד תאריך:</b></h5>
-             <DatePicker placeholder="בחרו תאריך סיום" value={this.state.maxLease} showClearButton={true}
+             <DatePicker placeholder="בחרו תאריך סיום" value={this.state.maxLease}
+                showClearButton={true} calendarContainer={this}
                 onChange={this.leaseStartDateChange.bind(this, 'maxLease')}/>
            </Popover>;
   }
