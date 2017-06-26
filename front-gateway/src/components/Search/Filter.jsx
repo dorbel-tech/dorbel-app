@@ -27,8 +27,7 @@ const DEFAULT_FILTER_PARAMS = {
   unlisted: false,
 
   city: '*', // City selector default value.
-  neighborhood: '*', // Neighborhood selector default value.
-  sort: 'publish_date', // Default sort by radio group value.
+  neighborhood: '*', // Neighborhood selector default value.  
   roommate: true, // Roommate search checkbox default value.
   empty: true, // Empty apartment for roommates checkbox default value.
   room: true, // Roommate looking for roommate/s checkbox default value.
@@ -42,7 +41,9 @@ const DEFAULT_FILTER_PARAMS = {
   park: false, // Apartment with parking checkbox default value.
   pet: false, // Apartment allowing pets checkbox default value.
   sb: false, // Apartment with security bars checkbox default value.  
-  futureBooking: false // Future booking apartments checkbox default value.
+  futureBooking: false, // Future booking apartments checkbox default value.
+  minLease: undefined,
+  maxLease: undefined
 };
 
 @inject('appStore', 'appProviders') @observer
@@ -211,13 +212,6 @@ class Filter extends Component {
     this.reloadResults();
   }
 
-  sortChangeHandler(e) {
-    this.setState({ sort: e.target.value });
-    this.filterObj.sort = e.target.value;
-
-    this.reloadResults();
-  }
-
   reloadResults() {
     const search = '?q=' + encodeURIComponent(JSON.stringify(this.filterObj));
     const title = document ? document.title : '';
@@ -357,23 +351,6 @@ class Filter extends Component {
   extraPopup() {
     return <Popover className="filter-extra-popup" id="popup-extra">
               {this.renderAdminFilter()}
-              <div className="sort-container filter-group-container">
-                <div className="filter-switch-group-headersort-header">
-                  <b>סדר לפי</b>
-                </div>
-                <div className="sort-options">
-                  <div className="filter-input-wrapper">
-                    <Radio value="publish_date" checked={this.state.sort === 'publish_date'} onChange={this.sortChangeHandler}>
-                      תאריך פרסום
-                    </Radio>
-                  </div>
-                  <div className="filter-input-wrapper">
-                    <Radio value="lease_start" checked={this.state.sort === 'lease_start'} onChange={this.sortChangeHandler}>
-                      תאריך כניסה
-                    </Radio>
-                  </div>
-                </div>
-              </div>
               <div className="filter-group-container">
                 <Checkbox name="roommate"
                   checked={this.state.roommate}

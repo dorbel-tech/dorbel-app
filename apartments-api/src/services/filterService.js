@@ -5,7 +5,8 @@ const listingRepository = require('../apartmentsDb/repositories/listingRepositor
 
 const MAX_FILTERS_PER_USER = 3;
 const filterUpdateFields = [ 'city', 'neighborhood', 'min_monthly_rent', 'max_monthly_rent', 'min_rooms', 'max_rooms',
-  'air_conditioning', 'balcony', 'elevator', 'parking', 'pets', 'security_bars', 'future_booking', 'email_notification' ];
+  'air_conditioning', 'balcony', 'elevator', 'parking', 'pets', 'security_bars', 'future_booking',
+  'email_notification', 'min_lease_start', 'max_lease_start' ];
 const errors = shared.utils.domainErrors;
 
 function * create(filterToCreate, user) {
@@ -69,6 +70,8 @@ function * getFilterByMatchedListing(listing_id, user) {
 }
 
 function mapListingToMatchingFilterQuery(listing) {
+  const listingReferenceDate = listing.status === 'rented' ? listing.lease_end : listing.lease_start;
+
   return {
     email_notification: true, // only return the filters that require email notification
     city: listing.apartment.building.city_id,
@@ -83,7 +86,9 @@ function mapListingToMatchingFilterQuery(listing) {
     pets: nullOrEqualTo(listing.apartment.pets),
     security_bars: nullOrEqualTo(listing.apartment.security_bars),
     elevator: nullOrEqualTo(listing.apartment.building.elevator),
-    future_booking: nullOrEqualTo(listing.status === 'rented' && listing.show_for_future_booking)
+    future_booking: nullOrEqualTo(listing.status === 'rented' && listing.show_for_future_booking),
+    min_lease_start: nullOrModifier('$lte', listingReferenceDate),
+    max_lease_start: nullOrModifier('$gte', listingReferenceDate)
   };
 }
 

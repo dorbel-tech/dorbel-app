@@ -45,7 +45,7 @@ function getListingQuery(filterJSON, options) {
   }
 
   let queryOptions = {
-    order: getSortOption(filter.sort),
+    order: 'created_at DESC',
     limit: options.limit || DEFUALT_LISTING_LIST_LIMIT,
     offset: options.offset || 0,
     oldListings: filter.oldListings
@@ -141,18 +141,6 @@ function getListingQuery(filterJSON, options) {
     listingQuery : { $and: listingQuery },
     queryOptions
   };
-}
-
-function getSortOption(sortStr) {
-  switch (sortStr) {
-    case 'lease_start':
-      return 'lease_start ASC';
-    case 'publish_date':
-      return 'created_at DESC';
-
-    default:
-      return 'created_at DESC';
-  }
 }
 
 function getDateRangeQuery(filter) {
