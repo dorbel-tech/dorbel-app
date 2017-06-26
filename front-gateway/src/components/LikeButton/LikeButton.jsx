@@ -17,7 +17,7 @@ class LikeButton extends Component {
       appProviders.likeProvider.set(apartmentId, listingId, !wasLiked)
       .then(() => {
         const likeNotification = wasLiked ?
-          'הדירה הוסרה בהצלחה מרשימת ההדירות שאהבתם' :
+          'הדירה הוסרה בהצלחה מרשימת ההירות שאהבתם' :
           'הדירה נשמרה בהצלחה לרשימת הדירות שאהבתם';
         appProviders.notificationProvider.success(likeNotification);
       });
