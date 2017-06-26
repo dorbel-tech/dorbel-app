@@ -54,7 +54,7 @@ function* buildTestSeed() {
     status: 'active'
   });
 
-   yield createRegistrations();
+  yield createRegistrations();
 }
 
 function* createRegistrations() {
