@@ -8,6 +8,9 @@ import moment from 'moment';
 
 import './LeaseStats.scss';
 
+const ONE_MILLION = 1000000;
+const ROOM_IN_TLV_VALUE = 900000;
+const ROOM_OUTSIDE_TLV_VALUE = 500000;
 @inject('appProviders')
 class LeaseStats extends Component {
   constructor(props) {
@@ -33,14 +36,14 @@ class LeaseStats extends Component {
       return listing.property_value;
     }
     else {
-      const roomValue = listing.apartment.building.city_id == 1 ? 900000 : 500000;
+      const roomValue = listing.apartment.building.city_id == 1 ? ROOM_IN_TLV_VALUE : ROOM_OUTSIDE_TLV_VALUE;
       return roomValue * listing.apartment.rooms;
     }
   }
 
   formatMoneyValue(value) {
-    if (value >= 1000000) {
-      return `${(value / 1000000).toFixed(2)} מ'₪`;
+    if (value >= ONE_MILLION) {
+      return `${(value / ONE_MILLION).toFixed(2)} מ'₪`;
     }
     else { return `₪${value.toLocaleString()}`; }
   }
