@@ -14,19 +14,19 @@ class App extends Component {
     if (process.env.IS_CLIENT) {
       const { currentView } = this.props.appStore;
       const metaElement = document.getElementsByName('viewport');
-      if (currentView.viewportWidth) {
+      if (currentView.viewportWidth && (window.screen.width < currentView.viewportWidth)) {
         const ratio = window.screen.width / currentView.viewportWidth;
-        metaElement.content = `width=${window.screen.width}, initial-scale=${ratio}, user-scalable=yes`;
+        metaElement[0].setAttribute('content', `initial-scale=${ratio}, maximum-scale=1.0, user-scalable=no`);
       }
       else {
-        metaElement.content = 'width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no';
+        metaElement[0].setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no');
       }
     }
   }
 
   render() {
-    const { appStore } = this.props;
     this.setViewport();
+    const { appStore } = this.props;
     const components = {
       mobxDevTools: process.env.NODE_ENV === 'development' ? require('mobx-react-devtools').default : (() => null),
       footer: appStore.currentView.hideFooter ? (() => null) : AppFooter
