@@ -63,8 +63,8 @@ class ListingsProvider {
   }
 
   getCanonicalUrl(listing) {
-    let listingUrl = process.env.FRONT_GATEWAY_URL + '/apartments/';
-    return listingUrl += listing.slug || listing.id;
+    let propertyUrl = process.env.FRONT_GATEWAY_URL + '/properties/';
+    return propertyUrl += listing.apartment_id;
   }
 
   uploadApartment(listing) {
