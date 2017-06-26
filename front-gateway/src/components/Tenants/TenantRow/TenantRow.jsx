@@ -46,7 +46,7 @@ export default class TenantRow extends React.Component {
         name: tenant.first_name,
         email: tenant.email,
         configuration: 'general',
-        welcomeMessage: 'באפשרותך לשלוח הודעה לדייר. במידה והוא אינו מחובר הודעתך תישלך אליו למייל.'
+        welcomeMessage: 'באפשרותך לשלוח הודעה לדיירים. במידה והם אינם מחוברים הודעתך תישלח אליהם למייל.'
       };
       const conversation = messagingProvider.getOrStartConversation(withUserObj, {
         topicId: tenant.listing_id,
@@ -79,8 +79,10 @@ export default class TenantRow extends React.Component {
         <Col xs={6} md={7} onClick={this.showTenantProfileModal}>
           <span>{tenant.first_name || 'אנונימי'} {tenant.last_name || ''}</span>
         </Col>
-        <Col xs={2}>
+        <Col xs={1}>
           {!tenant.disabled && <i className={'fa fa-2x fa-facebook-square ' + facebookClass} onClick={this.showTenantProfileModal}></i>}
+        </Col>
+        <Col xs={1}>
           {!tenant.disabled && <i className="fa fa-comment tenant-row-msg-icon" onClick={this.handleMsgClick}></i>}
         </Col>
         {showActionButtons ?
