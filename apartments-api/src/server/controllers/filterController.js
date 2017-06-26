@@ -31,8 +31,13 @@ function * post() {
 }
 
 function * get() {
-  const usersFilters = yield filterService.getByUser(this.request.user);
-  this.response.body = usersFilters.map(filter => mapFilter(filter, true));
+  let filters;
+  if (this.request.query.matchingListingId) {
+    filters = yield filterService.getFilterByMatchedListing(this.request.query.matchingListingId, this.request.user);
+  } else {
+    filters = yield filterService.getByUser(this.request.user);
+  }
+  this.response.body = filters.map(filter => mapFilter(filter, true));
   this.response.status = 200;
 }
 
