@@ -250,9 +250,8 @@ class Filter extends Component {
   }
 
   renderAdminFilter() {
-    const { authStore } = this.props.appStore;
-    const profile = authStore.profile;
-    const userIsAdmin = profile && profile.role === 'admin';
+    const { listingStore } = this.props.appStore;
+    const userIsAdmin = listingStore.userIsAdmin();
 
     if (userIsAdmin) {
       return <div className="filter-group-container">
@@ -454,7 +453,7 @@ class Filter extends Component {
                           offset={NEW_TIP_OFFSET} className="filter-future-booking-tooltip"/>
           </Col>
         </Row>
-        <Row>          
+        <Row>
           <Col lgOffset={2} smOffset={1} sm={2}>
             <OverlayTrigger placement="bottom" trigger="click" rootClose
                             overlay={this.roomsPopup()}>
