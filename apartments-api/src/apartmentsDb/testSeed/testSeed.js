@@ -125,9 +125,10 @@ function* createLikes() {
   });
 }
 
-function * createSavedFilter(user, cityId, neighborhoodId) {
+function * createSavedFilter(cityId, neighborhoodId) {
   yield db.models.filter.upsert({
     id: 1,
+    email_notification: true,
     dorbel_user_id: TEST_USER_ID,
     city: cityId,
     neighborhood: neighborhoodId,
