@@ -40,7 +40,7 @@ class SteppedProgressBar extends Component {
   }
 
   render() {
-    const { steps, currentStepIndex, pointerText } = this.props;
+    const { steps, currentStepIndex, pointerText, hideStepMarks } = this.props;
     const stepWidth = 100 / steps.length;
     return (
       <Grid fluid className="stepped-progress-bar">
@@ -59,11 +59,15 @@ class SteppedProgressBar extends Component {
                 <ProgressBar children={this.renderSteps(steps, currentStepIndex, stepWidth)} />
               </Col>
             </Row>
-            <Row>
-              <Col className="step-marks">
-                {this.renderStepMarks(steps, currentStepIndex, stepWidth)}
-              </Col>
-            </Row>
+            {
+              hideStepMarks ?
+                undefined :
+                <Row>
+                  <Col className="step-marks">
+                    {this.renderStepMarks(steps, currentStepIndex, stepWidth)}
+                  </Col>
+                </Row>
+            }
           </Col>
         </Row>
       </Grid>
@@ -74,7 +78,8 @@ class SteppedProgressBar extends Component {
 SteppedProgressBar.propTypes = {
   steps: React.PropTypes.array.isRequired,
   currentStepIndex: React.PropTypes.number.isRequired,
-  pointerText: React.PropTypes.string
+  pointerText: React.PropTypes.string,
+  hideStepMarks: React.PropTypes.bool
 };
 
 export default SteppedProgressBar;

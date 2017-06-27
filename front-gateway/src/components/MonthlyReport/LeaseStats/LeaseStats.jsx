@@ -139,7 +139,8 @@ class LeaseStats extends Component {
                 <SteppedProgressBar
                   steps={monthList}
                   currentStepIndex={currentMonthIndex}
-                  pointerText={'₪' + listing.monthly_rent.toLocaleString()} />
+                  pointerText={'₪' + listing.monthly_rent.toLocaleString()}
+                  hideStepMarks={monthList.length >= 20} />
               </Col>
             </Row>
           </Col>
