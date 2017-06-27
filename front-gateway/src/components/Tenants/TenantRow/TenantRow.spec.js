@@ -44,50 +44,39 @@ describe('Tenant Row', () => {
     let callbacks;
 
     beforeEach(() => {
-      popupMock = {mount: jest.fn()};
-      callbacks = [];
+      popupMock = {};
 
       appProvidersMock.messagingProvider = {
-        getOrStartConversation: jest.fn(),
-        talkSession: {createPopup: jest.fn().mockReturnValue(popupMock)}
+        getOrStartConversation: jest.fn().mockReturnValue(Promise.resolve(popupMock))
       }
-
-      utils.hideIntercom = jest.fn();
-
-      global.window.Talk = {ready: {then: (f) => callbacks.push(f)}};
     });
 
     it('should destroy popup and show intercom on unmount', () => {
       popupMock.destroy = jest.fn();
+      utils.hideIntercom = jest.fn();
       const wrapper = tenantRow({});
       wrapper.find('.tenant-row-msg-icon').simulate('click');
-      callbacks[0]();
 
-      wrapper.unmount();
+      utils.flushPromises().then(() => {
+        wrapper.unmount();
 
-      expect(popupMock.destroy).toHaveBeenCalledWith();
-      expect(utils.hideIntercom).toHaveBeenCalledWith(false);
+        expect(popupMock.destroy).toHaveBeenCalledWith();
+        expect(utils.hideIntercom).toHaveBeenCalledWith(false);
+      });
     });
 
-    it('should show disabled tenant row', () => {
+    it('should call messagingProvider.getOrStartConversation', () => {
       const tenant = { dorbel_user_id: faker.random.uuid(), listing_id: faker.random.number(), first_name: faker.name.firstName(), email: faker.internet.email() };
       const listingTitle = faker.name.title();
-      const conversationMock = jest.fn();
-
-      appProvidersMock.messagingProvider.getOrStartConversation.mockReturnValue(conversationMock);
 
       const wrapper = tenantRow(tenant, listingTitle);
       wrapper.find('.tenant-row-msg-icon').simulate('click');
-
-      expect(callbacks.length).toEqual(1);
-      callbacks[0]();
 
       expect(appProvidersMock.messagingProvider.getOrStartConversation).toHaveBeenCalledWith(
         {
           id: tenant.dorbel_user_id,
           name: tenant.first_name,
           email: tenant.email,
-          configuration: 'general',
           welcomeMessage: 'באפשרותך לשלוח הודעה לדיירים. במידה והם אינם מחוברים הודעתך תישלח אליהם למייל.'
         },
         {
@@ -95,11 +84,6 @@ describe('Tenant Row', () => {
           subject: listingTitle
         }
       );
-      expect(appProvidersMock.messagingProvider.talkSession.createPopup).toHaveBeenCalledWith(
-        conversationMock
-      );
-      expect(popupMock.mount).toHaveBeenCalledWith();
-      expect(utils.hideIntercom).toHaveBeenCalledWith(true);
     });
   });
 });

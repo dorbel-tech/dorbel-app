@@ -95,4 +95,27 @@ describe('Messaging Provider', () => {
       expect(result).toEqual(true);
     });
   });
+
+  describe('getOrStartConversation', () => {
+    beforeEach(() => {
+      messagingProvider.initTalkSession = jest.fn();
+    });
+
+    it('should return undefined if a talk session fails to initialize', () => {
+      messagingProvider.initTalkSession.mockReturnValue(false);
+      messagingProvider.getOrStartConversation().then(result => {
+        expect(result).toBeUndefined();
+      });
+    });
+
+    xit('should create and return a popup', () => {
+      messagingProvider.initTalkSession.mockReturnValue(true);
+      global.window.Talk = {User: jest.fn()};
+
+      messagingProvider.getOrStartConversation().then((result) => {
+
+        expect(result).toBeUndefined();
+      });
+    });
+  });
 });
