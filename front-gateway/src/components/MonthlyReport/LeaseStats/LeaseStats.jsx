@@ -81,18 +81,25 @@ class LeaseStats extends Component {
         <div>
           <FormWrapper.Wrapper ref={ref => this.form = ref} layout="vertical">
             <span>עדכנו את שווי הנכס לקבלת חישוב תשואה מדוייקת עבור הנכס שלכם</span>
-            <FRC.Input type="number" value={propertyValue} name="property_value" />
+            <FRC.Input
+              value={propertyValue.toLocaleString()}
+              name="property_value"
+              onChange={(inputName, inputVal) => {
+                const formsy = this.form.refs.formsy;
+                const currentModel = formsy.getModel();
+                inputVal = parseInt(inputVal.replace(/[^0-9\.]+/g, '')) || '';
+                currentModel[inputName] = inputVal.toLocaleString();
+                formsy.reset(currentModel);
+              }} />
             <Button
               bsStyle="success"
               onClick={() => {
                 const formsy = this.form.refs.formsy;
-                const { property_value } = this.form.refs.formsy.getModel();
-                if (parseInt(property_value)) {
+                let { property_value } = formsy.getModel();
+                property_value = parseInt(property_value.replace(/[^0-9\.]+/g, ''));
+                if (property_value) {
                   listingsProvider.updateListing(this.props.listing.id, { property_value })
                     .then(modalProvider.close());
-                }
-                else {
-                  formsy.submit();
                 }
               }}>
               עדכן
