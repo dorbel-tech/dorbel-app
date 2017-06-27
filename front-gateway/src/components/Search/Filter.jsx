@@ -492,7 +492,7 @@ class Filter extends Component {
           </Col>
         </Row>
         {
-          !isMobile() && authStore.isLoggedIn && <SavedFilters onFilterChange={this.loadFilter} animateEmailRow={true}/>
+          !isMobile() && authStore.isLoggedIn && <SavedFilters onFilterChange={this.loadFilter} animateEmailRow />
         }        
         <div className="filter-close">
           <div className="filter-close-text" onClick={this.toggleHideFilter}>

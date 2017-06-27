@@ -59,9 +59,9 @@ const dataRetrievalFunctions = {
             listing.publishing_user_email = _.get(listingUser, 'user_metadata.email') || listingUser.email;
             listing.publishing_user_phone = _.get(listingUser, 'user_metadata.phone') || listingUser.phone;
             // Reducing object size by removing unused data.
-            listing.apartment.building.neighborhood = undefined;
             listing.apartment.building.geolocation = undefined;
             listing.meta = undefined;
+            listing.thumbnailImageUrl = _.get(listing, 'images[0].url');
             listing.images = undefined;
             return { listing };
           });
