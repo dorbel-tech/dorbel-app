@@ -9,7 +9,7 @@ const shared = require('dorbel-shared');
 const logger = shared.logger.getLogger(module);
 const geoProvider = require('../../providers/geoProvider');
 
-const listingAttributes = { exclude: [ 'property_value', 'updated_at' ] };
+const listingAttributes = { exclude: [ 'updated_at' ] };
 const apartmentAttributes = { exclude: [ 'created_at', 'updated_at' ] };
 const buildingAttributes = { exclude: [ 'created_at', 'updated_at' ] };
 const cityAttributes = [ 'id', 'city_name' ];

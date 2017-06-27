@@ -44,7 +44,10 @@ class LeaseStats extends Component {
 
   formatMoneyValue(value) {
     if (value >= ONE_MILLION) {
-      return `${(value / ONE_MILLION).toFixed(1)} מ'₪`;
+      // keep only 1 decimal place. 
+      // value.toFixed(1) rounds the numbers in some cases so regex is used instead
+      const formattedValue = (value / ONE_MILLION).toString().match(/^-?\d+(?:\.\d{0,1})?/)[0];
+      return `${formattedValue} מ'₪`;
     }
     else { return `₪${value.toLocaleString()}`; }
   }
@@ -113,7 +116,6 @@ class LeaseStats extends Component {
 
   render() {
     const { listing, month, year } = this.props;
-
     // In moment JS december is represented as 0 and in case it is 0, the year will go year-1 
     let momentJsMonth = month;
     let momentJsYear = year;
