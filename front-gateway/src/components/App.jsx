@@ -15,7 +15,7 @@ class App extends Component {
     if (process.env.IS_CLIENT) {
       const { currentView } = this.props.appStore;
       const metaElement = document.getElementsByName('viewport');
-      if (currentView.viewportWidth && (window.screen.width < currentView.viewportWidth) && ismobilejs.isMobile) {
+      if (currentView.viewportWidth && (window.screen.width < currentView.viewportWidth) && ismobilejs.any) {
         const ratio = window.screen.width / currentView.viewportWidth;
         metaElement[0].setAttribute('content', `initial-scale=${ratio}, maximum-scale=2.0, user-scalable=yes`);
       }
