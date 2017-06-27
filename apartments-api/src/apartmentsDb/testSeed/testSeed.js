@@ -51,6 +51,7 @@ function* buildTestSeed() {
   yield createApartment(telaviv, merkazHair, 2, '123-slug');
   yield createApartment(telaviv, merkazHair, 3, '123-slug slug');
   yield createLikes();
+  yield createSavedFilter(telaviv.id, merkazHair.id);
 }
 
 function* createApartment(city, neighborhood, id, slug) {
@@ -121,6 +122,17 @@ function* createLikes() {
       liked_user_id: user.id,
       is_active: false
     });
+  });
+}
+
+function * createSavedFilter(user, cityId, neighborhoodId) {
+  yield db.models.filter.upsert({
+    id: 1,
+    dorbel_user_id: TEST_USER_ID,
+    city: cityId,
+    neighborhood: neighborhoodId,
+    min_rooms: 0.1,
+    min_monthly_rent: 0.1
   });
 }
 
