@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
-import { hideIntercom } from '~/providers/utils';
 
 import './MyMessages.scss';
 

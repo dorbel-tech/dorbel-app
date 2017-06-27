@@ -86,16 +86,16 @@ class ListingDescription extends React.Component {
       const listing = this.props.listing;
       const { messagingProvider, utils } = this.props.appProviders;
 
-        const withUserObj = {
-          id: listing.publishing_user_id,
-          name: listing.publishing_user_first_name,
-          email: listing.publishing_user_email,
-          welcomeMessage: 'באפשרותך לשלוח הודעה לבעל הדירה. במידה והוא אינו מחובר הודעתך תישלח אליו למייל.'
-        };
-        messagingProvider.getOrStartConversation(withUserObj, {
-          topicId: listing.listing_id,
-          subject: utils.getListingTitle(listing)
-        }).then(popup => this.popup = popup);
+      const withUserObj = {
+        id: listing.publishing_user_id,
+        name: listing.publishing_user_first_name,
+        email: listing.publishing_user_email,
+        welcomeMessage: 'באפשרותך לשלוח הודעה לבעל הדירה. במידה והוא אינו מחובר הודעתך תישלח אליו למייל.'
+      };
+      messagingProvider.getOrStartConversation(withUserObj, {
+        topicId: listing.listing_id,
+        subject: utils.getListingTitle(listing)
+      }).then(popup => this.popup = popup);
     } else {
       this.props.appProviders.authProvider.showLoginModal();
     }

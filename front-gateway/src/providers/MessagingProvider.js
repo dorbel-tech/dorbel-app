@@ -3,7 +3,7 @@
 import _ from 'lodash';
 import utils from './utils';
 
-const TALKJS_USER_OBJ_EXTRA = {configuration: 'general'}
+const TALKJS_USER_OBJ_EXTRA = {configuration: 'general'};
 
 // TalkJS wrapper provider, see docs: https://talkjs.com/docs/index.html
 class MessagingProvider {

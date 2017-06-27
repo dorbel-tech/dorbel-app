@@ -41,14 +41,13 @@ describe('Tenant Row', () => {
 
   describe('TalkJS integration', () => {
     let popupMock;
-    let callbacks;
 
     beforeEach(() => {
       popupMock = {};
 
       appProvidersMock.messagingProvider = {
         getOrStartConversation: jest.fn().mockReturnValue(Promise.resolve(popupMock))
-      }
+      };
     });
 
     it('should destroy popup and show intercom on unmount', () => {

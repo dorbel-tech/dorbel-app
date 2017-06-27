@@ -81,7 +81,7 @@ describe('Messaging Provider', () => {
       global.window.dorbelConfig = {
         TALKJS_APP_ID: faker.random.uuid(),
         TALKJS_PUBLISHABLE_KEY: faker.random.uuid()
-      }
+      };
 
       expect(messagingProvider.talkSession).toBeUndefined();
       const result = messagingProvider.initTalkSession();
@@ -104,16 +104,6 @@ describe('Messaging Provider', () => {
     it('should return undefined if a talk session fails to initialize', () => {
       messagingProvider.initTalkSession.mockReturnValue(false);
       messagingProvider.getOrStartConversation().then(result => {
-        expect(result).toBeUndefined();
-      });
-    });
-
-    xit('should create and return a popup', () => {
-      messagingProvider.initTalkSession.mockReturnValue(true);
-      global.window.Talk = {User: jest.fn()};
-
-      messagingProvider.getOrStartConversation().then((result) => {
-
         expect(result).toBeUndefined();
       });
     });
