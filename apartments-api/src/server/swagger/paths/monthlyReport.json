@@ -1,0 +1,43 @@
+{
+  "/monthlyReportData": {
+    "get": {
+      "description": "Returns and array of [listing_id, publishing_user_id] representing the listings for which the report will be sent for",
+      "parameters": [
+        {
+          "name": "day",
+          "in": "query",
+          "description": "The day of 'lease_start'",
+          "type": "integer",
+          "required": true,
+          "minimum": 1,
+          "maximum": 31
+        },
+        {
+          "name": "month",
+          "in": "query",
+          "description": "The month of 'lease_start'",
+          "type": "integer",
+          "required": true,
+          "minimum": 1,
+          "maximum": 12
+        }
+      ],
+      "tags": [
+        "monthlyReportController"
+      ],
+      "responses": {
+        "200": {
+          "schema": {
+            "type": "array"
+          }
+        },
+        "default": {
+          "description": "Unexpected error",
+          "schema": {
+            "$ref": "#/definitions/Error"
+          }
+        }
+      }
+    }
+  }
+}

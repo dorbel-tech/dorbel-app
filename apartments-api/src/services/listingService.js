@@ -205,7 +205,7 @@ function setListingAutoFields(listing) {
   // In case that listing was approved (listed) or submitted for manage and have images,
   // we can safely show_for_future_booking enabled by default, because we validated all apartment details.
   if ((listing.status === 'listed') ||
-      (listing.status === 'rented' && listing.images && listing.images.length > 0)) {
+    (listing.status === 'rented' && listing.images && listing.images.length > 0)) {
     listing.show_for_future_booking = true;
   }
 
@@ -234,7 +234,8 @@ function* getByFilter(filterJSON, options = {}) {
     // TODO : what if there are other things that require $or ?
     listingQuery.$or = [
       { status: 'listed' },
-      { status: 'rented',
+      {
+        status: 'rented',
         lease_end: { $gte: moment().add(1, 'month').toDate() }, // lease ends at least a month from now
         show_for_future_booking: true
       }
@@ -496,6 +497,10 @@ function* getValidationData(apartment, user) {
   return result;
 }
 
+function* getMonthlyReportData(leaseStartDay, leaseStartMonth) {
+  return yield listingRepository.getMonthlyReportData(leaseStartDay, leaseStartMonth);
+}
+
 module.exports = {
   create,
   update,
@@ -504,5 +509,6 @@ module.exports = {
   getBySlug,
   getByApartmentId,
   getRelatedListings,
-  getValidationData
+  getValidationData,
+  getMonthlyReportData
 };
