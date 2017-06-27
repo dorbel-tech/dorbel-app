@@ -78,7 +78,7 @@ class MessagingProvider {
   createInbox(element) {
     return global.window.Talk.ready.then(() => {
       if (this.initTalkSession()) {
-        const inbox = messagingProvider.talkSession.createInbox();
+        const inbox = this.talkSession.createInbox();
         inbox.mount(element);
       } else {
         // TODO: Handle edge case by throwing an exception?
