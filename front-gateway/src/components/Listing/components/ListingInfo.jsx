@@ -54,7 +54,7 @@ class ListingInfo extends React.Component {
 
     return (
       <Row className={modeToContainerClass[mode]}>
-        {(listing.status === 'listed') && this.renderInfoBox(utils.formatDate(listing.lease_start), 'dorbel-icon-date')}
+        {(listing.status === 'listed') && this.renderInfoBox(utils.formatDate(listing.lease_start), 'dorbel-icon-date', mode)}
         {this.renderInfoBox(listing.apartment.rooms + ' חדרים', 'dorbel-icon-rooms', mode)}
         {this.renderInfoBox(listing.apartment.size + ' מ"ר', 'dorbel-icon-sqm', mode)}
         {this.renderInfoBox(this.getFloorLabel(listing), 'dorbel-icon-stairs', mode)}
