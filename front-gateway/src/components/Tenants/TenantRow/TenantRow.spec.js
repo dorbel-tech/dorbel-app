@@ -39,42 +39,67 @@ describe('Tenant Row', () => {
     expect(appProvidersMock.modalProvider.showInfoModal).not.toHaveBeenCalled();
   });
 
-  it('should show disabled tenant row', () => {
-    const tenant = { dorbel_user_id: faker.random.uuid(), listing_id: faker.random.number(), first_name: faker.name.firstName(), email: faker.internet.email() };
-    const listingTitle = faker.name.title();
-    const conversationMock = jest.fn();
-    const popupMock = {mount: jest.fn()};
-    appProvidersMock.messagingProvider = {
-      getOrStartConversation: jest.fn().mockReturnValue(conversationMock),
-      talkSession: {createPopup: jest.fn().mockReturnValue(popupMock)}
-    }
-    utils.hideIntercom = jest.fn();
-    let callbacks = [];
-    global.window.Talk = {ready: {then: (f) => callbacks.push(f)}};
+  describe('TalkJS integration', () => {
+    let popupMock;
+    let callbacks;
 
-    const wrapper = tenantRow(tenant, listingTitle);
-    wrapper.find('.tenant-row-msg-icon').simulate('click');
+    beforeEach(() => {
+      popupMock = {mount: jest.fn()};
+      callbacks = [];
 
-    expect(callbacks.length).toEqual(1);
-    callbacks[0]();
-
-    expect(appProvidersMock.messagingProvider.getOrStartConversation).toHaveBeenCalledWith(
-      {
-        id: tenant.dorbel_user_id,
-        name: tenant.first_name,
-        email: tenant.email,
-        configuration: 'general',
-        welcomeMessage: 'באפשרותך לשלוח הודעה לדיירים. במידה והם אינם מחוברים הודעתך תישלח אליהם למייל.'
-      },
-      {
-        topicId: tenant.listing_id,
-        subject: listingTitle
+      appProvidersMock.messagingProvider = {
+        getOrStartConversation: jest.fn(),
+        talkSession: {createPopup: jest.fn().mockReturnValue(popupMock)}
       }
-    );
-    expect(appProvidersMock.messagingProvider.talkSession.createPopup).toHaveBeenCalledWith(
-      conversationMock
-    );
-    expect(popupMock.mount).toHaveBeenCalledWith();
-    expect(utils.hideIntercom).toHaveBeenCalledWith(true);
+
+      utils.hideIntercom = jest.fn();
+
+      global.window.Talk = {ready: {then: (f) => callbacks.push(f)}};
+    });
+
+    it('should destroy popup and show intercom on unmount', () => {
+      popupMock.destroy = jest.fn();
+      const wrapper = tenantRow({});
+      wrapper.find('.tenant-row-msg-icon').simulate('click');
+      callbacks[0]();
+
+      wrapper.unmount();
+
+      expect(popupMock.destroy).toHaveBeenCalledWith();
+      expect(utils.hideIntercom).toHaveBeenCalledWith(false);
+    });
+
+    it('should show disabled tenant row', () => {
+      const tenant = { dorbel_user_id: faker.random.uuid(), listing_id: faker.random.number(), first_name: faker.name.firstName(), email: faker.internet.email() };
+      const listingTitle = faker.name.title();
+      const conversationMock = jest.fn();
+
+      appProvidersMock.messagingProvider.getOrStartConversation.mockReturnValue(conversationMock);
+
+      const wrapper = tenantRow(tenant, listingTitle);
+      wrapper.find('.tenant-row-msg-icon').simulate('click');
+
+      expect(callbacks.length).toEqual(1);
+      callbacks[0]();
+
+      expect(appProvidersMock.messagingProvider.getOrStartConversation).toHaveBeenCalledWith(
+        {
+          id: tenant.dorbel_user_id,
+          name: tenant.first_name,
+          email: tenant.email,
+          configuration: 'general',
+          welcomeMessage: 'באפשרותך לשלוח הודעה לדיירים. במידה והם אינם מחוברים הודעתך תישלח אליהם למייל.'
+        },
+        {
+          topicId: tenant.listing_id,
+          subject: listingTitle
+        }
+      );
+      expect(appProvidersMock.messagingProvider.talkSession.createPopup).toHaveBeenCalledWith(
+        conversationMock
+      );
+      expect(popupMock.mount).toHaveBeenCalledWith();
+      expect(utils.hideIntercom).toHaveBeenCalledWith(true);
+    });
   });
 });
