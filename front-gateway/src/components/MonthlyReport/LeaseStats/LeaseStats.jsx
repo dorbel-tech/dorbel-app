@@ -107,10 +107,17 @@ class LeaseStats extends Component {
   render() {
     const { listing, month, year } = this.props;
 
+    // In moment JS december is represented as 0 and in case it is 0, the year will go year-1 
+    let momentJsMonth = month;
+    let momentJsYear = year;
+    if (month == 12) {
+      momentJsMonth = 0;
+      momentJsYear = parseInt(year) + 1;
+    }
+
     const leaseStart = moment(listing.lease_start);
     const leaseEnd = moment(listing.lease_end);
-    const reportDate = moment({ year, month });
-
+    const reportDate = moment({ year: momentJsYear, month: momentJsMonth });
     const monthList = this.getMonthList(leaseStart, leaseEnd);
     const currentMonthIndex = reportDate.diff(leaseStart, 'months');
     const monthsToLeaseEnd = leaseEnd.diff(reportDate, 'months');
