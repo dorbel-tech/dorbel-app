@@ -245,7 +245,9 @@ class Filter extends Component {
     Object.keys(filterObj).filter(key => filterObj[key] === null).forEach(key => delete filterObj[key]);
     this.filterObj = filterObj;
     this.setState(this.getDefaultState());
-    this.loadNeighborhoods(filterObj.city); // make sure neighborhoods are loaded for this city
+    if (filterObj.city) {
+      this.loadNeighborhoods(filterObj.city); // make sure neighborhoods are loaded for this city
+    }
     this.reloadResults();
   }
 
@@ -490,17 +492,8 @@ class Filter extends Component {
           </Col>
         </Row>
         {
-          searchStore.activeFilterId && <Row>
-            <Col lgOffset={2} smOffset={1}>
-              <Checkbox name="emailNotification" checked={this.state.emailNotification} onChange={this.checkboxChangeHandler}>
-                עדכנו אותי במייל על דירות חדשות לחיפוש זה
-              </Checkbox>
-            </Col>
-          </Row>
-        }
-        {
-          !isMobile() && authStore.isLoggedIn && <SavedFilters onFilterChange={this.loadFilter}/>
-        }
+          !isMobile() && authStore.isLoggedIn && <SavedFilters onFilterChange={this.loadFilter} animateEmailRow={true}/>
+        }        
         <div className="filter-close">
           <div className="filter-close-text" onClick={this.toggleHideFilter}>
             סנן וסגור
