@@ -12,13 +12,13 @@ class MyMessages extends Component {
   componentDidMount() {
     const { messagingProvider } = this.props.appProviders;
 
-    messagingProvider.createInbox(document.getElementById('talkjs-inbox-container'));
+    messagingProvider.createInbox(this.talkjsContainer);
   }
 
   render() {
     return (
       <div className="my-messages-container">
-        <div id="talkjs-inbox-container"></div>
+        <div ref={(el) => { this.talkjsContainer = el; }}></div>
       </div>
     );
   }

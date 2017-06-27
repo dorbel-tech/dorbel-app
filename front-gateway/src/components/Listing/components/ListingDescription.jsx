@@ -71,18 +71,15 @@ class ListingDescription extends React.Component {
   }
 
   handleShowPhoneClick() {
-    if (this.props.appStore.authStore.isLoggedIn) {
+    if (!this.props.appProviders.authProvider.shouldLogin()) {
       const { listing } = this.props;
       this.setState({ showPhoneClicked: true });
       window.analytics.track('client_show_phone', { listing_id: listing.id, user_id: listing.publishing_user_id }); // For Facebook conversion tracking.
     }
-    else {
-      this.props.appProviders.authProvider.showLoginModal();
-    }
   }
 
   handleMsgClick() {
-    if (this.props.appStore.authStore.isLoggedIn) {
+    if (!this.props.appProviders.authProvider.shouldLogin()) {
       const listing = this.props.listing;
       const { messagingProvider, utils } = this.props.appProviders;
 
@@ -96,8 +93,6 @@ class ListingDescription extends React.Component {
         topicId: listing.listing_id,
         subject: utils.getListingTitle(listing)
       }).then(popup => this.popup = popup);
-    } else {
-      this.props.appProviders.authProvider.showLoginModal();
     }
   }
 
