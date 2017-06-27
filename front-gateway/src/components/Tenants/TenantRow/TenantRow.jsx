@@ -40,24 +40,16 @@ export default class TenantRow extends React.Component {
     const { tenant, listingTitle } = this.props;
     const { messagingProvider } = this.props.appProviders;
 
-    global.window.Talk.ready.then(() => {
-      const withUserObj = {
-        id: tenant.dorbel_user_id,
-        name: tenant.first_name,
-        email: tenant.email,
-        configuration: 'general',
-        welcomeMessage: 'באפשרותך לשלוח הודעה לדיירים. במידה והם אינם מחוברים הודעתך תישלח אליהם למייל.'
-      };
-      const conversation = messagingProvider.getOrStartConversation(withUserObj, {
-        topicId: tenant.listing_id,
-        subject: listingTitle
-      });
-
-      this.popup = messagingProvider.talkSession.createPopup(conversation);
-      this.popup.mount();
-
-      hideIntercom(true);
-    });
+    const withUserObj = {
+      id: tenant.dorbel_user_id,
+      name: tenant.first_name,
+      email: tenant.email,
+      welcomeMessage: 'באפשרותך לשלוח הודעה לדיירים. במידה והם אינם מחוברים הודעתך תישלח אליהם למייל.'
+    };
+    messagingProvider.getOrStartConversation(withUserObj, {
+      topicId: tenant.listing_id,
+      subject: listingTitle
+    }).then(popup => this.popup = popup);
   }
 
   removeTenant() {
