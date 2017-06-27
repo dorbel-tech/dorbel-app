@@ -63,27 +63,6 @@ class ApiClient {
       .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile));
   }
 
-  getFollowersByListing(listingId) {
-    return this.request
-      .get('/v1/followers/by-listing/' + listingId);
-  }
-
-  createNewFollower(listingId, user) {
-    return this.request
-      .post('/v1/follower')
-      .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile))
-      .send({
-        listing_id: listingId,
-        user_details: user
-      });
-  }
-
-  deleteFollower(followId, follower) {
-    return this.request
-      .delete('/v1/follower/' + followId)
-      .set(USER_PROFILE_HEADER, JSON.stringify(follower));
-  }
-
   static * init(userProfile) {
     let request;
 

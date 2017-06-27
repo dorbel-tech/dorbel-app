@@ -40,18 +40,6 @@ function generateRegistration(variant) {
   }, variant);
 }
 
-function generateFollower(variant) {
-  let follower = _.extend({
-    id: 1,
-    listing_id: 1,
-    following_user_id: fakeUserId,
-    is_active: true
-  }, variant);
-  follower.get = () => { return follower; };
-
-  return follower;
-}
-
 function getRandomNumber() {
   const min = 1000;
   const max = 100000;
@@ -63,6 +51,5 @@ module.exports = {
   getFakeUser,
   generateEvent,
   generateRegistration,
-  generateFollower,
   getRandomNumber
 };
