@@ -40,8 +40,8 @@ class MessagingProvider {
     }
 
     this.talkSession = new global.window.Talk.Session({
-      appId: window.dorbelConfig.TALKJS_APP_ID,
-      publishableKey: window.dorbelConfig.TALKJS_PUBLISHABLE_KEY,
+      appId: global.window.dorbelConfig.TALKJS_APP_ID,
+      publishableKey: global.window.dorbelConfig.TALKJS_PUBLISHABLE_KEY,
       me: this.talkUser
     });
 

@@ -1,0 +1,98 @@
+'use strict';
+import faker from 'faker';
+import MessagingProvider from './MessagingProvider.js';
+
+describe('Messaging Provider', () => {
+  let messagingProvider;
+  let authStoreMock;
+
+  beforeEach(() => {
+    authStoreMock = {};
+
+    messagingProvider = new MessagingProvider(authStoreMock);
+  });
+
+  afterEach(() => jest.resetAllMocks());
+
+  describe('constructor', () => {
+    it('should set authStore init talkjs and a talk session', () => {
+      messagingProvider.talkjs = jest.fn().mockReturnValue(true);
+      messagingProvider.initTalkSession = jest.fn();
+
+      messagingProvider.constructor(authStoreMock);
+
+      expect(messagingProvider.authStore).toEqual(authStoreMock);
+      expect(messagingProvider.talkjs).toHaveBeenCalledWith(global.window, document, []);
+      expect(messagingProvider.initTalkSession).toHaveBeenCalledWith();
+    });
+  });
+
+  describe('initTalkUser', () => {
+    it('should return false if a talkUser is not already defined and user is not logged in', () => {
+      expect(messagingProvider.initTalkUser()).toEqual(false);
+    });
+
+    it('should return false if a talkUser is already defined', () => {
+      messagingProvider.talkUser = jest.fn();
+
+      expect(messagingProvider.initTalkUser()).toEqual(false);
+    });
+
+    it('should return true and setup a new talkUser', () => {
+      global.window.Talk = {User: jest.fn()};
+      authStoreMock.isLoggedIn = true;
+      authStoreMock.profile = {
+        dorbel_user_id: faker.random.uuid(),
+        first_name: faker.name.firstName(),
+        email: faker.internet.email(),
+        picture: faker.internet.url()
+      };
+
+      expect(messagingProvider.talkUser).toBeUndefined();
+      const result = messagingProvider.initTalkUser();
+
+      expect(messagingProvider.talkUser).toBeDefined();
+      expect(global.window.Talk.User).toHaveBeenCalledWith({
+        id: authStoreMock.profile.dorbel_user_id,
+        name: authStoreMock.profile.first_name,
+        email: authStoreMock.profile.email,
+        photoUrl: authStoreMock.profile.picture,
+        configuration: 'general'
+      });
+      expect(result).toEqual(true);
+    });
+  });
+
+  describe('initTalkSession', () => {
+    beforeEach(() => {
+      messagingProvider.initTalkUser = jest.fn();
+    });
+
+    it('should return false if a talk user was not already initialized', () => {
+      messagingProvider.initTalkUser.mockReturnValue(false);
+      expect(messagingProvider.initTalkSession()).toEqual(false);
+    });
+
+    it('should return true and setup a new talkSession', () => {
+      messagingProvider.initTalkUser.mockReturnValue(true);
+      const talkUserMock = jest.fn();
+      messagingProvider.talkUser = talkUserMock;
+      global.window.Talk = {Session: jest.fn()};
+      global.window.dorbelConfig = {
+        TALKJS_APP_ID: faker.random.uuid(),
+        TALKJS_PUBLISHABLE_KEY: faker.random.uuid()
+      }
+
+      expect(messagingProvider.talkSession).toBeUndefined();
+      const result = messagingProvider.initTalkSession();
+
+      expect(messagingProvider.talkSession).toBeDefined();
+      expect(global.window.Talk.Session).toHaveBeenCalledWith({
+        appId: global.window.dorbelConfig.TALKJS_APP_ID,
+        publishableKey: global.window.dorbelConfig.TALKJS_PUBLISHABLE_KEY,
+        me: talkUserMock
+      });
+      expect(result).toEqual(true);
+    });
+  });
+});
