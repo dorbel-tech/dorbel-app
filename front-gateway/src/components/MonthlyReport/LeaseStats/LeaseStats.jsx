@@ -44,7 +44,7 @@ class LeaseStats extends Component {
 
   formatMoneyValue(value) {
     if (value >= ONE_MILLION) {
-      return `${(value / ONE_MILLION).toFixed(2)} מ'₪`;
+      return `${(value / ONE_MILLION).toFixed(1)} מ'₪`;
     }
     else { return `₪${value.toLocaleString()}`; }
   }
@@ -139,7 +139,7 @@ class LeaseStats extends Component {
                 <SteppedProgressBar
                   steps={monthList}
                   currentStepIndex={currentMonthIndex}
-                  pointerText={'₪' + listing.monthly_rent.toLocaleString()}
+                  pointerText={this.formatMoneyValue(listing.monthly_rent)}
                   hideStepMarks={monthList.length >= 20} />
               </Col>
             </Row>
