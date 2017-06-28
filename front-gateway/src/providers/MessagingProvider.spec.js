@@ -1,5 +1,6 @@
 'use strict';
 import faker from 'faker';
+import utils from '~/providers/utils';
 import MessagingProvider from './MessagingProvider.js';
 
 describe('Messaging Provider', () => {
@@ -96,15 +97,27 @@ describe('Messaging Provider', () => {
     });
   });
 
-  describe('getOrStartConversation', () => {
+  xdescribe('getOrStartConversation', () => {
     beforeEach(() => {
       messagingProvider.initTalkSession = jest.fn();
     });
 
     it('should return undefined if a talk session fails to initialize', () => {
       messagingProvider.initTalkSession.mockReturnValue(false);
-      messagingProvider.getOrStartConversation().then(result => {
+
+      const prom = messagingProvider.getOrStartConversation().then(result => expect(result).toBeUndefined());
+      prom.resolve();
+    });
+
+    it('should create and return a popup', () => {
+      messagingProvider.initTalkSession.mockReturnValue(true);
+      utils.hideIntercom = jest.fn();
+
+      messagingProvider.getOrStartConversation().then(result => expect(result).toBeUndefined());
+
+      utils.flushPromises().then(result => {
         expect(result).toBeUndefined();
+        expect(messagingProvider.talkSession.getOrStartConversation).toHaveBeenCalledWith();
       });
     });
   });
