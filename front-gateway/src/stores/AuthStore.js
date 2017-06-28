@@ -73,7 +73,7 @@ export default class AuthStore {
     }
   }
 
-  userIsAdmin() {
+  isUserAdmin() {
     const profile = this.profile;
     if (!profile) { return false; }
 

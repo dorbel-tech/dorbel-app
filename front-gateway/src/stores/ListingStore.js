@@ -69,7 +69,7 @@ export default class ListingStore {
     if (!profile) { return false; }
 
     const userIsListingPublisher = listing.publishing_user_id === profile.dorbel_user_id;
-    return userIsListingPublisher || this.authStore.userIsAdmin();
+    return userIsListingPublisher || this.authStore.isUserAdmin;
   }
 
   toJson() {

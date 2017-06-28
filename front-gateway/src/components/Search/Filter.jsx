@@ -250,10 +250,10 @@ class Filter extends Component {
   }
 
   renderAdminFilter() {
-    const { authStore } = this.props.appStore;
-    const userIsAdmin = authStore.userIsAdmin();
+    const { appStore } = this.props;
+    const isUserAdmin = appStore.authStore.isUserAdmin;
 
-    if (userIsAdmin) {
+    if (isUserAdmin) {
       return <div className="filter-group-container">
         <h5><b>הצג דירות בסטטוס</b></h5>
         <Checkbox name="pending"
