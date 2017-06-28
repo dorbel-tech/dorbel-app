@@ -250,11 +250,10 @@ class Filter extends Component {
   }
 
   renderAdminFilter() {
-    const { authStore } = this.props.appStore;
-    const profile = authStore.profile;
-    const userIsAdmin = profile && profile.role === 'admin';
+    const { appStore } = this.props;
+    const isUserAdmin = appStore.authStore.isUserAdmin;
 
-    if (userIsAdmin) {
+    if (isUserAdmin) {
       return <div className="filter-group-container">
         <h5><b>הצג דירות בסטטוס</b></h5>
         <Checkbox name="pending"
@@ -454,7 +453,7 @@ class Filter extends Component {
                           offset={NEW_TIP_OFFSET} className="filter-future-booking-tooltip"/>
           </Col>
         </Row>
-        <Row>          
+        <Row>
           <Col lgOffset={2} smOffset={1} sm={2}>
             <OverlayTrigger placement="bottom" trigger="click" rootClose
                             overlay={this.roomsPopup()}>

@@ -73,6 +73,13 @@ export default class AuthStore {
     }
   }
 
+  isUserAdmin() {
+    const profile = this.profile;
+    if (!profile) { return false; }
+
+    return profile.role === 'admin';
+  }
+
   toJson() {
     return {
       idToken: this.idToken,
