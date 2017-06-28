@@ -732,11 +732,12 @@ exports[`Filter should initialize correctly 1`] = `
                     block={true}
                     bsClass="btn"
                     bsStyle="info"
+                    className="filter-save"
                     disabled={false}
                     id="saveFilterButton"
                     onClick={[Function]}>
                     <button
-                      className="btn btn-info btn-block"
+                      className="filter-save btn btn-info btn-block"
                       disabled={false}
                       id="saveFilterButton"
                       onClick={[Function]}

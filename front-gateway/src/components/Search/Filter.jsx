@@ -473,7 +473,8 @@ class Filter extends Component {
             </OverlayTrigger>
           </Col>
           <Col sm={3} lg={2} >
-            <Button id="saveFilterButton" block bsStyle="info" onClick={this.saveFilter}>
+            <Button id="saveFilterButton" className="filter-save"
+                    block bsStyle="info" onClick={this.saveFilter}>
               {saveFilterButtonText}
             </Button>
           </Col>

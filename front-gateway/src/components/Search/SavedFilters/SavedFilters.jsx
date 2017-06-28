@@ -81,7 +81,7 @@ export default class SavedFilters extends React.Component {
 
     return (
       <Row className="saved-filters-row">
-        <Col sm={2} smOffset={2} xs={12}>
+        <Col lgOffset={2} sm={2} smOffset={1} xs={12}>
           <span className="saved-filters-title">חיפושים שמורים</span>
         </Col>
         {filters.map(this.renderFilter)}
