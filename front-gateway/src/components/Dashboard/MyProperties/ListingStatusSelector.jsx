@@ -16,11 +16,21 @@ class ListingStatusSelector extends React.Component {
     autobind(this);
   }
 
-  changeStatus(newStatus) {
-    const { listing, appStore, appProviders } = this.props;
-
+  getListingActiveEvents() {
+    const { listing, appStore } = this.props;
     const openHouseEvents = appStore.oheStore.oheByListingId(listing.id);
-    const listingHasActiveEvents = openHouseEvents.some(event => ['inactive', 'expired'].indexOf(event.status) == -1);
+    let listingHasActiveEvents = false;
+
+    if (openHouseEvents) {
+      listingHasActiveEvents = openHouseEvents.some(event => ['inactive', 'expired'].indexOf(event.status) == -1);
+    }
+
+    return listingHasActiveEvents;
+  }
+
+  changeStatus(newStatus) {
+    const { listing, appProviders } = this.props;
+    const listingHasActiveEvents = this.getListingActiveEvents();
 
     let confirmation = Promise.resolve(true);
 
