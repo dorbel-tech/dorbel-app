@@ -56,15 +56,15 @@ export default class ModalProvider {
       body: (
         <div className="text-center">
           <div className={params.bodyClass}>
-            { params.heading && (<h4>{params.heading}</h4>) }
-            { params.body }
+            {params.heading && (<h4>{params.heading}</h4>)}
+            {params.body}
           </div>
         </div>
       ),
       footer: params.footer,
       modalSize: params.modalSize || 'small',
       onClose: () => {
-        if(params.closeHandler){
+        if (params.closeHandler) {
           params.closeHandler();
         }
         this.appStore.showModal = false;
@@ -72,5 +72,9 @@ export default class ModalProvider {
     };
 
     this.appStore.showModal = true;
+  }
+
+  close() {
+    this.appStore.showModal = false;
   }
 }
