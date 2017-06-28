@@ -23,13 +23,8 @@ class LeaseStats extends Component {
     let start = leaseStart.clone();
     let end = leaseEnd.clone();
 
-    // Set the day to 0 in order to avoid month issues (30th of February for example) 
-    start.day(0);
-    end.day(0);
-
-
     let monthList = [];
-    while (start < end) {
+    while (end.diff(start, 'month')) {
       monthList.push(start.month() + 1);
       start.add(1, 'month');
     }
