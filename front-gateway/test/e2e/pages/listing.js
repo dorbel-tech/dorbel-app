@@ -6,7 +6,7 @@ module.exports = {
     return common.getBaseUrl() + '/apartments/' + listingId;
   },
   elements: {
-    successNotification: {
+    notification: {
       selector: '.notification-message'
     }
   },
@@ -30,12 +30,6 @@ module.exports = {
         },
         text: {
           selector: '.like-button-text'
-        },
-        unliked: {
-          selector: '.fa fa-heart-o'
-        },
-        liked: {
-          selector: '.fa fa-heart'
         }
       }
     },
@@ -85,7 +79,7 @@ module.exports = {
       return this.section.like.click('@button');
     },
     validateSuccessNotificationVisible: function() {
-      this.waitForElementVisible('@successNotification');
+      this.waitForElementVisible('@notification');
       return this;
     },
     clickFirstOhe: function() {
