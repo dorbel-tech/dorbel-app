@@ -23,6 +23,11 @@ class LeaseStats extends Component {
     let start = leaseStart.clone();
     let end = leaseEnd.clone();
 
+    // Set the day to 0 in order to avoid month issues (30th of February for example) 
+    start.day(0);
+    end.day(0);
+
+
     let monthList = [];
     while (start < end) {
       monthList.push(start.month() + 1);
@@ -44,9 +49,8 @@ class LeaseStats extends Component {
 
   formatMoneyValue(value) {
     if (value >= ONE_MILLION) {
-      // keep only 1 decimal place. 
-      // value.toFixed(1) rounds the numbers in some cases so regex is used instead
-      const formattedValue = (value / ONE_MILLION).toString().match(/^-?\d+(?:\.\d{0,1})?/)[0];
+      const { utils } = this.props.appProviders;
+      const formattedValue = utils.decimalToPercision((value / ONE_MILLION), 1);
       return `${formattedValue} מ'₪`;
     }
     else { return `₪${value.toLocaleString()}`; }
