@@ -21,6 +21,7 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
     if (validationResp) {
       const { modalProvider, navProvider } = this.props.appProviders;
       const { newListingStore } = this.props.appStore;
+      const listingId = validationResp.listing_id;
 
       switch (validationResp.status) {
         case 'belongsToOtherUser':
@@ -30,7 +31,7 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
             body: (
               <div>
                 <div>
-                  אנא וודאו שפרטי הדירה נכונים
+                  אנא וודאו שפרטי הדירה שהכנסתם נכונים
                 </div>
                 <div>
                   <Button className="upload-apartment-validation-popup-back-button" onClick={this.clickBack}>חזור לפרטי הדירה</Button>
@@ -60,14 +61,14 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
                 </div>
                 <div className="upload-apartment-validation-popup-button-wrapper">
                   <Button
-                    href={`/dashboard/my-properties/${validationResp.listing_id}/edit`}
+                    href={`/dashboard/my-properties/${listingId}/edit`}
                     onClick={navProvider.handleHrefClick}
                     className="upload-apartment-validation-popup-button"
                     bsStyle="info">
                     עריכת פרטי דירה
                   </Button>
                   <Button
-                    href={`/dashboard/my-properties/${validationResp.listing_id}/ohe`}
+                    href={`/dashboard/my-properties/${listingId}/ohe`}
                     onClick={navProvider.handleHrefClick}
                     className="upload-apartment-validation-popup-button"
                     bsStyle="info">
@@ -81,25 +82,36 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
           });
           break;
         case 'alreadyExists':
-          if (newListingStore.uploadMode != 'republish') {
+          if (newListingStore.uploadMode == 'manage') {
             modalProvider.show({
               bodyClass: 'upload-apartment-validation-popup',
               title: 'דירה זו כבר קיימת בחשבונכם!',
               body: (
                 <div>
-                  <div>
-                    שימו לב - שליחת הטופס תעדכן את פרטי הדירה הקיימת.
+                  באפשרותכם לפרסם אותה מחדש או לערוך את פרטי הדירה
+                  <div className="upload-apartment-validation-popup-button-wrapper">
+                    <Button
+                      href='/properties/submit/publish'
+                      onClick={navProvider.handleHrefClick}
+                      className="upload-apartment-validation-popup-button"
+                      bsStyle="info">
+                      המשיכו לפרסום הדירה להשכרה
+                    </Button>
+                    <Button
+                      href={`/dashboard/new_form/${validationResp.listing_id}/edit`}
+                      onClick={navProvider.handleHrefClick}
+                      className="upload-apartment-validation-popup-button"
+                      bsStyle="info">
+                      לחצו לעריכת פרטי הדירה
+                    </Button>
+                  </div>
+                  <div className="upload-apartment-validation-popup-small-text">
+                    במידה והתכוונתם לפרסם דירה חדשה, שאינה קיימת בחשבונכם, חזרו אחורה וודאו את הפרטים שהכנסתם 
                     <div>
-                      <br />
-                      באפשרותכם גם
-                      <div>
-                        <a className="upload-apartment-validation-popup-link"
-                          href={`/dashboard/my-properties/${validationResp.listing_id}`}>
-                          להכנס לחשבון הדירה
-                        </a>
-                      </div>
+                      <a className="upload-apartment-validation-popup-link underlined" onClick={this.clickBack}>
+                        חזרו אחורה
+                      </a>
                     </div>
-                    ולנהל אותה משם
                   </div>
                 </div>
               )
@@ -163,7 +175,7 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
                   <i className="apartment-pictures-next-step fa fa-arrow-circle-o-left fa-2x" aria-hidden="true"></i>
                 </Button>
               </span>
-              <ReactTooltip type="dark" effect="solid" place="top" disable={isHideTooltip}/>
+              <ReactTooltip type="dark" effect="solid" place="top" disable={isHideTooltip} />
             </Col>
           </div>
         </Col>
