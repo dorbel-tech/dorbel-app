@@ -29,7 +29,7 @@ class ListingStatusSelector extends React.Component {
   }
 
   changeStatus(newStatus) {
-    const { listing, appStore, appProviders } = this.props;
+    const { listing, appProviders } = this.props;
     const listingHasActiveEvents = this.getListingActiveEvents();
 
     let confirmation = Promise.resolve(true);
