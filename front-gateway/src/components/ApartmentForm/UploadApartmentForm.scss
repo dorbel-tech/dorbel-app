@@ -329,6 +329,11 @@
 
   .upload-apartment-validation-popup-link {
     color: #3398db;
+    cursor: pointer;
+
+    &.underlined {
+      text-decoration: underline;
+    }
   }
 
   .upload-apartment-validation-popup-button-wrapper {
@@ -340,6 +345,15 @@
       .fa {
         margin-top: 5px;
       }
+
+      &.full-width {
+        width: 100%;
+      }
     }
+  }
+
+  .upload-apartment-validation-popup-small-text {
+    font-size: 13px;
+    margin-top: 15px;
   }
 }
