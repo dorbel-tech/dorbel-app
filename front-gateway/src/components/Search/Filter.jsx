@@ -40,8 +40,7 @@ const DEFAULT_FILTER_PARAMS = {
   park: false, // Apartment with parking checkbox default value.
   pet: false, // Apartment allowing pets checkbox default value.
   sb: false, // Apartment with security bars checkbox default value.
-
-  futureBooking: false // Future booking apartments checkbox default value.
+  futureBooking: true // Future booking apartments checkbox default value.
 };
 
 @inject('appStore', 'appProviders') @observer
