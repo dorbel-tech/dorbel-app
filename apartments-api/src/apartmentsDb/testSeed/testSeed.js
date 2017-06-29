@@ -41,6 +41,10 @@ const TEST_LIKES = {
     }
   ]
 };
+
+const MONTHLY_RENT = 5500;
+const ROOMS = 1.5;
+
 function* buildTestSeed() {
   yield db.connect();
 
@@ -70,7 +74,7 @@ function* createApartment(city, neighborhood, id, slug) {
     id: id,
     apt_number: id,
     size: 65,
-    rooms: 1.5,
+    rooms: ROOMS,
     floor: 2,
     parking: 1,
     pets: 1,
@@ -83,7 +87,7 @@ function* createApartment(city, neighborhood, id, slug) {
     title: 'דירה לבדיקה',
     description: 'הדירה של הבדיקות האוטומטיות',
     status: 'listed',
-    monthly_rent: 5500,
+    monthly_rent: MONTHLY_RENT,
     roommates: 0,
     property_tax: 500,
     board_fee: 120,
@@ -132,8 +136,10 @@ function * createSavedFilter(cityId, neighborhoodId) {
     dorbel_user_id: TEST_USER_ID,
     city: cityId,
     neighborhood: neighborhoodId,
-    min_rooms: 0.1,
-    min_monthly_rent: 0.1
+    min_rooms: ROOMS - 0.5,
+    max_rooms: ROOMS + 1,
+    min_monthly_rent: MONTHLY_RENT - 1000,
+    max_monthly_rent: MONTHLY_RENT + 500
   });
 }
 

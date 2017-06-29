@@ -62,6 +62,9 @@ function * getFilterByMatchedListing(listing_id, user) {
 
   if (!listing) {
     throw new errors.DomainNotFoundError('listing not found', { listing_id }, 'listing not found');
+  } else if (listing.status === 'rented' && !listing.show_for_future_booking) {
+    // rented && not showed for future listing - this listing should not be matched by any filter.
+    return [];
   }
 
   const query = mapListingToMatchingFilterQuery(listing);
@@ -69,6 +72,15 @@ function * getFilterByMatchedListing(listing_id, user) {
 }
 
 function mapListingToMatchingFilterQuery(listing) {
+  const filterQuery = {};
+  
+  if (listing.status === 'rented' && listing.show_for_future_booking) {
+    // only show filters that are looking for future_booking or don't care
+    filterQuery.future_booking = nullOrEqualTo(true);
+    // otherwise (listing is listed) we take all future_booking values
+    // assuming that rented && !show_for_future_booking listings dont get to this stage
+  }
+
   return {
     email_notification: true, // only return the filters that require email notification
     city: listing.apartment.building.city_id,
@@ -82,8 +94,7 @@ function mapListingToMatchingFilterQuery(listing) {
     parking: nullOrEqualTo(listing.apartment.parking),
     pets: nullOrEqualTo(listing.apartment.pets),
     security_bars: nullOrEqualTo(listing.apartment.security_bars),
-    elevator: nullOrEqualTo(listing.apartment.building.elevator),
-    future_booking: nullOrEqualTo(listing.status === 'rented' && listing.show_for_future_booking)
+    elevator: nullOrEqualTo(listing.apartment.building.elevator)
   };
 }
 
@@ -111,8 +122,9 @@ function filtersAreEqual(filter1, filter2) {
 function normalizeFilterFields(filter) {
   // set null instead of undefined so we are overwriting the existing filter and not merging into it
   Object.keys(filter).filter(key => filter[key] === undefined).forEach(key => filter[key] = null);
-  // email_notification can't be null so it will be false if undefined or null
-  filter.email_notification = !!filter.email_notification;
+
+  // email_notification is explicitly false or defaults to true
+  filter.email_notification = !(filter.email_notification === false);
 }
 
 module.exports = {
