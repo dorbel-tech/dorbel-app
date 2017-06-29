@@ -1,37 +1,70 @@
 @import "../sharedStyles/variables.scss";
 
 .monthly-report-main-grid {
-  width: 500px;
+  width: 100%;
   max-width: 500px;
-  margin: 35px auto;
+  margin: 0 auto;
   padding-bottom: 30px;
   border: 1px solid #dbdbdb;
   border-radius: 4px;
   background-color: $brand-white;
+}
 
-  .monthly-report-heading {
-    color: $gray;
-    font-family: Arial;
-    font-size: 15px;
-    line-height: 21px;
-    margin-top: 35px;
-    margin-right: 25px;
+.monthly-report-heading {
+  color: $gray;
+  font-family: Arial;
+  font-size: 15px;
+  line-height: 21px;
+  padding: 35px 0;
+  padding-right: 25px;
+  margin-bottom: 15px;
+
+  .monthly-report-heading-text {
+    top: 10px;
   }
 
-  .monthly-report-footer {
-    border-top: 2px solid $gray-lighter;
-    margin-top: 15px;
-    margin-right: 25px;
-    margin-left: 10px;
-    color: $gray-light;
-    font-family: Arial;
-    font-size: 9px;
-    line-height: 14px;
-    background-image: url('https://static.dorbel.com/images/icons/monthly-report/footer-watermark.svg');
-    background-size: 100% 100%;
+  .monthly-report-heading-stamp {
+    height: 50px;
+    text-align: center;
 
-    .monthly-report-footer-copyrights {
-      margin: 20px 0;
+    .logo {
+      height: 20px;
+      width: 100%;
+    }
+
+    .date-container {
+      color: $brand-white;
+      font-size: 15px;
+      font-weight: bold;
+      line-height: 18px;
+      text-align: center;
+      background-color: $brand-primary;
+      margin-top: 10px;
+    }
+  }
+}
+
+.monthly-report-footer {
+  border-top: 2px solid $gray-lighter;
+  padding: 15px;
+  padding-right: 25px;
+  padding-left: 10px;
+  color: $gray-light;
+  font-family: Arial;
+  font-size: 11px;
+  line-height: 14px;
+  background-image: url('https://static.dorbel.com/images/icons/monthly-report/footer-watermark.svg');
+  background-size: 100% 100%;
+
+  .monthly-report-footer-visit-us {
+    text-align: center;
+
+    .links {
+      display: inline-block;
+
+      i {
+        margin: 0 8px;
+      }
     }
   }
 }
