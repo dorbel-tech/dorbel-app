@@ -1,0 +1,14 @@
+@import "../../sharedStyles/variables.scss";
+
+.my-settings-input {
+  padding-bottom: 10px;
+  position: relative;
+
+  label {
+    color: $gray-light;
+  }
+
+  .control-label {
+    width: 0;
+  }
+}
