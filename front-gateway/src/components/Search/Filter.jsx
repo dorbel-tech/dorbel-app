@@ -167,10 +167,9 @@ class Filter extends Component {
     this.reloadResults();
   }
 
-  checkboxChangeHandler(isReversed, e) {
+  checkboxChangeHandler(e, isReversed) {
     const shouldAssignFilterValue = (!isReversed && e.target.checked) || (isReversed && !e.target.checked);
     shouldAssignFilterValue ? this.filterObj[e.target.name] = !isReversed : delete this.filterObj[e.target.name];
-    // set state is async is should appear only once per method
     this.setState({
       [e.target.name]: e.target.checked,
       extraFilterClass: this.getExtraFilterClass()
@@ -373,26 +372,26 @@ class Filter extends Component {
               <div className="filter-amenities-container">
                 <h5><b>צמצמו את החיפוש</b></h5>
                 <Col xs={4}>
-                  <Checkbox name="park" checked={this.state.park} onChange={this.checkboxChangeHandler.bind(this, false)}>
+                  <Checkbox name="park" checked={this.state.park} onChange={this.checkboxChangeHandler}>
                     חניה
                   </Checkbox>
-                  <Checkbox name="balc" checked={this.state.balc} onChange={this.checkboxChangeHandler.bind(this, false)}>
+                  <Checkbox name="balc" checked={this.state.balc} onChange={this.checkboxChangeHandler}>
                     מרפסת
                   </Checkbox>
                 </Col>
                 <Col xs={4}>
-                  <Checkbox name="ac" checked={this.state.ac} onChange={this.checkboxChangeHandler.bind(this, false)}>
+                  <Checkbox name="ac" checked={this.state.ac} onChange={this.checkboxChangeHandler}>
                     מזגן
                   </Checkbox>
-                  <Checkbox name="ele" checked={this.state.ele} onChange={this.checkboxChangeHandler.bind(this, false)}>
+                  <Checkbox name="ele" checked={this.state.ele} onChange={this.checkboxChangeHandler}>
                     מעלית
                   </Checkbox>
                 </Col>
                 <Col xs={4}>
-                  <Checkbox name="pet" checked={this.state.pet} onChange={this.checkboxChangeHandler.bind(this, false)}>
+                  <Checkbox name="pet" checked={this.state.pet} onChange={this.checkboxChangeHandler}>
                     מותר בע״ח
                   </Checkbox>
-                  <Checkbox name="sb" checked={this.state.sb} onChange={this.checkboxChangeHandler.bind(this, false)}>
+                  <Checkbox name="sb" checked={this.state.sb} onChange={this.checkboxChangeHandler}>
                     סורגים
                   </Checkbox>
                 </Col>
@@ -444,7 +443,7 @@ class Filter extends Component {
           <Col md={4} sm={5} xsHidden>
             <span data-tip="חדש! תכננו את מעבר הדירה הבא! מעכשיו תוכלו לגלות דירות מושכרות, לעקוב אחריהן ולהיות הראשונים לדעת כשהן מתפנות">
               <Checkbox name="futureBooking" className="filter-future-booking-switch"
-                        checked={this.state.futureBooking} onChange={this.checkboxChangeHandler.bind(this, true)}>
+                        checked={this.state.futureBooking} onChange={e => this.checkboxChangeHandler(e, true)}>
                 הראו לי דירות שטרם פורסמו
               </Checkbox>
               <span className="filter-future-booking-new">חדש!</span>
@@ -480,7 +479,7 @@ class Filter extends Component {
           </Col>
           <Col lgHidden mdHidden smHidden className="filter-future-booking-switch-mobile-wrapper">
             <Checkbox name="futureBooking" className="filter-future-booking-switch"
-                      checked={this.state.futureBooking} onChange={this.checkboxChangeHandler.bind(this, false)}>
+                      checked={this.state.futureBooking} onChange={this.checkboxChangeHandler}>
               הראו לי דירות שטרם פורסמו
             </Checkbox>
             <span className="filter-future-booking-new"
