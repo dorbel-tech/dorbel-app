@@ -229,7 +229,6 @@ function* getByFilter(filterJSON, options = {}) {
     throw new ValidationError('Unable to return so many lising results in one query! Limit asked: ' + options.limit);
   }
 
-/****************************** */
   const listingQuery = {};
 
   if (filter.futureBooking === false) {
