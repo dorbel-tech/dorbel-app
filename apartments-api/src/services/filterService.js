@@ -123,7 +123,7 @@ function normalizeFilterFields(filter) {
   // set null instead of undefined so we are overwriting the existing filter and not merging into it
   Object.keys(filter).filter(key => filter[key] === undefined).forEach(key => filter[key] = null);
 
-  // email_notification is explicitly false or defaults to true
+  // email_notification is either exactly false , or it's true. So if it's null or undefined it will still be true.
   filter.email_notification = !(filter.email_notification === false);
 }
 

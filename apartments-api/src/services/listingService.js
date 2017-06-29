@@ -402,9 +402,9 @@ function* enrichListingResponse(listing, user) {
     };
 
     if (listing.images && listing.images.length) {
-      listing.images = _.orderBy(listing.images, ['display_order']);
+      enrichedListing.images = _.orderBy(listing.images, ['display_order']);
     } else {
-      listing.images = [{ url: 'https://static.dorbel.com/images/meta/no-image-placeholder.svg' }];
+      enrichedListing.images = [{ url: 'https://static.dorbel.com/images/meta/no-image-placeholder.svg' }];
     }
 
     if (user) {
