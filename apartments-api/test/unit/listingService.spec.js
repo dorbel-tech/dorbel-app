@@ -66,13 +66,13 @@ describe('Listing Service', function () {
       __.assertThat(this.listingRepositoryMock.list.args[0][1], __.hasProperties(options));
     });
 
-    it('should set default status of listed only', function* () {
-      yield this.listingService.getByFilter();
+    it('should set status of listed only when future booking is off', function* () {
+      yield this.listingService.getByFilter('{ "futureBooking": false }');
       __.assertThat(this.listingRepositoryMock.list.args[0][0], __.hasProperties({ status: 'listed' }));
     });
 
-    it('should set conditions for future booking', function* () {
-      yield this.listingService.getByFilter('{ "futureBooking": true }');
+    it('should set conditions for future booking by default', function* () {
+      yield this.listingService.getByFilter();
       __.assertThat(this.listingRepositoryMock.list.args[0][0], __.allOf(
         __.not(__.hasProperty('status')),
         __.hasProperty('$or', __.contains(
