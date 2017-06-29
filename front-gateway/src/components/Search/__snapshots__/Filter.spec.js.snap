@@ -370,7 +370,7 @@ exports[`Filter should initialize correctly 1`] = `
                     data-tip="חדש! תכננו את מעבר הדירה הבא! מעכשיו תוכלו לגלות דירות מושכרות, לעקוב אחריהן ולהיות הראשונים לדעת כשהן מתפנות">
                     <Checkbox
                       bsClass="checkbox"
-                      checked={false}
+                      checked={true}
                       className="filter-future-booking-switch"
                       disabled={false}
                       inline={false}
@@ -380,7 +380,7 @@ exports[`Filter should initialize correctly 1`] = `
                         className="filter-future-booking-switch checkbox">
                         <label>
                           <input
-                            checked={false}
+                            checked={true}
                             disabled={false}
                             name="futureBooking"
                             onChange={[Function]}
@@ -758,7 +758,7 @@ exports[`Filter should initialize correctly 1`] = `
                   className="filter-future-booking-switch-mobile-wrapper hidden-lg hidden-md hidden-sm">
                   <Checkbox
                     bsClass="checkbox"
-                    checked={false}
+                    checked={true}
                     className="filter-future-booking-switch"
                     disabled={false}
                     inline={false}
@@ -768,7 +768,7 @@ exports[`Filter should initialize correctly 1`] = `
                       className="filter-future-booking-switch checkbox">
                       <label>
                         <input
-                          checked={false}
+                          checked={true}
                           disabled={false}
                           name="futureBooking"
                           onChange={[Function]}
