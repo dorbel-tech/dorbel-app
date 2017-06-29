@@ -12,11 +12,17 @@ const ONE_MILLION = 1000000;
 const ROOM_IN_TLV_VALUE = 900000;
 const ROOM_OUTSIDE_TLV_VALUE = 500000;
 const TLV_CITY_ID = 1;
+const CURRENCY_SIGN = '₪';
+
 @inject('appProviders')
 class LeaseStats extends Component {
   constructor(props) {
     super(props);
     autobind(this);
+
+    this.modalProvider = this.props.appProviders.modalProvider;
+    this.listingsProvider = this.props.appProviders.listingsProvider;
+    this.utils = this.props.appProviders.utils;
   }
 
   getMonthList(leaseStart, leaseEnd) {
@@ -46,9 +52,14 @@ class LeaseStats extends Component {
     if (value >= ONE_MILLION) {
       const { utils } = this.props.appProviders;
       const formattedValue = utils.decimalToPercision((value / ONE_MILLION), 1);
-      return `${formattedValue} מ'₪`;
+      return `${formattedValue} מ'${CURRENCY_SIGN}`;
     }
-    else { return `₪${value.toLocaleString()}`; }
+    else { return `${CURRENCY_SIGN}${value.toLocaleString()}`; }
+  }
+
+  getAnnualYield(totalRentExpected, propertyValue) {
+    const percentage = this.utils.getPercentageOfTotal(totalRentExpected, propertyValue);
+    return this.utils.decimalToPercision(percentage, 3) + '%';
   }
 
   renderStatsHeader(monthsToLeaseEnd) {
@@ -76,8 +87,7 @@ class LeaseStats extends Component {
   }
 
   showUpdatePropertyValuePopup(propertyValue) {
-    const { modalProvider, listingsProvider } = this.props.appProviders;
-    modalProvider.show({
+    this.modalProvider.show({
       title: 'עדכון שווי נכס',
       body: (
         <div>
@@ -100,8 +110,8 @@ class LeaseStats extends Component {
                 let { property_value } = formsy.getModel();
                 property_value = parseInt(property_value.replace(/[^0-9\.]+/g, ''));
                 if (property_value) {
-                  listingsProvider.updateListing(this.props.listing.id, { property_value })
-                    .then(modalProvider.close());
+                  this.listingsProvider.updateListing(this.props.listing.id, { property_value })
+                    .then(this.modalProvider.close());
                 }
               }}>
               עדכן
@@ -196,7 +206,7 @@ class LeaseStats extends Component {
             </Col>
             <Col className="summary-box" xs={4}>
               <div className="summary-box-value">
-                {(totalRentExpected / propertyValue * 100).toFixed(3) + '%'}
+                {this.getAnnualYield(propertyValue, totalRentExpected)}
               </div>
               <div className="summary-box-text">
                 תשואה

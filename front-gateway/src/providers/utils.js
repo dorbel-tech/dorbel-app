@@ -113,9 +113,8 @@ function flushPromises() {
   return new Promise(resolve => setImmediate(resolve));
 }
 
-function getPercentageOfTotal(totalValue, partialValue, percision) {
-  const percentage = (partialValue / totalValue * 100);
-  return decimalToPercision(percentage, percision);
+function getPercentageOfTotal(totalValue, partialValue) {
+  return (partialValue / totalValue * 100);
 }
 
 // decimal.toFixed(1) rounds the numbers in some cases so regex is used instead
