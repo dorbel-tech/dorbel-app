@@ -224,6 +224,14 @@
   }
 }
 
+#min-lease-date-picker_group .fade.in.popover.bottom {
+  margin-top: 54px;
+}
+
+#max-lease-date-picker_group .fade.in.popover.bottom {
+  margin-top: 122px;
+}
+
 .filter-extra-popup {
   @media (min-width: $screen-sm-min) {
     width: 345px;

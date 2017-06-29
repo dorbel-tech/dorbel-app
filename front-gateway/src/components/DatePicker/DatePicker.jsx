@@ -73,7 +73,8 @@ class DatePicker extends Component {
     }
 
     return (
-      <ReactBootstrapDatePicker
+      <ReactBootstrapDatePicker   
+        id={this.props.id}
         customControl={customControl}
         value={this.state.dateValue}
         name={this.state.name}
@@ -103,7 +104,8 @@ DatePicker.propTypes = {
   calendarContainer: React.PropTypes.object,
   placeholder: React.PropTypes.string,
   showClearButton: React.PropTypes.bool,
-  onClear: React.PropTypes.func
+  onClear: React.PropTypes.func,
+  id: React.PropTypes.string
 };
 
 export default DatePicker;

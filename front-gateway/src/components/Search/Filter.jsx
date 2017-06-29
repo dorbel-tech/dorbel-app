@@ -148,11 +148,13 @@ class Filter extends Component {
     this.setState({roomsFilterClass: this.getRoomsFilterClass()});
   }
 
-  leaseStartDateChange(field, date) {
+  leaseStartDateChange(field, date) {    
     if (this.state[field] !== date) {
-      this.setState({ [field]: date });
       this.filterObj[field] = date;
-      this.setState({leaseStartFilterClass: this.getLeaseStartFilterClass()});
+      this.setState({
+        [field]: date,
+        leaseStartFilterClass: this.getLeaseStartFilterClass()
+      });
       this.reloadResults();
     }
   }
@@ -338,13 +340,11 @@ class Filter extends Component {
   leaseStartPopup() {
     return <Popover className="filter-lease-start-popup" id="popup-lease-start">
              <h5><b>מתאריך:</b></h5>
-             <DatePicker placeholder="בחרו תאריך התחלה" value={this.state.minLease} 
-                showClearButton={true} calendarContainer={this}
-                onChange={this.leaseStartDateChange.bind(this, 'minLease')}/>
+             <DatePicker placeholder="בחרו תאריך התחלה" value={this.state.minLease} id="min-lease-date-picker" 
+                showClearButton={true} onChange={this.leaseStartDateChange.bind(this, 'minLease')}/>
              <h5><b>עד תאריך:</b></h5>
-             <DatePicker placeholder="בחרו תאריך סיום" value={this.state.maxLease}
-                showClearButton={true} calendarContainer={this}
-                onChange={this.leaseStartDateChange.bind(this, 'maxLease')}/>
+             <DatePicker placeholder="בחרו תאריך סיום" value={this.state.maxLease} id="max-lease-date-picker"
+                showClearButton={true} onChange={this.leaseStartDateChange.bind(this, 'maxLease')}/>
            </Popover>;
   }
 
