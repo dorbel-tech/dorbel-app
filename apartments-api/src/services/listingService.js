@@ -230,7 +230,9 @@ function* getByFilter(filterJSON, options = {}) {
 
   const listingQuery = {};
 
-  if (filter.futureBooking) {
+  if (filter.futureBooking === false) {
+    listingQuery.status = 'listed';
+  } else {
     // TODO : what if there are other things that require $or ?
     listingQuery.$or = [
       { status: 'listed' },
@@ -239,10 +241,7 @@ function* getByFilter(filterJSON, options = {}) {
         show_for_future_booking: true
       }
     ];
-  } else {
-    listingQuery.status = 'listed';
   }
-
 
   let queryOptions = {
     order: getSortOption(filter.sort),

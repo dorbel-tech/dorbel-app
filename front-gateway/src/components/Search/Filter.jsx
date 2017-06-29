@@ -177,6 +177,16 @@ class Filter extends Component {
     this.reloadResults();
   }
 
+  reverseCheckboxChangeHandler(e) {
+    this.setState({ [e.target.name]: e.target.checked });
+    !e.target.checked ?
+      this.filterObj[e.target.name] = false :
+      delete this.filterObj[e.target.name];
+
+    this.setState({extraFilterClass: this.getExtraFilterClass()});
+    this.reloadResults();
+  }
+
   roommateChangeHandler(e) {
     this.setState({ [e.target.name]: e.target.checked });
 
@@ -443,7 +453,7 @@ class Filter extends Component {
           <Col md={4} sm={5} xsHidden>
             <span data-tip="חדש! תכננו את מעבר הדירה הבא! מעכשיו תוכלו לגלות דירות מושכרות, לעקוב אחריהן ולהיות הראשונים לדעת כשהן מתפנות">
               <Checkbox name="futureBooking" className="filter-future-booking-switch"
-                        checked={this.state.futureBooking} onChange={this.checkboxChangeHandler}>
+                        checked={this.state.futureBooking} onChange={this.reverseCheckboxChangeHandler}>
                 הראו לי דירות שטרם פורסמו
               </Checkbox>
               <span className="filter-future-booking-new">חדש!</span>
