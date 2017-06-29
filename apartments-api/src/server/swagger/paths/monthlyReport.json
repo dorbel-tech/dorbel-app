@@ -23,7 +23,8 @@
         }
       ],
       "tags": [
-        "monthlyReportController"
+        "monthlyReportController",
+        "authenticated"
       ],
       "responses": {
         "200": {
