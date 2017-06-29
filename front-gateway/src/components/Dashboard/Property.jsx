@@ -122,8 +122,7 @@ class Property extends Component {
     }
 
     const propertyPath = getDashMyPropsPath(property, '/');
-    const sortedPropertyImages = utils.sortListingImages(property);
-    const imageURL = sortedPropertyImages[0].url;
+    const imageURL = property.images[0].url;
     const historySelector = <PropertyHistorySelector apartment_id={property.apartment_id} listing_id={property.id} />;
     const isActiveListing = this.props.appProviders.listingsProvider.isActiveListing(property);
     const imageClass = 'property-image' + (isActiveListing ? '' : ' property-image-inactive');

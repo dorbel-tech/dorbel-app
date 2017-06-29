@@ -47,8 +47,7 @@ class ListingsProvider {
   getListingMetadata(listing) {
     const IMAGE_WIDTH = 1200;
     const IMAGE_HEIGHT = 630;
-    const sortedListingImages = utils.sortListingImages(listing);
-    let imageURL = sortedListingImages[0].url;
+    let imageURL = listing.images[0].url;
     imageURL = utils.optimizeCloudinaryUrl(imageURL, IMAGE_WIDTH);
 
     return {
