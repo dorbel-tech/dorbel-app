@@ -42,11 +42,11 @@ function submitApartment(browser) {
 }
 
 function waitForUnRegisterText() {
-  common.waitForText(listing.section.oheList, '@firstEventText', 'הרשמו לביקור');
+  common.waitForText(listing.section.oheList, '@firstEventText', 'הרשם לביקור');
 }
 
 function waitForRegisterText() {
-  common.waitForText(listing.section.oheList, '@firstEventText', 'רשום לביקור');
+  common.waitForText(listing.section.oheList, '@firstEventText', 'בטל הרשמה');
 }
 
 module.exports = {
