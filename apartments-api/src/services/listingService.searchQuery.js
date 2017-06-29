@@ -32,16 +32,17 @@ function getListingQuery(filterJSON, options) {
   }
 
   const listingQuery = [];
-  let statusQuery = { status: 'listed' };
-
-  if (filter.futureBooking) {
-    statusQuery = { $or: [
-      { status: 'listed' },
-      { status: 'rented',
-        lease_end: { $gte: moment().add(1, 'month').toDate() }, // lease ends at least a month from now
-        show_for_future_booking: true
-      }
-    ] };
+  
+  let statusQuery = { $or: [
+    { status: 'listed' },
+    { status: 'rented',
+      lease_end: { $gte: moment().add(1, 'month').toDate() }, // lease ends at least a month from now
+      show_for_future_booking: true
+    }
+  ] };
+  
+  if (filter.futureBooking === false) {
+    statusQuery = { status: 'listed' };
   }
 
   let queryOptions = {

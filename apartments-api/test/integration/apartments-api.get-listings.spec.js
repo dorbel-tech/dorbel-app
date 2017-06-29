@@ -54,7 +54,9 @@ describe('GET /listings', function () {
 
     yield this.adminApiClient.patchListing(firstListingResp.body.id, { status: 'rented' }).expect(200).end();
 
-    const secondListing = _.cloneDeep(firstListing);
+    let secondListing = _.cloneDeep(firstListing);
+    secondListing.lease_start = fakeObjectGenerator.getDateString(moment().add(1, 'months'));
+    secondListing.lease_end = fakeObjectGenerator.getDateString(moment().add(1, 'months'));
     const secondListingResp = yield this.apiClient.createListing(secondListing).expect(201).end();
     yield this.adminApiClient.patchListing(secondListingResp.body.id, { status: 'listed' }).expect(200).end();
 
@@ -198,12 +200,12 @@ describe('GET /listings', function () {
     };
 
     it('should not show rented apartment when futureBooking is false', function * () {
-      const getResponse = yield this.apiClient.getListings().expect(200).end();
+      const getResponse = yield this.apiClient.getListings({ q: { futureBooking: false } }).expect(200).end();
       assertRentedIsNotShown(getResponse);
     });
 
     it('should show both rented and listed apartments when futureBooking is true', function * () {
-      const getResponse = yield this.apiClient.getListings({ q: { futureBooking: true } }).expect(200).end();
+      const getResponse = yield this.apiClient.getListings().expect(200).end();
 
       __.assertThat(getResponse.body, __.allOf(
         __.hasItem(__.hasProperty('id', listedListing.id)),

@@ -186,13 +186,13 @@ class Filter extends Component {
     this.reloadResults();
   }
 
-  checkboxChangeHandler(e) {
-    this.setState({ [e.target.name]: e.target.checked });
-    e.target.checked ?
-      this.filterObj[e.target.name] = true :
-      delete this.filterObj[e.target.name];
-
-    this.setState({extraFilterClass: this.getExtraFilterClass()});
+  checkboxChangeHandler(e, isReversed) {
+    const shouldAssignFilterValue = (!isReversed && e.target.checked) || (isReversed && !e.target.checked);
+    shouldAssignFilterValue ? this.filterObj[e.target.name] = !isReversed : delete this.filterObj[e.target.name];
+    this.setState({
+      [e.target.name]: e.target.checked,
+      extraFilterClass: this.getExtraFilterClass()
+    });
     this.reloadResults();
   }
 
@@ -449,7 +449,7 @@ class Filter extends Component {
           <Col sm={5} md={4} xsHidden>
             <span data-tip="חדש! תכננו את מעבר הדירה הבא! מעכשיו תוכלו לגלות דירות מושכרות, לעקוב אחריהן ולהיות הראשונים לדעת כשהן מתפנות">
               <Checkbox name="futureBooking" className="filter-future-booking-switch"
-                        checked={this.state.futureBooking} onChange={this.checkboxChangeHandler}>
+                        checked={this.state.futureBooking} onChange={e => this.checkboxChangeHandler(e, true)}>
                 הראו לי דירות שטרם פורסמו
               </Checkbox>
               <span className="filter-future-booking-new">חדש!</span>
