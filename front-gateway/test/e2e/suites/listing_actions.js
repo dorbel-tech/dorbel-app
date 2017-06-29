@@ -74,6 +74,24 @@ module.exports = {
     logout();
     browser.end();
   },
+  'tenant should like apartment': function (browser) {
+    login('tenant');
+    listing.navigateToListingPage(listing.url(listingId));
+    common.waitForText(listing.section.like, '@text', 'אהבתי');
+    listing.clickLikeButton();
+    listing.validateSuccessNotificationVisible();
+    common.waitForText(listing, '@successNotification', 'הדירה נשמרה בהצלחה לרשימת הדירות שאהבתם');
+    browser.end();
+  },
+  'tenant should unlike apartment': function (browser) {
+    login('tenant');
+    listing.navigateToListingPage(listing.url(listingId));
+    common.waitForText(listing.section.like, '@text', 'אהבתי');
+    listing.clickLikeButton();
+    listing.validateSuccessNotificationVisible();
+    common.waitForText(listing, '@successNotification', 'הדירה הוסרה בהצלחה מרשימת ההירות שאהבתם');
+    browser.end();
+  },
   'tenant should register to OHE': function (browser) {
     login('tenant');
     listing.navigateToListingPage(listing.url(listingId));
