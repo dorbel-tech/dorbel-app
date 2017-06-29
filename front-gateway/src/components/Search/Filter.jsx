@@ -40,8 +40,7 @@ const DEFAULT_FILTER_PARAMS = {
   park: false, // Apartment with parking checkbox default value.
   pet: false, // Apartment allowing pets checkbox default value.
   sb: false, // Apartment with security bars checkbox default value.
-
-  futureBooking: false // Future booking apartments checkbox default value.
+  futureBooking: true // Future booking apartments checkbox default value.
 };
 
 @inject('appStore', 'appProviders') @observer
@@ -252,11 +251,10 @@ class Filter extends Component {
   }
 
   renderAdminFilter() {
-    const { authStore } = this.props.appStore;
-    const profile = authStore.profile;
-    const userIsAdmin = profile && profile.role === 'admin';
+    const { appStore } = this.props;
+    const isUserAdmin = appStore.authStore.isUserAdmin;
 
-    if (userIsAdmin) {
+    if (isUserAdmin) {
       return <div className="filter-group-container">
         <h5><b>הצג דירות בסטטוס</b></h5>
         <Checkbox name="pending"
@@ -456,7 +454,7 @@ class Filter extends Component {
                           offset={NEW_TIP_OFFSET} className="filter-future-booking-tooltip"/>
           </Col>
         </Row>
-        <Row>          
+        <Row>
           <Col lgOffset={2} smOffset={1} sm={2}>
             <OverlayTrigger placement="bottom" trigger="click" rootClose
                             overlay={this.roomsPopup()}>
@@ -476,7 +474,8 @@ class Filter extends Component {
             </OverlayTrigger>
           </Col>
           <Col sm={3} lg={2} >
-            <Button id="saveFilterButton" block bsStyle="info" onClick={this.saveFilter}>
+            <Button id="saveFilterButton" className="filter-save"
+                    block bsStyle="info" onClick={this.saveFilter}>
               {saveFilterButtonText}
             </Button>
           </Col>

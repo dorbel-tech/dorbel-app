@@ -1,13 +1,12 @@
 @import "../../sharedStyles/variables.scss";
 
 .rented-congrats-modal-title {
-  color: $brand-info;
+  color: $gray-dark;
   font-size: 2em;
   font-weight: bold;
 }
 
 .rented-congrats-modal-text {
-  font-weight: bold;
   padding-bottom: 25px;
 }
 

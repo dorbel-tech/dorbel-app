@@ -105,10 +105,23 @@ function flushPromises() {
   return new Promise(resolve => setImmediate(resolve));
 }
 
+function getPercentageOfTotal(totalValue, partialValue) {
+  return (partialValue / totalValue * 100);
+}
+
+// decimal.toFixed(1) rounds the numbers in some cases so regex is used instead
+function decimalToPercision(decimal, percision) {
+  const regex = new RegExp('^-?\\d+(?:\\.\\d{0,' + percision + '})?');
+  const percisionValueStr = decimal.toString().match(regex)[0];
+  return parseFloat(percisionValueStr, percision);
+}
+
 module.exports = {
   formatTime,
   formatDate,
   formatDay,
+  getPercentageOfTotal,
+  decimalToPercision,
   optimizeCloudinaryUrl,
   getFloorTextValue,
   getListingStatusLabels,

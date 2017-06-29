@@ -35,6 +35,6 @@ describe('OHE List', () => {
     const oheItems = wrapper.find('a.list-group-item');
 
     expect(oheItems).toHaveLength(2);
-    oheItems.forEach(item => expect(item.text()).toMatch('הרשמו לביקור'));
+    oheItems.forEach(item => expect(item.text()).toMatch('הרשם לביקור'));
   });
 });

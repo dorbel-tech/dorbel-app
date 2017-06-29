@@ -25,7 +25,7 @@ const routes = [
   { route: routesHelper.DASHBOARD_PREFIX + '/:action', view: Dashboard, requireLogin: true },
   { route: routesHelper.DASHBOARD_PREFIX + '/:action/:listingId', view: Dashboard, requireLogin: true },
   { route: routesHelper.DASHBOARD_PREFIX + '/:action/:listingId/:tab', view: Dashboard, requireLogin: true },
-  { route: '/monthly-report/:listingId/:monthNumber', view: MonthlyReport, requireLogin: true }
+  { route: '/monthly-report/:listingId/:year/:month', view: MonthlyReport, requireLogin: true }
 ];
 
 module.exports = {
