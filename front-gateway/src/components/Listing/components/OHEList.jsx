@@ -3,7 +3,7 @@ import { inject, observer } from 'mobx-react';
 import _ from 'lodash';
 import autobind from 'react-autobind';
 import OHERegisterModal from './OHERegisterModal';
-import { getListingPath, getDashMyPropsPath } from '~/routesHelper';
+import { getPropertyPath, getDashMyPropsPath } from '~/routesHelper';
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
 
 @inject('appStore', 'appProviders', 'router') @observer
@@ -46,7 +46,6 @@ class OHEList extends Component {
           </div>
           <div className="ohe-list-item-text-container">
             <div className={'ohe-list-item-text ' + params.callToActionTextClass || ''}>{params.callToActionText}</div>
-            <div className="ohe-list-item-extra-text">{params.extraText}</div>
           </div>
         </div>
       </a>
@@ -59,7 +58,7 @@ class OHEList extends Component {
     return this.renderListItem({
       onClickRoute: `${OHEConfig.action}/${openHouseEvent.id}`,
       key: openHouseEvent.id,
-      itemText: `${openHouseEvent.dateLabel} - ${openHouseEvent.dayLabel}` + '\'',
+      itemText: `יום ${openHouseEvent.dayLabel}׳, ${openHouseEvent.dateLabel}`,
       itemSubText: `${openHouseEvent.timeLabel}`,
       isDisabled: OHEConfig.isDisabled,
       callToActionText: OHEConfig.callToActionText,
@@ -76,7 +75,7 @@ class OHEList extends Component {
     switch (openHouseEvent.status) {
       case 'open':
         oheConfig.action = 'ohe-register';
-        oheConfig.callToActionText = 'הרשמו לביקור';
+        oheConfig.callToActionText = 'הרשם לביקור';
         oheConfig.callToActionTextClass = 'ohe-list-open-action-text';
         break;
       case 'expired':
@@ -91,7 +90,7 @@ class OHEList extends Component {
         break;
       case 'registered':
         oheConfig.action = 'ohe-unregister';
-        oheConfig.callToActionText = 'רשום לביקור';
+        oheConfig.callToActionText = 'בטל הרשמה';
         oheConfig.callToActionTextClass = 'ohe-list-registered-action-text';
         oheConfig.extraText = 'לחצו לביטול הרשמה';
         break;
@@ -143,7 +142,8 @@ class OHEList extends Component {
         <div>
           <div className="ohe-list">{openHouseEvents.map(this.renderOpenHouseEvent)}</div>
           <OHERegisterModal ohe={oheForModal} onClose={closeModal} action={this.props.action} />
-          <div className="listing-ohe-box-text text-center">אהבתם את הדירה אבל לא יכולים להגיע? לחצו על ׳אהבתי׳ לשמירת הדירה וקבלת עדכונים למועדי ביקור חדשים.</div>
+          <div className="listing-ohe-box-text text-center">לא יכולים להגיע? אין מועדים זמינים?
+לחצו על ׳<i className="fa fa-heart-o red-heart"></i> אהבתי׳ ושמרו את הדירה לקבלת עדכונים על מועדי ביקור חדשים.</div>
         </div>
       );
     }
@@ -179,7 +179,7 @@ class OHEList extends Component {
 
   render() {
     const { listing, router } = this.props;
-    const closeModal = () => router.setRoute(getListingPath(listing));
+    const closeModal = () => router.setRoute(getPropertyPath(listing));
     const ohes = this.props.appStore.oheStore.oheByListingId(listing.id);
 
     if (!ohes) {

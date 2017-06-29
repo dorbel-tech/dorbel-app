@@ -3,6 +3,7 @@ import autobind from 'react-autobind';
 import { Col, Grid, Row } from 'react-bootstrap';
 import { inject } from 'mobx-react';
 import Dashboard from '../Dashboard/Dashboard';
+import { PROPERTY_SUBMIT_PREFIX, DASHBOARD_PREFIX } from '~/routesHelper';
 
 @inject('appProviders')
 class SelectUploadMode extends Component {
@@ -24,7 +25,7 @@ class SelectUploadMode extends Component {
           </Row>
           <Row className="select-upload-mode-items-wrapper">
             <Col md={6}>
-              <a href="/apartments/new_form/publish" onClick={this.handleHrefClick} className="select-upload-mode-item">
+              <a href={ PROPERTY_SUBMIT_PREFIX + '/publish' } onClick={this.handleHrefClick} className="select-upload-mode-item">
                 <img src="https://static.dorbel.com/images/upload-apt-form/dorbel-rent-icon.svg" className="select-upload-mode-item-icon" />
                 <div className="select-upload-mode-item-text">
                   פרסום נכס להשכרה
@@ -35,7 +36,7 @@ class SelectUploadMode extends Component {
               </a>
             </Col>
             <Col md={6}>
-              <a href="/apartments/new_form/manage" onClick={this.handleHrefClick} className="select-upload-mode-item">
+              <a href={ PROPERTY_SUBMIT_PREFIX + '/manage' } onClick={this.handleHrefClick} className="select-upload-mode-item">
                 <img src="https://static.dorbel.com/images/upload-apt-form/dorbel-manage-icon.svg" className="select-upload-mode-item-icon" />
                 <div className="select-upload-mode-item-text">
                   הוספת נכס מושכר לניהול
@@ -50,7 +51,7 @@ class SelectUploadMode extends Component {
             <Col xs={12}>
               <div className="select-upload-mode-footer">
                 לפרסום דירה קיימת היכנסו ל-&nbsp;
-                <a href="/dashboard/my-properties" onClick={this.handleHrefClick}>נכסים שלי</a>
+                <a href={ DASHBOARD_PREFIX + '/my-properties' } onClick={this.handleHrefClick}>נכסים שלי</a>
                 , בחרו בנכס הרלוונטי ופרסמו אותו מחדש.
               </div>
             </Col>

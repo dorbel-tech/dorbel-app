@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import NavLink from '~/components/NavLink';
 import SearchResults from '~/components/Search/SearchResults';
+import { SEARCH_PREFIX } from '~/routesHelper';
 
 import './MyLikes.scss';
 
@@ -26,7 +27,7 @@ class MyLikes extends Component {
           noResultsContent={
             <div className="my-likes-empty">
               <div className="my-likes-text"><b>טרם שמרתם דירות שאהבתם. </b><br/><br/>
-                היכנסו <NavLink to="/search">לעמוד החיפוש</NavLink> וסמנו את הדירות שאהבתם בכדי לחזור אליהן בקלות בהמשך.</div>
+                היכנסו <NavLink to={SEARCH_PREFIX}>לעמוד החיפוש</NavLink> וסמנו את הדירות שאהבתם בכדי לחזור אליהן בקלות בהמשך.</div>
             </div>
           }
         />

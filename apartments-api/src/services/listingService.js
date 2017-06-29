@@ -46,7 +46,7 @@ function* create(listing, user) {
       last_name: listing.user.lastname,
       email: listing.user.email,
       phone: generic.normalizePhone(listing.user.phone),
-      listing_id: createdListing.id
+      apartment_id: createdListing.apartment_id
     }
   });
 
@@ -214,6 +214,17 @@ function* getByFilter(filterJSON, options = {}) {
   return listingRepository.list(listingQuery, queryOptions);
 }
 
+function* getByApartmentId(id, user) {
+  let listing = yield listingRepository.getByApartmentId(id);
+
+  if (!listing) {
+    throw new CustomError(404, 'Cant get listing by apartmentId. Listing does not exists. apartmentId: ' + id);
+  }
+
+  validateListing(listing, user);
+  return yield enrichListingResponse(listing, user);
+}
+
 function* getById(id, user) {
   let listing = yield listingRepository.getById(id);
 
@@ -221,6 +232,11 @@ function* getById(id, user) {
     throw new CustomError(404, 'Cant get listing by Id. Listing does not exists. listingId: ' + id);
   }
 
+  validateListing(listing, user);
+  return yield enrichListingResponse(listing, user);
+}
+
+function validateListing(listing, user) {
   const isPending = listing.status === 'pending';
   const isDeleted = listing.status === 'deleted';
   const isAdmin = userPermissions.isUserAdmin(user);
@@ -234,12 +250,12 @@ function* getById(id, user) {
   // Pending listing will be displayed to user who is listing publisher or admins only.
   if (isPending && !isPublishingUserOrAdmin) {
     throw new CustomError(403, 'Cant show pending listing. User is not a publisher of listingId: ' + listing.id);
-  } else {
-    return yield enrichListingResponse(listing, user);
   }
 }
 
 function* getBySlug(slug, user) {
+  // TODO: Remove once all legacy listing urls with slug are outdated.
+  logger.warn('You are using deprecated function, please use getByApartmentId instead!');
   let listing = yield listingRepository.getBySlug(slug);
 
   if (!listing) {
@@ -297,17 +313,17 @@ function* enrichListingResponse(listing, user) {
   return listing;
 }
 
-function* getRelatedListings(listingId, limit) {
-  const listing = yield listingRepository.getById(listingId);
+function* getRelatedListings(apartmentId, limit) {
+  const listing = yield listingRepository.getByApartmentId(apartmentId);
 
   if (!listing) { // Verify that the listing exists
-    throw new CustomError(404, 'Failed to get related listings. Listing does not exists. listingId: ' + listingId);
+    throw new CustomError(404, 'Failed to get related listings. Listing does not exists. apartmentId: ' + apartmentId);
   }
 
   const listingQuery = {
     status: 'listed',
     $not: {
-      id: listingId
+      apartment_id: apartmentId
     }
   };
 
@@ -364,6 +380,7 @@ module.exports = {
   getByFilter,
   getById,
   getBySlug,
+  getByApartmentId,
   getRelatedListings,
   getValidationData
 };

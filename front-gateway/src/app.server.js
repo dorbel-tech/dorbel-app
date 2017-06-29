@@ -2,8 +2,8 @@
 import { renderToString } from 'react-dom/server';
 import 'ignore-styles';
 import _ from 'lodash';
+import request from 'axios';
 import shared from '~/app.shared';
-import { utils } from 'dorbel-shared';
 import { getCloudinaryParams } from './server/cloudinaryConfigProvider';
 
 function setRoute(router, context) {
@@ -16,7 +16,6 @@ function setRoute(router, context) {
       resolve();
     });
   });
-
 }
 
 function setRequestRenderState(context, appStore) {
@@ -48,25 +47,30 @@ function* renderApp() {
   }
 
   // Old apartment submit form to new one redirect.
-  if (this.path === '/apartments/new') {
+  if (this.path === '/apartments/new' || this.path === '/apartments/new_form') {
     this.status = 301;
-    return this.redirect('/apartments/new_form');
-  }
-
-  // redirect in case slug has an apostrophe
-  // TODO: remove once all listings with apostrophe are unlisted
-  if (this.path.match(/\/apartments\//) && (this.path.includes('\'') || this.path.includes('%27'))) {
-    let pathArr = this.path.split('/');
-    const normalizedSlug = decodeURIComponent(utils.generic.normalizeSlug(pathArr[pathArr.length -1]));
-
-    this.status = 301;
-    return this.redirect('/apartments/' + normalizedSlug);
+    return this.redirect('/properties/submit');
   }
 
   // Old apartments search redirect to new one.
   if (this.path === '/apartments' || this.path.startsWith('/apartments?q=')) {
     this.status = 301;
     return this.redirect('/search' + this.search);
+  }
+
+  // Old apartments page redirect to properties page.
+  if (this.path.startsWith('/apartments/')) {
+    const listingId = this.path.split('/').pop(-1); // Get listingId from path.
+    const url = `${this.protocol}://${this.host}/api/apartments/v1/listings/${listingId}`;
+
+    return request.get(url) // Get listing from apartments-api.
+      .then(response => {
+        this.status = 301;
+        return this.redirect('/properties/' + response.data.apartment_id + this.search);
+      })
+      .catch(() => { // If listing wasn't found.
+        return this.redirect('/search');
+      });
   }
 
   const envVars = {

@@ -39,8 +39,8 @@ const DEFAULT_FILTER_PARAMS = {
   elev: false, // Apartment with elevator checkbox default value.
   park: false, // Apartment with parking checkbox default value.
   pet: false, // Apartment allowing pets checkbox default value.
-  sb: false, // Apartment with security bars checkbox default value.  
-  futureBooking: false, // Future booking apartments checkbox default value.
+  sb: false, // Apartment with security bars checkbox default value.
+  futureBooking: true, // Future booking apartments checkbox default value.
   minLease: undefined,
   maxLease: undefined
 };
@@ -259,11 +259,10 @@ class Filter extends Component {
   }
 
   renderAdminFilter() {
-    const { authStore } = this.props.appStore;
-    const profile = authStore.profile;
-    const userIsAdmin = profile && profile.role === 'admin';
+    const { appStore } = this.props;
+    const isUserAdmin = appStore.authStore.isUserAdmin;
 
-    if (userIsAdmin) {
+    if (isUserAdmin) {
       return <div className="filter-group-container">
         <h5><b>הצג דירות בסטטוס</b></h5>
         <Checkbox name="pending"
@@ -483,8 +482,9 @@ class Filter extends Component {
               <div className={'filter-trigger-container ' + this.state.extraFilterClass}>פילטרים נוספים</div>
             </OverlayTrigger>
           </Col>
-          <Col sm={2}>
-            <Button id="saveFilterButton" block bsStyle="info" onClick={this.saveFilter}>
+          <Col sm={3} lg={2} >
+            <Button id="saveFilterButton" className="filter-save"
+                    block bsStyle="info" onClick={this.saveFilter}>
               {saveFilterButtonText}
             </Button>
           </Col>

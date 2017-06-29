@@ -1,0 +1,96 @@
+@import "../sharedStyles/variables.scss";
+
+.stepped-progress-bar {
+  .progress-bar-row {
+    .progress {
+      border-radius: 15px;
+      margin-bottom: 10px;
+    }
+
+    .progress,
+    .progress-bar {
+      height: 16px;
+      line-height: 12px;
+
+      .step {
+        float: left;
+        background-color: #d8d8d8;
+
+        &.complete {
+          background-color: #3cb878;
+        }
+
+        &.current {
+          background-color: #3398db;
+        }
+
+        &::after {
+          content: "";
+          width: 1px;
+          background-color: $brand-white;
+          opacity: 0.6;
+          float: right;
+          height: 100%;
+          margin-right: -1px;
+        }
+      }
+
+      .current-step-indicator {
+        top: 10px;
+      }
+    }
+  }
+
+  .step-marks {
+    direction: ltr;
+    width: 100%;
+    display: inline-block;
+    text-align: center;
+
+    .step-mark-item {
+      display: inline-block;
+      color: $gray-light;
+      font-family: Arial;
+      font-size: 11px;
+      line-height: 12px;
+      vertical-align: top;
+
+      &.current {
+        color: #337ddb;
+        font-size: 18px;
+        line-height: 21px;
+      }
+
+      &:last-child {
+        color: #ea441a;
+        font-weight: bold;
+      }
+    }
+  }
+
+  .current-step-pointer {
+    float: left;
+    width: 25%;
+    height: 40px;
+    background-color: #3398db;
+    border-radius: 20px;
+    margin-bottom: 15px;
+    text-align: center;
+    font-size: 18px;
+    line-height: 40px;
+    box-shadow: 0 7px 4px 0 rgba(0, 0, 0, 0.2);
+
+    .current-step-pointer-text {
+      color: $brand-white;
+      display: inline-block;
+      margin: 0 auto;
+    }
+
+    &::after {
+      content: '▼';
+      display: block;
+      color: #3398db;
+      line-height: 5px;
+    }
+  }
+}

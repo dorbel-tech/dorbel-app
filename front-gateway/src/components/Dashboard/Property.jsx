@@ -12,7 +12,7 @@ import PropertyManage from './MyProperties/PropertyManage';
 import PropertyStats from './MyProperties/PropertyStats';
 import EditListing from './MyProperties/EditListing.jsx';
 import utils from '~/providers/utils';
-import { getListingPath, getDashMyPropsPath } from '~/routesHelper';
+import { getPropertyPath, getDashMyPropsPath } from '~/routesHelper';
 
 import './Property.scss';
 
@@ -26,11 +26,11 @@ class Property extends Component {
   }
 
   static serverPreRender(props) {
-    return props.appProviders.listingsProvider.loadFullListingDetails(props.propertyId);
+    return props.appProviders.listingsProvider.loadFullListingDetails(props.listingId);
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.propertyId != nextProps.propertyId) {
+    if (this.props.listingId != nextProps.listingId) {
       this.props = nextProps;
       this.loadFullPropertyDetails();
     }
@@ -41,17 +41,17 @@ class Property extends Component {
   }
 
   loadFullPropertyDetails() {
-    const { propertyId, appStore, appProviders } = this.props;
-    appProviders.oheProvider.loadListingEvents(propertyId);
+    const { listingId, appStore, appProviders } = this.props;
+    appProviders.oheProvider.loadListingEvents(listingId);
 
-    const loadListing = appStore.listingStore.get(propertyId) ?
-      Promise.resolve() : appProviders.listingsProvider.loadFullListingDetails(propertyId);
+    const loadListing = appStore.listingStore.get(listingId) ?
+      Promise.resolve() : appProviders.listingsProvider.loadFullListingDetails(listingId);
 
     loadListing.then(() => this.setState({ isLoading: false }));
   }
 
   gotoPublishedListing(property) {
-    return this.props.router.setRoute(getListingPath(property));
+    return this.props.router.setRoute(getPropertyPath(property));
   }
 
   gotoEditProperty(property) {
@@ -109,7 +109,7 @@ class Property extends Component {
 
   render() {
     const { appStore, router } = this.props;
-    const property = appStore.listingStore.get(this.props.propertyId);
+    const property = appStore.listingStore.get(this.props.listingId);
 
     if (this.state.isLoading) {
       return (
@@ -192,7 +192,7 @@ class Property extends Component {
               <Row className="property-top-container">
                 <Col md={3} sm={3} xs={4} className="property-image-container">
                   <CloudinaryImage src={imageURL} height={125} className={imageClass}/>
-                  { isActiveListing && <ListingStatusSelector listing={property} /> }
+                  { (isActiveListing || appStore.authStore.isUserAdmin) && <ListingStatusSelector listing={property} /> }
                 </Col>
                 <Col md={5} sm={6} xs={8} className="property-title-container">
                   <div className={titleClass}>
@@ -238,7 +238,7 @@ class Property extends Component {
 }
 
 Property.wrappedComponent.propTypes = {
-  propertyId: React.PropTypes.string.isRequired,
+  listingId: React.PropTypes.string.isRequired,
   tab: React.PropTypes.string,
   appProviders: React.PropTypes.object,
   appStore: React.PropTypes.object,
