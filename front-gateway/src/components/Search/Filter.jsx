@@ -167,23 +167,14 @@ class Filter extends Component {
     this.reloadResults();
   }
 
-  checkboxChangeHandler(e) {
-    this.setState({ [e.target.name]: e.target.checked });
-    e.target.checked ?
-      this.filterObj[e.target.name] = true :
-      delete this.filterObj[e.target.name];
-
-    this.setState({extraFilterClass: this.getExtraFilterClass()});
-    this.reloadResults();
-  }
-
-  reverseCheckboxChangeHandler(e) {
-    this.setState({ [e.target.name]: e.target.checked });
-    !e.target.checked ?
-      this.filterObj[e.target.name] = false :
-      delete this.filterObj[e.target.name];
-
-    this.setState({extraFilterClass: this.getExtraFilterClass()});
+  checkboxChangeHandler(isReversed, e) {
+    const shouldAssignFilterValue = (!isReversed && e.target.checked) || (isReversed && !e.target.checked);
+    shouldAssignFilterValue ? this.filterObj[e.target.name] = !isReversed : delete this.filterObj[e.target.name];
+    // set state is async is should appear only once per method
+    this.setState({
+      [e.target.name]: e.target.checked,
+      extraFilterClass: this.getExtraFilterClass()
+    });
     this.reloadResults();
   }
 
@@ -382,26 +373,26 @@ class Filter extends Component {
               <div className="filter-amenities-container">
                 <h5><b>צמצמו את החיפוש</b></h5>
                 <Col xs={4}>
-                  <Checkbox name="park" checked={this.state.park} onChange={this.checkboxChangeHandler}>
+                  <Checkbox name="park" checked={this.state.park} onChange={this.checkboxChangeHandler.bind(this, false)}>
                     חניה
                   </Checkbox>
-                  <Checkbox name="balc" checked={this.state.balc} onChange={this.checkboxChangeHandler}>
+                  <Checkbox name="balc" checked={this.state.balc} onChange={this.checkboxChangeHandler.bind(this, false)}>
                     מרפסת
                   </Checkbox>
                 </Col>
                 <Col xs={4}>
-                  <Checkbox name="ac" checked={this.state.ac} onChange={this.checkboxChangeHandler}>
+                  <Checkbox name="ac" checked={this.state.ac} onChange={this.checkboxChangeHandler.bind(this, false)}>
                     מזגן
                   </Checkbox>
-                  <Checkbox name="ele" checked={this.state.ele} onChange={this.checkboxChangeHandler}>
+                  <Checkbox name="ele" checked={this.state.ele} onChange={this.checkboxChangeHandler.bind(this, false)}>
                     מעלית
                   </Checkbox>
                 </Col>
                 <Col xs={4}>
-                  <Checkbox name="pet" checked={this.state.pet} onChange={this.checkboxChangeHandler}>
+                  <Checkbox name="pet" checked={this.state.pet} onChange={this.checkboxChangeHandler.bind(this, false)}>
                     מותר בע״ח
                   </Checkbox>
-                  <Checkbox name="sb" checked={this.state.sb} onChange={this.checkboxChangeHandler}>
+                  <Checkbox name="sb" checked={this.state.sb} onChange={this.checkboxChangeHandler.bind(this, false)}>
                     סורגים
                   </Checkbox>
                 </Col>
@@ -453,7 +444,7 @@ class Filter extends Component {
           <Col md={4} sm={5} xsHidden>
             <span data-tip="חדש! תכננו את מעבר הדירה הבא! מעכשיו תוכלו לגלות דירות מושכרות, לעקוב אחריהן ולהיות הראשונים לדעת כשהן מתפנות">
               <Checkbox name="futureBooking" className="filter-future-booking-switch"
-                        checked={this.state.futureBooking} onChange={this.reverseCheckboxChangeHandler}>
+                        checked={this.state.futureBooking} onChange={this.checkboxChangeHandler.bind(this, true)}>
                 הראו לי דירות שטרם פורסמו
               </Checkbox>
               <span className="filter-future-booking-new">חדש!</span>
@@ -489,7 +480,7 @@ class Filter extends Component {
           </Col>
           <Col lgHidden mdHidden smHidden className="filter-future-booking-switch-mobile-wrapper">
             <Checkbox name="futureBooking" className="filter-future-booking-switch"
-                      checked={this.state.futureBooking} onChange={this.checkboxChangeHandler}>
+                      checked={this.state.futureBooking} onChange={this.checkboxChangeHandler.bind(this, false)}>
               הראו לי דירות שטרם פורסמו
             </Checkbox>
             <span className="filter-future-booking-new"
