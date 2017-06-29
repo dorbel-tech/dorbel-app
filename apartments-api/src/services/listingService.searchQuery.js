@@ -146,11 +146,11 @@ function getListingQuery(filterJSON, options) {
 function getDateRangeQuery(filter) {
   let dateRange;
   if (filter.minLease && filter.maxLease) {
-    dateRange = { $between: [ filter.minLease, filter.maxLease ] };
+    dateRange = { $between: [ filter.minLease, moment(filter.maxLease).endOf('day').toISOString() ] };
   } else if (filter.minLease) {
     dateRange = { $gte: filter.minLease };
   } else {
-    dateRange = { $lte: filter.maxLease };
+    dateRange = { $lte: moment(filter.maxLease).endOf('day').toISOString() };
   }
   
   return {

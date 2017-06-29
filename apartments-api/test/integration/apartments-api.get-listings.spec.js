@@ -93,6 +93,14 @@ describe('GET /listings', function () {
     ));
   });
 
+  it('should get listing my lease date for a single day', function * () {
+    const { body: allListings } = yield this.apiClient.getListings({ limit: 1 }).expect(200).end();
+    const date = allListings[0].lease_start;
+    // setting min and max to same date is expected to select that full day (and not empty range)
+    const { body: dailyListings } = yield this.apiClient.getListings({ q: { minLease: date, maxLease: date }}).expect(200).end();
+    __.assertThat(dailyListings, __.not(__.isEmpty()));
+  });
+  
   // TODO : add at least some basic test for filters
 
   describe('Filter: my listings', function () {
