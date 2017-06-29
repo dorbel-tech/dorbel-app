@@ -68,7 +68,10 @@ describe('Listing Service', function () {
 
     it('should set status of listed only when future booking is off', function* () {
       yield this.listingService.getByFilter('{ "futureBooking": false }');
-      __.assertThat(this.listingRepositoryMock.list.args[0][0], __.hasProperties({ status: 'listed' }));
+      __.assertThat(this.listingRepositoryMock.list.args[0][0],
+        __.hasProperty('$or', __.contains(
+          __.hasProperty('status', 'listed')
+        )));
     });
 
     it('should set conditions for future booking by default', function* () {
