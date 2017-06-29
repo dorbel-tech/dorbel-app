@@ -2,7 +2,6 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { Grid, Row } from 'react-bootstrap';
-import utils from '~/providers/utils';
 import NavLink from '~/components/NavLink';
 import ListingBadge from '~/components/ListingBadge/ListingBadge';
 import CloudinaryImage from '~/components/CloudinaryImage/CloudinaryImage';

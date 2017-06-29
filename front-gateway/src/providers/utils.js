@@ -2,7 +2,6 @@
  * General utils module
  */
 'use strict';
-import _ from 'lodash';
 import moment from 'moment';
 import isMobileJs from 'ismobilejs';
 
