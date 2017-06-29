@@ -1,6 +1,7 @@
 'use strict';
 import React from 'react';
 import { shallow } from 'enzyme';
+import faker from 'faker';
 
 import SavedFilters from './SavedFilters';
 
@@ -12,19 +13,33 @@ describe('Saved Filters', () => {
       appStore: {
         searchStore: {
           filters: {
-            values: jest.fn()
+            values: jest.fn().mockReturnValue([]),
+            get: jest.fn()
           }
         },
         cityStore: {
           cities: [ { id: 1, city_name: 'TA'} ]
         }
       },
-      appProviders: {},
+      appProviders: {
+        searchProvider: {
+          saveFilter: jest.fn()
+        }
+      },
       onFilterChange: jest.fn()
     };
   });
 
   const savedFilters = () => shallow(<SavedFilters.wrappedComponent {...props} />);
+
+  const mockFilter = (filter, isActive) => {
+    filter.id = faker.random.number({ min: 1, max:1000 });
+    props.appStore.searchStore.filters.values.mockReturnValue([filter]);
+    if (isActive) {
+      props.appStore.searchStore.activeFilterId = filter.id;
+    }
+    return filter;
+  };
 
   it('should render nothing when there are no saved filters', () => {
     props.appStore.searchStore.filters.values.mockReturnValue([]);
@@ -33,13 +48,11 @@ describe('Saved Filters', () => {
   });
 
   it('should render a saved filter', () => {
-    const mockFilter = {
-      id: 1,
+    mockFilter({
       city: 1,
       minRooms: 7,
       mre: 6000
-    };
-    props.appStore.searchStore.filters.values.mockReturnValue([mockFilter]);
+    });
     
     const wrapper = savedFilters();    
     const renderedFilters = wrapper.find('Checkbox');
@@ -52,18 +65,16 @@ describe('Saved Filters', () => {
   });
 
   it('should select a new active filter', () => {
-    const mockFilter = { id: 1 };
-    props.appStore.searchStore.filters.values.mockReturnValue([mockFilter]);
+    const mockedFilter = mockFilter({});
     
     const wrapper = savedFilters();    
     wrapper.find('Checkbox').first().simulate('click');
 
-    expect(props.appStore.searchStore.activeFilterId).toBe(mockFilter.id);
+    expect(props.appStore.searchStore.activeFilterId).toBe(mockedFilter.id);
   });
 
   it('should fire onFilterChange for selected filter without extra params', () => {
-    const mockFilter = { id: 1, dorbel_user_id: 3, city: 5 };
-    props.appStore.searchStore.filters.values.mockReturnValue([mockFilter]);
+    mockFilter({ dorbel_user_id: 3, email_notification: true, city: 5 });
     
     const wrapper = savedFilters();    
     wrapper.find('Checkbox').first().simulate('click');
@@ -72,14 +83,41 @@ describe('Saved Filters', () => {
   });
 
   it('should fire onFilterChange with empty filter when un-selecting filter', () => {
-    const mockFilter = { id: 1, city: 7 };
-    props.appStore.searchStore.filters.values.mockReturnValue([mockFilter]);
-    props.appStore.searchStore.activeFilterId = mockFilter.id;
-    
+    mockFilter({ city: 7 }, true);
+        
     const wrapper = savedFilters();    
     wrapper.find('Checkbox').first().simulate('click');
 
     expect(props.onFilterChange).toHaveBeenCalledWith({});
+  });
+
+  it('should render email checkbox when filter is selected and email_notification is true', () => {
+    const mockedFilter = mockFilter({ email_notification: true }, true);
+    props.appStore.searchStore.filters.get.mockReturnValue(mockedFilter);
+    
+    const wrapper = savedFilters();
+    const emailCheckbox = wrapper.find('.saved-filter-email-notification-checkbox');
+
+    expect(emailCheckbox).toHaveLength(1);
+    expect(emailCheckbox.prop('checked')).toBe(true);
+  });
+
+  it('should not render email checkbox when no filter is selected', () => {
+    mockFilter({});
+    const wrapper = savedFilters();
+    expect(wrapper.find('.saved-filter-email-notification-checkbox')).toHaveLength(0);
+  });
+
+  it('should call provider to save email-notification when it is clicked', () => {
+    const mockedFilter = mockFilter({ email_notification: true }, true);
+    props.appStore.searchStore.filters.get.mockReturnValue(mockedFilter);
+    
+    const wrapper = savedFilters();
+    const emailCheckbox = wrapper.find('.saved-filter-email-notification-checkbox');
+
+    emailCheckbox.simulate('change');
+    expect(props.appProviders.searchProvider.saveFilter).toHaveBeenCalledWith(mockedFilter);
+    expect(mockedFilter).toHaveProperty('email_notification', false);
   });
 
 });

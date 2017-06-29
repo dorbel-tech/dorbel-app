@@ -104,5 +104,14 @@ describe('Data Retrieval Integration', function () {
     __.assertThat(userDetails.user_profile, __.is(__.defined()));
     __.assertThat(userDetails.user_profile.email, __.is(__.defined()));
   });
+
+  it('should get matching filters', function* () {
+    const matchingFilters = yield this.retrieve('getMatchingFilters', {
+      listing_id: fixtures.listing_id
+    });
+
+    // The test-seed filters are expected to match the test-seed listing
+    __.assertThat(matchingFilters.customRecipients, __.contains(fixtures.staticUser.id));
+  });
 });
 

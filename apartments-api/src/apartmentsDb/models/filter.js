@@ -4,7 +4,7 @@ module.exports = function define(sequelize, DataTypes) {
   return sequelize.define('filter',
     {
       dorbel_user_id: { type: DataTypes.UUID, allowNull: false },
-      email_notification: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false },
+      email_notification: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: true },
 
       city: DataTypes.INTEGER,
       neighborhood: DataTypes.INTEGER,

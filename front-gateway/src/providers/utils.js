@@ -2,7 +2,6 @@
  * General utils module
  */
 'use strict';
-import _ from 'lodash';
 import moment from 'moment';
 import isMobileJs from 'ismobilejs';
 
@@ -69,14 +68,6 @@ function getFloorTextValue(listing) {
   return textValue;
 }
 
-function sortListingImages(listing) {
-  let listingImages = [];
-  if (listing && listing.images) {
-    listingImages = listing.images;
-  }
-  return listingImages.length ? _.orderBy(listingImages, ['display_order']) : [{ url: 'https://static.dorbel.com/images/meta/no-image-placeholder.svg' }];
-}
-
 // TODO : this function does not belong in utils - it's a i18n thing and it's also static
 function getListingStatusLabels() {
   return {
@@ -136,7 +127,6 @@ module.exports = {
   getListingSubTitle,
   getListingTitle,
   getListingLeaseStats,
-  sortListingImages,
   promiseSeries,
   isMobile,
   flushPromises

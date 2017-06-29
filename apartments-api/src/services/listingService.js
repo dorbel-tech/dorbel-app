@@ -291,6 +291,12 @@ function* enrichListingResponse(listing, user) {
       possibleStatuses: getPossibleStatuses(listing, user)
     };
 
+    if (listing.images && listing.images.length) {
+      enrichedListing.images = _.orderBy(listing.images, ['display_order']);
+    } else {
+      enrichedListing.images = [{ url: 'https://static.dorbel.com/images/meta/no-image-placeholder.svg' }];
+    }
+
     if (user) {
       if (userPermissions.isResourceOwnerOrAdmin(user, listing.publishing_user_id)) {
         enrichedListing.totalLikes = yield likeRepository.getApartmentTotalLikes(listing.apartment_id);
