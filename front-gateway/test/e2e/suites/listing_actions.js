@@ -42,11 +42,11 @@ function submitApartment(browser) {
 }
 
 function waitForUnRegisterText() {
-  common.waitForText(listing.section.oheList, '@firstEventText', 'הרשמו לביקור');
+  common.waitForText(listing.section.oheList, '@firstEventText', 'הרשם לביקור');
 }
 
 function waitForRegisterText() {
-  common.waitForText(listing.section.oheList, '@firstEventText', 'רשום לביקור');
+  common.waitForText(listing.section.oheList, '@firstEventText', 'בטל הרשמה');
 }
 
 module.exports = {
@@ -72,6 +72,24 @@ module.exports = {
     property.section.listingStatusSelector
       .expect.element('@listingMenuStatusDropdownToggle').text.to.equal('מפורסמת');
     logout();
+    browser.end();
+  },
+  'tenant should like apartment': function (browser) {
+    login('tenant');
+    listing.navigateToListingPage(listing.url(listingId));
+    common.waitForText(listing.section.like, '@text', 'אהבתי');
+    listing.clickLikeButton();
+    listing.validateSuccessNotificationVisible();
+    common.waitForText(listing, '@notification', 'הדירה נשמרה בהצלחה לרשימת הדירות שאהבתם');
+    browser.end();
+  },
+  'tenant should unlike apartment': function (browser) {
+    login('tenant');
+    listing.navigateToListingPage(listing.url(listingId));
+    common.waitForText(listing.section.like, '@text', 'אהבתי');
+    listing.clickLikeButton();
+    listing.validateSuccessNotificationVisible();
+    common.waitForText(listing, '@notification', 'הדירה הוסרה בהצלחה מרשימת ההירות שאהבתם');
     browser.end();
   },
   'tenant should register to OHE': function (browser) {
