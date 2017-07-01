@@ -44,7 +44,8 @@ describe('Property', () => {
       status: 'rented',
       apartment: {
         building: {}
-      }
+      },
+      images: [ { url: 'bla' } ]
     };
   });
 

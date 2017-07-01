@@ -1,8 +1,7 @@
 @import "../../sharedStyles/variables.scss";
-@import "../../sharedStyles/bsvars.scss";
 
 .report-section {
-  margin-top: 30px;
+  margin-top: 10px;
 
   .report-section-heading {
     padding: 0;
@@ -50,7 +49,7 @@
       content: url('https://static.dorbel.com/images/icons/monthly-report/triangle-right.svg');
       position: absolute;
       right: -15px;
-      top: 15px;
+      top: 10px;
     }
   }
 }

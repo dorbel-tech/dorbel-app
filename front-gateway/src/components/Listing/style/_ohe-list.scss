@@ -3,7 +3,7 @@
   margin-bottom: 15px;
 
   .listing-choose-ohe-title {
-    color: $gray-dark;
+    color: #9b9b9b;
     margin: 0 20px;
     padding: 25px 0;
   }
@@ -25,7 +25,9 @@
 
       .ohe-list-item-text {
         border-radius: 2px;
-        line-height: 24px;
+        font-size: 13px;
+        line-height: 35px;
+        width: 110px;
       }
     }
   }
@@ -45,10 +47,12 @@
 .ohe-list-date-and-time-container {
   display: inline-block;
   vertical-align: middle;
+  font-size: 14px;
+  font-weight: bold;
 
-  span:last-child {
+  .ohe-text {
     color: lighten($gray-light, 10%);
-    font-size: $font-size-small;
+    font-weight: normal;
   }
 }
 
@@ -78,19 +82,16 @@
 }
 
 .ohe-list-registered-action-text {
-  border: 1px solid #3cb878;
-  color: #3cb878;
-  line-height: 20px !important;
+  color: #4d4d4d;
+  background-color: #e8e8e8;
 }
 
-.ohe-list-item-extra-text {
-  font-size: 11px;
-  line-height: 0;
+.red-heart {
+  color: #ea441a;
 }
 
 .listing-rented-notification {
   color: #4a4a4a;
-  font-size: 13px;
   line-height: 21px;
   padding: 25px 10px;
 }

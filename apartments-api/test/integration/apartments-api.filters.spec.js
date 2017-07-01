@@ -32,6 +32,11 @@ describe('Apartments API - saved filters - ', function () {
     this.createdFilter = createdFilter;
   });
 
+  it('should mark email_notifiaction as true by default', function * () {
+    // assuming creation in previous test
+    __.assertThat(this.createdFilter, __.hasProperty('email_notification', true));
+  });
+
   it('should return existing filter when trying to create a duplicate filter', function * () {
     const duplicateFilter = _.pick(this.createdFilter, ['city', 'mre', 'mrs', 'minRooms', 'maxRooms']);
     const { body: createdFilter } = yield this.apiClient.createFilter(duplicateFilter).expect(200).end();
@@ -177,17 +182,14 @@ describe('Apartments API - saved filters - ', function () {
     });
 
     it('should match by future booking', function * () {
-      yield adminClient.patchListing(listing.id, {
-        status: 'rented',
-        show_for_future_booking: true
-      });
+      yield adminClient.patchListing(listing.id, { status: 'rented', show_for_future_booking: true });
       matchingFilter.futureBooking = true;
       unmatchingFilter.futureBooking = false;
       yield assertMatchingFilters();
     });
 
     it('should not match by future booking if listing is not meant to be shown for future booking', function * () {
-      yield adminClient.patchListing(listing.id, { show_for_future_booking: false });
+      yield adminClient.patchListing(listing.id, { status: 'rented', show_for_future_booking: false });
       matchingFilter.futureBooking = true;
       yield adminClient.putFilter(matchingFilter.id, matchingFilter).expect(200).end();
 

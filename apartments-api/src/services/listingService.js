@@ -224,13 +224,16 @@ function* getByFilter(filterJSON, options = {}) {
     }
   }
 
+  // Validate that the limit sent is reasonable.
   if (options.limit && options.limit > MAX_LISTING_LIST_LIMIT) {
     throw new ValidationError('Unable to return so many lising results in one query! Limit asked: ' + options.limit);
   }
 
   const listingQuery = {};
 
-  if (filter.futureBooking) {
+  if (filter.futureBooking === false) {
+    listingQuery.$or = [ { status: 'listed' } ];
+  } else {
     // TODO : what if there are other things that require $or ?
     listingQuery.$or = [
       { status: 'listed' },
@@ -239,10 +242,7 @@ function* getByFilter(filterJSON, options = {}) {
         show_for_future_booking: true
       }
     ];
-  } else {
-    listingQuery.status = 'listed';
   }
-
 
   let queryOptions = {
     order: getSortOption(filter.sort),
@@ -261,14 +261,17 @@ function* getByFilter(filterJSON, options = {}) {
 
       // Check if admin filtered statuses manually.
       if (filteredStatuses.length === 0) {
-        delete listingQuery.status;
+        listingQuery.$or.forEach(function(condition) {
+          delete condition.status;
+        });
       } else {
-        listingQuery.status = { $notIn: filteredStatuses };
+        listingQuery.$or = [ { status: { $notIn: filteredStatuses }} ];
       }
     }
 
+    // Get user liked apartments only.
     if (filter.liked) {
-      listingQuery.status = { $notIn: ['deleted'] };
+      listingQuery.$or = [ { status: { $notIn: ['deleted'] }} ];
       queryOptions.limit = undefined; // Since no pagination in liked apartments, removing limit.
 
       queryOptions.likeQuery = {
@@ -277,12 +280,13 @@ function* getByFilter(filterJSON, options = {}) {
       };
     }
 
+    // Get user properties only.
     if (filter.myProperties) {
       if (!userPermissions.isUserAdmin(options.user)) {
         listingQuery.publishing_user_id = options.user.id;
       }
 
-      listingQuery.status = { $notIn: ['deleted'] };
+      listingQuery.$or = [ { status: { $notIn: ['deleted'] }} ];
     }
   } else if (!options.user && (filter.myProperties || filter.liked)) {
     throw CustomError(403, 'unauthorized for this view');
@@ -400,6 +404,12 @@ function* enrichListingResponse(listing, user) {
     enrichedListing.meta = {
       possibleStatuses: getPossibleStatuses(listing, user)
     };
+
+    if (listing.images && listing.images.length) {
+      enrichedListing.images = _.orderBy(listing.images, ['display_order']);
+    } else {
+      enrichedListing.images = [{ url: 'https://static.dorbel.com/images/meta/no-image-placeholder.svg' }];
+    }
 
     if (user) {
       if (userPermissions.isResourceOwnerOrAdmin(user, listing.publishing_user_id)) {

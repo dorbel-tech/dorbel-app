@@ -2,7 +2,6 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { Grid, Row } from 'react-bootstrap';
-import utils from '~/providers/utils';
 import NavLink from '~/components/NavLink';
 import ListingBadge from '~/components/ListingBadge/ListingBadge';
 import CloudinaryImage from '~/components/CloudinaryImage/CloudinaryImage';
@@ -26,7 +25,6 @@ const flickityOptions = {
 export default class ListingHeader extends React.Component {
   render() {
     const { appStore, listing } = this.props;
-    const sortedListingImages = utils.sortListingImages(listing);
     const isListingPublisherOrAdmin = listing ? appStore.listingStore.isListingPublisherOrAdmin(listing) : false;
 
     return (
@@ -43,7 +41,7 @@ export default class ListingHeader extends React.Component {
         <Grid fluid>
           <Row>
             <Flickity key={listing.id + '_flickity'} className={carouselClass} options={flickityOptions} >
-              {sortedListingImages.map((image, index) =>
+              {listing.images.map((image, index) =>
                 <div key={listing.id + '_' + index} className="sliderBoxes">
                   <CloudinaryImage src={image.url} height={500} />
                 </div>

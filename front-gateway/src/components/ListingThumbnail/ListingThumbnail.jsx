@@ -60,8 +60,7 @@ class ListingThumbnail extends Component {
       }
     }
     const isRented = listing.status === 'rented';
-    const sortedListingImages = utils.sortListingImages(listing);
-    const imageURL = sortedListingImages[0].url;
+    const imageURL = listing.images[0].url;
 
     const listingDateTitle = isRented ? 'כניסה משוערת ' : 'תאריך כניסה ';
     const classLeaseDate = new Date(listing.lease_start) <= Date.now() ? 'apt-thumb-lease-immediate' : 'apt-thumb-lease-date';
