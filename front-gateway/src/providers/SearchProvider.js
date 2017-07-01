@@ -100,6 +100,9 @@ class SearchProvider {
     if (searchStore.activeFilterId) { // filter is not new
       url += '/' + searchStore.activeFilterId;
       method = 'PUT';
+      if (!filter.hasOwnProperty('email_notification')) { // if email_notification is not set we keep current value
+        filter.email_notification = searchStore.filters.get(searchStore.activeFilterId).email_notification;
+      }
     }
 
     return this.apiProvider.fetch(url, { method, data: filter })

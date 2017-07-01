@@ -22,10 +22,10 @@ describe('Filters Service', function () {
   after(() => mockRequire.stopAll());
 
   describe('update', function () {
-    it('should send email_notification false if not specified', function * () {
+    it('should send email_notification true if not specified', function * () {
       const update = Object.assign({ city: 1 }, this.mockFilter);
       yield this.filterService.update(this.mockFilter.id, update, { id: this.mockFilter.dorbel_user_id });
-      __.assertThat(this.mockFilter.update.args[0][0], __.hasProperty('email_notification', false));
+      __.assertThat(this.mockFilter.update.args[0][0], __.hasProperty('email_notification', true));
     });
   });
 

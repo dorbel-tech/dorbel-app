@@ -24,7 +24,7 @@ describe('Listing Thumbnail', () => {
   beforeEach(() => {
     listing = {
       id: 777,
-      images: [],
+      images: [ { url: 'http:bah' }],
       apartment: {
         building: {
           neighborhood: {},
