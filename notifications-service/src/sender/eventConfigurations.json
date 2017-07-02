@@ -8,7 +8,7 @@
     "eventType": "APARTMENT_CREATED_FOR_MANAGEMENT",
     "notificationType": "apartment_created_for_management",
     "dataRetrieval": [ "getListingInfo", "getUserDetails" ]
-  },
+  },  
   {
     "eventType": "APARTMENT_LISTED",
     "notificationType": "apartment_listed",
@@ -19,6 +19,16 @@
     "eventType": "APARTMENT_LISTED",
     "notificationType": "apartment_listed_notify_followers",
     "dataRetrieval": [ "getListingInfo", "sendToApartmentLikedUsers", "getUserDetails" ]
+  },
+  {
+    "eventType": "APARTMENT_CREATED_FOR_MANAGEMENT",
+    "notificationType": "saved_filter_matched",
+    "dataRetrieval": [ "getListingInfo", "getMatchingFilters" ]
+  },
+  {
+    "eventType": "APARTMENT_LISTED",
+    "notificationType": "saved_filter_matched",
+    "dataRetrieval": [ "getListingInfo", "getMatchingFilters" ]
   },
   {
     "eventType": "APARTMENT_UNLISTED",

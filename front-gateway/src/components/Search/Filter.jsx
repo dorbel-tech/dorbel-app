@@ -167,13 +167,13 @@ class Filter extends Component {
     this.reloadResults();
   }
 
-  checkboxChangeHandler(e) {
-    this.setState({ [e.target.name]: e.target.checked });
-    e.target.checked ?
-      this.filterObj[e.target.name] = true :
-      delete this.filterObj[e.target.name];
-
-    this.setState({extraFilterClass: this.getExtraFilterClass()});
+  checkboxChangeHandler(e, isReversed) {
+    const shouldAssignFilterValue = (!isReversed && e.target.checked) || (isReversed && !e.target.checked);
+    shouldAssignFilterValue ? this.filterObj[e.target.name] = !isReversed : delete this.filterObj[e.target.name];
+    this.setState({
+      [e.target.name]: e.target.checked,
+      extraFilterClass: this.getExtraFilterClass()
+    });
     this.reloadResults();
   }
 
@@ -244,7 +244,9 @@ class Filter extends Component {
     Object.keys(filterObj).filter(key => filterObj[key] === null).forEach(key => delete filterObj[key]);
     this.filterObj = filterObj;
     this.setState(this.getDefaultState());
-    this.loadNeighborhoods(filterObj.city); // make sure neighborhoods are loaded for this city
+    if (filterObj.city) {
+      this.loadNeighborhoods(filterObj.city); // make sure neighborhoods are loaded for this city
+    }
     this.reloadResults();
   }
 
@@ -443,7 +445,7 @@ class Filter extends Component {
           <Col md={4} sm={5} xsHidden>
             <span data-tip="חדש! תכננו את מעבר הדירה הבא! מעכשיו תוכלו לגלות דירות מושכרות, לעקוב אחריהן ולהיות הראשונים לדעת כשהן מתפנות">
               <Checkbox name="futureBooking" className="filter-future-booking-switch"
-                        checked={this.state.futureBooking} onChange={this.checkboxChangeHandler}>
+                        checked={this.state.futureBooking} onChange={e => this.checkboxChangeHandler(e, true)}>
                 הראו לי דירות שטרם פורסמו
               </Checkbox>
               <span className="filter-future-booking-new">חדש!</span>
@@ -489,8 +491,8 @@ class Filter extends Component {
           </Col>
         </Row>
         {
-          !isMobile() && authStore.isLoggedIn && <SavedFilters onFilterChange={this.loadFilter}/>
-        }
+          !isMobile() && authStore.isLoggedIn && <SavedFilters onFilterChange={this.loadFilter} animateEmailRow />
+        }        
         <div className="filter-close">
           <div className="filter-close-text" onClick={this.toggleHideFilter}>
             סנן וסגור
