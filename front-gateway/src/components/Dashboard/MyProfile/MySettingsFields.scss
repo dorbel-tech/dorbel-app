@@ -14,20 +14,16 @@
   }
 
   .checkbox {
-    line-height: 24px;
+    line-height: 18px;
     margin: 0;
 
-    > label {
-      padding-right: 25px;
-
-      > input {
-        cursor: pointer;
-        height: 24px;
-        margin: 0;
-        opacity: 0;
-        right: -30px;
-        width: 50px;
-      }
+    > label > input {
+      cursor: pointer;
+      height: 18px;
+      margin: 0;
+      opacity: 0;
+      right: -30px;
+      width: 50px;
     }
   }
 

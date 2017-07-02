@@ -33,7 +33,7 @@ class MySettingsFields extends Component {
       <Row className="my-settings-input">
         <FRC.Input value="settings" name="section" type="hidden" />
         <div>
-          <Toggle ref="data.receive_newsletter" checked={this.state.receive_newsletter} readOnly></Toggle>
+          <Toggle ref="data.receive_newsletter" checked={this.state.receive_newsletter} icons={false} readOnly></Toggle>
           <FRC.Checkbox
             name="data.receive_newsletter"
             value={settings.receive_newsletter}

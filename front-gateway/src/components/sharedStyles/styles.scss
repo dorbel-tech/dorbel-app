@@ -193,3 +193,20 @@ ul.nav.nav-tabs.navbar-nav {
     content: "+ ";
   }
 }
+
+/* React toggle */
+.react-toggle-track {
+  background-color: #9b9b9b;
+  height: 18px;
+  width: 38px;
+}
+
+.react-toggle-thumb {
+  border-color: #9b9b9b;
+  height: 16px;
+  width: 16px;
+}
+
+.react-toggle--checked .react-toggle-thumb {
+  left: 21px;
+}
