@@ -225,7 +225,7 @@ function* update(listing, patch) {
   }
 }
 
-function* getMonthlyReportData(leaseStartDay, leaseStartMonth) {
+function* getMonthlyReportData(day, month, year) {
   const sequelize = models.listing.sequelize;
   const res = yield models.listing.findAll({
     attributes: [
@@ -234,10 +234,10 @@ function* getMonthlyReportData(leaseStartDay, leaseStartMonth) {
     ],
     where: {
       status: 'rented',
-      lease_end: { $gt: moment() },
+      lease_end: { $gt: moment({ year, month: month - 1, date: day }).toISOString() },
       $and: [
-        sequelize.where(sequelize.fn('day', sequelize.col('listing.lease_start')), leaseStartDay),
-        sequelize.where(sequelize.fn('month', sequelize.col('listing.lease_start')), leaseStartMonth),
+        sequelize.where(sequelize.fn('day', sequelize.col('listing.lease_start')), day),
+        sequelize.where(sequelize.fn('month', sequelize.col('listing.lease_start')), month),
       ]
     }
   });

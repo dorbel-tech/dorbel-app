@@ -20,6 +20,14 @@
           "required": true,
           "minimum": 1,
           "maximum": 12
+        },
+        {
+          "name": "year",
+          "in": "query",
+          "description": "The month of 'lease_start'",
+          "type": "integer",
+          "required": true,
+          "minimum": 1900
         }
       ],
       "tags": [

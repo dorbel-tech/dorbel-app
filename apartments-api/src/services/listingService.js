@@ -507,9 +507,9 @@ function* getValidationData(apartment, user) {
   return result;
 }
 
-function* getMonthlyReportData(leaseStartDay, leaseStartMonth, user) {
+function* getMonthlyReportData(day, month, year, user) {
   if (userPermissions.isUserAdmin(user)) {
-    return yield listingRepository.getMonthlyReportData(leaseStartDay, leaseStartMonth);
+    return yield listingRepository.getMonthlyReportData(day, month, year);
   }
   else {
     throw new CustomError(403, 'This endpoint is for admins only');
