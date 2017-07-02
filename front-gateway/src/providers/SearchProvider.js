@@ -5,7 +5,7 @@
 import _ from 'lodash';
 import { isMobile } from './utils';
 
-const PAGE_SIZE = isMobile() ? 9 : 15;
+const PAGE_SIZE = 8;
 const FILTERS_URL = '/api/apartments/v1/filters';
 
 class SearchProvider {
