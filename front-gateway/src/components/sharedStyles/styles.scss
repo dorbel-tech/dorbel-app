@@ -7,6 +7,9 @@ $dir: rtl;
 @import url('https://cdnjs.cloudflare.com/ajax/libs/flickity/2.0.5/flickity.min.css');
 @import "./auth0.scss";
 
+/* React toggle style import (from node modules) */
+@import '~react-toggle/style.css';
+
 *,
 html,
 body {

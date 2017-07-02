@@ -6597,6 +6597,12 @@ react-spinkit@^1.1.11:
     classnames "^2.2.3"
     object-assign "^4.1.0"
 
+react-toggle@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/react-toggle/-/react-toggle-4.0.1.tgz#0e83e8c94d94232debfa21a938ff3d2b2106ec72"
+  dependencies:
+    classnames "^2.2.5"
+
 react-tooltip@^3.2.7:
   version "3.2.7"
   resolved "https://registry.yarnpkg.com/react-tooltip/-/react-tooltip-3.2.7.tgz#91c8e7c377cbfb2646695a6f1e26047fad01db9f"
