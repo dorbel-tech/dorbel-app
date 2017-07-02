@@ -15,7 +15,8 @@ class MySettingsFields extends Component {
 
     this.state = {
       settings: props.profile.settings || {
-        receive_newsletter: true
+        receive_newsletter: true,
+        receive_notifications: true
       }
     };
 
@@ -23,24 +24,32 @@ class MySettingsFields extends Component {
   }
 
   handleChange(name, val) {
-    this.setState({receive_newsletter: val});
+    this.setState({[name.substr(5)]: val});
   }
 
   render() {
     const settings = this.state.settings;
 
     return (
-      <Row className="my-settings-input">
-        <FRC.Input value="settings" name="section" type="hidden" />
-        <div>
-          <Toggle ref="data.receive_newsletter" checked={this.state.receive_newsletter} icons={false} readOnly></Toggle>
+      <div>
+        <Row className="my-settings-input">
+          <FRC.Input value="settings" name="section" type="hidden" />
+          <Toggle checked={this.state.receive_notifications} icons={false} readOnly></Toggle>
+          <FRC.Checkbox
+            name="data.receive_notifications"
+            value={settings.receive_notifications}
+            onChange={this.handleChange}
+            label="אפשר עדכונים על מועדי ביקור חדשים או פרסום מחדש של דירות שאהבתי" />
+        </Row>
+        <Row className="my-settings-input">
+          <Toggle checked={this.state.receive_newsletter} icons={false} readOnly></Toggle>
           <FRC.Checkbox
             name="data.receive_newsletter"
             value={settings.receive_newsletter}
             onChange={this.handleChange}
             label="שלחו לי עדכונים בנוגע לשירותים חדשים" />
-        </div>
-      </Row>
+        </Row>
+      </div>
     );
   }
 }
