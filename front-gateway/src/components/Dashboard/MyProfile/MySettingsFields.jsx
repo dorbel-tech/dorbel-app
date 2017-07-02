@@ -17,13 +17,13 @@ class MySettingsFields extends Component {
       settings: props.profile.settings || {
         receive_newsletter: true
       }
-    }
+    };
 
     Object.assign(this.state, this.state.settings);
   }
 
   handleChange(name, val) {
-    this.state.receive_newsletter = val;
+    this.setState({receive_newsletter: val});
   }
 
   render() {
