@@ -5,7 +5,6 @@ import AppFooter from '~/components/Footer/Footer';
 import Notifications from '~/components/Notifications/Notifications';
 import DorbelModal from '~/components/DorbelModal/DorbelModal';
 import moment from 'moment';
-import ismobilejs from 'ismobilejs';
 
 moment.locale('he'); // TODO : dynamic locale
 
