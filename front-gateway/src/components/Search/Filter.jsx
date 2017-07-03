@@ -484,7 +484,7 @@ class Filter extends Component {
               <div className={'filter-trigger-container ' + this.state.extraFilterClass}>פילטרים נוספים</div>
             </OverlayTrigger>
           </Col>
-          <Col sm={3} lg={2} >
+          <Col sm={2} lg={2} >
             <Button id="saveFilterButton" className="filter-save"
                     block bsStyle="info" onClick={this.saveFilter}>
               {saveFilterButtonText}

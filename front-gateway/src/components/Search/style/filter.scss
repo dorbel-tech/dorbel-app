@@ -164,7 +164,9 @@
   background-color: $brand-white;
   border-color: $brand-info;
   color: $brand-info;
-  width: 96px;
+  @media (min-width: $screen-sm-min) {
+    width: 96px;
+  }
 }
 
 .filter-admin-switch {
