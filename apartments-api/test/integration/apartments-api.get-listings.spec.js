@@ -20,9 +20,8 @@ describe('GET /listings', function () {
   });
 
   it('should limit and offset', function* () {
-    const listingQuery = { limit: 1, q: { sort: 'lease_start' } }; // sorting by lease_start because the seed created_at values are all the same
-    const firstRepsponse = yield this.apiClient.getListings(listingQuery).expect(200).end();
-    const secondResponse = yield this.apiClient.getListings(Object.assign({ offset: 1 }, listingQuery)).expect(200).end();
+    const firstRepsponse = yield this.apiClient.getListings({ limit: 1 }).expect(200).end();
+    const secondResponse = yield this.apiClient.getListings({ limit: 1, offset: 1 }).expect(200).end();
     __.assertThat(firstRepsponse.body, __.hasSize(1));
     __.assertThat(secondResponse.body, __.hasSize(1));
     __.assertThat(firstRepsponse.body[0].id, __.is(__.not(secondResponse.body[0].id)));
@@ -96,6 +95,14 @@ describe('GET /listings', function () {
     ));
   });
 
+  it('should get listing my lease date for a single day', function * () {
+    const { body: allListings } = yield this.apiClient.getListings({ limit: 1 }).expect(200).end();
+    const date = allListings[0].lease_start;
+    // setting min and max to same date is expected to select that full day (and not empty range)
+    const { body: dailyListings } = yield this.apiClient.getListings({ q: { minLease: date, maxLease: date }}).expect(200).end();
+    __.assertThat(dailyListings, __.not(__.isEmpty()));
+  });
+  
   // TODO : add at least some basic test for filters
 
   describe('Filter: my listings', function () {
