@@ -1,5 +1,5 @@
 'use strict';
-import { mount } from 'enzyme';
+import { mount, shallow } from 'enzyme';
 import React from 'react';
 import Filter from './Filter';
 
@@ -15,6 +15,8 @@ describe('Filter', () => {
     }
     return mountedFilter;
   };
+
+  const shallowFilter = () => shallow(<Filter {...props} />);
 
   const saveFilterButton = () => mountedFilter.find('#saveFilterButton');
 
@@ -64,8 +66,10 @@ describe('Filter', () => {
     expect(history.pushState.calls.count()).toEqual(1);
     expect(props.appProviders.searchProvider.search).toHaveBeenCalledWith(expectedFilterObj);
     expect(props.appProviders.searchProvider.search.mock.calls.length).toEqual(1);
+  });
 
-    expect(mountedFilter).toMatchSnapshot();
+  it('should match snapshot in initial state', () => {
+    expect(shallowFilter()).toMatchSnapshot();
   });
 
   it('should initialize with parsed filter object', () => {

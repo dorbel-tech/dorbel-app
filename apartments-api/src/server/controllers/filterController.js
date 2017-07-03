@@ -18,7 +18,9 @@ const clientToApiFilterMap = [
   ['pet', 'pets'],
   ['sb', 'security_bars'],
   ['futureBooking', 'future_booking'],
-  ['ele', 'elevator']
+  ['ele', 'elevator'],
+  ['minLease', 'min_lease_start'],
+  ['maxLease', 'max_lease_start']
 ];
 
 const mapFilter = createObjectByMapping.bind(null, clientToApiFilterMap);

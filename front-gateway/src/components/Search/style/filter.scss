@@ -164,7 +164,10 @@
   background-color: $brand-white;
   border-color: $brand-info;
   color: $brand-info;
-  width: 96px;
+
+  @media (min-width: $screen-sm-min) {
+    width: 96px;
+  }
 }
 
 .filter-admin-switch {
@@ -209,17 +212,27 @@
 .filter-area-popup,
 .filter-mr-popup,
 .filter-extra-popup,
-.filter-rooms-popup {
+.filter-rooms-popup,
+.filter-lease-start-popup {
   border: none;
   border-radius: 0;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
   margin-top: 7px !important;
   max-width: none;
   width: 290px;
+  z-index: 10;
 
   > .arrow {
     display: none;
   }
+}
+
+#min-lease-date-picker_group .fade.in.popover.bottom {
+  margin-top: 54px;
+}
+
+#max-lease-date-picker_group .fade.in.popover.bottom {
+  margin-top: 122px;
 }
 
 .filter-extra-popup {
