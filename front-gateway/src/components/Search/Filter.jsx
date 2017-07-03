@@ -16,7 +16,7 @@ const NEW_TIP_OFFSET = {top: -10, left: -17};
 
 const CITY_ALL_OPTION = { value: '*', label: 'כל הערים' };
 const NEIGHBORHOOD_ALL_OPTION = { value: '*', label: 'כל השכונות' };
-
+const SAVE_FILTER_ACTION = 'save-filter';
 
 const DEFAULT_FILTER_PARAMS = {
   // Admin filter default values.
@@ -79,7 +79,12 @@ class Filter extends Component {
   }
 
   componentDidMount() {
-    this.props.appProviders.cityProvider.loadCities();
+    const { appProviders, appStore } = this.props;
+    if (appStore.authStore.actionBeforeLogin === SAVE_FILTER_ACTION) {
+      appStore.authStore.actionBeforeLogin = undefined;
+      this.saveFilter();
+    }
+    appProviders.cityProvider.loadCities();    
     this.loadNeighborhoods(this.state.city);
     this.reloadResults();
   }
@@ -237,7 +242,7 @@ class Filter extends Component {
 
   saveFilter() {
     const { appProviders } = this.props;
-    if (!appProviders.authProvider.shouldLogin()) {
+    if (!appProviders.authProvider.shouldLogin({ actionBeforeLogin: SAVE_FILTER_ACTION })) {
       appProviders.searchProvider.saveFilter(this.filterObj)
       .catch(err => {
         let heading = _.get(err, 'response.data');
