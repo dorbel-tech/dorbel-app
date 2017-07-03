@@ -107,7 +107,7 @@ class Listing extends Component {
 
   // Report fake legacy url page view by listingId to Google Analytics for our page views counter to work correctly.
   reportListingPageView(listingId) {
-    // if (listingId) {
+    if (listingId) {
       window.analytics.page({
         path: '/apartments/' + listingId,
         referrer: window.document.referrer,
@@ -115,7 +115,7 @@ class Listing extends Component {
         title: window.document.title,
         url: window.location.href
       });
-    // }
+    }
   }
 
   render() {
