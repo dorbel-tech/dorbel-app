@@ -93,6 +93,17 @@ class Listing extends Component {
     }
   }
 
+  // Report fake legacy url page view by listingId to Google Analytics for our page views counter to work correctly.
+  reportListingPageView(listingId) {
+    window.analytics.page({
+      path: '/apartments/' + listingId,
+      referrer: window.document.referrer,
+      search: window.location.search,
+      title: window.document.title,
+      url: window.location.href
+    });
+  }
+
   renderListingLocation(geolocation) {
     if (geolocation) {
       return (
@@ -103,17 +114,6 @@ class Listing extends Component {
         </Grid>
       );
     }
-  }
-
-  // Report fake legacy url page view by listingId to Google Analytics for our page views counter to work correctly.
-  reportListingPageView(listingId) {
-    window.analytics.page({
-      path: '/apartments/' + listingId,
-      referrer: window.document.referrer,
-      search: window.location.search,
-      title: window.document.title,
-      url: window.location.href
-    });
   }
 
   render() {
