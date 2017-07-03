@@ -202,7 +202,7 @@ function setListingAutoFields(listing) {
   // In case that listing was approved (listed) or submitted for manage and have images,
   // we can safely show_for_future_booking enabled by default, because we validated all apartment details.
   if ((listing.status === 'listed') ||
-      (listing.status === 'rented' && listing.images && listing.images.length > 0)) {
+    (listing.status === 'rented' && listing.images && listing.images.length > 0)) {
     listing.show_for_future_booking = true;
   }
 
@@ -380,6 +380,29 @@ function* getValidationData(apartment, user) {
   return result;
 }
 
+function* getMonthlyReportData(day, month, year, user) {
+  if (userPermissions.isUserAdmin(user)) {
+    const momentJsMonth = month - 1;
+    const reportDate = moment({ year, month: momentJsMonth, date: day });
+
+    return yield listingRepository.getMonthlyReportData(reportDate, getMonthlyReportDays(reportDate));
+  }
+  else {
+    throw new CustomError(403, 'You are not allowed to view this data');
+  }
+}
+
+function getMonthlyReportDays(reportDate) {
+  const reportDay = reportDate.date();
+
+  if (reportDate.daysInMonth() == reportDay) {
+    return _.range(reportDay, 32);
+  }
+  else {
+    return [reportDay];
+  }
+}
+
 module.exports = {
   create,
   update,
@@ -388,5 +411,6 @@ module.exports = {
   getBySlug,
   getByApartmentId,
   getRelatedListings,
-  getValidationData
+  getValidationData,
+  getMonthlyReportData
 };

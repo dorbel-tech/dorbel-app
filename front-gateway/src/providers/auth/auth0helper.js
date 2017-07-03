@@ -11,6 +11,7 @@ function initLock(clientId, domain) {
       redirectUrl: window.location.origin + '/login',
       responseType: 'token'
     },
+    allowAutocomplete: true,
     initialScreen: localStorageHelper.getItem('returning_user') ? undefined : 'signUp',
     theme: {
       logo: 'https://res.cloudinary.com/dorbel/image/upload/c_scale,h_58,w_58/v1477485453/dorbel_logo_2_1_uvvf3j.png',
