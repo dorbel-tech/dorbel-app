@@ -176,6 +176,12 @@ class ApiClient {
       .send(filter);
   }
 
+  getMonthlyReportData(day, month, year) {
+    return this.request
+      .get(`/v1/monthlyReportData/?day=${day}&month=${month}&year=${year}`)
+      .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile));
+  }
+
   static * init(userProfile) {
     let request;
 
