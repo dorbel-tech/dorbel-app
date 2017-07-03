@@ -69,21 +69,39 @@ class Listing extends Component {
 
   loadFullListingDetails() {
     const { apartmentId, appStore, appProviders } = this.props;
+    let listing = appStore.listingStore.getByApartmentId(apartmentId);
 
-    if(!appStore.listingStore.getByApartmentId(apartmentId)) {
+    if(!listing) {
       this.setState({ isLoading: true });
       appProviders.listingsProvider.loadListingByApartmentId(apartmentId)
-        .then(() => this.setState({ isLoading: false }));
+        .then(() => {
+          listing = appStore.listingStore.getByApartmentId(apartmentId);
+          this.reportListingPageView(listing.id);
+          this.setState({ isLoading: false });
+        });
     } else {
       // Force render and scroll to top, since the store did not change.
       this.forceUpdate();
       if (process.env.IS_CLIENT) {
+        this.reportListingPageView(listing.id);
+
         const wrapperElement = document.getElementsByClassName('listing-wrapper')[0];
         if (wrapperElement) {
           wrapperElement.scrollIntoView();
         }
       }
     }
+  }
+
+  // Report fake legacy url page view by listingId to Google Analytics for our page views counter to work correctly.
+  reportListingPageView(listingId) {
+    window.analytics.page({
+      path: '/apartments/' + listingId,
+      referrer: window.document.referrer,
+      search: window.location.search,
+      title: window.document.title,
+      url: window.location.href
+    });
   }
 
   renderListingLocation(geolocation) {

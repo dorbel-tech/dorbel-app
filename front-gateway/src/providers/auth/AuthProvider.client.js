@@ -37,8 +37,12 @@ class AuthProvider {
   recoverStateAfterLogin(stateString) {
     try {
       const stateBeforeLogin = JSON.parse(stateString);
-      if (stateBeforeLogin && stateBeforeLogin.pathname) {
-        this.router.setRoute(stateBeforeLogin.pathname);
+      if (stateBeforeLogin) {
+        this.authStore.actionBeforeLogin = stateBeforeLogin.actionBeforeLogin;
+
+        if (stateBeforeLogin.pathname) {
+          this.router.setRoute(stateBeforeLogin.pathname + (stateBeforeLogin.search || ''));
+        }
       }
     } catch (ex) {
       window.console.error('error parsing state after login');
@@ -95,7 +99,9 @@ class AuthProvider {
         params: {
           // this state is used in recoverStateAfterLogin
           state: JSON.stringify({
-            pathname: window.location.pathname
+            pathname: window.location.pathname,
+            search: window.location.search,
+            actionBeforeLogin: options.actionBeforeLogin
           }),
           scope: 'openid'
         }

@@ -9,18 +9,18 @@ const shared = require('dorbel-shared');
 const logger = shared.logger.getLogger(module);
 const geoProvider = require('../../providers/geoProvider');
 
-const listingAttributes = { exclude: [ 'updated_at' ] };
-const apartmentAttributes = { exclude: [ 'created_at', 'updated_at' ] };
-const buildingAttributes = { exclude: [ 'created_at', 'updated_at' ] };
-const cityAttributes = [ 'id', 'city_name' ];
-const neighborhoodAttributes = [ 'id', 'neighborhood_name', 'city_id' ];
-const imageAttributes = { exclude: [ 'created_at', 'updated_at' ] };
+const listingAttributes = { exclude: ['updated_at'] };
+const apartmentAttributes = { exclude: ['created_at', 'updated_at'] };
+const buildingAttributes = { exclude: ['created_at', 'updated_at'] };
+const cityAttributes = ['id', 'city_name'];
+const neighborhoodAttributes = ['id', 'neighborhood_name', 'city_id'];
+const imageAttributes = { exclude: ['created_at', 'updated_at'] };
 
-const LISTING_UPDATE_WHITELIST = [ 'status', 'monthly_rent', 'roommates', 'property_tax', 'board_fee', 'lease_start',
-  'lease_end', 'publishing_user_type', 'roommate_needed', 'directions', 'description', 'show_phone', 'show_for_future_booking', 'property_value' ];
-const APARTMENT_UPDATE_WHITELIST = [ 'apt_number', 'size', 'rooms', 'floor', 'parking', 'sun_heated_boiler', 'pets',
-  'air_conditioning', 'balcony', 'security_bars', 'parquet_floor' ];
-const BUILDING_UPDATE_WHITELIST = [ 'floors', 'elevator', 'entrance' ];
+const LISTING_UPDATE_WHITELIST = ['status', 'monthly_rent', 'roommates', 'property_tax', 'board_fee', 'lease_start',
+  'lease_end', 'publishing_user_type', 'roommate_needed', 'directions', 'description', 'show_phone', 'show_for_future_booking', 'property_value'];
+const APARTMENT_UPDATE_WHITELIST = ['apt_number', 'size', 'rooms', 'floor', 'parking', 'sun_heated_boiler', 'pets',
+  'air_conditioning', 'balcony', 'security_bars', 'parquet_floor'];
+const BUILDING_UPDATE_WHITELIST = ['floors', 'elevator', 'entrance'];
 
 const fullListingDataInclude = [
   {
@@ -155,7 +155,7 @@ function getSlugs(ids) {
   });
 }
 
-function * update(listing, patch) {
+function* update(listing, patch) {
   logger.debug('updating listing');
   const transaction = yield db.db.transaction();
   try {
@@ -218,10 +218,30 @@ function * update(listing, patch) {
     logger.trace('updating ready to commit', { listing_id: listing.id });
     yield transaction.commit();
     return yield listing.reload();
-  } catch(ex) {
+  } catch (ex) {
     yield transaction.rollback();
     throw ex;
   }
+}
+
+function* getMonthlyReportData(reportDate, leaseStartDays) {
+  const sequelize = models.listing.sequelize;
+  const res = yield models.listing.findAll({
+    attributes: [
+      'id',
+      'publishing_user_id'
+    ],
+    where: {
+      status: 'rented',
+      publishing_user_type: 'landlord',
+      lease_end: { $gt: reportDate },
+      $and: [
+        sequelize.where(sequelize.fn('day', sequelize.col('listing.lease_start')), { $in: leaseStartDays })
+      ]
+    }
+  });
+
+  return res;
 }
 
 module.exports = {
@@ -232,5 +252,6 @@ module.exports = {
   getByApartmentId: getLatestListingByApartmentId,
   getSlugs,
   update,
+  getMonthlyReportData,
   listingStatuses: models.listing.attributes.status.values
 };
