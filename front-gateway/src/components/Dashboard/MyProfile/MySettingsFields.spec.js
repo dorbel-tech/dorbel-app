@@ -43,7 +43,7 @@ describe('MySettingsFields', () => {
     props.profile.settings = {
       receive_like_related_notifications: receiveLikeNotificationsMock,
       receive_newsletter: receiveNewsletterMock
-    }
+    };
 
     mySettingsFields();
 
