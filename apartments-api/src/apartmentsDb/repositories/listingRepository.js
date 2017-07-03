@@ -8,7 +8,6 @@ const buildingRepository = require('./buildingRepository');
 const shared = require('dorbel-shared');
 const logger = shared.logger.getLogger(module);
 const geoProvider = require('../../providers/geoProvider');
-const moment = require('moment');
 
 const listingAttributes = { exclude: ['updated_at'] };
 const apartmentAttributes = { exclude: ['created_at', 'updated_at'] };
