@@ -76,8 +76,8 @@ class Listing extends Component {
       appProviders.listingsProvider.loadListingByApartmentId(apartmentId)
         .then(() => {
           listing = appStore.listingStore.getByApartmentId(apartmentId);
-          this.setState({ isLoading: false });
           this.reportListingPageView(listing.id);
+          this.setState({ isLoading: false });
         });
     } else {
       this.reportListingPageView(listing.id);
