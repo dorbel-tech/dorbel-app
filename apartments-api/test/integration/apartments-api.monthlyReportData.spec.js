@@ -7,10 +7,6 @@ describe('Apartments API Likes service integration', function () {
   const moment = require('moment');
 
   describe('monthlyReportData service integration', function () {
-
-    // Nothing should be returned by the endpoint but 'today'
-
-
     function* createListings(listings, adminApiClient) {
       const listingKeys = _.keys(listings);
 
@@ -40,7 +36,8 @@ describe('Apartments API Likes service integration', function () {
     describe('GET /apartments/monthlyReportData', function () {
       it('should return rented listing that started on this day of the month and lease_end > 1/1/3000', function* () {
         const fakeReportDate = moment({ year: 3000, month: 0, date: 1 }); // 1/1/3000
-        const basicSanitylistings = {
+        
+        const basicSanitylistings = { // Nothing should be returned by the endpoint but 'today'
           today: faker.getFakeListing({
             status: 'rented',
             lease_start: faker.getDateString(fakeReportDate.clone()),

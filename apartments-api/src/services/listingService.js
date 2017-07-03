@@ -393,17 +393,14 @@ function* getMonthlyReportData(day, month, year, user) {
 }
 
 function getMonthlyReportDays(reportDate) {
-  let daysArr = [];
   const reportDay = reportDate.date();
-  
+
   if (reportDate.daysInMonth() == reportDay) {
-    for (let i = reportDay; i <= 31; i++) {
-      daysArr.push(i);
-    }
+    return _.range(reportDay, 32);
   }
-  else { daysArr = [reportDay]; }
-  
-  return daysArr;
+  else {
+    return [reportDay];
+  }
 }
 
 module.exports = {
