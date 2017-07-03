@@ -68,25 +68,22 @@ describe('Listing Service', function () {
 
     it('should set status of listed only when future booking is off', function* () {
       yield this.listingService.getByFilter('{ "futureBooking": false }');
-      __.assertThat(this.listingRepositoryMock.list.args[0][0],
-        __.hasProperty('$or', __.contains(
-          __.hasProperty('status', 'listed')
-        )));
+      __.assertThat(this.listingRepositoryMock.list.args[0][0], __.hasProperty('$and', __.contains({ status: 'listed' })));
     });
 
     it('should set conditions for future booking by default', function* () {
       yield this.listingService.getByFilter();
-      __.assertThat(this.listingRepositoryMock.list.args[0][0], __.allOf(
-        __.not(__.hasProperty('status')),
-        __.hasProperty('$or', __.contains(
+      __.assertThat(this.listingRepositoryMock.list.args[0][0], __.hasProperty('$and', __.allOf(
+        __.not(__.contains(__.hasProperty('status'))),
+        __.contains(__.hasProperty('$or', __.contains(
           __.hasProperty('status', 'listed'),
           __.hasProperties({
             status: 'rented',
             lease_end: __.hasProperty('$gte', __.is(__.date())),
             show_for_future_booking: true
           })
-        ))
-      ));
+        )))
+      )));
     });
 
     it('should throw an error for my-properties without user object', function* () {

@@ -5,7 +5,8 @@ const listingRepository = require('../apartmentsDb/repositories/listingRepositor
 
 const MAX_FILTERS_PER_USER = 3;
 const filterUpdateFields = [ 'city', 'neighborhood', 'min_monthly_rent', 'max_monthly_rent', 'min_rooms', 'max_rooms',
-  'air_conditioning', 'balcony', 'elevator', 'parking', 'pets', 'security_bars', 'future_booking', 'email_notification' ];
+  'air_conditioning', 'balcony', 'elevator', 'parking', 'pets', 'security_bars', 'future_booking',
+  'email_notification', 'min_lease_start', 'max_lease_start' ];
 const errors = shared.utils.domainErrors;
 
 function * create(filterToCreate, user) {
@@ -73,6 +74,7 @@ function * getFilterByMatchedListing(listing_id, user) {
 
 function mapListingToMatchingFilterQuery(listing) {
   const filterQuery = {};
+  const listingReferenceDate = listing.status === 'rented' ? listing.lease_end : listing.lease_start;
   
   if (listing.status === 'rented' && listing.show_for_future_booking) {
     // only show filters that are looking for future_booking or don't care
@@ -94,7 +96,9 @@ function mapListingToMatchingFilterQuery(listing) {
     parking: nullOrEqualTo(listing.apartment.parking),
     pets: nullOrEqualTo(listing.apartment.pets),
     security_bars: nullOrEqualTo(listing.apartment.security_bars),
-    elevator: nullOrEqualTo(listing.apartment.building.elevator)
+    elevator: nullOrEqualTo(listing.apartment.building.elevator),    
+    min_lease_start: nullOrModifier('$lte', listingReferenceDate),
+    max_lease_start: nullOrModifier('$gte', listingReferenceDate)
   };
 }
 

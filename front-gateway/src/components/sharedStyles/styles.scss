@@ -161,6 +161,7 @@ textarea {
 
 /* React bootstrap date picker */
 .react-bootstrap-date-picker-custom-control {
+  background-color: $brand-white !important;
   border: 1px solid #ccc;
   border-radius: 4px;
   color: $gray;
