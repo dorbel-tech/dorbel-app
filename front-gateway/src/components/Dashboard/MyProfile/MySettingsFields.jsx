@@ -12,41 +12,41 @@ class MySettingsFields extends Component {
   constructor(props) {
     super(props);
     autobind(this);
-
-    this.state = {
-      settings: props.profile.settings || {
-        receive_newsletter: true,
-        receive_like_related_notifications: true
-      }
-    };
-
-    Object.assign(this.state, this.state.settings);
   }
 
-  handleChange(name, val) {
-    this.setState({[name.substr(5)]: val});
+  handleChange(e, val) {
+    this[e.target.id].setValue(e.target.checked);
   }
 
   render() {
-    const settings = this.state.settings;
+    const settings = this.props.profile.settings || {
+      receive_newsletter: true,
+      receive_like_related_notifications: true
+    }
 
     return (
       <div>
         <Row className="my-settings-input">
           <FRC.Input value="settings" name="section" type="hidden" />
-          <Toggle checked={this.state.receive_like_related_notifications} icons={false} readOnly></Toggle>
+          <Toggle defaultChecked={settings.receive_like_related_notifications}
+                  onChange={this.handleChange}
+                  id="receive_like_related_notifications"
+                  icons={false}></Toggle>
           <FRC.Checkbox
+            ref={(el) => { this.receive_like_related_notifications = el; }}
             name="data.receive_like_related_notifications"
             value={settings.receive_like_related_notifications}
-            onChange={this.handleChange}
             label="אפשר עדכונים על מועדי ביקור חדשים או פרסום מחדש של דירות שאהבתי" />
         </Row>
         <Row className="my-settings-input">
-          <Toggle checked={this.state.receive_newsletter} icons={false} readOnly></Toggle>
+          <Toggle defaultChecked={settings.receive_newsletter}
+                  onChange={this.handleChange}
+                  id="receive_newsletter"
+                  icons={false}></Toggle>
           <FRC.Checkbox
+            ref={(el) => { this.receive_newsletter = el; }}
             name="data.receive_newsletter"
             value={settings.receive_newsletter}
-            onChange={this.handleChange}
             label="שלחו לי עדכונים בנוגע לשירותים חדשים" />
         </Row>
       </div>
