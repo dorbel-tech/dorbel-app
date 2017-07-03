@@ -80,11 +80,11 @@ class Listing extends Component {
           this.setState({ isLoading: false });
         });
     } else {
-      this.reportListingPageView(listing.id);
-
       // Force render and scroll to top, since the store did not change.
       this.forceUpdate();
       if (process.env.IS_CLIENT) {
+        this.reportListingPageView(listing.id);
+
         const wrapperElement = document.getElementsByClassName('listing-wrapper')[0];
         if (wrapperElement) {
           wrapperElement.scrollIntoView();
