@@ -16,7 +16,7 @@ class MySettingsFields extends Component {
     this.state = {
       settings: props.profile.settings || {
         receive_newsletter: true,
-        receive_notifications: true
+        receive_like_related_notifications: true
       }
     };
 
@@ -34,10 +34,10 @@ class MySettingsFields extends Component {
       <div>
         <Row className="my-settings-input">
           <FRC.Input value="settings" name="section" type="hidden" />
-          <Toggle checked={this.state.receive_notifications} icons={false} readOnly></Toggle>
+          <Toggle checked={this.state.receive_like_related_notifications} icons={false} readOnly></Toggle>
           <FRC.Checkbox
-            name="data.receive_notifications"
-            value={settings.receive_notifications}
+            name="data.receive_like_related_notifications"
+            value={settings.receive_like_related_notifications}
             onChange={this.handleChange}
             label="אפשר עדכונים על מועדי ביקור חדשים או פרסום מחדש של דירות שאהבתי" />
         </Row>

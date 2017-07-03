@@ -21,7 +21,7 @@ const profileSectionParams = {
   },
   settings: {
     receive_newsletter: { isRequired: false },
-    receive_notifications: { isRequired: false }
+    receive_like_related_notifications: { isRequired: false }
   }
 };
 

@@ -37,11 +37,11 @@ describe('MySettingsFields', () => {
   });
 
   it('should set checkboxes values according to the given profile settings', () => {
-    const receiveNotificationsMock = jest.fn();
+    const receiveLikeNotificationsMock = jest.fn();
     const receiveNewsletterMock = jest.fn();
-    const expectedCheckboxValues = [receiveNotificationsMock, receiveNewsletterMock];
+    const expectedCheckboxValues = [receiveLikeNotificationsMock, receiveNewsletterMock];
     props.profile.settings = {
-      receive_notifications: receiveNotificationsMock,
+      receive_like_related_notifications: receiveLikeNotificationsMock,
       receive_newsletter: receiveNewsletterMock
     }
 
