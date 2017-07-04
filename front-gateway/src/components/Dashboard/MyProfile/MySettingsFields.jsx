@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import autobind from 'react-autobind';
+import _ from 'lodash';
 import { Row } from 'react-bootstrap';
 import Toggle from 'react-toggle';
 import { FRC } from '~/components/FormWrapper/FormWrapper';
@@ -19,10 +20,10 @@ class MySettingsFields extends Component {
   }
 
   render() {
-    const settings = this.props.profile.settings || {
+    const settings = _.defaults(this.props.profile.settings || {}, {
       receive_newsletter: true,
       receive_like_related_notifications: true
-    };
+    });
 
     return (
       <div>
