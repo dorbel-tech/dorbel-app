@@ -7,6 +7,9 @@ $dir: rtl;
 @import url('https://cdnjs.cloudflare.com/ajax/libs/flickity/2.0.5/flickity.min.css');
 @import "./auth0.scss";
 
+/* React toggle style import (from node modules) */
+@import '~react-toggle/style.css';
+
 *,
 html,
 body {
@@ -190,4 +193,21 @@ ul.nav.nav-tabs.navbar-nav {
   &::before {
     content: "+ ";
   }
+}
+
+/* React toggle */
+.react-toggle-track {
+  background-color: #9b9b9b;
+  height: 18px;
+  width: 38px;
+}
+
+.react-toggle-thumb {
+  border-color: #9b9b9b;
+  height: 16px;
+  width: 16px;
+}
+
+.react-toggle--checked .react-toggle-thumb {
+  left: 21px;
 }

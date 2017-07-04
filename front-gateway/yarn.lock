@@ -2501,9 +2501,9 @@ domutils@1.5.1, domutils@^1.5.1:
     dom-serializer "0"
     domelementtype "1"
 
-"dorbel-shared@git://github.com/dorbel-tech/dorbel-shared#v1.0.56":
-  version "1.0.56"
-  resolved "git://github.com/dorbel-tech/dorbel-shared#023bf1d92844131785623117e60439cfa2600f30"
+"dorbel-shared@git://github.com/dorbel-tech/dorbel-shared#v1.0.58":
+  version "1.0.58"
+  resolved "git://github.com/dorbel-tech/dorbel-shared#de8302f9108d836af2612a6bcf41f4c8605ea601"
   dependencies:
     analytics-node "^2.1.0"
     auth0 "2.5.0"
@@ -6641,6 +6641,12 @@ react-spinkit@^1.1.11:
   dependencies:
     classnames "^2.2.3"
     object-assign "^4.1.0"
+
+react-toggle@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/react-toggle/-/react-toggle-4.0.1.tgz#0e83e8c94d94232debfa21a938ff3d2b2106ec72"
+  dependencies:
+    classnames "^2.2.5"
 
 react-tooltip@^3.2.7:
   version "3.2.7"

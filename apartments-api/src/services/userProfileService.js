@@ -18,6 +18,10 @@ const profileSectionParams = {
     position: { isRequired: false },
     facebook_url: { isRequired: false },
     linkedin_url: { isRequired: false }
+  },
+  settings: {
+    receive_newsletter: { isRequired: false },
+    receive_like_related_notifications: { isRequired: false }
   }
 };
 
