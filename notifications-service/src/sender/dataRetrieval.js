@@ -6,6 +6,7 @@
 const _ = require('lodash');
 const request = require('request-promise');
 const shared = require('dorbel-shared');
+const moment = require('moment');
 const userManagement = shared.utils.user.management;
 const APT_API = process.env.APARTMENTS_API_URL;
 const OHE_API = process.env.OHE_API_URL;
@@ -145,7 +146,20 @@ const dataRetrievalFunctions = {
           customRecipients: _.uniq(_.map(matchingFilters, 'dorbel_user_id'))
         };
       });
-  }
+  },
+  getMonthlyReportData: eventData => {
+    return getListingInfo(eventData.listing_id)
+      .then(listingInfo => {
+        return {
+          listing_id: eventData.listing_id,
+          publishing_user_first_name: listingInfo.publishing_user_first_name,
+          street_name: listingInfo.apartment.building.street_name,
+          house_number: listingInfo.apartment.building.house_number,
+          apt_number: listingInfo.apartment.apt_number,
+          months_to_lease_end: moment(listingInfo.lease_end).diff(moment(eventData.date), 'months')
+        };
+      });
+  },
 };
 
 function getAdditonalData(eventConfig, eventData) {
