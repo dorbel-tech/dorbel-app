@@ -14,7 +14,7 @@ class MySettingsFields extends Component {
     autobind(this);
   }
 
-  handleChange(e, val) {
+  handleChange(e) {
     this[e.target.id].setValue(e.target.checked);
   }
 
@@ -22,7 +22,7 @@ class MySettingsFields extends Component {
     const settings = this.props.profile.settings || {
       receive_newsletter: true,
       receive_like_related_notifications: true
-    }
+    };
 
     return (
       <div>
