@@ -13,7 +13,7 @@ class Search extends Component {
   constructor(props) {
     super(props);
 
-    this.props.appStore.metaData.title = 'dorbel - דירות שתשמחו לגור בהן. ללא תיווך';
+    this.props.appStore.metaData.title = 'dorbel - דירות להשכרה שתשמחו לגור בהן. ללא תיווך';
   }
 
   render() {
