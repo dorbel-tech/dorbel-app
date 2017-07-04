@@ -36,6 +36,17 @@ describe('MySettingsFields', () => {
     });
   });
 
+  it('should set checkboxes values when profile settings is empty', () => {
+    props.profile.settings = {};
+
+    mySettingsFields();
+
+    const checkboxes = comp.find(FRC.Checkbox);
+    checkboxes.forEach(checkbox => {
+      expect(checkbox.prop('value')).toEqual(true);
+    });
+  });
+
   it('should set checkboxes values according to the given profile settings', () => {
     const receiveLikeNotificationsMock = jest.fn();
     const receiveNewsletterMock = jest.fn();

@@ -19,10 +19,10 @@ class MySettingsFields extends Component {
   }
 
   render() {
-    const settings = this.props.profile.settings || {
+    const settings = Object.assign({
       receive_newsletter: true,
       receive_like_related_notifications: true
-    };
+    }, this.props.profile.settings || {});
 
     return (
       <div>

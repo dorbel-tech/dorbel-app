@@ -10,7 +10,7 @@ import MyProfile from './MyProfile';
 const MENU_ITEMS = [
   { navTo: 'my-properties', menuText: 'הנכסים שלי', faIconClassName: 'fa-home', component: <MyProperties /> },
   { navTo: 'my-likes', menuText: 'דירות שאהבתי', faIconClassName: 'fa-heart', component: <MyLikes /> },
-  { navTo: 'my-profile', menuText: 'הפרופיל שלי', faIconClassName: 'fa-user', component: <MyProfile /> }
+  { navTo: 'my-profile', menuText: 'פרופיל והגדרות', faIconClassName: 'fa-user', component: <MyProfile /> }
 ];
 
 module.exports = {
