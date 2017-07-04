@@ -26,7 +26,7 @@ const DEFAULT_FILTER_PARAMS = {
   unlisted: false,
 
   city: '*', // City selector default value.
-  neighborhood: '*', // Neighborhood selector default value.  
+  neighborhood: '*', // Neighborhood selector default value.
   roommate: true, // Roommate search checkbox default value.
   empty: true, // Empty apartment for roommates checkbox default value.
   room: true, // Roommate looking for roommate/s checkbox default value.
@@ -85,7 +85,7 @@ class Filter extends Component {
       appStore.authStore.actionBeforeLogin = undefined;
       this.saveFilter();
     }
-    appProviders.cityProvider.loadCities();    
+    appProviders.cityProvider.loadCities();
     this.loadNeighborhoods(this.state.city);
     this.reloadResults();
   }
@@ -154,7 +154,7 @@ class Filter extends Component {
     this.setState({roomsFilterClass: this.getRoomsFilterClass()});
   }
 
-  leaseStartDateChange(field, date) {    
+  leaseStartDateChange(field, date) {
     if (this.state[field] !== date) {
       this.filterObj[field] = date;
       this.setState({
@@ -270,11 +270,11 @@ class Filter extends Component {
 
   renderAdminFilter() {
     const { appStore } = this.props;
-    const isUserAdmin = appStore.authStore.isUserAdmin;
+    const isUserAdmin = appStore.authStore.isUserAdmin();
 
     if (isUserAdmin) {
       return <div className="filter-group-container">
-        <h5><b>הצג דירות בסטטוס</b></h5>
+        <h5><b className="filter-show-listing-status">הצג דירות בסטטוס</b></h5>
         <Checkbox name="pending"
           checked={this.state.pending}
           className="filter-admin-switch"
@@ -348,7 +348,7 @@ class Filter extends Component {
   leaseStartPopup() {
     return <Popover className="filter-lease-start-popup" id="popup-lease-start">
              <h5><b>מתאריך:</b></h5>
-             <DatePicker placeholder="בחרו תאריך התחלה" value={this.state.minLease} id="min-lease-date-picker" 
+             <DatePicker placeholder="בחרו תאריך התחלה" value={this.state.minLease} id="min-lease-date-picker"
                 showClearButton={true} onChange={this.leaseStartDateChange.bind(this, 'minLease')}/>
              <h5><b>עד תאריך:</b></h5>
              <DatePicker placeholder="בחרו תאריך סיום" value={this.state.maxLease} id="max-lease-date-picker"
@@ -476,7 +476,7 @@ class Filter extends Component {
                           offset={NEW_TIP_OFFSET} className="filter-future-booking-tooltip"/>
           </Col>
         </Row>
-        <Row>          
+        <Row>
           <Col sm={2} smOffset={0} mdOffset={1} lgOffset={2} lg={1}>
             <OverlayTrigger placement="bottom" trigger="click" rootClose
                             overlay={this.roomsPopup()}>
@@ -497,7 +497,7 @@ class Filter extends Component {
           <Col sm={3} md={2}>
             <OverlayTrigger placement="bottom" trigger="click" rootClose
                             overlay={this.extraPopup()}>
-              <div className={'filter-trigger-container ' + this.state.extraFilterClass}>פילטרים נוספים</div>
+              <div className={'filter-trigger-more filter-trigger-container ' + this.state.extraFilterClass}>פילטרים נוספים</div>
             </OverlayTrigger>
           </Col>
           <Col sm={2} lg={2} >
@@ -519,7 +519,7 @@ class Filter extends Component {
         </Row>
         {
           !isMobile() && authStore.isLoggedIn && <SavedFilters onFilterChange={this.loadFilter} animateEmailRow />
-        }        
+        }
         <div className="filter-close">
           <div className="filter-close-text" onClick={this.toggleHideFilter}>
             סנן וסגור
