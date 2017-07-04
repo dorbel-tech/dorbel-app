@@ -273,7 +273,7 @@ class Filter extends Component {
 
     if (isUserAdmin) {
       return <div className="filter-group-container">
-        <h5><b>הצג דירות בסטטוס</b></h5>
+        <h5><b className="filter-show-listing-status">הצג דירות בסטטוס</b></h5>
         <Checkbox name="pending"
           checked={this.state.pending}
           className="filter-admin-switch"
@@ -486,7 +486,7 @@ class Filter extends Component {
           <Col sm={3} md={2}>
             <OverlayTrigger placement="bottom" trigger="click" rootClose
                             overlay={this.extraPopup()}>
-              <div className={'filter-trigger-container ' + this.state.extraFilterClass}>פילטרים נוספים</div>
+              <div className={'filter-trigger-more filter-trigger-container ' + this.state.extraFilterClass}>פילטרים נוספים</div>
             </OverlayTrigger>
           </Col>
           <Col sm={2} lg={2} >
