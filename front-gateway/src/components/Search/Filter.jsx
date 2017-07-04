@@ -421,6 +421,7 @@ class Filter extends Component {
     const neighborhoods = neighborhoodStore.neighborhoodsByCityId.get(cityId) || [];
     const neighborhoodTitle = this.getAreaTitle(neighborhoodId, NEIGHBORHOOD_ALL_OPTION, neighborhoods, 'neighborhood_name');
 
+    const isSearchScrolled = searchStore.lastScrollTop > 0;
     const filterButtonText = this.state.hideFilter ? 'סנן תוצאות' : 'סגור';
     const saveFilterButtonText = searchStore.activeFilterId ? 'עדכן חיפוש' : 'שמור חיפוש';
 
@@ -430,7 +431,7 @@ class Filter extends Component {
           {filterButtonText}
         </Button>
       </div>
-      <Grid fluid className={'filter-wrapper' + (this.state.hideFilter ? ' hide-mobile-filter' : '')}>
+      <Grid fluid className={'filter-wrapper' + (isSearchScrolled ? ' search-scrolled' : '') + (this.state.hideFilter ? ' hide-mobile-filter' : '')}>
         {
           isMobile() && authStore.isLoggedIn && <SavedFilters onFilterChange={this.loadFilter}/>
         }
