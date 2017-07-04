@@ -25,7 +25,9 @@ describe('Filter', () => {
 
     props = {
       appStore: {
-        authStore: {},
+        authStore: {
+          isUserAdmin: jest.fn()
+        },
         cityStore: {
           cities: []
         },
@@ -92,7 +94,7 @@ describe('Filter', () => {
     expect(props.appProviders.searchProvider.resetActiveFilter).toHaveBeenCalled();
   });
 
-  it('should check for login when clicking on save filter', () => {    
+  it('should check for login when clicking on save filter', () => {
     filter();
     saveFilterButton().simulate('click');
     expect(props.appProviders.authProvider.shouldLogin).toHaveBeenCalled();

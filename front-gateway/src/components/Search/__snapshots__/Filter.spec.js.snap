@@ -23,7 +23,9 @@ exports[`Filter should match snapshot in initial state 1`] = `
   }
   appStore={
     Object {
-      "authStore": Object {},
+      "authStore": Object {
+        "isUserAdmin": [Function],
+      },
       "cityStore": Object {
         "cities": Array [],
       },
