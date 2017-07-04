@@ -1,0 +1,18 @@
+{
+  "Document": {
+    "type": "object",
+    "properties": {
+      "listing_id": { "type": "integer" },
+      "provider": { "type": "string" },
+      "provider_file_id": { "type": "string" },
+      "filename": { "type": "string" },
+      "type": { "type": "string" },
+      "size": { "type": "integer" }
+    },
+    "required": [
+      "provider",
+      "provider_file_id",
+      "filename"
+    ]
+  }
+}
