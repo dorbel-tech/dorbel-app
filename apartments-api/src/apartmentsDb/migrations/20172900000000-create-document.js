@@ -18,6 +18,15 @@ module.exports = {
         type: Sequelize.STRING,
         size: Sequelize.INTEGER,
 
+        listing_id: {
+          allowNull: false,
+          type: Sequelize.INTEGER,
+          references: {
+            model: 'listings',
+            key: 'id'
+          }
+        },
+
         created_at: { type: Sequelize.DATE, allowNull: false },
         updated_at: { type: Sequelize.DATE, allowNull: false }
       }

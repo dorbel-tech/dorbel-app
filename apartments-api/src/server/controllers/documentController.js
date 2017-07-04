@@ -8,7 +8,7 @@ function * get() {
 
 function * destroy() {
   const document_id = parseInt(this.params.document_id);
-  yield documentService.destory(document_id, this.request.user);
+  yield documentService.destroy(document_id, this.request.user);
   this.response.status = 204;
 }
 

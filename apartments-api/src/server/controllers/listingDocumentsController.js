@@ -6,7 +6,7 @@ function * post() {
   documentToCreate.listing_id = this.params.listing_id;
 
   this.response.body = yield documentService.create(documentToCreate, this.request.user);
-  this.response.status = 200;
+  this.response.status = 201;
 }
 
 function * get() {

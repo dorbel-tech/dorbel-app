@@ -12,9 +12,7 @@ function define(sequelize, DataTypes) {
     classMethods: {
       associate: models => {
         const options = {
-          foreignKey: {
-            allowNull: false
-          },
+          foreignKey: { allowNull: false },
           onDelete: 'CASCADE'
         };
         models.document.belongsTo(models.listing, options);        
