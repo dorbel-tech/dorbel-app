@@ -191,7 +191,7 @@ class Property extends Component {
               <Row className="property-top-container">
                 <Col md={3} sm={3} xs={4} className="property-image-container">
                   <CloudinaryImage src={imageURL} height={125} className={imageClass}/>
-                  { (isActiveListing || appStore.authStore.isUserAdmin) && <ListingStatusSelector listing={property} /> }
+                  { (isActiveListing || appStore.authStore.isUserAdmin()) && <ListingStatusSelector listing={property} /> }
                 </Col>
                 <Col md={5} sm={6} xs={8} className="property-title-container">
                   <div className={titleClass}>
