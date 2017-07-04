@@ -1,0 +1,30 @@
+@import "../../sharedStyles/variables.scss";
+
+.my-settings-input {
+  padding-bottom: 10px;
+  position: relative;
+
+  .react-toggle {
+    position: absolute;
+  }
+
+  label {
+    color: $gray-light;
+  }
+
+  .checkbox {
+    margin: 0;
+
+    > label > input {
+      opacity: 0;
+    }
+  }
+
+  .form-group {
+    pointer-events: none;
+  }
+
+  .control-label {
+    width: 0;
+  }
+}

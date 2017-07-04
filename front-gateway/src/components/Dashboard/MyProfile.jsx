@@ -6,6 +6,7 @@ import FormWrapper from '~/components/FormWrapper/FormWrapper';
 import SubmitButton from '~/components/SubmitButton/SubmitButton';
 import TenantProfile from '~/components/Tenants/TenantProfile/TenantProfile';
 
+import MySettingsFields from './MyProfile/MySettingsFields';
 import MyProfileFields from './MyProfile/MyProfileFields';
 import MyTenantProfileFields from './MyProfile/MyTenantProfileFields';
 
@@ -17,6 +18,7 @@ class MyProfile extends Component {
     super(props);
     autobind(this);
     this.tabs = [
+      { key: 'settings', title: 'הגדרות', content: MySettingsFields },
       { key: 'me', title: 'פרטי קשר', content: MyProfileFields },
       { key: 'tenant', title: 'פרופיל דייר', content: MyTenantProfileFields }
     ];
