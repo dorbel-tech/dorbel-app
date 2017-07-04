@@ -46,8 +46,11 @@ export default class ListingDetailsForm extends React.Component {
   getNeighborhoodOptions(cityId) {
     const neighborhoodsByCityId = this.props.appStore.neighborhoodStore.neighborhoodsByCityId;
     const neighborhoods = neighborhoodsByCityId.get(cityId);
+    let neighborhoodOptions = [{ value: '', label: 'נא לבחור שכונה' }];
+
     if (neighborhoods) {
-      return neighborhoods.map(neighborhood => ({ value: neighborhood.id, label: neighborhood.neighborhood_name }));
+      neighborhoods.map(neighborhood => (neighborhoodOptions.push({ value: neighborhood.id, label: neighborhood.neighborhood_name })));
+      return neighborhoodOptions;
     } else {
       this.props.appProviders.neighborhoodProvider.loadNeighborhoodByCityId(cityId);
       return [LOADING_OPTIONS_LABEL];
