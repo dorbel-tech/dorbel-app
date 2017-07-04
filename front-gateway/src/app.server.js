@@ -25,8 +25,8 @@ function setRequestRenderState(context, appStore) {
   context.state.optimizely = process.env.OPTIMIZELY_KEY; // optimizely key is not part of env vars but is used when rendering index.ejs
   context.state.hotjar = process.env.HOTJAR_KEY; // hotjar key is not part of env vars but is used when rendering index.ejs
   context.state.meta = _.defaults(appStore.metaData, {
-    title: 'dorbel - מערכת לניהול והשכרת דירות ללא תיווך',
-    description: 'השכרת דירות ללא תיווך. כל הפרטים שחשוב לדעת על הדירות בכדי לחסוך ביקורים מיותרים. בחרו מועד והירשמו לביקור בדירות בלחיצת כפתור.',
+    title: 'dorbel - מערכת לניהול ודירות להשכרה ללא תיווך',
+    description: 'דירות להשכרה ללא תיווך. כל הפרטים שחשוב לדעת על הדירות להשכרה בכדי לחסוך ביקורים מיותרים. בחרו מועד והירשמו לביקור בדירות להשכרה בלחיצת כפתור.',
     image: {
       url: 'https://static.dorbel.com/images/meta/homepage-middle-image.jpg',
       width: 1093,
