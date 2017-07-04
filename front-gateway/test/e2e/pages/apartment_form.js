@@ -28,7 +28,7 @@ module.exports = {
           selector: 'select[name="apartment.building.city.id"]'
         },
         neighbourhood: {
-          selector: 'select[name="apartment.building.neighborhood.id"]'
+          selector: 'select[name="apartment.building.neighborhood.id"] option[value="4"]'
         },
         street: {
           selector: 'input[name="apartment.building.street_name"]'
@@ -199,6 +199,9 @@ module.exports = {
     },
     fillApartmentDetailsAllFields: function () {
       this.section.apartmentDetails
+        .setValue('@city', 'הרצליה')
+        .waitForElementVisible('@neighbourhood')
+        .click('@neighbourhood')
         .setValue('@street', 'בן יהודה')
         .setValue('@houseNumber', common.getMediumRandomNumber())
         .setValue('@apartmentNumber', common.getMediumRandomNumber())
@@ -208,8 +211,6 @@ module.exports = {
         .setValue('@apartmentSize', common.getMediumRandomNumber())
         .setValue('@apartmentRooms', common.getSmallRandomNumber())
         .setValue('@description', 'דירה יפה לבדיקה')
-        .setValue('@city', 'הרצליה')
-        .setValue('@neighbourhood', 'גורדון')
         .click('@parking')
         .click('@elevator')
         .click('@sunHeaterBoiler')
