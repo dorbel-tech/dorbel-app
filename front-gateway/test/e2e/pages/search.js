@@ -7,17 +7,26 @@ module.exports = {
   },
   sections: {
     searchFilter: {
-      selector: '.search-filter-wrapper',
+      selector: '.filter-wrapper',
       elements: {
-        city: {
-          selector: '#cityDropdown'
+        moreFilters: {
+          selector: '.filter-trigger-more'
+        }
+      }
+    },
+    body: {
+      selector: 'body',
+      elements: {
+        listingStatus: {
+          selector: '.filter-show-listing-status'
         }
       }
     }
   },
   commands: [{
-    selectCity: function() {
-      return this.section.searchFilter.getValue('@city');
+    selectmoreFilters: function() {
+      this.section.searchFilter.click('@moreFilters');
+      return this;
     },
   }]
 };
