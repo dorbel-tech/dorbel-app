@@ -40,7 +40,7 @@
     transition: max-height 0.5s;
     width: 100%;
 
-    &.search-scrolled {
+    &.collapse-filter {
       overflow-y: hidden;
       max-height: 70px;
     }

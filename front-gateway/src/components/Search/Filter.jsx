@@ -68,6 +68,7 @@ class Filter extends Component {
   getDefaultState() {
     return Object.assign({
       hideFilter: true,
+      filterHover: false,
       cityFilterClass: this.getCityFilterClass(),
       neighborhoodFilterClass: this.getNeighborhoodFilterClass(),
       extraFilterClass: this.getExtraFilterClass(),
@@ -412,6 +413,14 @@ class Filter extends Component {
            </Popover>;
   }
 
+  mouseEnterHandler() {
+    this.setState({filterHover: true});
+  }
+
+  mouseLeaveHandler() {
+    this.setState({filterHover: false});
+  }
+
   render() {
     const { cityStore, neighborhoodStore, authStore, searchStore } = this.props.appStore;
     const cities = cityStore.cities.length ? cityStore.cities : [];
@@ -421,21 +430,22 @@ class Filter extends Component {
     const neighborhoods = neighborhoodStore.neighborhoodsByCityId.get(cityId) || [];
     const neighborhoodTitle = this.getAreaTitle(neighborhoodId, NEIGHBORHOOD_ALL_OPTION, neighborhoods, 'neighborhood_name');
 
-    const isSearchScrolled = searchStore.lastScrollTop > 0;
+    const collapseFilter = !this.state.filterHover && searchStore.lastScrollTop > 0;
     const filterButtonText = this.state.hideFilter ? 'סנן תוצאות' : 'סגור';
     const saveFilterButtonText = searchStore.activeFilterId ? 'עדכן חיפוש' : 'שמור חיפוש';
 
-    return <div>
+    return <div onMouseEnter={this.mouseEnterHandler}
+                onMouseLeave={this.mouseLeaveHandler}>
       <div className="filter-toggle-container">
         <Button onClick={this.toggleHideFilter}>
           {filterButtonText}
         </Button>
       </div>
-      <Grid fluid className={'filter-wrapper' + (isSearchScrolled ? ' search-scrolled' : '') + (this.state.hideFilter ? ' hide-mobile-filter' : '')}>
+      <Grid fluid className={'filter-wrapper' + (collapseFilter ? ' collapse-filter' : '') + (this.state.hideFilter ? ' hide-mobile-filter' : '')}>
         {
           isMobile() && authStore.isLoggedIn && <SavedFilters onFilterChange={this.loadFilter}/>
         }
-        <Row>          
+        <Row>
           <Col smOffset={0} sm={4} mdOffset={1} md={4} lgOffset={2} className="filter-dropdown-wrapper">
             <DropdownButton id="cityDropdown" bsSize="large" noCaret
               className={'filter-dropdown ' + this.state.cityFilterClass}
