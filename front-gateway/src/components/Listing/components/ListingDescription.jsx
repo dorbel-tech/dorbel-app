@@ -64,6 +64,13 @@ class ListingDescription extends React.Component {
   }
 
   renderMsg() {
+    const { profile } = this.props.appStore.authStore;
+    const { listing } = this.props;
+
+    if (profile && (profile.dorbel_user_id === listing.publishing_user_id)) {
+      return;
+    }
+
     return <Button onClick={this.handleMsgClick}>
              <i className="fa fa-comment" />
              &nbsp;שלח הודעה

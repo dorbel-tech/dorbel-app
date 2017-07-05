@@ -58,7 +58,7 @@ class MessagingProvider {
   // TalkJS user and the newly created TalkJS user using a new TalkJS session.
   getOrStartConversation(withUserObj, options) {
     return global.window.Talk.ready.then(() => {
-      if (this.initTalkSession()) {
+      if (this.initTalkSession() && this.talkUser.id !== withUserObj.id) {
         const withUser = new global.window.Talk.User(_.defaults(withUserObj, TALKJS_USER_OBJ_EXTRA));
 
         const conversation = this.talkSession.getOrStartConversation(withUser, options || {});
