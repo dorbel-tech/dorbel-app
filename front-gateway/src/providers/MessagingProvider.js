@@ -19,18 +19,20 @@ class MessagingProvider {
   // If active user is logged in and an active TalkJS user was not
   // already created, create an active TalkJS user using the logged in user profile.
   initTalkUser() {
-    if (!this.talkUser && this.authStore.isLoggedIn) {
-      this.talkUser = new global.window.Talk.User(_.defaults({
-        id: this.authStore.profile.dorbel_user_id,
-        name: this.authStore.profile.first_name,
-        email: this.authStore.profile.email,
-        photoUrl: this.authStore.profile.picture
-      }, TALKJS_USER_OBJ_EXTRA));
-
-      return true;
+    if (!this.talkUser) {
+      if (this.authStore.isLoggedIn) {
+        this.talkUser = new global.window.Talk.User(_.defaults({
+          id: this.authStore.profile.dorbel_user_id,
+          name: this.authStore.profile.first_name,
+          email: this.authStore.profile.email,
+          photoUrl: this.authStore.profile.picture
+        }, TALKJS_USER_OBJ_EXTRA));
+      } else {
+        return false;
+      }
     }
 
-    return false;
+    return true;
   }
 
   // If an active TalkJS user was created, create a new TalkJS session.
@@ -39,11 +41,13 @@ class MessagingProvider {
       return false;
     }
 
-    this.talkSession = new global.window.Talk.Session({
-      appId: global.window.dorbelConfig.TALKJS_APP_ID,
-      publishableKey: global.window.dorbelConfig.TALKJS_PUBLISHABLE_KEY,
-      me: this.talkUser
-    });
+    if (!this.talkSession) {
+      this.talkSession = new global.window.Talk.Session({
+        appId: global.window.dorbelConfig.TALKJS_APP_ID,
+        publishableKey: global.window.dorbelConfig.TALKJS_PUBLISHABLE_KEY,
+        me: this.talkUser
+      });
+    }
 
     return true;
   }
@@ -70,6 +74,7 @@ class MessagingProvider {
         return popup;
       } else {
         // TODO: Handle edge case by throwing an exception?
+        console.log('getOrStartConversation exception');
       }
     });
   }
@@ -82,6 +87,7 @@ class MessagingProvider {
         inbox.mount(element);
       } else {
         // TODO: Handle edge case by throwing an exception?
+        console.log('createInbox exception');
       }
     });
   }
