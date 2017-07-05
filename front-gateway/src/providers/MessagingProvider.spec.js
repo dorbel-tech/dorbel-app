@@ -33,13 +33,13 @@ describe('Messaging Provider', () => {
       expect(messagingProvider.initTalkUser()).toEqual(false);
     });
 
-    it('should return false if a talkUser is already defined', () => {
+    it('should return true if a talkUser is already defined', () => {
       messagingProvider.talkUser = jest.fn();
 
-      expect(messagingProvider.initTalkUser()).toEqual(false);
+      expect(messagingProvider.initTalkUser()).toEqual(true);
     });
 
-    it('should return true and setup a new talkUser', () => {
+    it('should setup a new talkUser and return true', () => {
       global.window.Talk = {User: jest.fn()};
       authStoreMock.isLoggedIn = true;
       authStoreMock.profile = {
