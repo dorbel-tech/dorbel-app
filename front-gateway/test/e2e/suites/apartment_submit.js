@@ -90,17 +90,21 @@ function submitApartment(browser, uploadMode = 'publish') {
   apartmentForm.props.mode = uploadMode;
   login();
 
-  apartmentForm.navigateToApartmentPicturesSection()
-    .uploadImage()
-    .goFromApartmentPicturesToOpenHouseEvent();
+  apartmentForm.navigateToApartmentPicturesSection();
+
+  // Don't upload image in manage mode to get image thumbnail instead.
+  if (uploadMode === 'publish') {
+    apartmentForm.uploadImage();
+  }
+
+  apartmentForm.goFromApartmentPicturesToOpenHouseEvent();
 
   if (apartmentForm.props.mode == 'publish') {
     apartmentForm.expect.section('@openHouseEvent').to.be.visible;
     apartmentForm.fillOpenHouseEventDetailsAllFields();
   }
 
-  apartmentForm
-    .submitApartment();
+  apartmentForm.submitApartment();
 
   browser.pause(500);
   apartmentForm.expect.section('@successModal').to.be.present;
