@@ -20,7 +20,9 @@ Liana.collection('listings', {
     field: 'listing_url',
     type: 'String',
     value: function (object) {
-      return process.env.FRONT_GATEWAY_URL + 'properties/' + object.apartment_id;
+      return object.getApartments().then((apartment) => {
+        return process.env.FRONT_GATEWAY_URL + 'properties/' + apartment.id;
+      });
     }
   }]
 });
