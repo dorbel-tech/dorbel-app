@@ -73,8 +73,7 @@ class MessagingProvider {
 
         return popup;
       } else {
-        // TODO: Handle edge case by throwing an exception?
-        console.log('getOrStartConversation exception');
+        throw new Error('MessagingProvider.getOrStartConversation');
       }
     });
   }
@@ -86,8 +85,7 @@ class MessagingProvider {
         const inbox = this.talkSession.createInbox();
         inbox.mount(element);
       } else {
-        // TODO: Handle edge case by throwing an exception?
-        console.log('createInbox exception');
+        throw new Error('MessagingProvider.createInbox');
       }
     });
   }
