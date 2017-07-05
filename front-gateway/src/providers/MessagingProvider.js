@@ -61,33 +61,41 @@ class MessagingProvider {
   // Create a TalkJS user and start a conversation between the active
   // TalkJS user and the newly created TalkJS user using a new TalkJS session.
   getOrStartConversation(withUserObj, options) {
-    return global.window.Talk.ready.then(() => {
-      if (this.initTalkSession() && this.talkUser.id !== withUserObj.id) {
-        const withUser = new global.window.Talk.User(_.defaults(withUserObj, TALKJS_USER_OBJ_EXTRA));
+    return global.window.Talk.ready.then(
+      this.getOrStartConversationOnReady.bind(this, withUserObj, options)
+    );
+  }
 
-        const conversation = this.talkSession.getOrStartConversation(withUser, options || {});
-        const popup = this.talkSession.createPopup(conversation);
-        popup.mount();
+  getOrStartConversationOnReady(withUserObj, options) {
+    if (this.initTalkSession() && this.talkUser.id !== withUserObj.id) {
+      const withUser = new global.window.Talk.User(_.defaults(withUserObj, TALKJS_USER_OBJ_EXTRA));
 
-        utils.hideIntercom(true);
+      const conversation = this.talkSession.getOrStartConversation(withUser, options || {});
+      const popup = this.talkSession.createPopup(conversation);
+      popup.mount();
 
-        return popup;
-      } else {
-        throw new Error('MessagingProvider.getOrStartConversation');
-      }
-    });
+      utils.hideIntercom(true);
+
+      return popup;
+    } else {
+      throw new Error('MessagingProvider.getOrStartConversation');
+    }
   }
 
   // Create an inbox for the active TalkJS user using a new TalkJS session.
   createInbox(element) {
-    return global.window.Talk.ready.then(() => {
-      if (this.initTalkSession()) {
-        const inbox = this.talkSession.createInbox();
-        inbox.mount(element);
-      } else {
-        throw new Error('MessagingProvider.createInbox');
-      }
-    });
+    return global.window.Talk.ready.then(
+      this.createInboxOnReady.bind(this, element)
+    );
+  }
+
+  createInboxOnReady(element) {
+    if (this.initTalkSession()) {
+      const inbox = this.talkSession.createInbox();
+      inbox.mount(element);
+    } else {
+      throw new Error('MessagingProvider.createInbox');
+    }
   }
 }
 
