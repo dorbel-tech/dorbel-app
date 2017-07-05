@@ -10,10 +10,10 @@ import MyProperties from './MyProperties';
 
 const MENU_ITEMS = [
   { navTo: 'my-properties', menuText: 'הנכסים שלי', faIconClassName: 'fa-home', component: <MyProperties /> },
-  { navTo: 'my-messages', menuText: 'הודעות', faIconClassName: 'fa-comments', component: <MyMessages /> },
+  { navTo: 'my-messages', menuText: 'הודעות', faIconClassName: 'fa-comments', component: <MyMessages />, hide: !process.env.TALKJS_PUBLISHABLE_KEY },
   { navTo: 'my-likes', menuText: 'דירות שאהבתי', faIconClassName: 'fa-heart', component: <MyLikes /> },
   { navTo: 'my-profile', menuText: 'פרופיל והגדרות', faIconClassName: 'fa-user', component: <MyProfile /> }
-];
+].filter(item => !item.hide);
 
 module.exports = {
   MENU_ITEMS

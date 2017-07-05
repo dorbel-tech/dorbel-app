@@ -64,6 +64,10 @@ class ListingDescription extends React.Component {
   }
 
   renderMsg() {
+    if (!process.env.TALKJS_PUBLISHABLE_KEY) {
+      return;
+    }
+
     const { profile } = this.props.appStore.authStore;
     const { listing } = this.props;
 
