@@ -4,6 +4,7 @@ import { inject, observer } from 'mobx-react';
 import { Nav, Navbar, NavItem } from 'react-bootstrap';
 import isMobileJs from 'ismobilejs';
 import UserProfileBadge from './UserProfileBadge/UserProfileBadge';
+import { hideIntercom } from '~/providers/utils';
 import { MENU_ITEMS } from '../Dashboard/DashboardShared';
 import { SEARCH_PREFIX } from '~/routesHelper';
 import { PROPERTY_SUBMIT_PREFIX } from '~/routesHelper';
@@ -36,14 +37,6 @@ class Header extends Component {
     </NavItem>;
   }
 
-  headerToggleHandler(navExpanded) {
-    const intercomContainer = document.getElementById('intercom-container');
-
-    if (intercomContainer) {
-      intercomContainer.style.display = navExpanded ? 'none' : 'block';
-    }
-  }
-
   componentDidMount() {
     this.mobileMenu = document.getElementsByClassName('navbar-collapse')[0];
     this.mobileMenuToggle = document.getElementsByClassName('navbar-toggle')[0];
@@ -59,7 +52,7 @@ class Header extends Component {
     return (
       <Navbar className="header-navbar"
         collapseOnSelect fixedTop fluid inverse
-        onToggle={this.headerToggleHandler}>
+        onToggle={hideIntercom}>
         <Navbar.Header>
           <Navbar.Brand>
             <a href={externalURL}

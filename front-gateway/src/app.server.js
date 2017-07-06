@@ -79,7 +79,9 @@ function* renderApp() {
     AUTH0_DOMAIN: process.env.AUTH0_DOMAIN,
     CLOUDINARY_PARAMS: getCloudinaryParams(),
     GOOGLE_MAPS_API_KEY: process.env.GOOGLE_MAPS_API_KEY,
-    FRONT_GATEWAY_URL: process.env.FRONT_GATEWAY_URL
+    FRONT_GATEWAY_URL: process.env.FRONT_GATEWAY_URL,
+    TALKJS_APP_ID: process.env.TALKJS_APP_ID,
+    TALKJS_PUBLISHABLE_KEY: process.env.TALKJS_PUBLISHABLE_KEY
   };
 
   const entryPoint = shared.createAppEntryPoint();

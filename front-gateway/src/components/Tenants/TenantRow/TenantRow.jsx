@@ -3,6 +3,7 @@ import autobind from 'react-autobind';
 import { inject } from 'mobx-react';
 import { Col, Row, Image, Dropdown, MenuItem } from 'react-bootstrap';
 import TenantProfile from '~/components/Tenants/TenantProfile/TenantProfile';
+import { hideIntercom } from '~/providers/utils';
 
 import './TenantRow.scss';
 
@@ -13,6 +14,11 @@ export default class TenantRow extends React.Component {
     autobind(this);
   }
 
+  componentWillUnmount() {
+    this.popup && this.popup.destroy();
+    hideIntercom(false);
+  }
+
   static getEmptyTenantList() {
     // used as a placeholder for an empty list
     return [
@@ -20,7 +26,8 @@ export default class TenantRow extends React.Component {
     ];
   }
 
-  showTenantProfileModal(tenant) {
+  showTenantProfileModal() {
+    const { tenant } = this.props;
     if (tenant.disabled) { return; }
 
     this.props.appProviders.modalProvider.showInfoModal({
@@ -29,8 +36,24 @@ export default class TenantRow extends React.Component {
     });
   }
 
-  removeTenant(tenant) {
-    const { appProviders } = this.props;
+  handleMsgClick() {
+    const { tenant, listingTitle } = this.props;
+    const { messagingProvider } = this.props.appProviders;
+
+    const withUserObj = {
+      id: tenant.dorbel_user_id,
+      name: tenant.first_name,
+      email: tenant.email,
+      welcomeMessage: 'באפשרותך לשלוח הודעה לדיירים. במידה והם אינם מחוברים הודעתך תישלח אליהם למייל.'
+    };
+    messagingProvider.getOrStartConversation(withUserObj, {
+      topicId: tenant.listing_id,
+      subject: listingTitle
+    }).then(popup => this.popup = popup);
+  }
+
+  removeTenant() {
+    const { appProviders, tenant } = this.props;
     appProviders.listingsProvider.removeTenant(tenant)
       .then(() => appProviders.notificationProvider.success('הדייר הוסר מרשימת השוכרים הנוכחיים שלך'))
       .catch(appProviders.notificationProvider.error);
@@ -38,20 +61,21 @@ export default class TenantRow extends React.Component {
 
   render() {
     const { tenant, showActionButtons } = this.props;
-    // setting showProfile on the columns separatley so the dropdown menu won't trigger the profile modal
-    const showProfile = () => this.showTenantProfileModal(tenant);
     const facebookClass = tenant.tenant_profile && tenant.tenant_profile.facebook_url ? '' : 'tenant-row-no-facebook';
 
     return (
       <Row className="tenant-row">
-        <Col xs={2} md={this.props.mode == 'responsive' ? 1 : 2} onClick={tenant.disabled ? undefined : showProfile }>
+        <Col xs={2} md={this.props.mode == 'responsive' ? 1 : 2} onClick={this.showTenantProfileModal}>
           <Image className="tenant-row-image" src={tenant.picture} circle />
         </Col>
-        <Col xs={6} md={7} onClick={showProfile}>
+        <Col xs={6} md={7} onClick={this.showTenantProfileModal}>
           <span>{tenant.first_name || 'אנונימי'} {tenant.last_name || ''}</span>
         </Col>
-        <Col xs={2} onClick={showProfile}>
-          <i className={'fa fa-2x fa-facebook-square ' + facebookClass}></i>
+        <Col xs={1}>
+          {!tenant.disabled && <i className={'fa fa-2x fa-facebook-square ' + facebookClass} onClick={this.showTenantProfileModal}></i>}
+        </Col>
+        <Col xs={1}>
+          {!tenant.disabled && process.env.TALKJS_PUBLISHABLE_KEY && <i className="fa fa-comment tenant-row-msg-icon" onClick={this.handleMsgClick}></i>}
         </Col>
         {showActionButtons ?
           <Col xs={2}>
@@ -60,7 +84,7 @@ export default class TenantRow extends React.Component {
                 <i className="fa fa-ellipsis-v" />
               </Dropdown.Toggle>
               <Dropdown.Menu className="dropdown-menu-left">
-                <MenuItem onClick={() => this.removeTenant(tenant)}>הסר דייר</MenuItem>
+                <MenuItem onClick={this.removeTenant}>הסר דייר</MenuItem>
               </Dropdown.Menu>
             </Dropdown>
           </Col>
@@ -79,6 +103,7 @@ TenantRow.defaultProps = {
 TenantRow.propTypes = {
   appProviders: React.PropTypes.object,
   tenant: React.PropTypes.object.isRequired,
+  listingTitle: React.PropTypes.string.isRequired,
   showActionButtons: React.PropTypes.bool,
   mode: React.PropTypes.string
 };

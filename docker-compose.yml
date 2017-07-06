@@ -81,6 +81,8 @@ services:
       OPTIMIZELY_KEY: ${OPTIMIZELY_KEY}
       HOTJAR_KEY: ${HOTJAR_KEY}      
       LOG_LEVEL: ${LOG_LEVEL}
+      TALKJS_APP_ID: ${TALKJS_APP_ID}
+      TALKJS_PUBLISHABLE_KEY: ${TALKJS_PUBLISHABLE_KEY}
 
   notifications-service:
     build:

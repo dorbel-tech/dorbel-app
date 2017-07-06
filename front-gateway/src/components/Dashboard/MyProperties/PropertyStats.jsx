@@ -256,6 +256,7 @@ class PropertyStats extends Component {
 
   renderLikedUsers() {
     const { listing, appStore } = this.props;
+    const listingTitle = utils.getListingTitle(listing);
     const likes = appStore.likeStore.likesByListingId.get(listing.id);
 
     if (!likes) {
@@ -270,7 +271,7 @@ class PropertyStats extends Component {
       <ListGroup>
         { likes.map(like => (
             <ListGroupItem key={like.id} disabled={like.disabled} className="property-manage-tenant-item">
-              <TenantRow tenant={like.user_details} />
+              <TenantRow tenant={like.user_details} listingTitle={listingTitle} />
             </ListGroupItem>
           )) }
       </ListGroup>
