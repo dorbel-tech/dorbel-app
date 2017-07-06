@@ -470,7 +470,7 @@ class Filter extends Component {
           </div>
         </div>
       </div>
-    )
+    );
   }
 
   mouseEnterHandler() {
