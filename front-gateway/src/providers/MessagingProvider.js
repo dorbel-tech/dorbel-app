@@ -11,7 +11,7 @@ class MessagingProvider {
     this.authStore = authStore;
 
     // will only work on client side
-    global.window &&
+    global.window && process.env.TALKJS_PUBLISHABLE_KEY &&
       this.talkjs(global.window, document, []) &&
       this.initTalkSession();
   }
