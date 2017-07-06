@@ -80,7 +80,7 @@ class MonthlyReport extends Component {
     return (
       <Row className="monthly-report-heading">
         <Col xs={9} className="monthly-report-heading-text">
-          <div>{`היי , ${this.authStore.profile.first_name}`}</div>
+          <div>{`היי, ${this.authStore.profile.first_name || ''}`}</div>
           <div>הנה מה שחשוב לדעת על הדירה שלך בחודש האחרון:</div>
         </Col>
         <Col xs={3} className="monthly-report-heading-stamp">
