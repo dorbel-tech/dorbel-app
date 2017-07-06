@@ -99,5 +99,10 @@
     "eventType": "LISTING_EDITED",
     "notificationType": "listing_edited",
     "dataRetrieval": [ "getListingInfo", "getListingOhesAndSendToOheRegisteredUsers", "getUserDetails" ]
+  },
+  {
+    "eventType": "SEND_MONTHLY_REPORT",
+    "notificationType": "send_monthly_report",
+    "dataRetrieval": [ "getMonthlyReportData" ]
   }
 ]

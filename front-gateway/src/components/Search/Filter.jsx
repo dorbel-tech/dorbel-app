@@ -57,7 +57,7 @@ class Filter extends Component {
     // TODO: The active filter should be managed in the search store and not in the component
     props.appProviders.searchProvider.resetActiveFilter();
     try {
-      this.filterObj = JSON.parse(decodeURIComponent(location.search.replace(/^\?q=|.*&q=([^&#]*)&.*/, '$1')));
+      this.filterObj = JSON.parse(decodeURIComponent(location.search.replace(/^\?q=|.*&q=([^&#]*)&.*/, '$1')) || '{}');
     } catch (e) {
       this.filterObj = {};
     }
