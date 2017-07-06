@@ -50,7 +50,6 @@ class App extends Component {
       </div>
     );
   }
-
 }
 
 App.wrappedComponent.propTypes = {
@@ -59,4 +58,3 @@ App.wrappedComponent.propTypes = {
 };
 
 export default App;
-

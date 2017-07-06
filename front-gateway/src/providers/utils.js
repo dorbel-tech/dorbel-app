@@ -124,6 +124,14 @@ function decimalToPercision(decimal, percision) {
   return parseFloat(percisionValueStr, percision);
 }
 
+function hideIntercom(bool) {
+  const intercomContainer = document.getElementById('intercom-container');
+
+  if (intercomContainer) {
+    intercomContainer.style.display = bool ? 'none' : 'block';
+  }
+}
+
 module.exports = {
   formatTime,
   formatDate,
@@ -139,5 +147,6 @@ module.exports = {
   sortListingImages,
   promiseSeries,
   isMobile,
-  flushPromises
+  flushPromises,
+  hideIntercom
 };

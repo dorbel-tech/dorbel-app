@@ -1,6 +1,16 @@
 .tenant-row {
   display: flex;
   align-items: center;
+
+  i {
+    cursor: pointer;
+  }
+
+  .tenant-row-msg-icon {
+    font-size: 16px;
+    margin-bottom: 2px;
+    vertical-align: middle;
+  }
 }
 
 .tenant-row-image {
@@ -9,5 +19,6 @@
 
 .tenant-row-no-facebook {
   color: #979797;
-  font-size: 22px;
+  font-size: 18px;
+  vertical-align: middle;
 }

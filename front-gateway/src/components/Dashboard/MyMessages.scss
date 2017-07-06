@@ -1,0 +1,9 @@
+@import "../sharedStyles/bsvars.scss";
+
+.my-messages-container {
+  padding: 55px 0 20px;
+
+  @media (max-width: $screen-xs-max) {
+    padding: 20px 0;
+  }
+}

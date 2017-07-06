@@ -5,11 +5,14 @@ import PropertyManage from './PropertyManage';
 import TenantRow from '~/components/Tenants/TenantRow/TenantRow';
 import AddTenantModal from '~/components/Tenants/AddTenantModal/AddTenantModal';
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
+import utils from '~/providers/utils';
 
 describe('Property Manage Page', () => {
   let appStoreMock, appProvidersMock, listingMock;
 
   beforeEach(() => {
+    utils.getListingTitle = jest.fn();
+
     appStoreMock = {
       listingStore: {
         listingTenantsById: {

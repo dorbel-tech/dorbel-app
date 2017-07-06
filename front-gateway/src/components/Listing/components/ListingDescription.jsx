@@ -6,13 +6,19 @@ import ListingAmenities from './ListingAmenities.jsx';
 
 @inject('appProviders', 'appStore') @observer
 class ListingDescription extends React.Component {
-
   constructor(props) {
     super(props);
     autobind(this);
     this.state = {
       showPhoneClicked: false
     };
+  }
+
+  componentWillUnmount() {
+    const { utils } = this.props.appProviders;
+
+    this.popup && this.popup.destroy();
+    utils.hideIntercom(false);
   }
 
   renderDescriptionRow(titleText, innerContent) {
@@ -57,14 +63,47 @@ class ListingDescription extends React.Component {
     }
   }
 
+  renderMsg() {
+    if (!process.env.TALKJS_PUBLISHABLE_KEY) {
+      return;
+    }
+
+    const { profile } = this.props.appStore.authStore;
+    const { listing } = this.props;
+
+    if (profile && (profile.dorbel_user_id === listing.publishing_user_id)) {
+      return;
+    }
+
+    return <Button onClick={this.handleMsgClick}>
+             <i className="fa fa-comment" />
+             &nbsp;שלח הודעה
+           </Button>;
+  }
+
   handleShowPhoneClick() {
-    if (this.props.appStore.authStore.isLoggedIn) {
+    if (!this.props.appProviders.authProvider.shouldLogin()) {
       const { listing } = this.props;
       this.setState({ showPhoneClicked: true });
-      window.analytics.track('client_show_phone', { listing_id: listing.id, user_id: listing.publishing_user_id }); // For Facebook conversion tracking.       
+      window.analytics.track('client_show_phone', { listing_id: listing.id, user_id: listing.publishing_user_id }); // For Facebook conversion tracking.
     }
-    else {
-      this.props.appProviders.authProvider.showLoginModal();
+  }
+
+  handleMsgClick() {
+    if (!this.props.appProviders.authProvider.shouldLogin()) {
+      const listing = this.props.listing;
+      const { messagingProvider, utils } = this.props.appProviders;
+
+      const withUserObj = {
+        id: listing.publishing_user_id,
+        name: listing.publishing_user_first_name,
+        email: listing.publishing_user_email,
+        welcomeMessage: 'באפשרותך לשלוח הודעה לבעל הדירה. במידה והוא אינו מחובר הודעתך תישלח אליו למייל.'
+      };
+      messagingProvider.getOrStartConversation(withUserObj, {
+        topicId: listing.listing_id,
+        subject: utils.getListingTitle(listing)
+      }).then(popup => this.popup = popup);
     }
   }
 
@@ -91,6 +130,7 @@ class ListingDescription extends React.Component {
             <div>
               <p>{listing.publishing_user_first_name || 'אנונימי'}</p>
               {this.renderPhone(listing)}
+              {this.renderMsg()}
             </div>
           )
         }
