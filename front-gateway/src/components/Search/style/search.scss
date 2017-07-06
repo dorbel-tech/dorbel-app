@@ -5,11 +5,11 @@
 
   .search-results-not-found,
   .search-results-scroll {
-    padding: 39px 0 120px;
+    padding: 95px 0 0;
 
     @media (max-width: $screen-xs-max) {
       margin-top: 0;
-      padding: 20px 0 0;
+      padding: 20px 0 70px;
     }
   }
 
