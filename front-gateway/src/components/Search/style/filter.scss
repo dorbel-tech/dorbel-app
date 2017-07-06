@@ -25,6 +25,8 @@
   background-color: $brand-white;
   z-index: 1;
 
+  @include box-shadow(0 2px 10px 0 rgba(0, 0, 0, 0.2));
+
   @media (max-width: $screen-xs-max) {
     padding: 24px 15px 0;
     position: relative;
