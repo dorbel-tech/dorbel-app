@@ -10,6 +10,8 @@ describe('Messaging Provider', () => {
   beforeEach(() => {
     authStoreMock = {};
 
+    process.env.TALKJS_PUBLISHABLE_KEY = 'mockTalkJSPublishableKey';
+
     messagingProvider = new MessagingProvider(authStoreMock);
   });
 

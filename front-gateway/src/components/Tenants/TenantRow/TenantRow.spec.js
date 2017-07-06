@@ -10,6 +10,8 @@ describe('Tenant Row', () => {
   let appProvidersMock;
 
   beforeEach(() => {
+    process.env.TALKJS_PUBLISHABLE_KEY = 'mockTalkJSPublishableKey';
+
     appProvidersMock = {
       modalProvider: {
         showInfoModal: jest.fn()
