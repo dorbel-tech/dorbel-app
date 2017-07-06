@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import autobind from 'react-autobind';
-import { Button, Checkbox, OverlayTrigger, Popover, Col, DropdownButton, Grid, MenuItem, Row } from 'react-bootstrap';
+import { Collapse, Button, Checkbox, OverlayTrigger, Popover, Col, DropdownButton, Grid, MenuItem, Row } from 'react-bootstrap';
 import { inject, observer } from 'mobx-react';
 import Nouislider from 'react-nouislider';
 import { range } from 'lodash';
@@ -413,68 +413,13 @@ class Filter extends Component {
            </Popover>;
   }
 
-  mouseEnterHandler() {
-    this.setState({expandFilter: true});
-  }
+  renderCollapseContent() {
+    const { authStore, searchStore } = this.props.appStore;
 
-  mouseLeaveHandler() {
-    this.setState({expandFilter: false});
-  }
-
-  render() {
-    const { cityStore, neighborhoodStore, authStore, searchStore } = this.props.appStore;
-    const cities = cityStore.cities.length ? cityStore.cities : [];
-    const cityId = this.filterObj.city || DEFAULT_FILTER_PARAMS.city;
-    const cityTitle = this.getAreaTitle(cityId, CITY_ALL_OPTION, cities, 'city_name');
-    const neighborhoodId = this.filterObj.neighborhood || DEFAULT_FILTER_PARAMS.neighborhood;
-    const neighborhoods = neighborhoodStore.neighborhoodsByCityId.get(cityId) || [];
-    const neighborhoodTitle = this.getAreaTitle(neighborhoodId, NEIGHBORHOOD_ALL_OPTION, neighborhoods, 'neighborhood_name');
-
-    const filterButtonText = this.state.hideFilter ? 'סנן תוצאות' : 'סגור';
     const saveFilterButtonText = searchStore.activeFilterId ? 'עדכן חיפוש' : 'שמור חיפוש';
 
-    return <div onMouseEnter={this.mouseEnterHandler}
-                onMouseLeave={this.mouseLeaveHandler}>
-      <div className="filter-toggle-container">
-        <Button onClick={this.toggleHideFilter}>
-          {filterButtonText}
-        </Button>
-      </div>
-      <Grid fluid className={'filter-wrapper' + (this.state.expandFilter ? ' expand-filter' : '') + (this.state.hideFilter ? ' hide-mobile-filter' : '')}>
-        {
-          isMobile() && authStore.isLoggedIn && <SavedFilters onFilterChange={this.loadFilter}/>
-        }
-        <Row>
-          <Col smOffset={0} sm={4} mdOffset={1} md={4} lgOffset={2} className="filter-dropdown-wrapper">
-            <DropdownButton id="cityDropdown" bsSize="large" noCaret
-              className={'filter-dropdown ' + this.state.cityFilterClass}
-              title={'עיר: ' + cityTitle}
-              onSelect={this.citySelectHandler}>
-              <MenuItem eventKey={'*'}>כל הערים</MenuItem>
-              {cities.map(city => <MenuItem key={city.id} eventKey={city.id}>{city.city_name}</MenuItem>)}
-            </DropdownButton>
-          </Col>
-          <Col sm={3} lg={2} className="filter-dropdown-wrapper">
-            <DropdownButton id="neighborhoodDropdown" bsSize="large" noCaret
-              className={'filter-dropdown ' + this.state.neighborhoodFilterClass}
-              title={'שכונה: ' + neighborhoodTitle}
-              onSelect={this.neighborhoodSelectHandler}>
-              <MenuItem eventKey={NEIGHBORHOOD_ALL_OPTION.value}>{NEIGHBORHOOD_ALL_OPTION.label}</MenuItem>
-              {neighborhoods.map(neighborhood => <MenuItem key={neighborhood.id} eventKey={neighborhood.id}>{neighborhood.neighborhood_name}</MenuItem>)}
-            </DropdownButton>
-          </Col>
-          <Col sm={5} md={4} xsHidden>
-            <span data-tip="חדש! תכננו את מעבר הדירה הבא! מעכשיו תוכלו לגלות דירות מושכרות, לעקוב אחריהן ולהיות הראשונים לדעת כשהן מתפנות">
-              <Checkbox name="futureBooking" className="filter-future-booking-switch"
-                        checked={this.state.futureBooking} onChange={e => this.checkboxChangeHandler(e, true)}>
-                הראו לי דירות שטרם פורסמו
-              </Checkbox>
-              <span className="filter-future-booking-new">חדש!</span>
-            </span>
-            <ReactTooltip type="dark" effect="solid" place="bottom"
-                          offset={NEW_TIP_OFFSET} className="filter-future-booking-tooltip"/>
-          </Col>
-        </Row>
+    return (
+      <div>
         <Row>
           <Col sm={2} smOffset={0} mdOffset={1} lgOffset={2} lg={1}>
             <OverlayTrigger placement="bottom" trigger="click" rootClose
@@ -524,6 +469,78 @@ class Filter extends Component {
             סנן וסגור
           </div>
         </div>
+      </div>
+    )
+  }
+
+  mouseEnterHandler() {
+    this.setState({expandFilter: true});
+  }
+
+  mouseLeaveHandler() {
+    this.setState({expandFilter: false});
+  }
+
+  render() {
+    const { cityStore, neighborhoodStore, authStore } = this.props.appStore;
+    const cities = cityStore.cities.length ? cityStore.cities : [];
+    const cityId = this.filterObj.city || DEFAULT_FILTER_PARAMS.city;
+    const cityTitle = this.getAreaTitle(cityId, CITY_ALL_OPTION, cities, 'city_name');
+    const neighborhoodId = this.filterObj.neighborhood || DEFAULT_FILTER_PARAMS.neighborhood;
+    const neighborhoods = neighborhoodStore.neighborhoodsByCityId.get(cityId) || [];
+    const neighborhoodTitle = this.getAreaTitle(neighborhoodId, NEIGHBORHOOD_ALL_OPTION, neighborhoods, 'neighborhood_name');
+
+    const filterButtonText = this.state.hideFilter ? 'סנן תוצאות' : 'סגור';
+
+    return <div onMouseEnter={this.mouseEnterHandler}
+                onMouseLeave={this.mouseLeaveHandler}>
+      <div className="filter-toggle-container">
+        <Button onClick={this.toggleHideFilter}>
+          {filterButtonText}
+        </Button>
+      </div>
+      <Grid fluid className={'filter-wrapper' + (this.state.hideFilter ? ' hide-mobile-filter' : '')}>
+        {
+          isMobile() && authStore.isLoggedIn && <SavedFilters onFilterChange={this.loadFilter}/>
+        }
+        <Row>
+          <Col smOffset={0} sm={4} mdOffset={1} md={4} lgOffset={2} className="filter-dropdown-wrapper">
+            <DropdownButton id="cityDropdown" bsSize="large" noCaret
+              className={'filter-dropdown ' + this.state.cityFilterClass}
+              title={'עיר: ' + cityTitle}
+              onSelect={this.citySelectHandler}>
+              <MenuItem eventKey={'*'}>כל הערים</MenuItem>
+              {cities.map(city => <MenuItem key={city.id} eventKey={city.id}>{city.city_name}</MenuItem>)}
+            </DropdownButton>
+          </Col>
+          <Col sm={3} lg={2} className="filter-dropdown-wrapper">
+            <DropdownButton id="neighborhoodDropdown" bsSize="large" noCaret
+              className={'filter-dropdown ' + this.state.neighborhoodFilterClass}
+              title={'שכונה: ' + neighborhoodTitle}
+              onSelect={this.neighborhoodSelectHandler}>
+              <MenuItem eventKey={NEIGHBORHOOD_ALL_OPTION.value}>{NEIGHBORHOOD_ALL_OPTION.label}</MenuItem>
+              {neighborhoods.map(neighborhood => <MenuItem key={neighborhood.id} eventKey={neighborhood.id}>{neighborhood.neighborhood_name}</MenuItem>)}
+            </DropdownButton>
+          </Col>
+          <Col sm={5} md={4} xsHidden>
+            <span data-tip="חדש! תכננו את מעבר הדירה הבא! מעכשיו תוכלו לגלות דירות מושכרות, לעקוב אחריהן ולהיות הראשונים לדעת כשהן מתפנות">
+              <Checkbox name="futureBooking" className="filter-future-booking-switch"
+                        checked={this.state.futureBooking} onChange={e => this.checkboxChangeHandler(e, true)}>
+                הראו לי דירות שטרם פורסמו
+              </Checkbox>
+              <span className="filter-future-booking-new">חדש!</span>
+            </span>
+            <ReactTooltip type="dark" effect="solid" place="bottom"
+                          offset={NEW_TIP_OFFSET} className="filter-future-booking-tooltip"/>
+          </Col>
+        </Row>
+        {
+          isMobile() ?
+            this.renderCollapseContent() :
+            <Collapse in={this.state.expandFilter}>
+              {this.renderCollapseContent()}
+            </Collapse>
+        }
       </Grid>
     </div>;
   }
