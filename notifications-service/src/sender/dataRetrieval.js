@@ -150,13 +150,18 @@ const dataRetrievalFunctions = {
   getMonthlyReportData: eventData => {
     return getListingInfo(eventData.listing_id)
       .then(listingInfo => {
+        const { day, month, year } = eventData;
+        const reportDate = moment({ year: year, month: month - 1, date: day }); // month -1 because of zero based month system
         return {
           listing_id: eventData.listing_id,
           publishing_user_first_name: listingInfo.publishing_user_first_name,
           street_name: listingInfo.apartment.building.street_name,
           house_number: listingInfo.apartment.building.house_number,
           apt_number: listingInfo.apartment.apt_number,
-          months_to_lease_end: moment(listingInfo.lease_end).diff(moment(eventData.date), 'months')
+          months_to_lease_end: moment(listingInfo.lease_end).diff(moment(reportDate), 'months'),
+          day,
+          month,
+          year
         };
       });
   },
