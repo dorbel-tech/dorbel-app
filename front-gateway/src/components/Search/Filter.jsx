@@ -534,6 +534,7 @@ class Filter extends Component {
                           offset={NEW_TIP_OFFSET} className="filter-future-booking-tooltip"/>
           </Col>
         </Row>
+        <Row className={'filter-collapse-handle' + (this.state.expandFilter ? ' filter-collapse-handle-hidden' : '')} xsHidden></Row>
         {
           isMobile() ?
             this.renderCollapseContent() :

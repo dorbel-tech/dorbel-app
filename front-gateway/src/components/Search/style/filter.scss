@@ -37,9 +37,24 @@
   }
 
   @media (min-width: $screen-sm-min) {
-    padding: 20px 15px;
+    padding: 20px 15px 6px;
     position: absolute;
     width: 100%;
+  }
+}
+
+.filter-collapse-handle {
+  border-bottom: 1px solid #cecece;
+  border-top: 1px solid #cecece;
+  height: 4px;
+  margin: 0 auto;
+  opacity: 1;
+  transition: opacity 1s;
+  width: 60px;
+
+  &.filter-collapse-handle-hidden {
+    opacity: 0;
+    transition: opacity 0s;
   }
 }
 
