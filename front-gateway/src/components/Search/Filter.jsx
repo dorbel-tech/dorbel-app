@@ -69,6 +69,7 @@ class Filter extends Component {
     return Object.assign({
       hideFilter: true,
       expandFilter: false,
+      subFilterOpen: false,
       cityFilterClass: this.getCityFilterClass(),
       neighborhoodFilterClass: this.getNeighborhoodFilterClass(),
       extraFilterClass: this.getExtraFilterClass(),
@@ -423,24 +424,33 @@ class Filter extends Component {
         <Row>
           <Col sm={2} smOffset={0} mdOffset={1}>
             <OverlayTrigger placement="bottom" trigger="click" rootClose
-                            overlay={this.roomsPopup()}>
+                            overlay={this.roomsPopup()}
+                            onEntered={this.subFilterEntered}
+                            onExit={this.subFilterExit}>
               <div className={'filter-trigger-container ' + this.state.roomsFilterClass}>חדרים</div>
             </OverlayTrigger>
           </Col>
           <Col sm={2}>
             <OverlayTrigger placement="bottom" trigger="click" rootClose
-                            overlay={this.mrPopup()}>
+                            overlay={this.mrPopup()}
+                            onEntered={this.subFilterEntered}
+                            onExit={this.subFilterExit}>
               <div className={'filter-trigger-container ' + this.state.mrFilterClass}>מחיר</div>
             </OverlayTrigger>
           </Col>
           <Col sm={3} md={2}>
-            <OverlayTrigger placement="bottom" trigger="click" rootClose overlay={this.leaseStartPopup()}>
+            <OverlayTrigger placement="bottom" trigger="click" rootClose
+                            overlay={this.leaseStartPopup()}
+                            onEntered={this.subFilterEntered}
+                            onExit={this.subFilterExit}>
               <div className={'filter-trigger-container ' + this.state.leaseStartFilterClass}>תאריך כניסה</div>
             </OverlayTrigger>
           </Col>
           <Col sm={3} md={2}>
             <OverlayTrigger placement="bottom" trigger="click" rootClose
-                            overlay={this.extraPopup()}>
+                            overlay={this.extraPopup()}
+                            onEntered={this.subFilterEntered}
+                            onExit={this.subFilterExit}>
               <div className={'filter-trigger-more filter-trigger-container ' + this.state.extraFilterClass}>פילטרים נוספים</div>
             </OverlayTrigger>
           </Col>
@@ -473,6 +483,14 @@ class Filter extends Component {
     );
   }
 
+  subFilterEntered() {
+    this.setState({subFilterOpen: true});
+  }
+
+  subFilterExit() {
+    this.setState({subFilterOpen: false});
+  }
+
   mouseEnterHandler() {
     this.setState({expandFilter: true});
   }
@@ -491,6 +509,7 @@ class Filter extends Component {
     const neighborhoodTitle = this.getAreaTitle(neighborhoodId, NEIGHBORHOOD_ALL_OPTION, neighborhoods, 'neighborhood_name');
 
     const filterButtonText = this.state.hideFilter ? 'סנן תוצאות' : 'סגור';
+    const filterExpanded = this.state.expandFilter || this.state.subFilterOpen;
 
     return <div onMouseEnter={this.mouseEnterHandler}
                 onMouseLeave={this.mouseLeaveHandler}>
@@ -499,7 +518,7 @@ class Filter extends Component {
           {filterButtonText}
         </Button>
       </div>
-      <Grid fluid className={'filter-wrapper' + (this.state.hideFilter ? ' hide-mobile-filter' : '') + (this.state.expandFilter ? '' : ' filter-wrapper-collapse')}>
+      <Grid fluid className={'filter-wrapper' + (this.state.hideFilter ? ' hide-mobile-filter' : '') + (filterExpanded ? '' : ' filter-wrapper-collapse')}>
         {
           isMobile() && authStore.isLoggedIn && <SavedFilters onFilterChange={this.loadFilter}/>
         }
@@ -534,11 +553,11 @@ class Filter extends Component {
                           offset={NEW_TIP_OFFSET} className="filter-future-booking-tooltip"/>
           </Col>
         </Row>
-        {!isMobile() && <div className={'filter-collapse-handle' + (this.state.expandFilter ? ' filter-collapse-handle-hidden' : '')}></div>}
+        {!isMobile() && <div className={'filter-collapse-handle' + (filterExpanded ? ' filter-collapse-handle-hidden' : '')}></div>}
         {
           isMobile() ?
             this.renderCollapseContent() :
-            <Collapse in={this.state.expandFilter}>
+            <Collapse in={filterExpanded}>
               {this.renderCollapseContent()}
             </Collapse>
         }
