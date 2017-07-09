@@ -169,7 +169,7 @@ class LeaseStats extends Component {
                   נותר לתשלום
                   </div>
                 <div className="content">
-                  {this.formatMoneyValue(totalRentExpected)}
+                  {this.formatMoneyValue(totalRentExpected - ((currentMonthIndex + 1) * listing.monthly_rent))}
                 </div>
               </div>
               <div className="lease-stats-details-income-paid">
