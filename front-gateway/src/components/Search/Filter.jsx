@@ -421,13 +421,13 @@ class Filter extends Component {
     return (
       <div>
         <Row>
-          <Col sm={2} smOffset={0} mdOffset={1} lgOffset={2} lg={1}>
+          <Col sm={2} smOffset={0} mdOffset={1}>
             <OverlayTrigger placement="bottom" trigger="click" rootClose
                             overlay={this.roomsPopup()}>
               <div className={'filter-trigger-container ' + this.state.roomsFilterClass}>חדרים</div>
             </OverlayTrigger>
           </Col>
-          <Col sm={2} lg={1}>
+          <Col sm={2}>
             <OverlayTrigger placement="bottom" trigger="click" rootClose
                             overlay={this.mrPopup()}>
               <div className={'filter-trigger-container ' + this.state.mrFilterClass}>מחיר</div>
@@ -444,7 +444,7 @@ class Filter extends Component {
               <div className={'filter-trigger-more filter-trigger-container ' + this.state.extraFilterClass}>פילטרים נוספים</div>
             </OverlayTrigger>
           </Col>
-          <Col sm={2} lg={2} >
+          <Col sm={2} >
             <Button id="saveFilterButton" className="filter-save"
                     block bsStyle="info" onClick={this.saveFilter}>
               {saveFilterButtonText}
@@ -504,7 +504,7 @@ class Filter extends Component {
           isMobile() && authStore.isLoggedIn && <SavedFilters onFilterChange={this.loadFilter}/>
         }
         <Row>
-          <Col smOffset={0} sm={4} mdOffset={1} md={4} lgOffset={2} className="filter-dropdown-wrapper">
+          <Col smOffset={0} sm={4} mdOffset={1} md={4} className="filter-dropdown-wrapper">
             <DropdownButton id="cityDropdown" bsSize="large" noCaret
               className={'filter-dropdown ' + this.state.cityFilterClass}
               title={'עיר: ' + cityTitle}
@@ -513,7 +513,7 @@ class Filter extends Component {
               {cities.map(city => <MenuItem key={city.id} eventKey={city.id}>{city.city_name}</MenuItem>)}
             </DropdownButton>
           </Col>
-          <Col sm={3} lg={2} className="filter-dropdown-wrapper">
+          <Col sm={3} className="filter-dropdown-wrapper">
             <DropdownButton id="neighborhoodDropdown" bsSize="large" noCaret
               className={'filter-dropdown ' + this.state.neighborhoodFilterClass}
               title={'שכונה: ' + neighborhoodTitle}
