@@ -484,22 +484,18 @@ class Filter extends Component {
   }
 
   subFilterEnter() {
-    console.log('subFilterEnter');
     this.setState({subFilterOpen: true});
   }
 
   subFilterExit() {
-    console.log('subFilterExit');
     this.setState({subFilterOpen: false});
   }
 
   mouseEnterHandler() {
-    console.log('mouseEnterHandler');
     this.setState({expandFilter: true});
   }
 
   mouseLeaveHandler() {
-    console.log('mouseLeaveHandler');
     this.setState({expandFilter: false});
   }
 
