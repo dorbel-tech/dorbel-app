@@ -53,9 +53,10 @@ describe('Tenant Row', () => {
     });
 
     it('should destroy popup and show intercom on unmount', () => {
+      const tenant = { first_name: faker.name.firstName(), email: faker.internet.email() };
       popupMock.destroy = jest.fn();
       utils.hideIntercom = jest.fn();
-      const wrapper = tenantRow({});
+      const wrapper = tenantRow(tenant);
       wrapper.find('.tenant-row-msg-icon').simulate('click');
 
       utils.flushPromises().then(() => {
