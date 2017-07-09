@@ -425,7 +425,7 @@ class Filter extends Component {
           <Col sm={2} smOffset={0} mdOffset={1}>
             <OverlayTrigger placement="bottom" trigger="click" rootClose
                             overlay={this.roomsPopup()}
-                            onEnter={this.subFilterEnter}
+                            onEntered={this.subFilterEntered}
                             onExit={this.subFilterExit}>
               <div className={'filter-trigger-container ' + this.state.roomsFilterClass}>חדרים</div>
             </OverlayTrigger>
@@ -433,7 +433,7 @@ class Filter extends Component {
           <Col sm={2}>
             <OverlayTrigger placement="bottom" trigger="click" rootClose
                             overlay={this.mrPopup()}
-                            onEnter={this.subFilterEnter}
+                            onEntered={this.subFilterEntered}
                             onExit={this.subFilterExit}>
               <div className={'filter-trigger-container ' + this.state.mrFilterClass}>מחיר</div>
             </OverlayTrigger>
@@ -441,7 +441,7 @@ class Filter extends Component {
           <Col sm={3} md={2}>
             <OverlayTrigger placement="bottom" trigger="click" rootClose
                             overlay={this.leaseStartPopup()}
-                            onEnter={this.subFilterEnter}
+                            onEntered={this.subFilterEntered}
                             onExit={this.subFilterExit}>
               <div className={'filter-trigger-container ' + this.state.leaseStartFilterClass}>תאריך כניסה</div>
             </OverlayTrigger>
@@ -449,7 +449,7 @@ class Filter extends Component {
           <Col sm={3} md={2}>
             <OverlayTrigger placement="bottom" trigger="click" rootClose
                             overlay={this.extraPopup()}
-                            onEnter={this.subFilterEnter}
+                            onEntered={this.subFilterEntered}
                             onExit={this.subFilterExit}>
               <div className={'filter-trigger-more filter-trigger-container ' + this.state.extraFilterClass}>פילטרים נוספים</div>
             </OverlayTrigger>
@@ -483,11 +483,13 @@ class Filter extends Component {
     );
   }
 
-  subFilterEnter() {
+  subFilterEntered() {
     this.setState({subFilterOpen: true});
+    console.log('enter');
   }
 
   subFilterExit() {
+    console.log('exit');
     this.setState({subFilterOpen: false});
   }
 
