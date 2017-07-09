@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import Filter from './Filter.jsx';
 import SearchResults from '~/components/Search/SearchResults';
-import { SEARCH_PREFIX } from '~/routesHelper';
 
 import './Search.scss';
 
@@ -24,12 +23,12 @@ class Search extends Component {
         <Filter />
         <SearchResults
           isReady={!isLoadingCities}
-          retryLink={<span>אנא <a href={SEARCH_PREFIX}>נסו שנית</a></span>}
+          retryLink={<span></span>}
           noResultsContent={
             <div className="search-results-not-found">
-              <b className="search-results-not-found-title">הלוואי והייתה לנו דירה בדיוק כזו.</b><br />
-              כנראה שהייתם ספציפיים מדי - לא נמצאו דירות לחיפוש זה.<br />
-              נסו לשנות את הגדרות החיפוש
+              <b className="search-results-not-found-title">רוצים לקבל עדכון כשתעלה הדירה שחיפשתם?</b><br />
+             לא נמצאו דירות פנויות שתואמות את החיפוש שלכם.<br />
+             באפשרותכם לשמור את החיפוש ולקבל הודעה למייל על דירות חדשות, ברגע שהן יעלו לאתר.
             </div>
           }
         />
