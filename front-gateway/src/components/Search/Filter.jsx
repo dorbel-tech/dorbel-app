@@ -499,7 +499,7 @@ class Filter extends Component {
           {filterButtonText}
         </Button>
       </div>
-      <Grid fluid className={'filter-wrapper' + (this.state.hideFilter ? ' hide-mobile-filter' : '')}>
+      <Grid fluid className={'filter-wrapper' + (this.state.hideFilter ? ' hide-mobile-filter' : '') + (this.state.expandFilter ? '' : ' filter-wrapper-collapse')}>
         {
           isMobile() && authStore.isLoggedIn && <SavedFilters onFilterChange={this.loadFilter}/>
         }
@@ -534,7 +534,7 @@ class Filter extends Component {
                           offset={NEW_TIP_OFFSET} className="filter-future-booking-tooltip"/>
           </Col>
         </Row>
-        <Row className={'filter-collapse-handle' + (this.state.expandFilter ? ' filter-collapse-handle-hidden' : '')} xsHidden></Row>
+        {!isMobile() && <div className={'filter-collapse-handle' + (this.state.expandFilter ? ' filter-collapse-handle-hidden' : '')}></div>}
         {
           isMobile() ?
             this.renderCollapseContent() :
