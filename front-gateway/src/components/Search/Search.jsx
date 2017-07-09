@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import Filter from './Filter.jsx';
 import SearchResults from '~/components/Search/SearchResults';
-import { SEARCH_PREFIX } from '~/routesHelper';
 
 import './Search.scss';
 
