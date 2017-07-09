@@ -485,11 +485,9 @@ class Filter extends Component {
 
   subFilterEntered() {
     this.setState({subFilterOpen: true});
-    console.log('enter');
   }
 
   subFilterExit() {
-    console.log('exit');
     this.setState({subFilterOpen: false});
   }
 
