@@ -60,7 +60,7 @@ export default class TenantRow extends React.Component {
   }
 
   render() {
-    const { tenant, showActionButtons } = this.props;
+    const { tenant, showActionButtons, listingTitle } = this.props;
     const facebookClass = tenant.tenant_profile && tenant.tenant_profile.facebook_url ? '' : 'tenant-row-no-facebook';
 
     return (
@@ -75,7 +75,8 @@ export default class TenantRow extends React.Component {
           {!tenant.disabled && <i className={'fa fa-2x fa-facebook-square ' + facebookClass} onClick={this.showTenantProfileModal}></i>}
         </Col>
         <Col xs={1}>
-          {!tenant.disabled && process.env.TALKJS_PUBLISHABLE_KEY && <i className="fa fa-comment tenant-row-msg-icon" onClick={this.handleMsgClick}></i>}
+          {!tenant.disabled && process.env.TALKJS_PUBLISHABLE_KEY && listingTitle &&
+            <i className="fa fa-comment tenant-row-msg-icon" onClick={this.handleMsgClick}></i>}
         </Col>
         {showActionButtons ?
           <Col xs={2}>
@@ -103,7 +104,7 @@ TenantRow.defaultProps = {
 TenantRow.propTypes = {
   appProviders: React.PropTypes.object,
   tenant: React.PropTypes.object.isRequired,
-  listingTitle: React.PropTypes.string.isRequired,
+  listingTitle: React.PropTypes.string,
   showActionButtons: React.PropTypes.bool,
   mode: React.PropTypes.string
 };
