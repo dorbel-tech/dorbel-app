@@ -1,7 +1,7 @@
 'use strict';
 
 import _ from 'lodash';
-import utils from './utils';
+import { getUserNickname, hideIntercom } from '~/providers/utils';
 
 const TALKJS_USER_OBJ_EXTRA = {configuration: 'general'};
 
@@ -22,11 +22,10 @@ class MessagingProvider {
     if (!this.talkUser) {
       if (this.authStore.isLoggedIn) {
         const profile = this.authStore.profile;
-        const talkName = profile.first_name || profile.email.substring(0, profile.email.lastIndexOf('@'));
 
         this.talkUser = new global.window.Talk.User(_.defaults({
           id: profile.dorbel_user_id,
-          name: talkName,
+          name: getUserNickname(profile),
           email: profile.email,
           photoUrl: profile.picture
         }, TALKJS_USER_OBJ_EXTRA));
@@ -77,7 +76,7 @@ class MessagingProvider {
       const popup = this.talkSession.createPopup(conversation);
       popup.mount();
 
-      utils.hideIntercom(true);
+      hideIntercom(true);
 
       return popup;
     } else {
