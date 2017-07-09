@@ -27,7 +27,7 @@ class Search extends Component {
           retryLink={<span></span>}
           noResultsContent={
             <div className="search-results-not-found">
-              <b className="search-results-not-found-title">קבלו עדכונים על הדירות שאתם מחפשים!</b><br />
+              <b className="search-results-not-found-title">רוצים לקבל עדכון כשתעלה הדירה שחיפשתם?</b><br />
              לא נמצאו דירות פנויות שתואמות את החיפוש שלכם.<br />
              באפשרותכם לשמור את החיפוש ולקבל הודעה למייל על דירות חדשות, ברגע שהן יעלו לאתר.
             </div>
