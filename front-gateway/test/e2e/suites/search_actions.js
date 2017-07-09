@@ -22,7 +22,7 @@ module.exports = {
   'guest user should see no admin listing status controls': function (browser) {
     search
       .navigate()
-      .selectmoreFilters()
+      .selectMoreFilters()
       .section.body.assert.elementNotPresent('@listingStatus');
     browser.end();
   },
@@ -30,7 +30,7 @@ module.exports = {
     login('landlord');
     search
       .navigate()
-      .selectmoreFilters()
+      .selectMoreFilters()
       .section.body.assert.elementNotPresent('@listingStatus');
     logout();
     browser.end();
@@ -39,7 +39,7 @@ module.exports = {
     login('admin');
     search
       .navigate()
-      .selectmoreFilters()
+      .selectMoreFilters()
       .section.body.assert.elementPresent('@listingStatus');
     logout();
     browser.end();

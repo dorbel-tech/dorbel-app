@@ -9,6 +9,7 @@ module.exports = {
     searchFilter: {
       selector: '.filter-wrapper',
       elements: {
+        visibleRow: {selector: '.row'},
         moreFilters: {
           selector: '.filter-trigger-more'
         }
@@ -24,7 +25,8 @@ module.exports = {
     }
   },
   commands: [{
-    selectmoreFilters: function() {
+    selectMoreFilters: function() {
+      this.section.searchFilter.click('@visibleRow');
       this.section.searchFilter.click('@moreFilters');
       return this;
     },
