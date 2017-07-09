@@ -21,11 +21,14 @@ class MessagingProvider {
   initTalkUser() {
     if (!this.talkUser) {
       if (this.authStore.isLoggedIn) {
+        const profile = this.authStore.profile;
+        const talkName = profile.first_name || profile.email.substring(0, profile.email.lastIndexOf('@'));
+
         this.talkUser = new global.window.Talk.User(_.defaults({
-          id: this.authStore.profile.dorbel_user_id,
-          name: this.authStore.profile.first_name,
-          email: this.authStore.profile.email,
-          photoUrl: this.authStore.profile.picture
+          id: profile.dorbel_user_id,
+          name: talkName,
+          email: profile.email,
+          photoUrl: profile.picture
         }, TALKJS_USER_OBJ_EXTRA));
       } else {
         return false;

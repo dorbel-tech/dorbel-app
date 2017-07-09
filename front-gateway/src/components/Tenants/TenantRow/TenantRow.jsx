@@ -39,10 +39,11 @@ export default class TenantRow extends React.Component {
   handleMsgClick() {
     const { tenant, listingTitle } = this.props;
     const { messagingProvider } = this.props.appProviders;
+    const talkName = tenant.first_name || tenant.email.substring(0, tenant.email.lastIndexOf('@'));
 
     const withUserObj = {
       id: tenant.dorbel_user_id,
-      name: tenant.first_name,
+      name: talkName,
       email: tenant.email,
       welcomeMessage: 'באפשרותך לשלוח הודעה לדיירים. במידה והם אינם מחוברים הודעתך תישלח אליהם למייל.'
     };
