@@ -29,6 +29,10 @@ function optimizeCloudinaryUrl(url, width, height) {
   return url && url.replace('upload', 'upload/' + optionsStr);
 }
 
+function getUserNickname(user) {
+  return user.first_name || user.email.substring(0, user.email.lastIndexOf('@'));
+}
+
 function getListingTitle(listing) {
   return listing.title || `דירת ${listing.apartment.rooms} חד׳ ב${listing.apartment.building.street_name}`;
 }
@@ -144,6 +148,7 @@ module.exports = {
   getListingSubTitle,
   getListingTitle,
   getListingLeaseStats,
+  getUserNickname,
   sortListingImages,
   promiseSeries,
   isMobile,

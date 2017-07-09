@@ -3,7 +3,7 @@ import autobind from 'react-autobind';
 import { inject } from 'mobx-react';
 import { Col, Row, Image, Dropdown, MenuItem } from 'react-bootstrap';
 import TenantProfile from '~/components/Tenants/TenantProfile/TenantProfile';
-import { hideIntercom } from '~/providers/utils';
+import { getUserNickname, hideIntercom } from '~/providers/utils';
 
 import './TenantRow.scss';
 
@@ -42,7 +42,7 @@ export default class TenantRow extends React.Component {
 
     const withUserObj = {
       id: tenant.dorbel_user_id,
-      name: tenant.first_name,
+      name: getUserNickname(tenant),
       email: tenant.email,
       welcomeMessage: 'באפשרותך לשלוח הודעה לדיירים. במידה והם אינם מחוברים הודעתך תישלח אליהם למייל.'
     };
