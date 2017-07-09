@@ -8,21 +8,19 @@ function sortImages(images) {
 
 Liana.collection('listings', {
   fields: [{
-    field: 'image_url',
-    type: 'String',
-    value: function (object) {
-      return object.getImages().then((images) => {
-        var listingImage = sortImages(images);
-        return listingImage.length ? listingImage[0].url : null;
-      });
-    }
-  }, {
+      field: 'image_url',
+      type: 'String',
+      value: function (object) {
+        return object.getImages().then((images) => {
+          var listingImage = sortImages(images);
+          return listingImage.length ? listingImage[0].url : null;
+        });
+      }
+    }, {
     field: 'listing_url',
     type: 'String',
     value: function (object) {
-      return object.getApartments().then((apartments) => {
-        return process.env.FRONT_GATEWAY_URL + 'properties/' + apartments[0].id;
-      });
+      return process.env.FRONT_GATEWAY_URL + '/properties/' + object.apartment.id;
     }
   }]
 });
