@@ -40,6 +40,10 @@ describe('Apartments API Documents integration', function () {
     yield this.apiClient.createDocument(fakeObjectGenerator.getFakeDocument({ listing_id: 99999, provider_file_id: null })).expect(400).end();
   });
 
+  it('should not create a document without listing_id', function * () {
+    yield this.apiClient.createDocument(fakeObjectGenerator.getFakeDocument()).expect(400).end();
+  });
+
   it('should get documents by listing id', function * () {
     const { body: documents } = yield this.apiClient.getDocuments({ listing_id: this.createdListing.id}).expect(200).end();
     __.assertThat(documents, __.allOf(
