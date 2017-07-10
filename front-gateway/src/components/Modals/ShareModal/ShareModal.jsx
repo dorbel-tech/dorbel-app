@@ -6,24 +6,28 @@ import './ShareModal.scss';
 class ShareModal extends Component {
   static modalSize = 'large';
 
-  renderShareButtons() {
+  getShareUrl(utm_campaign) {
     const { shareUrl } = this.props;
+    return encodeURIComponent(shareUrl + '?utm_source=app&utm_medium=share&utm_campaign=' + utm_campaign);
+  }
+
+  renderShareButtons() {
     {
       return ismobilejs.phone ?
         (
           <div>
             <div className="listing-share-modal-button">
-              <a href={'fb-messenger://share/?link=' + shareUrl + '?utm_source=app&utm_medium=share&utm_campaign=messenger_share&app_id=1651579398444396'}>
+              <a href={'fb-messenger://share/?app_id=1651579398444396&link=' + this.getShareUrl('messenger_share')}>
                 <img src="https://static.dorbel.com/images/icons/facebook-messenger.svg" />
               </a>
             </div>
             <div className="listing-share-modal-button">
-              <a href={`whatsapp://send?text=${shareUrl}`}>
+              <a href={`whatsapp://send?text=${this.getShareUrl('whatsapp_share')}`}>
                 <img src="https://static.dorbel.com/images/icons/whatsapp.svg" />
               </a>
             </div>
             <div className="listing-share-modal-button">
-              <a href={'fb://publish/profile/me?text=' + shareUrl + '?utm_source=app&utm_medium=share&utm_campaign=facebook_share'}>
+              <a href={'fb://publish/profile/me?text=' + this.getShareUrl('facebook_share')}>
                 <img src="https://static.dorbel.com/images/icons/facebook.svg" />
               </a>
             </div>
@@ -32,7 +36,7 @@ class ShareModal extends Component {
         :
         (
           <div className="listing-share-modal-button">
-            <a href={'https://www.facebook.com/sharer.php?u=' + shareUrl + '?utm_source=app&utm_medium=share&utm_campaign=facebook_share'} target="_blank">
+            <a href={'https://www.facebook.com/sharer.php?u=' + this.getShareUrl('facebook_share')} target="_blank">
               <img src="https://static.dorbel.com/images/icons/facebook.svg" />
             </a>
           </div>
