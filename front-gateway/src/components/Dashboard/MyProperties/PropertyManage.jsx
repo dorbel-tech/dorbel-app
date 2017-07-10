@@ -7,7 +7,8 @@ import TenantRow from '~/components/Tenants/TenantRow/TenantRow';
 import AddTenantModal from '~/components/Tenants/AddTenantModal/AddTenantModal';
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
 import ManageLeaseModal from './ManageLeaseModal';
-
+import DocumentRow from '~/components/Documents/DocumentRow';
+import DocumentUpload from '~/components/Documents/DocumentUpload';
 import './PropertyManage.scss';
 
 @inject('appProviders', 'appStore') @observer
@@ -22,7 +23,9 @@ class PropertyManage extends Component {
   }
 
   componentDidMount() {
-    this.props.appProviders.listingsProvider.loadListingTenants(this.props.listing.id);
+    const { appProviders, listing } = this.props;
+    appProviders.listingsProvider.loadListingTenants(listing.id);
+    appProviders.documentProvider.getDocumentsForListing(listing.id);
   }
 
   closeManageLeaseModal(confirm, newLeaseStart, newLeaseEnd) {
@@ -60,7 +63,7 @@ class PropertyManage extends Component {
     return (
       <ListGroup>
         { tenants.map(tenant => (
-            <ListGroupItem key={tenant.id} disabled={tenant.disabled} className="property-manage-tenant-item">
+            <ListGroupItem key={tenant.id} disabled={tenant.disabled} className="property-manage-list-group-item">
               <TenantRow tenant={tenant} listingTitle={listingTitle} showActionButtons/>
             </ListGroupItem>
           )) }
@@ -75,6 +78,27 @@ class PropertyManage extends Component {
     });
   }
 
+  renderDocuments() {
+    const { appStore, listing } = this.props;
+    const documents = appStore.documentStore.getDocumentsByListing(listing.id);
+
+    if (!documents || documents.length === 0) {
+      return DocumentRow.getEmptyDocumentList();
+    }
+
+    return (
+      <ListGroup>
+        {
+          documents.map(document => (
+            <ListGroupItem key={document.id} className="property-manage-list-group-item">
+              <DocumentRow document={document} />
+            </ListGroupItem>
+          ))
+        }
+      </ListGroup>
+    );
+  }
+
   render() {
     const { appProviders, listing } = this.props;
     const leaseStats = utils.getListingLeaseStats(listing);
@@ -82,7 +106,7 @@ class PropertyManage extends Component {
     const isActiveListing = appProviders.listingsProvider.isActiveListing(listing);
 
     return  <Grid fluid className="property-manage">
-              <Row className="property-manage-lease-title">
+              <Row className="property-manage-section-title">
                 <Col xs={12}>
                   מידע על השכירות:
                 </Col>
@@ -109,7 +133,8 @@ class PropertyManage extends Component {
                   <div className="property-manage-lease-period-end-label">תום שכירות</div>
                 </Col>
               </Row>
-              <Row className="property-manage-lease-title">
+
+              <Row className="property-manage-section-title">
                 <Col xs={12}>
                   { isActiveListing ? 'דיירים נוכחיים:' : 'דיירים קודמים:' }
                   <Button onClick={this.showAddTenantModal} className="add-button pull-left">הוסף דייר</Button>
@@ -117,6 +142,16 @@ class PropertyManage extends Component {
               </Row>
               <Row>
                 {this.renderTenants()}
+              </Row>
+
+              <Row className="property-manage-section-title">
+                <Col xs={12}>
+                  מסמכים:                  
+                  <DocumentUpload className="add-button pull-left" listing_id={listing.id} />
+                </Col>
+              </Row>
+              <Row>
+                {this.renderDocuments()}
               </Row>
             </Grid>;
   }

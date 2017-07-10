@@ -7,10 +7,11 @@ import AuthStore from '~/stores/AuthStore';
 import EditedListingStore from '~/stores/EditedListingStore';
 import SearchStore from '~/stores/SearchStore';
 import LikeStore from '~/stores/LikeStore';
+import DocumentStore from '~/stores/DocumentStore';
 import { observable, action, autorun } from 'mobx';
 
 // A wrapper for all the stores that the application uses
-export default class AppStore {
+export default class AppStore { 
   listingStore: ListingStore;
   oheStore: OheStore;
   authStore: AuthStore;
@@ -34,6 +35,7 @@ export default class AppStore {
     this.editedListingStore = new EditedListingStore(this.authStore);
     this.searchStore = new SearchStore(initialState.searchStore);
     this.likeStore = new LikeStore(initialState.likeStore);
+    this.documentStore = new DocumentStore();
     this.metaData = initialState.metaData || {};
 
     autorun(() => {

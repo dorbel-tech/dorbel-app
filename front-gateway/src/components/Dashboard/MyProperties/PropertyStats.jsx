@@ -270,7 +270,7 @@ class PropertyStats extends Component {
     return (
       <ListGroup>
         { likes.map(like => (
-            <ListGroupItem key={like.id} disabled={like.disabled} className="property-manage-tenant-item">
+            <ListGroupItem key={like.id} disabled={like.disabled} className="property-manage-list-group-item">
               <TenantRow tenant={like.user_details} listingTitle={listingTitle} />
             </ListGroupItem>
           )) }
