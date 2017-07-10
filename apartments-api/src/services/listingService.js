@@ -380,12 +380,24 @@ function* getValidationData(apartment, user) {
   return result;
 }
 
-function* getMonthlyReportData(day, month, year, user) {
+function* SendMonthlyReports(day, month, year, user) {
   if (userPermissions.isUserAdmin(user)) {
     const momentJsMonth = month - 1;
     const reportDate = moment({ year, month: momentJsMonth, date: day });
 
-    return yield listingRepository.getMonthlyReportData(reportDate, getMonthlyReportDays(reportDate));
+    logger.info('Gettting monthly report data');
+    const reportData = yield listingRepository.getMonthlyReportData(reportDate, getMonthlyReportDays(reportDate));
+    logger.info({ reportData }, 'Received monthly report data');
+    
+    reportData.map(reportDataItem =>
+      messageBus.publish(process.env.NOTIFICATIONS_SNS_TOPIC_ARN, messageBus.eventType.SEND_MONTHLY_REPORT, {
+        user_uuid: reportDataItem.publishing_user_id,
+        listing_id: reportDataItem.id,
+        day,
+        month,
+        year
+      })
+    );
   }
   else {
     throw new CustomError(403, 'You are not allowed to view this data');
@@ -412,5 +424,5 @@ module.exports = {
   getByApartmentId,
   getRelatedListings,
   getValidationData,
-  getMonthlyReportData
+  SendMonthlyReports
 };

@@ -1,11 +1,11 @@
 {
-  "/monthlyReportData": {
-    "get": {
-      "description": "Returns and array of [listing_id, publishing_user_id] representing the listings for which the report will be sent for",
+  "/sendMonthlyReport": {
+    "post": {
+      "description": "Returns and array of {listing_id, publishing_user_id} representing the listings for which the report will be sent for and publishes a SEND_MONTHLY_REPORT message for each one",
       "parameters": [
         {
           "name": "day",
-          "in": "query",
+          "in": "body",
           "description": "The day of 'lease_start'",
           "type": "integer",
           "required": true,
@@ -14,7 +14,7 @@
         },
         {
           "name": "month",
-          "in": "query",
+          "in": "body",
           "description": "The month of 'lease_start'",
           "type": "integer",
           "required": true,
@@ -23,7 +23,7 @@
         },
         {
           "name": "year",
-          "in": "query",
+          "in": "body",
           "description": "The month of 'lease_start'",
           "type": "integer",
           "required": true,
