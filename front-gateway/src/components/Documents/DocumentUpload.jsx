@@ -30,10 +30,14 @@ export default class DocumentUpload extends React.Component {
     return <Button onClick={onPick} className={this.props.className}>הוסף מסמך</Button>;
   }
 
-  render() {    
+  render() {
+    if (!process.env.FILESTACK_API_KEY) {
+      return null;
+    }
+    
     return (
       <ReactFilestack
-        apikey="Ay7mJforsQ46zP70a0mHCz"
+        apikey={process.env.FILESTACK_API_KEY}
         onSuccess={this.onDocumentUploaded}
         render={this.renderButton}
       />

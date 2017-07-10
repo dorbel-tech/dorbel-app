@@ -1,7 +1,7 @@
 import React from 'react';
 import autobind from 'react-autobind';
 import { inject } from 'mobx-react';
-import { Col, Row, ListGroup, ListGroupItem, Checkbox, Dropdown, MenuItem, Badge } from 'react-bootstrap';
+import { Col, Row, Checkbox, Dropdown, MenuItem, Badge } from 'react-bootstrap';
 
 import './DocumentRow.scss';
 

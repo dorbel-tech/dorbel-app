@@ -73,16 +73,10 @@ function* renderApp() {
       });
   }
 
-  const envVars = {
-    NODE_ENV: process.env.NODE_ENV,
-    AUTH0_FRONT_CLIENT_ID: process.env.AUTH0_FRONT_CLIENT_ID,
-    AUTH0_DOMAIN: process.env.AUTH0_DOMAIN,
-    CLOUDINARY_PARAMS: getCloudinaryParams(),
-    GOOGLE_MAPS_API_KEY: process.env.GOOGLE_MAPS_API_KEY,
-    FRONT_GATEWAY_URL: process.env.FRONT_GATEWAY_URL,
-    TALKJS_APP_ID: process.env.TALKJS_APP_ID,
-    TALKJS_PUBLISHABLE_KEY: process.env.TALKJS_PUBLISHABLE_KEY
-  };
+  const clientSideEnvVars = _.pick(process.env, [ 'NODE_ENV', 'AUTH0_FRONT_CLIENT_ID', 'AUTH0_DOMAIN', 'GOOGLE_MAPS_API_KEY', 
+    'FRONT_GATEWAY_URL', 'TALKJS_APP_ID', 'TALKJS_PUBLISHABLE_KEY', 'FILESTACK_API_KEY' ]);
+
+  clientSideEnvVars.CLOUDINARY_PARAMS = getCloudinaryParams();
 
   const entryPoint = shared.createAppEntryPoint();
   yield entryPoint.appProviders.authProvider.loginWithCookie(this.cookies);
@@ -92,7 +86,7 @@ function* renderApp() {
   const initialState = entryPoint.appStore.toJson();
   setRequestRenderState(this, entryPoint.appStore);
   const appHtml = renderToString(entryPoint.app);
-  yield this.render('index', { appHtml, initialState, envVars });
+  yield this.render('index', { appHtml, initialState, envVars: clientSideEnvVars });
 }
 
 module.exports = {
