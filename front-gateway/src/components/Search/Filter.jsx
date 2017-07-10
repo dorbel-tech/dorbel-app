@@ -512,7 +512,8 @@ class Filter extends Component {
     const filterExpanded = this.state.expandFilter || this.state.subFilterOpen;
 
     return <div onMouseEnter={this.mouseEnterHandler}
-                onMouseLeave={this.mouseLeaveHandler}>
+                onMouseLeave={this.mouseLeaveHandler}
+                className={this.state.hideFilter ? '' : 'filter-component'}>
       <div className="filter-toggle-container">
         <Button onClick={this.toggleHideFilter}>
           {filterButtonText}
