@@ -13,7 +13,7 @@ class ShareModal extends Component {
         (
           <div>
             <div className="listing-share-modal-button">
-              <a href={'fb-messenger://share/?link=' + shareUrl + '?utm_source=app&utm_medium=share&utm_campaign=messenger_share' + '&app_id=1651579398444396'}>
+              <a href={'fb-messenger://share/?link=' + shareUrl + '?utm_source=app&utm_medium=share&utm_campaign=messenger_share&app_id=1651579398444396'}>
                 <img src="https://static.dorbel.com/images/icons/facebook-messenger.svg" />
               </a>
             </div>
