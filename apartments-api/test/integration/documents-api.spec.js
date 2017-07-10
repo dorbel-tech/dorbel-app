@@ -16,8 +16,8 @@ describe('Apartments API Documents integration', function () {
   });
 
   it('should create a document under a listing', function * () {
-    const newDoc = fakeObjectGenerator.getFakeDocument();
-    const { body: createdDoc } = yield this.apiClient.createDocument(this.createdListing.id, newDoc).expect(201).end();
+    const newDoc = fakeObjectGenerator.getFakeDocument({ listing_id: this.createdListing.id });    
+    const { body: createdDoc } = yield this.apiClient.createDocument(newDoc).expect(201).end();
 
     __.assertThat(createdDoc, __.hasProperties(Object.assign({
       dorbel_user_id: this.apiClient.userProfile.id,
@@ -29,19 +29,19 @@ describe('Apartments API Documents integration', function () {
   });
 
   it('should not create a document for a listing by another user', function * () {
-    yield this.otherApiClient.createDocument(this.createdListing.id, fakeObjectGenerator.getFakeDocument()).expect(403).end();
+    yield this.otherApiClient.createDocument(fakeObjectGenerator.getFakeDocument({ listing_id: this.createdListing.id })).expect(403).end();
   });
   
   it('should not create a document for a non existing listing', function * () {
-    yield this.apiClient.createDocument(99999, fakeObjectGenerator.getFakeDocument()).expect(404).end();
+    yield this.apiClient.createDocument(fakeObjectGenerator.getFakeDocument({ listing_id: 99999 })).expect(404).end();
   });
 
   it('should not create a document with missing params', function * () {
-    yield this.apiClient.createDocument(99999, fakeObjectGenerator.getFakeDocument({ provider_file_id: null })).expect(400).end();
+    yield this.apiClient.createDocument(fakeObjectGenerator.getFakeDocument({ listing_id: 99999, provider_file_id: null })).expect(400).end();
   });
 
   it('should get documents by listing id', function * () {
-    const { body: documents } = yield this.apiClient.getDocumentsForListing(this.createdListing.id).expect(200).end();
+    const { body: documents } = yield this.apiClient.getDocuments({ listing_id: this.createdListing.id}).expect(200).end();
     __.assertThat(documents, __.allOf(
       __.hasSize(1),
       __.contains(__.hasProperty('id', this.createdDoc.id))
@@ -49,7 +49,7 @@ describe('Apartments API Documents integration', function () {
   });
 
   it('should not get documents for listing user doesnt own', function * () {
-    yield this.otherApiClient.getDocumentsForListing(this.createdListing.id).expect(403).end();
+    yield this.otherApiClient.getDocuments({ listing_id: this.createdListing.id}).expect(403).end();
   });
 
   it('should get documents for user', function * () {

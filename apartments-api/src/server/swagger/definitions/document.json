@@ -10,6 +10,7 @@
       "size": { "type": "integer" }
     },
     "required": [
+      "listing_id",
       "provider",
       "provider_file_id",
       "filename"

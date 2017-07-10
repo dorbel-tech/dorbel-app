@@ -149,16 +149,12 @@ class ApiClient {
     return this.get(`/v1/monthlyReportData/?day=${day}&month=${month}&year=${year}`);
   }
 
-  createDocument(listing_id, document) { 
-    return this.post(`/v1/listings/${listing_id}/documents`, document);
+  createDocument(document) {
+    return this.post('/v1/documents', document);
   }
 
-  getDocumentsForListing(listing_id) {
-    return this.get(`/v1/listings/${listing_id}/documents`);
-  }
-
-  getDocuments() {
-    return this.get('/v1/documents');
+  getDocuments(query) {
+    return this.get('/v1/documents', query);
   }
 
   deleteDocument(document_id) {

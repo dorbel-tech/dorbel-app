@@ -1,14 +1,20 @@
 {
   "/documents": {
     "get": {
-      "summary" : "Get a user's own documents",
-      "parameters": [        
+      "summary" : "Get documents",
+      "parameters": [
         {
           "name": "x-user-profile",
           "in": "header",
           "required": true,
           "type": "string",
           "description": "Stringified JSON object with the user's profile information"
+        },
+        {
+          "name": "listing_id",
+          "in": "query",
+          "type": "integer",
+          "description": "Get the documents for a specific listing"
         }
       ],
       "tags": [
@@ -25,8 +31,39 @@
           }
         }
       }
+    },
+    "post": {
+      "summary" : "Create a new document for a listing",
+      "parameters": [      
+        {
+          "name": "body",
+          "in": "body",
+          "schema": {
+            "$ref": "#/definitions/Document"
+          }
+        },
+        {
+          "name": "x-user-profile",
+          "in": "header",
+          "required": true,
+          "type": "string",
+          "description": "Stringified JSON object with the user's profile information"
+        }
+      ],
+      "tags": [
+        "documentController",
+        "authenticated"
+      ],
+      "responses": {
+        "description": "The created document",
+        "201": {          
+          "schema": {
+            "$ref": "#/definitions/Document"
+          }
+        }
+      }
     }
-  },
+  }, 
   "/documents/{document_id}": {
     "delete": {
       "summary" : "Deletes a document",
@@ -56,78 +93,5 @@
         }
       }
     }
-  },
-  "/listings/{listing_id}/documents": {
-    "get":{
-      "summary" : "Get documents for a listing",
-      "parameters": [
-        {
-          "name": "listing_id",
-          "in": "path",
-          "description": "listing id",
-          "type": "integer",
-          "required": true
-        },
-        {
-          "name": "x-user-profile",
-          "in": "header",
-          "required": true,
-          "type": "string",
-          "description": "Stringified JSON object with the user's profile information"
-        }
-      ],
-      "tags": [
-        "listingDocumentsController",
-        "authenticated"
-      ],
-      "responses": {
-        "200": {          
-          "schema": {
-            "type": "array",
-            "items": {
-              "$ref": "#/definitions/Document"
-            }
-          }
-        }
-      }      
-  },
-    "post": {
-      "summary" : "Create a new document for a listing",
-      "parameters": [
-        {
-          "name": "listing_id",
-          "in": "path",
-          "description": "listing id",
-          "type": "integer",
-          "required": true
-        },
-        {
-          "name": "body",
-          "in": "body",
-          "schema": {
-            "$ref": "#/definitions/Document"
-          }
-        },
-        {
-          "name": "x-user-profile",
-          "in": "header",
-          "required": true,
-          "type": "string",
-          "description": "Stringified JSON object with the user's profile information"
-        }
-      ],
-      "tags": [
-        "listingDocumentsController",
-        "authenticated"
-      ],
-      "responses": {
-        "description": "The created document",
-        "201": {          
-          "schema": {
-            "$ref": "#/definitions/Document"
-          }
-        }
-      }
-    }
-  }
+  }    
 }
