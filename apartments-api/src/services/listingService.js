@@ -380,7 +380,14 @@ function* getValidationData(apartment, user) {
   return result;
 }
 
-function* SendMonthlyReports(day, month, year, user) {
+/*
+  This method is invoked by an AWS Lambda trigger.
+  First it calls listings repository to collect listing_ids and publishing_user_ids for:
+  rented listings, with lease_end>now, publishing_user_type=landlord, lease_start day of month = this day of month.
+
+  Then it iterates over each listing and publishes a message to notification-service.
+*/
+function* sendMonthlyReports(day, month, year, user) {
   if (userPermissions.isUserAdmin(user)) {
     const momentJsMonth = month - 1;
     const reportDate = moment({ year, month: momentJsMonth, date: day });
@@ -424,5 +431,5 @@ module.exports = {
   getByApartmentId,
   getRelatedListings,
   getValidationData,
-  SendMonthlyReports
+  sendMonthlyReports
 };
