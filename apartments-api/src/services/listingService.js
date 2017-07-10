@@ -381,11 +381,11 @@ function* getValidationData(apartment, user) {
 }
 
 /*
-  This method is invoked by an AWS Lambda trigger.
+  This method is invoked by an AWS monthly-report-lambda repo: https://github.com/dorbel-tech/monthly-report-lambda.
   First it calls listings repository to collect listing_ids and publishing_user_ids for:
   rented listings, with lease_end>now, publishing_user_type=landlord, lease_start day of month = this day of month.
 
-  Then it iterates over each listing and publishes a message to notification-service.
+  Then it iterates over each listing and publishes a message to SNS which being processed by notification-service to deliver the reports.
 */
 function* sendMonthlyReports(day, month, year, user) {
   if (userPermissions.isUserAdmin(user)) {
