@@ -78,11 +78,21 @@ function getFakeLike(variant) {
   return like;
 }
 
+function getFakeDocument(variant) {
+  return Object.assign({
+    provider: 'filestack',
+    provider_file_id: faker.random.word(),
+    filename: faker.system.fileName(),
+    type: faker.system.mimeType()
+  }, variant);
+}
+
 module.exports = {
   getFakeListing,
   getFakeUser,
   getFakeImage,
   getFakeBuilding,
   getFakeLike,
-  getDateString
+  getDateString,
+  getFakeDocument
 };

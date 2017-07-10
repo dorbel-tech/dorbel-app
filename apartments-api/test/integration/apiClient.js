@@ -62,53 +62,43 @@ class ApiClient {
   }
 
   getCities() {
-    return this.request.get('/v1/cities');
+    return this.get('/v1/cities');
   }
 
   getNeighborhoods(cityId) {
-    return this.request.get('/v1/neighborhoods/' + cityId);
+    return this.get('/v1/neighborhoods/' + cityId);
   }
 
   getRelatedListings(id) {
-    return this.request.get('/v1/listings/' + id + '/related');
+    return this.get('/v1/listings/' + id + '/related');
   }
 
   getListingPageViews(ids) {
-    return this.request.get('/v1/page_views/listings/' + ids.join(','));
+    return this.get('/v1/page_views/listings/' + ids.join(','));
   }
 
   getHealth() {
-    return this.request.get('/v1/health');
+    return this.get('/v1/health');
   }
 
   likeApartment(apartmentId, listingId) {
-    return this.request
-      .post('/v1/apartments/' + apartmentId + '/likes')
-      .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile))
-      .send({ listing_id: listingId });
+    return this.post('/v1/apartments/' + apartmentId + '/likes', { listing_id: listingId });
   }
 
   unlikeApartment(apartmentId, listingId) {
-    return this.request
-      .delete('/v1/apartments/' + apartmentId + '/likes')
-      .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile))
-      .send({ listing_id: listingId });
+    return this.delete('/v1/apartments/' + apartmentId + '/likes').send({ listing_id: listingId });
   }
 
   getLikesByApartment(apartmentId) {
-    return this.request
-      .get('/v1/apartments/' + apartmentId + '/likes');
+    return this.get('/v1/apartments/' + apartmentId + '/likes');
   }
 
   getLikesByListing(listingId) {
-    return this.request
-      .get('/v1/listings/' + listingId + '/likes');
+    return this.get('/v1/listings/' + listingId + '/likes');
   }
 
   getUserLikes() {
-    return this.request
-      .get('/v1/likes/user')
-      .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile));
+    return this.get('/v1/likes/user');
   }
 
   updateUserProfile(data, isAuthenticated = true) {
@@ -124,62 +114,77 @@ class ApiClient {
   }
 
   postTenant(listingId, tenant) {
-    return this.request
-      .post('/v1/listings/' + listingId + '/tenants')
-      .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile))
-      .send(tenant);
+    return this.post('/v1/listings/' + listingId + '/tenants', tenant);
   }
 
   getTenants(listingId) {
-    return this.request
-      .get(`/v1/listings/${listingId}/tenants`)
-      .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile));
+    return this.get(`/v1/listings/${listingId}/tenants`);
   }
 
   removeTenant(listingId, tenantId) {
-    return this.request
-      .delete(`/v1/listings/${listingId}/tenants/${tenantId}`)
-      .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile));
+    return this.delete(`/v1/listings/${listingId}/tenants/${tenantId}`);
   }
 
   getValidationData(apartment) {
-    return this.request
-      .post('/v1/listings/validation')
-      .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile))
-      .send({apartment});
+    return this.post('/v1/listings/validation', { apartment });
   }
 
   getFilters(query) {
-    return this.request
-      .get('/v1/filters')
-      .query(query)
-      .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile));
+    return this.get('/v1/filters', query);
   }
 
   deleteFilter(filterId) {
-    return this.request
-      .delete(`/v1/filters/${filterId}`)
-      .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile));
+    return this.delete(`/v1/filters/${filterId}`);
   }
 
   createFilter(filter) {
-    return this.request
-      .post('/v1/filters')
-      .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile))
-      .send(filter);
+    return this.post('/v1/filters', filter);
   }
 
   putFilter(filterId, filter) {
-    return this.request
-      .put(`/v1/filters/${filterId}`)
-      .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile))
-      .send(filter);
+    return this.put(`/v1/filters/${filterId}`, filter);
   }
 
   getMonthlyReportData(day, month, year) {
-    return this.request
-      .get(`/v1/monthlyReportData/?day=${day}&month=${month}&year=${year}`)
-      .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile));
+    return this.get(`/v1/monthlyReportData/?day=${day}&month=${month}&year=${year}`);
+  }
+
+  createDocument(document) {
+    return this.post('/v1/documents', document);
+  }
+
+  getDocuments(query) {
+    return this.get('/v1/documents', query);
+  }
+
+  deleteDocument(document_id) {
+    return this.delete(`/v1/documents/${document_id}`);
+  }
+
+  // General purpose methods 
+
+  get(url, query) {
+    const getRequest = this.makeRequest('get', url);
+    query && getRequest.query(query);
+    return getRequest;
+  }
+
+  delete(url) {
+    return this.makeRequest('delete', url);
+  }
+
+  post(url, data) {
+    return this.makeRequest('post', url).send(data);
+  }
+
+  put(url, data) {
+    return this.makeRequest('put', url).send(data);
+  }
+
+  makeRequest(method, url) {
+    const request = this.request[method](url);
+    this.userProfile && request.set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile));
+    return request;
   }
 
   static * init(userProfile) {
