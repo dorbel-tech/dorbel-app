@@ -15,4 +15,8 @@ export default class DocumentStore {
   getDocumentsByListing(listing_id) {
     return this.documentsById.values().filter(document => document.listing_id === listing_id);
   }
+
+  remove(document) {
+    this.documentsById.delete(document.id);
+  }
 }

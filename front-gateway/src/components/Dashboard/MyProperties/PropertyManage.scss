@@ -3,11 +3,10 @@
 
 .property-manage-section-title {
   font-size: 15px;
-  margin-top: 50px;
   padding-bottom: 30px;
 
   @media (min-width: $screen-sm-min) {
-    margin-right: -30px;
+    margin: 0 -30px;
     padding-bottom: 15px;
   }
 
@@ -16,11 +15,16 @@
   }
 }
 
+.property-manage-section-content {
+  margin-bottom: 30px;
+}
+
 .property-manage-lease-period {
   background-color: $brand-white;
   height: 155px;
   padding: 30px;
   position: relative;
+  margin-bottom: 50px;
 
   @media (max-width: $screen-sm-max) {
     padding: 15px;

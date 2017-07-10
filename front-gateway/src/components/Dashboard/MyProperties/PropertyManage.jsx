@@ -80,23 +80,24 @@ class PropertyManage extends Component {
 
   renderDocuments() {
     const { appStore, listing } = this.props;
-    const documents = appStore.documentStore.getDocumentsByListing(listing.id);
+    let documents = appStore.documentStore.getDocumentsByListing(listing.id);
+    let groupContent;
 
     if (!documents || documents.length === 0) {
-      return DocumentRow.getEmptyDocumentList();
+      groupContent = (
+        <ListGroupItem className="property-manage-list-group-item" disabled>
+          {DocumentRow.getPlaceholderRow()}
+        </ListGroupItem>
+      );
+    } else {
+      groupContent = documents.map(document => (
+        <ListGroupItem key={document.id} className="property-manage-list-group-item">
+          <DocumentRow document={document} />
+        </ListGroupItem>
+      ));
     }
 
-    return (
-      <ListGroup>
-        {
-          documents.map(document => (
-            <ListGroupItem key={document.id} className="property-manage-list-group-item">
-              <DocumentRow document={document} />
-            </ListGroupItem>
-          ))
-        }
-      </ListGroup>
-    );
+    return <ListGroup>{ groupContent }</ListGroup>;
   }
 
   render() {
@@ -111,7 +112,7 @@ class PropertyManage extends Component {
                   מידע על השכירות:
                 </Col>
               </Row>
-              <Row className="property-manage-lease-period">
+              <Row className="property-manage-section-content property-manage-lease-period">
                 <ManageLeaseModal listing={listing}
                                   show={this.state.showManageLeaseModal}
                                   onClose={this.closeManageLeaseModal}/>
@@ -140,7 +141,7 @@ class PropertyManage extends Component {
                   <Button onClick={this.showAddTenantModal} className="add-button pull-left">הוסף דייר</Button>
                 </Col>
               </Row>
-              <Row>
+              <Row className="property-manage-section-content">
                 {this.renderTenants()}
               </Row>
 
@@ -150,7 +151,7 @@ class PropertyManage extends Component {
                   <DocumentUpload className="add-button pull-left" listing_id={listing.id} />
                 </Col>
               </Row>
-              <Row>
+              <Row className="property-manage-section-content">
                 {this.renderDocuments()}
               </Row>
             </Grid>;

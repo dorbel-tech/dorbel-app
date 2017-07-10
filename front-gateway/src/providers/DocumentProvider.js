@@ -36,7 +36,8 @@ export default class DocumentProvider {
   }
 
   deleteDocument(document) {
-    // api should also remove file from filestack 
-    return this.api.fetch(DOCUMENTS_ROUTE + '/' + document.id, { method: 'DELETE' });
+    // backend should also remove file from filestack 
+    return this.api.fetch(DOCUMENTS_ROUTE + '/' + document.id, { method: 'DELETE' })
+      .then(() => this.appStore.documentStore.remove(document));
   }
 }
