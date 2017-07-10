@@ -145,8 +145,8 @@ class ApiClient {
     return this.put(`/v1/filters/${filterId}`, filter);
   }
 
-  getMonthlyReportData(day, month, year) {
-    return this.get(`/v1/monthlyReportData/?day=${day}&month=${month}&year=${year}`);
+  sendMonthlyReport(day, month, year) {
+    return this.post('/v1/sendMonthlyReport', { day, month, year });
   }
 
   createDocument(document) {
@@ -206,7 +206,7 @@ class ApiClient {
   }
 }
 
-ApiClient.getInstance = function() {
+ApiClient.getInstance = function () {
   return ApiClient.init(fakeObjectGenerator.getFakeUser({
     id: INTEGRATION_TEST_USER_ID,
     // these are as they are in Auth0
@@ -217,14 +217,14 @@ ApiClient.getInstance = function() {
   }));
 };
 
-ApiClient.getAdminInstance = function() {
+ApiClient.getAdminInstance = function () {
   return ApiClient.init(fakeObjectGenerator.getFakeUser({
     id: ADMIN_INTEGRATION_TEST_USER_ID,
     role: 'admin'
   }));
 };
 
-ApiClient.getOtherInstance = function() {
+ApiClient.getOtherInstance = function () {
   return ApiClient.init(fakeObjectGenerator.getFakeUser({
     id: OTHER_INTEGRATION_TEST_USER_ID
   }));
