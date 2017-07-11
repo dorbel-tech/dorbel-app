@@ -23,7 +23,7 @@ const flickityOptions = {
 @inject('appStore') @observer
 export default class ListingHeader extends React.Component {
   render() {
-    const { appStore, listing } = this.props;
+    const { listing } = this.props;
     const sortedListingImages = utils.sortListingImages(listing);
 
     return (
