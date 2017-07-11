@@ -30,7 +30,7 @@ class ListingHighlight extends React.Component {
 
 ListingHighlight.propTypes = {
   listing: React.PropTypes.object.isRequired,
-  appStore: React.PropTypes.object.isRequired
+  appStore: React.PropTypes.object
 };
 
 export default ListingHighlight;
