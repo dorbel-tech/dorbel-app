@@ -97,7 +97,7 @@ class PropertyManage extends Component {
       ));
     }
 
-    return <ListGroup>{ groupContent }</ListGroup>;
+    return <ListGroup id="documents-list-group">{ groupContent }</ListGroup>;
   }
 
   render() {

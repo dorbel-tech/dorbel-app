@@ -5,6 +5,7 @@ import PropertyManage from './PropertyManage';
 import TenantRow from '~/components/Tenants/TenantRow/TenantRow';
 import AddTenantModal from '~/components/Tenants/AddTenantModal/AddTenantModal';
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
+import DocumentRow from '~/components/Documents/DocumentRow';
 import utils from '~/providers/utils';
 
 describe('Property Manage Page', () => {
@@ -60,6 +61,32 @@ describe('Property Manage Page', () => {
   it('should show the add-tenant modal when clicking on the button', () => {
     propertyManage().find('Button.add-button').simulate('click');
     expect(appProvidersMock.modalProvider.showInfoModal.mock.calls[0][0].body.type).toBe(AddTenantModal);
+  });
+
+  it('should render place-holder if there are no documents', () => {
+    appStoreMock.documentStore.getDocumentsByListing.mockReturnValue([]);
+
+    const documentList = propertyManage().find('#documents-list-group');
+    const listItems = documentList.find('ListGroupItem');
+
+    expect(listItems).toHaveLength(1);
+    expect(listItems.prop('disabled')).toBe(true);
+  });
+
+  it('should render documents if there are some', () => {
+    const mockDocuments = [ { id: 1 }, { id: 3 } ];
+    appStoreMock.documentStore.getDocumentsByListing.mockReturnValue(mockDocuments);
+
+    const documentList = propertyManage().find('#documents-list-group');
+    const listItems = documentList.find('ListGroupItem');
+
+    expect(listItems).toHaveLength(mockDocuments.length);
+    listItems.forEach((listItem, index) => {
+      expect(listItem.key()).toEqual(mockDocuments[index].id.toString());
+      expect(listItem.prop('disabled')).toBeUndefined();      
+      expect(listItem.childAt(0).is(DocumentRow)).toBe(true);
+      expect(listItem.childAt(0).prop('document')).toBe(mockDocuments[index]);
+    });
   });
 
 });
