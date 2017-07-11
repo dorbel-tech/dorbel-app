@@ -3,10 +3,8 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { Grid, Row } from 'react-bootstrap';
 import utils from '~/providers/utils';
-import NavLink from '~/components/NavLink';
 import ListingBadge from '~/components/ListingBadge/ListingBadge';
 import CloudinaryImage from '~/components/CloudinaryImage/CloudinaryImage';
-import { getDashMyPropsPath } from '~/routesHelper';
 
 let Flickity = 'div';
 let carouselClass = 'fixed-carousel';
@@ -27,16 +25,9 @@ export default class ListingHeader extends React.Component {
   render() {
     const { appStore, listing } = this.props;
     const sortedListingImages = utils.sortListingImages(listing);
-    const isListingPublisherOrAdmin = listing ? appStore.listingStore.isListingPublisherOrAdmin(listing) : false;
 
     return (
       <header className="listing-header">
-        {isListingPublisherOrAdmin ?
-          <NavLink className="listing-header-to-dashboard"
-                   to={getDashMyPropsPath(listing)}>
-            לניהול הנכס
-          </NavLink>
-        : null}
         <div className="listing-header-badge-container">
           <ListingBadge listing={listing}/>
         </div>

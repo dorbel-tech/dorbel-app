@@ -2,18 +2,17 @@
   color: #9b9b9b;
   border-top: $gray-border;
   margin: 30px 20px;
-  padding: 10px 0 20px;
+  padding: 10px 0 50px;
 
   h5 {
     padding: 0 0 8px;
   }
 
   .listing-owner-action-buttons {
-    padding-right: 6px;
+    margin-left: 15px;
 
-    a,
-    button {
-      margin-left: 17px;
+    @media (max-width: $screen-xs-max) {
+      margin-left: 5px;
     }
   }
 }

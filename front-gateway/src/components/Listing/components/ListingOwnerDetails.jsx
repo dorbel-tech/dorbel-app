@@ -45,11 +45,15 @@ class ListingOwnerDetails extends Component {
       return;
     }
 
-    return <Button onClick={this.handleMsgClick}>
-             <i className="fa fa-comment" />
-             &nbsp;שלח הודעה
-           </Button>;
-  }
+    return (
+      <div className="listing-owner-action-buttons float-left">
+        <Button onClick={this.handleMsgClick} title="שלחו הודעה לבעל הדירה">
+          <i className="fa fa-comment" />
+          &nbsp;שלח הודעה
+        </Button>
+      </div>
+    );
+}
 
   handleShowPhoneClick() {
     if (!this.props.appProviders.authProvider.shouldLogin()) {
@@ -83,11 +87,8 @@ class ListingOwnerDetails extends Component {
 
     return (
       <div className="listing-owner-container">
-        <h5>{title}: {listing.publishing_user_first_name || 'אנונימי'}</h5>
-        <div className="listing-owner-action-buttons">
-          {this.renderMsg()}
-          {this.renderPhone(listing)}
-        </div>
+        <h5 className="float-right">{title}: {listing.publishing_user_first_name || 'אנונימי'}</h5>
+        {this.renderMsg()}
       </div>
     );
   }
