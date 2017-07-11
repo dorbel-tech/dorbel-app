@@ -9,7 +9,7 @@ import _ from 'lodash';
 
 import './Filter.scss';
 import SavedFilters from './SavedFilters/SavedFilters';
-import { isMobile } from '~/providers/utils';
+import { hideIntercom, isMobile } from '~/providers/utils';
 import DatePicker from '~/components/DatePicker/DatePicker';
 
 const NEW_TIP_OFFSET = {top: -10, left: -17};
@@ -239,6 +239,7 @@ class Filter extends Component {
   }
 
   toggleHideFilter() {
+    hideIntercom(this.state.hideFilter);
     this.setState({ hideFilter: !this.state.hideFilter });
   }
 
