@@ -64,12 +64,12 @@ export default class DocumentRow extends React.Component {
 
     return (
       <Row className="document-row">
-        <Col xs={1} sm={1} className="text-center"><Checkbox checked={false} disabled /></Col>
+        <Col xs={1} className="text-center"><Checkbox checked={false} disabled /></Col>
         <Col xs={7} sm={5}>{filename.name}</Col>
         <Col xs={3} sm={1}><Badge>{filename.ext}</Badge></Col>
         <Col xsHidden sm={2}>{dateLabel}</Col>
         <Col xsHidden sm={2}>{sizeLabel}</Col>
-        <Col xs={1} sm={1}>
+        <Col xs={1} >
           <Dropdown id={'document' + doc.id} className="pull-left">
             <Dropdown.Toggle noCaret bsStyle="link"><i className="fa fa-ellipsis-v" /></Dropdown.Toggle>
             <Dropdown.Menu className="dropdown-menu-left">                                
