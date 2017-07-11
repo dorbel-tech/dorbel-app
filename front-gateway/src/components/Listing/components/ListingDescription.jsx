@@ -1,7 +1,7 @@
 import React from 'react';
 import autobind from 'react-autobind';
 import { inject, observer } from 'mobx-react';
-import { Col, Row, Button } from 'react-bootstrap';
+import { Col, Row } from 'react-bootstrap';
 import ListingAmenities from './ListingAmenities.jsx';
 
 @inject('appProviders', 'appStore') @observer

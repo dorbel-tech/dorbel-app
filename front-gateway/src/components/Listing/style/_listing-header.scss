@@ -28,26 +28,39 @@
 }
 
 .listing-header-to-dashboard {
-  color: #fff;
+  background-color: #fff;
+  border: $gray-border;
+  border-radius: 4px;
+  box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.1);
+  color: $gray;
   display: block;
-  font-size: 13px;
+  font-size: 14px;
+  font-weight: bold;
   height: 30px;
   line-height: 28px;
+  margin-left: 20px;
   right: 32px;
   text-align: center;
   top: 16px;
-  width: 100px;
+  width: 110px;
   z-index: 1;
-  text-decoration: underline;
 
   &:hover {
-    color: $gray-lighter;
+    color: $gray;
+  }
+
+  &::before {
+    content: '\f013';
+    font-family: FontAwesome;
+    margin-left: 5px;
   }
 
   @media (max-width: $screen-xs-max) {
+    font-size: 13px;
     margin-left: 0;
     right: 12px;
     top: 11px;
+    width: 100px;
   }
 }
 
