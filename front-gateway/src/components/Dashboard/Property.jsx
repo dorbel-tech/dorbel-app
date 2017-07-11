@@ -220,6 +220,15 @@ class Property extends Component {
                   { activeTab.headerButtons || defaultHeaderButtons }
                 </Col>
               </Row>
+              { (isActiveListing || appStore.authStore.isUserAdmin()) &&
+                <Row className="property-top-container property-status-mobile">
+                  <Col sm={3} xs={4} className="property-status-label">
+                    סטטוס המודעה:
+                  </Col>
+                  <Col sm={9} xs={8} className="property-status-container">
+                    <ListingStatusSelector listing={property} />
+                  </Col>
+                </Row> }
               { !activeTab.replaceNavbar &&
                   <Tabs className="tab-menu" activeKey={activeTab}
                         onSelect={(tab) => router.setRoute(propertyPath + tab.relativeRoute)} id="property-menu-tabs">

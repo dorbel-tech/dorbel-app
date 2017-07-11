@@ -18,7 +18,7 @@ module.exports = {
       selector: '.property-title'
     },
     listingStatusSelector: {
-      selector: '.listing-status-container',
+      selector: '.listing-status-selector',
       elements: {
         listingMenuStatusDropdownToggle: {
           selector: '.dropdown-toggle'
