@@ -439,7 +439,8 @@ class Filter extends Component {
             </OverlayTrigger>
           </Col>
           <Col sm={3} md={2}>
-            <OverlayTrigger placement="bottom" trigger="click" rootClose
+            <OverlayTrigger placement={isMobile() ? 'top' : 'bottom'}
+                            trigger="click" rootClose
                             overlay={this.leaseStartPopup()}
                             onEntered={this.subFilterEntered}
                             onExit={this.subFilterExit}>
@@ -447,7 +448,8 @@ class Filter extends Component {
             </OverlayTrigger>
           </Col>
           <Col sm={3} md={2}>
-            <OverlayTrigger placement={isMobile() ? 'top' : 'bottom'} trigger="click" rootClose
+            <OverlayTrigger placement={isMobile() ? 'top' : 'bottom'}
+                            trigger="click" rootClose
                             overlay={this.extraPopup()}
                             onEntered={this.subFilterEntered}
                             onExit={this.subFilterExit}>
