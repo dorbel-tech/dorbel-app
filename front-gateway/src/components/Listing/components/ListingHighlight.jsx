@@ -17,9 +17,9 @@ class ListingHighlight extends React.Component {
         </div>
         <div className="float-left">
           {isListingPublisherOrAdmin ?
-            <NavLink className="listing-header-to-dashboard"
+            <NavLink className="listing-header-to-dashboard" title="לחץ כאן לניהול הנכס"
                     to={getDashMyPropsPath(listing)}>
-              לניהול הנכס
+              <i className="listing-manage-cog fa fa-cog"></i>לניהול הנכס
             </NavLink>
           : null}
         </div>
