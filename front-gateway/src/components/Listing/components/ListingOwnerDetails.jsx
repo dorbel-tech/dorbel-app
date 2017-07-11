@@ -8,29 +8,6 @@ class ListingOwnerDetails extends Component {
   constructor(props) {
     super(props);
     autobind(this);
-    this.state = { showPhoneClicked: false };
-  }
-
-  renderPhone(listing) {
-    if (listing.show_phone) {
-      if (this.state.showPhoneClicked) {
-        return (
-          <a href={`tel:${listing.publishing_user_phone}`}>
-            <span>
-              {listing.publishing_user_phone}
-            </span>
-          </a>
-        );
-      }
-      else {
-        return (
-          <Button onClick={this.handleShowPhoneClick}>
-            <i className="fa fa-phone" />
-            &nbsp;הצג טלפון
-          </Button>
-        );
-      }
-    }
   }
 
   renderMsg() {
@@ -55,18 +32,11 @@ class ListingOwnerDetails extends Component {
     );
   }
 
-  handleShowPhoneClick() {
-    if (!this.props.appProviders.authProvider.shouldLogin()) {
-      const { listing } = this.props;
-      this.setState({ showPhoneClicked: true });
-      window.analytics.track('client_show_phone', { listing_id: listing.id, user_id: listing.publishing_user_id }); // For Facebook conversion tracking.
-    }
-  }
-
   handleMsgClick() {
     if (!this.props.appProviders.authProvider.shouldLogin()) {
       const listing = this.props.listing;
       const { messagingProvider, utils } = this.props.appProviders;
+      window.analytics.track('client_send_message', { listing_id: listing.id }); // For Facebook conversion tracking.
 
       const withUserObj = {
         id: listing.publishing_user_id,
