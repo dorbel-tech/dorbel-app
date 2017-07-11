@@ -53,7 +53,7 @@ class ListingOwnerDetails extends Component {
         </Button>
       </div>
     );
-}
+  }
 
   handleShowPhoneClick() {
     if (!this.props.appProviders.authProvider.shouldLogin()) {
