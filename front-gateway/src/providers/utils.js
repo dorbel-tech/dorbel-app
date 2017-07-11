@@ -136,6 +136,10 @@ function hideIntercom(bool) {
   }
 }
 
+function getShareUrl(currentUrl, utm_campaign) {
+  return encodeURIComponent(currentUrl + '?utm_source=app&utm_medium=share&utm_campaign=' + utm_campaign);
+}
+
 module.exports = {
   formatTime,
   formatDate,
@@ -153,5 +157,6 @@ module.exports = {
   promiseSeries,
   isMobile,
   flushPromises,
-  hideIntercom
+  hideIntercom,
+  getShareUrl
 };
