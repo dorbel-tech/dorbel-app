@@ -5,7 +5,7 @@ import { FRC } from '~/components/FormWrapper/FormWrapper';
 
 export default class EditListingForm extends Component {
   render() {
-    const { publishing_user_type, show_phone } = this.props.editedListingStore.formValues;
+    const { publishing_user_type } = this.props.editedListingStore.formValues;
 
     return (
       <ListingDetailsForm editedListingStore={this.props.editedListingStore} values={this.props.values} showLeaseEnd>

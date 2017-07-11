@@ -52,7 +52,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
 
     if (authStore.isLoggedIn) {
       // setting this up specificially because somehow it gets lost when logging in
-      const { publishing_user_type, show_phone } = this.props.appStore.newListingStore.formValues.publishing_user_type;
+      const { publishing_user_type } = this.props.appStore.newListingStore.formValues.publishing_user_type;
 
       return (
         <Row className="form-section">
