@@ -22,14 +22,6 @@ export default class EditListingForm extends Component {
                 options={[{ label: 'בעל הדירה', value: 'landlord' }, { label: 'הדייר הנוכחי', value: 'tenant' }]} />
             </Col>
           </Row>
-          <Row>
-            <Col md={12}>
-              <label>טלפון:</label>
-              <div className="is-phone-visible-input">
-                <FRC.Checkbox name="show_phone" label="הציגו את המספר שלי במודעה" value={show_phone} />
-              </div>
-            </Col>
-          </Row>
         </Row>
       </ListingDetailsForm>
     );

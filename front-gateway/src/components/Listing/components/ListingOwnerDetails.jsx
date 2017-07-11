@@ -47,7 +47,7 @@ class ListingOwnerDetails extends Component {
 
     return (
       <div className="float-left">
-        <Button onClick={this.handleMsgClick} title="שלחו הודעה לבעל הדירה">
+        <Button className="listing-owner-send-message" onClick={this.handleMsgClick} title="שלחו הודעה לבעל הדירה">
           <i className="fa fa-comment" />
           &nbsp;שלח הודעה
         </Button>
