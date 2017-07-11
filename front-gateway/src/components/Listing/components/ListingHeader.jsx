@@ -1,5 +1,6 @@
 'use strict';
 import React from 'react';
+import { inject, observer } from 'mobx-react';
 import { Grid, Row } from 'react-bootstrap';
 import utils from '~/providers/utils';
 import ListingBadge from '~/components/ListingBadge/ListingBadge';
@@ -19,6 +20,7 @@ const flickityOptions = {
   pageDots: false
 };
 
+@inject('appStore') @observer
 export default class ListingHeader extends React.Component {
   render() {
     const { appStore, listing } = this.props;
