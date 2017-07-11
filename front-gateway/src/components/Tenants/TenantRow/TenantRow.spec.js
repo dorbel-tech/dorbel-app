@@ -59,7 +59,7 @@ describe('Tenant Row', () => {
       const wrapper = tenantRow(tenant);
       wrapper.find('.tenant-row-msg-icon').simulate('click');
 
-      utils.flushPromises().then(() => {
+      return utils.flushPromises().then(() => {
         wrapper.unmount();
 
         expect(popupMock.destroy).toHaveBeenCalledWith();

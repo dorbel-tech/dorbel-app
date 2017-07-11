@@ -18,6 +18,9 @@ describe('Property Manage Page', () => {
         listingTenantsById: {
           get: jest.fn()
         }
+      },
+      documentStore: {
+        getDocumentsByListing: jest.fn().mockReturnValue([])
       }
     };
     appProvidersMock = {
@@ -55,7 +58,7 @@ describe('Property Manage Page', () => {
   });
 
   it('should show the add-tenant modal when clicking on the button', () => {
-    propertyManage().find('.add-button').simulate('click');
+    propertyManage().find('Button.add-button').simulate('click');
     expect(appProvidersMock.modalProvider.showInfoModal.mock.calls[0][0].body.type).toBe(AddTenantModal);
   });
 

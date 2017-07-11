@@ -34,10 +34,10 @@ export default class AddTenantModal extends React.Component {
           הדייר יקבל מייל עם הזמנה למלא את פרטיו, שיתווספו עבורכם אוטומטית למסך ניהול הדירה
         </p>
         <FormWrapper.Wrapper layout="vertical" ref="form">
-          <FRC.Input name="email" type="email" label="אי-מייל" validations="isEmail" />
-          <FRC.Input name="first_name" type="text" label="שם פרטי" required />
-          <FRC.Input name="last_name" type="text" label="שם משפחה" />
-          <FRC.Input name="phone" type="text" label="טלפון" />
+          <FRC.Input value="" name="email" type="email" label="אי-מייל" validations="isEmail" />
+          <FRC.Input value="" name="first_name" type="text" label="שם פרטי" required />
+          <FRC.Input value="" name="last_name" type="text" label="שם משפחה" />
+          <FRC.Input value="" name="phone" type="text" label="טלפון" />
           <Button bsStyle="success" onClick={this.submit} block>אישור</Button>
         </FormWrapper.Wrapper>
       </div>

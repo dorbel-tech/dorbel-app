@@ -41,6 +41,8 @@ describe('Add Tenant Modal', () => {
     appProvidersMock.listingsProvider.addTenant.mockReturnValue(Promise.resolve());
     wrapper.find(Button).simulate('click');
 
-    expect(appProvidersMock.listingsProvider.addTenant).toHaveBeenCalledWith(listing_id, { first_name });
+    const addTenantCallArgs = appProvidersMock.listingsProvider.addTenant.mock.calls[0];
+    expect(addTenantCallArgs[0]).toBe(listing_id);
+    expect(addTenantCallArgs[1]).toHaveProperty('first_name', first_name);
   });
 });
