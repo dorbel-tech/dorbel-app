@@ -11,10 +11,6 @@ class ListingOwnerDetails extends Component {
     this.state = { showPhoneClicked: false };
   }
 
-  componentDidMount() {
-    const { appProviders, listing } = this.props;
-  }
-
   renderPhone(listing) {
     if (listing.show_phone) {
       if (this.state.showPhoneClicked) {
@@ -88,8 +84,10 @@ class ListingOwnerDetails extends Component {
     return (
       <div className="listing-owner-container">
         <h5>{title}: {listing.publishing_user_first_name || 'אנונימי'}</h5>
-        {this.renderMsg()}
-        {this.renderPhone(listing)}
+        <div className="listing-owner-action-buttons">
+          {this.renderMsg()}
+          {this.renderPhone(listing)}
+        </div>
       </div>
     );
   }
