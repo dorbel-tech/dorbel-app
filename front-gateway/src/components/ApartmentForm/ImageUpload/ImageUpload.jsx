@@ -49,7 +49,7 @@ export default class ImageUpload extends React.Component {
 
     const deleteButton = (
       <a href="#"
-        className="image-action pull-left"
+        className="image-action remove-image pull-left"
         onClick={() => {
           this.props.editedListingStore.disableSave = true;
           listingImageProvider.deleteImage(image, editedListingStore);
