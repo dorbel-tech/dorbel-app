@@ -1,10 +1,14 @@
+.filter-component {
+  height: 100%;
+}
+
 .filter-toggle-container {
   left: 100px;
   position: fixed;
   right: 100px;
   text-align: center;
   top: 15px;
-  z-index: 1099;
+  z-index: 1030;
 
   button {
     width: 110px;
@@ -28,8 +32,13 @@
   @include box-shadow(0 2px 10px 0 rgba(0, 0, 0, 0.2));
 
   @media (max-width: $screen-xs-max) {
-    padding: 24px 15px 0;
-    position: relative;
+    height: 100%;
+    left: 0;
+    -webkit-overflow-scrolling: touch;
+    overflow-y: scroll;
+    padding: 24px 15px 55px;
+    position: fixed;
+    right: 0;
 
     &.hide-mobile-filter {
       display: none;
