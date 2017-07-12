@@ -1,8 +1,30 @@
-.listing-status-selector {
+.dropdown > button.listing-status-selector {
   background-color: $brand-primary;
   border-color: $brand-primary;
   border-radius: 100px;
-  color: $brand-white;
+  color: $brand-white !important;
   width: 130px;
   z-index: 2;
+
+  &::after {
+    content: '\f107';
+    float: left;
+    font-family: FontAwesome;
+  }
+
+  &.listing-status-selector-rented {
+    background-color: #0086ff !important;
+    border-color: #0086ff;
+  }
+
+  &.listing-status-selector-pending {
+    background-color: #9b9b9b !important;
+    border-color: #9b9b9b;
+  }
+
+  &.listing-status-selector-deleted,
+  &.listing-status-selector-unlisted {
+    background-color: #2d3e50 !important;
+    border-color: #2d3e50;
+  }
 }
