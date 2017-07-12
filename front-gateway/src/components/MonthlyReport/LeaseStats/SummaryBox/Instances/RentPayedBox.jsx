@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import SummaryBox from '../SummaryBox';
 
-class MonthlyRentBox extends Component {
+class RentPayedBox extends Component {
   render() {
     const { rentPayed } = this.props.leaseStatsVM;
     return (
@@ -13,10 +13,9 @@ class MonthlyRentBox extends Component {
   }
 }
 
-MonthlyRentBox.propTypes = {
-  appProviders: React.PropTypes.object.isRequired,
+RentPayedBox.propTypes = {
   leaseStatsVM: React.PropTypes.object.isRequired
 };
 
-export default MonthlyRentBox;
+export default RentPayedBox;
 
