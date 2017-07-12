@@ -61,7 +61,7 @@ class PropertyManage extends Component {
       const { handleHrefClick } = this.props.appProviders.navProvider;
       return (
         <Row className="property-manage-lease-stats">
-          <Col>
+          <Col md={12}>
             <Row>
               <Col>
                 <DropdownButton title='הצג דו"ח חודשי' className="report-date-selector">
