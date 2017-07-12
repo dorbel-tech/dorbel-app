@@ -12,8 +12,8 @@ class LeaseStatsVM {
   constructor(listing, month, year) {
     this.listing = _.clone(listing); // Clone in order to not change by mistake
 
-    this.leaseStart = moment.utc(this.listing.lease_start);
-    this.leaseEnd = moment.utc(this.listing.lease_end);
+    this.leaseStart = moment(this.listing.lease_start);
+    this.leaseEnd = moment(this.listing.lease_end);
     this.reportDate = this.getReportDate(month, year);
     this.monthList = this.getMonthList(this.leaseStart, this.leaseEnd);
     this.currentMonthIndex = this.getCurrentMonthIndex(this.reportDate, this.leaseStart);
