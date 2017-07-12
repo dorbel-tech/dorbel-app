@@ -17,6 +17,11 @@
     border-color: #0086ff;
   }
 
+  &.listing-status-selector-listed {
+    background-color: $brand-success !important;
+    border-color: $brand-success;
+  }
+
   &.listing-status-selector-pending {
     background-color: #9b9b9b !important;
     border-color: #9b9b9b;
