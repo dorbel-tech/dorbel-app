@@ -49,7 +49,7 @@ export default class ImageUpload extends React.Component {
 
     const deleteButton = (
       <a href="#"
-        className="image-action"
+        className="image-action pull-left"
         onClick={() => {
           this.props.editedListingStore.disableSave = true;
           listingImageProvider.deleteImage(image, editedListingStore);
@@ -63,7 +63,7 @@ export default class ImageUpload extends React.Component {
 
     const setDefaultButton = (
       <a href="#"
-        className="image-action pull-left"
+        className="image-action"
         onClick={() => {
           this.props.editedListingStore.formValues.images.move(index, 0);
         }}>
@@ -77,8 +77,8 @@ export default class ImageUpload extends React.Component {
         <div className="thumb-inner">
           <label className="uploaded-image">
             <CloudinaryImage className="img-full" src={image.src} width={180} />
-            {image.complete ? deleteButton : progressBar}
             {image.complete && index > 0 ? setDefaultButton : undefined}
+            {image.complete ? deleteButton : progressBar}
           </label>
         </div>
       </div>);
@@ -93,7 +93,7 @@ export default class ImageUpload extends React.Component {
           <Dropzone className="col-md-4 thumb" multiple={true} onDrop={this.onChooseFile.bind(this)}>
             <div className="thumb-inner add">
               <span className="add-photo">
-              <p><b>הוספת תמונות&nbsp;<i className="fa fa-plus"></i></b></p>
+                <p><b>הוספת תמונות&nbsp;<i className="fa fa-plus"></i></b></p>
               </span>
             </div>
           </Dropzone>
