@@ -1,3 +1,34 @@
+.property-wrapper .dropdown > .dropdown-menu > li {
+  &.listing-status-selector-item-deleted > a::before {
+    content: '\f1f8';
+  }
+
+  &.listing-status-selector-item-listed > a::before {
+    content: '\f04b';
+  }
+
+  &.listing-status-selector-item-pending > a::before {
+    content: '\f04d';
+  }
+
+  &.listing-status-selector-item-rented > a::before {
+    content: '\f058';
+  }
+
+  &.listing-status-selector-item-republish > a::before {
+    content: '\f01e';
+  }
+
+  &.listing-status-selector-item-unlisted > a::before {
+    content: '\f04c';
+  }
+
+  > a::before {
+    font-family: FontAwesome;
+    padding-left: 10px;
+  }
+}
+
 .property-status-mobile {
   @media (min-width: $screen-sm-min) {
     display: none;
@@ -35,12 +66,20 @@
   .listing-status-selector {
     line-height: 11px;
     position: absolute;
-    right: -75px;
     width: 110px;
 
     @media (max-width: $screen-xs-max) {
       display: none;
     }
+  }
+
+  .dropdown-menu {
+    top: 30px;
+  }
+
+  .dropdown-menu,
+  .listing-status-selector {
+    right: -75px;
   }
 }
 
