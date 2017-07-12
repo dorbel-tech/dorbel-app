@@ -55,29 +55,6 @@
   }
 
   .lease-stats-details-income-totals {
-    margin-top: 50px;
-
-    .summary-box {
-      text-align: center;
-
-      .summary-box-value {
-        color: $gray;
-        font-size: 22px;
-        line-height: 26px;
-      }
-
-      .summary-box-text {
-        color: $gray-light;
-        font-size: 15px;
-        line-height: 18px;
-      }
-
-      .summary-box-link {
-        margin-top: 5px;
-        color: #3398db;
-        text-decoration: underline;
-        cursor: pointer;
-      }
-    }
+    margin-top: 20px;
   }
 }
