@@ -5,6 +5,8 @@ import { ProgressBar, Row } from 'react-bootstrap';
 import Dropzone from 'react-dropzone';
 import CloudinaryImage from '~/components/CloudinaryImage/CloudinaryImage';
 
+import './ImageUpload.scss';
+
 @inject('appProviders') @observer
 export default class ImageUpload extends React.Component {
   constructor(props) {
@@ -21,7 +23,7 @@ export default class ImageUpload extends React.Component {
     let uploadPromises = acceptedFiles.map(file => appProviders.listingImageProvider.uploadImage(file, editedListingStore));
     this.uploadImagePromises = this.uploadImagePromises.concat(uploadPromises);
     Promise.all(this.uploadImagePromises)
-     .then(this.shouldDisableSave);
+      .then(this.shouldDisableSave);
   }
 
   shouldDisableSave() {
@@ -46,17 +48,28 @@ export default class ImageUpload extends React.Component {
     );
 
     const deleteButton = (
-      <div>
-        <a href="#"
-          className="remove-image"
-          onClick={() => {
-            this.props.editedListingStore.disableSave = true;
-            listingImageProvider.deleteImage(image, editedListingStore);
-            this.shouldDisableSave();
-          }}>
-          הסרת תמונה
-          </a>
-      </div>
+      <a href="#"
+        className="image-action remove-image pull-left"
+        onClick={() => {
+          this.props.editedListingStore.disableSave = true;
+          listingImageProvider.deleteImage(image, editedListingStore);
+          this.shouldDisableSave();
+        }}>
+        <i className="fa fa-times" />
+        הסרת תמונה
+      </a>
+
+    );
+
+    const setDefaultButton = (
+      <a href="#"
+        className="image-action"
+        onClick={() => {
+          this.props.editedListingStore.formValues.images.move(index, 0);
+        }}>
+        <i className="fa fa-picture-o" />
+        תמונה ראשית
+      </a>
     );
 
     return (
@@ -64,6 +77,7 @@ export default class ImageUpload extends React.Component {
         <div className="thumb-inner">
           <label className="uploaded-image">
             <CloudinaryImage className="img-full" src={image.src} width={180} />
+            {image.complete && index > 0 ? setDefaultButton : undefined}
             {image.complete ? deleteButton : progressBar}
           </label>
         </div>
@@ -79,7 +93,7 @@ export default class ImageUpload extends React.Component {
           <Dropzone className="col-md-4 thumb" multiple={true} onDrop={this.onChooseFile.bind(this)}>
             <div className="thumb-inner add">
               <span className="add-photo">
-              <p><b>הוספת תמונות&nbsp;<i className="fa fa-plus"></i></b></p>
+                <p><b>הוספת תמונות&nbsp;<i className="fa fa-plus"></i></b></p>
               </span>
             </div>
           </Dropzone>
