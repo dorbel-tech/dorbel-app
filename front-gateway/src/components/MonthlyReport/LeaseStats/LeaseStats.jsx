@@ -1,65 +1,18 @@
 import React, { Component } from 'react';
-import { inject } from 'mobx-react';
 import autobind from 'react-autobind';
-import { Grid, Row, Col, Button } from 'react-bootstrap';
-import FormWrapper, { FRC } from '~/components/FormWrapper/FormWrapper';
+import { Grid, Row, Col } from 'react-bootstrap';
 import SteppedProgressBar from '../../SteppedProgressBar/SteppedProgressBar';
-import moment from 'moment';
+import PropertyValueBox from './SummaryBox/Instances/PropertyValueBox';
+import TotalIncomeBox from './SummaryBox/Instances/TotalIncomeBox';
+import TotalYieldBox from './SummaryBox/Instances/TotalYieldBox';
+import LeaseStatsVM from './LeaseStatsVM.js';
 
 import './LeaseStats.scss';
 
-const ONE_MILLION = 1000000;
-const ROOM_IN_TLV_VALUE = 900000;
-const ROOM_OUTSIDE_TLV_VALUE = 500000;
-const TLV_CITY_ID = 1;
-const CURRENCY_SIGN = '₪';
-
-@inject('appProviders')
 class LeaseStats extends Component {
   constructor(props) {
     super(props);
     autobind(this);
-
-    this.modalProvider = this.props.appProviders.modalProvider;
-    this.listingsProvider = this.props.appProviders.listingsProvider;
-    this.utils = this.props.appProviders.utils;
-  }
-
-  getMonthList(leaseStart, leaseEnd) {
-    let start = leaseStart.clone();
-    let end = leaseEnd.clone();
-
-    let monthList = [];
-    while (end.diff(start, 'month')) {
-      monthList.push(start.month() + 1);
-      start.add(1, 'month');
-    }
-
-    return monthList;
-  }
-
-  getPropertyValue(listing) {
-    if (listing.property_value) {
-      return listing.property_value;
-    }
-    else {
-      const roomValue = listing.apartment.building.city_id == TLV_CITY_ID ? ROOM_IN_TLV_VALUE : ROOM_OUTSIDE_TLV_VALUE;
-      return roomValue * listing.apartment.rooms;
-    }
-  }
-
-  formatMoneyValue(value) {
-    if (value >= ONE_MILLION) {
-      const { utils } = this.props.appProviders;
-      const formattedValue = utils.decimalToPercision((value / ONE_MILLION), 1);
-      return `${formattedValue} מ'${CURRENCY_SIGN}`;
-    }
-    else { return `${CURRENCY_SIGN}${value.toLocaleString()}`; }
-  }
-
-  getAnnualYield(totalRentExpected, propertyValue) {
-    const percentage = this.utils.getPercentageOfTotal(totalRentExpected, propertyValue);
-    return this.utils.decimalToPercision(percentage, 3) + '%';
   }
 
   renderStatsHeader(monthsToLeaseEnd) {
@@ -83,71 +36,17 @@ class LeaseStats extends Component {
         {text}
       </div>
     );
-
-  }
-
-  showUpdatePropertyValuePopup(propertyValue) {
-    this.modalProvider.show({
-      title: 'עדכון שווי נכס',
-      body: (
-        <div>
-          <FormWrapper.Wrapper ref={ref => this.form = ref} layout="vertical">
-            <span>עדכנו את שווי הנכס לקבלת חישוב תשואה מדוייקת עבור הנכס שלכם</span>
-            <FRC.Input
-              value={propertyValue.toLocaleString()}
-              name="property_value"
-              onChange={(inputName, inputVal) => {
-                const formsy = this.form.refs.formsy;
-                const currentModel = formsy.getModel();
-                inputVal = parseInt(inputVal.replace(/[^0-9\.]+/g, '')) || '';
-                currentModel[inputName] = inputVal.toLocaleString();
-                formsy.reset(currentModel);
-              }} />
-            <Button
-              bsStyle="success"
-              onClick={() => {
-                const formsy = this.form.refs.formsy;
-                let { property_value } = formsy.getModel();
-                property_value = parseInt(property_value.replace(/[^0-9\.]+/g, ''));
-                if (property_value) {
-                  this.listingsProvider.updateListing(this.props.listing.id, { property_value })
-                    .then(this.modalProvider.close());
-                }
-              }}>
-              עדכן
-              </Button>
-          </FormWrapper.Wrapper>
-        </div>
-      ),
-      modalSize: 'small'
-    });
   }
 
   render() {
     const { listing, month, year } = this.props;
-    // In moment JS december is represented as 0 and in case it is 0, the year will go year-1 
-    let momentJsMonth = month;
-    let momentJsYear = year;
-    if (month == 12) {
-      momentJsMonth = 0;
-      momentJsYear = parseInt(year) + 1;
-    }
-
-    const leaseStart = moment(listing.lease_start);
-    const leaseEnd = moment(listing.lease_end);
-    const reportDate = moment({ year: momentJsYear, month: momentJsMonth });
-    const monthList = this.getMonthList(leaseStart, leaseEnd);
-    const currentMonthIndex = reportDate.diff(leaseStart, 'months');
-    const monthsToLeaseEnd = leaseEnd.diff(reportDate, 'months');
-
-    const propertyValue = this.getPropertyValue(listing);
-    const totalRentExpected = listing.monthly_rent * monthList.length;
+    const statsVM = new LeaseStatsVM(listing, month, year);
 
     return (
       <Grid fluid className="lease-stats">
         <Row className="lease-stats-header">
           <Col xs={12}>
-            {this.renderStatsHeader(monthsToLeaseEnd)}
+            {this.renderStatsHeader(statsVM.monthsToLeaseEnd)}
           </Col>
         </Row>
         <Row className="lease-stats-details">
@@ -155,10 +54,10 @@ class LeaseStats extends Component {
             <Row>
               <Col xs={12}>
                 <SteppedProgressBar
-                  steps={monthList}
-                  currentStepIndex={currentMonthIndex}
-                  pointerText={this.formatMoneyValue(listing.monthly_rent)}
-                  hideStepMarks={monthList.length >= 20} />
+                  steps={statsVM.monthList.map((item) => { return item.month; })}
+                  currentStepIndex={statsVM.currentMonthIndex}
+                  pointerText={statsVM.monthlyRentFormatted}
+                  hideStepMarks={statsVM.monthList.length >= 20} />
               </Col>
             </Row>
           </Col>
@@ -169,7 +68,7 @@ class LeaseStats extends Component {
                   נותר לתשלום
                   </div>
                 <div className="content">
-                  {this.formatMoneyValue(totalRentExpected - ((currentMonthIndex + 1) * listing.monthly_rent))}
+                  {statsVM.rentRemaining}
                 </div>
               </div>
               <div className="lease-stats-details-income-paid">
@@ -177,42 +76,20 @@ class LeaseStats extends Component {
                   עד כה שולם
                   </div>
                 <div className="content">
-                  {this.formatMoneyValue((currentMonthIndex + 1) * listing.monthly_rent)}
+                  {statsVM.rentPayed}
                 </div>
               </div>
             </Col>
           </Row>
           <Row className="lease-stats-details-income-totals">
-            <Col className="summary-box" xs={4}>
-              <div className="summary-box-value">
-                {this.formatMoneyValue(propertyValue)}
-              </div>
-              <div className="summary-box-text">
-                שווי הנכס (מוערך)
-              </div>
-              <div className="summary-box-link" onClick={() => this.showUpdatePropertyValuePopup(propertyValue)}>
-                עדכן שווי נכס
-              </div>
+            <Col xs={4}>
+              <PropertyValueBox leaseStatsVM={statsVM} />
             </Col>
-            <Col className="summary-box" xs={4}>
-              <div className="summary-box-value">
-                {this.formatMoneyValue(totalRentExpected)}
-              </div>
-              <div className="summary-box-text">
-                הכנסה
-                <br />
-                שנתית
-              </div>
+            <Col xs={4}>
+              <TotalIncomeBox leaseStatsVM={statsVM} />
             </Col>
-            <Col className="summary-box" xs={4}>
-              <div className="summary-box-value">
-                {this.getAnnualYield(propertyValue, totalRentExpected)}
-              </div>
-              <div className="summary-box-text">
-                תשואה
-                <br />
-                שנתית
-              </div>
+            <Col xs={4}>
+              <TotalYieldBox leaseStatsVM={statsVM} />
             </Col>
           </Row>
         </Row >
@@ -221,8 +98,7 @@ class LeaseStats extends Component {
   }
 }
 
-LeaseStats.wrappedComponent.propTypes = {
-  appProviders: React.PropTypes.object.isRequired,
+LeaseStats.propTypes = {
   listing: React.PropTypes.object.isRequired,
   month: React.PropTypes.string.isRequired,
   year: React.PropTypes.string.isRequired
