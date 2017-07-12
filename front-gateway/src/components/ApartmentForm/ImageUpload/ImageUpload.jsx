@@ -78,7 +78,9 @@ export default class ImageUpload extends React.Component {
         <Row className="thumbs">
           <Dropzone className="col-md-4 thumb" multiple={true} onDrop={this.onChooseFile.bind(this)}>
             <div className="thumb-inner add">
-              <span className="add-photo">הוספת תמונה +</span>
+              <span className="add-photo">
+              <p><b>הוספת תמונות +</b></p>
+              </span>
             </div>
           </Dropzone>
           {images.map(this.renderImage.bind(this))}
