@@ -21,7 +21,7 @@ export default class ImageUpload extends React.Component {
     let uploadPromises = acceptedFiles.map(file => appProviders.listingImageProvider.uploadImage(file, editedListingStore));
     this.uploadImagePromises = this.uploadImagePromises.concat(uploadPromises);
     Promise.all(this.uploadImagePromises)
-     .then(this.shouldDisableSave);
+      .then(this.shouldDisableSave);
   }
 
   shouldDisableSave() {
@@ -59,12 +59,25 @@ export default class ImageUpload extends React.Component {
       </div>
     );
 
+    const setDefaultButton = (
+      <div>
+        <a href="#"
+          className="remove-image"
+          onClick={() => {
+            this.props.editedListingStore.formValues.images.move(index, 0);
+          }}>
+          הגדר כתמונה ראשית
+          </a>
+      </div>
+    );
+
     return (
       <div key={index} className="image col-md-4 thumb">
         <div className="thumb-inner">
           <label className="uploaded-image">
             <CloudinaryImage className="img-full" src={image.src} width={180} />
             {image.complete ? deleteButton : progressBar}
+            {image.complete && index > 0 ? setDefaultButton : undefined}            
           </label>
         </div>
       </div>);
