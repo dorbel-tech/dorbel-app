@@ -30,6 +30,11 @@
 }
 
 .property-status-mobile {
+  .dropdown-menu {
+    left: 0;
+    top: 37px;
+  }
+
   @media (min-width: $screen-sm-min) {
     display: none;
   }
@@ -38,6 +43,7 @@
 .property-status-label {
   line-height: 45px;
   text-align: center;
+  white-space: nowrap;
 }
 
 .property-status-container {
