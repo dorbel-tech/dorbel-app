@@ -57,7 +57,8 @@ function* create(listing, user) {
   if (messageType) {
     if (process.env.NOTIFICATIONS_SNS_TOPIC_ARN) {
       messageBus.publish(process.env.NOTIFICATIONS_SNS_TOPIC_ARN, messageType, {
-        city_id: listing.apartment.building.city_id,
+        city_id: createdListing.apartment.building.city_id,
+        city_name: createdListing.apartment.building.city.city_name,
         apartment_id: createdListing.apartment_id,
         listing_id: createdListing.id,
         user_uuid: createdListing.publishing_user_id,
@@ -146,6 +147,7 @@ function notifyListingChanged(oldListing, newListing) {
         apartment_id: oldListing.apartment_id,
         listing_id: oldListing.id,
         city_id: oldListing.apartment.building.city_id,
+        city_name: oldListing.apartment.building.city.city_name,
         previous_status: oldListing.status,
         user_uuid: oldListing.publishing_user_id
       });
@@ -395,7 +397,7 @@ function* sendMonthlyReports(day, month, year, user) {
     logger.info('Gettting monthly report data');
     const reportData = yield listingRepository.getMonthlyReportData(reportDate, getMonthlyReportDays(reportDate));
     logger.info({ reportData }, 'Received monthly report data');
-    
+
     reportData.map(reportDataItem =>
       messageBus.publish(process.env.NOTIFICATIONS_SNS_TOPIC_ARN, messageBus.eventType.SEND_MONTHLY_REPORT, {
         user_uuid: reportDataItem.publishing_user_id,
