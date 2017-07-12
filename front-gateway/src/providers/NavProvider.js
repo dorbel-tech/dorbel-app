@@ -18,7 +18,7 @@ class NavProvider {
   handleHrefClick(e) {
     e.preventDefault(); // cancel the event so we don't get a reload.
 
-    if ((e.metaKey || e.ctrlKey || e.currentTarget.target) && window) {
+    if ((e.metaKey || e.ctrlKey || e.currentTarget.target) && window) { // open in new tab if ctrl is pressed or target is defined
       window.open(e.currentTarget.href);
     }
     else {
