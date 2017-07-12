@@ -57,7 +57,7 @@ export default class ImageUpload extends React.Component {
         }}>
         <i className="fa fa-times" />
         הסרת תמונה
-          </a>
+      </a>
 
     );
 
@@ -68,8 +68,8 @@ export default class ImageUpload extends React.Component {
           this.props.editedListingStore.formValues.images.move(index, 0);
         }}>
         <i className="fa fa-picture-o" />
-        הגדר כתמונה ראשית
-          </a>
+        תמונה ראשית
+      </a>
     );
 
     return (
