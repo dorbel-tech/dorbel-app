@@ -64,15 +64,20 @@ class PropertyManage extends Component {
           <Col md={12}>
             <Row>
               <Col>
-                <DropdownButton title='הצג דו"ח חודשי' className="report-date-selector">
+                <DropdownButton
+                  id="monthly-report-ddl"
+                  title='הצג דו"ח חודשי'
+                  className="report-date-selector">
                   {
                     statsVM.monthList.map((item) => {
+                      const dateStr = `${item.month < 10 ? '0' + item.month : item.month}/${item.year}`;
                       return (
                         <MenuItem
                           href={`/monthly-report/${listing.id}/${item.year}/${item.month}`}
                           target="_blank"
-                          onClick={handleHrefClick}>
-                          {`${item.month < 10 ? '0' + item.month : item.month}/${item.year}`}
+                          onClick={handleHrefClick}
+                          key={dateStr}>
+                          {dateStr}
                         </MenuItem>
                       );
                     })

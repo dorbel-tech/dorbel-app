@@ -18,7 +18,6 @@ class TotalIncomeBox extends Component {
 }
 
 TotalIncomeBox.propTypes = {
-  appProviders: React.PropTypes.object.isRequired,
   leaseStatsVM: React.PropTypes.object.isRequired
 };
 

@@ -14,7 +14,6 @@ class MonthlyRentBox extends Component {
 }
 
 MonthlyRentBox.propTypes = {
-  appProviders: React.PropTypes.object.isRequired,
   leaseStatsVM: React.PropTypes.object.isRequired
 };
 
