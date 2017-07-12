@@ -9,7 +9,7 @@ import _ from 'lodash';
 
 import './Filter.scss';
 import SavedFilters from './SavedFilters/SavedFilters';
-import { isMobile } from '~/providers/utils';
+import { hideIntercom, isMobile } from '~/providers/utils';
 import DatePicker from '~/components/DatePicker/DatePicker';
 
 const NEW_TIP_OFFSET = {top: -10, left: -17};
@@ -239,6 +239,7 @@ class Filter extends Component {
   }
 
   toggleHideFilter() {
+    hideIntercom(this.state.hideFilter);
     this.setState({ hideFilter: !this.state.hideFilter });
   }
 
@@ -439,7 +440,8 @@ class Filter extends Component {
             </OverlayTrigger>
           </Col>
           <Col sm={3} md={2}>
-            <OverlayTrigger placement="bottom" trigger="click" rootClose
+            <OverlayTrigger placement={isMobile() ? 'top' : 'bottom'}
+                            trigger="click" rootClose
                             overlay={this.leaseStartPopup()}
                             onEntered={this.subFilterEntered}
                             onExit={this.subFilterExit}>
@@ -447,7 +449,8 @@ class Filter extends Component {
             </OverlayTrigger>
           </Col>
           <Col sm={3} md={2}>
-            <OverlayTrigger placement="bottom" trigger="click" rootClose
+            <OverlayTrigger placement={isMobile() ? 'top' : 'bottom'}
+                            trigger="click" rootClose
                             overlay={this.extraPopup()}
                             onEntered={this.subFilterEntered}
                             onExit={this.subFilterExit}>
@@ -512,7 +515,8 @@ class Filter extends Component {
     const filterExpanded = this.state.expandFilter || this.state.subFilterOpen;
 
     return <div onMouseEnter={this.mouseEnterHandler}
-                onMouseLeave={this.mouseLeaveHandler}>
+                onMouseLeave={this.mouseLeaveHandler}
+                className={this.state.hideFilter ? '' : 'filter-component'}>
       <div className="filter-toggle-container">
         <Button onClick={this.toggleHideFilter}>
           {filterButtonText}
