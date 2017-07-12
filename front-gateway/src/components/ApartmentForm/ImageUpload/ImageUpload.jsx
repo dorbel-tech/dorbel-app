@@ -5,6 +5,8 @@ import { ProgressBar, Row } from 'react-bootstrap';
 import Dropzone from 'react-dropzone';
 import CloudinaryImage from '~/components/CloudinaryImage/CloudinaryImage';
 
+import './ImageUpload.scss';
+
 @inject('appProviders') @observer
 export default class ImageUpload extends React.Component {
   constructor(props) {
@@ -46,29 +48,28 @@ export default class ImageUpload extends React.Component {
     );
 
     const deleteButton = (
-      <div>
-        <a href="#"
-          className="remove-image"
-          onClick={() => {
-            this.props.editedListingStore.disableSave = true;
-            listingImageProvider.deleteImage(image, editedListingStore);
-            this.shouldDisableSave();
-          }}>
-          הסרת תמונה
+      <a href="#"
+        className="image-action"
+        onClick={() => {
+          this.props.editedListingStore.disableSave = true;
+          listingImageProvider.deleteImage(image, editedListingStore);
+          this.shouldDisableSave();
+        }}>
+        <i className="fa fa-times" />
+        הסרת תמונה
           </a>
-      </div>
+
     );
 
     const setDefaultButton = (
-      <div>
-        <a href="#"
-          className="remove-image"
-          onClick={() => {
-            this.props.editedListingStore.formValues.images.move(index, 0);
-          }}>
-          הגדר כתמונה ראשית
+      <a href="#"
+        className="image-action pull-left"
+        onClick={() => {
+          this.props.editedListingStore.formValues.images.move(index, 0);
+        }}>
+        <i className="fa fa-picture-o" />
+        הגדר כתמונה ראשית
           </a>
-      </div>
     );
 
     return (
@@ -77,7 +78,7 @@ export default class ImageUpload extends React.Component {
           <label className="uploaded-image">
             <CloudinaryImage className="img-full" src={image.src} width={180} />
             {image.complete ? deleteButton : progressBar}
-            {image.complete && index > 0 ? setDefaultButton : undefined}            
+            {image.complete && index > 0 ? setDefaultButton : undefined}
           </label>
         </div>
       </div>);
@@ -92,7 +93,7 @@ export default class ImageUpload extends React.Component {
           <Dropzone className="col-md-4 thumb" multiple={true} onDrop={this.onChooseFile.bind(this)}>
             <div className="thumb-inner add">
               <span className="add-photo">
-              <p><b>הוספת תמונות +</b></p>
+                <p><b>הוספת תמונות +</b></p>
               </span>
             </div>
           </Dropzone>
