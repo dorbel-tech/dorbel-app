@@ -92,7 +92,7 @@ class ListingStatusSelector extends React.Component {
 
     return (
       <DropdownButton id="listing-status-selector"
-        className="listing-status-selector"
+        className="listing-status-selector" noCaret
         disabled={options.length === 0}
         title={currentStatusLabel}
         onSelect={this.changeStatus}>

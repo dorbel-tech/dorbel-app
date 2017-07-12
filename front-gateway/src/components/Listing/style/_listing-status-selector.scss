@@ -1,12 +1,8 @@
 .listing-status-selector {
-  background-color: $brand-white !important;
+  background-color: $brand-primary;
+  border-color: $brand-primary;
   border-radius: 100px;
-  color: #4a4a4a !important;
+  color: $brand-white;
   width: 130px;
-
-  button {
-    height: 25px;
-    line-height: 11px;
-    z-index: 2;
-  }
+  z-index: 2;
 }
