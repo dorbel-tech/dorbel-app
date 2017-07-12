@@ -5,6 +5,7 @@ import autobind from 'react-autobind';
 import OHERegisterModal from './OHERegisterModal';
 import { getPropertyPath, getDashMyPropsPath } from '~/routesHelper';
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
+import ListingOwnerDetails from './ListingOwnerDetails';
 
 @inject('appStore', 'appProviders', 'router') @observer
 class OHEList extends Component {
@@ -113,17 +114,25 @@ class OHEList extends Component {
     switch(listing.status) {
       case 'rented':
         return (
+        <div className="ohe-list-notification-container">
+          <div className="listing-rented-notification">
           <span>
             <h4>הדירה מושכרת כרגע</h4>
-            <p>אהבתם את הדירה? רוצים לדעת לפני כולם כשהיא תתפנה שוב? לחצו על ׳אהבתי׳ לשמירת הדירה ולקבלת עדכון כשהיא עומדת להתפנות.</p>
+            <p>אהבתם את הדירה? רוצים לדעת לפני כולם כשהיא תתפנה שוב? לחצו על ׳<i className="fa fa-heart-o red-heart"></i> אהבתי׳ לשמירת הדירה ולקבלת עדכון כשהיא עומדת להתפנות.</p>
           </span>
+          </div>
+        </div>
         );
       case 'unlisted':
         return (
+        <div className="ohe-list-notification-container">
+          <div className="listing-rented-notification">
           <span>
             <h4>המודעה לא פעילה</h4>
             <p>לפרסום המודעה הכנסו <a href={getDashMyPropsPath(listing)}>לחשבונכם ועדכנו</a> את הסטטוס שלה.</p>
           </span>
+          </div>
+        </div>
         );
       default:
         return null;
@@ -190,9 +199,8 @@ class OHEList extends Component {
       <div className="list-group listing-choose-ohe-container">
         {this.renderTitle(listing, ohes)}
         {this.renderOheList(ohes, closeModal)}
-        <div className="ohe-list-notification-container">
-          <div className="listing-rented-notification">{this.getListingNotification(listing)}</div>
-        </div>
+        {this.getListingNotification(listing)}
+        <ListingOwnerDetails listing={listing} />
       </div>
     );
   }
