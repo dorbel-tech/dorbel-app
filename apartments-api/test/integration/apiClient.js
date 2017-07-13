@@ -3,12 +3,9 @@ const app = require('../../src/index.js');
 const coSupertest = require('co-supertest');
 const _ = require('lodash');
 const fakeObjectGenerator = require('../shared/fakeObjectGenerator');
-
+const utils = require('./utils');
+const userIds = utils.userIds;
 const USER_PROFILE_HEADER = 'x-user-profile';
-// Integration tests run with static ID as they fill the message queue with app-events
-const INTEGRATION_TEST_USER_ID = '36a204fa-41b7-4c87-a759-f8a449abadb8';
-const OTHER_INTEGRATION_TEST_USER_ID = '40031759-daa4-4b5d-ad69-5f7760894c80';
-const ADMIN_INTEGRATION_TEST_USER_ID = 'ecdf7910-2055-4553-9ccd-d730e1e4e73e';
 
 class ApiClient {
   constructor(request, userProfile) {
@@ -208,7 +205,7 @@ class ApiClient {
 
 ApiClient.getInstance = function () {
   return ApiClient.init(fakeObjectGenerator.getFakeUser({
-    id: INTEGRATION_TEST_USER_ID,
+    id: userIds.INTEGRATION_TEST_USER_ID,
     // these are as they are in Auth0
     email: 'int-test-user@dorbel.com',
     first_name: 'Test',
@@ -219,14 +216,14 @@ ApiClient.getInstance = function () {
 
 ApiClient.getAdminInstance = function () {
   return ApiClient.init(fakeObjectGenerator.getFakeUser({
-    id: ADMIN_INTEGRATION_TEST_USER_ID,
+    id: userIds.ADMIN_INTEGRATION_TEST_USER_ID,
     role: 'admin'
   }));
 };
 
 ApiClient.getOtherInstance = function () {
   return ApiClient.init(fakeObjectGenerator.getFakeUser({
-    id: OTHER_INTEGRATION_TEST_USER_ID
+    id: userIds.OTHER_INTEGRATION_TEST_USER_ID
   }));
 };
 
