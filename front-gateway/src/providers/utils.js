@@ -88,7 +88,6 @@ function getListingStatusLabels() {
     listed: { label: 'מפורסמת', actionLabel: 'פרסם את הדירה' },
     rented: { label: 'טרם פורסמה', actionLabel: 'הדירה הושכרה', landlordLabel: 'מושכרת' },
     unlisted: { label: 'לא פעילה', actionLabel: 'השהה מודעה' },
-    deleted: { label: 'נמחקה', actionLabel: 'מחק מודעה' },
     republish: { label: '', actionLabel: 'פרסום הנכס מחדש' }
   };
 }
