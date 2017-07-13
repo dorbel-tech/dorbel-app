@@ -44,15 +44,24 @@ export default class DocumentUpload extends React.Component {
     const listing_id = props.listing_id;
     const uploadOptions = _.cloneDeep(FILESTACK_OPTIONS);
     uploadOptions.storeTo.path = `${env}/${user_id}/${listing_id}/`;
+    uploadOptions.onClose = () => props.appProviders.utils.hideIntercom(false);
     return uploadOptions;
   }
 
   onDocumentUploaded(response) {
-    response.filesUploaded.forEach(file => this.props.appProviders.documentProvider.saveDocument(this.props.listing_id, file));
+    response.filesUploaded.forEach(file => this.props.appProviders.documentProvider.saveDocument(this.props.listing_id, file));    
+  }
+
+  openUploadModal(onPick, event) {
+    const { utils } = this.props.appProviders;
+    if (utils.isMobile()) {
+      utils.hideIntercom(true);
+    }
+    onPick(event);
   }
 
   renderButton({ onPick }) {
-    return <Button onClick={onPick} className={this.props.className}>הוסף מסמך</Button>;
+    return <Button onClick={event => this.openUploadModal(onPick, event)} className={this.props.className}>הוסף מסמך</Button>;
   }
 
   render() {
