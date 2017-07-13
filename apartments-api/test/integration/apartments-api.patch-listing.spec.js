@@ -202,7 +202,7 @@ describe('Integration - PATCH /listings/{id}', function () {
       }
     }
     
-    postResponse = yield api.patchListing(postResponse.body.id, patch).expect(400).end();
+    postResponse = yield api.patchListing(postResponse.body.id, patch).expect(409).end();
     __.assertThat(postResponse.body, __.is('דירה עם פרטים זהים כבר קיימת במערכת'));
   }
 });

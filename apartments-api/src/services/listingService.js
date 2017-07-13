@@ -136,7 +136,7 @@ function* update(listingId, user, patch) {
   catch (ex) {
     // Handle a case where the requested changes conflict with a different apartment's details
     if (ex.name == 'SequelizeUniqueConstraintError' && ex.fields && ex.fields[APARTMENTS_UINQUE_CONSTRAINT_INDEX_NAME]) {
-      throw new CustomError(400, 'דירה עם פרטים זהים כבר קיימת במערכת');
+      throw new CustomError(409, 'דירה עם פרטים זהים כבר קיימת במערכת');
     }
     else{
       throw ex;
