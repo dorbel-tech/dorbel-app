@@ -53,7 +53,7 @@ class MessagingProvider {
       // Watch message sent callback.
       this.talkSession.on('message', function() {
         // Report event to analytics.
-        window.analytics.track('talkjs_message_sent');
+        window.analytics.track('client_talkjs_message_sent');
       });
     }
 
