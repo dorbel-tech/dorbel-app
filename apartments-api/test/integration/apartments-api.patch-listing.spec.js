@@ -11,7 +11,8 @@ describe('Integration - PATCH /listings/{id}', function () {
   before(function* () {
     apiClient = yield ApiClient.getInstance();
     adminApiClient = yield ApiClient.getAdminInstance();
-    let postResponse = yield apiClient.createListing(fakeObjectGenerator.getFakeListing()).expect(201).end();
+    const fakeListing = fakeObjectGenerator.getFakeListing();
+    let postResponse = yield apiClient.createListing(fakeListing).expect(201).end();
     postResponse = yield adminApiClient.patchListing(postResponse.body.id, { status: 'listed' }).expect(200).end();
     createdListing = postResponse.body;
   });
@@ -188,4 +189,20 @@ describe('Integration - PATCH /listings/{id}', function () {
   it('should remove an image', function * () {
     yield updateAndAssertImages([ createdListing.images[1] ]);
   });
+
+  it('should return an error if the patch conflicts with another apartments details'){
+    let listingToPatch = _.clone(fakeListing);
+    const aptNumToConflict = _.clone(fakeListing.apartment.apt_number);
+    fakeListing.apartment.apt_number = 'temp1'
+
+    let postResponse = yield apiClient.createListing(fakeListing).expect(201).end();.
+    const patch = {
+      apartment: {
+        apt_number: aptNumToConflict
+      }
+    }
+    
+    postResponse = yield api.patchListing(postResponse.body.id, patch).expect(400).end();
+    __.assertThat(postResponse.body, __.is('דירה עם פרטים זהים כבר קיימת במערכת'));
+  }
 });

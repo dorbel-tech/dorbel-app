@@ -12,6 +12,8 @@ const generic = shared.utils.generic;
 const userManagement = shared.utils.user.management;
 const userPermissions = shared.utils.user.permissions;
 
+const APARTMENTS_UINQUE_CONSTRAINT_INDEX_NAME = 'apartment_index';
+
 const possibleStatusesByCurrentStatus = {
   pending: ['unlisted', 'deleted'],
   rented: ['unlisted', 'deleted'],
@@ -125,10 +127,21 @@ function* update(listingId, user, patch) {
   }
 
   patch = setListingAutoFields(patch);
-  const result = yield listingRepository.update(listing, patch);
-  notifyListingChanged(oldListing, patch);
-
-  return yield enrichListingResponse(result, user);
+  
+  try {
+    const result = yield listingRepository.update(listing, patch);
+    notifyListingChanged(oldListing, patch);
+    return yield enrichListingResponse(result, user);
+  }
+  catch (ex) {
+    // Handle a case where the requested changes conflict with a different apartment's details
+    if (ex.name == 'SequelizeUniqueConstraintError' && ex.fields && ex.fields[APARTMENTS_UINQUE_CONSTRAINT_INDEX_NAME]) {
+      throw new CustomError(400, 'דירה עם פרטים זהים כבר קיימת במערכת');
+    }
+    else{
+      throw ex;
+    }
+  }
 }
 
 function isStatusChanged(oldListing, newListing) {
