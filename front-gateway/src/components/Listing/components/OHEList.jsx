@@ -54,6 +54,10 @@ class OHEList extends Component {
   }
 
   renderOpenHouseEvent(openHouseEvent) {
+    if (openHouseEvent.status === 'inactive') {
+      return null;
+    }
+
     const OHEConfig = this.getOHEConfiguration(openHouseEvent);
 
     return this.renderListItem({
@@ -149,7 +153,7 @@ class OHEList extends Component {
 
       return (
         <div>
-          <div className="ohe-list">{openHouseEvents.map(this.renderOpenHouseEvent)}</div>
+          <div className="ohe-list">{ openHouseEvents.map(this.renderOpenHouseEvent) }</div>
           <OHERegisterModal ohe={oheForModal} onClose={closeModal} action={this.props.action} />
           <div className="listing-ohe-box-text text-center">לא יכולים להגיע? אין מועדים זמינים?
 לחצו על ׳<i className="fa fa-heart-o red-heart"></i> אהבתי׳ ושמרו את הדירה לקבלת עדכונים על מועדי ביקור חדשים.</div>
