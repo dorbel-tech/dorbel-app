@@ -55,15 +55,16 @@ function* create(listing, user) {
   if (messageType) {
     if (process.env.NOTIFICATIONS_SNS_TOPIC_ARN) {
       messageBus.publish(process.env.NOTIFICATIONS_SNS_TOPIC_ARN, messageType, {
-        city_id: createdListing.apartment.building.city_id,
-        city_name: createdListing.apartment.building.city.city_name,
         apartment_id: createdListing.apartment_id,
         listing_id: createdListing.id,
+        city_id: createdListing.apartment.building.city_id,
+        city_name: createdListing.apartment.building.city.city_name,
+        publishing_user_type: createdListing.publishing_user_type,
         user_uuid: createdListing.publishing_user_id,
         user_email: listing.user.email,
         user_phone: generic.normalizePhone(listing.user.phone),
         user_first_name: listing.user.firstname,
-        user_last_name: listing.user.lastname
+        user_last_name: listing.user.lastname,
       });
     }
   }

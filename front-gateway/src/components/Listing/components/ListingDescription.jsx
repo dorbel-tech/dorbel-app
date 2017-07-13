@@ -9,9 +9,6 @@ class ListingDescription extends React.Component {
   constructor(props) {
     super(props);
     autobind(this);
-    this.state = {
-      showPhoneClicked: false
-    };
   }
 
   componentWillUnmount() {

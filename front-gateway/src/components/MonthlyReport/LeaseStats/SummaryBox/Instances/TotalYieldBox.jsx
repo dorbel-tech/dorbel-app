@@ -9,7 +9,7 @@ class TotalYieldBox extends Component {
         value={totalYield}
         text={
           <div>
-            תשואה שנתית
+            תשואה שנתית צפויה
           </div>
         } />
     );
