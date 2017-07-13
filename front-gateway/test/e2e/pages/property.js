@@ -17,8 +17,9 @@ module.exports = {
     propertyTitle: {
       selector: '.property-title'
     },
+    // Selector for listing status container on desktop only
     listingStatusSelector: {
-      selector: '.listing-status-selector',
+      selector: '.property-image-container > .dropdown.btn-group',
       elements: {
         listingMenuStatusDropdownToggle: {
           selector: '.dropdown-toggle'
