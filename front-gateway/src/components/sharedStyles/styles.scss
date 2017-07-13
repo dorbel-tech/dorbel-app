@@ -151,10 +151,12 @@ textarea {
   border: none !important;
   border-radius: 0;
   box-shadow: 0 3px 9px rgba(0, 0, 0, 0.175) !important;
+  font-size: 13px;
   max-height: 300px;
   overflow-y: auto;
 
   > li > a {
+    line-height: 19px;
     padding: 5px 14px !important;
   }
 }

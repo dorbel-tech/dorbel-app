@@ -7,28 +7,23 @@
   padding-right: 0;
   padding-left: 0;
 
-  .listing-status-container {
-    left: -25px;
-    top: 35px;
-
-    @media (max-width: $screen-xs-max) {
-      left: auto;
-      position: absolute;
-      right: 0;
-      top: 0;
-    }
-  }
-
-  .listing-status-label {
-    display: none;
-  }
-
   .listing-status-selector {
-    width: auto;
+    line-height: 11px;
+    position: absolute;
+    width: 135px !important;
 
     @media (max-width: $screen-xs-max) {
-      border-radius: 100px 0 0 100px;
+      display: none;
     }
+  }
+
+  .dropdown-menu {
+    top: 30px;
+  }
+
+  .dropdown-menu,
+  .listing-status-selector {
+    right: -105px;
   }
 }
 
@@ -249,6 +244,37 @@
 
   @media (max-width: $screen-xs-max) {
     display: block;
+  }
+}
+
+.property-status-mobile {
+  .property-status-label {
+    line-height: 45px;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .property-status-selector-container {
+    line-height: 42px;
+    text-align: center;
+
+    .dropdown {
+      max-width: 200px;
+      width: 100%;
+
+      > .listing-status-selector {
+        width: 100%;
+      }
+    }
+
+    .dropdown-menu {
+      left: 0;
+      top: 37px;
+    }
+  }
+
+  @media (min-width: $screen-sm-min) {
+    display: none;
   }
 }
 
