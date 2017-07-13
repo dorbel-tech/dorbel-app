@@ -12,7 +12,7 @@ const generic = shared.utils.generic;
 const userManagement = shared.utils.user.management;
 const userPermissions = shared.utils.user.permissions;
 
-const APARTMENTS_UINQUE_CONSTRAINT_INDEX_NAME = 'apartment_index';
+const APARTMENTS_UINQUE_CONSTRAINT_INDEX_NAME = 'apartments_index';
 
 const possibleStatusesByCurrentStatus = {
   pending: ['unlisted', 'deleted'],
