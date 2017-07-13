@@ -9,7 +9,7 @@ class TotalIncomeBox extends Component {
         value={totalIncomeFormatted}
         text={
           <div>
-            הכנסה שנתית
+            הכנסה שנתית צפויה
           </div>
         }
       />
