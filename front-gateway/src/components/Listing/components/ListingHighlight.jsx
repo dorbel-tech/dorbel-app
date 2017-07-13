@@ -11,11 +11,11 @@ class ListingHighlight extends React.Component {
 
     return (
       <div className="listing-highlight-container">
-        <div className="float-right">
+        <div className="pull-right">
           <span className="listing-highlight-price">{listing.monthly_rent}</span>
           <span> ₪ / לחודש</span>
         </div>
-        <div className="float-left">
+        <div className="pull-left">
           {isListingPublisherOrAdmin ?
             <NavLink className="listing-header-to-dashboard" title="לחץ כאן לניהול הנכס"
                     to={getDashMyPropsPath(listing)}>

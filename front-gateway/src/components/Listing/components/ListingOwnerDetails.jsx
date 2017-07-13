@@ -23,7 +23,7 @@ class ListingOwnerDetails extends Component {
     }
 
     return (
-      <div className="float-left">
+      <div className="pull-left">
         <Button className="listing-owner-send-message" onClick={this.handleMsgClick} title="שלחו הודעה לבעל הדירה">
           <i className="fa fa-comment" />
           &nbsp;שלח הודעה
@@ -57,7 +57,7 @@ class ListingOwnerDetails extends Component {
 
     return (
       <div className="listing-owner-container">
-        <div className="float-right">
+        <div className="pull-right">
           <span className="listing-owner-title">{title}: </span>
           <span>{listing.publishing_user_first_name || 'אנונימי'}</span>
         </div>
