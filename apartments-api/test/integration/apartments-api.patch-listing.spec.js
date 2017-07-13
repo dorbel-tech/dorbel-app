@@ -190,19 +190,19 @@ describe('Integration - PATCH /listings/{id}', function () {
     yield updateAndAssertImages([ createdListing.images[1] ]);
   });
 
-  it('should return an error if the patch conflicts with another apartments details'){
-    let listingToPatch = _.clone(fakeListing);
-    const aptNumToConflict = _.clone(fakeListing.apartment.apt_number);
-    fakeListing.apartment.apt_number = 'temp1'
+  it('should return an error if the patch conflicts with another apartments details', function * () {
+    let listingToPatch = _.clone(this.fakeListing);
+    const aptNumToConflict = _.clone(this.fakeListing.apartment.apt_number);
+    listingToPatch.apartment.apt_number = 'temp1';
 
-    let postResponse = yield apiClient.createListing(fakeListing).expect(201).end();.
+    let postResponse = yield apiClient.createListing(listingToPatch).expect(201).end();
     const patch = {
       apartment: {
         apt_number: aptNumToConflict
       }
-    }
+    };
     
-    postResponse = yield api.patchListing(postResponse.body.id, patch).expect(409).end();
+    postResponse = yield this.api.patchListing(postResponse.body.id, patch).expect(409).end();
     __.assertThat(postResponse.body, __.is('דירה עם פרטים זהים כבר קיימת במערכת'));
-  }
+  });
 });
