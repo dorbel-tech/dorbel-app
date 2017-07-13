@@ -26,13 +26,13 @@ class ManageLeaseModal extends React.Component {
 
   leaseStartChange(newLeaseStart) {
     this.setState({
-      leaseStart: moment(newLeaseStart),
-      leaseEnd: moment(newLeaseStart).add(1, 'year')
+      leaseStart: moment.utc(newLeaseStart),
+      leaseEnd: moment.utc(newLeaseStart).add(1, 'year')
     });
   }
 
   leaseEndChange(newLeaseEnd) {
-    this.setState({leaseEnd: moment(newLeaseEnd)});
+    this.setState({ leaseEnd: moment.utc(newLeaseEnd) });
   }
 
   confirmClickHandler() {
@@ -53,33 +53,33 @@ class ManageLeaseModal extends React.Component {
     const invalidTitle = periodValid ? '' : 'תאריך תום השכירות חייב להיות מאוחר מתאריך תחילת השכירות';
 
     const modalBody = <div className="property-manage-modal-body">
-        <div className="property-manage-modal-section-header">
-          עדכנו את מועדי תחילת ותום השכירות
+      <div className="property-manage-modal-section-header">
+        עדכנו את מועדי תחילת ותום השכירות
         </div>
-        <div>
-          <div className="property-manage-modal-picker-label">תחילת השכירות</div>
-          <div className="property-manage-modal-picker-label">תום השכירות</div>
+      <div>
+        <div className="property-manage-modal-picker-label">תחילת השכירות</div>
+        <div className="property-manage-modal-picker-label">תום השכירות</div>
+      </div>
+      <div className="property-manage-modal-picker-container">
+        <div className="property-manage-modal-start-picker-fake-container"
+          ref={(el) => { this.leaseStartContainer = el; }} />
+        <div className="property-manage-modal-start-picker-wrapper">
+          <DatePicker value={leaseStartValue}
+            onChange={this.leaseStartChange}
+            calendarContainer={this.leaseStartContainer} />
         </div>
-        <div className="property-manage-modal-picker-container">
-          <div className="property-manage-modal-start-picker-fake-container"
-               ref={(el) => { this.leaseStartContainer = el; }} />
-          <div className="property-manage-modal-start-picker-wrapper">
-            <DatePicker value={leaseStartValue}
-                        onChange={this.leaseStartChange}
-                        calendarContainer={this.leaseStartContainer} />
-          </div>
-          <div className="property-manage-modal-end-picker-separator">-</div>
-          <div className="property-manage-modal-end-picker-wrapper">
-            <DatePicker value={leaseEndValue}
-                        onChange={this.leaseEndChange} />
-          </div>
+        <div className="property-manage-modal-end-picker-separator">-</div>
+        <div className="property-manage-modal-end-picker-wrapper">
+          <DatePicker value={leaseEndValue}
+            onChange={this.leaseEndChange} />
         </div>
-        <Button onClick={this.confirmClickHandler} bsStyle={'success'}
-                block disabled={!periodValid}
-                title={invalidTitle}>
-          עדכן פרטים
+      </div>
+      <Button onClick={this.confirmClickHandler} bsStyle={'success'}
+        block disabled={!periodValid}
+        title={invalidTitle}>
+        עדכן פרטים
         </Button>
-      </div>;
+    </div>;
 
     return (
       <DorbelModal

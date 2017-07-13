@@ -148,6 +148,7 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
             <li>וודאו שהחדר מסודר</li>
             <li>השתדלו לצלם כל חדר לרוחב ומ-2 זויות</li>
             <li>תמונות טובות יחסכו לכם שאלות מיותרות</li>
+            <li>ניתן לגרור או לבחור כמה תמונות</li>
           </ul>
         </div>
       );

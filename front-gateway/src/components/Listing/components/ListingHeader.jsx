@@ -3,10 +3,8 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { Grid, Row } from 'react-bootstrap';
 import utils from '~/providers/utils';
-import NavLink from '~/components/NavLink';
 import ListingBadge from '~/components/ListingBadge/ListingBadge';
 import CloudinaryImage from '~/components/CloudinaryImage/CloudinaryImage';
-import { getDashMyPropsPath } from '~/routesHelper';
 
 let Flickity = 'div';
 let carouselClass = 'fixed-carousel';
@@ -25,18 +23,11 @@ const flickityOptions = {
 @inject('appStore') @observer
 export default class ListingHeader extends React.Component {
   render() {
-    const { appStore, listing } = this.props;
+    const { listing } = this.props;
     const sortedListingImages = utils.sortListingImages(listing);
-    const isListingPublisherOrAdmin = listing ? appStore.listingStore.isListingPublisherOrAdmin(listing) : false;
 
     return (
       <header className="listing-header">
-        {isListingPublisherOrAdmin ?
-          <NavLink className="listing-header-to-dashboard"
-                   to={getDashMyPropsPath(listing)}>
-            לניהול הנכס
-          </NavLink>
-        : null}
         <div className="listing-header-badge-container">
           <ListingBadge listing={listing}/>
         </div>
@@ -57,7 +48,6 @@ export default class ListingHeader extends React.Component {
 }
 
 ListingHeader.wrappedComponent.propTypes = {
-  listing: React.PropTypes.object.isRequired,
-  appStore: React.PropTypes.object.isRequired
+  listing: React.PropTypes.object.isRequired
 };
 

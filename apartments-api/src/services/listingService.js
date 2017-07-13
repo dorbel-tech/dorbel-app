@@ -57,7 +57,8 @@ function* create(listing, user) {
   if (messageType) {
     if (process.env.NOTIFICATIONS_SNS_TOPIC_ARN) {
       messageBus.publish(process.env.NOTIFICATIONS_SNS_TOPIC_ARN, messageType, {
-        city_id: listing.apartment.building.city_id,
+        city_id: createdListing.apartment.building.city_id,
+        city_name: createdListing.apartment.building.city.city_name,
         apartment_id: createdListing.apartment_id,
         listing_id: createdListing.id,
         user_uuid: createdListing.publishing_user_id,
@@ -146,6 +147,7 @@ function notifyListingChanged(oldListing, newListing) {
         apartment_id: oldListing.apartment_id,
         listing_id: oldListing.id,
         city_id: oldListing.apartment.building.city_id,
+        city_name: oldListing.apartment.building.city.city_name,
         previous_status: oldListing.status,
         user_uuid: oldListing.publishing_user_id
       });
@@ -380,12 +382,31 @@ function* getValidationData(apartment, user) {
   return result;
 }
 
-function* getMonthlyReportData(day, month, year, user) {
+/*
+  This method is invoked by an AWS monthly-report-lambda repo: https://github.com/dorbel-tech/monthly-report-lambda.
+  First it calls listings repository to collect listing_ids and publishing_user_ids for:
+  rented listings, with lease_end>now, publishing_user_type=landlord, lease_start day of month = this day of month.
+
+  Then it iterates over each listing and publishes a message to SNS which being processed by notification-service to deliver the reports.
+*/
+function* sendMonthlyReports(day, month, year, user) {
   if (userPermissions.isUserAdmin(user)) {
     const momentJsMonth = month - 1;
     const reportDate = moment({ year, month: momentJsMonth, date: day });
 
-    return yield listingRepository.getMonthlyReportData(reportDate, getMonthlyReportDays(reportDate));
+    logger.info('Gettting monthly report data');
+    const reportData = yield listingRepository.getMonthlyReportData(reportDate, getMonthlyReportDays(reportDate));
+    logger.info({ reportData }, 'Received monthly report data');
+
+    reportData.map(reportDataItem =>
+      messageBus.publish(process.env.NOTIFICATIONS_SNS_TOPIC_ARN, messageBus.eventType.SEND_MONTHLY_REPORT, {
+        user_uuid: reportDataItem.publishing_user_id,
+        listing_id: reportDataItem.id,
+        day,
+        month,
+        year
+      })
+    );
   }
   else {
     throw new CustomError(403, 'You are not allowed to view this data');
@@ -412,5 +433,5 @@ module.exports = {
   getByApartmentId,
   getRelatedListings,
   getValidationData,
-  getMonthlyReportData
+  sendMonthlyReports
 };

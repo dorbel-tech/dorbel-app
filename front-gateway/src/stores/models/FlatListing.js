@@ -5,6 +5,8 @@
  * 2. Listings that are being edited and PATCHed
  **/
 import _ from 'lodash';
+import { observable } from 'mobx';
+
 
 export default class FlatListing {
   constructor(listing) {
@@ -20,7 +22,7 @@ export default class FlatListing {
 }
 
 const defaultFormValues = {
-  images: [],
+  @observable images: [],
   publishing_user_type: 'landlord'
 };
 

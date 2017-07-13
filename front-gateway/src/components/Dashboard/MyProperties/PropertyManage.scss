@@ -177,3 +177,36 @@
   border: 0;
   margin-bottom: 2px;
 }
+
+.property-manage-lease-stats {
+  .dropdown {
+    float: left;
+
+    .dropdown-menu {
+      right: auto;
+      left: 0;
+    }
+  }
+
+  .property-manage-lease-stats-group {
+    .property-manage-lease-stats-group-heading {
+      font-size: 15px;
+      line-height: 17px;
+      color: $gray-dark;
+      margin-bottom: 5px;
+    }
+
+    .property-manage-lease-stats-group-data {
+      background-color: $brand-white;
+      padding-top: 10px;
+      margin-bottom: 45px;
+
+      .divider {
+        background-color: $gray-lighter;
+        width: 100%;
+        height: 100px; // not optimal, but 100% didn't work :(
+      }
+    }
+  }
+}
+

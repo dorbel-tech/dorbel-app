@@ -1,0 +1,16 @@
+.listing-owner-container {
+  color: #9b9b9b;
+  border-top: $gray-border;
+  margin: 30px 20px;
+  padding: 10px 0 50px;
+
+  .listing-owner-title {
+    font-weight: 600;
+    line-height: 32px;
+    padding: 0 0 8px;
+  }
+
+  .listing-owner-send-message {
+    margin-left: 5px;
+  }
+}
