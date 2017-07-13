@@ -6,13 +6,13 @@ const fakeObjectGenerator = require('../shared/fakeObjectGenerator');
 const ApiClient = require('./apiClient.js');
 
 describe('Integration - PATCH /listings/{id}', function () {
-  let apiClient, adminApiClient, createdListing;
+  let apiClient, adminApiClient, createdListing, fakeListingObj;
 
   before(function* () {
     apiClient = yield ApiClient.getInstance();
     adminApiClient = yield ApiClient.getAdminInstance();
-    const fakeListing = fakeObjectGenerator.getFakeListing();
-    let postResponse = yield apiClient.createListing(fakeListing).expect(201).end();
+    fakeListingObj = fakeObjectGenerator.getFakeListing();
+    let postResponse = yield apiClient.createListing(fakeListingObj).expect(201).end();
     postResponse = yield adminApiClient.patchListing(postResponse.body.id, { status: 'listed' }).expect(200).end();
     createdListing = postResponse.body;
   });
@@ -191,8 +191,9 @@ describe('Integration - PATCH /listings/{id}', function () {
   });
 
   it('should return an error if the patch conflicts with another apartments details', function * () {
-    let listingToPatch = _.clone(this.fakeListing);
-    const aptNumToConflict = _.clone(this.fakeListing.apartment.apt_number);
+    let listingToPatch = _.clone(fakeListingObj);
+    console.log(listingToPatch);
+    const aptNumToConflict = _.clone(fakeListingObj.apartment.apt_number);
     listingToPatch.apartment.apt_number = 'temp1';
 
     let postResponse = yield apiClient.createListing(listingToPatch).expect(201).end();
@@ -202,7 +203,7 @@ describe('Integration - PATCH /listings/{id}', function () {
       }
     };
     
-    postResponse = yield this.api.patchListing(postResponse.body.id, patch).expect(409).end();
+    postResponse = yield apiClient.patchListing(postResponse.body.id, patch).expect(409).end();
     __.assertThat(postResponse.body, __.is('דירה עם פרטים זהים כבר קיימת במערכת'));
   });
 });
