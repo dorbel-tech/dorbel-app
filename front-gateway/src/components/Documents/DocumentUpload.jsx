@@ -35,7 +35,8 @@ export default class DocumentUpload extends React.Component {
     appProviders: React.PropTypes.object,
     appStore: React.PropTypes.object,
     className: React.PropTypes.string,
-    listing_id: React.PropTypes.number.isRequired
+    listing_id: React.PropTypes.number.isRequired,
+    type: React.PropTypes.string
   }
 
   getUploadOptions(props) {
@@ -55,16 +56,26 @@ export default class DocumentUpload extends React.Component {
     return <Button onClick={onPick} className={this.props.className}>הוסף מסמך</Button>;
   }
 
+  renderLink({ onPick }) {
+    return <a href="#" onClick={onPick}>+ הוסף מסמך</a>;
+  }
+
   render() {
     if (!process.env.FILESTACK_API_KEY) {
       return null;
+    }
+
+    let renderFunction = this.renderButton;
+
+    if (this.props.type === 'link') {
+      renderFunction = this.renderLink;
     }
 
     return (
       <ReactFilestack
         apikey={process.env.FILESTACK_API_KEY}
         onSuccess={this.onDocumentUploaded}
-        render={this.renderButton}
+        render={renderFunction}
         options={this.uploadOptions}
       />
     );

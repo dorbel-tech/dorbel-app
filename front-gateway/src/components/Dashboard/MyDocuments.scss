@@ -1,0 +1,39 @@
+@mixin vertically-centered-row() {
+  .row {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.my-documents-container {
+  padding: 50px 50px 50px;
+}
+
+.my-documents-listing-header {
+  @include vertically-centered-row();
+  padding: 0;    
+
+  .dropdown > button.listing-status-selector {  
+    margin-right: -45px !important;
+    opacity: 1;
+    padding: 0;
+    width: 90px !important;
+
+    &::after {
+      /* Remove the caret from the listing-status-selector */
+      content: '' !important;
+    }
+  }
+}
+
+.my-documents-listing-sub-header {
+  @include vertically-centered-row();
+  padding-bottom: 0;
+  padding-top: 0;
+}
+
+.my-documents-listing-image {
+  height: 65px;
+  width: 150px;
+  object-fit: cover;
+}
