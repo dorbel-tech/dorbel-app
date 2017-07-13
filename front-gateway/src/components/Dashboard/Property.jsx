@@ -225,7 +225,7 @@ class Property extends Component {
                   <Col sm={3} xs={4} className="property-status-label">
                     סטטוס המודעה:
                   </Col>
-                  <Col sm={9} xs={8} className="property-status-container">
+                  <Col sm={9} xs={8} className="property-status-selector-container">
                     <ListingStatusSelector listing={property} />
                   </Col>
                 </Row> }
