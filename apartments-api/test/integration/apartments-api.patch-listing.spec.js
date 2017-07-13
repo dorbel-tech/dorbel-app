@@ -192,11 +192,12 @@ describe('Integration - PATCH /listings/{id}', function () {
 
   it('should return an error if the patch conflicts with another apartments details', function * () {
     let listingToPatch = _.clone(fakeListingObj);
-    console.log(listingToPatch);
     const aptNumToConflict = _.clone(fakeListingObj.apartment.apt_number);
     listingToPatch.apartment.apt_number = 'temp1';
+    listingToPatch.slug = '';
 
     let postResponse = yield apiClient.createListing(listingToPatch).expect(201).end();
+
     const patch = {
       apartment: {
         apt_number: aptNumToConflict
