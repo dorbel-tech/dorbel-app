@@ -24,9 +24,9 @@ class ListingOwnerDetails extends Component {
 
     return (
       <div className="pull-left">
-        <Button className="listing-owner-send-message" onClick={this.handleMsgClick} title="שלחו הודעה לבעל הדירה">
+        <Button className="listing-owner-send-message" onClick={this.handleMsgClick} title="שלחו הודעה למפרס המודעה">
           <i className="fa fa-comment" />
-          &nbsp;שלח הודעה
+           &nbsp;שלח הודעה
         </Button>
       </div>
     );
@@ -42,7 +42,7 @@ class ListingOwnerDetails extends Component {
         id: listing.publishing_user_id,
         name: listing.publishing_user_first_name,
         email: listing.publishing_user_email,
-        welcomeMessage: 'באפשרותך לשלוח הודעה לבעל הדירה. במידה והוא אינו מחובר הודעתך תישלח אליו למייל.'
+        welcomeMessage: 'באפשרותך לשלוח הודעה למפרס המודעה. במידה והוא אינו מחובר הודעתך תישלח אליו למייל.'
       };
       messagingProvider.getOrStartConversation(withUserObj, {
         topicId: listing.listing_id,
