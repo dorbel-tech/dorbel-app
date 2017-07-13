@@ -1,7 +1,7 @@
 @import "../../sharedStyles/variables.scss";
 @import "../../sharedStyles/bsvars.scss";
 
-.property-manage-lease-title {
+.property-manage-section-title {
   font-size: 15px;
   padding-bottom: 30px;
 
@@ -13,6 +13,10 @@
   @media (max-width: $screen-sm-max) {
     padding-bottom: 15px;
   }
+}
+
+.property-manage-section-content {
+  margin-bottom: 30px;
 }
 
 .property-manage-lease-period {
@@ -168,7 +172,7 @@
   }
 }
 
-.property-manage-tenant-item {
+.property-manage-list-group-item {
   background-color: $brand-white !important;
   border: 0;
   margin-bottom: 2px;

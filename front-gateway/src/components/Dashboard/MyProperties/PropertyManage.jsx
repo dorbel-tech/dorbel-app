@@ -9,6 +9,8 @@ import TenantRow from '~/components/Tenants/TenantRow/TenantRow';
 import AddTenantModal from '~/components/Tenants/AddTenantModal/AddTenantModal';
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
 import ManageLeaseModal from './ManageLeaseModal';
+import DocumentRow from '~/components/Documents/DocumentRow';
+import DocumentUpload from '~/components/Documents/DocumentUpload';
 
 import MonthlyRentBox from '~/components/MonthlyReport/LeaseStats/SummaryBox/Instances/MonthlyRentBox';
 import RentPayedBox from '~/components/MonthlyReport/LeaseStats/SummaryBox/Instances/RentPayedBox';
@@ -31,7 +33,9 @@ class PropertyManage extends Component {
   }
 
   componentDidMount() {
-    this.props.appProviders.listingsProvider.loadListingTenants(this.props.listing.id);
+    const { appProviders, listing } = this.props;
+    appProviders.listingsProvider.loadListingTenants(listing.id);
+    appProviders.documentProvider.getDocumentsForListing(listing.id);
   }
 
   closeManageLeaseModal(confirm, newLeaseStart, newLeaseEnd) {
@@ -143,11 +147,11 @@ class PropertyManage extends Component {
 
     return (
       <ListGroup>
-        {tenants.map(tenant => (
-          <ListGroupItem key={tenant.id} disabled={tenant.disabled} className="property-manage-tenant-item">
-            <TenantRow tenant={tenant} listingTitle={listingTitle} showActionButtons />
-          </ListGroupItem>
-        ))}
+        { tenants.map(tenant => (
+            <ListGroupItem key={tenant.id} disabled={tenant.disabled} className="property-manage-list-group-item">
+              <TenantRow tenant={tenant} listingTitle={listingTitle} showActionButtons/>
+            </ListGroupItem>
+          )) }
       </ListGroup>
     );
   }
@@ -159,49 +163,83 @@ class PropertyManage extends Component {
     });
   }
 
+  renderDocuments() {
+    const { appStore, listing } = this.props;
+    let documents = appStore.documentStore.getDocumentsByListing(listing.id);
+    let groupContent;
+
+    if (!documents || documents.length === 0) {
+      groupContent = (
+        <ListGroupItem className="property-manage-list-group-item" disabled>
+          {DocumentRow.getPlaceholderRow()}
+        </ListGroupItem>
+      );
+    } else {
+      groupContent = documents.map(document => (
+        <ListGroupItem key={document.id} className="property-manage-list-group-item">
+          <DocumentRow document={document} />
+        </ListGroupItem>
+      ));
+    }
+
+    return <ListGroup id="documents-list-group">{ groupContent }</ListGroup>;
+  }
+
   render() {
     const { appProviders, listing } = this.props;
     const leaseStats = utils.getListingLeaseStats(listing);
     const leasePeriodLabel = leaseStats.leasePeriod || '-';
     const isActiveListing = appProviders.listingsProvider.isActiveListing(listing);
 
-    return <Grid fluid className="property-manage">
-      <Row className="property-manage-lease-title">
+    return  <Grid fluid className="property-manage">
+      <Row className="property-manage-section-title">
         <Col xs={12}>
           מידע על השכירות:
-                </Col>
+        </Col>
       </Row>
-      <Row className="property-manage-lease-period">
+      <Row className="property-manage-section-content property-manage-lease-period">
         <ManageLeaseModal listing={listing}
-          show={this.state.showManageLeaseModal}
-          onClose={this.closeManageLeaseModal} />
+                          show={this.state.showManageLeaseModal}
+                          onClose={this.closeManageLeaseModal}/>
         <Col xs={12}>
           <div>
             תקופת השכירות: {leasePeriodLabel} ימים
-                  </div>
+          </div>
           <div className="property-manage-lease-period-edit"
             onClick={this.editLeaseDates}>
             <i className="property-manage-lease-period-edit-icon fa fa-pencil-square-o" aria-hidden="true"></i>
             עריכה
-                  </div>
+          </div>
           <div className="property-manage-lease-period-start">{leaseStats.leaseStart}</div>
           <div className="property-manage-lease-period-start-label">תחילת שכירות</div>
           <div className="property-manage-lease-period-days-passed">{leaseStats.daysPassedLabel} ימים עברו</div>
-          <ProgressBar now={leaseStats.daysPassed <= 0 ? (leaseStats.leasePeriod / 100) : leaseStats.daysPassed} max={leaseStats.leasePeriod} />
+          <ProgressBar now={leaseStats.daysPassed <= 0 ? (leaseStats.leasePeriod / 100) : leaseStats.daysPassed} max={leaseStats.leasePeriod}/>
           <div className="property-manage-lease-period-days-left">{leaseStats.daysLeft} ימים נותרו</div>
           <div className="property-manage-lease-period-end">{leaseStats.leaseEnd}</div>
           <div className="property-manage-lease-period-end-label">תום שכירות</div>
         </Col>
       </Row>
+
       {this.renderLeaseStats(listing)}
-      <Row className="property-manage-lease-title">
+
+      <Row className="property-manage-section-title">
         <Col xs={12}>
-          {isActiveListing ? 'דיירים נוכחיים:' : 'דיירים קודמים:'}
+          { isActiveListing ? 'דיירים נוכחיים:' : 'דיירים קודמים:' }
           <Button onClick={this.showAddTenantModal} className="add-button pull-left">הוסף דייר</Button>
         </Col>
       </Row>
-      <Row>
+      <Row className="property-manage-section-content">
         {this.renderTenants()}
+      </Row>
+
+      <Row className="property-manage-section-title">
+        <Col xs={12}>
+          מסמכים:                  
+          <DocumentUpload className="add-button pull-left" listing_id={listing.id} />
+        </Col>
+      </Row>
+      <Row className="property-manage-section-content">
+        {this.renderDocuments()}
       </Row>
     </Grid>;
   }

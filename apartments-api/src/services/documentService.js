@@ -33,6 +33,9 @@ function * destroy(document_id, user) {
     throw new errors.NotResourceOwnerError();
   }
 
+  // We are not deleting the file from filestack because that requires a signed signature, which we are not using (yet!)
+  // TODO : delete file from filestack
+
   return documentRepository.destroy(document_id);
 }
 

@@ -1,0 +1,10 @@
+@import '../sharedStyles/variables.scss';
+
+.document-row {
+  display: flex;
+  align-items: center;
+}
+
+.disabled .document-row .badge {
+  background-color: $gray-lighter;
+}

@@ -22,6 +22,12 @@ describe('Property', () => {
       },
       editedListingStore: {
         disableSave: true
+      },
+      likeStore: {
+        likesByListingId: { 
+          get: jest.fn().mockReturnValue([]), 
+          has: jest.fn() 
+        }
       }
     };
     appProvidersMock = {
@@ -36,7 +42,10 @@ describe('Property', () => {
       oheProvider: {
         loadListingEvents: jest.fn()
       },
-      navProvider: {}
+      navProvider: {},
+      likeProvider: {
+        getLikesForListing: jest.fn()
+      }
     };
     propertyMock = {
       id: 7,

@@ -16,6 +16,7 @@ import SearchProvider from './SearchProvider';
 import LikeProvider from './LikeProvider';
 import ListingImageProvider from './ListingImageProvider';
 import NavProvider from './NavProvider';
+import DocumentProvider from './DocumentProvider';
 
 import utils from './utils';
 
@@ -48,6 +49,7 @@ class AppProviders {
     this.searchProvider = new SearchProvider(appStore, { api: this.apiProvider, ohe: this.oheProvider });
     this.likeProvider = new LikeProvider(appStore, this.apiProvider);
     this.navProvider = new NavProvider(appStore, router);
+    this.documentProvider = new DocumentProvider(appStore, this.apiProvider);
     this.utils = utils;
   }
 }

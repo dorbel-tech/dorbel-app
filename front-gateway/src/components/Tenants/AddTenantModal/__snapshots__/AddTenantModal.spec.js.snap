@@ -52,7 +52,8 @@ exports[`Add Tenant Modal should match snapshot in empty state 1`] = `
             validatePristine={false}
             validationError=""
             validationErrors={Object {}}
-            validations="isEmail">
+            validations="isEmail"
+            value="">
             <Row
               elementWrapperClassName={
                 Array [
@@ -94,7 +95,8 @@ exports[`Add Tenant Modal should match snapshot in empty state 1`] = `
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
-                  type="email" />
+                  type="email"
+                  value="" />
               </div>
             </Row>
           </Input>
@@ -114,7 +116,8 @@ exports[`Add Tenant Modal should match snapshot in empty state 1`] = `
             validateOnSubmit={false}
             validatePristine={false}
             validationError=""
-            validationErrors={Object {}}>
+            validationErrors={Object {}}
+            value="">
             <Row
               elementWrapperClassName={
                 Array [
@@ -161,7 +164,8 @@ exports[`Add Tenant Modal should match snapshot in empty state 1`] = `
                   onChange={[Function]}
                   onFocus={[Function]}
                   required={true}
-                  type="text" />
+                  type="text"
+                  value="" />
               </div>
             </Row>
           </Input>
@@ -180,7 +184,8 @@ exports[`Add Tenant Modal should match snapshot in empty state 1`] = `
             validateOnSubmit={false}
             validatePristine={false}
             validationError=""
-            validationErrors={Object {}}>
+            validationErrors={Object {}}
+            value="">
             <Row
               elementWrapperClassName={
                 Array [
@@ -222,7 +227,8 @@ exports[`Add Tenant Modal should match snapshot in empty state 1`] = `
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
-                  type="text" />
+                  type="text"
+                  value="" />
               </div>
             </Row>
           </Input>
@@ -241,7 +247,8 @@ exports[`Add Tenant Modal should match snapshot in empty state 1`] = `
             validateOnSubmit={false}
             validatePristine={false}
             validationError=""
-            validationErrors={Object {}}>
+            validationErrors={Object {}}
+            value="">
             <Row
               elementWrapperClassName={
                 Array [
@@ -283,7 +290,8 @@ exports[`Add Tenant Modal should match snapshot in empty state 1`] = `
                   onBlur={[Function]}
                   onChange={[Function]}
                   onFocus={[Function]}
-                  type="text" />
+                  type="text"
+                  value="" />
               </div>
             </Row>
           </Input>

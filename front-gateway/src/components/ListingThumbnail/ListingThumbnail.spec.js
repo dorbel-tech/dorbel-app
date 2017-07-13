@@ -49,7 +49,7 @@ describe('Listing Thumbnail', () => {
       expect(leaseStart.text()).toBe('מיידי');
     });
     it('should display appropriate text for lease_start which is today', () => {
-      listing.lease_start = (new Date()).toDateString();
+      listing.lease_start = (new Date()).toISOString();
 
       const rendered = renderThumbnail();
 
@@ -59,7 +59,7 @@ describe('Listing Thumbnail', () => {
     it('should display appropriate text for lease_start in the future', () => {
       let tomorrow = new Date();
       tomorrow.setDate(tomorrow.getDate() + 1);
-      listing.lease_start = tomorrow.toDateString();
+      listing.lease_start = tomorrow.toISOString();
 
       const rendered = renderThumbnail();
 
