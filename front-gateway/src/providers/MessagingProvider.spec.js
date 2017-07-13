@@ -79,8 +79,10 @@ describe('Messaging Provider', () => {
     it('should return true and setup a new talkSession', () => {
       messagingProvider.initTalkUser.mockReturnValue(true);
       const talkUserMock = jest.fn();
+      const talkSessionMock = { on: jest.fn() };
       messagingProvider.talkUser = talkUserMock;
-      global.window.Talk = {Session: jest.fn()};
+      global.window.Talk = { Session: jest.fn(() => talkSessionMock) };
+
       global.window.dorbelConfig = {
         TALKJS_APP_ID: faker.random.uuid(),
         TALKJS_PUBLISHABLE_KEY: faker.random.uuid()
@@ -96,6 +98,7 @@ describe('Messaging Provider', () => {
         me: talkUserMock
       });
       expect(result).toEqual(true);
+      expect(talkSessionMock.on.mock.calls[0][0]).toBe('message');
     });
   });
 
