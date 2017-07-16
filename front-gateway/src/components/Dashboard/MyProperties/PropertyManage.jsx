@@ -63,19 +63,6 @@ class PropertyManage extends Component {
       const year = now.year();
       const statsVM = new LeaseStatsVM(listing, month, year);
 
-      let monthsToShow;
-      const { leaseStart, monthList, currentMonthIndex } = statsVM;
-      if (leaseStart <= now) {
-        monthsToShow = monthList.slice(0, currentMonthIndex + 1);
-      }
-      else {
-        monthsToShow = [{
-          month: monthList[0].month,
-          year: monthList[0].year,
-          disabled: true
-        }];
-      }
-
       const { handleHrefClick } = this.props.appProviders.navProvider;
       return (
         <Row className="property-manage-lease-stats">
@@ -87,7 +74,7 @@ class PropertyManage extends Component {
                   title='הצג דו"ח חודשי'
                   className="report-date-selector">
                   {
-                    monthsToShow.map((item) => {
+                    statsVM.passedMonthsList.map((item) => {
                       const dateStr = `${item.month < 10 ? '0' + item.month : item.month}/${item.year}`;
                       return (
                         <MenuItem
