@@ -17,8 +17,9 @@ class MyProfile extends Component {
   constructor(props) {
     super(props);
     autobind(this);
+
     this.tabs = [
-      { key: 'settings', title: 'הגדרות', content: MySettingsFields },
+      { key: 'settings', title: 'הגדרות', content: MySettingsFields, submitText: 'שמור שינויים' },
       { key: 'me', title: 'פרטי קשר', content: MyProfileFields },
       { key: 'tenant', title: 'פרופיל דייר', content: MyTenantProfileFields }
     ];
@@ -30,7 +31,7 @@ class MyProfile extends Component {
   }
 
   submit() {
-    let formsy = this.refs.form.refs.formsy;
+    const formsy = this.form.refs.formsy;
 
     if (formsy.isChanged()) {
       const profile = formsy.getModel();
@@ -57,6 +58,8 @@ class MyProfile extends Component {
     const profile = authStore.profile;
     const activeTab = this.state.activeTab;
 
+    const formChanged = this.form && this.form.refs.formsy.isChanged();
+
     return (
       <Grid fluid className="profile-container">
         <Tabs className="tab-menu" activeKey={activeTab}
@@ -68,7 +71,7 @@ class MyProfile extends Component {
         <Row className="profile-edit-wrapper">
           <div className="profile-header">
             <div className="profile-title pull-right">{activeTab.title}</div>
-            <Button className="profile-preview pull-left" onClick={() => { this.showPreview(profile); }}>
+            <Button className={'profile-preview pull-left profile-preview-' + activeTab.key} onClick={() => { this.showPreview(profile); }}>
               תצוגה מקדימה
             </Button>
           </div>
@@ -77,14 +80,14 @@ class MyProfile extends Component {
               <img className="profile-picture" src={profile.picture} />
             </div>
             <Row>
-              <FormWrapper.Wrapper className="profile-form" ref="form"
+              <FormWrapper.Wrapper className="profile-form" ref={el => this.form = el}
                 onInvalid={() => { this.setState({ isValid: false }); }}
                 onValid={() => { this.setState({ isValid: true }); }}>
                 {this.renderActiveSection(profile)}
                 <Row>
-                  <SubmitButton disabled={!this.state.isValid} onClick={this.submit} className="profile-submit"
+                  <SubmitButton disabled={!formChanged || !this.state.isValid} onClick={this.submit} className="profile-submit"
                     bsStyle="success">
-                    עדכון פרטים
+                    {activeTab.submitText || 'עדכון פרטים'}
                   </SubmitButton>
                 </Row>
               </FormWrapper.Wrapper>
