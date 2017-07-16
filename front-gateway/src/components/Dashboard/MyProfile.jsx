@@ -17,6 +17,7 @@ class MyProfile extends Component {
   constructor(props) {
     super(props);
     autobind(this);
+
     this.tabs = [
       { key: 'settings', title: 'הגדרות', content: MySettingsFields, submitText: 'שמור שינויים' },
       { key: 'me', title: 'פרטי קשר', content: MyProfileFields },
@@ -30,7 +31,7 @@ class MyProfile extends Component {
   }
 
   submit() {
-    let formsy = this.refs.form.refs.formsy;
+    const formsy = this.form.refs.formsy;
 
     if (formsy.isChanged()) {
       const profile = formsy.getModel();
@@ -77,7 +78,7 @@ class MyProfile extends Component {
               <img className="profile-picture" src={profile.picture} />
             </div>
             <Row>
-              <FormWrapper.Wrapper className="profile-form" ref="form"
+              <FormWrapper.Wrapper className="profile-form" ref={el => this.form = el}
                 onInvalid={() => { this.setState({ isValid: false }); }}
                 onValid={() => { this.setState({ isValid: true }); }}>
                 {this.renderActiveSection(profile)}
