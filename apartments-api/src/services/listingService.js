@@ -13,10 +13,8 @@ const userManagement = shared.utils.user.management;
 const userPermissions = shared.utils.user.permissions;
 
 const possibleStatusesByCurrentStatus = {
-  pending: ['unlisted', 'deleted'],
-  rented: ['unlisted', 'deleted'],
-  unlisted: ['rented', 'deleted'],
-  listed: ['rented', 'unlisted', 'deleted']
+  unlisted: ['listed', 'rented'],
+  listed: ['unlisted', 'rented']
 };
 
 const createdEventsByListingStatus = {
