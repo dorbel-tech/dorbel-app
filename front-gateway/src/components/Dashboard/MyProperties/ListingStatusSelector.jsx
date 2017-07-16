@@ -4,6 +4,7 @@ import _ from 'lodash';
 import { DropdownButton, MenuItem, Button } from 'react-bootstrap';
 import autobind from 'react-autobind';
 import utils from '~/providers/utils';
+import { getDashMyPropsPath } from '~/routesHelper';
 
 import './ListingStatusSelector.scss';
 
@@ -65,7 +66,7 @@ class ListingStatusSelector extends React.Component {
     const { listing, appProviders } = this.props;
 
     appProviders.modalProvider.close();
-    appProviders.navProvider.setRoute('/dashboard/my-properties/' + listing.id + '/manage');
+    appProviders.navProvider.setRoute(getDashMyPropsPath(listing, '/manage'));
     appProviders.listingsProvider.updateListing(listing.id, { rent_lead_by: rentLeadBy });
   }
 
