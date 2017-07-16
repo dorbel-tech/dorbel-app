@@ -4,7 +4,7 @@ module.exports = {
   up: function (queryInterface, Sequelize) {
     return queryInterface.addColumn(
       'listings',
-      'rented_by',
+      'rent_lead_by',
       {
         type: Sequelize.ENUM('dorbel', 'other'),
         allowNull: true,
@@ -16,7 +16,7 @@ module.exports = {
   down: function (queryInterface) {
     return queryInterface.removeColumn(
       'listings',
-      'rented_by'
+      'rent_lead_by'
     );
   }
 };

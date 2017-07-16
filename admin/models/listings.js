@@ -84,7 +84,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DECIMAL(10, 2),
         defaultValue: null
       },
-      rented_by: {
+      rent_lead_by: {
         type: DataTypes.ENUM('dorbel', 'other'),
         defaultValue: null
       },

@@ -61,12 +61,12 @@ class ListingStatusSelector extends React.Component {
     }).catch((err) => this.props.appProviders.notificationProvider.error(err));
   }
 
-  postStatusChangeAction(rentedBy) {
+  postStatusChangeAction(rentLeadBy) {
     const { listing, appProviders } = this.props;
 
     appProviders.modalProvider.close();
     appProviders.navProvider.setRoute('/dashboard/my-properties/' + listing.id + '/manage');
-    appProviders.listingsProvider.updateListing(listing.id, { rented_by: rentedBy });
+    appProviders.listingsProvider.updateListing(listing.id, { rent_lead_by: rentLeadBy });
   }
 
   postStatusChange(newStatus) {
