@@ -18,7 +18,7 @@ class MyProfile extends Component {
     super(props);
     autobind(this);
     this.tabs = [
-      { key: 'settings', title: 'הגדרות', content: MySettingsFields },
+      { key: 'settings', title: 'הגדרות', content: MySettingsFields, submitText: 'שמור שינויים' },
       { key: 'me', title: 'פרטי קשר', content: MyProfileFields },
       { key: 'tenant', title: 'פרופיל דייר', content: MyTenantProfileFields }
     ];
@@ -68,7 +68,7 @@ class MyProfile extends Component {
         <Row className="profile-edit-wrapper">
           <div className="profile-header">
             <div className="profile-title pull-right">{activeTab.title}</div>
-            <Button className="profile-preview pull-left" onClick={() => { this.showPreview(profile); }}>
+            <Button className={'profile-preview pull-left profile-preview-' + activeTab.key} onClick={() => { this.showPreview(profile); }}>
               תצוגה מקדימה
             </Button>
           </div>
@@ -84,7 +84,7 @@ class MyProfile extends Component {
                 <Row>
                   <SubmitButton disabled={!this.state.isValid} onClick={this.submit} className="profile-submit"
                     bsStyle="success">
-                    עדכון פרטים
+                    {activeTab.submitText || 'עדכון פרטים'}
                   </SubmitButton>
                 </Row>
               </FormWrapper.Wrapper>
