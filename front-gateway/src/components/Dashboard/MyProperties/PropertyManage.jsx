@@ -63,12 +63,10 @@ class PropertyManage extends Component {
       const year = now.year();
       const statsVM = new LeaseStatsVM(listing, month, year);
 
-      const { leaseStart, reportDate, monthList } = statsVM;
-
       let monthsToShow;
+      const { leaseStart, monthList, currentMonthIndex } = statsVM;
       if (leaseStart <= now) {
-        const monthDiff = Math.floor(reportDate.diff(leaseStart, 'month', true)); // Get exact decimal month difference * -1 and floor because we want to display only the dates that passed
-        monthsToShow = monthList.slice(0, monthDiff + 1);
+        monthsToShow = monthList.slice(0, currentMonthIndex + 1);
       }
       else {
         monthsToShow = [{

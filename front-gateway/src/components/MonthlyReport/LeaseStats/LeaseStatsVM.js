@@ -59,7 +59,7 @@ class LeaseStatsVM {
   }
 
   getCurrentMonthIndex(reportDate, leaseStart) {
-    return reportDate.diff(leaseStart, 'months');
+    return Math.floor(reportDate.diff(leaseStart, 'month', true));
   }
 
   getMonthsToLeaseEnd(reportDate, leaseEnd) {
