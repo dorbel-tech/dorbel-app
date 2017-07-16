@@ -20,10 +20,10 @@ export default class DocumentRow extends React.Component {
   static getPlaceholderRow() {
     return (
       <Row className="document-row">
-        <Col xs={8} sm={6}>קובץ שהועלה</Col>
-        <Col xs={3} sm={1}><Badge>doc</Badge></Col>
-        <Col xsHidden sm={2}>תאריך</Col>
-        <Col xsHidden sm={2}>גודל</Col>
+        <Col xs={8} sm={6}>הוסיפו מסמך חדש לגיבוי</Col>
+        <Col xs={3} sm={1}><Badge>type</Badge></Col>
+        <Col xsHidden sm={2}>--</Col>
+        <Col xsHidden sm={2}>--</Col>
         <Col xs={1} sm={1}>
           <Dropdown id="document0" className="pull-left" disabled>
             <Dropdown.Toggle noCaret bsStyle="link"><i className="fa fa-ellipsis-v" /></Dropdown.Toggle>
