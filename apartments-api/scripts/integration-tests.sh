@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" # Get the scripts folder location in order to run dbCleaner 
+                                                        # This way this script can be called from anywhere and find dbCleaner.js
 EXIT_CODE=0
 
 function runTests() {
@@ -10,4 +11,4 @@ function runTests() {
 runTests
 node "$DIR/dbCleaner.js" # Clean the DB
 
-exit ${RET_CODE}
+exit ${EXIT_CODE}
