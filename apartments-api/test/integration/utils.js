@@ -17,27 +17,27 @@ function* clearAllUserLikes(apiClient) {
 }
 
 function* cleanDb() {
-  console.log('cleaning DB');
-  const db = require('../../src/apartmentsDb/dbConnectionProvider');
-  yield db.connect();
-  const aptIdsToDelete = yield db.models.listing.findAll({
-    raw: true,
-    attributes: ['apartment_id'],
-    where: {
-      publishing_user_id: {
-        $in: _.values(userIds)
+  if (process.env.NODE_ENV && process.env.NODE_ENV.toLowerCase() != 'production') {
+    const db = require('../../src/apartmentsDb/dbConnectionProvider');
+    yield db.connect();
+    const aptIdsToDelete = yield db.models.listing.findAll({
+      raw: true,
+      attributes: ['apartment_id'],
+      where: {
+        publishing_user_id: {
+          $in: _.values(userIds)
+        }
       }
-    }
-  });
-  console.log({aptIdsToDelete});
-  yield db.models.apartment.destroy({
-    where: {
-      id: {
-        $in: _.map(aptIdsToDelete, 'apartment_id')
+    });
+
+    yield db.models.apartment.destroy({
+      where: {
+        id: {
+          $in: _.map(aptIdsToDelete, 'apartment_id')
+        }
       }
-    }
-  });
-  console.log('done');
+    });
+  }
 }
 
 module.exports = {
