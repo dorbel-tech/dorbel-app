@@ -27,7 +27,7 @@ class ListingOwnerDetails extends Component {
       }
       else {
         return (
-          <Button className="listing-owner-show-phone pull-left" onClick={this.handleShowPhoneClick} title="הציגו טלפון של מפרסם המודעה">
+          <Button className="listing-owner-show-phone" onClick={this.handleShowPhoneClick} title="הציגו טלפון של מפרסם המודעה">
             <i className="fa fa-phone" />
             &nbsp;הצג טלפון
           </Button>
@@ -57,7 +57,7 @@ class ListingOwnerDetails extends Component {
     }
 
     return (
-      <Button className="listing-owner-send-message pull-left" onClick={this.handleMsgClick} title="שלחו הודעה למפרס המודעה">
+      <Button className="listing-owner-send-message" onClick={this.handleMsgClick} title="שלחו הודעה למפרס המודעה">
         <i className="fa fa-comment" />
           &nbsp;שלח הודעה
       </Button>
@@ -89,12 +89,14 @@ class ListingOwnerDetails extends Component {
 
     return (
       <div className="listing-owner-container">
-        <div className="pull-right">
+        <div>
           <span className="listing-owner-title">{title}: </span>
           <span>{listing.publishing_user_first_name || 'אנונימי'}</span>
         </div>
-        {this.renderMsg()}
-        {this.renderPhone(listing)}
+        <div className="listing-owner-contact-container">
+          {this.renderPhone(listing)}
+          {this.renderMsg()}
+        </div>
       </div>
     );
   }
