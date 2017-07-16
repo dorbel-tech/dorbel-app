@@ -234,7 +234,7 @@ class PropertyManage extends Component {
 
       <Row className="property-manage-section-title">
         <Col xs={12}>
-          מסמכים:                  
+          מסמכי דירה ושכירות:
           <DocumentUpload className="add-button pull-left" listing_id={listing.id} />
         </Col>
       </Row>

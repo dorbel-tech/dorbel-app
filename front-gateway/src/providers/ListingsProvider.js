@@ -146,7 +146,7 @@ class ListingsProvider {
   }
 
   isRepublishable(listing) {
-    return (listing.status === 'rented' || listing.status === 'unlisted') && this.isActiveListing(listing);
+    return (listing.status === 'rented') && this.isActiveListing(listing);
   }
 
   isActiveListing(listing) {

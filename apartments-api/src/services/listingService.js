@@ -7,16 +7,15 @@ const likeRepository = require('../apartmentsDb/repositories/likeRepository');
 const geoProvider = require('../providers/geoProvider');
 const listingSearchQuery = require('./listingService.searchQuery');
 const logger = shared.logger.getLogger(module);
-const messageBus = shared.utils.messageBus;
-const generic = shared.utils.generic;
+const { messageBus, generic, analytics } = shared.utils;
 const userManagement = shared.utils.user.management;
 const userPermissions = shared.utils.user.permissions;
 
+const APARTMENTS_UINQUE_CONSTRAINT_INDEX_NAME = 'apartments_index';
+
 const possibleStatusesByCurrentStatus = {
-  pending: ['unlisted', 'deleted'],
-  rented: ['unlisted', 'deleted'],
-  unlisted: ['rented', 'deleted'],
-  listed: ['rented', 'unlisted', 'deleted']
+  unlisted: ['listed', 'rented'],
+  listed: ['unlisted', 'rented']
 };
 
 const createdEventsByListingStatus = {
@@ -32,7 +31,8 @@ function CustomError(code, message) {
 }
 
 function* create(listing, user) {
-  listing.publishing_user_id = user.id;
+  const publishingUserId = user.id;
+  listing.publishing_user_id = publishingUserId;
   yield validateNewListing(listing, user);
 
   let modifiedListing = setListingAutoFields(listing);
@@ -40,7 +40,7 @@ function* create(listing, user) {
   let createdListing = yield listingRepository.create(modifiedListing);
 
   // TODO: Update user details can be done on client using user token.
-  userManagement.updateUserDetails(createdListing.publishing_user_id, {
+  userManagement.updateUserDetails(publishingUserId, {
     user_metadata: {
       first_name: listing.user.firstname,
       last_name: listing.user.lastname,
@@ -53,6 +53,7 @@ function* create(listing, user) {
 
   // Publish event trigger message to SNS for notifications dispatching.
   const messageType = createdEventsByListingStatus[listing.status];
+  const publishingUserType = createdListing.publishing_user_type;
 
   if (messageType) {
     if (process.env.NOTIFICATIONS_SNS_TOPIC_ARN) {
@@ -61,8 +62,8 @@ function* create(listing, user) {
         listing_id: createdListing.id,
         city_id: createdListing.apartment.building.city_id,
         city_name: createdListing.apartment.building.city.city_name,
-        publishing_user_type: createdListing.publishing_user_type,
-        user_uuid: createdListing.publishing_user_id,
+        publishing_user_type: publishingUserType,
+        user_uuid: publishingUserId,
         user_email: listing.user.email,
         user_phone: generic.normalizePhone(listing.user.phone),
         user_first_name: listing.user.firstname,
@@ -71,6 +72,10 @@ function* create(listing, user) {
     }
   }
   else { logger.error({ listing }, 'Could not find notification type for created listing'); }
+
+  // For Intercom user segmentation.
+  let intercomEventName = (publishingUserType == 'landlord') ? 'apartment_created_by_real_landlord' : 'apartment_created_by_outgoing_tenant';
+  analytics.track(publishingUserId, intercomEventName, { listing_id: createdListing.id });
 
   return createdListing;
 }
@@ -126,10 +131,21 @@ function* update(listingId, user, patch) {
   }
 
   patch = setListingAutoFields(patch);
-  const result = yield listingRepository.update(listing, patch);
-  notifyListingChanged(oldListing, patch);
-
-  return yield enrichListingResponse(result, user);
+  
+  try {
+    const result = yield listingRepository.update(listing, patch);
+    notifyListingChanged(oldListing, patch);
+    return yield enrichListingResponse(result, user);
+  }
+  catch (ex) {
+    // Handle a case where the requested changes conflict with a different apartment's details
+    if (ex.name == 'SequelizeUniqueConstraintError' && ex.fields && ex.fields[APARTMENTS_UINQUE_CONSTRAINT_INDEX_NAME]) {
+      throw new CustomError(409, 'דירה עם פרטים זהים כבר קיימת במערכת');
+    }
+    else{
+      throw ex;
+    }
+  }
 }
 
 function isStatusChanged(oldListing, newListing) {

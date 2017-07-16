@@ -42,7 +42,7 @@ function initLock(clientId, domain) {
       success: {
         forgotPassword: 'מייל לאיפוס ססמתך נשלח אלייך זה עתה',
       },
-      lastLoginInstructions: 'לחצו על המלבן כדי להתחבר שוב:',
+      lastLoginInstructions: 'לחצו על הכפתור כדי להתחבר שוב:',
       notYourAccountAction: 'לא החשבון שלכם?',
     }
   });

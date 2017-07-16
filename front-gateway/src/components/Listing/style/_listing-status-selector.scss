@@ -35,10 +35,6 @@
 }
 
 .dropdown > .dropdown-menu > li {
-  &.listing-status-selector-item-deleted > a::before {
-    content: '\f1f8';
-  }
-
   &.listing-status-selector-item-listed > a::before {
     content: '\f04b';
   }
