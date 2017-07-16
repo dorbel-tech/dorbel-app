@@ -7,9 +7,9 @@ import './DocumentUpload.scss';
 
 let ReactFilestack = 'div';
 
-const FILESTACK_OPTIONS = { 
-  fromSources: [ 'local_file_system','gmail','googledrive','dropbox','box' ], 
-  disableTransformer: true, 
+const FILESTACK_OPTIONS = {
+  fromSources: [ 'local_file_system','gmail','googledrive','dropbox','box' ],
+  disableTransformer: true,
   maxFiles: 10,
   storeTo: {
     location: 's3',
@@ -45,11 +45,12 @@ export default class DocumentUpload extends React.Component {
     const uploadOptions = _.cloneDeep(FILESTACK_OPTIONS);
     uploadOptions.storeTo.path = `${env}/${user_id}/${listing_id}/`;
     uploadOptions.onClose = () => props.appProviders.utils.hideIntercom(false);
+    uploadOptions.onFileUploadFinished = () => window.analytics.track('client_filestack_document_upload', { user_id, listing_id });
     return uploadOptions;
   }
 
   onDocumentUploaded(response) {
-    response.filesUploaded.forEach(file => this.props.appProviders.documentProvider.saveDocument(this.props.listing_id, file));    
+    response.filesUploaded.forEach(file => this.props.appProviders.documentProvider.saveDocument(this.props.listing_id, file));
   }
 
   openUploadModal(onPick, event) {
