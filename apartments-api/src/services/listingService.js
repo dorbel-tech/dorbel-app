@@ -73,13 +73,9 @@ function* create(listing, user) {
   }
   else { logger.error({ listing }, 'Could not find notification type for created listing'); }
 
-  let intercomEventName;
-  if (publishingUserType == 'landlord') {
-    intercomEventName = 'apartment_created_by_real_landlord';
-  } else if (publishingUserType == 'tenant') {
-    intercomEventName = 'apartment_created_by_outgoing_tenant';
-  }
-  analytics.track(publishingUserId, intercomEventName, { listing_id: createdListing.id }); // For Intercom user segmentation.
+  // For Intercom user segmentation.
+  let intercomEventName = (publishingUserType == 'landlord') ? 'apartment_created_by_real_landlord' : 'apartment_created_by_outgoing_tenant';
+  analytics.track(publishingUserId, intercomEventName, { listing_id: createdListing.id });
 
   return createdListing;
 }
