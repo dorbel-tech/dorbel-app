@@ -84,8 +84,9 @@ class ListingStatusSelector extends React.Component {
     const { listing, appProviders } = this.props;
     const currentStatusLabel =
       listingStatusLabels[listing.status].landlordLabel || listingStatusLabels[listing.status].label;
-    let options = _.get(listing, 'meta.possibleStatuses') || [];
 
+    let options = _.get(listing, 'meta.possibleStatuses') || [];
+    options = options.filter(status => (status !== listing.status) && (listingStatusLabels[status].hasOwnProperty('actionLabel')));
     if (appProviders.listingsProvider.isRepublishable(listing)) {
       options = options.concat(['republish']);
     }
@@ -96,7 +97,7 @@ class ListingStatusSelector extends React.Component {
         disabled={options.length === 0}
         title={currentStatusLabel}
         onSelect={this.changeStatus}>
-        {options.filter(status => listingStatusLabels[status].hasOwnProperty('actionLabel')).map(status => <MenuItem id={status} key={status} eventKey={status} className={'listing-status-selector-item-' + status}>{listingStatusLabels[status].actionLabel}</MenuItem>)}
+        {options.map(status => <MenuItem id={status} key={status} eventKey={status} className={'listing-status-selector-item-' + status}>{listingStatusLabels[status].actionLabel}</MenuItem>)}
       </DropdownButton>
     );
   }
