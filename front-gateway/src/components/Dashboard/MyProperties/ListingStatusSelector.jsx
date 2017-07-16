@@ -96,7 +96,7 @@ class ListingStatusSelector extends React.Component {
         disabled={options.length === 0}
         title={currentStatusLabel}
         onSelect={this.changeStatus}>
-        {options.map(status => <MenuItem id={status} key={status} eventKey={status} className={'listing-status-selector-item-' + status}>{listingStatusLabels[status].actionLabel}</MenuItem>)}
+        {options.filter(status => listingStatusLabels[status].hasOwnProperty('actionLabel')).map(status => <MenuItem id={status} key={status} eventKey={status} className={'listing-status-selector-item-' + status}>{listingStatusLabels[status].actionLabel}</MenuItem>)}
       </DropdownButton>
     );
   }
