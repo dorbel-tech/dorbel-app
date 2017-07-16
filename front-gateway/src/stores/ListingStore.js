@@ -1,4 +1,4 @@
-import { observable, asMap, computed } from 'mobx';
+import { observable, computed } from 'mobx';
 import autobind from 'react-autobind';
 
 export default class ListingStore {
@@ -10,12 +10,12 @@ export default class ListingStore {
   @observable isLoading = false;
 
   constructor(initialState = {}, authStore) {
-    this.listingsById = asMap(initialState.listingsById || {});
-    this.lastListingByApartmentId = asMap(initialState.lastListingByApartmentId || {});
-    this.listingsBySlug = asMap(initialState.listingsBySlug || {});
-    this.listingViewsById = asMap(initialState.listingViewsById || {});
-    this.listingTenantsById = asMap(initialState.listingTenantsById || {});
-    this.listingsByApartmentId = asMap(initialState.listingsByApartmentId || {});
+    this.listingsById = observable.map(initialState.listingsById || {});
+    this.lastListingByApartmentId = observable.map(initialState.lastListingByApartmentId || {});
+    this.listingsBySlug = observable.map(initialState.listingsBySlug || {});
+    this.listingViewsById = observable.map(initialState.listingViewsById || {});
+    this.listingTenantsById = observable.map(initialState.listingTenantsById || {});
+    this.listingsByApartmentId = observable.map(initialState.listingsByApartmentId || {});
     this.authStore = authStore;
     autobind(this);
   }

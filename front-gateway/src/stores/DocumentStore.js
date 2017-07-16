@@ -1,11 +1,11 @@
 'use strict';
-import { observable, asMap } from 'mobx';
+import { observable } from 'mobx';
 
 export default class DocumentStore {
   @observable documentsById;
   
   constructor() {
-    this.documentsById = asMap({});
+    this.documentsById = observable.map({});
   }
 
   add(documents) {

@@ -1,5 +1,5 @@
 'use-strict';
-import { observable, asMap } from 'mobx';
+import { observable } from 'mobx';
 
 export default class LikeStore {
   @observable myLikes;
@@ -11,14 +11,14 @@ export default class LikeStore {
       this.init(initialState.myLikes);
     }
     else {
-      this.myLikes = asMap({});
+      this.myLikes = observable.map({});
     }
 
-    this.likesByListingId = asMap(initialState.likesByListingId || {});
+    this.likesByListingId = observable.map(initialState.likesByListingId || {});
   }
 
   init(apartmentIdMap) {
-    this.myLikes = asMap(apartmentIdMap);
+    this.myLikes = observable.map(apartmentIdMap);
   }
 
   toJson() {
