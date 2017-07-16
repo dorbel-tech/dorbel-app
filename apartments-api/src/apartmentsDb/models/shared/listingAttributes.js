@@ -75,7 +75,11 @@ const attributes = {
   property_value: {
     type: DataTypes.DECIMAL(10, 2),
     defaultValue: null
-  }
+  },
+  rented_by: {
+    type: DataTypes.ENUM('dorbel', 'other'),
+    defaultValue: null
+  },
 };
 
 module.exports = attributes;

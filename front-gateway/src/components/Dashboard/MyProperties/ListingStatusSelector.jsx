@@ -61,6 +61,14 @@ class ListingStatusSelector extends React.Component {
     }).catch((err) => this.props.appProviders.notificationProvider.error(err));
   }
 
+  postStatusChangeAction(rentedBy) {
+    const { listing, appProviders } = this.props;
+
+    appProviders.modalProvider.close();
+    appProviders.navProvider.setRoute('/dashboard/my-properties/' + listing.id + '/manage');
+    appProviders.listingsProvider.updateListing(listing.id, { rented_by: rentedBy });
+  }
+
   postStatusChange(newStatus) {
     const { appProviders } = this.props;
 
@@ -69,8 +77,8 @@ class ListingStatusSelector extends React.Component {
         title: <div className="rented-congrats-modal-title">ברכות על השכרת הדירה!</div>,
         body: <div>
           <h4 className="rented-congrats-modal-text">האם מצאת את הדיירים החדשים שלך באמצעות dorbel?</h4>
-          <Button onClick={() => appProviders.modalProvider.close()} className="rented-congrats-modal-button" bsStyle="info">כן! תודה לכם</Button>
-          <Button onClick={() => appProviders.modalProvider.close()} className="rented-congrats-modal-button" bsStyle="primary">לצערי לא</Button>
+          <Button onClick={() => this.postStatusChangeAction('dorbel')} className="rented-congrats-modal-button" bsStyle="info">כן! תודה לכם</Button>
+          <Button onClick={() => this.postStatusChangeAction('other')} className="rented-congrats-modal-button" bsStyle="primary">לצערי לא</Button>
         </div>,
         footer: <div className="text-center">
           מה הלאה? המשיכו לעמוד הניהול בחשבון הנכס שלכם והוסיפו את פרטי הקשר של הדיירים
