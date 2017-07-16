@@ -17,6 +17,26 @@ describe('Integration - PATCH /listings/{id}', function () {
     createdListing = postResponse.body;
   });
 
+  it('should return an error if the patch conflicts with another apartments details', function* () {
+    let listingToPatch = _.clone(fakeListingObj);
+    const aptNumToConflict = _.clone(fakeListingObj.apartment.apt_number);
+
+    delete listingToPatch.slug;
+    listingToPatch.status = 'rented';
+    listingToPatch.apartment.apt_number = 'test1';
+
+    let postResponse = yield apiClient.createListing(listingToPatch).expect(201).end();
+
+    const patch = {
+      apartment: {
+        apt_number: aptNumToConflict
+      }
+    };
+
+    const patchResponse = yield apiClient.patchListing(postResponse.body.id, patch).expect(409).end();
+    __.assertThat(patchResponse.text, __.is('דירה עם פרטים זהים כבר קיימת במערכת'));
+  });
+
   it('should update listing status', function* () {
     const response = yield apiClient.patchListing(createdListing.id, { status: 'rented' }).expect(200).end();
     __.assertThat(response.body.status, __.is('rented'));
@@ -27,7 +47,7 @@ describe('Integration - PATCH /listings/{id}', function () {
     const apartmentUpdate = { rooms: faker.random.number(10) };
     const buildingUpdate = { floors: faker.random.number(100) };
 
-    const update = Object.assign({}, listingUpdate, { apartment: Object.assign({}, apartmentUpdate, { building: buildingUpdate})});
+    const update = Object.assign({}, listingUpdate, { apartment: Object.assign({}, apartmentUpdate, { building: buildingUpdate }) });
 
     const response = yield apiClient.patchListing(createdListing.id, update).expect(200).end();
 
@@ -45,7 +65,7 @@ describe('Integration - PATCH /listings/{id}', function () {
     createdListing = response.body; // used in tests below
   });
 
-  it('should not update some details and not others (test transaction)', function * () {
+  it('should not update some details and not others (test transaction)', function* () {
     const update = {
       publishing_user_type: 'bad-value',
       apartment: {
@@ -61,7 +81,7 @@ describe('Integration - PATCH /listings/{id}', function () {
       __.not(__.hasProperty('publishing_user_type', update.publishing_user_type)),
       __.hasProperty('apartment', __.allOf(
         __.hasProperty('rooms', createdListing.apartment.rooms),
-      __.not(__.hasProperty('rooms', update.apartment.rooms)),
+        __.not(__.hasProperty('rooms', update.apartment.rooms)),
       ))
     ));
   });
@@ -86,7 +106,7 @@ describe('Integration - PATCH /listings/{id}', function () {
     createdListing = response.body; // used in tests below
   });
 
-  it('should change apartment details without changing apartment id', function * () {
+  it('should change apartment details without changing apartment id', function* () {
     let updatedListing = _.clone(createdListing);
     updatedListing.apartment.apt_number = faker.random.word();
 
@@ -98,10 +118,10 @@ describe('Integration - PATCH /listings/{id}', function () {
     }));
   });
 
-  it('should update building with details when not moving to a different building', function * () {
+  it('should update building with details when not moving to a different building', function* () {
     let update = _.set({}, 'apartment.building.elevator', !createdListing.apartment.building.elevator);
     _.set(update, 'apartment.building.neighborhood.id', 2);
-    
+
     const response = yield apiClient.patchListing(createdListing.id, update).expect(200).end();
 
     __.assertThat(response.body.apartment.building, __.hasProperties({
@@ -112,7 +132,7 @@ describe('Integration - PATCH /listings/{id}', function () {
     createdListing = response.body; // used in tests below
   });
 
-  it('should take details for new building from update request and existing building', function * () {
+  it('should take details for new building from update request and existing building', function* () {
     const update = {
       apartment: {
         building: {
@@ -134,7 +154,7 @@ describe('Integration - PATCH /listings/{id}', function () {
     createdListing = response.body; // used in tests below
   });
 
-  it('should ignore non-whitelisted properties for update', function * () {
+  it('should ignore non-whitelisted properties for update', function* () {
     let updatedListing = _.clone(createdListing);
     updatedListing.publishing_user_id = faker.random.uuid(); // will be ignored
     updatedListing.directions = faker.lorem.sentence();
@@ -147,24 +167,24 @@ describe('Integration - PATCH /listings/{id}', function () {
     }));
   });
 
-  it('should fail to update another users listing', function * () {
+  it('should fail to update another users listing', function* () {
     const otherUserApi = yield ApiClient.getOtherInstance();
     yield otherUserApi.patchListing(createdListing.id, { directions: 'bla' }).expect(403).end();
   });
 
-  it('should fail to update to a non-existing city', function * () {
+  it('should fail to update to a non-existing city', function* () {
     yield apiClient.patchListing(createdListing.id, _.set({}, 'apartment.building.city.id', 100)).expect(400).end();
   });
 
-  it('should fail to update to a non-existing neighborhood', function * () {
+  it('should fail to update to a non-existing neighborhood', function* () {
     yield apiClient.patchListing(createdListing.id, _.set({}, 'apartment.building.neighborhood.id', 100)).expect(400).end();
   });
 
-  it('should fail for non-existing listing', function * () {
+  it('should fail for non-existing listing', function* () {
     yield apiClient.patchListing(123456, { monthly_rent: 1000 }).expect(404).end();
   });
 
-  function * updateAndAssertImages(images) {
+  function* updateAndAssertImages(images) {
     let updatedListing = _.clone(createdListing);
     updatedListing.images = images;
     const response = yield apiClient.patchListing(createdListing.id, updatedListing).expect(200).end();
@@ -178,33 +198,15 @@ describe('Integration - PATCH /listings/{id}', function () {
     createdListing = response.body; // used in tests below
   }
 
-  it('should add an image', function * () {
-    yield updateAndAssertImages(createdListing.images.concat([ fakeObjectGenerator.getFakeImage() ]));
+  it('should add an image', function* () {
+    yield updateAndAssertImages(createdListing.images.concat([fakeObjectGenerator.getFakeImage()]));
   });
 
-  it('should change image order', function * () {
+  it('should change image order', function* () {
     yield updateAndAssertImages(createdListing.images.reverse());
   });
 
-  it('should remove an image', function * () {
-    yield updateAndAssertImages([ createdListing.images[1] ]);
-  });
-
-  it('should return an error if the patch conflicts with another apartments details', function * () {
-    let listingToPatch = _.clone(fakeListingObj);
-    const aptNumToConflict = _.clone(fakeListingObj.apartment.apt_number);
-    listingToPatch.apartment.apt_number = 'temp1';
-    listingToPatch.slug = '';
-
-    let postResponse = yield apiClient.createListing(listingToPatch).expect(201).end();
-
-    const patch = {
-      apartment: {
-        apt_number: aptNumToConflict
-      }
-    };
-    
-    postResponse = yield apiClient.patchListing(postResponse.body.id, patch).expect(409).end();
-    __.assertThat(postResponse.body, __.is('דירה עם פרטים זהים כבר קיימת במערכת'));
+  it('should remove an image', function* () {
+    yield updateAndAssertImages([createdListing.images[1]]);
   });
 });
