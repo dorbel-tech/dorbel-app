@@ -58,6 +58,8 @@ class MyProfile extends Component {
     const profile = authStore.profile;
     const activeTab = this.state.activeTab;
 
+    const formChanged = this.form && this.form.refs.formsy.isChanged();
+
     return (
       <Grid fluid className="profile-container">
         <Tabs className="tab-menu" activeKey={activeTab}
@@ -83,7 +85,7 @@ class MyProfile extends Component {
                 onValid={() => { this.setState({ isValid: true }); }}>
                 {this.renderActiveSection(profile)}
                 <Row>
-                  <SubmitButton disabled={!this.state.isValid} onClick={this.submit} className="profile-submit"
+                  <SubmitButton disabled={!formChanged || !this.state.isValid} onClick={this.submit} className="profile-submit"
                     bsStyle="success">
                     {activeTab.submitText || 'עדכון פרטים'}
                   </SubmitButton>
