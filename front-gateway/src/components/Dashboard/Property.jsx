@@ -50,17 +50,17 @@ class Property extends Component {
     loadListing.then(() => this.setState({ isLoading: false }));
   }
 
-  gotoPublishedListing(property) {
-    return this.props.router.setRoute(getPropertyPath(property));
+  gotoPublishedListing() {
+    return this.props.router.setRoute(getPropertyPath(this.property));
   }
 
-  gotoEditProperty(property) {
+  gotoEditProperty() {
     this.hideActionsMenu();
-    return this.props.router.setRoute(getDashMyPropsPath(property, '/edit'));
+    return this.props.router.setRoute(getDashMyPropsPath(this.property, '/edit'));
   }
 
-  republish(property) {
-    this.props.appProviders.listingsProvider.republish(property);
+  republish() {
+    this.props.appProviders.listingsProvider.republish(this.property);
   }
 
   refresh() {
@@ -75,7 +75,7 @@ class Property extends Component {
     this.setState({ showActionsMenu: false });
   }
 
-  renderActionsMenu(property, isActiveListing) {
+  renderActionsMenu(isActiveListing) {
     const editItemClass = isActiveListing ? '' : ' property-actions-menu-item-disabled';
     const editItemClick = isActiveListing ? () =>this.gotoEditProperty(property) : null;
 
@@ -97,8 +97,8 @@ class Property extends Component {
           עריכת פרטי הנכס
         </div>
         {
-          this.props.appProviders.listingsProvider.isRepublishable(property) &&
-          <div className="property-actions-menu-item" onClick={() =>this.republish(property)}>
+          this.props.appProviders.listingsProvider.isRepublishable(this.property) &&
+          <div className="property-actions-menu-item" onClick={this.republish}>
             <i className="property-actions-menu-item-icon fa fa-undo" aria-hidden="true"></i>
             פרסום הנכס מחדש
           </div>
@@ -109,7 +109,7 @@ class Property extends Component {
 
   render() {
     const { appStore, router } = this.props;
-    const property = appStore.listingStore.get(this.props.listingId);
+    this.property = appStore.listingStore.get(this.props.listingId);
 
     if (this.state.isLoading) {
       return (
@@ -117,15 +117,15 @@ class Property extends Component {
           <LoadingSpinner />
         </div>
       );
-    } else if (!appStore.listingStore.isListingPublisherOrAdmin(property)) {
+    } else if (!appStore.listingStore.isListingPublisherOrAdmin(this.property)) {
       return null;
     }
 
-    const propertyPath = getDashMyPropsPath(property, '/');
-    const sortedPropertyImages = utils.sortListingImages(property);
+    const propertyPath = getDashMyPropsPath(this.property, '/');
+    const sortedPropertyImages = utils.sortListingImages(this.property);
     const imageURL = sortedPropertyImages[0].url;
-    const historySelector = <PropertyHistorySelector apartment_id={property.apartment_id} listing_id={property.id} />;
-    const isActiveListing = this.props.appProviders.listingsProvider.isActiveListing(property);
+    const historySelector = <PropertyHistorySelector apartment_id={this.property.apartment_id} listing_id={this.property.id} />;
+    const isActiveListing = this.props.appProviders.listingsProvider.isActiveListing(this.property);
     const imageClass = 'property-image' + (isActiveListing ? '' : ' property-image-inactive');
     const titleClass = 'property-title' + (isActiveListing ? '' : ' property-title-inactive');
     let editForm = null;
@@ -138,7 +138,7 @@ class Property extends Component {
         </div>
         <div className="property-actions-preview-container">
           <Button className="fa fa-picture-o property-action-button" title="צפייה במודעה"
-                  onClick={() => this.gotoPublishedListing(property)}></Button>
+                  onClick={this.gotoPublishedListing}></Button>
         </div>
         <div className="property-actions-menu-container">
           <Button className="property-action-button"
@@ -155,7 +155,7 @@ class Property extends Component {
                    placement="bottom"
                    target={this.propertyActionMenuIcon}
                    rootClose>
-            {this.renderActionsMenu(property, isActiveListing)}
+            {this.renderActionsMenu(isActiveListing)}
           </Overlay>
         </div>
         <div className="property-history-selector">
@@ -179,10 +179,10 @@ class Property extends Component {
     );
 
     const propertyTabs = [
-      { relativeRoute: 'stats', title: 'סטטיסטיקה', component: <PropertyStats listing={property} /> },
-      { relativeRoute: 'ohe', title: 'מועדי ביקור', component: <OHEManager listing={property} /> },
-      { relativeRoute: 'manage', title: 'ניהול', component: <PropertyManage listing={property} /> },
-      { relativeRoute: 'edit', title: 'עריכת פרטי הנכס', component: <EditListing listing={property} ref={form => editForm = form} />,
+      { relativeRoute: 'stats', title: 'סטטיסטיקה', component: <PropertyStats listing={this.property} /> },
+      { relativeRoute: 'ohe', title: 'מועדי ביקור', component: <OHEManager listing={this.property} /> },
+      { relativeRoute: 'manage', title: 'ניהול', component: <PropertyManage listing={this.property} /> },
+      { relativeRoute: 'edit', title: 'עריכת פרטי הנכס', component: <EditListing listing={this.property} ref={form => editForm = form} />,
         replaceNavbar: true, hideFromMenu: true, headerButtons: editHeaderButtons }
     ];
     // TODO: Add "default" tab logic.
@@ -192,26 +192,26 @@ class Property extends Component {
               <Row className="property-top-container">
                 <Col md={3} sm={3} xs={4} className="property-image-container">
                   <CloudinaryImage src={imageURL} height={125} className={imageClass}/>
-                  { (isActiveListing || appStore.authStore.isUserAdmin()) && <ListingStatusSelector listing={property} /> }
+                  { (isActiveListing || appStore.authStore.isUserAdmin()) && <ListingStatusSelector listing={this.property} /> }
                 </Col>
                 <Col md={5} sm={6} xs={8} className="property-title-container">
                   <div className={titleClass}>
-                    {utils.getListingTitle(property)}
+                    {utils.getListingTitle(this.property)}
                   </div>
                   <div className="property-history-selector-mobile">
                     { !activeTab.headerButtons && historySelector }
                   </div>
                   <div className="property-title-details">
                     <div className="property-title-details-sub">
-                      <span>{property.apartment.rooms}</span>
+                      <span>{this.property.apartment.rooms}</span>
                       <span className="property-title-details-sub-text">&nbsp;חדרים</span>
                     </div>
                     <div className="property-title-details-sub">
-                      <span>{property.apartment.size}</span>
+                      <span>{this.property.apartment.size}</span>
                       <span className="property-title-details-sub-text">&nbsp;מ"ר</span>
                     </div>
                     <div className="property-title-details-sub">
-                      <span>{utils.getFloorTextValue(property)}</span>
+                      <span>{utils.getFloorTextValue(this.property)}</span>
                       <span className="property-title-details-sub-text">&nbsp;קומה</span>
                     </div>
                   </div>
@@ -226,7 +226,7 @@ class Property extends Component {
                     סטטוס המודעה:
                   </Col>
                   <Col sm={9} xs={8} className="property-status-selector-container">
-                    <ListingStatusSelector listing={property} />
+                    <ListingStatusSelector listing={this.property} />
                   </Col>
                 </Row> }
               { !activeTab.replaceNavbar &&
