@@ -1,10 +1,7 @@
 'use strict';
 const co = require('co');
+const utils = require('../test/integration/utils');
 
-function dbCleaner() {
-  const utils = require('../test/integration/utils');
-  co(utils.cleanDb());
-}
-
-module.exports = dbCleaner();
+co(utils.cleanDb())
+  .then(process.exit);
 

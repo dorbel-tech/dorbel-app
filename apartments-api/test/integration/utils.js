@@ -20,9 +20,16 @@ function* cleanDb() {
   if (process.env.NODE_ENV && process.env.NODE_ENV.toLowerCase() != 'production') {
     const db = require('../../src/apartmentsDb/dbConnectionProvider');
     yield db.connect();
+
     const aptIdsToDelete = yield db.models.listing.findAll({
       raw: true,
       attributes: ['apartment_id'],
+      include: [
+        {
+          model: db.models.apartment,
+          attributes: ['building_id']
+        }
+      ],
       where: {
         publishing_user_id: {
           $in: _.values(userIds)
@@ -34,6 +41,14 @@ function* cleanDb() {
       where: {
         id: {
           $in: _.map(aptIdsToDelete, 'apartment_id')
+        }
+      }
+    });
+
+    yield db.models.building.destroy({
+      where: {
+        id: {
+          $in: _.map(aptIdsToDelete, 'apartment.building_id')
         }
       }
     });

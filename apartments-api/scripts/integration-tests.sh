@@ -6,7 +6,7 @@ function runTests() {
   EXIT_CODE=$? # Keep the mocha exit code in order to return it at the end
 }
 
-runTests
 yarn db:clean
+runTests
 
 exit ${EXIT_CODE}
