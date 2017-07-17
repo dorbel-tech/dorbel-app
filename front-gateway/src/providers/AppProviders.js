@@ -40,6 +40,7 @@ class AppProviders {
     this.authProvider = loadAuthProvider(appStore, router, this.apiProvider);
     this.messagingProvider = new MessagingProvider(appStore.authStore);
     this.oheProvider = new OheProvider(appStore, this.apiProvider, this.authProvider);
+    this.navProvider = new NavProvider(appStore, router);
     this.listingsProvider = new ListingsProvider(appStore, { api: this.apiProvider, ohe: this.oheProvider, navProvider: this.navProvider });
     this.listingImageProvider = new ListingImageProvider({ cloudinary: this.cloudinaryProvider });
     this.cityProvider = new CityProvider(appStore, this.apiProvider);
@@ -48,7 +49,6 @@ class AppProviders {
     this.modalProvider = new ModalProvider(appStore);
     this.searchProvider = new SearchProvider(appStore, { api: this.apiProvider, ohe: this.oheProvider });
     this.likeProvider = new LikeProvider(appStore, this.apiProvider);
-    this.navProvider = new NavProvider(appStore, router);
     this.documentProvider = new DocumentProvider(appStore, this.apiProvider);
     this.utils = utils;
   }
