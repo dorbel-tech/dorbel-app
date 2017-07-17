@@ -15,8 +15,8 @@ import DocumentUpload from '~/components/Documents/DocumentUpload';
 import MonthlyRentBox from '~/components/MonthlyReport/LeaseStats/SummaryBox/Instances/MonthlyRentBox';
 import RentPayedBox from '~/components/MonthlyReport/LeaseStats/SummaryBox/Instances/RentPayedBox';
 import PropertyValueBox from '~/components/MonthlyReport/LeaseStats/SummaryBox/Instances/PropertyValueBox';
-import TotalIncomeBox from '~/components/MonthlyReport/LeaseStats/SummaryBox/Instances/TotalIncomeBox';
-import TotalYieldBox from '~/components/MonthlyReport/LeaseStats/SummaryBox/Instances/TotalYieldBox';
+import AnnualIncomeBox from '~/components/MonthlyReport/LeaseStats/SummaryBox/Instances/AnnualIncomeBox';
+import AnnualYieldBox from '~/components/MonthlyReport/LeaseStats/SummaryBox/Instances/AnnualYieldBox';
 import LeaseStatsVM from '~/components/MonthlyReport/LeaseStats/LeaseStatsVM.js';
 
 import './PropertyManage.scss';
@@ -119,10 +119,10 @@ class PropertyManage extends Component {
                     <PropertyValueBox leaseStatsVM={statsVM} />
                   </Col>
                   <Col xs={4}>
-                    <TotalIncomeBox leaseStatsVM={statsVM} />
+                    <AnnualIncomeBox leaseStatsVM={statsVM} />
                   </Col>
                   <Col xs={4}>
-                    <TotalYieldBox leaseStatsVM={statsVM} />
+                    <AnnualYieldBox leaseStatsVM={statsVM} />
                   </Col>
                 </Row>
               </Col>

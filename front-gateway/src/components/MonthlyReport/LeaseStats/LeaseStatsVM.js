@@ -22,14 +22,15 @@ class LeaseStatsVM {
 
     this.monthlyRent = this.listing.monthly_rent;
     this.monthlyRentFormatted = this.formatMoneyValue(this.monthlyRent);
-    this.propertyValue = this.getPropertyValue(this.listing, true);
-    this.propertyValueFormatted = this.formatMoneyValue(this.propertyValue);
-    this.totalIncome = this.getTotalIncome(this.listing, this.monthList.length);
-    this.totalIncomeFormatted = this.formatMoneyValue(this.totalIncome);
     this.rentPayed = this.getRentPayed(this.monthlyRent, this.currentMonthIndex);
     this.rentRemaining = this.getRentRemaining(this.monthlyRent, this.monthsToLeaseEnd);
 
-    this.totalYield = this.getTotalYield(listing);
+    this.propertyValue = this.getPropertyValue(this.listing);
+    this.propertyValueFormatted = this.formatMoneyValue(this.propertyValue);
+
+    this.annualIncome = this.getAnnualIncome(this.monthlyRent);
+    this.annualIncomeFormatted = this.formatMoneyValue(this.annualIncome);
+    this.annualYield = this.getAnnualYield(this.propertyValue, this.annualIncome);
   }
 
   getReportDate(month, year) {
@@ -80,9 +81,9 @@ class LeaseStatsVM {
     return propertyValue;
   }
 
-  getTotalIncome(listing, totalMonths) {
-    const totalIncome = listing.monthly_rent * totalMonths;
-    return totalIncome;
+  getAnnualIncome(monthlyRent) {
+    const annualIncome = monthlyRent * 12;
+    return annualIncome;
   }
 
   getRentPayed(monthlyRent, currentMonthIndex) {
@@ -93,10 +94,8 @@ class LeaseStatsVM {
     return this.formatMoneyValue(monthlyRent * monthsToLeaseEnd);
   }
 
-  getTotalYield(listing) {
-    const propertyValue = this.getPropertyValue(listing);
-    const totalIncome = this.getTotalIncome(listing, this.monthList.length);
-    const percentage = utils.getPercentageOfTotal(propertyValue, totalIncome);
+  getAnnualYield(propertyValue, annualIncome) {
+    const percentage = utils.getPercentageOfTotal(propertyValue, annualIncome);
     return utils.decimalToPercision(percentage, 2) + '%';
   }
 
