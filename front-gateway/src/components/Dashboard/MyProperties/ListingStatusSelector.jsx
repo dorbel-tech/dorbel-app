@@ -4,6 +4,7 @@ import _ from 'lodash';
 import { DropdownButton, MenuItem, Button } from 'react-bootstrap';
 import autobind from 'react-autobind';
 import utils from '~/providers/utils';
+import { getDashMyPropsPath } from '~/routesHelper';
 
 import './ListingStatusSelector.scss';
 
@@ -61,6 +62,15 @@ class ListingStatusSelector extends React.Component {
     }).catch((err) => this.props.appProviders.notificationProvider.error(err));
   }
 
+  postStatusChangeAction(rentLeadBy) {
+    const { listing, appProviders } = this.props;
+
+    appProviders.listingsProvider.updateListing(listing.id, { rent_lead_by: rentLeadBy });
+
+    appProviders.modalProvider.close();
+    appProviders.navProvider.setRoute(getDashMyPropsPath(listing, '/manage'));
+  }
+
   postStatusChange(newStatus) {
     const { appProviders } = this.props;
 
@@ -69,8 +79,8 @@ class ListingStatusSelector extends React.Component {
         title: <div className="rented-congrats-modal-title">ברכות על השכרת הדירה!</div>,
         body: <div>
           <h4 className="rented-congrats-modal-text">האם מצאת את הדיירים החדשים שלך באמצעות dorbel?</h4>
-          <Button onClick={() => appProviders.modalProvider.close()} className="rented-congrats-modal-button" bsStyle="info">כן! תודה לכם</Button>
-          <Button onClick={() => appProviders.modalProvider.close()} className="rented-congrats-modal-button" bsStyle="primary">לצערי לא</Button>
+          <Button onClick={() => this.postStatusChangeAction('dorbel')} className="rented-congrats-modal-button" bsStyle="info">כן! תודה לכם</Button>
+          <Button onClick={() => this.postStatusChangeAction('other')} className="rented-congrats-modal-button" bsStyle="primary">לצערי לא</Button>
         </div>,
         footer: <div className="text-center">
           מה הלאה? המשיכו לעמוד הניהול בחשבון הנכס שלכם והוסיפו את פרטי הקשר של הדיירים

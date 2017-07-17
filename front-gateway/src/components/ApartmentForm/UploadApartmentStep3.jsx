@@ -8,6 +8,7 @@ import FormWrapper from '~/components/FormWrapper/FormWrapper';
 import AddOHEInput from '~/components/AddOHEInput/AddOHEInput';
 import SubmitButton from '~/components/SubmitButton/SubmitButton';
 import ReactTooltip from 'react-tooltip';
+import { getDashMyPropsPath } from '~/routesHelper';
 
 @inject('appStore', 'appProviders', 'router') @observer
 class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
@@ -35,14 +36,11 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
   }
 
   onCloseSuccessModal() {
-    const createdListingId = this.props.createdListingId;
-    const {newListingStore} = this.props.appStore;
+    const { createdListingId, appProviders, appStore } = this.props;
+    const redirectPath = appStore.newListingStore.uploadMode == 'manage' ? '/manage' : '/ohe';
 
-    let redirectPath = `/dashboard/my-properties/${createdListingId}/`;
-    redirectPath += newListingStore.uploadMode == 'manage' ? 'manage' : '';
-
-    newListingStore.reset();
-    this.props.router.setRoute(redirectPath);
+    appStore.newListingStore.reset();
+    appProviders.navProvider.setRoute(getDashMyPropsPath({ id: createdListingId }, redirectPath));
   }
 
   renderUserDetails() {
