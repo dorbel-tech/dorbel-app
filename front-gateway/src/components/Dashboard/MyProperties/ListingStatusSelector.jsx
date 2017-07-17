@@ -65,9 +65,10 @@ class ListingStatusSelector extends React.Component {
   postStatusChangeAction(rentLeadBy) {
     const { listing, appProviders } = this.props;
 
+    appProviders.listingsProvider.updateListing(listing.id, { rent_lead_by: rentLeadBy });
+
     appProviders.modalProvider.close();
     appProviders.navProvider.setRoute(getDashMyPropsPath(listing, '/manage'));
-    appProviders.listingsProvider.updateListing(listing.id, { rent_lead_by: rentLeadBy });
   }
 
   postStatusChange(newStatus) {

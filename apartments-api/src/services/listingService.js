@@ -131,7 +131,7 @@ function* update(listingId, user, patch) {
   }
 
   patch = setListingAutoFields(patch);
-  
+
   try {
     const result = yield listingRepository.update(listing, patch);
     notifyListingChanged(oldListing, patch);
@@ -330,6 +330,7 @@ function* enrichListingResponse(listing, user) {
     }
     else {
       delete enrichedListing.property_value;
+      delete enrichedListing.rent_lead_by;
     }
 
     return enrichedListing;
