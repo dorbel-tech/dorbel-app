@@ -47,9 +47,7 @@ class Property extends Component {
     const loadListing = appStore.listingStore.get(listingId) ?
       Promise.resolve() : appProviders.listingsProvider.loadFullListingDetails(listingId);
 
-    loadListing
-      .then(() => this.setState({ isLoading: false }))
-      .catch((error) => { appProviders.navProvider.showErrorPage(error.response.status); });
+    loadListing.then(() => this.setState({ isLoading: false }));
   }
 
   gotoPublishedListing(property) {

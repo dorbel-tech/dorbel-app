@@ -9,11 +9,11 @@ import moment from 'moment';
 import routesHelper from '~/routesHelper';
 
 class ListingsProvider {
-  constructor(appStore, providers, router) {
+  constructor(appStore, providers) {
     this.appStore = appStore;
     this.apiProvider = providers.api;
     this.oheProvider = providers.ohe;
-    this.router = router;
+    this.navProvider = providers.navProvider;
   }
 
   loadListingByApartmentId(id) {
@@ -32,7 +32,8 @@ class ListingsProvider {
         listing.title = utils.getListingTitle(listing);
         this.appStore.listingStore.set(listing);
         this.appStore.metaData = _.defaults(this.getListingMetadata(listing), this.appStore.metaData);
-      });
+      })
+      .catch((error) => { this.navProvider.showErrorPage(error.response.status); });
   }
 
   loadListingPageViews(listingId) {
@@ -142,7 +143,7 @@ class ListingsProvider {
     newListing.lease_end = undefined;
     newListingStore.reset();
     newListingStore.loadListing(newListing);
-    this.router.setRoute('/properties/submit/republish');
+    this.navProvider.setRoute('/properties/submit/republish');
   }
 
   isRepublishable(listing) {
