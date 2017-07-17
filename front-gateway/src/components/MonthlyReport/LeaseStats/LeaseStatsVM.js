@@ -27,6 +27,7 @@ class LeaseStatsVM {
     this.totalIncome = this.getTotalIncome(this.listing, this.monthList.length);
     this.totalIncomeFormatted = this.formatMoneyValue(this.totalIncome);
     this.rentPayed = this.getRentPayed(this.monthlyRent, this.currentMonthIndex);
+    this.rentPayedFormatted = this.formatMoneyValue(this.rentPayed);    
     this.rentRemaining = this.getRentRemaining(this.monthlyRent, this.monthsToLeaseEnd);
 
     this.totalYield = this.getTotalYield(listing);
@@ -86,7 +87,7 @@ class LeaseStatsVM {
   }
 
   getRentPayed(monthlyRent, currentMonthIndex) {
-    return this.formatMoneyValue((currentMonthIndex + 1) * monthlyRent);
+    return currentMonthIndex ? this.formatMoneyValue((currentMonthIndex + 1) * monthlyRent) : 0;
   }
 
   getRentRemaining(monthlyRent, monthsToLeaseEnd) {
