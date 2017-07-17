@@ -50,6 +50,43 @@
             a.appendChild(r);
         })(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
     </script>
+    <script type="text/javascript">
+    // 86acbd31cd7c09cf30acb66d2fbedc91daa48b86:1500280767.46
+    !function(n,t,c,e,u){function r(n){try{f=n(u)}catch(n){return h=n,void i(p,n)}i(s,f)}function i(n,t){for(var c=0;c<n.length;c++)d(n[c],t);
+    }function o(n,t){return n&&(f?d(n,f):s.push(n)),t&&(h?d(t,h):p.push(t)),l}function a(n){return o(!1,n)}function d(t,c){
+    n.setTimeout(function(){t(c)},0)}var f,h,s=[],p=[],l={then:o,catch:a,_setup:r};n[e]=l;var v=t.createElement("script");
+    v.src=c,v.async=!0,v.id="_uasdk",v.rel=e,t.head.appendChild(v)}(window,document,'https://web-sdk.urbanairship.com/notify/v1/ua-sdk.min.js',
+      'UA', {
+        // This  has a default of `/push-worker.js`. It should live at the root of
+        // your domain. It only needs to be specified if your worker lives at a
+        // different path.
+        // workerUrl: '/push-worker.js',
+        appKey: 'wA6xZuUJQyCLW55rXN8wew',
+        token: 'MTp3QTZ4WnVVSlF5Q0xXNTVyWE44d2V3OkQ3bHVhckVOcE9MSHlOeFFiUUEyTlZwZEdYSXoxUDZfT2l0UklKeWw5Q0E',
+        vapidPublicKey: 'BLRK2S505bmuoFrb2zNYk-5iVJZnX9rPbGPPdxoJhrrvlAI4Rr4OrbZOW7q5KOcfUo_a4baQhg_9g985MkIz8Hg='
+      });
+    </script>
+    <script>
+      (function() {
+        UA.then(function(sdk) {
+          console.log('channelId:', sdk.channel.id)
+          console.log('channel optedIn?', sdk.channel.optedIn);
+        }).catch(function(err) {
+          console.log(err)
+        })
+        UA.then(function(sdk) {
+          console.log('register push');
+          sdk.register()
+        });
+        UA.then(function(sdk) {
+          if (localStorage.profile) {
+            const dorbel_user_id = JSON.parse(localStorage.profile).dorbel_user_id;
+            console.log('identify user:', dorbel_user_id);
+            sdk.channel.namedUser.set(dorbel_user_id);
+          }
+        });
+      })();
+    </script>
   </head>
   <body>
     <%- include ../assets/images/images.sprite.svg %>
