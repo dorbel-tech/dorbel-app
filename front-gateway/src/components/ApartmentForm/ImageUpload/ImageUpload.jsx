@@ -12,7 +12,11 @@ export default class ImageUpload extends React.Component {
   constructor(props) {
     super(props);
     autobind(this);
+
     this.uploadImagePromises = [];
+  }
+
+  componentWillMount() {
     this.shouldDisableSave();
   }
 
@@ -32,7 +36,7 @@ export default class ImageUpload extends React.Component {
       editedListingStore.disableSave = false;
     }
     else {
-      editedListingStore.disableSave = (editedListingStore.formValues.images.length <= 0);
+      editedListingStore.disableSave = editedListingStore.formValues.images.length <= 0;
     }
 
     editedListingStore.uploadedImagesCount = editedListingStore.formValues.images.length;
