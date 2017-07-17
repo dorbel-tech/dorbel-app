@@ -21,8 +21,22 @@ class ListingThumbnail extends Component {
   }
 
   getListingUrl(listing) {
+    let dashPath = '';
+
+    switch(listing.status) {
+      case 'pending':
+        dashPath = '/ohe';
+        break;
+      case 'rented':
+      case 'unlisted':
+        dashPath = '/manage';
+        break;
+      default:
+        break;
+    }
+
     if (this.props.isMyProperties) {
-      return getDashMyPropsPath(listing);
+      return getDashMyPropsPath(listing, dashPath);
     } else {
       return getPropertyPath(listing);
     }
