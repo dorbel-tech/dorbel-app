@@ -330,9 +330,9 @@ function* enrichListingResponse(listing, user) {
     }
     else {
       delete enrichedListing.property_value;
-      delete enrichedListing.rent_lead_by;
     }
 
+    delete enrichedListing.rent_lead_by;
     return enrichedListing;
   }
 
