@@ -69,21 +69,20 @@
     <script>
       (function() {
         UA.then(function(sdk) {
-          console.log('channelId:', sdk.channel.id)
-          console.log('channel optedIn?', sdk.channel.optedIn);
-        }).catch(function(err) {
-          console.log(err)
-        })
-        UA.then(function(sdk) {
-          console.log('register push');
+          console.log('try to register push');
+
           sdk.register()
-        });
-        UA.then(function(sdk) {
-          if (localStorage.profile) {
-            const dorbel_user_id = JSON.parse(localStorage.profile).dorbel_user_id;
-            console.log('identify user:', dorbel_user_id);
-            sdk.channel.namedUser.set(dorbel_user_id);
-          }
+            .then(function(channel) {
+              console.log('channelId:', channel.id)
+              console.log('channel optedIn?', channel.optedIn);
+
+              if (localStorage.profile) {
+                const dorbel_user_id = JSON.parse(localStorage.profile).dorbel_user_id;
+                console.log('identify user:', dorbel_user_id);
+                channel.namedUser.set(dorbel_user_id);
+              }
+            });
+
         });
       })();
     </script>
