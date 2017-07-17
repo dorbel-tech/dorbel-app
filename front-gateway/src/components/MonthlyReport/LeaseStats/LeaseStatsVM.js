@@ -17,6 +17,7 @@ class LeaseStatsVM {
     this.reportDate = this.getReportDate(month, year);
     this.monthList = this.getMonthList(this.leaseStart, this.leaseEnd);
     this.currentMonthIndex = this.getCurrentMonthIndex(this.reportDate, this.leaseStart);
+    this.passedMonthsList = this.getPassedMonthsList(this.leaseStart, this.reportDate, this.monthList, this.currentMonthIndex);
     this.monthsToLeaseEnd = this.getMonthsToLeaseEnd(this.reportDate, this.leaseEnd);
 
     this.monthlyRent = this.listing.monthly_rent;
@@ -51,7 +52,7 @@ class LeaseStatsVM {
         month: startClone.month() + 1,
         year: startClone.year()
       });
-      
+
       startClone.add(1, 'month');
     }
 
@@ -59,7 +60,7 @@ class LeaseStatsVM {
   }
 
   getCurrentMonthIndex(reportDate, leaseStart) {
-    return reportDate.diff(leaseStart, 'months');
+    return Math.floor(reportDate.diff(leaseStart, 'month', true));
   }
 
   getMonthsToLeaseEnd(reportDate, leaseEnd) {
@@ -105,6 +106,23 @@ class LeaseStatsVM {
       return `${formattedValue} מ'${CURRENCY_SIGN}`;
     }
     else { return `${CURRENCY_SIGN}${value.toLocaleString()}`; }
+  }
+
+  getPassedMonthsList(leaseStart, reportDate, monthList, currentMonthIndex) {
+    let passedMonths;
+    
+    if (currentMonthIndex >= 0) {
+      passedMonths = monthList.slice(0, currentMonthIndex + 1);
+    }
+    else {
+      passedMonths = [{
+        month: monthList[0].month,
+        year: monthList[0].year,
+        disabled: true
+      }];
+    }
+
+    return passedMonths;
   }
 }
 

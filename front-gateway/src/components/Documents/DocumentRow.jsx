@@ -1,7 +1,7 @@
 import React from 'react';
 import autobind from 'react-autobind';
 import { inject } from 'mobx-react';
-import { Col, Row, Checkbox, Dropdown, MenuItem, Badge } from 'react-bootstrap';
+import { Col, Row, Dropdown, MenuItem, Badge } from 'react-bootstrap';
 
 import './DocumentRow.scss';
 
@@ -20,14 +20,13 @@ export default class DocumentRow extends React.Component {
   static getPlaceholderRow() {
     return (
       <Row className="document-row">
-        <Col xs={1} sm={1} className="text-center"><Checkbox checked={false} disabled /></Col>
-        <Col xs={7} sm={5}>קובץ שהועלה</Col>        
-        <Col xs={3} sm={1}><Badge>doc</Badge></Col>
-        <Col xsHidden sm={2}>תאריך</Col>
-        <Col xsHidden sm={2}>גודל</Col>
+        <Col xs={8} sm={6}>הוסיפו מסמך חדש לגיבוי</Col>
+        <Col xs={3} sm={1}><Badge>type</Badge></Col>
+        <Col xsHidden sm={2}>--</Col>
+        <Col xsHidden sm={2}>--</Col>
         <Col xs={1} sm={1}>
           <Dropdown id="document0" className="pull-left" disabled>
-            <Dropdown.Toggle noCaret bsStyle="link"><i className="fa fa-ellipsis-v" /></Dropdown.Toggle>            
+            <Dropdown.Toggle noCaret bsStyle="link"><i className="fa fa-ellipsis-v" /></Dropdown.Toggle>
             <Dropdown.Menu />
           </Dropdown>
         </Col>
@@ -64,15 +63,14 @@ export default class DocumentRow extends React.Component {
 
     return (
       <Row className="document-row">
-        <Col xs={1} className="text-center"><Checkbox checked={false} disabled /></Col>
-        <Col xs={7} sm={5}>{filename.name}</Col>
+        <Col xs={8} sm={6}>{filename.name}</Col>
         <Col xs={3} sm={1}><Badge>{filename.ext}</Badge></Col>
         <Col xsHidden sm={2}>{dateLabel}</Col>
         <Col xsHidden sm={2}>{sizeLabel}</Col>
         <Col xs={1} >
           <Dropdown id={'document' + doc.id} className="pull-left">
             <Dropdown.Toggle noCaret bsStyle="link"><i className="fa fa-ellipsis-v" /></Dropdown.Toggle>
-            <Dropdown.Menu className="dropdown-menu-left">                                
+            <Dropdown.Menu className="dropdown-menu-left">
               <MenuItem href={downloadLink} download={doc.filename}>הורד מסמך</MenuItem>
               <MenuItem onClick={this.deleteDocument}>מחק מסמך</MenuItem>
             </Dropdown.Menu>

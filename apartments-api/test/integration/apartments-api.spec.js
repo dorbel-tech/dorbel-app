@@ -75,7 +75,7 @@ describe('Apartments API Integration', function () {
       const postReponse = yield this.apiClient.createListing(fakeObjectGenerator.getFakeListing()).expect(201).end();
       yield this.adminApiClient.patchListing(postReponse.body.id, { status: 'listed' }).expect(200).end();
       postReponse.body.status = 'listed';
-      this.createdListing = _.omit(postReponse.body, ['lease_end', 'updated_at', 'property_value']);
+      this.createdListing = _.omit(postReponse.body, ['lease_end', 'updated_at', 'property_value', 'rent_lead_by']);
     });
 
     it('should return a single listing by id', function* () {
@@ -126,7 +126,7 @@ describe('Apartments API Integration', function () {
       this.listingId = this.createdListings[0].id;
     });
 
-    it('should return exactly 3 listings', function* () {
+    it.only('should return exactly 3 listings', function* () {
       const getResponse = yield this.apiClient.getRelatedListings(this.listingId).expect(200).end();
       __.assertThat(getResponse.body, __.hasSize(3));
     });
