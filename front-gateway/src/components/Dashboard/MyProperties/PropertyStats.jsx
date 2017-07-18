@@ -208,7 +208,7 @@ class PropertyStats extends Component {
             <Row className="property-stats-listing-stats text-right property-stats-padding-top">
               <Col xs={12} md={10} lg={8}>
                 <div className="property-stats-card property-stats-card-with-padding">
-                  <Checkbox className="propert-stats-future-booking" inline checked={listing.show_for_future_booking} onChange={this.updateFutureBooking}>
+                  <Checkbox className="property-stats-future-booking" inline checked={listing.show_for_future_booking} onChange={this.updateFutureBooking}>
                     אפשר לדיירים לעקוב אחר הדירה להשכרה הבאה
                   </Checkbox>
                   &nbsp;
