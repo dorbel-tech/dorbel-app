@@ -3,10 +3,10 @@ import SummaryBox from '../SummaryBox';
 
 class RentPayedBox extends Component {
   render() {
-    const { rentPayed } = this.props.leaseStatsVM;
+    const { rentPayedFormatted } = this.props.leaseStatsVM;
     return (
       <SummaryBox
-        value={rentPayed}
+        value={rentPayedFormatted}
         text='עד כה שולם'
       />
     );
