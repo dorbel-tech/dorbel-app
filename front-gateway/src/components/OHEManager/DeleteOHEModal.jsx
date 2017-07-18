@@ -15,7 +15,7 @@ class DeleteOHEModal extends React.Component {
     const { appProviders } = this.props;
 
     appProviders.oheProvider.deleteOhe(this.props.ohe.id)
-    .then(appProviders.notificationProvider.success('מועד ביקור נמחק בהצלחה'))
+    .then(appProviders.notificationProvider.success('מועד הביקור נמחק בהצלחה'))
     .catch((err) => appProviders.notificationProvider.error(err));
     // we don't need to close the modal because the ohe will be removed from the store
   }

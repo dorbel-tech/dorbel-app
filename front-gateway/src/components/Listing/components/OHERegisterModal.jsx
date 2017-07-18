@@ -36,7 +36,7 @@ class OHERegisterModal extends React.Component {
     const { ohe, appProviders } = this.props;
     appProviders.oheProvider.unregisterForEvent(ohe)
       .then(() => {
-        appProviders.notificationProvider.success('הרשמה למועד ביקור התבטלה בהצלחה');
+        appProviders.notificationProvider.success('הרשמתך למועד הביקור בוטלה בהצלחה');
         this.close();
       });
   }

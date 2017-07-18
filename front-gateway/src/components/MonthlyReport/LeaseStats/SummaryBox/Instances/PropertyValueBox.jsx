@@ -40,7 +40,7 @@ class PropertyValueBox extends Component {
                 if (property_value) {
                   this.listingsProvider.updateListing(listingId, { property_value })
                     .then(() => {
-                      this.props.appProviders.notificationProvider.success('שווי הנכס התעדכן בהצלחה');
+                      this.props.appProviders.notificationProvider.success('שווי הנכס עודכן בהצלחה');
                       this.modalProvider.close();
                     });
                 }

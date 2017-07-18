@@ -26,7 +26,7 @@ class EditOHEModal extends React.Component {
       max_attendies: this.state.max_attendies
     })
     .then(() => {
-      appProviders.notificationProvider.success('מועד ביקור התעדכן בהצלחה');
+      appProviders.notificationProvider.success('מועד הביקור עודכן בהצלחה');
       this.close();
     })
     .catch((err) => appProviders.notificationProvider.error(err));
