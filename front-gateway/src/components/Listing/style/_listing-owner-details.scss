@@ -20,8 +20,8 @@
   }
 
   a {
-    float: left;
-    line-height: 35px;
+    display: inline-block;
     margin-left: 15px;
+    min-width: 84px;
   }
 }
