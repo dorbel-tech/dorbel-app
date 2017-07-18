@@ -39,7 +39,10 @@ class PropertyValueBox extends Component {
                 property_value = parseInt(property_value.replace(/[^0-9\.]+/g, ''));
                 if (property_value) {
                   this.listingsProvider.updateListing(listingId, { property_value })
-                    .then(this.modalProvider.close());
+                    .then(() => {
+                      this.props.appProviders.notificationProvider.success('שווי הנכס התעדכן בהצלחה');
+                      this.modalProvider.close();
+                    });
                 }
               }}>
               עדכן

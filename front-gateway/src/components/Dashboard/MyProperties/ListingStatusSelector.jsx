@@ -57,7 +57,10 @@ class ListingStatusSelector extends React.Component {
     confirmation.then(choice => {
       if (choice) {
         return appProviders.listingsProvider.updateListingStatus(listing.id, newStatus)
-          .then(() => this.postStatusChange(newStatus));
+          .then(() => {
+            appProviders.notificationProvider.success('סטטוס הדירה התעדכן בהצלחה');
+            this.postStatusChange(newStatus)
+          });
       }
     }).catch((err) => this.props.appProviders.notificationProvider.error(err));
   }

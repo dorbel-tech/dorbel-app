@@ -19,8 +19,11 @@ export default class AddTenantModal extends React.Component {
     if (formsy.state.isValid) {
       const { appProviders, listing_id } = this.props;
       appProviders.listingsProvider.addTenant(listing_id, formsy.getCurrentValues())
-        .catch(() => appProviders.notificationProvider.error('חלה שגיאה בהוספת הדייר'))
-        .then(() => appProviders.modalProvider.close());
+        .then(() => {
+          appProviders.notificationProvider.success('הדייר החדש התווסף בהצלחה');
+          appProviders.modalProvider.close()
+        })
+        .catch(() => appProviders.notificationProvider.error('חלה שגיאה בהוספת הדייר'));
     } else {
       formsy.submit(); // show validation errors
     }

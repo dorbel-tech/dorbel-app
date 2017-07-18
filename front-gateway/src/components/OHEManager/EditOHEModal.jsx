@@ -19,13 +19,17 @@ class EditOHEModal extends React.Component {
   }
 
   submit() {
-    this.props.appProviders.oheProvider.updateOhe(this.props.ohe.id, {
+    const { appProviders } = this.props;
+    appProviders.oheProvider.updateOhe(this.props.ohe.id, {
       start_time: this.state.start_time,
       end_time: this.state.end_time,
       max_attendies: this.state.max_attendies
     })
-    .catch((err) => this.props.appProviders.notificationProvider.error(err))
-    .then(this.close);
+    .then(() => {
+      appProviders.notificationProvider.success('מועד ביקור התעדכן בהצלחה');
+      this.close();
+    })
+    .catch((err) => appProviders.notificationProvider.error(err));
   }
 
   close() {
