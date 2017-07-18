@@ -163,7 +163,7 @@ class ListingsProvider {
         apartment_id,
         myProperties: true,
         oldListings: true,
-        sort: 'lease_start'
+        order: 'lease_end'
       })
     };
 
