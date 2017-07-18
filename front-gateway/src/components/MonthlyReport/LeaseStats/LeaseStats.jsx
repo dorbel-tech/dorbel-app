@@ -3,8 +3,8 @@ import autobind from 'react-autobind';
 import { Grid, Row, Col } from 'react-bootstrap';
 import SteppedProgressBar from '../../SteppedProgressBar/SteppedProgressBar';
 import PropertyValueBox from './SummaryBox/Instances/PropertyValueBox';
-import TotalIncomeBox from './SummaryBox/Instances/TotalIncomeBox';
-import TotalYieldBox from './SummaryBox/Instances/TotalYieldBox';
+import AnnualIncomeBox from './SummaryBox/Instances/AnnualIncomeBox';
+import AnnualYieldBox from './SummaryBox/Instances/AnnualYieldBox';
 import LeaseStatsVM from './LeaseStatsVM.js';
 
 import './LeaseStats.scss';
@@ -86,10 +86,10 @@ class LeaseStats extends Component {
               <PropertyValueBox leaseStatsVM={statsVM} />
             </Col>
             <Col xs={4}>
-              <TotalIncomeBox leaseStatsVM={statsVM} />
+              <AnnualIncomeBox leaseStatsVM={statsVM} />
             </Col>
             <Col xs={4}>
-              <TotalYieldBox leaseStatsVM={statsVM} />
+              <AnnualYieldBox leaseStatsVM={statsVM} />
             </Col>
           </Row>
         </Row >
