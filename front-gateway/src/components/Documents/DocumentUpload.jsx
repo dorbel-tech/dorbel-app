@@ -67,7 +67,7 @@ export default class DocumentUpload extends React.Component {
   }
 
   renderLink({ onPick }) {
-    return <a href="#" onClick={onPick}>+ הוסף מסמך</a>;
+    return <a href="#" onClick={event => this.openUploadModal(onPick, event)} className={this.props.className}>+ הוסף מסמך</a>;
   }
 
   render() {
