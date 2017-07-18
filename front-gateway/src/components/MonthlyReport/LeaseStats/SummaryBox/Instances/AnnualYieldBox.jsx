@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import SummaryBox from '../SummaryBox';
 
-class TotalYieldBox extends Component {
+class AnnualYieldBox extends Component {
   render() {
-    const { totalYield } = this.props.leaseStatsVM;
+    const { annualYield } = this.props.leaseStatsVM;
     return (
       <SummaryBox
-        value={totalYield}
+        value={annualYield}
         text={
           <div>
             תשואה שנתית צפויה
@@ -16,8 +16,8 @@ class TotalYieldBox extends Component {
   }
 }
 
-TotalYieldBox.propTypes = {
+AnnualYieldBox.propTypes = {
   leaseStatsVM: React.PropTypes.object.isRequired
 };
 
-export default TotalYieldBox;
+export default AnnualYieldBox;
