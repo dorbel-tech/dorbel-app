@@ -247,6 +247,7 @@ class Filter extends Component {
     const { appProviders } = this.props;
     if (!appProviders.authProvider.shouldLogin({ actionBeforeLogin: SAVE_FILTER_ACTION })) {
       appProviders.searchProvider.saveFilter(this.filterObj)
+      .then(() => appProviders.notificationProvider.success('החיפוש נשמר בהצלחה'))
       .catch(err => {
         let heading = _.get(err, 'response.data');
 

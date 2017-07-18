@@ -12,9 +12,11 @@ class DeleteOHEModal extends React.Component {
   }
 
   submit() {
-    this.props.appProviders.oheProvider.deleteOhe(this.props.ohe.id)
-    .catch((err) => this.props.appProviders.notificationProvider.error(err));
+    const { appProviders } = this.props;
 
+    appProviders.oheProvider.deleteOhe(this.props.ohe.id)
+    .then(appProviders.notificationProvider.success('מועד הביקור נמחק בהצלחה'))
+    .catch((err) => appProviders.notificationProvider.error(err));
     // we don't need to close the modal because the ohe will be removed from the store
   }
 
@@ -31,16 +33,16 @@ class DeleteOHEModal extends React.Component {
         </p>
       );
     }
-    
+
     return (
-      <DorbelModal 
+      <DorbelModal
         show={this.props.show}
         onClose={this.props.onClose}
         modalSize="small"
         title="מחיקת מועד ביקור"
         body={
           <div className="text-center">
-            <h4>שימו לב!</h4>            
+            <h4>שימו לב!</h4>
             {warning}
             <p>
               האם אתם בטוחים שברצונכם להמשיך ?
