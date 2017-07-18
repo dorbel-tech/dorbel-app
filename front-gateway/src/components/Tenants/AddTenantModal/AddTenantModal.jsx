@@ -21,7 +21,7 @@ export default class AddTenantModal extends React.Component {
       appProviders.listingsProvider.addTenant(listing_id, formsy.getCurrentValues())
         .then(() => {
           appProviders.notificationProvider.success('הדייר החדש התווסף בהצלחה');
-          appProviders.modalProvider.close()
+          appProviders.modalProvider.close();
         })
         .catch(() => appProviders.notificationProvider.error('חלה שגיאה בהוספת הדייר'));
     } else {

@@ -256,7 +256,7 @@ class Filter extends Component {
           heading = 'על מנת לשמור חיפוש - יש לבחור עיר, מספר חדרים ומחיר';
         }
 
-        appProviders.modalProvider.showInfoModal({ title: 'אופס...', err });
+        appProviders.modalProvider.showInfoModal({ title: 'אופס...', heading });
       });
     }
   }
