@@ -21,7 +21,7 @@ class ListingThumbnail extends Component {
   }
 
   getListingUrl(listing) {
-    let dashPath = '';
+    let dashPath;
 
     switch(listing.status) {
       case 'pending':
@@ -32,6 +32,7 @@ class ListingThumbnail extends Component {
         dashPath = '/manage';
         break;
       default:
+       dashPath = '/stats';
         break;
     }
 
