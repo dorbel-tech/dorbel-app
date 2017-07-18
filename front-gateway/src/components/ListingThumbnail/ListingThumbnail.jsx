@@ -32,7 +32,7 @@ class ListingThumbnail extends Component {
         dashPath = '/manage';
         break;
       default:
-       dashPath = '/stats';
+        dashPath = '/stats';
         break;
     }
 
