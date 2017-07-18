@@ -457,12 +457,6 @@ class Filter extends Component {
               <div className={'filter-trigger-more filter-trigger-container ' + this.state.extraFilterClass}>פילטרים נוספים</div>
             </OverlayTrigger>
           </Col>
-          <Col sm={2} >
-            <Button id="saveFilterButton" className="filter-save"
-                    block bsStyle="info" onClick={this.saveFilter}>
-              {saveFilterButtonText}
-            </Button>
-          </Col>
           <Col lgHidden mdHidden smHidden className="filter-future-booking-switch-mobile-wrapper">
             <Checkbox name="futureBooking" className="filter-future-booking-switch"
                       checked={this.state.futureBooking} onChange={this.checkboxChangeHandler}>
@@ -473,15 +467,20 @@ class Filter extends Component {
             <ReactTooltip type="dark" effect="solid" place="bottom"
                           offset={NEW_TIP_OFFSET} className="filter-future-booking-tooltip"/>
           </Col>
+          <Col sm={2} className="filter-actions-container">
+            <Button id="saveFilterButton" className="filter-save"
+                    block bsStyle="info" onClick={this.saveFilter}>
+              {saveFilterButtonText}
+            </Button>
+            <Button className="filter-close" bsStyle="primary"
+                    onClick={this.toggleHideFilter}>
+              סנן
+            </Button>
+          </Col>
         </Row>
         {
           !isMobile() && authStore.isLoggedIn && <SavedFilters onFilterChange={this.loadFilter} animateEmailRow />
         }
-        <div className="filter-close">
-          <div className="filter-close-text" onClick={this.toggleHideFilter}>
-            סנן וסגור
-          </div>
-        </div>
       </div>
     );
   }
