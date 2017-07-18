@@ -14,14 +14,18 @@ export default class ListingImageProvider {
     const image = { complete: false, src: file.preview, progress: 0 };
     imageStore.push(image);
 
-    const onProgress = action('image-upload-progress', e => image.progress = e.lengthComputable ? (e.loaded / e.total) : 0);
+    const onProgress = action('image-upload-progress', e => {
+      let storedImage = imageStore.find(img => img.src === image.src, imageStore.length - 1);
+      storedImage.progress = e.lengthComputable ? (e.loaded / e.total) : 0;
+    });
 
     return this.cloudinaryProvider.upload(file, onProgress)
     .then(action('image-upload-done', uploadedImage => {
-      image.complete = true;
-      image.src = `https://res.cloudinary.com/dorbel/${uploadedImage.resource_type}/${uploadedImage.type}/v${uploadedImage.version}/${uploadedImage.public_id}.${uploadedImage.format}`;
-      image.delete_token = uploadedImage.delete_token;
-      image.secure_url = uploadedImage.secure_url;
+      let storedImage = imageStore.find(img => img.src === image.src, imageStore.length - 1);
+      storedImage.complete = true;
+      storedImage.src = `https://res.cloudinary.com/dorbel/${uploadedImage.resource_type}/${uploadedImage.type}/v${uploadedImage.version}/${uploadedImage.public_id}.${uploadedImage.format}`;
+      storedImage.delete_token = uploadedImage.delete_token;
+      storedImage.secure_url = uploadedImage.secure_url;
       return uploadedImage;
     }))
     .catch(action(() => {

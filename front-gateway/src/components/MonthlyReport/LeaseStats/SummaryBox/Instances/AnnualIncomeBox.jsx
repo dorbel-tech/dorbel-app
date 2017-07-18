@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import SummaryBox from '../SummaryBox';
 
-class TotalIncomeBox extends Component {
+class AnnualIncomeBox extends Component {
   render() {
-    const { totalIncomeFormatted } = this.props.leaseStatsVM;
+    const { annualIncomeFormatted } = this.props.leaseStatsVM;
     return (
       <SummaryBox
-        value={totalIncomeFormatted}
+        value={annualIncomeFormatted}
         text={
           <div>
-            הכנסה שנתית
+            הכנסה שנתית צפויה
           </div>
         }
       />
@@ -17,9 +17,9 @@ class TotalIncomeBox extends Component {
   }
 }
 
-TotalIncomeBox.propTypes = {
+AnnualIncomeBox.propTypes = {
   leaseStatsVM: React.PropTypes.object.isRequired
 };
 
-export default TotalIncomeBox;
+export default AnnualIncomeBox;
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import autobind from 'react-autobind';
 import { inject, observer } from 'mobx-react';
-import { ProgressBar, Row } from 'react-bootstrap';
+import { ProgressBar, Row, Checkbox } from 'react-bootstrap';
 import Dropzone from 'react-dropzone';
 import CloudinaryImage from '~/components/CloudinaryImage/CloudinaryImage';
 
@@ -12,7 +12,11 @@ export default class ImageUpload extends React.Component {
   constructor(props) {
     super(props);
     autobind(this);
+
     this.uploadImagePromises = [];
+  }
+
+  componentWillMount() {
     this.shouldDisableSave();
   }
 
@@ -32,7 +36,7 @@ export default class ImageUpload extends React.Component {
       editedListingStore.disableSave = false;
     }
     else {
-      editedListingStore.disableSave = (editedListingStore.formValues.images.length <= 0);
+      editedListingStore.disableSave = editedListingStore.formValues.images.length <= 0;
     }
 
     editedListingStore.uploadedImagesCount = editedListingStore.formValues.images.length;
@@ -55,21 +59,22 @@ export default class ImageUpload extends React.Component {
           listingImageProvider.deleteImage(image, editedListingStore);
           this.shouldDisableSave();
         }}>
-        <i className="fa fa-times" />
+        <i className="fa fa-trash" />
         הסרת תמונה
       </a>
 
     );
 
     const setDefaultButton = (
-      <a href="#"
+      <Checkbox
+        inline
         className="image-action"
-        onClick={() => {
+        checked={index==0}
+        onChange={() => {
           this.props.editedListingStore.formValues.images.move(index, 0);
         }}>
-        <i className="fa fa-picture-o" />
         תמונה ראשית
-      </a>
+      </Checkbox>
     );
 
     return (
@@ -77,7 +82,7 @@ export default class ImageUpload extends React.Component {
         <div className="thumb-inner">
           <label className="uploaded-image">
             <CloudinaryImage className="img-full" src={image.src} width={180} />
-            {image.complete && index > 0 ? setDefaultButton : undefined}
+            {image.complete ? setDefaultButton : undefined}
             {image.complete ? deleteButton : progressBar}
           </label>
         </div>

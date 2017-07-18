@@ -39,7 +39,7 @@ class SelectUploadMode extends Component {
               <a href={ PROPERTY_SUBMIT_PREFIX + '/manage' } onClick={this.handleHrefClick} className="select-upload-mode-item">
                 <img src="https://static.dorbel.com/images/upload-apt-form/dorbel-manage-icon.svg" className="select-upload-mode-item-icon" />
                 <div className="select-upload-mode-item-text">
-                  הוספת נכס מושכר לניהול
+                  הוספת נכס שכרגע מושכר
                 </div>
                 <div className="select-upload-mode-item-subtext">
                   (יש לי דיירים קיימים)

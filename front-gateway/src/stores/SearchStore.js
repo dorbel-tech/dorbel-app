@@ -1,5 +1,5 @@
 'use-strict';
-import { observable, asMap, computed } from 'mobx';
+import { observable, computed } from 'mobx';
 
 export default class SearchStore {
   @observable searchResultsbyListingId;
@@ -12,8 +12,8 @@ export default class SearchStore {
   @observable lastScrollTop = 0;
 
   constructor(initialState) {
-    this.searchResultsbyListingId = asMap(initialState || {});
-    this.filters = asMap({});
+    this.searchResultsbyListingId = observable.map(initialState || {});
+    this.filters = observable.map({});
   }
 
   @computed get length() {

@@ -49,6 +49,12 @@ class MessagingProvider {
         publishableKey: global.window.dorbelConfig.TALKJS_PUBLISHABLE_KEY,
         me: this.talkUser
       });
+
+      // Watch message sent callback.
+      this.talkSession.on('message', function() {
+        // Report event to analytics.
+        window.analytics.track('client_talkjs_message_sent');
+      });
     }
 
     return true;

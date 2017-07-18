@@ -146,7 +146,7 @@ class ListingsProvider {
   }
 
   isRepublishable(listing) {
-    return (listing.status === 'rented' || listing.status === 'unlisted') && this.isActiveListing(listing);
+    return (listing.status === 'rented') && this.isActiveListing(listing);
   }
 
   isActiveListing(listing) {
@@ -163,7 +163,7 @@ class ListingsProvider {
         apartment_id,
         myProperties: true,
         oldListings: true,
-        sort: 'lease_start'
+        order: 'lease_end'
       })
     };
 

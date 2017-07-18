@@ -15,8 +15,8 @@ import DocumentUpload from '~/components/Documents/DocumentUpload';
 import MonthlyRentBox from '~/components/MonthlyReport/LeaseStats/SummaryBox/Instances/MonthlyRentBox';
 import RentPayedBox from '~/components/MonthlyReport/LeaseStats/SummaryBox/Instances/RentPayedBox';
 import PropertyValueBox from '~/components/MonthlyReport/LeaseStats/SummaryBox/Instances/PropertyValueBox';
-import TotalIncomeBox from '~/components/MonthlyReport/LeaseStats/SummaryBox/Instances/TotalIncomeBox';
-import TotalYieldBox from '~/components/MonthlyReport/LeaseStats/SummaryBox/Instances/TotalYieldBox';
+import AnnualIncomeBox from '~/components/MonthlyReport/LeaseStats/SummaryBox/Instances/AnnualIncomeBox';
+import AnnualYieldBox from '~/components/MonthlyReport/LeaseStats/SummaryBox/Instances/AnnualYieldBox';
 import LeaseStatsVM from '~/components/MonthlyReport/LeaseStats/LeaseStatsVM.js';
 
 import './PropertyManage.scss';
@@ -62,6 +62,7 @@ class PropertyManage extends Component {
       const month = now.month() + 1; // +1 because months are 0 based
       const year = now.year();
       const statsVM = new LeaseStatsVM(listing, month, year);
+
       const { handleHrefClick } = this.props.appProviders.navProvider;
       return (
         <Row className="property-manage-lease-stats">
@@ -73,14 +74,15 @@ class PropertyManage extends Component {
                   title='הצג דו"ח חודשי'
                   className="report-date-selector">
                   {
-                    statsVM.monthList.map((item) => {
+                    statsVM.passedMonthsList.map((item) => {
                       const dateStr = `${item.month < 10 ? '0' + item.month : item.month}/${item.year}`;
                       return (
                         <MenuItem
                           href={`/monthly-report/${listing.id}/${item.year}/${item.month}`}
                           target="_blank"
-                          onClick={handleHrefClick}
-                          key={dateStr}>
+                          onSelect={(key, e) => handleHrefClick(e)}
+                          key={dateStr}
+                          disabled={item.disabled}>
                           {dateStr}
                         </MenuItem>
                       );
@@ -117,10 +119,10 @@ class PropertyManage extends Component {
                     <PropertyValueBox leaseStatsVM={statsVM} />
                   </Col>
                   <Col xs={4}>
-                    <TotalIncomeBox leaseStatsVM={statsVM} />
+                    <AnnualIncomeBox leaseStatsVM={statsVM} />
                   </Col>
                   <Col xs={4}>
-                    <TotalYieldBox leaseStatsVM={statsVM} />
+                    <AnnualYieldBox leaseStatsVM={statsVM} />
                   </Col>
                 </Row>
               </Col>
@@ -234,7 +236,7 @@ class PropertyManage extends Component {
 
       <Row className="property-manage-section-title">
         <Col xs={12}>
-          מסמכים:                  
+          מסמכי דירה ושכירות:
           <DocumentUpload className="add-button pull-left" listing_id={listing.id} />
         </Col>
       </Row>

@@ -22,7 +22,7 @@ function getListingQuery(filter, options) {
   }
 
   const listingQuery = [];
-  
+
   let statusQuery = { $or: [
     { status: 'listed' },
     { status: 'rented',
@@ -30,13 +30,13 @@ function getListingQuery(filter, options) {
       show_for_future_booking: true
     }
   ] };
-  
+
   if (filter.futureBooking === false) {
     statusQuery = { status: 'listed' };
   }
 
   let queryOptions = {
-    order: 'created_at DESC',
+    order: filter.order || 'created_at DESC',
     limit: options.limit || DEFUALT_LISTING_LIST_LIMIT,
     offset: options.offset || 0,
     oldListings: filter.oldListings
@@ -143,7 +143,7 @@ function getDateRangeQuery(filter) {
   } else {
     dateRange = { $lte: moment(filter.maxLease).endOf('day').toISOString() };
   }
-  
+
   return {
     $or: [
       { status: 'listed', lease_start: dateRange },
