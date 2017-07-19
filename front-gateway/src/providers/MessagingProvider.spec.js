@@ -20,13 +20,11 @@ describe('Messaging Provider', () => {
   describe('constructor', () => {
     it('should set authStore init talkjs and a talk session', () => {
       messagingProvider.talkjs = jest.fn().mockReturnValue(true);
-      messagingProvider.initTalkSession = jest.fn();
 
       messagingProvider.constructor(authStoreMock);
 
       expect(messagingProvider.authStore).toEqual(authStoreMock);
       expect(messagingProvider.talkjs).toHaveBeenCalledWith(global.window, document, []);
-      expect(messagingProvider.initTalkSession).toHaveBeenCalledWith();
     });
   });
 

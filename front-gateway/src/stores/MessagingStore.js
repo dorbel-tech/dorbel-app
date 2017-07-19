@@ -11,8 +11,4 @@ export default class DocumentStore {
   setUnreadMessagesCount(count) {
     this.unreadMessagesCount = count;
   }
-
-  getUnreadMessagesCount() {
-    return this.unreadMessagesCount;
-  }
 }
