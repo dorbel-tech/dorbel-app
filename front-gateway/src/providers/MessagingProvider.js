@@ -58,7 +58,7 @@ class MessagingProvider {
       });
 
       // Watch for session unread messages change.
-      this.talkSession.unreads.on("change", (conversationIds) => {
+      this.talkSession.unreads.on('change', (conversationIds) => {
         this.messagingStore.setUnreadMessagesCount(conversationIds.length);
       });
     }
