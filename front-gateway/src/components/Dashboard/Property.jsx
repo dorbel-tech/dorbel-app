@@ -77,14 +77,14 @@ class Property extends Component {
 
   renderActionsMenu(isActiveListing) {
     const editItemClass = isActiveListing ? '' : ' property-actions-menu-item-disabled';
-    const editItemClick = isActiveListing ? () =>this.gotoEditProperty(property) : null;
+    const editItemClick = isActiveListing ? this.gotoEditProperty : null;
 
     return (
       <Popover onMouseEnter={this.showActionsMenu}
                onMouseLeave={this.hideActionsMenu}
                id="property-actions-menu"
                className="property-actions-menu">
-        <div className="property-actions-menu-item property-action-menu-item-show-mobile" onClick={() => this.gotoPublishedListing(property)}>
+        <div className="property-actions-menu-item property-action-menu-item-show-mobile" onClick={this.gotoPublishedListing}>
           <i className="property-actions-menu-item-icon fa fa-picture-o"></i>
           לצפייה במודעה
         </div>
