@@ -7,8 +7,9 @@ const TALKJS_USER_OBJ_EXTRA = {configuration: 'general'};
 
 // TalkJS wrapper provider, see docs: https://talkjs.com/docs/index.html
 class MessagingProvider {
-  constructor(authStore) {
+  constructor(authStore, messagingStore) {
     this.authStore = authStore;
+    this.messagingStore = messagingStore;
 
     // will only work on client side
     global.window && process.env.TALKJS_PUBLISHABLE_KEY &&
@@ -51,9 +52,14 @@ class MessagingProvider {
       });
 
       // Watch message sent callback.
-      this.talkSession.on('message', function() {
+      this.talkSession.on('message', () => {
         // Report event to analytics.
         window.analytics.track('client_talkjs_message_sent');
+      });
+
+      // Watch for session unread messages change.
+      this.talkSession.unreads.on("change", (conversationIds) => {
+        this.messagingStore.setUnreadMessagesCount(conversationIds.length);
       });
     }
 

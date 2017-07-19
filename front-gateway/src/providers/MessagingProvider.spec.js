@@ -79,7 +79,7 @@ describe('Messaging Provider', () => {
     it('should return true and setup a new talkSession', () => {
       messagingProvider.initTalkUser.mockReturnValue(true);
       const talkUserMock = jest.fn();
-      const talkSessionMock = { on: jest.fn() };
+      const talkSessionMock = { on: jest.fn(), unreads: {on: jest.fn()} };
       messagingProvider.talkUser = talkUserMock;
       global.window.Talk = { Session: jest.fn(() => talkSessionMock) };
 
@@ -99,6 +99,7 @@ describe('Messaging Provider', () => {
       });
       expect(result).toEqual(true);
       expect(talkSessionMock.on.mock.calls[0][0]).toBe('message');
+      expect(talkSessionMock.unreads.on.mock.calls[0][0]).toBe('change');
     });
   });
 
