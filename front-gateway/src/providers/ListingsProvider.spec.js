@@ -2,10 +2,10 @@
 import ListingsProvider from './ListingsProvider';
 
 describe('Listings Provider', () => {
-  let listingsProvider, appStoreMock, apiMock, routerMock;
+  let listingsProvider, appStoreMock, apiMock, navProviderMock;
 
   beforeEach(() => {
-    routerMock = {
+    navProviderMock = {
       setRoute: jest.fn()
     };
     apiMock = {};
@@ -24,7 +24,7 @@ describe('Listings Provider', () => {
       }
     };
 
-    listingsProvider = new ListingsProvider(appStoreMock, { api: apiMock }, routerMock);
+    listingsProvider = new ListingsProvider(appStoreMock, { api: apiMock, navProvider: navProviderMock });
   });
 
   it('should call API to load listing page views and save them store', () => {
@@ -63,7 +63,7 @@ describe('Listings Provider', () => {
 
     it('should route to new form', () => {
       listingsProvider.republish({});
-      expect(routerMock.setRoute).toHaveBeenCalledWith('/properties/submit/republish');
+      expect(navProviderMock.setRoute).toHaveBeenCalledWith('/properties/submit/republish');
     });
 
     it('should say rented listing is republishable', () => {

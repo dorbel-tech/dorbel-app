@@ -33,6 +33,10 @@ class NavProvider {
     }
     return false;
   }
+
+  showErrorPage(errorId) {
+    this.appStore.showErrorPage(errorId);
+  }
 }
 
 module.exports = NavProvider;

@@ -181,7 +181,7 @@ class Property extends Component {
     const propertyTabs = [
       { relativeRoute: 'stats', title: 'סטטיסטיקה', component: <PropertyStats listing={this.property} /> },
       { relativeRoute: 'ohe', title: 'מועדי ביקור', component: <OHEManager listing={this.property} /> },
-      { relativeRoute: 'manage', title: 'ניהול', component: <PropertyManage listing={this.property} /> },
+      { relativeRoute: 'manage', title: 'שכירות', component: <PropertyManage listing={this.property} /> },
       { relativeRoute: 'edit', title: 'עריכת פרטי הנכס', component: <EditListing listing={this.property} ref={form => editForm = form} />,
         replaceNavbar: true, hideFromMenu: true, headerButtons: editHeaderButtons }
     ];

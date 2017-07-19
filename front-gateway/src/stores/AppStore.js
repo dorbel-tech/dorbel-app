@@ -8,10 +8,13 @@ import EditedListingStore from '~/stores/EditedListingStore';
 import SearchStore from '~/stores/SearchStore';
 import LikeStore from '~/stores/LikeStore';
 import DocumentStore from '~/stores/DocumentStore';
+
 import { observable, action, autorun } from 'mobx';
 
+import ErrorPage from '~/components/ErrorPage';
+
 // A wrapper for all the stores that the application uses
-export default class AppStore { 
+export default class AppStore {
   listingStore: ListingStore;
   oheStore: OheStore;
   authStore: AuthStore;
@@ -21,7 +24,7 @@ export default class AppStore {
 
   // routing params
   @observable currentView: string;
-  @observable routeParams: {[id: string]: string};
+  @observable routeParams: { [id: string]: string };
   @observable showModal = false;
   @observable metaData = { title: undefined }; // used for SSR page meta data
 
@@ -46,9 +49,13 @@ export default class AppStore {
     });
   }
 
-  @action setView(route, params) {
-    this.currentView = route;
+  @action setView(component, params) {
+    this.currentView = component;
     this.routeParams = params;
+  }
+
+  showErrorPage(errorId) {
+    this.setView(ErrorPage, { errorId });
   }
 
   toJson() {
