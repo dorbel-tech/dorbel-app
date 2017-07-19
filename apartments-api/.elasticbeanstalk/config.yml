@@ -1,13 +1,19 @@
 branch-defaults:
   default:
     environment: apartments-api-test
-    group_suffix: null
+environment-defaults:
+  apartments-api-test:
+    branch: null
+    repository: null
 global:
   application_name: apartments-api
-  branch: null
   default_ec2_keyname: aws-eb
-  default_platform: Docker 1.11.2
+  default_platform: arn:aws:elasticbeanstalk:eu-west-1::platform/Docker running on
+    64bit Amazon Linux/2.5.0
   default_region: eu-west-1
+  instance_profile: null
+  platform_name: null
+  platform_version: null
   profile: null
-  repository: null
   sc: null
+  workspace_type: Application
