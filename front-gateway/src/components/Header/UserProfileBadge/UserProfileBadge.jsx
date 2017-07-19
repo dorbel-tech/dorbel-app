@@ -27,6 +27,7 @@ class UserProfileBadge extends Component {
         className="header-profile-menu-item">
         <i className={'fa ' + item.faIconClassName} aria-hidden="true"></i>
         {item.menuText}
+        {item.navTo === 'my-messages' && <UnreadMessagesNotifier />}
       </NavItem>
     );
   }
