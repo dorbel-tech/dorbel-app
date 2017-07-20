@@ -6,7 +6,7 @@ ENV_NAME=""
 
 if [ $# -eq 0 ]; then
     echo "No arguments provided."
-    echo "[yarn run deploy service-name dev] should work."
+    echo "[yarn run deploy service-name test] should work."
     exit 1
 fi
 
@@ -17,13 +17,11 @@ fi
 if [ ! -z "$2" ]; then
   case $2 in
     test)
-      ENV_NAME="${SERVICE_NAME}-test" ;;
+      ENV_NAME="${SERVICE_NAME}-test-new" ;;
     stage)
       ENV_NAME="${SERVICE_NAME}-staging" ;;
-    prod)
-      ENV_NAME="${SERVICE_NAME}-prod" ;;
     *)
-      ;;
+      ENV_NAME="$2" ;;
   esac
 
 fi
@@ -34,17 +32,11 @@ cd $SERVICE_NAME
 GIT_SHA1=$(git rev-parse --short HEAD)
 VERSION=$(npm version patch)
 VERSION_WITHFLAG="--label ${VERSION}.${GIT_SHA1}"
-BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
-
-# Stage all changes
-# git add .
-# git commit -m $VERSION
-# git push --set-upstream origin $BRANCH_NAME 
 
 echo "Starting deployment of ${SERVICE_NAME} ${VERSION} to ${ENV_NAME}."
 
 # Deploy application to AWS EB
-COMMIT_MESSAGE=$(git log -1 --oneline)
-eb deploy $ENV_NAME $VERSION_WITHFLAG --message "$COMMIT_MESSAGE" 
+COMMIT_MESSAGE=$(git log -1 --pretty=%B | xargs)
+eb deploy $ENV_NAME $VERSION_WITHFLAG --message "$COMMIT_MESSAGE"
 
 cd ..
