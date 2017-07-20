@@ -43,6 +43,7 @@ describe('Listing Service', function () {
 
   afterEach(function () {
     this.listingRepositoryMock.list.reset();
+    this.listingRepositoryMock.list.resolves([]);
     this.listingRepositoryMock.update.reset();
     this.geoProviderMock.getGeoLocation.reset();
   });
@@ -84,6 +85,27 @@ describe('Listing Service', function () {
           })
         )))
       )));
+    });
+
+    it('should remove private fields from response when not in my-properties', function * () {
+      const mockListings = [
+        { id: 5, apartment: { apt_number: 'private', building: {} }},
+        { id: 9, apartment: { building: { house_number: 'also-private' }}},
+      ];
+      this.listingRepositoryMock.list.resolves(mockListings);
+
+      const response = yield this.listingService.getByFilter();
+
+      __.assertThat(response, __.contains(
+        __.allOf(
+          __.hasProperty('id', 5),
+          __.hasProperty('apartment', __.not(__.hasProperty('apt_number')))
+        ),
+        __.allOf(
+          __.hasProperty('id', 9),
+          __.hasProperty('apartment', __.hasProperty('buidling', __.not(__.hasProperty('house_number'))))
+        )
+      ));
     });
 
     it('should throw an error for my-properties without user object', function* () {
