@@ -24,7 +24,7 @@ export default class MyDocuments extends Component {
 
   componentDidMount() {
     this.props.appStore.searchStore.reset();
-    this.props.appProviders.searchProvider.search({ myProperties: true });
+    this.props.appProviders.searchProvider.search({ myProperties: true, oldListings: true });
     this.props.appProviders.documentProvider.getAllDocumentsForUser();
   }
 
@@ -92,10 +92,10 @@ export default class MyDocuments extends Component {
     if (documents.length > 0) {
       subHeaderContent = (
         <Row className="gray-mid-light-text">
-          <Col xs={6} sm={3}>שם מסמך</Col>
-          <Col xs={6} sm={4}>{upload}</Col>
+          <Col xs={6} sm={7}>שם מסמך</Col>
           <Col xsHidden sm={2}>תאריך העלאה</Col>
-          <Col xsHidden sm={2}>גודל</Col>
+          <Col xsHidden sm={1}>גודל</Col>
+          <Col xs={6} sm={2}>{upload}</Col>
         </Row>
       );
     }
@@ -108,18 +108,16 @@ export default class MyDocuments extends Component {
     const documents = appStore.documentStore.getDocumentsByListing(listing.id);
 
     return (
-      <Row key={listing.id}>
-        <ListGroup>
-          {this.renderListingHeader(listing)}
-          {appProviders.utils.isMobile() && this.renderListingStatus(listing)}
-          {this.renderListingSubHeader(documents, listing)}
-          { documents.map(doc =>
-            <ListGroupItem key={doc.id}>
-              <DocumentRow document={doc} />
-            </ListGroupItem>
-          )}
-        </ListGroup>
-      </Row>
+      <ListGroup key={listing.id}>
+        {this.renderListingHeader(listing)}
+        {appProviders.utils.isMobile() && this.renderListingStatus(listing)}
+        {this.renderListingSubHeader(documents, listing)}
+        { documents.map(doc =>
+          <ListGroupItem key={doc.id}>
+            <DocumentRow document={doc} />
+          </ListGroupItem>
+        )}
+      </ListGroup>
     );
   }
 

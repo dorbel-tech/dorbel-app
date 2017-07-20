@@ -78,8 +78,8 @@ $listing-image-height: 100px;
   }
 
   @media (max-width: $screen-xs-max) {
-    border-top: 1px solid $gray-lighter;
-    border-right: 1px solid $gray-lighter;
+    border-top: $gray-border;
+    border-right: $gray-border;
     float: right;
     padding-bottom: 7px;
     padding-left: 0;
@@ -114,10 +114,7 @@ $listing-image-height: 100px;
 }
 
 .my-documents-add-document {
-  margin-top: 0;
   background-color: $brand-white !important;
-
-  @media (max-width: $screen-xs-max) {
-    float: left;
-  }
+  float: left;
+  margin-top: 0;
 }
