@@ -249,13 +249,7 @@ class Filter extends Component {
       appProviders.searchProvider.saveFilter(this.filterObj)
       .then(() => appProviders.notificationProvider.success('החיפוש נשמר בהצלחה'))
       .catch(err => {
-        let heading = _.get(err, 'response.data');
-
-        if (_.get(err, 'response.data[0].type') === 'Validation error' ||
-            _.get(err, 'response.data.error')  === 'Validation Failed') {
-          heading = 'על מנת לשמור חיפוש - יש לבחור עיר, מספר חדרים ומחיר';
-        }
-
+        let heading = err.message || _.get(err, 'response.data');
         appProviders.modalProvider.showInfoModal({ title: 'אופס...', heading });
       });
     }

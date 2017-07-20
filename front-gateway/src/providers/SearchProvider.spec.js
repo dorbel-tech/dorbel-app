@@ -173,10 +173,10 @@ describe('SearchProvider', () => {
         expect(appStoreMock.searchStore.filters.set).toHaveBeenCalledWith(mockFilters[0].id, mockFilters[0]);
         expect(appStoreMock.searchStore.filters.set).toHaveBeenCalledWith(mockFilters[1].id, mockFilters[1]);
       });
-    });  
+    });
 
     it('should save new filter, update store and make new filter active', () => {
-      const mockFilter = { city: 5 };
+      const mockFilter = { city: 5, mrs: 2000, maxRooms: 5 };
       const mockReturnFilter = { id: 8 };
       appProvidersMock.api.fetch.mockReturnValue(Promise.resolve(mockReturnFilter));
 
@@ -188,7 +188,7 @@ describe('SearchProvider', () => {
     });
 
     it('should clear neighborhood:* from filter', () => {
-      const mockFilter = { city: 5, neighborhood: '*' };
+      const mockFilter = { city: 5, neighborhood: '*', minRooms: 3, mre: 4000 };
       return searchProvider.saveFilter(mockFilter).then(() => {
         expect(appProvidersMock.api.fetch.mock.calls[0][1].data.neighborhood).toBeUndefined();
       });
@@ -198,6 +198,15 @@ describe('SearchProvider', () => {
       appStoreMock.searchStore.activeFilterId = 8;
       searchProvider.resetActiveFilter();
       expect(appStoreMock.searchStore.activeFilterId).toBeNull();
+    });
+
+    it('should throw error and not call API when missing minimal fields', () => {
+      expect.assertions(2);
+      return searchProvider.saveFilter({ city: 5 })
+      .catch(err => {
+        expect(err).toHaveProperty('message', 'על מנת לשמור חיפוש - יש לבחור עיר, מספר חדרים ומחיר');
+        expect(appProvidersMock.api.fetch).not.toHaveBeenCalled();
+      });
     });
   });
 });
