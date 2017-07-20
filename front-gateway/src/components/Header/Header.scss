@@ -40,6 +40,11 @@
     }
   }
 
+  .unread-messages-notifier {
+    color: $brand-white;
+    float: left;
+  }
+
   @media (min-width: $screen-sm-min) {
     display: none !important;
   }
