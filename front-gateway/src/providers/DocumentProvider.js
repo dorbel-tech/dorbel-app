@@ -13,6 +13,11 @@ export default class DocumentProvider {
       .then(documents => this.appStore.documentStore.add(documents));
   }
 
+  getAllDocumentsForUser() {
+    return this.api.fetch(DOCUMENTS_ROUTE)
+      .then(documents => this.appStore.documentStore.add(documents));
+  }
+
   saveDocument(listing_id, file) {
     const data = {
       listing_id,

@@ -124,10 +124,11 @@ describe('Apartments API Integration', function () {
       }
 
       this.listingId = this.createdListings[0].id;
+      this.apartmentId = this.createdListings[0].apartment_id;
     });
 
-    it.only('should return exactly 3 listings', function* () {
-      const getResponse = yield this.apiClient.getRelatedListings(this.listingId).expect(200).end();
+    it('should return exactly 3 listings', function* () {
+      const getResponse = yield this.apiClient.getRelatedListings(this.apartmentId).expect(200).end();
       __.assertThat(getResponse.body, __.hasSize(3));
     });
 
@@ -140,7 +141,7 @@ describe('Apartments API Integration', function () {
       });
 
 
-      const getResponse = yield this.apiClient.getRelatedListings(this.listingId).expect(200).end();
+      const getResponse = yield this.apiClient.getRelatedListings(this.apartmentId).expect(200).end();
       const responseIds = _.map(getResponse, 'id');
 
       __.assertThat(responseIds, __.not(__.hasItem(this.listingId)));
@@ -150,7 +151,7 @@ describe('Apartments API Integration', function () {
       const getListingResponse = yield this.apiClient.getSingleListing(this.listingId).expect(200).end();
       const cityId = getListingResponse.body.apartment.building.city_id;
 
-      const getRelatedResponse = yield this.apiClient.getRelatedListings(this.listingId).expect(200).end();
+      const getRelatedResponse = yield this.apiClient.getRelatedListings(this.apartmentId).expect(200).end();
       const respCityIds = _.map(getRelatedResponse.body, function (listing) {
         return listing.apartment.building.city.id;
       });

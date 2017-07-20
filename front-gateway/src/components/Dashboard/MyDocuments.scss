@@ -1,0 +1,120 @@
+@import "../sharedStyles/bsvars.scss";
+@import "../sharedStyles/variables.scss";
+
+$listing-image-height: 100px;
+
+.my-documents-container {
+  padding-top: 25px;
+  padding-bottom: 70px;
+
+  .list-group-item {
+    border: none;
+    margin-bottom: 2px;
+  }
+
+  @media (min-width: $screen-sm-min) {
+    padding-left: 50px;
+    padding-right: 50px;
+  }
+}
+
+.my-documents-listing-header {
+  height: $listing-image-height;
+  margin-top: 20px;
+  padding-top: 0;
+}
+
+.my-documents-listing-sub-header {
+  margin-bottom: 3px !important;
+
+  a {
+    text-decoration: underline;
+    color: $brand-primary;
+  }
+}
+
+.my-documents-listing-image-container {
+  padding-right: 0;
+  padding-left: 0;
+}
+
+.my-documents-listing-image {
+  height: $listing-image-height;
+  width: 100%;
+  object-fit: cover;
+}
+
+.my-documents-listing-info {
+  height: $listing-image-height;
+  padding-top: 5px;
+}
+
+.my-document-listing-title {
+  font-size: 16px;
+
+  @media (max-width: $screen-xs-max) {
+    font-size: 14px;
+  }
+}
+
+.my-documents-listing-details {
+  @media (min-width: $screen-sm-min) {
+    display: flex;
+    margin-top: 5px;
+  }
+
+  @media (max-width: $screen-xs-max) {
+    bottom: 0;
+    font-size: 13px;
+    left: 0;
+    position: absolute;
+    right: 0;
+  }
+}
+
+.my-documents-listing-details-sub {
+  @media (min-width: $screen-sm-min) {
+    margin-left: 15px;
+  }
+
+  @media (max-width: $screen-xs-max) {
+    border-top: $gray-border;
+    border-right: $gray-border;
+    float: right;
+    padding-bottom: 7px;
+    padding-left: 0;
+    padding-top: 7px;
+    text-align: center;
+    width: 50%;
+  }
+}
+
+.my-documents-listing-status {
+  .dropdown {
+    > button.listing-status-selector {
+      cursor: default;
+      opacity: 1;
+      padding: 0;
+      width: 160px;
+
+      &::after {
+        /* Remove the caret from the listing-status-selector */
+        content: '' !important;
+      }
+    }
+
+    @media (min-width: $screen-sm-min) {
+      margin-top: 15px;
+    }
+
+    @media (max-width: $screen-xs-max) {
+      float: left;
+    }
+  }
+}
+
+.my-documents-add-document {
+  background-color: $brand-white !important;
+  float: left;
+  margin-top: 0;
+}

@@ -57,13 +57,13 @@ function list(query, options = {}) {
     include: [
       {
         model: models.apartment,
-        attributes: ['size', 'rooms'],
+        attributes: ['size', 'rooms', 'apt_number'],
         required: true,
         where: options.apartmentQuery || {},
         include: [
           {
             model: models.building,
-            attributes: ['street_name'],
+            attributes: ['street_name', 'house_number'],
             required: true,
             where: options.buildingQuery || {},
             include: [

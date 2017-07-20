@@ -35,7 +35,8 @@ export default class DocumentUpload extends React.Component {
     appProviders: React.PropTypes.object,
     appStore: React.PropTypes.object,
     className: React.PropTypes.string,
-    listing_id: React.PropTypes.number.isRequired
+    listing_id: React.PropTypes.number.isRequired,
+    bsSize: React.PropTypes.string
   }
 
   getUploadOptions(props) {
@@ -65,7 +66,10 @@ export default class DocumentUpload extends React.Component {
   }
 
   renderButton({ onPick }) {
-    return <Button onClick={event => this.openUploadModal(onPick, event)} className={this.props.className}>הוסף מסמך</Button>;
+    return <Button onClick={event => this.openUploadModal(onPick, event)}
+                   className={this.props.className}
+                   bsSize={this.props.bsSize}
+                   >הוסף מסמך</Button>;
   }
 
   render() {
