@@ -6,25 +6,30 @@ import MessagingProvider from './MessagingProvider.js';
 describe('Messaging Provider', () => {
   let messagingProvider;
   let authStoreMock;
+  let messagingStoreMock;
 
   beforeEach(() => {
     authStoreMock = {};
+    messagingStoreMock = {};
 
     process.env.TALKJS_PUBLISHABLE_KEY = 'mockTalkJSPublishableKey';
 
-    messagingProvider = new MessagingProvider(authStoreMock);
+    messagingProvider = new MessagingProvider(authStoreMock, messagingStoreMock);
   });
 
   afterEach(() => jest.resetAllMocks());
 
   describe('constructor', () => {
-    it('should set authStore init talkjs and a talk session', () => {
+    it('should set members and init talkjs', () => {
       messagingProvider.talkjs = jest.fn().mockReturnValue(true);
 
-      messagingProvider.constructor(authStoreMock);
+      messagingProvider.talkjsLoaded = false;
+      messagingProvider.constructor(authStoreMock, messagingStoreMock);
 
       expect(messagingProvider.authStore).toEqual(authStoreMock);
+      expect(messagingProvider.messagingStore).toEqual(messagingStoreMock);
       expect(messagingProvider.talkjs).toHaveBeenCalledWith(global.window, document, []);
+      expect(messagingProvider.talkjsLoaded).toBeTruthy();
     });
   });
 

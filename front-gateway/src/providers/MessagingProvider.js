@@ -11,9 +11,11 @@ class MessagingProvider {
     this.authStore = authStore;
     this.messagingStore = messagingStore;
 
-    // will only work on client side
-    global.window && process.env.TALKJS_PUBLISHABLE_KEY &&
+    // Make sure talkjs is loaded only on client side and a talkjs key was defined
+    if (global.window && process.env.TALKJS_PUBLISHABLE_KEY) {
       this.talkjs(global.window, document, []);
+      this.talkjsLoaded = true;
+    }
   }
 
   // If active user is logged in and an active TalkJS user was not
@@ -39,7 +41,7 @@ class MessagingProvider {
 
   // If an active TalkJS user was created, create a new TalkJS session.
   initTalkSession() {
-    if (!this.initTalkUser()) {
+    if (!this.talkjsLoaded || !this.initTalkUser()) {
       return false;
     }
 
