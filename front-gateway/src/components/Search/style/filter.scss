@@ -71,18 +71,18 @@
   }
 }
 
-.filter-close {
-  text-align: center;
-
-  .filter-close-text {
-    color: #00f;
-    cursor: pointer;
-    display: inline-block;
-    font-size: 15px;
-    margin-bottom: 10px;
-    padding: 15px;
-    text-decoration: underline;
+.filter-actions-container {
+  @media (max-width: $screen-xs-max) {
+    text-align: center;
   }
+}
+
+.filter-close {
+  background-color: $brand-info !important;
+  border-color: $brand-info;
+  display: inline-block;
+  margin-right: 16px;
+  width: 96px;
 
   @media (min-width: $screen-sm-min) {
     display: none;
@@ -193,10 +193,8 @@
   background-color: $brand-white;
   border-color: $brand-info;
   color: $brand-info;
-
-  @media (min-width: $screen-sm-min) {
-    width: 96px;
-  }
+  display: inline-block;
+  width: 96px;
 }
 
 .filter-admin-switch {

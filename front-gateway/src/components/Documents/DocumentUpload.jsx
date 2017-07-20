@@ -46,7 +46,10 @@ export default class DocumentUpload extends React.Component {
     const uploadOptions = _.cloneDeep(FILESTACK_OPTIONS);
     uploadOptions.storeTo.path = `${env}/${user_id}/${listing_id}/`;
     uploadOptions.onClose = () => props.appProviders.utils.hideIntercom(false);
-    uploadOptions.onFileUploadFinished = () => window.analytics.track('client_filestack_document_upload', { user_id, listing_id });
+    uploadOptions.onFileUploadFinished = () => {
+      props.appProviders.notificationProvider.success('המסמכים נוספו בהצלחה');
+      window.analytics.track('client_filestack_document_upload', { user_id, listing_id });
+    };
     return uploadOptions;
   }
 

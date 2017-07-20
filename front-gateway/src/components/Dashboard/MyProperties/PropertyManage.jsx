@@ -46,7 +46,8 @@ class PropertyManage extends Component {
         {
           lease_start: newLeaseStart,
           lease_end: newLeaseEnd
-        });
+        })
+        .then(appProviders.notificationProvider.success('תקופת השכירות עודכנה בהצלחה'));
     }
 
     this.setState({ showManageLeaseModal: false });

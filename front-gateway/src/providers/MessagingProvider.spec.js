@@ -6,27 +6,30 @@ import MessagingProvider from './MessagingProvider.js';
 describe('Messaging Provider', () => {
   let messagingProvider;
   let authStoreMock;
+  let messagingStoreMock;
 
   beforeEach(() => {
     authStoreMock = {};
+    messagingStoreMock = {};
 
     process.env.TALKJS_PUBLISHABLE_KEY = 'mockTalkJSPublishableKey';
 
-    messagingProvider = new MessagingProvider(authStoreMock);
+    messagingProvider = new MessagingProvider(authStoreMock, messagingStoreMock);
   });
 
   afterEach(() => jest.resetAllMocks());
 
   describe('constructor', () => {
-    it('should set authStore init talkjs and a talk session', () => {
+    it('should set members and init talkjs', () => {
       messagingProvider.talkjs = jest.fn().mockReturnValue(true);
-      messagingProvider.initTalkSession = jest.fn();
 
-      messagingProvider.constructor(authStoreMock);
+      messagingProvider.talkjsLoaded = false;
+      messagingProvider.constructor(authStoreMock, messagingStoreMock);
 
       expect(messagingProvider.authStore).toEqual(authStoreMock);
+      expect(messagingProvider.messagingStore).toEqual(messagingStoreMock);
       expect(messagingProvider.talkjs).toHaveBeenCalledWith(global.window, document, []);
-      expect(messagingProvider.initTalkSession).toHaveBeenCalledWith();
+      expect(messagingProvider.talkjsLoaded).toBeTruthy();
     });
   });
 
@@ -79,7 +82,7 @@ describe('Messaging Provider', () => {
     it('should return true and setup a new talkSession', () => {
       messagingProvider.initTalkUser.mockReturnValue(true);
       const talkUserMock = jest.fn();
-      const talkSessionMock = { on: jest.fn() };
+      const talkSessionMock = { on: jest.fn(), unreads: {on: jest.fn()} };
       messagingProvider.talkUser = talkUserMock;
       global.window.Talk = { Session: jest.fn(() => talkSessionMock) };
 
@@ -99,6 +102,7 @@ describe('Messaging Provider', () => {
       });
       expect(result).toEqual(true);
       expect(talkSessionMock.on.mock.calls[0][0]).toBe('message');
+      expect(talkSessionMock.unreads.on.mock.calls[0][0]).toBe('change');
     });
   });
 

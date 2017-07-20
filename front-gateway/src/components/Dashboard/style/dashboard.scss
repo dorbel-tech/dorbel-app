@@ -27,6 +27,10 @@
     text-decoration: none !important;
   }
 
+  .unread-messages-notifier {
+    float: left;
+  }
+
   &.dashboard-menu-item-selected {
     border-color: $gray-dark;
     color: $gray-dark;
