@@ -7,6 +7,9 @@ import CloudinaryImage from '~/components/CloudinaryImage/CloudinaryImage';
 import ListingStatusSelector from '~/components/Dashboard/MyProperties/ListingStatusSelector';
 import DocumentRow from '~/components/Documents/DocumentRow';
 import DocumentUpload from '~/components/Documents/DocumentUpload';
+import NavLink from '~/components/NavLink';
+import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
+import { PROPERTY_SUBMIT_PREFIX } from '~/routesHelper';
 
 import './MyDocuments.scss';
 
@@ -121,15 +124,41 @@ export default class MyDocuments extends Component {
     );
   }
 
+  renderNoListings() {
+    return (
+      <Row>
+        <Col xs={12} lg={4} sm={6}>
+          <div className="my-properties-empty">
+            <NavLink className="my-properties-add" to={PROPERTY_SUBMIT_PREFIX}>
+              <div className="my-properties-cross">
+                <img src="https://static.dorbel.com/images/dashboard/add-property-icon.svg" />
+              </div>
+              <div className="my-properties-title">הוסיפו נכס</div>
+            </NavLink>
+            <div className="my-properties-text">אין לכם נכסים קיימים. הוסיפו נכס בבעלותכם או את הדירה בה אתם גרים.</div>
+          </div>
+        </Col>
+      </Row>
+    );
+  }
+
   render() {
-    const listings = this.props.appStore.searchStore.searchResults();
+    const { searchStore } = this.props.appStore;
+    const listings = searchStore.searchResults();
+
+    let contents = <LoadingSpinner />;
+    if (!searchStore.isLoadingNewSearch && !listings.length) {
+      contents = this.renderNoListings();
+    } else if (!searchStore.isLoadingNewSearch && listings.length) {
+      contents = listings.map(this.renderListing);
+    }
 
     return (
       <Grid fluid className="my-documents-container">
         <Row>
           <Col xs={12}><h4>מסמכים</h4></Col>
         </Row>
-        {listings.map(this.renderListing)}
+        { contents }
       </Grid>
     );
   }
