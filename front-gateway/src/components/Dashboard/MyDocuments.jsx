@@ -42,7 +42,6 @@ export default class MyDocuments extends Component {
         <Row>
           <Col xs={6} sm={4} className="my-documents-listing-image-container">
             <CloudinaryImage src={images[0].url} className="my-documents-listing-image" />
-            {/* <ListingStatusSelector listing={listing} /> */}
           </Col>
           <Col xs={6} sm={8} className="my-documents-listing-info">
             <span className="my-document-listing-title">{this.getListingTitle(listing)}</span>
@@ -57,7 +56,7 @@ export default class MyDocuments extends Component {
               </div>
             </div>
             <div className="my-documents-listing-status">
-              { !appProviders.utils.isMobile() && <ListingStatusSelector listing={listing} /> }
+              { !appProviders.utils.isMobile() && <ListingStatusSelector listing={listing} disabled={true} /> }
             </div>
           </Col>
         </Row>
@@ -73,7 +72,7 @@ export default class MyDocuments extends Component {
             סטטוס המודעה :
           </Col>
           <Col xs={7} className="my-documents-listing-status">
-            <ListingStatusSelector listing={listing} />
+            <ListingStatusSelector listing={listing} disabled={true} />
           </Col>
         </Row>
       </ListGroupItem>

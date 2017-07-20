@@ -92,6 +92,7 @@ $listing-image-height: 100px;
 .my-documents-listing-status {
   .dropdown {
     > button.listing-status-selector {
+      cursor: default;
       opacity: 1;
       padding: 0;
       width: 160px;
