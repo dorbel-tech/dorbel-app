@@ -38,7 +38,7 @@ class AppProviders {
     this.cloudinaryProvider = new CloudinaryProvider();
     this.apiProvider = new ApiProvider(appStore);
     this.authProvider = loadAuthProvider(appStore, router, this.apiProvider);
-    this.messagingProvider = new MessagingProvider(appStore.authStore);
+    this.messagingProvider = new MessagingProvider(appStore.authStore, appStore.messagingStore);
     this.oheProvider = new OheProvider(appStore, this.apiProvider, this.authProvider);
     this.navProvider = new NavProvider(appStore, router);
     this.listingsProvider = new ListingsProvider(appStore, { api: this.apiProvider, ohe: this.oheProvider, navProvider: this.navProvider });

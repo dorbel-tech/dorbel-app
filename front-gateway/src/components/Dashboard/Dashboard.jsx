@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
+import { find } from 'lodash';
 import autobind from 'react-autobind';
 import NavLink from '~/components/NavLink';
 import { MENU_ITEMS } from './DashboardShared';
 import Property from './Property';
-import { find } from 'lodash';
 
 import './Dashboard.scss';
 
@@ -19,9 +19,11 @@ class Dashboard extends Component {
     const isSelected = this.props.action === item.navTo;
 
     return <div key={'dashboard-menu-item-' + item.navTo}
-      className={'dashboard-menu-item ' + (isSelected ? 'dashboard-menu-item-selected' : '')}>
+      className={'dashboard-menu-item' + (isSelected ? ' dashboard-menu-item-selected' : '')}>
       <i className={'dashboard-menu-item-icon fa ' + item.faIconClassName} aria-hidden="true"></i>
-      <NavLink to={'/dashboard/' + item.navTo}>{item.menuText}</NavLink>
+      <NavLink to={'/dashboard/' + item.navTo}>
+        {item.menuText}
+      </NavLink>
     </div>;
   }
 

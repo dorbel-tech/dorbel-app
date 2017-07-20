@@ -31,7 +31,7 @@ class Header extends Component {
     return <NavItem key={'header-dashboard-menu-item-' + item.navTo}
       onClick={this.handleHrefClick}
       href={itemPath}
-      className={'header-dashboard-menu-item ' + (isSelected ? 'header-dashboard-menu-item-selected' : '')}>
+      className={'header-dashboard-menu-item' + (isSelected ? ' header-dashboard-menu-item-selected' : '')}>
       <i className={'header-dashboard-menu-item-icon fa ' + item.faIconClassName} aria-hidden="true"></i>
       {item.menuText}
     </NavItem>;
