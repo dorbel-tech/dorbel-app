@@ -9,7 +9,7 @@ const assertYieldedError = require('../shared/assertYieldedError');
 describe('Listing Service', function () {
   let assertUnauthorized = function (query) {
     return assertYieldedError(
-      () => this.listingService.getByFilter(JSON.stringify(query)),
+      () => this.listingService.getByFilter(query),
       __.hasProperties({
         message: 'unauthorized for this view',
         status: 403
@@ -22,7 +22,7 @@ describe('Listing Service', function () {
     this.mockListing = faker.getFakeListing();
     this.listingRepositoryMock = {
       create: sinon.stub().resolves(this.mockListing),
-      list: sinon.stub().resolves(undefined),
+      list: sinon.stub().resolves([]),
       listingStatuses: ['pending', 'rented'],
       update: sinon.stub().resolves(this.mockListing),
     };
@@ -62,12 +62,12 @@ describe('Listing Service', function () {
 
     it('should send limit and offset to the repository', function* () {
       const options = { limit: 7, offset: 6 };
-      yield this.listingService.getByFilter('', options);
+      yield this.listingService.getByFilter({}, options);
       __.assertThat(this.listingRepositoryMock.list.args[0][1], __.hasProperties(options));
     });
 
     it('should set status of listed only when future booking is off', function* () {
-      yield this.listingService.getByFilter('{ "futureBooking": false }');
+      yield this.listingService.getByFilter({ futureBooking: false });
       __.assertThat(this.listingRepositoryMock.list.args[0][0], __.hasProperty('$and', __.contains({ status: 'listed' })));
     });
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import autobind from 'react-autobind';
-import { Grid, Row, Col, ListGroup, ListGroupItem, Clearfix } from 'react-bootstrap';
+import { Grid, Row, Col, ListGroup, ListGroupItem } from 'react-bootstrap';
 
 import CloudinaryImage from '~/components/CloudinaryImage/CloudinaryImage';
 import ListingStatusSelector from '~/components/Dashboard/MyProperties/ListingStatusSelector';
@@ -54,12 +54,12 @@ export default class MyDocuments extends Component {
               <div className="my-documents-listing-details-sub">
                 {listing.apartment.size}&nbsp;
                 <span className="gray-mid-light-text">מ"ר</span>
-              </div>              
+              </div>
             </div>
             <div className="my-documents-listing-status">
               { !appProviders.utils.isMobile() && <ListingStatusSelector listing={listing} /> }
             </div>
-          </Col>          
+          </Col>
         </Row>
       </ListGroupItem>
     );
@@ -73,7 +73,7 @@ export default class MyDocuments extends Component {
             סטטוס המודעה :
           </Col>
           <Col xs={7} className="my-documents-listing-status">
-            <ListingStatusSelector listing={listing} /> 
+            <ListingStatusSelector listing={listing} />
           </Col>
         </Row>
       </ListGroupItem>
@@ -84,23 +84,23 @@ export default class MyDocuments extends Component {
     const upload = <DocumentUpload type="link" className="my-documents-add-document" listing_id={listing.id}/>;
 
     let subHeaderContent = (
-      <Row>              
+      <Row>
         <Col xs={6} className="gray-mid-light-text">אין מסמכים שמורים</Col>
-        <Col xs={6}>{upload}</Col>            
+        <Col xs={6}>{upload}</Col>
       </Row>
     );
 
     if (documents.length > 0) {
       subHeaderContent = (
-        <Row className="gray-mid-light-text">              
+        <Row className="gray-mid-light-text">
           <Col xs={6} sm={3}>שם מסמך</Col>
           <Col xs={6} sm={4}>{upload}</Col>
           <Col xsHidden sm={2}>תאריך העלאה</Col>
           <Col xsHidden sm={2}>גודל</Col>
         </Row>
       );
-    } 
-      
+    }
+
     return <ListGroupItem className="my-documents-listing-sub-header">{subHeaderContent}</ListGroupItem>;
   }
 
@@ -114,7 +114,7 @@ export default class MyDocuments extends Component {
           {this.renderListingHeader(listing)}
           {appProviders.utils.isMobile() && this.renderListingStatus(listing)}
           {this.renderListingSubHeader(documents, listing)}
-          { documents.map(doc => 
+          { documents.map(doc =>
             <ListGroupItem key={doc.id}>
               <DocumentRow document={doc} />
             </ListGroupItem>

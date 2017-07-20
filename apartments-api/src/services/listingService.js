@@ -229,7 +229,7 @@ function setListingAutoFields(listing) {
   return listing;
 }
 
-function* getByFilter(filter, options = {}) {
+function* getByFilter(filter = {}, options = {}) {
   const { listingQuery, queryOptions } = listingSearchQuery.getListingQuery(filter, options);
   const listings = yield listingRepository.list(listingQuery, queryOptions);
 
@@ -239,7 +239,7 @@ function* getByFilter(filter, options = {}) {
       listing.apartment.building.house_number = undefined;
     });
   }
-  
+
   return listings;
 }
 

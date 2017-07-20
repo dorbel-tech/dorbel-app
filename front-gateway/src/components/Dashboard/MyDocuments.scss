@@ -18,9 +18,9 @@ $listing-image-height: 100px;
 }
 
 .my-documents-listing-header {
-  height: $listing-image-height - 1px;
+  height: $listing-image-height;
   margin-top: 20px;
-  padding-top: 0;      
+  padding-top: 0;
 }
 
 .my-documents-listing-sub-header {
@@ -48,16 +48,16 @@ $listing-image-height: 100px;
   padding-top: 5px;
 }
 
-.my-document-listing-title { 
+.my-document-listing-title {
   font-size: 16px;
-  
+
   @media (max-width: $screen-xs-max) {
     font-size: 14px;
   }
 }
 
 .my-documents-listing-details {
-  @media (min-width: $screen-sm-min) {  
+  @media (min-width: $screen-sm-min) {
     display: flex;
     margin-top: 5px;
   }
@@ -72,25 +72,25 @@ $listing-image-height: 100px;
 }
 
 .my-documents-listing-details-sub {
-  @media (min-width: $screen-sm-min) {  
+  @media (min-width: $screen-sm-min) {
     margin-left: 15px;
   }
 
   @media (max-width: $screen-xs-max) {
-    border-top: 1px solid #eeeeee;
-    border-right: 1px solid #eeeeee;
+    border-top: 1px solid $gray-lighter;
+    border-right: 1px solid $gray-lighter;
     float: right;
     padding-bottom: 7px;
     padding-left: 0;
     padding-top: 7px;
     text-align: center;
     width: 50%;
-  }  
+  }
 }
 
 .my-documents-listing-status {
   .dropdown {
-    > button.listing-status-selector {  
+    > button.listing-status-selector {
       opacity: 1;
       padding: 0;
       width: 160px;
@@ -101,7 +101,7 @@ $listing-image-height: 100px;
       }
     }
 
-    @media (min-width: $screen-sm-min) {  
+    @media (min-width: $screen-sm-min) {
       margin-top: 15px;
     }
 
