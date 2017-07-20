@@ -81,7 +81,7 @@ export default class MyDocuments extends Component {
   }
 
   renderListingSubHeader(documents, listing) {
-    const upload = <DocumentUpload type="link" className="my-documents-add-document" listing_id={listing.id}/>;
+    const upload = <DocumentUpload className="add-button my-documents-add-document" bsSize="xsmall" listing_id={listing.id}/>;
 
     let subHeaderContent = (
       <Row>
