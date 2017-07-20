@@ -4,7 +4,6 @@ import autobind from 'react-autobind';
 import NavLink from '~/components/NavLink';
 import { MENU_ITEMS } from './DashboardShared';
 import Property from './Property';
-import UnreadMessagesNotifier from '~/components/Messaging/UnreadMessagesNotifier';
 
 import './Dashboard.scss';
 
@@ -24,7 +23,6 @@ class Dashboard extends Component {
       <i className={'dashboard-menu-item-icon fa ' + item.faIconClassName} aria-hidden="true"></i>
       <NavLink to={'/dashboard/' + item.navTo}>
         {item.menuText}
-        {item.navTo === 'my-messages' && <UnreadMessagesNotifier />}
       </NavLink>
     </div>;
   }

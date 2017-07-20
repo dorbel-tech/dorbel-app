@@ -4,7 +4,6 @@ import { inject, observer } from 'mobx-react';
 import { Nav, Navbar, NavItem } from 'react-bootstrap';
 import isMobileJs from 'ismobilejs';
 import UserProfileBadge from './UserProfileBadge/UserProfileBadge';
-import UnreadMessagesNotifier from '~/components/Messaging/UnreadMessagesNotifier';
 import { hideIntercom } from '~/providers/utils';
 import { MENU_ITEMS } from '../Dashboard/DashboardShared';
 import { SEARCH_PREFIX } from '~/routesHelper';
@@ -35,7 +34,6 @@ class Header extends Component {
       className={'header-dashboard-menu-item' + (isSelected ? ' header-dashboard-menu-item-selected' : '')}>
       <i className={'header-dashboard-menu-item-icon fa ' + item.faIconClassName} aria-hidden="true"></i>
       {item.menuText}
-      {item.navTo === 'my-messages' && <UnreadMessagesNotifier />}
     </NavItem>;
   }
 
