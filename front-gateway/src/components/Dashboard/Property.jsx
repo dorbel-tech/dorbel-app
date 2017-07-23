@@ -69,9 +69,6 @@ class Property extends Component {
   }
 
   renderActionsMenu(property, isActiveListing) {
-    const editItemClass = isActiveListing ? '' : ' property-actions-menu-item-disabled';
-    const editItemClick = isActiveListing ? () =>this.gotoEditProperty(property) : null;
-
     return (
       <Popover onMouseEnter={this.showActionsMenu}
                onMouseLeave={this.hideActionsMenu}
@@ -81,10 +78,12 @@ class Property extends Component {
           <i className="property-actions-menu-item-icon fa fa-picture-o"></i>
           לצפייה במודעה
         </div>
-        <div className={'property-actions-menu-item' + editItemClass} onClick={editItemClick}>
-          <i className="property-actions-menu-item-icon fa fa-pencil-square-o" aria-hidden="true"></i>
-          עריכת פרטי הנכס
-        </div>
+        {isActiveListing &&
+          <div className="property-actions-menu-item" onClick={() => this.gotoEditProperty(property)}>
+            <i className="property-actions-menu-item-icon fa fa-pencil-square-o" aria-hidden="true"></i>
+            עריכת פרטי הנכס
+          </div>
+        }
       </Popover>
     );
   }
@@ -110,7 +109,6 @@ class Property extends Component {
     const isActiveListing = this.props.appProviders.listingsProvider.isActiveListing(property);
     const imageClass = 'property-image' + (isActiveListing ? '' : ' property-image-inactive');
     const titleClass = 'property-title' + (isActiveListing ? '' : ' property-title-inactive');
-    const editItemClick = isActiveListing ? () =>this.gotoEditProperty(property) : null;
     let editForm = null;
 
     const defaultHeaderButtons = (
@@ -119,10 +117,12 @@ class Property extends Component {
           <Button className="fa fa-picture-o property-action-button" title="צפייה במודעה"
                   onClick={() => this.gotoPublishedListing(property)}></Button>
         </div>
-        <div className="property-actions-preview-container">
-          <Button className="fa fa-pencil-square-o property-action-button" title="עריכת פרטי הנכס"
-                  onClick={editItemClick}></Button>
-        </div>
+        {isActiveListing &&
+          <div className="property-actions-preview-container">
+            <Button className="fa fa-pencil-square-o property-action-button" title="עריכת פרטי הנכס"
+                    onClick={() =>this.gotoEditProperty(property)}></Button>
+          </div>
+        }
         <div className="property-actions-menu-container">
           <Button className="property-action-button"
                   onMouseEnter={this.showActionsMenu}
