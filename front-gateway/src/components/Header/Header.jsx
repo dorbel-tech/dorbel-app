@@ -1,13 +1,15 @@
 import React, { Component, PropTypes as T } from 'react';
-import autobind from 'react-autobind';
 import { inject, observer } from 'mobx-react';
-import { Nav, Navbar, NavItem } from 'react-bootstrap';
+import autobind from 'react-autobind';
+
 import isMobileJs from 'ismobilejs';
+import UnreadMessagesNotifier from '~/components/Messaging/UnreadMessagesNotifier';
 import UserProfileBadge from './UserProfileBadge/UserProfileBadge';
 import { hideIntercom } from '~/providers/utils';
 import { MENU_ITEMS } from '../Dashboard/DashboardShared';
-import { SEARCH_PREFIX } from '~/routesHelper';
+import { Nav, Navbar, NavItem } from 'react-bootstrap';
 import { PROPERTY_SUBMIT_PREFIX } from '~/routesHelper';
+import { SEARCH_PREFIX } from '~/routesHelper';
 
 import './Header.scss';
 
@@ -38,6 +40,7 @@ class Header extends Component {
   }
 
   componentDidMount() {
+    // TODO: Is anyone using this???
     this.mobileMenu = document.getElementsByClassName('navbar-collapse')[0];
     this.mobileMenuToggle = document.getElementsByClassName('navbar-toggle')[0];
   }
@@ -61,7 +64,10 @@ class Header extends Component {
                 alt="Dorbel" className="header-logo-image" />
             </a>
           </Navbar.Brand>
-          <Navbar.Toggle />
+          <Navbar.Toggle>
+            <UnreadMessagesNotifier />
+            <span className="sr-only">Toggle navigation</span><span className="icon-bar"></span><span className="icon-bar"></span><span className="icon-bar"></span>
+          </Navbar.Toggle>
         </Navbar.Header>
         <Navbar.Collapse>
           <UserProfileBadge />
