@@ -3,6 +3,8 @@ import { inject, observer } from 'mobx-react';
 import { Nav, NavItem } from 'react-bootstrap';
 import { MENU_ITEMS } from '../../Dashboard/DashboardShared';
 
+import UnreadMessagesNotifier from '~/components/Messaging/UnreadMessagesNotifier';
+
 import './UserProfileBadge.scss';
 
 @inject('appStore', 'appProviders') @observer
@@ -56,6 +58,7 @@ class UserProfileBadge extends Component {
         <div className="user-profile-badge-details">
           <i className="fa fa-ellipsis-v user-profile-badge-ellipsis-icon" />
           <img src={profile.picture} className="user-profile-badge-image" />
+          <UnreadMessagesNotifier />
           <div className="user-profile-badge-name">
             <span>{profile.first_name ? profile.first_name : 'ברוכים'}</span>
             <span>{profile.first_name ? profile.last_name : 'הבאים'}</span>

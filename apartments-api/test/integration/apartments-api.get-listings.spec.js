@@ -87,12 +87,14 @@ describe('GET /listings', function () {
     ));
   });
 
-  it('should not return the property_value field', function* () {
+  it('should not return private fields', function* () {
     const getResponse = yield this.apiClient.getListings({}, true).expect(200).end();
 
-    __.assertThat(getResponse.body, __.allOf(
-      __.everyItem(__.not(__.hasProperty('property_value')))
-    ));
+    __.assertThat(getResponse.body, __.everyItem(__.allOf(
+      __.not(__.hasProperty('property_value')),
+      __.hasProperty('apartment', __.not(__.hasProperty('apt_number'))),
+      __.hasProperty('apartment', __.hasProperty('building', __.not(__.hasProperty('house_number'))))
+    )));
   });
 
   it('should get listing my lease date for a single day', function * () {
@@ -102,7 +104,7 @@ describe('GET /listings', function () {
     const { body: dailyListings } = yield this.apiClient.getListings({ q: { minLease: date, maxLease: date }}).expect(200).end();
     __.assertThat(dailyListings, __.not(__.isEmpty()));
   });
-  
+
   // TODO : add at least some basic test for filters
 
   describe('Filter: my listings', function () {
@@ -172,6 +174,15 @@ describe('GET /listings', function () {
 
     it('should return error when not authenticated', function* () {
       yield this.apiClient.getListings(myPropertiesQuery, false).expect(403).end();
+    });
+
+    it('should return private fields', function* () {
+      const getResponse = yield this.apiClient.getListings(myPropertiesQuery, true).expect(200).end();
+
+      __.assertThat(getResponse.body, __.everyItem(__.allOf(
+        __.hasProperty('apartment', __.hasProperty('apt_number')),
+        __.hasProperty('apartment', __.hasProperty('building', __.hasProperty('house_number')))
+      )));
     });
   });
 

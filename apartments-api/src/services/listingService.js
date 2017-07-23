@@ -229,9 +229,18 @@ function setListingAutoFields(listing) {
   return listing;
 }
 
-function* getByFilter(filterJSON, options = {}) {
-  const { listingQuery, queryOptions } = listingSearchQuery.getListingQuery(filterJSON, options);
-  return listingRepository.list(listingQuery, queryOptions);
+function* getByFilter(filter = {}, options = {}) {
+  const { listingQuery, queryOptions } = listingSearchQuery.getListingQuery(filter, options);
+  const listings = yield listingRepository.list(listingQuery, queryOptions);
+
+  if (!filter.myProperties) {
+    listings.forEach(listing => {
+      listing.apartment.apt_number = undefined;
+      listing.apartment.building.house_number = undefined;
+    });
+  }
+
+  return listings;
 }
 
 function* getByApartmentId(id, user) {

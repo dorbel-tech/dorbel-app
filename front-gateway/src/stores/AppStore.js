@@ -1,13 +1,14 @@
 'use strict';
-import ListingStore from '~/stores/ListingStore';
-import OheStore from '~/stores/OheStore';
-import CityStore from '~/stores/CityStore';
-import NeighborhoodStore from '~/stores/NeighborhoodStore';
 import AuthStore from '~/stores/AuthStore';
-import EditedListingStore from '~/stores/EditedListingStore';
-import SearchStore from '~/stores/SearchStore';
-import LikeStore from '~/stores/LikeStore';
+import CityStore from '~/stores/CityStore';
 import DocumentStore from '~/stores/DocumentStore';
+import EditedListingStore from '~/stores/EditedListingStore';
+import LikeStore from '~/stores/LikeStore';
+import ListingStore from '~/stores/ListingStore';
+import MessagingStore from '~/stores/MessagingStore';
+import NeighborhoodStore from '~/stores/NeighborhoodStore';
+import OheStore from '~/stores/OheStore';
+import SearchStore from '~/stores/SearchStore';
 
 import { observable, action, autorun } from 'mobx';
 
@@ -15,12 +16,11 @@ import ErrorPage from '~/components/ErrorPage';
 
 // A wrapper for all the stores that the application uses
 export default class AppStore {
-  listingStore: ListingStore;
-  oheStore: OheStore;
   authStore: AuthStore;
   cityStore: CityStore;
+  listingStore: ListingStore;
   neighborhoodStore: NeighborhoodStore;
-
+  oheStore: OheStore;
 
   // routing params
   @observable currentView: string;
@@ -39,6 +39,7 @@ export default class AppStore {
     this.searchStore = new SearchStore(initialState.searchStore);
     this.likeStore = new LikeStore(initialState.likeStore);
     this.documentStore = new DocumentStore();
+    this.messagingStore = new MessagingStore();
     this.metaData = initialState.metaData || {};
 
     autorun(() => {

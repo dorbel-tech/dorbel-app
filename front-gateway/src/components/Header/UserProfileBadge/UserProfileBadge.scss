@@ -83,6 +83,11 @@
             }
           }
         }
+
+        .unread-messages-notifier {
+          float: left;
+          margin-top: 8px;
+        }
       }
     }
   }
@@ -91,10 +96,17 @@
 .user-profile-badge-details {
   height: 100%;
 
+  .unread-messages-notifier {
+    position: absolute;
+    right: 79px;
+    top: 8px;
+  }
+
   @media (max-width: $screen-xs-max) {
     color: $gray-dark;
     display: inline-block;
 
+    .unread-messages-notifier,
     .user-profile-badge-ellipsis-icon,
     .user-profile-badge-auth-inline {
       display: none;

@@ -7,13 +7,15 @@ const TALKJS_USER_OBJ_EXTRA = {configuration: 'general'};
 
 // TalkJS wrapper provider, see docs: https://talkjs.com/docs/index.html
 class MessagingProvider {
-  constructor(authStore) {
+  constructor(authStore, messagingStore) {
     this.authStore = authStore;
+    this.messagingStore = messagingStore;
 
-    // will only work on client side
-    global.window && process.env.TALKJS_PUBLISHABLE_KEY &&
-      this.talkjs(global.window, document, []) &&
-      this.initTalkSession();
+    // Make sure talkjs is loaded only on client side and a talkjs key was defined
+    if (global.window && process.env.TALKJS_PUBLISHABLE_KEY) {
+      this.talkjs(global.window, document, []);
+      this.talkjsLoaded = true;
+    }
   }
 
   // If active user is logged in and an active TalkJS user was not
@@ -39,7 +41,7 @@ class MessagingProvider {
 
   // If an active TalkJS user was created, create a new TalkJS session.
   initTalkSession() {
-    if (!this.initTalkUser()) {
+    if (!this.talkjsLoaded || !this.initTalkUser()) {
       return false;
     }
 
@@ -51,9 +53,14 @@ class MessagingProvider {
       });
 
       // Watch message sent callback.
-      this.talkSession.on('message', function() {
+      this.talkSession.on('message', () => {
         // Report event to analytics.
         window.analytics.track('client_talkjs_message_sent');
+      });
+
+      // Watch for session unread messages change.
+      this.talkSession.unreads.on('change', (conversationIds) => {
+        this.messagingStore.setUnreadMessagesCount(conversationIds.length);
       });
     }
 
@@ -64,6 +71,12 @@ class MessagingProvider {
   talkjs(t,a,l,k,j,s) {
     s=a.createElement('script');s.async=1;s.src='https://cdn.talkjs.com/talk.js';a.getElementsByTagName('head')[0].appendChild(s);k=t.Promise;
     t.Talk={ready:{then:function(f){if(k){return new k(function(r,e){l.push([f,r,e]);});}l.push([f]);},catch:function(){return k&&new k();},c:l}};
+  }
+
+  // Watch for session unread messages change by making sure a talk session is
+  // initialized.
+  watchUnreadMessagesCount() {
+    return global.window.Talk.ready.then(this.initTalkSession.bind(this));
   }
 
   // Create a TalkJS user and start a conversation between the active

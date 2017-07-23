@@ -107,7 +107,7 @@ class ListingStatusSelector extends React.Component {
     return (
       <DropdownButton id="listing-status-selector" noCaret
         className={'listing-status-selector listing-status-selector-' + listing.status}
-        disabled={options.length === 0}
+        disabled={this.props.disabled || options.length === 0}
         title={currentStatusLabel}
         onSelect={this.changeStatus}>
         {options.map(status => <MenuItem id={status} key={status} eventKey={status} className={'listing-status-selector-item-' + status}>{listingStatusLabels[status].actionLabel}</MenuItem>)}
@@ -119,7 +119,8 @@ class ListingStatusSelector extends React.Component {
 ListingStatusSelector.wrappedComponent.propTypes = {
   appStore: React.PropTypes.object,
   appProviders: React.PropTypes.object,
-  listing: React.PropTypes.object.isRequired
+  listing: React.PropTypes.object.isRequired,
+  disabled: React.PropTypes.bool
 };
 
 export default ListingStatusSelector;

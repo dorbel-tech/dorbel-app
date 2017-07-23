@@ -22,10 +22,21 @@ describe('Document Provider', () => {
     const listing_id = faker.random.number({ min: 1, max: 999 });
     const mockDocuments = [ { abc: 123 } ];
     apiProviderMock.fetch.mockReturnValue(Promise.resolve(mockDocuments));
-    
+
     return documentProvider.getDocumentsForListing(listing_id)
     .then(() => {
       expect(apiProviderMock.fetch.mock.calls[0][0]).toContain('listing_id=' + listing_id);
+      expect(appStoreMock.documentStore.add).toHaveBeenCalledWith(mockDocuments);
+    });
+  });
+
+  it('should get all documents for user and put them in store', () => {
+    const mockDocuments = [ { def: 456 } ];
+    apiProviderMock.fetch.mockReturnValue(Promise.resolve(mockDocuments));
+
+    return documentProvider.getAllDocumentsForUser()
+    .then(() => {
+      expect(apiProviderMock.fetch.mock.calls[0][0]).toEqual('/api/apartments/v1/documents');
       expect(appStoreMock.documentStore.add).toHaveBeenCalledWith(mockDocuments);
     });
   });
@@ -47,10 +58,10 @@ describe('Document Provider', () => {
 
   it('should get download link for filestack provider', () => {
     const mockDocument = {
-      provider: 'filestack', 
+      provider: 'filestack',
       provider_file_id: faker.random.word()
     };
-    
+
     const link = documentProvider.getDownloadLink(mockDocument);
 
     expect(link).toBe('https://www.filestackapi.com/api/file/' + mockDocument.provider_file_id);

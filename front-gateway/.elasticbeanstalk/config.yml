@@ -1,13 +1,17 @@
 branch-defaults:
   default:
-    environment: front-gateway-test
+    environment: front-gateway-test-new
     group_suffix: null
 global:
-  application_name: front-gateway
+  application_name: front-gateway-new
   branch: null
   default_ec2_keyname: aws-eb
-  default_platform: Docker 1.11.2
+  default_platform: Docker 1.12.6
   default_region: eu-west-1
+  instance_profile: null
+  platform_name: null
+  platform_version: null
   profile: null
   repository: null
   sc: null
+  workspace_type: Application

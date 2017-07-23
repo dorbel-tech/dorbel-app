@@ -74,7 +74,7 @@ class ListingOwnerDetails extends Component {
         id: listing.publishing_user_id,
         name: listing.publishing_user_first_name,
         email: listing.publishing_user_email,
-        welcomeMessage: 'באפשרותך לשלוח הודעה למפרס המודעה. במידה והוא אינו מחובר הודעתך תישלח אליו למייל.'
+        welcomeMessage: 'באפשרותך לשלוח הודעה למפרסם המודעה. במידה והוא אינו מחובר הודעתך תישלח אליו למייל.'
       };
       messagingProvider.getOrStartConversation(withUserObj, {
         topicId: listing.listing_id,

@@ -14,19 +14,9 @@ function CustomError(code, message) {
   return error;
 }
 
-function getListingQuery(filterJSON, options) {
+function getListingQuery(filter, options) {
   // TODO: refactor one big method to smaller ones
-  // TODO: Switch to regex test instead of try-catch.
-  // TODO: filter string-to-json belongs in the controller layer - it's an interface detail and not a business concern
-  let filter = {};
-  if (filterJSON) {
-    try {
-      filter = JSON.parse(filterJSON);
-    } catch (e) {
-      throw new ValidationError('Failed to parse filter JSON!');
-    }
-  }
-
+  
   if (options.limit && options.limit > MAX_LISTING_LIST_LIMIT) {
     throw new ValidationError('Unable to return so many lising results in one query! Limit asked: ' + options.limit);
   }

@@ -19,7 +19,19 @@ function* get() {
   }
 
   shared.helpers.headers.setUserConditionalCacheHeader(this.request, this.response, ONE_MINUTE);
-  this.response.body = yield listingService.getByFilter(this.request.query.q, options);
+
+  let filter = {};
+  const filterJSON = this.request.query.q;
+  if (filterJSON) {
+    // TODO: Switch to regex test instead of try-catch.
+    try {
+      filter = JSON.parse(filterJSON);
+    } catch (e) {
+      throw new shared.utils.domainErrors.DomainValidationError('Failed to parse filter JSON!');
+    }
+  }
+
+  this.response.body = yield listingService.getByFilter(filter, options);
 }
 
 function* post() {

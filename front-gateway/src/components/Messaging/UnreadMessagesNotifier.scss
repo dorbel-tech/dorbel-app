@@ -1,0 +1,11 @@
+@import "../sharedStyles/variables.scss";
+
+.unread-messages-notifier {
+  background-color: #ea441a;
+  border-radius: 50%;
+  color: $brand-white;
+  height: 18px;
+  line-height: 18px;
+  text-align: center;
+  width: 18px;
+}

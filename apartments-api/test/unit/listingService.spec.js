@@ -9,7 +9,7 @@ const assertYieldedError = require('../shared/assertYieldedError');
 describe('Listing Service', function () {
   let assertUnauthorized = function (query) {
     return assertYieldedError(
-      () => this.listingService.getByFilter(JSON.stringify(query)),
+      () => this.listingService.getByFilter(query),
       __.hasProperties({
         message: 'unauthorized for this view',
         status: 403
@@ -22,7 +22,7 @@ describe('Listing Service', function () {
     this.mockListing = faker.getFakeListing();
     this.listingRepositoryMock = {
       create: sinon.stub().resolves(this.mockListing),
-      list: sinon.stub().resolves(undefined),
+      list: sinon.stub().resolves([]),
       listingStatuses: ['pending', 'rented'],
       update: sinon.stub().resolves(this.mockListing),
     };
@@ -43,6 +43,7 @@ describe('Listing Service', function () {
 
   afterEach(function () {
     this.listingRepositoryMock.list.reset();
+    this.listingRepositoryMock.list.resolves([]);
     this.listingRepositoryMock.update.reset();
     this.geoProviderMock.getGeoLocation.reset();
   });
@@ -62,12 +63,12 @@ describe('Listing Service', function () {
 
     it('should send limit and offset to the repository', function* () {
       const options = { limit: 7, offset: 6 };
-      yield this.listingService.getByFilter('', options);
+      yield this.listingService.getByFilter({}, options);
       __.assertThat(this.listingRepositoryMock.list.args[0][1], __.hasProperties(options));
     });
 
     it('should set status of listed only when future booking is off', function* () {
-      yield this.listingService.getByFilter('{ "futureBooking": false }');
+      yield this.listingService.getByFilter({ futureBooking: false });
       __.assertThat(this.listingRepositoryMock.list.args[0][0], __.hasProperty('$and', __.contains({ status: 'listed' })));
     });
 
@@ -84,6 +85,27 @@ describe('Listing Service', function () {
           })
         )))
       )));
+    });
+
+    it('should remove private fields from response when not in my-properties', function * () {
+      const mockListings = [
+        { id: 5, apartment: { apt_number: 'private', building: {} }},
+        { id: 9, apartment: { building: { house_number: 'also-private' }}},
+      ];
+      this.listingRepositoryMock.list.resolves(mockListings);
+
+      const response = yield this.listingService.getByFilter();
+
+      __.assertThat(response, __.contains(
+        __.allOf(
+          __.hasProperty('id', 5),
+          __.hasProperty('apartment', __.not(__.hasProperty('apt_number')))
+        ),
+        __.allOf(
+          __.hasProperty('id', 9),
+          __.hasProperty('apartment', __.hasProperty('buidling', __.not(__.hasProperty('house_number'))))
+        )
+      ));
     });
 
     it('should throw an error for my-properties without user object', function* () {
