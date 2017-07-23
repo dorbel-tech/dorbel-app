@@ -76,12 +76,12 @@ class Property extends Component {
                className="property-actions-menu">
         <div className="property-actions-menu-item property-action-menu-item-show-mobile" onClick={() => this.gotoPublishedListing(property)}>
           <i className="property-actions-menu-item-icon fa fa-picture-o"></i>
-          לצפייה במודעה
+          צפייה במודעה
         </div>
         {isActiveListing &&
           <div className="property-actions-menu-item" onClick={() => this.gotoEditProperty(property)}>
             <i className="property-actions-menu-item-icon fa fa-pencil-square-o" aria-hidden="true"></i>
-            עריכת פרטי הנכס
+            עריכת המודעה
           </div>
         }
       </Popover>
@@ -113,14 +113,18 @@ class Property extends Component {
 
     const defaultHeaderButtons = (
       <div className="property-action-container">
-        <div className="property-actions-preview-container">
-          <Button className="fa fa-picture-o property-action-button" title="צפייה במודעה"
-                  onClick={() => this.gotoPublishedListing(property)}></Button>
+        <div className="property-actions-item-container">
+          <Button className="property-action-button property-preview-button" bsStyle="info"
+                  onClick={() => this.gotoPublishedListing(property)}>
+            צפייה במודעה
+          </Button>
         </div>
         {isActiveListing &&
-          <div className="property-actions-preview-container">
-            <Button className="fa fa-pencil-square-o property-action-button" title="עריכת פרטי הנכס"
-                    onClick={() =>this.gotoEditProperty(property)}></Button>
+          <div className="property-actions-item-container">
+            <Button className="property-action-button property-edit-button" bsStyle="info"
+                    onClick={() =>this.gotoEditProperty(property)}>
+              עריכת המודעה
+            </Button>
           </div>
         }
         <div className="property-actions-menu-container">
