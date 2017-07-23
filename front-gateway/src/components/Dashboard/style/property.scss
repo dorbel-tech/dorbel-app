@@ -58,7 +58,7 @@
 
   @media (max-width: $screen-xs-max) {
     font-size: 15px;
-    padding-left: 60px;
+    padding-left: 65px;
     white-space: normal;
   }
 }
@@ -155,11 +155,11 @@
 
 .property-actions-menu-container > .property-action-button {
   font-size: 12px;
-  height: 20px;
+  height: 25px;
   margin-left: 0;
   margin-right: 14px;
   padding: 0 6px;
-  width: 55px;
+  width: 60px;
 
   > i {
     margin-right: 4px;
@@ -168,8 +168,7 @@
 
 .property-action-button {
   background-color: $brand-white;
-  border-color: $brand-info;
-  color: $brand-info;
+  border-color: $gray;
   font-size: 12px;
   height: 30px;
   margin: 0 5px;

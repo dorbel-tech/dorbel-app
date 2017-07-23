@@ -114,14 +114,14 @@ class Property extends Component {
     const defaultHeaderButtons = (
       <div className="property-action-container">
         <div className="property-actions-item-container">
-          <Button className="property-action-button property-preview-button" bsStyle="info"
+          <Button className="property-action-button property-preview-button"
                   onClick={() => this.gotoPublishedListing(property)}>
             צפייה במודעה
           </Button>
         </div>
         {isActiveListing &&
           <div className="property-actions-item-container">
-            <Button className="property-action-button property-edit-button" bsStyle="info"
+            <Button className="property-action-button property-edit-button"
                     onClick={() =>this.gotoEditProperty(property)}>
               עריכת המודעה
             </Button>
