@@ -173,10 +173,7 @@
   font-size: 12px;
   height: 30px;
   margin: 0 5px;
-
-  @media (max-width: $screen-xs-max) {
-    width: 38px;
-  }
+  width: 118px;
 
   &.property-preview-button::before {
     content: '\f03e';
