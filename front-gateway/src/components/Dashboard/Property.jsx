@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import autobind from 'react-autobind';
-import { Button, Col, Grid, Row, Tabs, Tab, Overlay, Popover } from 'react-bootstrap';
-import { find } from 'lodash';
-import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
+
 import CloudinaryImage from '../CloudinaryImage/CloudinaryImage';
+import EditListing from './MyProperties/EditListing.jsx';
 import ListingStatusSelector from './MyProperties/ListingStatusSelector';
-import PropertyHistorySelector from './PropertyHistorySelector/PropertyHistorySelector';
+import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
 import OHEManager from '~/components/OHEManager/OHEManager';
+import PropertyHistorySelector from './PropertyHistorySelector/PropertyHistorySelector';
 import PropertyManage from './MyProperties/PropertyManage';
 import PropertyStats from './MyProperties/PropertyStats';
-import EditListing from './MyProperties/EditListing.jsx';
 import utils from '~/providers/utils';
+import { Button, Col, Grid, Row, Tabs, Tab, Overlay, Popover } from 'react-bootstrap';
+import { find } from 'lodash';
 import { getPropertyPath, getDashMyPropsPath } from '~/routesHelper';
 
 import './Property.scss';
@@ -59,14 +60,6 @@ class Property extends Component {
     return this.props.router.setRoute(getDashMyPropsPath(property, '/edit'));
   }
 
-  republish(property) {
-    this.props.appProviders.listingsProvider.republish(property);
-  }
-
-  refresh() {
-    location.reload(true);
-  }
-
   showActionsMenu() {
     this.setState({ showActionsMenu: true });
   }
@@ -88,21 +81,10 @@ class Property extends Component {
           <i className="property-actions-menu-item-icon fa fa-picture-o"></i>
           לצפייה במודעה
         </div>
-        <div className="property-actions-menu-item property-action-menu-item-show-mobile" onClick={this.refresh}>
-          <i className="property-actions-menu-item-icon fa fa-refresh" aria-hidden="true"></i>
-          רענון נתונים
-        </div>
         <div className={'property-actions-menu-item' + editItemClass} onClick={editItemClick}>
           <i className="property-actions-menu-item-icon fa fa-pencil-square-o" aria-hidden="true"></i>
           עריכת פרטי הנכס
         </div>
-        {
-          this.props.appProviders.listingsProvider.isRepublishable(property) &&
-          <div className="property-actions-menu-item" onClick={() =>this.republish(property)}>
-            <i className="property-actions-menu-item-icon fa fa-undo" aria-hidden="true"></i>
-            פרסום הנכס מחדש
-          </div>
-        }
       </Popover>
     );
   }
@@ -128,17 +110,18 @@ class Property extends Component {
     const isActiveListing = this.props.appProviders.listingsProvider.isActiveListing(property);
     const imageClass = 'property-image' + (isActiveListing ? '' : ' property-image-inactive');
     const titleClass = 'property-title' + (isActiveListing ? '' : ' property-title-inactive');
+    const editItemClick = isActiveListing ? () =>this.gotoEditProperty(property) : null;
     let editForm = null;
 
     const defaultHeaderButtons = (
       <div className="property-action-container">
-        <div className="property-actions-refresh-container">
-          <Button className="fa fa-refresh property-action-button" title="רענון העמוד"
-              onClick={this.refresh}></Button>
-        </div>
         <div className="property-actions-preview-container">
           <Button className="fa fa-picture-o property-action-button" title="צפייה במודעה"
                   onClick={() => this.gotoPublishedListing(property)}></Button>
+        </div>
+        <div className="property-actions-preview-container">
+          <Button className="fa fa-pencil-square-o property-action-button" title="עריכת פרטי הנכס"
+                  onClick={editItemClick}></Button>
         </div>
         <div className="property-actions-menu-container">
           <Button className="property-action-button"

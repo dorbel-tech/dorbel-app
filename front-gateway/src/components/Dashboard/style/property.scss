@@ -128,8 +128,7 @@
   }
 }
 
-.property-actions-preview-container,
-.property-actions-refresh-container {
+.property-actions-preview-container {
   width: 35px;
 
   @media (max-width: $screen-xs-max) {
@@ -204,9 +203,8 @@
     top: 0;
   }
 
-  @media (min-width: $screen-md-min) {
-    border-right: $gray-border;
-    margin: 0 20px;
+  @media (min-width: $screen-sm-min) {
+    display: none !important;
   }
 }
 
