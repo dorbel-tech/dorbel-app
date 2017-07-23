@@ -140,6 +140,10 @@ function getShareUrl(currentUrl, utm_campaign) {
   return encodeURIComponent(currentUrl + '?utm_source=app&utm_medium=share&utm_campaign=' + utm_campaign);
 }
 
+function asPromise(func) {
+  return new Promise(resolve => resolve(func()));
+}
+
 module.exports = {
   formatTime,
   formatDate,
@@ -158,5 +162,6 @@ module.exports = {
   isMobile,
   flushPromises,
   hideIntercom,
-  getShareUrl
+  getShareUrl,
+  asPromise
 };

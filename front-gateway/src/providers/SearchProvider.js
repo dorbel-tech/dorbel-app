@@ -3,7 +3,7 @@
  */
 'use strict';
 import _ from 'lodash';
-import { isMobile } from './utils';
+import { isMobile, asPromise } from './utils';
 
 const PAGE_SIZE = isMobile() ? 9 : 15;
 const FILTERS_URL = '/api/apartments/v1/filters';
@@ -105,7 +105,8 @@ class SearchProvider {
       }
     }
 
-    return this.apiProvider.fetch(url, { method, data: filter })
+    return asPromise(() => this.validateFilter(filter))
+    .then(() => this.apiProvider.fetch(url, { method, data: filter }))
     .then(updatedFilter => {
       searchStore.filters.set(updatedFilter.id, updatedFilter);
       searchStore.activeFilterId = updatedFilter.id;
@@ -114,6 +115,14 @@ class SearchProvider {
 
   resetActiveFilter() {
     this.appStore.searchStore.activeFilterId = null;
+  }
+
+  validateFilter(filter) {
+    if (!filter.city ||
+        !(filter.mrs || filter.mre) ||
+        !(filter.minRooms || filter.maxRooms)) {
+      throw new Error('על מנת לשמור חיפוש - יש לבחור עיר, מספר חדרים ומחיר');
+    }
   }
 }
 
