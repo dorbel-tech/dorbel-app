@@ -221,8 +221,9 @@ function setListingAutoFields(listing) {
 
   // In case that listing was approved (listed) or submitted for manage and have images,
   // we can safely show_for_future_booking enabled by default, because we validated all apartment details.
-  if ((listing.status === 'listed') ||
-    (listing.status === 'rented' && listing.images && listing.images.length > 0)) {
+  if ((listing.images && listing.images.length > 0) &&
+    (listing.status === 'listed' && listing.publishing_user_type == 'landlord') ||
+    (listing.status === 'rented')) {
     listing.show_for_future_booking = true;
   }
 
