@@ -63,13 +63,6 @@ describe('Property', () => {
       <Property listingId={'' + propertyMock.id} />
     </Provider>
   );
-  const getLoadedProperty = () => {
-    appStoreMock.listingStore.get.mockReturnValue(propertyMock);
-    const wrapper = shallowProperty();
-    wrapper.setState({ isLoading: false });
-    wrapper.update();
-    return wrapper;
-  };
 
   it('should render in loading state', () => {
     const wrapper = shallowProperty();
