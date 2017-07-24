@@ -327,6 +327,10 @@ function* enrichListingResponse(listing, user) {
       }
       else {
         delete enrichedListing.property_value;
+        
+        if (listing.status == 'rented' && !listing.show_for_future_booking) {
+          throw new CustomError(403, 'Cant show rented listing. User is not a publisher of listingId: ' + listing.id);
+        }
       }
       if (publishingUserProfile) {
         enrichedListing.publishing_user_email = publishingUserProfile.email;
@@ -338,6 +342,10 @@ function* enrichListingResponse(listing, user) {
     }
     else {
       delete enrichedListing.property_value;
+
+      if (listing.status == 'rented' && !listing.show_for_future_booking) {
+        throw new CustomError(403, 'Cant show rented listing. User is not a publisher of listingId: ' + listing.id);
+      }
     }
 
     delete enrichedListing.rent_lead_by;

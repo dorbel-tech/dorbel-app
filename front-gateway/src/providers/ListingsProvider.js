@@ -23,7 +23,8 @@ class ListingsProvider {
         this.appStore.listingStore.set(listing);
         this.appStore.listingStore.setLastByApartmentId(listing);
         this.appStore.metaData = _.defaults(this.getListingMetadata(listing), this.appStore.metaData);
-      });
+      })
+      .catch((error) => { this.navProvider.showErrorPage(error.response.status); });
   }
 
   loadFullListingDetails(idOrSlug) {
