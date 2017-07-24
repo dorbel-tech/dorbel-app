@@ -20,6 +20,7 @@
     "wait:db": "./scripts/wait-for-it.sh db:3306 --timeout=180"
   },
   "dependencies": {
+    "apollo-server-koa": "^1.0.4",
     "babel-cli": "^6.22.2",
     "babel-eslint": "^7.0.0",
     "babel-plugin-transform-flow-strip-types": "^6.14.0",
@@ -34,6 +35,8 @@
     "faker": "^3.1.0",
     "fleek-router": "^1.2.5",
     "googleapis": "^17.1.0",
+    "graphql": "^0.10.5",
+    "graphql-tools": "^1.1.0",
     "hamjest": "^2.13.0",
     "koa": "1.2.5",
     "koa-bodyparser": "^2.2.0",

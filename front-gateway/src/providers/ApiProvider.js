@@ -3,8 +3,10 @@
  */
 'use strict';
 import axios from 'axios';
-let urlPrefix = '';
+import ApolloClient, { createNetworkInterface } from 'apollo-client';
+import gql from 'graphql-tag';
 
+let urlPrefix = '';
 if (!process.env.IS_CLIENT) {
   // TODO: on the server we should make direct calls to the API's
   // instead of that we are making the calls from the server to itself and they go through the gateway
@@ -15,6 +17,11 @@ if (!process.env.IS_CLIENT) {
 class ApiProvider {
   constructor(appStore) {
     this.appStore = appStore;
+    this.apolloClient = new ApolloClient({
+      networkInterface: createNetworkInterface({
+        uri: urlPrefix + '/api/apartments/graphql'
+      })
+    });
   }
 
   fetch(url, options){
@@ -33,6 +40,13 @@ class ApiProvider {
       ...options
     })
     .then(res => res.data);
+  }
+
+  gql(query, variables) {
+    return this.apolloClient.query({
+      query: gql(query),
+      variables
+    });
   }
 }
 

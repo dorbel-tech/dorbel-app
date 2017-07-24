@@ -3,31 +3,25 @@
  */
 'use strict';
 
+const neighborhoodQuery = `
+  query NeighborhoodQuery($city_id: Int!) {
+    neighborhoods(city_id: $city_id) {
+      id
+      neighborhood_name
+      display_order
+    }
+  }
+`;
+
 class NeighborhoodProvider {
   constructor(appStore, apiProvider) {
     this.appStore = appStore;
     this.apiProvider = apiProvider;
-    this.currentlyGetting = {};
   }
 
-  loadNeighborhoodByCityId(id) {
-    return new Promise((resolve, reject) => {
-      const { neighborhoodsByCityId } = this.appStore.neighborhoodStore;
-      if (!neighborhoodsByCityId.get(id) && !this.currentlyGetting[id]) {
-        this.currentlyGetting[id] = true;
-        return this.apiProvider.fetch('/api/apartments/v1/neighborhoods/' + id)
-          .then((neighborhoods) => {
-            this.appStore.neighborhoodStore.neighborhoodsByCityId.set(id, neighborhoods);
-            resolve();
-          })
-          .catch(reject)
-          .then(() => { delete this.currentlyGetting[id]; });
-      }
-      else {
-        resolve();
-      }
-    });
-
+  loadNeighborhoodByCityId(city_id) {
+    return this.apiProvider.gql(neighborhoodQuery, { city_id })
+    .then(({ data }) => this.appStore.neighborhoodStore.neighborhoodsByCityId.set(city_id, data.neighborhoods));
   }
 }
 

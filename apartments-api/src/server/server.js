@@ -5,6 +5,9 @@ const bodyParser = require('koa-bodyparser');
 const shared = require('dorbel-shared');
 const swaggerDoc = require('./swagger/swagger');
 
+const graphqlSchema = require('./graphql/schema');
+const { graphqlKoa, graphiqlKoa } = require('apollo-server-koa');
+
 const logger = shared.logger.getLogger(module);
 const app = koa();
 
@@ -32,6 +35,19 @@ app.use(function* handleSequelizeErrors(next) {
 app.use(function* returnSwagger(next) {
   if (this.method === 'GET' && this.url === '/swagger') {
     this.body = swaggerDoc;
+  } else {
+    yield next;
+  }
+});
+
+const graphqlHandler = graphqlKoa({ schema: graphqlSchema });
+const graphiqlHandler = graphiqlKoa({ endpointURL: '/graphql' });
+
+app.use(function* returnGraphql(next) {
+  if (this.method === 'POST' && this.url.match(/^\/graphql/)) {
+    yield graphqlHandler(this);
+  } else if (this.method === 'GET' && this.url === '/graphiql') {
+    yield graphiqlHandler(this);
   } else {
     yield next;
   }
