@@ -105,30 +105,16 @@
 
 .property-actions-wrapper {
   line-height: 36px;
-  padding: 5px 0 0;
-  text-align: center;
+  text-align: left;
 
-  > div > div {
-    display: inline-block;
-    line-height: 20px;
-  }
-
-  @media (min-width: $screen-md-min) {
-    padding-top: 45px;
-  }
-}
-
-.property-action-container {
-  @media (max-width: $screen-sm-max) {
-    margin-top: 6px;
-  }
-
-  @media (min-width: $screen-md-min) {
-    display: inline;
+  @media (min-width: $screen-sm-min) {
+    padding-top: 10px;
   }
 }
 
 .property-actions-item-container {
+  display: inline-block;
+
   @media (max-width: $screen-xs-max) {
     display: none !important;
   }
@@ -155,10 +141,6 @@
 
 .property-actions-menu-container > .property-action-button {
   font-size: 12px;
-  height: 25px;
-  margin-left: 0;
-  margin-right: 14px;
-  padding: 0 6px;
   width: 60px;
 
   > i {
@@ -171,8 +153,9 @@
   border-color: $gray;
   font-size: 12px;
   height: 30px;
-  margin: 0 5px;
-  width: 118px;
+  margin-right: 5px;
+  padding: 0;
+  width: 105px;
 
   &.property-preview-button::before {
     content: '\f03e';
@@ -208,7 +191,7 @@
 
   @media (max-width: $screen-xs-max) {
     left: 10px;
-    padding: 13px 5px 0;
+    padding: 10px 5px 0;
     position: absolute;
     top: 0;
   }
