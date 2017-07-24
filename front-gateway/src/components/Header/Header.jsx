@@ -39,12 +39,6 @@ class Header extends Component {
     </NavItem>;
   }
 
-  componentDidMount() {
-    // TODO: Is anyone using this???
-    this.mobileMenu = document.getElementsByClassName('navbar-collapse')[0];
-    this.mobileMenuToggle = document.getElementsByClassName('navbar-toggle')[0];
-  }
-
   render() {
     const { authProvider } = this.props.appProviders;
     const { authStore } = this.props.appStore;
