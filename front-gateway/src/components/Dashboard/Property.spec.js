@@ -32,11 +32,9 @@ describe('Property', () => {
     };
     appProvidersMock = {
       listingsProvider: {
-        isRepublishable: jest.fn(),
         loadListingPageViews: jest.fn(),
         loadFullListingDetails: jest.fn(),
         loadListingsForApartment: jest.fn(),
-        republish: jest.fn(),
         isActiveListing: jest.fn().mockReturnValue(true)
       },
       oheProvider: {
@@ -65,13 +63,6 @@ describe('Property', () => {
       <Property listingId={'' + propertyMock.id} />
     </Provider>
   );
-  const getLoadedProperty = () => {
-    appStoreMock.listingStore.get.mockReturnValue(propertyMock);
-    const wrapper = shallowProperty();
-    wrapper.setState({ isLoading: false });
-    wrapper.update();
-    return wrapper;
-  };
 
   it('should render in loading state', () => {
     const wrapper = shallowProperty();
@@ -101,24 +92,5 @@ describe('Property', () => {
       wrapper.update();
       expect(wrapper.find('LoadingSpinner')).toHaveLength(0);
     });
-  });
-
-  it('should render republish link in menu if it is republishable', () => {
-    appProvidersMock.listingsProvider.isRepublishable.mockReturnValue(true);
-    const wrapper = getLoadedProperty();
-    expect(wrapper.findWhere(n => n.text() === 'פרסום הנכס מחדש')).toHaveLength(2); // the length is 2 because the element also contains the <i>
-  });
-
-  it('should NOT render republish link in menu if it is NOT republishable', () => {
-    appProvidersMock.listingsProvider.isRepublishable.mockReturnValue(false);
-    const wrapper = getLoadedProperty();
-    expect(wrapper.findWhere(n => n.text() === 'פרסום הנכס מחדש')).toHaveLength(0);
-  });
-
-  it('should call provider to republish when link is clicked', () => {
-    appProvidersMock.listingsProvider.isRepublishable.mockReturnValue(true);
-    const wrapper = getLoadedProperty();
-    wrapper.findWhere(n => n.text() === 'פרסום הנכס מחדש').find('div').simulate('click');
-    expect(appProvidersMock.listingsProvider.republish).toHaveBeenCalledWith(propertyMock);
   });
 });

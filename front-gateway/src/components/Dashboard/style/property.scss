@@ -58,7 +58,7 @@
 
   @media (max-width: $screen-xs-max) {
     font-size: 15px;
-    padding-left: 60px;
+    padding-left: 65px;
     white-space: normal;
   }
 }
@@ -105,32 +105,15 @@
 
 .property-actions-wrapper {
   line-height: 36px;
-  padding: 30px 0 0;
-  text-align: center;
+  text-align: left;
 
-  > div > div {
-    display: inline-block;
-    line-height: 20px;
-  }
-
-  @media (min-width: $screen-md-min) {
-    padding-top: 45px;
+  @media (min-width: $screen-sm-min) {
+    padding-top: 10px;
   }
 }
 
-.property-action-container {
-  @media (max-width: $screen-sm-max) {
-    margin-top: 6px;
-  }
-
-  @media (min-width: $screen-md-min) {
-    display: inline;
-  }
-}
-
-.property-actions-preview-container,
-.property-actions-refresh-container {
-  width: 35px;
+.property-actions-item-container {
+  display: inline-block;
 
   @media (max-width: $screen-xs-max) {
     display: none !important;
@@ -158,24 +141,33 @@
 
 .property-actions-menu-container > .property-action-button {
   font-size: 12px;
-  height: 20px;
-  margin-right: 14px;
-  padding: 0 6px;
-  width: 55px;
+  width: 60px;
 
   > i {
-    margin-right: 7px;
+    margin-right: 4px;
   }
 }
 
 .property-action-button {
-  background-color: $brand-white !important;
-  border: none !important;
-  height: 38px;
-  width: 20px;
+  background-color: $brand-white;
+  border-color: $gray;
+  font-size: 12px;
+  height: 30px;
+  margin-right: 5px;
+  padding: 0;
+  width: 105px;
 
-  @media (max-width: $screen-xs-max) {
-    width: 38px;
+  &.property-preview-button::before {
+    content: '\f03e';
+  }
+
+  &.property-edit-button::before {
+    content: '\f044';
+  }
+
+  &::before {
+    font-family: FontAwesome;
+    margin-left: 5px;
   }
 
   &:active,
@@ -199,14 +191,13 @@
 
   @media (max-width: $screen-xs-max) {
     left: 10px;
-    padding: 13px 5px 0;
+    padding: 10px 5px 0;
     position: absolute;
     top: 0;
   }
 
-  @media (min-width: $screen-md-min) {
-    border-right: $gray-border;
-    margin: 0 20px;
+  @media (min-width: $screen-sm-min) {
+    display: none !important;
   }
 }
 
@@ -227,11 +218,6 @@
 .property-actions-menu-item {
   cursor: pointer;
   padding: 18px;
-}
-
-.property-actions-menu-item-disabled {
-  cursor: not-allowed;
-  color: $gray-light;
 }
 
 .property-actions-menu-item-icon {

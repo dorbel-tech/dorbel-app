@@ -13,7 +13,7 @@ export default class UnreadMessagesNotifier extends Component {
     const unreadMessagesCount = this.props.appStore.messagingStore.unreadMessagesCount;
 
     return unreadMessagesCount > 0 ?
-      <div className="unread-messages-notifier">{unreadMessagesCount}</div> : null;
+      <div className="unread-messages-notifier">{unreadMessagesCount > 9 ? 9 : unreadMessagesCount}</div> : null;
   }
 }
 
