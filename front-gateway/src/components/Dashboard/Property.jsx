@@ -181,7 +181,7 @@ class Property extends Component {
                   <CloudinaryImage src={imageURL} height={125} className={imageClass}/>
                   { (isActiveListing || appStore.authStore.isUserAdmin()) && <ListingStatusSelector listing={property} /> }
                 </Col>
-                <Col sm={5} xs={8} className="property-title-container">
+                <Col md={5} sm={6} xs={8} className="property-title-container">
                   <div className={titleClass}>
                     {utils.getListingTitle(property)}
                   </div>
@@ -203,7 +203,7 @@ class Property extends Component {
                     </div>
                   </div>
                 </Col>
-                <Col sm={4} className="property-actions-wrapper">
+                <Col md={4} sm={3} className="property-actions-wrapper">
                   { activeTab.headerButtons || defaultHeaderButtons }
                 </Col>
               </Row>
