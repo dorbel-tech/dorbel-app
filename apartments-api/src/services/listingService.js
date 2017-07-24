@@ -326,11 +326,8 @@ function* enrichListingResponse(listing, user) {
         enrichedListing.totalLikes = yield likeRepository.getApartmentTotalLikes(listing.apartment_id);
       }
       else {
+        yield throwIfNotAllowed(listing);
         delete enrichedListing.property_value;
-        
-        if (listing.status == 'rented' && !listing.show_for_future_booking) {
-          throw new CustomError(403, 'Cant show rented listing. User is not a publisher of listingId: ' + listing.id);
-        }
       }
       if (publishingUserProfile) {
         enrichedListing.publishing_user_email = publishingUserProfile.email;
@@ -342,10 +339,7 @@ function* enrichListingResponse(listing, user) {
     }
     else {
       delete enrichedListing.property_value;
-
-      if (listing.status == 'rented' && !listing.show_for_future_booking) {
-        throw new CustomError(403, 'Cant show rented listing. User is not a publisher of listingId: ' + listing.id);
-      }
+      yield throwIfNotAllowed(listing);
     }
 
     delete enrichedListing.rent_lead_by;
@@ -353,6 +347,12 @@ function* enrichListingResponse(listing, user) {
   }
 
   return listing;
+}
+
+function* throwIfNotAllowed(listing) {
+  if (listing.status == 'rented' && !listing.show_for_future_booking) {
+    throw new CustomError(403, 'Cant show rented listing. User is not a publisher of listingId: ' + listing.id);
+  }
 }
 
 function* getRelatedListings(apartmentId, limit) {
