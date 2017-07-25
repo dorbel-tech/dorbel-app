@@ -17,11 +17,19 @@ if (!process.env.IS_CLIENT) {
 class ApiProvider {
   constructor(appStore) {
     this.appStore = appStore;
-    this.apolloClient = new ApolloClient({
-      networkInterface: createNetworkInterface({
-        uri: urlPrefix + '/api/apartments/graphql'
-      })
-    });
+
+    // TODO : need a separate client for the OHE api or maybe to merge GQL schemas.
+    const networkInterface = createNetworkInterface({ uri: urlPrefix + '/api/apartments/graphql' });
+    networkInterface.use([{
+      applyMiddleware(req, next) {
+        req.options.headers = req.options.headers || {};
+        if (appStore.authStore.isLoggedIn) {
+          req.options.headers['Authorization'] = 'Bearer ' + appStore.authStore.idToken;
+        }
+        next();
+      }
+    }]);
+    this.apolloClient = new ApolloClient({ networkInterface });
   }
 
   fetch(url, options){

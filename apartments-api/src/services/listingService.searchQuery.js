@@ -16,7 +16,7 @@ function CustomError(code, message) {
 
 function getListingQuery(filter, options) {
   // TODO: refactor one big method to smaller ones
-  
+
   if (options.limit && options.limit > MAX_LISTING_LIST_LIMIT) {
     throw new ValidationError('Unable to return so many lising results in one query! Limit asked: ' + options.limit);
   }
@@ -107,7 +107,7 @@ function getListingQuery(filter, options) {
   };
 
   Object.keys(filterMapping)
-    .filter(key => filter.hasOwnProperty(key))
+    .filter(key => Object.prototype.hasOwnProperty.call(filter, key))
     .forEach(key => {
       const map = filterMapping[key];
       const fieldName = map.set;

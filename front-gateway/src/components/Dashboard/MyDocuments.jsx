@@ -13,22 +13,55 @@ import { PROPERTY_SUBMIT_PREFIX } from '~/routesHelper';
 
 import './MyDocuments.scss';
 
-@inject('appStore', 'appProviders') @observer
+const myDocumentsQuery = `
+  query MyDocuments {
+    listings(myProperties: true, oldListings: true) {
+      id
+      status
+      apartment {
+        apt_number
+        rooms
+        size
+        building {
+          street_name
+          house_number
+          city {
+            city_name
+          }
+        }
+      }
+      documents {
+        id
+        filename
+        size
+        type
+        provider
+        provider_file_id
+      }
+      images {
+        url
+        display_order
+      }
+    }
+  }
+`;
+
+@inject('appProviders') @observer
 export default class MyDocuments extends Component {
   constructor(props) {
     super(props);
     autobind(this);
+    this.state = {
+      listings: null
+    };
   }
 
   static propTypes = {
-    appStore: React.PropTypes.object.isRequired,
     appProviders: React.PropTypes.object.isRequired,
   }
 
   componentDidMount() {
-    this.props.appStore.searchStore.reset();
-    this.props.appProviders.searchProvider.search({ myProperties: true, oldListings: true });
-    this.props.appProviders.documentProvider.getAllDocumentsForUser();
+    this.props.appProviders.apiProvider.gql(myDocumentsQuery).then(({ data }) => this.setState({ listings: data.listings }));
   }
 
   getListingTitle(listing) {
@@ -107,8 +140,8 @@ export default class MyDocuments extends Component {
   }
 
   renderListing(listing) {
-    const { appStore, appProviders } = this.props;
-    const documents = appStore.documentStore.getDocumentsByListing(listing.id);
+    const { appProviders } = this.props;
+    const documents = listing.documents;
 
     return (
       <ListGroup key={listing.id}>
@@ -143,13 +176,14 @@ export default class MyDocuments extends Component {
   }
 
   render() {
-    const { searchStore } = this.props.appStore;
-    const listings = searchStore.searchResults();
+    const listings = this.state.listings;
 
-    let contents = <LoadingSpinner />;
-    if (!searchStore.isLoadingNewSearch && !listings.length) {
+    let contents = null;
+    if (!listings) {
+      contents = <LoadingSpinner />;
+    } else if (!listings.length) {
       contents = this.renderNoListings();
-    } else if (!searchStore.isLoadingNewSearch && listings.length) {
+    } else {
       contents = listings.map(this.renderListing);
     }
 

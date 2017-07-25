@@ -32,22 +32,11 @@ app.use(function* handleSequelizeErrors(next) {
   }
 });
 
+// Fleek + Swagger
+
 app.use(function* returnSwagger(next) {
   if (this.method === 'GET' && this.url === '/swagger') {
     this.body = swaggerDoc;
-  } else {
-    yield next;
-  }
-});
-
-const graphqlHandler = graphqlKoa({ schema: graphqlSchema });
-const graphiqlHandler = graphiqlKoa({ endpointURL: '/graphql' });
-
-app.use(function* returnGraphql(next) {
-  if (this.method === 'POST' && this.url.match(/^\/graphql/)) {
-    yield graphqlHandler(this);
-  } else if (this.method === 'GET' && this.url === '/graphiql') {
-    yield graphiqlHandler(this);
   } else {
     yield next;
   }
@@ -58,6 +47,21 @@ fleekRouter(app, {
   validate: true,
   middleware: [ shared.middleware.swaggerModelValidator(), shared.middleware.auth.optionalAuthenticate ],
   authenticate: shared.middleware.auth.authenticate
+});
+
+// GraphQL
+
+app.use(shared.middleware.auth.optionalAuthenticate);
+app.use(function* returnGraphql(next) {
+  const context = { user: this.request.user };
+
+  if (this.method === 'POST' && this.url.match(/^\/graphql/)) {
+    yield graphqlKoa({ schema: graphqlSchema, context })(this);
+  } else if (this.method === 'GET' && this.url.match(/^\/graphiql/)) {
+    yield graphiqlKoa({ endpointURL: '/graphql' })(this);
+  } else {
+    yield next;
+  }
 });
 
 function listen() {
