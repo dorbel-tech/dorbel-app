@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import autobind from 'react-autobind';
-import { Button, Col, Grid, Row, Tabs, Tab, Overlay, Popover } from 'react-bootstrap';
-import { find } from 'lodash';
-import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
+
 import CloudinaryImage from '../CloudinaryImage/CloudinaryImage';
+import EditListing from './MyProperties/EditListing.jsx';
 import ListingStatusSelector from './MyProperties/ListingStatusSelector';
-import PropertyHistorySelector from './PropertyHistorySelector/PropertyHistorySelector';
+import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
 import OHEManager from '~/components/OHEManager/OHEManager';
+import PropertyHistorySelector from './PropertyHistorySelector/PropertyHistorySelector';
 import PropertyManage from './MyProperties/PropertyManage';
 import PropertyStats from './MyProperties/PropertyStats';
-import EditListing from './MyProperties/EditListing.jsx';
 import utils from '~/providers/utils';
+import { Button, Col, Grid, Row, Tabs, Tab, Overlay, Popover } from 'react-bootstrap';
+import { find } from 'lodash';
 import { getPropertyPath, getDashMyPropsPath } from '~/routesHelper';
 
 import './Property.scss';
@@ -59,14 +60,6 @@ class Property extends Component {
     return this.props.router.setRoute(getDashMyPropsPath(this.property, '/edit'));
   }
 
-  republish() {
-    this.props.appProviders.listingsProvider.republish(this.property);
-  }
-
-  refresh() {
-    location.reload(true);
-  }
-
   showActionsMenu() {
     this.setState({ showActionsMenu: true });
   }
@@ -75,10 +68,7 @@ class Property extends Component {
     this.setState({ showActionsMenu: false });
   }
 
-  renderActionsMenu(isActiveListing) {
-    const editItemClass = isActiveListing ? '' : ' property-actions-menu-item-disabled';
-    const editItemClick = isActiveListing ? this.gotoEditProperty : null;
-
+  renderActionsMenu(property, isActiveListing) {
     return (
       <Popover onMouseEnter={this.showActionsMenu}
                onMouseLeave={this.hideActionsMenu}
@@ -86,21 +76,12 @@ class Property extends Component {
                className="property-actions-menu">
         <div className="property-actions-menu-item property-action-menu-item-show-mobile" onClick={this.gotoPublishedListing}>
           <i className="property-actions-menu-item-icon fa fa-picture-o"></i>
-          לצפייה במודעה
+          צפייה במודעה
         </div>
-        <div className="property-actions-menu-item property-action-menu-item-show-mobile" onClick={this.refresh}>
-          <i className="property-actions-menu-item-icon fa fa-refresh" aria-hidden="true"></i>
-          רענון נתונים
-        </div>
-        <div className={'property-actions-menu-item' + editItemClass} onClick={editItemClick}>
-          <i className="property-actions-menu-item-icon fa fa-pencil-square-o" aria-hidden="true"></i>
-          עריכת פרטי הנכס
-        </div>
-        {
-          this.props.appProviders.listingsProvider.isRepublishable(this.property) &&
-          <div className="property-actions-menu-item" onClick={this.republish}>
-            <i className="property-actions-menu-item-icon fa fa-undo" aria-hidden="true"></i>
-            פרסום הנכס מחדש
+        {isActiveListing &&
+          <div className="property-actions-menu-item" onClick={this.gotoEditProperty}>
+            <i className="property-actions-menu-item-icon fa fa-pencil-square-o" aria-hidden="true"></i>
+            עריכת המודעה
           </div>
         }
       </Popover>
@@ -132,14 +113,20 @@ class Property extends Component {
 
     const defaultHeaderButtons = (
       <div className="property-action-container">
-        <div className="property-actions-refresh-container">
-          <Button className="fa fa-refresh property-action-button" title="רענון העמוד"
-              onClick={this.refresh}></Button>
+        <div className="property-actions-item-container">
+          <Button className="property-action-button property-preview-button"
+                  onClick={this.gotoPublishedListing}>
+            צפייה במודעה
+          </Button>
         </div>
-        <div className="property-actions-preview-container">
-          <Button className="fa fa-picture-o property-action-button" title="צפייה במודעה"
-                  onClick={this.gotoPublishedListing}></Button>
-        </div>
+        {isActiveListing &&
+          <div className="property-actions-item-container">
+            <Button className="property-action-button property-edit-button"
+                    onClick={this.gotoEditProperty}>
+              עריכת המודעה
+            </Button>
+          </div>
+        }
         <div className="property-actions-menu-container">
           <Button className="property-action-button"
                   onMouseEnter={this.showActionsMenu}

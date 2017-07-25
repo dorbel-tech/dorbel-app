@@ -68,7 +68,7 @@ module.exports = {
     property.navigateToPropertyPage(property.url(listingId));
     property.expect.section('@listingStatusSelector').to.be.visible;
     property.changeListingStatus('listed');
-    property.refreshProperty();
+    browser.refresh();
     property.section.listingStatusSelector
       .expect.element('@listingMenuStatusDropdownToggle').text.to.equal('מפורסמת');
     logout();
