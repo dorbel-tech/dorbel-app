@@ -179,7 +179,6 @@ class Property extends Component {
               <Row className="property-top-container">
                 <Col md={3} sm={3} xs={4} className="property-image-container">
                   <CloudinaryImage src={imageURL} height={125} className={imageClass}/>
-                  { (isActiveListing || appStore.authStore.isUserAdmin()) && <ListingStatusSelector listing={this.property} /> }
                 </Col>
                 <Col md={5} sm={6} xs={8} className="property-title-container">
                   <div className={titleClass}>
@@ -201,6 +200,10 @@ class Property extends Component {
                       <span>{utils.getFloorTextValue(this.property)}</span>
                       <span className="property-title-details-sub-text">&nbsp;קומה</span>
                     </div>
+                  </div>
+                  <div className="property-status-desktop property-title-details-sub-text">
+                    סטטוס:
+                    { (isActiveListing || appStore.authStore.isUserAdmin()) && <ListingStatusSelector listing={this.property} /> }
                   </div>
                 </Col>
                 <Col md={4} sm={3} className="property-actions-wrapper">
