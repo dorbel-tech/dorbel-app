@@ -6,6 +6,7 @@ import utils from '~/providers/utils';
 import { getDashMyPropsPath } from '~/routesHelper';
 import ReactTooltip from 'react-tooltip';
 import autobind from 'react-autobind';
+import moment from 'moment';
 import TenantRow from '~/components/Tenants/TenantRow/TenantRow';
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
 
@@ -61,6 +62,7 @@ class PropertyStats extends Component {
     const views = appStore.listingStore.listingViewsById.get(listingId);
     const registrations = this.getNumberOfOheRegistrations(listingId);
     const listingCreatedAt = utils.formatDate(listing.created_at);
+    const daysPassedSinceCratedAt = moment().diff(moment(listing.created_at), 'days');
     const leaseStats = utils.getListingLeaseStats(listing);
     const listingRented = listing.status === 'rented';
     const oheTabUrl = getDashMyPropsPath(listing, '/ohe');
@@ -113,7 +115,7 @@ class PropertyStats extends Component {
               </Col>
               <Col xs={6}>
                 <div className="property-stats-card">
-                  <div className="property-stats-number">{leaseStats.daysPassedLabel}</div>
+                  <div className="property-stats-number">{daysPassedSinceCratedAt}</div>
                   <div className="property-stats-title">ימים שחלפו</div>
                 </div>
               </Col>
