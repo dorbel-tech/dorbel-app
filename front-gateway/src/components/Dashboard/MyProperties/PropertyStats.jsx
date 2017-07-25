@@ -63,7 +63,6 @@ class PropertyStats extends Component {
     const registrations = this.getNumberOfOheRegistrations(listingId);
     const listingCreatedAt = utils.formatDate(listing.created_at);
     const daysPassedSinceCratedAt = moment().diff(moment(listing.created_at), 'days');
-    const leaseStats = utils.getListingLeaseStats(listing);
     const listingRented = listing.status === 'rented';
     const oheTabUrl = getDashMyPropsPath(listing, '/ohe');
     const likes = appStore.likeStore.likesByListingId.get(listing.id);
