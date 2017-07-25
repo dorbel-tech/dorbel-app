@@ -30,17 +30,6 @@ describe('Document Provider', () => {
     });
   });
 
-  it('should get all documents for user and put them in store', () => {
-    const mockDocuments = [ { def: 456 } ];
-    apiProviderMock.fetch.mockReturnValue(Promise.resolve(mockDocuments));
-
-    return documentProvider.getAllDocumentsForUser()
-    .then(() => {
-      expect(apiProviderMock.fetch.mock.calls[0][0]).toEqual('/api/apartments/v1/documents');
-      expect(appStoreMock.documentStore.add).toHaveBeenCalledWith(mockDocuments);
-    });
-  });
-
   it('should save document to API and add it to store', () => {
     const listing_id = faker.random.number({ min: 1, max: 999 });
     const mockNewDocument = { filename: 'shoes' };

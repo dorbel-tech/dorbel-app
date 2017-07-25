@@ -8,7 +8,7 @@ describe('City Provider', () => {
 
   beforeAll(() => {
     apiMock = {
-      fetch: jest.fn().mockReturnValue(Promise.resolve())
+      gql: jest.fn()
     };
     appStoreMock = {
       cityStore: {
@@ -22,9 +22,15 @@ describe('City Provider', () => {
   afterEach(() => jest.resetAllMocks());
 
   describe('Load cities', () => {
-    it('should call api only once', () => {
-      return Promise.all([cityProvider.loadCities(), cityProvider.loadCities()])
-        .then(() => expect(apiMock.fetch).toHaveBeenCalledTimes(1));
+    it('should call graphql endpoint and save to store', () => {
+      const mockCities = [ 1,2,3 ];
+      apiMock.gql.mockReturnValue(Promise.resolve({ data: { cities: mockCities } }));
+
+      return cityProvider.loadCities()
+      .then(() => {
+        expect(apiMock.gql).toHaveBeenCalled();
+        expect(appStoreMock.cityStore.cities).toBe(mockCities);
+      });
     });
   });
 });
