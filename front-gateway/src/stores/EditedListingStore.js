@@ -86,8 +86,9 @@ export default class EditedListingStore {
       .filter(key => formValues.hasOwnProperty(key))
       .forEach(key => _.set(listing, key, formValues[key]));
 
-    listing.images = formValues.images.map((image, index) => ({
-      url: image.secure_url || image.src, display_order: index
+    listing.images = formValues.images.map((image) => ({
+      url: image.secure_url || image.src,
+      display_order: image.display_order
     }));
 
     return listing;
