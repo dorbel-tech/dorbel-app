@@ -42,7 +42,7 @@ class AuthProvider {
 
         if (stateBeforeLogin.pathname) {
           this.router.setRoute(stateBeforeLogin.pathname + (stateBeforeLogin.search || ''));
-          history.go(-2);
+          history && history.go(-3);
         }
       }
     } catch (ex) {
