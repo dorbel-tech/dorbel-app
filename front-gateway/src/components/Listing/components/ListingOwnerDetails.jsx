@@ -15,7 +15,9 @@ class ListingOwnerDetails extends Component {
   }
 
   renderPhone(listing) {
-    if (listing.show_phone && (listing.status == 'listed' || listing.status == 'rented')) {
+    const { listing } = this.props;
+
+    if (listing.show_phone && this.isListedOrRented()) {
       if (this.state.showPhoneClicked) {
         return (
           <a href={`tel:${listing.publishing_user_phone}`}>
@@ -45,8 +47,10 @@ class ListingOwnerDetails extends Component {
   }
 
   renderMsg(listing) {
+    const { listing } = this.props;
+
     // Allow to contact only in following listing statuses.
-    if (process.env.TALKJS_PUBLISHABLE_KEY && (listing.status == 'listed' || listing.status == 'rented')) {
+    if (process.env.TALKJS_PUBLISHABLE_KEY && this.isListedOrRented()) {
       const { profile } = this.props.appStore.authStore;
 
       // Don't show for listing owner.
@@ -82,6 +86,10 @@ class ListingOwnerDetails extends Component {
     }
   }
 
+  isListedOrRented() {
+    return listing.status == 'listed' || listing.status == 'rented';
+  }
+
   render() {
     const { listing } = this.props;
     const title = listing.publishing_user_type === 'landlord' ? 'בעל הנכס' : 'דייר יוצא';
@@ -93,8 +101,8 @@ class ListingOwnerDetails extends Component {
           <span>{listing.publishing_user_first_name || 'אנונימי'}</span>
         </div>
         <div className="listing-owner-contact-container">
-          {this.renderPhone(listing)}
-          {this.renderMsg(listing)}
+          {this.renderPhone()}
+          {this.renderMsg()}
         </div>
       </div>
     );
