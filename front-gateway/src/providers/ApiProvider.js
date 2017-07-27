@@ -3,8 +3,7 @@
  */
 'use strict';
 import axios from 'axios';
-import ApolloClient, { createNetworkInterface } from 'apollo-client';
-import gql from 'graphql-tag';
+import { ApolloClient, createNetworkInterface } from 'react-apollo';
 
 let urlPrefix = '';
 if (!process.env.IS_CLIENT) {
@@ -48,13 +47,6 @@ class ApiProvider {
       ...options
     })
     .then(res => res.data);
-  }
-
-  gql(query, variables) {
-    return this.apolloClient.query({
-      query: gql(query),
-      variables
-    });
   }
 }
 

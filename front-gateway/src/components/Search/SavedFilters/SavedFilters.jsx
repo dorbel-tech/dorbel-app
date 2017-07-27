@@ -5,9 +5,11 @@ import { inject, observer } from 'mobx-react';
 import { Row, Col, Checkbox } from 'react-bootstrap';
 import { isMobile } from '~/providers/utils';
 import { Collapse } from 'react-collapse';
+import { graphql, getCities } from '~/queries';
 
 import './SavedFilters.scss';
 
+@graphql(getCities)
 @inject('appStore', 'appProviders') @observer
 export default class SavedFilters extends React.Component {
   constructor(props) {
@@ -18,6 +20,7 @@ export default class SavedFilters extends React.Component {
   static propTypes = {
     appStore: React.PropTypes.any,
     appProviders: React.PropTypes.any,
+    data: React.PropTypes.object,
     onFilterChange: React.PropTypes.func,
     animateEmailRow: React.PropTypes.bool
   }
@@ -60,8 +63,8 @@ export default class SavedFilters extends React.Component {
   }
 
   renderFilter(filter, index) {
-    const { appStore } = this.props;
-    const city = appStore.cityStore.cities.find(city => city.id === filter.city);
+    const { appStore, data } = this.props;
+    const city = !data.loading && data.cities.find(city => city.id === filter.city);
     const cityName = city && city.city_name;
     const rangeLabel = this.getRangeLabel(filter.minRooms, filter.maxRooms);
 
@@ -111,11 +114,11 @@ export default class SavedFilters extends React.Component {
           {filters.map(this.renderFilter)}
         </Row>
         {
-          this.props.animateEmailRow ? 
+          this.props.animateEmailRow ?
             <Collapse isOpened={!!activeFilter} fixedHeight={20}>
               {emailNotificationRow}
             </Collapse>
-            : 
+            :
             activeFilter && emailNotificationRow
         }
       </div>

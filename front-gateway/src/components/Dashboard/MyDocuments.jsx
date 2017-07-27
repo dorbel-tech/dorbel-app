@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { inject, observer } from 'mobx-react';
+import { inject } from 'mobx-react';
 import autobind from 'react-autobind';
 import { Grid, Row, Col, ListGroup, ListGroupItem } from 'react-bootstrap';
+import { gql, graphql } from 'react-apollo';
 
 import CloudinaryImage from '~/components/CloudinaryImage/CloudinaryImage';
 import ListingStatusSelector from '~/components/Dashboard/MyProperties/ListingStatusSelector';
@@ -46,22 +47,17 @@ const myDocumentsQuery = `
   }
 `;
 
-@inject('appProviders') @observer
+@graphql(gql(myDocumentsQuery))
+@inject('appProviders')
 export default class MyDocuments extends Component {
   constructor(props) {
     super(props);
     autobind(this);
-    this.state = {
-      listings: null
-    };
   }
 
   static propTypes = {
     appProviders: React.PropTypes.object.isRequired,
-  }
-
-  componentDidMount() {
-    this.props.appProviders.apiProvider.gql(myDocumentsQuery).then(({ data }) => this.setState({ listings: data.listings }));
+    data: React.PropTypes.object.isRequired
   }
 
   getListingTitle(listing) {
@@ -176,15 +172,15 @@ export default class MyDocuments extends Component {
   }
 
   render() {
-    const listings = this.state.listings;
+    const { data } = this.props;
 
     let contents = null;
-    if (!listings) {
+    if (data.loading) {
       contents = <LoadingSpinner />;
-    } else if (!listings.length) {
+    } else if (!data.listings.length) {
       contents = this.renderNoListings();
     } else {
-      contents = listings.map(this.renderListing);
+      contents = data.listings.map(this.renderListing);
     }
 
     return (

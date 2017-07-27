@@ -11,9 +11,6 @@ describe('Search', () => {
   beforeEach(() => {
     appStoreMock = {
       authStore: {},
-      cityStore: {
-        cities: [ { id: 1 } ]
-      },
       metaData: {
         title: 'should change'
       }

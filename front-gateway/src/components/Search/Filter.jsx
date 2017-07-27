@@ -6,6 +6,8 @@ import Nouislider from 'react-nouislider';
 import { range } from 'lodash';
 import ReactTooltip from 'react-tooltip';
 import _ from 'lodash';
+import { withApollo } from 'react-apollo';
+import { graphql, getCities, getNeighborhoods } from '~/queries';
 
 import './Filter.scss';
 import SavedFilters from './SavedFilters/SavedFilters';
@@ -45,6 +47,8 @@ const DEFAULT_FILTER_PARAMS = {
   maxLease: undefined
 };
 
+@withApollo
+@graphql(getCities)
 @inject('appStore', 'appProviders') @observer
 class Filter extends Component {
   static hideFooter = true;
@@ -81,19 +85,19 @@ class Filter extends Component {
   }
 
   componentDidMount() {
-    const { appProviders, appStore } = this.props;
+    const { appStore } = this.props;
     if (appStore.authStore.actionBeforeLogin === SAVE_FILTER_ACTION) {
       appStore.authStore.actionBeforeLogin = undefined;
       this.saveFilter();
     }
-    appProviders.cityProvider.loadCities();
     this.loadNeighborhoods(this.state.city);
     this.reloadResults();
   }
 
-  loadNeighborhoods(cityId) {
-    if (cityId !== CITY_ALL_OPTION.value) {
-      this.props.appProviders.neighborhoodProvider.loadNeighborhoodByCityId(cityId);
+  loadNeighborhoods(city_id) {
+    if (city_id !== CITY_ALL_OPTION.value) {
+      this.props.client.query({ query: getNeighborhoods,  variables: { city_id } })
+        .then(({ data }) => this.setState({ neighborhoods: data.neighborhoods }));
     }
   }
 
@@ -497,12 +501,12 @@ class Filter extends Component {
   }
 
   render() {
-    const { cityStore, neighborhoodStore, authStore } = this.props.appStore;
-    const cities = cityStore.cities.length ? cityStore.cities : [];
+    const { authStore } = this.props.appStore;
+    const cities = this.props.data.loading ? [] : this.props.data.cities;
     const cityId = this.filterObj.city || DEFAULT_FILTER_PARAMS.city;
     const cityTitle = this.getAreaTitle(cityId, CITY_ALL_OPTION, cities, 'city_name');
     const neighborhoodId = this.filterObj.neighborhood || DEFAULT_FILTER_PARAMS.neighborhood;
-    const neighborhoods = neighborhoodStore.neighborhoodsByCityId.get(cityId) || [];
+    const neighborhoods = this.state.neighborhoods || [];
     const neighborhoodTitle = this.getAreaTitle(neighborhoodId, NEIGHBORHOOD_ALL_OPTION, neighborhoods, 'neighborhood_name');
 
     const filterButtonText = this.state.hideFilter ? 'סנן תוצאות' : 'סגור';
@@ -566,7 +570,9 @@ class Filter extends Component {
 
 Filter.wrappedComponent.propTypes = {
   appStore: React.PropTypes.object.isRequired,
-  appProviders: React.PropTypes.object.isRequired
+  appProviders: React.PropTypes.object.isRequired,
+  data: React.PropTypes.object.isRequired,
+  client: React.PropTypes.object.isRequired
 };
 
 export default Filter;

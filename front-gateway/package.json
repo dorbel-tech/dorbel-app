@@ -23,7 +23,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "apollo-client": "^1.9.0-1",
     "auth0": "^2.5.0",
     "auth0-lock": "10.18.0",
     "axios": "0.15.2",
@@ -62,7 +61,6 @@
     "formsy-react": "^0.19.2",
     "formsy-react-components": "^0.10.1",
     "google-map-react": "^0.22.3",
-    "graphql-tag": "^2.4.2",
     "ignore-loader": "^0.1.2",
     "ignore-styles": "^5.0.1",
     "ismobilejs": "^0.4.1",
@@ -83,6 +81,7 @@
     "node-sass": "^4.3.0",
     "react": "~15.3.0",
     "react-addons-test-utils": "~15.3.0",
+    "react-apollo": "^1.4.8",
     "react-autobind": "^1.0.6",
     "react-bootstrap": "^0.30.6",
     "react-bootstrap-date-picker": "^3.7.0",

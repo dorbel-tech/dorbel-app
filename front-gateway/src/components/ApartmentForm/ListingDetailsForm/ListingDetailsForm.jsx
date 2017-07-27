@@ -1,15 +1,20 @@
 import React from 'react';
-import { inject, observer } from 'mobx-react';
 import { Col, Row } from 'react-bootstrap';
 import DatePicker from '~/components/DatePicker/DatePicker';
 import FormWrapper, { FRC } from '~/components/FormWrapper/FormWrapper';
 import autobind from 'react-autobind';
 import moment from 'moment';
+import { observer } from 'mobx-react';
+import { withApollo } from 'react-apollo';
+import { graphql, getCities, getNeighborhoods } from '~/queries';
 
 import './ListingDetailsForm.scss';
 
 const LOADING_OPTIONS_LABEL = { value: 0, label: 'טוען...' };
-@inject('appStore', 'appProviders') @observer
+
+@withApollo
+@graphql(getCities)
+@observer
 export default class ListingDetailsForm extends React.Component {
   // IMPORTANT NOTE: DONT USE `appStore.newListingStore` HERE!
   // ONLY USE props.editedListingStore
@@ -34,26 +39,24 @@ export default class ListingDetailsForm extends React.Component {
   }
 
   getCityOptions() {
-    const cities = this.props.appStore.cityStore.cities;
-    if (cities.length) {
-      return cities.map(city => ({ value: city.id, label: city.city_name }));
+    const { data } = this.props;
+    if (!data.loading) {
+      return data.cities.map(city => ({ value: city.id, label: city.city_name }));
     } else {
-      this.props.appProviders.cityProvider.loadCities();
       return [LOADING_OPTIONS_LABEL];
     }
   }
 
-  getNeighborhoodOptions(cityId) {
-    const neighborhoodsByCityId = this.props.appStore.neighborhoodStore.neighborhoodsByCityId;
-    const neighborhoods = neighborhoodsByCityId.get(cityId);
-    let neighborhoodOptions = [{ value: '', label: 'נא לבחור שכונה' }];
+  getNeighborhoodOptions(city_id) {
+    const neighborhoods = this.state.neighborhoods;
 
-    if (neighborhoods) {
-      neighborhoods.map(neighborhood => (neighborhoodOptions.push({ value: neighborhood.id, label: neighborhood.neighborhood_name })));
-      return neighborhoodOptions;
-    } else {
-      this.props.appProviders.neighborhoodProvider.loadNeighborhoodByCityId(cityId);
+    if (!neighborhoods || this.state.city_id !== city_id) {
+      this.props.client.query({ query: getNeighborhoods, variables: { city_id } })
+        .then(({ data }) => this.setState({ neighborhoods: data.neighborhoods, city_id }));
       return [LOADING_OPTIONS_LABEL];
+    } else {
+      return [{ value: '', label: 'נא לבחור שכונה' }]
+        .concat(neighborhoods.map(neighborhood => ({ value: neighborhood.id, label: neighborhood.neighborhood_name })));
     }
   }
 
@@ -232,10 +235,10 @@ export default class ListingDetailsForm extends React.Component {
   }
 }
 
-ListingDetailsForm.wrappedComponent.propTypes = {
-  appStore: React.PropTypes.object,
-  appProviders: React.PropTypes.object,
+ListingDetailsForm.propTypes = {
   editedListingStore: React.PropTypes.object.isRequired,
   children: React.PropTypes.node,
-  showLeaseEnd: React.PropTypes.bool
+  showLeaseEnd: React.PropTypes.bool,
+  data: React.PropTypes.object,
+  client: React.PropTypes.object
 };

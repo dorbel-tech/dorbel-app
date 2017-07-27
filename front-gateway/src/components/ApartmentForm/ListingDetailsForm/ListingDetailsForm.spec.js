@@ -4,7 +4,7 @@ import { shallow, mount } from 'enzyme';
 import ListingDetailsForm from './ListingDetailsForm';
 
 describe('Listing Details Form', () => {
-  let appStoreMock, appProvidersMock, editedListingStoreMock;
+  let appStoreMock, appProvidersMock, editedListingStoreMock, dataMock;
 
   beforeEach(() => {
     editedListingStoreMock = {
@@ -13,9 +13,6 @@ describe('Listing Details Form', () => {
       roomOptions: []
     };
     appStoreMock = {
-      cityStore: {
-        cities: [ { id: 1, city_name: 'Gotham' } ]
-      },
       neighborhoodStore: {
         neighborhoodsByCityId: {
           get: jest.fn()
@@ -23,16 +20,16 @@ describe('Listing Details Form', () => {
       }
     };
     appProvidersMock = {
-      cityProvider: {
-        loadCities: jest.fn()
-      },
       neighborhoodProvider : {
         loadNeighborhoodByCityId: jest.fn()
       }
     };
+    dataMock = {
+      cities: [ { id: 1, city_name: 'Gotham' } ]
+    };
   });
 
-  const listingDetailsForm = () => shallow(<ListingDetailsForm.wrappedComponent appStore={appStoreMock} appProviders={appProvidersMock} editedListingStore={editedListingStoreMock} />);
+  const listingDetailsForm = () => shallow(<ListingDetailsForm.wrappedComponent appStore={appStoreMock} appProviders={appProvidersMock} editedListingStore={editedListingStoreMock} data={dataMock} />);
 
   it('should match snapshot in empty state', () => {
     editedListingStoreMock.formValues.lease_start = (new Date(0)).toISOString(); // make this static for constant snapshot
@@ -41,29 +38,27 @@ describe('Listing Details Form', () => {
   });
 
   it('should call provider to load cities and display loading option', () => {
-    appStoreMock.cityStore.cities = [];
+    dataMock.cities = [];
     const wrapper = listingDetailsForm();
     const cityOptions = wrapper.find({ label: 'עיר' }).props().options;
 
-    expect(appProvidersMock.cityProvider.loadCities).toHaveBeenCalled();
     expect(cityOptions).toHaveLength(1);
     expect(cityOptions).toContainEqual({ value: 0, label: 'טוען...' });
   });
 
   it('should get city options from city store', () => {
-    const city = appStoreMock.cityStore.cities[0];
+    const city = dataMock.cities[0];
 
     const wrapper = listingDetailsForm();
     const cityOptions = wrapper.find({ label: 'עיר' }).props().options;
 
-    expect(appProvidersMock.cityProvider.loadCities).not.toHaveBeenCalled();
     expect(cityOptions).toHaveLength(1);
     expect(cityOptions).toContainEqual({ value: city.id, label: city.city_name });
   });
 
   it('should display selected city according to value in the store', () => {
     const expectedValue = 2;
-    appStoreMock.cityStore.cities = [
+    dataMock.cities = [
       { id: 1, city_name: 'dont choose me' },
       { id: 2, city_name: 'choose me !' }
     ];

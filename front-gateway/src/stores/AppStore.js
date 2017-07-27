@@ -1,12 +1,10 @@
 'use strict';
 import AuthStore from '~/stores/AuthStore';
-import CityStore from '~/stores/CityStore';
 import DocumentStore from '~/stores/DocumentStore';
 import EditedListingStore from '~/stores/EditedListingStore';
 import LikeStore from '~/stores/LikeStore';
 import ListingStore from '~/stores/ListingStore';
 import MessagingStore from '~/stores/MessagingStore';
-import NeighborhoodStore from '~/stores/NeighborhoodStore';
 import OheStore from '~/stores/OheStore';
 import SearchStore from '~/stores/SearchStore';
 
@@ -17,9 +15,7 @@ import ErrorPage from '~/components/ErrorPage';
 // A wrapper for all the stores that the application uses
 export default class AppStore {
   authStore: AuthStore;
-  cityStore: CityStore;
   listingStore: ListingStore;
-  neighborhoodStore: NeighborhoodStore;
   oheStore: OheStore;
 
   // routing params
@@ -32,8 +28,6 @@ export default class AppStore {
     this.authStore = new AuthStore(initialState.authStore);
     this.listingStore = new ListingStore(initialState.listingStore, this.authStore);
     this.oheStore = new OheStore(initialState.oheStore);
-    this.cityStore = new CityStore(initialState.cityStore);
-    this.neighborhoodStore = new NeighborhoodStore(initialState.neighborhoodStore);
     this.newListingStore = new EditedListingStore(this.authStore, { localStorageKey: 'newListingStoreState' });
     this.editedListingStore = new EditedListingStore(this.authStore);
     this.searchStore = new SearchStore(initialState.searchStore);
@@ -63,8 +57,6 @@ export default class AppStore {
     return {
       listingStore: this.listingStore.toJson(),
       oheStore: this.oheStore.toJson(),
-      cityStore: this.cityStore.toJson(),
-      neighborhoodStore: this.neighborhoodStore.toJson(),
       authStore: this.authStore.toJson(),
       metaData: this.metaData
     };
