@@ -46,11 +46,7 @@ class ListingOwnerDetails extends Component {
 
   renderMsg(listing) {
     // Allow to contact only in following listing statuses.
-    if (listing.status == 'listed' || listing.status == 'rented') {
-      if (!process.env.TALKJS_PUBLISHABLE_KEY) {
-        return;
-      }
-
+    if (!process.env.TALKJS_PUBLISHABLE_KEY && (listing.status == 'listed' || listing.status == 'rented')) {
       const { profile } = this.props.appStore.authStore;
 
       // Don't show for listing owner.
