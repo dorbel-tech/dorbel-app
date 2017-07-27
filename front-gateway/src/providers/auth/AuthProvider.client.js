@@ -42,7 +42,6 @@ class AuthProvider {
 
         if (stateBeforeLogin.pathname) {
           this.router.setRoute(stateBeforeLogin.pathname + (stateBeforeLogin.search || ''));
-          history.go(-1);
         }
       }
     } catch (ex) {
@@ -93,8 +92,12 @@ class AuthProvider {
     else { return false; }
   }
 
+  restoreHistory() {
+    history.go(-2);
+  }
+
   showLoginModal(options = {}) {
-    this.onHideCallback = options.onHideCallback;
+    this.onHideCallback = options.onHideCallback || this.restoreHistory;
     this.lock.show({
       auth: {
         params: {
