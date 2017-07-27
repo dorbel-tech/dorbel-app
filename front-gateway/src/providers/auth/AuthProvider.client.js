@@ -39,10 +39,10 @@ class AuthProvider {
       const stateBeforeLogin = JSON.parse(stateString);
       if (stateBeforeLogin) {
         this.authStore.actionBeforeLogin = stateBeforeLogin.actionBeforeLogin;
-
-        if (stateBeforeLogin.pathname) {
-          this.router.setRoute(stateBeforeLogin.pathname + (stateBeforeLogin.search || ''));
-        }
+        history.go(-1);
+//        if (stateBeforeLogin.pathname) {
+//          this.router.setRoute(stateBeforeLogin.pathname + (stateBeforeLogin.search || ''));
+//        }
       }
     } catch (ex) {
       window.console.error('error parsing state after login');
@@ -92,12 +92,8 @@ class AuthProvider {
     else { return false; }
   }
 
-  restoreHistory() {
-    history.go(-2);
-  }
-
   showLoginModal(options = {}) {
-    this.onHideCallback = options.onHideCallback || this.restoreHistory;
+    this.onHideCallback = options.onHideCallback;
     this.lock.show({
       auth: {
         params: {
