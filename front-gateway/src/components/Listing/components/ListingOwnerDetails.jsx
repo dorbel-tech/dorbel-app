@@ -14,7 +14,7 @@ class ListingOwnerDetails extends Component {
     };
   }
 
-  renderPhone(listing) {
+  renderPhone() {
     const { listing } = this.props;
 
     if (listing.show_phone && this.isListedOrRented()) {
@@ -46,7 +46,7 @@ class ListingOwnerDetails extends Component {
     }
   }
 
-  renderMsg(listing) {
+  renderMsg() {
     const { listing } = this.props;
 
     // Allow to contact only in following listing statuses.
