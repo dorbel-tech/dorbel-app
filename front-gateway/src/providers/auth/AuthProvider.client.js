@@ -40,9 +40,9 @@ class AuthProvider {
       if (stateBeforeLogin) {
         this.authStore.actionBeforeLogin = stateBeforeLogin.actionBeforeLogin;
         history.go(-1);
-//        if (stateBeforeLogin.pathname) {
-//          this.router.setRoute(stateBeforeLogin.pathname + (stateBeforeLogin.search || ''));
-//        }
+        if (stateBeforeLogin.pathname) {
+          this.router.setRoute(stateBeforeLogin.pathname + (stateBeforeLogin.search || ''));
+        }
       }
     } catch (ex) {
       window.console.error('error parsing state after login');
