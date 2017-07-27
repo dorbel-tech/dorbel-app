@@ -87,6 +87,7 @@ class ListingOwnerDetails extends Component {
   }
 
   isListedOrRented() {
+    const { listing } = this.props;
     return listing.status == 'listed' || listing.status == 'rented';
   }
 
