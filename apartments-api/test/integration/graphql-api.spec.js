@@ -21,5 +21,4 @@ describe('Apartments API GraphQL integration', function () {
 
     __.assertThat(body.data.cities, __.hasSize(2));
   });
-
 });

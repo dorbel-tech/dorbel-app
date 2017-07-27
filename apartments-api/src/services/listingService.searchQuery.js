@@ -44,7 +44,7 @@ function getListingQuery(filter, options) {
 
   if (options.user) {
     if (userPermissions.isUserAdmin(options.user)) {
-      filter.listed = filter.hasOwnProperty('listed') ? filter.listed : true;
+      filter.listed = Object.prototype.hasOwnProperty.call(filter, 'listed') ? filter.listed : true;
 
       const filteredStatuses = listingRepository.listingStatuses.filter(
         status => !filter[status]
