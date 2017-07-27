@@ -15,7 +15,7 @@ class ListingOwnerDetails extends Component {
   }
 
   renderPhone(listing) {
-    if (listing.show_phone) {
+    if (listing.show_phone && (listing.status == 'listed' || listing.status == 'rented')) {
       if (this.state.showPhoneClicked) {
         return (
           <a href={`tel:${listing.publishing_user_phone}`}>
@@ -44,24 +44,27 @@ class ListingOwnerDetails extends Component {
     }
   }
 
-  renderMsg() {
-    if (!process.env.TALKJS_PUBLISHABLE_KEY) {
-      return;
-    }
+  renderMsg(listing) {
+    // Allow to contact only in following listing statuses.
+    if (listing.status == 'listed' || listing.status == 'rented') {
+      if (!process.env.TALKJS_PUBLISHABLE_KEY) {
+        return;
+      }
 
-    const { profile } = this.props.appStore.authStore;
-    const { listing } = this.props;
+      const { profile } = this.props.appStore.authStore;
 
-    if (profile && (profile.dorbel_user_id === listing.publishing_user_id)) {
-      return;
-    }
+      // Don't show for listing owner.
+      if (profile && (profile.dorbel_user_id === listing.publishing_user_id)) {
+        return;
+      }
 
-    return (
-      <Button className="listing-owner-send-message" onClick={this.handleMsgClick} title="שלחו הודעה למפרס המודעה">
-        <i className="fa fa-comment" />
-          &nbsp;שלח הודעה
-      </Button>
-    );
+      return (
+        <Button className="listing-owner-send-message" onClick={this.handleMsgClick} title="שלחו הודעה למפרס המודעה">
+          <i className="fa fa-comment" />
+            &nbsp;שלח הודעה
+        </Button>
+      );
+   }
   }
 
   handleMsgClick() {
@@ -95,7 +98,7 @@ class ListingOwnerDetails extends Component {
         </div>
         <div className="listing-owner-contact-container">
           {this.renderPhone(listing)}
-          {this.renderMsg()}
+          {this.renderMsg(listing)}
         </div>
       </div>
     );
