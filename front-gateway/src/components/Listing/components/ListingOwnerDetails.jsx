@@ -64,7 +64,7 @@ class ListingOwnerDetails extends Component {
             &nbsp;שלח הודעה
         </Button>
       );
-   }
+    }
   }
 
   handleMsgClick() {
