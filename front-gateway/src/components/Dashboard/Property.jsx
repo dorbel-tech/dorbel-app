@@ -68,13 +68,13 @@ class Property extends Component {
     this.setState({ showActionsMenu: false });
   }
 
-  renderActionsMenu(property, isActiveListing) {
+  renderActionsMenu(isActiveListing) {
     return (
       <Popover onMouseEnter={this.showActionsMenu}
                onMouseLeave={this.hideActionsMenu}
                id="property-actions-menu"
                className="property-actions-menu">
-        <div className="property-actions-menu-item property-action-menu-item-show-mobile" onClick={this.gotoPublishedListing}>
+        <div className="property-actions-menu-item" onClick={this.gotoPublishedListing}>
           <i className="property-actions-menu-item-icon fa fa-picture-o"></i>
           צפייה במודעה
         </div>
