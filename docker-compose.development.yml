@@ -20,7 +20,7 @@ services:
     volumes:
       - ./apartments-api:/home/nodejs/app
       - /home/nodejs/app/node_modules/
-      - ../dorbel-shared:/home/nodejs/app/node_modules/dorbel-shared
+      # - ../dorbel-shared:/home/nodejs/app/node_modules/dorbel-shared
     environment:
       NODE_ENV: ${NODE_ENV}
     command: bash -c "yarn run wait:db && yarn run start:dev"
