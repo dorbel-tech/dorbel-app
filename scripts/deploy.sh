@@ -19,7 +19,7 @@ if [ ! -z "$2" ]; then
     test)
       ENV_NAME="${SERVICE_NAME}-test" ;;
     stage)
-      ENV_NAME="${SERVICE_NAME}-staging" ;;
+      ENV_NAME="${SERVICE_NAME}-stage" ;;
     *)
       ENV_NAME="$2" ;;
   esac
