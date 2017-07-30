@@ -14,8 +14,10 @@ class ListingOwnerDetails extends Component {
     };
   }
 
-  renderPhone(listing) {
-    if (listing.show_phone) {
+  renderPhone() {
+    const { listing } = this.props;
+
+    if (listing.show_phone && this.isListedOrRented()) {
       if (this.state.showPhoneClicked) {
         return (
           <a href={`tel:${listing.publishing_user_phone}`}>
@@ -45,23 +47,24 @@ class ListingOwnerDetails extends Component {
   }
 
   renderMsg() {
-    if (!process.env.TALKJS_PUBLISHABLE_KEY) {
-      return;
-    }
-
-    const { profile } = this.props.appStore.authStore;
     const { listing } = this.props;
 
-    if (profile && (profile.dorbel_user_id === listing.publishing_user_id)) {
-      return;
-    }
+    // Allow to contact only in following listing statuses.
+    if (process.env.TALKJS_PUBLISHABLE_KEY && this.isListedOrRented()) {
+      const { profile } = this.props.appStore.authStore;
 
-    return (
-      <Button className="listing-owner-send-message" onClick={this.handleMsgClick} title="שלחו הודעה למפרס המודעה">
-        <i className="fa fa-comment" />
-          &nbsp;שלח הודעה
-      </Button>
-    );
+      // Don't show for listing owner.
+      if (profile && (profile.dorbel_user_id === listing.publishing_user_id)) {
+        return;
+      }
+
+      return (
+        <Button className="listing-owner-send-message" onClick={this.handleMsgClick} title="שלחו הודעה למפרס המודעה">
+          <i className="fa fa-comment" />
+            &nbsp;שלח הודעה
+        </Button>
+      );
+    }
   }
 
   handleMsgClick() {
@@ -83,6 +86,11 @@ class ListingOwnerDetails extends Component {
     }
   }
 
+  isListedOrRented() {
+    const { listing } = this.props;
+    return listing.status == 'listed' || listing.status == 'rented';
+  }
+
   render() {
     const { listing } = this.props;
     const title = listing.publishing_user_type === 'landlord' ? 'בעל הנכס' : 'דייר יוצא';
@@ -94,7 +102,7 @@ class ListingOwnerDetails extends Component {
           <span>{listing.publishing_user_first_name || 'אנונימי'}</span>
         </div>
         <div className="listing-owner-contact-container">
-          {this.renderPhone(listing)}
+          {this.renderPhone()}
           {this.renderMsg()}
         </div>
       </div>
