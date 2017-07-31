@@ -58,7 +58,7 @@ export default class ImageUpload extends React.Component {
         onClick={() => {
           this.props.editedListingStore.disableSave = true;
           listingImageProvider.deleteImage(image, editedListingStore);
-          if (images.length == 1) {
+          if (images.length == 1 || (image.display_order == 0 && !images.find(img => img.display_order == 0))) {
             images[0].display_order = 0;
           }
           this.shouldDisableSave();
