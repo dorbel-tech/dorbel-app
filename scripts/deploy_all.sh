@@ -1,7 +1,7 @@
 #!/bin/bash
 # A script to deploy all Docker containers to AWS Elastic Beanstalk single container test environment.
 
-yarn run deploy apartments-api test &
-yarn run deploy front-gateway test &
-yarn run deploy notifications-service test &
-yarn run deploy ohe-api test    
+yarn run deploy apartments-api $1 &
+yarn run deploy front-gateway $1 &
+yarn run deploy notifications-service $1 &
+yarn run deploy ohe-api $1
