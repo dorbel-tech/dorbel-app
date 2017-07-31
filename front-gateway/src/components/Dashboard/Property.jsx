@@ -51,13 +51,13 @@ class Property extends Component {
     loadListing.then(() => this.setState({ isLoading: false }));
   }
 
-  gotoPublishedListing(property) {
-    return this.props.router.setRoute(getPropertyPath(property));
+  gotoPublishedListing() {
+    return this.props.router.setRoute(getPropertyPath(this.property));
   }
 
-  gotoEditProperty(property) {
+  gotoEditProperty() {
     this.hideActionsMenu();
-    return this.props.router.setRoute(getDashMyPropsPath(property, '/edit'));
+    return this.props.router.setRoute(getDashMyPropsPath(this.property, '/edit'));
   }
 
   showActionsMenu() {
@@ -68,18 +68,18 @@ class Property extends Component {
     this.setState({ showActionsMenu: false });
   }
 
-  renderActionsMenu(property, isActiveListing) {
+  renderActionsMenu(isActiveListing) {
     return (
       <Popover onMouseEnter={this.showActionsMenu}
                onMouseLeave={this.hideActionsMenu}
                id="property-actions-menu"
                className="property-actions-menu">
-        <div className="property-actions-menu-item property-action-menu-item-show-mobile" onClick={() => this.gotoPublishedListing(property)}>
+        <div className="property-actions-menu-item" onClick={this.gotoPublishedListing}>
           <i className="property-actions-menu-item-icon fa fa-picture-o"></i>
           צפייה במודעה
         </div>
         {isActiveListing &&
-          <div className="property-actions-menu-item" onClick={() => this.gotoEditProperty(property)}>
+          <div className="property-actions-menu-item" onClick={this.gotoEditProperty}>
             <i className="property-actions-menu-item-icon fa fa-pencil-square-o" aria-hidden="true"></i>
             עריכת המודעה
           </div>
@@ -90,7 +90,7 @@ class Property extends Component {
 
   render() {
     const { appStore, router } = this.props;
-    const property = appStore.listingStore.get(this.props.listingId);
+    this.property = appStore.listingStore.get(this.props.listingId);
 
     if (this.state.isLoading) {
       return (
@@ -98,15 +98,15 @@ class Property extends Component {
           <LoadingSpinner />
         </div>
       );
-    } else if (!appStore.listingStore.isListingPublisherOrAdmin(property)) {
+    } else if (!appStore.listingStore.isListingPublisherOrAdmin(this.property)) {
       return null;
     }
 
-    const propertyPath = getDashMyPropsPath(property, '/');
-    const sortedPropertyImages = utils.sortListingImages(property);
+    const propertyPath = getDashMyPropsPath(this.property, '/');
+    const sortedPropertyImages = utils.sortListingImages(this.property);
     const imageURL = sortedPropertyImages[0].url;
-    const historySelector = <PropertyHistorySelector apartment_id={property.apartment_id} listing_id={property.id} />;
-    const isActiveListing = this.props.appProviders.listingsProvider.isActiveListing(property);
+    const historySelector = <PropertyHistorySelector apartment_id={this.property.apartment_id} listing_id={this.property.id} />;
+    const isActiveListing = this.props.appProviders.listingsProvider.isActiveListing(this.property);
     const imageClass = 'property-image' + (isActiveListing ? '' : ' property-image-inactive');
     const titleClass = 'property-title' + (isActiveListing ? '' : ' property-title-inactive');
     let editForm = null;
@@ -115,14 +115,14 @@ class Property extends Component {
       <div className="property-action-container">
         <div className="property-actions-item-container">
           <Button className="property-action-button property-preview-button"
-                  onClick={() => this.gotoPublishedListing(property)}>
+                  onClick={this.gotoPublishedListing}>
             צפייה במודעה
           </Button>
         </div>
         {isActiveListing &&
           <div className="property-actions-item-container">
             <Button className="property-action-button property-edit-button"
-                    onClick={() =>this.gotoEditProperty(property)}>
+                    onClick={this.gotoEditProperty}>
               עריכת המודעה
             </Button>
           </div>
@@ -142,7 +142,7 @@ class Property extends Component {
                    placement="bottom"
                    target={this.propertyActionMenuIcon}
                    rootClose>
-            {this.renderActionsMenu(property, isActiveListing)}
+            {this.renderActionsMenu(isActiveListing)}
           </Overlay>
         </div>
         <div className="property-history-selector">
@@ -166,10 +166,10 @@ class Property extends Component {
     );
 
     const propertyTabs = [
-      { relativeRoute: 'stats', title: 'סטטיסטיקה', component: <PropertyStats listing={property} /> },
-      { relativeRoute: 'ohe', title: 'מועדי ביקור', component: <OHEManager listing={property} /> },
-      { relativeRoute: 'manage', title: 'שכירות', component: <PropertyManage listing={property} /> },
-      { relativeRoute: 'edit', title: 'עריכת פרטי הנכס', component: <EditListing listing={property} ref={form => editForm = form} />,
+      { relativeRoute: 'stats', title: 'סטטיסטיקה', component: <PropertyStats listing={this.property} /> },
+      { relativeRoute: 'ohe', title: 'מועדי ביקור', component: <OHEManager listing={this.property} /> },
+      { relativeRoute: 'manage', title: 'שכירות', component: <PropertyManage listing={this.property} /> },
+      { relativeRoute: 'edit', title: 'עריכת פרטי הנכס', component: <EditListing listing={this.property} ref={form => editForm = form} />,
         replaceNavbar: true, hideFromMenu: true, headerButtons: editHeaderButtons }
     ];
     // TODO: Add "default" tab logic.
@@ -179,28 +179,31 @@ class Property extends Component {
               <Row className="property-top-container">
                 <Col md={3} sm={3} xs={4} className="property-image-container">
                   <CloudinaryImage src={imageURL} height={125} className={imageClass}/>
-                  { (isActiveListing || appStore.authStore.isUserAdmin()) && <ListingStatusSelector listing={property} /> }
                 </Col>
                 <Col md={5} sm={6} xs={8} className="property-title-container">
                   <div className={titleClass}>
-                    {utils.getListingTitle(property)}
+                    {utils.getListingTitle(this.property)}
                   </div>
                   <div className="property-history-selector-mobile">
                     { !activeTab.headerButtons && historySelector }
                   </div>
                   <div className="property-title-details">
                     <div className="property-title-details-sub">
-                      <span>{property.apartment.rooms}</span>
+                      <span>{this.property.apartment.rooms}</span>
                       <span className="property-title-details-sub-text">&nbsp;חדרים</span>
                     </div>
                     <div className="property-title-details-sub">
-                      <span>{property.apartment.size}</span>
+                      <span>{this.property.apartment.size}</span>
                       <span className="property-title-details-sub-text">&nbsp;מ"ר</span>
                     </div>
                     <div className="property-title-details-sub">
-                      <span>{utils.getFloorTextValue(property)}</span>
+                      <span>{utils.getFloorTextValue(this.property)}</span>
                       <span className="property-title-details-sub-text">&nbsp;קומה</span>
                     </div>
+                  </div>
+                  <div className="property-status-desktop property-title-details-sub-text">
+                    סטטוס:
+                    { (isActiveListing || appStore.authStore.isUserAdmin()) && <ListingStatusSelector listing={this.property} /> }
                   </div>
                 </Col>
                 <Col md={4} sm={3} className="property-actions-wrapper">
@@ -213,7 +216,7 @@ class Property extends Component {
                     סטטוס המודעה:
                   </Col>
                   <Col sm={9} xs={8} className="property-status-selector-container">
-                    <ListingStatusSelector listing={property} />
+                    <ListingStatusSelector listing={this.property} />
                   </Col>
                 </Row> }
               { !activeTab.replaceNavbar &&

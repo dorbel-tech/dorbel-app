@@ -23,6 +23,13 @@ class ListingsProvider {
         this.appStore.listingStore.set(listing);
         this.appStore.listingStore.setLastByApartmentId(listing);
         this.appStore.metaData = _.defaults(this.getListingMetadata(listing), this.appStore.metaData);
+      })
+      .catch((error) => {
+        this.navProvider.showErrorPage(error.response.status);
+
+        if (!process.env.IS_CLIENT) { // must throw on SSR order to return an error
+          throw error;
+        }
       });
   }
 
@@ -33,7 +40,13 @@ class ListingsProvider {
         this.appStore.listingStore.set(listing);
         this.appStore.metaData = _.defaults(this.getListingMetadata(listing), this.appStore.metaData);
       })
-      .catch((error) => { this.navProvider.showErrorPage(error.response.status); });
+      .catch((error) => {
+        this.navProvider.showErrorPage(error.response.status);
+
+        if (!process.env.IS_CLIENT) { // must throw on SSR order to return an error
+          throw error;
+        }
+      });
   }
 
   loadListingPageViews(listingId) {

@@ -18,20 +18,6 @@ app.use(shared.middleware.errorHandler());
 app.use(shared.middleware.requestLogger());
 app.use(bodyParser());
 
-app.use(function* handleSequelizeErrors(next) {
-  try {
-    yield next;
-  }
-  catch (ex) {
-    if (ex.name === 'SequelizeValidationError') {
-      this.body = ex.errors;
-      this.status = 400;
-    } else {
-      throw ex;
-    }
-  }
-});
-
 // Fleek + Swagger
 
 app.use(function* returnSwagger(next) {

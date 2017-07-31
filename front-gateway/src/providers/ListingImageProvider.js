@@ -11,7 +11,7 @@ export default class ListingImageProvider {
 
   uploadImage(file, editedListingStore) {
     const imageStore = editedListingStore.formValues.images;
-    const image = { complete: false, src: file.preview, progress: 0 };
+    const image = { complete: false, src: file.preview, progress: 0, display_order: imageStore.length > 0 ? 99 : 0};
     imageStore.push(image);
 
     const onProgress = action('image-upload-progress', e => {
@@ -26,6 +26,7 @@ export default class ListingImageProvider {
       storedImage.src = `https://res.cloudinary.com/dorbel/${uploadedImage.resource_type}/${uploadedImage.type}/v${uploadedImage.version}/${uploadedImage.public_id}.${uploadedImage.format}`;
       storedImage.delete_token = uploadedImage.delete_token;
       storedImage.secure_url = uploadedImage.secure_url;
+
       return uploadedImage;
     }))
     .catch(action(() => {
