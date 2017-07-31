@@ -27,7 +27,9 @@ export default class UploadApartmentStep1 extends UploadApartmentBaseStep.wrappe
   }
 
   clickNext() {
-    const validationErrors = this.refs.listingDetailsForm.wrappedInstance.getValidationErrors();
+    // the listingDetailsForm instance is hiding behing a couple of decoraters...
+    const instance = this.refs.listingDetailsForm.getWrappedInstance().getWrappedInstance();
+    const validationErrors = instance.getValidationErrors();
     if (validationErrors) {
       this.props.onValidationError(validationErrors);
     } else {

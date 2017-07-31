@@ -7,13 +7,14 @@ import moment from 'moment';
 import { observer } from 'mobx-react';
 import { withApollo } from 'react-apollo';
 import { graphql, getCities, getNeighborhoods } from '~/queries';
+import _ from 'lodash';
 
 import './ListingDetailsForm.scss';
 
 const LOADING_OPTIONS_LABEL = { value: 0, label: 'טוען...' };
 
-@withApollo
-@graphql(getCities)
+@graphql(getCities, { withRef: true })
+@_.partialRight(withApollo, { withRef: true })
 @observer
 export default class ListingDetailsForm extends React.Component {
   // IMPORTANT NOTE: DONT USE `appStore.newListingStore` HERE!
@@ -62,7 +63,7 @@ export default class ListingDetailsForm extends React.Component {
 
   getNeighborhoodValue(options) {
     var storedValue = this.props.editedListingStore.formValues['apartment.building.neighborhood.id'];
-    if (storedValue && options.find(option => option.value === storedValue)) {
+    if (storedValue && options.find(option => option.value == storedValue)) {
       return storedValue;
     } else {
       return options[0].value;
