@@ -26,7 +26,7 @@ describe('Saved Filters', () => {
       data: {
         loading: false,
         cities: [ { id: 1, city_name: 'TA'} ]
-      }
+      },
       onFilterChange: jest.fn()
     };
   });

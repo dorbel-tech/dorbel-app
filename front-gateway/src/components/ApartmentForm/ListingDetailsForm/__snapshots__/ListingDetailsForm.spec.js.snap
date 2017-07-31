@@ -1,30 +1,18 @@
 exports[`Listing Details Form should match snapshot in empty state 1`] = `
 <ListingDetailsForm
-  appProviders={
+  client={
     Object {
-      "cityProvider": Object {
-        "loadCities": [Function],
-      },
-      "neighborhoodProvider": Object {
-        "loadNeighborhoodByCityId": [Function],
-      },
+      "query": [Function],
     }
   }
-  appStore={
+  data={
     Object {
-      "cityStore": Object {
-        "cities": Array [
-          Object {
-            "city_name": "Gotham",
-            "id": 1,
-          },
-        ],
-      },
-      "neighborhoodStore": Object {
-        "neighborhoodsByCityId": Object {
-          "get": [Function],
+      "cities": Array [
+        Object {
+          "city_name": "Gotham",
+          "id": 1,
         },
-      },
+      ],
     }
   }
   editedListingStore={
