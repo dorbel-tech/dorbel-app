@@ -18,7 +18,7 @@ describe('Listing Details Form', () => {
         cities: [ { id: 1, city_name: 'Gotham' } ]
       },
       client: {
-        query: jest.fn().mockReturnValue(Promise.resolve())
+        query: jest.fn().mockReturnValue(new Promise(() => {})) // a pending promise
       }
     };
   });
@@ -41,7 +41,7 @@ describe('Listing Details Form', () => {
     expect(cityOptions).toContainEqual({ value: 0, label: 'טוען...' });
   });
 
-  it('should get city options from city store', () => {
+  it('should get city options from data', () => {
     const city = props.data.cities[0];
 
     const wrapper = listingDetailsForm();
@@ -66,7 +66,6 @@ describe('Listing Details Form', () => {
   it('should call GQL client to load neighborhoods and display loading', () => {
     const cityId = 1;
     props.editedListingStore.formValues['apartment.building.city.id'] = cityId;
-    props.client.query.mockReturnValue(Promise.resolve());
 
     const wrapper = listingDetailsForm();
 

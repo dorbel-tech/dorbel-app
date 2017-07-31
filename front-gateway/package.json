@@ -145,6 +145,9 @@
     "coverageDirectory": "<rootDir>/test/coverage",
     "coverageReporters": [
       "json"
+    ],
+    "setupFiles" : [
+      "<rootDir>/test/failOnRejections.js"
     ]
   }
 }

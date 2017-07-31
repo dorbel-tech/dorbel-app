@@ -24,9 +24,9 @@ describe('Property', () => {
         disableSave: true
       },
       likeStore: {
-        likesByListingId: { 
-          get: jest.fn().mockReturnValue([]), 
-          has: jest.fn() 
+        likesByListingId: {
+          get: jest.fn().mockReturnValue([]),
+          has: jest.fn()
         }
       }
     };
@@ -35,7 +35,8 @@ describe('Property', () => {
         loadListingPageViews: jest.fn(),
         loadFullListingDetails: jest.fn(),
         loadListingsForApartment: jest.fn(),
-        isActiveListing: jest.fn().mockReturnValue(true)
+        isActiveListing: jest.fn().mockReturnValue(true),
+        isRepublishable: jest.fn()
       },
       oheProvider: {
         loadListingEvents: jest.fn()

@@ -5,6 +5,9 @@ exports[`Filter should match snapshot in initial state 1`] = `
       "authProvider": Object {
         "shouldLogin": [Function],
       },
+      "modalProvider": Object {
+        "showInfoModal": [Function],
+      },
       "oheProvider": Object {
         "loadListingEvents": [Function],
       },

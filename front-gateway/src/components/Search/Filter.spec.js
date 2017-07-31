@@ -41,13 +41,16 @@ describe('Filter', () => {
         },
         oheProvider: {
           loadListingEvents: jest.fn()
+        },
+        modalProvider: {
+          showInfoModal: jest.fn()
         }
       },
       data: {
         cities: []
       },
       client: {
-        query: jest.fn().mockReturnValue(Promise.resolve())
+        query: jest.fn().mockReturnValue(Promise.resolve({ data: {} }))
       }
     };
     mountedFilter = undefined;

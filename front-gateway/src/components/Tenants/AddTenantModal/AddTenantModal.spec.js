@@ -14,6 +14,9 @@ describe('Add Tenant Modal', () => {
       },
       modalProvider: {
         close: jest.fn()
+      },
+      notificationProvider: {
+        error: jest.fn()
       }
     };
   });
