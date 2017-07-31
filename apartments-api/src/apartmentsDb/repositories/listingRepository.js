@@ -202,14 +202,13 @@ function* update(listing, patch) {
       }).map(imageToDelete => imageToDelete.destroy({ transaction }));
 
       logger.trace('creating / updating patched images');
-      yield patch.images.map((imageFromPatch, index) => {
+      yield patch.images.map((imageFromPatch) => {
         const imageExists = _.find(listing.images, { url: imageFromPatch.url });
         if (imageExists) {
-          imageExists.display_order = index;
+          imageExists.display_order = imageFromPatch.display_order;
           return imageExists.save({ transaction });
         } else {
           imageFromPatch.listing_id = listing.id;
-          imageFromPatch.display_order = index;
           return models.image.create(imageFromPatch, { transaction });
         }
       });

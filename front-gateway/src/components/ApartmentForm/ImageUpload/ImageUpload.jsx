@@ -44,6 +44,7 @@ export default class ImageUpload extends React.Component {
 
   renderImage(image, index) {
     const { editedListingStore, appProviders } = this.props;
+    const { images } = editedListingStore.formValues;
     const { listingImageProvider } = appProviders;
     const progressPct = image.progress * 100;
 
@@ -57,6 +58,9 @@ export default class ImageUpload extends React.Component {
         onClick={() => {
           this.props.editedListingStore.disableSave = true;
           listingImageProvider.deleteImage(image, editedListingStore);
+          if (images.length == 1 || (image.display_order == 0 && !images.find(img => img.display_order == 0))) {
+            images[0].display_order = 0;
+          }
           this.shouldDisableSave();
         }}>
         <i className="fa fa-trash" />
@@ -69,9 +73,10 @@ export default class ImageUpload extends React.Component {
       <Checkbox
         inline
         className="image-action"
-        checked={index==0}
+        checked={image.display_order == 0}
         onChange={() => {
-          this.props.editedListingStore.formValues.images.move(index, 0);
+          images.map(img => img.display_order = 99);
+          image.display_order = 0;
         }}>
         תמונה ראשית
       </Checkbox>
