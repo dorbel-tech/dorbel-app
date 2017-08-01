@@ -9,7 +9,7 @@
     "db:seed": "sequelize db:seed:all",
     "db:clean": "./scripts/clean-db.sh",
     "start": "yarn run db:migrate && yarn run db:seed && babel-node src/index",
-    "start:dev": "yarn run check; yarn run db:migrate; yarn run db:seed && yarn run test:seed && nodemon --exec babel-node --debug=5858 src/index | bunyan -o short",
+    "start:dev": "yarn run check; yarn run db:migrate; yarn run db:seed && yarn run test:seed && nodemon --exec babel-node --inspect=5858 src/index | bunyan -o short",
     "test": "yarn run test:unit",
     "test:unit": "yarn run wait && nyc --all mocha --timeout 10000 --compilers js:babel-register test/shared/before-tests.js test/unit/**/*.spec.js",
     "test:integration": "./scripts/integration-tests.sh",
