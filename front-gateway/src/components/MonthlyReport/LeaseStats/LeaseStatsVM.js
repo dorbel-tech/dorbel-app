@@ -25,6 +25,7 @@ class LeaseStatsVM {
     this.rentPayed = this.getRentPayed(this.monthlyRent, this.currentMonthIndex);
     this.rentPayedFormatted = this.formatMoneyValue(this.rentPayed);    
     this.rentRemaining = this.getRentRemaining(this.monthlyRent, this.monthsToLeaseEnd);
+    this.rentRemainingFormatted = this.formatMoneyValue(this.rentRemaining);
 
     this.propertyValue = this.getPropertyValue(this.listing);
     this.propertyValueFormatted = this.formatMoneyValue(this.propertyValue);
@@ -88,11 +89,11 @@ class LeaseStatsVM {
   }
 
   getRentPayed(monthlyRent, currentMonthIndex) {
-    return currentMonthIndex ? this.formatMoneyValue((currentMonthIndex + 1) * monthlyRent) : 0;
+    return currentMonthIndex >= 0 ? (currentMonthIndex + 1) * monthlyRent : 0;
   }
 
   getRentRemaining(monthlyRent, monthsToLeaseEnd) {
-    return this.formatMoneyValue(monthlyRent * monthsToLeaseEnd);
+    return monthsToLeaseEnd > 0 ? monthlyRent * monthsToLeaseEnd : 0;
   }
 
   getAnnualYield(propertyValue, annualIncome) {
