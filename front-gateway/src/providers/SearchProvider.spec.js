@@ -108,13 +108,13 @@ describe('SearchProvider', () => {
   });
 
   it('should not search while searching', () => {
-    const deferred = Promise.defer();
-    appProvidersMock.api.fetch.mockReturnValue(deferred.promise);
+    let resolveFetch;
+    appProvidersMock.api.fetch.mockReturnValue(new Promise(resolve => resolveFetch = resolve));
     const promises = [
       searchProvider.search(),
       searchProvider.search()
     ];
-    deferred.resolve();
+    resolveFetch();
     return Promise.all(promises)
     .then(() => {
       expect(appProvidersMock.api.fetch).toHaveBeenCalledTimes(1);
@@ -122,13 +122,13 @@ describe('SearchProvider', () => {
   });
 
   it('should not get next page while getting next page', () => {
-    const deferred = Promise.defer();
-    appProvidersMock.api.fetch.mockReturnValue(deferred.promise);
+    let resolveFetch;
+    appProvidersMock.api.fetch.mockReturnValue(new Promise(resolve => resolveFetch = resolve));
     const promises = [
       searchProvider.loadNextPage(),
       searchProvider.loadNextPage()
     ];
-    deferred.resolve();
+    resolveFetch();
     return Promise.all(promises)
     .then(() => {
       expect(appProvidersMock.api.fetch).toHaveBeenCalledTimes(1);
