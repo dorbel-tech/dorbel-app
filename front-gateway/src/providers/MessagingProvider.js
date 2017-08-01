@@ -104,19 +104,25 @@ class MessagingProvider {
   }
 
   // Create an inbox for the active TalkJS user using a new TalkJS session.
-  createInbox(element) {
+  createInbox(element, listingId) {
     return global.window.Talk.ready.then(
-      this.createInboxOnReady.bind(this, element)
+      this.createInboxOnReady.bind(this, element, listingId)
     );
   }
 
-  createInboxOnReady(element) {
+  createInboxOnReady(element, listingId) {
     if (this.initTalkSession()) {
       const inbox = this.talkSession.createInbox();
-      inbox.mount(element);
+      inbox.mount(element).then(
+        this.inboxMounted.bind(this, inbox, listingId)
+      );
     } else {
       throw new Error('MessagingProvider.createInbox');
     }
+  }
+
+  inboxMounted(inbox, listingId) {
+    listingId && inbox.select(listingId);
   }
 }
 
