@@ -113,16 +113,11 @@ class MessagingProvider {
   createInboxOnReady(element, listingId) {
     if (this.initTalkSession()) {
       const inbox = this.talkSession.createInbox();
-      inbox.mount(element).then(
-        this.inboxMounted.bind(this, inbox, listingId)
-      );
+      inbox.mount(element);
+      listingId && inbox.select(listingId);
     } else {
       throw new Error('MessagingProvider.createInbox');
     }
-  }
-
-  inboxMounted(inbox, listingId) {
-    listingId && inbox.select(listingId);
   }
 }
 
