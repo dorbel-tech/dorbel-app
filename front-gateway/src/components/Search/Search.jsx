@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
-import { inject, observer } from 'mobx-react';
+import { inject } from 'mobx-react';
+
 import Filter from './Filter.jsx';
 import SearchResults from '~/components/Search/SearchResults';
+import { graphql, getCities } from '~/queries';
 
 import './Search.scss';
 
-@inject('appStore') @observer
+@graphql(getCities)
+@inject('appStore')
 class Search extends Component {
   static hideFooter = true;
 
@@ -16,8 +19,7 @@ class Search extends Component {
   }
 
   render() {
-    const { cityStore } = this.props.appStore;
-    const isLoadingCities = cityStore.cities.length === 0;
+    const isLoadingCities = this.props.data.loading;
 
     return <div className="search-container">
         <Filter />
@@ -37,7 +39,8 @@ class Search extends Component {
 }
 
 Search.wrappedComponent.propTypes = {
-  appStore: React.PropTypes.object.isRequired
+  appStore: React.PropTypes.object.isRequired,
+  data: React.PropTypes.object.isRequired
 };
 
 export default Search;

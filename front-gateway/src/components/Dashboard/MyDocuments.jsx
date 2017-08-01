@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { inject, observer } from 'mobx-react';
+import { inject } from 'mobx-react';
 import autobind from 'react-autobind';
 import { Grid, Row, Col, ListGroup, ListGroupItem } from 'react-bootstrap';
+import { gql, graphql } from 'react-apollo';
 
 import CloudinaryImage from '~/components/CloudinaryImage/CloudinaryImage';
 import ListingStatusSelector from '~/components/Dashboard/MyProperties/ListingStatusSelector';
@@ -13,7 +14,41 @@ import { PROPERTY_SUBMIT_PREFIX } from '~/routesHelper';
 
 import './MyDocuments.scss';
 
-@inject('appStore', 'appProviders') @observer
+const myDocumentsQuery = `
+  query MyDocuments {
+    listings(myProperties: true, oldListings: true) {
+      id
+      status
+      apartment {
+        apt_number
+        rooms
+        size
+        building {
+          street_name
+          house_number
+          city {
+            city_name
+          }
+        }
+      }
+      documents {
+        id
+        filename
+        size
+        type
+        provider
+        provider_file_id
+      }
+      images {
+        url
+        display_order
+      }
+    }
+  }
+`;
+
+@graphql(gql(myDocumentsQuery))
+@inject('appProviders')
 export default class MyDocuments extends Component {
   constructor(props) {
     super(props);
@@ -21,14 +56,8 @@ export default class MyDocuments extends Component {
   }
 
   static propTypes = {
-    appStore: React.PropTypes.object.isRequired,
     appProviders: React.PropTypes.object.isRequired,
-  }
-
-  componentDidMount() {
-    this.props.appStore.searchStore.reset();
-    this.props.appProviders.searchProvider.search({ myProperties: true, oldListings: true });
-    this.props.appProviders.documentProvider.getAllDocumentsForUser();
+    data: React.PropTypes.object.isRequired
   }
 
   getListingTitle(listing) {
@@ -107,8 +136,8 @@ export default class MyDocuments extends Component {
   }
 
   renderListing(listing) {
-    const { appStore, appProviders } = this.props;
-    const documents = appStore.documentStore.getDocumentsByListing(listing.id);
+    const { appProviders } = this.props;
+    const documents = listing.documents;
 
     return (
       <ListGroup key={listing.id}>
@@ -143,14 +172,15 @@ export default class MyDocuments extends Component {
   }
 
   render() {
-    const { searchStore } = this.props.appStore;
-    const listings = searchStore.searchResults();
+    const { data } = this.props;
 
-    let contents = <LoadingSpinner />;
-    if (!searchStore.isLoadingNewSearch && !listings.length) {
+    let contents = null;
+    if (data.loading) {
+      contents = <LoadingSpinner />;
+    } else if (!data.listings.length) {
       contents = this.renderNoListings();
-    } else if (!searchStore.isLoadingNewSearch && listings.length) {
-      contents = listings.map(this.renderListing);
+    } else {
+      contents = data.listings.map(this.renderListing);
     }
 
     return (

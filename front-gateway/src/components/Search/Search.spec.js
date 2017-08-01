@@ -5,30 +5,31 @@ import React from 'react';
 import Search from './Search';
 
 describe('Search', () => {
-  let appProvidersMock;
-  let appStoreMock;
+  let props;
 
   beforeEach(() => {
-    appStoreMock = {
-      authStore: {},
-      cityStore: {
-        cities: [ { id: 1 } ]
+    props = {
+      appStore: {
+        authStore: {},
+        metaData: {
+          title: 'should change'
+        }
       },
-      metaData: {
-        title: 'should change'
-      }
-    };
-    appProvidersMock = {
-      likeProvider: {
-        getAllUserLikes: jest.fn()
+      appProviders: {
+        likeProvider: {
+          getAllUserLikes: jest.fn()
+        }
+      },
+      data: {
+        loading: false
       }
     };
   });
 
-  const search = () => shallow(<Search.wrappedComponent appStore={appStoreMock} appProviders={appProvidersMock} />);
+  const search = () => shallow(<Search.WrappedComponent.wrappedComponent {...props} />);
 
   it('should set title in metadata', () => {
     search();
-    expect(appStoreMock.metaData.title).not.toBe('should change');
+    expect(props.appStore.metaData.title).not.toBe('should change');
   });
 });

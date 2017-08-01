@@ -13,18 +13,13 @@ export default class DocumentProvider {
       .then(documents => this.appStore.documentStore.add(documents));
   }
 
-  getAllDocumentsForUser() {
-    return this.api.fetch(DOCUMENTS_ROUTE)
-      .then(documents => this.appStore.documentStore.add(documents));
-  }
-
   saveDocument(listing_id, file) {
     const data = {
       listing_id,
       provider: FILESTACK,
       provider_file_id: file.handle,
       filename: file.filename,
-      type: file.mimetype, 
+      type: file.mimetype,
       size: file.size
     };
 
@@ -41,7 +36,7 @@ export default class DocumentProvider {
   }
 
   deleteDocument(document) {
-    // backend should also remove file from filestack 
+    // backend should also remove file from filestack
     return this.api.fetch(DOCUMENTS_ROUTE + '/' + document.id, { method: 'DELETE' })
       .then(() => this.appStore.documentStore.remove(document));
   }

@@ -8,6 +8,9 @@ exports[`Add Tenant Modal should match snapshot in empty state 1`] = `
       "modalProvider": Object {
         "close": [Function],
       },
+      "notificationProvider": Object {
+        "error": [Function],
+      },
     }
   }
   listing_id={58134}>

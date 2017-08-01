@@ -16,15 +16,16 @@ describe('Saved Filters', () => {
             values: jest.fn().mockReturnValue([]),
             get: jest.fn()
           }
-        },
-        cityStore: {
-          cities: [ { id: 1, city_name: 'TA'} ]
         }
       },
       appProviders: {
         searchProvider: {
           saveFilter: jest.fn()
         }
+      },
+      data: {
+        loading: false,
+        cities: [ { id: 1, city_name: 'TA'} ]
       },
       onFilterChange: jest.fn()
     };
@@ -53,21 +54,21 @@ describe('Saved Filters', () => {
       minRooms: 7,
       mre: 6000
     });
-    
-    const wrapper = savedFilters();    
+
+    const wrapper = savedFilters();
     const renderedFilters = wrapper.find('Checkbox');
     const filterLabel = renderedFilters.first().find('span').text();
 
     expect(renderedFilters).toHaveLength(1);
-    expect(filterLabel).toContain(props.appStore.cityStore.cities[0].city_name);
+    expect(filterLabel).toContain(props.data.cities[0].city_name);
     expect(filterLabel).toContain('7+\xa0חד');
     expect(filterLabel).toMatch(/עד\s6000\sש"ח/);
   });
 
   it('should select a new active filter', () => {
     const mockedFilter = mockFilter({});
-    
-    const wrapper = savedFilters();    
+
+    const wrapper = savedFilters();
     wrapper.find('Checkbox').first().simulate('click');
 
     expect(props.appStore.searchStore.activeFilterId).toBe(mockedFilter.id);
@@ -75,8 +76,8 @@ describe('Saved Filters', () => {
 
   it('should fire onFilterChange for selected filter without extra params', () => {
     mockFilter({ dorbel_user_id: 3, email_notification: true, city: 5 });
-    
-    const wrapper = savedFilters();    
+
+    const wrapper = savedFilters();
     wrapper.find('Checkbox').first().simulate('click');
 
     expect(props.onFilterChange).toHaveBeenCalledWith({ city: 5 });
@@ -84,8 +85,8 @@ describe('Saved Filters', () => {
 
   it('should fire onFilterChange with empty filter when un-selecting filter', () => {
     mockFilter({ city: 7 }, true);
-        
-    const wrapper = savedFilters();    
+
+    const wrapper = savedFilters();
     wrapper.find('Checkbox').first().simulate('click');
 
     expect(props.onFilterChange).toHaveBeenCalledWith({});
@@ -94,7 +95,7 @@ describe('Saved Filters', () => {
   it('should render email checkbox when filter is selected and email_notification is true', () => {
     const mockedFilter = mockFilter({ email_notification: true }, true);
     props.appStore.searchStore.filters.get.mockReturnValue(mockedFilter);
-    
+
     const wrapper = savedFilters();
     const emailCheckbox = wrapper.find('.saved-filter-email-notification-checkbox');
 
@@ -111,7 +112,7 @@ describe('Saved Filters', () => {
   it('should call provider to save email-notification when it is clicked', () => {
     const mockedFilter = mockFilter({ email_notification: true }, true);
     props.appStore.searchStore.filters.get.mockReturnValue(mockedFilter);
-    
+
     const wrapper = savedFilters();
     const emailCheckbox = wrapper.find('.saved-filter-email-notification-checkbox');
 

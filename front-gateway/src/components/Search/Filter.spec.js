@@ -10,13 +10,13 @@ describe('Filter', () => {
   const filter = () => {
     if (!mountedFilter) {
       mountedFilter = mount(
-        <Filter {...props} />
+        <Filter.WrappedComponent {...props} />
       );
     }
     return mountedFilter;
   };
 
-  const shallowFilter = () => shallow(<Filter {...props} />);
+  const shallowFilter = () => shallow(<Filter.WrappedComponent {...props} />);
 
   const saveFilterButton = () => mountedFilter.find('#saveFilterButton');
 
@@ -28,22 +28,12 @@ describe('Filter', () => {
         authStore: {
           isUserAdmin: jest.fn()
         },
-        cityStore: {
-          cities: []
-        },
-        neighborhoodStore: {
-          neighborhoodsByCityId: {
-            get: jest.fn()
-          }
-        },
         searchStore: {}
       },
       appProviders: {
         authProvider: {
           shouldLogin: jest.fn().mockReturnValue(true)
         },
-        cityProvider: {loadCities: jest.fn()},
-        neighborhoodProvider: {loadNeighborhoodByCityId: jest.fn()},
         searchProvider: {
           search: jest.fn().mockReturnValue(Promise.resolve([])),
           resetActiveFilter: jest.fn(),
@@ -51,7 +41,16 @@ describe('Filter', () => {
         },
         oheProvider: {
           loadListingEvents: jest.fn()
+        },
+        modalProvider: {
+          showInfoModal: jest.fn()
         }
+      },
+      data: {
+        cities: []
+      },
+      client: {
+        query: jest.fn().mockReturnValue(Promise.resolve({ data: {} }))
       }
     };
     mountedFilter = undefined;
@@ -62,8 +61,7 @@ describe('Filter', () => {
 
     filter();
 
-    expect(props.appProviders.cityProvider.loadCities).toHaveBeenCalledWith();
-    expect(props.appProviders.neighborhoodProvider.loadNeighborhoodByCityId).not.toHaveBeenCalled();
+    expect(props.client.query).not.toHaveBeenCalled();
     expect(history.pushState).toHaveBeenCalledWith(expectedFilterObj, '', jasmine.any(String));
     expect(history.pushState.calls.count()).toEqual(1);
     expect(props.appProviders.searchProvider.search).toHaveBeenCalledWith(expectedFilterObj);
@@ -80,8 +78,7 @@ describe('Filter', () => {
 
     filter();
 
-    expect(props.appProviders.cityProvider.loadCities).toHaveBeenCalledWith();
-    expect(props.appProviders.neighborhoodProvider.loadNeighborhoodByCityId).toHaveBeenCalledWith(2);
+    expect(props.client.query.mock.calls[0][0].variables.city_id).toBe(expectedFilterObj.city);
     expect(props.appProviders.searchProvider.search).toHaveBeenCalledWith(expectedFilterObj);
     expect(history.pushState).toHaveBeenCalledWith(expectedFilterObj, '', jasmine.any(String));
     expect(history.pushState.calls.count()).toEqual(1);

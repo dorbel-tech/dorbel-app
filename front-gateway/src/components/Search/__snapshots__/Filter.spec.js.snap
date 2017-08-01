@@ -5,11 +5,8 @@ exports[`Filter should match snapshot in initial state 1`] = `
       "authProvider": Object {
         "shouldLogin": [Function],
       },
-      "cityProvider": Object {
-        "loadCities": [Function],
-      },
-      "neighborhoodProvider": Object {
-        "loadNeighborhoodByCityId": [Function],
+      "modalProvider": Object {
+        "showInfoModal": [Function],
       },
       "oheProvider": Object {
         "loadListingEvents": [Function],
@@ -26,15 +23,17 @@ exports[`Filter should match snapshot in initial state 1`] = `
       "authStore": Object {
         "isUserAdmin": [Function],
       },
-      "cityStore": Object {
-        "cities": Array [],
-      },
-      "neighborhoodStore": Object {
-        "neighborhoodsByCityId": Object {
-          "get": [Function],
-        },
-      },
       "searchStore": Object {},
+    }
+  }
+  client={
+    Object {
+      "query": [Function],
+    }
+  }
+  data={
+    Object {
+      "cities": Array [],
     }
   } />
 `;

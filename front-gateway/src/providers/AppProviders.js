@@ -6,8 +6,6 @@
 import ApiProvider from './ApiProvider';
 import ListingsProvider from './ListingsProvider';
 import OheProvider from './OheProvider';
-import CityProvider from './CityProvider';
-import NeighborhoodProvider from './NeighborhoodProvider';
 import CloudinaryProvider from './CloudinaryProvider';
 import MessagingProvider from './MessagingProvider';
 import NotificationProvider from './NotificationProvider';
@@ -43,8 +41,6 @@ class AppProviders {
     this.navProvider = new NavProvider(appStore, router);
     this.listingsProvider = new ListingsProvider(appStore, { api: this.apiProvider, ohe: this.oheProvider, navProvider: this.navProvider });
     this.listingImageProvider = new ListingImageProvider({ cloudinary: this.cloudinaryProvider });
-    this.cityProvider = new CityProvider(appStore, this.apiProvider);
-    this.neighborhoodProvider = new NeighborhoodProvider(appStore, this.apiProvider);
     this.notificationProvider = new NotificationProvider();
     this.modalProvider = new ModalProvider(appStore);
     this.searchProvider = new SearchProvider(appStore, { api: this.apiProvider, ohe: this.oheProvider });
