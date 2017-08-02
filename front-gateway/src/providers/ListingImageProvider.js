@@ -9,6 +9,14 @@ export default class ListingImageProvider {
     this.cloudinaryProvider = providers.cloudinary;
   }
 
+  shouldDisableSave(editedListingStore) {
+    if (editedListingStore.uploadMode !== 'manage') {
+      return editedListingStore.formValues.images.some(img => !img.hasOwnProperty('delete_token'));
+    }
+
+    return false;
+  }
+
   uploadImage(file, editedListingStore) {
     const imageStore = editedListingStore.formValues.images;
     const image = { complete: false, src: file.preview, progress: 0, display_order: imageStore.length > 0 ? 99 : 0};

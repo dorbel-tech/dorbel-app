@@ -13,7 +13,6 @@ export default class EditedListingStore {
   @observable uploadMode;
   @observable formValues;
   @observable stepNumber = 0;
-  @observable disableSave = false;
   @observable uploadedImagesCount = 0;
   @observable isFromValid = true;
 
@@ -32,17 +31,12 @@ export default class EditedListingStore {
   reset() {
     this.formValues = new FlatListing();
     this.stepNumber = 0;
-    this.disableSave = false;
     this.uploadedImagesCount = 0;
     this.isFromValid = true;
 
     if (process.env.IS_CLIENT && this.options.localStorageKey) {
       localStorage.removeItem(this.options.localStorageKey);
     }
-  }
-
-  set disableSave(value) {
-    this.disableSave = value;
   }
 
   set uploadedImagesCount(value) {

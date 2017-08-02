@@ -156,6 +156,7 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
 
   render() {
     const { newListingStore } = this.props.appStore;
+    const disableSave = this.props.appProviders.listingImageProvider.shouldDisableSave(newListingStore);
     const isManageMode = this.props.appStore.newListingStore.uploadMode == 'manage';
     const isHideTooltip = isManageMode || newListingStore.uploadedImagesCount > 0;
 
@@ -178,7 +179,7 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
               </span>
               <span>2/3</span>
               <span className="next-step" data-tip="נא להוסיף תמונות">
-                <Button bsStyle="success" className="step-btn step2" onClick={this.clickNext.bind(this)} disabled={newListingStore.disableSave}>
+                <Button bsStyle="success" className="step-btn step2" onClick={this.clickNext.bind(this)} disabled={disableSave}>
                   שמור והמשך &nbsp;
                   <i className="apartment-pictures-next-step fa fa-arrow-circle-o-left fa-2x" aria-hidden="true"></i>
                 </Button>

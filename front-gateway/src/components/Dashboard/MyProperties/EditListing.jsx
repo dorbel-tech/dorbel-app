@@ -48,6 +48,7 @@ export default class EditListing extends Component {
   render() {
     const { activeTab } = this.state;
     const { editedListingStore } = this.props.appStore;
+    const disableSave = this.props.appProviders.listingImageProvider.shouldDisableSave(editedListingStore);
 
     return (
       <div>
@@ -62,7 +63,7 @@ export default class EditListing extends Component {
             <Col xs={12} sm={12} lg={10} lgOffset={1}>
               <activeTab.component editedListingStore={editedListingStore}/>
               <Row className="property-edit-actions-mobile pull-left">
-                <Button bsStyle="success" onClick={this.save} disabled={editedListingStore.disableSave}>שמור</Button>
+                <Button bsStyle="success" onClick={this.save} disabled={disableSave}>שמור</Button>
                 <Button onClick={this.cancel}>בטל</Button>
               </Row>
             </Col>
