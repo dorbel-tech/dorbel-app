@@ -3,6 +3,16 @@
  */
 'use strict';
 
+const getCitiesQuery = `
+  query GetCities {
+    cities {
+      id
+      city_name
+      display_order
+    }
+  }
+`;
+
 class CityProvider {
   constructor(appStore, apiProvider) {
     this.appStore = appStore;
@@ -11,20 +21,7 @@ class CityProvider {
   }
 
   loadCities() {
-    return new Promise((resolve, reject) => {
-      let { cities } = this.appStore.cityStore;
-      if (!cities.length && !this.isLoadingCities) {
-        this.isLoadingCities = true;
-        this.apiProvider.fetch('/api/apartments/v1/cities')
-          .then((citiesResp) => {
-            this.appStore.cityStore.cities = citiesResp;
-            resolve();
-          })
-          .catch(reject)
-          .then(() => { this.isLoadingCities = false; });
-      }
-      else { resolve(); }
-    });
+    return this.apiProvider.gql(getCitiesQuery).then(({ data }) => this.appStore.cityStore.cities = data.cities);
   }
 }
 
