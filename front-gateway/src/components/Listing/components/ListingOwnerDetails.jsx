@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import { Button } from 'react-bootstrap';
+import { hideIntercom } from '~/providers/utils';
 import autobind from 'react-autobind';
 
 @inject('appStore', 'appProviders') @observer
@@ -12,6 +13,11 @@ class ListingOwnerDetails extends Component {
     this.state = {
       showPhoneClicked: false
     };
+  }
+
+  componentWillUnmount() {
+    this.popup && this.popup.destroy();
+    hideIntercom(false);
   }
 
   renderPhone() {

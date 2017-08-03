@@ -2,6 +2,7 @@ import React from 'react';
 import autobind from 'react-autobind';
 import { inject, observer } from 'mobx-react';
 import { Col, Row } from 'react-bootstrap';
+import { formatDate } from '~/providers/utils';
 import ListingAmenities from './ListingAmenities.jsx';
 
 @inject('appProviders', 'appStore') @observer
@@ -9,13 +10,6 @@ class ListingDescription extends React.Component {
   constructor(props) {
     super(props);
     autobind(this);
-  }
-
-  componentWillUnmount() {
-    const { utils } = this.props.appProviders;
-
-    this.popup && this.popup.destroy();
-    utils.hideIntercom(false);
   }
 
   renderDescriptionRow(titleText, innerContent) {
@@ -30,11 +24,10 @@ class ListingDescription extends React.Component {
   }
 
   renderLeaseStart(listing) {
-    const utils = this.props.appProviders.utils;
     if (listing.status === 'pending' || listing.status === 'listed') {
-      return this.renderDescriptionRow('תאריך כניסה', <p>{utils.formatDate(listing.lease_start)}</p>);
+      return this.renderDescriptionRow('תאריך כניסה', <p>{formatDate(listing.lease_start)}</p>);
     } else {
-      return this.renderDescriptionRow('תאריך כניסה צפוי', <p>{utils.formatDate(listing.lease_end)}</p>);
+      return this.renderDescriptionRow('תאריך כניסה צפוי', <p>{formatDate(listing.lease_end)}</p>);
     }
   }
 
