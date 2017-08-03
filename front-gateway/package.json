@@ -78,7 +78,7 @@
     "moment": "2.16.0",
     "nightwatch": "^0.9.13",
     "nightwatch-custom-commands-assertions": "^1.0.5",
-    "node-sass": "^4.3.0",
+    "node-sass": "4.5.3",
     "react": "~15.3.0",
     "react-addons-test-utils": "~15.3.0",
     "react-autobind": "^1.0.6",
