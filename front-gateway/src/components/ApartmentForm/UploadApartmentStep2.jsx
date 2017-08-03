@@ -158,7 +158,7 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
     const { newListingStore } = this.props.appStore;
     const disableSave = this.props.appProviders.listingImageProvider.shouldDisableSave(newListingStore);
     const isManageMode = this.props.appStore.newListingStore.uploadMode == 'manage';
-    const isHideTooltip = isManageMode || newListingStore.uploadedImagesCount > 0;
+    const isHideTooltip = isManageMode || newListingStore.formValues.images.length > 0;
 
     return (
       <Grid fluid className="upload-apt-wrapper">

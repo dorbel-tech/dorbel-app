@@ -13,7 +13,6 @@ export default class EditedListingStore {
   @observable uploadMode;
   @observable formValues;
   @observable stepNumber = 0;
-  @observable uploadedImagesCount = 0;
   @observable isFromValid = true;
 
   constructor(authStore, options) {
@@ -31,16 +30,11 @@ export default class EditedListingStore {
   reset() {
     this.formValues = new FlatListing();
     this.stepNumber = 0;
-    this.uploadedImagesCount = 0;
     this.isFromValid = true;
 
     if (process.env.IS_CLIENT && this.options.localStorageKey) {
       localStorage.removeItem(this.options.localStorageKey);
     }
-  }
-
-  set uploadedImagesCount(value) {
-    this.uploadedImagesCount = value;
   }
 
   set isFromValid(value) {

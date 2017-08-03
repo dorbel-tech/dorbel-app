@@ -16,23 +16,12 @@ export default class ImageUpload extends React.Component {
     this.uploadImagePromises = [];
   }
 
-  componentWillMount() {
-    this.shouldDisableSave();
-  }
-
   onChooseFile(acceptedFiles) {
     const { appProviders, editedListingStore } = this.props;
 
     let uploadPromises = acceptedFiles.map(file => appProviders.listingImageProvider.uploadImage(file, editedListingStore));
     this.uploadImagePromises = this.uploadImagePromises.concat(uploadPromises);
-    Promise.all(this.uploadImagePromises)
-      .then(this.shouldDisableSave);
-  }
-
-  shouldDisableSave() {
-    const { editedListingStore } = this.props;
-    // TODO: Why??? This entire function is void, regardless of the fact that this logic should be in the provider.
-    editedListingStore.uploadedImagesCount = editedListingStore.formValues.images.length;
+    Promise.all(this.uploadImagePromises);
   }
 
   renderImage(image, index) {
@@ -53,7 +42,6 @@ export default class ImageUpload extends React.Component {
           if (images.length == 1 || (image.display_order == 0 && !images.find(img => img.display_order == 0))) {
             images[0].display_order = 0;
           }
-          this.shouldDisableSave();
         }}>
         <i className="fa fa-trash" />
         הסרת תמונה
