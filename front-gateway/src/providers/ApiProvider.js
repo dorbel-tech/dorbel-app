@@ -3,6 +3,7 @@
  */
 'use strict';
 import axios from 'axios';
+import { ApolloClient, createNetworkInterface, gql } from 'react-apollo';
 let urlPrefix = '';
 
 if (!process.env.IS_CLIENT) {
@@ -15,6 +16,19 @@ if (!process.env.IS_CLIENT) {
 class ApiProvider {
   constructor(appStore) {
     this.appStore = appStore;
+
+        // TODO : need a separate client for the OHE api or maybe to merge GQL schemas.
+    const networkInterface = createNetworkInterface({ uri: urlPrefix + '/api/apartments/graphql' });
+    networkInterface.use([{
+      applyMiddleware(req, next) {
+        req.options.headers = req.options.headers || {};
+        if (appStore.authStore.isLoggedIn) {
+          req.options.headers['Authorization'] = 'Bearer ' + appStore.authStore.idToken;
+        }
+        next();
+      }
+    }]);
+    this.apolloClient = new ApolloClient({ networkInterface });
   }
 
   fetch(url, options){
@@ -33,6 +47,13 @@ class ApiProvider {
       ...options
     })
     .then(res => res.data);
+  }
+
+  gql(query, variables) {
+    return this.apolloClient.query({
+      query: gql(query),
+      variables
+    });
   }
 }
 
