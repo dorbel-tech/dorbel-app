@@ -92,7 +92,7 @@ class MessagingProvider {
       const withUser = new global.window.Talk.User(_.defaults(withUserObj, TALKJS_USER_OBJ_EXTRA));
 
       const conversation = this.talkSession.getOrStartConversation(withUser, options || {});
-      const popup = this.talkSession.createPopup(conversation);
+      const popup = this.talkSession.createPopup(conversation, {keepOpen: false});
       popup.mount();
 
       hideIntercom(true);
