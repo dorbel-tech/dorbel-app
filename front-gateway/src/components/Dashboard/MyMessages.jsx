@@ -14,7 +14,7 @@ class MyMessages extends Component {
   componentDidMount() {
     const { messagingProvider } = this.props.appProviders;
 
-    messagingProvider.createInbox(this.talkjsContainer);
+    messagingProvider.createInbox(this.talkjsContainer, this.props.listingId);
     if (ismobilejs.phone) {
       hideIntercom(true);
     }
@@ -34,7 +34,8 @@ class MyMessages extends Component {
 }
 
 MyMessages.wrappedComponent.propTypes = {
-  appProviders: React.PropTypes.object.isRequired
+  appProviders: React.PropTypes.object.isRequired,
+  listingId: React.PropTypes.string
 };
 
 export default MyMessages;
