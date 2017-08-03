@@ -28,7 +28,7 @@ module.exports = {
           selector: 'select[name="apartment.building.city.id"]'
         },
         neighbourhood: {
-          selector: 'select[name="apartment.building.neighborhood.id"] option[value="4"]'
+          selector: 'select[name="apartment.building.neighborhood.id"] option:nth-of-type(2)'
         },
         street: {
           selector: 'input[name="apartment.building.street_name"]'
@@ -199,6 +199,7 @@ module.exports = {
     },
     fillApartmentDetailsAllFields: function () {
       this.section.apartmentDetails
+        .waitForElementVisible('@city')
         .setValue('@city', 'הרצליה')
         .waitForElementVisible('@neighbourhood')
         .click('@neighbourhood')
