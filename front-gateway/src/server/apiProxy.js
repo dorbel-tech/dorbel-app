@@ -1,6 +1,6 @@
 'use strict';
-import shared from 'dorbel-shared';
-import proxy from 'koa-proxy';
+const shared = require('dorbel-shared');
+const proxy = require('koa-proxy');
 
 const logger = shared.logger.getLogger(module);
 

@@ -6,11 +6,11 @@
   "scripts": {
     "db:migrate": "sequelize db:migrate",
     "db:seed": "sequelize db:seed:all",
-    "start": "yarn run db:migrate && babel-node src/index",
-    "start:dev": "yarn run check; yarn run db:migrate && yarn run test:seed && nodemon --exec babel-node --inspect=5860 src/index | bunyan -o short",
+    "start": "yarn run db:migrate && node src/index",
+    "start:dev": "yarn run check; yarn run db:migrate && yarn run test:seed && nodemon --inspect=5860 src/index | bunyan -o short",
     "test": "yarn run test:unit",
-    "test:unit": "yarn run wait && nyc --all mocha --timeout 10000 --compilers js:babel-register test/shared/before-tests.js test/unit/*.spec.js test/unit/**/*.spec.js",
-    "test:integration": "yarn run wait && mocha --timeout 10000 --compilers js:babel-register test/shared/before-tests.js test/integration/**/*.spec.js",
+    "test:unit": "yarn run wait && nyc --all mocha --timeout 10000 test/shared/before-tests.js test/unit/*.spec.js test/unit/**/*.spec.js",
+    "test:integration": "yarn run wait && mocha --timeout 10000 test/shared/before-tests.js test/integration/**/*.spec.js",
     "test:seed": "node src/openHouseEventsDb/testSeed/testSeed.js",
     "lint": "eslint --ext .js -f table src",
     "check": "satisfaction-status || yarn install",
@@ -18,10 +18,6 @@
     "wait:db": "./scripts/wait-for-it.sh db:3306 --timeout=180"
   },
   "dependencies": {
-    "babel-cli": "^6.22.2",
-    "babel-eslint": "^7.0.0",
-    "babel-plugin-transform-flow-strip-types": "^6.14.0",
-    "babel-register": "^6.16.3",
     "co": "^4.6.0",
     "co-mocha": "^1.1.3",
     "co-supertest": "0.0.10",

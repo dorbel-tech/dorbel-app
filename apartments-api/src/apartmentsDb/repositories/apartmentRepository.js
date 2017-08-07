@@ -5,7 +5,7 @@ const helper = require('./repositoryHelper');
 
 const UPSERT_WHITELIST = [ 'size', 'rooms', 'floor', 'parking', 'sun_heated_boiler', 'pets', 'air_conditioning', 'balcony', 'security_bars', 'parquet_floor' ];
 
-function* updateOrCreate(apt_number: string, building_id: integer, apartment) {
+function* updateOrCreate(apt_number, building_id, apartment) {
   const findOrCreateResult = yield db.models.apartment.findOrCreate({
     where: { building_id, apt_number },
     defaults: _.pick(apartment, helper.getModelFieldNames(db.models.apartment))
