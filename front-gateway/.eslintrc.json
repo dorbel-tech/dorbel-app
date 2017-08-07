@@ -1,11 +1,9 @@
 {
   "plugins": [
-    "flowtype",
     "jsx-a11y",
     "react"
   ],
   "extends": [
-    "plugin:flowtype/recommended",
     "plugin:react/recommended",
     "./node_modules/dorbel-shared/eslint.shared.json"
   ],
@@ -16,11 +14,6 @@
     "jest": true,
     "node": true,
     "mocha": true
-  },
-  "settings": {
-    "flowtype": {
-      "onlyFilesWithFlowAnnotation": false
-    }
   },
   "parserOptions": {
     "sourceType": "module",
