@@ -24,7 +24,6 @@
     "dorbel-shared": "git://github.com/dorbel-tech/dorbel-shared#v1.0.71",
     "dotenv": "^4.0.0",
     "eslint": "^3.7.1",
-    "eslint-plugin-flowtype": "^2.19.0",
     "faker": "^3.1.0",
     "fleek-router": "^1.2.5",
     "hamjest": "^2.13.0",
