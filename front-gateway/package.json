@@ -27,6 +27,7 @@
     "auth0-lock": "10.18.0",
     "axios": "0.15.2",
     "babel-loader": "6.3.2",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "babel-polyfill": "6.23.0",
     "babel-preset-es2015": "6.22.0",
     "babel-preset-react": "6.23.0",
