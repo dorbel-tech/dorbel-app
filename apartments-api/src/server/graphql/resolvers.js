@@ -10,16 +10,12 @@ const resolvers = {
   Query: {
     cities: cityRepository.list,
     neighborhoods: (_, params) => neighborhoodRepository.getByCityId(params.city_id),
-    listing: function * (_, params, context) {
-      return yield listingService.getById(params.listing_id, context.user);
-    },
-    listings: function * (_, params, context) {
-      return yield listingService.getByFilter(params, { user: context.user });
-    }
+    listing: (_, params, context) => listingService.getById(params.listing_id, context.user),
+    listings: (_, params, context) => listingService.getByFilter(params, { user: context.user })
   },
   Listing: {
-    documents: function * (listing, params, context) {
-      return yield documentService.getByListingId(listing.id, context.user);
+    documents: async function (listing, params, context) {
+      return await documentService.getByListingId(listing.id, context.user);
     }
   }
 };

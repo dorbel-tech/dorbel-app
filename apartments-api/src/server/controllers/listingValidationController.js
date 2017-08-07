@@ -1,9 +1,9 @@
 'use strict';
 const listingService = require('../../services/listingService');
 
-function* post() {
-  let apartment = this.request.body.apartment;
-  this.response.body = yield listingService.getValidationData(apartment, this.request.user);
+async function post(ctx) {
+  let apartment = ctx.request.body.apartment;
+  ctx.response.body = await listingService.getValidationData(apartment, ctx.request.user);
 }
 
 module.exports = {

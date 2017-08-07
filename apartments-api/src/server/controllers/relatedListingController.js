@@ -3,14 +3,14 @@ const listingService = require('../../services/listingService');
 const shared = require('dorbel-shared');
 const ONE_HOUR = 60 * 60;
 
-function* get() {
-  const apartmentId = parseInt(this.params.apartmentId);
+async function get(ctx) {
+  const apartmentId = parseInt(ctx.params.apartmentId);
   const NUMBER_OF_ITEMS = 3;
-  const relatedListings = yield listingService.getRelatedListings(apartmentId, NUMBER_OF_ITEMS);
+  const relatedListings = await listingService.getRelatedListings(apartmentId, NUMBER_OF_ITEMS);
 
   if(relatedListings){
-    shared.helpers.headers.setCacheHeader(this.response, ONE_HOUR);
-    this.response.body = relatedListings;
+    shared.helpers.headers.setCacheHeader(ctx.response, ONE_HOUR);
+    ctx.response.body = relatedListings;
   }
 }
 

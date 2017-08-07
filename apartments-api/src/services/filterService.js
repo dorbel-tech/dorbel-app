@@ -9,9 +9,9 @@ const filterUpdateFields = [ 'city', 'neighborhood', 'min_monthly_rent', 'max_mo
   'email_notification', 'min_lease_start', 'max_lease_start' ];
 const errors = shared.utils.domainErrors;
 
-function * create(filterToCreate, user) {
+async function create(filterToCreate, user) {
   normalizeFilterFields(filterToCreate);
-  const usersExistingFilters = yield filterRepository.getByUser(user.id);
+  const usersExistingFilters = await filterRepository.getByUser(user.id);
 
   const duplicateFilter = checkForDuplicateFilters(usersExistingFilters, filterToCreate);
   if (duplicateFilter) {
@@ -26,9 +26,9 @@ function * create(filterToCreate, user) {
   return filterRepository.create(filterToCreate);
 }
 
-function * update(filterId, filterUpdate, user) {
+async function update(filterId, filterUpdate, user) {
   normalizeFilterFields(filterUpdate);
-  const filter = yield filterRepository.getById(filterId);
+  const filter = await filterRepository.getById(filterId);
 
   if (!filter) {
     throw new errors.DomainNotFoundError('filter not found', { filterId }, 'filter not found');
@@ -36,13 +36,13 @@ function * update(filterId, filterUpdate, user) {
     throw new errors.NotResourceOwnerError();
   }
 
-  const usersExistingFilters = yield filterRepository.getByUser(user.id);
+  const usersExistingFilters = await filterRepository.getByUser(user.id);
   const duplicateFilter = checkForDuplicateFilters(usersExistingFilters, filterUpdate);
   if (duplicateFilter) {
     return duplicateFilter;
   }
 
-  yield filter.update(filterUpdate, { fields: filterUpdateFields });
+  await filter.update(filterUpdate, { fields: filterUpdateFields });
   return filter;
 }
 
@@ -54,12 +54,12 @@ function destory(filterId, user) {
   return filterRepository.destroy(filterId, user.id);
 }
 
-function * getFilterByMatchedListing(listing_id, user) {
+async function getFilterByMatchedListing(listing_id, user) {
   if (user.role !== 'admin') {
     throw new errors.NotResourceOwnerError();
   }
 
-  const listing = yield listingRepository.getById(listing_id);
+  const listing = await listingRepository.getById(listing_id);
 
   if (!listing) {
     throw new errors.DomainNotFoundError('listing not found', { listing_id }, 'listing not found');
@@ -75,7 +75,7 @@ function * getFilterByMatchedListing(listing_id, user) {
 function mapListingToMatchingFilterQuery(listing) {
   const filterQuery = {};
   const listingReferenceDate = listing.status === 'rented' ? listing.lease_end : listing.lease_start;
-  
+
   if (listing.status === 'rented' && listing.show_for_future_booking) {
     // only show filters that are looking for future_booking or don't care
     filterQuery.future_booking = nullOrEqualTo(true);
@@ -96,7 +96,7 @@ function mapListingToMatchingFilterQuery(listing) {
     parking: nullOrEqualTo(listing.apartment.parking),
     pets: nullOrEqualTo(listing.apartment.pets),
     security_bars: nullOrEqualTo(listing.apartment.security_bars),
-    elevator: nullOrEqualTo(listing.apartment.building.elevator),    
+    elevator: nullOrEqualTo(listing.apartment.building.elevator),
     min_lease_start: nullOrModifier('$lte', listingReferenceDate),
     max_lease_start: nullOrModifier('$gte', listingReferenceDate)
   };
@@ -107,7 +107,7 @@ function nullOrEqualTo(value) {
 }
 
 function nullOrModifier(modifier, value) {
-  return { 
+  return {
     $or: [
       { $eq: null },
       { [modifier]: value }

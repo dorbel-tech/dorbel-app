@@ -8,17 +8,17 @@ const messageBus = shared.utils.messageBus;
 const userManagement = shared.utils.user.management;
 const userPermissions = shared.utils.user.permissions;
 
-function* getUserLikes(user) {
-  return yield likeRepository.getUserLikes(user);
+async function getUserLikes(user) {
+  return likeRepository.getUserLikes(user);
 }
 
-function* getByListing(listingId, user, include_profile) {
-  let likes = yield likeRepository.findByListingId(listingId);
+async function getByListing(listingId, user, include_profile) {
+  let likes = await likeRepository.findByListingId(listingId);
   likes = likes.map(f => f.get({ plain: true }));
   let promises = [];
 
   if (include_profile == 'true') {
-    const listing = yield listingRepository.getById(listingId);
+    const listing = await listingRepository.getById(listingId);
     if (userPermissions.isResourceOwnerOrAdmin(user, listing.publishing_user_id)) {
       // Get all the data about who liked a listing.
       likes.forEach((like) => {
@@ -29,18 +29,18 @@ function* getByListing(listingId, user, include_profile) {
     }
   }
 
-  yield promises; // wait for it
+  await Promise.all(promises); // wait for it
   return likes;
 }
 
-function* getByApartment(apartmentId) {
-  let likes = yield likeRepository.findByApartmentId(apartmentId);
+async function getByApartment(apartmentId) {
+  let likes = await likeRepository.findByApartmentId(apartmentId);
   return likes.map(f => f.get({ plain: true }));
 }
 
-function* set(apartmentId, listingId, user, isLiked) {
+async function set(apartmentId, listingId, user, isLiked) {
   try {
-    yield likeRepository.set(apartmentId, listingId, user.id, isLiked);
+    await likeRepository.set(apartmentId, listingId, user.id, isLiked);
   } catch (error) {
     handleSetError(error, apartmentId, listingId, user, isLiked);
   }

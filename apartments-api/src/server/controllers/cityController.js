@@ -3,9 +3,9 @@ const cityRepository = require('../../apartmentsDb/repositories/cityRepository')
 const shared = require('dorbel-shared');
 const ONE_DAY = 60 * 60 * 24;
 
-function* get() {
-  shared.helpers.headers.setCacheHeader(this.response, ONE_DAY);  
-  this.response.body = yield cityRepository.list();
+async function get(ctx) {
+  shared.helpers.headers.setCacheHeader(ctx.response, ONE_DAY);
+  ctx.response.body = await cityRepository.list();
 }
 
 module.exports = {

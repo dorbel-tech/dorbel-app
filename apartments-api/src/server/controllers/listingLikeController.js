@@ -4,21 +4,21 @@ const shared = require('dorbel-shared');
 const logger = shared.logger.getLogger(module);
 const ONE_HOUR = 60 * 60;
 
-function* get() {
-  const listingId = this.params.listingId;
-  const include_profile = this.request.query.include_profile;
+async function get(ctx) {
+  const listingId = ctx.params.listingId;
+  const include_profile = ctx.request.query.include_profile;
 
   logger.debug({ listing_id: listingId }, 'Getting likes by listing...');
 
-  let result = yield likeService.getByListing(listingId, this.request.user, include_profile);
+  let result = await likeService.getByListing(listingId, ctx.request.user, include_profile);
   logger.info({ listing_id: listingId, likes_count: result.length }, 'Got likes by listing');
 
-  this.response.status = 200;
+  ctx.response.status = 200;
 
-  shared.helpers.headers.setUserConditionalCacheHeader(this.request, this.response, ONE_HOUR);
-  this.response.body = result;
+  shared.helpers.headers.setUserConditionalCacheHeader(ctx.request, ctx.response, ONE_HOUR);
+  ctx.response.body = result;
 }
 
 module.exports = {
-  get,
+  get
 };

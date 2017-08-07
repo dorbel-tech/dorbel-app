@@ -1,15 +1,14 @@
 'use strict';
 const userProfileService = require('../../services/userProfileService');
 
+async function patch(ctx) {
+  const user = ctx.request.user;
+  const profileData = ctx.request.body;
 
-function* patch() {
-  const user = this.request.user;
-  const profileData = this.request.body;
+  const newUserProfile = await userProfileService.update(user, profileData);
 
-  const newUserProfile = yield userProfileService.update(user, profileData);
-
-  this.response.status = 200;
-  this.response.body = newUserProfile;
+  ctx.response.status = 200;
+  ctx.response.body = newUserProfile;
 }
 
 module.exports = {

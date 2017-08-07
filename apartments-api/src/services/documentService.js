@@ -6,17 +6,17 @@ const listingRepository = require('../apartmentsDb/repositories/listingRepositor
 const errors = shared.utils.domainErrors;
 const userPermissions = shared.utils.user.permissions;
 
-function * create(documentToCreate, user) {
-  const listing = yield getAndValidateListing(documentToCreate.listing_id, user);
+async function create(documentToCreate, user) {
+  const listing = await getAndValidateListing(documentToCreate.listing_id, user);
 
   // in case document is created by admin, it's owner will be the listing publishing user
   documentToCreate.dorbel_user_id = listing.publishing_user_id;
-  
+
   return documentRepository.create(documentToCreate);
 }
 
-function * getByListingId(listing_id, user) {
-  yield getAndValidateListing(listing_id, user);
+async function getByListingId(listing_id, user) {
+  await getAndValidateListing(listing_id, user);
   return documentRepository.find({ listing_id });
 }
 
@@ -24,9 +24,9 @@ function getByUser(user) {
   return documentRepository.find({ dorbel_user_id: user.id });
 }
 
-function * destroy(document_id, user) {
-  const document = yield documentRepository.findById(document_id);
-   
+async function destroy(document_id, user) {
+  const document = await documentRepository.findById(document_id);
+
   if (!document) {
     throw new errors.DomainNotFoundError('document not found', { document_id }, 'document not found');
   } else if (!userPermissions.isResourceOwnerOrAdmin(user, document.dorbel_user_id)) {
@@ -39,9 +39,9 @@ function * destroy(document_id, user) {
   return documentRepository.destroy(document_id);
 }
 
-function * getAndValidateListing(listing_id, user) {
-  const listing = yield listingRepository.getById(listing_id);
-  
+async function getAndValidateListing(listing_id, user) {
+  const listing = await listingRepository.getById(listing_id);
+
   if (!listing) {
     throw new errors.DomainNotFoundError('listing not found', { listing_id }, 'listing not found');
   } else if (!userPermissions.isResourceOwnerOrAdmin(user, listing.publishing_user_id)) {

@@ -3,10 +3,10 @@ const pageViewsService = require('../../services/pageViewsService');
 const shared = require('dorbel-shared');
 const ONE_HOUR = 60 * 60;
 
-function * get() {
-  const listingIds = this.params.listingIds.split(',');
-  shared.helpers.headers.setCacheHeader(this.response, ONE_HOUR);  
-  this.response.body = yield pageViewsService.getPageViewsForListings(listingIds);
+async function get(ctx) {
+  const listingIds = ctx.params.listingIds.split(',');
+  shared.helpers.headers.setCacheHeader(ctx.response, ONE_HOUR);
+  ctx.response.body = await pageViewsService.getPageViewsForListings(listingIds);
 }
 
 module.exports = {

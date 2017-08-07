@@ -5,23 +5,23 @@ const listingService = require('../../services/listingService');
 const _ = require('lodash');
 const ONE_MINUTE = 60;
 
-function* get() {
+async function get(ctx) {
   const options = {
-    user: this.request.user
+    user: ctx.request.user
   };
 
-  if (this.request.query.limit) {
-    options.limit = parseInt(this.request.query.limit) || undefined;
+  if (ctx.request.query.limit) {
+    options.limit = parseInt(ctx.request.query.limit) || undefined;
   }
 
-  if (this.request.query.offset) {
-    options.offset = parseInt(this.request.query.offset) || undefined;
+  if (ctx.request.query.offset) {
+    options.offset = parseInt(ctx.request.query.offset) || undefined;
   }
 
-  shared.helpers.headers.setUserConditionalCacheHeader(this.request, this.response, ONE_MINUTE);
+  shared.helpers.headers.setUserConditionalCacheHeader(ctx.request, ctx.response, ONE_MINUTE);
 
   let filter = {};
-  const filterJSON = this.request.query.q;
+  const filterJSON = ctx.request.query.q;
   if (filterJSON) {
     // TODO: Switch to regex test instead of try-catch.
     try {
@@ -31,21 +31,21 @@ function* get() {
     }
   }
 
-  this.response.body = yield listingService.getByFilter(filter, options);
+  ctx.response.body = await listingService.getByFilter(filter, options);
 }
 
-function* post() {
+async function post(ctx) {
   logger.debug('Creating new listing...');
-  let newApartment = this.request.body;
-  let createdListing = yield listingService.create(newApartment, this.request.user);
+  let newApartment = ctx.request.body;
+  let createdListing = await listingService.create(newApartment, ctx.request.user);
   let logObject = _.pick(createdListing, ['id', 'publishing_user_id']);
   logger.info({
     listing_id: logObject.id,
     user_uuid: logObject.publishing_user_id
   }, 'New listing created');
 
-  this.response.status = 201;
-  this.response.body = createdListing;
+  ctx.response.status = 201;
+  ctx.response.body = createdListing;
 }
 
 module.exports = {

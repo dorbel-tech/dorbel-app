@@ -2,9 +2,9 @@
 const likeService = require('../../services/likeService');
 const shared = require('dorbel-shared');
 
-function* get() {
-  shared.helpers.headers.setNoCacheHeader(this.response);
-  this.response.body = yield likeService.getUserLikes(this.request.user);
+async function get(ctx) {
+  shared.helpers.headers.setNoCacheHeader(ctx.response);
+  ctx.response.body = await likeService.getUserLikes(ctx.request.user);
 }
 
 module.exports = {

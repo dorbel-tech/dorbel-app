@@ -83,13 +83,13 @@
       }
     }
   },
-  "/listings/{listingIdOrSlug}": {
+  "/listings/{listingId}": {
     "get": {
       "summary": "Get a single listing",
       "description": "Get a single listing with all it's details",
       "parameters": [
         {
-          "name": "listingIdOrSlug",
+          "name": "listingId",
           "in": "path",
           "description": "{id} of listing or {slug}",
           "type": "string",
@@ -113,10 +113,9 @@
           }
         }
       }
-    }
-  },
-  "/listings/{listingId}": {
+    },
     "patch": {
+      "operationId": "patchListing",
       "summary": "Patches a single listing",
       "description": "Patches a single listing with all it's details",
       "parameters": [
