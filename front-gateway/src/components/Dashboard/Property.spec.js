@@ -20,9 +20,6 @@ describe('Property', () => {
       oheStore: {
         oheByListingId: jest.fn()
       },
-      editedListingStore: {
-        disableSave: true
-      },
       likeStore: {
         likesByListingId: { 
           get: jest.fn().mockReturnValue([]), 
@@ -74,6 +71,7 @@ describe('Property', () => {
   it('should not be in loading state when the store has the property', () => {
     appStoreMock.listingStore.get.mockReturnValue(propertyMock);
     const wrapper = mountProperty();
+
     // this depends on ComponentDidMount + rerender after state.isLoading was changed
     return flushPromises().then(() => {
       wrapper.update();
@@ -84,9 +82,11 @@ describe('Property', () => {
   it('should start in loading state and then change when the provider gets the listing', () => {
     appProvidersMock.listingsProvider.loadFullListingDetails.mockReturnValue(Promise.resolve());
     const wrapper = mountProperty();
+
     expect(wrapper.find('LoadingSpinner')).toHaveLength(1);
     expect(appProvidersMock.listingsProvider.loadFullListingDetails).toHaveBeenCalledWith('' + propertyMock.id);
     appStoreMock.listingStore.get.mockReturnValue(propertyMock);
+
     // this depends on ComponentDidMount + rerender after state.isLoading was changed
     return flushPromises().then(() => {
       wrapper.update();

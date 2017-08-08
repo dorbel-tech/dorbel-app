@@ -49,7 +49,7 @@ class Property extends Component {
       Promise.resolve() : appProviders.listingsProvider.loadFullListingDetails(listingId);
 
     loadListing.then(() => {
-      const listing = appStore.listingStore.get(this.props.listingId);
+      const listing = appStore.listingStore.get(listingId);
       appStore.editedListingStore.loadListing(listing);
 
       this.setState({ isLoading: false });
