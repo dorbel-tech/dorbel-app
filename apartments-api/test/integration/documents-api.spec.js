@@ -16,7 +16,7 @@ describe('Apartments API Documents integration', function () {
   });
 
   it('should create a document under a listing', function * () {
-    const newDoc = fakeObjectGenerator.getFakeDocument({ listing_id: this.createdListing.id });    
+    const newDoc = fakeObjectGenerator.getFakeDocument({ listing_id: this.createdListing.id });
     const { body: createdDoc } = yield this.apiClient.createDocument(newDoc).expect(201).end();
 
     __.assertThat(createdDoc, __.hasProperties(Object.assign({
@@ -31,7 +31,7 @@ describe('Apartments API Documents integration', function () {
   it('should not create a document for a listing by another user', function * () {
     yield this.otherApiClient.createDocument(fakeObjectGenerator.getFakeDocument({ listing_id: this.createdListing.id })).expect(403).end();
   });
-  
+
   it('should not create a document for a non existing listing', function * () {
     yield this.apiClient.createDocument(fakeObjectGenerator.getFakeDocument({ listing_id: 99999 })).expect(404).end();
   });

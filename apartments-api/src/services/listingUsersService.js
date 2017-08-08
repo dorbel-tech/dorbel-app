@@ -45,14 +45,14 @@ async function create(listing_id, payload, requestingUser) {
 async function get(listing_id, requestingUser) {
   await getAndVerifyListing(listing_id, requestingUser);
   const users = await listingUsersRepository.getUsersForListing(listing_id);
-  return await users.map(listingUserFromDb => {
+  return await Promise.all(users.map(listingUserFromDb => {
     if (listingUserFromDb.dorbel_user_id) {
       return userManagement.getPublicProfile(listingUserFromDb.dorbel_user_id)
         .then(publicUserProfile => mapToListingUserResponse(listingUserFromDb, publicUserProfile));
     } else {
       return mapToListingUserResponse(listingUserFromDb);
     }
-  });
+  }));
 }
 
 async function remove(listing_user_id, requestingUser) {

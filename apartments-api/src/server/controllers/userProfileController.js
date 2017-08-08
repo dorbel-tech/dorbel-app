@@ -1,7 +1,7 @@
 'use strict';
 const userProfileService = require('../../services/userProfileService');
 
-async function patch(ctx) {
+async function patchUserProfile(ctx) {
   const user = ctx.request.user;
   const profileData = ctx.request.body;
 
@@ -12,5 +12,6 @@ async function patch(ctx) {
 }
 
 module.exports = {
-  patch
+  // using specific name with operation ID because fleek2 doesn't do patch requests
+  patchUserProfile
 };

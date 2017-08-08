@@ -64,8 +64,8 @@ describe('Apartments API Integration', function () {
       delete newListing.monthly_rent;
 
       const response = yield this.apiClient.createListing(newListing).expect(400).end();
-      __.assertThat(response.body,__.hasItem(
-        __.hasProperty('message', 'monthly_rent cannot be null')
+      __.assertThat(response.body, __.hasProperty('details',
+        __.hasItem('monthly_rent is a required field')
       ));
     });
   });

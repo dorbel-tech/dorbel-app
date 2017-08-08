@@ -25,7 +25,7 @@ app.use(koaConvert(shared.middleware.auth.optionalAuthenticate));
 // Fleek + Swagger
 
 app.use(fleekCtx(swaggerDoc));
-// app.use(shared.middleware.swaggerModelValidator());
+app.use(koaConvert(shared.middleware.swaggerModelValidator()));
 app.use(fleekRouter.tag('authenticated', koaConvert(shared.middleware.auth.authenticate)));
 app.use(fleekRouter.controllers(`${__dirname}/controllers`));
 
