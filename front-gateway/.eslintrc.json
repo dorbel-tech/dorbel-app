@@ -1,12 +1,5 @@
 {
-  "plugins": [
-    "jsx-a11y",
-    "react"
-  ],
-  "extends": [
-    "plugin:react/recommended",
-    "./node_modules/dorbel-shared/eslint.shared.json"
-  ],
+  "parser": "babel-eslint",
   "env": {
     "es6": true,
     "browser": true,
@@ -20,6 +13,14 @@
     "ecmaFeatures": {
       "jsx": true,
       "modules": true
-    }
+    },
+    "plugins": [
+      "jsx-a11y",
+      "react"
+    ],
+    "extends": [
+      "plugin:react/recommended",
+      "./node_modules/dorbel-shared/eslint.shared.json"
+    ]
   }
 }
