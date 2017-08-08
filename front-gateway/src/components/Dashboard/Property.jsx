@@ -48,7 +48,12 @@ class Property extends Component {
     const loadListing = appStore.listingStore.get(listingId) ?
       Promise.resolve() : appProviders.listingsProvider.loadFullListingDetails(listingId);
 
-    loadListing.then(() => this.setState({ isLoading: false }));
+    loadListing.then(() => {
+      const listing = appStore.listingStore.get(this.props.listingId);
+      appStore.editedListingStore.loadListing(listing);
+
+      this.setState({ isLoading: false });
+    });
   }
 
   gotoPublishedListing() {
@@ -151,7 +156,7 @@ class Property extends Component {
       </div>
     );
 
-    const disableSave = appProviders.listingImageProvider.shouldDisableSave(appStore.editedListingStore);
+    const disableSave = appStore.editedListingStore.shouldDisableSave;
 
     const editHeaderButtons = (
       <div className="property-action-container">

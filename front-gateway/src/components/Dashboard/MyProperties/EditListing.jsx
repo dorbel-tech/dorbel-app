@@ -15,12 +15,8 @@ export default class EditListing extends Component {
   constructor(props) {
     super(props);
     autobind(this);
-    this.state = { activeTab: tabs[0] };
-  }
 
-  componentWillMount() {
-    const { appStore, listing } = this.props;
-    appStore.editedListingStore.loadListing(listing);
+    this.state = { activeTab: tabs[0] };
   }
 
   gotoMyProperty() {
@@ -48,7 +44,7 @@ export default class EditListing extends Component {
   render() {
     const { activeTab } = this.state;
     const { editedListingStore } = this.props.appStore;
-    const disableSave = this.props.appProviders.listingImageProvider.shouldDisableSave(editedListingStore);
+    const disableSave = editedListingStore.shouldDisableSave;
 
     return (
       <div>

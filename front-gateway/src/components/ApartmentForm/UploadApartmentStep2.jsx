@@ -7,7 +7,6 @@ import ReactTooltip from 'react-tooltip';
 
 @inject('appStore', 'appProviders') @observer
 class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
-
   componentDidMount() {
     const { authProvider, listingsProvider } = this.props.appProviders;
     if (!authProvider.shouldLogin({ onHideCallback: this.clickBack })) {
@@ -156,7 +155,7 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
 
   render() {
     const { newListingStore } = this.props.appStore;
-    const disableSave = this.props.appProviders.listingImageProvider.shouldDisableSave(newListingStore);
+    const disableSave = newListingStore.shouldDisableSave;
     const isManageMode = this.props.appStore.newListingStore.uploadMode == 'manage';
     const isHideTooltip = isManageMode || newListingStore.formValues.images.length > 0;
 
@@ -168,7 +167,6 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
           </div>
           <img src="https://static.dorbel.com/images/upload-apt-form/icon-signup-photos.svg" alt="Upload photos" />
         </Col>
-
         <Col md={7} className="upload-apt-left-container apartment-pictures-step">
           <div className="photos-upload">
             <ImageUpload editedListingStore={newListingStore} />

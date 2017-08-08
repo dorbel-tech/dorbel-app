@@ -2,7 +2,7 @@
  * This store should hold the values of a listing being created (uploaded) or edited
  */
 import _ from 'lodash';
-import { observable, autorun, extendObservable } from 'mobx';
+import { observable, computed, autorun, extendObservable } from 'mobx';
 import autobind from 'react-autobind';
 import localStorageHelper from './localStorageHelper';
 import FlatListing from './models/FlatListing';
@@ -14,6 +14,15 @@ export default class EditedListingStore {
   @observable formValues;
   @observable stepNumber = 0;
   @observable isFromValid = true;
+
+  @computed get shouldDisableSave() {
+    const images = this.formValues.images;
+    if (this.uploadMode !== 'manage') {
+      return images.length === 0 || images.some(img => !img.complete);
+    }
+
+    return false;
+  }
 
   constructor(authStore, options) {
     this.authStore = authStore;

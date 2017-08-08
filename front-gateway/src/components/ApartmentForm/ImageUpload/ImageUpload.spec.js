@@ -5,7 +5,6 @@ import ImageUpload from './ImageUpload';
 import Dropzone from 'react-dropzone';
 import CloudinaryImage from '~/components/CloudinaryImage/CloudinaryImage';
 import { ProgressBar } from 'react-bootstrap';
-import { flushPromises } from '~/providers/utils';
 
 describe('Image Upload', () => {
   let editedListingStoreMock, appProvidersMock;

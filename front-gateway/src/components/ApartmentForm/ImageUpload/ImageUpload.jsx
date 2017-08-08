@@ -12,16 +12,12 @@ export default class ImageUpload extends React.Component {
   constructor(props) {
     super(props);
     autobind(this);
-
-    this.uploadImagePromises = [];
   }
 
   onChooseFile(acceptedFiles) {
     const { appProviders, editedListingStore } = this.props;
 
-    let uploadPromises = acceptedFiles.map(file => appProviders.listingImageProvider.uploadImage(file, editedListingStore));
-    this.uploadImagePromises = this.uploadImagePromises.concat(uploadPromises);
-    Promise.all(this.uploadImagePromises);
+    acceptedFiles.forEach(file => appProviders.listingImageProvider.uploadImage(file, editedListingStore));
   }
 
   renderImage(image, index) {
@@ -39,7 +35,7 @@ export default class ImageUpload extends React.Component {
         className="image-action remove-image pull-left"
         onClick={() => {
           listingImageProvider.deleteImage(image, editedListingStore);
-          if (images.length == 1 || (image.display_order == 0 && !images.find(img => img.display_order == 0))) {
+          if (images.length == 1 && (image.display_order == 0 && !images.find(img => img.display_order == 0))) {
             images[0].display_order = 0;
           }
         }}>
@@ -80,14 +76,14 @@ export default class ImageUpload extends React.Component {
     return (
       <form>
         <Row className="thumbs">
-          <Dropzone className="col-md-4 thumb" multiple={true} onDrop={this.onChooseFile.bind(this)}>
+          <Dropzone className="col-md-4 thumb" multiple onDrop={this.onChooseFile}>
             <div className="thumb-inner add">
               <span className="add-photo">
                 <p><b>הוספת תמונות&nbsp;<i className="fa fa-plus"></i></b></p>
               </span>
             </div>
           </Dropzone>
-          {images.map(this.renderImage.bind(this))}
+          {images.map(this.renderImage)}
         </Row>
       </form>
     );
