@@ -48,12 +48,15 @@ class Property extends Component {
     const loadListing = appStore.listingStore.get(listingId) ?
       Promise.resolve() : appProviders.listingsProvider.loadFullListingDetails(listingId);
 
-    loadListing.then(() => {
-      const listing = appStore.listingStore.get(listingId);
-      appStore.editedListingStore.loadListing(listing);
+    loadListing.then(this.listingLoadedHandler);
+  }
 
-      this.setState({ isLoading: false });
-    });
+  listingLoadedHandler() {
+    const { listingId, appStore } = this.props;
+    const listing = appStore.listingStore.get(listingId);
+    appStore.editedListingStore.loadListing(listing);
+
+    this.setState({ isLoading: false });
   }
 
   gotoPublishedListing() {

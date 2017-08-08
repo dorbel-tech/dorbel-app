@@ -20,6 +20,9 @@ describe('Property', () => {
       oheStore: {
         oheByListingId: jest.fn()
       },
+      editedListingStore: {
+        loadListing: jest.fn()
+      },
       likeStore: {
         likesByListingId: { 
           get: jest.fn().mockReturnValue([]), 
@@ -74,6 +77,7 @@ describe('Property', () => {
 
     // this depends on ComponentDidMount + rerender after state.isLoading was changed
     return flushPromises().then(() => {
+      expect(appStoreMock.editedListingStore.loadListing).toHaveBeenCalledWith(propertyMock);
       wrapper.update();
       expect(wrapper.find('LoadingSpinner')).toHaveLength(0);
     });
@@ -89,6 +93,7 @@ describe('Property', () => {
 
     // this depends on ComponentDidMount + rerender after state.isLoading was changed
     return flushPromises().then(() => {
+      expect(appStoreMock.editedListingStore.loadListing).toHaveBeenCalledWith(propertyMock);
       wrapper.update();
       expect(wrapper.find('LoadingSpinner')).toHaveLength(0);
     });
