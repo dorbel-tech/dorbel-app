@@ -7,7 +7,6 @@ import ReactTooltip from 'react-tooltip';
 
 @inject('appStore', 'appProviders') @observer
 class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
-
   componentDidMount() {
     const { authProvider, listingsProvider } = this.props.appProviders;
     if (!authProvider.shouldLogin({ onHideCallback: this.clickBack })) {
@@ -156,8 +155,9 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
 
   render() {
     const { newListingStore } = this.props.appStore;
+    const disableSave = newListingStore.shouldDisableSave;
     const isManageMode = this.props.appStore.newListingStore.uploadMode == 'manage';
-    const isHideTooltip = isManageMode || newListingStore.uploadedImagesCount > 0;
+    const isHideTooltip = isManageMode || newListingStore.formValues.images.length > 0;
 
     return (
       <Grid fluid className="upload-apt-wrapper">
@@ -167,7 +167,6 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
           </div>
           <img src="https://static.dorbel.com/images/upload-apt-form/icon-signup-photos.svg" alt="Upload photos" />
         </Col>
-
         <Col md={7} className="upload-apt-left-container apartment-pictures-step">
           <div className="photos-upload">
             <ImageUpload editedListingStore={newListingStore} />
@@ -178,7 +177,7 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
               </span>
               <span>2/3</span>
               <span className="next-step" data-tip="נא להוסיף תמונות">
-                <Button bsStyle="success" className="step-btn step2" onClick={this.clickNext.bind(this)} disabled={newListingStore.disableSave}>
+                <Button bsStyle="success" className="step-btn step2" onClick={this.clickNext.bind(this)} disabled={disableSave}>
                   שמור והמשך &nbsp;
                   <i className="apartment-pictures-next-step fa fa-arrow-circle-o-left fa-2x" aria-hidden="true"></i>
                 </Button>

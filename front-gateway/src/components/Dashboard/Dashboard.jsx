@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { find } from 'lodash';
 import autobind from 'react-autobind';
-import NavLink from '~/components/NavLink';
-import { MENU_ITEMS } from './DashboardShared';
-import Property from './Property';
+
 import MyMessages from './MyMessages';
+import NavLink from '~/components/NavLink';
+import Property from './Property';
+import { MENU_ITEMS } from './DashboardShared';
 
 import './Dashboard.scss';
 

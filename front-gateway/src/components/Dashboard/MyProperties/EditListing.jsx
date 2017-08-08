@@ -15,12 +15,8 @@ export default class EditListing extends Component {
   constructor(props) {
     super(props);
     autobind(this);
-    this.state = { activeTab: tabs[0] };
-  }
 
-  componentWillMount() {
-    const { appStore, listing } = this.props;
-    appStore.editedListingStore.loadListing(listing);
+    this.state = { activeTab: tabs[0] };
   }
 
   gotoMyProperty() {
@@ -48,6 +44,7 @@ export default class EditListing extends Component {
   render() {
     const { activeTab } = this.state;
     const { editedListingStore } = this.props.appStore;
+    const disableSave = editedListingStore.shouldDisableSave;
 
     return (
       <div>
@@ -62,7 +59,7 @@ export default class EditListing extends Component {
             <Col xs={12} sm={12} lg={10} lgOffset={1}>
               <activeTab.component editedListingStore={editedListingStore}/>
               <Row className="property-edit-actions-mobile pull-left">
-                <Button bsStyle="success" onClick={this.save} disabled={editedListingStore.disableSave}>שמור</Button>
+                <Button bsStyle="success" onClick={this.save} disabled={disableSave}>שמור</Button>
                 <Button onClick={this.cancel}>בטל</Button>
               </Row>
             </Col>
