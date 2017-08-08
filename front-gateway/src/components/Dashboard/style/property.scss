@@ -195,10 +195,16 @@
     padding: 10px 5px 0;
     position: absolute;
     top: 0;
+
+    &.property-edit-actions-mobile {
+      display: none;
+    }
   }
 
-  @media (min-width: $screen-sm-min) {
-    display: none !important;
+  &not(.property-edit-actions-mobile) {
+    @media (min-width: $screen-sm-min) {
+      display: none !important;
+    }
   }
 }
 

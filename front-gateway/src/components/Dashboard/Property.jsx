@@ -48,7 +48,15 @@ class Property extends Component {
     const loadListing = appStore.listingStore.get(listingId) ?
       Promise.resolve() : appProviders.listingsProvider.loadFullListingDetails(listingId);
 
-    loadListing.then(() => this.setState({ isLoading: false }));
+    loadListing.then(this.listingLoadedHandler);
+  }
+
+  listingLoadedHandler() {
+    const { listingId, appStore } = this.props;
+    const listing = appStore.listingStore.get(listingId);
+    appStore.editedListingStore.loadListing(listing);
+
+    this.setState({ isLoading: false });
   }
 
   gotoPublishedListing() {
@@ -89,7 +97,7 @@ class Property extends Component {
   }
 
   render() {
-    const { appStore, router } = this.props;
+    const { appStore, appProviders, router } = this.props;
     this.property = appStore.listingStore.get(this.props.listingId);
 
     if (this.state.isLoading) {
@@ -106,7 +114,7 @@ class Property extends Component {
     const sortedPropertyImages = utils.sortListingImages(this.property);
     const imageURL = sortedPropertyImages[0].url;
     const historySelector = <PropertyHistorySelector apartment_id={this.property.apartment_id} listing_id={this.property.id} />;
-    const isActiveListing = this.props.appProviders.listingsProvider.isActiveListing(this.property);
+    const isActiveListing = appProviders.listingsProvider.isActiveListing(this.property);
     const imageClass = 'property-image' + (isActiveListing ? '' : ' property-image-inactive');
     const titleClass = 'property-title' + (isActiveListing ? '' : ' property-title-inactive');
     let editForm = null;
@@ -151,11 +159,13 @@ class Property extends Component {
       </div>
     );
 
+    const disableSave = appStore.editedListingStore.shouldDisableSave;
+
     const editHeaderButtons = (
       <div className="property-action-container">
         <div className="property-actions-menu-container property-edit-actions-mobile">
           <Button bsStyle="success" onClick={() => editForm.wrappedInstance.save()}
-                  disabled={appStore.editedListingStore.disableSave}>
+                  disabled={disableSave}>
             שמור
           </Button>
           <Button onClick={() => editForm.wrappedInstance.cancel()}>

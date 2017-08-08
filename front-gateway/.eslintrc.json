@@ -1,15 +1,5 @@
 {
   "parser": "babel-eslint",
-  "plugins": [
-    "flowtype",
-    "jsx-a11y",
-    "react"
-  ],
-  "extends": [
-    "plugin:flowtype/recommended",
-    "plugin:react/recommended",
-    "./node_modules/dorbel-shared/eslint.shared.json"
-  ],
   "env": {
     "es6": true,
     "browser": true,
@@ -18,16 +8,19 @@
     "node": true,
     "mocha": true
   },
-  "settings": {
-    "flowtype": {
-      "onlyFilesWithFlowAnnotation": false
-    }
-  },
   "parserOptions": {
     "sourceType": "module",
     "ecmaFeatures": {
       "jsx": true,
       "modules": true
-    }
+    },
+    "plugins": [
+      "jsx-a11y",
+      "react"
+    ],
+    "extends": [
+      "plugin:react/recommended",
+      "./node_modules/dorbel-shared/eslint.shared.json"
+    ]
   }
 }

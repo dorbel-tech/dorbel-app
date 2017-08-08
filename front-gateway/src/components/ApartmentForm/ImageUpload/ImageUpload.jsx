@@ -12,34 +12,12 @@ export default class ImageUpload extends React.Component {
   constructor(props) {
     super(props);
     autobind(this);
-
-    this.uploadImagePromises = [];
-  }
-
-  componentWillMount() {
-    this.shouldDisableSave();
   }
 
   onChooseFile(acceptedFiles) {
     const { appProviders, editedListingStore } = this.props;
-    editedListingStore.disableSave = true;
 
-    let uploadPromises = acceptedFiles.map(file => appProviders.listingImageProvider.uploadImage(file, editedListingStore));
-    this.uploadImagePromises = this.uploadImagePromises.concat(uploadPromises);
-    Promise.all(this.uploadImagePromises)
-      .then(this.shouldDisableSave);
-  }
-
-  shouldDisableSave() {
-    const { editedListingStore } = this.props;
-    if (editedListingStore.uploadMode == 'manage') {
-      editedListingStore.disableSave = false;
-    }
-    else {
-      editedListingStore.disableSave = editedListingStore.formValues.images.length <= 0;
-    }
-
-    editedListingStore.uploadedImagesCount = editedListingStore.formValues.images.length;
+    acceptedFiles.forEach(file => appProviders.listingImageProvider.uploadImage(file, editedListingStore));
   }
 
   renderImage(image, index) {
@@ -56,12 +34,10 @@ export default class ImageUpload extends React.Component {
       <a href="#"
         className="image-action remove-image pull-left"
         onClick={() => {
-          this.props.editedListingStore.disableSave = true;
           listingImageProvider.deleteImage(image, editedListingStore);
-          if (images.length == 1 || (image.display_order == 0 && !images.find(img => img.display_order == 0))) {
+          if (images.length == 1 && (image.display_order == 0 && !images.find(img => img.display_order == 0))) {
             images[0].display_order = 0;
           }
-          this.shouldDisableSave();
         }}>
         <i className="fa fa-trash" />
         הסרת תמונה
@@ -100,14 +76,14 @@ export default class ImageUpload extends React.Component {
     return (
       <form>
         <Row className="thumbs">
-          <Dropzone className="col-md-4 thumb" multiple={true} onDrop={this.onChooseFile.bind(this)}>
+          <Dropzone className="col-md-4 thumb" multiple onDrop={this.onChooseFile}>
             <div className="thumb-inner add">
               <span className="add-photo">
                 <p><b>הוספת תמונות&nbsp;<i className="fa fa-plus"></i></b></p>
               </span>
             </div>
           </Dropzone>
-          {images.map(this.renderImage.bind(this))}
+          {images.map(this.renderImage)}
         </Row>
       </form>
     );

@@ -14,7 +14,7 @@ const { graphqlKoa, graphiqlKoa } = require('apollo-server-koa');
 
 const app = new Koa();
 
-const port: number = process.env.PORT || 3000;
+const port = parseInt(process.env.PORT) || 3000;
 const env = process.env.NODE_ENV;
 
 app.use(koaConvert(shared.middleware.errorHandler()));
