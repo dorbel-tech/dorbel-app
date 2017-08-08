@@ -7,7 +7,7 @@ const fs = require('fs');
 const path = require('path');
 const _ = require('lodash');
 
-function consolidateFilesInFolder(folderName: string) {
+function consolidateFilesInFolder(folderName) {
   let folderPath = path.join(__dirname, folderName);
   return fs.readdirSync(folderPath)
     .reduce((fullObj, fileName) => _.extend(fullObj, require(path.join(folderPath, fileName))), {});

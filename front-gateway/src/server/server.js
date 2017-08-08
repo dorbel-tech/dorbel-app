@@ -1,14 +1,14 @@
 'use strict';
-import koa from 'koa';
-import serve from 'koa-static';
-import compress from 'koa-compress';
-import koa_ejs from 'koa-ejs';
-import 'isomorphic-fetch'; // polyfill fetch for nodejs
-import config from '~/config';
-import shared from 'dorbel-shared';
-import apiProxy from '~/server/apiProxy';
-import { renderApp } from '~/app.server';
-import { getBuildOutputs } from './buildOutputs';
+const koa = require('koa');
+const serve = require('koa-static');
+const compress = require('koa-compress');
+const koa_ejs = require('koa-ejs');
+require('isomorphic-fetch'); // polyfill fetch for nodejs
+const config = require('../config');
+const shared = require('dorbel-shared');
+const apiProxy = require('./apiProxy');
+const renderApp = require('../app.server').renderApp;
+const getBuildOutputs = require('./buildOutputs').getBuildOutputs;
 
 const logger = shared.logger.getLogger(module);
 const STATIC_FILE_MAX_AGE_MS = 31536000 * 1000; // http://stackoverflow.com/questions/7071763/max-value-for-cache-control-header-in-http
