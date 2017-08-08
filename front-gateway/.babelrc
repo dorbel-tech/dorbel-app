@@ -1,3 +1,4 @@
+// This file is required for eslint and the 'babel-loader' webpack plugin
 {
   "retainLines": true,
   "presets": [

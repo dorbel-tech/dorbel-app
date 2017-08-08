@@ -1,10 +1,13 @@
 'use strict';
-import { renderToString } from 'react-dom/server';
-import 'ignore-styles';
-import _ from 'lodash';
-import request from 'axios';
-import shared from '~/app.shared';
-import { getCloudinaryParams } from './server/cloudinaryConfigProvider';
+require('babel-register');
+require('babel-polyfill');
+require('ignore-styles');
+
+const renderToString = require('react-dom/server').renderToString;
+const _ = require('lodash');
+const request = require('axios');
+const shared = require('./app.shared.js');
+const getCloudinaryParams = require('./server/cloudinaryConfigProvider').getCloudinaryParams;
 
 function setRoute(router, context) {
   // this method is used to set the route in the server side and wait until it resolves (usually called 'callback' on router.js)
