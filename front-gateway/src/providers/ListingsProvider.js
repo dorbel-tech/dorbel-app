@@ -63,7 +63,7 @@ class ListingsProvider {
     const IMAGE_HEIGHT = 630;
     const sortedListingImages = utils.sortListingImages(listing);
     let imageURL = sortedListingImages[0].url;
-    imageURL = utils.optimizeCloudinaryUrl(imageURL, IMAGE_WIDTH, false, true);
+    imageURL = utils.optimizeCloudinaryUrl(imageURL, IMAGE_WIDTH, undefined, true);
 
     return {
       description: listing.description,
