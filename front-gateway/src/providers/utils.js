@@ -23,7 +23,8 @@ function formatDay(date) {
 }
 
 function optimizeCloudinaryUrl(url, width, height, addWatermark) {
-  let optionsStr = 'c_fit,f_auto,q_auto,e_improve';
+  let optionsStr = addWatermark ? 'c_limit' : 'c_fit';
+  optionsStr += 'f_auto,q_auto,e_improve';
 
   if (width) { optionsStr += ',w_' + width; }
   if (height) { optionsStr += ',h_' + height; }
