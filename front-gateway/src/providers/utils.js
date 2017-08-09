@@ -22,10 +22,12 @@ function formatDay(date) {
   return moment.utc(date).local().format(dayFormat);
 }
 
-function optimizeCloudinaryUrl(url, width, height) {
+function optimizeCloudinaryUrl(url, width, height, addWatermark) {
   let optionsStr = 'c_fit,f_auto,q_auto,e_improve';
+
   if (width) { optionsStr += ',w_' + width; }
   if (height) { optionsStr += ',h_' + height; }
+  if (addWatermark) { optionsStr += '/c_scale,g_south_west,l_dorbel_watermark2,w_300,x_30,y_30'; }
   return url && url.replace('upload', 'upload/' + optionsStr);
 }
 
