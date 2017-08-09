@@ -74,6 +74,7 @@ function mapAuth0Profile(auth0profile) {
   return mappedProfile;
 }
 
+// Created because Auth0 FB images expire after a period of time
 function getPermanentFBPictureUrl(user) {
   const facebookData = _.find(user.identities, (identity) => identity.provider === 'facebook');
   return facebookData ? `http://graph.facebook.com/${facebookData.user_id}/picture?type=large` : undefined;
