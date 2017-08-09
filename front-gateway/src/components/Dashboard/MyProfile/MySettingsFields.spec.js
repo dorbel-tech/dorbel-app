@@ -31,7 +31,7 @@ describe('MySettingsFields', () => {
     expect(comp.find(FRC.Input).prop('value')).toEqual('settings');
 
     const checkboxes = comp.find(FRC.Checkbox);
-    expect(checkboxes.length).toEqual(2);
+    expect(checkboxes.length).toEqual(3);
     checkboxes.forEach(checkbox => {
       expect(checkbox.prop('value')).toEqual(true);
     });

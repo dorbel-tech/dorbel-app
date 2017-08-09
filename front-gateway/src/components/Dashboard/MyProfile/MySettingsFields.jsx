@@ -40,7 +40,6 @@ class MySettingsFields extends Component {
             label="אפשר למתעניינים לפנות אלי בהודעות דרך מודעת הדירה שלי באתר" />
         </Row>
         <Row className="my-settings-input">
-          <FRC.Input value="settings" name="section" type="hidden" />
           <Toggle defaultChecked={settings.receive_like_related_notifications}
                   onChange={this.handleChange}
                   id="receive_like_related_notifications"
