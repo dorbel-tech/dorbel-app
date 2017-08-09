@@ -49,10 +49,12 @@ describe('MySettingsFields', () => {
   });
 
   it('should set checkboxes values according to the given profile settings', () => {
+    const allowPublisherMessagesMock = faker.random.boolean();
     const receiveLikeNotificationsMock = faker.random.boolean();
     const receiveNewsletterMock = faker.random.boolean();
-    const expectedCheckboxValues = [receiveLikeNotificationsMock, receiveNewsletterMock];
+    const expectedCheckboxValues = [allowPublisherMessagesMock, receiveLikeNotificationsMock, receiveNewsletterMock];
     props.profile.settings = {
+      allow_publisher_messages: allowPublisherMessagesMock,
       receive_like_related_notifications: receiveLikeNotificationsMock,
       receive_newsletter: receiveNewsletterMock
     };
