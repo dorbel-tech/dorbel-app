@@ -152,7 +152,7 @@ class PropertyStats extends Component {
                   <div className="property-stats-title">צילום הדירה</div>
                   <div>מודעה עם תמונות טובות נחשפת לפי 5 יותר דיירים. הזמינו את הצלם שלנו עוד היום</div>
                   <a className="property-stats-button btn btn-success"
-                      href="https://www.dorbel.com/pages/services/hosted-viewings?utm_source=app&utm_medium=link&utm_campaign=my-properties" target="_blank">לפרטים והזמנה</a>
+                      href="https://www.dorbel.com/pages/services/apartment-photography?utm_source=app&utm_medium=link&utm_campaign=my-properties" target="_blank">לפרטים והזמנה</a>
                 </div>
               </Col>
             </Row>
