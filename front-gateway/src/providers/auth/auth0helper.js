@@ -56,7 +56,7 @@ function mapAuth0Profile(auth0profile) {
     first_name: _.get(auth0profile, 'user_metadata.first_name') || auth0profile.given_name,
     last_name: _.get(auth0profile, 'user_metadata.last_name') || auth0profile.family_name,
     phone: _.get(auth0profile, 'user_metadata.phone'),
-    picture: auth0profile.picture,
+    picture: getPermanentFBPictureUrl(auth0profile) || auth0profile.picture,
     tenant_profile: _.get(auth0profile, 'user_metadata.tenant_profile'),
     settings: _.get(auth0profile, 'user_metadata.settings') || {}
   };
@@ -72,6 +72,12 @@ function mapAuth0Profile(auth0profile) {
   mappedProfile.first_login = _.get(auth0profile, 'app_metadata.first_login');
 
   return mappedProfile;
+}
+
+// Created because Auth0 FB images expire after a period of time
+function getPermanentFBPictureUrl(user) {
+  const facebookData = _.find(user.identities, (identity) => identity.provider === 'facebook');
+  return facebookData ? `http://graph.facebook.com/${facebookData.user_id}/picture?type=large` : undefined;
 }
 
 module.exports = {
