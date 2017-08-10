@@ -3,6 +3,7 @@ import { find } from 'lodash';
 import autobind from 'react-autobind';
 
 import MyMessages from './MyMessages';
+import MyProfile from './MyProfile';
 import NavLink from '~/components/NavLink';
 import Property from './Property';
 import { MENU_ITEMS } from './DashboardShared';
@@ -38,6 +39,8 @@ class Dashboard extends Component {
       if (this.props.listingId) {
         if (this.props.action === 'my-messages') {
           selectedActionItem = { component: <MyMessages listingId={this.props.listingId} /> };
+        } else if (this.props.action === 'my-profile') {
+          selectedActionItem = { component: <MyProfile tab={this.props.listingId} /> };
         } else {
           selectedActionItem = { component: <Property listingId={this.props.listingId} tab={this.props.tab} /> };
         }
