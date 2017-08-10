@@ -7,6 +7,7 @@ const _ = require('lodash');
 const request = require('request-promise');
 const shared = require('dorbel-shared');
 const moment = require('moment');
+const logger = shared.logger.getLogger(module);
 const userManagement = shared.utils.user.management;
 const APT_API = process.env.APARTMENTS_API_URL;
 const OHE_API = process.env.OHE_API_URL;
@@ -167,12 +168,20 @@ const dataRetrievalFunctions = {
   },
 };
 
+function runRetrievalFunction(retrievalFunctionName, eventData) {
+  return dataRetrievalFunctions[retrievalFunctionName](eventData)
+  .catch(err => {
+    logger.error({ err, retrievalFunctionName, eventData }, 'failed in data retrieval');
+    throw err;
+  });
+}
+
 function getAdditonalData(eventConfig, eventData) {
   const dataRequired = eventConfig.dataRetrieval || [];
   return Promise.all(
     dataRequired
     .filter(retrievalFunctionName => dataRetrievalFunctions[retrievalFunctionName]) // only take ones that actually exist
-    .map(retrievalFunctionName => dataRetrievalFunctions[retrievalFunctionName](eventData)) // run the functions
+    .map(retrievalFunctionName => runRetrievalFunction(retrievalFunctionName, eventData))
   )
   .then(results => {
     // all results are returned as one object, duplicate keys will be removed
