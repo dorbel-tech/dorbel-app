@@ -2,17 +2,18 @@ import React, { Component } from 'react';
 import autobind from 'react-autobind';
 import { Tabs, Tab, Grid, Row, Button } from 'react-bootstrap';
 import { inject, observer } from 'mobx-react';
+import { find } from 'lodash';
+import { getMyProfilePath } from '~/routesHelper';
 import FormWrapper from '~/components/FormWrapper/FormWrapper';
 import SubmitButton from '~/components/SubmitButton/SubmitButton';
 import TenantProfile from '~/components/Tenants/TenantProfile/TenantProfile';
-
 import MySettingsFields from './MyProfile/MySettingsFields';
 import MyProfileFields from './MyProfile/MyProfileFields';
 import MyTenantProfileFields from './MyProfile/MyTenantProfileFields';
 
 import './MyProfile.scss';
 
-@inject('appStore', 'appProviders') @observer
+@inject('appStore', 'appProviders', 'router') @observer
 class MyProfile extends Component {
   constructor(props) {
     super(props);
@@ -25,7 +26,6 @@ class MyProfile extends Component {
     ];
 
     this.state = {
-      activeTab: this.tabs[0],
       isValid: false
     };
   }
@@ -42,8 +42,8 @@ class MyProfile extends Component {
     }
   }
 
-  renderActiveSection(profile) {
-    return (<this.state.activeTab.content profile={profile} />);
+  renderActiveSection(activeTab, profile) {
+    return (<activeTab.content profile={profile} />);
   }
 
   showPreview(profile) {
@@ -53,17 +53,20 @@ class MyProfile extends Component {
     });
   }
 
+  handleTabSelect(e) {
+    this.props.router.setRoute(getMyProfilePath(e.key));
+  }
+
   render() {
     const { authStore } = this.props.appStore;
     const profile = authStore.profile;
-    const activeTab = this.state.activeTab;
-
+    const activeTab = find(this.tabs, { key: this.props.tab }) || this.tabs[0];
     const formChanged = this.form && this.form.refs.formsy.isChanged();
 
     return (
       <Grid fluid className="profile-container">
         <Tabs className="tab-menu" activeKey={activeTab}
-              onSelect={(tab) => this.setState({ activeTab: tab })} id="my-profile-tabs">
+              onSelect={this.handleTabSelect} id="my-profile-tabs">
           {this.tabs.map(tab =>
             <Tab eventKey={tab} key={tab.key} title={tab.title}></Tab>
           )}
@@ -83,7 +86,7 @@ class MyProfile extends Component {
               <FormWrapper.Wrapper className="profile-form" ref={el => this.form = el}
                 onInvalid={() => { this.setState({ isValid: false }); }}
                 onValid={() => { this.setState({ isValid: true }); }}>
-                {this.renderActiveSection(profile)}
+                {this.renderActiveSection(activeTab, profile)}
                 <Row>
                   <SubmitButton disabled={!formChanged || !this.state.isValid} onClick={this.submit} className="profile-submit"
                     bsStyle="success">
@@ -101,7 +104,9 @@ class MyProfile extends Component {
 
 MyProfile.wrappedComponent.propTypes = {
   appStore: React.PropTypes.object.isRequired,
-  appProviders: React.PropTypes.object.isRequired
+  appProviders: React.PropTypes.object.isRequired,
+  router: React.PropTypes.object,
+  tab: React.PropTypes.string
 };
 
 export default MyProfile;
