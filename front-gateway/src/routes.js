@@ -23,6 +23,7 @@ const routes = [
   { route: routesHelper.PROPERTIES_PREFIX + '/:apartmentId/:action/:oheId', view: Listing, requireLogin: true },
   { route: routesHelper.DASHBOARD_PREFIX, view: Dashboard, requireLogin: true },
   { route: routesHelper.DASHBOARD_PREFIX + '/:action', view: Dashboard, requireLogin: true },
+  { route: routesHelper.DASHBOARD_PREFIX + '/my-profile/:tab', view: Dashboard, requireLogin: true },
   { route: routesHelper.DASHBOARD_PREFIX + '/:action/:listingId', view: Dashboard, requireLogin: true },
   { route: routesHelper.DASHBOARD_PREFIX + '/:action/:listingId/:tab', view: Dashboard, requireLogin: true },
   { route: '/monthly-report/:listingId/:year/:month', view: MonthlyReport, requireLogin: true }
