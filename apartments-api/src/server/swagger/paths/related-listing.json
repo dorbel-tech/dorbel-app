@@ -1,37 +1,37 @@
 {
-    "/listings/{apartmentId}/related": {
-        "get": {
-            "summary": "Get related listings by apartmentId",
-            "description": "Get related listings with all their details",
-            "parameters": [
-                {
-                    "name": "apartmentId",
-                    "in": "path",
-                    "description": "id of apartment",
-                    "type": "integer",
-                    "required": true
-                }
-            ],
-            "tags": [
-                "relatedListingController"
-            ],
-            "responses": {
-                "200": {
-                    "description": "An array of related listings",
-                    "schema": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/definitions/Listing"
-                        }
-                    }
-                },
-                "default": {
-                    "description": "Unexpected error",
-                    "schema": {
-                        "$ref": "#/definitions/Error"
-                    }
-                }
-            }
+  "/listings/{listingId}/related": {
+    "get": {
+      "summary": "Get related listings by apartmentId",
+      "description": "Get related listings with all their details",
+      "parameters": [
+        {
+          "name": "listingId",
+          "in": "path",
+          "description": "id of apartment. Written as listingId because all params under /listings have to be the same",
+          "type": "integer",
+          "required": true
         }
+      ],
+      "tags": [
+        "relatedListingController"
+      ],
+      "responses": {
+        "200": {
+          "description": "An array of related listings",
+          "schema": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/Listing"
+            }
+          }
+        },
+        "default": {
+          "description": "Unexpected error",
+          "schema": {
+            "$ref": "#/definitions/Error"
+          }
+        }
+      }
     }
+  }
 }

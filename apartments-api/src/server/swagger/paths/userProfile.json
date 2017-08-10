@@ -1,6 +1,7 @@
 {
-  "/user-profile/": {
+  "/user-profile": {
     "patch": {
+      "operationId": "patchUserProfile",
       "summary": "Patches a single user",
       "description": "Patches a single user's details",
       "parameters": [

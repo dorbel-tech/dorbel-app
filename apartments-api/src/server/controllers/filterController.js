@@ -25,36 +25,37 @@ const clientToApiFilterMap = [
 
 const mapFilter = createObjectByMapping.bind(null, clientToApiFilterMap);
 
-function * post() {
-  const filterToCreate = mapFilter(this.request.body);
-  const createdFilter = yield filterService.create(filterToCreate, this.request.user);
-  this.response.body = mapFilter(createdFilter, true);
-  this.response.status = 200;
+async function post(ctx) {
+  const filterToCreate = mapFilter(ctx.request.body);
+  const createdFilter = await filterService.create(filterToCreate, ctx.request.user);
+  ctx.response.body = mapFilter(createdFilter, true);
+  ctx.response.status = 200;
 }
 
-function * get() {
+async function get(ctx) {
   let filters;
-  if (this.request.query.matchingListingId) {
-    filters = yield filterService.getFilterByMatchedListing(this.request.query.matchingListingId, this.request.user);
+  if (ctx.request.query.matchingListingId) {
+    filters = await filterService.getFilterByMatchedListing(ctx.request.query.matchingListingId, ctx.request.user);
   } else {
-    filters = yield filterService.getByUser(this.request.user);
+    filters = await filterService.getByUser(ctx.request.user);
   }
-  this.response.body = filters.map(filter => mapFilter(filter, true));
-  this.response.status = 200;
+  ctx.response.body = filters.map(filter => mapFilter(filter, true));
+  ctx.response.status = 200;
+  return Promise.resolve();
 }
 
-function * destory () {
-  const filterId = parseInt(this.params.filterId);
-  yield filterService.destory(filterId, this.request.user);
-  this.response.status = 204;
+async function destory (ctx) {
+  const filterId = parseInt(ctx.params.filterId);
+  await filterService.destory(filterId, ctx.request.user);
+  ctx.response.status = 204;
 }
 
-function * put () {
-  const filterId = parseInt(this.params.filterId);
-  const filterUpdate = mapFilter(this.request.body);
-  const updatedFilter = yield filterService.update(filterId, filterUpdate, this.request.user);
-  this.response.body = mapFilter(updatedFilter, true);
-  this.response.status = 200;
+async function put (ctx) {
+  const filterId = parseInt(ctx.params.filterId);
+  const filterUpdate = mapFilter(ctx.request.body);
+  const updatedFilter = await filterService.update(filterId, filterUpdate, ctx.request.user);
+  ctx.response.body = mapFilter(updatedFilter, true);
+  ctx.response.status = 200;
 }
 
 // TODO : put some place generic

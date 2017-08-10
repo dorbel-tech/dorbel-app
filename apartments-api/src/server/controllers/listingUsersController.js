@@ -1,24 +1,24 @@
 'use strict';
 const listingUsersService = require('../../services/listingUsersService');
 
-function * post() {
-  const listingId = this.params.listingId;
-  const userToCreate = this.request.body;
+async function post(ctx) {
+  const listingId = ctx.params.listingId;
+  const userToCreate = ctx.request.body;
 
-  this.response.body = yield listingUsersService.create(listingId, userToCreate, this.request.user);
-  this.response.status = 201;
+  ctx.response.body = await listingUsersService.create(listingId, userToCreate, ctx.request.user);
+  ctx.response.status = 201;
 }
 
-function * get() {
-  const listingId = this.params.listingId;
-  this.response.body = yield listingUsersService.get(listingId, this.request.user);
-  this.response.status = 200;
+async function get(ctx) {
+  const listingId = ctx.params.listingId;
+  ctx.response.body = await listingUsersService.get(listingId, ctx.request.user);
+  ctx.response.status = 200;
 }
 
-function * remove() {
-  const listingUserId = this.params.listingUserId;
-  yield listingUsersService.remove(listingUserId, this.request.user);
-  this.response.status = 204;
+async function remove(ctx) {
+  const listingUserId = ctx.params.listingUserId;
+  await listingUsersService.remove(listingUserId, ctx.request.user);
+  ctx.response.status = 204;
 }
 
 module.exports = {

@@ -26,12 +26,12 @@ const profileSectionParams = {
   }
 };
 
-function* update(user, profileData) {
+async function update(user, profileData) {
   if (user) {
     validateRequest(profileData);
 
     logger.info({ user_uuid: user.id, userData: profileData }, 'Updating user details');
-    const newUserProfile = yield userManagement.updateUserDetails(user.id, {
+    const newUserProfile = await userManagement.updateUserDetails(user.id, {
       user_metadata: (profileData.section == 'main') ? profileData.data : { [profileData.section]: profileData.data }
     });
     logger.info({ user_uuid: user.id, userData: newUserProfile }, 'Updated user details');
@@ -54,8 +54,8 @@ function validateRequest(profileData) {
 
   const fieldMap = profileSectionParams[profileData.section];
   const keysToUpdate = _.keys(profileData.data);
-  const sectionFieldKeys = _.keys(fieldMap) || []; 
-  
+  const sectionFieldKeys = _.keys(fieldMap) || [];
+
   keysToUpdate
     .forEach((key) => {
       if (sectionFieldKeys.indexOf(key) == -1) {

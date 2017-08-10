@@ -1,52 +1,59 @@
 'use strict';
-const koa = require('koa');
-const fleekRouter = require('fleek-router');
+const Koa = require('koa');
 const bodyParser = require('koa-bodyparser');
+const koaConvert = require('koa-convert'); // TODO: after shared middleware are migrated to KOA2 format this can be removed.
 const shared = require('dorbel-shared');
+const logger = shared.logger.getLogger(module);
+
+const fleekCtx = require('fleek-context');
+const fleekRouter = require('fleek-router');
 const swaggerDoc = require('./swagger/swagger');
 
 const graphqlSchema = require('./graphql/schema');
 const { graphqlKoa, graphiqlKoa } = require('apollo-server-koa');
 
-const logger = shared.logger.getLogger(module);
-const app = koa();
+const app = new Koa();
 
 const port = parseInt(process.env.PORT) || 3000;
 const env = process.env.NODE_ENV;
 
-app.use(shared.middleware.errorHandler());
-app.use(shared.middleware.requestLogger());
+app.use(koaConvert(shared.middleware.errorHandler()));
+app.use(koaConvert(shared.middleware.requestLogger()));
 app.use(bodyParser());
+app.use(koaConvert(shared.middleware.auth.optionalAuthenticate));
 
 // Fleek + Swagger
+const trailingSlash = /(\/$)/;
 
-app.use(function* returnSwagger(next) {
-  if (this.method === 'GET' && this.url === '/swagger') {
-    this.body = swaggerDoc;
-  } else {
-    yield next;
-  }
+app.use((ctx, next) => {
+  ctx.url = ctx.url.replace(trailingSlash, '');
+  return next();
 });
 
-fleekRouter(app, {
-  swagger: swaggerDoc,
-  validate: true,
-  middleware: [ shared.middleware.swaggerModelValidator(), shared.middleware.auth.optionalAuthenticate ],
-  authenticate: shared.middleware.auth.authenticate
+app.use(fleekCtx(swaggerDoc));
+app.use(koaConvert(shared.middleware.swaggerModelValidator()));
+app.use(fleekRouter.tag('authenticated', koaConvert(shared.middleware.auth.authenticate)));
+app.use(fleekRouter.controllers(`${__dirname}/controllers`));
+
+app.use(async function returnSwagger(ctx, next) {
+  if (ctx.method === 'GET' && ctx.url === '/swagger') {
+    ctx.body = swaggerDoc;
+  } else {
+    await next();
+  }
 });
 
 // GraphQL
 
-app.use(shared.middleware.auth.optionalAuthenticate);
-app.use(function* returnGraphql(next) {
-  const context = { user: this.request.user };
+app.use(async function returnGraphql(ctx, next) {
+  const context = { user: ctx.request.user };
 
-  if (this.method === 'POST' && this.url.match(/^\/graphql/)) {
-    yield graphqlKoa({ schema: graphqlSchema, context })(this);
-  } else if (this.method === 'GET' && this.url.match(/^\/graphiql/)) {
-    yield graphiqlKoa({ endpointURL: '/graphql' })(this);
+  if (ctx.method === 'POST' && ctx.url.match(/^\/graphql/)) {
+    await graphqlKoa({ schema: graphqlSchema, context })(ctx);
+  } else if (ctx.method === 'GET' && ctx.url.match(/^\/graphiql/)) {
+    await graphiqlKoa({ endpointURL: '/graphql' })(ctx);
   } else {
-    yield next;
+    await next();
   }
 });
 

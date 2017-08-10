@@ -1,8 +1,8 @@
 'use strict';
 const db = require('../dbConnectionProvider');
 
-function* set(apartmentId, listingId, userId, isLiked) {
-  yield db.models.like.upsert({
+function set(apartmentId, listingId, userId, isLiked) {
+  return db.models.like.upsert({
     apartment_id: apartmentId,
     listing_id: listingId,
     liked_user_id: userId,
@@ -10,8 +10,8 @@ function* set(apartmentId, listingId, userId, isLiked) {
   });
 }
 
-function* getUserLikes(user) {
-  return yield db.models.like.findAll({
+function getUserLikes(user) {
+  return db.models.like.findAll({
     where: {
       liked_user_id: user.id,
       is_active: true
@@ -21,8 +21,8 @@ function* getUserLikes(user) {
   });
 }
 
-function* findByListingId(listingId) {
-  return yield db.models.like.findAll({
+function findByListingId(listingId) {
+  return db.models.like.findAll({
     where: {
       listing_id: listingId,
       is_active: true
@@ -30,8 +30,8 @@ function* findByListingId(listingId) {
   });
 }
 
-function* findByApartmentId(apartmentId) {
-  return yield db.models.like.findAll({
+function findByApartmentId(apartmentId) {
+  return db.models.like.findAll({
     where: {
       apartment_id: apartmentId,
       is_active: true
@@ -39,8 +39,8 @@ function* findByApartmentId(apartmentId) {
   });
 }
 
-function* getApartmentTotalLikes(apartmentId) {
-  return yield db.models.like.count({
+function getApartmentTotalLikes(apartmentId) {
+  return db.models.like.count({
     where: {
       apartment_id: apartmentId,
       is_active: true

@@ -9,15 +9,15 @@ const userPermissions = shared.utils.user.permissions;
 
 const PICTURE_PLACEHOLDER = 'https://static.dorbel.com/images/icons/user-picture-placeholder.png';
 
-function * create(listing_id, payload, requestingUser) {
-  yield getAndVerifyListing(listing_id, requestingUser);
+async function create(listing_id, payload, requestingUser) {
+  await getAndVerifyListing(listing_id, requestingUser);
 
   // TODO : check for duplicate users on same listing
 
   let publicUserProfile, listingUserToCreate;
 
   if (payload.email) {
-    publicUserProfile = yield userManagement.getPublicProfileByEmail(payload.email);
+    publicUserProfile = await userManagement.getPublicProfileByEmail(payload.email);
   }
 
   if (publicUserProfile) {
@@ -42,27 +42,27 @@ function * create(listing_id, payload, requestingUser) {
     .then(listingUserFromDb => mapToListingUserResponse(listingUserFromDb, publicUserProfile));
 }
 
-function * get(listing_id, requestingUser) {
-  yield getAndVerifyListing(listing_id, requestingUser);
-  const users = yield listingUsersRepository.getUsersForListing(listing_id);
-  return yield users.map(listingUserFromDb => {
+async function get(listing_id, requestingUser) {
+  await getAndVerifyListing(listing_id, requestingUser);
+  const users = await listingUsersRepository.getUsersForListing(listing_id);
+  return await Promise.all(users.map(listingUserFromDb => {
     if (listingUserFromDb.dorbel_user_id) {
       return userManagement.getPublicProfile(listingUserFromDb.dorbel_user_id)
         .then(publicUserProfile => mapToListingUserResponse(listingUserFromDb, publicUserProfile));
     } else {
       return mapToListingUserResponse(listingUserFromDb);
     }
-  });
+  }));
 }
 
-function * remove(listing_user_id, requestingUser) {
-  const listingUser = yield listingUsersRepository.getUserById(listing_user_id);
+async function remove(listing_user_id, requestingUser) {
+  const listingUser = await listingUsersRepository.getUserById(listing_user_id);
 
   if (!listingUser) {
     throw new errors.DomainNotFoundError('listing user not found', { listing_user_id }, 'listing user not found');
   }
 
-  yield getAndVerifyListing(listingUser.listing_id, requestingUser);
+  await getAndVerifyListing(listingUser.listing_id, requestingUser);
 
   return listingUsersRepository.remove(listing_user_id);
 }
@@ -83,8 +83,8 @@ function mapToListingUserResponse(listingUserFromDb, publicProfile) {
 }
 
 // TODO: this is repeating in many places in the API and should be moved to some place generic
-function * getAndVerifyListing(listing_id, requestingUser) {
-  const listing = yield listingRepository.getById(listing_id);
+async function getAndVerifyListing(listing_id, requestingUser) {
+  const listing = await listingRepository.getById(listing_id);
 
   if (!listing) {
     throw new errors.DomainNotFoundError('listing not found', { listing_id }, 'listing not found');

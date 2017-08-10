@@ -3,13 +3,13 @@ const shared = require('dorbel-shared');
 const listingService = require('../../services/listingService');
 const ONE_MINUTE = 60;
 
-function* get() {
-  const apartmentId = this.params.apartmentId;
-  shared.helpers.headers.setUserConditionalCacheHeader(this.request, this.response, ONE_MINUTE);
+async function get(ctx) {
+  const apartmentId = ctx.params.apartmentId;
+  shared.helpers.headers.setUserConditionalCacheHeader(ctx.request, ctx.response, ONE_MINUTE);
 
-  this.response.body = yield listingService.getByApartmentId(apartmentId, this.request.user);
+  ctx.response.body = await listingService.getByApartmentId(apartmentId, ctx.request.user);
 }
 
 module.exports = {
-  get: get,
+  get: get
 };

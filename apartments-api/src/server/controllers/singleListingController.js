@@ -4,32 +4,32 @@ const logger = shared.logger.getLogger(module);
 const listingService = require('../../services/listingService');
 const ONE_MINUTE = 60;
 
-function* get() {
-  const listingIdOrSlug = this.params.listingIdOrSlug;
+async function get(ctx) {
+  const listingIdOrSlug = ctx.params.listingId;
   const isSlug = isNaN(listingIdOrSlug);
 
-  shared.helpers.headers.setUserConditionalCacheHeader(this.request, this.response, ONE_MINUTE);
+  shared.helpers.headers.setUserConditionalCacheHeader(ctx.request, ctx.response, ONE_MINUTE);
 
   if (isSlug) {
     const encodedSlug = shared.utils.generic.normalizeSlug(listingIdOrSlug);
-    this.response.body = yield listingService.getBySlug(encodedSlug, this.request.user);
+    ctx.response.body = await listingService.getBySlug(encodedSlug, ctx.request.user);
   }
   else {
-    this.response.body = yield listingService.getById(listingIdOrSlug, this.request.user);
+    ctx.response.body = await listingService.getById(listingIdOrSlug, ctx.request.user);
   }
 }
 
-function* patch() {
+async function patchListing(ctx) {
   logger.debug('Updating listing...');
-  const listingId = this.params.listingId;
-  const listing = yield listingService.update(listingId, this.request.user, this.request.body);
+  const listingId = ctx.params.listingId;
+  const listing = await listingService.update(listingId, ctx.request.user, ctx.request.body);
   logger.info({ listing_id: listingId }, 'Listing updated');
-  this.response.status = 200;
-  this.response.body = listing;
+  ctx.response.status = 200;
+  ctx.response.body = listing;
 }
 
 module.exports = {
   get: get,
-  patch: patch
+  patchListing // Fleek v2 doesn't support patch so we use explicit operationId (also defined in swagger file)
 };
 

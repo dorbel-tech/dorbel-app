@@ -13,12 +13,12 @@ const PAGE_VIEW_CACHE_KEY_PREFIX = 'listing_page_views_';
 
 analyticsProvider.init();
 
-function * getPageViewsFromCache(listingIds) {
+async function getPageViewsFromCache(listingIds) {
   const pageViewsFromCache = {};
   const listingIdsNotInCache = [];
 
-  yield listingIds.map(function * (listing_id) {
-    const cachedViews = yield cache.getKey(PAGE_VIEW_CACHE_KEY_PREFIX + listing_id);
+  await listingIds.map(async function (listing_id) {
+    const cachedViews = await cache.getKey(PAGE_VIEW_CACHE_KEY_PREFIX + listing_id);
     if (cachedViews) {
       logger.trace({ listing_id }, 'page view cache hit');
       pageViewsFromCache[listing_id] = JSON.parse(cachedViews);
@@ -31,13 +31,13 @@ function * getPageViewsFromCache(listingIds) {
   return { pageViewsFromCache, listingIdsNotInCache };
 }
 
-function * getPageViewsFromProvider(listingsIds) {
-  const listings = yield listingRepository.getSlugs(listingsIds);
+async function getPageViewsFromProvider(listingsIds) {
+  const listings = await listingRepository.getSlugs(listingsIds);
 
   const idsByUrl = getIdsByUrl(listings);
   const urls = Object.keys(idsByUrl);
 
-  const pageViews = yield analyticsProvider.getPageViews(urls);
+  const pageViews = await analyticsProvider.getPageViews(urls);
 
   const viewsFromProvider = {};
   pageViews.forEach(result => {
@@ -67,16 +67,16 @@ function setPageViewsInCache(viewsFromProvider) {
   });
 }
 
-function * getPageViewsForListings(listingIds) {
+async function getPageViewsForListings(listingIds) {
   logger.trace({ listingIds }, 'getting page views');
 
-  const cacheResults = yield getPageViewsFromCache(listingIds);
+  const cacheResults = await getPageViewsFromCache(listingIds);
 
   if (cacheResults.listingIdsNotInCache.length === 0) { // if we got all the listings
     return cacheResults.pageViewsFromCache;
   }
 
-  const viewsFromProvider = yield getPageViewsFromProvider(cacheResults.listingIdsNotInCache);
+  const viewsFromProvider = await getPageViewsFromProvider(cacheResults.listingIdsNotInCache);
 
   setPageViewsInCache(viewsFromProvider);
 

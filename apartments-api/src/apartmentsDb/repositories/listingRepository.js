@@ -121,10 +121,10 @@ function getLatestListingByApartmentId(apartmentId) {
   });
 }
 
-function* create(listing) {
-  const building = yield buildingRepository.updateOrCreate(listing.apartment.building);
+async function create(listing) {
+  const building = await buildingRepository.updateOrCreate(listing.apartment.building);
 
-  const apartment = yield apartmentRepository.updateOrCreate(
+  const apartment = await apartmentRepository.updateOrCreate(
     listing.apartment.apt_number,
     building.id,
     listing.apartment
@@ -132,16 +132,16 @@ function* create(listing) {
 
   let newListing = models.listing.build(_.pick(listing, helper.getModelFieldNames(models.listing)));
   newListing.apartment_id = apartment.id;
-  let savedListing = yield newListing.save();
+  let savedListing = await newListing.save();
 
   apartment.building = building;
   savedListing.apartment = apartment;
 
   if (listing.images) {
-    savedListing.images = yield listing.images.map(image => {
+    savedListing.images = await Promise.all(listing.images.map(image => {
       image.listing_id = savedListing.id;
       return models.image.create(image);
-    });
+    }));
   }
 
   return savedListing;
@@ -155,9 +155,9 @@ function getSlugs(ids) {
   });
 }
 
-function* update(listing, patch) {
+async function update(listing, patch) {
   logger.debug('updating listing');
-  const transaction = yield db.db.transaction();
+  const transaction = await db.db.transaction();
   try {
     const buildingRequest = _.get(patch, 'apartment.building');
     const buildingPatch = _.pick(buildingRequest || {}, BUILDING_UPDATE_WHITELIST);
@@ -171,38 +171,38 @@ function* update(listing, patch) {
     if (buildingRequest) {
       let mergedBuilding = _.merge({}, currentBuilding.toJSON(), buildingRequest);
       mergedBuilding = _.omit(mergedBuilding, ['geolocation']);
-      newBuilding = yield buildingRepository.updateOrCreate(mergedBuilding, { transaction });
+      newBuilding = await buildingRepository.updateOrCreate(mergedBuilding, { transaction });
       logger.trace('found other building', { oldBuildingId: currentBuilding.id, newBuildingId: newBuilding.id });
       apartmentPatch.building_id = newBuilding.id;
       if (!newBuilding.geolocation) {
-        buildingPatch.geolocation = yield geoProvider.getGeoLocation(newBuilding);
+        buildingPatch.geolocation = await geoProvider.getGeoLocation(newBuilding);
       }
     }
 
     if (!_.isEmpty(buildingPatch)) {
       logger.trace('updating building', { listing_id: listing.id });
-      yield (newBuilding || currentBuilding).update(buildingPatch, { transaction });
+      await (newBuilding || currentBuilding).update(buildingPatch, { transaction });
     }
 
     if (!_.isEmpty(apartmentPatch)) {
       logger.trace('updating apartment', { listing_id: listing.id });
-      yield listing.apartment.update(apartmentPatch, { transaction });
+      await listing.apartment.update(apartmentPatch, { transaction });
     }
 
     if (!_.isEmpty(listingPatch)) {
       logger.trace('updating listing', { listing_id: listing.id });
-      yield listing.update(listingPatch, { transaction });
+      await listing.update(listingPatch, { transaction });
     }
 
     if (patch.images) {
       logger.trace('removing deleted images');
-      yield listing.images.filter(existingImage => {
+      await Promise.all(listing.images.filter(existingImage => {
         const inPatch = _.find(patch.images, { url: existingImage.url });
         return !inPatch;
-      }).map(imageToDelete => imageToDelete.destroy({ transaction }));
+      }).map(imageToDelete => imageToDelete.destroy({ transaction })));
 
       logger.trace('creating / updating patched images');
-      yield patch.images.map((imageFromPatch) => {
+      await Promise.all(patch.images.map((imageFromPatch) => {
         const imageExists = _.find(listing.images, { url: imageFromPatch.url });
         if (imageExists) {
           imageExists.display_order = imageFromPatch.display_order;
@@ -211,21 +211,21 @@ function* update(listing, patch) {
           imageFromPatch.listing_id = listing.id;
           return models.image.create(imageFromPatch, { transaction });
         }
-      });
+      }));
     }
 
     logger.trace('updating ready to commit', { listing_id: listing.id });
-    yield transaction.commit();
-    return yield listing.reload();
+    await transaction.commit();
+    return await listing.reload();
   } catch (ex) {
-    yield transaction.rollback();
+    await transaction.rollback();
     throw ex;
   }
 }
 
-function* getMonthlyReportData(reportDate, leaseStartDays) {
+async function getMonthlyReportData(reportDate, leaseStartDays) {
   const sequelize = models.listing.sequelize;
-  const res = yield models.listing.findAll({
+  const res = await models.listing.findAll({
     attributes: [
       'id',
       'publishing_user_id'

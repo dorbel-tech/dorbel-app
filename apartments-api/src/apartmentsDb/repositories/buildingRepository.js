@@ -5,9 +5,9 @@ const shared = require('dorbel-shared');
 const logger = shared.logger.getLogger(module);
 const ValidationError = shared.utils.domainErrors.DomainValidationError;
 
-function* updateOrCreate(building, options = {}) {
+async function updateOrCreate(building, options = {}) {
   // TODO: add reference to country
-  const city = yield db.models.city.findOne({
+  const city = await db.models.city.findOne({
     where: { id: building.city.id },
     raw: true
   });
@@ -16,7 +16,7 @@ function* updateOrCreate(building, options = {}) {
     throw new ValidationError('city not found', building.city, 'העיר לא נמצאה');
   }
 
-  const neighborhood = yield db.models.neighborhood.findOne({
+  const neighborhood = await db.models.neighborhood.findOne({
     where: { id: building.neighborhood.id },
     raw: true
   });
@@ -33,7 +33,7 @@ function* updateOrCreate(building, options = {}) {
   // properties that are not part of the unique constraint but might still need to be updated
   const nonUniqueProps = Object.assign(_.pick(building, ['geolocation', 'elevator', 'floors']), { neighborhood_id: building.neighborhood.id });
 
-  const findOrCreateResult = yield db.models.building.findOrCreate({
+  const findOrCreateResult = await db.models.building.findOrCreate({
     where: {
       street_name: building.street_name,
       house_number: building.house_number,
@@ -48,7 +48,7 @@ function* updateOrCreate(building, options = {}) {
 
   // Find or create doen't update props if row was found - so we update them seperately if needed
   if (!buildingResult.isNewRecord) {
-    yield buildingResult.update(nonUniqueProps, { transaction: options.transaction });
+    await buildingResult.update(nonUniqueProps, { transaction: options.transaction });
   }
 
   buildingResult.city = city;

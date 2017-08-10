@@ -2,11 +2,11 @@
 const listingService = require('../../services/listingService');
 const logger = require('dorbel-shared').logger.getLogger(module);
 
-function* post() {
+async function post(ctx) {
   logger.info('received a request for monthly report data');
-  const { day, month, year } = this.request.body;
-  this.response.body = yield listingService.sendMonthlyReports(day, month, year, this.request.user);
-  this.response.status = 200;
+  const { day, month, year } = ctx.request.body;
+  ctx.response.body = await listingService.sendMonthlyReports(day, month, year, ctx.request.user);
+  ctx.response.status = 200;
 }
 
 module.exports = {
