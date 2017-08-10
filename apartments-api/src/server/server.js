@@ -24,10 +24,9 @@ app.use(koaConvert(shared.middleware.auth.optionalAuthenticate));
 
 // Fleek + Swagger
 const trailingSlash = /(\/$)/;
-const openingDuplicateSlash = /(^\/\/)/;
 
 app.use((ctx, next) => {
-  ctx.url = ctx.url.replace(trailingSlash, '').replace(openingDuplicateSlash, '/');
+  ctx.url = ctx.url.replace(trailingSlash, '');
   return next();
 });
 
