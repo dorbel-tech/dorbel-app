@@ -56,7 +56,7 @@ class ListingOwnerDetails extends Component {
     const { listing } = this.props;
 
     // Allow to contact only in following listing statuses.
-    if (process.env.TALKJS_PUBLISHABLE_KEY && this.isListedOrRented()) {
+    if (process.env.TALKJS_PUBLISHABLE_KEY && listing.allow_publisher_messages && this.isListedOrRented()) {
       const { profile } = this.props.appStore.authStore;
 
       // Don't show for listing owner.
