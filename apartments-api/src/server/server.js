@@ -24,6 +24,12 @@ app.use(koaConvert(shared.middleware.auth.optionalAuthenticate));
 
 // Fleek + Swagger
 
+app.use((ctx, next) => {
+  // replacing trailing slash in url because it breaks fleek router
+  ctx.url = ctx.url.replace(/(\/$)/, '');
+  return next();
+});
+
 app.use(fleekCtx(swaggerDoc));
 app.use(koaConvert(shared.middleware.swaggerModelValidator()));
 app.use(fleekRouter.tag('authenticated', koaConvert(shared.middleware.auth.authenticate)));

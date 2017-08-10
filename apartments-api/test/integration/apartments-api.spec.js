@@ -211,4 +211,8 @@ describe('Apartments API Integration', function () {
       __.assertThat(response.body, __.everyItem(__.hasProperty('views')));
     });
   });
+
+  it('should respond to endpoint with trailing slash', function * () {
+    yield this.apiClient.get('/v1/cities/').expect(200).end();
+  });
 });
