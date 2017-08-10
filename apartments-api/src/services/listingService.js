@@ -313,6 +313,7 @@ async function enrichListingResponse(listing, user) {
     const publishingUserProfile = await userManagement.getPublicProfile(listing.publishing_user_id);
     if (publishingUserProfile) {
       enrichedListing.publishing_user_first_name = publishingUserProfile.first_name;
+      enrichedListing.allow_publisher_messages = publishingUserProfile.allow_publisher_messages;
     }
 
     enrichedListing.meta = {

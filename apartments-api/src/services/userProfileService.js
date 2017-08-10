@@ -20,8 +20,9 @@ const profileSectionParams = {
     linkedin_url: { isRequired: false }
   },
   settings: {
-    receive_newsletter: { isRequired: false },
-    receive_like_related_notifications: { isRequired: false }
+    allow_publisher_messages: { isRequired: false },
+    receive_like_related_notifications: { isRequired: false },
+    receive_newsletter: { isRequired: false }
   }
 };
 

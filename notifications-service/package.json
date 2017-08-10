@@ -1,6 +1,6 @@
 {
   "name": "notifications-service",
-  "version": "1.1.16",
+  "version": "1.1.17",
   "description": "Worker to process notifications messages from SQS and dispatch using Email or SMS",
   "main": "src/index.js",
   "scripts": {
@@ -15,7 +15,7 @@
   "dependencies": {
     "co-mocha": "^1.1.3",
     "co-supertest": "0.0.10",
-    "dorbel-shared": "git://github.com/dorbel-tech/dorbel-shared#v1.0.72",
+    "dorbel-shared": "git://github.com/dorbel-tech/dorbel-shared#v1.0.73",
     "dotenv": "^4.0.0",
     "es6-promisify": "5.0.0",
     "eslint": "^3.7.1",

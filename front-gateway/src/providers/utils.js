@@ -22,10 +22,13 @@ function formatDay(date) {
   return moment.utc(date).local().format(dayFormat);
 }
 
-function optimizeCloudinaryUrl(url, width, height) {
-  let optionsStr = 'c_fit,f_auto,q_auto,e_improve';
+function optimizeCloudinaryUrl(url, width, height, addWatermark) {
+  let optionsStr = addWatermark ? 'c_fill' : 'c_fit';
+  optionsStr += ',f_auto,q_auto,e_improve';
+
   if (width) { optionsStr += ',w_' + width; }
   if (height) { optionsStr += ',h_' + height; }
+  if (addWatermark) { optionsStr += '/c_scale,g_north_east,l_dorbel_watermark2,w_300,x_30,y_30'; }
   return url && url.replace('upload', 'upload/' + optionsStr);
 }
 
