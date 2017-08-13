@@ -1,13 +1,19 @@
 'use strict';
 import promisify from 'es6-promisify';
-import auth0 from './auth0helper';
+import auth0 from 'auth0-js';
+import auth0helper from './auth0helper';
 import autobind from 'react-autobind';
 
 class AuthProvider {
   constructor(clientId, domain, authStore, router, apiProvider) {
     autobind(this);
 
-    this.lock = auth0.initLock(clientId, domain);
+    this.webAuth = new auth0.WebAuth({
+      domain:   domain,
+      clientID: clientId
+    });
+
+    this.lock = auth0helper.initLock(clientId, domain);
     this.lock.on('authenticated', this.afterAuthentication);
     this.lock.on('hide', this.hideHandler);
     this.authStore = authStore;
@@ -79,7 +85,7 @@ class AuthProvider {
   }
 
   setProfile(profile) {
-    let mappedProfile = auth0.mapAuth0Profile(profile);
+    let mappedProfile = auth0helper.mapAuth0Profile(profile);
     this.authStore.setProfile(mappedProfile);
     this.reportUserIdentityToSegment(mappedProfile);
   }
