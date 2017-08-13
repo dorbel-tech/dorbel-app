@@ -8,12 +8,10 @@ import ReactTooltip from 'react-tooltip';
 @inject('appStore', 'appProviders') @observer
 class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
   componentDidMount() {
-    const { authProvider, listingsProvider } = this.props.appProviders;
-    if (!authProvider.shouldLogin({ onHideCallback: this.clickBack })) {
-      const { newListingStore } = this.props.appStore;
-      listingsProvider.validateApartment(newListingStore.toListingObject())
-        .then(this.handleValidationResponse);
-    }
+    const { listingsProvider } = this.props.appProviders;
+    const { newListingStore } = this.props.appStore;
+    listingsProvider.validateApartment(newListingStore.toListingObject())
+      .then(this.handleValidationResponse);
   }
 
   handleValidationResponse(validationResp) {
