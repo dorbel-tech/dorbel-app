@@ -2,6 +2,7 @@
 const shared = require('dorbel-shared');
 const filterRepository = require('../apartmentsDb/repositories/filterRepository');
 const listingRepository = require('../apartmentsDb/repositories/listingRepository');
+const { createObjectByMapping } = require('./utils');
 
 const MAX_FILTERS_PER_USER = 3;
 const filterUpdateFields = [ 'city', 'neighborhood', 'min_monthly_rent', 'max_monthly_rent', 'min_rooms', 'max_rooms',
@@ -9,7 +10,29 @@ const filterUpdateFields = [ 'city', 'neighborhood', 'min_monthly_rent', 'max_mo
   'email_notification', 'min_lease_start', 'max_lease_start' ];
 const errors = shared.utils.domainErrors;
 
+const clientToApiFilterMap = [
+  'dorbel_user_id',
+  'id',
+  'email_notification',
+  'city',
+  'neighborhood',
+  ['mrs', 'min_monthly_rent'],
+  ['mre', 'max_monthly_rent'],
+  ['minRooms', 'min_rooms'],
+  ['maxRooms', 'max_rooms'],
+  ['ac', 'air_conditioning'],
+  ['balc', 'balcony'],
+  ['park', 'parking'],
+  ['pet', 'pets'],
+  ['sb', 'security_bars'],
+  ['futureBooking', 'future_booking'],
+  ['ele', 'elevator'],
+  ['minLease', 'min_lease_start'],
+  ['maxLease', 'max_lease_start']
+];
+
 async function create(filterToCreate, user) {
+  filterToCreate = mapFilter(filterToCreate);
   normalizeFilterFields(filterToCreate);
   const usersExistingFilters = await filterRepository.getByUser(user.id);
 
@@ -23,10 +46,12 @@ async function create(filterToCreate, user) {
   }
 
   filterToCreate.dorbel_user_id = user.id;
-  return filterRepository.create(filterToCreate);
+  const createdFilter = await filterRepository.create(filterToCreate);
+  return mapFilter(createdFilter, true);
 }
 
 async function update(filterId, filterUpdate, user) {
+  filterUpdate = mapFilter(filterUpdate);
   normalizeFilterFields(filterUpdate);
   const filter = await filterRepository.getById(filterId);
 
@@ -43,11 +68,18 @@ async function update(filterId, filterUpdate, user) {
   }
 
   await filter.update(filterUpdate, { fields: filterUpdateFields });
-  return filter;
+  return mapFilter(filter, true);
+}
+
+function upsert(filter, user) {
+  return filter.id ? update(filter.id, filter, user) : create(filter, user);
 }
 
 function getByUser(user) {
-  return filterRepository.getByUser(user.id);
+  if (!user) {
+    throw new errors.NotResourceOwnerError();
+  }
+  return filterRepository.getByUser(user.id).then(filters => filters.map(filter => mapFilter(filter, true)));
 }
 
 function destory(filterId, user) {
@@ -69,7 +101,7 @@ async function getFilterByMatchedListing(listing_id, user) {
   }
 
   const query = mapListingToMatchingFilterQuery(listing);
-  return filterRepository.find(query);
+  return filterRepository.find(query).then(filters => filters.map(filter => mapFilter(filter, true)));
 }
 
 function mapListingToMatchingFilterQuery(listing) {
@@ -131,10 +163,15 @@ function normalizeFilterFields(filter) {
   filter.email_notification = !(filter.email_notification === false);
 }
 
+function mapFilter(source, reverseOrder) {
+  return createObjectByMapping(clientToApiFilterMap, source, reverseOrder);
+}
+
 module.exports = {
   create,
   getByUser,
   getFilterByMatchedListing,
   destory,
-  update
+  update,
+  upsert
 };
