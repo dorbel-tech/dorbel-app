@@ -2,6 +2,10 @@
 # yarn lockfile v1
 
 
+"@google/maps@^0.4.3":
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/@google/maps/-/maps-0.4.3.tgz#b468961114d6e0749c15802e0da149dcea2283a5"
+
 "@newrelic/native-metrics@^2.1.0":
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/@newrelic/native-metrics/-/native-metrics-2.1.1.tgz#2a7abd87373e46b3c957a08124a72c0c41968dc8"

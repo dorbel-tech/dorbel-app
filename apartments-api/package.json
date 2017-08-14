@@ -20,6 +20,7 @@
     "wait:db": "./scripts/wait-for-it.sh db:3306 --timeout=180"
   },
   "dependencies": {
+    "@google/maps": "^0.4.3",
     "apollo-server-koa": "^1.0.4",
     "co": "^4.6.0",
     "co-mocha": "^1.1.3",

@@ -38,12 +38,14 @@ function* createSeed(dbToSeed) {
   });
 
   const telAviv = yield findOrCreate('city', {
-    city_name: 'תל אביב',
+    city_name: 'תל אביב יפו',
+    google_place_id: 'ChIJH3w7GaZMHRURkD-WwKJy-8E',
     country_id: israel.id
   });
 
   const hertzelya = yield findOrCreate('city', {
     city_name: 'הרצליה',
+    google_place_id: 'ChIJb-UlwQ1IHRURxMFKFMsjoEY',
     country_id: israel.id
   });
 
