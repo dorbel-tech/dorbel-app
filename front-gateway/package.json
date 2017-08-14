@@ -7,7 +7,7 @@
     "clean": "rm -rf ./public/build",
     "start": "node src/server/server.js",
     "build": "yarn run clean; NODE_ENV=production webpack",
-    "start:dev": "nodemon --exec node --inspect=5859 src/server/server.js | bunyan -o short",
+    "start:dev": "nodemon --exec node --inspect=0.0.0.0:5859 src/server/server.js | bunyan -o short",
     "build:dev": "NODE_ENV=development webpack-dev-server --content-base public -d --config webpack.config.js --host 0.0.0.0 --colors --inline --no-info",
     "test": "yarn run test:unit",
     "test:unit": "jest --coverage --runInBand",
