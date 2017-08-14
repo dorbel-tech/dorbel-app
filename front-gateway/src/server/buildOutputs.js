@@ -1,10 +1,12 @@
 'use strict';
+const koaConvert = require('koa-convert'); // TODO: remove this after koa-proxy is converted to Koa2 (https://github.com/popomore/koa-proxy/issues/37)
+const proxy = require('koa-proxy');
 
 function setBuildFiles(jsBundle, cssBundle) {
-  return function* (next) {
-    this.state = this.state || {};
-    Object.assign(this.state, { cssBundle, jsBundle });
-    yield next;
+  return async function (ctx, next) {
+    ctx.state = ctx.state || {};
+    Object.assign(ctx.state, { cssBundle, jsBundle });
+    return next();
   };
 }
 
@@ -18,10 +20,10 @@ function getBuildOutputs(app) {
       `${buildHost}/build/bundle.css`
     ));
 
-    app.use(require('koa-proxy')({
+    app.use(koaConvert(proxy({
       host: buildHost,
       match: /^\/build\//,
-    }));
+    })));
   } else {
     const buildManifest = require('../../public/build/manifest.json');
 

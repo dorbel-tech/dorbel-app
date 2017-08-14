@@ -42,54 +42,54 @@ function setRequestRenderState(context, appStore) {
   context.state.meta.url += context.search;
 }
 
-function* renderApp() {
+async function renderApp(ctx) {
   // Redirecting from root to main website.
-  if (process.env.NODE_ENV === 'production' && this.path === '/') {
-    this.status = 301;
-    return this.redirect('https://www.dorbel.com');
+  if (process.env.NODE_ENV === 'production' && ctx.path === '/') {
+    ctx.status = 301;
+    return ctx.redirect('https://www.dorbel.com');
   }
 
   // Old apartment submit form to new one redirect.
-  if (this.path === '/apartments/new' || this.path === '/apartments/new_form') {
-    this.status = 301;
-    return this.redirect('/properties/submit');
+  if (ctx.path === '/apartments/new' || ctx.path === '/apartments/new_form') {
+    ctx.status = 301;
+    return ctx.redirect('/properties/submit');
   }
 
   // Old apartments search redirect to new one.
-  if (this.path === '/apartments' || this.path.startsWith('/apartments?q=')) {
-    this.status = 301;
-    return this.redirect('/search' + this.search);
+  if (ctx.path === '/apartments' || ctx.path.startsWith('/apartments?q=')) {
+    ctx.status = 301;
+    return ctx.redirect('/search' + ctx.search);
   }
 
   // Old apartments page redirect to properties page.
-  if (this.path.startsWith('/apartments/')) {
-    const listingId = this.path.split('/').pop(-1); // Get listingId from path.
-    const url = `${this.protocol}://${this.host}/api/apartments/v1/listings/${listingId}`;
+  if (ctx.path.startsWith('/apartments/')) {
+    const listingId = ctx.path.split('/').pop(-1); // Get listingId from path.
+    const url = `${ctx.protocol}://${ctx.host}/api/apartments/v1/listings/${listingId}`;
 
     return request.get(url) // Get listing from apartments-api.
       .then(response => {
-        this.status = 301;
-        return this.redirect('/properties/' + response.data.apartment_id + this.search);
+        ctx.status = 301;
+        return ctx.redirect('/properties/' + response.data.apartment_id + ctx.search);
       })
       .catch(() => { // If listing wasn't found.
-        return this.redirect('/search');
+        return ctx.redirect('/search');
       });
   }
 
-  const clientSideEnvVars = _.pick(process.env, [ 'NODE_ENV', 'AUTH0_FRONT_CLIENT_ID', 'AUTH0_DOMAIN', 'GOOGLE_MAPS_API_KEY', 
+  const clientSideEnvVars = _.pick(process.env, [ 'NODE_ENV', 'AUTH0_FRONT_CLIENT_ID', 'AUTH0_DOMAIN', 'GOOGLE_MAPS_API_KEY',
     'FRONT_GATEWAY_URL', 'TALKJS_APP_ID', 'TALKJS_PUBLISHABLE_KEY', 'FILESTACK_API_KEY' ]);
 
   clientSideEnvVars.CLOUDINARY_PARAMS = getCloudinaryParams();
 
   const entryPoint = shared.createAppEntryPoint();
-  yield entryPoint.appProviders.authProvider.loginWithCookie(this.cookies);
+  await entryPoint.appProviders.authProvider.loginWithCookie(ctx.cookies);
   // set route will also trigger any data-fetching needed for the requested route
-  yield setRoute(entryPoint.router, this);
+  await setRoute(entryPoint.router, ctx);
   // the stores are now filled with any data that was fetched
   const initialState = entryPoint.appStore.toJson();
-  setRequestRenderState(this, entryPoint.appStore);
+  setRequestRenderState(ctx, entryPoint.appStore);
   const appHtml = renderToString(entryPoint.app);
-  yield this.render('index', { appHtml, initialState, envVars: clientSideEnvVars });
+  await ctx.render('index', { appHtml, initialState, envVars: clientSideEnvVars });
 }
 
 module.exports = {

@@ -1,5 +1,5 @@
 'use strict';
-const koa = require('koa');
+const koaConvert = require('koa-convert'); // TODO: remove this after middleware is migrated to Koa2
 const serve = require('koa-static');
 const compress = require('koa-compress');
 const koa_ejs = require('koa-ejs');
@@ -14,15 +14,13 @@ const logger = shared.logger.getLogger(module);
 const STATIC_FILE_MAX_AGE_MS = 31536000 * 1000; // http://stackoverflow.com/questions/7071763/max-value-for-cache-control-header-in-http
 
 function* runServer() {
-  const app = koa();
-  const port = process.env.PORT || 3001;
+  const { app, listen } = shared.utils.serverBootstrap.createApp({ defaultPort: 3001 });
 
-  app.use(shared.middleware.errorHandler());
-  app.use(shared.middleware.requestLogger());
   app.use(compress());
   getBuildOutputs(app);
   app.use(serve(config.dir.public, { maxage: STATIC_FILE_MAX_AGE_MS }));
-  app.use(shared.middleware.auth.parseAuthToken);
+  app.use(koaConvert(shared.middleware.auth.parseAuthToken));
+
   yield apiProxy.loadProxy(app);
 
   koa_ejs(app, {
@@ -33,13 +31,7 @@ function* runServer() {
 
   app.use(renderApp);
 
-  return new Promise((resolve, reject) => {
-    let server = app.listen(port, function () {
-      logger.info({ version: process.env.npm_package_version, env: process.env.NODE_ENV, port }, 'Server started');
-      resolve(server);
-    })
-    .on('error', reject);
-  });
+  return listen();
 }
 
 if (require.main === module) {
