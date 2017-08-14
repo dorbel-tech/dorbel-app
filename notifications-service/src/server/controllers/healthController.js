@@ -1,7 +1,7 @@
 'use strict';
 
-function* get() {
-  this.response.body = 'OK';
+function get(ctx) {
+  ctx.response.body = 'OK';
 }
 
 module.exports = {

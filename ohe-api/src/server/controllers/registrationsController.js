@@ -3,25 +3,25 @@ const shared = require('dorbel-shared');
 const logger = shared.logger.getLogger(module);
 const service = require('../../services/openHouseEventRegistrationsService');
 
-function* post() {
-  const eventId = this.request.body.open_house_event_id;
-  let user = this.request.body.user_details;
-  user.user_id = this.request.user.id;
+async function post(ctx) {
+  const eventId = ctx.request.body.open_house_event_id;
+  let user = ctx.request.body.user_details;
+  user.user_id = ctx.request.user.id;
   logger.debug({event_id: eventId, user_uuid: user.user_id}, 'Registering to an open house event...');
-  
-  const result = yield service.register(eventId, user);
+
+  const result = await service.register(eventId, user);
   logger.info({event_id: eventId, user_uuid: user.user_id}, 'Registration created');
-  this.response.status = 201;
-  this.response.body = result;
+  ctx.response.status = 201;
+  ctx.response.body = result;
 }
 
-function* remove() {
-  const id = this.params.id;
-  const user = this.request.user;
+async function remove(ctx) {
+  const id = ctx.params.id;
+  const user = ctx.request.user;
   logger.debug({event_id: id, user_uuid: user.user_id}, 'Deleting registration...');
-  yield service.unregister(id, user);
+  await service.unregister(id, user);
   logger.info({event_id: id, user_uuid: user.user_id}, 'Registration deleted');
-  this.response.status = 200;
+  ctx.response.status = 200;
 }
 
 module.exports = {

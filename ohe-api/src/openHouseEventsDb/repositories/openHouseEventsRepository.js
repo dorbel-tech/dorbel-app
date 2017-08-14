@@ -38,16 +38,16 @@ function findById(eventId) {
   });
 }
 
-function* findByListingId(listing_id) {
+function findByListingId(listing_id) {
   return find({ listing_id: listing_id });
 }
 
-function* create(openHouseEvent) {
-  return yield models.open_house_event.create(openHouseEvent);
+function create(openHouseEvent) {
+  return models.open_house_event.create(openHouseEvent);
 }
 
-function* update(openHouseEvent) {
-  return yield openHouseEvent.update({
+function update(openHouseEvent) {
+  return openHouseEvent.update({
     start_time: openHouseEvent.start_time,
     end_time: openHouseEvent.end_time,
     max_attendies: openHouseEvent.max_attendies,
