@@ -35,6 +35,17 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
     }
   }
 
+  login() {
+    const { webAuth } = this.props.appProviders.authProvider;
+    const formModel = this.refs.form.refs.formsy.getModel();
+
+    webAuth.client.login({
+      username: formModel.user.email,
+      password: formModel.user.pass,
+      realm: 'Username-Password-Authentication'
+    });
+  }
+
   onCloseSuccessModal() {
     const { createdListingId, appProviders, appStore } = this.props;
     const redirectPath = appStore.newListingStore.uploadMode == 'manage' ? '/manage' : '/ohe';
@@ -45,7 +56,6 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
 
   renderUserDetails() {
     const { authStore } = this.props.appStore;
-    const { authProvider } = this.props.appProviders;
     const FRC = FormWrapper.FRC;
 
     if (authStore.isLoggedIn) {
@@ -90,9 +100,19 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
       return (
         <Row className="form-section">
           <div className="form-section-headline">פרטי קשר</div>
-          <Col sm={6}>
-            <Button bsStyle="success" className="verify-user" block onClick={authProvider.showLoginModal}>וידוא פרטי קשר</Button>
-          </Col>
+          <Row>
+            <Col sm={6}>
+              <FRC.Input name="user.email" label="מייל"
+                type="email" validations="isEmail" validationError="כתובת מייל לא תקינה" required />
+              <FRC.Input name="user.pass" label="סיסמא"
+                type="password" validationError="סיסמא לא תקינה" required />
+            </Col>
+          </Row>
+          <Row>
+            <Col sm={6}>
+              <Button bsStyle="success" className="verify-user" block onClick={this.login}>התחבר</Button>
+            </Col>
+          </Row>
         </Row>
       );
     }

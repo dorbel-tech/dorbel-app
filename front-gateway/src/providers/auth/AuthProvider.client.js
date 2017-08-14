@@ -10,7 +10,8 @@ class AuthProvider {
 
     this.webAuth = new auth0.WebAuth({
       domain:   domain,
-      clientID: clientId
+      clientID: clientId,
+      redirectUri: window.location.origin + '/login'
     });
 
     this.lock = auth0helper.initLock(clientId, domain);
