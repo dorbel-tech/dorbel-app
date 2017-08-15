@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index",
-    "start:dev": "yarn run check; nodemon --inspect=5861 src/index | bunyan -o short",
+    "start:dev": "yarn run check; nodemon --inspect=0.0.0.0:5861 src/index | bunyan -o short",
     "test": "yarn run test:unit",
     "test:unit": "nyc --all mocha --timeout 10000 test/shared/before-tests.js test/unit/**/*.spec.js",
     "test:integration": "mocha --timeout 10000 test/shared/before-tests.js test/integration/**/*.spec.js",
