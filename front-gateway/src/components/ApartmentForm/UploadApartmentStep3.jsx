@@ -36,14 +36,10 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
   }
 
   login() {
-    const { webAuth } = this.props.appProviders.authProvider;
+    const { authProvider } = this.props.appProviders;
     const formModel = this.refs.form.refs.formsy.getModel();
 
-    webAuth.client.login({
-      username: formModel.user.email,
-      password: formModel.user.pass,
-      realm: 'Username-Password-Authentication'
-    });
+    authProvider.login(formModel.user.email, formModel.user.pass);
   }
 
   onCloseSuccessModal() {

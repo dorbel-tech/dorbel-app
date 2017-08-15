@@ -10,8 +10,7 @@ class AuthProvider {
 
     this.webAuth = new auth0.WebAuth({
       domain:   domain,
-      clientID: clientId,
-      redirectUri: window.location.origin + '/login'
+      clientID: clientId
     });
 
     this.lock = auth0helper.initLock(clientId, domain);
@@ -29,6 +28,34 @@ class AuthProvider {
       this.onHideCallback();
     }
     this.onHideCallback = undefined;
+  }
+
+  login(username, password) {
+    this.webAuth.client.login({
+      password: password,
+      realm: 'Username-Password-Authentication',
+      username: username
+    }, (err, authResult) => {
+      if (err && err.statusCode === 403) {
+        this.signup(username, password);
+      } else if (authResult) {
+        this.afterAuthentication(authResult);
+      }
+    });
+  }
+
+  signup(username, password) {
+    this.webAuth.signup({
+      connection: 'Username-Password-Authentication',
+      email: username,
+      password: password
+    }, (err) => {
+      if (err) {
+        return console.log('Something went wrong: ' + err.message);
+      } else {
+        this.login(username, password);
+      }
+    });
   }
 
   afterAuthentication(authResult) {
