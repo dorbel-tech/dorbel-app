@@ -33,8 +33,7 @@ async function create(listing_id, payload, requestingUser) {
       listing_id,
       email: payload.email,
       first_name: payload.first_name,
-      last_name: payload.last_name,
-      phone: payload.phone
+      last_name: payload.last_name
     };
   }
 
@@ -68,7 +67,7 @@ async function remove(listing_user_id, requestingUser) {
 }
 
 function mapToListingUserResponse(listingUserFromDb, publicProfile) {
-  const listingUserResponse = _.pick(listingUserFromDb, [ 'email', 'first_name', 'last_name', 'phone', 'id', 'listing_id' ]);
+  const listingUserResponse = _.pick(listingUserFromDb, [ 'email', 'first_name', 'last_name', 'id', 'listing_id' ]);
 
   if (listingUserFromDb.dorbel_user_id && !publicProfile) {
     throw new errors.DomainNotFoundError('missing public profile', listingUserFromDb, 'known user must have public profile');
