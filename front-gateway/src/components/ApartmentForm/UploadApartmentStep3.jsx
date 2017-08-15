@@ -35,6 +35,10 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
     }
   }
 
+  socialLogin(e) {
+    this.props.appProviders.authProvider.authorize(e.target.name);
+  }
+
   login() {
     const { authProvider } = this.props.appProviders;
     const formModel = this.refs.form.refs.formsy.getModel();
@@ -98,6 +102,16 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
           <div className="form-section-headline">פרטי קשר</div>
           <Row>
             <Col sm={6}>
+              <Button name="facebook" bsStyle="success" block onClick={this.socialLogin}>התחבר באמצעות חשבון פייסבוק</Button>
+            </Col>
+          </Row>
+          <Row>
+            <Col sm={6}>
+              <Button name="google" bsStyle="success" block onClick={this.socialLogin}>התחבר בעמצאות חשבון גוגל</Button>
+            </Col>
+          </Row>
+          <Row>
+            <Col sm={6}>
               <FRC.Input name="user.email" label="מייל"
                 type="email" validations="isEmail" validationError="כתובת מייל לא תקינה" required />
               <FRC.Input name="user.pass" label="סיסמא"
@@ -106,7 +120,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
           </Row>
           <Row>
             <Col sm={6}>
-              <Button bsStyle="success" className="verify-user" block onClick={this.login}>התחבר</Button>
+              <Button bsStyle="success" block onClick={this.login}>התחבר</Button>
             </Col>
           </Row>
         </Row>

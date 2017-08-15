@@ -30,6 +30,14 @@ class AuthProvider {
     this.onHideCallback = undefined;
   }
 
+  authorize(connection) {
+    this.webAuth.authorize({
+      connection: connection,
+      redirectUri: window.location.origin + '/login',
+      responseType: 'token'
+    });
+  }
+
   login(username, password) {
     this.webAuth.client.login({
       password: password,
