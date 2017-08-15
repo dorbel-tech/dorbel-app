@@ -59,7 +59,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
     const FRC = FormWrapper.FRC;
 
     if (authStore.isLoggedIn) {
-      // setting this up specificially because somehow it gets lost when logging in
+      // setting this up specifically because somehow it gets lost when logging in
       const { publishing_user_type, show_phone } = this.props.appStore.newListingStore.formValues.publishing_user_type;
 
       return (
