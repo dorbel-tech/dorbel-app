@@ -106,6 +106,7 @@ module.exports = `
   }
 
   input FilterInput {
+    id: Int
     ${filterFields}
   }
 
