@@ -198,4 +198,66 @@ describe('Apartments API - saved filters - ', function () {
       __.assertThat(matchedFilters, __.not(__.hasItem(__.hasProperty('id', matchingFilter.id))));
     });
   });
+
+  describe.only('using graphql', function () {
+    before(async function() {
+      const { body: existingFilters } = await this.apiClient.getFilters().expect(200);
+      await Promise.all( // delete all existing filters of the test user
+        existingFilters.map(filter => this.apiClient.deleteFilter(filter.id).expect(204))
+      );
+    });
+
+    const upsertFilterMutation = filter => `
+      mutation createFilter($filter: FilterInput!) {
+        upsertFilter(filter: $filter) {
+          id, dorbel_user_id, ${Object.keys(filter).join(', ')}
+        }
+      }
+    `;
+
+    const myFiltersQuery = `
+      query getFilters {
+        filters { id }
+      }
+    `;
+
+    it('should create new filter', async function () {
+      const newFilter = createFilter();
+
+      const { body: { data: { upsertFilter: createdFilter } } } = await this.apiClient.gql(upsertFilterMutation(newFilter), { filter: newFilter }).expect(200);
+
+      __.assertThat(createdFilter, __.allOf(
+        __.hasProperties(newFilter),
+        __.hasProperties({ dorbel_user_id: this.apiClient.userProfile.id, id: __.is(__.number()) })
+      ));
+      this.createdFilter = createdFilter;
+    });
+
+    it('should get filters', async function () {
+      const { body: { data: { filters: myFilters } } } = await this.apiClient.gql(myFiltersQuery).expect(200);
+
+      __.assertThat(myFilters, __.hasSize(1));
+      __.assertThat(myFilters[0], __.hasProperty('id', this.createdFilter.id));
+    });
+
+    it('should update a filter', async function () {
+      const filterUpdate = createFilter();
+      filterUpdate.id = this.createdFilter.id;
+
+      const { body: { data: { upsertFilter: updatedFilter } } } = await this.apiClient.gql(upsertFilterMutation(filterUpdate), { filter: filterUpdate }).expect(200);
+
+      __.assertThat(updatedFilter, __.hasProperties(filterUpdate));
+    });
+
+    it('should delete a filter', async function () {
+      await this.apiClient.gql(`
+        mutation deleteFilter($id: Int!) {
+          deleteFilter(id: $id)
+        }
+      `, { id: this.createdFilter.id }).expect(200);
+
+      const { body: { data: { filters: myFilters } } } = await this.apiClient.gql(myFiltersQuery).expect(200);
+      __.assertThat(myFilters, __.hasSize(0));
+    });
+  });
 });
