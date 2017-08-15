@@ -49,9 +49,24 @@ class ApiProvider {
     .then(res => res.data);
   }
 
+  gqlCommand(type, params) {
+    return this.apolloClient[type](params)
+    .catch(err => {
+      err.message = err.message.replace('GraphQL error: ', '');
+      throw err;
+    });
+  }
+
   gql(query, variables) {
-    return this.apolloClient.query({
+    return this.gqlCommand('query', {
       query: gql(query),
+      variables
+    });
+  }
+
+  mutate(mutation, variables) {
+    return this.gqlCommand('mutate', {
+      mutation: gql(mutation),
       variables
     });
   }

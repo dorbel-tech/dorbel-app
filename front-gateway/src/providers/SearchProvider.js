@@ -4,6 +4,7 @@
 'use strict';
 import _ from 'lodash';
 import { isMobile, asPromise } from './utils';
+import { fieldSets } from '~/graphql';
 
 const PAGE_SIZE = isMobile() ? 9 : 15;
 const FILTERS_URL = '/api/apartments/v1/filters';
@@ -80,37 +81,25 @@ class SearchProvider {
     return this.appStore.searchStore.lastScrollTop;
   }
 
-  loadSavedFilters() {
-    return this.apiProvider.fetch(FILTERS_URL)
-    .then(filters => {
-      filters.forEach(filter => this.appStore.searchStore.filters.set(filter.id, filter));
-    });
-  }
-
   saveFilter(filter) {
     const { searchStore } = this.appStore;
-    filter = _.cloneDeep(filter);
+    filter = _.pick(filter, fieldSets.filterFields);
     if (filter.neighborhood === '*') {
       filter.neighborhood = undefined;
     }
 
-    let url = FILTERS_URL;
-    let method = 'POST';
-
     if (searchStore.activeFilterId) { // filter is not new
-      url += '/' + searchStore.activeFilterId;
-      method = 'PUT';
-      if (!filter.hasOwnProperty('email_notification')) { // if email_notification is not set we keep current value
-        filter.email_notification = searchStore.filters.get(searchStore.activeFilterId).email_notification;
-      }
+      filter.id = searchStore.activeFilterId;
     }
 
     return asPromise(() => this.validateFilter(filter))
-    .then(() => this.apiProvider.fetch(url, { method, data: filter }))
-    .then(updatedFilter => {
-      searchStore.filters.set(updatedFilter.id, updatedFilter);
-      searchStore.activeFilterId = updatedFilter.id;
-    });
+    .then(() => this.apiProvider.mutate(`
+      mutation saveFilter($filter: FilterInput!) {
+        upsertFilter(filter: $filter) {
+          ${fieldSets.filterFields.join(', ')}
+        }
+      }`, { filter }))
+    .then(({ data }) => searchStore.activeFilterId = data.upsertFilter.id);
   }
 
   resetActiveFilter() {
