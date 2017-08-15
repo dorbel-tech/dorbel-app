@@ -107,7 +107,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
           </Row>
           <Row>
             <Col sm={6}>
-              <Button name="google" bsStyle="success" block onClick={this.socialLogin}>התחבר בעמצאות חשבון גוגל</Button>
+              <Button name="google-oauth2" bsStyle="success" block onClick={this.socialLogin}>התחבר בעמצאות חשבון גוגל</Button>
             </Col>
           </Row>
           <Row>
