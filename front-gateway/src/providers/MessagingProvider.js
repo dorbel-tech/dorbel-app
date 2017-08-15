@@ -92,7 +92,7 @@ class MessagingProvider {
       const withUser = new global.window.Talk.User(_.defaults(withUserObj, TALKJS_USER_OBJ_EXTRA));
 
       const conversation = this.talkSession.getOrStartConversation(withUser, options || {});
-      const popup = this.talkSession.createPopup(conversation);
+      const popup = this.talkSession.createPopup(conversation, {keepOpen: false});
       popup.mount();
 
       hideIntercom(true);
@@ -104,16 +104,17 @@ class MessagingProvider {
   }
 
   // Create an inbox for the active TalkJS user using a new TalkJS session.
-  createInbox(element) {
+  createInbox(element, listingId) {
     return global.window.Talk.ready.then(
-      this.createInboxOnReady.bind(this, element)
+      this.createInboxOnReady.bind(this, element, listingId)
     );
   }
 
-  createInboxOnReady(element) {
+  createInboxOnReady(element, listingId) {
     if (this.initTalkSession()) {
       const inbox = this.talkSession.createInbox();
       inbox.mount(element);
+      listingId && inbox.select(listingId);
     } else {
       throw new Error('MessagingProvider.createInbox');
     }

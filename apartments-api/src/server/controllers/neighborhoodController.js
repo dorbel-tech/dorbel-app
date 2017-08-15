@@ -3,9 +3,9 @@ const neighborhoodRepository = require('../../apartmentsDb/repositories/neighbor
 const shared = require('dorbel-shared');
 const ONE_DAY = 60 * 60 * 24;
 
-function* get() {
-  shared.helpers.headers.setCacheHeader(this.response, ONE_DAY);  
-  this.response.body = yield neighborhoodRepository.getByCityId(this.params.cityId);
+async function get(ctx) {
+  shared.helpers.headers.setCacheHeader(ctx.response, ONE_DAY);
+  ctx.response.body = await neighborhoodRepository.getByCityId(ctx.params.cityId);
 }
 
 module.exports = {

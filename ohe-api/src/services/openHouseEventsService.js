@@ -35,7 +35,7 @@ function validateEventOverlap(existingListingEvents, start, end) {
     });
 }
 
-function* create(openHouseEvent, user) {
+async function create(openHouseEvent, user) {
   const userId = openHouseEvent.listing_publishing_user_id || openHouseEvent.publishing_user_id;
   userPermissions.validateResourceOwnership(user, userId);
 
@@ -47,10 +47,10 @@ function* create(openHouseEvent, user) {
 
   validateEventParamters(start, end);
 
-  const existingListingEvents = yield openHouseEventsRepository.findByListingId(listing_id);
+  const existingListingEvents = await openHouseEventsRepository.findByListingId(listing_id);
   validateEventOverlap(existingListingEvents, start, end);
 
-  const newEvent = yield openHouseEventsRepository.create({
+  const newEvent = await openHouseEventsRepository.create({
     listing_id: listing_id,
     publishing_user_id: userId,
     start_time: start,
@@ -73,8 +73,8 @@ function* create(openHouseEvent, user) {
   return newEvent;
 }
 
-function* update(id, updateRequest, user) {
-  const existingEvent = yield openHouseEventsFinderService.find(id);
+async function update(id, updateRequest, user) {
+  const existingEvent = await openHouseEventsFinderService.find(id);
   const old_start_time = existingEvent.start_time;
   const old_end_time = existingEvent.end_time;
 
@@ -97,7 +97,7 @@ function* update(id, updateRequest, user) {
 
   validateEventParamters(start, end);
 
-  const existingListingEvents = yield openHouseEventsRepository.findByListingId(existingEvent.listing_id);
+  const existingListingEvents = await openHouseEventsRepository.findByListingId(existingEvent.listing_id);
   const otherEvents = existingListingEvents.filter(otherEvent => otherEvent.id !== id && otherEvent.status === 'active');
   validateEventOverlap(otherEvents, start, end);
 
@@ -105,7 +105,7 @@ function* update(id, updateRequest, user) {
   existingEvent.end_time = end;
   existingEvent.max_attendies = updateRequest.max_attendies;
 
-  const result = yield openHouseEventsRepository.update(existingEvent);
+  const result = await openHouseEventsRepository.update(existingEvent);
   logger.info({ user_uuid: existingEvent.publishing_user_id, event_id: existingEvent.id }, 'OHE updated');
 
   if (timeChanged) {
@@ -121,23 +121,23 @@ function* update(id, updateRequest, user) {
   return result;
 }
 
-function* remove(eventId, user) {
-  return yield updateStatus(eventId, user, 'deleted');
+function remove(eventId, user) {
+  return updateStatus(eventId, user, 'deleted');
 }
 
-function* deactivate(eventId, user) {
-  return yield updateStatus(eventId, user, 'inactive');
+function deactivate(eventId, user) {
+  return updateStatus(eventId, user, 'inactive');
 }
 
-function* updateStatus(eventId, user, status) {
-  let existingEvent = yield openHouseEventsFinderService.find(eventId);
+async function updateStatus(eventId, user, status) {
+  let existingEvent = await openHouseEventsFinderService.find(eventId);
 
   userPermissions.validateResourceOwnership(user, existingEvent.publishing_user_id);
   const oldStatus = existingEvent.status;
 
   existingEvent.status = status;
 
-  const result = yield openHouseEventsRepository.update(existingEvent);
+  const result = await openHouseEventsRepository.update(existingEvent);
   logger.info({ user_uuid: existingEvent.publishing_user_id, event_id: existingEvent.id, old_satus: oldStatus, new_status: status }, 'OHE status changed');
 
   let eventType;
@@ -161,8 +161,8 @@ function* updateStatus(eventId, user, status) {
   return result;
 }
 
-function* findByListing(listing_ids, user, additionalQuery) {
-  let events = yield openHouseEventsRepository.find(Object.assign({ listing_id: listing_ids }, additionalQuery));
+async function findByListing(listing_ids, user, additionalQuery) {
+  let events = await openHouseEventsRepository.find(Object.assign({ listing_id: listing_ids }, additionalQuery));
   let promises = [];
 
   const userId = user ? user.id : undefined;
@@ -184,7 +184,7 @@ function* findByListing(listing_ids, user, additionalQuery) {
     return eventDto;
   });
 
-  yield promises; // wait for it
+  await Promise.all(promises); // wait for it
   return events;
 }
 

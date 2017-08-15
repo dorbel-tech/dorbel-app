@@ -8,13 +8,12 @@ describe('Neighborhood Provider', () => {
 
   beforeAll(() => {
     apiMock = {
-      fetch: jest.fn().mockReturnValue(Promise.resolve())
+      gql: jest.fn()
     };
     appStoreMock = {
       neighborhoodStore: {
         neighborhoodsByCityId: {
-          set: () => { },
-          get: () => { }
+          set: jest.fn(),
         }
       }
     };
@@ -25,9 +24,16 @@ describe('Neighborhood Provider', () => {
   afterEach(() => jest.resetAllMocks());
 
   describe('Load neighborhoods', () => {
-    it('should call api only once', () => {
-      return Promise.all([neighborhoodProvider.loadNeighborhoodByCityId(1), neighborhoodProvider.loadNeighborhoodByCityId(1)])
-        .then(() => expect(apiMock.fetch).toHaveBeenCalledTimes(1));
+    it('should call GQL api with city parameter and store values in store', () => {
+      const city_id = 3;
+      const mockNeighborhoods = [ 1,2,3 ];
+      apiMock.gql.mockReturnValue(Promise.resolve({ data: { neighborhoods: mockNeighborhoods } }));
+
+      return neighborhoodProvider.loadNeighborhoodByCityId(city_id)
+      .then(() => {
+        expect(apiMock.gql.mock.calls[0][1]).toHaveProperty('city_id', city_id);
+        expect(appStoreMock.neighborhoodStore.neighborhoodsByCityId.set).toHaveBeenCalledWith(city_id, mockNeighborhoods);
+      });
     });
   });
 });

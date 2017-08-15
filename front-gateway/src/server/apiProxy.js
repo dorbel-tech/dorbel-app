@@ -1,6 +1,7 @@
 'use strict';
-import shared from 'dorbel-shared';
-import proxy from 'koa-proxy';
+const shared = require('dorbel-shared');
+const koaConvert = require('koa-convert'); // TODO: remove this after koa-proxy is converted to Koa2 (https://github.com/popomore/koa-proxy/issues/37)
+const proxy = require('koa-proxy');
 
 const logger = shared.logger.getLogger(module);
 
@@ -23,11 +24,11 @@ function* loadProxy(app) {
   apisConfig.forEach(apiConfig => {
     logger.info(apiConfig, 'loading proxy for backend API');
     const pattern = new RegExp(`^\/api\/${apiConfig.prefix}`);
-    app.use(proxy({
+    app.use(koaConvert(proxy({
       host: process.env[apiConfig.url],
       match: pattern,
       map: (path) => path.replace(pattern, '')
-    }));
+    })));
   });
 }
 

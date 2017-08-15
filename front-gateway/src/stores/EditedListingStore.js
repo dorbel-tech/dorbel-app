@@ -2,7 +2,7 @@
  * This store should hold the values of a listing being created (uploaded) or edited
  */
 import _ from 'lodash';
-import { observable, autorun, extendObservable } from 'mobx';
+import { observable, computed, autorun, extendObservable } from 'mobx';
 import autobind from 'react-autobind';
 import localStorageHelper from './localStorageHelper';
 import FlatListing from './models/FlatListing';
@@ -13,9 +13,16 @@ export default class EditedListingStore {
   @observable uploadMode;
   @observable formValues;
   @observable stepNumber = 0;
-  @observable disableSave = false;
-  @observable uploadedImagesCount = 0;
   @observable isFromValid = true;
+
+  @computed get shouldDisableSave() {
+    const images = this.formValues.images;
+    if (this.uploadMode !== 'manage') {
+      return images.length === 0 || images.some(img => !img.complete);
+    }
+
+    return false;
+  }
 
   constructor(authStore, options) {
     this.authStore = authStore;
@@ -32,21 +39,11 @@ export default class EditedListingStore {
   reset() {
     this.formValues = new FlatListing();
     this.stepNumber = 0;
-    this.disableSave = false;
-    this.uploadedImagesCount = 0;
     this.isFromValid = true;
 
     if (process.env.IS_CLIENT && this.options.localStorageKey) {
       localStorage.removeItem(this.options.localStorageKey);
     }
-  }
-
-  set disableSave(value) {
-    this.disableSave = value;
-  }
-
-  set uploadedImagesCount(value) {
-    this.uploadedImagesCount = value;
   }
 
   set isFromValid(value) {
@@ -86,8 +83,9 @@ export default class EditedListingStore {
       .filter(key => formValues.hasOwnProperty(key))
       .forEach(key => _.set(listing, key, formValues[key]));
 
-    listing.images = formValues.images.map((image, index) => ({
-      url: image.secure_url || image.src, display_order: index
+    listing.images = formValues.images.map((image) => ({
+      url: image.secure_url || image.src,
+      display_order: image.display_order
     }));
 
     return listing;

@@ -64,9 +64,9 @@ describe('Apartments API Integration', function () {
       delete newListing.monthly_rent;
 
       const response = yield this.apiClient.createListing(newListing).expect(400).end();
-      __.assertThat(response.body,
-        __.hasProperty('details', __.hasItem('monthly_rent is a required field'))
-      );
+      __.assertThat(response.body, __.hasProperty('details',
+        __.hasItem('monthly_rent is a required field')
+      ));
     });
   });
 
@@ -210,5 +210,9 @@ describe('Apartments API Integration', function () {
 
       __.assertThat(response.body, __.everyItem(__.hasProperty('views')));
     });
+  });
+
+  it('should respond to endpoint with trailing slash', function * () {
+    yield this.apiClient.get('/v1/cities/').expect(200).end();
   });
 });

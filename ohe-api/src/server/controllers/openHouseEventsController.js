@@ -5,51 +5,50 @@ const openHouseEventsService = require('../../services/openHouseEventsService');
 const openHouseEventsFinderService = require('../../services/openHouseEventsFinderService');
 const ONE_MINUTE = 60;
 
-
-function* get() {
-  const id = this.params.id;
+async function get(ctx) {
+  const id = ctx.params.id;
   logger.debug({event_id: id}, 'Getting open house event...');
-  const result = yield openHouseEventsFinderService.find(id);
+  const result = await openHouseEventsFinderService.find(id);
   logger.info({event_id: id}, 'Open house event found');
-  this.response.status = 200;
+  ctx.response.status = 200;
 
-  shared.helpers.headers.setUserConditionalCacheHeader(this.request, this.response, ONE_MINUTE);  
-  this.response.body = result;
+  shared.helpers.headers.setUserConditionalCacheHeader(ctx.request, ctx.response, ONE_MINUTE);
+  ctx.response.body = result;
 }
 
-function* post() {
-  const data = this.request.body;
-  data.publishing_user_id = this.request.user.id;  
+async function post(ctx) {
+  const data = ctx.request.body;
+  data.publishing_user_id = ctx.request.user.id;
   logger.debug({data}, 'Creating new open house event...');
-  const result = yield openHouseEventsService.create(data, this.request.user);
+  const result = await openHouseEventsService.create(data, ctx.request.user);
   logger.info({event_id: result.id}, 'Open house event created');
-  this.response.status = 201;
-  this.response.body = result;
+  ctx.response.status = 201;
+  ctx.response.body = result;
 }
 
-function* put() {
-  const data = this.request.body;
-  const id = parseInt(this.params.id);
-  const user = this.request.user;
+async function put(ctx) {
+  const data = ctx.request.body;
+  const id = parseInt(ctx.params.id);
+  const user = ctx.request.user;
   logger.debug({id, data}, 'Updating open house event...');
-  const result = yield openHouseEventsService.update(id, data, user);
+  const result = await openHouseEventsService.update(id, data, user);
   logger.info({event_id: result.id}, 'Open house event updated');
-  this.response.status = 200;
-  this.response.body = result;
+  ctx.response.status = 200;
+  ctx.response.body = result;
 }
 
-function* remove() {
-  const id = this.params.id;
-  const user = this.request.user;
+async function remove(ctx) {
+  const id = ctx.params.id;
+  const user = ctx.request.user;
   logger.debug({event_id: id}, 'Deleting open house event...');
-  yield openHouseEventsService.remove(id, user);
+  await openHouseEventsService.remove(id, user);
   logger.info(id, 'Open house event deleted');
-  this.response.status = 200;
+  ctx.response.status = 200;
 }
 
 module.exports = {
-  get:get,
+  get: get,
   post: post,
   put: put,
-  delete:remove
+  delete: remove
 };

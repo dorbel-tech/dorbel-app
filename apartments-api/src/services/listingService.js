@@ -30,14 +30,14 @@ function CustomError(code, message) {
   return error;
 }
 
-function* create(listing, user) {
+async function create(listing, user) {
   const publishingUserId = user.id;
   listing.publishing_user_id = publishingUserId;
-  yield validateNewListing(listing, user);
+  await validateNewListing(listing, user);
 
   let modifiedListing = setListingAutoFields(listing);
-  listing.apartment.building.geolocation = yield geoProvider.getGeoLocation(listing.apartment.building);
-  let createdListing = yield listingRepository.create(modifiedListing);
+  listing.apartment.building.geolocation = await geoProvider.getGeoLocation(listing.apartment.building);
+  let createdListing = await listingRepository.create(modifiedListing);
 
   // TODO: Update user details can be done on client using user token.
   userManagement.updateUserDetails(publishingUserId, {
@@ -80,12 +80,12 @@ function* create(listing, user) {
   return createdListing;
 }
 
-function* validateNewListing(listing, user) {
+async function validateNewListing(listing, user) {
   if (['pending', 'rented'].indexOf(listing.status) < 0) {
     throw new CustomError(400, `לא ניתן להעלות דירה ב status ${listing.status}`);
   }
 
-  const validationData = yield getValidationData(listing.apartment, user);
+  const validationData = await getValidationData(listing.apartment, user);
   if (validationData.listing_id) {
     const loggerObj = {
       requestingUser: user,
@@ -111,8 +111,8 @@ function* validateNewListing(listing, user) {
   }
 }
 
-function* update(listingId, user, patch) {
-  const listing = yield listingRepository.getById(listingId);
+async function update(listingId, user, patch) {
+  const listing = await listingRepository.getById(listingId);
 
   if (!listing) {
     logger.error({ listingId }, 'Listing wasnt found');
@@ -133,9 +133,9 @@ function* update(listingId, user, patch) {
   patch = setListingAutoFields(patch);
 
   try {
-    const result = yield listingRepository.update(listing, patch);
+    const result = await listingRepository.update(listing, patch);
     notifyListingChanged(oldListing, patch);
-    return yield enrichListingResponse(result, user);
+    return await enrichListingResponse(result, user);
   }
   catch (ex) {
     // Handle a case where the requested changes conflict with a different apartment's details
@@ -228,9 +228,9 @@ function setListingAutoFields(listing) {
   return listing;
 }
 
-function* getByFilter(filter = {}, options = {}) {
+async function getByFilter(filter = {}, options = {}) {
   const { listingQuery, queryOptions } = listingSearchQuery.getListingQuery(filter, options);
-  const listings = yield listingRepository.list(listingQuery, queryOptions);
+  const listings = await listingRepository.list(listingQuery, queryOptions);
 
   if (!filter.myProperties) {
     listings.forEach(listing => {
@@ -242,26 +242,26 @@ function* getByFilter(filter = {}, options = {}) {
   return listings;
 }
 
-function* getByApartmentId(id, user) {
-  let listing = yield listingRepository.getByApartmentId(id);
+async function getByApartmentId(id, user) {
+  let listing = await listingRepository.getByApartmentId(id);
 
   if (!listing) {
     throw new CustomError(404, 'Cant get listing by apartmentId. Listing does not exists. apartmentId: ' + id);
   }
 
   validateListing(listing, user);
-  return yield enrichListingResponse(listing, user);
+  return await enrichListingResponse(listing, user);
 }
 
-function* getById(id, user) {
-  let listing = yield listingRepository.getById(id);
+async function getById(id, user) {
+  let listing = await listingRepository.getById(id);
 
   if (!listing) {
     throw new CustomError(404, 'Cant get listing by Id. Listing does not exists. listingId: ' + id);
   }
 
   validateListing(listing, user);
-  return yield enrichListingResponse(listing, user);
+  return await enrichListingResponse(listing, user);
 }
 
 function validateListing(listing, user) {
@@ -281,16 +281,16 @@ function validateListing(listing, user) {
   }
 }
 
-function* getBySlug(slug, user) {
+async function getBySlug(slug, user) {
   // TODO: Remove once all legacy listing urls with slug are outdated.
   logger.warn('You are using deprecated function, please use getByApartmentId instead!');
-  let listing = yield listingRepository.getBySlug(slug);
+  let listing = await listingRepository.getBySlug(slug);
 
   if (!listing) {
     throw new CustomError(404, 'Cant get listing by slug. Listing does not exists. slug: ' + slug);
   }
 
-  return yield enrichListingResponse(listing, user);
+  return await enrichListingResponse(listing, user);
 }
 
 function getPossibleStatuses(listing, user) {
@@ -306,13 +306,14 @@ function getPossibleStatuses(listing, user) {
   return possibleStatuses;
 }
 
-function* enrichListingResponse(listing, user) {
+async function enrichListingResponse(listing, user) {
   if (listing) {
     const enrichedListing = listing.toJSON ? listing.toJSON() : _.cloneDeep(listing); // discard SQLize object for adding ad-hoc properties
 
-    const publishingUserProfile = yield userManagement.getPublicProfile(listing.publishing_user_id);
+    const publishingUserProfile = await userManagement.getPublicProfile(listing.publishing_user_id);
     if (publishingUserProfile) {
       enrichedListing.publishing_user_first_name = publishingUserProfile.first_name;
+      enrichedListing.allow_publisher_messages = publishingUserProfile.allow_publisher_messages;
     }
 
     enrichedListing.meta = {
@@ -323,10 +324,10 @@ function* enrichListingResponse(listing, user) {
 
     if (user) {
       if (userPermissions.isResourceOwnerOrAdmin(user, listing.publishing_user_id)) {
-        enrichedListing.totalLikes = yield likeRepository.getApartmentTotalLikes(listing.apartment_id);
+        enrichedListing.totalLikes = await likeRepository.getApartmentTotalLikes(listing.apartment_id);
       }
       else {
-        yield throwIfNotAllowed(listing);
+        throwIfNotAllowed(listing);
         delete enrichedListing.property_value;
       }
       if (publishingUserProfile) {
@@ -339,7 +340,7 @@ function* enrichListingResponse(listing, user) {
     }
     else {
       delete enrichedListing.property_value;
-      yield throwIfNotAllowed(listing);
+      throwIfNotAllowed(listing);
     }
 
     delete enrichedListing.rent_lead_by;
@@ -349,14 +350,14 @@ function* enrichListingResponse(listing, user) {
   return listing;
 }
 
-function* throwIfNotAllowed(listing) {
+function throwIfNotAllowed(listing) {
   if (listing.status == 'rented' && !listing.show_for_future_booking) {
     throw new CustomError(403, 'Cant show rented listing. User is not a publisher of listingId: ' + listing.id);
   }
 }
 
-function* getRelatedListings(apartmentId, limit) {
-  const listing = yield listingRepository.getByApartmentId(apartmentId);
+async function getRelatedListings(apartmentId, limit) {
+  const listing = await listingRepository.getByApartmentId(apartmentId);
 
   if (!listing) { // Verify that the listing exists
     throw new CustomError(404, 'Failed to get related listings. Listing does not exists. apartmentId: ' + apartmentId);
@@ -380,7 +381,7 @@ function* getRelatedListings(apartmentId, limit) {
   return listingRepository.list(listingQuery, options);
 }
 
-function* getValidationData(apartment, user) {
+async function getValidationData(apartment, user) {
   let result = {
     status: 'OK',
     listing_id: 0
@@ -401,7 +402,7 @@ function* getValidationData(apartment, user) {
     }
   };
 
-  const validationData = yield listingRepository.list(undefined, queryOptions);
+  const validationData = await listingRepository.list(undefined, queryOptions);
   if (validationData && validationData.length) {
     result.listing_id = validationData[0].id;
     result.status = 'alreadyExists';
@@ -423,13 +424,13 @@ function* getValidationData(apartment, user) {
 
   Then it iterates over each listing and publishes a message to SNS which being processed by notification-service to deliver the reports.
 */
-function* sendMonthlyReports(day, month, year, user) {
+async function sendMonthlyReports(day, month, year, user) {
   if (userPermissions.isUserAdmin(user)) {
     const momentJsMonth = month - 1;
     const reportDate = moment({ year, month: momentJsMonth, date: day });
 
     logger.info('Gettting monthly report data');
-    const reportData = yield listingRepository.getMonthlyReportData(reportDate, getMonthlyReportDays(reportDate));
+    const reportData = await listingRepository.getMonthlyReportData(reportDate, getMonthlyReportDays(reportDate));
     logger.info({ reportData }, 'Received monthly report data');
 
     reportData.map(reportDataItem =>

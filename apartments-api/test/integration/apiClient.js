@@ -6,11 +6,21 @@ const fakeObjectGenerator = require('../shared/fakeObjectGenerator');
 const utils = require('./utils');
 const userIds = utils.userIds;
 const USER_PROFILE_HEADER = 'x-user-profile';
+const gql = require('graphql-tag');
 
 class ApiClient {
   constructor(request, userProfile) {
     this.request = request;
     this.userProfile = userProfile;
+  }
+
+  gql(query, variables) {
+    return this.request
+      .post('/graphql')
+      .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile))
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .send({ query: gql(query), variables });
   }
 
   createListing(newListing) {
@@ -158,7 +168,7 @@ class ApiClient {
     return this.delete(`/v1/documents/${document_id}`);
   }
 
-  // General purpose methods 
+  // General purpose methods
 
   get(url, query) {
     const getRequest = this.makeRequest('get', url);

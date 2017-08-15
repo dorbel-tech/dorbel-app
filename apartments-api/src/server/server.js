@@ -1,44 +1,28 @@
 'use strict';
-const koa = require('koa');
-const fleekRouter = require('fleek-router');
-const bodyParser = require('koa-bodyparser');
 const shared = require('dorbel-shared');
-const swaggerDoc = require('./swagger/swagger');
 
-const logger = shared.logger.getLogger(module);
-const app = koa();
+const { app, listen } = shared.utils.serverBootstrap.createApp({
+  defaultPort: 3000,
+  swaggerDocPath: `${__dirname}/swagger/swagger`,
+  controllersPath: `${__dirname}/controllers`
+});
 
-const port: number = process.env.PORT || 3000;
-const env = process.env.NODE_ENV;
+// GraphQL
 
-app.use(shared.middleware.errorHandler());
-app.use(shared.middleware.requestLogger());
-app.use(bodyParser());
+const graphqlSchema = require('./graphql/schema');
+const { graphqlKoa, graphiqlKoa } = require('apollo-server-koa');
 
-app.use(function* returnSwagger(next) {
-  if (this.method === 'GET' && this.url === '/swagger') {
-    this.body = swaggerDoc;
+app.use(async function returnGraphql(ctx, next) {
+  const context = { user: ctx.request.user };
+
+  if (ctx.method === 'POST' && ctx.url.match(/^\/graphql/)) {
+    await graphqlKoa({ schema: graphqlSchema, context })(ctx);
+  } else if (ctx.method === 'GET' && ctx.url.match(/^\/graphiql/)) {
+    await graphiqlKoa({ endpointURL: '/graphql' })(ctx);
   } else {
-    yield next;
+    await next();
   }
 });
-
-fleekRouter(app, {
-  swagger: swaggerDoc,
-  validate: true,
-  middleware: [ shared.middleware.swaggerModelValidator(), shared.middleware.auth.optionalAuthenticate ],
-  authenticate: shared.middleware.auth.authenticate
-});
-
-function listen() {
-  return new Promise((resolve, reject) => {
-    let server = app.listen(port, function () {
-      logger.info({ port, env }, 'listening');
-      resolve(server);
-    })
-    .on('error', reject);
-  });
-}
 
 module.exports = {
   listen

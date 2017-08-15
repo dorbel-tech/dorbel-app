@@ -4,35 +4,35 @@ const shared = require('dorbel-shared');
 const logger = shared.logger.getLogger(module);
 const ONE_HOUR = 60 * 60;
 
-function* get() {
-  const apartmentId = this.params.apartmentId;
-  const include_profile = this.request.query.include_profile;
+async function get(ctx) {
+  const apartmentId = ctx.params.apartmentId;
+  const include_profile = ctx.request.query.include_profile;
 
   logger.debug({ apartment_id: apartmentId }, 'Getting likes by apartment...');
 
-  let result = yield likeService.getByApartment(apartmentId, this.request.user, include_profile);
+  let result = await likeService.getByApartment(apartmentId, ctx.request.user, include_profile);
   logger.info({ apartment_id: apartmentId, likes_count: result.length }, 'Got likes by listing');
 
-  this.response.status = 200;
+  ctx.response.status = 200;
 
-  shared.helpers.headers.setUserConditionalCacheHeader(this.request, this.response, ONE_HOUR);
-  this.response.body = result;
+  shared.helpers.headers.setUserConditionalCacheHeader(ctx.request, ctx.response, ONE_HOUR);
+  ctx.response.body = result;
 }
 
-function* post() {
-  yield handleLikeSet(this, true);
+async function post(ctx) {
+  await handleLikeSet(ctx, true);
 }
 
-function* remove() {
-  yield handleLikeSet(this, false);
+async function remove(ctx) {
+  await handleLikeSet(ctx, false);
 }
 
-function* handleLikeSet(context, isLiked) {
-  const user = context.request.user;
-  const apartmentId = context.params.apartmentId;
-  const data = context.request.body;
-  yield likeService.set(apartmentId, data.listing_id, user, isLiked);
-  context.response.status = 200;
+async function handleLikeSet(ctx, isLiked) {
+  const user = ctx.request.user;
+  const apartmentId = ctx.params.apartmentId;
+  const data = ctx.request.body;
+  await likeService.set(apartmentId, data.listing_id, user, isLiked);
+  ctx.response.status = 200;
 }
 
 module.exports = {

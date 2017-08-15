@@ -192,7 +192,7 @@ describe('Integration - PATCH /listings/{id}', function () {
     __.assertThat(response.body.images, __.allOf(
       __.hasSize(images.length),
       // images don't have to come back in the correct order but they need to have the correct display_order property
-      __.containsInAnyOrder.apply(__, images.map((image, index) => __.hasProperties({ url: image.url, display_order: index })))
+      __.containsInAnyOrder.apply(__, images.map((image) => __.hasProperties({ url: image.url, display_order: image.display_order })))
     ));
 
     createdListing = response.body; // used in tests below

@@ -1,20 +1,13 @@
 {
-  "parser": "babel-eslint",
-  "plugins": [
-    "flowtype"
-  ],
+  "parserOptions": {
+    "ecmaVersion": 2017
+  },
   "env": {
     "es6": true,
     "node": true,
     "mocha": true
   },
   "extends": [
-    "plugin:flowtype/recommended",
-    "./node_modules/dorbel-shared/eslint.shared.json"    
-  ],
-  "settings": {
-    "flowtype": {
-      "onlyFilesWithFlowAnnotation": false
-    }
-  }
+    "./node_modules/dorbel-shared/eslint.shared.json"
+  ]
 }

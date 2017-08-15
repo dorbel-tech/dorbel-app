@@ -40,7 +40,7 @@ function getFakeListing(variant) {
     open_house_event_date: getDateString(),
     open_house_event_start_time: '07:00',
     open_house_event_end_time: '07:30',
-    images: [ getFakeImage() ],
+    images: [ getFakeImage(true) ],
     user: {
       phone: '123456789'
     },
@@ -55,8 +55,8 @@ function getFakeListing(variant) {
   return Object.assign(listing, variant);
 }
 
-function getFakeImage() {
-  return { url: 'http://lorempixel.com/1000/500/?' + faker.random.number(9999) };
+function getFakeImage(is_cover_image) {
+  return { url: 'http://lorempixel.com/1000/500/?' + faker.random.number(9999), display_order: is_cover_image ? 0 : 99 };
 }
 
 function getFakeUser(variant) {

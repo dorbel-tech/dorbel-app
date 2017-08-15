@@ -16,9 +16,9 @@ class Geo{
   }
 }
 
-function* getGeoLocation(building) {
+async function getGeoLocation(building) {
   const cityId = building.city.id;
-  const city = yield cityRepository.list({ id: cityId });
+  const city = await cityRepository.list({ id: cityId });
 
   if (city[0]) {
     const cityName = city[0].city_name;
@@ -31,7 +31,7 @@ function* getGeoLocation(building) {
     ].join(' '); // Full address in one string with spacing.
 
     try {
-      const res = yield geo.coder.geocode(fullAddress);
+      const res = await geo.coder.geocode(fullAddress);
       logger.trace({ fullAddress, res }, 'Got geo location of apartment.');
       if (res && res[0] && res[0].longitude) {
         var point = { type: 'Point', coordinates: [res[0].longitude, res[0].latitude] };

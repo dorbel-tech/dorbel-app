@@ -2,6 +2,7 @@
 const shared = require('dorbel-shared');
 const filterRepository = require('../apartmentsDb/repositories/filterRepository');
 const listingRepository = require('../apartmentsDb/repositories/listingRepository');
+const { createObjectByMapping } = require('./utils');
 
 const MAX_FILTERS_PER_USER = 3;
 const filterUpdateFields = [ 'city', 'neighborhood', 'min_monthly_rent', 'max_monthly_rent', 'min_rooms', 'max_rooms',
@@ -9,9 +10,31 @@ const filterUpdateFields = [ 'city', 'neighborhood', 'min_monthly_rent', 'max_mo
   'email_notification', 'min_lease_start', 'max_lease_start' ];
 const errors = shared.utils.domainErrors;
 
-function * create(filterToCreate, user) {
+const clientToApiFilterMap = [
+  'dorbel_user_id',
+  'id',
+  'email_notification',
+  'city',
+  'neighborhood',
+  ['mrs', 'min_monthly_rent'],
+  ['mre', 'max_monthly_rent'],
+  ['minRooms', 'min_rooms'],
+  ['maxRooms', 'max_rooms'],
+  ['ac', 'air_conditioning'],
+  ['balc', 'balcony'],
+  ['park', 'parking'],
+  ['pet', 'pets'],
+  ['sb', 'security_bars'],
+  ['futureBooking', 'future_booking'],
+  ['ele', 'elevator'],
+  ['minLease', 'min_lease_start'],
+  ['maxLease', 'max_lease_start']
+];
+
+async function create(filterToCreate, user) {
+  filterToCreate = mapFilter(filterToCreate);
   normalizeFilterFields(filterToCreate);
-  const usersExistingFilters = yield filterRepository.getByUser(user.id);
+  const usersExistingFilters = await filterRepository.getByUser(user.id);
 
   const duplicateFilter = checkForDuplicateFilters(usersExistingFilters, filterToCreate);
   if (duplicateFilter) {
@@ -23,12 +46,14 @@ function * create(filterToCreate, user) {
   }
 
   filterToCreate.dorbel_user_id = user.id;
-  return filterRepository.create(filterToCreate);
+  const createdFilter = await filterRepository.create(filterToCreate);
+  return mapFilter(createdFilter, true);
 }
 
-function * update(filterId, filterUpdate, user) {
+async function update(filterId, filterUpdate, user) {
+  filterUpdate = mapFilter(filterUpdate);
   normalizeFilterFields(filterUpdate);
-  const filter = yield filterRepository.getById(filterId);
+  const filter = await filterRepository.getById(filterId);
 
   if (!filter) {
     throw new errors.DomainNotFoundError('filter not found', { filterId }, 'filter not found');
@@ -36,30 +61,37 @@ function * update(filterId, filterUpdate, user) {
     throw new errors.NotResourceOwnerError();
   }
 
-  const usersExistingFilters = yield filterRepository.getByUser(user.id);
+  const usersExistingFilters = await filterRepository.getByUser(user.id);
   const duplicateFilter = checkForDuplicateFilters(usersExistingFilters, filterUpdate);
   if (duplicateFilter) {
     return duplicateFilter;
   }
 
-  yield filter.update(filterUpdate, { fields: filterUpdateFields });
-  return filter;
+  await filter.update(filterUpdate, { fields: filterUpdateFields });
+  return mapFilter(filter, true);
+}
+
+function upsert(filter, user) {
+  return filter.id ? update(filter.id, filter, user) : create(filter, user);
 }
 
 function getByUser(user) {
-  return filterRepository.getByUser(user.id);
+  if (!user) {
+    throw new errors.NotResourceOwnerError();
+  }
+  return filterRepository.getByUser(user.id).then(filters => filters.map(filter => mapFilter(filter, true)));
 }
 
 function destory(filterId, user) {
   return filterRepository.destroy(filterId, user.id);
 }
 
-function * getFilterByMatchedListing(listing_id, user) {
+async function getFilterByMatchedListing(listing_id, user) {
   if (user.role !== 'admin') {
     throw new errors.NotResourceOwnerError();
   }
 
-  const listing = yield listingRepository.getById(listing_id);
+  const listing = await listingRepository.getById(listing_id);
 
   if (!listing) {
     throw new errors.DomainNotFoundError('listing not found', { listing_id }, 'listing not found');
@@ -69,13 +101,13 @@ function * getFilterByMatchedListing(listing_id, user) {
   }
 
   const query = mapListingToMatchingFilterQuery(listing);
-  return filterRepository.find(query);
+  return filterRepository.find(query).then(filters => filters.map(filter => mapFilter(filter, true)));
 }
 
 function mapListingToMatchingFilterQuery(listing) {
   const filterQuery = {};
   const listingReferenceDate = listing.status === 'rented' ? listing.lease_end : listing.lease_start;
-  
+
   if (listing.status === 'rented' && listing.show_for_future_booking) {
     // only show filters that are looking for future_booking or don't care
     filterQuery.future_booking = nullOrEqualTo(true);
@@ -96,7 +128,7 @@ function mapListingToMatchingFilterQuery(listing) {
     parking: nullOrEqualTo(listing.apartment.parking),
     pets: nullOrEqualTo(listing.apartment.pets),
     security_bars: nullOrEqualTo(listing.apartment.security_bars),
-    elevator: nullOrEqualTo(listing.apartment.building.elevator),    
+    elevator: nullOrEqualTo(listing.apartment.building.elevator),
     min_lease_start: nullOrModifier('$lte', listingReferenceDate),
     max_lease_start: nullOrModifier('$gte', listingReferenceDate)
   };
@@ -107,7 +139,7 @@ function nullOrEqualTo(value) {
 }
 
 function nullOrModifier(modifier, value) {
-  return { 
+  return {
     $or: [
       { $eq: null },
       { [modifier]: value }
@@ -131,10 +163,15 @@ function normalizeFilterFields(filter) {
   filter.email_notification = !(filter.email_notification === false);
 }
 
+function mapFilter(source, reverseOrder) {
+  return createObjectByMapping(clientToApiFilterMap, source, reverseOrder);
+}
+
 module.exports = {
   create,
   getByUser,
   getFilterByMatchedListing,
   destory,
-  update
+  update,
+  upsert
 };

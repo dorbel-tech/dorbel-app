@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import { find } from 'lodash';
 import autobind from 'react-autobind';
+
+import MyMessages from './MyMessages';
+import MyProfile from './MyProfile';
 import NavLink from '~/components/NavLink';
-import { MENU_ITEMS } from './DashboardShared';
 import Property from './Property';
+import { MENU_ITEMS } from './DashboardShared';
 
 import './Dashboard.scss';
 
@@ -34,7 +37,13 @@ class Dashboard extends Component {
     }
     else {
       if (this.props.listingId) {
-        selectedActionItem = { component: <Property listingId={this.props.listingId} tab={this.props.tab} /> };
+        if (this.props.action === 'my-messages') {
+          selectedActionItem = { component: <MyMessages listingId={this.props.listingId} /> };
+        } else if (this.props.action === 'my-profile') {
+          selectedActionItem = { component: <MyProfile tab={this.props.listingId} /> };
+        } else {
+          selectedActionItem = { component: <Property listingId={this.props.listingId} tab={this.props.tab} /> };
+        }
       } else {
         selectedActionItem = find(MENU_ITEMS, { navTo: this.props.action });
       }

@@ -5,7 +5,6 @@ import ImageUpload from './ImageUpload';
 import Dropzone from 'react-dropzone';
 import CloudinaryImage from '~/components/CloudinaryImage/CloudinaryImage';
 import { ProgressBar } from 'react-bootstrap';
-import { flushPromises } from '~/providers/utils';
 
 describe('Image Upload', () => {
   let editedListingStoreMock, appProvidersMock;
@@ -82,22 +81,5 @@ describe('Image Upload', () => {
     const wrapper = imageUpload();
     wrapper.find('.remove-image').simulate('click');
     expect(appProvidersMock.listingImageProvider.deleteImage).toHaveBeenCalledWith(image, editedListingStoreMock);
-  });
-
-  it('should set and unset editedListingStore disableSave', () => {
-    // add image in order to be agnostic to uploadMode
-    const image = { complete: true, src: 'asdfoiweflknasf' };
-    editedListingStoreMock.formValues.images.push(image);
-
-    const deferred = Promise.defer();
-    appProvidersMock.listingImageProvider = {
-      uploadImage: jest.fn().mockReturnValue(deferred.promise)
-    };
-
-    imageUpload().instance().onChooseFile([{ abc: 456 }]);
-
-    expect(editedListingStoreMock.disableSave).toBeTruthy();
-    deferred.resolve();
-    return flushPromises().then(() => expect(editedListingStoreMock.disableSave).toBeFalsy());
   });
 });

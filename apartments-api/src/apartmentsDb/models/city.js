@@ -14,6 +14,11 @@ function define(sequelize, DataTypes) {
     },
     display_order: {
       type: DataTypes.FLOAT
+    },
+    google_place_id:{
+      type: DataTypes.STRING(50),
+      allowNull: false,
+      unique: true
     }
   }, {
     classMethods: {

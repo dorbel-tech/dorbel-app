@@ -195,10 +195,16 @@
     padding: 10px 5px 0;
     position: absolute;
     top: 0;
+
+    &.property-edit-actions-mobile {
+      display: none;
+    }
   }
 
-  @media (min-width: $screen-sm-min) {
-    display: none !important;
+  &not(.property-edit-actions-mobile) {
+    @media (min-width: $screen-sm-min) {
+      display: none !important;
+    }
   }
 }
 
@@ -218,20 +224,17 @@
 
 .property-actions-menu-item {
   cursor: pointer;
+  display: none;
   padding: 18px;
+
+  @media (max-width: $screen-xs-max) {
+    display: block;
+  }
 }
 
 .property-actions-menu-item-icon {
   padding-left: 20px;
   vertical-align: middle;
-}
-
-.property-action-menu-item-show-mobile {
-  display: none;
-
-  @media (max-width: $screen-xs-max) {
-    display: block;
-  }
 }
 
 .property-status-mobile {

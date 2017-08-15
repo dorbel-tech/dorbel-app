@@ -21,7 +21,7 @@ describe('Apartments API - saved filters - ', function () {
     this.apiClient = yield ApiClient.getInstance();
     // delete all existing filters of the test user
     const { body: existingFilters } = yield this.apiClient.getFilters().expect(200).end();
-    yield existingFilters.map(filter => this.apiClient.deleteFilter(filter.id).expect(204).end());        
+    yield existingFilters.map(filter => this.apiClient.deleteFilter(filter.id).expect(204).end());
   });
 
   it('should create new filter', function * () {
@@ -102,7 +102,7 @@ describe('Apartments API - saved filters - ', function () {
     const getMatchingFilter = (mrsDelta) => ({
       email_notification: true,
       city: listing.apartment.building.city_id,
-      mrs: listing.monthly_rent - (mrsDelta || 0), 
+      mrs: listing.monthly_rent - (mrsDelta || 0),
       minRooms: listing.apartment.rooms,
     });
 
@@ -127,13 +127,13 @@ describe('Apartments API - saved filters - ', function () {
       const { body: createdListing } = yield adminClient.createListing(listing).expect(201).end();
       listing.id = createdListing.id;
       // create some filters to test - both are created in a matching state
-      matchingFilter = (yield adminClient.createFilter(getMatchingFilter()).expect(200).end()).body;      
+      matchingFilter = (yield adminClient.createFilter(getMatchingFilter()).expect(200).end()).body;
       unmatchingFilter = (yield adminClient.createFilter(getMatchingFilter(1)).expect(200).end()).body;
     });
 
     beforeEach(function * () {
       // reset both filters to matching state
-      yield adminClient.putFilter(matchingFilter.id, getMatchingFilter()).expect(200).end();      
+      yield adminClient.putFilter(matchingFilter.id, getMatchingFilter()).expect(200).end();
       yield adminClient.putFilter(unmatchingFilter.id, getMatchingFilter(1)).expect(200).end();
     });
 
@@ -147,7 +147,7 @@ describe('Apartments API - saved filters - ', function () {
       unmatchingFilter.neigborhood = listing.apartment.building.neighborhood_id + 1;
       yield assertMatchingFilters();
     });
-    
+
     it('should not match filters by minimum monthly rent', function * () {
       unmatchingFilter.mrs = listing.monthly_rent + 1;
       yield assertMatchingFilters();
@@ -189,13 +189,75 @@ describe('Apartments API - saved filters - ', function () {
     });
 
     it('should not match by future booking if listing is not meant to be shown for future booking', function * () {
-      yield adminClient.patchListing(listing.id, { status: 'rented', show_for_future_booking: false });
+      yield adminClient.patchListing(listing.id, { status: 'rented', show_for_future_booking: false }).expect(200).end();
       matchingFilter.futureBooking = true;
       yield adminClient.putFilter(matchingFilter.id, matchingFilter).expect(200).end();
 
       const { body: matchedFilters } = yield adminClient.getFilters({ matchingListingId: listing.id }).expect(200).end();
 
       __.assertThat(matchedFilters, __.not(__.hasItem(__.hasProperty('id', matchingFilter.id))));
+    });
+  });
+
+  describe.only('using graphql', function () {
+    before(async function() {
+      const { body: existingFilters } = await this.apiClient.getFilters().expect(200);
+      await Promise.all( // delete all existing filters of the test user
+        existingFilters.map(filter => this.apiClient.deleteFilter(filter.id).expect(204))
+      );
+    });
+
+    const upsertFilterMutation = filter => `
+      mutation createFilter($filter: FilterInput!) {
+        upsertFilter(filter: $filter) {
+          id, dorbel_user_id, ${Object.keys(filter).join(', ')}
+        }
+      }
+    `;
+
+    const myFiltersQuery = `
+      query getFilters {
+        filters { id }
+      }
+    `;
+
+    it('should create new filter', async function () {
+      const newFilter = createFilter();
+
+      const { body: { data: { upsertFilter: createdFilter } } } = await this.apiClient.gql(upsertFilterMutation(newFilter), { filter: newFilter }).expect(200);
+
+      __.assertThat(createdFilter, __.allOf(
+        __.hasProperties(newFilter),
+        __.hasProperties({ dorbel_user_id: this.apiClient.userProfile.id, id: __.is(__.number()) })
+      ));
+      this.createdFilter = createdFilter;
+    });
+
+    it('should get filters', async function () {
+      const { body: { data: { filters: myFilters } } } = await this.apiClient.gql(myFiltersQuery).expect(200);
+
+      __.assertThat(myFilters, __.hasSize(1));
+      __.assertThat(myFilters[0], __.hasProperty('id', this.createdFilter.id));
+    });
+
+    it('should update a filter', async function () {
+      const filterUpdate = createFilter();
+      filterUpdate.id = this.createdFilter.id;
+
+      const { body: { data: { upsertFilter: updatedFilter } } } = await this.apiClient.gql(upsertFilterMutation(filterUpdate), { filter: filterUpdate }).expect(200);
+
+      __.assertThat(updatedFilter, __.hasProperties(filterUpdate));
+    });
+
+    it('should delete a filter', async function () {
+      await this.apiClient.gql(`
+        mutation deleteFilter($id: Int!) {
+          deleteFilter(id: $id)
+        }
+      `, { id: this.createdFilter.id }).expect(200);
+
+      const { body: { data: { filters: myFilters } } } = await this.apiClient.gql(myFiltersQuery).expect(200);
+      __.assertThat(myFilters, __.hasSize(0));
     });
   });
 });

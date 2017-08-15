@@ -34,7 +34,7 @@ function sendEvent(eventConfig, eventData) {
         const trackedEventData = Object.assign({}, eventData, dataObject);
         return Promise.all(
           recipients.map(recipient => {
-            logger.debug({ recipient, notificationType: eventConfig.notificationType }, 'Tracking sent to Segment');
+            logger.info({ recipient, notificationType: eventConfig.notificationType }, 'Event sent to Segment');
             return analytics.track(recipient, eventConfig.notificationType, trackedEventData);
           })
         );
