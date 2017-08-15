@@ -14,13 +14,13 @@ class ApiClient {
     this.userProfile = userProfile;
   }
 
-  gql(query) {
+  gql(query, variables) {
     return this.request
       .post('/graphql')
       .set(USER_PROFILE_HEADER, JSON.stringify(this.userProfile))
       .set('Content-Type', 'application/json')
       .set('Accept', 'application/json')
-      .send({ query: gql(query) });
+      .send({ query: gql(query), variables });
   }
 
   createListing(newListing) {
