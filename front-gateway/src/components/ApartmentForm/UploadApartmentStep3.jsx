@@ -102,12 +102,18 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
           <div className="form-section-headline">פרטי קשר</div>
           <Row>
             <Col sm={6}>
-              <Button name="facebook" bsStyle="success" block onClick={this.socialLogin}>התחבר באמצעות חשבון פייסבוק</Button>
+              <Button name="facebook" bsStyle="success" block
+                      className="upload-apt-login" onClick={this.socialLogin}>
+                <i className="fa fa-facebook-f" aria-hidden="true"></i>
+                  התחבר באמצעות חשבון פייסבוק</Button>
             </Col>
           </Row>
           <Row>
             <Col sm={6}>
-              <Button name="google-oauth2" bsStyle="success" block onClick={this.socialLogin}>התחבר בעמצאות חשבון גוגל</Button>
+              <Button name="google-oauth2" bsStyle="success" block
+                      className="upload-apt-login" onClick={this.socialLogin}>
+                <i className="fa fa-google" aria-hidden="true"></i>
+                      התחבר באמצעות חשבון גוגל</Button>
             </Col>
           </Row>
           <Row>

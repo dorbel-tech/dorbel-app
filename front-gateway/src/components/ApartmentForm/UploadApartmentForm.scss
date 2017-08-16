@@ -82,6 +82,21 @@
   }
 }
 
+.upload-apt-login {
+  margin-bottom: 10px;
+  padding-right: 35px;
+  text-align: right;
+  width: 260px;
+
+  > i {
+    position: absolute;
+    right: 25px;
+    text-align: center;
+    top: 10px;
+    width: 15px;
+  }
+}
+
 .upload-apt-right-container {
   @include gradient-directional($start-color: #8D48C5, $end-color: #9078CC, $deg: 45deg);
 
