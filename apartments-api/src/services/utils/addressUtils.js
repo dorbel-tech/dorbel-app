@@ -97,4 +97,7 @@ async function validateAndEnrichBuilding(building) {
   else { throw new errors.DomainValidationError('AddressNotMatched', { building, addressString }); }
 }
 
-module.exports = AddressUtils;
+
+module.exports = {
+  parseBuildingObject
+};
