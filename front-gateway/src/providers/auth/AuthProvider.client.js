@@ -47,7 +47,8 @@ class AuthProvider {
       if (err && err.statusCode === 403) {
         this.signup(username, password);
       } else if (authResult) {
-        this.afterAuthentication(authResult);
+        this.authStore.setToken(authResult.idToken);
+        this.getClientUserInfo(authResult);
       }
     });
   }
@@ -62,6 +63,16 @@ class AuthProvider {
         return console.log('Something went wrong: ' + err.message);
       } else {
         this.login(username, password);
+      }
+    });
+  }
+
+  getClientUserInfo(authResult) {
+    this.webAuth.client.userInfo(authResult.accessToken, (err, profile) => {
+      if (err) {
+        window.console.log('Error loading the Profile', error);
+      } else {
+        this.reLoadFullProfile(authResult, profile, true);
       }
     });
   }
@@ -102,12 +113,12 @@ class AuthProvider {
 
   // Retry loading full user profile until we get dorbel_user_id which is updated async using auth0 rules.
   // Especially relevant for just signed up users.
-  reLoadFullProfile(authResult, profile) {
+  reLoadFullProfile(authResult, profile, clientAuth) {
     if (profile && profile.app_metadata && profile.app_metadata.dorbel_user_id) {
       this.setProfile(profile);
       this.reportSignup(profile);
     } else if (this.reLoadFullProfileCounter < 5) {
-      window.setTimeout(() => { this.getUserInfo(authResult); }, 1000); // Try to get it again after 1 second.
+      window.setTimeout(() => {clientAuth ? this.getClientUserInfo(authResult) : this.getUserInfo(authResult); }, 1000); // Try to get it again after 1 second.
       this.reLoadFullProfileCounter++;
     }
   }
