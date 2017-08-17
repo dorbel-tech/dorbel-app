@@ -123,5 +123,6 @@ module.exports = `
   type Mutation {
     upsertFilter (filter: FilterInput!): Filter
     deleteFilter (id: Int!): Boolean
+    toggleFiltersEmail (email_notification: Boolean!): Boolean
   }
 `;

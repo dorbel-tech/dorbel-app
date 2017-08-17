@@ -6,8 +6,7 @@ const { createObjectByMapping } = require('./utils');
 
 const MAX_FILTERS_PER_USER = 3;
 const filterUpdateFields = [ 'city', 'neighborhood', 'min_monthly_rent', 'max_monthly_rent', 'min_rooms', 'max_rooms',
-  'air_conditioning', 'balcony', 'elevator', 'parking', 'pets', 'security_bars', 'future_booking',
-  'email_notification', 'min_lease_start', 'max_lease_start' ];
+  'air_conditioning', 'balcony', 'elevator', 'parking', 'pets', 'security_bars', 'future_booking', 'min_lease_start', 'max_lease_start' ];
 const errors = shared.utils.domainErrors;
 
 const clientToApiFilterMap = [
@@ -46,6 +45,7 @@ async function create(filterToCreate, user) {
   }
 
   filterToCreate.dorbel_user_id = user.id;
+  filterToCreate.email_notification = usersExistingFilters.length > 0 ? usersExistingFilters[0].email_notification : true;
   const createdFilter = await filterRepository.create(filterToCreate);
   return mapFilter(createdFilter, true);
 }
@@ -104,6 +104,15 @@ async function getFilterByMatchedListing(listing_id, user) {
   return filterRepository.find(query).then(filters => filters.map(filter => mapFilter(filter, true)));
 }
 
+function toggleEmail(email_notification, user) {
+  if (!user || !user.id) {
+    throw new errors.NotResourceOwnerError();
+  }
+
+  return filterRepository.updateEmailNotification(email_notification, user.id)
+    .then(() => email_notification);
+}
+
 function mapListingToMatchingFilterQuery(listing) {
   const filterQuery = {};
   const listingReferenceDate = listing.status === 'rented' ? listing.lease_end : listing.lease_start;
@@ -160,7 +169,7 @@ function normalizeFilterFields(filter) {
   Object.keys(filter).filter(key => filter[key] === undefined).forEach(key => filter[key] = null);
 
   // email_notification is either exactly false , or it's true. So if it's null or undefined it will still be true.
-  filter.email_notification = !(filter.email_notification === false);
+  // filter.email_notification = !(filter.email_notification === false);
 }
 
 function mapFilter(source, reverseOrder) {
@@ -173,5 +182,6 @@ module.exports = {
   getFilterByMatchedListing,
   destory,
   update,
-  upsert
+  upsert,
+  toggleEmail
 };

@@ -5,7 +5,13 @@ const faker = require('faker');
 const ApiClient = require('./apiClient.js');
 const fakeObjectGenerator = require('../shared/fakeObjectGenerator');
 
-describe('Apartments API - saved filters - ', function () {
+/**
+ *
+ * REMOVE .ONLY
+ *
+ */
+
+describe.only('Apartments API - saved filters - ', function () {
 
   function createFilter() {
     return {
@@ -69,7 +75,6 @@ describe('Apartments API - saved filters - ', function () {
 
   it('should update a filter', function * () {
     const filterUpdate = createFilter();
-    filterUpdate.email_notification = true;
 
     const { body: updatedFilter } = yield this.apiClient.putFilter(this.createdFilter.id, filterUpdate).expect(200).end();
 
@@ -77,6 +82,17 @@ describe('Apartments API - saved filters - ', function () {
       __.hasProperties(filterUpdate),
       __.hasProperty('id', this.createdFilter.id)
     ));
+  });
+
+  it('should not update email_notification directly', function * () {
+    const filterUpdate = Object.assign({}, this.createdFilter, { email_notification: !this.createdFilter.email_notification });
+
+    const { body: updatedFilter } = yield this.apiClient.putFilter(this.createdFilter.id, filterUpdate).expect(200).end();
+
+    __.assertThat(updatedFilter, __.hasProperties({
+      id: this.createdFilter.id,
+      email_notification: this.createdFilter.email_notification
+    }));
   });
 
   it('should not update a filter with not enough properties', function * () {
@@ -137,9 +153,16 @@ describe('Apartments API - saved filters - ', function () {
       yield adminClient.putFilter(unmatchingFilter.id, getMatchingFilter(1)).expect(200).end();
     });
 
-    it('should not match filter with email_notification: false', function * () {
-      unmatchingFilter.email_notification = false;
-      yield assertMatchingFilters();
+    it('should not match filter when email_notification is set to false for user', async function () {
+      await this.apiClient.gql(`
+        mutation toggleFilter($email_notification: Boolean!) {
+            toggleFiltersEmail(email_notification: $email_notification)
+        }
+      `, { email_notification: false }).expect(200);
+
+      const { body: matchedFilters } = await adminClient.getFilters({ matchingListingId: listing.id }).expect(200);
+
+      __.assertThat(matchedFilters, __.not(__.hasItem(__.hasProperty('dorbel_user_id', this.apiClient.userProfile.id))));
     });
 
     it('should match filter by neighborhood', function * () {
@@ -247,6 +270,13 @@ describe('Apartments API - saved filters - ', function () {
       const { body: { data: { upsertFilter: updatedFilter } } } = await this.apiClient.gql(upsertFilterMutation(filterUpdate), { filter: filterUpdate }).expect(200);
 
       __.assertThat(updatedFilter, __.hasProperties(filterUpdate));
+    });
+
+    it('should not allow to update email_notification', async function () {
+      const filterUpdate = Object.assign({}, this.createdFilter,
+        { email_notification: !this.createdFilter.email_notification, id: this.createdFilter.id });
+
+      await this.apiClient.gql(upsertFilterMutation(filterUpdate), { filter: filterUpdate }).expect(400);
     });
 
     it('should delete a filter', async function () {
