@@ -172,7 +172,8 @@ describe('SearchProvider', () => {
       appProvidersMock.api.mutate.mockReturnValue(Promise.resolve({ data: { upsertFilter: mockReturnFilter } }));
 
       return searchProvider.saveFilter(mockFilter).then(() => {
-        expect(appProvidersMock.api.mutate.mock.calls[0][1]).toEqual({ filter: mockFilter });
+        expect(appProvidersMock.api.mutate.mock.calls[0][1].variables).toEqual({ filter: mockFilter });
+        expect(appProvidersMock.api.mutate.mock.calls[0][1].update).toBeInstanceOf(Function);
         expect(appStoreMock.searchStore.activeFilterId).toBe(mockReturnFilter.id);
       });
     });
@@ -181,7 +182,7 @@ describe('SearchProvider', () => {
       const mockFilter = { city: 5, neighborhood: '*', minRooms: 3, mre: 4000 };
       appProvidersMock.api.mutate.mockReturnValue(Promise.resolve({ data: { upsertFilter: {} } }));
       return searchProvider.saveFilter(mockFilter).then(() => {
-        expect(appProvidersMock.api.mutate.mock.calls[0][1].filter.neighborhood).toBeUndefined();
+        expect(appProvidersMock.api.mutate.mock.calls[0][1].variables.filter.neighborhood).toBeUndefined();
       });
     });
 
