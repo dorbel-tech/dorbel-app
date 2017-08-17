@@ -38,7 +38,7 @@ async function create(filterToCreate, user) {
 
   const duplicateFilter = checkForDuplicateFilters(usersExistingFilters, filterToCreate);
   if (duplicateFilter) {
-    return duplicateFilter;
+    return mapFilter(duplicateFilter, true);
   }
 
   if (usersExistingFilters.length >= MAX_FILTERS_PER_USER) {
