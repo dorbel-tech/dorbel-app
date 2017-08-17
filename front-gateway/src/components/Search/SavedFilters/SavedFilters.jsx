@@ -3,11 +3,20 @@ import autobind from 'react-autobind';
 import _ from 'lodash';
 import { inject, observer } from 'mobx-react';
 import { Row, Col, Checkbox } from 'react-bootstrap';
-import { isMobile } from '~/providers/utils';
 import { Collapse } from 'react-collapse';
+import { gql, graphql } from 'react-apollo';
+import { isMobile } from '~/providers/utils';
+import { fieldSets } from '~/graphql';
 
 import './SavedFilters.scss';
 
+const loadSavedFiltersQuery = gql`
+  query getFilters {
+    filters { ${fieldSets.filterFields.join(', ')} }
+  }
+`;
+
+@graphql(loadSavedFiltersQuery)
 @inject('appStore', 'appProviders') @observer
 export default class SavedFilters extends React.Component {
   constructor(props) {
@@ -20,10 +29,6 @@ export default class SavedFilters extends React.Component {
     appProviders: React.PropTypes.any,
     onFilterChange: React.PropTypes.func,
     animateEmailRow: React.PropTypes.bool
-  }
-
-  componentDidMount() {
-    this.props.appProviders.searchProvider.loadSavedFilters();
   }
 
   selectFilter(filter) {
@@ -51,11 +56,10 @@ export default class SavedFilters extends React.Component {
   }
 
   emailNotificationChange() {
-    const { appStore, appProviders } = this.props;
-    const activeFilter = appStore.searchStore.filters.get(appStore.searchStore.activeFilterId);
+    const { appStore, appProviders, data } = this.props;
+    const activeFilter = data.filters.find(filter => filter.id === appStore.searchStore.activeFilterId);
     if (activeFilter) {
-      activeFilter.email_notification = !activeFilter.email_notification;
-      appProviders.searchProvider.saveFilter(activeFilter);
+      appProviders.searchProvider.saveFilter(Object.assign({}, activeFilter, { email_notification: !activeFilter.email_notification }));
     }
   }
 
@@ -83,13 +87,13 @@ export default class SavedFilters extends React.Component {
   }
 
   render() {
-    const { appStore } = this.props;
-    const filters = appStore.searchStore.filters.values();
-    const activeFilter = appStore.searchStore.filters.get(appStore.searchStore.activeFilterId);
+    const { appStore, data } = this.props;
 
-    if (filters.length === 0) {
+    if (data.loading || data.filters.length === 0) {
       return null;
     }
+
+    const activeFilter = data.filters.find(filter => filter.id === appStore.searchStore.activeFilterId);
 
     const emailNotificationRow = (
       <Row>
@@ -108,14 +112,14 @@ export default class SavedFilters extends React.Component {
           <Col smOffset={0} sm={2} mdOffset={1} md={1} lgOffset={2} lg={2} xs={12}>
             <span className="saved-filters-title">חיפושים שמורים</span>
           </Col>
-          {filters.map(this.renderFilter)}
+          {data.filters.map(this.renderFilter)}
         </Row>
         {
-          this.props.animateEmailRow ? 
+          this.props.animateEmailRow ?
             <Collapse isOpened={!!activeFilter} fixedHeight={20}>
               {emailNotificationRow}
             </Collapse>
-            : 
+            :
             activeFilter && emailNotificationRow
         }
       </div>
