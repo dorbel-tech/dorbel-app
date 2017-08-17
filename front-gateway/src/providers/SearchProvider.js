@@ -4,7 +4,9 @@
 'use strict';
 import _ from 'lodash';
 import { isMobile, asPromise } from './utils';
-import { fieldSets } from '~/graphql';
+import fieldSets from '~/graphql/fieldSets';
+import mutations from '~/graphql/mutations';
+import queries from '~/graphql/queries';
 
 const PAGE_SIZE = isMobile() ? 9 : 15;
 const FILTERS_URL = '/api/apartments/v1/filters';
@@ -93,12 +95,17 @@ class SearchProvider {
     }
 
     return asPromise(() => this.validateFilter(filter))
-    .then(() => this.apiProvider.mutate(`
-      mutation saveFilter($filter: FilterInput!) {
-        upsertFilter(filter: $filter) {
-          ${fieldSets.filterFields.join(', ')}
+    .then(() => this.apiProvider.mutate(mutations.saveFilter, {
+      variables: { filter },
+      update: (proxy, { data: { upsertFilter } }) => {
+        const data = proxy.readQuery({ query: queries.getFilters });
+        // react apollo will automatically update existing objects, but new ones need to added explicitly
+        if (!data.filters.find(filter => filter.id === upsertFilter.id)) {
+          data.filters.push(upsertFilter);
+          proxy.writeQuery({ query: queries.getFilters, data });
         }
-      }`, { filter }))
+      }
+    }))
     .then(({ data }) => searchStore.activeFilterId = data.upsertFilter.id);
   }
 

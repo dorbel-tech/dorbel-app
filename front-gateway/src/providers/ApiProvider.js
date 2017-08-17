@@ -3,7 +3,8 @@
  */
 'use strict';
 import axios from 'axios';
-import { ApolloClient, createNetworkInterface, gql } from 'react-apollo';
+import _ from 'lodash';
+import { ApolloClient, createNetworkInterface } from 'react-apollo';
 let urlPrefix = '';
 
 if (!process.env.IS_CLIENT) {
@@ -49,25 +50,25 @@ class ApiProvider {
     .then(res => res.data);
   }
 
-  gqlCommand(type, params) {
-    return this.apolloClient[type](params)
+  gqlCommand(type, options) {
+    return this.apolloClient[type](options)
     .catch(err => {
       err.message = err.message.replace('GraphQL error: ', '');
       throw err;
     });
   }
 
-  gql(query, variables) {
+  gql(query, options) {
     return this.gqlCommand('query', {
-      query: gql(query),
-      variables
+      query,
+      ...options
     });
   }
 
-  mutate(mutation, variables) {
+  mutate(mutation, options) {
     return this.gqlCommand('mutate', {
-      mutation: gql(mutation),
-      variables
+      mutation,
+      ...options
     });
   }
 }
