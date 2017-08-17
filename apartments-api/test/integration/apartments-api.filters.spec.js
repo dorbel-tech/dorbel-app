@@ -199,7 +199,7 @@ describe('Apartments API - saved filters - ', function () {
     });
   });
 
-  describe.only('using graphql', function () {
+  describe('using graphql', function () {
     before(async function() {
       const { body: existingFilters } = await this.apiClient.getFilters().expect(200);
       await Promise.all( // delete all existing filters of the test user

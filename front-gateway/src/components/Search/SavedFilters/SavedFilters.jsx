@@ -6,17 +6,11 @@ import { Row, Col, Checkbox } from 'react-bootstrap';
 import { Collapse } from 'react-collapse';
 import { gql, graphql } from 'react-apollo';
 import { isMobile } from '~/providers/utils';
-import { fieldSets } from '~/graphql';
+import queries from '~/graphql/queries';
 
 import './SavedFilters.scss';
 
-const loadSavedFiltersQuery = gql`
-  query getFilters {
-    filters { ${fieldSets.filterFields.join(', ')} }
-  }
-`;
-
-@graphql(loadSavedFiltersQuery)
+@graphql(queries.getFilters)
 @inject('appStore', 'appProviders') @observer
 export default class SavedFilters extends React.Component {
   constructor(props) {
