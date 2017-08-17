@@ -17,7 +17,7 @@ class ListingSocial extends React.Component {
       <Col>
         שתפו חברים שמחפשים:
         <div className="listing-social-share-container">
-          <div className="listing-social-share-item fb-share-button" data-href={utils.getShareUrl(currentUrl, 'facebook_share')} data-layout="button" data-size="small" data-mobile-iframe="true"><a className="fb-xfbml-parse-ignore" target="_blank" href={'https://www.facebook.com/sharer/sharer.php?u=' + utils.getShareUrl(currentUrl, 'facebook_share') + '&amp;src=sdkpreparse'}></a></div>
+          <div className="listing-social-share-item fb-share-button" data-href={utils.getShareUrl(currentUrl, 'facebook_share')} data-layout="button" data-size="small" data-mobile-iframe="true"><a className="fb-xfbml-parse-ignore" target="_blank" href={'https://www.facebook.com/sharer/sharer.php?u=' + utils.getShareUrl(currentUrl, 'facebook_share', true) + '&amp;src=sdkpreparse'}></a></div>
           <div className="listing-social-share-item fb-send" data-href={utils.getShareUrl(currentUrl, 'messenger_share')}></div>
           <a className="listing-social-share-item whatsapp fa fa-whatsapp" href={'whatsapp://send?text=היי, ראיתי דירה באתר dorbel שאולי תעניין אותך. ' + utils.getShareUrl(currentUrl, 'whatsapp_share')} data-href={utils.getShareUrl(currentUrl, 'whatsapp_share')} data-text="היי, ראיתי דירה באתר dorbel שאולי תעניין אותך."></a>
         </div>
