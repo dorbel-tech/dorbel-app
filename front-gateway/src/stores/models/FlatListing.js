@@ -12,9 +12,9 @@ export default class FlatListing {
   constructor(listing) {
     if (listing) {
       VALID_KEYS.filter(key => !!_.get(listing, key)).forEach(key => this[key] = _.get(listing, key));
-      this.images = observable((listing.images || []).map(image => {
-        return { src: image.url, complete: true, display_order: image.display_order };
-      }));
+      this.images = (listing.images || []).map(image => {
+        return { src: image.url, complete: true };
+      });
     } else {
       Object.assign(this, defaultFormValues);
     }
@@ -59,7 +59,7 @@ const VALID_KEYS = [
   'apartment.building.street_name',
   'apartment.building.house_number',
   // city
-  'apartment.building.city.city_name',
+  'apartment.building.city.id',
   // neighborhood
   'apartment.building.neighborhood.id',
   // user details
