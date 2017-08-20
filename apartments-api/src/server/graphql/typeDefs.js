@@ -19,7 +19,7 @@ const filterFields = `
 
 module.exports = `
   type City {
-    id: Int!
+    id: Int
     city_name: String!
     display_order: Float
   }
