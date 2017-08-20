@@ -10,8 +10,7 @@
       "restart": true,
       "sourceMaps": true,
       "localRoot": "${workspaceRoot}/apartments-api",
-      "remoteRoot": "/home/nodejs/app",
-      "stopOnEntry": false
+      "remoteRoot": "/home/nodejs/app"
     },
     {
       "name": "apartments-api#unit-tests",
