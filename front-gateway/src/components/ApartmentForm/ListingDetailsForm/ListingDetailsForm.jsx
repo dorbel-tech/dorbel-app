@@ -36,7 +36,7 @@ export default class ListingDetailsForm extends React.Component {
   getCityOptions() {
     const cities = this.props.appStore.cityStore.cities;
     if (cities.length) {
-      return cities.map(city => ({ value: city.id, label: city.city_name }));
+      return cities.map(city => ({ value: city.city_name, label: city.city_name }));
     } else {
       this.props.appProviders.cityProvider.loadCities();
       return [LOADING_OPTIONS_LABEL];
@@ -133,9 +133,9 @@ export default class ListingDetailsForm extends React.Component {
   render() {
     const { editedListingStore } = this.props;
     const citySelectorOptions = this.getCityOptions();
-    const citySelectorValue = editedListingStore.formValues['apartment.building.city.id'] || citySelectorOptions[0].value;
+    const citySelectorValue =  "תל אביב יפו";
     const neighborhoodSelectorOptions = this.getNeighborhoodOptions(citySelectorValue);
-    const neighborhoodSelectorValue = this.getNeighborhoodValue(neighborhoodSelectorOptions);
+    const neighborhoodSelectorValue = undefined;
 
     const roomOptions = editedListingStore.roomOptions.slice(0);
     if (!editedListingStore.formValues.rooms) { roomOptions.unshift({ label: 'בחר' }); }
@@ -146,7 +146,7 @@ export default class ListingDetailsForm extends React.Component {
           <div className="form-section-headline">כתובת</div>
           <Row>
             <Col md={6}>
-              <FRC.Select name="apartment.building.city.id" label="עיר" options={citySelectorOptions} value={citySelectorValue} required />
+              <FRC.Select name="apartment.building.city.city_name" label="עיר" options={citySelectorOptions} value={citySelectorValue} required />
             </Col>
             <Col md={6}>
               <FRC.Select name="apartment.building.neighborhood.id" label="שכונה" options={neighborhoodSelectorOptions} value={neighborhoodSelectorValue} required />

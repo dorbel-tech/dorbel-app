@@ -99,5 +99,5 @@ async function validateAndEnrichBuilding(building) {
 
 
 module.exports = {
-  parseBuildingObject
+  validateAndEnrichBuilding
 };
