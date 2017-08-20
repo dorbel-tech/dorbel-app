@@ -23,9 +23,9 @@ export default class EditListingForm extends Component {
             </Col>
           </Row>
           <Row>
-            <Col md={12}>
+            <Col md={12} className="is-phone-visible-input">
               <label>טלפון:</label>
-              <div className="is-phone-visible-input">
+              <div>
                 <FRC.Checkbox name="show_phone" label="הציגו את המספר שלי במודעה" value={show_phone} />
               </div>
             </Col>
