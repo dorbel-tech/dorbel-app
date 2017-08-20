@@ -5,9 +5,9 @@ const _ = require('lodash');
 const helper = require('./repositoryHelper');
 const apartmentRepository = require('./apartmentRepository');
 const buildingRepository = require('./buildingRepository');
+const cityRepository = require('./cityRepository');
 const shared = require('dorbel-shared');
 const logger = shared.logger.getLogger(module);
-const geoProvider = require('../../providers/geoProvider');
 
 const listingAttributes = { exclude: ['updated_at'] };
 const apartmentAttributes = { exclude: ['created_at', 'updated_at'] };
@@ -122,7 +122,11 @@ function getLatestListingByApartmentId(apartmentId) {
 }
 
 async function create(listing) {
+  const city = await cityRepository.findOrCreate(listing.apartment.building.city);
+  listing.apartment.building.city_id = city.id;
+
   const building = await buildingRepository.updateOrCreate(listing.apartment.building);
+  building.city = city;
 
   const apartment = await apartmentRepository.updateOrCreate(
     listing.apartment.apt_number,
@@ -130,11 +134,12 @@ async function create(listing) {
     listing.apartment
   );
 
+  apartment.building = building;
+
   let newListing = models.listing.build(_.pick(listing, helper.getModelFieldNames(models.listing)));
   newListing.apartment_id = apartment.id;
   let savedListing = await newListing.save();
 
-  apartment.building = building;
   savedListing.apartment = apartment;
 
   if (listing.images) {
@@ -174,9 +179,6 @@ async function update(listing, patch) {
       newBuilding = await buildingRepository.updateOrCreate(mergedBuilding, { transaction });
       logger.trace('found other building', { oldBuildingId: currentBuilding.id, newBuildingId: newBuilding.id });
       apartmentPatch.building_id = newBuilding.id;
-      if (!newBuilding.geolocation) {
-        buildingPatch.geolocation = await geoProvider.getGeoLocation(newBuilding);
-      }
     }
 
     if (!_.isEmpty(buildingPatch)) {

@@ -5,7 +5,7 @@ const shared = require('dorbel-shared');
 const listingRepository = require('../apartmentsDb/repositories/listingRepository');
 const likeRepository = require('../apartmentsDb/repositories/likeRepository');
 const listingSearchQuery = require('./listingService.searchQuery');
-const addressStringToBuildingObject = require('./utils/addressUtils').parseBuildingObject;
+const addressUtils = require('./utils/addressUtils');
 const logger = shared.logger.getLogger(module);
 const { messageBus, generic, analytics } = shared.utils;
 const userManagement = shared.utils.user.management;
@@ -33,10 +33,11 @@ function CustomError(code, message) {
 async function create(listing, user) {
   const publishingUserId = user.id;
   listing.publishing_user_id = publishingUserId;
+  listing.apartment.building = await addressUtils.validateAndEnrichBuilding(listing.apartment.building);
+
   await validateNewListing(listing, user);
 
   let modifiedListing = setListingAutoFields(listing);
-  Object.assign(listing.apartment.building, await addressStringToBuildingObject(listing.apartment.building));
   
   let createdListing = await listingRepository.create(modifiedListing);
 

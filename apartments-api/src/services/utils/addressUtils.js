@@ -1,6 +1,5 @@
 'use-strict';
 const errors = require('dorbel-shared').utils.domainErrors;
-const _ = require('lodash');
 
 const mapsApiClient = require('@google/maps').createClient({
   key: process.env.GOOGLE_MAPS_API_KEY,
@@ -47,7 +46,7 @@ async function validateAddress(address) {
   await getGooglePlacesPrediction(address, 'address');
 }
 
-async function parseBuildingObject(building) {
+async function validateAndEnrichBuilding(building) {
   const addressString = `${building.street_name}, ${building.city.city_name}, ישראל`;
   await validateAddress(addressString, 'address');
   const cityObj = await enrichCity(building.city);
@@ -63,5 +62,5 @@ async function parseBuildingObject(building) {
 
 
 module.exports = {
-  parseBuildingObject
+  validateAndEnrichBuilding
 };

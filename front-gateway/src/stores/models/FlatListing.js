@@ -59,7 +59,7 @@ const VALID_KEYS = [
   'apartment.building.street_name',
   'apartment.building.house_number',
   // city
-  'apartment.building.city.id',
+  'apartment.building.city.city_name',
   // neighborhood
   'apartment.building.neighborhood.id',
   // user details

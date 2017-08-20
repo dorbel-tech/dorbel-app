@@ -7,20 +7,10 @@ const ValidationError = shared.utils.domainErrors.DomainValidationError;
 
 async function updateOrCreate(building, options = {}) {
   // TODO: add reference to country
-  const city = await db.models.city.findOrCreate({
-    where: {
-      city_name: building.city.city_name,
-      google_place_id: building.city.google_place_id
-    },
-    raw: true
-  });
-
-  building.city = city[0];
-
   let neighborhood;
-  if (building.neighborhood && building.neighborhood.id) {
+  if (building.neighborhood_id) {
     neighborhood = await db.models.neighborhood.findOne({
-      where: { id: building.neighborhood.id },
+      where: { id: building.neighborhood_id },
       raw: true
     });
     if (!neighborhood) {
@@ -28,14 +18,14 @@ async function updateOrCreate(building, options = {}) {
       throw new ValidationError('neighborhood not found', building.neighborhood, 'השכונה לא נמצאה');
     }
 
-    if (city.id !== neighborhood.city_id) {
-      logger.error({ city_id: city.id, neighborhood_city_id: neighborhood.city_id, neighborhood_id: neighborhood.id }, 'Neighborhood city mismatch!');
+    if (building.city_id !== neighborhood.city_id) {
+      logger.error({ city_id: building.city_id, neighborhood_city_id: neighborhood.city_id, neighborhood_id: neighborhood.id }, 'Neighborhood city mismatch!');
       throw new ValidationError('neighborhood city mismatch', building, 'אין התאמה בין עיר לשכונה');
     }
   }
 
   building.neighborhood = neighborhood;
-  
+
   // properties that are not part of the unique constraint but might still need to be updated
   const nonUniqueProps = Object.assign(_.pick(building, ['geolocation', 'elevator', 'floors']), { neighborhood_id: building.neighborhood ? building.neighborhood.id : undefined });
 
@@ -43,7 +33,7 @@ async function updateOrCreate(building, options = {}) {
     where: {
       street_name: building.street_name,
       house_number: building.house_number,
-      city_id: building.city.id,
+      city_id: building.city_id,
       entrance: building.entrance || null
     },
     defaults: nonUniqueProps,
@@ -54,7 +44,10 @@ async function updateOrCreate(building, options = {}) {
 
   // Find or create doen't update props if row was found - so we update them seperately if needed
   if (!buildingResult.isNewRecord) {
-    await buildingResult.update(nonUniqueProps, { transaction: options.transaction });
+    await buildingResult.update(nonUniqueProps, {
+      include: [db.models.city],
+      transaction: options.transaction
+    });
   }
 
   return buildingResult;
