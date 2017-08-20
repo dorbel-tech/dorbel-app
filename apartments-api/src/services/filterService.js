@@ -38,7 +38,7 @@ async function create(filterToCreate, user) {
 
   const duplicateFilter = checkForDuplicateFilters(usersExistingFilters, filterToCreate);
   if (duplicateFilter) {
-    return duplicateFilter;
+    return mapFilter(duplicateFilter, true);
   }
 
   if (usersExistingFilters.length >= MAX_FILTERS_PER_USER) {
@@ -64,7 +64,7 @@ async function update(filterId, filterUpdate, user) {
   const usersExistingFilters = await filterRepository.getByUser(user.id);
   const duplicateFilter = checkForDuplicateFilters(usersExistingFilters, filterUpdate);
   if (duplicateFilter) {
-    return duplicateFilter;
+    return mapFilter(duplicateFilter, true);
   }
 
   await filter.update(filterUpdate, { fields: filterUpdateFields });
