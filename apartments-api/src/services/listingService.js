@@ -121,6 +121,8 @@ async function update(listingId, user, patch) {
     throw new CustomError(404, 'הדירה לא נמצאה');
   }
 
+  patch.apartment.building = await addressUtils.validateAndEnrichBuilding(patch.apartment.building);
+
   const oldListing = _.cloneDeep(listing.get({ plain: true }));
   const isPublishingUserOrAdmin = listing && userPermissions.isResourceOwnerOrAdmin(user, listing.publishing_user_id);
 
