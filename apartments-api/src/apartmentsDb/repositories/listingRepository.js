@@ -6,7 +6,7 @@ const helper = require('./repositoryHelper');
 const apartmentRepository = require('./apartmentRepository');
 const buildingRepository = require('./buildingRepository');
 const cityRepository = require('./cityRepository');
-const addressUtils = require('../../services/utils/addressUtils');
+const addressUtils = require('../../services/utils/addressUtil');
 const shared = require('dorbel-shared');
 const logger = shared.logger.getLogger(module);
 
