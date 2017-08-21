@@ -44,10 +44,7 @@ async function updateOrCreate(building, options = {}) {
 
   // Find or create doen't update props if row was found - so we update them seperately if needed
   if (!buildingResult.isNewRecord) {
-    await buildingResult.update(nonUniqueProps, {
-      include: [db.models.city],
-      transaction: options.transaction
-    });
+    await buildingResult.update(nonUniqueProps, { transaction: options.transaction });
   }
 
   return buildingResult;
