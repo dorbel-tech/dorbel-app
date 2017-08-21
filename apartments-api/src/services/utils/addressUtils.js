@@ -5,7 +5,7 @@ const googleMaps = require('@google/maps');
 const errors = shared.utils.domainErrors;
 const cache = shared.utils.cache;
 const ADDRESS_CACHE_KEY_PREFIX = 'ADDR_CACHE';
-const ADDRESS_CACHE_TTL = process.env.ADDRESS_CACHE_TTL || 60 * 60 * 24; // Default to 24 hours
+const ADDRESS_CACHE_TTL = process.env.ADDRESS_CACHE_TTL || 60 * 60 * 24; // Fallback to 24 hours
 
 class MapsApiWrapper {
   static get client() {
