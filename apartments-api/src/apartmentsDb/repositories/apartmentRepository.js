@@ -8,8 +8,7 @@ const UPSERT_WHITELIST = [ 'size', 'rooms', 'floor', 'parking', 'sun_heated_boil
 async function updateOrCreate(apt_number, building_id, apartment) {
   const findOrCreateResult = await db.models.apartment.findOrCreate({
     where: { building_id, apt_number },
-    defaults: _.pick(apartment, helper.getModelFieldNames(db.models.apartment)),
-    include: [db.models.building]
+    defaults: _.pick(apartment, helper.getModelFieldNames(db.models.apartment))
   });
 
   const apartmentResult = findOrCreateResult[0];
