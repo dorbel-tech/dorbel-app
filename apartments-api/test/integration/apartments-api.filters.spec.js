@@ -52,9 +52,8 @@ describe('Apartments API - saved filters - ', function () {
     }).expect(400).end();
   });
 
-  it('should fail to save more than 3 filters', function * () {
+  it('should fail to save more than 2 filters', function * () {
     // assuming we've only create 1 until now
-    yield apiClient.createFilter(createFilter()).expect(200).end();
     yield apiClient.createFilter(createFilter()).expect(200).end();
     const { text: error } = yield apiClient.createFilter(createFilter()).expect(400).end();
     __.assertThat(error, __.containsString('לא ניתן לשמור יותר משלושה חיפושים'));
@@ -64,7 +63,7 @@ describe('Apartments API - saved filters - ', function () {
     const { body: myFilters } = yield apiClient.getFilters().expect(200).end();
 
     __.assertThat(myFilters, __.allOf(
-      __.hasSize(3),
+      __.hasSize(2),
       __.everyItem(__.hasProperty('dorbel_user_id', apiClient.userProfile.id))
     ));
   });
