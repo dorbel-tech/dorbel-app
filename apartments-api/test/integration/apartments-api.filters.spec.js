@@ -5,13 +5,8 @@ const faker = require('faker');
 const ApiClient = require('./apiClient.js');
 const fakeObjectGenerator = require('../shared/fakeObjectGenerator');
 
-/**
- *
- * REMOVE .ONLY
- *
- */
-
-describe.only('Apartments API - saved filters - ', function () {
+describe('Apartments API - saved filters - ', function () {
+  let apiClient, adminClient;
 
   function createFilter() {
     return {
@@ -24,15 +19,16 @@ describe.only('Apartments API - saved filters - ', function () {
   }
 
   before(function * () {
-    this.apiClient = yield ApiClient.getInstance();
+    apiClient = yield ApiClient.getInstance();
+    adminClient = yield ApiClient.getAdminInstance();
     // delete all existing filters of the test user
-    const { body: existingFilters } = yield this.apiClient.getFilters().expect(200).end();
-    yield existingFilters.map(filter => this.apiClient.deleteFilter(filter.id).expect(204).end());
+    const { body: existingFilters } = yield apiClient.getFilters().expect(200).end();
+    yield existingFilters.map(filter => apiClient.deleteFilter(filter.id).expect(204).end());
   });
 
   it('should create new filter', function * () {
     const newFilter = createFilter();
-    const { body: createdFilter } = yield this.apiClient.createFilter(newFilter).expect(200).end();
+    const { body: createdFilter } = yield apiClient.createFilter(newFilter).expect(200).end();
 
     __.assertThat(createdFilter, __.hasProperties(newFilter));
     this.createdFilter = createdFilter;
@@ -45,12 +41,12 @@ describe.only('Apartments API - saved filters - ', function () {
 
   it('should return existing filter when trying to create a duplicate filter', function * () {
     const duplicateFilter = _.pick(this.createdFilter, ['city', 'mre', 'mrs', 'minRooms', 'maxRooms']);
-    const { body: createdFilter } = yield this.apiClient.createFilter(duplicateFilter).expect(200).end();
+    const { body: createdFilter } = yield apiClient.createFilter(duplicateFilter).expect(200).end();
     __.assertThat(createdFilter, __.hasProperty('id', this.createdFilter.id));
   });
 
   it('should fail to create a new filter with missing fields', function * () {
-    yield this.apiClient.createFilter({
+    yield apiClient.createFilter({
       city: faker.random.number(20),
       mre: faker.random.number(10000)
     }).expect(400).end();
@@ -58,25 +54,25 @@ describe.only('Apartments API - saved filters - ', function () {
 
   it('should fail to save more than 3 filters', function * () {
     // assuming we've only create 1 until now
-    yield this.apiClient.createFilter(createFilter()).expect(200).end();
-    yield this.apiClient.createFilter(createFilter()).expect(200).end();
-    const { text: error } = yield this.apiClient.createFilter(createFilter()).expect(400).end();
+    yield apiClient.createFilter(createFilter()).expect(200).end();
+    yield apiClient.createFilter(createFilter()).expect(200).end();
+    const { text: error } = yield apiClient.createFilter(createFilter()).expect(400).end();
     __.assertThat(error, __.containsString('לא ניתן לשמור יותר משלושה חיפושים'));
   });
 
   it('should get filters', function * () {
-    const { body: myFilters } = yield this.apiClient.getFilters().expect(200).end();
+    const { body: myFilters } = yield apiClient.getFilters().expect(200).end();
 
     __.assertThat(myFilters, __.allOf(
       __.hasSize(3),
-      __.everyItem(__.hasProperty('dorbel_user_id', this.apiClient.userProfile.id))
+      __.everyItem(__.hasProperty('dorbel_user_id', apiClient.userProfile.id))
     ));
   });
 
   it('should update a filter', function * () {
     const filterUpdate = createFilter();
 
-    const { body: updatedFilter } = yield this.apiClient.putFilter(this.createdFilter.id, filterUpdate).expect(200).end();
+    const { body: updatedFilter } = yield apiClient.putFilter(this.createdFilter.id, filterUpdate).expect(200).end();
 
     __.assertThat(updatedFilter, __.allOf(
       __.hasProperties(filterUpdate),
@@ -87,7 +83,7 @@ describe.only('Apartments API - saved filters - ', function () {
   it('should not update email_notification directly', function * () {
     const filterUpdate = Object.assign({}, this.createdFilter, { email_notification: !this.createdFilter.email_notification });
 
-    const { body: updatedFilter } = yield this.apiClient.putFilter(this.createdFilter.id, filterUpdate).expect(200).end();
+    const { body: updatedFilter } = yield apiClient.putFilter(this.createdFilter.id, filterUpdate).expect(200).end();
 
     __.assertThat(updatedFilter, __.hasProperties({
       id: this.createdFilter.id,
@@ -99,7 +95,7 @@ describe.only('Apartments API - saved filters - ', function () {
     const filterUpdate = {
       minRooms: faker.random.number(20)
     };
-    yield this.apiClient.putFilter(this.createdFilter.id, filterUpdate).expect(400).end();
+    yield apiClient.putFilter(this.createdFilter.id, filterUpdate).expect(400).end();
   });
 
   it('should not update a filter of another user', function * () {
@@ -108,11 +104,11 @@ describe.only('Apartments API - saved filters - ', function () {
   });
 
   it('should not update a non-existing filter', function * () {
-    yield this.apiClient.putFilter(99999, createFilter()).expect(404).end();
+    yield apiClient.putFilter(99999, createFilter()).expect(404).end();
   });
 
   describe('matching filters endpoint - ', function () {
-    let matchingFilter, unmatchingFilter, listing, adminClient;
+    let matchingFilter, unmatchingFilter, listing;
     // As the listing->filter matching is actually done in DB queries, much of the testing will need to be integration testing
 
     const getMatchingFilter = (mrsDelta) => ({
@@ -123,8 +119,8 @@ describe.only('Apartments API - saved filters - ', function () {
     });
 
     function * assertMatchingFilters() {
-      yield adminClient.putFilter(unmatchingFilter.id, unmatchingFilter).expect(200).end();
-      yield adminClient.putFilter(matchingFilter.id, matchingFilter).expect(200).end();
+      yield apiClient.putFilter(unmatchingFilter.id, unmatchingFilter).expect(200).end();
+      yield apiClient.putFilter(matchingFilter.id, matchingFilter).expect(200).end();
       const { body: matchedFilters } = yield adminClient.getFilters({ matchingListingId: listing.id }).expect(200).end();
 
       __.assertThat(matchedFilters, __.allOf(
@@ -134,40 +130,36 @@ describe.only('Apartments API - saved filters - ', function () {
     }
 
     before(function* () {
-      adminClient = yield ApiClient.getAdminInstance();
-      // delete any filters the admin might have already
-      const { body: existingFilters } = yield adminClient.getFilters().expect(200).end();
-      yield existingFilters.map(filter => adminClient.deleteFilter(filter.id).expect(204).end());
+      // delete any filters the user might have already
+      const { body: existingFilters } = yield apiClient.getFilters().expect(200).end();
+      yield existingFilters.map(filter => apiClient.deleteFilter(filter.id).expect(204).end());
       // create a listing to play with
       listing = fakeObjectGenerator.getFakeListing();
       const { body: createdListing } = yield adminClient.createListing(listing).expect(201).end();
       listing.id = createdListing.id;
       // create some filters to test - both are created in a matching state
-      matchingFilter = (yield adminClient.createFilter(getMatchingFilter()).expect(200).end()).body;
-      unmatchingFilter = (yield adminClient.createFilter(getMatchingFilter(1)).expect(200).end()).body;
+      matchingFilter = (yield apiClient.createFilter(getMatchingFilter()).expect(200).end()).body;
+      unmatchingFilter = (yield apiClient.createFilter(getMatchingFilter(1)).expect(200).end()).body;
     });
 
     beforeEach(function * () {
       // reset both filters to matching state
-      yield adminClient.putFilter(matchingFilter.id, getMatchingFilter()).expect(200).end();
-      yield adminClient.putFilter(unmatchingFilter.id, getMatchingFilter(1)).expect(200).end();
+      yield apiClient.putFilter(matchingFilter.id, getMatchingFilter()).expect(200).end();
+      yield apiClient.putFilter(unmatchingFilter.id, getMatchingFilter(1)).expect(200).end();
+      yield apiClient.toggleFiltersEmailNotification(true).expect(200);
     });
 
     it('should not match filter when email_notification is set to false for user', async function () {
-      await this.apiClient.gql(`
-        mutation toggleFilter($email_notification: Boolean!) {
-            toggleFiltersEmail(email_notification: $email_notification)
-        }
-      `, { email_notification: false }).expect(200);
+      await apiClient.toggleFiltersEmailNotification(false).expect(200);
 
       const { body: matchedFilters } = await adminClient.getFilters({ matchingListingId: listing.id }).expect(200);
 
-      __.assertThat(matchedFilters, __.not(__.hasItem(__.hasProperty('dorbel_user_id', this.apiClient.userProfile.id))));
+      __.assertThat(matchedFilters, __.not(__.hasItem(__.hasProperty('dorbel_user_id', adminClient.userProfile.id))));
     });
 
     it('should match filter by neighborhood', function * () {
-      matchingFilter.neigborhood = listing.apartment.building.neighborhood_id;
-      unmatchingFilter.neigborhood = listing.apartment.building.neighborhood_id + 1;
+      matchingFilter.neighborhood = listing.apartment.building.neighborhood_id;
+      unmatchingFilter.neighborhood = listing.apartment.building.neighborhood_id + 1;
       yield assertMatchingFilters();
     });
 
@@ -214,7 +206,7 @@ describe.only('Apartments API - saved filters - ', function () {
     it('should not match by future booking if listing is not meant to be shown for future booking', function * () {
       yield adminClient.patchListing(listing.id, { status: 'rented', show_for_future_booking: false }).expect(200).end();
       matchingFilter.futureBooking = true;
-      yield adminClient.putFilter(matchingFilter.id, matchingFilter).expect(200).end();
+      yield apiClient.putFilter(matchingFilter.id, matchingFilter).expect(200).end();
 
       const { body: matchedFilters } = yield adminClient.getFilters({ matchingListingId: listing.id }).expect(200).end();
 
@@ -224,9 +216,9 @@ describe.only('Apartments API - saved filters - ', function () {
 
   describe('using graphql', function () {
     before(async function() {
-      const { body: existingFilters } = await this.apiClient.getFilters().expect(200);
+      const { body: existingFilters } = await apiClient.getFilters().expect(200);
       await Promise.all( // delete all existing filters of the test user
-        existingFilters.map(filter => this.apiClient.deleteFilter(filter.id).expect(204))
+        existingFilters.map(filter => apiClient.deleteFilter(filter.id).expect(204))
       );
     });
 
@@ -247,17 +239,17 @@ describe.only('Apartments API - saved filters - ', function () {
     it('should create new filter', async function () {
       const newFilter = createFilter();
 
-      const { body: { data: { upsertFilter: createdFilter } } } = await this.apiClient.gql(upsertFilterMutation(newFilter), { filter: newFilter }).expect(200);
+      const { body: { data: { upsertFilter: createdFilter } } } = await apiClient.gql(upsertFilterMutation(newFilter), { filter: newFilter }).expect(200);
 
       __.assertThat(createdFilter, __.allOf(
         __.hasProperties(newFilter),
-        __.hasProperties({ dorbel_user_id: this.apiClient.userProfile.id, id: __.is(__.number()) })
+        __.hasProperties({ dorbel_user_id: apiClient.userProfile.id, id: __.is(__.number()) })
       ));
       this.createdFilter = createdFilter;
     });
 
     it('should get filters', async function () {
-      const { body: { data: { filters: myFilters } } } = await this.apiClient.gql(myFiltersQuery).expect(200);
+      const { body: { data: { filters: myFilters } } } = await apiClient.gql(myFiltersQuery).expect(200);
 
       __.assertThat(myFilters, __.hasSize(1));
       __.assertThat(myFilters[0], __.hasProperty('id', this.createdFilter.id));
@@ -267,7 +259,7 @@ describe.only('Apartments API - saved filters - ', function () {
       const filterUpdate = createFilter();
       filterUpdate.id = this.createdFilter.id;
 
-      const { body: { data: { upsertFilter: updatedFilter } } } = await this.apiClient.gql(upsertFilterMutation(filterUpdate), { filter: filterUpdate }).expect(200);
+      const { body: { data: { upsertFilter: updatedFilter } } } = await apiClient.gql(upsertFilterMutation(filterUpdate), { filter: filterUpdate }).expect(200);
 
       __.assertThat(updatedFilter, __.hasProperties(filterUpdate));
     });
@@ -276,17 +268,17 @@ describe.only('Apartments API - saved filters - ', function () {
       const filterUpdate = Object.assign({}, this.createdFilter,
         { email_notification: !this.createdFilter.email_notification, id: this.createdFilter.id });
 
-      await this.apiClient.gql(upsertFilterMutation(filterUpdate), { filter: filterUpdate }).expect(400);
+      await apiClient.gql(upsertFilterMutation(filterUpdate), { filter: filterUpdate }).expect(400);
     });
 
     it('should delete a filter', async function () {
-      await this.apiClient.gql(`
+      await apiClient.gql(`
         mutation deleteFilter($id: Int!) {
           deleteFilter(id: $id)
         }
       `, { id: this.createdFilter.id }).expect(200);
 
-      const { body: { data: { filters: myFilters } } } = await this.apiClient.gql(myFiltersQuery).expect(200);
+      const { body: { data: { filters: myFilters } } } = await apiClient.gql(myFiltersQuery).expect(200);
       __.assertThat(myFilters, __.hasSize(0));
     });
   });

@@ -152,6 +152,14 @@ class ApiClient {
     return this.put(`/v1/filters/${filterId}`, filter);
   }
 
+  toggleFiltersEmailNotification(email_notification) {
+    return this.gql(`
+      mutation toggleFilter($email_notification: Boolean!) {
+          toggleFiltersEmail(email_notification: $email_notification)
+      }
+    `, { email_notification });
+  }
+
   sendMonthlyReport(day, month, year) {
     return this.post('/v1/sendMonthlyReport', { day, month, year });
   }
