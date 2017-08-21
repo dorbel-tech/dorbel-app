@@ -141,11 +141,16 @@
 }
 
 .property-actions-menu-container > .property-action-button {
-  font-size: 12px;
-  width: 60px;
+  display: none;
 
-  > i {
-    margin-right: 4px;
+  @media (max-width: $screen-xs-max) {
+    display: block;
+    font-size: 12px;
+    width: 60px;
+
+    > i {
+      margin-right: 4px;
+    }
   }
 }
 
