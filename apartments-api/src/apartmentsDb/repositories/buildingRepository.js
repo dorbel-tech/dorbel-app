@@ -14,7 +14,7 @@ async function updateOrCreate(building, options = {}) {
       raw: true
     });
     if (!neighborhood) {
-      logger.error({ neighborhood_id: building.neighborhood.id }, 'Neighborhood not found!');
+      logger.error({ neighborhood_id: building.neighborhood_id }, 'Neighborhood not found!');
       throw new ValidationError('neighborhood not found', building.neighborhood, 'השכונה לא נמצאה');
     }
 
@@ -27,7 +27,7 @@ async function updateOrCreate(building, options = {}) {
   building.neighborhood = neighborhood;
 
   // properties that are not part of the unique constraint but might still need to be updated
-  const nonUniqueProps = Object.assign(_.pick(building, ['geolocation', 'elevator', 'floors']), { neighborhood_id: building.neighborhood ? building.neighborhood.id : undefined });
+  const nonUniqueProps = Object.assign(_.pick(building, ['geolocation', 'elevator', 'floors']), { neighborhood_id: building.neighborhood_id });
 
   const findOrCreateResult = await db.models.building.findOrCreate({
     where: {

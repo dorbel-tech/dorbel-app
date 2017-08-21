@@ -6,6 +6,7 @@ const helper = require('./repositoryHelper');
 const apartmentRepository = require('./apartmentRepository');
 const buildingRepository = require('./buildingRepository');
 const cityRepository = require('./cityRepository');
+const addressUtils = require('../../services/utils/addressUtils');
 const shared = require('dorbel-shared');
 const logger = shared.logger.getLogger(module);
 
@@ -37,8 +38,7 @@ const fullListingDataInclude = [
         required: true
       }, {
         model: models.neighborhood,
-        attributes: neighborhoodAttributes,
-        required: true
+        attributes: neighborhoodAttributes
       }]
     }]
   },
@@ -175,7 +175,8 @@ async function update(listing, patch) {
     // if main building properties change - we move apartment+listing to a different building
     if (buildingRequest) {
       let mergedBuilding = _.merge({}, currentBuilding.toJSON(), buildingRequest);
-      mergedBuilding = _.omit(mergedBuilding, ['geolocation']);
+      mergedBuilding = await addressUtils.validateAndEnrichBuilding(mergedBuilding);
+
       newBuilding = await buildingRepository.updateOrCreate(mergedBuilding, { transaction });
       logger.trace('found other building', { oldBuildingId: currentBuilding.id, newBuildingId: newBuilding.id });
       apartmentPatch.building_id = newBuilding.id;
