@@ -109,6 +109,17 @@ class SearchProvider {
     .then(({ data }) => searchStore.activeFilterId = data.upsertFilter.id);
   }
 
+  toggleEmailNotification(email_notification) {
+    return this.apiProvider.mutate(mutations.toggleFilterNotifications, {
+      variables: { email_notification },
+      update: (proxy) => {
+        const data = proxy.readQuery({ query: queries.getFilters });
+        data.filters.forEach(filter => filter.email_notification = email_notification);
+        proxy.writeQuery({ query: queries.getFilters, data });
+      }
+    });
+  }
+
   resetActiveFilter() {
     this.appStore.searchStore.activeFilterId = null;
   }
