@@ -56,7 +56,7 @@ describe('Apartments API - saved filters - ', function () {
     // assuming we've only create 1 until now
     yield apiClient.createFilter(createFilter()).expect(200).end();
     const { text: error } = yield apiClient.createFilter(createFilter()).expect(400).end();
-    __.assertThat(error, __.containsString('לא ניתן לשמור יותר משלושה חיפושים'));
+    __.assertThat(error, __.containsString('לא ניתן לשמור יותר משני חיפושים'));
   });
 
   it('should get filters', function * () {
