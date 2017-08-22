@@ -64,6 +64,8 @@ async function getGooglePlacesGeocode(address) {
   if (results && results[0]) {
     return results[0].geometry.location;
   }
+  else { throw new errors.DomainValidationError('GeocodeResolutionError', address); }
+}
 
 async function isAddressValid(address) {
   const predictions = await getGooglePlacesAutocomplete(address, 'address');
