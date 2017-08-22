@@ -9,6 +9,11 @@ module.exports = {
         ${ fieldSets.filterFields.join(', ') }
       }
     }
+  `,
+  toggleFilterNotifications: gql`
+    mutation toggleFilter($email_notification: Boolean!) {
+        toggleFiltersEmail(email_notification: $email_notification)
+    }
   `
 }
 

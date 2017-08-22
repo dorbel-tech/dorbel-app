@@ -64,7 +64,7 @@ describe('Saved Filters', () => {
     });
 
     const wrapper = savedFilters();
-    const renderedFilters = wrapper.find('Checkbox');
+    const renderedFilters = wrapper.find('Radio');
     const filterLabel = renderedFilters.first().find('span').text();
 
     expect(renderedFilters).toHaveLength(1);
@@ -77,7 +77,7 @@ describe('Saved Filters', () => {
     const mockedFilter = mockFilter({});
 
     const wrapper = savedFilters();
-    wrapper.find('Checkbox').first().simulate('click');
+    wrapper.find('Radio').first().simulate('click');
 
     expect(props.appStore.searchStore.activeFilterId).toBe(mockedFilter.id);
   });
@@ -86,7 +86,7 @@ describe('Saved Filters', () => {
     mockFilter({ dorbel_user_id: 3, email_notification: true, city: 5 });
 
     const wrapper = savedFilters();
-    wrapper.find('Checkbox').first().simulate('click');
+    wrapper.find('Radio').first().simulate('click');
 
     expect(props.onFilterChange).toHaveBeenCalledWith({ city: 5 });
   });
@@ -95,7 +95,7 @@ describe('Saved Filters', () => {
     mockFilter({ city: 7 }, true);
 
     const wrapper = savedFilters();
-    wrapper.find('Checkbox').first().simulate('click');
+    wrapper.find('Radio').first().simulate('click');
 
     expect(props.onFilterChange).toHaveBeenCalledWith({});
   });
@@ -110,21 +110,21 @@ describe('Saved Filters', () => {
     expect(emailCheckbox.prop('checked')).toBe(true);
   });
 
-  it('should not render email checkbox when no filter is selected', () => {
+  it('should render email checkbox even when no filter is selected', () => {
     mockFilter({});
     const wrapper = savedFilters();
-    expect(wrapper.find('.saved-filter-email-notification-checkbox')).toHaveLength(0);
+    expect(wrapper.find('.saved-filter-email-notification-checkbox')).toHaveLength(1);
   });
 
   it('should call provider to save email-notification when it is clicked', () => {
     const mockedFilter = mockFilter({ email_notification: true }, true);
+    const toggleEmailNotification = props.appProviders.searchProvider.toggleEmailNotification = jest.fn();
 
     const wrapper = savedFilters();
     const emailCheckbox = wrapper.find('.saved-filter-email-notification-checkbox');
-
     emailCheckbox.simulate('change');
-    mockedFilter.email_notification = !mockedFilter.email_notification;
-    expect(props.appProviders.searchProvider.saveFilter).toHaveBeenCalledWith(mockedFilter);
+
+    expect(toggleEmailNotification).toHaveBeenCalledWith(!mockedFilter.email_notification);
   });
 
 });
