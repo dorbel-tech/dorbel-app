@@ -31,7 +31,7 @@ describe('Neighborhood Provider', () => {
 
       return neighborhoodProvider.loadNeighborhoodByCityId(city_id)
       .then(() => {
-        expect(apiMock.gql.mock.calls[0][1]).toHaveProperty('city_id', city_id);
+        expect(apiMock.gql.mock.calls[0][1]).toHaveProperty('variables', { city_id });
         expect(appStoreMock.neighborhoodStore.neighborhoodsByCityId.set).toHaveBeenCalledWith(city_id, mockNeighborhoods);
       });
     });

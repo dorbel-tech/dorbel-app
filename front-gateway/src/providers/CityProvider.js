@@ -2,8 +2,9 @@
  * City provider communicates with the Apartments API to get city meta data
  */
 'use strict';
+import { gql } from 'react-apollo';
 
-const getCitiesQuery = `
+const getCitiesQuery = gql`
   query GetCities {
     cities {
       id
