@@ -4,13 +4,19 @@ import auth0 from 'auth0-js';
 import auth0helper from './auth0helper';
 import autobind from 'react-autobind';
 
+const scope = 'openid profile email address phone';
+
 class AuthProvider {
   constructor(clientId, domain, authStore, router, apiProvider) {
     autobind(this);
 
+    this.domain = domain;
+
     this.webAuth = new auth0.WebAuth({
+//      audience: 'https://' + this.domain + '/api/v2/',
       domain:   domain,
-      clientID: clientId
+      clientID: clientId,
+      scope
     });
 
     this.lock = auth0helper.initLock(clientId, domain);
@@ -40,15 +46,18 @@ class AuthProvider {
 
   login(username, password) {
     this.webAuth.client.login({
+//      audience: 'https://' + this.domain + '/api/v2/',
+      domain: this.domain,
       password: password,
       realm: 'Username-Password-Authentication',
+      scope,
       username: username
     }, (err, authResult) => {
       if (err && err.statusCode === 403) {
         this.signup(username, password);
       } else if (authResult) {
         this.authStore.setToken(authResult.idToken);
-        this.getClientUserInfo(authResult);
+        this.getUserInfo(authResult);
       }
     });
   }
@@ -63,16 +72,6 @@ class AuthProvider {
         return console.log('Something went wrong: ' + err.message);
       } else {
         this.login(username, password);
-      }
-    });
-  }
-
-  getClientUserInfo(authResult) {
-    this.webAuth.client.userInfo(authResult.accessToken, (err, profile) => {
-      if (err) {
-        window.console.log('Error loading the Profile', error);
-      } else {
-        this.reLoadFullProfile(authResult, profile, true);
       }
     });
   }
@@ -113,12 +112,12 @@ class AuthProvider {
 
   // Retry loading full user profile until we get dorbel_user_id which is updated async using auth0 rules.
   // Especially relevant for just signed up users.
-  reLoadFullProfile(authResult, profile, clientAuth) {
+  reLoadFullProfile(authResult, profile) {
     if (profile && profile.app_metadata && profile.app_metadata.dorbel_user_id) {
       this.setProfile(profile);
       this.reportSignup(profile);
     } else if (this.reLoadFullProfileCounter < 5) {
-      window.setTimeout(() => {clientAuth ? this.getClientUserInfo(authResult) : this.getUserInfo(authResult); }, 1000); // Try to get it again after 1 second.
+      window.setTimeout(() => { this.getUserInfo(authResult); }, 1000); // Try to get it again after 1 second.
       this.reLoadFullProfileCounter++;
     }
   }
