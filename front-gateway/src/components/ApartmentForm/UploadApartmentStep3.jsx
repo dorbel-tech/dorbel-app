@@ -99,19 +99,18 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
   }
 
   renderSidePanel(newListingStore) {
-    let title = '';
+    let title = 'פרטי קשר וסיום';
     let content;
     switch (newListingStore.uploadMode) {
       case 'publish':
-        title = 'פרטי קשר';
         content = (
           <ul className="upload-apt-right-container-step3-text-ul">
+            <li>לסיום התהליך וודאו שפרטי הקשר שלכם נכונים</li>
             <li>פרטי הקשר שלכם ישמשו לעדכונים חשובים בלבד!</li>
           </ul>
         );
         break;
       case 'manage':
-        title = 'פרטי קשר וסיום';
         content = (
           <h4>פרטי הקשר שלכם ישמשו לעדכונים חשובים בלבד!</h4>
         );
