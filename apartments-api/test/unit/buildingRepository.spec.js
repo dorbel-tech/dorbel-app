@@ -18,6 +18,7 @@ describe('Building Repository', function () {
         entrance: faker.lorem.word(),
         floors: faker.random.number(100),
         elevator: faker.random.boolean(),
+        city: { google_place_id: 'some-place-id-mock' }
         // geolocation is not tested because SQLlite has a problem with it
       });
 

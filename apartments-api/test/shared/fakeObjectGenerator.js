@@ -16,7 +16,10 @@ function getFakeBuilding(variant) {
       id: 1,
       city_name: 'תל אביב יפו'
     },
-    neighborhood_id: 1
+    neighborhood_id: 1,
+    neighborhood: {
+      id: 1
+    }
   }, variant);
 }
 
