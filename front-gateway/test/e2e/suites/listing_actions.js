@@ -23,10 +23,6 @@ function submitApartment(browser) {
     .navigateToApartmentPicturesSection()
     .uploadImage()
     .goFromApartmentPicturesToOpenHouseEvent()
-    .expect.section('@openHouseEvent').to.be.visible;
-
-  apartmentForm
-    .fillOpenHouseEventDetailsAllFields()
     .submitApartment();
 
   browser.pause(500);

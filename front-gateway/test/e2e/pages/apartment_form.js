@@ -226,13 +226,6 @@ module.exports = {
         .setValue('@boardFee', common.getBigRandomNumber());
       return this;
     },
-    fillOpenHouseEventDetailsAllFields: function () {
-      this.section.openHouseEvent
-        .setValue('@eventDate', '')
-        .setValue('@eventStartTime', '08:00')
-        .setValue('@eventEndTime', '09:00');
-      return this;
-    },
     clearUserDetailsFields: function () {
       this.section.openHouseEvent
         .clearValue('@firstName')

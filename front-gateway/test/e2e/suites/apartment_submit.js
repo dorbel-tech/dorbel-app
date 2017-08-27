@@ -75,7 +75,6 @@ module.exports = {
       .expect.section('@openHouseEvent').to.be.visible;
 
     apartmentForm
-      .fillOpenHouseEventDetailsAllFields()
       .fillUserDetailsFields(user)
       .submitApartment();
 
