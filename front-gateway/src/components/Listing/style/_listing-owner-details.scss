@@ -13,6 +13,10 @@
 
   .listing-owner-send-message {
     float: left;
+
+    >i {
+      margin-left: 5px;
+    }
   }
 
   a {
