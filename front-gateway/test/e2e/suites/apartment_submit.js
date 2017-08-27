@@ -99,11 +99,6 @@ function submitApartment(browser, uploadMode = 'publish') {
 
   apartmentForm.goFromApartmentPicturesToOpenHouseEvent();
 
-  if (apartmentForm.props.mode == 'publish') {
-    apartmentForm.expect.section('@openHouseEvent').to.be.visible;
-    apartmentForm.fillOpenHouseEventDetailsAllFields();
-  }
-
   apartmentForm.submitApartment();
 
   browser.pause(500);
