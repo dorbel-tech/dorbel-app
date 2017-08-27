@@ -1,3 +1,22 @@
+const filterFields = `
+  email_notification: Boolean
+  city: Int
+  neighborhood: Int
+  mrs: Float
+  mre: Float
+  minRooms: Float
+  maxRooms: Float
+  ac: Boolean
+  balc: Boolean
+  ele: Boolean
+  park: Boolean
+  pet: Boolean
+  sb: Boolean
+  futueBooking: Boolean
+  minLease: String
+  maxLease: String
+`;
+
 module.exports = `
   type City {
     id: Int!
@@ -80,11 +99,30 @@ module.exports = `
     display_order: Float
   }
 
+  type Filter {
+    id: Int!
+    dorbel_user_id: ID!
+    ${filterFields}
+  }
+
+  input FilterInput {
+    id: Int
+    ${filterFields}
+  }
+
   # the root query of the graph
   type Query {
     cities: [City]
     neighborhoods(city_id: Int!): [Neighborhood]
     listing(listing_id: Int!): Listing
     listings(myProperties: Boolean, oldListings: Boolean): [Listing]
+    filters: [Filter]
+  }
+
+  # the root mutation of the graph
+  type Mutation {
+    upsertFilter (filter: FilterInput!): Filter
+    deleteFilter (id: Int!): Boolean
+    toggleFiltersEmail (email_notification: Boolean!): Boolean
   }
 `;

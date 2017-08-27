@@ -10,8 +10,9 @@
       "restart": true,
       "sourceMaps": true,
       "localRoot": "${workspaceRoot}/apartments-api",
-      "remoteRoot": ".",
-      "smartStep": true
+      "smartStep": true,
+      "remoteRoot": "/home/nodejs/app",
+      "protocol": "inspector"
     },
     {
       "name": "apartments-api#unit-tests",
@@ -46,7 +47,7 @@
       "restart": true,
       "sourceMaps": true,
       "localRoot": "${workspaceRoot}/front-gateway",
-      "remoteRoot": ".",
+      "remoteRoot": "/home/nodejs/app",
       "smartStep": true
     },
     {
@@ -70,7 +71,7 @@
       "restart": true,
       "sourceMaps": true,
       "localRoot": "${workspaceRoot}/ohe-api",
-      "remoteRoot": ".",
+      "remoteRoot": "/home/nodejs/app",
       "smartStep": true
     }
   ]

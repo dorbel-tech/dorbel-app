@@ -5,8 +5,8 @@ const openHouseEventsRepository = require('../openHouseEventsDb/repositories/ope
 
 // TODO : This whole service does nothing and should be erased
 
-function* find(eventId) {
-  const existingEvent = yield openHouseEventsRepository.findById(eventId);
+async function find(eventId) {
+  const existingEvent = await openHouseEventsRepository.findById(eventId);
   if (existingEvent == undefined) {
     throw new errors.DomainNotFoundError('OpenHouseEventNotFoundError',
       { event_id: eventId },

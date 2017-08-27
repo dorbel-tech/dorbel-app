@@ -11,9 +11,9 @@ const userManagement = shared.utils.user.management;
 const userPermissions = shared.utils.user.permissions;
 const utilityFunctions = require('./common/utility-functions');
 
-function* register(event_id, user) {
-  let existingEvent = yield openHouseEventsFinderService.find(event_id);
-  let usersOwnRegistration = existingEvent.registrations && _.find(existingEvent.registrations, { registered_user_id: user.user_id });    
+async function register(event_id, user) {
+  let existingEvent = await openHouseEventsFinderService.find(event_id);
+  let usersOwnRegistration = existingEvent.registrations && _.find(existingEvent.registrations, { registered_user_id: user.user_id });
 
   validateEventRegistration(existingEvent, user.user_id); // will throw error if validation fails
 
@@ -21,7 +21,7 @@ function* register(event_id, user) {
 
   if (usersOwnRegistration) {
     usersOwnRegistration.is_active = true; // if we passed validation user's own registration is not active
-    result = yield repository.updateRegistration(usersOwnRegistration);
+    result = await repository.updateRegistration(usersOwnRegistration);
   } else {
     const registration = {
       open_house_event_id: event_id,
@@ -29,7 +29,7 @@ function* register(event_id, user) {
       is_active: true
     };
 
-    result = yield repository.createRegistration(registration);
+    result = await repository.createRegistration(registration);
   }
 
   logger.info({ event_id, user_uuid: user.user_id }, 'Register to OHE');
@@ -57,8 +57,8 @@ function* register(event_id, user) {
   return result;
 }
 
-function* unregister(event_id, user) {
-  let existingRegistration = yield repository.findRegistration(event_id, user.id);
+async function unregister(event_id, user) {
+  let existingRegistration = await repository.findRegistration(event_id, user.id);
   if (existingRegistration == undefined) {
     throw new errors.DomainNotFoundError('OpenHouseEventRegistrationNotFoundError',
       { ohe_id: event_id, user_uuid: user.id },
@@ -68,15 +68,15 @@ function* unregister(event_id, user) {
   userPermissions.validateResourceOwnership(user, existingRegistration.registered_user_id);
 
   existingRegistration.is_active = false;
-  const result = yield repository.updateRegistration(existingRegistration);
+  const result = await repository.updateRegistration(existingRegistration);
 
   logger.info({
     event_id: existingRegistration.open_house_event_id,
     user_uuid: existingRegistration.registered_user_id
   }, 'Unregister to OHE');
 
-  let existingEvent = yield openHouseEventsFinderService.find(existingRegistration.open_house_event_id);
-  
+  let existingEvent = await openHouseEventsFinderService.find(existingRegistration.open_house_event_id);
+
   if (existingEvent) {
     notificationService.send(notificationService.eventType.OHE_UNREGISTERED, {
       listing_id: existingEvent.listing_id,

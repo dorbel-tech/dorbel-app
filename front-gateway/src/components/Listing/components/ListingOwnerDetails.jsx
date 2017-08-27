@@ -9,47 +9,11 @@ class ListingOwnerDetails extends Component {
   constructor(props) {
     super(props);
     autobind(this);
-
-    this.state = {
-      showPhoneClicked: false
-    };
   }
 
   componentWillUnmount() {
     this.popup && this.popup.destroy();
     hideIntercom(false);
-  }
-
-  renderPhone() {
-    const { listing } = this.props;
-
-    if (listing.show_phone && this.isListedOrRented()) {
-      if (this.state.showPhoneClicked) {
-        return (
-          <a href={`tel:${listing.publishing_user_phone}`}>
-            <span>
-              {listing.publishing_user_phone}
-            </span>
-          </a>
-        );
-      }
-      else {
-        return (
-          <Button className="listing-owner-show-phone" onClick={this.handleShowPhoneClick} title="הציגו טלפון של מפרסם המודעה">
-            <i className="fa fa-phone" />
-            &nbsp;הצג טלפון
-          </Button>
-        );
-      }
-    }
-  }
-
-  handleShowPhoneClick() {
-    if (!this.props.appProviders.authProvider.shouldLogin()) {
-      const { listing } = this.props;
-      this.setState({ showPhoneClicked: true });
-      window.analytics.track('client_show_phone', { listing_id: listing.id, user_id: listing.publishing_user_id }); // For Facebook conversion tracking.
-    }
   }
 
   renderMsg() {
@@ -108,7 +72,6 @@ class ListingOwnerDetails extends Component {
           <span>{listing.publishing_user_first_name || 'אנונימי'}</span>
         </div>
         <div className="listing-owner-contact-container">
-          {this.renderPhone()}
           {this.renderMsg()}
         </div>
       </div>

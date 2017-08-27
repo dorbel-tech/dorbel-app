@@ -474,7 +474,7 @@ class Filter extends Component {
           </Col>
         </Row>
         {
-          !isMobile() && authStore.isLoggedIn && <SavedFilters onFilterChange={this.loadFilter} animateEmailRow />
+          !isMobile() && authStore.isLoggedIn && <SavedFilters onFilterChange={this.loadFilter} />
         }
       </div>
     );

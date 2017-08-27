@@ -3,16 +3,16 @@ const shared = require('dorbel-shared');
 const logger = shared.logger.getLogger(module);
 const oheService = require('../../services/openHouseEventsService');
 
-function* get() {
-  const listingIds = this.params.listingIds.split(',').map(id => parseInt(id));
-  const query = this.request.query;
+async function get(ctx) {
+  const listingIds = ctx.params.listingIds.split(',').map(id => parseInt(id));
+  const query = ctx.request.query;
 
   logger.debug({ listingIds, query }, 'Getting open house events for listings...');
-  const result = yield oheService.findByListing(listingIds, this.request.user, query);
+  const result = await oheService.findByListing(listingIds, ctx.request.user, query);
   logger.info({ listingIds, eventCount: result.length }, 'Open house events for listings found');
 
-  this.response.status = 200;
-  this.response.body = result;
+  ctx.response.status = 200;
+  ctx.response.body = result;
 }
 
 module.exports = {
