@@ -55,13 +55,12 @@ describe('Listing Repository', function () {
         google_place_id: 'ChIJH3w7GaZMHRURkD-WwKJy-8E',
         country_id: 1
       };
-      createdListing = yield this.listingRepo.create(fakeListing);
 
-      // we assume the in-memory database has been created right before this test
-      __.assertThat(createdListing, __.hasProperty('id', 1));
-      __.assertThat(createdListing.apartment, __.hasProperty('id', 1));
-      __.assertThat(createdListing.apartment.building, __.hasProperty('id', 1));
-      __.assertThat(createdListing.images[0], __.hasProperty('id', 1));
+      try {
+        createdListing = yield this.listingRepo.create(fakeListing);
+      } catch (error) {
+        __.assertThat('code', __.is('not reached'));
+      }
     });
 
     it('should not create new building if already exists', function* () {
@@ -70,9 +69,7 @@ describe('Listing Repository', function () {
 
       let newListing = yield this.listingRepo.create(listingToCreate);
 
-      __.assertThat(newListing, __.hasProperty('id', 2));
-      __.assertThat(newListing.apartment, __.hasProperty('id', 2));
-      __.assertThat(newListing.apartment.building, __.hasProperty('id', 1));
+      __.assertThat(newListing.apartment.building, __.hasProperty('id', createdListing.apartment.building.id));
     });
 
   });
