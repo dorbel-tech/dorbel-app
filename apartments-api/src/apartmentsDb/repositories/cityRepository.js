@@ -5,7 +5,8 @@ async function findOrCreate(city) {
   const cityRecord = await db.models.city.findOrCreate({
     where: {
       city_name: city.city_name,
-      google_place_id: city.google_place_id
+      google_place_id: city.google_place_id,
+      country_id: city.country_id
     },
     raw: true
   });

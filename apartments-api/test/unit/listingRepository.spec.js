@@ -5,7 +5,7 @@ const mockRequire = require('mock-require');
 const faker = require('../shared/fakeObjectGenerator');
 
 describe('Listing Repository', function () {
-  before(function * () {
+  before(function* () {
     yield inMemoryDb.connect();
     this.listingRepo = mockRequire.reRequire('../../src/apartmentsDb/repositories/listingRepository');
   });
@@ -15,34 +15,30 @@ describe('Listing Repository', function () {
 
     // TODO : some of these tests are testing logic in the Building Repository - should be moved to buildingRepository.spec.js
 
-    it('should fail if city is not found', function* () {
-      let fakeListing = {
-        apartment: {
-          building: {
-            city: {
-              city_name: 'bla'
-            }
-          }
-        }
+    it('should be able to add a new city', function* () {
+      let fakeListing = faker.getFakeListing();
+      fakeListing.apartment.building.neighborhood_id = undefined; // new cities can't have defined neighborhoods
+      fakeListing.apartment.building.city = {
+        city_name: 'made up city name',
+        google_place_id: 'some-random-id',
+        country_id: 1
       };
 
       try {
         yield this.listingRepo.create(fakeListing);
-        __.assertThat('code', __.is('not reached'));
       } catch (error) {
-        __.assertThat(error.message, __.equalTo('העיר לא נמצאה'));
+        __.assertThat('code', __.is('not reached'));
       }
     });
 
     it('should fail if neighborhood is not found', function* () {
-      let fakeListing = {
-        apartment: {
-          building: {
-            city: { id: 1 },
-            neighborhood: { neighborhood_name: 'bla' }
-          }
-        }
+      let fakeListing = faker.getFakeListing();
+      fakeListing.apartment.building.city = {
+        city_name: 'תל אביב יפו',
+        google_place_id: 'ChIJH3w7GaZMHRURkD-WwKJy-8E',
+        country_id: 1
       };
+      fakeListing.apartment.building.neighborhood_id = 99999;
 
       try {
         yield this.listingRepo.create(fakeListing);
@@ -53,7 +49,13 @@ describe('Listing Repository', function () {
     });
 
     it('should succeed in creating a valid listing with everything in it', function* () {
-      createdListing = yield this.listingRepo.create(faker.getFakeListing());
+      let fakeListing = faker.getFakeListing();
+      fakeListing.apartment.building.city = {
+        city_name: 'תל אביב יפו',
+        google_place_id: 'ChIJH3w7GaZMHRURkD-WwKJy-8E',
+        country_id: 1
+      };
+      createdListing = yield this.listingRepo.create(fakeListing);
 
       // we assume the in-memory database has been created right before this test
       __.assertThat(createdListing, __.hasProperty('id', 1));
