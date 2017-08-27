@@ -1,12 +1,14 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import { Col, Button } from 'react-bootstrap';
-import OHECard from './OHECard';
-import AddOHEModal from './AddOHEModal';
-import moment from 'moment';
 import autobind from 'react-autobind';
+
+import AddOHEModal from './AddOHEModal';
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
+import moment from 'moment';
+import OHECard from './OHECard';
 import routesHelper from '~/routesHelper';
+import { Col, Button } from 'react-bootstrap';
+import { getPropertyPath } from '~/routesHelper';
 
 import './OHEManager.scss';
 
@@ -19,6 +21,10 @@ class OHEManager extends React.Component {
       showAddOheModal: false
     };
     autobind(this);
+  }
+
+  gotoPublishedListing() {
+    return this.props.router.setRoute(getPropertyPath(this.props.listing));
   }
 
   toggleAddModal(showAddOheModal) {
@@ -68,6 +74,22 @@ class OHEManager extends React.Component {
 
     return (
       <Col xs={12} className="listing-events-container">
+        {isActiveListing && openHouseEvents.length === 0 &&
+          <div className="listing-events-empty">
+            <div className="listing-events-empty-title">
+              זהו! העליתם את הדירה
+</div>
+            <div className="listing-events-empty-subtitle">
+              כעת הוסיפו מועדי ביקור על מנת שדיירים פוטנציאלים יוכלו לבוא לראות את הדירה. 
+            </div>
+            <div>
+              <Button className="listing-events-empty-preview-button"
+                      onClick={this.gotoPublishedListing}>
+                צפו במודעה שהעליתם
+              </Button>
+              <Button onClick={() => this.toggleAddModal(true)} className="listing-events-empty-add-button">הוסף מועד ביקור</Button>
+            </div>
+          </div>}
         <div>
           {isActiveListing && <Button onClick={() => this.toggleAddModal(true)} className="add-button pull-left">הוסף מועד</Button>}
           <h3 className="listing-events-title">מועדי ביקור הבאים</h3>

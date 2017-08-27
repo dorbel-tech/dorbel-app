@@ -1,3 +1,46 @@
+@import "../sharedStyles/variables.scss";
+
+.listing-events-empty {
+  background-color: $brand-white;
+  box-shadow: 0 3px 5px 0 rgba(0,0,0,0.07);
+  height: 144px;
+  margin-bottom: 60px;
+  padding: 22px;
+  text-align: center;
+}
+
+.listing-events-empty-title {
+  color: #3398DB;
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 24px;
+}
+
+.listing-events-empty-subtitle {
+  font-size: 16px;
+  line-height: 24px;
+  margin-bottom: 18px;
+}
+
+.listing-events-empty-preview-button {
+  margin-left: 20px;
+
+  &::before {
+    content: '\f03e';
+    font-family: FontAwesome;
+    margin-left: 10px;
+  }
+}
+
+.listing-events-empty-add-button {
+  background-color: #00D28E !important;
+  color: $brand-white !important;
+
+  &::before {
+    content: "+ ";
+  }
+}
+
 .listing-events-title {
   font-size: 15px;
   margin: 0 0 20px;
