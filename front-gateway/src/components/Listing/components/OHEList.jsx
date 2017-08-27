@@ -197,10 +197,10 @@ class OHEList extends Component {
 
     return (
       <div className="list-group listing-choose-ohe-container">
+        <ListingOwnerDetails listing={listing} />
         {this.renderTitle(listing, ohes)}
         {this.renderOheList(ohes, closeModal)}
         {this.getListingNotification(listing)}
-        <ListingOwnerDetails listing={listing} />
       </div>
     );
   }
