@@ -17,7 +17,7 @@ async function getPageViewsFromCache(listingIds) {
   const pageViewsFromCache = {};
   const listingIdsNotInCache = [];
 
-  await listingIds.map(async function (listing_id) {
+  await Promise.all(listingIds.map(async function (listing_id) {
     const cachedViews = await cache.getKey(PAGE_VIEW_CACHE_KEY_PREFIX + listing_id);
     if (cachedViews) {
       logger.trace({ listing_id }, 'page view cache hit');
@@ -26,7 +26,7 @@ async function getPageViewsFromCache(listingIds) {
       logger.trace({ listing_id }, 'page view cache miss');
       listingIdsNotInCache.push(listing_id);
     }
-  });
+  }));
 
   return { pageViewsFromCache, listingIdsNotInCache };
 }
