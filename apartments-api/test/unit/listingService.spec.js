@@ -34,7 +34,7 @@ describe('Listing Service', function () {
     };
     mockRequire('../../src/apartmentsDb/repositories/listingRepository', this.listingRepositoryMock);
     mockRequire('../../src/apartmentsDb/repositories/likeRepository', this.likeRepositoryMock);
-    mockRequire('../../src/providers/geoProvider', this.geoProviderMock);
+    sinon.stub(shared.utils.cache, 'getHashKey').resolves(JSON.stringify(this.mockUser));
     sinon.stub(shared.utils.user.management, 'updateUserDetails');
     sinon.stub(shared.utils.user.management, 'getUserDetails').resolves();
     this.listingService = require('../../src/services/listingService');
@@ -87,10 +87,10 @@ describe('Listing Service', function () {
       )));
     });
 
-    it('should remove private fields from response when not in my-properties', function * () {
+    it('should remove private fields from response when not in my-properties', function* () {
       const mockListings = [
-        { id: 5, apartment: { apt_number: 'private', building: {} }},
-        { id: 9, apartment: { building: { house_number: 'also-private' }}},
+        { id: 5, apartment: { apt_number: 'private', building: {} } },
+        { id: 9, apartment: { building: { house_number: 'also-private' } } },
       ];
       this.listingRepositoryMock.list.resolves(mockListings);
 
@@ -193,7 +193,7 @@ describe('Listing Service', function () {
     });
 
     it('should not create a new listing if the apartment belongs to another user\'s listing', function* () {
-      this.listingRepositoryMock.list = sinon.stub().resolves([{ id: 1,  status: 'rented', publishing_user_id: 'someFakeUserId123' }]);
+      this.listingRepositoryMock.list = sinon.stub().resolves([{ id: 1, status: 'rented', publishing_user_id: 'someFakeUserId123' }]);
       let newListing = faker.getFakeListing();
       try {
         yield this.listingService.create(newListing, this.mockUser);
