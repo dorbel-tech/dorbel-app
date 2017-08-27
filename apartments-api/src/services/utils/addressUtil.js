@@ -15,7 +15,7 @@ class MapsApiWrapper {
     else {
       try {
         return this.mapsApiClient = googleMaps.createClient({
-          key: process.env.GOOGLE_MAPS_API_KEY,
+          key: process.env.GOOGLE_PLACES_API_KEY,
           Promise: Promise
         });
       }
