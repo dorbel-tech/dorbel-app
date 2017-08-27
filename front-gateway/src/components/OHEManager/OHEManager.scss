@@ -2,7 +2,7 @@
 
 .listing-events-empty {
   background-color: $brand-white;
-  box-shadow: 0 3px 5px 0 rgba(0,0,0,0.07);
+  box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.07);
   height: 144px;
   margin-bottom: 60px;
   padding: 22px;
@@ -10,7 +10,7 @@
 }
 
 .listing-events-empty-title {
-  color: #3398DB;
+  color: #3398db;
   font-size: 18px;
   font-weight: bold;
   line-height: 24px;
@@ -33,7 +33,7 @@
 }
 
 .listing-events-empty-add-button {
-  background-color: #00D28E !important;
+  background-color: #00d28e !important;
   color: $brand-white !important;
 
   &::before {
