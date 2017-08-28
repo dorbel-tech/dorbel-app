@@ -77,10 +77,10 @@ class OHEManager extends React.Component {
         {isActiveListing && openHouseEvents.length === 0 &&
           <div className="listing-events-empty">
             <div className="listing-events-empty-title">
-              זהו! העליתם את הדירה
+              הוסיפו מועד ביקור לדירה
 </div>
             <div className="listing-events-empty-subtitle">
-              כעת הוסיפו מועדי ביקור על מנת שדיירים פוטנציאלים יוכלו לבוא לראות את הדירה. 
+              הוסיפו מועדי ביקור על מנת שדיירים פוטנציאלים יוכלו לבוא לראות את הדירה. 
             </div>
             <div>
               <Button className="listing-events-empty-preview-button"
