@@ -55,9 +55,6 @@ module.exports = {
   'should successfully submit a new apartment with logged in user': function (browser) {
     submitApartment(browser);
   },
-  'should successfully submit a new apartment for management with logged in user': function (browser) {
-    submitApartment(browser, 'manage');
-  },
   'should successfully submit a new apartment while creating new user': function (browser) {
     let user = common.getTestUser('random');
     apartmentForm.navigateToApartmentPicturesSection();
@@ -78,24 +75,15 @@ module.exports = {
   }
 };
 
-function submitApartment(browser, uploadMode = 'publish') {
-  apartmentForm.props.mode = uploadMode;
+function submitApartment(browser) {
   login();
 
   apartmentForm.navigateToApartmentPicturesSection();
-
-  // Don't upload image in manage mode to get image thumbnail instead.
-  if (uploadMode === 'publish') {
-    apartmentForm.uploadImage();
-  }
-
+  apartmentForm.uploadImage();
   apartmentForm.goFromApartmentPicturesToOpenHouseEvent();
 
-  if (apartmentForm.props.mode == 'publish') {
-    apartmentForm.expect.section('@openHouseEvent').to.be.visible;
-    apartmentForm.fillOpenHouseEventDetailsAllFields();
-  }
-
+  apartmentForm.expect.section('@openHouseEvent').to.be.visible;
+  apartmentForm.fillOpenHouseEventDetailsAllFields();
   apartmentForm.submitApartment();
 
   browser.pause(500);
