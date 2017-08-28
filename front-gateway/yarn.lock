@@ -2,6 +2,10 @@
 # yarn lockfile v1
 
 
+"@google/maps@^0.4.3":
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/@google/maps/-/maps-0.4.3.tgz#b468961114d6e0749c15802e0da149dcea2283a5"
+
 "@newrelic/native-metrics@^2.1.0":
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/@newrelic/native-metrics/-/native-metrics-2.1.1.tgz#2a7abd87373e46b3c957a08124a72c0c41968dc8"
@@ -5137,6 +5141,10 @@ lodash.create@3.1.1, lodash.create@^3.1.1:
     lodash._basecreate "^3.0.0"
     lodash._isiterateecall "^3.0.0"
 
+lodash.debounce@^4.0.6:
+  version "4.0.8"
+  resolved "https://registry.yarnpkg.com/lodash.debounce/-/lodash.debounce-4.0.8.tgz#82d79bff30a67c4005ffd5e2515300ad9ca4d7af"
+
 lodash.defaults@^3.1.2:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/lodash.defaults/-/lodash.defaults-3.1.2.tgz#c7308b18dbf8bc9372d701a73493c61192bd2e2c"
@@ -6803,6 +6811,13 @@ rc@^1.0.1, rc@~1.1.6:
     minimist "^1.2.0"
     strip-json-comments "~1.0.4"
 
+react-addons-shallow-compare@^15.5.2:
+  version "15.6.0"
+  resolved "https://registry.yarnpkg.com/react-addons-shallow-compare/-/react-addons-shallow-compare-15.6.0.tgz#b7a4e5ff9f2704c20cf686dd8a05dd08b26de252"
+  dependencies:
+    fbjs "^0.8.4"
+    object-assign "^4.1.0"
+
 react-addons-test-utils@~15.3.0:
   version "15.3.2"
   resolved "https://registry.yarnpkg.com/react-addons-test-utils/-/react-addons-test-utils-15.3.2.tgz#c09a44f583425a4a9c1b38444d7a6c3e6f0f41f6"
@@ -6877,6 +6892,14 @@ react-flickity-component@0.1.0:
     flickity "2.0.2"
     imagesloaded "4.1.0"
     react "15.0.1"
+
+react-geosuggest@^2.5.0:
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/react-geosuggest/-/react-geosuggest-2.5.0.tgz#4f43416dea669222637e39aa2eb9f95214667618"
+  dependencies:
+    classnames "^2.2.3"
+    lodash.debounce "^4.0.6"
+    react-addons-shallow-compare "^15.5.2"
 
 react-hot-api@^0.4.5:
   version "0.4.7"

@@ -3,6 +3,7 @@ import { inject, observer } from 'mobx-react';
 import { Col, Row } from 'react-bootstrap';
 import DatePicker from '~/components/DatePicker/DatePicker';
 import FormWrapper, { FRC } from '~/components/FormWrapper/FormWrapper';
+import AddressAutocomplete from './AddressAutocomplete/AddressAutocomplete';
 import autobind from 'react-autobind';
 import moment from 'moment';
 
@@ -146,7 +147,7 @@ export default class ListingDetailsForm extends React.Component {
           <div className="form-section-headline">כתובת</div>
           <Row>
             <Col md={6}>
-              <FRC.Select name="apartment.building.city.id" label="עיר" options={citySelectorOptions} value={citySelectorValue} required />
+              <AddressAutocomplete />
             </Col>
             <Col md={6}>
               <FRC.Select name="apartment.building.neighborhood.id" label="שכונה" options={neighborhoodSelectorOptions} value={neighborhoodSelectorValue} required />
@@ -154,13 +155,10 @@ export default class ListingDetailsForm extends React.Component {
           </Row>
           <Row>
             <Col md={6}>
-              <FRC.Input value="" name="apartment.building.street_name" label="שם רחוב" type="text" required />
-            </Col>
-            <Col md={3}>
               <FRC.Input value="" name="apartment.building.house_number" label="מספר בניין" required
                 type="text" placeholder="(לא יוצג באתר)" />
             </Col>
-            <Col md={3}>
+            <Col md={6}>
               <FRC.Input value="" name="apartment.apt_number" label="מספר דירה" type="text" required
                 placeholder="(לא יוצג באתר)" />
             </Col>
