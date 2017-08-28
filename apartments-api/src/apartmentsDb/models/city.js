@@ -16,10 +16,6 @@ function define(sequelize, DataTypes) {
       display_order: {
         type: DataTypes.FLOAT
       },
-      country_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-      },
       google_place_id: {
         type: DataTypes.STRING(50),
         allowNull: false,
