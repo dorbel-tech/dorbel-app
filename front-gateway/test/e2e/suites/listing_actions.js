@@ -61,19 +61,6 @@ module.exports = {
     submitApartment(browser);
     browser.end();
   },
-  'admin should approve apartment': function (browser) {
-    let property = browser.page.property();
-
-    login('admin');
-    property.navigateToPropertyPage(property.url(listingId));
-    property.expect.section('@listingStatusSelector').to.be.visible;
-    property.changeListingStatus('listed');
-    browser.refresh();
-    property.section.listingStatusSelector
-      .expect.element('@listingMenuStatusDropdownToggle').text.to.equal('מפורסמת');
-    logout();
-    browser.end();
-  },
   'tenant should like apartment': function (browser) {
     login('tenant');
     listing.navigateToListingPage(listing.url(listingId));
