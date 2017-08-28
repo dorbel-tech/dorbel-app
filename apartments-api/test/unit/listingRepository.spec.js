@@ -24,11 +24,7 @@ describe('Listing Repository', function () {
         country_id: 1
       };
 
-      try {
-        yield this.listingRepo.create(fakeListing);
-      } catch (error) {
-        __.assertThat('code', __.is('not reached'));
-      }
+      yield this.listingRepo.create(fakeListing);
     });
 
     it('should fail if neighborhood is not found', function* () {
@@ -56,11 +52,7 @@ describe('Listing Repository', function () {
         country_id: 1
       };
 
-      try {
-        createdListing = yield this.listingRepo.create(fakeListing);
-      } catch (error) {
-        __.assertThat('code', __.is('not reached'));
-      }
+      createdListing = yield this.listingRepo.create(fakeListing);
     });
 
     it('should not create new building if already exists', function* () {
