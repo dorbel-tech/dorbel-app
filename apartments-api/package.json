@@ -11,7 +11,7 @@
     "start": "yarn run db:migrate && yarn run db:seed && node src/index",
     "start:dev": "yarn run check; yarn run db:migrate; yarn run db:seed && yarn run test:seed && nodemon --inspect=0.0.0.0:5858 src/index | bunyan -o short",
     "test": "yarn run test:unit",
-    "test:unit": "yarn run wait && nyc --all mocha --timeout 10000 test/shared/before-tests.js test/unit/*.spec.js test/unit/**/*.spec.js",
+    "test:unit": "nyc --all mocha --timeout 10000 test/shared/before-tests.js test/unit/*.spec.js test/unit/**/*.spec.js",
     "test:integration": "./scripts/integration-tests.sh",
     "test:seed": "node src/apartmentsDb/testSeed/testSeed.js",
     "lint": "eslint --ext .js -f table src",
