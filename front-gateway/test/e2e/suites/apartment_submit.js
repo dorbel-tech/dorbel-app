@@ -18,11 +18,6 @@ module.exports = {
     apartmentForm.navigateToApartmentDetailsSection()
       .section.apartmentDetails.assert.elementNotPresent('@exitDate');
   },
-  'should display exitDate input on upload for manage': function () {
-    apartmentForm.props.mode = 'manage';
-    apartmentForm.navigateToApartmentDetailsSection()
-      .section.apartmentDetails.assert.elementPresent('@exitDate');
-  },
   'should go back from apartment pictures to previous screen if user doesnt sign in': function (browser) {
     apartmentForm
       .navigateToApartmentPicturesSection();

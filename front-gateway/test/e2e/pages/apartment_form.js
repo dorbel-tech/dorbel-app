@@ -6,9 +6,6 @@ module.exports = {
   url: function () {
     return common.getBaseUrl() + '/apartments/new_form';
   },
-  props: {
-    mode: 'publish'
-  },
   sections: {
     apartmentDetails: {
       selector: '.apartment-details-step',
