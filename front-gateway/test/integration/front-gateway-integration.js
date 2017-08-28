@@ -17,7 +17,7 @@ describe('Front Gateway API Integration', function () {
     const response = yield apiClient.get('/apartments/new');
     __.assertThat(response, __.hasProperties({
       statusCode: 301,
-      headers: __.hasProperty('location', '/properties/submit')
+      headers: __.hasProperty('location', '/properties/submit/publish')
     }));
   });
 
