@@ -10,18 +10,19 @@ const ADDRESS_CACHE_KEY_PREFIX = 'ADDR_CACHE';
 const ADDRESS_CACHE_TTL = process.env.ADDRESS_CACHE_TTL || 60 * 60 * 24; // Fallback to 24 hours
 const ISRAEL = 'ישראל';
 
+let _mapsApiInstance;
 class MapsApiWrapper {
   static get client() {
-    if (this.mapsApiClient) { return this.mapsApiClient; }
+    if (_mapsApiInstance) { return _mapsApiInstance; }
     else {
       try {
-        return this.mapsApiClient = googleMaps.createClient({
+        return _mapsApiInstance = googleMaps.createClient({
           key: process.env.GOOGLE_PLACES_API_KEY,
           Promise: Promise
         });
       }
       catch (ex) {
-        this.mapsApiClient = undefined;
+        _mapsApiInstance = undefined;
         throw ex;
       }
     }
