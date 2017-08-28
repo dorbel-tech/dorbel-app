@@ -25,9 +25,10 @@ describe('facebook provider', function () {
       apiCall.done(); // asserts call was made and caught by nock
     });
 
-    it('Should map Facebook API response to just friend details', function * () {
+    it('Should map Facebook API response to friend details array and total_count', function * () {
       const user_id = faker.random.uuid();
       const access_token = faker.random.uuid();
+      const total_count = faker.random.number();
       const expectedFriends = _.times(3, () => ({ name: faker.name.firstName() + ' ' + faker.name.lastName(), imageUrl: faker.internet.url() }));
       const mockResponse = {
         context: {
@@ -35,7 +36,8 @@ describe('facebook provider', function () {
             data: expectedFriends.map(friend => ({
               name: friend.name,
               picture: { data: { url: friend.imageUrl } }
-            }))
+            })),
+            summary: { total_count }
           }
         }
       };
@@ -44,7 +46,8 @@ describe('facebook provider', function () {
       const mutualFriends = yield facebookProvider.getMutualFriends(access_token, user_id);
 
       apiCall.done(); // asserts call was made and caught by nock
-      __.assertThat(mutualFriends, __.equalTo(expectedFriends));
+      __.assertThat(mutualFriends.items, __.equalTo(expectedFriends));
+      __.assertThat(mutualFriends.total_count, __.equalTo(total_count));
     });
   });
 });

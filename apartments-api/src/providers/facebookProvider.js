@@ -20,7 +20,9 @@ function getMutualFriends(access_token, user_id) {
         imageUrl: _.get(friend, 'picture.data.url')
       }));
 
-      resolve(friends);
+      const total_count = _.get(res, 'body.context.all_mutual_friends.summary.total_count');
+
+      resolve({ items: friends, total_count });
     })
   );
 }
