@@ -42,7 +42,7 @@ async function enrichCity(city) {
 }
 
 async function getCityPredictions(city_name) {
-  const query = `${city_name}, ישראל`;
+  const query = `${city_name}, ${ISRAEL}`;
   const cityPredictions = await getGooglePlacesAutocomplete(query, '(cities)');
   return cityPredictions;
 }
@@ -76,10 +76,10 @@ async function isAddressValid(address) {
 
 async function validateAndEnrichBuilding(building) {
   const addressString = `${building.street_name}, ${building.city.city_name}, ${ISRAEL}`;
-  const isValid = await isAddressValid(`${building.street_name}, ${building.city.city_name}, ישראל`, 'address');
+  const isValid = await isAddressValid(`${building.street_name}, ${building.city.city_name}, ${ISRAEL}`);
   if (isValid) {
     const cityObj = await enrichCity(building.city);
-    const geocode = await getGooglePlacesGeocode(`${building.street_name}, ${building.city.city_name} ${building.house_number}, ישראל`);
+    const geocode = await getGooglePlacesGeocode(`${building.street_name}, ${building.city.city_name} ${building.house_number}, ${ISRAEL}`);
     building.city = cityObj;
     building.geolocation = {
       type: 'Point',
