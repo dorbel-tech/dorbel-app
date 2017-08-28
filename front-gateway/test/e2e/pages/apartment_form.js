@@ -6,21 +6,7 @@ module.exports = {
   url: function () {
     return common.getBaseUrl() + '/apartments/new_form';
   },
-  props: {
-    mode: 'publish'
-  },
   sections: {
-    selectUploadMode: {
-      selector: '.select-upload-mode-wrapper',
-      elements: {
-        publishLink:{
-          selector: 'a[href="/properties/submit/publish"]'
-        },
-        manageLink:{
-          selector: 'a[href="/properties/submit/manage"]'
-        }
-      }
-    },
     apartmentDetails: {
       selector: '.apartment-details-step',
       elements: {
@@ -169,9 +155,7 @@ module.exports = {
     navigateToApartmentDetailsSection: function () {
       this
         .navigate()
-        .waitForElementVisible('body')
-        .selectUploadMode();
-
+        .waitForElementVisible('body');
       return this;
     },
     navigateToApartmentPicturesSection: function () {
@@ -250,20 +234,6 @@ module.exports = {
         .waitForElementVisible('.add-photo')
         .setValue('input[type="file"]', imagePath)
         .waitForElementVisible('.remove-image', 5000);
-      return this;
-    },
-    selectUploadMode: function () {
-      const uploadModeSection = this.section.selectUploadMode;
-      switch (this.props.mode) {
-        case 'publish':
-          uploadModeSection.click('@publishLink');
-          break;
-        case 'manage':
-          uploadModeSection.click('@manageLink');
-          break;
-      }
-
-      this.section.apartmentDetails.waitForElementVisible('body');
       return this;
     }
   }]
