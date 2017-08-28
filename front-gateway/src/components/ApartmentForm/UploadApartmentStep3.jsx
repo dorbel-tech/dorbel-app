@@ -151,7 +151,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
       <Grid fluid className="upload-apt-wrapper">
         {this.renderSidePanel(newListingStore)}
 
-        <Col md={7} className="upload-apt-left-container open-house-event-step">
+        <Col md={7} className="upload-apt-left-container contact-details-step">
           <FormWrapper.Wrapper layout="vertical" onChange={this.handleChanges} ref="form">
             {this.renderUserDetails()}
           </FormWrapper.Wrapper>

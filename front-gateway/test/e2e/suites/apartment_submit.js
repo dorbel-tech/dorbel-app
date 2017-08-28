@@ -44,10 +44,10 @@ module.exports = {
     browser.pause(2500);
     apartmentForm
       .uploadImage()
-      .goFromApartmentPicturesToOpenHouseEvent()
-      .expect.section('@openHouseEvent').to.be.visible;
+      .goFromApartmentPicturesToContactDetails()
+      .expect.section('@contactDetails').to.be.visible;
     apartmentForm
-      .goFromOpenHouseEventToApartmentPictures()
+      .goFromContactDetailsToApartmentPictures()
       .expect.section('@apartmentPictures').to.be.visible;
 
     browser.end();
@@ -60,8 +60,8 @@ module.exports = {
     apartmentForm.navigateToApartmentPicturesSection();
     home.signUpInForm(user);
     apartmentForm.uploadImage()
-      .goFromApartmentPicturesToOpenHouseEvent()
-      .expect.section('@openHouseEvent').to.be.visible;
+      .goFromApartmentPicturesToContactDetails()
+      .expect.section('@contactDetails').to.be.visible;
 
     apartmentForm
       .fillUserDetailsFields(user)
@@ -79,7 +79,7 @@ function submitApartment(browser) {
 
   apartmentForm.navigateToApartmentPicturesSection();
   apartmentForm.uploadImage();
-  apartmentForm.goFromApartmentPicturesToOpenHouseEvent();
+  apartmentForm.goFromApartmentPicturesToContactDetails();
   apartmentForm.submitApartment();
 
   browser.pause(500);
@@ -92,9 +92,9 @@ function tryNavigatingToStep3WithoutPics(browser) {
   apartmentForm.navigateToApartmentPicturesSection();
   home.fillSignIn(common.getTestUser('landlord'));
   browser.pause(2500);
-  apartmentForm.goFromApartmentPicturesToOpenHouseEvent();
+  apartmentForm.goFromApartmentPicturesToContactDetails();
 
-  apartmentForm.expect.section('@openHouseEvent').to.not.be.present;
+  apartmentForm.expect.section('@contactDetails').to.not.be.present;
 
   browser.end();
 }
