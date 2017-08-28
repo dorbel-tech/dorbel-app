@@ -23,7 +23,7 @@ describe('Listing Service', function () {
     this.listingRepositoryMock = {
       create: sinon.stub().resolves(this.mockListing),
       list: sinon.stub().resolves([]),
-      listingStatuses: ['pending', 'rented'],
+      listingStatuses: ['listed', 'pending', 'rented'],
       update: sinon.stub().resolves(this.mockListing),
     };
     this.likeRepositoryMock = {
@@ -147,6 +147,7 @@ describe('Listing Service', function () {
 
     it('should successfuly to create listings with different statuses', function* () {
       const statuses = [
+        'listed',
         'pending',
         'rented'
       ];
@@ -160,7 +161,6 @@ describe('Listing Service', function () {
 
     it('should fail to create listings with different statuses', function* () {
       const statuses = [
-        'listed',
         'unlisted',
         'deleted',
         'random',

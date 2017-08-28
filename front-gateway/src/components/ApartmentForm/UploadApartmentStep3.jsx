@@ -158,7 +158,6 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
       :
       (
         <p>
-          מודעתכם נמצאת בתהליך אישור. עדכון יישלח אליכם ברגע שהיא תעלה לאתר.<br />
           הנכם מועברים לחשבון החדש שלכם, בו תוכלו לנהל ולעקוב אחר נתוני הנכס.
         </p>
       );
