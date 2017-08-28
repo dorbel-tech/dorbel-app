@@ -19,11 +19,16 @@ describe('Listing Users Service', function () {
     this.listingRepositoryMock = {
       getById: sinon.stub()
     };
+    this.facebookProviderMock = {
+      getMutualFriends: sinon.stub()
+    };
 
     mockRequire('../../src/apartmentsDb/repositories/listingRepository', this.listingRepositoryMock);
     mockRequire('../../src/apartmentsDb/repositories/listingUsersRepository', this.listingUsersRepositoryMock);
+    mockRequire('../../src/providers/facebookProvider', this.facebookProviderMock);
     sinon.stub(shared.utils.user.management, 'getPublicProfileByEmail');
     sinon.stub(shared.utils.user.management, 'getPublicProfile');
+    sinon.stub(shared.utils.user.management, 'getUserDetails');
     this.listingUsersService = require('../../src/services/listingUsersService');
   });
 
@@ -38,7 +43,10 @@ describe('Listing Users Service', function () {
     this.listingUsersRepositoryMock.create.reset();
   });
 
-  after(() => mockRequire.stopAll());
+  after(() => {
+    mockRequire.stopAll();
+    sinon.restore(shared.utils.user.management);
+  });
 
   function assert404(func, message) {
     return assertYieldedError(
@@ -153,6 +161,7 @@ describe('Listing Users Service', function () {
       const registeredUser = { id: 7, dorbel_user_id: 123 };
       const publicProfile = { public: 'profile' };
       this.listingUsersRepositoryMock.getUsersForListing.resolves([ registeredUser ]);
+      shared.utils.user.management.getUserDetails.resolves({ identities: [] });
       shared.utils.user.management.getPublicProfile.resolves(publicProfile);
 
       const users = yield this.listingUsersService.get(1, requestingUser);
@@ -172,6 +181,21 @@ describe('Listing Users Service', function () {
 
       __.assertThat(users, __.hasSize(1));
       __.assertThat(users[0], __.hasProperties(guestUser));
+    });
+
+    it('should get Facebook mutual friends', async function () {
+      const tenantListingUser = { id: 7, dorbel_user_id: 123 };
+      this.listingUsersRepositoryMock.getUsersForListing.resolves([ tenantListingUser ]);
+      const tenantPublicProfile = { tenant_profile : { facebook_user_id: faker.random.uuid() } };
+      shared.utils.user.management.getPublicProfile.resolves(tenantPublicProfile);
+      const requestingUserIdentity = { provider: 'facebook', access_token: faker.random.uuid() };
+      shared.utils.user.management.getUserDetails.resolves({ identities: [ requestingUserIdentity  ] });
+      const mockMutualFriends = [ 1,2,3 ];
+      this.facebookProviderMock.getMutualFriends.resolves(mockMutualFriends);
+
+      const users = await this.listingUsersService.get(1, requestingUser);
+      sinon.assert.calledWith(this.facebookProviderMock.getMutualFriends, requestingUserIdentity.access_token, tenantPublicProfile.tenant_profile.facebook_user_id);
+      __.assertThat(users[0].tenant_profile.mutual_friends, __.equalTo(mockMutualFriends));
     });
   });
 

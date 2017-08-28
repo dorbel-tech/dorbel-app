@@ -55,7 +55,7 @@ async function get(listing_id, requestingUser) {
     const tenantFacebookUserId = _.get(publicUserProfile, 'tenant_profile.facebook_user_id');
 
     if (requestingUserFacebookIdentity && tenantFacebookUserId) {
-      publicUserProfile.tenant_profile.mutal_friends = await facebookProvider.getMutualFriends(requestingUserFacebookIdentity.access_token, tenantFacebookUserId);
+      publicUserProfile.tenant_profile.mutual_friends = await facebookProvider.getMutualFriends(requestingUserFacebookIdentity.access_token, tenantFacebookUserId);
     }
 
     return mapToListingUserResponse(listingUserFromDb, publicUserProfile);

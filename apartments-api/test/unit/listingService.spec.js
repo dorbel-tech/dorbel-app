@@ -48,7 +48,10 @@ describe('Listing Service', function () {
     this.geoProviderMock.getGeoLocation.reset();
   });
 
-  after(() => mockRequire.stopAll());
+  after(() => {
+    sinon.restore(shared.utils.user.management);
+    mockRequire.stopAll();
+  });
 
   describe('List Listings - getByFilter', function () {
     it('should call the repostiory', function* () {
