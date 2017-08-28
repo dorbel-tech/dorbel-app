@@ -3,6 +3,7 @@ const shared = require('dorbel-shared');
 const _ = require('lodash');
 const listingUsersRepository = require('../apartmentsDb/repositories/listingUsersRepository');
 const listingRepository = require('../apartmentsDb/repositories/listingRepository');
+const facebookProvider = require('../providers/facebookProvider');
 const errors = shared.utils.domainErrors;
 const userManagement = shared.utils.user.management;
 const userPermissions = shared.utils.user.permissions;
@@ -44,14 +45,20 @@ async function create(listing_id, payload, requestingUser) {
 
 async function get(listing_id, requestingUser) {
   await getAndVerifyListing(listing_id, requestingUser);
+
+  const requestingUserFullProfile = await userManagement.getUserDetails(requestingUser.id);
+  const requestingUserFacebookIdentity = requestingUserFullProfile.identities.find(identity => identity.provider === 'facebook');
+
   const users = await listingUsersRepository.getUsersForListing(listing_id);
-  return await Promise.all(users.map(listingUserFromDb => {
-    if (listingUserFromDb.dorbel_user_id) {
-      return userManagement.getPublicProfile(listingUserFromDb.dorbel_user_id)
-        .then(publicUserProfile => mapToListingUserResponse(listingUserFromDb, publicUserProfile));
-    } else {
-      return mapToListingUserResponse(listingUserFromDb);
+  return await Promise.all(users.map(async function (listingUserFromDb) {
+    const publicUserProfile = listingUserFromDb.dorbel_user_id ? await userManagement.getPublicProfile(listingUserFromDb.dorbel_user_id) : null;
+    const tenantFacebookUserId = _.get(publicUserProfile, 'tenant_profile.facebook_user_id');
+
+    if (requestingUserFacebookIdentity && tenantFacebookUserId) {
+      publicUserProfile.tenant_profile.mutual_friends = await facebookProvider.getMutualFriends(requestingUserFacebookIdentity.access_token, tenantFacebookUserId);
     }
+
+    return mapToListingUserResponse(listingUserFromDb, publicUserProfile);
   }));
 }
 
