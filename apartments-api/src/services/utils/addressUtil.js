@@ -8,6 +8,7 @@ const logger = shared.logger.getLogger(module);
 
 const ADDRESS_CACHE_KEY_PREFIX = 'ADDR_CACHE';
 const ADDRESS_CACHE_TTL = process.env.ADDRESS_CACHE_TTL || 60 * 60 * 24; // Fallback to 24 hours
+const ISRAEL = 'ישראל';
 
 class MapsApiWrapper {
   static get client() {
@@ -73,7 +74,7 @@ async function isAddressValid(address) {
 }
 
 async function validateAndEnrichBuilding(building) {
-  const addressString = `${building.street_name}, ${building.city.city_name}, ישראל`;
+  const addressString = `${building.street_name}, ${building.city.city_name}, ${ISRAEL}`;
   const isValid = await isAddressValid(`${building.street_name}, ${building.city.city_name}, ישראל`, 'address');
   if (isValid) {
     const cityObj = await enrichCity(building.city);
