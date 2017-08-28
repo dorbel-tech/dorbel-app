@@ -34,11 +34,8 @@ module.exports = {
     apartmentForm.expect.section('@apartmentDetails').to.be.visible;
     browser.end();
   },
-  'should fail to go to step3 no pictures were uploaded in step2 (uploadMode = publish)': function (browser) {
+  'should fail to go to step3 no pictures were uploaded in step2': function (browser) {
     tryNavigatingToStep3WithoutPics(browser);
-  },
-  'should proceed to step3 when no pictures were uploaded in step2 (uploadMode = manage)': function (browser) {
-    tryNavigatingToStep3WithoutPics(browser, 'manage');
   },
   'should go back from event details to previous screen': function (browser) {
     apartmentForm
@@ -107,17 +104,13 @@ function submitApartment(browser, uploadMode = 'publish') {
   browser.end();
 }
 
-function tryNavigatingToStep3WithoutPics(browser, uploadMode = 'publish') {
-  apartmentForm.props.mode = uploadMode;
-  apartmentForm
-    .navigateToApartmentPicturesSection();
+function tryNavigatingToStep3WithoutPics(browser) {
+  apartmentForm.navigateToApartmentPicturesSection();
   home.fillSignIn(common.getTestUser('landlord'));
   browser.pause(2500);
   apartmentForm.goFromApartmentPicturesToOpenHouseEvent();
 
-  uploadMode == 'publish' ?
-    apartmentForm.expect.section('@openHouseEvent').to.not.be.present :
-    apartmentForm.expect.section('@openHouseEvent').to.be.present;
+  apartmentForm.expect.section('@openHouseEvent').to.not.be.present;
 
   browser.end();
 }
