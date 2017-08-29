@@ -37,7 +37,7 @@ module.exports = {
   'should fail to go to step3 no pictures were uploaded in step2': function (browser) {
     tryNavigatingToStep3WithoutPics(browser);
   },
-  'should go back from event details to previous screen': function (browser) {
+  'should go back from contact details to previous screen': function (browser) {
     apartmentForm
       .navigateToApartmentPicturesSection();
     home.fillSignIn(common.getTestUser('landlord'));

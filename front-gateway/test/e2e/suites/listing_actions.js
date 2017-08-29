@@ -22,8 +22,9 @@ function submitApartment(browser) {
   apartmentForm
     .navigateToApartmentPicturesSection()
     .uploadImage()
-    .goFromApartmentPicturesToOpenHouseEvent()
+    .goFromApartmentPicturesToContactDetails()
     .submitApartment();
+    //.createOHE();
 
   browser.pause(500);
   apartmentForm.expect.section('@successModal').to.be.present;
