@@ -74,11 +74,11 @@ class OHEManager extends React.Component {
 
     return (
       <Col xs={12} className="listing-events-container">
-        {isActiveListing && openHouseEvents.length === 0 &&
+        {(isActiveListing && openHouseEvents.length === 0) ?
           <div className="listing-events-empty">
             <div className="listing-events-empty-title">
               הוסיפו מועד ביקור לדירה
-</div>
+            </div>
             <div className="listing-events-empty-subtitle">
               הוסיפו מועדי ביקור על מנת שדיירים פוטנציאלים יוכלו לבוא לראות את הדירה. 
             </div>
@@ -89,24 +89,28 @@ class OHEManager extends React.Component {
               </Button>
               <Button onClick={() => this.toggleAddModal(true)} className="listing-events-empty-add-button">הוסף מועד ביקור</Button>
             </div>
-          </div>}
-        <div>
-          {isActiveListing && <Button onClick={() => this.toggleAddModal(true)} className="add-button pull-left">הוסף מועד</Button>}
-          <h3 className="listing-events-title">מועדי ביקור הבאים</h3>
-        </div>
-        <div>
-          {comingEvents.length ?
-            comingEvents.map(ohe => <OHECard key={ohe.id} ohe={ohe} editable={isActiveListing} />) :
-            <h5 className="listing-events-no-ohe-title">אין ביקורים קרובים</h5>}
-        </div>
-        <div>
-          <h3 className="listing-events-title">מועדי ביקור שחלפו</h3>
-        </div>
-        <div>
-          {passedEvents.length ?
-            passedEvents.map(ohe => <OHECard key={ohe.id} ohe={ohe} />) :
-            <h5 className="listing-events-no-ohe-title">אין ביקורים שחלפו</h5>}
-        </div>
+          </div>
+        :
+          <div>
+            <div>
+              {isActiveListing && <Button onClick={() => this.toggleAddModal(true)} className="add-button pull-left">הוסף מועד</Button>}
+              <h3 className="listing-events-title">מועדי ביקור הבאים</h3>
+            </div>
+            <div className="listing-future-events">
+              {comingEvents.length ?
+                comingEvents.map(ohe => <OHECard key={ohe.id} ohe={ohe} editable={isActiveListing} />) :
+                <h5 className="listing-events-no-ohe-title">אין ביקורים קרובים, הוסיפו מועדי ביקור על מנת שדיירים פוטנציאלים יוכלו לבוא לראות את הדירה</h5>}
+            </div>
+            <div>
+              <h3 className="listing-events-title">מועדי ביקור שחלפו</h3>
+            </div>
+            <div>
+              {passedEvents.length ?
+                passedEvents.map(ohe => <OHECard key={ohe.id} ohe={ohe} />) :
+                <h5 className="listing-events-no-ohe-title">אין ביקורים שחלפו</h5>}
+            </div>
+          </div>
+        }
         <AddOHEModal listing={listing} show={this.state.showAddOheModal} onClose={(isOheCreated) => {
           this.toggleAddModal(false);
           if (isOheCreated) {

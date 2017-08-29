@@ -34,6 +34,7 @@
 
 .listing-events-empty-add-button {
   background-color: #00d28e !important;
+  border-color: #00d28e;
   color: $brand-white !important;
 
   &::before {
@@ -47,7 +48,17 @@
 }
 
 .listing-events-no-ohe-title {
+  background-color: $brand-white;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
   color: #9b9b9b;
+  height: 42px;
   margin-bottom: 45px;
+  padding: 15px;
+
+  &::before {
+    content: '\f273';
+    font-family: FontAwesome;
+    padding-left: 10px;
+  }
 }
 
