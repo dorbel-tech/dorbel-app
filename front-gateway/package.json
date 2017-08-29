@@ -23,7 +23,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@google/maps": "^0.4.3",
     "auth0": "^2.5.0",
     "auth0-lock": "10.18.0",
     "axios": "0.15.2",
@@ -79,6 +78,7 @@
     "react": "~15.3.0",
     "react-addons-test-utils": "~15.3.0",
     "react-apollo": "^1.4.10",
+    "react-async-script-loader": "^0.3.0",
     "react-autobind": "^1.0.6",
     "react-bootstrap": "^0.30.6",
     "react-bootstrap-date-picker": "^3.7.0",

@@ -146,18 +146,14 @@ export default class ListingDetailsForm extends React.Component {
         <Row className="form-section">
           <div className="form-section-headline">כתובת</div>
           <Row>
-            <Col md={6}>
-              <AddressAutocomplete />
+            <Col md={12}>
+              <AddressAutocomplete onAddressSelect={console.log}/>
             </Col>
             <Col md={6}>
               <FRC.Select name="apartment.building.neighborhood.id" label="שכונה" options={neighborhoodSelectorOptions} value={neighborhoodSelectorValue} required />
             </Col>
           </Row>
           <Row>
-            <Col md={6}>
-              <FRC.Input value="" name="apartment.building.house_number" label="מספר בניין" required
-                type="text" placeholder="(לא יוצג באתר)" />
-            </Col>
             <Col md={6}>
               <FRC.Input value="" name="apartment.apt_number" label="מספר דירה" type="text" required
                 placeholder="(לא יוצג באתר)" />
