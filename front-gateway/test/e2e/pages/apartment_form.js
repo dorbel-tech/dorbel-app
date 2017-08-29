@@ -135,6 +135,9 @@ module.exports = {
         },
         listingId: {
           selector: '.modal-body .text-center'
+        },
+        okButton: {
+          selector: '.submit-success'
         }
       }
     }

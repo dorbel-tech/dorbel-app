@@ -20,6 +20,28 @@ module.exports = {
           selector: '.dropdown-menu #listed'
         }
       }
+    },
+    oheTab: {
+      selector: '.listing-events-container',
+      elements: {
+        addFirstOHEButton: {
+          selector: '.listing-events-empty-add-button'
+        },
+        futureOHECard: {
+          selector: '.listing-future-events>.ohe-card-row'
+        }
+      }
+    }
+    oheModal: {
+      selector: '.modal-dialog',
+      elements: {
+        okButton: {
+          selector: '.btn-success'
+        },
+        closeButton: {
+          selector: 'close'
+        }
+      }
     }
   },
   commands: [{
@@ -32,6 +54,12 @@ module.exports = {
       return this.section.listingStatusSelector
         .click('@listingMenuStatusDropdownToggle')
         .click('@listingMenuStatusSelector_' + status);
+    },
+    addFirstOHE: function() {
+      this.section.oheTab.click('@addFirstOHEButton');
+      return this.section.oheModal
+        .click('@okButton')
+        .click('@closeButton');
     }
   }]
 };

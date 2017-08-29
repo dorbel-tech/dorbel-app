@@ -24,7 +24,6 @@ function submitApartment(browser) {
     .uploadImage()
     .goFromApartmentPicturesToContactDetails()
     .submitApartment();
-    //.createOHE();
 
   browser.pause(500);
   apartmentForm.expect.section('@successModal').to.be.present;
@@ -34,6 +33,12 @@ function submitApartment(browser) {
   apartmentForm.section.successModal.getAttribute('@listingId', 'data-attr', function (result) {
     listingId = result.value;
   });
+
+  // Add first OHE
+  apartmentForm.section.successModal.click('@okButton');
+  browser.page.property()
+    .addFirstOHE()
+    .section.oheTab.expect.element('@futureOHECard').to.be.visible;
 
   browser.end();
 }
