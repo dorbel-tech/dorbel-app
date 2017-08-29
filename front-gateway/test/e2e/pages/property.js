@@ -58,8 +58,7 @@ module.exports = {
     addFirstOHE: function() {
       this.section.oheTab.click('@addFirstOHEButton');
       return this.section.oheModal
-        .click('@okButton')
-        .click('@closeButton');
+        .click('@okButton');
     }
   }]
 };
