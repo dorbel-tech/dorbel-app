@@ -37,9 +37,6 @@ module.exports = {
       elements: {
         okButton: {
           selector: '.btn-success'
-        },
-        closeButton: {
-          selector: 'close'
         }
       }
     }
