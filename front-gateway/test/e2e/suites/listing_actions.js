@@ -36,9 +36,7 @@ function submitApartment(browser) {
 
   // Add first OHE
   apartmentForm.section.successModal.click('@okButton');
-  browser.page.property()
-    .addFirstOHE()
-    .section.oheTab.expect.element('@futureOHECard').to.be.visible;
+  browser.page.property().addFirstOHE();
 
   browser.end();
 }
