@@ -31,7 +31,7 @@ module.exports = {
           selector: '.listing-future-events>.ohe-card-row'
         }
       }
-    }
+    },
     oheModal: {
       selector: '.modal-dialog',
       elements: {
