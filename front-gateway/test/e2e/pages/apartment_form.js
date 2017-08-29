@@ -104,21 +104,9 @@ module.exports = {
         }
       }
     },
-    openHouseEvent: {
-      selector: '.open-house-event-step',
+    contactDetails: {
+      selector: '.contact-details-step',
       elements: {
-        eventDate: {
-          selector: 'input[name="ohe-date"] + input'
-        },
-        eventDateCalendar: {
-          selector: '#calendar'
-        },
-        eventStartTime: {
-          selector: 'select[name="start_time"]'
-        },
-        eventEndTime: {
-          selector: 'select[name="end_time"]'
-        },
         firstName: {
           selector: 'input[name="user.firstname"]'
         },
@@ -147,6 +135,9 @@ module.exports = {
         },
         listingId: {
           selector: '.modal-body .text-center'
+        },
+        okButton: {
+          selector: '.submit-success'
         }
       }
     }
@@ -173,12 +164,12 @@ module.exports = {
       this.section.apartmentDetails.click('@nextStep');
       return this;
     },
-    goFromApartmentPicturesToOpenHouseEvent: function () {
+    goFromApartmentPicturesToContactDetails: function () {
       this.section.apartmentPictures.click('@nextStep');
       return this;
     },
-    goFromOpenHouseEventToApartmentPictures: function () {
-      this.section.openHouseEvent.click('@previousStep');
+    goFromContactDetailsToApartmentPictures: function () {
+      this.section.contactDetails.click('@previousStep');
       return this;
     },
     fillApartmentDetailsAllFields: function () {
@@ -210,15 +201,8 @@ module.exports = {
         .setValue('@boardFee', common.getBigRandomNumber());
       return this;
     },
-    fillOpenHouseEventDetailsAllFields: function () {
-      this.section.openHouseEvent
-        .setValue('@eventDate', '')
-        .setValue('@eventStartTime', '08:00')
-        .setValue('@eventEndTime', '09:00');
-      return this;
-    },
     clearUserDetailsFields: function () {
-      this.section.openHouseEvent
+      this.section.contactDetails
         .clearValue('@firstName')
         .clearValue('@lastName')
         .clearValue('@email')
@@ -226,14 +210,14 @@ module.exports = {
       return this;
     },
     fillUserDetailsFields: function (user) {
-      this.section.openHouseEvent
+      this.section.contactDetails
         .setValue('@firstName', user.firstName)
         .setValue('@lastName', user.lastName)
         .setValue('@phone', user.phone);
       return this;
     },
     submitApartment: function () {
-      this.section.openHouseEvent.click('@submit');
+      this.section.contactDetails.click('@submit');
       return this;
     },
     uploadImage: function () {
