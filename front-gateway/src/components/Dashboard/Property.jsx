@@ -229,14 +229,6 @@ class Property extends Component {
                     <ListingStatusSelector listing={this.property} />
                   </Col>
                 </Row> }
-              { !activeTab.replaceNavbar &&
-                  <Tabs className="tab-menu" activeKey={activeTab}
-                        onSelect={(tab) => router.setRoute(propertyPath + tab.relativeRoute)} id="property-menu-tabs">
-                    {propertyTabs.filter(tab => !tab.hideFromMenu).map(tab =>
-                      <Tab eventKey={tab} key={tab.relativeRoute} title={tab.title}></Tab>
-                    )}
-                  </Tabs>
-              }
               { activeTab.replaceNavbar ? activeTab.component :
                   <Row className="property-content-container">
                     {activeTab.component}
