@@ -261,13 +261,44 @@ $active-color: #3398db;
   }
 }
 
+.property-stats-process-title {
+	color: $gray-dark;
+	font-size: 15px;
+}
+
+.property-stats-value-title {
+	color: $gray-mid-light;
+	font-size: 13px;
+}
+
+.property-stats-views {
+	color: $gray-mid-light;
+	font-size: 12px;
+  text-align: center;
+}
+
+.property-stats-views-value {
+	font-size: 28px;
+}
+
+.property-stats-share-title {
+	color: #4a4a4a;
+	font-size: 13px;
+}
+
+.property-stats-share-help {
+	color: #979797;
+	float: left;
+	font-size: 13px;
+	text-decoration: underline;
+
+	> i {
+	  padding-left: 5px;
+	}
+}
+
 .property-stats-followers-title {
 	color: #4a4a4a;
 	font-size: 16px;
 	font-weight: bold;
-}
-
-.property-stats-followers-sub-title {
-	color: $gray-mid-light;
-	font-size: 13px;
 }

@@ -76,13 +76,13 @@ class PropertyStats extends Component {
     return <Grid fluid className="property-stats">
             <Row>
               <Col xs={3}>
-                <div>
+                <div className="property-stats-process-title">
                 תהליך ההשכרה:
                 </div>
-                <div>
+                <div className="property-stats-value-title">
                 תאריך פרסום: {listingCreatedAt || null}
                 </div>
-                <div>
+                <div className="property-stats-value-title">
                               ימים שחלפו: {daysPassedSinceCratedAt}
                 </div>
               </Col>
@@ -90,20 +90,21 @@ class PropertyStats extends Component {
               </Col>
             </Row>
             <Row>
-              <Col xs={3}>
+              <Col xs={3} className="property-stats-views">
                 <div>
-                  צפיות במודעה
+                  צפיות<br/>במודעה
                 </div>
-                <div>
+                <div className="property-stats-views-value">
                   {views}
                 </div>
               </Col>
               <Col xs={9}>
                 <div>
-                  <span>
+                  <span className="property-stats-share-title">
                     שתפו את מודעת הדירה בפייסבוק או שלחו אותה לדיירים שפונים אליכם.
                   </span>
-                  <span>
+                  <span className="property-stats-share-help">
+                    <i className="fa fa-info-circle" aria-hidden="true" />
                     למה לשתף?
                   </span>
                 </div>
@@ -320,7 +321,7 @@ class PropertyStats extends Component {
         <div className="property-stats-followers-title">
           רשימת הדיירים המתעניינים בדירה ({likes.length})
         </div>
-        <div className="property-stats-followers-sub-title">
+        <div className="property-stats-value-title">
           לחצו על ״צפה בפרופיל דייר״ על מנת לראות את כל המידע עליו
         </div>
         <ListGroup>
