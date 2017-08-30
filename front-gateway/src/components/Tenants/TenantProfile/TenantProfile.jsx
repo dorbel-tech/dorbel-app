@@ -1,28 +1,43 @@
 import React, { Component } from 'react';
+import autobind from 'react-autobind';
 import { Row, Col, Button, Image } from 'react-bootstrap';
 
 import './TenantProfile.scss';
 
-const emptyFieldText = '- אין פירוט -';
+const emptyFieldText = 'אין פירוט';
+const contactDetailsTypeToStateName = {
+  phone: 'showPhone',
+  email: 'showEmail'
+}
 
 class TenantProfile extends Component {
+  constructor(props) {
+    super(props);
+    autobind(this);
+    this.state = {
+      showPhone: false,
+      showEmail: false
+    }
+  }
+
   renderHeader(profile) {
     const nameBackground = { backgroundImage: `url('${profile.picture}')` };
 
     return (
-      <Row >
-        <Col className="tenant-profile-header">
-          <Row className="tenant-profile-header-content">
-            <Col className="tenant-profile-field vertical" xs={8}>
+      <Row className="tenant-profile-header">
+        <Col xs={12}>
+          <div className="tenant-profile-header-title">
+            פרופיל הדייר של {profile.first_name}
+          </div>
+          <div className="tenant-profile-header-content">
+            <div className="tenant-profile-field">
               <div>
                 <label>שם</label>
-                <span>{`${profile.first_name || emptyFieldText} ${profile.last_name || ''}`}</span>
+                <span>{`${profile.first_name} ${profile.last_name}`}</span>
               </div>
-            </Col>
-            <Col className="tenant-profile-header-content-picture" xs={4}>
-              <Image src={profile.picture} circle />
-            </Col>
-          </Row>
+              <Image className="tenant-profile-header-content-picture" src={profile.picture} circle />
+            </div>
+          </div>
           <div className="tenant-profile-header-backgound" style={nameBackground}>
           </div>
         </Col>
@@ -31,27 +46,30 @@ class TenantProfile extends Component {
   }
 
   renderOccupation(profile) {
-    return (profile.tenant_profile.work_place || profile.tenant_profile.position) ?
+    return (
       <Row>
-        <Col className="tenant-profile-field vertical" xs={6}>
-          <label>תפקיד</label>
-          <span>{profile.tenant_profile.position || emptyFieldText}</span>
-        </Col>
-        <Col className="tenant-profile-field vertical" xs={6}>
-          <label>חברה</label>
-          <span>{profile.tenant_profile.work_place || emptyFieldText}</span>
+        <Col xs={12}>
+          <div className="tenant-profile-field">
+            <label>תפקיד</label>
+            <span>{profile.tenant_profile.position || emptyFieldText}</span>
+          </div>
+          <div className="tenant-profile-field border-bottom">
+            <label>מקום עבודה</label>
+            <span>{profile.tenant_profile.work_place || emptyFieldText}</span>
+          </div>
         </Col>
       </Row>
-      :
-      null;
+    );
   }
 
   renderAboutMe(profile) {
     return profile.tenant_profile.about_you ?
       <Row>
-        <Col className="tenant-profile-field vertical border-bottom" xs={12}>
-          <label>מי אני</label>
-          <span>{profile.tenant_profile.about_you}</span>
+        <Col xs={12}>
+          <div className="tenant-profile-field border-bottom">
+            <label>על עצמי</label>
+            <span>{profile.tenant_profile.about_you}</span>
+          </div>
         </Col>
       </Row>
       :
@@ -61,75 +79,98 @@ class TenantProfile extends Component {
   renderSocial(profile) {
     return (
       <Row>
-        <Col className="tenant-profile-field" xs={12}>
-          <label>רשתות חברתיות</label>
-          <div className="tenant-profile-social-links">
-            <Button
-              href={profile.tenant_profile.linkedin_url}
-              title={this.props.isPreview ? 'אפשרו לבעל הדירה לדעת אם יש לכם מכרים משותפים' : ''}
-              className="tenant-profile-social-links-item"
-              disabled={!profile.tenant_profile.linkedin_url}
-              bsStyle="link"
-              target="_blank">
-              <i className={'fa fa-linkedin-square'}></i>
-            </Button>
-            <Button
-              href={profile.tenant_profile.facebook_url}
-              title={this.props.isPreview ? 'אפשרו לבעל הדירה לדעת אם יש לכם חברים משותפים' : ''}
-              className="tenant-profile-social-links-item"
-              disabled={!profile.tenant_profile.facebook_url}
-              bsStyle="link"
-              target="_blank">
-              <i className={'fa fa-facebook-square'}></i>
-            </Button>
+        <Col xs={12}>
+          <div className="tenant-profile-field border-bottom">
+            <label>רשתות חברתיות</label>
+            <div className="tenant-profile-social-links">
+              <Button
+                href={profile.tenant_profile.linkedin_url}
+                title={this.props.isPreview ? 'אפשרו לבעל הדירה לדעת אם יש לכם מכרים משותפים' : ''}
+                className="tenant-profile-social-links-item"
+                disabled={!profile.tenant_profile.linkedin_url}
+                target="_blank">
+                פרופיל לינקדאין
+              </Button>
+              <Button
+                href={profile.tenant_profile.facebook_url}
+                title={this.props.isPreview ? 'אפשרו לבעל הדירה לדעת אם יש לכם חברים משותפים' : ''}
+                className="tenant-profile-social-links-item pull-left"
+                disabled={!profile.tenant_profile.facebook_url}
+                target="_blank">
+                פרופיל פייסבוק
+              </Button>
+            </div>
           </div>
         </Col>
       </Row>
     );
   }
 
-  renderPhone(profile) {
+  renderContactDetails(profile) {
     return (
       <Row>
-        <Col className="tenant-profile-field" xs={12}>
-          <label>טלפון</label>
-            {
-              profile.phone ?
-                (<a href={`tel:${profile.phone}`}>
-                  {profile.phone}
-                </a>)
-                :
-                (<span>-</span>)
-            }
+        <Col xs={12} className="tenant-profile-contact-details">
+          <div className="tenant-profile-field">
+            <label>יצירת קשר</label>
+            <div>
+              <div className="tenant-profile-contact-details-item">
+                <span className="tenant-profile-contact-details-item-title">טלפון</span>
+                {this.renderRevealContactDetailsButton('phone', 'הצג טלפון',
+                  <a className="pull-left" href={`tel:${profile.phone}`}>
+                    {profile.phone}
+                  </a>
+                )}
+              </div>
+              <div className="tenant-profile-contact-details-item">
+                <span className="tenant-profile-contact-details-item-title">דוא"ל</span>
+                {this.renderRevealContactDetailsButton('email', 'הצג כתובת דוא"ל',
+                  <a className="pull-left" href={`mailto:${profile.email}`}>
+                    {profile.email}
+                  </a>
+                )}
+              </div>
+              <div className="tenant-profile-contact-details-item">
+                <span className="tenant-profile-contact-details-item-title">צ'אט</span>
+                <Button className="chat" bsStyle="success">
+                  <i className="fa fa-comments" />
+                  שלח הודעה
+                </Button>
+              </div>
+            </div>
+          </div>
         </Col>
-      </Row>
+      </Row >
     );
   }
 
-  renderEmail(profile) {
+  renderRevealContactDetailsButton(contactDetailsType, buttonText, nodeToReveal) {
+    const { profile } = this.props;
+    console.log(profile);
     return (
-      <Row>
-        <Col className="tenant-profile-field pad-bottom" xs={12}>
-          <label>דואר אלקטרוני</label>
-          <a href={`mailto:${profile.email}`}>
-            {profile.email}
-          </a>
-        </Col>
-      </Row>
-    );
+      this.state[contactDetailsTypeToStateName[contactDetailsType]] ?
+        nodeToReveal :
+        <Button
+          onClick={() => {
+            if (!this.props.isPreview) {
+              window.analytics.track(`landlord_clicked_tenant_contact_details`, { contactDetailsType });
+            }
+            this.setState({ [contactDetailsTypeToStateName[contactDetailsType]]: true });
+          }
+          }>
+          {buttonText}
+        </Button >
+    )
   }
 
   render() {
     const profile = this.props.profile;
-
     return (
       <Row className="tenant-profile">
         {this.renderHeader(profile)}
         {this.renderOccupation(profile)}
         {this.renderAboutMe(profile)}
         {this.renderSocial(profile)}
-        {this.renderPhone(profile)}
-        {this.renderEmail(profile)}
+        {this.renderContactDetails(profile)}
       </Row>
     );
   }
