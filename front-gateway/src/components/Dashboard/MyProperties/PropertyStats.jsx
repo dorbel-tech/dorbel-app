@@ -89,7 +89,7 @@ class PropertyStats extends Component {
               <Col xs={9}>
               </Col>
             </Row>
-            <Row>
+            <Row className="property-stats-share-container">
               <Col xs={3} className="property-stats-views">
                 <div>
                   צפיות<br/>במודעה
