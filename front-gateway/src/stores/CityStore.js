@@ -5,6 +5,7 @@ export default class CityStore {
 
   constructor(initialState) {
     this.cities = initialState ? initialState.cities : [];
+    console.log(this.cities)
   }
 
   toJson() {
@@ -12,5 +13,4 @@ export default class CityStore {
       cities: this.cities
     };
   }
-
 }

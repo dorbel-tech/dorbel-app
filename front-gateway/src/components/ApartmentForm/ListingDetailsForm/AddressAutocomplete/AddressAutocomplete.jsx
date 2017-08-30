@@ -45,15 +45,14 @@ class AddressAutocomplete extends Component {
     }
   }
 
-  onSuggestSelect(geoRes) { // TODO1: This is broken ATM
-                            // TODO2: GeoCode call is redundant and should be canceled somehow
-                            // TODO3: CSS is copied from example 
+  // TODO: GeoCode call is redundant and should be canceled somehow
+  onSuggestSelect(geoRes) {
     this.inputs.address.blur();
-    console.log(suggestion, 'in')
     if (this.props.onAddressSelect) {
+      const geoResParts = geoRes.label.split(',').map(item => item.trim())
       this.props.onAddressSelect({
-        city_name: this.parseCityName(suggestion),
-        streetName: this.parseStreetName(suggestion)
+        cityName: geoResParts[0],
+        streetName: geoResParts[1]
       });
     }
   }
@@ -73,7 +72,9 @@ class AddressAutocomplete extends Component {
         autoActivateFirstSuggest
         getSuggestLabel={this.getSuggestLabel}
         onSuggestSelect={this.onSuggestSelect}
-        skipSuggest={this.skipSuggest} /> : <LoadingSpinner />;
+        skipSuggest={this.skipSuggest} />
+      :
+      <LoadingSpinner />;
   }
 }
 

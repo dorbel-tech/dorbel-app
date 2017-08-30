@@ -37,7 +37,7 @@ export default class ListingDetailsForm extends React.Component {
   getCityOptions() {
     const cities = this.props.appStore.cityStore.cities;
     if (cities.length) {
-      return cities.map(city => ({ value: city.id, label: city.city_name }));
+      return cities.map(city => ({ value: city.city_name, label: city.city_name }));
     } else {
       this.props.appProviders.cityProvider.loadCities();
       return [LOADING_OPTIONS_LABEL];
@@ -59,7 +59,7 @@ export default class ListingDetailsForm extends React.Component {
   }
 
   getNeighborhoodValue(options) {
-    var storedValue = this.props.editedListingStore.formValues['apartment.building.neighborhood.id'];
+    var storedValue = this.props.editedListingStore.formValues['apartment.building.neighborhood_id'];
     if (storedValue && options.find(option => option.value === storedValue)) {
       return storedValue;
     } else {
@@ -134,8 +134,7 @@ export default class ListingDetailsForm extends React.Component {
   render() {
     const { editedListingStore } = this.props;
     const citySelectorOptions = this.getCityOptions();
-    const citySelectorValue = editedListingStore.formValues['apartment.building.city.id'] || citySelectorOptions[0].value;
-    const neighborhoodSelectorOptions = this.getNeighborhoodOptions(citySelectorValue);
+    const neighborhoodSelectorOptions = this.getNeighborhoodOptions(editedListingStore.formValues['apartment.building.city_name']);
     const neighborhoodSelectorValue = this.getNeighborhoodValue(neighborhoodSelectorOptions);
 
     const roomOptions = editedListingStore.roomOptions.slice(0);
@@ -147,10 +146,14 @@ export default class ListingDetailsForm extends React.Component {
           <div className="form-section-headline">כתובת</div>
           <Row>
             <Col md={12}>
-              <AddressAutocomplete onAddressSelect={console.log}/>
+              <AddressAutocomplete
+                onAddressSelect={(addressObj) => {
+                  editedListingStore.formValues['apartment.building.city_name'] = addressObj.cityName;
+                  editedListingStore.formValues['apartment.building.street_name'] = addressObj.streetName;
+                }} />
             </Col>
             <Col md={6}>
-              <FRC.Select name="apartment.building.neighborhood.id" label="שכונה" options={neighborhoodSelectorOptions} value={neighborhoodSelectorValue} required />
+              <FRC.Select name="apartment.building.neighborhood.id" label="שכונה" options={neighborhoodSelectorOptions} value={neighborhoodSelectorValue} />
             </Col>
           </Row>
           <Row>
