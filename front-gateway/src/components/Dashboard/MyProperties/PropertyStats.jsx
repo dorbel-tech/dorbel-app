@@ -77,7 +77,7 @@ class PropertyStats extends Component {
             <Row>
               <Col xs={3}>
                 <div className="property-stats-process-title">
-                תהליך ההשכרה:
+                תהליך ההשכרה
                 </div>
                 <div className="property-stats-value-title">
                 תאריך פרסום: {listingCreatedAt || null}
