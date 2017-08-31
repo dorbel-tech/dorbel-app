@@ -205,7 +205,7 @@ class TenantProfile extends Component {
   }
 }
 
-TenantProfile.propTypes = {
+TenantProfile.wrappedComponent.propTypes = {
   appProviders: React.PropTypes.isRequired,
   profile: React.PropTypes.object.isRequired,
   isPreview: React.PropTypes.bool,
