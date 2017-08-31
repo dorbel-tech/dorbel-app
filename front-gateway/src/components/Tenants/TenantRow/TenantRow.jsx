@@ -31,8 +31,7 @@ export default class TenantRow extends React.Component {
     if (tenant.disabled) { return; }
 
     this.props.appProviders.modalProvider.showInfoModal({
-      title: 'פרופיל דייר',
-      body: <TenantProfile profile={tenant} />,
+      body: <TenantProfile profile={tenant} />
     });
   }
 
