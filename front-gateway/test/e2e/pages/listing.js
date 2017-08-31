@@ -32,40 +32,6 @@ module.exports = {
           selector: '.like-button-text'
         }
       }
-    },
-    oheList: {
-      selector: '.ohe-list',
-      elements: {
-        firstEvent: {
-          selector: 'a:first-child'
-        },
-        firstEventText: {
-          selector: 'a:first-child .ohe-list-item-text'
-        }
-      }
-    },
-    oheModal: {
-      selector: '.modal-dialog',
-      elements: {
-        firstName: {
-          selector: 'input[name="user.firstname"]'
-        },
-        email: {
-          selector: 'input[name="user.email"]'
-        },
-        phone: {
-          selector: 'input[name="user.phone"]'
-        },
-        submit: {
-          selector: 'button.btn-success'
-        },
-        ok: {
-          selector: '.ohe-register-modal-info-button'
-        },
-        cancel: {
-          selector: 'button.btn-danger'
-        }
-      }
     }
   },
   commands: [{
@@ -81,17 +47,6 @@ module.exports = {
     validateSuccessNotificationVisible: function() {
       this.waitForElementVisible('@notification');
       return this;
-    },
-    clickFirstOhe: function() {
-      return this.section.oheList.click('@firstEvent');
-    },
-    fillOheRegisterUserDetailsAndSubmit: function() {
-      return this.section.oheModal.click('@submit')
-        .waitForElementVisible('@ok')
-        .click('@ok');
-    },
-    oheUnRegisterUser: function() {
-      return this.section.oheModal.click('@cancel');
     }
   }]
 };

@@ -19,7 +19,6 @@ const routes = [
   { route: routesHelper.PROPERTIES_PREFIX + '/submit/:mode', view: UploadApartmentForm },
   { route: routesHelper.PROPERTIES_PREFIX + '/:apartmentId', view: Listing },
   { route: routesHelper.PROPERTIES_PREFIX + '/:apartmentId/:action', view: Listing, requireLogin: true },
-  { route: routesHelper.PROPERTIES_PREFIX + '/:apartmentId/:action/:oheId', view: Listing, requireLogin: true },
   { route: routesHelper.DASHBOARD_PREFIX, view: Dashboard, requireLogin: true },
   { route: routesHelper.DASHBOARD_PREFIX + '/:action', view: Dashboard, requireLogin: true },
   { route: routesHelper.DASHBOARD_PREFIX + '/my-profile/:tab', view: Dashboard, requireLogin: true },

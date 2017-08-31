@@ -66,14 +66,6 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
                     bsStyle="info">
                     עריכת פרטי דירה
                   </Button>
-                  <Button
-                    href={`/dashboard/my-properties/${listingId}/ohe`}
-                    onClick={navProvider.handleHrefClick}
-                    className="upload-apartment-validation-popup-button"
-                    bsStyle="info">
-                    <i className="fa fa-plus" />&nbsp;
-                    הוספת מועד ביקור
-                  </Button>
                 </div>
               </div>
             ),

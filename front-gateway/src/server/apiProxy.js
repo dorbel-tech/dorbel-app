@@ -13,10 +13,7 @@ const logger = shared.logger.getLogger(module);
 const apisConfig = [{
   url: 'APARTMENTS_API_URL',
   prefix: 'apartments'
-}, {
-  url: 'OHE_API_URL',
-  prefix: 'ohe'
-}];
+}]
 
 function* loadProxy(app) {
   logger.info('loading proxy');

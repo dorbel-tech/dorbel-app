@@ -14,11 +14,6 @@ describe('Listing Status Selector', () => {
         updateListingStatus: jest.fn()
       }
     };
-    appStoreMock = {
-      oheStore: {
-        oheByListingId: jest.fn().mockReturnValue([])
-      }
-    };
     listingMock = {
       status: 'rented'
     };
