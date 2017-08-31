@@ -59,7 +59,8 @@ export default class TenantRow extends React.Component {
   }
 
   render() {
-    const { tenant, showActionButtons, listingTitle } = this.props;
+    const { tenant, showActionButtons, listing } = this.props;
+    const listingTitle = getListingTitle(listing);
     const facebookClass = tenant.tenant_profile && tenant.tenant_profile.facebook_url ? '' : 'tenant-row-no-facebook';
 
     return (
@@ -103,7 +104,7 @@ TenantRow.defaultProps = {
 TenantRow.propTypes = {
   appProviders: React.PropTypes.object,
   tenant: React.PropTypes.object.isRequired,
-  listingTitle: React.PropTypes.string,
+  listing: React.PropTypes.object.isRequired,
   showActionButtons: React.PropTypes.bool,
   mode: React.PropTypes.string
 };
