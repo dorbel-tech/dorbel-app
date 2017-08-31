@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import { Col, Grid, Row, Checkbox, ListGroup, ListGroupItem } from 'react-bootstrap';
-import Icon from '~/components/Icon/Icon';
-import NavLink from '~/components/NavLink';
-import utils from '~/providers/utils';
-import routesHelper from '~/routesHelper';
-import { getDashMyPropsPath } from '~/routesHelper';
-import ReactTooltip from 'react-tooltip';
 import autobind from 'react-autobind';
 import moment from 'moment';
-import TenantRow from '~/components/Tenants/TenantRow/TenantRow';
+
+import Icon from '~/components/Icon/Icon';
+import ListingSocial from '~/components/Listing/components/ListingSocial';
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
+import NavLink from '~/components/NavLink';
+import ReactTooltip from 'react-tooltip';
+import routesHelper from '~/routesHelper';
+import TenantRow from '~/components/Tenants/TenantRow/TenantRow';
+import utils from '~/providers/utils';
+import { getDashMyPropsPath } from '~/routesHelper';
 
 import './PropertyStats.scss';
 
@@ -68,6 +70,7 @@ class PropertyStats extends Component {
     const listingRented = listing.status === 'rented';
     const oheTabUrl = getDashMyPropsPath(listing, '/ohe');
 
+    const tipOffset = {left: 2};
     const views = appStore.listingStore.listingViewsById.get(listingId);
     const likes = appStore.likeStore.likesByListingId.get(listing.id);
     const website_url = process.env.FRONT_GATEWAY_URL || 'https://app.dorbel.com';
@@ -103,16 +106,12 @@ class PropertyStats extends Component {
                   <span className="property-stats-share-title">
                     שתפו את מודעת הדירה בפייסבוק או שלחו אותה לדיירים שפונים אליכם.
                   </span>
-                  <span className="property-stats-share-help">
-                    <i className="fa fa-info-circle" aria-hidden="true" />
-                    למה לשתף?
-                  </span>
+                  <span className="property-stats-share-help" data-tip="כשאתם יוצרים מודעה בדורבל, אתם מקבלים לינק לעמוד הדירה שאותו ניתן לשתף בכל מקום- במייל, בפייסבוק או בוואצאפ.<br />
+                  ניתן גם לשלוח אותו לדיירים שפנו אליכם ממודעות באתרים אחרים.<br />
+                  כך תוכלו לקבל את כל המידע שחשוב לכם לדעת על הדיירים לפני שתצרו איתם קשר."><i className="fa fa-info-circle" aria-hidden="true"></i>למה לשתף?</span>
+                  <ReactTooltip type="info" effect="solid" place="bottom" offset={tipOffset} multiline />
                 </div>
-                <div className="listing-social-share-container">
-                  <a className="listing-social-share-item fa fa-facebook-f" href={'https://www.facebook.com/sharer/sharer.php?app_id=1651579398444396&kid_directed_site=0&sdk=joey&display=popup&ref=plugin&src=share_button&u=' + utils.getShareUrl(currentUrl, 'facebook_share')} target="_blank"></a>
-                  <a className="listing-social-share-item fb-messenger-mobile" href={'fb-messenger://share/?app_id=1651579398444396&link=' + utils.getShareUrl(currentUrl, 'messenger_share')}><Icon iconName="dorbel-icon-social-fbmsg" /></a>
-                  <a className="listing-social-share-item whatsapp fa fa-whatsapp" href={'whatsapp://send?text=היי, ראיתי דירה באתר dorbel שאולי תעניין אותך. ' + utils.getShareUrl(currentUrl, 'whatsapp_share')} data-href={utils.getShareUrl(currentUrl, 'whatsapp_share')} data-text="היי, ראיתי דירה באתר dorbel שאולי תעניין אותך."></a>
-                </div>
+                <ListingSocial listing={listing} />
               </Col>
             </Row>
             <Row>
@@ -317,7 +316,7 @@ class PropertyStats extends Component {
     }
 
     return (
-      <div>
+      <div className="property-stats-followers-container">
         <div className="property-stats-followers-title">
           רשימת הדיירים המתעניינים בדירה ({likes.length})
         </div>

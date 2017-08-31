@@ -274,6 +274,21 @@ $active-color: #3398db;
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.05);
   margin: 35px 0 55px;
   padding: 15px;
+
+  .listing-social-share-container {
+    padding: 10px 0 0;
+  }
+
+  .listing-social-share-item {
+    border: $gray-border;
+    border-radius: 4px;
+    /*color: $brand-white;*/
+    margin-left: 10px;
+
+/*    &.fa-facebook-f {
+      background-color: #096abd;
+    }*/
+  }
 }
 
 .property-stats-views {
@@ -302,8 +317,13 @@ $active-color: #3398db;
   }
 }
 
+.property-stats-followers-container > .list-group {
+  margin: 20px 0;
+}
+
 .property-stats-followers-title {
   color: #4a4a4a;
   font-size: 16px;
   font-weight: bold;
+  margin-bottom: 5px;
 }

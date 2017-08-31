@@ -139,7 +139,7 @@ class Listing extends Component {
           <Col sm={7} smPull={5} md={4} mdPull={4} className="listing-title-container">
             <h2 className="listing-title">{utils.getListingTitle(listing)}</h2>
             <h4 className="listing-sub-title">{utils.getListingSubTitle(listing)}</h4>
-            <ListingSocial listing={listing} />
+            שתפו חברים שמחפשים:<ListingSocial listing={listing} />
           </Col>
         </Row>
         <ListingInfo listing={listing} />
