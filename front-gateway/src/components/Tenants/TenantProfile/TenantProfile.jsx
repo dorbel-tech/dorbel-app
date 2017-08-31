@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { inject } from 'mobx-react';
 import autobind from 'react-autobind';
 import { Row, Col, Button, Image } from 'react-bootstrap';
+import { getUserNickname, getListingTitle, hideIntercom } from '~/providers/utils';
 
 import './TenantProfile.scss';
 
@@ -10,6 +12,7 @@ const contactDetailsTypeToStateName = {
   email: 'showEmail'
 }
 
+@inject('appProviders')
 class TenantProfile extends Component {
   constructor(props) {
     super(props);
@@ -18,6 +21,11 @@ class TenantProfile extends Component {
       showPhone: false,
       showEmail: false
     }
+  }
+
+  componentWillUnmount() {
+    this.popup && this.popup.destroy();
+    hideIntercom(false);
   }
 
   renderHeader(profile) {
@@ -131,7 +139,7 @@ class TenantProfile extends Component {
               </div>
               <div className="tenant-profile-contact-details-item">
                 <span className="tenant-profile-contact-details-item-title">צ'אט</span>
-                <Button className="chat" bsStyle="success">
+                <Button className="chat" bsStyle="success" onClick={this.handleMsgClick}>
                   <i className="fa fa-comments" />
                   שלח הודעה
                 </Button>
@@ -144,26 +152,47 @@ class TenantProfile extends Component {
   }
 
   renderRevealContactDetailsButton(contactDetailsType, buttonText, nodeToReveal) {
-    const { profile } = this.props;
-    console.log(profile);
     return (
       this.state[contactDetailsTypeToStateName[contactDetailsType]] ?
         nodeToReveal :
         <Button
           onClick={() => {
             if (!this.props.isPreview) {
-              window.analytics.track(`landlord_clicked_tenant_contact_details`, { contactDetailsType });
+              const { profile, listing } = this.props;
+              window.analytics.track(`landlord_clicked_tenant_contact_details`, {
+                contactDetailsType,
+                listingId: listing.id,
+                tenantUserId: profile.dorbel_user_id
+              });
             }
             this.setState({ [contactDetailsTypeToStateName[contactDetailsType]]: true });
-          }
-          }>
+          }}>
           {buttonText}
         </Button >
     )
   }
 
+  handleMsgClick() {
+    const { isPreview, profile, listing } = this.props;
+    const { messagingProvider } = this.props.appProviders;
+
+    if (listing && !isPreview) {
+      const withUserObj = {
+        id: profile.dorbel_user_id,
+        name: getUserNickname(profile),
+        email: profile.email,
+        welcomeMessage: 'באפשרותך לשלוח הודעה לדיירים. במידה והם אינם מחוברים הודעתך תישלח אליהם למייל.'
+      };
+      messagingProvider.getOrStartConversation(withUserObj, {
+        topicId: listing.id,
+        subject: getListingTitle(listing)
+      }).then(popup => this.popup = popup);
+    }
+  }
+
   render() {
     const profile = this.props.profile;
+
     return (
       <Row className="tenant-profile">
         {this.renderHeader(profile)}
@@ -177,8 +206,10 @@ class TenantProfile extends Component {
 }
 
 TenantProfile.propTypes = {
+  appProviders: React.PropTypes.isRequired,
   profile: React.PropTypes.object.isRequired,
-  isPreview: React.PropTypes.bool
+  isPreview: React.PropTypes.bool,
+  listing: React.PropTypes.object
 };
 
 export default TenantProfile;
