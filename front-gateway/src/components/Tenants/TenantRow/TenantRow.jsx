@@ -3,7 +3,7 @@ import autobind from 'react-autobind';
 import { inject } from 'mobx-react';
 import { Col, Row, Image, Dropdown, MenuItem } from 'react-bootstrap';
 import TenantProfile from '~/components/Tenants/TenantProfile/TenantProfile';
-import { getUserNickname, hideIntercom } from '~/providers/utils';
+import { getUserNickname, hideIntercom, getListingTitle } from '~/providers/utils';
 
 import './TenantRow.scss';
 
@@ -27,16 +27,16 @@ export default class TenantRow extends React.Component {
   }
 
   showTenantProfileModal() {
-    const { tenant } = this.props;
+    const { tenant, listing } = this.props;
     if (tenant.disabled) { return; }
 
-    this.props.appProviders.modalProvider.showInfoModal({
-      body: <TenantProfile profile={tenant} />
+    this.props.appProviders.modalProvider.show({
+      body: <TenantProfile profile={tenant} listing={listing} />,
     });
   }
 
   handleMsgClick() {
-    const { tenant, listingTitle } = this.props;
+    const { tenant, listing } = this.props;
     const { messagingProvider } = this.props.appProviders;
 
     const withUserObj = {
@@ -46,8 +46,8 @@ export default class TenantRow extends React.Component {
       welcomeMessage: 'באפשרותך לשלוח הודעה לדיירים. במידה והם אינם מחוברים הודעתך תישלח אליהם למייל.'
     };
     messagingProvider.getOrStartConversation(withUserObj, {
-      topicId: tenant.listing_id,
-      subject: listingTitle
+      topicId: listing.id,
+      subject: getListingTitle(listing)
     }).then(popup => this.popup = popup);
   }
 
