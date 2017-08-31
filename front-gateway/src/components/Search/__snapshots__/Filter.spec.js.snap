@@ -11,9 +11,6 @@ exports[`Filter should match snapshot in initial state 1`] = `
       "neighborhoodProvider": Object {
         "loadNeighborhoodByCityId": [Function],
       },
-      "oheProvider": Object {
-        "loadListingEvents": [Function],
-      },
       "searchProvider": Object {
         "resetActiveFilter": [Function],
         "saveFilter": [Function],

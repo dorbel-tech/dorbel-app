@@ -5,7 +5,6 @@ import { inject, observer } from 'mobx-react';
 import _ from 'lodash';
 import UploadApartmentBaseStep from './UploadApartmentBaseStep';
 import FormWrapper from '~/components/FormWrapper/FormWrapper';
-import AddOHEInput from '~/components/AddOHEInput/AddOHEInput';
 import SubmitButton from '~/components/SubmitButton/SubmitButton';
 import ReactTooltip from 'react-tooltip';
 import { getDashMyPropsPath } from '~/routesHelper';
@@ -37,10 +36,9 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
 
   onCloseSuccessModal() {
     const { createdListingId, appProviders, appStore } = this.props;
-    const redirectPath = appStore.newListingStore.uploadMode == 'manage' ? '/manage' : '/ohe';
-
+   
     appStore.newListingStore.reset();
-    appProviders.navProvider.setRoute(getDashMyPropsPath({ id: createdListingId }, redirectPath));
+    appProviders.navProvider.setRoute(getDashMyPropsPath({ id: createdListingId }, '/manage'));
   }
 
   renderUserDetails() {

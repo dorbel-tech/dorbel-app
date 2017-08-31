@@ -43,28 +43,13 @@ class PropertyStats extends Component {
     }
   }
 
-  getNumberOfOheRegistrations(listingId) {
-    const openHouseEvents = this.props.appStore.oheStore.oheByListingId(listingId);
-    let totalRegistrations = 0;
-
-    if (openHouseEvents) {
-      openHouseEvents
-        .filter(ohe => ohe.registrations)
-        .forEach(ohe => totalRegistrations += ohe.registrations.length);
-    }
-
-    return totalRegistrations;
-  }
-
   renderListedStats() {
     const { appStore, listing } = this.props;
     const listingId = listing.id;
     const views = appStore.listingStore.listingViewsById.get(listingId);
-    const registrations = this.getNumberOfOheRegistrations(listingId);
     const listingCreatedAt = utils.formatDate(listing.created_at);
     const daysPassedSinceCratedAt = moment().diff(moment(listing.created_at), 'days');
     const listingRented = listing.status === 'rented';
-    const oheTabUrl = getDashMyPropsPath(listing, '/ohe');
     const likes = appStore.likeStore.likesByListingId.get(listing.id);
 
     return <Grid fluid className="property-stats">
@@ -78,9 +63,6 @@ class PropertyStats extends Component {
                 <div>
                   <div className={'property-stats-number' + (views > 0 ? ' property-stats-number-not-empty': '')}>{views || 0}</div>
                   <div className="property-stats-empty"></div>
-                  <div className={'property-stats-number' + (registrations > 0 ? ' property-stats-number-not-empty': '')}>
-                    <NavLink to={oheTabUrl}>{registrations || 0}</NavLink></div>
-                  <div className="property-stats-empty"></div>
                   <div className={'property-stats-number property-stats-rented-check' + (listingRented ? ' property-stats-number-not-empty': '')}>
                     <i className="fa fa-check" aria-hidden="true"></i>
                   </div>
@@ -88,10 +70,6 @@ class PropertyStats extends Component {
                 <div>
                   <div className={'property-stats-bubble' + (views > 0 ? ' property-stats-bubble-not-empty': '')}>
                     <div className="property-stats-bubble-text">צפיות במודעה</div>
-                  </div>
-                  <div className={'property-stats-line' + (registrations > 0 ? ' property-stats-line-not-empty': '')}></div>
-                  <div className={'property-stats-bubble' + (registrations > 0 ? ' property-stats-bubble-not-empty': '')}>
-                    <NavLink to={oheTabUrl}><div className="property-stats-bubble-text">הרשמות לביקורים</div></NavLink>
                   </div>
                   <div className={'property-stats-line' + (listingRented ? ' property-stats-line-not-empty': '')}></div>
                   <div className={'property-stats-bubble' + (listingRented ? ' property-stats-bubble-not-empty': '')}>

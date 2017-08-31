@@ -2,7 +2,7 @@
 const common = require('../common');
 
 module.exports = {
-  url: function(listingId, tab){
+  url: function (listingId, tab) {
     return common.getBaseUrl() + '/dashboard/my-properties/' + listingId + '/' + (tab || '');
   },
   sections: {
@@ -20,42 +20,18 @@ module.exports = {
           selector: '.dropdown-menu #listed'
         }
       }
-    },
-    oheTab: {
-      selector: '.listing-events-container',
-      elements: {
-        addFirstOHEButton: {
-          selector: '.listing-events-empty-add-button'
-        },
-        futureOHECard: {
-          selector: '.listing-future-events>.ohe-card-row'
-        }
-      }
-    },
-    oheModal: {
-      selector: '.modal-dialog',
-      elements: {
-        okButton: {
-          selector: '.btn-success'
-        }
-      }
     }
   },
   commands: [{
-    navigateToPropertyPage: function(url) {
+    navigateToPropertyPage: function (url) {
       return this
         .navigate(url)
         .waitForElementVisible('body');
     },
-    changeListingStatus: function(status) {
+    changeListingStatus: function (status) {
       return this.section.listingStatusSelector
         .click('@listingMenuStatusDropdownToggle')
         .click('@listingMenuStatusSelector_' + status);
-    },
-    addFirstOHE: function() {
-      this.section.oheTab.click('@addFirstOHEButton');
-      return this.section.oheModal
-        .click('@okButton');
     }
   }]
 };
