@@ -1,12 +1,14 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import { Col, Button } from 'react-bootstrap';
-import OHECard from './OHECard';
-import AddOHEModal from './AddOHEModal';
-import moment from 'moment';
 import autobind from 'react-autobind';
+
+import AddOHEModal from './AddOHEModal';
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
+import moment from 'moment';
+import OHECard from './OHECard';
 import routesHelper from '~/routesHelper';
+import { Col, Button } from 'react-bootstrap';
+import { getPropertyPath } from '~/routesHelper';
 
 import './OHEManager.scss';
 
@@ -19,6 +21,10 @@ class OHEManager extends React.Component {
       showAddOheModal: false
     };
     autobind(this);
+  }
+
+  gotoPublishedListing() {
+    return this.props.router.setRoute(getPropertyPath(this.props.listing));
   }
 
   toggleAddModal(showAddOheModal) {
@@ -68,23 +74,43 @@ class OHEManager extends React.Component {
 
     return (
       <Col xs={12} className="listing-events-container">
-        <div>
-          {isActiveListing && <Button onClick={() => this.toggleAddModal(true)} className="add-button pull-left">הוסף מועד</Button>}
-          <h3 className="listing-events-title">מועדי ביקור הבאים</h3>
-        </div>
-        <div>
-          {comingEvents.length ?
-            comingEvents.map(ohe => <OHECard key={ohe.id} ohe={ohe} editable={isActiveListing} />) :
-            <h5 className="listing-events-no-ohe-title">אין ביקורים קרובים</h5>}
-        </div>
-        <div>
-          <h3 className="listing-events-title">מועדי ביקור שחלפו</h3>
-        </div>
-        <div>
-          {passedEvents.length ?
-            passedEvents.map(ohe => <OHECard key={ohe.id} ohe={ohe} />) :
-            <h5 className="listing-events-no-ohe-title">אין ביקורים שחלפו</h5>}
-        </div>
+        {(isActiveListing && openHouseEvents.length === 0) ?
+          <div className="listing-events-empty">
+            <div className="listing-events-empty-title">
+              הוסיפו מועד ביקור לדירה
+            </div>
+            <div className="listing-events-empty-subtitle">
+              הוסיפו מועדי ביקור על מנת שדיירים פוטנציאלים יוכלו לבוא לראות את הדירה. 
+            </div>
+            <div>
+              <Button className="listing-events-empty-preview-button"
+                      onClick={this.gotoPublishedListing}>
+                צפו במודעה שהעליתם
+              </Button>
+              <Button onClick={() => this.toggleAddModal(true)} className="listing-events-empty-add-button">הוסף מועד ביקור</Button>
+            </div>
+          </div>
+        :
+          <div>
+            <div>
+              {isActiveListing && <Button onClick={() => this.toggleAddModal(true)} className="add-button pull-left">הוסף מועד</Button>}
+              <h3 className="listing-events-title">מועדי ביקור הבאים</h3>
+            </div>
+            <div className="listing-future-events">
+              {comingEvents.length ?
+                comingEvents.map(ohe => <OHECard key={ohe.id} ohe={ohe} editable={isActiveListing} />) :
+                <h5 className="listing-events-no-ohe-title">אין ביקורים קרובים, הוסיפו מועדי ביקור על מנת שדיירים פוטנציאלים יוכלו לבוא לראות את הדירה</h5>}
+            </div>
+            <div>
+              <h3 className="listing-events-title">מועדי ביקור שחלפו</h3>
+            </div>
+            <div>
+              {passedEvents.length ?
+                passedEvents.map(ohe => <OHECard key={ohe.id} ohe={ohe} />) :
+                <h5 className="listing-events-no-ohe-title">אין ביקורים שחלפו</h5>}
+            </div>
+          </div>
+        }
         <AddOHEModal listing={listing} show={this.state.showAddOheModal} onClose={(isOheCreated) => {
           this.toggleAddModal(false);
           if (isOheCreated) {
