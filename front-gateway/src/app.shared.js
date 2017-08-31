@@ -1,6 +1,7 @@
 'use strict';
 import React from 'react';
 import { Provider } from 'mobx-react';
+import { ApolloProvider } from 'react-apollo';
 import App from '~/components/App';
 import { startRouter } from '~/router';
 import AppStore from '~/stores/AppStore';
@@ -14,7 +15,9 @@ function createAppEntryPoint(initialState) {
 
   const app = (
     <Provider appStore={appStore} router={router} appProviders={appProviders}>
-      <App />
+      <ApolloProvider client={appProviders.apiProvider.apolloClient}>
+        <App />
+      </ApolloProvider>
     </Provider>
   );
 

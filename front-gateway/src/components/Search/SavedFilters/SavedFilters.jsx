@@ -2,12 +2,15 @@ import React from 'react';
 import autobind from 'react-autobind';
 import _ from 'lodash';
 import { inject, observer } from 'mobx-react';
-import { Row, Col, Checkbox } from 'react-bootstrap';
-import { isMobile } from '~/providers/utils';
+import { Row, Col, Checkbox, Radio } from 'react-bootstrap';
 import { Collapse } from 'react-collapse';
+import { gql, graphql } from 'react-apollo';
+import { isMobile } from '~/providers/utils';
+import queries from '~/graphql/queries';
 
 import './SavedFilters.scss';
 
+@graphql(queries.getFilters)
 @inject('appStore', 'appProviders') @observer
 export default class SavedFilters extends React.Component {
   constructor(props) {
@@ -20,10 +23,6 @@ export default class SavedFilters extends React.Component {
     appProviders: React.PropTypes.any,
     onFilterChange: React.PropTypes.func,
     animateEmailRow: React.PropTypes.bool
-  }
-
-  componentDidMount() {
-    this.props.appProviders.searchProvider.loadSavedFilters();
   }
 
   selectFilter(filter) {
@@ -51,12 +50,10 @@ export default class SavedFilters extends React.Component {
   }
 
   emailNotificationChange() {
-    const { appStore, appProviders } = this.props;
-    const activeFilter = appStore.searchStore.filters.get(appStore.searchStore.activeFilterId);
-    if (activeFilter) {
-      activeFilter.email_notification = !activeFilter.email_notification;
-      appProviders.searchProvider.saveFilter(activeFilter);
-    }
+    const { appProviders, data } = this.props;
+    const user_email_notification = data.filters[0].email_notification;
+
+    appProviders.searchProvider.toggleEmailNotification(!user_email_notification);
   }
 
   renderFilter(filter, index) {
@@ -66,58 +63,49 @@ export default class SavedFilters extends React.Component {
     const rangeLabel = this.getRangeLabel(filter.minRooms, filter.maxRooms);
 
     return (
-      <Col key={filter.id} sm={3} md={3} lg={2} xs={12} className="saved-filter-wrapper">
-        <Checkbox checked={appStore.searchStore.activeFilterId === filter.id}
+      <Col key={filter.id} sm={4} lg={2} xs={12} className="saved-filter-wrapper">
+        <Radio checked={appStore.searchStore.activeFilterId === filter.id}
                   onClick={() => this.selectFilter(filter)}>
-          <svg className={'saved-filter-circle saved-filter-circle-' + index } xmlns="http://www.w3.org/2000/svg">
-            <circle cx="50%" cy="50%" r="40%"/>
-          </svg>
           <span>
             {cityName}, {rangeLabel}&nbsp;חד'
             { isMobile() ? ', ' : <br/> }
             {this.getRangeLabel(filter.mrs, filter.mre)}&nbsp;ש"ח
           </span>
+        </Radio>
+      </Col>
+    );
+  }
+
+  renderEmailNotificationBox() {
+    // we assume that email_notification is the same on all filter objects.
+    const user_email_notification = this.props.data.filters[0].email_notification;
+
+    return (
+      <Col className="email-notification-box" sm={4} xs={12}>
+        <Checkbox name="emailNotification" className="saved-filter-email-notification-checkbox"
+          checked={user_email_notification} onChange={this.emailNotificationChange}>
+          עדכנו אותי במייל על דירות חדשות
         </Checkbox>
       </Col>
     );
   }
 
   render() {
-    const { appStore } = this.props;
-    const filters = appStore.searchStore.filters.values();
-    const activeFilter = appStore.searchStore.filters.get(appStore.searchStore.activeFilterId);
+    const { appStore, data } = this.props;
 
-    if (filters.length === 0) {
+    if (data.loading || data.filters.length === 0) {
       return null;
     }
-
-    const emailNotificationRow = (
-      <Row>
-        <Col smOffset={2} sm={10} xs={12}>
-          <Checkbox name="emailNotification" className="saved-filter-email-notification-checkbox"
-            checked={activeFilter && activeFilter.email_notification} onChange={this.emailNotificationChange}>
-            עדכנו אותי במייל על דירות חדשות לחיפוש זה
-          </Checkbox>
-        </Col>
-      </Row>
-    );
 
     return (
       <div>
         <Row className="saved-filters-row">
-          <Col smOffset={0} sm={2} mdOffset={1} md={1} lgOffset={2} lg={2} xs={12}>
-            <span className="saved-filters-title">חיפושים שמורים</span>
+          <Col smOffset={0} sm={2} mdOffset={1} xs={12}>
+            <span className="saved-filters-title">חיפושים שמורים:</span>
           </Col>
-          {filters.map(this.renderFilter)}
+          {data.filters.map(this.renderFilter)}
+          {this.renderEmailNotificationBox()}
         </Row>
-        {
-          this.props.animateEmailRow ? 
-            <Collapse isOpened={!!activeFilter} fixedHeight={20}>
-              {emailNotificationRow}
-            </Collapse>
-            : 
-            activeFilter && emailNotificationRow
-        }
       </div>
     );
   }

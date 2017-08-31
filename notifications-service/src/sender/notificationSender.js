@@ -23,7 +23,7 @@ function handleMessage(payload) {
 }
 
 function sendEvent(eventConfig, eventData) {
-  logger.debug({eventConfig, eventData}, 'Prepering event for sendig');
+  logger.debug({eventConfig, eventData}, 'Prepering event for sending');
   return dataRetrieval.getAdditonalData(eventConfig, eventData)
     .then(additonalData => {
       return dataEnrichment.enrichAdditonalData(eventConfig, eventData, additonalData)

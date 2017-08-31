@@ -4,7 +4,8 @@
   margin-bottom: 15px;
 
   .listing-choose-ohe-title {
-    color: #9b9b9b;
+    color: $gray-dark;
+    font-weight: 600;
     margin: 0 20px;
     padding: 25px 0;
   }
@@ -21,7 +22,7 @@
     }
 
     &:not(.disabled) {
-      color: #333;
+      color: $gray-dark;
       cursor: pointer;
 
       .ohe-list-item-text {

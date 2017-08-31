@@ -12,7 +12,8 @@ describe('SearchProvider', () => {
 
     appProvidersMock = {
       api : {
-        fetch: jest.fn().mockReturnValue(Promise.resolve(mockSearchResults))
+        fetch: jest.fn().mockReturnValue(Promise.resolve(mockSearchResults)),
+        mutate: jest.fn()
       },
       ohe : {
         loadListingEvents: jest.fn()
@@ -165,32 +166,23 @@ describe('SearchProvider', () => {
   });
 
   describe('saved filters', () => {
-    it('should load saved filters into store', () => {
-      const mockFilters = [{ id: 1 }, { id: 2 }];
-      appProvidersMock.api.fetch.mockReturnValue(Promise.resolve(mockFilters));
-      return searchProvider.loadSavedFilters().then(() => {
-        expect(appStoreMock.searchStore.filters.set).toHaveBeenCalledTimes(2);
-        expect(appStoreMock.searchStore.filters.set).toHaveBeenCalledWith(mockFilters[0].id, mockFilters[0]);
-        expect(appStoreMock.searchStore.filters.set).toHaveBeenCalledWith(mockFilters[1].id, mockFilters[1]);
-      });
-    });
-
     it('should save new filter, update store and make new filter active', () => {
       const mockFilter = { city: 5, mrs: 2000, maxRooms: 5 };
       const mockReturnFilter = { id: 8 };
-      appProvidersMock.api.fetch.mockReturnValue(Promise.resolve(mockReturnFilter));
+      appProvidersMock.api.mutate.mockReturnValue(Promise.resolve({ data: { upsertFilter: mockReturnFilter } }));
 
       return searchProvider.saveFilter(mockFilter).then(() => {
-        expect(appProvidersMock.api.fetch).toHaveBeenCalledWith('/api/apartments/v1/filters', { method: 'POST', data: mockFilter });
-        expect(appStoreMock.searchStore.filters.set).toHaveBeenCalledWith(mockReturnFilter.id, mockReturnFilter);
+        expect(appProvidersMock.api.mutate.mock.calls[0][1].variables).toEqual({ filter: mockFilter });
+        expect(appProvidersMock.api.mutate.mock.calls[0][1].update).toBeInstanceOf(Function);
         expect(appStoreMock.searchStore.activeFilterId).toBe(mockReturnFilter.id);
       });
     });
 
     it('should clear neighborhood:* from filter', () => {
       const mockFilter = { city: 5, neighborhood: '*', minRooms: 3, mre: 4000 };
+      appProvidersMock.api.mutate.mockReturnValue(Promise.resolve({ data: { upsertFilter: {} } }));
       return searchProvider.saveFilter(mockFilter).then(() => {
-        expect(appProvidersMock.api.fetch.mock.calls[0][1].data.neighborhood).toBeUndefined();
+        expect(appProvidersMock.api.mutate.mock.calls[0][1].variables.filter.neighborhood).toBeUndefined();
       });
     });
 
