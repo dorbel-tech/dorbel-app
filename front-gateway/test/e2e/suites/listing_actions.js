@@ -22,11 +22,7 @@ function submitApartment(browser) {
   apartmentForm
     .navigateToApartmentPicturesSection()
     .uploadImage()
-    .goFromApartmentPicturesToOpenHouseEvent()
-    .expect.section('@openHouseEvent').to.be.visible;
-
-  apartmentForm
-    .fillOpenHouseEventDetailsAllFields()
+    .goFromApartmentPicturesToContactDetails()
     .submitApartment();
 
   browser.pause(500);
@@ -37,6 +33,11 @@ function submitApartment(browser) {
   apartmentForm.section.successModal.getAttribute('@listingId', 'data-attr', function (result) {
     listingId = result.value;
   });
+
+  // Add first OHE
+  apartmentForm.section.successModal.click('@okButton');
+  browser.pause(500);
+  browser.page.property().addFirstOHE();
 
   browser.end();
 }

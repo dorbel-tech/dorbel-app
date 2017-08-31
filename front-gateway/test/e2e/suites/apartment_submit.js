@@ -18,11 +18,6 @@ module.exports = {
     apartmentForm.navigateToApartmentDetailsSection()
       .section.apartmentDetails.assert.elementNotPresent('@exitDate');
   },
-  'should display exitDate input on upload for manage': function () {
-    apartmentForm.props.mode = 'manage';
-    apartmentForm.navigateToApartmentDetailsSection()
-      .section.apartmentDetails.assert.elementPresent('@exitDate');
-  },
   'should go back from apartment pictures to previous screen if user doesnt sign in': function (browser) {
     apartmentForm
       .navigateToApartmentPicturesSection();
@@ -39,23 +34,20 @@ module.exports = {
     apartmentForm.expect.section('@apartmentDetails').to.be.visible;
     browser.end();
   },
-  'should fail to go to step3 no pictures were uploaded in step2 (uploadMode = publish)': function (browser) {
+  'should fail to go to step3 no pictures were uploaded in step2': function (browser) {
     tryNavigatingToStep3WithoutPics(browser);
   },
-  'should proceed to step3 when no pictures were uploaded in step2 (uploadMode = manage)': function (browser) {
-    tryNavigatingToStep3WithoutPics(browser, 'manage');
-  },
-  'should go back from event details to previous screen': function (browser) {
+  'should go back from contact details to previous screen': function (browser) {
     apartmentForm
       .navigateToApartmentPicturesSection();
     home.fillSignIn(common.getTestUser('landlord'));
     browser.pause(2500);
     apartmentForm
       .uploadImage()
-      .goFromApartmentPicturesToOpenHouseEvent()
-      .expect.section('@openHouseEvent').to.be.visible;
+      .goFromApartmentPicturesToContactDetails()
+      .expect.section('@contactDetails').to.be.visible;
     apartmentForm
-      .goFromOpenHouseEventToApartmentPictures()
+      .goFromContactDetailsToApartmentPictures()
       .expect.section('@apartmentPictures').to.be.visible;
 
     browser.end();
@@ -63,19 +55,15 @@ module.exports = {
   'should successfully submit a new apartment with logged in user': function (browser) {
     submitApartment(browser);
   },
-  'should successfully submit a new apartment for management with logged in user': function (browser) {
-    submitApartment(browser, 'manage');
-  },
   'should successfully submit a new apartment while creating new user': function (browser) {
     let user = common.getTestUser('random');
     apartmentForm.navigateToApartmentPicturesSection();
     home.signUpInForm(user);
     apartmentForm.uploadImage()
-      .goFromApartmentPicturesToOpenHouseEvent()
-      .expect.section('@openHouseEvent').to.be.visible;
+      .goFromApartmentPicturesToContactDetails()
+      .expect.section('@contactDetails').to.be.visible;
 
     apartmentForm
-      .fillOpenHouseEventDetailsAllFields()
       .fillUserDetailsFields(user)
       .submitApartment();
 
@@ -86,24 +74,12 @@ module.exports = {
   }
 };
 
-function submitApartment(browser, uploadMode = 'publish') {
-  apartmentForm.props.mode = uploadMode;
+function submitApartment(browser) {
   login();
 
   apartmentForm.navigateToApartmentPicturesSection();
-
-  // Don't upload image in manage mode to get image thumbnail instead.
-  if (uploadMode === 'publish') {
-    apartmentForm.uploadImage();
-  }
-
-  apartmentForm.goFromApartmentPicturesToOpenHouseEvent();
-
-  if (apartmentForm.props.mode == 'publish') {
-    apartmentForm.expect.section('@openHouseEvent').to.be.visible;
-    apartmentForm.fillOpenHouseEventDetailsAllFields();
-  }
-
+  apartmentForm.uploadImage();
+  apartmentForm.goFromApartmentPicturesToContactDetails();
   apartmentForm.submitApartment();
 
   browser.pause(500);
@@ -112,17 +88,13 @@ function submitApartment(browser, uploadMode = 'publish') {
   browser.end();
 }
 
-function tryNavigatingToStep3WithoutPics(browser, uploadMode = 'publish') {
-  apartmentForm.props.mode = uploadMode;
-  apartmentForm
-    .navigateToApartmentPicturesSection();
+function tryNavigatingToStep3WithoutPics(browser) {
+  apartmentForm.navigateToApartmentPicturesSection();
   home.fillSignIn(common.getTestUser('landlord'));
   browser.pause(2500);
-  apartmentForm.goFromApartmentPicturesToOpenHouseEvent();
+  apartmentForm.goFromApartmentPicturesToContactDetails();
 
-  uploadMode == 'publish' ?
-    apartmentForm.expect.section('@openHouseEvent').to.not.be.present :
-    apartmentForm.expect.section('@openHouseEvent').to.be.present;
+  apartmentForm.expect.section('@contactDetails').to.not.be.present;
 
   browser.end();
 }

@@ -134,40 +134,19 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
     }
   }
 
-  renderOHEFields(newListingStore) {
-    if (newListingStore.uploadMode == 'publish' || newListingStore.uploadMode == 'republish') {
-      const existingOhe = _.get(newListingStore, 'formValues.open_house_event');
-      return (
-        <Row className="form-section">
-          <div className="form-section-headline">מועדי ביקור בדירה</div>
-          <AddOHEInput validations="oheValidation" name="ohe" onChange={this.handleChange.bind(this, 'open_house_event')} ohe={existingOhe} mode="new" />
-          <Row>
-            <Col md={12}>
-              <FormWrapper.FRC.Textarea name="directions" rows={3} label="הכוונה לדירה בבניין (אם צריך)"
-                placeholder="(לדוגמא: הדלת הלבנה משמאל למדרגות)" />
-            </Col>
-          </Row>
-        </Row>
-      );
-    }
-  }
-
   renderSidePanel(newListingStore) {
-    let title = '';
+    let title = 'פרטי קשר וסיום';
     let content;
     switch (newListingStore.uploadMode) {
       case 'publish':
-        title = 'מועד ביקור ופרטי קשר';
         content = (
           <ul className="upload-apt-right-container-step3-text-ul">
-            <li>בחרו מועד לדיירים לביקור בדירה</li>
-            <li>מומלץ לקבוע ביקור בשעות הבוקר/ערב</li>
+            <li>לסיום התהליך וודאו שפרטי הקשר שלכם נכונים</li>
             <li>פרטי הקשר שלכם ישמשו לעדכונים חשובים בלבד!</li>
           </ul>
         );
         break;
       case 'manage':
-        title = 'פרטי קשר וסיום';
         content = (
           <h4>פרטי הקשר שלכם ישמשו לעדכונים חשובים בלבד!</h4>
         );
@@ -208,9 +187,8 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
       <Grid fluid className="upload-apt-wrapper">
         {this.renderSidePanel(newListingStore)}
 
-        <Col md={7} className="upload-apt-left-container open-house-event-step">
+        <Col md={7} className="upload-apt-left-container contact-details-step">
           <FormWrapper.Wrapper layout="vertical" onChange={this.handleChanges} ref="form">
-            {this.renderOHEFields(newListingStore)}
             {this.renderUserDetails()}
           </FormWrapper.Wrapper>
           <Col xs={12} md={7} className="form-nav bottom">
