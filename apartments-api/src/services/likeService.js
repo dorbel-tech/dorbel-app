@@ -1,7 +1,9 @@
 'use strict';
+const _ = require('lodash');
+const shared = require('dorbel-shared');
 const likeRepository = require('../apartmentsDb/repositories/likeRepository');
 const listingRepository = require('../apartmentsDb/repositories/listingRepository');
-const shared = require('dorbel-shared');
+const facebookProvider = require('../providers/facebookProvider');
 const logger = shared.logger.getLogger(module);
 const errors = shared.utils.domainErrors;
 const messageBus = shared.utils.messageBus;
@@ -15,21 +17,30 @@ async function getUserLikes(user) {
 async function getByListing(listingId, user, include_profile) {
   let likes = await likeRepository.findByListingId(listingId);
   likes = likes.map(f => f.get({ plain: true }));
-  let promises = [];
 
   if (include_profile == 'true') {
     const listing = await listingRepository.getById(listingId);
     if (userPermissions.isResourceOwnerOrAdmin(user, listing.publishing_user_id)) {
-      // Get all the data about who liked a listing.
-      likes.forEach((like) => {
-        const promiseForUser = userManagement.getPublicProfile(like.liked_user_id)
-          .then(user_details => { like.user_details = user_details; });
-        promises.push(promiseForUser);
+
+      const listingOwnerFullProfile = await userManagement.getUserDetails(user.id);
+      const listingOwnerFBIdentity = listingOwnerFullProfile.identities.find(identity => identity.provider === 'facebook');
+
+      // Get all the data about users who liked the listing.
+      const likesWithDetails = likes.map(async function(like) {
+        const likedUserPublicProfile = await userManagement.getPublicProfile(like.liked_user_id);
+        like.user_details = likedUserPublicProfile;
+
+        const likingUserFacebookUserId = _.get(likedUserPublicProfile, 'tenant_profile.facebook_user_id');
+        if (listingOwnerFBIdentity && likingUserFacebookUserId) {
+          like.user_details.mutual_friends = await facebookProvider.getMutualFriends(listingOwnerFBIdentity.access_token, likingUserFacebookUserId);
+        }
+        return like;
       });
+
+      return await Promise.all(likesWithDetails);
     }
   }
 
-  await Promise.all(promises); // wait for it
   return likes;
 }
 

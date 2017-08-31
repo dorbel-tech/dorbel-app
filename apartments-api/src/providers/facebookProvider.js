@@ -1,8 +1,13 @@
 'use strict';
 const superagent = require('superagent');
 const _ = require('lodash');
+const logger = require('dorbel-shared').logger.getLogger(module);
 
 function getMutualFriends(access_token, user_id) {
+  if (!access_token || !user_id) {
+    return;
+  }
+
   return new Promise((resolve, reject) =>
     superagent
     .get(`https://graph.facebook.com/v2.10/${user_id}`)
@@ -12,7 +17,10 @@ function getMutualFriends(access_token, user_id) {
     })
     .set('Accept', 'application/json')
     .end((err, res) => {
-      if (err) { return reject(err); }
+      if (err) {
+        logger.error(err, 'error getting mutual friends');
+        return reject(err);
+      }
 
       const rawFriends = _.get(res, 'body.context.all_mutual_friends.data') || [];
       const friends = rawFriends.map(friend => ({
