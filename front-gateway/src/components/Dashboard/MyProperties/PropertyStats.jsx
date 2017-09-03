@@ -8,9 +8,9 @@ import ListingSocial from '~/components/Listing/components/ListingSocial';
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
 import NavLink from '~/components/NavLink';
 import ReactTooltip from 'react-tooltip';
-import routesHelper from '~/routesHelper';
 import TenantRow from '~/components/Tenants/TenantRow/TenantRow';
 import utils from '~/providers/utils';
+import { getDashMyPropsPath } from '~/routesHelper';
 
 import './PropertyStats.scss';
 
@@ -54,49 +54,44 @@ class PropertyStats extends Component {
     const listingRented = listing.status === 'rented';
 
     const tipOffset = {left: 2};
+    const likes = appStore.likeStore.likesByListingId.get(listingId);
     const views = appStore.listingStore.listingViewsById.get(listingId);
 
     return <Grid fluid className="property-stats">
             <Row>
-              <Col xs={3}>
-                <div className="property-stats-process-title">
-                תהליך ההשכרה
-                </div>
-                <div className="property-stats-value-title">
-                תאריך פרסום: {listingCreatedAt || null}
-                </div>
-                <div className="property-stats-value-title">
-                              ימים שחלפו: {daysPassedSinceCratedAt}
-                </div>
+              <Col lg={9} md={8} sm={7} className="property-stats-container">
+                {this.renderLikedUsers(likes, views)}
               </Col>
-              <Col xs={9}>
-              </Col>
-            </Row>
-            <Row className="property-stats-share-container">
-              <Col xs={3} className="property-stats-views">
-                <div>
-                  צפיות<br/>במודעה
+              <Col lg={3} md={4} sm={5}>
+                {likes && likes.length > 0 &&
+                  <div className="property-stats-container">
+                    <div>
+                      <span className="property-stats-share-title">
+                        שתפו את מודעת הדירה
+                      </span>
+                      <i className="fa fa-info-circle property-stats-share-help" aria-hidden="true"
+                        data-tip="כשאתם יוצרים מודעה בדורבל, אתם מקבלים לינק לעמוד הדירה שאותו ניתן לשתף בכל מקום- במייל, בפייסבוק או בוואצאפ.<br />
+                      ניתן גם לשלוח אותו לדיירים שפנו אליכם ממודעות באתרים אחרים.<br />
+                      כך תוכלו לקבל את כל המידע שחשוב לכם לדעת על הדיירים לפני שתצרו איתם קשר."></i>
+                      <ReactTooltip type="info" effect="solid" place="bottom" offset={tipOffset} multiline />
+                    </div>
+                    <div className="property-stats-share-sub-title">
+                      צפיות במודעה: {views}
+                    </div>
+                    <ListingSocial listing={listing} />
+                  </div>
+                }
+                <div className="property-stats-container">
+                  <div className="property-stats-process-title">
+                  תהליך ההשכרה
+                  </div>
+                  <div className="property-stats-value-title">
+                  תאריך פרסום: {listingCreatedAt || null}
+                  </div>
+                  <div className="property-stats-value-title">
+                                ימים שחלפו: {daysPassedSinceCratedAt}
+                  </div>
                 </div>
-                <div className="property-stats-views-value">
-                  {views}
-                </div>
-              </Col>
-              <Col xs={9}>
-                <div>
-                  <span className="property-stats-share-title">
-                    שתפו את מודעת הדירה בפייסבוק או שלחו אותה לדיירים שפונים אליכם.
-                  </span>
-                  <span className="property-stats-share-help" data-tip="כשאתם יוצרים מודעה בדורבל, אתם מקבלים לינק לעמוד הדירה שאותו ניתן לשתף בכל מקום- במייל, בפייסבוק או בוואצאפ.<br />
-                  ניתן גם לשלוח אותו לדיירים שפנו אליכם ממודעות באתרים אחרים.<br />
-                  כך תוכלו לקבל את כל המידע שחשוב לכם לדעת על הדיירים לפני שתצרו איתם קשר."><i className="fa fa-info-circle" aria-hidden="true"></i>למה לשתף?</span>
-                  <ReactTooltip type="info" effect="solid" place="bottom" offset={tipOffset} multiline />
-                </div>
-                <ListingSocial listing={listing} />
-              </Col>
-            </Row>
-            <Row>
-              <Col xs={12}>
-                {this.renderLikedUsers()}
               </Col>
             </Row>
           </Grid>;
@@ -167,16 +162,6 @@ class PropertyStats extends Component {
                 </div>
               </Col>
             </Row>
-            <Row className="property-stats-rent-title property-stats-padding-top">
-              <Col xs={12}>
-                עוקבים אחר הנכס:
-              </Col>
-            </Row>
-            <Row>
-              <Col xs={12}>
-                {this.renderLikedUsers()}
-              </Col>
-            </Row>
            </Grid>;
   }
 
@@ -198,23 +183,37 @@ class PropertyStats extends Component {
     notificationProvider.success('עודכן בהצלחה. ');
   }
 
-  renderLikedUsers() {
-    const { listing, appStore } = this.props;
-    const likes = appStore.likeStore.likesByListingId.get(listing.id);
+  renderLikedUsers(likes, views) {
+    const { listing } = this.props;
 
     if (!likes) {
       return <LoadingSpinner />;
     }
 
     if (likes.length === 0) {
-      return <h5 className="property-stats-no-followers-title">
-        כאן יופיעו הדיירים המעוניינים בדירה עם כל המידע שהם סיפרו על עצמם.
-        שתפו את הלינק לדירה או שלחו אותו לדיירים שפנו אליכם בכדי שיצרו פרופיל ויאפשרו לך לדעת במי לבחור
-      </h5>;
+      return <div>
+        <div>
+          <span className="property-stats-share-title">
+            כאן יופיעו הדיירים המעוניינים בדירה עם כל המידע שהם סיפרו על עצמם
+          </span>
+        </div>
+        <div className="property-stats-share-sub-title">
+          שתפו את הלינק לדירה או שלחו אותו לדיירים שפנו אליכם
+        </div>
+        <ListingSocial listing={listing} />
+        <div className="property-stats-views">
+          <span>
+            צפיות<br/>במודעה
+          </span>
+          <span className="property-stats-views-value">
+            {views}
+          </span>
+        </div>
+      </div>
     }
 
     return (
-      <div className="property-stats-followers-container">
+      <div>
         <div className="property-stats-followers-title">
           רשימת הדיירים המתעניינים בדירה ({likes.length})
         </div>

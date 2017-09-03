@@ -258,6 +258,13 @@ $active-color: #3398db;
   }
 }
 
+.property-stats-container {
+  background-color: $brand-white;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.05);
+  margin-bottom: 15px;
+  padding: 15px;
+}
+
 .property-stats-process-title {
   color: $gray-dark;
   font-size: 15px;
@@ -269,12 +276,7 @@ $active-color: #3398db;
   font-size: 13px;
 }
 
-.property-stats-share-container {
-  background-color: $brand-white;
-  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.05);
-  margin: 35px 0 55px;
-  padding: 15px;
-
+.property-stats-container {
   .listing-social-share-container {
     padding: 10px 0 0;
   }
@@ -282,42 +284,65 @@ $active-color: #3398db;
   .listing-social-share-item {
     border: $gray-border;
     border-radius: 4px;
-    //color: $brand-white;
+    color: $brand-white;
+    font-size: 13px;
     margin-left: 10px;
+    text-align: center;
+    width: 40px;
 
-    //&.fa-facebook-f {
-    //  background-color: #096abd;
-    //}
+    &.fa-facebook-f {
+      background-color: #096abd;
+
+      @media (min-width: $screen-md-min) {
+        width: 120px;
+
+        &:after {
+          content: "שתף";
+          font-size: 12px;
+          padding-right: 5px;
+        }
+      }
+    }
+
+    &.fa-whatsapp {
+      background-color: $brand-green;
+    }
   }
 }
 
 .property-stats-views {
+  bottom: 15px;
   color: $gray-mid-light;
   font-size: 12px;
-  text-align: center;
+  left: 15px;
+  line-height: 10px;
+  position: absolute;
 }
 
 .property-stats-views-value {
   font-size: 28px;
+  padding-right: 10px;
 }
 
 .property-stats-share-title {
   color: #4a4a4a;
   font-size: 13px;
+  line-height: 20px;
 }
 
 .property-stats-share-help {
   color: #979797;
   float: left;
   font-size: 13px;
-  text-decoration: underline;
-
-  > i {
-    padding-left: 5px;
-  }
 }
 
-.property-stats-followers-container > .list-group {
+.property-stats-share-sub-title {
+  color: #9b9b9b;
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.property-stats-container .list-group {
   margin: 20px 0;
 }
 
