@@ -12,7 +12,6 @@ class ListingsProvider {
   constructor(appStore, providers) {
     this.appStore = appStore;
     this.apiProvider = providers.api;
-    this.oheProvider = providers.ohe;
     this.navProvider = providers.navProvider;
   }
 
@@ -86,13 +85,6 @@ class ListingsProvider {
     const { uploadMode } = this.appStore.newListingStore;
     return this.apiProvider.fetch('/api/apartments/v1/listings', { method: 'POST', data: listing })
       .then((newListing) => createdListing = newListing)
-      .then(() => {
-        if (listing.open_house_event) {
-          try {
-            this.oheProvider.createOhe(Object.assign({ apartment_id: createdListing.apartment_id, listing_id: createdListing.id }, listing.open_house_event));
-          } catch (err) { /*eslint-disable eslint-enable*/ }
-        }
-      })
       .then(() => this.appStore.authStore.updateProfile({
         first_name: listing.user.firstname,
         last_name: listing.user.lastname,
