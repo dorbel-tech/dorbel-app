@@ -321,7 +321,7 @@ class PropertyStats extends Component {
           רשימת הדיירים המתעניינים בדירה ({likes.length})
         </div>
         <div className="property-stats-value-title">
-          לחצו על ״צפה בפרופיל דייר״ על מנת לראות את כל המידע עליו
+          לחצו על פרופיל דייר על מנת לראות את כל המידע עליו
         </div>
         <ListGroup>
           { likes.map(like => (
