@@ -36,9 +36,9 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
 
   onCloseSuccessModal() {
     const { createdListingId, appProviders, appStore } = this.props;
-   
+
     appStore.newListingStore.reset();
-    appProviders.navProvider.setRoute(getDashMyPropsPath({ id: createdListingId }, '/manage'));
+    appProviders.navProvider.setRoute(getDashMyPropsPath({ id: createdListingId }, '/stats'));
   }
 
   renderUserDetails() {
@@ -135,7 +135,6 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
       :
       (
         <p>
-          מודעתכם נמצאת בתהליך אישור. עדכון יישלח אליכם ברגע שהיא תעלה לאתר.<br />
           הנכם מועברים לחשבון החדש שלכם, בו תוכלו לנהל ולעקוב אחר נתוני הנכס.
         </p>
       );
