@@ -101,9 +101,6 @@ class ListingThumbnail extends Component {
             <span className="apt-thumb-sub-text apt-thumb-warning-sub-text">{listingMrTitle}</span>
             {listing.monthly_rent}
             <span className="apt-thumb-sub-text"> ₪</span>
-            <div className="apt-thumb-details-like">
-              <LikeButton apartmentId={listing.apartment_id} listingId={listing.id} showText/>
-            </div>
           </div>
         </NavLink>
       </Col>

@@ -26,3 +26,13 @@
   font-size: 15px;
   color: #9b9b9b;
 }
+
+.listing-interested-box {
+  @media (min-width: $screen-md-min) {
+    left: 0;
+    padding: 0;
+    position: absolute;
+    top: 34px;
+    z-index: 1;
+  }
+}

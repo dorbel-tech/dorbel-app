@@ -17,7 +17,7 @@ class LikeButton extends Component {
       appProviders.likeProvider.set(apartmentId, listingId, !wasLiked)
       .then(() => {
         const likeNotification = wasLiked ?
-          'הדירה הוסרה בהצלחה מרשימת ההירות שאהבתם' :
+          'הדירה הוסרה בהצלחה מרשימת הדירות שאהבתם' :
           'הדירה נשמרה בהצלחה לרשימת הדירות שאהבתם';
         appProviders.notificationProvider.success(likeNotification);
       });
@@ -48,10 +48,6 @@ class LikeButton extends Component {
     return wrapperClass;
   }
 
-  getIconClass(isLiked) {
-    return isLiked ? 'fa-heart' : 'fa-heart-o';
-  }
-
   render() {
     let isLiked = false;
 
@@ -62,8 +58,8 @@ class LikeButton extends Component {
     return (
       <a href="#" className={this.getWrapperClass(this.props.showText, isLiked)} onClick={this.handleClick.bind(this)}>
         <div className="text-center">
-          <i className={'fa ' + this.getIconClass(isLiked)} />
-          <div className="like-button-text">אהבתי</div>
+          <i className="fa fa-heart"/>
+          <span className="like-button-text">אני מעוניין/ת בדירה</span>
         </div>
       </a>
     );
