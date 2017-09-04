@@ -62,7 +62,7 @@ module.exports = {
     common.waitForText(listing.section.like, '@text', 'אני מעוניין/ת בדירה');
     listing.clickLikeButton();
     listing.validateSuccessNotificationVisible();
-    common.waitForText(listing, '@notification', 'הדירה הוסרה בהצלחה מרשימת ההירות שאהבתם');
+    common.waitForText(listing, '@notification', 'הדירה הוסרה בהצלחה מרשימת הדירות שאהבתם');
     browser.end();
   }
 };
