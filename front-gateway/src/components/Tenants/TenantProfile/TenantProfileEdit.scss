@@ -1,0 +1,79 @@
+@import "../../sharedStyles/variables.scss";
+
+.tenant-profile-edit {
+  vertical-align: middle;
+
+  .tenant-profile-edit-heading {
+    font-size: 13px;
+    line-height: 18px;
+    text-align: right;
+    color: $gray-light;
+    margin-top: -20px;
+    padding-bottom: 15px;
+    width: 240px;
+    border-bottom: $gray-border;
+  }
+
+  .tenant-profile-edit-picture {
+    float: left;
+    height: 80px;
+    margin-top: -30px;
+    margin-bottom: 5px;
+  }
+
+  .tenant-profile-edit-form {
+    padding-top: 15px;
+
+    .tenant-profile-edit-form-section {
+      margin: 15px 0;
+      display: block;
+      font-size: 13px;
+      line-height: 15px;
+      text-align: right;
+
+      .tenant-profile-edit-form-section-title {
+        &::after {
+          content: ' *';
+          color: $brand-danger;
+        }
+      }
+
+      .tenant-profile-edit-form-section-explain {
+        color: $gray-light;
+        margin-bottom: 10px;
+
+        &.smaller {
+          font-size: 11px;
+          margin-bottom: 5px;
+        }
+      }
+    }
+
+    .required-symbol {
+      display: none;
+    }
+
+    .form-group {
+      margin-top: 5px;
+      margin-bottom: 10px;
+
+      label {
+        display: none;
+      }
+    }
+
+    input.form-control {
+      font-size: 13px;
+      height: 25px;
+    }
+
+    textarea {
+      font-size: 13px;
+      height: 100px;
+    }
+
+    .form-control-feedback {
+      display: none;
+    }
+  }
+}

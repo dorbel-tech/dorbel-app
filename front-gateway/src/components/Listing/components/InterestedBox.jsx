@@ -14,7 +14,7 @@ class InterestedBox extends Component {
         </div>
         <ListingOwnerDetails listing={listing} />
         <div className="listing-interested-box-button-container">
-          <LikeButton apartmentId={listing.apartment_id} listingId={listing.id} showText />
+          <LikeButton apartmentId={listing.apartment_id} listingId={listing.id} />
         </div>
       </div>
     );

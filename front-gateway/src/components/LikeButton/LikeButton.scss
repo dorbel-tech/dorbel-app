@@ -2,25 +2,6 @@
 @import "../sharedStyles/bsvars.scss";
 
 .like-button {
-  &:hover {
-    color: #ea441a;
-  }
-
-  .fa {
-    &.fa-heart {
-      color: #ea441a;
-    }
-
-    &.fa-heart-o {
-      opacity: 0.7;
-    }
-  }
-
-  .like-button-text {
-    display: none;
-  }
-
-  &.like-button-with-text {
     background: $brand-success;
     color: $brand-white;
     border: 1px solid $brand-success;
@@ -52,5 +33,4 @@
         color: $brand-success;
       }
     }
-  }
 }
