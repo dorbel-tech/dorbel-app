@@ -327,7 +327,8 @@ $active-color: #3398db;
     border: $gray-border;
     border-radius: 4px;
     color: $brand-white;
-    font-size: 13px;
+    font-size: 16px;
+    height: 40px;
     margin-left: 10px;
     text-align: center;
     width: 40px;
@@ -348,6 +349,14 @@ $active-color: #3398db;
 
     &.fa-whatsapp {
       background-color: $brand-green;
+    }
+
+    &.fb-messenger-mobile {
+      font-size: 14px;
+    }
+
+    @media (max-width: $screen-sm-max) {
+      display: inline-block !important;
     }
   }
 }
