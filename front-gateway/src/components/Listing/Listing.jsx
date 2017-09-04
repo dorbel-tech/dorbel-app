@@ -11,6 +11,7 @@ import ApartmentLocation from '~/components/MapWrapper/MapWrapper';
 import RelatedListings from '~/components/RelatedListings/RelatedListings';
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
 import ListingActions from './components/ListingActions';
+import InterestedBox from './components/InterestedBox';
 
 import utils from '~/providers/utils';
 
@@ -70,7 +71,7 @@ class Listing extends Component {
     const { apartmentId, appStore, appProviders } = this.props;
     let listing = appStore.listingStore.getByApartmentId(apartmentId);
 
-    if(!listing) {
+    if (!listing) {
       this.setState({ isLoading: true });
       appProviders.listingsProvider.loadListingByApartmentId(apartmentId)
         .then(() => {
@@ -142,6 +143,14 @@ class Listing extends Component {
           </Col>
         </Row>
         <ListingInfo listing={listing} />
+        <Row>
+          <Col md={4} xs={12} className="listing-interested-box">
+            <Col smHidden xsHidden>
+              <ListingHighlight listing={listing} />
+            </Col>
+            <InterestedBox listing={listing} />
+          </Col>
+        </Row>
         <ListingDescription listing={listing} />
       </Grid>
       {this.renderListingLocation(listing.apartment.building.geolocation)}
