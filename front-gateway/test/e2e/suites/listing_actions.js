@@ -50,7 +50,7 @@ module.exports = {
   'tenant should like apartment': function (browser) {
     login('tenant');
     listing.navigateToListingPage(listing.url(listingId));
-    common.waitForText(listing.section.like, '@text', 'אהבתי');
+    common.waitForText(listing.section.like, '@text', 'אני מעוניין/ת בדירה');
     listing.clickLikeButton();
     listing.validateSuccessNotificationVisible();
     common.waitForText(listing, '@notification', 'הדירה נשמרה בהצלחה לרשימת הדירות שאהבתם');
@@ -59,7 +59,7 @@ module.exports = {
   'tenant should unlike apartment': function (browser) {
     login('tenant');
     listing.navigateToListingPage(listing.url(listingId));
-    common.waitForText(listing.section.like, '@text', 'אהבתי');
+    common.waitForText(listing.section.like, '@text', 'אני מעוניין/ת בדירה');
     listing.clickLikeButton();
     listing.validateSuccessNotificationVisible();
     common.waitForText(listing, '@notification', 'הדירה הוסרה בהצלחה מרשימת ההירות שאהבתם');
