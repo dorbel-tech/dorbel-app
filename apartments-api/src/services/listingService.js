@@ -19,6 +19,7 @@ const possibleStatusesByCurrentStatus = {
 };
 
 const createdEventsByListingStatus = {
+  listed: messageBus.eventType.APARTMENT_CREATED,
   pending: messageBus.eventType.APARTMENT_CREATED,
   rented: messageBus.eventType.APARTMENT_CREATED_FOR_MANAGEMENT
 };
@@ -81,7 +82,7 @@ async function create(listing, user) {
 }
 
 async function validateNewListing(listing, user) {
-  if (['pending', 'rented'].indexOf(listing.status) < 0) {
+  if (['listed', 'pending', 'rented'].indexOf(listing.status) < 0) {
     throw new CustomError(400, `לא ניתן להעלות דירה ב status ${listing.status}`);
   }
 
@@ -210,7 +211,7 @@ function notifyListingChanged(oldListing, newListing) {
 
 function setListingAutoFields(listing) {
   // default lease_end to after one year
-  if (listing.lease_start && (!listing.lease_end || listing.status == 'pending')) {
+  if (listing.lease_start && (!listing.lease_end || (listing.status == 'listed' || listing.status == 'pending'))) {
     listing.lease_end = moment(listing.lease_start).add(1, 'years').format('YYYY-MM-DD');
   }
 
