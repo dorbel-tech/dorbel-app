@@ -91,6 +91,27 @@ class PropertyStats extends Component {
                   <div className="property-stats-value-title">
                                 ימים שחלפו: {daysPassedSinceCratedAt}
                   </div>
+                  <div className="property-stats-process-diagram">
+                    <div className="property-stats-process-point-full">
+                      יצירת מודעה
+                    </div>
+                    <div className="property-stats-process-vr" />
+                    <div className="property-stats-process-point-full">
+                      הוספת תמונות
+                    </div>
+                    <div className="property-stats-process-vr" />
+                    <div className="property-stats-process-point-full">
+                      צפיות במודעה
+                    </div>
+                    <div className="property-stats-process-vr" />
+                    <div className="property-stats-process-point-full">
+                      דיירים מתעניינים
+                    </div>
+                    <div className="property-stats-process-vr" />
+                    <div className="property-stats-process-point-empty">
+                      הדירה הושכרה
+                    </div>
+                  </div>
                 </div>
               </Col>
             </Row>
