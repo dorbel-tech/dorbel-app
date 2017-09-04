@@ -22,11 +22,7 @@ function submitApartment(browser) {
   apartmentForm
     .navigateToApartmentPicturesSection()
     .uploadImage()
-    .goFromApartmentPicturesToOpenHouseEvent()
-    .expect.section('@openHouseEvent').to.be.visible;
-
-  apartmentForm
-    .fillOpenHouseEventDetailsAllFields()
+    .goFromApartmentPicturesToContactDetails()
     .submitApartment();
 
   browser.pause(500);
@@ -37,16 +33,6 @@ function submitApartment(browser) {
   apartmentForm.section.successModal.getAttribute('@listingId', 'data-attr', function (result) {
     listingId = result.value;
   });
-
-  browser.end();
-}
-
-function waitForUnRegisterText() {
-  common.waitForText(listing.section.oheList, '@firstEventText', 'הרשם לביקור');
-}
-
-function waitForRegisterText() {
-  common.waitForText(listing.section.oheList, '@firstEventText', 'בטל הרשמה');
 }
 
 module.exports = {
@@ -77,37 +63,6 @@ module.exports = {
     listing.clickLikeButton();
     listing.validateSuccessNotificationVisible();
     common.waitForText(listing, '@notification', 'הדירה הוסרה בהצלחה מרשימת ההירות שאהבתם');
-    browser.end();
-  },
-  'tenant should register to OHE': function (browser) {
-    login('tenant');
-    listing.navigateToListingPage(listing.url(listingId));
-    waitForUnRegisterText();
-    listing.clickFirstOhe();
-    listing.expect.section('@oheModal').to.be.visible;
-    listing.fillOheRegisterUserDetailsAndSubmit();
-    waitForRegisterText();
-    browser.end();
-  },
-  'tenant should unregister from OHE': function (browser) {
-    login('tenant');
-    listing.navigateToListingPage(listing.url(listingId));
-    waitForRegisterText();
-    listing.clickFirstOhe();
-    listing.expect.section('@oheModal').to.be.visible;
-    listing.oheUnRegisterUser();
-    browser.pause(500);
-    waitForUnRegisterText();
-    browser.end();
-  },
-  'tenant should register to OHE while triggering login': function (browser) {
-    listing.navigateToListingPage(listing.url(listingId));
-    waitForUnRegisterText();
-    listing.clickFirstOhe();
-    loginInListing('tenant');
-    listing.expect.section('@oheModal').to.be.visible;
-    listing.fillOheRegisterUserDetailsAndSubmit();
-    waitForRegisterText();
     browser.end();
   }
 };

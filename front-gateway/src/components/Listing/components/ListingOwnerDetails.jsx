@@ -67,13 +67,9 @@ class ListingOwnerDetails extends Component {
 
     return (
       <div className="listing-owner-container">
-        <div>
-          <span className="listing-owner-title">{title}: </span>
-          <span>{listing.publishing_user_first_name || 'אנונימי'}</span>
-        </div>
-        <div className="listing-owner-contact-container">
-          {this.renderMsg()}
-        </div>
+        <span className="listing-owner-title">{title}: </span>
+        <span>{listing.publishing_user_first_name || 'אנונימי'}</span>
+        {this.renderMsg()}
       </div>
     );
   }

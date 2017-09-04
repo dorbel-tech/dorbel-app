@@ -26,20 +26,3 @@
   font-size: 15px;
   color: #9b9b9b;
 }
-
-.listing-ohe-box {
-  @media (min-width: $screen-md-min) {
-    left: 0;
-    padding: 0;
-    position: absolute;
-    top: 34px;
-    z-index: 1;
-  }
-
-  .listing-ohe-box-text {
-    border-top: $gray-border;
-    margin: 0 20px;
-    padding: 30px 10px 0;
-    font-size: 13px;
-  }
-}

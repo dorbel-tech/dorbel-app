@@ -6,7 +6,6 @@ import CloudinaryImage from '../CloudinaryImage/CloudinaryImage';
 import EditListing from './MyProperties/EditListing.jsx';
 import ListingStatusSelector from './MyProperties/ListingStatusSelector';
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
-import OHEManager from '~/components/OHEManager/OHEManager';
 import PropertyHistorySelector from './PropertyHistorySelector/PropertyHistorySelector';
 import PropertyManage from './MyProperties/PropertyManage';
 import PropertyStats from './MyProperties/PropertyStats';
@@ -43,7 +42,6 @@ class Property extends Component {
 
   loadFullPropertyDetails() {
     const { listingId, appStore, appProviders } = this.props;
-    appProviders.oheProvider.loadListingEvents(listingId);
 
     const loadListing = appStore.listingStore.get(listingId) ?
       Promise.resolve() : appProviders.listingsProvider.loadFullListingDetails(listingId);
@@ -177,7 +175,6 @@ class Property extends Component {
 
     const propertyTabs = [
       { relativeRoute: 'stats', title: 'סטטיסטיקה', component: <PropertyStats listing={this.property} /> },
-      { relativeRoute: 'ohe', title: 'מועדי ביקור', component: <OHEManager listing={this.property} /> },
       { relativeRoute: 'manage', title: 'שכירות', component: <PropertyManage listing={this.property} /> },
       { relativeRoute: 'edit', title: 'עריכת פרטי הנכס', component: <EditListing listing={this.property} ref={form => editForm = form} />,
         replaceNavbar: true, hideFromMenu: true, headerButtons: editHeaderButtons }

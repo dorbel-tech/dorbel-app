@@ -3,7 +3,7 @@ import autobind from 'react-autobind';
 import { inject } from 'mobx-react';
 import { Col, Row, Image, Dropdown, MenuItem } from 'react-bootstrap';
 import TenantProfile from '~/components/Tenants/TenantProfile/TenantProfile';
-import { getUserNickname, hideIntercom } from '~/providers/utils';
+import { getUserNickname, hideIntercom, getListingTitle } from '~/providers/utils';
 
 import './TenantRow.scss';
 
@@ -27,17 +27,16 @@ export default class TenantRow extends React.Component {
   }
 
   showTenantProfileModal() {
-    const { tenant } = this.props;
+    const { tenant, listing } = this.props;
     if (tenant.disabled) { return; }
 
-    this.props.appProviders.modalProvider.showInfoModal({
-      title: 'פרופיל דייר',
-      body: <TenantProfile profile={tenant} />,
+    this.props.appProviders.modalProvider.show({
+      body: <TenantProfile profile={tenant} listing={listing} />,
     });
   }
 
   handleMsgClick() {
-    const { tenant, listingTitle } = this.props;
+    const { tenant, listing } = this.props;
     const { messagingProvider } = this.props.appProviders;
 
     const withUserObj = {
@@ -47,8 +46,8 @@ export default class TenantRow extends React.Component {
       welcomeMessage: 'באפשרותך לשלוח הודעה לדיירים. במידה והם אינם מחוברים הודעתך תישלח אליהם למייל.'
     };
     messagingProvider.getOrStartConversation(withUserObj, {
-      topicId: tenant.listing_id,
-      subject: listingTitle
+      topicId: listing.id,
+      subject: getListingTitle(listing)
     }).then(popup => this.popup = popup);
   }
 
@@ -60,7 +59,8 @@ export default class TenantRow extends React.Component {
   }
 
   render() {
-    const { tenant, showActionButtons, listingTitle } = this.props;
+    const { tenant, showActionButtons, listing } = this.props;
+    const listingTitle = getListingTitle(listing);
     const facebookClass = tenant.tenant_profile && tenant.tenant_profile.facebook_url ? '' : 'tenant-row-no-facebook';
 
     return (
@@ -104,7 +104,7 @@ TenantRow.defaultProps = {
 TenantRow.propTypes = {
   appProviders: React.PropTypes.object,
   tenant: React.PropTypes.object.isRequired,
-  listingTitle: React.PropTypes.string,
+  listing: React.PropTypes.object.isRequired,
   showActionButtons: React.PropTypes.bool,
   mode: React.PropTypes.string
 };

@@ -16,7 +16,6 @@ class SearchProvider {
   constructor(appStore, appProviders) {
     this.appStore = appStore;
     this.apiProvider = appProviders.api;
-    this.oheProvider = appProviders.ohe;
   }
 
   search(query, loadNextPage) {
@@ -53,8 +52,6 @@ class SearchProvider {
         searchStore.isLoadingNextPage = false;
         searchStore.hasMorePages = (results.length === PAGE_SIZE);
 
-        const listingIds = results.map(listing => listing.id);
-        this.oheProvider.loadListingEvents(listingIds);
         return results;
       })
       .catch(() => {
