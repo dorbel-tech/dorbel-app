@@ -36,9 +36,9 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
 
   onCloseSuccessModal() {
     const { createdListingId, appProviders, appStore } = this.props;
-   
+
     appStore.newListingStore.reset();
-    appProviders.navProvider.setRoute(getDashMyPropsPath({ id: createdListingId }, '/manage'));
+    appProviders.navProvider.setRoute(getDashMyPropsPath({ id: createdListingId }, '/stats'));
   }
 
   renderUserDetails() {
