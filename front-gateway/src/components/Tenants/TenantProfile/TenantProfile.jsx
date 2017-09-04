@@ -160,7 +160,7 @@ class TenantProfile extends Component {
             if (!this.props.isPreview) {
               const { profile, listing } = this.props;
               window.analytics.track(`landlord_clicked_tenant_contact_details`, {
-                contactDetailsType,
+                detailsType: contactDetailsType,
                 listingId: listing.id,
                 tenantUserId: profile.dorbel_user_id
               });
