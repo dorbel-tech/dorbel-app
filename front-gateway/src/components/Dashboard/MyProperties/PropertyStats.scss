@@ -87,8 +87,9 @@ $active-color: #3398db;
   }
 
   .property-stats-line-not-empty {
-    @include add-active-color();
     border-bottom: 1px solid $active-color !important;
+
+    @include add-active-color();
   }
 
   .property-stats-line {
@@ -115,8 +116,9 @@ $active-color: #3398db;
   }
 
   .property-stats-bubble-not-empty {
-    @include add-active-color();
     border: 1px solid $active-color !important;
+
+    @include add-active-color();
 
     > a {
       @include add-active-color();
