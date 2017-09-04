@@ -59,7 +59,7 @@ class PropertyStats extends Component {
 
     return <Grid fluid className="property-stats">
             <Row>
-              <Col lg={9} md={8} sm={7} className="property-stats-container">
+              <Col lg={9} md={8} sm={7}>
                 {this.renderLikedUsers(likes, views)}
               </Col>
               <Col lg={3} md={4} sm={5}>
@@ -191,7 +191,7 @@ class PropertyStats extends Component {
     }
 
     if (likes.length === 0) {
-      return <div>
+      return <div className="property-stats-container">
         <div>
           <span className="property-stats-share-title">
             כאן יופיעו הדיירים המעוניינים בדירה עם כל המידע שהם סיפרו על עצמם
@@ -213,7 +213,7 @@ class PropertyStats extends Component {
     }
 
     return (
-      <div>
+      <div className="property-stats-followers-container">
         <div className="property-stats-followers-title">
           רשימת הדיירים המתעניינים בדירה ({likes.length})
         </div>
