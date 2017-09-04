@@ -11,10 +11,6 @@ describe('Listing Thumbnail', () => {
 
   beforeAll(() => {
     appStoreMock = {
-      oheStore: {
-        isListingLoaded: jest.fn(),
-        oheByListingId: jest.fn().mockReturnValue([])
-      },
       authStore: {
         isLoggedIn: () => false
       }
@@ -65,63 +61,6 @@ describe('Listing Thumbnail', () => {
 
       const leaseStart = rendered.find('.apt-thumb-lease-date');
       expect(leaseStart.text()).toBe(utils.formatDate(tomorrow));
-    });
-  });
-
-  describe('OHE indication', () => {
-    it('should display OHEs when they are already loaded', () => {
-      const oheCount = 7;
-      appStoreMock.oheStore.isListingLoaded.mockReturnValue(true);
-      appStoreMock.oheStore.oheByListingId.mockReturnValue(Array(oheCount).fill({ status: 'open' }));
-
-      const rendered = renderThumbnail();
-
-      const oheIndication = rendered.find('.apt-thumb-ohe-text');
-      expect(oheIndication.exists()).toBe(true);
-      expect(oheIndication.text()).toBe(`${oheCount} מועדי ביקור זמינים`);
-      expect(oheIndication).toMatchSnapshot();
-    });
-
-    it('should only display indication for open or registered OHEs', () => {
-      const openCount = 3;
-      const registeredCount = 2;
-      const closedCount = 4;
-      appStoreMock.oheStore.isListingLoaded.mockReturnValue(true);
-      appStoreMock.oheStore.oheByListingId.mockReturnValue([].concat(
-        Array(openCount).fill({ status: 'open' }),
-        Array(closedCount).fill({ status: 'not open' }),
-        Array(registeredCount).fill({ status: 'registered' })
-      ));
-
-      const rendered = renderThumbnail();
-
-      const oheIndication = rendered.find('.apt-thumb-ohe-text');
-      expect(oheIndication.exists()).toBe(true);
-      expect(oheIndication.text()).toBe(`${openCount + registeredCount} מועדי ביקור זמינים`);
-      expect(oheIndication).toMatchSnapshot();
-    });
-
-    it('should display indication for a loaded listing with no events', () => {
-      appStoreMock.oheStore.isListingLoaded.mockReturnValue(true);
-      appStoreMock.oheStore.oheByListingId.mockReturnValue([]);
-
-      const rendered = renderThumbnail();
-
-      const oheIndication = rendered.find('.apt-thumb-no-ohe');
-      expect(oheIndication.exists()).toBe(true);
-      expect(oheIndication.text()).toBe('אין מועדי ביקור');
-      expect(oheIndication).toMatchSnapshot();
-    });
-
-    it('should not render anything when listing events are not loaded', () => {
-      appStoreMock.oheStore.isListingLoaded.mockReturnValue(false);
-
-      const rendered = renderThumbnail();
-
-      const noOheIndication = rendered.find('.apt-thumb-no-ohe');
-      const oheIndication = rendered.find('.apt-thumb-ohe-text');
-      expect(noOheIndication.exists()).toBe(false);
-      expect(oheIndication.exists()).toBe(false);
     });
   });
 });

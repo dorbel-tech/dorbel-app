@@ -1,3 +1,6 @@
+@import "../sharedStyles/variables.scss";
+@import "../sharedStyles/bsvars.scss";
+
 .like-button {
   &:hover {
     color: #ea441a;
@@ -18,32 +21,35 @@
   }
 
   &.like-button-with-text {
-    color: #ea441a;
-    border: 1px solid #ea441a;
+    background: $brand-success;
+    color: $brand-white;
+    border: 1px solid $brand-success;
     border-radius: 2px;
     display: inline-block;
-    font-size: 13px;
-    height: 32px;
-    width: 97px;
+    font-size: 15px;
+    height: 45px;
+    line-height: 40px;
 
     .fa {
-      color: #ea441a;
+      color: $brand-white;
       font-size: 15px;
-      padding: 8px;
+      margin-top: 10px;
+      padding: 0 8px;
     }
 
     .like-button-text {
+      vertical-align: middle;
       display: inline-block;
-      padding-left: 10px;
-      vertical-align: text-bottom;
+      font-weight: 600;
     }
 
     &.like-button-liked {
-      background: #ea441a;
-      color: #fff;
+      background: $brand-white;
+      color: $brand-success;
+      border: none;
 
       .fa {
-        color: #fff;
+        color: $brand-success;
       }
     }
   }

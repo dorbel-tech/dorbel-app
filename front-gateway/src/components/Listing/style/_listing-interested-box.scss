@@ -1,0 +1,28 @@
+.listing-interested-box-content {
+  background-color: $brand-white;
+  box-shadow: 0 2px 20px 0 rgba(0, 0, 0, 0.15);
+  padding-bottom: 20px;
+
+  .listing-interested-box-content-text {
+    margin: 0 20px;
+    padding: 15px 0;
+
+    .listing-interested-box-content-text-heading {
+      color: $gray-dark;
+      font-weight: 600;
+    }
+
+    .listing-interested-box-content-text-explain {
+      color: $gray-light;
+    }
+  }
+
+  .listing-interested-box-button-container {
+    text-align: center;
+    padding-bottom: 10px;
+
+    .like-button {
+      width: 90%;
+    }
+  }
+}

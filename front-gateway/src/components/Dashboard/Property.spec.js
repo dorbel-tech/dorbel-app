@@ -17,9 +17,6 @@ describe('Property', () => {
         isListingPublisherOrAdmin: jest.fn().mockReturnValue(true),
         listingsByApartmentId: { get: jest.fn() }
       },
-      oheStore: {
-        oheByListingId: jest.fn()
-      },
       editedListingStore: {
         loadListing: jest.fn()
       },
@@ -36,9 +33,6 @@ describe('Property', () => {
         loadFullListingDetails: jest.fn(),
         loadListingsForApartment: jest.fn(),
         isActiveListing: jest.fn().mockReturnValue(true)
-      },
-      oheProvider: {
-        loadListingEvents: jest.fn()
       },
       navProvider: {},
       likeProvider: {
