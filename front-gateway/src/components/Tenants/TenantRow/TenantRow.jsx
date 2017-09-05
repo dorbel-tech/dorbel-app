@@ -78,13 +78,13 @@ export default class TenantRow extends React.Component {
 
     return (
       <Row className="tenant-row">
-        <Col xs={6} lg={6}>
+        <Col xs={6}>
           <div className="tenant-row-profile" onClick={this.showTenantProfileModal}>
             <Image className="tenant-row-image" src={tenant.picture} circle />
             <span>{tenant.first_name || 'אנונימי'} {tenant.last_name || ''}</span>
           </div>
         </Col>
-        <Col xs={6} lg={6} className="text-left">
+        <Col xs={6} className="text-left">
           <div className="tenant-row-remove pull-left">
             <i className="fa fa-times" title="הסר דייר" onClick={this.removeTenant}></i>
           </div>
