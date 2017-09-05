@@ -63,9 +63,9 @@ export default class ModalProvider {
       ),
       footer: params.footer,
       modalSize: params.modalSize || 'small',
-      onClose: () => {
+      onClose: (value) => {
         if (params.closeHandler) {
-          params.closeHandler();
+          params.closeHandler(value);
         }
         this.appStore.showModal = false;
       }
@@ -74,7 +74,9 @@ export default class ModalProvider {
     this.appStore.showModal = true;
   }
 
-  close() {
+  close(value) {
+    const { onClose } = this.appStore.modalParams;
+    if (onClose) { onClose(value) }
     this.appStore.showModal = false;
   }
 }
