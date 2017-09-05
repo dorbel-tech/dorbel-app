@@ -26,9 +26,22 @@ export default class TenantRow extends React.Component {
     ];
   }
 
+  starTenant() {
+    const { tenant, listing } = this.props;
+    window.analytics.track('client_click_tenant_star', {
+      listing_id: listing.id,
+      tenant_id: tenant.dorbel_user_id
+    });
+  }
+
   showTenantProfileModal() {
     const { tenant, listing } = this.props;
     if (tenant.disabled) { return; }
+
+    window.analytics.track('client_click_tenant_profile', {
+      listing_id: listing.id,
+      tenant_id: tenant.dorbel_user_id
+    });
 
     this.props.appProviders.modalProvider.show({
       body: <TenantProfile profile={tenant} listing={listing} />,
@@ -54,10 +67,15 @@ export default class TenantRow extends React.Component {
   removeTenant() {
     const { appProviders, tenant, listing } = this.props;
 
-    appProviders.likeProvider.set(listing.apartment_id, listing.id, false, tenant.id)
+    appProviders.likeProvider.set(listing.apartment_id, listing.id, false, tenant)
       .then(() => {
-        const likeNotification = 'הדייר הוסר בהצלחה';
-        appProviders.notificationProvider.success(likeNotification);
+        appProviders.likeProvider.getLikesForListing(listing.id, true);
+        appProviders.notificationProvider.success('הדייר הוסר בהצלחה');
+
+        window.analytics.track('client_click_tenant_remove', {
+          listing_id: listing.id,
+          tenant_id: tenant.dorbel_user_id
+        });
       })
       .catch(appProviders.notificationProvider.error);
   }
@@ -68,29 +86,21 @@ export default class TenantRow extends React.Component {
 
     return (
       <Row className="tenant-row">
-        <Col xs={6} lg={6} onClick={this.showTenantProfileModal}>
-          <Image className="tenant-row-image" src={tenant.picture} circle />
-          <span>{tenant.first_name || 'אנונימי'} {tenant.last_name || ''}</span>
+        <Col xs={6} lg={6}>
+          <i className="fa fa-star-o tenant-row-star" title="בקרוב" onClick={this.starTenant}></i>
+          <div className="tenant-row-profile" onClick={this.showTenantProfileModal}>
+            <Image className="tenant-row-image" src={tenant.picture} circle />
+            <span>{tenant.first_name || 'אנונימי'} {tenant.last_name || ''}</span>
+          </div>
         </Col>
         <Col xs={6} lg={6} className="text-left">
-          <Dropdown id={'tenant' + tenant.id} className="pull-left" disabled={tenant.disabled}>
-            <Dropdown.Toggle noCaret bsStyle="link">
-              <i className="fa fa-ellipsis-v" />
-            </Dropdown.Toggle>
-            <Dropdown.Menu className="dropdown-menu-left">
-              <MenuItem onClick={this.removeTenant}>הסר דייר</MenuItem>
-            </Dropdown.Menu>
-          </Dropdown>
+          <div className="tenant-row-remove pull-left">
+            <i className="fa fa-times" title="הסר דייר" onClick={this.removeTenant}></i>
+          </div>
           {!tenant.disabled && tenant.dorbel_user_id && process.env.TALKJS_PUBLISHABLE_KEY && listingTitle &&
             <div className="tenant-row-button pull-left" onClick={this.handleMsgClick}>
+              <i className="fa fa-comments fa-2 tenant-row-msg-icon"></i>
               <span className="tenant-row-button-text">שלח הודעה</span>
-              <i className="fa fa-comments tenant-row-msg-icon"></i>
-            </div>
-          }
-          {!tenant.disabled &&
-            <div className="tenant-row-button pull-left" onClick={this.showTenantProfileModal}>
-              <span className="tenant-row-button-text">הראה פרופיל</span>
-              <i className="fa fa-user"></i>
             </div>
           }
         </Col>

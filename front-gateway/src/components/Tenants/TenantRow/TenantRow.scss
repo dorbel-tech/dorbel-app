@@ -10,25 +10,38 @@
   }
 }
 
-.tenant-row-button {
-  border: 1px solid black;
-  border-radius: 7px;
+.tenant-row-star {
+  color: $gray-mid-light;
+  padding: 9px 2px 9px 12px;
+}
+
+.tenant-row-profile {
+  color: $brand-info;
+  cursor: pointer;
   display: inline;
-  margin: 0 5px;
-  padding: 5px;
-  text-align: center;
+}
+
+.tenant-row-remove {
+  display: inline;
+
+  i {
+    color: $gray-mid-light;
+    padding: 8px 10px 8px 5px;
+  }
+}
+
+.tenant-row-button {
+  color: #4d4d44;
+  display: inline;
+  padding: 6px;
+  text-decoration: underline;
 
   &:hover {
-    background-color: $gray-lighter;
     cursor: pointer;
   }
 
   .tenant-row-button-text {
     display: inline;
-
-    @media (max-width: $screen-sm-max) {
-      display: none;
-    }
   }
 
   i {
