@@ -55,6 +55,12 @@ async function renderApp(ctx) {
     return ctx.redirect('/properties/submit/publish');
   }
 
+  // Old apartment submit form to new one redirect.
+  if (ctx.path === '/properties/submit') {
+    ctx.status = 301;
+    return ctx.redirect('/properties/submit/publish');
+  }
+
   // Old apartments search redirect to new one.
   if (ctx.path === '/apartments' || ctx.path.startsWith('/apartments?q=')) {
     ctx.status = 301;
