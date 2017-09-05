@@ -193,43 +193,41 @@ class PropertyStats extends Component {
       return <LoadingSpinner />;
     }
 
-    if (likes.length === 0) {
-      return <div className="property-stats-container">
-        <div>
-          <span className="property-stats-share-title">
-            כאן יופיעו הדיירים המעוניינים בדירה עם כל המידע שהם סיפרו על עצמם
-          </span>
-        </div>
-        <div className="property-stats-share-sub-title">
-          שתפו את הלינק לדירה או שלחו אותו לדיירים שפנו אליכם
-        </div>
-        <ListingSocial listing={listing} />
-        <div className="property-stats-views">
-          <div>
-            צפיות<br/>במודעה
-          </div>
-          <div className="property-stats-views-value">
-            {views || 0}
-          </div>
-        </div>
-      </div>
-    }
-
     return (
       <div className="property-stats-followers-container">
         <div className="property-stats-followers-title">
           רשימת הדיירים המתעניינים בדירה ({likes.length})
         </div>
         <div className="property-stats-value-title">
-          לחצו על פרופיל דייר על מנת לראות את כל המידע עליו
+          {likes.length === 0 ?
+            'ברשימה למטה יופיעו הדיירים המעוניינים בדירה עם כל המידע עליהם'
+          :
+            'לחצו על שם הדייר על מנת לראות את כל המידע עליו'
+          }
         </div>
+        {likes.length === 0 && 
+          <div className="property-stats-container">
+            <div className="property-stats-share-title">
+              לקבלת דיירים מתעניינים-  שתפו את הלינק או שלחו אותו לדיירים שפנו אליכם
+            </div>
+            <ListingSocial listing={listing} />
+            <div className="property-stats-views">
+              <div>
+                צפיות<br/>במודעה
+              </div>
+              <div className="property-stats-views-value">
+                {views || 0}
+              </div>
+            </div>
+          </div>
+        }
         <ListGroup>
           { likes.map(like => (
-              <ListGroupItem key={like.id} disabled={like.disabled} className="property-manage-list-group-item">
-                <TenantRow tenant={like.user_details} listing={listing} />
-              </ListGroupItem>
-            )) }
-        </ListGroup>
+            <ListGroupItem key={like.id} disabled={like.disabled} className="property-manage-list-group-item">
+              <TenantRow tenant={like.user_details} listing={listing} />
+            </ListGroupItem>
+          )) }
+        </ListGroup>     
       </div>
     );
   }

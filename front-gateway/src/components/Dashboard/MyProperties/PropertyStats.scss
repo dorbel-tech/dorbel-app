@@ -227,7 +227,7 @@ $active-color: #3398db;
     }
 
     &.fb-messenger-mobile {
-      font-size: 14px;
+      display: none !important;
     }
 
     @media (max-width: $screen-sm-max) {
@@ -283,8 +283,8 @@ $active-color: #3398db;
   line-height: 20px;
 }
 
-.property-stats-followers-container .list-group {
-  margin: 20px 0;
+.property-stats-followers-container > .property-stats-value-title {
+    margin-bottom: 20px;
 }
 
 .property-stats-followers-title {
