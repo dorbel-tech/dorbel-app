@@ -209,7 +209,7 @@ class PropertyStats extends Component {
             צפיות<br/>במודעה
           </div>
           <div className="property-stats-views-value">
-            {views}
+            {views || 0}
           </div>
         </div>
       </div>
