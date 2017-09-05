@@ -11,6 +11,18 @@
   height: 45px;
   line-height: 40px;
 
+  &:hover {
+    color: $brand-white;
+  }
+
+  &:focus {
+    color: $brand-white;
+  }
+
+  &:active {
+    color: $brand-white;
+  }
+
   .fa {
     color: $brand-white;
     font-size: 15px;

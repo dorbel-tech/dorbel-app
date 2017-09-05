@@ -20,19 +20,18 @@ class LikeButton extends Component {
     appProviders.likeProvider.set(apartmentId, listingId, isLiked)
       .then(() => {
         const likeNotification = isLiked ?
-          'הדירה הוסרה בהצלחה מרשימת הדירות שאהבתם' :
-          'הדירה נשמרה בהצלחה לרשימת הדירות שאהבתם';
+          'הדירה נשמרה בהצלחה לרשימת הדירות שאהבתם' :
+          'הדירה הוסרה בהצלחה מרשימת הדירות שאהבתם';
         appProviders.notificationProvider.success(likeNotification);
       });
   }
 
   isProfileFull(profile) {
-    const values = _.pick(profile, TenantProfileEdit.profileRequiredFields);
-    const hasUndefinedField = _.find(values, value => !!value);
-    return !hasUndefinedField;
+    const missingRequiredField = TenantProfileEdit.profileRequiredFields.find((fieldName) => { return _.isNil(_.get(profile, fieldName)); });
+    return _.isNil(missingRequiredField)
   }
 
-  showEditProfileModal(profile) {
+  showEditProfileModalBeforeLiking(profile) {
     const { modalProvider } = this.props.appProviders;
     return modalProvider.show({
       title: TenantProfileEdit.title,
@@ -45,13 +44,16 @@ class LikeButton extends Component {
     const { apartmentId, listingId, appStore, appProviders } = this.props;
 
     if (appStore.authStore.isLoggedIn) {
-      const { profile } = this.props.appStore.authStore;
-      if (this.isProfileFull(profile)) {
-        const wasLiked = appProviders.likeProvider.get(apartmentId);
+      const wasLiked = appProviders.likeProvider.get(apartmentId);
+      if (wasLiked) { // Always allow to unlike - regardless of profile integrity
         this.toggleLiked(!wasLiked);
       }
       else {
-        this.showEditProfileModal(profile);
+        const { profile } = this.props.appStore.authStore;
+        if (this.isProfileFull(profile)) {
+          this.toggleLiked(!wasLiked);
+        }
+        else { this.showEditProfileModalBeforeLiking(profile); }
       }
     }
     else {
