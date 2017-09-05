@@ -165,24 +165,6 @@ class PropertyStats extends Component {
                 </div>
               </Col>
             </Row>
-            <Row className="property-stats-listing-stats text-right property-stats-padding-top">
-              <Col xs={12} md={10} lg={8}>
-                <div className="property-stats-card property-stats-card-with-padding">
-                  <Checkbox className="property-stats-future-booking" inline checked={listing.show_for_future_booking} onChange={this.updateFutureBooking}>
-                    אפשר לדיירים לעקוב אחר הדירה להשכרה הבאה
-                  </Checkbox>
-                  &nbsp;
-                  <span className="property-stats-info" data-tip="אפשרו לדיירים שמחפשים דירה כמו שלכם למצוא אותה ולעקוב אחריה.
-                   כאשר הדירה תתפרסם להשכרה בעתיד,
-                    העוקבים שלה יקבלו עדכון ויוכלו להירשם לביקור במהירות.">
-                    <i className="fa fa-info-circle" aria-hidden="true"></i>
-                    &nbsp;מה זה אומר?
-                  </span>
-                  <ReactTooltip type="dark" effect="solid" place="top" offset={tipOffset}
-                                multiline className="property-stats-future-booking-tooltip"/>
-                </div>
-              </Col>
-            </Row>
            </Grid>;
   }
 
