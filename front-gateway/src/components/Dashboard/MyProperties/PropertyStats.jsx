@@ -54,16 +54,17 @@ class PropertyStats extends Component {
     const listingRented = listing.status === 'rented';
 
     const tipOffset = {left: 2};
-    const likes = appStore.likeStore.likesByListingId.get(listingId);
+    const interests = appStore.likeStore.likesByListingId.get(listingId);
+    const hasInterests = interests && interests.length > 0;
     const views = appStore.listingStore.listingViewsById.get(listingId);
 
     return <Grid fluid className="property-stats">
             <Row>
               <Col lg={9} md={8} sm={7}>
-                {this.renderLikedUsers(likes, views)}
+                {this.renderLikedUsers(interests, views)}
               </Col>
               <Col lg={3} md={4} sm={5}>
-                {likes && likes.length > 0 &&
+                {hasInterests &&
                   <div className="property-stats-container">
                     <div>
                       <span className="property-stats-share-title">
@@ -104,7 +105,7 @@ class PropertyStats extends Component {
                       צפיות במודעה
                     </div>
                     <div className="property-stats-process-vr" />
-                    <div className="property-stats-process-point-full">
+                    <div className={'property-stats-process-point-' + (hasInterests ? 'full' : 'empty')}>
                       דיירים מתעניינים
                     </div>
                     <div className="property-stats-process-vr" />
@@ -125,7 +126,7 @@ class PropertyStats extends Component {
     const leaseStats = utils.getListingLeaseStats(listing);
     const manageTabUrl = getDashMyPropsPath(listing, '/manage');
     const tipOffset = {top: -7, left: 2};
-    const likes = appStore.likeStore.likesByListingId.get(listing.id);
+    const interests = appStore.likeStore.likesByListingId.get(listing.id);
 
     return <Grid fluid className="property-stats">
             <Row className="property-stats-rent-title">
@@ -138,7 +139,7 @@ class PropertyStats extends Component {
                 <div>
                   <div className="property-stats-number">{views || 0}</div>
                   <div className="property-stats-empty"></div>
-                  <div className="property-stats-number">{likes ? likes.length : 0}</div>
+                  <div className="property-stats-number">{interests ? interests.length : 0}</div>
                 </div>
                 <div>
                   <div className="property-stats-bubble">
@@ -186,26 +187,26 @@ class PropertyStats extends Component {
     notificationProvider.success('עודכן בהצלחה. ');
   }
 
-  renderLikedUsers(likes, views) {
+  renderLikedUsers(interests, views) {
     const { listing } = this.props;
 
-    if (!likes) {
+    if (!interests) {
       return <LoadingSpinner />;
     }
 
     return (
       <div className="property-stats-followers-container">
         <div className="property-stats-followers-title">
-          רשימת הדיירים המתעניינים בדירה ({likes.length})
+          רשימת הדיירים המתעניינים בדירה ({interests.length})
         </div>
         <div className="property-stats-value-title">
-          {likes.length === 0 ?
+          {interests.length === 0 ?
             'ברשימה למטה יופיעו הדיירים המעוניינים בדירה עם כל המידע עליהם'
           :
             'לחצו על שם הדייר על מנת לראות את כל המידע עליו'
           }
         </div>
-        {likes.length === 0 && 
+        {interests.length === 0 &&
           <div className="property-stats-container">
             <div className="property-stats-share-title">
               לקבלת דיירים מתעניינים-  שתפו את הלינק או שלחו אותו לדיירים שפנו אליכם
@@ -222,7 +223,7 @@ class PropertyStats extends Component {
           </div>
         }
         <ListGroup>
-          { likes.map(like => (
+          { interests.map(like => (
             <ListGroupItem key={like.id} disabled={like.disabled} className="property-manage-list-group-item">
               <TenantRow tenant={like.user_details} listing={listing} />
             </ListGroupItem>
