@@ -205,12 +205,12 @@ class PropertyStats extends Component {
         </div>
         <ListingSocial listing={listing} />
         <div className="property-stats-views">
-          <span>
+          <div>
             צפיות<br/>במודעה
-          </span>
-          <span className="property-stats-views-value">
+          </div>
+          <div className="property-stats-views-value">
             {views}
-          </span>
+          </div>
         </div>
       </div>
     }

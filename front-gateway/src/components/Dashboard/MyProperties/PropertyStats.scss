@@ -364,17 +364,32 @@ $active-color: #3398db;
 }
 
 .property-stats-views {
-  bottom: 30px;
+  bottom: 26px;
   color: $gray-mid-light;
   font-size: 12px;
   left: 30px;
-  line-height: 10px;
+  line-height: 13px;
   position: absolute;
+
+  > div {
+    @media (min-width: $screen-md-min) {
+      display: inline-block;
+      padding-right: 10px;
+    }
+  }
+
+  @media (max-width: $screen-xs-max) {
+    bottom: 9px;
+  }
 }
 
 .property-stats-views-value {
   font-size: 28px;
-  padding-right: 10px;
+  line-height: 28px;
+
+  @media (max-width: $screen-sm-max) {
+    font-size: 20px;
+  }
 }
 
 .property-stats-share-title {
