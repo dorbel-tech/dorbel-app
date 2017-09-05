@@ -9,6 +9,7 @@ import autobind from 'react-autobind';
 import moment from 'moment';
 import TenantRow from '~/components/Tenants/TenantRow/TenantRow';
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
+import ShareListingToGroupsModal from '~/components/ShareListingToGroupsModal/ShareListingToGroupsModal';
 
 import './PropertyStats.scss';
 
@@ -21,12 +22,20 @@ class PropertyStats extends Component {
 
   componentDidMount() {
     this.loadListingStats();
+    this.showShareToGroupsModal();
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.listing.id !== nextProps.listing.id) {
       this.loadListingStats(nextProps.listing);
     }
+  }
+
+  showShareToGroupsModal() {
+    this.props.appProviders.modalProvider.showInfoModal({
+      title: ShareListingToGroupsModal.title,
+      body: <ShareListingToGroupsModal listing={this.props.listing} />,
+    });
   }
 
   loadListingStats(listing) {
