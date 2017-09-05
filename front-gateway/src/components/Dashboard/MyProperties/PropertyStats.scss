@@ -18,14 +18,6 @@ $active-color: #3398db;
 }
 
 .property-stats {
-  .property-stats-number-not-empty {
-    @include add-active-color();
-
-    > a {
-      @include add-active-color();
-    }
-  }
-
   .property-stats-rent-title {
     font-size: 15px;
     padding-bottom: 15px;
@@ -33,12 +25,6 @@ $active-color: #3398db;
     @media (max-width: $screen-sm-max) {
       padding-bottom: 5px;
     }
-  }
-
-  .property-stats-rented-check {
-    font-size: 26px;
-    color: $gray-lighter;
-    text-shadow: 0 0 2px #000;
   }
 
   .property-stats-number {
@@ -86,45 +72,6 @@ $active-color: #3398db;
     }
   }
 
-  .property-stats-line-not-empty {
-    border-bottom: 1px solid $active-color !important;
-
-    @include add-active-color();
-  }
-
-  .property-stats-line {
-    border-bottom: 1px $gray-dark solid;
-    display: inline-block;
-    margin-bottom: 4px;
-    width: $line-width-lg;
-
-    @media (max-width: $screen-md-max) {
-      width: $line-width-md;
-    }
-
-    @media (max-width: $screen-sm-max) {
-      width: $line-width-sm;
-    }
-
-    @media (max-width: $screen-xs-max) {
-      width: $line-width-xs-max;
-    }
-
-    @media (max-width: $screen-xs-min) {
-      width: $line-width-xs-min;
-    }
-  }
-
-  .property-stats-bubble-not-empty {
-    border: 1px solid $active-color !important;
-
-    @include add-active-color();
-
-    > a {
-      @include add-active-color();
-    }
-  }
-
   .property-stats-bubble {
     border: 1px solid $gray-dark;
     border-radius: 100px;
@@ -167,12 +114,6 @@ $active-color: #3398db;
       }
     }
 
-    .property-stats-card-with-padding {
-      @media (max-width: $screen-sm-max) {
-        padding: 10px;
-      }
-    }
-
     .property-stats-number {
       font-size: 24px;
 
@@ -187,76 +128,8 @@ $active-color: #3398db;
     }
   }
 
-  .property-stats-publishing-title,
-  .property-stats-services-title {
-    font-size: 15px;
-    padding: 40px 0 30px;
-
-    @media (max-width: $screen-sm-max) {
-      padding-top: 30px;
-      padding-bottom: 15px;
-    }
-  }
-
-  .property-stats-services-title {
-    font-size: 15px;
-    padding-bottom: 45px;
-  }
-
-  .property-stats-services {
-    .property-stats-service {
-      background-color: $brand-white;
-      border-radius: 2px;
-      box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.05);
-      min-height: 250px;
-      padding: 0 30px;
-      text-align: center;
-      font-size: 11px;
-
-      @media (max-width: $screen-sm-max) {
-        margin: 20px 0;
-        margin-bottom: 60px;
-      }
-
-      .property-stats-image {
-        margin-top: -40px;
-      }
-
-      .property-stats-title {
-        font-size: 16px;
-        font-weight: bold;
-        padding-top: 40px;
-        padding-bottom: 22px;
-      }
-
-      .property-stats-button {
-        font-size: 13px;
-        margin-top: 40px;
-        margin-bottom: 20px;
-      }
-    }
-  }
-
-  .property-stats-info {
-    color: #979797;
-    float: left;
-
-    > i {
-      vertical-align: middle;
-    }
-  }
-
-  .property-stats-future-booking-tooltip {
-    width: 290px;
-  }
-
   .property-stats-padding-top {
     padding-top: 40px;
-  }
-
-  .property-stats-no-followers-title {
-    color: #9b9b9b;
-    margin-bottom: 45px;
   }
 }
 
