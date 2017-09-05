@@ -47,7 +47,7 @@ module.exports = {
     submitApartment(browser);
     browser.end();
   },
-  'tenant should like apartment': function (browser) {
+  'tenant should take interest in apartment': function (browser) {
     login('tenant');
     listing.navigateToListingPage(listing.url(listingId));
     common.waitForText(listing.section.like, '@text', 'אני מעוניין/ת בדירה');
@@ -56,7 +56,7 @@ module.exports = {
     common.waitForText(listing, '@notification', 'הדירה נשמרה בהצלחה לרשימת הדירות שאהבתם');
     browser.end();
   },
-  'tenant should unlike apartment': function (browser) {
+  'tenant should remove interest in apartment': function (browser) {
     login('tenant');
     listing.navigateToListingPage(listing.url(listingId));
     common.waitForText(listing.section.like, '@text', 'אני מעוניין/ת בדירה');
