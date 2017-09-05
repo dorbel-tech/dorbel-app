@@ -19,10 +19,7 @@ class LikeButton extends Component {
     const { apartmentId, listingId, appProviders } = this.props;
     appProviders.likeProvider.set(apartmentId, listingId, isLiked)
       .then(() => {
-        const likeNotification = isLiked ?
-          'הדירה נשמרה בהצלחה לרשימת הדירות שאהבתם' :
-          'הדירה הוסרה בהצלחה מרשימת הדירות שאהבתם';
-        appProviders.notificationProvider.success(likeNotification);
+        appProviders.notificationProvider.success('הדירה נשמרה בהצלחה לרשימת הדירות שאתם מעוניינים');
       });
   }
 
@@ -44,17 +41,10 @@ class LikeButton extends Component {
     const { apartmentId, listingId, appStore, appProviders } = this.props;
 
     if (appStore.authStore.isLoggedIn) {
-      const wasLiked = appProviders.likeProvider.get(apartmentId) || false;
-      if (wasLiked) { // Always allow to unlike - regardless of profile integrity
-        this.toggleLiked(!wasLiked);
-      }
-      else {
-        const { profile } = this.props.appStore.authStore;
-        if (this.isProfileFull(profile)) {
-          this.toggleLiked(!wasLiked);
-        }
-        else { this.showEditProfileModalBeforeLiking(profile); }
-      }
+      const { profile } = this.props.appStore.authStore;
+      this.isProfileFull(profile) ?
+        this.toggleLiked(true) :
+        this.showEditProfileModalBeforeLiking(profile);
     }
     else {
       appProviders.authProvider.showLoginModal();
@@ -69,7 +59,7 @@ class LikeButton extends Component {
     }
 
     return (
-      <a href="#" className={isLiked ? 'like-button liked' : 'like-button'} onClick={this.handleClick}>
+      <a href="#" className={isLiked ? 'like-button liked' : 'like-button'} onClick={isLiked ? _.noop() : this.handleClick}>
         <div className="text-center">
           <i className="fa fa-heart" />
           <span className="like-button-text">אני מעוניין/ת בדירה</span>

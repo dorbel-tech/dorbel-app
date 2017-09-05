@@ -12,7 +12,7 @@ export default class TenantProfileEdit extends React.Component {
     super(props);
     autobind(this);
   }
-  
+
   static title = (<div>
     <h4>עזרו לבעל הדירה להכיר אתכם -</h4>
     <h4>פרטים בסיסיים</h4>
@@ -36,7 +36,7 @@ export default class TenantProfileEdit extends React.Component {
         section: 'full_profile',
         data: formsy.getModel()
       };
-      
+
       const { notificationProvider, modalProvider } = this.props.appProviders;
       return this.props.appProviders.authProvider.updateUserProfile(profile)
         .then(() => {
@@ -47,6 +47,7 @@ export default class TenantProfileEdit extends React.Component {
     }
     else {
       formsy.submit(); // show validation errors
+      notificationProvider.error('חסרים פרטים, נא למלא את כל הפרטים')
     }
   }
 
