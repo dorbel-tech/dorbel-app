@@ -29,8 +29,18 @@ class LikeProvider {
 
   set(apartmentId, listingId, isLiked, tenant) {
     const method = isLiked ? 'POST' : 'DELETE';
+    const dataObject = {
+      listing_id: listingId
+    };
+
+    if (tenant) {
+      dataObject.tenant = {
+        id: tenant.dorbel_user_id
+      };
+    }
+
     this.appStore.likeStore.myLikes.set(apartmentId, isLiked);
-    return this.fetch(`apartments/${apartmentId}/likes`, { method, data: { listing_id: listingId, tenant } })
+    return this.fetch(`apartments/${apartmentId}/likes`, { method, data: dataObject })
       .then(() => {
         if (isLiked) {
           window.analytics.track('client_listing_liked', { apartment_id: apartmentId, listing_id: listingId }); // For Facebook conversion tracking.
