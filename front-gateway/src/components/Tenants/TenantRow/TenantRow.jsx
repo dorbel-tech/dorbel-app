@@ -58,18 +58,26 @@ export default class TenantRow extends React.Component {
 
   removeTenant() {
     const { appProviders, tenant, listing } = this.props;
+    let confirmation = appProviders.modalProvider.showConfirmationModal({
+      title: 'האם אתם בטוחים?',
+      body: <p>לאחר שדייר הוסר מרשימת הדיירים, לא ניתן לבטל את הפעולה ולהחזיר את הדייר לרשימה.</p>,
+      confirmButton: 'אני מבין, הסר את הדייר',
+    });
 
-    appProviders.likeProvider.set(listing.apartment_id, listing.id, false, tenant)
-      .then(() => {
-        appProviders.likeProvider.getLikesForListing(listing.id, true);
-        appProviders.notificationProvider.success('הדייר הוסר בהצלחה');
-
-        window.analytics.track('client_click_tenant_remove', {
-          listing_id: listing.id,
-          tenant_id: tenant.dorbel_user_id
-        });
-      })
-      .catch(appProviders.notificationProvider.error);
+    confirmation.then(choice => {
+      if (choice) {
+        appProviders.likeProvider.set(listing.apartment_id, listing.id, false, tenant)
+          .then(() => {
+            appProviders.likeProvider.getLikesForListing(listing.id, true);
+            appProviders.notificationProvider.success('הדייר הוסר בהצלחה');
+            window.analytics.track('client_click_tenant_remove', {
+              listing_id: listing.id,
+              tenant_id: tenant.dorbel_user_id
+            });
+          })
+          .catch(appProviders.notificationProvider.error);
+      }
+    }).catch((err) => this.props.appProviders.notificationProvider.error(err));
   }
 
   render() {
