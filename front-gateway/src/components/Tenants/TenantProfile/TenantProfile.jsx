@@ -159,8 +159,8 @@ class TenantProfile extends Component {
           onClick={() => {
             if (!this.props.isPreview) {
               const { profile, listing } = this.props;
-              window.analytics.track(`landlord_clicked_tenant_contact_details`, {
-                detailsType: contactDetailsType,
+              const eventName = 'client_click_tenant_contact_' + contactDetailsType;
+              window.analytics.track(eventName, {
                 listingId: listing.id,
                 tenantUserId: profile.dorbel_user_id
               });
@@ -183,6 +183,12 @@ class TenantProfile extends Component {
         email: profile.email,
         welcomeMessage: 'באפשרותך לשלוח הודעה לדיירים. במידה והם אינם מחוברים הודעתך תישלח אליהם למייל.'
       };
+
+      window.analytics.track('client_click_tenant_contact_message', {
+        listingId: listing.id,
+        tenantUserId: profile.dorbel_user_id
+      });
+
       messagingProvider.getOrStartConversation(withUserObj, {
         topicId: listing.id,
         subject: getListingTitle(listing)
