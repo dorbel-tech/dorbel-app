@@ -18,12 +18,11 @@ describe('Building Repository', function () {
         entrance: faker.lorem.word(),
         floors: faker.random.number(100),
         elevator: faker.random.boolean(),
+        city: { google_place_id: 'some-place-id-mock' }
         // geolocation is not tested because SQLlite has a problem with it
       });
 
-      const expectedBuilding = _.pick(buildingToCreate, ['street_name', 'house_number', 'floors', 'entrance', 'elevator']);
-      expectedBuilding.city_id = buildingToCreate.city.id;
-      expectedBuilding.neighborhood_id = buildingToCreate.neighborhood.id;
+      const expectedBuilding = _.pick(buildingToCreate, ['street_name', 'house_number', 'city_id', 'neighborhood_id', 'floors', 'entrance', 'elevator']);
 
       const createdBuilding = yield this.buildingRepo.updateOrCreate(buildingToCreate);
 

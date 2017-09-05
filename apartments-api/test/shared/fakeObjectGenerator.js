@@ -8,12 +8,13 @@ function getDateString(date) {
 
 function getFakeBuilding(variant) {
   return Object.assign({
-    street_name: faker.address.streetName(),
+    street_name: 'החשמונאים',
     house_number: '' + faker.random.number(300),
     entrance: 1,
     city_id: 1,
     city: {
-      id: 1
+      id: 1,
+      city_name: 'תל אביב יפו'
     },
     neighborhood_id: 1,
     neighborhood: {
@@ -23,7 +24,7 @@ function getFakeBuilding(variant) {
 }
 
 function getFakeListing(variant) {
-  const listing =  {
+  const listing = {
     status: 'pending',
     monthly_rent: faker.random.number({ min: 1000, max: 9000 }),
     lease_start: getDateString(),
@@ -40,7 +41,7 @@ function getFakeListing(variant) {
     open_house_event_date: getDateString(),
     open_house_event_start_time: '07:00',
     open_house_event_end_time: '07:30',
-    images: [ getFakeImage(true) ],
+    images: [getFakeImage(true)],
     user: {
       phone: '123456789'
     },

@@ -4,8 +4,8 @@ const moment = require('moment');
 const shared = require('dorbel-shared');
 const listingRepository = require('../apartmentsDb/repositories/listingRepository');
 const likeRepository = require('../apartmentsDb/repositories/likeRepository');
-const geoProvider = require('../providers/geoProvider');
 const listingSearchQuery = require('./listingService.searchQuery');
+const addressUtils = require('./utils/addressUtil');
 const logger = shared.logger.getLogger(module);
 const { messageBus, generic, analytics } = shared.utils;
 const userManagement = shared.utils.user.management;
@@ -33,10 +33,12 @@ function CustomError(code, message) {
 async function create(listing, user) {
   const publishingUserId = user.id;
   listing.publishing_user_id = publishingUserId;
+  listing.apartment.building = await addressUtils.validateAndEnrichBuilding(listing.apartment.building);
+
   await validateNewListing(listing, user);
 
   let modifiedListing = setListingAutoFields(listing);
-  listing.apartment.building.geolocation = await geoProvider.getGeoLocation(listing.apartment.building);
+  
   let createdListing = await listingRepository.create(modifiedListing);
 
   // TODO: Update user details can be done on client using user token.
