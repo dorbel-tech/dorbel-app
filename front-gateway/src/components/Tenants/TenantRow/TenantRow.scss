@@ -18,14 +18,22 @@
   color: $brand-info;
   cursor: pointer;
   display: inline;
+
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 .tenant-row-remove {
   display: inline;
 
   i {
-    color: $gray-mid-light;
+    color: $gray-light;
     padding: 8px 10px 8px 5px;
+
+    &:hover {
+      color: $gray-mid-light;
+    }
   }
 }
 
@@ -37,6 +45,7 @@
 
   &:hover {
     cursor: pointer;
+    color: $gray-mid-light;
   }
 
   .tenant-row-button-text {
