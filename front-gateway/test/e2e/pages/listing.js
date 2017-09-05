@@ -23,7 +23,7 @@ module.exports = {
       }
     },
     like: {
-      selector: '.listing-actions-like-button-wrapper',
+      selector: '.listing-interested-box-button-container',
       elements: {
         button: {
           selector: '.like-button'

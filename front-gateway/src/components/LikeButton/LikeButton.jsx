@@ -44,7 +44,7 @@ class LikeButton extends Component {
     const { apartmentId, listingId, appStore, appProviders } = this.props;
 
     if (appStore.authStore.isLoggedIn) {
-      const wasLiked = appProviders.likeProvider.get(apartmentId);
+      const wasLiked = appProviders.likeProvider.get(apartmentId) || false;
       if (wasLiked) { // Always allow to unlike - regardless of profile integrity
         this.toggleLiked(!wasLiked);
       }
