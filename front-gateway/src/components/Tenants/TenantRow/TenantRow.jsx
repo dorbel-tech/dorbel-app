@@ -26,14 +26,6 @@ export default class TenantRow extends React.Component {
     ];
   }
 
-  starTenant() {
-    const { tenant, listing } = this.props;
-    window.analytics.track('client_click_tenant_star', {
-      listing_id: listing.id,
-      tenant_id: tenant.dorbel_user_id
-    });
-  }
-
   showTenantProfileModal() {
     const { tenant, listing } = this.props;
     if (tenant.disabled) { return; }
@@ -87,7 +79,6 @@ export default class TenantRow extends React.Component {
     return (
       <Row className="tenant-row">
         <Col xs={6} lg={6}>
-          <i className="fa fa-star-o tenant-row-star" title="בקרוב" onClick={this.starTenant}></i>
           <div className="tenant-row-profile" onClick={this.showTenantProfileModal}>
             <Image className="tenant-row-image" src={tenant.picture} circle />
             <span>{tenant.first_name || 'אנונימי'} {tenant.last_name || ''}</span>

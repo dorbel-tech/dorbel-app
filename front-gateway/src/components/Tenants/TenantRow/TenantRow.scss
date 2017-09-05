@@ -5,14 +5,13 @@
   display: flex;
   align-items: center;
 
+  @media (max-width: $screen-xs-max) {
+    margin: 0 -20px;
+  }
+
   i {
     cursor: pointer;
   }
-}
-
-.tenant-row-star {
-  color: $gray-mid-light;
-  padding: 9px 2px 9px 12px;
 }
 
 .tenant-row-profile {
@@ -42,6 +41,10 @@
 
   .tenant-row-button-text {
     display: inline;
+
+    @media (max-width: $screen-xs-max) {
+      font-size: 12px;
+    }
   }
 
   i {
@@ -52,4 +55,8 @@
 .tenant-row-image {
   width: 40px;
   margin-left: 15px;
+
+  @media (max-width: $screen-xs-max) {
+    width: 30px;
+  }
 }
