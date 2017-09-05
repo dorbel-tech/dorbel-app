@@ -1,3 +1,6 @@
+@import "../../sharedStyles/variables.scss";
+@import "../../sharedStyles/bsvars.scss";
+
 .tenant-row {
   display: flex;
   align-items: center;
@@ -5,20 +8,35 @@
   i {
     cursor: pointer;
   }
+}
 
-  .tenant-row-msg-icon {
-    font-size: 16px;
-    margin-bottom: 2px;
-    vertical-align: middle;
+.tenant-row-button {
+  border: 1px solid black;
+  border-radius: 7px;
+  display: inline;
+  margin: 0 5px;
+  padding: 5px;
+  text-align: center;
+
+  &:hover {
+    background-color: $gray-lighter;
+    cursor: pointer;
+  }
+
+  .tenant-row-button-text {
+    display: inline;
+
+    @media (max-width: $screen-sm-max) {
+      display: none;
+    }
+  }
+
+  i {
+    padding: 0 5px;
   }
 }
 
 .tenant-row-image {
   width: 40px;
-}
-
-.tenant-row-no-facebook {
-  color: #979797;
-  font-size: 18px;
-  vertical-align: middle;
+  margin-left: 15px;
 }

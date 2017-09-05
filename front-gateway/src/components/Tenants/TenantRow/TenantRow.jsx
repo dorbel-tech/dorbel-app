@@ -52,46 +52,48 @@ export default class TenantRow extends React.Component {
   }
 
   removeTenant() {
-    const { appProviders, tenant } = this.props;
-    appProviders.listingsProvider.removeTenant(tenant)
-      .then(() => appProviders.notificationProvider.success('הדייר הוסר מרשימת השוכרים הנוכחיים שלך'))
+    const { appProviders, tenant, listing } = this.props;
+
+    appProviders.likeProvider.set(listing.apartment_id, listing.id, false, tenant.id)
+      .then(() => {
+        const likeNotification = 'הדייר הוסר בהצלחה';
+        appProviders.notificationProvider.success(likeNotification);
+      })
       .catch(appProviders.notificationProvider.error);
   }
 
   render() {
-    const { tenant, showActionButtons, listing } = this.props;
+    const { tenant, listing } = this.props;
     const listingTitle = getListingTitle(listing);
-    const facebookClass = tenant.tenant_profile && tenant.tenant_profile.facebook_url ? '' : 'tenant-row-no-facebook';
 
     return (
       <Row className="tenant-row">
-        <Col xs={2} md={this.props.mode == 'responsive' ? 1 : 2} onClick={this.showTenantProfileModal}>
+        <Col xs={6} lg={6} onClick={this.showTenantProfileModal}>
           <Image className="tenant-row-image" src={tenant.picture} circle />
-        </Col>
-        <Col xs={6} md={7} onClick={this.showTenantProfileModal}>
           <span>{tenant.first_name || 'אנונימי'} {tenant.last_name || ''}</span>
         </Col>
-        <Col xs={1}>
-          {!tenant.disabled && <i className={'fa fa-2x fa-facebook-square ' + facebookClass} onClick={this.showTenantProfileModal}></i>}
-        </Col>
-        <Col xs={1}>
+        <Col xs={6} lg={6} className="text-left">
+          <Dropdown id={'tenant' + tenant.id} className="pull-left" disabled={tenant.disabled}>
+            <Dropdown.Toggle noCaret bsStyle="link">
+              <i className="fa fa-ellipsis-v" />
+            </Dropdown.Toggle>
+            <Dropdown.Menu className="dropdown-menu-left">
+              <MenuItem onClick={this.removeTenant}>הסר דייר</MenuItem>
+            </Dropdown.Menu>
+          </Dropdown>
           {!tenant.disabled && tenant.dorbel_user_id && process.env.TALKJS_PUBLISHABLE_KEY && listingTitle &&
-            <i className="fa fa-comment tenant-row-msg-icon" onClick={this.handleMsgClick}></i>}
+            <div className="tenant-row-button pull-left" onClick={this.handleMsgClick}>
+              <span className="tenant-row-button-text">שלח הודעה</span>
+              <i className="fa fa-comments tenant-row-msg-icon"></i>
+            </div>
+          }
+          {!tenant.disabled &&
+            <div className="tenant-row-button pull-left" onClick={this.showTenantProfileModal}>
+              <span className="tenant-row-button-text">הראה פרופיל</span>
+              <i className="fa fa-user"></i>
+            </div>
+          }
         </Col>
-        {showActionButtons ?
-          <Col xs={2}>
-            <Dropdown id={'tenant' + tenant.id} className="pull-left" disabled={tenant.disabled}>
-              <Dropdown.Toggle noCaret bsStyle="link">
-                <i className="fa fa-ellipsis-v" />
-              </Dropdown.Toggle>
-              <Dropdown.Menu className="dropdown-menu-left">
-                <MenuItem onClick={this.removeTenant}>הסר דייר</MenuItem>
-              </Dropdown.Menu>
-            </Dropdown>
-          </Col>
-          :
-          null
-        }
       </Row>
     );
   }
