@@ -8,15 +8,25 @@ import './TenantProfileEdit.scss';
 
 @inject('appProviders')
 export default class TenantProfileEdit extends React.Component {
+  constructor(props) {
+    super(props);
+    autobind(this);
+  }
+  
   static title = (<div>
     <h4>עזרו לבעל הדירה להכיר אתכם -</h4>
     <h4>פרטים בסיסיים</h4>
   </div>)
 
-  constructor(props) {
-    super(props);
-    autobind(this);
-  }
+  static profileRequiredFields = [
+    'email',
+    'first_name',
+    'last_name',
+    'phone',
+    'tenant_profile.about_you',
+    'tenant_profile.work_place',
+    'tenant_profile.position'
+  ]
 
   submit() {
     const { formsy } = this.refs.form.refs;
@@ -26,7 +36,8 @@ export default class TenantProfileEdit extends React.Component {
         section: 'full_profile',
         data: formsy.getModel()
       };
-      const { notificationProvider, modalProvider } = this.props.appProviders.notificationProvider;
+      
+      const { notificationProvider, modalProvider } = this.props.appProviders;
       return this.props.appProviders.authProvider.updateUserProfile(profile)
         .then(() => {
           notificationProvider.success('הפרטים עודכנו בהצלחה');
@@ -51,25 +62,26 @@ export default class TenantProfileEdit extends React.Component {
           <FormWrapper.Wrapper layout="vertical" ref="form">
             <div className="tenant-profile-edit-form-section">
               <div className="tenant-profile-edit-form-section-title">פרטים אישיים</div>
-              <FRC.Input value="" name="first_name" type="text" placeholder="שם פרטי (חובה)" required />
-              <FRC.Input value="" name="last_name" type="text" placeholder="שם משפחה (חובה)" required />
-              <FRC.Input value="" name="email" type="email" placeholder="אי-מייל (חובה)" validations="isEmail" required />
-              <FRC.Input value="" name="phone" type="text" placeholder="טלפון (חובה)" required />
+              <FRC.Input value={profile.first_name} name="first_name" type="text" placeholder="שם פרטי (חובה)" required />
+              <FRC.Input value={profile.last_name} name="last_name" type="text" placeholder="שם משפחה (חובה)" required />
+              <FRC.Input value={profile.email} name="email" type="email" placeholder="אי-מייל (חובה)" validations="isEmail" required />
+              <FRC.Input value={profile.phone} name="phone" type="text" placeholder="טלפון (חובה)" required />
             </div>
             <div className="tenant-profile-edit-form-section">
               <div className="tenant-profile-edit-form-section-title">עבודה</div>
               <div className="tenant-profile-edit-form-section-explain">פרטו על התעסוקה שלכם כדי שבעל הדירה ידע שתוכלו לעמוד בתשלומים</div>
-              <FRC.Input value="" name="tenant_profile.work_place" type="text" placeholder="מקום העבודה/עצמאי (חובה)" required />
-              <FRC.Input value="" name="tenant_profile.work_place" type="text" placeholder="התפקיד שלכם (חובה)" required />
+              <FRC.Input value={profile.tenant_profile.work_place} name="tenant_profile.work_place" type="text" placeholder="מקום העבודה/עצמאי (חובה)" required />
+              <FRC.Input value={profile.tenant_profile.position} name="tenant_profile.position" type="text" placeholder="התפקיד שלכם (חובה)" required />
             </div>
             <div className="tenant-profile-edit-form-section">
               <div className="tenant-profile-edit-form-section-explain smaller">הוסיפו רשתות חברתיות על מנת לגלות חברים משותפים עם בעל הדירה</div>
-              <FRC.Input value="" name="tenant_profile.facebook_url" type="text" placeholder="העתיקו לינק לפרופיל הפייסבוק שלכם" />
-              <FRC.Input value="" name="tenant_profile.linkedin_url" type="text" placeholder="העתיקו לינק לפרופיל הלינקדאין שלכם" />
+              <FRC.Input value={profile.tenant_profile.facebook_url} name="tenant_profile.facebook_url" type="text" placeholder="העתיקו לינק לפרופיל הפייסבוק שלכם" />
+              <FRC.Input value={profile.tenant_profile.linkedin_url} name="tenant_profile.linkedin_url" type="text" placeholder="העתיקו לינק לפרופיל הלינקדאין שלכם" />
             </div>
             <div className="tenant-profile-edit-form-section">
               <div className="tenant-profile-edit-form-section-title">ספרו על עצמכם</div>
-              <FRC.Textarea value=""
+              <FRC.Textarea
+                value={profile.tenant_profile.about_you}
                 name="tenant_profile.about_you"
                 type="text"
                 placeholder="עזרו לבעל הדירה להכיר אתכם טוב יותר. איך אתם כשוכרים? לכמה זמן מעוניינים בדירה? האם אתם עוברים לבד?"

@@ -2,35 +2,35 @@
 @import "../sharedStyles/bsvars.scss";
 
 .like-button {
-    background: $brand-success;
+  background: $brand-success;
+  color: $brand-white;
+  border: 1px solid $brand-success;
+  border-radius: 2px;
+  display: inline-block;
+  font-size: 15px;
+  height: 45px;
+  line-height: 40px;
+
+  .fa {
     color: $brand-white;
-    border: 1px solid $brand-success;
-    border-radius: 2px;
-    display: inline-block;
     font-size: 15px;
-    height: 45px;
-    line-height: 40px;
+    margin-top: 10px;
+    padding: 0 8px;
+  }
+
+  .like-button-text {
+    vertical-align: middle;
+    display: inline-block;
+    font-weight: 600;
+  }
+
+  &.liked {
+    background: $brand-white;
+    color: $brand-success;
+    border: none;
 
     .fa {
-      color: $brand-white;
-      font-size: 15px;
-      margin-top: 10px;
-      padding: 0 8px;
-    }
-
-    .like-button-text {
-      vertical-align: middle;
-      display: inline-block;
-      font-weight: 600;
-    }
-
-    &.like-button-liked {
-      background: $brand-white;
       color: $brand-success;
-      border: none;
-
-      .fa {
-        color: $brand-success;
-      }
     }
+  }
 }

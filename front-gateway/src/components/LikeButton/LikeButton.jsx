@@ -3,19 +3,10 @@ import { inject, observer } from 'mobx-react';
 import autobind from 'react-autobind';
 import _ from 'lodash';
 
-import TenantProfileEdit from '../Tenants/TenantProfile/TenantProfileEdit'
-
 import './LikeButton.scss';
 
-const profileRequiredFields = [
-  'email',
-  'first_name',
-  'last_name',
-  'phone',
-  'tenant_profile.about_you',
-  'tenant_profile.work_place',
-  'tenant_profile.position'
-]
+import TenantProfileEdit from '../Tenants/TenantProfile/TenantProfileEdit'
+
 @inject('appStore', 'appProviders') @observer
 class LikeButton extends Component {
 
@@ -25,6 +16,7 @@ class LikeButton extends Component {
   }
 
   toggleLiked(isLiked) {
+    const { apartmentId, listingId, appProviders } = this.props;
     appProviders.likeProvider.set(apartmentId, listingId, isLiked)
       .then(() => {
         const likeNotification = isLiked ?
@@ -32,19 +24,11 @@ class LikeButton extends Component {
           'הדירה נשמרה בהצלחה לרשימת הדירות שאהבתם';
         appProviders.notificationProvider.success(likeNotification);
       });
-
-    // Update listing.totalLikes if exists in listingStore
-    let listing = appStore.listingStore.get(listingId);
-    if (listing) {
-      listing.totalLikes = listing.totalLikes || 0;
-      listing.totalLikes = isLiked ? listing.totalLikes - 1 : listing.totalLikes + 1;
-      appStore.listingStore.set(listing);
-    }
   }
 
   isProfileFull(profile) {
-    const values = _.pick(profile, profileRequiredFields);
-    const hasUndefinedField = _.find(values, value => !value);
+    const values = _.pick(profile, TenantProfileEdit.profileRequiredFields);
+    const hasUndefinedField = _.find(values, value => !!value);
     return !hasUndefinedField;
   }
 
@@ -53,7 +37,7 @@ class LikeButton extends Component {
     return modalProvider.show({
       title: TenantProfileEdit.title,
       body: <TenantProfileEdit profile={profile} />,
-      onClose: () => { }
+      closeHandler: (wasCreated) => { if (wasCreated) { this.handleClick() } }
     })
   }
 
@@ -64,9 +48,7 @@ class LikeButton extends Component {
       const { profile } = this.props.appStore.authStore;
       if (this.isProfileFull(profile)) {
         const wasLiked = appProviders.likeProvider.get(apartmentId);
-        if (wasLiked) {
-          this.toggleLiked(!wasLiked)
-        }
+        this.toggleLiked(!wasLiked);
       }
       else {
         this.showEditProfileModal(profile);
@@ -85,7 +67,7 @@ class LikeButton extends Component {
     }
 
     return (
-      <a href="#" className={isLiked ? 'like-button-liked' : 'like-button'} onClick={this.handleClick}>
+      <a href="#" className={isLiked ? 'like-button liked' : 'like-button'} onClick={this.handleClick}>
         <div className="text-center">
           <i className="fa fa-heart" />
           <span className="like-button-text">אני מעוניין/ת בדירה</span>
