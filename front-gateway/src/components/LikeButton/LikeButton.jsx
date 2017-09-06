@@ -44,21 +44,25 @@ class LikeButton extends Component {
     return modalProvider.show({
       title: TenantProfileEdit.title,
       body: <TenantProfileEdit profile={profile} />,
-      closeHandler: (wasCreated) => { if (wasCreated) { this.handleClick() } }
+      closeHandler: (isOK) => { if (isOK) { this.toggleLiked(true) } }
     })
   }
 
   handleClick() {
     const { apartmentId, listingId, appStore, appProviders } = this.props;
-
+    const { likeProvider, notificationProvider, authProvider } = appProviders;
     if (appStore.authStore.isLoggedIn) {
-      const { profile } = this.props.appStore.authStore;
-      this.isProfileFull(profile) ?
-        this.toggleLiked(true) :
+      const isLiked = likeProvider.get(apartmentId) || false;
+      if (isLiked) {
+        notificationProvider.success('כבר יצרתם קשר עם בעל הדירה');
+      }
+      else {
+        const { profile } = this.props.appStore.authStore;
         this.showEditProfileModalBeforeLiking(profile);
+      }
     }
     else {
-      appProviders.authProvider.showLoginModal();
+      authProvider.showLoginModal();
     }
   }
 
@@ -70,7 +74,7 @@ class LikeButton extends Component {
     }
 
     return (
-      <a href="#" className={isLiked ? 'like-button liked' : 'like-button'} onClick={isLiked ? _.noop() : this.handleClick}>
+      <a href="#" className={isLiked ? 'like-button liked' : 'like-button'} onClick={this.handleClick}>
         <div className="text-center">
           <i className="fa fa-heart" />
           <span className="like-button-text">אני מעוניין/ת בדירה</span>
