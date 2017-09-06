@@ -1,6 +1,16 @@
 @import "../sharedStyles/variables.scss";
 @import "../sharedStyles/bsvars.scss";
 
+.like-confirm-button {
+  height: 45px;
+  line-height: 32px;
+  margin: auto;
+
+  i {
+    padding: 5px;
+  }
+}
+
 .like-button {
   background: $brand-success;
   color: $brand-white;
