@@ -49,6 +49,7 @@ class MyProfile extends Component {
   showPreview(profile) {
     this.props.appProviders.modalProvider.showInfoModal({
       body: <TenantProfile profile={profile} isPreview={true}/>,
+      modalSize: 'large'
     });
   }
 
