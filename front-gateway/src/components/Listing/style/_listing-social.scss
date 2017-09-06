@@ -18,6 +18,51 @@
     padding: 10px;
   }
 
+  .listing-social-share-link {
+    border-radius: 4px;
+    color: #4a4a4a;
+    cursor: pointer;
+    display: inline-block;
+    direction: ltr;
+    font-size: 12px;
+    height: 40px;
+    line-height: 20px;
+    overflow: hidden;
+    padding: 9px 0 0 32px !important;
+    position: relative;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    vertical-align: middle;
+    width: 40px;
+
+    > i {
+      background-color: $brand-white;
+      bottom: 0;
+      font-size: 16px;
+      left: 0;
+      padding-top: 11px;
+      position: absolute;
+      text-align: center;
+      top: 0;
+      width: 40px;
+
+      @media (min-width: $screen-md-min) {
+        background-color: #4a4a4a;
+        color: $brand-white;
+        width: 30px;
+      }
+    }
+
+    > textarea {
+      opacity: 0;
+    }
+
+    @media (min-width: $screen-md-min) {
+      border: $gray-border;
+      width: 100px;
+    }
+  }
+
   @media (min-width: $screen-md-min) {
     .fb-desktop,
     .email {

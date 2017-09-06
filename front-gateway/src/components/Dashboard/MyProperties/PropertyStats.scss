@@ -205,6 +205,7 @@ $active-color: #3398db;
     font-size: 16px;
     height: 40px;
     margin-left: 10px;
+    padding: 9px !important;
     text-align: center;
     width: 40px;
 
@@ -212,7 +213,8 @@ $active-color: #3398db;
       background-color: #096abd;
 
       @media (min-width: $screen-md-min) {
-        width: 120px;
+        border: 1px solid #096abd;
+        width: 100px;
 
         &::after {
           content: "שתף";
