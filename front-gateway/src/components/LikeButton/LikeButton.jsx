@@ -25,7 +25,7 @@ class LikeButton extends Component {
         modalProvider.showInfoModal({
           title: 'בעל הדירה קיבל את פנייתך ויוכל לחזור אליך בהקדם',
           body: (
-            <Button href={'/search'} onClick={navProvider.handleHrefClick} bsStyle="success">
+            <Button href={'/search'} onClick={navProvider.handleHrefClick} bsStyle="success" className="like-confirm-button">
               <i className="fa fa-home" />
               מדהים, הראו לי דירות נוספות
             </Button>
