@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
+import { Button } from 'react-bootstrap';
 import autobind from 'react-autobind';
 import _ from 'lodash';
 
@@ -17,9 +18,19 @@ class LikeButton extends Component {
 
   toggleLiked(isLiked) {
     const { apartmentId, listingId, appProviders } = this.props;
-    appProviders.likeProvider.set(apartmentId, listingId, isLiked)
+    const { notificationProvider, modalProvider, navProvider, likeProvider } = appProviders;
+    likeProvider.set(apartmentId, listingId, isLiked)
       .then(() => {
-        appProviders.notificationProvider.success('הדירה נשמרה בהצלחה לרשימת הדירות שאתם מעוניינים');
+        notificationProvider.success('הדירה נשמרה בהצלחה לרשימת הדירות שאתם מעוניינים');
+        modalProvider.showInfoModal({
+          title: 'בעל הדירה קיבל את פנייתך ויוכל לחזור אליך בהקדם',
+          body: (
+            <Button href={'/search'} onClick={navProvider.handleHrefClick} bsStyle="success">
+              <i className="fa fa-home" />
+              מדהים, הראו לי דירות נוספות
+            </Button>
+          )
+        })
       });
   }
 

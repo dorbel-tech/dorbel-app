@@ -33,8 +33,11 @@ class ListingSocial extends React.Component {
   }
 
   urlToClipboard(e) {
+    const { notificationProvider } = this.props.appProviders;
+
     this.urlElement.select();
     document.execCommand('copy');
+    notificationProvider.success('הקישור הועתק בהצלחה');
   }
 }
 
