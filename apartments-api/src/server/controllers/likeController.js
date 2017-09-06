@@ -29,9 +29,10 @@ async function remove(ctx) {
 
 async function handleLikeSet(ctx, isLiked) {
   const data = ctx.request.body;
-  const user = data.tenant || ctx.request.user;
+  const user = ctx.request.user;
+  const tenant = data.tenant;
   const apartmentId = ctx.params.apartmentId;
-  await likeService.set(apartmentId, data.listing_id, user, isLiked);
+  await likeService.set(apartmentId, data.listing_id, user, tenant, isLiked);
   ctx.response.status = 200;
 }
 
