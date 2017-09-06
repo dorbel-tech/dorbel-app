@@ -29,20 +29,18 @@ export default class TenantProfileEdit extends React.Component {
 
   submit() {
     const { formsy } = this.refs.form.refs;
-
-    if (formsy.isChanged() && formsy.state.isValid) {
+    const { notificationProvider, modalProvider } = this.props.appProviders;
+    if (formsy.state.isValid) {
       const profile = {
         section: 'full_profile',
         data: formsy.getModel()
       };
-
-      const { notificationProvider, modalProvider } = this.props.appProviders;
-      return this.props.appProviders.authProvider.updateUserProfile(profile)
-        .then(() => {
-          notificationProvider.success('הפרטים עודכנו בהצלחה');
-          modalProvider.close(true);
-        })
-        .catch(notificationProvider.error);
+      if (formsy.isChanged()) {
+        return this.props.appProviders.authProvider.updateUserProfile(profile)
+          .then(() => { modalProvider.close(true); })
+          .catch(notificationProvider.error);
+      }
+      else { modalProvider.close(true); }
     }
     else {
       formsy.submit(); // show validation errors
