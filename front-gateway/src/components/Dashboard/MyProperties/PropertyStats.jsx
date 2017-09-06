@@ -124,7 +124,6 @@ class PropertyStats extends Component {
     const listingId = listing.id;
     const views = appStore.listingStore.listingViewsById.get(listingId);
     const leaseStats = utils.getListingLeaseStats(listing);
-    const manageTabUrl = getDashMyPropsPath(listing, '/manage');
     const tipOffset = {top: -7, left: 2};
     const interests = appStore.likeStore.likesByListingId.get(listing.id);
 
@@ -147,7 +146,7 @@ class PropertyStats extends Component {
                   </div>
                   <div className="property-stats-empty"></div>
                   <div className="property-stats-bubble">
-                    <NavLink to={manageTabUrl}><div className="property-stats-bubble-text">לייקים</div></NavLink>
+                    <div className="property-stats-bubble-text">לייקים</div>
                   </div>
                 </div>
               </Col>
@@ -228,7 +227,7 @@ class PropertyStats extends Component {
               <TenantRow tenant={like.user_details} listing={listing} />
             </ListGroupItem>
           )) }
-        </ListGroup>     
+        </ListGroup>
       </div>
     );
   }
