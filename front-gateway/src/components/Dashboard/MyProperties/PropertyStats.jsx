@@ -71,10 +71,8 @@ class PropertyStats extends Component {
                         שתפו את מודעת הדירה
                       </span>
                       <i className="fa fa-info-circle property-stats-share-help" aria-hidden="true"
-                        data-tip="כשאתם יוצרים מודעה בדורבל, אתם מקבלים לינק לעמוד הדירה שאותו ניתן לשתף בכל מקום- במייל, בפייסבוק או בוואצאפ.<br />
-                      ניתן גם לשלוח אותו לדיירים שפנו אליכם ממודעות באתרים אחרים.<br />
-                      כך תוכלו לקבל את כל המידע שחשוב לכם לדעת על הדיירים לפני שתצרו איתם קשר."></i>
-                      <ReactTooltip type="info" effect="solid" place="bottom" offset={tipOffset} multiline />
+                        data-tip="שתפו את מודעת הדירה במייל,<br />בפייסבוק או בוואצאפ או שלחו לינק<br />לדיירים שפנו אליכם בטלפון. כך<br />תקבלו את כל המידע שחשוב לדעת על<br />הדיירים לפני שתצרו איתם קשר"></i>
+                      <ReactTooltip type="dark" effect="solid" place="bottom" offset={tipOffset} multiline />
                     </div>
                     <div className="property-stats-share-sub-title">
                       צפיות במודעה: {views}
