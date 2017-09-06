@@ -5,6 +5,8 @@ const _ = require('lodash');
 const errors = shared.utils.domainErrors;
 const userManagement = shared.utils.user.management;
 
+const rootProfileSections = ['main', 'full_profile'];
+
 const profileSectionParams = {
   main: {
     first_name: { isRequired: true },
@@ -32,7 +34,7 @@ async function update(user, profileData) {
 
     logger.info({ user_uuid: user.id, userData: profileData }, 'Updating user details');
     const newUserProfile = await userManagement.updateUserDetails(user.id, {
-      user_metadata: (profileData.section == 'main' || 'full_profile') ? profileData.data : { [profileData.section]: profileData.data }
+      user_metadata: (rootProfileSections.indexOf(profileData.section) != -1) ? profileData.data : { [profileData.section]: profileData.data }
     });
     logger.info({ user_uuid: user.id, userData: newUserProfile }, 'Updated user details');
 
