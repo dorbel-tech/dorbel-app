@@ -87,12 +87,12 @@ a {
 }
 
 .modal-backdrop.in {
-  opacity: 0.5;
+  opacity: 0.7;
 }
 
 .modal-content {
   border: none;
-  border-radius: 0;
+  border-radius: 3px;
   box-shadow: 0 30px 40px rgba(0, 0, 0, 0.2);
 }
 
