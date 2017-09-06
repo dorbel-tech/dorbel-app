@@ -94,18 +94,18 @@ class TenantProfile extends Component {
               <Button
                 href={profile.tenant_profile.linkedin_url}
                 title={this.props.isPreview ? 'אפשרו לבעל הדירה לדעת אם יש לכם מכרים משותפים' : ''}
-                className="tenant-profile-social-links-item"
+                className="tenant-profile-social-links-item linkedin"
                 disabled={!profile.tenant_profile.linkedin_url}
                 target="_blank">
-                פרופיל לינקדאין
+                <i className="fa fa-linkedin-square"></i> לינקדאין
               </Button>
               <Button
                 href={profile.tenant_profile.facebook_url}
                 title={this.props.isPreview ? 'אפשרו לבעל הדירה לדעת אם יש לכם חברים משותפים' : ''}
-                className="tenant-profile-social-links-item pull-left"
+                className="tenant-profile-social-links-item facebook pull-left"
                 disabled={!profile.tenant_profile.facebook_url}
                 target="_blank">
-                פרופיל פייסבוק
+                <i className="fa fa-facebook-square"></i> פייסבוק
               </Button>
             </div>
           </div>
@@ -120,6 +120,21 @@ class TenantProfile extends Component {
         <Col xs={12} className="tenant-profile-contact-details">
           <div className="tenant-profile-field">
             <label>יצירת קשר</label>
+            <div className="tenant-profile-contact-details-item">
+              <span className="tenant-profile-contact-details-item-title">צ׳אט</span>
+              <Button className="chat" bsStyle="success" onClick={this.handleMsgClick}>
+                <i className="fa fa-comments" />
+                שלח הודעה
+              </Button>
+            </div>
+            <div className="tenant-profile-contact-details-item">
+              <span className="tenant-profile-contact-details-item-title">דוא״ל</span>
+              {this.renderRevealContactDetailsButton('email', 'הצג כתובת דוא"ל',
+                <a className="pull-left" href={`mailto:${profile.email}`}>
+                  {profile.email}
+                </a>
+              )}
+            </div>
             <div>
               <div className="tenant-profile-contact-details-item">
                 <span className="tenant-profile-contact-details-item-title">טלפון</span>
@@ -128,21 +143,6 @@ class TenantProfile extends Component {
                     {profile.phone}
                   </a>
                 )}
-              </div>
-              <div className="tenant-profile-contact-details-item">
-                <span className="tenant-profile-contact-details-item-title">דוא"ל</span>
-                {this.renderRevealContactDetailsButton('email', 'הצג כתובת דוא"ל',
-                  <a className="pull-left" href={`mailto:${profile.email}`}>
-                    {profile.email}
-                  </a>
-                )}
-              </div>
-              <div className="tenant-profile-contact-details-item">
-                <span className="tenant-profile-contact-details-item-title">צ'אט</span>
-                <Button className="chat" bsStyle="success" onClick={this.handleMsgClick}>
-                  <i className="fa fa-comments" />
-                  שלח הודעה
-                </Button>
               </div>
             </div>
           </div>
