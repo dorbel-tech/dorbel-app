@@ -193,53 +193,8 @@ $active-color: #3398db;
   width: 7px;
 }
 
-.property-stats-container {
-  .listing-social-share-container {
-    padding: 10px 0 0;
-  }
-
-  .listing-social-share-item {
-    border: $gray-border;
-    border-radius: 4px;
-    color: $brand-white;
-    font-size: 16px;
-    height: 40px;
-    margin-left: 10px;
-    padding: 9px !important;
-    text-align: center;
-    width: 40px;
-
-    &.fa-facebook-f {
-      background-color: #096abd;
-
-      @media (min-width: $screen-md-min) {
-        border: 1px solid #096abd;
-        width: 100px;
-
-        &::after {
-          content: "שתף";
-          font-size: 12px;
-          padding-right: 5px;
-        }
-      }
-    }
-
-    &.fa-whatsapp {
-      background-color: $brand-green;
-    }
-
-    &.fb-messenger-mobile {
-      display: none !important;
-    }
-
-    @media (max-width: $screen-sm-max) {
-      display: inline-block !important;
-    }
-  }
-}
-
 .property-stats-views {
-  bottom: 26px;
+  bottom: 28px;
   color: $gray-mid-light;
   font-size: 12px;
   left: 30px;
@@ -251,6 +206,10 @@ $active-color: #3398db;
       display: inline-block;
       padding-right: 10px;
     }
+  }
+
+  @media (min-width: $screen-md-min) {
+    bottom: 30px;
   }
 
   @media (max-width: $screen-xs-max) {
