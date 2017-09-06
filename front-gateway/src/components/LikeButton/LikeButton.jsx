@@ -44,6 +44,7 @@ class LikeButton extends Component {
     return modalProvider.show({
       title: TenantProfileEdit.title,
       body: <TenantProfileEdit profile={profile} />,
+      modalSize: 'large',
       closeHandler: (wasCreated) => { if (wasCreated) { this.handleClick() } }
     })
   }

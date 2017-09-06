@@ -1,24 +1,35 @@
 @import "../../sharedStyles/variables.scss";
+@import "../../sharedStyles/bsvars.scss";
 
 .tenant-profile-edit {
   vertical-align: middle;
 
+  .tenant-profile-edit-button {
+    height: 45px;
+    margin: auto;
+    width: 200px;
+  }
+
   .tenant-profile-edit-heading {
-    font-size: 13px;
+    font-size: 14px;
     line-height: 18px;
     text-align: right;
     color: $gray-light;
     margin-top: -20px;
-    padding-bottom: 15px;
-    width: 240px;
+    padding-bottom: 10px;
     border-bottom: $gray-border;
   }
 
   .tenant-profile-edit-picture {
     float: left;
     height: 80px;
-    margin-top: -30px;
+    margin-top: -40px;
     margin-bottom: 5px;
+
+    @media (max-width: $screen-sm-max) {
+      height: 60px;
+      margin-top: -30px;
+    }
   }
 
   .tenant-profile-edit-form {
@@ -27,13 +38,18 @@
     .tenant-profile-edit-form-section {
       margin: 15px 0;
       display: block;
-      font-size: 13px;
       line-height: 15px;
       text-align: right;
 
       .tenant-profile-edit-form-section-title {
         &::after {
           content: ' *';
+          color: $brand-danger;
+        }
+      }
+
+      .tenant-profile-edit-form-section-title-optional {
+        &::after {
           color: $brand-danger;
         }
       }
@@ -63,13 +79,7 @@
     }
 
     input.form-control {
-      font-size: 13px;
-      height: 25px;
-    }
-
-    textarea {
-      font-size: 13px;
-      height: 100px;
+      height: 40px;
     }
 
     .form-control-feedback {

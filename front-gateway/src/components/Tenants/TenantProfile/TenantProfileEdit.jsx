@@ -13,10 +13,9 @@ export default class TenantProfileEdit extends React.Component {
     autobind(this);
   }
 
-  static title = (<div>
-    <h4>עזרו לבעל הדירה להכיר אתכם -</h4>
-    <h4>פרטים בסיסיים</h4>
-  </div>)
+  static title = (
+    <h4>עזרו לבעל הדירה להכיר אתכם - פרטים בסיסיים</h4>
+  )
 
   static profileRequiredFields = [
     'email',
@@ -63,21 +62,46 @@ export default class TenantProfileEdit extends React.Component {
           <FormWrapper.Wrapper layout="vertical" ref="form">
             <div className="tenant-profile-edit-form-section">
               <div className="tenant-profile-edit-form-section-title">פרטים אישיים</div>
-              <FRC.Input value={profile.first_name} name="first_name" type="text" placeholder="שם פרטי (חובה)" required />
-              <FRC.Input value={profile.last_name} name="last_name" type="text" placeholder="שם משפחה (חובה)" required />
-              <FRC.Input value={profile.email} name="email" type="email" placeholder="אי-מייל (חובה)" validations="isEmail" required />
-              <FRC.Input value={profile.phone} name="phone" type="text" placeholder="טלפון (חובה)" required />
+              <Row>
+                <Col xs={12} sm={6}>
+                  <FRC.Input value={profile.first_name} name="first_name" type="text" placeholder="שם פרטי (חובה)" required />
+                </Col>
+                <Col xs={12} sm={6}>
+                  <FRC.Input value={profile.last_name} name="last_name" type="text" placeholder="שם משפחה (חובה)" required />
+                </Col>
+              </Row>
+              <Row>
+                <Col xs={12} sm={6}>
+                  <FRC.Input value={profile.email} name="email" type="email" placeholder="אי-מייל (חובה)" validations="isEmail" required />
+                </Col>
+                <Col xs={12} sm={6}>
+                  <FRC.Input value={profile.phone} name="phone" type="text" placeholder="טלפון (חובה)" required />
+                </Col>
+              </Row>
             </div>
             <div className="tenant-profile-edit-form-section">
               <div className="tenant-profile-edit-form-section-title">עבודה</div>
-              <div className="tenant-profile-edit-form-section-explain">פרטו על התעסוקה שלכם כדי שבעל הדירה ידע שתוכלו לעמוד בתשלומים</div>
-              <FRC.Input value={profile.tenant_profile.work_place} name="tenant_profile.work_place" type="text" placeholder="מקום העבודה/עצמאי (חובה)" required />
-              <FRC.Input value={profile.tenant_profile.position} name="tenant_profile.position" type="text" placeholder="התפקיד שלכם (חובה)" required />
+              <div className="tenant-profile-edit-form-section-explain">פרטו על התעסוקה שלכם כדי שבעל הדירה יהיה שקט שתוכלו לעמוד בתשלומים</div>
+              <Row>
+                <Col xs={12} sm={6}>
+                  <FRC.Input value={profile.tenant_profile.work_place} name="tenant_profile.work_place" type="text" placeholder="מקום העבודה/עצמאי (חובה)" required />
+                </Col>
+                <Col xs={12} sm={6}>
+                  <FRC.Input value={profile.tenant_profile.position} name="tenant_profile.position" type="text" placeholder="התפקיד שלכם (חובה)" required />
+                </Col>
+              </Row>
             </div>
             <div className="tenant-profile-edit-form-section">
-              <div className="tenant-profile-edit-form-section-explain smaller">הוסיפו רשתות חברתיות על מנת לגלות חברים משותפים עם בעל הדירה</div>
-              <FRC.Input value={profile.tenant_profile.facebook_url} name="tenant_profile.facebook_url" type="text" placeholder="העתיקו לינק לפרופיל הפייסבוק שלכם" />
-              <FRC.Input value={profile.tenant_profile.linkedin_url} name="tenant_profile.linkedin_url" type="text" placeholder="העתיקו לינק לפרופיל הלינקדאין שלכם" />
+              <div className="tenant-profile-edit-form-section-title-optional">רשתות חברתיות</div>
+              <div className="tenant-profile-edit-form-section-explain">הוסיפו רשתות חברתיות על מנת לגלות חברים משותפים עם בעל הדירה</div>
+              <Row>
+                <Col xs={12} sm={6}>
+                  <FRC.Input value={profile.tenant_profile.linkedin_url} name="tenant_profile.linkedin_url" type="text" placeholder="העתיקו לינק לפרופיל הלינקדאין שלכם" />
+                </Col>
+                <Col xs={12} sm={6}>
+                  <FRC.Input value={profile.tenant_profile.facebook_url} name="tenant_profile.facebook_url" type="text" placeholder="העתיקו לינק לפרופיל הפייסבוק שלכם" />
+                </Col>
+              </Row>
             </div>
             <div className="tenant-profile-edit-form-section">
               <div className="tenant-profile-edit-form-section-title">ספרו על עצמכם</div>
@@ -85,10 +109,11 @@ export default class TenantProfileEdit extends React.Component {
                 value={profile.tenant_profile.about_you}
                 name="tenant_profile.about_you"
                 type="text"
+                rows={3}
                 placeholder="עזרו לבעל הדירה להכיר אתכם טוב יותר. איך אתם כשוכרים? לכמה זמן מעוניינים בדירה? האם אתם עוברים לבד?"
                 required />
             </div>
-            <Button bsStyle="success" onClick={this.submit} block>אישור</Button>
+            <Button className="tenant-profile-edit-button" bsStyle="success" onClick={this.submit} block>שלח לבעל הדירה</Button>
           </FormWrapper.Wrapper>
         </div>
       </div>
