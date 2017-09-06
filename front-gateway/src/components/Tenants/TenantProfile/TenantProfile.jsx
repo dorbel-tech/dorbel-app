@@ -130,14 +130,14 @@ class TenantProfile extends Component {
             </div>
             <div className="tenant-profile-contact-details-item">
               {this.renderRevealContactDetailsButton('email', 'הצג מייל',
-                <a className="pull-left" href={`mailto:${profile.email}`}>
+                <a href={`mailto:${profile.email}`}>
                   {profile.email}
                 </a>
               )}
             </div>
             <div className="tenant-profile-contact-details-item">
               {this.renderRevealContactDetailsButton('phone', 'הצג טלפון',
-                <a className="pull-left" href={`tel:${profile.phone}`}>
+                <a href={`tel:${profile.phone}`}>
                   {profile.phone}
                 </a>
               )}
