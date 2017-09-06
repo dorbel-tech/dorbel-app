@@ -310,38 +310,3 @@
     margin-right: 10px;
   }
 }
-
-.property-history-selector {
-  display: block !important;
-  margin-top: 10px;
-
-  > .dropdown {
-    width: 150px;
-  }
-
-  .caret {
-    height: 6px;
-    margin-right: 5px;
-    vertical-align: middle;
-  }
-
-  @media (max-width: $screen-xs-max) {
-    display: none !important;
-  }
-}
-
-.property-history-selector-mobile {
-  bottom: 45px;
-  display: none;
-  left: 15px;
-  position: absolute;
-  right: 15px;
-
-  @media (max-width: $screen-xs-max) {
-    display: block;
-  }
-
-  .btn-group {
-    width: 100%;
-  }
-}
