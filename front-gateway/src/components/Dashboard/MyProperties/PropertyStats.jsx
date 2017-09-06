@@ -225,7 +225,7 @@ class PropertyStats extends Component {
               <TenantRow tenant={like.user_details} listing={listing} />
             </ListGroupItem>
           )) }
-        </ListGroup>
+        </ListGroup>     
       </div>
     );
   }
