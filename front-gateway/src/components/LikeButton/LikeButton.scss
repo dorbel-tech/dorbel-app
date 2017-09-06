@@ -39,9 +39,6 @@
   &.liked {
     background: $brand-white;
     color: $brand-success;
-    border: none;
-    pointer-events: none;
-    cursor: default;
 
     .fa {
       color: $brand-success;
