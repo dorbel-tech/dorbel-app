@@ -36,7 +36,7 @@ describe.only('Tenant Row', () => {
 
   it('should show tenant first name and last name', () => {
     const wrapper = tenantRow(tenantMock, listingMock);
-    expect(wrapper.find('.tenant-row-profile tenant-row-name').text()).toBe(`${tenantMock.first_name} ${tenantMock.last_name}`);
+    expect(wrapper.find('.tenant-row-profile .tenant-row-name').text()).toBe(`${tenantMock.first_name} ${tenantMock.last_name}`);
   });
 
   it('should show tenant profile when clicking on row', () => {
