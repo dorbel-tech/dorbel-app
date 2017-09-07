@@ -6,37 +6,49 @@ import utils from '~/providers/utils';
 import TenantRow from '~/components/Tenants/TenantRow/TenantRow';
 import TenantProfile from '~/components/Tenants/TenantProfile/TenantProfile';
 
-describe('Tenant Row', () => {
+const tenantMock = {
+  dorbel_user_id: faker.random.uuid(),
+  first_name: faker.name.firstName(),
+  last_name: faker.name.lastName(),
+  email: faker.internet.email()
+};
+const listingMock = {
+  id: 1,
+  title: 'title',
+  apartment: { rooms: 1 }
+}
+
+describe.only('Tenant Row', () => {
   let appProvidersMock;
 
   beforeEach(() => {
     appProvidersMock = {
       modalProvider: {
-        showInfoModal: jest.fn()
+        show: jest.fn()
       }
     };
   });
 
-  const tenantRow = (tenant, listingTitle) => shallow(<TenantRow.wrappedComponent tenant={tenant} listingTitle={listingTitle || 'Listing Title'} appProviders={appProvidersMock} />);
+  const tenantRow = (tenant, listing) => shallow(<TenantRow.wrappedComponent tenant={tenant} listing={listing} appProviders={appProvidersMock} />);
 
   it('should show tenant first name and last name', () => {
-    const tenant = { first_name: faker.name.firstName(), last_name: faker.name.lastName() };
-    const wrapper = tenantRow(tenant);
-    expect(wrapper.find('span').text()).toBe(`${tenant.first_name} ${tenant.last_name}`);
+    const wrapper = tenantRow(tenantMock, listingMock);
+    expect(wrapper.find('.tenant-row-profile span').text()).toBe(`${tenantMock.first_name} ${tenantMock.last_name}`);
   });
 
   it('should show tenant profile when clicking on row', () => {
-    const wrapper = tenantRow({ first_name: faker.name.firstName() });
-    wrapper.find('Col').first().simulate('click');
+    const wrapper = tenantRow(tenantMock, listingMock);
+    global.window.analytics = { track: jest.fn() };
+    wrapper.find('.tenant-row-profile').first().simulate('click');
 
-    expect(appProvidersMock.modalProvider.showInfoModal.mock.calls[0][0].body.type).toBe(TenantProfile);
+    expect(appProvidersMock.modalProvider.show.mock.calls[0][0].body.type).toBe(TenantProfile);
   });
 
   it('should show disabled tenant row', () => {
-    const wrapper = tenantRow({ disabled: true });
-    wrapper.find('Col').first().simulate('click');
+    const wrapper = tenantRow({ disabled: true }, listingMock);
+    wrapper.find('.tenant-row-profile').first().simulate('click');
 
-    expect(appProvidersMock.modalProvider.showInfoModal).not.toHaveBeenCalled();
+    expect(appProvidersMock.modalProvider.show).not.toHaveBeenCalled();
   });
 
   describe('TalkJS integration', () => {
@@ -53,11 +65,10 @@ describe('Tenant Row', () => {
     });
 
     it('should destroy popup and show intercom on unmount', () => {
-      const tenant = { dorbel_user_id: faker.random.uuid(), first_name: faker.name.firstName(), email: faker.internet.email() };
       popupMock.destroy = jest.fn();
       utils.hideIntercom = jest.fn();
-      const wrapper = tenantRow(tenant);
-      wrapper.find('.tenant-row-msg-icon').simulate('click');
+      const wrapper = tenantRow(tenantMock, listingMock);
+      wrapper.find('.tenant-row-button').simulate('click');
 
       return utils.flushPromises().then(() => {
         wrapper.unmount();
@@ -68,22 +79,19 @@ describe('Tenant Row', () => {
     });
 
     it('should call messagingProvider.getOrStartConversation', () => {
-      const tenant = { dorbel_user_id: faker.random.uuid(), listing_id: faker.random.number(), first_name: faker.name.firstName(), email: faker.internet.email() };
-      const listingTitle = faker.name.title();
-
-      const wrapper = tenantRow(tenant, listingTitle);
-      wrapper.find('.tenant-row-msg-icon').simulate('click');
+      const wrapper = tenantRow(tenantMock, listingMock);
+      wrapper.find('.tenant-row-button').simulate('click');
 
       expect(appProvidersMock.messagingProvider.getOrStartConversation).toHaveBeenCalledWith(
         {
-          id: tenant.dorbel_user_id,
-          name: tenant.first_name,
-          email: tenant.email,
+          id: tenantMock.dorbel_user_id,
+          name: tenantMock.first_name,
+          email: tenantMock.email,
           welcomeMessage: 'באפשרותך לשלוח הודעה לדיירים. במידה והם אינם מחוברים הודעתך תישלח אליהם למייל.'
         },
         {
-          topicId: tenant.listing_id,
-          subject: listingTitle
+          topicId: listingMock.id,
+          subject: utils.getListingTitle(listingMock)
         }
       );
     });

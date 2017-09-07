@@ -112,7 +112,7 @@ describe('Front Gateway API Integration', function () {
     });
 
     it('should render new apartment form urls with own url', function* () {
-      yield assertUrls('/properties/submit');
+      yield assertUrls('/properties/submit/publish');
     });
 
     it('should render property urls', function* () {

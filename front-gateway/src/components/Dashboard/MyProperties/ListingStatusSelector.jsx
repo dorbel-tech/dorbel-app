@@ -17,61 +17,29 @@ class ListingStatusSelector extends React.Component {
     autobind(this);
   }
 
-  getListingActiveEvents() {
-    const { listing, appStore } = this.props;
-    const openHouseEvents = appStore.oheStore.oheByListingId(listing.id);
-    let listingHasActiveEvents = false;
-
-    if (openHouseEvents) {
-      listingHasActiveEvents = openHouseEvents.some(event => ['inactive', 'expired'].indexOf(event.status) == -1);
-    }
-
-    return listingHasActiveEvents;
-  }
-
   changeStatus(newStatus) {
     const { listing, appProviders } = this.props;
-    const listingHasActiveEvents = this.getListingActiveEvents();
 
     let confirmation = Promise.resolve(true);
 
     if (newStatus === 'republish') {
       return appProviders.listingsProvider.republish(listing);
-    } else if (newStatus === 'rented' && listingHasActiveEvents) {
-      confirmation = appProviders.modalProvider.showConfirmationModal({
-        title: 'סימון הדירה כמושכרת',
-        heading: 'השכרתם את הדירה? בשעה טובה!',
-        body: <p>שימו לב - למועדה זו מועדי ביקור פעילים. סימון הדירה כמושכרת יבטל את מועדי הביקור וישלח על כך עדכון לדיירים הרשומים, במידה וישנם.</p>,
-        confirmButton: 'הדירה הושכרה',
-        confirmStyle: 'primary'
-      });
-    } else if (newStatus === 'unlisted' && listingHasActiveEvents) {
-      confirmation = appProviders.modalProvider.showConfirmationModal({
-        title: 'הפסקת פרסום המודעה',
-        heading: 'ברצונכם לעצור את פרסום המודעה?',
-        body: <p>שימו לב - למועדה זו מועדי ביקור פעילים. השהיית המודעה תבטל את מועדי הביקור הקיימים ותשלח על כך עדכון לדיירים הרשומים, במידה וישנם.</p>,
-        confirmButton: 'השהה מודעה'
-      });
     }
-
-    confirmation.then(choice => {
-      if (choice) {
-        return appProviders.listingsProvider.updateListingStatus(listing.id, newStatus)
-          .then(() => {
-            appProviders.notificationProvider.success('סטטוס הדירה עודכן בהצלחה');
-            this.postStatusChange(newStatus);
-          });
-      }
-    }).catch((err) => this.props.appProviders.notificationProvider.error(err));
+    else {
+      return appProviders.listingsProvider.updateListingStatus(listing.id, newStatus)
+        .then(() => {
+          appProviders.notificationProvider.success('סטטוס הדירה עודכן בהצלחה');
+          this.postStatusChange(newStatus);
+        })
+        .catch((err) => this.props.appProviders.notificationProvider.error(err));
+    }
   }
 
   postStatusChangeAction(rentLeadBy) {
     const { listing, appProviders } = this.props;
 
     appProviders.listingsProvider.updateListing(listing.id, { rent_lead_by: rentLeadBy });
-
     appProviders.modalProvider.close();
-    appProviders.navProvider.setRoute(getDashMyPropsPath(listing, '/manage'));
   }
 
   postStatusChange(newStatus) {

@@ -48,9 +48,6 @@ describe('Filter', () => {
           search: jest.fn().mockReturnValue(Promise.resolve([])),
           resetActiveFilter: jest.fn(),
           saveFilter: jest.fn().mockReturnValue(Promise.resolve())
-        },
-        oheProvider: {
-          loadListingEvents: jest.fn()
         }
       }
     };

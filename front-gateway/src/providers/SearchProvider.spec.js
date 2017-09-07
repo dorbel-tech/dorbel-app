@@ -14,9 +14,6 @@ describe('SearchProvider', () => {
       api : {
         fetch: jest.fn().mockReturnValue(Promise.resolve(mockSearchResults)),
         mutate: jest.fn()
-      },
-      ohe : {
-        loadListingEvents: jest.fn()
       }
     };
 
@@ -43,13 +40,6 @@ describe('SearchProvider', () => {
   it('should resolve with search results', () => {
     return searchProvider.search()
       .then(results => expect(results).toBe(mockSearchResults));
-  });
-
-  it('should loadListingEvents with search results listing ids', () => {
-    return searchProvider.search()
-      .then(() => {
-        expect(appProvidersMock.ohe.loadListingEvents).toHaveBeenCalledWith(mockSearchResults.map(listing => listing.id));
-      });
   });
 
   it('should reset search store on new search', () => {

@@ -66,14 +66,6 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
                     bsStyle="info">
                     עריכת פרטי דירה
                   </Button>
-                  <Button
-                    href={`/dashboard/my-properties/${listingId}/ohe`}
-                    onClick={navProvider.handleHrefClick}
-                    className="upload-apartment-validation-popup-button"
-                    bsStyle="info">
-                    <i className="fa fa-plus" />&nbsp;
-                    הוספת מועד ביקור
-                  </Button>
                 </div>
               </div>
             ),
@@ -95,7 +87,7 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
                   נראה שהכנסתם פרטים של דירה שכבר קיימת בחשבונכם. לא ניתן להעלות שתי דירות זהות.
                   <div className="upload-apartment-validation-popup-button-wrapper">
                     <Button
-                      href={`/dashboard/new_form/${listingId}/edit`}
+                      href={`/dashboard/my-properties/${listingId}/edit`}
                       onClick={navProvider.handleHrefClick}
                       className="upload-apartment-validation-popup-button full-width"
                       bsStyle="info">

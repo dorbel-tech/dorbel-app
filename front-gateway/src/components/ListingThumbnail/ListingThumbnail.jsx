@@ -11,8 +11,6 @@ import { getPropertyPath, getDashMyPropsPath } from '~/routesHelper';
 
 import './ListingThumbnail.scss';
 
-const openOrRegistered = ohe => (['open', 'registered'].indexOf(ohe.status) > -1);
-
 @inject('appStore', 'appProviders') @observer
 class ListingThumbnail extends Component {
   constructor(props) {
@@ -21,40 +19,10 @@ class ListingThumbnail extends Component {
   }
 
   getListingUrl(listing) {
-    let dashPath;
-
-    switch(listing.status) {
-      case 'pending':
-        dashPath = '/ohe';
-        break;
-      case 'rented':
-      case 'unlisted':
-        dashPath = '/manage';
-        break;
-      default:
-        dashPath = '/stats';
-        break;
-    }
-
     if (this.props.isMyProperties) {
-      return getDashMyPropsPath(listing, dashPath);
+      return getDashMyPropsPath(listing);
     } else {
       return getPropertyPath(listing);
-    }
-  }
-
-  getOheLabel() {
-    const { listing, appStore }  = this.props;
-
-    if (appStore.oheStore.isListingLoaded(listing.id)) {
-      const oheCount = appStore.oheStore.oheByListingId(listing.id).filter(openOrRegistered).length;
-      if (oheCount) {
-        return <span className="pull-left apt-thumb-ohe-text">{oheCount} מועדי ביקור זמינים</span>;
-      } else {
-        return <span className="pull-left apt-thumb-no-ohe">אין מועדי ביקור</span>;
-      }
-    } else {
-      return null;
     }
   }
 
@@ -118,10 +86,6 @@ class ListingThumbnail extends Component {
             <span className="apt-thumb-sub-text apt-thumb-warning-sub-text">{listingMrTitle}</span>
             {listing.monthly_rent}
             <span className="apt-thumb-sub-text"> ₪</span>
-            <div className="apt-thumb-details-like">
-              <LikeButton apartmentId={listing.apartment_id} listingId={listing.id} showText/>
-            </div>
-            { isRented ? null : this.getOheLabel() }
           </div>
         </NavLink>
       </Col>
