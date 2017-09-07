@@ -1,6 +1,18 @@
 @import '../sharedStyles/variables.scss';
 @import "../sharedStyles/bsvars.scss";
 
+.modal-container {
+  padding: 0 40px;
+
+  .modal-text {
+    padding-bottom: 30px;
+
+    ol {
+      margin-right: -24px;
+    }
+  }
+}
+
 .upload-apt-wrapper {
   background-color: $gray-lighter;
   height: 100%;
