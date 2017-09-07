@@ -64,22 +64,20 @@ class PropertyStats extends Component {
                 {this.renderInterests(interests, views)}
               </Col>
               <Col lg={3} md={4} sm={5}>
-                {hasInterests &&
-                  <div className="property-stats-container">
-                    <div>
-                      <span className="property-stats-share-title">
-                        שתפו את מודעת הדירה
-                      </span>
-                      <i className="fa fa-info-circle property-stats-share-help" aria-hidden="true"
-                        data-tip="שתפו את מודעת הדירה במייל,<br />בפייסבוק או בוואצאפ או שלחו לינק<br />לדיירים שפנו אליכם בטלפון. כך<br />תקבלו את כל המידע שחשוב לדעת על<br />הדיירים לפני שתצרו איתם קשר"></i>
-                      <ReactTooltip type="dark" effect="solid" place="bottom" offset={tipOffset} multiline />
-                    </div>
-                    <div className="property-stats-share-sub-title">
-                      צפיות במודעה: {views}
-                    </div>
-                    <ListingSocial listing={listing} />
+                <div className="property-stats-container">
+                  <div>
+                    <span className="property-stats-share-title">
+                      שתפו את מודעת הדירה
+                    </span>
+                    <i className="fa fa-info-circle property-stats-share-help" aria-hidden="true"
+                      data-tip="שתפו את מודעת הדירה במייל,<br />בפייסבוק או בוואצאפ או שלחו לינק<br />לדיירים שפנו אליכם בטלפון. כך<br />תקבלו את כל המידע שחשוב לדעת על<br />הדיירים לפני שתצרו איתם קשר"></i>
+                    <ReactTooltip type="dark" effect="solid" place="bottom" offset={tipOffset} multiline />
                   </div>
-                }
+                  <div className="property-stats-share-sub-title">
+                    צפיות במודעה: {views}
+                  </div>
+                  <ListingSocial listing={listing} />
+                </div>
                 <div className="property-stats-container">
                   <div className="property-stats-process-title">
                   תהליך ההשכרה
@@ -208,25 +206,9 @@ class PropertyStats extends Component {
             'לחצו על שם הדייר על מנת לראות את כל המידע עליו'
           }
         </div>
-        {interests.length === 0 &&
-          <div className="property-stats-container">
-            <div className="property-stats-share-title">
-              לקבלת דיירים מתעניינים-  שתפו את הלינק או שלחו אותו לדיירים שפנו אליכם
-            </div>
-            <ListingSocial listing={listing} />
-            <div className="property-stats-views">
-              <div>
-                צפיות<br/>במודעה
-              </div>
-              <div className="property-stats-views-value">
-                {views || 0}
-              </div>
-            </div>
-          </div>
-        }
         <ListGroup>
           { shownInterests.map(tenant => (
-            <ListGroupItem key={tenant.id} disabled={tenant.disabled} className="property-manage-list-group-item">
+            <ListGroupItem key={tenant.id} disabled={tenant.disabled} className="property-stats-list-group-item">
               <TenantRow tenant={tenant.user_details || tenant} listing={listing} />
             </ListGroupItem>
           )) }

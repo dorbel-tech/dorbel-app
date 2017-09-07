@@ -140,6 +140,12 @@ $active-color: #3398db;
   padding: 15px;
 }
 
+.property-stats-list-group-item {
+  background-color: $brand-white !important;
+  border: 0;
+  margin: 0 0 4px;
+}
+
 .property-stats-process-title {
   color: $gray-dark;
   font-size: 15px;
