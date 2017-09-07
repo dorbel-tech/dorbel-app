@@ -28,13 +28,17 @@
 
 .share-listing-to-groups-copy-button {
   color: $brand-white;
-  background-color: $gray;
+  background-color: #4a4a4a;
 }
 
 .share-listing-to-groups-group-button {
   overflow-x: hidden;
   text-align: right;
   text-overflow: ellipsis;
+
+  .share-listng-group-icon {
+    margin-top: -6px;
+  }
 }
 
 .share-listing-to-groups-group-name {
