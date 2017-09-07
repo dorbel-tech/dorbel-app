@@ -55,18 +55,64 @@ class PropertyStats extends Component {
     }
   }
 
-  renderListedStats() {
+  renderLikedUsers(interests, views) {
+    const { listing } = this.props;
+
+    if (!interests) {
+      return <LoadingSpinner />;
+    }
+
+    return (
+      <div className="property-stats-followers-container">
+        <div className="property-stats-followers-title">
+          רשימת הדיירים המתעניינים בדירה ({interests.length})
+        </div>
+        <div className="property-stats-value-title">
+          {interests.length === 0 ?
+            'ברשימה למטה יופיעו הדיירים המעוניינים בדירה עם כל המידע עליהם'
+          :
+            'לחצו על שם הדייר על מנת לראות את כל המידע עליו'
+          }
+        </div>
+        {interests.length === 0 &&
+          <div className="property-stats-container">
+            <div className="property-stats-share-title">
+              לקבלת דיירים מתעניינים-  שתפו את הלינק או שלחו אותו לדיירים שפנו אליכם
+            </div>
+            <ListingSocial listing={listing} />
+            <div className="property-stats-views">
+              <div>
+                צפיות<br/>במודעה
+              </div>
+              <div className="property-stats-views-value">
+                {views || 0}
+              </div>
+            </div>
+          </div>
+        }
+        <ListGroup>
+          { interests.map(like => (
+            <ListGroupItem key={like.id} disabled={like.disabled} className="property-manage-list-group-item">
+              <TenantRow tenant={like.user_details} listing={listing} />
+            </ListGroupItem>
+          )) }
+        </ListGroup>
+      </div>
+    );
+  }
+
+  render() {
     const { appStore, listing } = this.props;
     const listingId = listing.id;
 
     const listingCreatedAt = utils.formatDate(listing.created_at);
     const daysPassedSinceCratedAt = moment().diff(moment(listing.created_at), 'days');
-    const listingRented = listing.status === 'rented';
 
     const tipOffset = {left: 2};
     const interests = appStore.likeStore.likesByListingId.get(listingId);
     const hasInterests = interests && interests.length > 0;
     const views = appStore.listingStore.listingViewsById.get(listingId);
+    const isRented = listing.status == 'rented';
 
     return <Grid fluid className="property-stats">
             <Row>
@@ -117,7 +163,7 @@ class PropertyStats extends Component {
                       דיירים מתעניינים
                     </div>
                     <div className="property-stats-process-vr" />
-                    <div className="property-stats-process-point-empty">
+                    <div className={'property-stats-process-point-' + (isRented ? 'full' : 'empty')}>
                       הדירה הושכרה
                     </div>
                   </div>
@@ -125,129 +171,6 @@ class PropertyStats extends Component {
               </Col>
             </Row>
           </Grid>;
-  }
-
-  renderRentedStats() {
-    const { appStore, listing } = this.props;
-    const listingId = listing.id;
-    const views = appStore.listingStore.listingViewsById.get(listingId);
-    const leaseStats = utils.getListingLeaseStats(listing);
-    const tipOffset = {top: -7, left: 2};
-    const interests = appStore.likeStore.likesByListingId.get(listing.id);
-
-    return <Grid fluid className="property-stats">
-            <Row className="property-stats-rent-title">
-              <Col xs={12}>
-                מעקב אחר הנכס:
-              </Col>
-            </Row>
-            <Row>
-              <Col xs={12}>
-                <div>
-                  <div className="property-stats-number">{views || 0}</div>
-                  <div className="property-stats-empty"></div>
-                  <div className="property-stats-number">{interests ? interests.length : 0}</div>
-                </div>
-                <div>
-                  <div className="property-stats-bubble">
-                    <div className="property-stats-bubble-text">צפיות במודעה</div>
-                  </div>
-                  <div className="property-stats-empty"></div>
-                  <div className="property-stats-bubble">
-                    <div className="property-stats-bubble-text">לייקים</div>
-                  </div>
-                </div>
-              </Col>
-            </Row>
-            <Row className="property-stats-listing-stats text-center property-stats-padding-top">
-              <Col xs={6} md={5} lg={4}>
-                <div className="property-stats-card">
-                  <div className="property-stats-number">{leaseStats.leaseStart}</div>
-                  <div className="property-stats-title">ההשכרה האחרונה</div>
-                </div>
-              </Col>
-              <Col xs={6} md={5} lg={4}>
-                <div className="property-stats-card">
-                  <div className="property-stats-number">{leaseStats.daysPassedLabel}</div>
-                  <div className="property-stats-title">ימים עברו</div>
-                </div>
-              </Col>
-            </Row>
-           </Grid>;
-  }
-
-  updateFutureBooking(event) {
-    const { listing, appProviders } = this.props;
-    const allowFutureBooking = event.target.checked;
-    const data = { show_for_future_booking: allowFutureBooking };
-    const notificationProvider = this.props.appProviders.notificationProvider;
-
-    // A check for at least one image and if no images,
-    // send notification to user and do not allow future booking.
-    if (allowFutureBooking && listing.images && listing.images.length < 1) {
-      const err = { response: { data: 'אין באפשרותכם לאפשר את אופציה זו עד שתוסיפו לפחות תמונה אחת לנכס.' }};
-      notificationProvider.error(err);
-      return;
-    }
-
-    appProviders.listingsProvider.updateListing(listing.id, data);
-    notificationProvider.success('עודכן בהצלחה. ');
-  }
-
-  renderLikedUsers(interests, views) {
-    const { listing } = this.props;
-
-    if (!interests) {
-      return <LoadingSpinner />;
-    }
-
-    return (
-      <div className="property-stats-followers-container">
-        <div className="property-stats-followers-title">
-          רשימת הדיירים המתעניינים בדירה ({interests.length})
-        </div>
-        <div className="property-stats-value-title">
-          {interests.length === 0 ?
-            'ברשימה למטה יופיעו הדיירים המעוניינים בדירה עם כל המידע עליהם'
-          :
-            'לחצו על שם הדייר על מנת לראות את כל המידע עליו'
-          }
-        </div>
-        {interests.length === 0 &&
-          <div className="property-stats-container">
-            <div className="property-stats-share-title">
-              לקבלת דיירים מתעניינים-  שתפו את הלינק או שלחו אותו לדיירים שפנו אליכם
-            </div>
-            <ListingSocial listing={listing} />
-            <div className="property-stats-views">
-              <div>
-                צפיות<br/>במודעה
-              </div>
-              <div className="property-stats-views-value">
-                {views || 0}
-              </div>
-            </div>
-          </div>
-        }
-        <ListGroup>
-          { interests.map(like => (
-            <ListGroupItem key={like.id} disabled={like.disabled} className="property-manage-list-group-item">
-              <TenantRow tenant={like.user_details} listing={listing} />
-            </ListGroupItem>
-          )) }
-        </ListGroup>
-      </div>
-    );
-  }
-
-  render() {
-    const { listing } = this.props;
-    const listingPendingOrListed = (listing.status === 'pending' || listing.status === 'listed');
-
-    return listingPendingOrListed ?
-        this.renderListedStats()
-      :
-        this.renderRentedStats();
   }
 }
 
