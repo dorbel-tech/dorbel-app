@@ -136,10 +136,8 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
         <div className="upload-apt-right-container-text-container">
           <h1>תמונות של הדירה</h1>
           <ul>
-            <li>וודאו שהחדר מסודר</li>
-            <li>השתדלו לצלם כל חדר לרוחב ומ-2 זויות</li>
-            <li>תמונות טובות יחסכו לכם שאלות מיותרות</li>
-            <li>ניתן לגרור או לבחור כמה תמונות</li>
+            <li>תמונות טובות זה ממש חשוב כדי שדיירים יבינו איך נראית הדירה</li>
+            <li>תמונות שישקפו את הדירה היטב ימשכו יותר דיירים רציניים</li>
           </ul>
         </div>
       );
