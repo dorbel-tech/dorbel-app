@@ -32,6 +32,26 @@ module.exports = {
           selector: '.like-button-text'
         }
       }
+    },
+    profileEditModal: {
+      selector: '.modal-dialog',
+      elements: {
+        title: {
+          selector: '.modal-header > h4'
+        },
+        workplace: {
+          selector: 'input[name="tenant_profile.workplace"]'
+        },
+        position: {
+          selector: 'input[name="tenant_profile.position"]'
+        },
+        about: {
+          selector: 'input[name="tenant_profile.about_you"]'
+        },
+        sendButton: {
+          selector: '.tenant-profile-edit-button'
+        }
+      }
     }
   },
   commands: [{
@@ -43,6 +63,15 @@ module.exports = {
     clickLikeButton: function() {
       this.section.like.waitForElementVisible('@text');
       return this.section.like.click('@button');
+    },
+    fillAndSubmitProfile: function() {
+      const randomProfile = common.getRandomProfile();
+      this.section.profileEditModal
+        .waitForElementVisible('@workplace')
+        .setValue('@workplace', randomProfile.workplace)
+        .setValue('@position', randomProfile.position)
+        .setValue('@about', randomProfile.about);
+      return this.section.profileEditModal.click('@sendButton');
     },
     validateSuccessNotificationVisible: function() {
       this.waitForElementVisible('@notification');

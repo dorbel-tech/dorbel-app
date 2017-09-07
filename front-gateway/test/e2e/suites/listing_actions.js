@@ -52,6 +52,12 @@ module.exports = {
     listing.navigateToListingPage(listing.url(listingId));
     common.waitForText(listing.section.like, '@text', 'אני מעוניין/ת בדירה');
     listing.clickLikeButton();
+
+    browser.pause(500);
+    listing.expect.section('@profileEditModal').to.be.present;
+    common.waitForText(listing.section.profileEditModal, '@title', 'עזרו לבעל הדירה להכיר אתכם - פרטים בסיסיים');
+    listing.fillAndSubmitProfile();
+
     listing.validateSuccessNotificationVisible();
     common.waitForText(listing, '@notification', 'הדירה נשמרה בהצלחה לרשימת הדירות שאתם מעוניינים');
     browser.end();
