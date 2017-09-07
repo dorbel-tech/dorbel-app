@@ -135,6 +135,7 @@ $active-color: #3398db;
 
 .property-stats-container {
   background-color: $brand-white;
+  border-radius: 4px;
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.05);
   margin-bottom: 15px;
   padding: 15px;
@@ -236,6 +237,10 @@ $active-color: #3398db;
   @media (max-width: $screen-sm-max) {
     font-size: 20px;
   }
+}
+
+.property-stats-share-container {
+  margin-top: 65px;
 }
 
 .property-stats-share-title {

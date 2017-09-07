@@ -64,14 +64,14 @@ class PropertyStats extends Component {
                 {this.renderInterests(interests, views)}
               </Col>
               <Col lg={3} md={4} sm={5}>
-                <div className="property-stats-container">
+                <div className="property-stats-container property-stats-share-container">
                   <div>
                     <span className="property-stats-share-title">
                       שתפו את מודעת הדירה
                     </span>
                     <i className="fa fa-info-circle property-stats-share-help" aria-hidden="true"
-                      data-tip="שתפו את מודעת הדירה במייל,<br />בפייסבוק או בוואצאפ או שלחו לינק<br />לדיירים שפנו אליכם בטלפון. כך<br />תקבלו את כל המידע שחשוב לדעת על<br />הדיירים לפני שתצרו איתם קשר"></i>
-                    <ReactTooltip type="dark" effect="solid" place="bottom" offset={tipOffset} multiline />
+                      data-tip="למציאת דיירים - שתפו את הלינק<br />או שלחו אותו לדיירים שפנו אליכם"></i>
+                    <ReactTooltip type="dark" effect="solid" place="top" offset={tipOffset} multiline />
                   </div>
                   <div className="property-stats-share-sub-title">
                     צפיות במודעה: {views}
