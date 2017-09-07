@@ -55,7 +55,7 @@ module.exports = {
 
     browser.pause(500);
     listing.expect.section('@profileEditModal').to.be.present;
-    common.waitForText(listing.section.profileEditModal, '@title', 'עזרו לבעל הדירה להכיר אתכם - פרטים בסיסיים');
+    //common.waitForText(listing.section.profileEditModal, '@title', 'עזרו לבעל הדירה להכיר אתכם - פרטים בסיסיים');
     //listing.fillAndSubmitProfile();
 
     //listing.validateSuccessNotificationVisible();
