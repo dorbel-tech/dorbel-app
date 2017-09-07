@@ -120,7 +120,7 @@ class PropertyStats extends Component {
                     <ReactTooltip type="dark" effect="solid" place="top" offset={tipOffset} multiline />
                   </div>
                   <div className="property-stats-share-sub-title">
-                    צפיות במודעה: {views}
+                    צפיות במודעה: {views || 0}
                   </div>
                   <ListingSocial listing={listing} />
                 </div>
