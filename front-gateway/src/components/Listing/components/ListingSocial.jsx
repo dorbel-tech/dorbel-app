@@ -18,12 +18,29 @@ class ListingSocial extends React.Component {
 
     return (
       <div className="listing-social-share-container">
-        <textarea ref={(el) => { this.urlElement = el; }} defaultValue={currentUrl} />
-        <i className="listing-social-share-item fa fa-link" aria-hidden="true" onClick={this.urlToClipboard} />
-        <a className="listing-social-share-item fa fa-facebook-f" href={'https://www.facebook.com/sharer/sharer.php?app_id=1651579398444396&kid_directed_site=0&sdk=joey&display=popup&ref=plugin&src=share_button&u=' + utils.getShareUrl(currentUrl, 'facebook_share')} target="_blank"></a>
-        <a className="listing-social-share-item whatsapp fa fa-whatsapp" href={'whatsapp://send?text=היי, ראיתי דירה באתר dorbel שאולי תעניין אותך. ' + utils.getShareUrl(currentUrl, 'whatsapp_share')} data-href={utils.getShareUrl(currentUrl, 'whatsapp_share')} data-text="היי, ראיתי דירה באתר dorbel שאולי תעניין אותך."></a>
+        <textarea ref={(el) => { this.urlElement = el; }} defaultValue={utils.getShareUrl(currentUrl, 'custom_share', false)} />
+        <i className="listing-social-share-item fa fa-link" title="העתק לינק" onClick={this.urlToClipboard} />
+        <a className="listing-social-share-item fa fa-facebook-f"  title="שתף מודעה בפייסבוק" onClick={() => this.shareTo('facebook', currentUrl)}></a>
+        <a className="listing-social-share-item whatsapp fa fa-whatsapp" onClick={() => this.shareTo('whatsapp', currentUrl)}></a>
       </div>
     );
+  }
+
+  shareTo(socialNetwork, currentUrl) {
+    const { utils } = this.props.appProviders;
+    let shareUrl;
+
+    switch(socialNetwork) {
+      case 'facebook':
+        shareUrl = 'https://www.facebook.com/sharer/sharer.php?app_id=1651579398444396&kid_directed_site=0&sdk=joey&display=popup&ref=plugin&src=share_button&u=' + utils.getShareUrl(currentUrl, 'facebook_share');
+        break;
+      case 'whatsapp':
+        shareUrl = 'whatsapp://send?text=היי, ראיתי דירה באתר dorbel שאולי תעניין אותך. ' + utils.getShareUrl(currentUrl, 'whatsapp_share');
+        break;
+    }
+
+    window.open(shareUrl)
+    window.analytics.track('client_click_share_' + socialNetwork);
   }
 
   urlToClipboard(e) {
@@ -32,6 +49,7 @@ class ListingSocial extends React.Component {
     this.urlElement.select();
     document.execCommand('copy');
     notificationProvider.success('הקישור הועתק בהצלחה');
+    window.analytics.track('client_click_share_link_copy');
   }
 }
 
