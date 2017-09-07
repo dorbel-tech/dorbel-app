@@ -134,9 +134,14 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
       )
       :
       (
-        <p>
-          הנכם מועברים לחשבון החדש שלכם, בו תוכלו לנהל ולעקוב אחר נתוני הנכס.
-        </p>
+        <div className="modal-text">
+          <h4>מה עכשיו?</h4>
+          <ol>
+            <li>שתפו את הדירה או שלחו לינק לדיירים שפנו אליכם.</li>
+            <li>הדיירים שיתעניינו בדירה יפנו אליכם ויספרו על עצמם.</li>
+            <li>אתם תוכלו לראות את הפרופילים של הדיירים ולפנות לדייר שמתאים לכם.</li>
+          </ol>
+        </div>
       );
   }
 
@@ -168,14 +173,11 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
         <DorbelModal
           show={this.props.showSuccessModal}
           onClose={this.onCloseSuccessModal.bind(this)}
-          title="תהליך העלאת פרטי הדירה הושלם בהצלחה!"
+          title="פרטי הדירה שלכם עלו בהצלחה!"
           body={
-            <div className="text-center" {...createdListingIdAttr}>
+            <div className="modal-container" {...createdListingIdAttr}>
               {this.renderPopupBodyText(newListingStore)}
-              <p>
-                צוות dorbel
-              </p>
-              <p>
+              <p className="text-center">
                 <Button bsStyle="info" className="submit-success" onClick={this.onCloseSuccessModal.bind(this)}>קחו אותי לחשבון שלי</Button>
               </p>
             </div>

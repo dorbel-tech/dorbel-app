@@ -90,7 +90,7 @@ export default class ShareListingToGroupsModal extends React.Component {
           { this.groupLink('ApartmentsTelAviv', 'דירות להשכרה ריקות או שותפים בתל אביב', '59,000') }
           { this.groupLink('dirotTA', 'דירות שלמות ריקות בתל אביב', '57,000') }
           { this.groupLink('665278950172707', 'דירות מפה לאוזן תל אביב', '55,000') }
-          { this.groupLink('543976922383350', 'secret tel aviv דירות ת"א', '42,000') }
+          { this.groupLink('543976922383350', 'דירות ת"א secret tel aviv', '42,000') }
         </div>
         <div className="share-listing-to-groups-section share-listing-to-groups-section-3">
           <Button bsStyle="link" className="underline" onClick={() => this.closeModal(true)}>אל תציג שוב</Button>
