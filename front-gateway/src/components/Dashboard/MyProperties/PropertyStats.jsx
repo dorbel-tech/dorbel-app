@@ -51,7 +51,6 @@ class PropertyStats extends Component {
 
     const listingCreatedAt = utils.formatDate(listing.created_at);
     const daysPassedSinceCratedAt = moment().diff(moment(listing.created_at), 'days');
-    const listingRented = listing.status === 'rented';
 
     const tipOffset = {left: 2};
     const interests = appStore.likeStore.likesByListingId.get(listingId);
@@ -117,73 +116,6 @@ class PropertyStats extends Component {
           </Grid>;
   }
 
-  renderRentedStats() {
-    const { appStore, listing } = this.props;
-    const listingId = listing.id;
-    const views = appStore.listingStore.listingViewsById.get(listingId);
-    const leaseStats = utils.getListingLeaseStats(listing);
-    const tipOffset = {top: -7, left: 2};
-    const interests = appStore.likeStore.likesByListingId.get(listing.id);
-
-    return <Grid fluid className="property-stats">
-            <Row className="property-stats-rent-title">
-              <Col xs={12}>
-                מעקב אחר הנכס:
-              </Col>
-            </Row>
-            <Row>
-              <Col xs={12}>
-                <div>
-                  <div className="property-stats-number">{views || 0}</div>
-                  <div className="property-stats-empty"></div>
-                  <div className="property-stats-number">{interests ? interests.length : 0}</div>
-                </div>
-                <div>
-                  <div className="property-stats-bubble">
-                    <div className="property-stats-bubble-text">צפיות במודעה</div>
-                  </div>
-                  <div className="property-stats-empty"></div>
-                  <div className="property-stats-bubble">
-                    <div className="property-stats-bubble-text">לייקים</div>
-                  </div>
-                </div>
-              </Col>
-            </Row>
-            <Row className="property-stats-listing-stats text-center property-stats-padding-top">
-              <Col xs={6} md={5} lg={4}>
-                <div className="property-stats-card">
-                  <div className="property-stats-number">{leaseStats.leaseStart}</div>
-                  <div className="property-stats-title">ההשכרה האחרונה</div>
-                </div>
-              </Col>
-              <Col xs={6} md={5} lg={4}>
-                <div className="property-stats-card">
-                  <div className="property-stats-number">{leaseStats.daysPassedLabel}</div>
-                  <div className="property-stats-title">ימים עברו</div>
-                </div>
-              </Col>
-            </Row>
-           </Grid>;
-  }
-
-  updateFutureBooking(event) {
-    const { listing, appProviders } = this.props;
-    const allowFutureBooking = event.target.checked;
-    const data = { show_for_future_booking: allowFutureBooking };
-    const notificationProvider = this.props.appProviders.notificationProvider;
-
-    // A check for at least one image and if no images,
-    // send notification to user and do not allow future booking.
-    if (allowFutureBooking && listing.images && listing.images.length < 1) {
-      const err = { response: { data: 'אין באפשרותכם לאפשר את אופציה זו עד שתוסיפו לפחות תמונה אחת לנכס.' }};
-      notificationProvider.error(err);
-      return;
-    }
-
-    appProviders.listingsProvider.updateListing(listing.id, data);
-    notificationProvider.success('עודכן בהצלחה. ');
-  }
-
   renderLikedUsers(interests, views) {
     const { listing } = this.props;
 
@@ -225,7 +157,7 @@ class PropertyStats extends Component {
               <TenantRow tenant={like.user_details} listing={listing} />
             </ListGroupItem>
           )) }
-        </ListGroup>     
+        </ListGroup>
       </div>
     );
   }
@@ -234,10 +166,7 @@ class PropertyStats extends Component {
     const { listing } = this.props;
     const listingPendingOrListed = (listing.status === 'pending' || listing.status === 'listed');
 
-    return listingPendingOrListed ?
-        this.renderListedStats()
-      :
-        this.renderRentedStats();
+    return this.renderListedStats();
   }
 }
 
