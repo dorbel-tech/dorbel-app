@@ -3,11 +3,11 @@ import { inject, observer } from 'mobx-react';
 import { Col, Grid, Row, Checkbox, ListGroup, ListGroupItem } from 'react-bootstrap';
 import autobind from 'react-autobind';
 import moment from 'moment';
-
+import ReactTooltip from 'react-tooltip';
 import ListingSocial from '~/components/Listing/components/ListingSocial';
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
+import ShareListingToGroupsModal from '~/components/ShareListingToGroupsModal/ShareListingToGroupsModal';
 import NavLink from '~/components/NavLink';
-import ReactTooltip from 'react-tooltip';
 import TenantRow from '~/components/Tenants/TenantRow/TenantRow';
 import utils from '~/providers/utils';
 import { getDashMyPropsPath } from '~/routesHelper';
@@ -23,11 +23,21 @@ class PropertyStats extends Component {
 
   componentDidMount() {
     this.loadListingStats();
+    this.showShareToGroupsModal();
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.listing.id !== nextProps.listing.id) {
       this.loadListingStats(nextProps.listing);
+    }
+  }
+
+  showShareToGroupsModal() {
+    if (ShareListingToGroupsModal.shouldShow(this.props.listing)) {
+      this.props.appProviders.modalProvider.showInfoModal({
+        title: ShareListingToGroupsModal.title,
+        body: <ShareListingToGroupsModal listing={this.props.listing} />,
+      });
     }
   }
 
