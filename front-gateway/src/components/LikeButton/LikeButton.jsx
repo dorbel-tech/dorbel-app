@@ -61,18 +61,24 @@ class LikeButton extends Component {
   handleClick() {
     const { apartmentId, listingId, appStore, appProviders } = this.props;
     const { likeProvider, notificationProvider, authProvider } = appProviders;
+
+    window.analytics.track('client_click_interested_in_apartment');
+
     if (appStore.authStore.isLoggedIn) {
       const isLiked = likeProvider.get(apartmentId) || false;
       if (isLiked) {
         notificationProvider.success('כבר יצרתם קשר עם בעל דירה זה');
+        window.analytics.track('client_click_interested_in_apartment_already');
       }
       else {
         const { profile } = this.props.appStore.authStore;
+        window.analytics.track('client_click_interested_in_apartment_fill_tenant_profile');
         this.showEditProfileModalBeforeLiking(profile);
       }
     }
     else {
       authProvider.showLoginModal({ actionBeforeLogin: 'likeListing' });
+      window.analytics.track('client_click_interested_in_apartment_login');
     }
   }
 

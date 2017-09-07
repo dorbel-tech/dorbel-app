@@ -37,6 +37,7 @@ class PropertyStats extends Component {
       this.props.appProviders.modalProvider.showInfoModal({
         title: ShareListingToGroupsModal.title,
         body: <ShareListingToGroupsModal listing={this.props.listing} />,
+        modalSize: 'large'
       });
     }
   }
