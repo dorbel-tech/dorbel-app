@@ -28,9 +28,9 @@ function getTestUser(userType) {
 
 function getRandomProfile() {
   return {
-    workplace: faker.company.name(),
-    position: faker.job.title(),
-    about: faker.job.key_skill()};
+    workplace: faker.name.firstName(),
+    position: faker.name.lastName(),
+    about: faker.name.firstName()};
 }
 
 function getBaseUrl() {

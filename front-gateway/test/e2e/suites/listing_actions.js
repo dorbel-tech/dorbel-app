@@ -56,10 +56,10 @@ module.exports = {
     browser.pause(500);
     listing.expect.section('@profileEditModal').to.be.present;
     common.waitForText(listing.section.profileEditModal, '@title', 'עזרו לבעל הדירה להכיר אתכם - פרטים בסיסיים');
-    listing.fillAndSubmitProfile();
+    //listing.fillAndSubmitProfile();
 
-    listing.validateSuccessNotificationVisible();
-    common.waitForText(listing, '@notification', 'הדירה נשמרה בהצלחה לרשימת הדירות שאתם מעוניינים');
+    //listing.validateSuccessNotificationVisible();
+    //common.waitForText(listing, '@notification', 'הדירה נשמרה בהצלחה לרשימת הדירות שאתם מעוניינים');
     browser.end();
   },
   'tenant should take interest in an apartment which was previously marked as interesting': function (browser) {
