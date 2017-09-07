@@ -39,41 +39,4 @@ describe('Listings Provider', () => {
       expect(appStoreMock.listingStore.listingViewsById.set).toHaveBeenCalledWith(listingId, views);
     });
   });
-
-  describe('republish', () => {
-    it('should reset new listing store', () => {
-      listingsProvider.republish({});
-      expect(appStoreMock.newListingStore.reset).toHaveBeenCalled();
-    });
-
-    it('should send cloned property to new listing store', () => {
-      const listing = { apartment: { id: 7 } };
-      listingsProvider.republish(listing);
-      const listingSentToStore = appStoreMock.newListingStore.loadListing.mock.calls[0][0]; // first call first argument
-      expect(listingSentToStore).not.toBe(listing);
-      expect(listingSentToStore.apartment.id).toEqual(listing.apartment.id);
-    });
-
-    it('should use current lease_end + 1 day as new lease_start', () => {
-      const listing = { lease_end: '2010-01-01T00:00:00.000Z' };
-      listingsProvider.republish(listing);
-      const listingSentToStore = appStoreMock.newListingStore.loadListing.mock.calls[0][0]; // first call first argument
-      expect(listingSentToStore.lease_start).toBe('2010-01-02T00:00:00.000Z');
-    });
-
-    it('should route to new form', () => {
-      listingsProvider.republish({});
-      expect(navProviderMock.setRoute).toHaveBeenCalledWith('/properties/submit/republish');
-    });
-
-    it('should say rented listing is republishable', () => {
-      const listing = { status: 'rented', id: 7 };
-      appStoreMock.listingStore.listingsByApartmentId.get.mockReturnValue([ listing ]);
-      expect(listingsProvider.isRepublishable(listing)).toBe(true);
-    });
-
-    it('should say listed listing is not republishable', () => {
-      expect(listingsProvider.isRepublishable({ status: 'listed' })).toBe(false);
-    });
-  });
 });

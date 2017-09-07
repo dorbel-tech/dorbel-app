@@ -15,7 +15,8 @@ const APARTMENTS_UINQUE_CONSTRAINT_INDEX_NAME = 'apartments_index';
 
 const possibleStatusesByCurrentStatus = {
   unlisted: ['listed', 'rented'],
-  listed: ['unlisted', 'rented']
+  listed: ['unlisted', 'rented'],
+  rented: ['listed', 'unlisted']
 };
 
 const createdEventsByListingStatus = {
@@ -143,7 +144,7 @@ async function update(listingId, user, patch) {
     if (ex.name == 'SequelizeUniqueConstraintError' && ex.fields && ex.fields[APARTMENTS_UINQUE_CONSTRAINT_INDEX_NAME]) {
       throw new CustomError(409, 'דירה עם פרטים זהים כבר קיימת במערכת');
     }
-    else{
+    else {
       throw ex;
     }
   }
