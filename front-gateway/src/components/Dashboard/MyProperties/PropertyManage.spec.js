@@ -83,7 +83,7 @@ describe('Property Manage Page', () => {
     expect(listItems).toHaveLength(mockDocuments.length);
     listItems.forEach((listItem, index) => {
       expect(listItem.key()).toEqual(mockDocuments[index].id.toString());
-      expect(listItem.prop('disabled')).toBeUndefined();      
+      expect(listItem.prop('disabled')).toBeUndefined();
       expect(listItem.childAt(0).is(DocumentRow)).toBe(true);
       expect(listItem.childAt(0).prop('document')).toBe(mockDocuments[index]);
     });

@@ -62,7 +62,7 @@ module.exports = {
     //common.waitForText(listing, '@notification', 'הדירה נשמרה בהצלחה לרשימת הדירות שאתם מעוניינים');
     browser.end();
   },
-  'tenant should take interest in an apartment which was previously marked as interesting': function (browser) {
+  'tenant should be notified when taking interest in an already interesting apartment': function (browser) {
     login('tenant');
     listing.navigateToListingPage(listing.url(listingId));
     common.waitForText(listing.section.like, '@text', 'אני מעוניין/ת בדירה');
