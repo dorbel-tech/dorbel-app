@@ -69,7 +69,7 @@ module.exports = {
 
     browser.pause(500);
     apartmentForm.expect.section('@successModal').to.be.present;
-    common.waitForText(apartmentForm.section.successModal, '@successTitle', 'תהליך העלאת פרטי הדירה הושלם בהצלחה!');
+    common.waitForText(apartmentForm.section.successModal, '@successTitle', 'פרטי הדירה שלכם עלו בהצלחה!');
     browser.end();
   }
 };
@@ -84,7 +84,7 @@ function submitApartment(browser) {
 
   browser.pause(500);
   apartmentForm.expect.section('@successModal').to.be.present;
-  common.waitForText(apartmentForm.section.successModal, '@successTitle', 'תהליך העלאת פרטי הדירה הושלם בהצלחה!');
+  common.waitForText(apartmentForm.section.successModal, '@successTitle', 'פרטי הדירה שלכם עלו בהצלחה!');
   browser.end();
 }
 
