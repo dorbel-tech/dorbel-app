@@ -56,6 +56,7 @@ class PropertyStats extends Component {
     const interests = appStore.likeStore.likesByListingId.get(listingId);
     const hasInterests = interests && interests.length > 0;
     const views = appStore.listingStore.listingViewsById.get(listingId);
+    const isRented = listing.status == 'rented';
 
     return <Grid fluid className="property-stats">
             <Row>
@@ -106,7 +107,7 @@ class PropertyStats extends Component {
                       דיירים מתעניינים
                     </div>
                     <div className="property-stats-process-vr" />
-                    <div className="property-stats-process-point-empty">
+                    <div className={'property-stats-process-point-' + (isRented ? 'full' : 'empty')}>
                       הדירה הושכרה
                     </div>
                   </div>
