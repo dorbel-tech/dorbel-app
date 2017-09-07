@@ -3,6 +3,7 @@ import autobind from 'react-autobind';
 import { inject } from 'mobx-react';
 import { Grid, Row, Col, Button, Image } from 'react-bootstrap';
 import FormWrapper, { FRC } from '~/components/FormWrapper/FormWrapper';
+import { hideIntercom } from '~/providers/utils';
 
 import './TenantProfileEdit.scss';
 
@@ -11,6 +12,13 @@ export default class TenantProfileEdit extends React.Component {
   constructor(props) {
     super(props);
     autobind(this);
+  }
+
+  componentDidMount() {
+    hideIntercom(true);
+  }
+  componentWillUnmount() {
+    hideIntercom(false);
   }
 
   static title = (
