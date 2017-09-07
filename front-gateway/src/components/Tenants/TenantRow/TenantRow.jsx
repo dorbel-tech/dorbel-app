@@ -1,5 +1,6 @@
 import React from 'react';
 import autobind from 'react-autobind';
+import _ from 'lodash';
 import { inject } from 'mobx-react';
 import { Col, Row, Image, Dropdown, MenuItem } from 'react-bootstrap';
 import TenantProfile from '~/components/Tenants/TenantProfile/TenantProfile';
@@ -21,13 +22,12 @@ export default class TenantRow extends React.Component {
 
   static getEmptyTenantList() {
     // used as a placeholder for an empty list
-    return [
-      { id: 0, disabled: true, first_name: 'שם דייר נוכחי', picture: 'https://static.dorbel.com/images/icons/user-picture-placeholder.png' }
-    ];
+    return _.times(4, i => ({ id: i, disabled: true, first_name: 'שם הדייר', picture: 'https://static.dorbel.com/images/icons/user-picture-placeholder.png' }));
   }
 
   showTenantProfileModal() {
     const { tenant, listing } = this.props;
+
     if (tenant.disabled) { return; }
 
     window.analytics.track('client_click_tenant_profile', {
@@ -59,6 +59,9 @@ export default class TenantRow extends React.Component {
 
   removeTenant() {
     const { appProviders, tenant, listing } = this.props;
+
+    if (tenant.disabled) { return; }
+
     let confirmation = appProviders.modalProvider.showConfirmationModal({
       title: 'האם אתם בטוחים?',
       body: <p>לאחר שדייר הוסר מרשימת הדיירים, לא ניתן לבטל את הפעולה ולהחזיר את הדייר לרשימה.</p>,
