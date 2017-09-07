@@ -24,7 +24,7 @@ class ListingDescription extends React.Component {
   }
 
   renderLeaseStart(listing) {
-    if (listing.status === 'pending' || listing.status === 'listed') {
+    if (listing.status === 'listed') {
       return this.renderDescriptionRow('תאריך כניסה', <p>{formatDate(listing.lease_start)}</p>);
     } else {
       return this.renderDescriptionRow('תאריך כניסה צפוי', <p>{formatDate(listing.lease_end)}</p>);

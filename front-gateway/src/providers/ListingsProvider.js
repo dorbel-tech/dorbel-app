@@ -141,20 +141,6 @@ class ListingsProvider {
     });
   }
 
-  republish(property) {
-    const { newListingStore } = this.appStore;
-    const newListing = isObservableObject(property) ? toJS(property) : _.cloneDeep(property);
-    newListing.lease_start = moment(property.lease_end).add(1, 'day').toISOString();
-    newListing.lease_end = undefined;
-    newListingStore.reset();
-    newListingStore.loadListing(newListing);
-    this.navProvider.setRoute('/properties/submit/republish');
-  }
-
-  isRepublishable(listing) {
-    return (listing.status === 'rented') && this.isActiveListing(listing);
-  }
-
   isActiveListing(listing) {
     const { listingsByApartmentId } = this.appStore.listingStore;
     const listingHistory = listingsByApartmentId.get(listing.apartment_id);

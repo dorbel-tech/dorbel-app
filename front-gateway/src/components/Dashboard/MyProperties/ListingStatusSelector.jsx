@@ -22,18 +22,14 @@ class ListingStatusSelector extends React.Component {
 
     let confirmation = Promise.resolve(true);
 
-    if (newStatus === 'republish') {
-      return appProviders.listingsProvider.republish(listing);
-    }
-    else {
-      return appProviders.listingsProvider.updateListingStatus(listing.id, newStatus)
-        .then(() => {
-          appProviders.notificationProvider.success('סטטוס הדירה עודכן בהצלחה');
-          this.postStatusChange(newStatus);
-        })
-        .catch((err) => this.props.appProviders.notificationProvider.error(err));
-    }
+    return appProviders.listingsProvider.updateListingStatus(listing.id, newStatus)
+      .then(() => {
+        appProviders.notificationProvider.success('סטטוס הדירה עודכן בהצלחה');
+        this.postStatusChange(newStatus);
+      })
+      .catch((err) => this.props.appProviders.notificationProvider.error(err));
   }
+
 
   postStatusChangeAction(rentLeadBy) {
     const { listing, appProviders } = this.props;
@@ -63,14 +59,14 @@ class ListingStatusSelector extends React.Component {
 
   render() {
     const { listing, appProviders } = this.props;
+    
     const currentStatusLabel =
       listingStatusLabels[listing.status].landlordLabel || listingStatusLabels[listing.status].label;
 
     let options = _.get(listing, 'meta.possibleStatuses') || [];
-    options = options.filter(status => (status !== listing.status) && (listingStatusLabels[status].hasOwnProperty('actionLabel')));
-    if (appProviders.listingsProvider.isRepublishable(listing)) {
-      options = options.concat(['republish']);
-    }
+    options = options.filter(status => 
+      !!listingStatusLabels[status] && // TODO remove this line once 'pending' status is eliminated from server
+      (status !== listing.status) && (listingStatusLabels[status].hasOwnProperty('actionLabel')));
 
     return (
       <DropdownButton id="listing-status-selector" noCaret
