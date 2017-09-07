@@ -1,3 +1,5 @@
+@import "../../sharedStyles/variables.scss";
+
 .listing-social-share-container {
   display: inline-block;
 
@@ -22,7 +24,7 @@
     width: 40px;
 
     &.fa-link {
-      background-color: #4a4a4a;
+      background-color: $gray-button;
     }
 
     &.fa-facebook-f {
