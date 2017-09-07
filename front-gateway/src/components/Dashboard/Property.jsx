@@ -198,22 +198,21 @@ class Property extends Component {
                   </div>
                   <div className="property-status-desktop property-title-details-sub-text">
                     סטטוס:
-                    { (isActiveListing || appStore.authStore.isUserAdmin()) && <ListingStatusSelector listing={this.property} /> }
+                     <ListingStatusSelector listing={this.property} />
                   </div>
                 </Col>
                 <Col md={4} sm={3} className="property-actions-wrapper">
                   { activeTab.headerButtons || defaultHeaderButtons }
                 </Col>
               </Row>
-              { (isActiveListing || appStore.authStore.isUserAdmin()) &&
-                <Row className="property-top-container property-status-mobile">
-                  <Col sm={3} xs={4} className="property-status-label">
-                    סטטוס המודעה:
-                  </Col>
-                  <Col sm={9} xs={8} className="property-status-selector-container">
-                    <ListingStatusSelector listing={this.property} />
-                  </Col>
-                </Row> }
+              <Row className="property-top-container property-status-mobile">
+                <Col sm={3} xs={4} className="property-status-label">
+                  סטטוס המודעה:
+                </Col>
+                <Col sm={9} xs={8} className="property-status-selector-container">
+                  <ListingStatusSelector listing={this.property} />
+                </Col>
+              </Row>
               { activeTab.replaceNavbar ? activeTab.component :
                   <Row className="property-content-container">
                     {activeTab.component}
