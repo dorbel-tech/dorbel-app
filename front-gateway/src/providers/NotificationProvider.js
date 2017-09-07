@@ -11,9 +11,13 @@ export default class NotificationProvider {
 
   error(resp, options = {}) {
     let message = 'אופס, משהו השתבש. נסו שנית מאוחר יותר.';
-    if (resp.response && resp.response.data && _.isString(resp.response.data)) {
+    if(_.isString(resp)) {
+      message = resp;
+    } 
+    else if (resp.response && resp.response.data && _.isString(resp.response.data)) {
       message = resp.response.data;
     }
+
     const notification = this.createNotificationObj('error', message, options);
     this.notificationSystem.addNotification(notification);
   }
