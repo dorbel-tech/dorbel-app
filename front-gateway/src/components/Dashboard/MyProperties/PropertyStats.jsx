@@ -45,11 +45,16 @@ class PropertyStats extends Component {
     }
   }
 
-  renderLikedUsers(interests, views) {
+  renderInterests(interests, views) {
     const { listing } = this.props;
+    let shownInterests;
 
     if (!interests) {
       return <LoadingSpinner />;
+    } else if (interests.length === 0) {
+      shownInterests = TenantRow.getEmptyTenantList();
+    } else {
+      shownInterests = interests;
     }
 
     return (
@@ -64,26 +69,10 @@ class PropertyStats extends Component {
             'לחצו על שם הדייר על מנת לראות את כל המידע עליו'
           }
         </div>
-        {interests.length === 0 &&
-          <div className="property-stats-container">
-            <div className="property-stats-share-title">
-              לקבלת דיירים מתעניינים-  שתפו את הלינק או שלחו אותו לדיירים שפנו אליכם
-            </div>
-            <ListingSocial listing={listing} />
-            <div className="property-stats-views">
-              <div>
-                צפיות<br/>במודעה
-              </div>
-              <div className="property-stats-views-value">
-                {views || 0}
-              </div>
-            </div>
-          </div>
-        }
-        <ListGroup>
-          { interests.map(like => (
-            <ListGroupItem key={like.id} disabled={like.disabled} className="property-manage-list-group-item">
-              <TenantRow tenant={like.user_details} listing={listing} />
+        <ListGroup className={interests.length === 0 ? 'property-stats-list-group-disabled' : ''}>
+          { shownInterests.map(tenant => (
+            <ListGroupItem key={tenant.id} disabled={tenant.disabled} className="property-stats-list-group-item">
+              <TenantRow tenant={tenant.user_details || tenant} listing={listing} />
             </ListGroupItem>
           )) }
         </ListGroup>
@@ -147,7 +136,7 @@ class PropertyStats extends Component {
                       צפיות במודעה
                     </div>
                     <div className="property-stats-process-vr" />
-                    <div className={'property-stats-process-point-' + (hasInterests ? 'full' : 'empty')}>
+                    <div className={'property-stats-process-point-' + (isRented ? 'half' : (hasInterests ? 'full' : 'empty'))}>
                       דיירים מתעניינים
                     </div>
                     <div className="property-stats-process-vr" />
