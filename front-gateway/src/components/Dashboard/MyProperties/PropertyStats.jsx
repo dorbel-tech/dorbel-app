@@ -163,9 +163,6 @@ class PropertyStats extends Component {
   }
 
   render() {
-    const { listing } = this.props;
-    const listingPendingOrListed = (listing.status === 'pending' || listing.status === 'listed');
-
     return this.renderListedStats();
   }
 }
