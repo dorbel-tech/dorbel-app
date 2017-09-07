@@ -16,6 +16,15 @@ class LikeButton extends Component {
     autobind(this);
   }
 
+  componentDidMount() {
+    if (this.props.appStore.authStore.isLoggedIn) {
+      if (this.props.appStore.authStore.actionBeforeLogin == 'likeListing') {
+        this.props.appStore.authStore.actionBeforeLogin = undefined;
+        this.handleClick();
+      }
+    }
+  }
+
   toggleLiked(isLiked) {
     const { apartmentId, listingId, appProviders } = this.props;
     const { notificationProvider, modalProvider, navProvider, likeProvider } = appProviders;
@@ -63,7 +72,7 @@ class LikeButton extends Component {
       }
     }
     else {
-      authProvider.showLoginModal();
+      authProvider.showLoginModal({ actionBeforeLogin: 'likeListing' });
     }
   }
 
