@@ -6,7 +6,6 @@ import CloudinaryImage from '../CloudinaryImage/CloudinaryImage';
 import EditListing from './MyProperties/EditListing.jsx';
 import ListingStatusSelector from './MyProperties/ListingStatusSelector';
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
-import PropertyHistorySelector from './PropertyHistorySelector/PropertyHistorySelector';
 import PropertyManage from './MyProperties/PropertyManage';
 import PropertyStats from './MyProperties/PropertyStats';
 import utils from '~/providers/utils';
@@ -111,7 +110,6 @@ class Property extends Component {
     const propertyPath = getDashMyPropsPath(this.property, '/');
     const sortedPropertyImages = utils.sortListingImages(this.property);
     const imageURL = sortedPropertyImages[0].url;
-    const historySelector = <PropertyHistorySelector apartment_id={this.property.apartment_id} listing_id={this.property.id} />;
     const isActiveListing = appProviders.listingsProvider.isActiveListing(this.property);
     const imageClass = 'property-image' + (isActiveListing ? '' : ' property-image-inactive');
     const titleClass = 'property-title' + (isActiveListing ? '' : ' property-title-inactive');
@@ -151,9 +149,6 @@ class Property extends Component {
             {this.renderActionsMenu(isActiveListing)}
           </Overlay>
         </div>
-        <div className="property-history-selector">
-          {historySelector}
-        </div>
       </div>
     );
 
@@ -191,9 +186,6 @@ class Property extends Component {
                   <div className={titleClass}>
                     {utils.getListingTitle(this.property)}
                   </div>
-                  <div className="property-history-selector-mobile">
-                    { !activeTab.headerButtons && historySelector }
-                  </div>
                   <div className="property-title-details">
                     <div className="property-title-details-sub">
                       <span>{this.property.apartment.rooms}</span>
@@ -226,14 +218,6 @@ class Property extends Component {
                     <ListingStatusSelector listing={this.property} />
                   </Col>
                 </Row> }
-              { !activeTab.replaceNavbar &&
-                  <Tabs className="tab-menu" activeKey={activeTab}
-                        onSelect={(tab) => router.setRoute(propertyPath + tab.relativeRoute)} id="property-menu-tabs">
-                    {propertyTabs.filter(tab => !tab.hideFromMenu).map(tab =>
-                      <Tab eventKey={tab} key={tab.relativeRoute} title={tab.title}></Tab>
-                    )}
-                  </Tabs>
-              }
               { activeTab.replaceNavbar ? activeTab.component :
                   <Row className="property-content-container">
                     {activeTab.component}

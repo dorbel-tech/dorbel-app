@@ -33,19 +33,20 @@ describe.only('Tenant Row', () => {
 
   it('should show tenant first name and last name', () => {
     const wrapper = tenantRow(tenantMock, listingMock);
-    expect(wrapper.find('span').text()).toBe(`${tenantMock.first_name} ${tenantMock.last_name}`);
+    expect(wrapper.find('.tenant-row-profile span').text()).toBe(`${tenantMock.first_name} ${tenantMock.last_name}`);
   });
 
   it('should show tenant profile when clicking on row', () => {
     const wrapper = tenantRow(tenantMock, listingMock);
-    wrapper.find('Col').first().simulate('click');
+    global.window.analytics = { track: jest.fn() };
+    wrapper.find('.tenant-row-profile').first().simulate('click');
 
     expect(appProvidersMock.modalProvider.show.mock.calls[0][0].body.type).toBe(TenantProfile);
   });
 
   it('should show disabled tenant row', () => {
     const wrapper = tenantRow({ disabled: true }, listingMock);
-    wrapper.find('Col').first().simulate('click');
+    wrapper.find('.tenant-row-profile').first().simulate('click');
 
     expect(appProvidersMock.modalProvider.show).not.toHaveBeenCalled();
   });
@@ -67,7 +68,7 @@ describe.only('Tenant Row', () => {
       popupMock.destroy = jest.fn();
       utils.hideIntercom = jest.fn();
       const wrapper = tenantRow(tenantMock, listingMock);
-      wrapper.find('.tenant-row-msg-icon').simulate('click');
+      wrapper.find('.tenant-row-button').simulate('click');
 
       return utils.flushPromises().then(() => {
         wrapper.unmount();
@@ -79,7 +80,7 @@ describe.only('Tenant Row', () => {
 
     it('should call messagingProvider.getOrStartConversation', () => {
       const wrapper = tenantRow(tenantMock, listingMock);
-      wrapper.find('.tenant-row-msg-icon').simulate('click');
+      wrapper.find('.tenant-row-button').simulate('click');
 
       expect(appProvidersMock.messagingProvider.getOrStartConversation).toHaveBeenCalledWith(
         {

@@ -35,7 +35,7 @@ class TenantProfile extends Component {
       <Row className="tenant-profile-header">
         <Col xs={12}>
           <div className="tenant-profile-header-title">
-            פרופיל הדייר של {profile.first_name}
+            פרופיל הדייר
           </div>
           <div className="tenant-profile-header-content">
             <div className="tenant-profile-field">
@@ -55,15 +55,17 @@ class TenantProfile extends Component {
 
   renderOccupation(profile) {
     return (
-      <Row>
-        <Col xs={12}>
+      <Row className="tenant-profile-border-bottom">
+        <Col xs={6}>
+          <div className="tenant-profile-field">
+            <label>מקום עבודה</label>
+            <span>{profile.tenant_profile.work_place || emptyFieldText}</span>
+          </div>
+        </Col>
+        <Col xs={6}>
           <div className="tenant-profile-field">
             <label>תפקיד</label>
             <span>{profile.tenant_profile.position || emptyFieldText}</span>
-          </div>
-          <div className="tenant-profile-field border-bottom">
-            <label>מקום עבודה</label>
-            <span>{profile.tenant_profile.work_place || emptyFieldText}</span>
           </div>
         </Col>
       </Row>
@@ -72,9 +74,9 @@ class TenantProfile extends Component {
 
   renderAboutMe(profile) {
     return profile.tenant_profile.about_you ?
-      <Row>
+      <Row className="tenant-profile-border-bottom">
         <Col xs={12}>
-          <div className="tenant-profile-field border-bottom">
+          <div className="tenant-profile-field">
             <label>על עצמי</label>
             <span>{profile.tenant_profile.about_you}</span>
           </div>
@@ -86,26 +88,26 @@ class TenantProfile extends Component {
 
   renderSocial(profile) {
     return (
-      <Row>
+      <Row className="tenant-profile-border-bottom">
         <Col xs={12}>
-          <div className="tenant-profile-field border-bottom">
+          <div className="tenant-profile-field">
             <label>רשתות חברתיות</label>
             <div className="tenant-profile-social-links">
               <Button
                 href={profile.tenant_profile.linkedin_url}
                 title={this.props.isPreview ? 'אפשרו לבעל הדירה לדעת אם יש לכם מכרים משותפים' : ''}
-                className="tenant-profile-social-links-item"
+                className="tenant-profile-social-links-item linkedin"
                 disabled={!profile.tenant_profile.linkedin_url}
                 target="_blank">
-                פרופיל לינקדאין
+                <i className="fa fa-linkedin-square"></i> לינקדאין
               </Button>
               <Button
                 href={profile.tenant_profile.facebook_url}
                 title={this.props.isPreview ? 'אפשרו לבעל הדירה לדעת אם יש לכם חברים משותפים' : ''}
-                className="tenant-profile-social-links-item pull-left"
+                className="tenant-profile-social-links-item facebook"
                 disabled={!profile.tenant_profile.facebook_url}
                 target="_blank">
-                פרופיל פייסבוק
+                <i className="fa fa-facebook-square"></i> פייסבוק
               </Button>
             </div>
           </div>
@@ -120,34 +122,29 @@ class TenantProfile extends Component {
         <Col xs={12} className="tenant-profile-contact-details">
           <div className="tenant-profile-field">
             <label>יצירת קשר</label>
-            <div>
-              <div className="tenant-profile-contact-details-item">
-                <span className="tenant-profile-contact-details-item-title">טלפון</span>
-                {this.renderRevealContactDetailsButton('phone', 'הצג טלפון',
-                  <a className="pull-left" href={`tel:${profile.phone}`}>
-                    {profile.phone}
-                  </a>
-                )}
-              </div>
-              <div className="tenant-profile-contact-details-item">
-                <span className="tenant-profile-contact-details-item-title">דוא"ל</span>
-                {this.renderRevealContactDetailsButton('email', 'הצג כתובת דוא"ל',
-                  <a className="pull-left" href={`mailto:${profile.email}`}>
-                    {profile.email}
-                  </a>
-                )}
-              </div>
-              <div className="tenant-profile-contact-details-item">
-                <span className="tenant-profile-contact-details-item-title">צ'אט</span>
-                <Button className="chat" bsStyle="success" onClick={this.handleMsgClick}>
-                  <i className="fa fa-comments" />
-                  שלח הודעה
-                </Button>
-              </div>
+            <div className="tenant-profile-contact-details-item">
+              <Button className="chat" bsStyle="success" onClick={this.handleMsgClick}>
+                <i className="fa fa-comments" />
+                שלח הודעה
+              </Button>
+            </div>
+            <div className="tenant-profile-contact-details-item">
+              {this.renderRevealContactDetailsButton('email', 'הצג מייל',
+                <a href={`mailto:${profile.email}`}>
+                  {profile.email}
+                </a>
+              )}
+            </div>
+            <div className="tenant-profile-contact-details-item">
+              {this.renderRevealContactDetailsButton('phone', 'הצג טלפון',
+                <a href={`tel:${profile.phone}`}>
+                  {profile.phone}
+                </a>
+              )}
             </div>
           </div>
         </Col>
-      </Row >
+      </Row>
     );
   }
 
@@ -159,8 +156,8 @@ class TenantProfile extends Component {
           onClick={() => {
             if (!this.props.isPreview) {
               const { profile, listing } = this.props;
-              window.analytics.track(`landlord_clicked_tenant_contact_details`, {
-                detailsType: contactDetailsType,
+              const eventName = 'client_click_tenant_contact_' + contactDetailsType;
+              window.analytics.track(eventName, {
                 listingId: listing.id,
                 tenantUserId: profile.dorbel_user_id
               });
@@ -183,6 +180,12 @@ class TenantProfile extends Component {
         email: profile.email,
         welcomeMessage: 'באפשרותך לשלוח הודעה לדיירים. במידה והם אינם מחוברים הודעתך תישלח אליהם למייל.'
       };
+
+      window.analytics.track('client_click_tenant_contact_message', {
+        listingId: listing.id,
+        tenantUserId: profile.dorbel_user_id
+      });
+
       messagingProvider.getOrStartConversation(withUserObj, {
         topicId: listing.id,
         subject: getListingTitle(listing)
@@ -197,8 +200,8 @@ class TenantProfile extends Component {
       <Row className="tenant-profile">
         {this.renderHeader(profile)}
         {this.renderOccupation(profile)}
-        {this.renderAboutMe(profile)}
         {this.renderSocial(profile)}
+        {this.renderAboutMe(profile)}
         {this.renderContactDetails(profile)}
       </Row>
     );

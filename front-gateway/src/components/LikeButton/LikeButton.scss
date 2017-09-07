@@ -1,56 +1,57 @@
 @import "../sharedStyles/variables.scss";
 @import "../sharedStyles/bsvars.scss";
 
+.like-confirm-button {
+  height: 45px;
+  line-height: 32px;
+  margin: auto;
+
+  i {
+    padding: 5px;
+  }
+}
+
 .like-button {
+  background: $brand-success;
+  color: $brand-white;
+  border: 1px solid $brand-success;
+  border-radius: 2px;
+  display: inline-block;
+  font-size: 15px;
+  height: 45px;
+  line-height: 40px;
+
   &:hover {
-    color: #ea441a;
+    color: $brand-white;
+  }
+
+  &:focus {
+    color: $brand-white;
+  }
+
+  &:active {
+    color: $brand-white;
   }
 
   .fa {
-    &.fa-heart {
-      color: #ea441a;
-    }
-
-    &.fa-heart-o {
-      opacity: 0.7;
-    }
+    color: $brand-white;
+    font-size: 15px;
+    margin-top: 10px;
+    padding: 0 8px;
   }
 
   .like-button-text {
-    display: none;
+    vertical-align: middle;
+    display: inline-block;
+    font-weight: 600;
   }
 
-  &.like-button-with-text {
-    background: $brand-success;
-    color: $brand-white;
-    border: 1px solid $brand-success;
-    border-radius: 2px;
-    display: inline-block;
-    font-size: 15px;
-    height: 45px;
-    line-height: 40px;
+  &.liked {
+    background: $brand-white;
+    color: $brand-success;
 
     .fa {
-      color: $brand-white;
-      font-size: 15px;
-      margin-top: 10px;
-      padding: 0 8px;
-    }
-
-    .like-button-text {
-      vertical-align: middle;
-      display: inline-block;
-      font-weight: 600;
-    }
-
-    &.like-button-liked {
-      background: $brand-white;
       color: $brand-success;
-      border: none;
-
-      .fa {
-        color: $brand-success;
-      }
     }
   }
 }

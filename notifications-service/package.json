@@ -1,6 +1,6 @@
 {
   "name": "notifications-service",
-  "version": "1.1.18",
+  "version": "1.2.0",
   "description": "Worker to process notifications messages from SQS and dispatch using Email or SMS",
   "main": "src/index.js",
   "scripts": {

@@ -1,51 +1,79 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
+import { Button } from 'react-bootstrap';
+import autobind from 'react-autobind';
+import _ from 'lodash';
 
 import './LikeButton.scss';
+
+import TenantProfileEdit from '../Tenants/TenantProfile/TenantProfileEdit'
 
 @inject('appStore', 'appProviders') @observer
 class LikeButton extends Component {
 
-  handleClick(e) {
-    const { apartmentId, listingId, appStore, appProviders } = this.props;
+  constructor(props) {
+    super(props);
+    autobind(this);
+  }
 
-    e.stopPropagation();
-    e.preventDefault();
-
-    if (appStore.authStore.isLoggedIn) {
-      let wasLiked = appProviders.likeProvider.get(apartmentId);
-      appProviders.likeProvider.set(apartmentId, listingId, !wasLiked)
-      .then(() => {
-        const likeNotification = wasLiked ?
-          'הדירה הוסרה בהצלחה מרשימת הדירות שאהבתם' :
-          'הדירה נשמרה בהצלחה לרשימת הדירות שאהבתם';
-        appProviders.notificationProvider.success(likeNotification);
-      });
-
-      // Update listing.totalLikes if exists in listingStore
-      let listing = appStore.listingStore.get(listingId);
-      if (listing) {
-        listing.totalLikes = listing.totalLikes || 0;
-        listing.totalLikes = wasLiked ? listing.totalLikes - 1 : listing.totalLikes + 1;
-        appStore.listingStore.set(listing);
+  componentDidMount() {
+    if (this.props.appStore.authStore.isLoggedIn) {
+      if (this.props.appStore.authStore.actionBeforeLogin == 'likeListing') {
+        this.props.appStore.authStore.actionBeforeLogin = undefined;
+        this.handleClick();
       }
-    }
-    else {
-      appProviders.authProvider.showLoginModal();
     }
   }
 
-  getWrapperClass(showText, isLiked) {
-    let wrapperClass = 'like-button ';
-    if (showText) {
-      wrapperClass += 'like-button-with-text ';
-    }
+  toggleLiked(isLiked) {
+    const { apartmentId, listingId, appProviders } = this.props;
+    const { notificationProvider, modalProvider, navProvider, likeProvider } = appProviders;
+    likeProvider.set(apartmentId, listingId, isLiked)
+      .then(() => {
+        notificationProvider.success('הדירה נשמרה בהצלחה לרשימת הדירות שאתם מעוניינים');
+        modalProvider.showInfoModal({
+          title: 'בעל הדירה קיבל את פנייתך ויוכל לחזור אליך בהקדם',
+          body: (
+            <Button href={'/search'} onClick={navProvider.handleHrefClick} bsStyle="success" className="like-confirm-button">
+              <i className="fa fa-home" />
+              מדהים, הראו לי דירות נוספות
+            </Button>
+          )
+        })
+      });
+  }
 
-    if (isLiked) {
-      wrapperClass += 'like-button-liked';
-    }
+  isProfileFull(profile) {
+    const missingRequiredField = TenantProfileEdit.profileRequiredFields.find((fieldName) => { return _.isNil(_.get(profile, fieldName)); });
+    return _.isNil(missingRequiredField)
+  }
 
-    return wrapperClass;
+  showEditProfileModalBeforeLiking(profile) {
+    const { modalProvider } = this.props.appProviders;
+    return modalProvider.show({
+      title: TenantProfileEdit.title,
+      body: <TenantProfileEdit profile={profile} />,
+      modalSize: 'large',
+      closeHandler: (isOK) => { if (isOK) { this.toggleLiked(true) } }
+    })
+  }
+
+  handleClick() {
+    const { apartmentId, listingId, appStore, appProviders } = this.props;
+    const { likeProvider, notificationProvider, authProvider } = appProviders;
+    if (appStore.authStore.isLoggedIn) {
+      const isLiked = likeProvider.get(apartmentId) || false;
+      if (isLiked) {
+        notificationProvider.success('כבר יצרתם קשר עם בעל הדירה');
+      }
+      else {
+        const { profile } = this.props.appStore.authStore;
+        this.showEditProfileModalBeforeLiking(profile);
+      }
+    }
+    else {
+      authProvider.showLoginModal({ actionBeforeLogin: 'likeListing' });
+    }
   }
 
   render() {
@@ -56,9 +84,9 @@ class LikeButton extends Component {
     }
 
     return (
-      <a href="#" className={this.getWrapperClass(this.props.showText, isLiked)} onClick={this.handleClick.bind(this)}>
+      <a href="#" className={isLiked ? 'like-button liked' : 'like-button'} onClick={this.handleClick}>
         <div className="text-center">
-          <i className="fa fa-heart"/>
+          <i className="fa fa-heart" />
           <span className="like-button-text">אני מעוניין/ת בדירה</span>
         </div>
       </a>
@@ -71,7 +99,6 @@ LikeButton.wrappedComponent.propTypes = {
   appProviders: React.PropTypes.object.isRequired,
   apartmentId: React.PropTypes.number.isRequired,
   listingId: React.PropTypes.number.isRequired,
-  showText: React.PropTypes.bool
 };
 
 export default LikeButton;
