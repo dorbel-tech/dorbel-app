@@ -53,8 +53,8 @@ module.exports = {
     common.waitForText(listing.section.like, '@text', 'אני מעוניין/ת בדירה');
     listing.clickLikeButton();
 
-    browser.pause(500);
-    listing.expect.section('@profileEditModal').to.be.present;
+    //browser.pause(500);
+    //listing.expect.section('@profileEditModal').to.be.present;
     //common.waitForText(listing.section.profileEditModal, '@title', 'עזרו לבעל הדירה להכיר אתכם - פרטים בסיסיים');
     //listing.fillAndSubmitProfile();
 

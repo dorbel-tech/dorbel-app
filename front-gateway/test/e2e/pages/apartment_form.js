@@ -134,7 +134,7 @@ module.exports = {
           selector: '.modal-header > h4'
         },
         listingId: {
-          selector: '.modal-body .text-center'
+          selector: '.modal-body .modal-container'
         },
         okButton: {
           selector: '.submit-success'
