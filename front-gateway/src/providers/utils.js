@@ -136,9 +136,9 @@ function hideIntercom(bool) {
   }
 }
 
-function getShareUrl(currentUrl, utm_campaign) {
+function getShareUrl(currentUrl, utm_campaign, encodeUri = true) {
   const shareUrl = currentUrl + '?utm_source=app&utm_medium=share&utm_campaign=' + utm_campaign;
-  return encodeURIComponent(shareUrl);
+  return encodeUri ? encodeURIComponent(shareUrl) : shareUrl;
 }
 
 function asPromise(func) {

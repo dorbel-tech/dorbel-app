@@ -3,11 +3,11 @@ import { inject, observer } from 'mobx-react';
 import { Col, Grid, Row, Checkbox, ListGroup, ListGroupItem } from 'react-bootstrap';
 import autobind from 'react-autobind';
 import moment from 'moment';
-
+import ReactTooltip from 'react-tooltip';
 import ListingSocial from '~/components/Listing/components/ListingSocial';
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
+import ShareListingToGroupsModal from '~/components/ShareListingToGroupsModal/ShareListingToGroupsModal';
 import NavLink from '~/components/NavLink';
-import ReactTooltip from 'react-tooltip';
 import TenantRow from '~/components/Tenants/TenantRow/TenantRow';
 import utils from '~/providers/utils';
 import { getDashMyPropsPath } from '~/routesHelper';
@@ -23,11 +23,21 @@ class PropertyStats extends Component {
 
   componentDidMount() {
     this.loadListingStats();
+    this.showShareToGroupsModal();
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.listing.id !== nextProps.listing.id) {
       this.loadListingStats(nextProps.listing);
+    }
+  }
+
+  showShareToGroupsModal() {
+    if (ShareListingToGroupsModal.shouldShow(this.props.listing)) {
+      this.props.appProviders.modalProvider.showInfoModal({
+        title: ShareListingToGroupsModal.title,
+        body: <ShareListingToGroupsModal listing={this.props.listing} />,
+      });
     }
   }
 
@@ -45,11 +55,16 @@ class PropertyStats extends Component {
     }
   }
 
-  renderLikedUsers(interests, views) {
+  renderInterests(interests, views) {
     const { listing } = this.props;
+    let shownInterests;
 
     if (!interests) {
       return <LoadingSpinner />;
+    } else if (interests.length === 0) {
+      shownInterests = TenantRow.getEmptyTenantList();
+    } else {
+      shownInterests = interests;
     }
 
     return (
@@ -64,26 +79,10 @@ class PropertyStats extends Component {
             'לחצו על שם הדייר על מנת לראות את כל המידע עליו'
           }
         </div>
-        {interests.length === 0 &&
-          <div className="property-stats-container">
-            <div className="property-stats-share-title">
-              לקבלת דיירים מתעניינים-  שתפו את הלינק או שלחו אותו לדיירים שפנו אליכם
-            </div>
-            <ListingSocial listing={listing} />
-            <div className="property-stats-views">
-              <div>
-                צפיות<br/>במודעה
-              </div>
-              <div className="property-stats-views-value">
-                {views || 0}
-              </div>
-            </div>
-          </div>
-        }
-        <ListGroup>
-          { interests.map(like => (
-            <ListGroupItem key={like.id} disabled={like.disabled} className="property-manage-list-group-item">
-              <TenantRow tenant={like.user_details} listing={listing} />
+        <ListGroup className={interests.length === 0 ? 'property-stats-list-group-disabled' : ''}>
+          { shownInterests.map(tenant => (
+            <ListGroupItem key={tenant.id} disabled={tenant.disabled} className="property-stats-list-group-item">
+              <TenantRow tenant={tenant.user_details || tenant} listing={listing} />
             </ListGroupItem>
           )) }
         </ListGroup>
@@ -107,25 +106,23 @@ class PropertyStats extends Component {
     return <Grid fluid className="property-stats">
             <Row>
               <Col lg={9} md={8} sm={7}>
-                {this.renderLikedUsers(interests, views)}
+                {this.renderInterests(interests, views)}
               </Col>
               <Col lg={3} md={4} sm={5}>
-                {hasInterests &&
-                  <div className="property-stats-container">
-                    <div>
-                      <span className="property-stats-share-title">
-                        שתפו את מודעת הדירה
-                      </span>
-                      <i className="fa fa-info-circle property-stats-share-help" aria-hidden="true"
-                        data-tip="שתפו את מודעת הדירה במייל,<br />בפייסבוק או בוואצאפ או שלחו לינק<br />לדיירים שפנו אליכם בטלפון. כך<br />תקבלו את כל המידע שחשוב לדעת על<br />הדיירים לפני שתצרו איתם קשר"></i>
-                      <ReactTooltip type="dark" effect="solid" place="bottom" offset={tipOffset} multiline />
-                    </div>
-                    <div className="property-stats-share-sub-title">
-                      צפיות במודעה: {views}
-                    </div>
-                    <ListingSocial listing={listing} />
+                <div className="property-stats-container property-stats-share-container">
+                  <div>
+                    <span className="property-stats-share-title">
+                      שתפו את מודעת הדירה
+                    </span>
+                    <i className="fa fa-info-circle property-stats-share-help" aria-hidden="true"
+                      data-tip="למציאת דיירים - שתפו את הלינק<br />או שלחו אותו לדיירים שפנו אליכם"></i>
+                    <ReactTooltip type="dark" effect="solid" place="top" offset={tipOffset} multiline />
                   </div>
-                }
+                  <div className="property-stats-share-sub-title">
+                    צפיות במודעה: {views}
+                  </div>
+                  <ListingSocial listing={listing} />
+                </div>
                 <div className="property-stats-container">
                   <div className="property-stats-process-title">
                   תהליך ההשכרה
@@ -137,19 +134,19 @@ class PropertyStats extends Component {
                                 ימים שחלפו: {daysPassedSinceCratedAt}
                   </div>
                   <div className="property-stats-process-diagram">
-                    <div className="property-stats-process-point-full">
+                    <div className="property-stats-process-point-half">
                       יצירת מודעה
                     </div>
                     <div className="property-stats-process-vr" />
-                    <div className="property-stats-process-point-full">
+                    <div className="property-stats-process-point-half">
                       הוספת תמונות
                     </div>
                     <div className="property-stats-process-vr" />
-                    <div className="property-stats-process-point-full">
+                    <div className={'property-stats-process-point-' + (hasInterests ? 'half' : 'full')}>
                       צפיות במודעה
                     </div>
                     <div className="property-stats-process-vr" />
-                    <div className={'property-stats-process-point-' + (hasInterests ? 'full' : 'empty')}>
+                    <div className={'property-stats-process-point-' + (isRented ? 'half' : (hasInterests ? 'full' : 'empty'))}>
                       דיירים מתעניינים
                     </div>
                     <div className="property-stats-process-vr" />

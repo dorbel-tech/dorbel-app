@@ -19,8 +19,28 @@
   cursor: pointer;
   display: inline;
 
-  &:hover {
-    text-decoration: underline;
+  .tenant-row-text {
+    float: right;
+
+    .tenant-row-name {
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    .tenant-row-position {
+      color: #9b9b9b;
+    }
+  }
+
+  .tenant-row-image {
+    float: right;
+    margin-left: 15px;
+    width: 40px;
+
+    @media (max-width: $screen-xs-max) {
+      width: 30px;
+    }
   }
 }
 
@@ -62,14 +82,5 @@
 
   i {
     padding: 0 5px;
-  }
-}
-
-.tenant-row-image {
-  width: 40px;
-  margin-left: 15px;
-
-  @media (max-width: $screen-xs-max) {
-    width: 30px;
   }
 }

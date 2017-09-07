@@ -10,7 +10,10 @@ const tenantMock = {
   dorbel_user_id: faker.random.uuid(),
   first_name: faker.name.firstName(),
   last_name: faker.name.lastName(),
-  email: faker.internet.email()
+  email: faker.internet.email(),
+  tenant_profile: {
+    position: 'test'
+  }
 };
 const listingMock = {
   id: 1,
@@ -33,7 +36,7 @@ describe.only('Tenant Row', () => {
 
   it('should show tenant first name and last name', () => {
     const wrapper = tenantRow(tenantMock, listingMock);
-    expect(wrapper.find('.tenant-row-profile span').text()).toBe(`${tenantMock.first_name} ${tenantMock.last_name}`);
+    expect(wrapper.find('.tenant-row-profile .tenant-row-name').text()).toBe(`${tenantMock.first_name} ${tenantMock.last_name}`);
   });
 
   it('should show tenant profile when clicking on row', () => {
