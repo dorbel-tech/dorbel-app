@@ -73,7 +73,7 @@ class Property extends Component {
     this.setState({ showActionsMenu: false });
   }
 
-  renderActionsMenu(isActiveListing) {
+  renderActionsMenu() {
     return (
       <Popover onMouseEnter={this.showActionsMenu}
                onMouseLeave={this.hideActionsMenu}
@@ -83,12 +83,10 @@ class Property extends Component {
           <i className="property-actions-menu-item-icon fa fa-picture-o"></i>
           צפייה במודעה
         </div>
-        {isActiveListing &&
-          <div className="property-actions-menu-item" onClick={this.gotoEditProperty}>
-            <i className="property-actions-menu-item-icon fa fa-pencil-square-o" aria-hidden="true"></i>
-            עריכת המודעה
-          </div>
-        }
+        <div className="property-actions-menu-item" onClick={this.gotoEditProperty}>
+          <i className="property-actions-menu-item-icon fa fa-pencil-square-o" aria-hidden="true"></i>
+          עריכת המודעה
+        </div>
       </Popover>
     );
   }
@@ -123,14 +121,12 @@ class Property extends Component {
             צפייה במודעה
           </Button>
         </div>
-        {isActiveListing &&
-          <div className="property-actions-item-container">
-            <Button className="property-action-button property-edit-button"
-                    onClick={this.gotoEditProperty}>
-              עריכת המודעה
-            </Button>
-          </div>
-        }
+        <div className="property-actions-item-container">
+          <Button className="property-action-button property-edit-button"
+                  onClick={this.gotoEditProperty}>
+            עריכת המודעה
+          </Button>
+        </div>
         <div className="property-actions-menu-container">
           <Button className="property-action-button"
                   onMouseEnter={this.showActionsMenu}
@@ -146,7 +142,7 @@ class Property extends Component {
                    placement="bottom"
                    target={this.propertyActionMenuIcon}
                    rootClose>
-            {this.renderActionsMenu(isActiveListing)}
+            {this.renderActionsMenu()}
           </Overlay>
         </div>
       </div>
