@@ -84,7 +84,7 @@ export default class ShareListingToGroupsModal extends React.Component {
           </Button>
         </div>
         <div className="share-listing-to-groups-section share-listing-to-groups-section-2">
-          <b>2. שתפו אותו בקבוצות הבאות:</b><br/>
+          <b>2. שתפו אותו בקבוצות הפייסבוק הבאות:</b><br/>
           <span className="gray-mid-light-text">עליכם להיות חברים בקבוצות אלו כדי שתוכלו לפרסם בהם</span>
           { this.groupLink('35819517694', 'דירות מפה לאוזן בת"א', '136,000') }
           { this.groupLink('ApartmentsTelAviv', 'דירות להשכרה ריקות או שותפים בתל אביב', '59,000') }
