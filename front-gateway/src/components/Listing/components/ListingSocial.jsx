@@ -1,6 +1,7 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 import autobind from 'react-autobind';
+import Clipboard from 'clipboard';
 import routesHelper from '~/routesHelper';
 
 @inject('appStore', 'appProviders') @observer
@@ -8,6 +9,10 @@ class ListingSocial extends React.Component {
   constructor(props) {
     super(props);
     autobind(this);
+  }
+
+  componentDidMount() {
+    new Clipboard('.listing-social-copy-button').on('success', this.urlCopiedToClipboard);
   }
 
   render() {
@@ -18,8 +23,7 @@ class ListingSocial extends React.Component {
 
     return (
       <div className="listing-social-share-container">
-        <textarea ref={(el) => { this.urlElement = el; }} defaultValue={utils.getShareUrl(currentUrl, 'custom_share', false)} />
-        <i className="listing-social-share-item fa fa-link" title="העתק לינק" onClick={this.urlToClipboard} />
+        <i className="listing-social-share-item fa fa-link listing-social-copy-button" title="העתק לינק" data-clipboard-text={utils.getShareUrl(currentUrl, 'custom_share', false)} />
         <a className="listing-social-share-item fa fa-facebook-f"  title="שתף מודעה בפייסבוק" onClick={() => this.shareTo('facebook', currentUrl)}></a>
         <a className="listing-social-share-item whatsapp fa fa-whatsapp" onClick={() => this.shareTo('whatsapp', currentUrl)}></a>
       </div>
@@ -43,11 +47,8 @@ class ListingSocial extends React.Component {
     window.analytics.track('client_click_share_' + socialNetwork);
   }
 
-  urlToClipboard(e) {
+  urlCopiedToClipboard() {
     const { notificationProvider } = this.props.appProviders;
-
-    this.urlElement.select();
-    document.execCommand('copy');
     notificationProvider.success('הקישור הועתק בהצלחה');
     window.analytics.track('client_click_share_link_copy');
   }

@@ -37,11 +37,12 @@ describe('Property Manage Page', () => {
 
   const propertyManage = () => shallow(<PropertyManage.wrappedComponent appStore={appStoreMock} appProviders={appProvidersMock} listing={listingMock} />);
 
-  it('should render dummy tenants when there are no tenants', () => {
+  it('should render 4 dummy tenants when there are no tenants', () => {
     appStoreMock.listingStore.listingTenantsById.get.mockReturnValue([]);
     const wrapper = propertyManage();
     const tenantRows = wrapper.find(TenantRow);
     expect(tenantRows).toHaveLength(4);
+    tenantRows.forEach((tenantRow, i) => expect(tenantRow.prop('tenant')).toEqual(TenantRow.getEmptyTenantList()[i]));
   });
 
   it('should render a list of tenants', () => {
