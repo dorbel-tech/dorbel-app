@@ -41,7 +41,7 @@ describe('Property Manage Page', () => {
     appStoreMock.listingStore.listingTenantsById.get.mockReturnValue([]);
     const wrapper = propertyManage();
     const tenantRows = wrapper.find(TenantRow);
-    expect(tenantRows).toHaveLength(1);
+    expect(tenantRows).toHaveLength(4);
     expect(tenantRows.prop('tenant')).toEqual(TenantRow.getEmptyTenantList()[0]);
   });
 
