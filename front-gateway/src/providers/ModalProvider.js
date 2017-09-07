@@ -10,33 +10,22 @@ export default class ModalProvider {
 
   showConfirmationModal(params) {
     return new Promise((resolve) => {
-      const close = (choice) => {
-        resolve(choice);
-        this.appStore.showModal = false;
-      };
-
+      params.closeHandler = (choice) => resolve(choice);
       params.bodyClass = 'text-center';
-
       params.footer = (
         <div>
-          <Button onClick={() => close(true)} bsStyle={params.confirmStyle || 'danger'} block>{params.confirmButton || 'המשך'}</Button>
-          <Button onClick={() => close(false)} block>{params.cancelButton || 'ביטול'}</Button>
+          <Button onClick={() => this.close(true)} bsStyle={params.confirmStyle || 'danger'} block>{params.confirmButton || 'המשך'}</Button>
+          <Button onClick={() => this.close(false)} block>{params.cancelButton || 'ביטול'}</Button>
         </div>
       );
-
-      this.show(params, () => close(false));
+      this.show(params);
     });
   }
 
   showInfoModal(params) {
     return new Promise((resolve) => {
-      // expecting only one modal open each time so calling modalProvider.close() will close it
-      this.close = () => {
-        resolve(true);
-        this.appStore.showModal = false;
-      };
-
-      this.show(params, () => this.close());
+      params.closeHandler = () => resolve(true);
+      this.show(params);
     });
   }
 

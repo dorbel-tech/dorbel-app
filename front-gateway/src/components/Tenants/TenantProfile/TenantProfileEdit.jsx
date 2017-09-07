@@ -50,9 +50,11 @@ export default class TenantProfileEdit extends React.Component {
             window.analytics.track('client_click_interested_in_apartment_tenant_profile_submit');
             modalProvider.close(true);
           })
-          .catch(notificationProvider.error);
+          .catch(err => notificationProvider.error(err));
       }
-      else { modalProvider.close(true); }
+      else {
+        modalProvider.close(true);
+      }
     }
     else {
       formsy.submit(); // show validation errors

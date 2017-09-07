@@ -40,7 +40,8 @@ class LikeButton extends Component {
             </Button>
           )
         })
-      });
+      })
+      .catch(err => notificationProvider.error(err));
   }
 
   isProfileFull(profile) {
@@ -54,7 +55,7 @@ class LikeButton extends Component {
       title: TenantProfileEdit.title,
       body: <TenantProfileEdit profile={profile} />,
       modalSize: 'large',
-      closeHandler: (isOK) => { if (isOK) { this.toggleLiked(true) } }
+      closeHandler: (isOK) => { if (isOK) { this.toggleLiked(true); } }
     })
   }
 
