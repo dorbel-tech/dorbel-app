@@ -1,5 +1,6 @@
 import React from 'react';
 import autobind from 'react-autobind';
+import _ from 'lodash';
 import { inject } from 'mobx-react';
 import { Col, Row, Image, Dropdown, MenuItem } from 'react-bootstrap';
 import TenantProfile from '~/components/Tenants/TenantProfile/TenantProfile';
@@ -21,12 +22,7 @@ export default class TenantRow extends React.Component {
 
   static getEmptyTenantList() {
     // used as a placeholder for an empty list
-    return [
-      { id: 0, disabled: true, first_name: 'שם הדייר', picture: 'https://static.dorbel.com/images/icons/user-picture-placeholder.png' },
-      { id: 1, disabled: true, first_name: 'שם הדייר', picture: 'https://static.dorbel.com/images/icons/user-picture-placeholder.png' },
-      { id: 2, disabled: true, first_name: 'שם הדייר', picture: 'https://static.dorbel.com/images/icons/user-picture-placeholder.png' },
-      { id: 3, disabled: true, first_name: 'שם הדייר', picture: 'https://static.dorbel.com/images/icons/user-picture-placeholder.png' }
-    ];
+    return _.times(4, i => ({ id: i, disabled: true, first_name: 'שם הדייר', picture: 'https://static.dorbel.com/images/icons/user-picture-placeholder.png' }));
   }
 
   showTenantProfileModal() {
