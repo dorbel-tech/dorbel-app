@@ -61,7 +61,7 @@ class PropertyStats extends Component {
     return <Grid fluid className="property-stats">
             <Row>
               <Col lg={9} md={8} sm={7}>
-                {this.renderLikedUsers(interests, views)}
+                {this.renderInterests(interests, views)}
               </Col>
               <Col lg={3} md={4} sm={5}>
                 {hasInterests &&
@@ -91,15 +91,15 @@ class PropertyStats extends Component {
                                 ימים שחלפו: {daysPassedSinceCratedAt}
                   </div>
                   <div className="property-stats-process-diagram">
-                    <div className="property-stats-process-point-full">
+                    <div className="property-stats-process-point-half">
                       יצירת מודעה
                     </div>
                     <div className="property-stats-process-vr" />
-                    <div className="property-stats-process-point-full">
+                    <div className="property-stats-process-point-half">
                       הוספת תמונות
                     </div>
                     <div className="property-stats-process-vr" />
-                    <div className="property-stats-process-point-full">
+                    <div className={'property-stats-process-point-' + (hasInterests ? 'half' : 'full')}>
                       צפיות במודעה
                     </div>
                     <div className="property-stats-process-vr" />
@@ -184,11 +184,16 @@ class PropertyStats extends Component {
     notificationProvider.success('עודכן בהצלחה. ');
   }
 
-  renderLikedUsers(interests, views) {
+  renderInterests(interests, views) {
     const { listing } = this.props;
+    let shownInterests;
 
     if (!interests) {
       return <LoadingSpinner />;
+    } else if (interests.length === 0) {
+      shownInterests = TenantRow.getEmptyTenantList();
+    } else {
+      shownInterests = interests;
     }
 
     return (
@@ -220,9 +225,9 @@ class PropertyStats extends Component {
           </div>
         }
         <ListGroup>
-          { interests.map(like => (
-            <ListGroupItem key={like.id} disabled={like.disabled} className="property-manage-list-group-item">
-              <TenantRow tenant={like.user_details} listing={listing} />
+          { shownInterests.map(tenant => (
+            <ListGroupItem key={tenant.id} disabled={tenant.disabled} className="property-manage-list-group-item">
+              <TenantRow tenant={tenant.user_details || tenant} listing={listing} />
             </ListGroupItem>
           )) }
         </ListGroup>     

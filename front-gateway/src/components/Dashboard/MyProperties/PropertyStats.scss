@@ -156,6 +156,7 @@ $active-color: #3398db;
 }
 
 .property-stats-process-point-empty,
+.property-stats-process-point-half,
 .property-stats-process-point-full {
   font-size: 12px;
 
@@ -179,12 +180,17 @@ $active-color: #3398db;
   }
 }
 
+.property-stats-process-point-half,
 .property-stats-process-point-full {
   color: #3398db;
 
   &::before {
     background-color: #3398db;
   }
+}
+
+.property-stats-process-point-half {
+  opacity: 0.5;
 }
 
 .property-stats-process-vr {
