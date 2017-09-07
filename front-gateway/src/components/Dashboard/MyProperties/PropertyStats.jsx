@@ -45,7 +45,53 @@ class PropertyStats extends Component {
     }
   }
 
-  renderListedStats() {
+  renderLikedUsers(interests, views) {
+    const { listing } = this.props;
+
+    if (!interests) {
+      return <LoadingSpinner />;
+    }
+
+    return (
+      <div className="property-stats-followers-container">
+        <div className="property-stats-followers-title">
+          רשימת הדיירים המתעניינים בדירה ({interests.length})
+        </div>
+        <div className="property-stats-value-title">
+          {interests.length === 0 ?
+            'ברשימה למטה יופיעו הדיירים המעוניינים בדירה עם כל המידע עליהם'
+          :
+            'לחצו על שם הדייר על מנת לראות את כל המידע עליו'
+          }
+        </div>
+        {interests.length === 0 &&
+          <div className="property-stats-container">
+            <div className="property-stats-share-title">
+              לקבלת דיירים מתעניינים-  שתפו את הלינק או שלחו אותו לדיירים שפנו אליכם
+            </div>
+            <ListingSocial listing={listing} />
+            <div className="property-stats-views">
+              <div>
+                צפיות<br/>במודעה
+              </div>
+              <div className="property-stats-views-value">
+                {views || 0}
+              </div>
+            </div>
+          </div>
+        }
+        <ListGroup>
+          { interests.map(like => (
+            <ListGroupItem key={like.id} disabled={like.disabled} className="property-manage-list-group-item">
+              <TenantRow tenant={like.user_details} listing={listing} />
+            </ListGroupItem>
+          )) }
+        </ListGroup>
+      </div>
+    );
+  }
+
+  render() {
     const { appStore, listing } = this.props;
     const listingId = listing.id;
 
@@ -115,56 +161,6 @@ class PropertyStats extends Component {
               </Col>
             </Row>
           </Grid>;
-  }
-
-  renderLikedUsers(interests, views) {
-    const { listing } = this.props;
-
-    if (!interests) {
-      return <LoadingSpinner />;
-    }
-
-    return (
-      <div className="property-stats-followers-container">
-        <div className="property-stats-followers-title">
-          רשימת הדיירים המתעניינים בדירה ({interests.length})
-        </div>
-        <div className="property-stats-value-title">
-          {interests.length === 0 ?
-            'ברשימה למטה יופיעו הדיירים המעוניינים בדירה עם כל המידע עליהם'
-          :
-            'לחצו על שם הדייר על מנת לראות את כל המידע עליו'
-          }
-        </div>
-        {interests.length === 0 &&
-          <div className="property-stats-container">
-            <div className="property-stats-share-title">
-              לקבלת דיירים מתעניינים-  שתפו את הלינק או שלחו אותו לדיירים שפנו אליכם
-            </div>
-            <ListingSocial listing={listing} />
-            <div className="property-stats-views">
-              <div>
-                צפיות<br/>במודעה
-              </div>
-              <div className="property-stats-views-value">
-                {views || 0}
-              </div>
-            </div>
-          </div>
-        }
-        <ListGroup>
-          { interests.map(like => (
-            <ListGroupItem key={like.id} disabled={like.disabled} className="property-manage-list-group-item">
-              <TenantRow tenant={like.user_details} listing={listing} />
-            </ListGroupItem>
-          )) }
-        </ListGroup>
-      </div>
-    );
-  }
-
-  render() {
-    return this.renderListedStats();
   }
 }
 
