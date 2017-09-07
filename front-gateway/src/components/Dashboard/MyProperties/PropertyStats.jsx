@@ -206,7 +206,7 @@ class PropertyStats extends Component {
             'לחצו על שם הדייר על מנת לראות את כל המידע עליו'
           }
         </div>
-        <ListGroup>
+        <ListGroup className={interests.length === 0 ? 'property-stats-list-group-disabled' : ''}>
           { shownInterests.map(tenant => (
             <ListGroupItem key={tenant.id} disabled={tenant.disabled} className="property-stats-list-group-item">
               <TenantRow tenant={tenant.user_details || tenant} listing={listing} />

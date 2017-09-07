@@ -141,10 +141,33 @@ $active-color: #3398db;
   padding: 15px;
 }
 
+.property-stats-list-group-disabled {
+  position: relative;
+
+  &::after {
+    background: linear-gradient(0deg, $brand-white 25%, rgba(255,255,255,0));
+    bottom: 0;
+    content: ' ';
+    cursor: not-allowed;
+    left: 0;
+    opacity: 0.9;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+}
+
 .property-stats-list-group-item {
   background-color: $brand-white !important;
   border: 0;
   margin: 0 0 4px;
+
+  &.disabled {
+    .tenant-row-profile,
+    .tenant-row-remove i {
+      color: #cecece;
+    }
+  }
 }
 
 .property-stats-process-title {
