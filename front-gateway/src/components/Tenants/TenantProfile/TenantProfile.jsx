@@ -3,7 +3,6 @@ import { inject } from 'mobx-react';
 import autobind from 'react-autobind';
 import { Row, Col, Button, Image } from 'react-bootstrap';
 import { getUserNickname, getListingTitle, hideIntercom } from '~/providers/utils';
-
 import './TenantProfile.scss';
 
 const emptyFieldText = 'אין פירוט';
@@ -21,6 +20,10 @@ class TenantProfile extends Component {
       showPhone: false,
       showEmail: false
     }
+  }
+
+  componentDidMount() {
+    hideIntercom(true);
   }
 
   componentWillUnmount() {
