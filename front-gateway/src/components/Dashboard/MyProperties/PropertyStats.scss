@@ -145,7 +145,7 @@ $active-color: #3398db;
   position: relative;
 
   &::after {
-    background: linear-gradient(0deg, $brand-white 25%, rgba(255,255,255,0));
+    background: linear-gradient(0deg, $brand-white 25%, rgba(255, 255, 255, 0));
     bottom: 0;
     content: ' ';
     cursor: not-allowed;
