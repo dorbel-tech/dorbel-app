@@ -42,7 +42,7 @@ describe('Property Manage Page', () => {
     const wrapper = propertyManage();
     const tenantRows = wrapper.find(TenantRow);
     expect(tenantRows).toHaveLength(4);
-    expect(tenantRows.prop('tenant')).toEqual(TenantRow.getEmptyTenantList()[0]);
+    expect(tenantRows.first().prop('tenant')).toEqual(TenantRow.getEmptyTenantList()[0]);
   });
 
   it('should render a list of tenants', () => {
