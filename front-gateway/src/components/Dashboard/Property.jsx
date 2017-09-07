@@ -202,7 +202,7 @@ class Property extends Component {
                   </div>
                   <div className="property-status-desktop property-title-details-sub-text">
                     סטטוס:
-                     <ListingStatusSelector listing={this.property} />
+                    <ListingStatusSelector listing={this.property} />
                   </div>
                 </Col>
                 <Col md={4} sm={3} className="property-actions-wrapper">
