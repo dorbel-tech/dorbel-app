@@ -46,7 +46,10 @@ export default class TenantProfileEdit extends React.Component {
       };
       if (formsy.isChanged()) {
         return this.props.appProviders.authProvider.updateUserProfile(profile)
-          .then(() => { modalProvider.close(true); })
+          .then(() => {
+            window.analytics.track('client_click_interested_in_apartment_tenant_profile_submit');
+            modalProvider.close(true);
+          })
           .catch(notificationProvider.error);
       }
       else { modalProvider.close(true); }
