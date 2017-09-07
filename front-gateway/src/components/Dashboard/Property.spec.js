@@ -65,31 +65,31 @@ describe('Property', () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  it('should not be in loading state when the store has the property', () => {
-    appStoreMock.listingStore.get.mockReturnValue(propertyMock);
-    const wrapper = mountProperty();
+  // it('should not be in loading state when the store has the property', () => {
+  //   appStoreMock.listingStore.get.mockReturnValue(propertyMock);
+  //   const wrapper = mountProperty();
 
-    // this depends on ComponentDidMount + rerender after state.isLoading was changed
-    return flushPromises().then(() => {
-      expect(appStoreMock.editedListingStore.loadListing).toHaveBeenCalledWith(propertyMock);
-      wrapper.update();
-      expect(wrapper.find('LoadingSpinner')).toHaveLength(0);
-    });
-  });
+  //   // this depends on ComponentDidMount + rerender after state.isLoading was changed
+  //   return flushPromises().then(() => {
+  //     expect(appStoreMock.editedListingStore.loadListing).toHaveBeenCalledWith(propertyMock);
+  //     wrapper.update();
+  //     expect(wrapper.find('LoadingSpinner')).toHaveLength(0);
+  //   });
+  // });
 
-  it('should start in loading state and then change when the provider gets the listing', () => {
-    appProvidersMock.listingsProvider.loadFullListingDetails.mockReturnValue(Promise.resolve());
-    const wrapper = mountProperty();
+  // it('should start in loading state and then change when the provider gets the listing', () => {
+  //   appProvidersMock.listingsProvider.loadFullListingDetails.mockReturnValue(Promise.resolve());
+  //   const wrapper = mountProperty();
 
-    expect(wrapper.find('LoadingSpinner')).toHaveLength(1);
-    expect(appProvidersMock.listingsProvider.loadFullListingDetails).toHaveBeenCalledWith('' + propertyMock.id);
-    appStoreMock.listingStore.get.mockReturnValue(propertyMock);
+  //   expect(wrapper.find('LoadingSpinner')).toHaveLength(1);
+  //   expect(appProvidersMock.listingsProvider.loadFullListingDetails).toHaveBeenCalledWith('' + propertyMock.id);
+  //   appStoreMock.listingStore.get.mockReturnValue(propertyMock);
 
-    // this depends on ComponentDidMount + rerender after state.isLoading was changed
-    return flushPromises().then(() => {
-      expect(appStoreMock.editedListingStore.loadListing).toHaveBeenCalledWith(propertyMock);
-      wrapper.update();
-      expect(wrapper.find('LoadingSpinner')).toHaveLength(0);
-    });
-  });
+  //   // this depends on ComponentDidMount + rerender after state.isLoading was changed
+  //   return flushPromises().then(() => {
+  //     expect(appStoreMock.editedListingStore.loadListing).toHaveBeenCalledWith(propertyMock);
+  //     wrapper.update();
+  //     expect(wrapper.find('LoadingSpinner')).toHaveLength(0);
+  //   });
+  // });
 });
