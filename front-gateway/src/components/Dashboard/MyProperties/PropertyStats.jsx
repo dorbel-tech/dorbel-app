@@ -53,68 +53,68 @@ class PropertyStats extends Component {
     const daysPassedSinceCratedAt = moment().diff(moment(listing.created_at), 'days');
     const listingRented = listing.status === 'rented';
 
-    const tipOffset = {left: 2};
+    const tipOffset = { left: 2 };
     const interests = appStore.likeStore.likesByListingId.get(listingId);
     const hasInterests = interests && interests.length > 0;
     const views = appStore.listingStore.listingViewsById.get(listingId);
 
     return <Grid fluid className="property-stats">
-            <Row>
-              <Col lg={9} md={8} sm={7}>
-                {this.renderLikedUsers(interests, views)}
-              </Col>
-              <Col lg={3} md={4} sm={5}>
-                {hasInterests &&
-                  <div className="property-stats-container">
-                    <div>
-                      <span className="property-stats-share-title">
-                        שתפו את מודעת הדירה
+      <Row>
+        <Col lg={9} md={8} sm={7}>
+          {this.renderLikedUsers(interests, views)}
+        </Col>
+        <Col lg={3} md={4} sm={5}>
+          {hasInterests &&
+            <div className="property-stats-container">
+              <div>
+                <span className="property-stats-share-title">
+                  שתפו את מודעת הדירה
                       </span>
-                      <i className="fa fa-info-circle property-stats-share-help" aria-hidden="true"
-                        data-tip="שתפו את מודעת הדירה במייל,<br />בפייסבוק או בוואצאפ או שלחו לינק<br />לדיירים שפנו אליכם בטלפון. כך<br />תקבלו את כל המידע שחשוב לדעת על<br />הדיירים לפני שתצרו איתם קשר"></i>
-                      <ReactTooltip type="dark" effect="solid" place="bottom" offset={tipOffset} multiline />
-                    </div>
-                    <div className="property-stats-share-sub-title">
-                      צפיות במודעה: {views}
-                    </div>
-                    <ListingSocial listing={listing} />
+                <i className="fa fa-info-circle property-stats-share-help" aria-hidden="true"
+                  data-tip="שתפו את מודעת הדירה במייל,<br />בפייסבוק או בוואצאפ או שלחו לינק<br />לדיירים שפנו אליכם בטלפון. כך<br />תקבלו את כל המידע שחשוב לדעת על<br />הדיירים לפני שתצרו איתם קשר"></i>
+                <ReactTooltip type="dark" effect="solid" place="bottom" offset={tipOffset} multiline />
+              </div>
+              <div className="property-stats-share-sub-title">
+                צפיות במודעה: {views}
+              </div>
+              <ListingSocial listing={listing} />
+            </div>
+          }
+          <div className="property-stats-container">
+            <div className="property-stats-process-title">
+              תהליך ההשכרה
                   </div>
-                }
-                <div className="property-stats-container">
-                  <div className="property-stats-process-title">
-                  תהליך ההשכרה
-                  </div>
-                  <div className="property-stats-value-title">
-                  תאריך פרסום: {listingCreatedAt || null}
-                  </div>
-                  <div className="property-stats-value-title">
-                                ימים שחלפו: {daysPassedSinceCratedAt}
-                  </div>
-                  <div className="property-stats-process-diagram">
-                    <div className="property-stats-process-point-full">
-                      יצירת מודעה
+            <div className="property-stats-value-title">
+              תאריך פרסום: {listingCreatedAt || null}
+            </div>
+            <div className="property-stats-value-title">
+              ימים שחלפו: {daysPassedSinceCratedAt}
+            </div>
+            <div className="property-stats-process-diagram">
+              <div className="property-stats-process-point-full">
+                יצירת מודעה
                     </div>
-                    <div className="property-stats-process-vr" />
-                    <div className="property-stats-process-point-full">
-                      הוספת תמונות
+              <div className="property-stats-process-vr" />
+              <div className="property-stats-process-point-full">
+                הוספת תמונות
                     </div>
-                    <div className="property-stats-process-vr" />
-                    <div className="property-stats-process-point-full">
-                      צפיות במודעה
+              <div className="property-stats-process-vr" />
+              <div className="property-stats-process-point-full">
+                צפיות במודעה
                     </div>
-                    <div className="property-stats-process-vr" />
-                    <div className={'property-stats-process-point-' + (hasInterests ? 'full' : 'empty')}>
-                      דיירים מתעניינים
+              <div className="property-stats-process-vr" />
+              <div className={'property-stats-process-point-' + (hasInterests ? 'full' : 'empty')}>
+                דיירים מתעניינים
                     </div>
-                    <div className="property-stats-process-vr" />
-                    <div className="property-stats-process-point-empty">
-                      הדירה הושכרה
+              <div className="property-stats-process-vr" />
+              <div className="property-stats-process-point-empty">
+                הדירה הושכרה
                     </div>
-                  </div>
-                </div>
-              </Col>
-            </Row>
-          </Grid>;
+            </div>
+          </div>
+        </Col>
+      </Row>
+    </Grid>;
   }
 
   renderRentedStats() {
@@ -122,48 +122,48 @@ class PropertyStats extends Component {
     const listingId = listing.id;
     const views = appStore.listingStore.listingViewsById.get(listingId);
     const leaseStats = utils.getListingLeaseStats(listing);
-    const tipOffset = {top: -7, left: 2};
+    const tipOffset = { top: -7, left: 2 };
     const interests = appStore.likeStore.likesByListingId.get(listing.id);
 
     return <Grid fluid className="property-stats">
-            <Row className="property-stats-rent-title">
-              <Col xs={12}>
-                מעקב אחר הנכס:
+      <Row className="property-stats-rent-title">
+        <Col xs={12}>
+          מעקב אחר הנכס:
               </Col>
-            </Row>
-            <Row>
-              <Col xs={12}>
-                <div>
-                  <div className="property-stats-number">{views || 0}</div>
-                  <div className="property-stats-empty"></div>
-                  <div className="property-stats-number">{interests ? interests.length : 0}</div>
-                </div>
-                <div>
-                  <div className="property-stats-bubble">
-                    <div className="property-stats-bubble-text">צפיות במודעה</div>
-                  </div>
-                  <div className="property-stats-empty"></div>
-                  <div className="property-stats-bubble">
-                    <div className="property-stats-bubble-text">לייקים</div>
-                  </div>
-                </div>
-              </Col>
-            </Row>
-            <Row className="property-stats-listing-stats text-center property-stats-padding-top">
-              <Col xs={6} md={5} lg={4}>
-                <div className="property-stats-card">
-                  <div className="property-stats-number">{leaseStats.leaseStart}</div>
-                  <div className="property-stats-title">ההשכרה האחרונה</div>
-                </div>
-              </Col>
-              <Col xs={6} md={5} lg={4}>
-                <div className="property-stats-card">
-                  <div className="property-stats-number">{leaseStats.daysPassedLabel}</div>
-                  <div className="property-stats-title">ימים עברו</div>
-                </div>
-              </Col>
-            </Row>
-           </Grid>;
+      </Row>
+      <Row>
+        <Col xs={12}>
+          <div>
+            <div className="property-stats-number">{views || 0}</div>
+            <div className="property-stats-empty"></div>
+            <div className="property-stats-number">{interests ? interests.length : 0}</div>
+          </div>
+          <div>
+            <div className="property-stats-bubble">
+              <div className="property-stats-bubble-text">צפיות במודעה</div>
+            </div>
+            <div className="property-stats-empty"></div>
+            <div className="property-stats-bubble">
+              <div className="property-stats-bubble-text">לייקים</div>
+            </div>
+          </div>
+        </Col>
+      </Row>
+      <Row className="property-stats-listing-stats text-center property-stats-padding-top">
+        <Col xs={6} md={5} lg={4}>
+          <div className="property-stats-card">
+            <div className="property-stats-number">{leaseStats.leaseStart}</div>
+            <div className="property-stats-title">ההשכרה האחרונה</div>
+          </div>
+        </Col>
+        <Col xs={6} md={5} lg={4}>
+          <div className="property-stats-card">
+            <div className="property-stats-number">{leaseStats.daysPassedLabel}</div>
+            <div className="property-stats-title">ימים עברו</div>
+          </div>
+        </Col>
+      </Row>
+    </Grid>;
   }
 
   updateFutureBooking(event) {
@@ -175,7 +175,7 @@ class PropertyStats extends Component {
     // A check for at least one image and if no images,
     // send notification to user and do not allow future booking.
     if (allowFutureBooking && listing.images && listing.images.length < 1) {
-      const err = { response: { data: 'אין באפשרותכם לאפשר את אופציה זו עד שתוסיפו לפחות תמונה אחת לנכס.' }};
+      const err = { response: { data: 'אין באפשרותכם לאפשר את אופציה זו עד שתוסיפו לפחות תמונה אחת לנכס.' } };
       notificationProvider.error(err);
       return;
     }
@@ -199,7 +199,7 @@ class PropertyStats extends Component {
         <div className="property-stats-value-title">
           {interests.length === 0 ?
             'ברשימה למטה יופיעו הדיירים המעוניינים בדירה עם כל המידע עליהם'
-          :
+            :
             'לחצו על שם הדייר על מנת לראות את כל המידע עליו'
           }
         </div>
@@ -211,7 +211,7 @@ class PropertyStats extends Component {
             <ListingSocial listing={listing} />
             <div className="property-stats-views">
               <div>
-                צפיות<br/>במודעה
+                צפיות<br />במודעה
               </div>
               <div className="property-stats-views-value">
                 {views || 0}
@@ -220,24 +220,19 @@ class PropertyStats extends Component {
           </div>
         }
         <ListGroup>
-          { interests.map(like => (
+          {interests.map(like => (
             <ListGroupItem key={like.id} disabled={like.disabled} className="property-manage-list-group-item">
               <TenantRow tenant={like.user_details} listing={listing} />
             </ListGroupItem>
-          )) }
-        </ListGroup>     
+          ))}
+        </ListGroup>
       </div>
     );
   }
 
   render() {
     const { listing } = this.props;
-    const listingPendingOrListed = (listing.status === 'pending' || listing.status === 'listed');
-
-    return listingPendingOrListed ?
-        this.renderListedStats()
-      :
-        this.renderRentedStats();
+    return listing.status === 'listed' ? this.renderListedStats() : this.renderRentedStats();
   }
 }
 

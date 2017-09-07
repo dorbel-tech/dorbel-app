@@ -21,7 +21,6 @@ const SAVE_FILTER_ACTION = 'save-filter';
 const DEFAULT_FILTER_PARAMS = {
   // Admin filter default values.
   listed: true,
-  pending: false,
   rented: false,
   unlisted: false,
 
@@ -272,12 +271,6 @@ class Filter extends Component {
     if (isUserAdmin) {
       return <div className="filter-group-container">
         <h5><b className="filter-show-listing-status">הצג דירות בסטטוס</b></h5>
-        <Checkbox name="pending"
-          checked={this.state.pending}
-          className="filter-admin-switch"
-          onChange={this.adminFilterChangeHandler}>
-          ממתינה לאישור
-        </Checkbox>
         <Checkbox name="listed"
           checked={this.state.listed}
           className="filter-admin-switch"

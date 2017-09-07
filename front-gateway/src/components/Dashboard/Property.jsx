@@ -73,22 +73,20 @@ class Property extends Component {
     this.setState({ showActionsMenu: false });
   }
 
-  renderActionsMenu(isActiveListing) {
+  renderActionsMenu() {
     return (
       <Popover onMouseEnter={this.showActionsMenu}
-               onMouseLeave={this.hideActionsMenu}
-               id="property-actions-menu"
-               className="property-actions-menu">
+        onMouseLeave={this.hideActionsMenu}
+        id="property-actions-menu"
+        className="property-actions-menu">
         <div className="property-actions-menu-item" onClick={this.gotoPublishedListing}>
           <i className="property-actions-menu-item-icon fa fa-picture-o"></i>
           צפייה במודעה
         </div>
-        {isActiveListing &&
-          <div className="property-actions-menu-item" onClick={this.gotoEditProperty}>
-            <i className="property-actions-menu-item-icon fa fa-pencil-square-o" aria-hidden="true"></i>
-            עריכת המודעה
-          </div>
-        }
+        <div className="property-actions-menu-item" onClick={this.gotoEditProperty}>
+          <i className="property-actions-menu-item-icon fa fa-pencil-square-o" aria-hidden="true"></i>
+          עריכת המודעה
+        </div>
       </Popover>
     );
   }
@@ -110,43 +108,40 @@ class Property extends Component {
     const propertyPath = getDashMyPropsPath(this.property, '/');
     const sortedPropertyImages = utils.sortListingImages(this.property);
     const imageURL = sortedPropertyImages[0].url;
-    const isActiveListing = appProviders.listingsProvider.isActiveListing(this.property);
-    const imageClass = 'property-image' + (isActiveListing ? '' : ' property-image-inactive');
-    const titleClass = 'property-title' + (isActiveListing ? '' : ' property-title-inactive');
+    const imageClass = 'property-image property-image-inactive';
+    const titleClass = 'property-title property-title-inactive';
     let editForm = null;
 
     const defaultHeaderButtons = (
       <div className="property-action-container">
         <div className="property-actions-item-container">
           <Button className="property-action-button property-preview-button"
-                  onClick={this.gotoPublishedListing}>
+            onClick={this.gotoPublishedListing}>
             צפייה במודעה
           </Button>
         </div>
-        {isActiveListing &&
-          <div className="property-actions-item-container">
-            <Button className="property-action-button property-edit-button"
-                    onClick={this.gotoEditProperty}>
-              עריכת המודעה
+        <div className="property-actions-item-container">
+          <Button className="property-action-button property-edit-button"
+            onClick={this.gotoEditProperty}>
+            עריכת המודעה
             </Button>
-          </div>
-        }
+        </div>
         <div className="property-actions-menu-container">
           <Button className="property-action-button"
-                  onMouseEnter={this.showActionsMenu}
-                  onMouseLeave={this.hideActionsMenu}
-                  onClick={this.showActionsMenu}
-                  ref={(el) => { this.propertyActionMenuIcon = el; }}>
+            onMouseEnter={this.showActionsMenu}
+            onMouseLeave={this.hideActionsMenu}
+            onClick={this.showActionsMenu}
+            ref={(el) => { this.propertyActionMenuIcon = el; }}>
             תפריט
             <i className="fa fa-caret-down"
-               aria-hidden="true"></i>
+              aria-hidden="true"></i>
           </Button>
           <Overlay show={this.state.showActionsMenu}
-                   onHide={this.hideActionsMenu}
-                   placement="bottom"
-                   target={this.propertyActionMenuIcon}
-                   rootClose>
-            {this.renderActionsMenu(isActiveListing)}
+            onHide={this.hideActionsMenu}
+            placement="bottom"
+            target={this.propertyActionMenuIcon}
+            rootClose>
+            {this.renderActionsMenu()}
           </Overlay>
         </div>
       </div>
@@ -158,7 +153,7 @@ class Property extends Component {
       <div className="property-action-container">
         <div className="property-actions-menu-container property-edit-actions-mobile">
           <Button bsStyle="success" onClick={() => editForm.wrappedInstance.save()}
-                  disabled={disableSave}>
+            disabled={disableSave}>
             שמור
           </Button>
           <Button onClick={() => editForm.wrappedInstance.cancel()}>
@@ -171,59 +166,60 @@ class Property extends Component {
     const propertyTabs = [
       { relativeRoute: 'stats', title: 'סטטיסטיקה', component: <PropertyStats listing={this.property} /> },
       { relativeRoute: 'manage', title: 'שכירות', component: <PropertyManage listing={this.property} /> },
-      { relativeRoute: 'edit', title: 'עריכת פרטי הנכס', component: <EditListing listing={this.property} ref={form => editForm = form} />,
-        replaceNavbar: true, hideFromMenu: true, headerButtons: editHeaderButtons }
+      {
+        relativeRoute: 'edit', title: 'עריכת פרטי הנכס', component: <EditListing listing={this.property} ref={form => editForm = form} />,
+        replaceNavbar: true, hideFromMenu: true, headerButtons: editHeaderButtons
+      }
     ];
     // TODO: Add "default" tab logic.
-    const activeTab = find(propertyTabs, {relativeRoute: this.props.tab}) || propertyTabs[0];
+    const activeTab = find(propertyTabs, { relativeRoute: this.props.tab }) || propertyTabs[0];
 
-    return  <Grid fluid className="property-wrapper">
-              <Row className="property-top-container">
-                <Col md={3} sm={3} xs={4} className="property-image-container">
-                  <CloudinaryImage src={imageURL} height={125} className={imageClass}/>
-                </Col>
-                <Col md={5} sm={6} xs={8} className="property-title-container">
-                  <div className={titleClass}>
-                    {utils.getListingTitle(this.property)}
-                  </div>
-                  <div className="property-title-details">
-                    <div className="property-title-details-sub">
-                      <span>{this.property.apartment.rooms}</span>
-                      <span className="property-title-details-sub-text">&nbsp;חדרים</span>
-                    </div>
-                    <div className="property-title-details-sub">
-                      <span>{this.property.apartment.size}</span>
-                      <span className="property-title-details-sub-text">&nbsp;מ"ר</span>
-                    </div>
-                    <div className="property-title-details-sub">
-                      <span>{utils.getFloorTextValue(this.property)}</span>
-                      <span className="property-title-details-sub-text">&nbsp;קומה</span>
-                    </div>
-                  </div>
-                  <div className="property-status-desktop property-title-details-sub-text">
-                    סטטוס:
-                    { (isActiveListing || appStore.authStore.isUserAdmin()) && <ListingStatusSelector listing={this.property} /> }
-                  </div>
-                </Col>
-                <Col md={4} sm={3} className="property-actions-wrapper">
-                  { activeTab.headerButtons || defaultHeaderButtons }
-                </Col>
-              </Row>
-              { (isActiveListing || appStore.authStore.isUserAdmin()) &&
-                <Row className="property-top-container property-status-mobile">
-                  <Col sm={3} xs={4} className="property-status-label">
-                    סטטוס המודעה:
+    return <Grid fluid className="property-wrapper">
+      <Row className="property-top-container">
+        <Col md={3} sm={3} xs={4} className="property-image-container">
+          <CloudinaryImage src={imageURL} height={125} className={imageClass} />
+        </Col>
+        <Col md={5} sm={6} xs={8} className="property-title-container">
+          <div className={titleClass}>
+            {utils.getListingTitle(this.property)}
+          </div>
+          <div className="property-title-details">
+            <div className="property-title-details-sub">
+              <span>{this.property.apartment.rooms}</span>
+              <span className="property-title-details-sub-text">&nbsp;חדרים</span>
+            </div>
+            <div className="property-title-details-sub">
+              <span>{this.property.apartment.size}</span>
+              <span className="property-title-details-sub-text">&nbsp;מ"ר</span>
+            </div>
+            <div className="property-title-details-sub">
+              <span>{utils.getFloorTextValue(this.property)}</span>
+              <span className="property-title-details-sub-text">&nbsp;קומה</span>
+            </div>
+          </div>
+          <div className="property-status-desktop property-title-details-sub-text">
+            סטטוס:
+            <ListingStatusSelector listing={this.property} />
+          </div>
+        </Col>
+        <Col md={4} sm={3} className="property-actions-wrapper">
+          {activeTab.headerButtons || defaultHeaderButtons}
+        </Col>
+      </Row>
+      <Row className="property-top-container property-status-mobile">
+        <Col sm={3} xs={4} className="property-status-label">
+          סטטוס המודעה:
                   </Col>
-                  <Col sm={9} xs={8} className="property-status-selector-container">
-                    <ListingStatusSelector listing={this.property} />
-                  </Col>
-                </Row> }
-              { activeTab.replaceNavbar ? activeTab.component :
-                  <Row className="property-content-container">
-                    {activeTab.component}
-                  </Row>
-              }
-            </Grid>;
+        <Col sm={9} xs={8} className="property-status-selector-container">
+          <ListingStatusSelector listing={this.property} />
+        </Col>
+      </Row>
+      {activeTab.replaceNavbar ? activeTab.component :
+        <Row className="property-content-container">
+          {activeTab.component}
+        </Row>
+      }
+    </Grid>;
   }
 }
 
