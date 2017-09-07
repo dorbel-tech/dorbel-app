@@ -175,6 +175,7 @@
 .property-manage-list-group-item {
   background-color: $brand-white !important;
   border: 0;
+  margin-bottom: 4px;
 
   @media (max-width: $screen-xs-max) {
     margin: 0 -20px 2px -20px;

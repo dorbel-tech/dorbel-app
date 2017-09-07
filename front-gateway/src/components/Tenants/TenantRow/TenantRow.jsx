@@ -93,7 +93,10 @@ export default class TenantRow extends React.Component {
         <Col xs={6}>
           <div className="tenant-row-profile" onClick={this.showTenantProfileModal}>
             <Image className="tenant-row-image" src={tenant.picture} circle />
-            <span>{tenant.first_name || 'אנונימי'} {tenant.last_name || ''}</span>
+            <div className="tenant-row-text">
+              <div className="tenant-row-name">{tenant.first_name || 'אנונימי'} {tenant.last_name || ''}</div>
+              <div className="tenant-row-position">{tenant.tenant_profile && (tenant.tenant_profile.position || '')}</div>
+            </div>
           </div>
         </Col>
         <Col xs={6} className="text-left">

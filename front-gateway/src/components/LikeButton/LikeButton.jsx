@@ -64,7 +64,7 @@ class LikeButton extends Component {
     if (appStore.authStore.isLoggedIn) {
       const isLiked = likeProvider.get(apartmentId) || false;
       if (isLiked) {
-        notificationProvider.success('כבר יצרתם קשר עם בעל הדירה');
+        notificationProvider.success('כבר יצרתם קשר עם בעל דירה זה');
       }
       else {
         const { profile } = this.props.appStore.authStore;
