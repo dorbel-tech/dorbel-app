@@ -25,6 +25,7 @@ class TenantProfile extends Component {
   componentDidMount() {
     hideIntercom(true);
   }
+
   componentWillUnmount() {
     this.popup && this.popup.destroy();
     hideIntercom(false);
