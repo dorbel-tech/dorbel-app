@@ -15,10 +15,12 @@ const APARTMENTS_UINQUE_CONSTRAINT_INDEX_NAME = 'apartments_index';
 
 const possibleStatusesByCurrentStatus = {
   unlisted: ['listed', 'rented'],
-  listed: ['unlisted', 'rented']
+  listed: ['unlisted', 'rented'],
+  rented: ['listed', 'unlisted']
 };
 
 const createdEventsByListingStatus = {
+  listed: messageBus.eventType.APARTMENT_CREATED,
   pending: messageBus.eventType.APARTMENT_CREATED,
   rented: messageBus.eventType.APARTMENT_CREATED_FOR_MANAGEMENT
 };
@@ -81,7 +83,7 @@ async function create(listing, user) {
 }
 
 async function validateNewListing(listing, user) {
-  if (['pending', 'rented'].indexOf(listing.status) < 0) {
+  if (['listed', 'pending', 'rented'].indexOf(listing.status) < 0) {
     throw new CustomError(400, `לא ניתן להעלות דירה ב status ${listing.status}`);
   }
 
@@ -142,7 +144,7 @@ async function update(listingId, user, patch) {
     if (ex.name == 'SequelizeUniqueConstraintError' && ex.fields && ex.fields[APARTMENTS_UINQUE_CONSTRAINT_INDEX_NAME]) {
       throw new CustomError(409, 'דירה עם פרטים זהים כבר קיימת במערכת');
     }
-    else{
+    else {
       throw ex;
     }
   }
@@ -210,7 +212,7 @@ function notifyListingChanged(oldListing, newListing) {
 
 function setListingAutoFields(listing) {
   // default lease_end to after one year
-  if (listing.lease_start && (!listing.lease_end || listing.status == 'pending')) {
+  if (listing.lease_start && (!listing.lease_end || (listing.status == 'listed' || listing.status == 'pending'))) {
     listing.lease_end = moment(listing.lease_start).add(1, 'years').format('YYYY-MM-DD');
   }
 

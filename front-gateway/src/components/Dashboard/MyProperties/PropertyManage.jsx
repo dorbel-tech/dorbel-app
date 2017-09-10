@@ -135,7 +135,7 @@ class PropertyManage extends Component {
   }
 
   renderTenants() {
-    const listingTitle = utils.getListingTitle(this.props.listing);
+    const listing = this.props.listing;
     let tenants = this.props.appStore.listingStore.listingTenantsById.get(this.props.listing.id);
 
     if (!tenants) {
@@ -152,7 +152,7 @@ class PropertyManage extends Component {
       <ListGroup>
         { tenants.map(tenant => (
             <ListGroupItem key={tenant.id} disabled={tenant.disabled} className="property-manage-list-group-item">
-              <TenantRow tenant={tenant} listingTitle={listingTitle} showActionButtons/>
+              <TenantRow tenant={tenant} listing={listing} showActionButtons/>
             </ListGroupItem>
           )) }
       </ListGroup>

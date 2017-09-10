@@ -1,9 +1,10 @@
 import React from 'react';
 import autobind from 'react-autobind';
+import _ from 'lodash';
 import { inject } from 'mobx-react';
 import { Col, Row, Image, Dropdown, MenuItem } from 'react-bootstrap';
 import TenantProfile from '~/components/Tenants/TenantProfile/TenantProfile';
-import { getUserNickname, hideIntercom } from '~/providers/utils';
+import { getUserNickname, hideIntercom, getListingTitle } from '~/providers/utils';
 
 import './TenantRow.scss';
 
@@ -21,23 +22,27 @@ export default class TenantRow extends React.Component {
 
   static getEmptyTenantList() {
     // used as a placeholder for an empty list
-    return [
-      { id: 0, disabled: true, first_name: 'שם דייר נוכחי', picture: 'https://static.dorbel.com/images/icons/user-picture-placeholder.png' }
-    ];
+    return _.times(4, i => ({ id: i, disabled: true, first_name: 'שם הדייר', picture: 'https://static.dorbel.com/images/icons/user-picture-placeholder.png' }));
   }
 
   showTenantProfileModal() {
-    const { tenant } = this.props;
+    const { tenant, listing } = this.props;
+
     if (tenant.disabled) { return; }
 
-    this.props.appProviders.modalProvider.showInfoModal({
-      title: 'פרופיל דייר',
-      body: <TenantProfile profile={tenant} />,
+    window.analytics.track('client_click_tenant_profile', {
+      listing_id: listing.id,
+      tenant_id: tenant.dorbel_user_id
+    });
+
+    this.props.appProviders.modalProvider.show({
+      body: <TenantProfile profile={tenant} listing={listing} />,
+      modalSize: 'large'
     });
   }
 
   handleMsgClick() {
-    const { tenant, listingTitle } = this.props;
+    const { tenant, listing } = this.props;
     const { messagingProvider } = this.props.appProviders;
 
     const withUserObj = {
@@ -47,51 +52,64 @@ export default class TenantRow extends React.Component {
       welcomeMessage: 'באפשרותך לשלוח הודעה לדיירים. במידה והם אינם מחוברים הודעתך תישלח אליהם למייל.'
     };
     messagingProvider.getOrStartConversation(withUserObj, {
-      topicId: tenant.listing_id,
-      subject: listingTitle
+      topicId: listing.id,
+      subject: getListingTitle(listing)
     }).then(popup => this.popup = popup);
   }
 
   removeTenant() {
-    const { appProviders, tenant } = this.props;
-    appProviders.listingsProvider.removeTenant(tenant)
-      .then(() => appProviders.notificationProvider.success('הדייר הוסר מרשימת השוכרים הנוכחיים שלך'))
-      .catch(appProviders.notificationProvider.error);
+    const { appProviders, tenant, listing } = this.props;
+
+    if (tenant.disabled) { return; }
+
+    let confirmation = appProviders.modalProvider.showConfirmationModal({
+      title: 'האם אתם בטוחים?',
+      body: <p>לאחר שדייר הוסר מרשימת הדיירים, לא ניתן לבטל את הפעולה ולהחזיר את הדייר לרשימה.</p>,
+      confirmButton: 'אני מבין, הסר את הדייר',
+    });
+
+    confirmation.then(choice => {
+      if (choice) {
+        appProviders.likeProvider.set(listing.apartment_id, listing.id, false, tenant)
+          .then(() => {
+            appProviders.likeProvider.getLikesForListing(listing.id, true);
+            appProviders.notificationProvider.success('הדייר הוסר בהצלחה');
+            window.analytics.track('client_click_tenant_remove', {
+              listing_id: listing.id,
+              tenant_id: tenant.dorbel_user_id
+            });
+          })
+          .catch(appProviders.notificationProvider.error);
+      }
+    }).catch((err) => this.props.appProviders.notificationProvider.error(err));
   }
 
   render() {
-    const { tenant, showActionButtons, listingTitle } = this.props;
-    const facebookClass = tenant.tenant_profile && tenant.tenant_profile.facebook_url ? '' : 'tenant-row-no-facebook';
+    const { tenant, listing } = this.props;
+    const listingTitle = getListingTitle(listing);
 
     return (
       <Row className="tenant-row">
-        <Col xs={2} md={this.props.mode == 'responsive' ? 1 : 2} onClick={this.showTenantProfileModal}>
-          <Image className="tenant-row-image" src={tenant.picture} circle />
+        <Col xs={6}>
+          <div className="tenant-row-profile" onClick={this.showTenantProfileModal}>
+            <Image className="tenant-row-image" src={tenant.picture} circle />
+            <div className="tenant-row-text">
+              <div className="tenant-row-name">{tenant.first_name || 'אנונימי'} {tenant.last_name || ''}</div>
+              <div className="tenant-row-position">{tenant.tenant_profile && (tenant.tenant_profile.position || '')}</div>
+            </div>
+          </div>
         </Col>
-        <Col xs={6} md={7} onClick={this.showTenantProfileModal}>
-          <span>{tenant.first_name || 'אנונימי'} {tenant.last_name || ''}</span>
-        </Col>
-        <Col xs={1}>
-          {!tenant.disabled && <i className={'fa fa-2x fa-facebook-square ' + facebookClass} onClick={this.showTenantProfileModal}></i>}
-        </Col>
-        <Col xs={1}>
+        <Col xs={6} className="text-left">
+          <div className="tenant-row-remove pull-left">
+            <i className="fa fa-times" title="הסר דייר" onClick={this.removeTenant}></i>
+          </div>
           {!tenant.disabled && tenant.dorbel_user_id && process.env.TALKJS_PUBLISHABLE_KEY && listingTitle &&
-            <i className="fa fa-comment tenant-row-msg-icon" onClick={this.handleMsgClick}></i>}
+            <div className="tenant-row-button pull-left" onClick={this.handleMsgClick}>
+              <i className="fa fa-comments fa-2 tenant-row-msg-icon"></i>
+              <span className="tenant-row-button-text">שלח הודעה</span>
+            </div>
+          }
         </Col>
-        {showActionButtons ?
-          <Col xs={2}>
-            <Dropdown id={'tenant' + tenant.id} className="pull-left" disabled={tenant.disabled}>
-              <Dropdown.Toggle noCaret bsStyle="link">
-                <i className="fa fa-ellipsis-v" />
-              </Dropdown.Toggle>
-              <Dropdown.Menu className="dropdown-menu-left">
-                <MenuItem onClick={this.removeTenant}>הסר דייר</MenuItem>
-              </Dropdown.Menu>
-            </Dropdown>
-          </Col>
-          :
-          null
-        }
       </Row>
     );
   }
@@ -104,7 +122,7 @@ TenantRow.defaultProps = {
 TenantRow.propTypes = {
   appProviders: React.PropTypes.object,
   tenant: React.PropTypes.object.isRequired,
-  listingTitle: React.PropTypes.string,
+  listing: React.PropTypes.object.isRequired,
   showActionButtons: React.PropTypes.bool,
   mode: React.PropTypes.string
 };

@@ -5,7 +5,6 @@ import { inject, observer } from 'mobx-react';
 import _ from 'lodash';
 import UploadApartmentBaseStep from './UploadApartmentBaseStep';
 import FormWrapper from '~/components/FormWrapper/FormWrapper';
-import AddOHEInput from '~/components/AddOHEInput/AddOHEInput';
 import SubmitButton from '~/components/SubmitButton/SubmitButton';
 import ReactTooltip from 'react-tooltip';
 import { getDashMyPropsPath } from '~/routesHelper';
@@ -37,10 +36,9 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
 
   onCloseSuccessModal() {
     const { createdListingId, appProviders, appStore } = this.props;
-    const redirectPath = appStore.newListingStore.uploadMode == 'manage' ? '/manage' : '/ohe';
 
     appStore.newListingStore.reset();
-    appProviders.navProvider.setRoute(getDashMyPropsPath({ id: createdListingId }, redirectPath));
+    appProviders.navProvider.setRoute(getDashMyPropsPath({ id: createdListingId }, '/stats'));
   }
 
   renderUserDetails() {
@@ -136,10 +134,14 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
       )
       :
       (
-        <p>
-          מודעתכם נמצאת בתהליך אישור. עדכון יישלח אליכם ברגע שהיא תעלה לאתר.<br />
-          הנכם מועברים לחשבון החדש שלכם, בו תוכלו לנהל ולעקוב אחר נתוני הנכס.
-        </p>
+        <div className="modal-text">
+          <h4>מה עכשיו?</h4>
+          <ol>
+            <li>שתפו את הדירה או שלחו לינק לדיירים שפנו אליכם.</li>
+            <li>הדיירים שיתעניינו בדירה יפנו אליכם ויספרו על עצמם.</li>
+            <li>אתם תוכלו לראות את הפרופילים של הדיירים ולפנות לדייר שמתאים לכם.</li>
+          </ol>
+        </div>
       );
   }
 
@@ -171,14 +173,11 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
         <DorbelModal
           show={this.props.showSuccessModal}
           onClose={this.onCloseSuccessModal.bind(this)}
-          title="תהליך העלאת פרטי הדירה הושלם בהצלחה!"
+          title="פרטי הדירה שלכם עלו בהצלחה!"
           body={
-            <div className="text-center" {...createdListingIdAttr}>
+            <div className="modal-container" {...createdListingIdAttr}>
               {this.renderPopupBodyText(newListingStore)}
-              <p>
-                צוות dorbel
-              </p>
-              <p>
+              <p className="text-center">
                 <Button bsStyle="info" className="submit-success" onClick={this.onCloseSuccessModal.bind(this)}>קחו אותי לחשבון שלי</Button>
               </p>
             </div>

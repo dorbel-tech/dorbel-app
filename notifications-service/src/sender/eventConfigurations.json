@@ -8,17 +8,12 @@
     "eventType": "APARTMENT_CREATED_FOR_MANAGEMENT",
     "notificationType": "apartment_created_for_management",
     "dataRetrieval": [ "getListingInfo", "getUserDetails" ]
-  },  
+  },
   {
     "eventType": "APARTMENT_LISTED",
     "notificationType": "apartment_listed",
     "dataRetrieval": [ "getListingInfo", "getListingOheInfo", "getUserDetails" ],
     "dataEnrichment": [ "addCalendarInvite" ]
-  },
-  {
-    "eventType": "APARTMENT_LISTED",
-    "notificationType": "apartment_listed_notify_followers",
-    "dataRetrieval": [ "getListingInfo", "sendToApartmentLikedUsers", "getUserDetails" ]
   },
   {
     "eventType": "APARTMENT_CREATED_FOR_MANAGEMENT",
@@ -90,6 +85,11 @@
     "eventType": "LISTING_LIKED",
     "notificationType": "listing_liked",
     "dataRetrieval": [ "getListingInfo", "getApartmentLikesCount", "getUserDetails" ]
+  },
+  {
+    "eventType": "LISTING_LIKED",
+    "notificationType": "listing_liked_notify_tenant",
+    "dataRetrieval": [ "getListingInfo" ]
   },
   {
     "eventType": "LISTING_UNLIKED",

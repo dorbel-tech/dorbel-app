@@ -27,27 +27,12 @@ function submitApartment(browser) {
 
   browser.pause(500);
   apartmentForm.expect.section('@successModal').to.be.present;
-  common.waitForText(apartmentForm.section.successModal, '@successTitle', 'תהליך העלאת פרטי הדירה הושלם בהצלחה!');
+  common.waitForText(apartmentForm.section.successModal, '@successTitle', 'פרטי הדירה שלכם עלו בהצלחה!');
 
   // Get listingId from success modal dom element data-attr attribute.
   apartmentForm.section.successModal.getAttribute('@listingId', 'data-attr', function (result) {
     listingId = result.value;
   });
-
-  // Add first OHE
-  apartmentForm.section.successModal.click('@okButton');
-  browser.pause(500);
-  browser.page.property().addFirstOHE();
-
-  browser.end();
-}
-
-function waitForUnRegisterText() {
-  common.waitForText(listing.section.oheList, '@firstEventText', 'הרשם לביקור');
-}
-
-function waitForRegisterText() {
-  common.waitForText(listing.section.oheList, '@firstEventText', 'בטל הרשמה');
 }
 
 module.exports = {
@@ -62,66 +47,28 @@ module.exports = {
     submitApartment(browser);
     browser.end();
   },
-  'admin should approve apartment': function (browser) {
-    let property = browser.page.property();
+  'tenant should take interest in apartment': function (browser) {
+    login('tenant');
+    listing.navigateToListingPage(listing.url(listingId));
+    common.waitForText(listing.section.like, '@text', 'אני מעוניין/ת בדירה');
+    listing.clickLikeButton();
 
-    login('admin');
-    property.navigateToPropertyPage(property.url(listingId));
-    property.expect.section('@listingStatusSelector').to.be.visible;
-    property.changeListingStatus('listed');
-    browser.refresh();
-    property.section.listingStatusSelector
-      .expect.element('@listingMenuStatusDropdownToggle').text.to.equal('מפורסמת');
-    logout();
-    browser.end();
-  },
-  'tenant should like apartment': function (browser) {
-    login('tenant');
-    listing.navigateToListingPage(listing.url(listingId));
-    common.waitForText(listing.section.like, '@text', 'אהבתי');
-    listing.clickLikeButton();
-    listing.validateSuccessNotificationVisible();
-    common.waitForText(listing, '@notification', 'הדירה נשמרה בהצלחה לרשימת הדירות שאהבתם');
-    browser.end();
-  },
-  'tenant should unlike apartment': function (browser) {
-    login('tenant');
-    listing.navigateToListingPage(listing.url(listingId));
-    common.waitForText(listing.section.like, '@text', 'אהבתי');
-    listing.clickLikeButton();
-    listing.validateSuccessNotificationVisible();
-    common.waitForText(listing, '@notification', 'הדירה הוסרה בהצלחה מרשימת ההירות שאהבתם');
-    browser.end();
-  },
-  'tenant should register to OHE': function (browser) {
-    login('tenant');
-    listing.navigateToListingPage(listing.url(listingId));
-    waitForUnRegisterText();
-    listing.clickFirstOhe();
-    listing.expect.section('@oheModal').to.be.visible;
-    listing.fillOheRegisterUserDetailsAndSubmit();
-    waitForRegisterText();
-    browser.end();
-  },
-  'tenant should unregister from OHE': function (browser) {
-    login('tenant');
-    listing.navigateToListingPage(listing.url(listingId));
-    waitForRegisterText();
-    listing.clickFirstOhe();
-    listing.expect.section('@oheModal').to.be.visible;
-    listing.oheUnRegisterUser();
     browser.pause(500);
-    waitForUnRegisterText();
+    listing.expect.section('@profileEditModal').to.be.present;
+    common.waitForText(listing.section.profileEditModal, '@title', 'עזרו לבעל הדירה להכיר אתכם - פרטים בסיסיים');
+    listing.fillAndSubmitProfile();
+
+    listing.validateSuccessNotificationVisible();
+    common.waitForText(listing, '@notification', 'הדירה נשמרה בהצלחה לרשימת הדירות שאתם מעוניינים');
     browser.end();
   },
-  'tenant should register to OHE while triggering login': function (browser) {
+  'tenant should be notified when taking interest in an already interesting apartment': function (browser) {
+    login('tenant');
     listing.navigateToListingPage(listing.url(listingId));
-    waitForUnRegisterText();
-    listing.clickFirstOhe();
-    loginInListing('tenant');
-    listing.expect.section('@oheModal').to.be.visible;
-    listing.fillOheRegisterUserDetailsAndSubmit();
-    waitForRegisterText();
+    common.waitForText(listing.section.like, '@text', 'אני מעוניין/ת בדירה');
+    listing.clickLikeButton();
+    listing.validateSuccessNotificationVisible();
+    common.waitForText(listing, '@notification', 'כבר יצרתם קשר עם בעל דירה זה');
     browser.end();
   }
 };

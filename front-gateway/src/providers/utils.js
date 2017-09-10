@@ -40,6 +40,13 @@ function getListingTitle(listing) {
   return listing.title || `דירת ${listing.apartment.rooms} חד׳ ב${listing.apartment.building.street_name}`;
 }
 
+function getListingAddress(listing) {
+  const building = listing.apartment.building;
+  const prefix = building.street_name + (building.house_number ? ' ' + building.house_number : '');
+
+  return prefix + (building.city.city_name ? ', ' + building.city.city_name : '');
+}
+
 function getListingLeaseStats(listing) {
   const leaseStart = formatDate(listing.lease_start);
   const leaseEnd = formatDate(listing.lease_end);
@@ -87,12 +94,9 @@ function sortListingImages(listing) {
 // TODO : this function does not belong in utils - it's a i18n thing and it's also static
 function getListingStatusLabels() {
   return {
-    pending: { label: 'ממתינה לאישור', actionLabel: 'החזר את הדירה להמתנה' },
     listed: { label: 'מפורסמת', actionLabel: 'פרסם את הדירה' },
     rented: { label: 'טרם פורסמה', actionLabel: 'הדירה הושכרה', landlordLabel: 'מושכרת' },
-    unlisted: { label: 'לא פעילה', actionLabel: 'השהה מודעה' },
-    deleted: { label: 'נמחקה' },
-    republish: { label: '', actionLabel: 'פרסום הנכס מחדש' }
+    unlisted: { label: 'לא פעילה', actionLabel: 'השהה מודעה' }
   };
 }
 
@@ -139,9 +143,9 @@ function hideIntercom(bool) {
   }
 }
 
-function getShareUrl(currentUrl, utm_campaign) {
+function getShareUrl(currentUrl, utm_campaign, encodeUri = true) {
   const shareUrl = currentUrl + '?utm_source=app&utm_medium=share&utm_campaign=' + utm_campaign;
-  return encodeURIComponent(shareUrl);
+  return encodeUri ? encodeURIComponent(shareUrl) : shareUrl;
 }
 
 function asPromise(func) {
@@ -156,6 +160,7 @@ module.exports = {
   decimalToPercision,
   optimizeCloudinaryUrl,
   getFloorTextValue,
+  getListingAddress,
   getListingStatusLabels,
   getListingSubTitle,
   getListingTitle,

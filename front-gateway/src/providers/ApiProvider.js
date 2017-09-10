@@ -18,7 +18,7 @@ class ApiProvider {
   constructor(appStore) {
     this.appStore = appStore;
 
-        // TODO : need a separate client for the OHE api or maybe to merge GQL schemas.
+    // TODO : need a separate client for the OHE api or maybe to merge GQL schemas.
     const networkInterface = createNetworkInterface({ uri: urlPrefix + '/api/apartments/graphql' });
     networkInterface.use([{
       applyMiddleware(req, next) {
@@ -32,7 +32,7 @@ class ApiProvider {
     this.apolloClient = new ApolloClient({ networkInterface });
   }
 
-  fetch(url, options){
+  fetch(url, options) {
     const headers = {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
@@ -47,15 +47,15 @@ class ApiProvider {
       headers,
       ...options
     })
-    .then(res => res.data);
+      .then(res => res.data);
   }
 
   gqlCommand(type, options) {
     return this.apolloClient[type](options)
-    .catch(err => {
-      err.message = err.message.replace('GraphQL error: ', '');
-      throw err;
-    });
+      .catch(err => {
+        err.message = err.message.replace('GraphQL error: ', '');
+        throw err;
+      });
   }
 
   gql(query, options) {

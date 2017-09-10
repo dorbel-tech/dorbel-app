@@ -23,7 +23,7 @@ module.exports = {
       }
     },
     like: {
-      selector: '.listing-actions-like-button-wrapper',
+      selector: '.listing-interested-box-button-container',
       elements: {
         button: {
           selector: '.like-button'
@@ -33,37 +33,23 @@ module.exports = {
         }
       }
     },
-    oheList: {
-      selector: '.ohe-list',
-      elements: {
-        firstEvent: {
-          selector: 'a:first-child'
-        },
-        firstEventText: {
-          selector: 'a:first-child .ohe-list-item-text'
-        }
-      }
-    },
-    oheModal: {
+    profileEditModal: {
       selector: '.modal-dialog',
       elements: {
-        firstName: {
-          selector: 'input[name="user.firstname"]'
+        title: {
+          selector: '.modal-header > h4'
         },
-        email: {
-          selector: 'input[name="user.email"]'
+        workplace: {
+          selector: 'input[name="tenant_profile.work_place"]'
         },
-        phone: {
-          selector: 'input[name="user.phone"]'
+        position: {
+          selector: 'input[name="tenant_profile.position"]'
         },
-        submit: {
-          selector: 'button.btn-success'
+        about: {
+          selector: 'textarea[name="tenant_profile.about_you"]'
         },
-        ok: {
-          selector: '.ohe-register-modal-info-button'
-        },
-        cancel: {
-          selector: 'button.btn-danger'
+        sendButton: {
+          selector: '.tenant-profile-edit-button'
         }
       }
     }
@@ -78,20 +64,18 @@ module.exports = {
       this.section.like.waitForElementVisible('@text');
       return this.section.like.click('@button');
     },
+    fillAndSubmitProfile: function() {
+      const randomProfile = common.getRandomProfile();
+      this.section.profileEditModal
+        .waitForElementVisible('@workplace')
+        .setValue('@workplace', randomProfile.workplace)
+        .setValue('@position', randomProfile.position)
+        .setValue('@about', randomProfile.about);
+      return this.section.profileEditModal.click('@sendButton');
+    },
     validateSuccessNotificationVisible: function() {
       this.waitForElementVisible('@notification');
       return this;
-    },
-    clickFirstOhe: function() {
-      return this.section.oheList.click('@firstEvent');
-    },
-    fillOheRegisterUserDetailsAndSubmit: function() {
-      return this.section.oheModal.click('@submit')
-        .waitForElementVisible('@ok')
-        .click('@ok');
-    },
-    oheUnRegisterUser: function() {
-      return this.section.oheModal.click('@cancel');
     }
   }]
 };

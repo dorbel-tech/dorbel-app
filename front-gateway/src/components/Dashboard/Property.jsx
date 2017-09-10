@@ -6,8 +6,6 @@ import CloudinaryImage from '../CloudinaryImage/CloudinaryImage';
 import EditListing from './MyProperties/EditListing.jsx';
 import ListingStatusSelector from './MyProperties/ListingStatusSelector';
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
-import OHEManager from '~/components/OHEManager/OHEManager';
-import PropertyHistorySelector from './PropertyHistorySelector/PropertyHistorySelector';
 import PropertyManage from './MyProperties/PropertyManage';
 import PropertyStats from './MyProperties/PropertyStats';
 import utils from '~/providers/utils';
@@ -43,7 +41,6 @@ class Property extends Component {
 
   loadFullPropertyDetails() {
     const { listingId, appStore, appProviders } = this.props;
-    appProviders.oheProvider.loadListingEvents(listingId);
 
     const loadListing = appStore.listingStore.get(listingId) ?
       Promise.resolve() : appProviders.listingsProvider.loadFullListingDetails(listingId);
@@ -76,7 +73,7 @@ class Property extends Component {
     this.setState({ showActionsMenu: false });
   }
 
-  renderActionsMenu(isActiveListing) {
+  renderActionsMenu() {
     return (
       <Popover onMouseEnter={this.showActionsMenu}
                onMouseLeave={this.hideActionsMenu}
@@ -86,12 +83,10 @@ class Property extends Component {
           <i className="property-actions-menu-item-icon fa fa-picture-o"></i>
           צפייה במודעה
         </div>
-        {isActiveListing &&
-          <div className="property-actions-menu-item" onClick={this.gotoEditProperty}>
-            <i className="property-actions-menu-item-icon fa fa-pencil-square-o" aria-hidden="true"></i>
-            עריכת המודעה
-          </div>
-        }
+        <div className="property-actions-menu-item" onClick={this.gotoEditProperty}>
+          <i className="property-actions-menu-item-icon fa fa-pencil-square-o" aria-hidden="true"></i>
+          עריכת המודעה
+        </div>
       </Popover>
     );
   }
@@ -113,10 +108,6 @@ class Property extends Component {
     const propertyPath = getDashMyPropsPath(this.property, '/');
     const sortedPropertyImages = utils.sortListingImages(this.property);
     const imageURL = sortedPropertyImages[0].url;
-    const historySelector = <PropertyHistorySelector apartment_id={this.property.apartment_id} listing_id={this.property.id} />;
-    const isActiveListing = appProviders.listingsProvider.isActiveListing(this.property);
-    const imageClass = 'property-image' + (isActiveListing ? '' : ' property-image-inactive');
-    const titleClass = 'property-title' + (isActiveListing ? '' : ' property-title-inactive');
     let editForm = null;
 
     const defaultHeaderButtons = (
@@ -127,14 +118,12 @@ class Property extends Component {
             צפייה במודעה
           </Button>
         </div>
-        {isActiveListing &&
-          <div className="property-actions-item-container">
-            <Button className="property-action-button property-edit-button"
-                    onClick={this.gotoEditProperty}>
-              עריכת המודעה
-            </Button>
-          </div>
-        }
+        <div className="property-actions-item-container">
+          <Button className="property-action-button property-edit-button"
+                  onClick={this.gotoEditProperty}>
+            עריכת המודעה
+          </Button>
+        </div>
         <div className="property-actions-menu-container">
           <Button className="property-action-button"
                   onMouseEnter={this.showActionsMenu}
@@ -150,11 +139,8 @@ class Property extends Component {
                    placement="bottom"
                    target={this.propertyActionMenuIcon}
                    rootClose>
-            {this.renderActionsMenu(isActiveListing)}
+            {this.renderActionsMenu()}
           </Overlay>
-        </div>
-        <div className="property-history-selector">
-          {historySelector}
         </div>
       </div>
     );
@@ -177,7 +163,6 @@ class Property extends Component {
 
     const propertyTabs = [
       { relativeRoute: 'stats', title: 'סטטיסטיקה', component: <PropertyStats listing={this.property} /> },
-      { relativeRoute: 'ohe', title: 'מועדי ביקור', component: <OHEManager listing={this.property} /> },
       { relativeRoute: 'manage', title: 'שכירות', component: <PropertyManage listing={this.property} /> },
       { relativeRoute: 'edit', title: 'עריכת פרטי הנכס', component: <EditListing listing={this.property} ref={form => editForm = form} />,
         replaceNavbar: true, hideFromMenu: true, headerButtons: editHeaderButtons }
@@ -188,14 +173,11 @@ class Property extends Component {
     return  <Grid fluid className="property-wrapper">
               <Row className="property-top-container">
                 <Col md={3} sm={3} xs={4} className="property-image-container">
-                  <CloudinaryImage src={imageURL} height={125} className={imageClass}/>
+                  <CloudinaryImage src={imageURL} height={125} className="property-image"/>
                 </Col>
                 <Col md={5} sm={6} xs={8} className="property-title-container">
-                  <div className={titleClass}>
-                    {utils.getListingTitle(this.property)}
-                  </div>
-                  <div className="property-history-selector-mobile">
-                    { !activeTab.headerButtons && historySelector }
+                  <div className="property-title">
+                    {utils.getListingAddress(this.property)}
                   </div>
                   <div className="property-title-details">
                     <div className="property-title-details-sub">
@@ -207,36 +189,27 @@ class Property extends Component {
                       <span className="property-title-details-sub-text">&nbsp;מ"ר</span>
                     </div>
                     <div className="property-title-details-sub">
-                      <span>{utils.getFloorTextValue(this.property)}</span>
-                      <span className="property-title-details-sub-text">&nbsp;קומה</span>
+                      <span>{this.property.monthly_rent}</span>
+                      <span className="property-title-details-sub-text">&nbsp;ש"ח</span>
                     </div>
                   </div>
                   <div className="property-status-desktop property-title-details-sub-text">
                     סטטוס:
-                    { (isActiveListing || appStore.authStore.isUserAdmin()) && <ListingStatusSelector listing={this.property} /> }
+                    <ListingStatusSelector listing={this.property} />
                   </div>
                 </Col>
                 <Col md={4} sm={3} className="property-actions-wrapper">
                   { activeTab.headerButtons || defaultHeaderButtons }
                 </Col>
               </Row>
-              { (isActiveListing || appStore.authStore.isUserAdmin()) &&
-                <Row className="property-top-container property-status-mobile">
-                  <Col sm={3} xs={4} className="property-status-label">
-                    סטטוס המודעה:
-                  </Col>
-                  <Col sm={9} xs={8} className="property-status-selector-container">
-                    <ListingStatusSelector listing={this.property} />
-                  </Col>
-                </Row> }
-              { !activeTab.replaceNavbar &&
-                  <Tabs className="tab-menu" activeKey={activeTab}
-                        onSelect={(tab) => router.setRoute(propertyPath + tab.relativeRoute)} id="property-menu-tabs">
-                    {propertyTabs.filter(tab => !tab.hideFromMenu).map(tab =>
-                      <Tab eventKey={tab} key={tab.relativeRoute} title={tab.title}></Tab>
-                    )}
-                  </Tabs>
-              }
+              <Row className="property-top-container property-status-mobile">
+                <Col sm={3} xs={4} className="property-status-label">
+                  סטטוס המודעה:
+                </Col>
+                <Col sm={9} xs={8} className="property-status-selector-container">
+                  <ListingStatusSelector listing={this.property} />
+                </Col>
+              </Row>
               { activeTab.replaceNavbar ? activeTab.component :
                   <Row className="property-content-container">
                     {activeTab.component}
