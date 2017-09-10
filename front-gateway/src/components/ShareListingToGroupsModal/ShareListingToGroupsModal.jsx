@@ -47,9 +47,9 @@ export default class ShareListingToGroupsModal extends React.Component {
 לפרטים המלאים של הדירה: ${utils.getShareUrl(currentUrl, "facebook_group_share", false)}`;
   }
 
-  groupLink(href, name, members) {
+  groupLink(groupId, name, members) {
     return (
-      <Button href={'https://www.facebook.com/groups/' + href} target="_blank"
+      <Button key={groupId} href={'https://www.facebook.com/groups/' + groupId} target="_blank"
               block className="share-listing-to-groups-group-button"
               onClick={() => window.analytics.track('client_click_facebook_group_open')}>
         <span className="share-listing-to-groups-group-name">{name}</span><br/>
