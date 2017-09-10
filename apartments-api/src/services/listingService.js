@@ -20,7 +20,7 @@ const possibleStatusesByCurrentStatus = {
 };
 
 const createdEventsByListingStatus = {
-  listed: messageBus.eventType.APARTMENT_CREATED,
+  listed: messageBus.eventType.APARTMENT_LISTED,
   pending: messageBus.eventType.APARTMENT_CREATED,
   rented: messageBus.eventType.APARTMENT_CREATED_FOR_MANAGEMENT
 };
