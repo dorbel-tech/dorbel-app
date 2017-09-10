@@ -40,13 +40,13 @@ module.exports = {
           selector: '.modal-header > h4'
         },
         workplace: {
-          selector: 'input[name="tenant_profile.workplace"]'
+          selector: 'input[name="tenant_profile.work_place"]'
         },
         position: {
           selector: 'input[name="tenant_profile.position"]'
         },
         about: {
-          selector: 'input[name="tenant_profile.about_you"]'
+          selector: 'textarea[name="tenant_profile.about_you"]'
         },
         sendButton: {
           selector: '.tenant-profile-edit-button'
