@@ -1,4 +1,5 @@
 import React from 'react';
+import autobind from 'react-autobind';
 import { Button } from 'react-bootstrap';
 import ShareModal from '~/components/Modals/ShareModal/ShareModal';
 
@@ -6,6 +7,7 @@ import ShareModal from '~/components/Modals/ShareModal/ShareModal';
 export default class ModalProvider {
   constructor(appStore) {
     this.appStore = appStore;
+    autobind(this)
   }
 
   showConfirmationModal(params) {
