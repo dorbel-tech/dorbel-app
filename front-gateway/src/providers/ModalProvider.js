@@ -7,7 +7,7 @@ import ShareModal from '~/components/Modals/ShareModal/ShareModal';
 export default class ModalProvider {
   constructor(appStore) {
     this.appStore = appStore;
-    autobind(this)
+    autobind(this);
   }
 
   showConfirmationModal(params) {
