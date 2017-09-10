@@ -5,7 +5,6 @@ import { Row, Col, Button, Image } from 'react-bootstrap';
 import { getUserNickname, getListingTitle, hideIntercom } from '~/providers/utils';
 import './TenantProfile.scss';
 
-const modalHashKey = '#tenant-profile';
 const emptyFieldText = 'אין פירוט';
 const contactDetailsTypeToStateName = {
   phone: 'showPhone',
