@@ -108,9 +108,6 @@ class Property extends Component {
     const propertyPath = getDashMyPropsPath(this.property, '/');
     const sortedPropertyImages = utils.sortListingImages(this.property);
     const imageURL = sortedPropertyImages[0].url;
-    const isActiveListing = appProviders.listingsProvider.isActiveListing(this.property);
-    const imageClass = 'property-image' + (isActiveListing ? '' : ' property-image-inactive');
-    const titleClass = 'property-title' + (isActiveListing ? '' : ' property-title-inactive');
     let editForm = null;
 
     const defaultHeaderButtons = (
@@ -176,11 +173,11 @@ class Property extends Component {
     return  <Grid fluid className="property-wrapper">
               <Row className="property-top-container">
                 <Col md={3} sm={3} xs={4} className="property-image-container">
-                  <CloudinaryImage src={imageURL} height={125} className={imageClass}/>
+                  <CloudinaryImage src={imageURL} height={125} className="property-image"/>
                 </Col>
                 <Col md={5} sm={6} xs={8} className="property-title-container">
-                  <div className={titleClass}>
-                    {utils.getListingTitle(this.property)}
+                  <div className="property-title">
+                    {utils.getListingAddress(this.property)}
                   </div>
                   <div className="property-title-details">
                     <div className="property-title-details-sub">
@@ -192,8 +189,8 @@ class Property extends Component {
                       <span className="property-title-details-sub-text">&nbsp;מ"ר</span>
                     </div>
                     <div className="property-title-details-sub">
-                      <span>{utils.getFloorTextValue(this.property)}</span>
-                      <span className="property-title-details-sub-text">&nbsp;קומה</span>
+                      <span>{this.property.monthly_rent}</span>
+                      <span className="property-title-details-sub-text">&nbsp;ש"ח</span>
                     </div>
                   </div>
                   <div className="property-status-desktop property-title-details-sub-text">

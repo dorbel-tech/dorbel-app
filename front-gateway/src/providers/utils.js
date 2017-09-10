@@ -40,6 +40,13 @@ function getListingTitle(listing) {
   return listing.title || `דירת ${listing.apartment.rooms} חד׳ ב${listing.apartment.building.street_name}`;
 }
 
+function getListingAddress(listing) {
+  const building = listing.apartment.building;
+  const prefix = building.street_name + (building.house_number ? ' ' + building.house_number : '');
+
+  return prefix + (building.city.city_name ? ', ' + building.city.city_name : '');
+}
+
 function getListingLeaseStats(listing) {
   const leaseStart = formatDate(listing.lease_start);
   const leaseEnd = formatDate(listing.lease_end);
@@ -153,6 +160,7 @@ module.exports = {
   decimalToPercision,
   optimizeCloudinaryUrl,
   getFloorTextValue,
+  getListingAddress,
   getListingStatusLabels,
   getListingSubTitle,
   getListingTitle,

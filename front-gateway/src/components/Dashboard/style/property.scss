@@ -13,12 +13,8 @@
   width: 100%;
 }
 
-.property-image-inactive {
-  opacity: 0.5;
-}
-
 .property-title-container {
-  color: #382e2f;
+  color: $gray-dark;
   padding-right: 50px;
   padding-top: 37px;
 
@@ -41,10 +37,6 @@
     padding-left: 65px;
     white-space: normal;
   }
-}
-
-.property-title-inactive {
-  color: $gray-light;
 }
 
 .property-title-details {
@@ -81,11 +73,11 @@
 }
 
 .property-title-details-sub-text {
-  color: #9b9b9b;
   font-size: 14px;
 }
 
 .property-title-details-sub {
+  color: $gray-mid-light;
   display: inline;
   padding-left: 12px;
 
