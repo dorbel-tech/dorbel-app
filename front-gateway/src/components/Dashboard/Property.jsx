@@ -108,9 +108,6 @@ class Property extends Component {
     const propertyPath = getDashMyPropsPath(this.property, '/');
     const sortedPropertyImages = utils.sortListingImages(this.property);
     const imageURL = sortedPropertyImages[0].url;
-    const isActiveListing = appProviders.listingsProvider.isActiveListing(this.property);
-    const imageClass = 'property-image' + (isActiveListing ? '' : ' property-image-inactive');
-    const titleClass = 'property-title' + (isActiveListing ? '' : ' property-title-inactive');
     let editForm = null;
 
     const defaultHeaderButtons = (
@@ -176,10 +173,10 @@ class Property extends Component {
     return  <Grid fluid className="property-wrapper">
               <Row className="property-top-container">
                 <Col md={3} sm={3} xs={4} className="property-image-container">
-                  <CloudinaryImage src={imageURL} height={125} className={imageClass}/>
+                  <CloudinaryImage src={imageURL} height={125} className="property-image"/>
                 </Col>
                 <Col md={5} sm={6} xs={8} className="property-title-container">
-                  <div className={titleClass}>
+                  <div className="property-title">
                     {utils.getListingTitle(this.property)}
                   </div>
                   <div className="property-title-details">
