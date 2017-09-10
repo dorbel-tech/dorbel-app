@@ -122,7 +122,7 @@ class TenantProfile extends Component {
   renderContactDetails(profile) {
     return (
       <Row>
-        <Col xs={12} className="tenant-profile-contact-details">
+        <Col xs={6} className="tenant-profile-contact-details">
           <div className="tenant-profile-field">
             <label>יצירת קשר</label>
             <div className="tenant-profile-contact-details-item">
@@ -144,6 +144,14 @@ class TenantProfile extends Component {
                   {profile.phone}
                 </a>
               )}
+            </div>
+          </div>
+        </Col>
+        <Col xs={6} className="tenant-profile-contact-details">
+          <div className="tenant-profile-field">
+            <label>פעולות</label>
+            <div className="tenant-profile-contact-details-item">
+              <Button href="https://www.dorbel.com/pages/services/credit-report" target="_blank" onClick="window.analytics.track('client_click_tenant_credit_score')">קרדיט סקור</Button>
             </div>
           </div>
         </Col>
