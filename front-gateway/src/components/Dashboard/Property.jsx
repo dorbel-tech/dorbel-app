@@ -177,7 +177,7 @@ class Property extends Component {
                 </Col>
                 <Col md={5} sm={6} xs={8} className="property-title-container">
                   <div className="property-title">
-                    {utils.getListingTitle(this.property)}
+                    {utils.getListingAddress(this.property)}
                   </div>
                   <div className="property-title-details">
                     <div className="property-title-details-sub">
@@ -189,8 +189,8 @@ class Property extends Component {
                       <span className="property-title-details-sub-text">&nbsp;מ"ר</span>
                     </div>
                     <div className="property-title-details-sub">
-                      <span>{utils.getFloorTextValue(this.property)}</span>
-                      <span className="property-title-details-sub-text">&nbsp;קומה</span>
+                      <span>{this.property.monthly_rent}</span>
+                      <span className="property-title-details-sub-text">&nbsp;ש"ח</span>
                     </div>
                   </div>
                   <div className="property-status-desktop property-title-details-sub-text">
