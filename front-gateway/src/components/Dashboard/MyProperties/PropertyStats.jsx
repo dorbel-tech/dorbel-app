@@ -104,6 +104,15 @@ class PropertyStats extends Component {
     const views = appStore.listingStore.listingViewsById.get(listingId);
     const isRented = listing.status == 'rented';
 
+    let step = 5;
+    if (!isRented) {
+      if (hasInterests) {
+        step = 4;
+      } else {
+        step = 3;
+      }
+    }
+
     return <Grid fluid className="property-stats">
             <Row>
               <Col lg={9} md={8} sm={7}>
@@ -138,20 +147,20 @@ class PropertyStats extends Component {
                     <div className="property-stats-process-point-half">
                       יצירת מודעה
                     </div>
-                    <div className="property-stats-process-vr" />
+                    <div className="property-stats-process-vr-done" />
                     <div className="property-stats-process-point-half">
                       הוספת תמונות
                     </div>
-                    <div className="property-stats-process-vr" />
-                    <div className={'property-stats-process-point-' + (hasInterests ? 'half' : 'full')}>
+                    <div className="property-stats-process-vr-done" />
+                    <div className={'property-stats-process-point-' + (step === 3 ? 'full' : 'half')}>
                       צפיות במודעה
                     </div>
-                    <div className="property-stats-process-vr" />
-                    <div className={'property-stats-process-point-' + (isRented ? 'half' : (hasInterests ? 'full' : 'empty'))}>
+                    <div className={'property-stats-process-vr-' + (step > 3 ? 'done' : 'not-done')} />
+                    <div className={'property-stats-process-point-' + (step === 4 ? 'full' : (step === 5 ? 'half' : 'empty'))}>
                       דיירים מתעניינים
                     </div>
-                    <div className="property-stats-process-vr" />
-                    <div className={'property-stats-process-point-' + (isRented ? 'full' : 'empty')}>
+                    <div className={'property-stats-process-vr-' + (step > 4 ? 'done' : 'not-done')} />
+                    <div className={'property-stats-process-point-' + (step === 5 ? 'full' : 'empty')}>
                       הדירה הושכרה
                     </div>
                   </div>

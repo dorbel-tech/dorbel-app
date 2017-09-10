@@ -206,7 +206,7 @@ $active-color: #3398db;
 
   &::before {
     background-color: $brand-white;
-    border: 1px solid #3398db;
+    border: 1px solid $gray-mid-light;
   }
 }
 
@@ -223,10 +223,15 @@ $active-color: #3398db;
   opacity: 0.5;
 }
 
-.property-stats-process-vr {
+.property-stats-process-vr-done,
+.property-stats-process-vr-not-done {
   border-left: 1px solid #3398db;
   height: 10px;
   width: 7px;
+}
+
+.property-stats-process-vr-not-done {
+  border-left: 1px solid $gray-mid-light;
 }
 
 .property-stats-views {
