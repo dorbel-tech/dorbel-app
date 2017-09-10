@@ -65,7 +65,7 @@ class ListingStatusSelector extends React.Component {
 
     let options = _.get(listing, 'meta.possibleStatuses') || [];
     options = options.filter(status => 
-      !!listingStatusLabels[status] && // TODO remove this line once 'pending' status is eliminated from server
+      !!listingStatusLabels[status] && // TODO remove this line once 'deleted' status is eliminated from server
       (status !== listing.status) && (listingStatusLabels[status].hasOwnProperty('actionLabel')));
 
     return (

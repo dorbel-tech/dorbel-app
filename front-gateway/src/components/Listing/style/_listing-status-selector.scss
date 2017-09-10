@@ -22,6 +22,11 @@
     border-color: $brand-success;
   }
 
+  &.listing-status-selector-pending {
+    background-color: #9b9b9b !important;
+    border-color: #9b9b9b;
+  }
+
   &.listing-status-selector-unlisted {
     background-color: #2d3e50 !important;
     border-color: #2d3e50;
@@ -31,6 +36,10 @@
 .dropdown > .dropdown-menu > li {
   &.listing-status-selector-item-listed > a::before {
     content: '\f04b';
+  }
+
+  &.listing-status-selector-item-pending > a::before {
+    content: '\f04d';
   }
 
   &.listing-status-selector-item-rented > a::before {
