@@ -131,8 +131,6 @@ const dataRetrievalFunctions = {
   getUserDetails: eventData => {
     return userManagement.getPublicProfile(eventData.user_uuid)
       .then(userProfile => {
-        // Reducing object size by removing unused data.
-        userProfile.tenant_profile = undefined;
         return { user_profile: userProfile };
       });
   },
