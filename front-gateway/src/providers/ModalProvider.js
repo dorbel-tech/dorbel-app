@@ -42,12 +42,6 @@ export default class ModalProvider {
   }
 
   show(params) {
-    if (process.env.IS_CLIENT) {
-      // close on clicking back
-      history.pushState(null, null);
-      window.onpopstate = this.close;
-    }
-
     this.appStore.modalParams = {
       title: params.title,
       body: (
