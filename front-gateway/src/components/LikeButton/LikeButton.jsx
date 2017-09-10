@@ -34,11 +34,16 @@ class LikeButton extends Component {
         modalProvider.showInfoModal({
           title: 'בעל הדירה קיבל את פנייתך ויוכל לחזור אליך בהקדם',
           body: (
-            <Button href={'/search'} onClick={navProvider.handleHrefClick} bsStyle="success" className="like-confirm-button">
-              <i className="fa fa-home" />
-              מדהים, הראו לי דירות נוספות
-            </Button>
-          )
+            <div className="like-confirm-dialog">
+              <p>בינתיים, מצאו דירות נוספות שמתאימות לכם!<br/>
+              הגדירו אילו דירות אתם מחפשים וקבלו ישירות למייל עדכונים על דירות חדשות לפני כולם!</p>
+              <Button href={'/search'} onClick={navProvider.handleHrefClick} bsStyle="success" className="like-confirm-button">
+                <i className="fa fa-home" />
+                צור חיפוש חכם
+              </Button>
+            </div>
+          ),
+          modalSize: 'large'
         })
       })
       .catch(err => notificationProvider.error(err));
