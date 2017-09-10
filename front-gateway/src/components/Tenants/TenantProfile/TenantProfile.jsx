@@ -25,20 +25,11 @@ class TenantProfile extends Component {
 
   componentDidMount() {
     hideIntercom(true);
-
-    // allow close on 'history.back()'
-    const { profile } = this.props;
-    history.replaceState(profile, '', '');
-    window.onpopstate = this.props.appProviders.modalProvider.close;
   }
 
   componentWillUnmount() {
     this.popup && this.popup.destroy();
     hideIntercom(false);
-
-    // clear state if modal closed by anything other than 'history.back()' 
-    const { profile } = this.props;
-    if (history.state == profile) { history.back() } 
   }
 
   renderHeader(profile) {
