@@ -10,13 +10,12 @@ const moment = require('moment');
 const logger = shared.logger.getLogger(module);
 const userManagement = shared.utils.user.management;
 const APT_API = process.env.APARTMENTS_API_URL;
-const OHE_API = process.env.OHE_API_URL;
 
 // Creating special notification service dummy user to handle data retrival from service in order to pass user validation checks.
 const notificationServiceUser = { id: '10000000-0000-0000-0000-000000000000', role: 'admin' };
 const requestOptions = { headers: { 'x-user-profile': JSON.stringify(notificationServiceUser) }, json: true };
 
-if (!APT_API || !OHE_API) {
+if (!APT_API) {
   throw new Error('Missing API Urls in config');
 }
 
@@ -30,26 +29,6 @@ function getApartmentLikes(apartmentId) {
 
 function getMatchingFiltersByListingId(listingId) {
   return request.get(`${APT_API}/v1/filters?matchingListingId=${listingId}`, requestOptions);
-}
-
-function getOheInfo(oheId) {
-  return request.get(`${OHE_API}/v1/event/${oheId}`, requestOptions);
-}
-
-function getListingOhes(listingId) {
-  return request.get(`${OHE_API}/v1/events/by-listing/${listingId}`, requestOptions);
-}
-
-function getOheRegisteredUsers(oheId) {
-  return getOheInfo(oheId)
-    .then(response => {
-      // this notification will be sent to the users registered to the OHE
-      return {
-        customRecipients: response.registrations
-          .filter(registration => registration.is_active)
-          .map(registration => registration.registered_user_id)
-      };
-    });
 }
 
 const dataRetrievalFunctions = {
@@ -68,42 +47,6 @@ const dataRetrievalFunctions = {
             return { listing };
           });
       });
-  },
-  getOheInfo: eventData => {
-    return getOheInfo(eventData.event_id)
-      .then(response => ({ ohe: response }));
-  },
-  getOheInfoForLandlord: eventData => {
-    return getOheInfo(eventData.event_id)
-      .then(response => {
-        // Manually adding registrationsCount to trigger email sending to apartment owner
-        // only for the first registered user to OHE.
-        response.registrationsCount = response.registrations.length;
-        return {
-          ohe: response,
-          customRecipients: [response.publishing_user_id]
-        };
-      });
-  },
-  sendToOheRegisteredUsers: eventData => {
-    return getOheRegisteredUsers(eventData.event_id);
-  },
-  getListingOhesAndSendToOheRegisteredUsers: eventData => {
-    return getListingOhes(eventData.listing_id)
-      .then(response => {
-        const getRegisteredUsersForAllOhes = response.map(ohe => getOheRegisteredUsers(ohe.id));
-
-        return Promise.all(getRegisteredUsersForAllOhes)
-          .then(results => {
-            return {
-              customRecipients: _.uniq(_.flatten(_.map(results, 'customRecipients')))
-            };
-          });
-      });
-  },
-  getListingOhesCount: eventData => {
-    return getListingOhes(eventData.listing_id)
-      .then(response => ({ ohesCount: response.length || 0 }));
   },
   getApartmentLikesCount: eventData => {
     return getApartmentLikes(eventData.apartment_id)
@@ -133,10 +76,6 @@ const dataRetrievalFunctions = {
       .then(userProfile => {
         return { user_profile: userProfile };
       });
-  },
-  getListingOheInfo: eventData => {
-    return getListingOhes(eventData.listing_id)
-      .then(response => ({ ohe: response[0] }));
   },
   getMatchingFilters: eventData => {
     return getMatchingFiltersByListingId(eventData.listing_id)
