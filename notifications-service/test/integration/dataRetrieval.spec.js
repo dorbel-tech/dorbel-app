@@ -3,7 +3,6 @@
 *  This tests the integration between this module and the API's running
 */
 const __ = require('hamjest');
-const moment = require('moment');
 
 // This is meh, but until we have a CI-environment-seed (or something) it's the best I can do
 const fixtures = {
@@ -43,25 +42,6 @@ describe('Data Retrieval Integration', function () {
     __.assertThat(listingInfo.listing.apartment.floor, __.is(__.defined()));
   });
 
-  it('should get OHE Info', function* () {
-    const oheInfo = yield this.retrieve('getOheInfo', {
-      event_id: fixtures.event_id
-    });
-
-    __.assertThat(moment(oheInfo.ohe.start_time, moment.ISO_8601).isValid(), __.is(true));
-    __.assertThat(moment(oheInfo.ohe.end_time, moment.ISO_8601).isValid(), __.is(true));
-  });
-
-  it('should get OHE info for landlord', function* () {
-    const oheInfo = yield this.retrieve('getOheInfoForLandlord', {
-      event_id: fixtures.event_id
-    });
-
-    __.assertThat(moment(oheInfo.ohe.start_time, moment.ISO_8601).isValid(), __.is(true));
-    __.assertThat(moment(oheInfo.ohe.end_time, moment.ISO_8601).isValid(), __.is(true));
-    __.assertThat(oheInfo.ohe.publishing_user_id, __.is(oheInfo.customRecipients[0]));
-  });
-
   it('should get listing likes', function* () {
     const listingLikes = yield this.retrieve('sendToApartmentLikedUsers', {
       apartment_id: fixtures.apartment_id
@@ -78,22 +58,6 @@ describe('Data Retrieval Integration', function () {
 
     __.assertThat(likersCountRes.followersCount, __.is(2));
     __.assertThat(likersCountRes.customRecipients, __.is([fixtures.staticUser.id]));
-  });
-
-  it('should get listing OHEs count', function* () {
-    const getListingOhesCountRes = yield this.retrieve('getListingOhesCount', {
-      listing_id: fixtures.listing_id
-    });
-
-    __.assertThat(getListingOhesCountRes.ohesCount, __.is(1));
-  });
-
-  it('should get OHE registered users', function* () {
-    const OheUsers = yield this.retrieve('sendToOheRegisteredUsers', {
-      event_id: fixtures.event_id
-    });
-
-    __.assertThat(OheUsers.customRecipients, __.is(REGISTERED_USERS));
   });
 
   it('should get user details', function* () {
@@ -119,7 +83,7 @@ describe('Data Retrieval Integration', function () {
       user_uuid: fixtures.staticUser.id,
       listing_id: fixtures.listing_id
     });
-    
+
     __.assertThat(reportData.listing_id, __.is(fixtures.listing_id));
     __.assertThat(reportData.street_name, __.is(__.defined()));
     __.assertThat(reportData.house_number, __.is(__.defined()));
