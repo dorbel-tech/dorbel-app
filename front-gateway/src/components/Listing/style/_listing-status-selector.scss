@@ -23,8 +23,8 @@
   }
 
   &.listing-status-selector-pending {
-    background-color: #9b9b9b !important;
-    border-color: #9b9b9b;
+    background-color: $gray-mid-light !important;
+    border-color: $gray-mid-light;
   }
 
   &.listing-status-selector-unlisted {
