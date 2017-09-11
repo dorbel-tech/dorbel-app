@@ -16,6 +16,7 @@ class InterestedBox extends Component {
 
   render() {
     const { listing } = this.props;
+    const allowInterest = listing.status === 'listed' || listing.status === 'pending';
 
     return (
       <div className="listing-interested-box-content">
@@ -24,7 +25,7 @@ class InterestedBox extends Component {
           <span className="listing-interested-box-content-text-explain">הודיעו לבעל הדירה שאתם מעוניינים בדירה שיוכל לחזור אליכם</span>
         </div>
         <div className="listing-interested-box-button-container">
-          <LikeButton apartmentId={listing.apartment_id} listingId={listing.id} />
+          {allowInterest && <LikeButton apartmentId={listing.apartment_id} listingId={listing.id} />}
           {this.renderLikeCounter()}
         </div>
         <ListingOwnerDetails listing={listing} />
