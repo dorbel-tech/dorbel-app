@@ -24,7 +24,7 @@ class InterestedBox extends Component {
           <span className="listing-interested-box-content-text-explain">הודיעו לבעל הדירה שאתם מעוניינים בדירה שיוכל לחזור אליכם</span>
         </div>
         <div className="listing-interested-box-button-container">
-          <LikeButton apartmentId={listing.apartment_id} listingId={listing.id} />
+          {listing.status === 'listed' && <LikeButton apartmentId={listing.apartment_id} listingId={listing.id} />}
           {this.renderLikeCounter()}
         </div>
         <ListingOwnerDetails listing={listing} />
