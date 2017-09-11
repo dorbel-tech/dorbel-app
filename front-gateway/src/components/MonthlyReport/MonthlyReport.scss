@@ -69,30 +69,6 @@
   }
 }
 
-.monthly-report-future-booking {
-  margin: 33px 0;
-
-  .monthly-report-future-booking-icon {
-    margin-top: 3px;
-  }
-
-  .monthly-report-future-booking-text {
-    color: $gray-light;
-    font-size: 13px;
-    line-height: 18px;
-    margin-right: 5px;
-
-    .darker {
-      color: $gray-dark;
-    }
-  }
-
-  a,
-  a:active {
-    color: #3398db;
-  }
-}
-
 .property-details-section {
   .property-details-section-header {
     text-align: center;
@@ -137,12 +113,5 @@
     color: $brand-white;
     background-color: #3398db;
     margin-top: 10px;
-  }
-}
-
-.current-tenants-section {
-  .current-tenants-section-add-button {
-    color: $brand-white;
-    background-color: #3398db;
   }
 }
