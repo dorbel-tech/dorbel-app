@@ -23,6 +23,10 @@
     background-color: #f09b0a;
   }
 
+  &.pending {
+    background-color: $gray-mid-light;
+  }
+
   &.unlisted,
   &.deleted {
     background-color: #2d3e50;
