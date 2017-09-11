@@ -244,10 +244,17 @@ class Filter extends Component {
   }
 
   saveFilter() {
-    const { appProviders } = this.props;
+    const { appProviders, appStore } = this.props;
+
     if (!appProviders.authProvider.shouldLogin({ actionBeforeLogin: SAVE_FILTER_ACTION })) {
       appProviders.searchProvider.saveFilter(this.filterObj)
-      .then(() => appProviders.notificationProvider.success('החיפוש נשמר בהצלחה'))
+      .then(() => {
+        appProviders.notificationProvider.success('החיפוש נשמר בהצלחה');
+
+        if (!appStore.searchStore.activeFilterId) {
+          window.analytics.track('saved_filter_created', this.filterObj);
+        }
+      })
       .catch(err => {
         let heading = err.message || _.get(err, 'response.data');
         appProviders.modalProvider.showInfoModal({ title: 'אופס...', heading });
