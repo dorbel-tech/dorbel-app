@@ -16,11 +16,6 @@
     "dataEnrichment": [ "addCalendarInvite" ]
   },
   {
-    "eventType": "APARTMENT_CREATED_FOR_MANAGEMENT",
-    "notificationType": "saved_filter_matched",
-    "dataRetrieval": [ "getListingInfo", "getMatchingFilters" ]
-  },
-  {
     "eventType": "APARTMENT_LISTED",
     "notificationType": "saved_filter_matched",
     "dataRetrieval": [ "getListingInfo", "getMatchingFilters" ]
