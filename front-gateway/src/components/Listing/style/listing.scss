@@ -1,3 +1,9 @@
+.listing-wrapper {
+  @media (max-width: $screen-xs-max) {
+    padding-top: 55px;
+  }
+}
+
 .listing-owner-section,
 .listing-container {
   position: relative;
