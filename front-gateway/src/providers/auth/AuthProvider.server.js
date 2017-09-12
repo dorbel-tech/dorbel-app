@@ -15,9 +15,10 @@ class ServerAuthProvider {
   * loginWithCookie(cookieProvider) {
     // not so happy with this flow - the store should be the one to access the cookie :|
     const idToken = cookieProvider.get('id_token');
+    const accessToken = cookieProvider.get('access_token');
 
     if (idToken) {
-      this.authStore.setToken(idToken);
+      this.authStore.setToken(idToken, accessToken);
 
       const profile = yield shared.utils.user.management.getProfileFromIdToken(idToken);
       if (profile) {

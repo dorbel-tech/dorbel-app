@@ -1,7 +1,7 @@
 import React from 'react';
 import autobind from 'react-autobind';
 import { inject } from 'mobx-react';
-import { Grid, Row, Col, Button, Image } from 'react-bootstrap';
+import { Grid, Row, Col, ButtonGroup, Button, Image } from 'react-bootstrap';
 import FormWrapper, { FRC } from '~/components/FormWrapper/FormWrapper';
 import { hideIntercom } from '~/providers/utils';
 
@@ -111,7 +111,14 @@ export default class TenantProfileEdit extends React.Component {
                   <FRC.Input value={profile.tenant_profile.linkedin_url} name="tenant_profile.linkedin_url" type="text" placeholder="העתיקו לינק לפרופיל הלינקדאין שלכם" />
                 </Col>
                 <Col xs={12} sm={6}>
-                  <FRC.Input value={profile.tenant_profile.facebook_url} name="tenant_profile.facebook_url" type="text" placeholder="העתיקו לינק לפרופיל הפייסבוק שלכם" />
+                  <ButtonGroup>
+                    <Button>F</Button>
+                    { profile.tenant_profile.facebook_url ?
+                      <Button>פרופיל פייסבוק מחובר</Button> :
+                      <Button onClick={() => this.props.appProviders.authProvider.linkFacebookAccount()}>חבר פרופיל פייסבוק</Button>
+                    }
+                  </ButtonGroup>
+                  {/* <FRC.Input value={profile.tenant_profile.facebook_url} name="tenant_profile.facebook_url" type="text" placeholder="העתיקו לינק לפרופיל הפייסבוק שלכם" /> */}
                 </Col>
               </Row>
             </div>
