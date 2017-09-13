@@ -52,7 +52,6 @@ class ListingSocial extends React.Component {
               <a className="listing-social-share-item fa fa-facebook-f" title="שתף מודעה בפייסבוק" onClick={() => this.shareTo('facebook', currentUrl)}></a>
               <a className="listing-social-share-item whatsapp fa fa-whatsapp" onClick={() => this.shareTo('whatsapp', currentUrl)}></a>
             </div>
-
         }
       </div>
     );
