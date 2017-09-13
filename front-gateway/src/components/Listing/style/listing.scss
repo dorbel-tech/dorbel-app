@@ -1,7 +1,5 @@
 .listing-wrapper {
   @media (max-width: $screen-xs-max) {
-    -webkit-overflow-scrolling: touch;
-    overflow-y: scroll; /* has to be scroll, not auto */
     padding-top: 55px;
   }
 }
