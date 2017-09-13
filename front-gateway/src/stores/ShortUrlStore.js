@@ -1,5 +1,5 @@
 import { observable } from 'mobx';
-export default class ShareUrlStore {
+export default class ShortUrlStore {
   constructor() {
     this.longToShortUrlMap = {}
   }
