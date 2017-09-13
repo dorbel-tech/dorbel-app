@@ -41,7 +41,7 @@ export default class TenantRow extends React.Component {
     });
   }
 
-  handleMsgClick() {
+  handleMsgClick(e) {
     e.stopPropagation(); // Prevent propagation to showTenantProfileModal
 
     const { tenant, listing } = this.props;
