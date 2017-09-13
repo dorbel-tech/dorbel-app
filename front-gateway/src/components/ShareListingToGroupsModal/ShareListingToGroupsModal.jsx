@@ -44,7 +44,7 @@ export default class ShareListingToGroupsModal extends React.Component {
 
     return `להשכרה דירת ${listing.apartment.rooms} חד' ברחוב ${listing.apartment.building.street_name}, ${listing.apartment.building.city.city_name}. כניסה ב-${lease_start}, ${listing.apartment.size} מ"ר, שכ"ד ₪${listing.monthly_rent}.
 שתפו / שלחו / תייגו חברים שמחפשים!
-לפרטים המלאים של הדירה: ${utils.getShareUrl(currentUrl, "facebook_group_share", false)}`;
+לפרטים המלאים של הדירה ורישום לחצו על התמונה: ${utils.getShareUrl(currentUrl, "facebook_group_share", false)}`;
   }
 
   groupLink(groupId, name, members) {
