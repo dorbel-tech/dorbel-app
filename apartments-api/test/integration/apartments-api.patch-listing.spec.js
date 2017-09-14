@@ -120,7 +120,6 @@ describe('Integration - PATCH /listings/{id}', function () {
 
   it('should update building with details when not moving to a different building', function* () {
     let update = _.set({}, 'apartment.building.elevator', !createdListing.apartment.building.elevator);
-    _.set(update, 'apartment.building.neighborhood.id', 2);
 
     const response = yield apiClient.patchListing(createdListing.id, update).expect(200).end();
 
@@ -174,10 +173,6 @@ describe('Integration - PATCH /listings/{id}', function () {
 
   it('should fail to update to a non-existing city', function* () {
     yield apiClient.patchListing(createdListing.id, _.set({}, 'apartment.building.city.id', 100)).expect(400).end();
-  });
-
-  it('should fail to update to a non-existing neighborhood', function* () {
-    yield apiClient.patchListing(createdListing.id, _.set({}, 'apartment.building.neighborhood.id', 100)).expect(400).end();
   });
 
   it('should fail for non-existing listing', function* () {

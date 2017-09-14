@@ -5,7 +5,7 @@ const listingRepository = require('../apartmentsDb/repositories/listingRepositor
 const { createObjectByMapping } = require('./utils');
 
 const MAX_FILTERS_PER_USER = 2;
-const filterUpdateFields = [ 'city', 'neighborhood', 'min_monthly_rent', 'max_monthly_rent', 'min_rooms', 'max_rooms',
+const filterUpdateFields = [ 'city', 'min_monthly_rent', 'max_monthly_rent', 'min_rooms', 'max_rooms',
   'air_conditioning', 'balcony', 'elevator', 'parking', 'pets', 'security_bars', 'future_booking', 'min_lease_start', 'max_lease_start' ];
 const errors = shared.utils.domainErrors;
 
@@ -14,7 +14,6 @@ const clientToApiFilterMap = [
   'id',
   'email_notification',
   'city',
-  'neighborhood',
   ['mrs', 'min_monthly_rent'],
   ['mre', 'max_monthly_rent'],
   ['minRooms', 'min_rooms'],

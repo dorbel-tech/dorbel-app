@@ -7,7 +7,6 @@ module.exports = function define(sequelize, DataTypes) {
       email_notification: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: true },
 
       city: DataTypes.INTEGER,
-      neighborhood: DataTypes.INTEGER,
       min_monthly_rent: DataTypes.DECIMAL(10, 2),
       max_monthly_rent: DataTypes.DECIMAL(10, 2),
       min_rooms: DataTypes.DECIMAL(3, 1),

@@ -82,9 +82,6 @@ function getListingQuery(filter, options) {
   if (filter.city === '*') {
     _.unset(filter, 'city');
   }
-  if (filter.neighborhood === '*') {
-    _.unset(filter, 'neighborhood');
-  }
 
   var filterMapping = {
     // Listing monthly rent start (minimum)
@@ -94,7 +91,6 @@ function getListingQuery(filter, options) {
     // Listing with a roomate (a roomate looking for roomate/s).
     room: { set: 'roommate_needed', target: listingQuery },
     city: { set: 'buildingQuery.city_id' },
-    neighborhood: { set: 'neighborhoodQuery.id' },
     ele: { set: 'buildingQuery.elevator', staticValue: true },
     minRooms: { set: 'apartmentQuery.rooms.$gte' },
     maxRooms: { set: 'apartmentQuery.rooms.$lte' },

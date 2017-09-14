@@ -1,6 +1,5 @@
 'use strict';
 const cityRepository = require('../../apartmentsDb/repositories/cityRepository');
-const neighborhoodRepository = require('../../apartmentsDb/repositories/neighborhoodRepository');
 const listingService = require('../../services/listingService');
 const documentService = require('../../services/documentService');
 const filterService = require('../../services/filterService');
@@ -9,7 +8,6 @@ const filterService = require('../../services/filterService');
 const resolvers = {
   Query: {
     cities: cityRepository.list,
-    neighborhoods: (_, params) => neighborhoodRepository.getByCityId(params.city_id),
     listing: (_, params, context) => listingService.getById(params.listing_id, context.user),
     listings: (_, params, context) => listingService.getByFilter(params, { user: context.user }),
     filters: (_, params, context) => filterService.getByUser(context.user)

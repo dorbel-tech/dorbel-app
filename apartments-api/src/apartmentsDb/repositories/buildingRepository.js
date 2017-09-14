@@ -16,22 +16,8 @@ async function updateOrCreate(building, options = {}) {
     throw new ValidationError('city not found', building.city, 'העיר לא נמצאה');
   }
 
-  const neighborhood = await db.models.neighborhood.findOne({
-    where: { id: building.neighborhood.id },
-    raw: true
-  });
-  if (!neighborhood) {
-    logger.error({ neighborhood_id: building.neighborhood.id }, 'Neighborhood not found!');
-    throw new ValidationError('neighborhood not found', building.neighborhood, 'השכונה לא נמצאה');
-  }
-
-  if (city.id !== neighborhood.city_id) {
-    logger.error({ city_id: city.id, neighborhood_city_id: neighborhood.city_id, neighborhood_id: neighborhood.id }, 'Neighborhood city mismatch!');
-    throw new ValidationError('neighborhood city mismatch', building, 'אין התאמה בין עיר לשכונה');
-  }
-
   // properties that are not part of the unique constraint but might still need to be updated
-  const nonUniqueProps = Object.assign(_.pick(building, ['geolocation', 'elevator', 'floors']), { neighborhood_id: building.neighborhood.id });
+  const nonUniqueProps = Object.assign(_.pick(building, ['geolocation', 'elevator', 'floors']));
 
   const findOrCreateResult = await db.models.building.findOrCreate({
     where: {
@@ -52,7 +38,6 @@ async function updateOrCreate(building, options = {}) {
   }
 
   buildingResult.city = city;
-  buildingResult.neighborhood = neighborhood;
 
   return buildingResult;
 }
