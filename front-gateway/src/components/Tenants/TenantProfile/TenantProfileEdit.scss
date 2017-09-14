@@ -85,5 +85,15 @@
     .form-control-feedback {
       display: none;
     }
+
+    .connect-social-button-facebook {
+      color: $brand-white;
+      background-color: $facebook-color;
+    }
+
+    .connect-social-button-linkedin {
+      color: $brand-white;
+      background-color: $linkedin-color;
+    }
   }
 }

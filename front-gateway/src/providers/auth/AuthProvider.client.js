@@ -1,7 +1,7 @@
 'use strict';
 import promisify from 'es6-promisify';
-import auth0helper from './auth0helper';
 import autobind from 'react-autobind';
+import auth0helper from './auth0helper';
 
 const LINK_ACCOUNTS = 'link-accounts';
 
@@ -31,13 +31,12 @@ class AuthProvider {
     const stateBeforeLogin = this.parseStateBeforeLogin(authResult);
 
     if (stateBeforeLogin && stateBeforeLogin.actionBeforeLogin === LINK_ACCOUNTS) {
-      auth0helper.linkAccount(this.domain, this.authStore.profile.auth0_user_id, this.authStore.idToken, authResult.idToken)
+      return auth0helper.linkAccount(this.domain, this.authStore.profile.auth0_user_id, this.authStore.idToken, authResult.idToken)
       // we are supposed to be in the link-account popup, so it can be closed
-      .then(() => window.close())
-      .catch(err => alert(err));
+      .then(() => window.close());
     } else {
       this.authStore.setToken(authResult.idToken, authResult.accessToken);
-      this.getUserInfo(authResult)
+      return this.getUserInfo(authResult)
         // wait until profile is set because our previous state might depend on it
         .then(() => this.recoverStateAfterLogin(stateBeforeLogin));
     }
@@ -143,12 +142,6 @@ class AuthProvider {
   }
 
   linkSocialAccount(connection) {
-    const notLoggedIn = !this.authStore.isLoggedIn;
-    const facebookConnected = !!this.authStore.profile.tenant_profile.facebook_url;
-    if (notLoggedIn || facebookConnected) {
-      return;
-    }
-
     return new Promise(resolve => {
       this.auth0Sdk.popup.authorize({
         connection,

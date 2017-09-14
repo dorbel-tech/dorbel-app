@@ -15,7 +15,8 @@ export default class AuthStore {
   @observable profile = null;
 
   constructor(initialState = {}) {
-    this.setToken(localStorageHelper.getItem(ID_TOKEN_KEY) || initialState.idToken);
+    this.setToken(localStorageHelper.getItem(ID_TOKEN_KEY) || initialState.idToken,
+                  localStorageHelper.getItem(ACCESS_TOKEN_KEY) || initialState.accessToken);
     this.setProfile(localStorageHelper.getItem(PROFILE_KEY) || initialState.profile);
     this.events = new EventEmitter();
   }
@@ -89,6 +90,7 @@ export default class AuthStore {
   toJson() {
     return {
       idToken: this.idToken,
+      accessToken: this.accessToken,
       profile: this.profile
     };
   }

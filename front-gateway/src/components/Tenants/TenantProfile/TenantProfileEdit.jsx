@@ -108,17 +108,16 @@ export default class TenantProfileEdit extends React.Component {
               <div className="tenant-profile-edit-form-section-explain">הוסיפו רשתות חברתיות על מנת לגלות חברים משותפים עם בעל הדירה</div>
               <Row>
                 <Col xs={12} sm={6}>
-                  <FRC.Input value={profile.tenant_profile.linkedin_url} name="tenant_profile.linkedin_url" type="text" placeholder="העתיקו לינק לפרופיל הלינקדאין שלכם" />
+                  { profile.tenant_profile.linkedin_url ?
+                    <Button className="connect-social-button-linkedin" href={profile.tenant_profile.linkedin_url} target="_blank">✔ פרופיל לינקדאין מחובר <i className="fa fa-linkedin" /></Button> :
+                    <Button className="connect-social-button-linkedin" onClick={() => this.props.appProviders.authProvider.linkSocialAccount('linkedin').then(() => this.forceUpdate())}>חבר פרופיל לינקדאין <i className="fa fa-linkedin" /></Button>
+                  }
                 </Col>
                 <Col xs={12} sm={6}>
-                  <ButtonGroup>
-                    <Button bsStyle="primary"><i className="fa fa-facebook-f" /></Button>
-                    { profile.tenant_profile.facebook_url ?
-                      <Button bsStyle="primary" href={profile.tenant_profile.facebook_url} target="_blank">✔ פרופיל פייסבוק מחובר</Button> :
-                      <Button onClick={() => this.props.appProviders.authProvider.linkSocialAccount('facebook').then(() => this.forceUpdate())}>חבר פרופיל פייסבוק</Button>
-                    }
-                  </ButtonGroup>
-                  {/* <FRC.Input value={profile.tenant_profile.facebook_url} name="tenant_profile.facebook_url" type="text" placeholder="העתיקו לינק לפרופיל הפייסבוק שלכם" /> */}
+                  { profile.tenant_profile.facebook_url ?
+                    <Button className="connect-social-button-facebook" href={profile.tenant_profile.facebook_url} target="_blank">✔ פרופיל פייסבוק מחובר <i className="fa fa-facebook-f" /></Button> :
+                    <Button className="connect-social-button-facebook" onClick={() => this.props.appProviders.authProvider.linkSocialAccount('facebook').then(() => this.forceUpdate())}>חבר פרופיל פייסבוק <i className="fa fa-facebook-f" /></Button>
+                  }
                 </Col>
               </Row>
             </div>

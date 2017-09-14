@@ -95,6 +95,11 @@ function mapAuth0Profile(auth0profile) {
     mappedProfile.tenant_profile.facebook_url = 'https://www.facebook.com/app_scoped_user_id/' + facebookIdentity.user_id;
   }
 
+  const linkedinIdentity = _.find(auth0profile.identities || [], { provider: 'linkedin' });
+  if (linkedinIdentity && linkedinIdentity.profileData) {
+    mappedProfile.tenant_profile.linkedin_url = linkedinIdentity.profileData.publicProfileUrl;
+  }
+
   return mappedProfile;
 }
 
