@@ -23,23 +23,33 @@
 
     .like-button {
       width: 90%;
+
+      @media (max-width: $screen-xs-max) {
+        box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.3);
+        left: 0;
+        margin: 0 auto;
+        padding: 2px 5px 5px;
+        position: fixed;
+        right: 0;
+        top: 70px;
+        z-index: 1;
+      }
     }
   }
 
   @media (max-width: $screen-xs-max) {
-    left: 0;
-    padding: 5px;
-    position: fixed;
-    right: 0;
-    top: 60px;
-    z-index: 1;
+    padding-bottom: 0;
 
-    .listing-interested-box-button-container {
+    span:first-child {
+      color: $gray-dark;
+    }
+
+    .listing-interested-box-content-text {
       padding: 0;
     }
 
-    .listing-interested-box-content-text,
-    .listing-owner-container {
+    .listing-interested-box-content-text-heading,
+    .listing-interested-box-content-text-explain {
       display: none;
     }
   }

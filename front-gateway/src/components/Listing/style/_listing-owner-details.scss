@@ -4,4 +4,13 @@
   padding-right: 20px;
   padding-bottom: 10px;
   background-color: $brand-white;
+
+  .listing-owner-container-text-explain {
+    color: $gray-light;
+    display: none;
+
+    @media (max-width: $screen-xs-max) {
+      display: block;
+    }
+  }
 }
