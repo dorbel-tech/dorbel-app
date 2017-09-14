@@ -2,8 +2,10 @@
 @import "../../sharedStyles/bsvars.scss";
 
 .tenant-row {
-  display: flex;
   align-items: center;
+  cursor: pointer;
+  display: flex;
+  padding: 10px 15px;
 
   @media (max-width: $screen-xs-max) {
     margin: 0 -20px;
