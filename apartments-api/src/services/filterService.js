@@ -126,7 +126,6 @@ function mapListingToMatchingFilterQuery(listing) {
   return {
     email_notification: true, // only return the filters that require email notification
     city: listing.apartment.building.city_id,
-    neighborhood: nullOrEqualTo(listing.apartment.building.neighborhood_id),
     min_monthly_rent: nullOrModifier('$lte', listing.monthly_rent),
     max_monthly_rent: nullOrModifier('$gte', listing.monthly_rent),
     min_rooms: nullOrModifier('$lte', listing.apartment.rooms),
