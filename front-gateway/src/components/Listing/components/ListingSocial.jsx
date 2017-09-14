@@ -26,7 +26,7 @@ class ListingSocial extends React.Component {
   getListingUrl() {
     const listing = this.props.listing;
     const website_url = process.env.FRONT_GATEWAY_URL || 'https://app.dorbel.com';
-    const listingUrl = website_url + routesHelper.getPropertyPath(listing)
+    const listingUrl = website_url + routesHelper.getPropertyPath(listing);
     return listingUrl;
   }
 
