@@ -56,7 +56,7 @@ function initAuth0Sdk(clientID, domain) {
 
 function linkAccount(domain, primaryUserId, primaryJWT, secondaryJWT) {
   // based on https://auth0.com/docs/link-accounts/user-initiated-linking#3-perform-linking-by-calling-the-auth0-management-api
-  if (!primaryUserId || !primaryJWT || !secondaryJWT) {
+  if (!domain || !primaryUserId || !primaryJWT || !secondaryJWT) {
     return;
   }
 
@@ -83,20 +83,16 @@ function mapAuth0Profile(auth0profile) {
     last_name: _.get(auth0profile, 'user_metadata.last_name') || auth0profile.family_name,
     phone: _.get(auth0profile, 'user_metadata.phone'),
     picture: getPermanentFBPictureUrl(auth0profile) || auth0profile.picture,
-    tenant_profile: _.get(auth0profile, 'user_metadata.tenant_profile'),
+    tenant_profile: _.get(auth0profile, 'user_metadata.tenant_profile') || {},
     settings: _.get(auth0profile, 'user_metadata.settings') || {},
     role: _.get(auth0profile, 'app_metadata.role'),
     first_login: _.get(auth0profile, 'app_metadata.first_login')
   };
 
-  if (!mappedProfile.tenant_profile) {
-    mappedProfile.tenant_profile = {};
-
-    const facebookIdentity = _.find(auth0profile.identities, { provider: 'facebook' });
-    if (facebookIdentity) {
-      mappedProfile.tenant_profile.facebook_user_id = facebookIdentity.user_id;
-      mappedProfile.tenant_profile.facebook_url = 'https://www.facebook.com/app_scoped_user_id/' + facebookIdentity.user_id;
-    }
+  const facebookIdentity = _.find(auth0profile.identities || [], { provider: 'facebook' });
+  if (facebookIdentity) {
+    mappedProfile.tenant_profile.facebook_user_id = facebookIdentity.user_id;
+    mappedProfile.tenant_profile.facebook_url = 'https://www.facebook.com/app_scoped_user_id/' + facebookIdentity.user_id;
   }
 
   return mappedProfile;

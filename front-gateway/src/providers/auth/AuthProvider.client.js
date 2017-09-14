@@ -32,10 +32,9 @@ class AuthProvider {
 
     if (stateBeforeLogin && stateBeforeLogin.actionBeforeLogin === LINK_ACCOUNTS) {
       auth0helper.linkAccount(this.domain, this.authStore.profile.auth0_user_id, this.authStore.idToken, authResult.idToken)
-      .then(() => {
-        // we are supposed to be in the link-account popup, so it can be closed
-        window.close();
-      });
+      // we are supposed to be in the link-account popup, so it can be closed
+      .then(() => window.close())
+      .catch(err => alert(err));
     } else {
       this.authStore.setToken(authResult.idToken, authResult.accessToken);
       this.getUserInfo(authResult)
@@ -143,24 +142,27 @@ class AuthProvider {
     }
   }
 
-  linkFacebookAccount() {
+  linkSocialAccount(connection) {
     const notLoggedIn = !this.authStore.isLoggedIn;
     const facebookConnected = !!this.authStore.profile.tenant_profile.facebook_url;
     if (notLoggedIn || facebookConnected) {
       return;
     }
 
-    this.auth0Sdk.popup.authorize({
-      connection: 'facebook',
-      responseType: 'token id_token',
-      redirect_uri: window.location.origin + '/login',
-      state: JSON.stringify({ actionBeforeLogin: LINK_ACCOUNTS }),
-    }, (err, authResult) => {
-      // this callback will be called a couple of times with random errors, don't panic !
-      if (err.original === 'User closed the popup window') {
-        // this will (also) happen on succesful linking, so we want to reload the user profile.
-        this.getUserInfo();
-      }
+    return new Promise(resolve => {
+      this.auth0Sdk.popup.authorize({
+        connection,
+        responseType: 'token id_token',
+        redirect_uri: window.location.origin + '/login',
+        state: JSON.stringify({ actionBeforeLogin: LINK_ACCOUNTS }),
+      }, err => {
+        // This callback will be called a couple of times with random errors, don't panic !
+        // The actual social login & linking will be done in a different window (popup) and is handled in this.afterAuthentication
+        if (err.original === 'User closed the popup window') {
+          // this will (also) happen on succesful linking, so we want to reload the user profile.
+          resolve(this.getUserInfo());
+        }
+      });
     });
   }
 }

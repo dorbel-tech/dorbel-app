@@ -7,7 +7,7 @@ import { hideIntercom } from '~/providers/utils';
 
 import './TenantProfileEdit.scss';
 
-@inject('appProviders')
+@inject('appProviders', 'appStore')
 export default class TenantProfileEdit extends React.Component {
   constructor(props) {
     super(props);
@@ -63,7 +63,7 @@ export default class TenantProfileEdit extends React.Component {
   }
 
   render() {
-    const { profile } = this.props;
+    const { profile } = this.props.appStore.authStore;
     return (
       <div className="tenant-profile-edit">
         <div className="tenant-profile-edit-heading">
@@ -112,10 +112,10 @@ export default class TenantProfileEdit extends React.Component {
                 </Col>
                 <Col xs={12} sm={6}>
                   <ButtonGroup>
-                    <Button>F</Button>
+                    <Button bsStyle="primary"><i className="fa fa-facebook-f" /></Button>
                     { profile.tenant_profile.facebook_url ?
-                      <Button>פרופיל פייסבוק מחובר</Button> :
-                      <Button onClick={() => this.props.appProviders.authProvider.linkFacebookAccount()}>חבר פרופיל פייסבוק</Button>
+                      <Button bsStyle="primary" href={profile.tenant_profile.facebook_url} target="_blank">✔ פרופיל פייסבוק מחובר</Button> :
+                      <Button onClick={() => this.props.appProviders.authProvider.linkSocialAccount('facebook').then(() => this.forceUpdate())}>חבר פרופיל פייסבוק</Button>
                     }
                   </ButtonGroup>
                   {/* <FRC.Input value={profile.tenant_profile.facebook_url} name="tenant_profile.facebook_url" type="text" placeholder="העתיקו לינק לפרופיל הפייסבוק שלכם" /> */}
@@ -142,5 +142,5 @@ export default class TenantProfileEdit extends React.Component {
 
 TenantProfileEdit.wrappedComponent.propTypes = {
   appProviders: React.PropTypes.object.isRequired,
-  profile: React.PropTypes.object.isRequired
+  appStore: React.PropTypes.object.isRequired
 };
