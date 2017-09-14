@@ -4,7 +4,6 @@
     "properties": {
       "email_notification": { "type": "boolean" },
       "city": { "type": "integer" },
-      "neighborhood": { "type": "integer" },
       "mrs": { "type": "number" },
       "mre": { "type": "number" },
       "minRooms": { "type": "number" },

@@ -26,7 +26,6 @@ function define(sequelize, DataTypes) {
           },
           onDelete: 'CASCADE'
         });
-        models.building.belongsTo(models.neighborhood);
       }
     },
     indexes: [{

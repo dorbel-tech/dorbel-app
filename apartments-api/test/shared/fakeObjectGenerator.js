@@ -15,10 +15,6 @@ function getFakeBuilding(variant) {
     city: {
       id: 1
     },
-    neighborhood_id: 1,
-    neighborhood: {
-      id: 1
-    }
   }, variant);
 }
 

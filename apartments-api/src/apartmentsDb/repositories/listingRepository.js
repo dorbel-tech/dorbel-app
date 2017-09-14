@@ -13,7 +13,6 @@ const listingAttributes = { exclude: ['updated_at'] };
 const apartmentAttributes = { exclude: ['created_at', 'updated_at'] };
 const buildingAttributes = { exclude: ['created_at', 'updated_at'] };
 const cityAttributes = ['id', 'city_name'];
-const neighborhoodAttributes = ['id', 'neighborhood_name', 'city_id'];
 const imageAttributes = { exclude: ['created_at', 'updated_at'] };
 
 const LISTING_UPDATE_WHITELIST = ['status', 'monthly_rent', 'roommates', 'property_tax', 'board_fee', 'lease_start',
@@ -34,10 +33,6 @@ const fullListingDataInclude = [
       include: [{
         model: models.city,
         attributes: cityAttributes,
-        required: true
-      }, {
-        model: models.neighborhood,
-        attributes: neighborhoodAttributes,
         required: true
       }]
     }]
@@ -71,12 +66,6 @@ function list(query, options = {}) {
                 model: models.city,
                 attributes: ['id', 'city_name'],
                 required: true
-              },
-              {
-                model: models.neighborhood,
-                attributes: ['id', 'neighborhood_name'],
-                required: true,
-                where: options.neighborhoodQuery || {}
               }
             ]
           },

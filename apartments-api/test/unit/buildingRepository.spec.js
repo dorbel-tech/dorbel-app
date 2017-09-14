@@ -23,7 +23,6 @@ describe('Building Repository', function () {
 
       const expectedBuilding = _.pick(buildingToCreate, ['street_name', 'house_number', 'floors', 'entrance', 'elevator']);
       expectedBuilding.city_id = buildingToCreate.city.id;
-      expectedBuilding.neighborhood_id = buildingToCreate.neighborhood.id;
 
       const createdBuilding = yield this.buildingRepo.updateOrCreate(buildingToCreate);
 

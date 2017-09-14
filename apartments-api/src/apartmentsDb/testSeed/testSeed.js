@@ -2,7 +2,7 @@
 * This file is meant to build the seeds needed for integration testing.
 * It's in a separate folder so it won't run together with the regular seed.
 *
-* We expect the cities and neighborhoods to be already filled in in the regular seed
+* We expect the cities to be already filled in in the regular seed
 * And buildings/apartments/listings to be empty
 */
 'use strict';
@@ -48,17 +48,16 @@ const ROOMS = 1.5;
 function* buildTestSeed() {
   yield db.connect();
 
-  const telaviv = yield db.models.city.find({ name: 'תל אביב' });
-  const merkazHair = yield db.models.neighborhood.find({ name: 'מרכז העיר', city: telaviv });
+  const telaviv = yield db.models.city.find({ city_name: 'תל אביב יפו' });
 
-  yield createApartment(telaviv, merkazHair, 1, 'best-apt-test');
-  yield createApartment(telaviv, merkazHair, 2, '123-slug');
-  yield createApartment(telaviv, merkazHair, 3, '123-slug slug');
+  yield createApartment(telaviv, 1, 'best-apt-test');
+  yield createApartment(telaviv, 2, '123-slug');
+  yield createApartment(telaviv, 3, '123-slug slug');
   yield createLikes();
-  yield createSavedFilter(telaviv.id, merkazHair.id);
+  yield createSavedFilter(telaviv.id);
 }
 
-function* createApartment(city, neighborhood, id, slug) {
+function* createApartment(city, id, slug) {
   yield db.models.building.upsert({
     id: 1,
     street_name: 'שדרות רוטשילד',
@@ -66,8 +65,7 @@ function* createApartment(city, neighborhood, id, slug) {
     floors: 5,
     geolocation: { type: 'Point', coordinates: [34.7787543, 32.0708966] },
     elevator: 1,
-    city_id: city.id,
-    neighborhood_id: neighborhood.id,
+    city_id: city.id
   });
 
   yield db.models.apartment.upsert({
@@ -130,13 +128,12 @@ function* createLikes() {
   });
 }
 
-function * createSavedFilter(cityId, neighborhoodId) {
+function * createSavedFilter(cityId) {
   yield db.models.filter.upsert({
     id: 1,
     email_notification: true,
     dorbel_user_id: TEST_USER_ID,
     city: cityId,
-    neighborhood: neighborhoodId,
     min_rooms: ROOMS - 0.5,
     max_rooms: ROOMS + 1,
     min_monthly_rent: MONTHLY_RENT - 1000,

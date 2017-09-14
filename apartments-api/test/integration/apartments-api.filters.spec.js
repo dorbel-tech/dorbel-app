@@ -156,12 +156,6 @@ describe('Apartments API - saved filters - ', function () {
       __.assertThat(matchedFilters, __.not(__.hasItem(__.hasProperty('dorbel_user_id', adminClient.userProfile.id))));
     });
 
-    it('should match filter by neighborhood', function * () {
-      matchingFilter.neighborhood = listing.apartment.building.neighborhood_id;
-      unmatchingFilter.neighborhood = listing.apartment.building.neighborhood_id + 1;
-      yield assertMatchingFilters();
-    });
-
     it('should not match filters by minimum monthly rent', function * () {
       unmatchingFilter.mrs = listing.monthly_rent + 1;
       yield assertMatchingFilters();

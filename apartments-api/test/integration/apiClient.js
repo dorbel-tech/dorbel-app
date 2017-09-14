@@ -72,10 +72,6 @@ class ApiClient {
     return this.get('/v1/cities');
   }
 
-  getNeighborhoods(cityId) {
-    return this.get('/v1/neighborhoods/' + cityId);
-  }
-
   getRelatedListings(id) {
     return this.get('/v1/listings/' + id + '/related');
   }

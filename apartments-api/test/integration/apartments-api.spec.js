@@ -31,19 +31,6 @@ describe('Apartments API Integration', function () {
     });
   });
 
-  describe('GET /neighborhoods', function () {
-    it('should return neighborhoods', function* () {
-      const cities = _.get(yield this.apiClient.getCities(), 'body');
-      const neighborhoods = _.get(yield this.apiClient.getNeighborhoods(cities[0].id), 'body');
-
-      __.assertThat(neighborhoods, __.allOf(
-        __.is(__.array()),
-        __.hasSize(__.greaterThan(0)),
-        __.everyItem(__.hasProperty('neighborhood_name'))
-      ));
-    });
-  });
-
   describe('POST /listings', function () {
     it('should add listing and return it', function* () {
       const newListing = fakeObjectGenerator.getFakeListing();

@@ -9,19 +9,6 @@ function findOrCreate(modelName, obj, transaction) {
   }).spread(result => result); // return just the first result which is the object found or created
 }
 
-function createNeighborhoodsInCity(city, neighborhoodNames) {
-  return db.db.transaction(transaction => { // these are done concurrently so need a transaction
-    let promises = neighborhoodNames.map((neighborhood_name) =>
-      findOrCreate('neighborhood', {
-        neighborhood_name,
-        city_id: city.id
-      }, transaction)
-    );
-
-    return Promise.all(promises);
-  });
-}
-
 function* createSeed(dbToSeed) {
   if (!dbToSeed) {
     db = require('../dbConnectionProvider');
@@ -37,19 +24,15 @@ function* createSeed(dbToSeed) {
     size_unit: 'meter'
   });
 
-  const telAviv = yield findOrCreate('city', {
+  yield findOrCreate('city', {
     city_name: 'תל אביב יפו',
     country_id: israel.id
   });
 
-  const hertzelya = yield findOrCreate('city', {
+  yield findOrCreate('city', {
     city_name: 'הרצליה',
     country_id: israel.id
   });
-
-  yield createNeighborhoodsInCity(telAviv, ['מרכז העיר', 'הצפון הישן']);
-  yield createNeighborhoodsInCity(hertzelya, ['ויצמן', 'גורדון']);
-
 }
 
 module.exports = {

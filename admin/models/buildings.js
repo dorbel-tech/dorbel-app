@@ -34,7 +34,6 @@ module.exports = (sequelize, DataTypes) => {
           },
           onDelete: 'CASCADE'
         });
-        models.buildings.belongsTo(models.neighborhoods);
       }
     },
     tableName: 'buildings',
