@@ -109,8 +109,8 @@ export default class TenantRow extends React.Component {
           </div>
           {!tenant.disabled && tenant.dorbel_user_id && process.env.TALKJS_PUBLISHABLE_KEY && listingTitle &&
             <div className="tenant-row-button pull-left" onClick={this.handleMsgClick}>
-              <i className="fa fa-comments fa-2 tenant-row-msg-icon"></i>
-              <span className="tenant-row-button-text">שלח הודעה</span>
+              <i className="fa fa-calendar fa-2 tenant-row-msg-icon"></i>
+              <span className="tenant-row-button-text">קבע פגישה</span>
             </div>
           }
         </Col>
