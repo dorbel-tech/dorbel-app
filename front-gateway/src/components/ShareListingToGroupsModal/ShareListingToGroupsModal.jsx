@@ -59,8 +59,8 @@ export default class ShareListingToGroupsModal extends React.Component {
     const { listing } = this.props;
     const lease_start = utils.formatDate(listing.lease_start);
 
-    return `להשכרה דירת ${listing.apartment.rooms} חד' ברחוב ${listing.apartment.building.street_name}, ${listing.apartment.building.city.city_name}. כניסה ב-${lease_start}, ${listing.apartment.size} מ"ר, שכ"ד ₪${listing.monthly_rent}.
-שתפו / שלחו / תייגו חברים שמחפשים!
+    return `להשכרה דירת ${listing.apartment.rooms} חד' ב${listing.apartment.building.street_name}, ${listing.apartment.building.city.city_name}. כניסה ב-${lease_start}, ${listing.apartment.size} מ"ר.
+שתפו/שלחו/תייגו חברים שמחפשים!
 לפרטים המלאים של הדירה ורישום לחצו על התמונה: ${this.shortUrl}`;
   }
 
@@ -139,7 +139,7 @@ export default class ShareListingToGroupsModal extends React.Component {
           <span>הגיעו במהירות לעשות דיירים איכותיים</span>
         </div>
         <div className="share-listing-to-groups-section">
-          <b>1 .העתיקו את הטקסט</b> <span className="gray-mid-light-text">(ניתן לשנות אותו בהמשך)</span>
+          <b>1 .העתיקו את הטקסט</b>
           {
             this.state.isLoading ?
               <LoadingSpinner /> :
@@ -155,7 +155,7 @@ export default class ShareListingToGroupsModal extends React.Component {
         </div>
         <div className="share-listing-to-groups-section share-listing-to-groups-section-2">
           <b>2. שתפו אותו בקבוצות הפייסבוק הבאות:</b><br />
-          <span className="gray-mid-light-text">עליכם להיות חברים בקבוצות אלו כדי שתוכלו לפרסם בהם</span>
+          <span className="gray-mid-light-text">עליכם להיות חברים בקבוצות אלו</span>
           {this.renderCityGroups()}
         </div>
         <div className="share-listing-to-groups-section share-listing-to-groups-section-3">
