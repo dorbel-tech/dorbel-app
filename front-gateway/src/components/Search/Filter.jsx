@@ -40,7 +40,6 @@ const DEFAULT_FILTER_PARAMS = {
   park: false, // Apartment with parking checkbox default value.
   pet: false, // Apartment allowing pets checkbox default value.
   sb: false, // Apartment with security bars checkbox default value.
-  futureBooking: true, // Future booking apartments checkbox default value.
   minLease: undefined,
   maxLease: undefined
 };
@@ -459,16 +458,6 @@ class Filter extends Component {
               <div className={'filter-trigger-more filter-trigger-container ' + this.state.extraFilterClass}>פילטרים נוספים</div>
             </OverlayTrigger>
           </Col>
-          <Col lgHidden mdHidden smHidden className="filter-future-booking-switch-mobile-wrapper">
-            <Checkbox name="futureBooking" className="filter-future-booking-switch"
-                      checked={this.state.futureBooking} onChange={this.checkboxChangeHandler}>
-              הראו לי דירות שטרם פורסמו
-            </Checkbox>
-            <span className="filter-future-booking-new"
-                  data-tip="חדש! תכננו את מעבר הדירה הבא! מעכשיו תוכלו לגלות דירות מושכרות, לעקוב אחריהן ולהיות הראשונים לדעת כשהן מתפנות">חדש!</span>
-            <ReactTooltip type="dark" effect="solid" place="bottom"
-                          offset={NEW_TIP_OFFSET} className="filter-future-booking-tooltip"/>
-          </Col>
           <Col sm={2} className="filter-actions-container">
             <Button id="saveFilterButton" className="filter-save"
                     block bsStyle="info" onClick={this.saveFilter}>
@@ -545,17 +534,6 @@ class Filter extends Component {
               <MenuItem eventKey={NEIGHBORHOOD_ALL_OPTION.value}>{NEIGHBORHOOD_ALL_OPTION.label}</MenuItem>
               {neighborhoods.map(neighborhood => <MenuItem key={neighborhood.id} eventKey={neighborhood.id}>{neighborhood.neighborhood_name}</MenuItem>)}
             </DropdownButton>
-          </Col>
-          <Col sm={5} md={4} xsHidden>
-            <span data-tip="חדש! תכננו את מעבר הדירה הבא! מעכשיו תוכלו לגלות דירות מושכרות, לעקוב אחריהן ולהיות הראשונים לדעת כשהן מתפנות">
-              <Checkbox name="futureBooking" className="filter-future-booking-switch"
-                        checked={this.state.futureBooking} onChange={e => this.checkboxChangeHandler(e, true)}>
-                הראו לי דירות שטרם פורסמו
-              </Checkbox>
-              <span className="filter-future-booking-new">חדש!</span>
-            </span>
-            <ReactTooltip type="dark" effect="solid" place="bottom"
-                          offset={NEW_TIP_OFFSET} className="filter-future-booking-tooltip"/>
           </Col>
         </Row>
         {!isMobile() && <div className={'filter-collapse-handle' + (filterExpanded ? ' filter-collapse-handle-hidden' : '')}></div>}

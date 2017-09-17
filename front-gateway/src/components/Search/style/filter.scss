@@ -60,12 +60,13 @@
   border-bottom: 1px solid #cecece;
   border-top: 1px solid #cecece;
   height: 4px;
-  margin: 0 auto;
+  margin: 20px auto 0;
   opacity: 1;
   transition: opacity 1s;
   width: 60px;
 
   &.filter-collapse-handle-hidden {
+    margin: 0;
     opacity: 0;
     transition: opacity 0s;
   }
@@ -159,34 +160,6 @@
     margin: 10px auto;
     text-align: center;
   }
-}
-
-.filter-future-booking-switch {
-  color: #4d4d4d;
-  display: inline-block;
-  font-size: 15px;
-  line-height: 17px;
-  margin: 7px 0 27px;
-}
-
-.filter-future-booking-switch-mobile-wrapper {
-  margin-top: 20px;
-  text-align: center;
-  line-height: 20px;
-}
-
-.filter-future-booking-new {
-  background-color: #e74c3c;
-  border-radius: 2px;
-  color: $brand-white;
-  font-size: 11px;
-  margin-right: 10px;
-  padding: 0 3px;
-  vertical-align: text-bottom;
-}
-
-.filter-future-booking-tooltip {
-  width: 179px;
 }
 
 .filter-save {
