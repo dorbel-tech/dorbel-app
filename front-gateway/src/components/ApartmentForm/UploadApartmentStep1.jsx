@@ -20,8 +20,8 @@ export default class UploadApartmentStep1 extends UploadApartmentBaseStep.wrappe
       :
       (
         <ul>
-          <li>הקפידו למלא את כל הפרטים</li>
-          <li>תיאור מלא יעזור למנוע ביקורים מיותרים</li>
+          <li>פרטים מלאים ימשכו יותר דיירים רציניים</li>
+          <li>הדיירים יפנו אליכם עם מידע נוסף עליהם כדי שתדעו מי הם</li>
         </ul>
       );
   }

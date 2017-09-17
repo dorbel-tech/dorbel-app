@@ -5,8 +5,7 @@ import _ from 'lodash';
 import './UploadApartmentForm.scss';
 
 const statusByUploadMode = {
-  publish: 'pending',
-  republish: 'pending',
+  publish: 'listed',
   manage: 'rented'
 };
 

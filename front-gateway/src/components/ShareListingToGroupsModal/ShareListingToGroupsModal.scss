@@ -1,0 +1,43 @@
+@import "../sharedStyles/variables.scss";
+
+.share-listing-to-groups-modal-body {
+  margin-top: -20px;
+  font-size: 13px;
+}
+
+.share-listing-to-groups-section {
+  margin-top: 25px;
+  text-align: right;
+}
+
+.share-listing-to-groups-section-2 {
+  margin-top: 50px;
+}
+
+.share-listing-to-groups-section-3 {
+  text-align: left;
+}
+
+.share-listing-to-groups-textarea {
+  background-color: $gray-lighter;
+  font-size: 12px;
+  margin-bottom: 5px;
+  margin-top: 5px;
+  width: 100%;
+}
+
+.share-listing-to-groups-copy-button {
+  color: $brand-white;
+  background-color: $gray-button;
+}
+
+.share-listing-to-groups-group-button {
+  overflow-x: hidden;
+  text-align: right;
+  text-overflow: ellipsis;
+}
+
+.share-listing-to-groups-group-name {
+  color: $brand-info;
+}
+

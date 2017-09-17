@@ -26,6 +26,13 @@ function getTestUser(userType) {
   }
 }
 
+function getRandomProfile() {
+  return {
+    workplace: faker.name.firstName(),
+    position: faker.name.lastName(),
+    about: faker.name.firstName()};
+}
+
 function getBaseUrl() {
   return process.env.FRONT_GATEWAY_URL || 'http://localhost:3001';
 }
@@ -54,6 +61,7 @@ function waitForText(context, element, text) {
 
 module.exports = {
   getTestUser,
+  getRandomProfile,
   getBaseUrl,
   getSmallRandomNumber,
   getMediumRandomNumber,

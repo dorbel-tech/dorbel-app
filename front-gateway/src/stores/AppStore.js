@@ -7,8 +7,8 @@ import LikeStore from '~/stores/LikeStore';
 import ListingStore from '~/stores/ListingStore';
 import MessagingStore from '~/stores/MessagingStore';
 import NeighborhoodStore from '~/stores/NeighborhoodStore';
-import OheStore from '~/stores/OheStore';
 import SearchStore from '~/stores/SearchStore';
+import ShortUrlStore from '~/stores/ShortUrlStore';
 
 import { observable, action, autorun } from 'mobx';
 
@@ -20,7 +20,6 @@ export default class AppStore {
   cityStore: CityStore;
   listingStore: ListingStore;
   neighborhoodStore: NeighborhoodStore;
-  oheStore: OheStore;
 
   // routing params
   @observable currentView: string;
@@ -31,7 +30,6 @@ export default class AppStore {
   constructor(initialState = {}) {
     this.authStore = new AuthStore(initialState.authStore);
     this.listingStore = new ListingStore(initialState.listingStore, this.authStore);
-    this.oheStore = new OheStore(initialState.oheStore);
     this.cityStore = new CityStore(initialState.cityStore);
     this.neighborhoodStore = new NeighborhoodStore(initialState.neighborhoodStore);
     this.newListingStore = new EditedListingStore(this.authStore, { localStorageKey: 'newListingStoreState' });
@@ -40,6 +38,7 @@ export default class AppStore {
     this.likeStore = new LikeStore(initialState.likeStore);
     this.documentStore = new DocumentStore();
     this.messagingStore = new MessagingStore();
+    this.shortUrlStore = new ShortUrlStore();
     this.metaData = initialState.metaData || {};
 
     autorun(() => {
@@ -62,7 +61,6 @@ export default class AppStore {
   toJson() {
     return {
       listingStore: this.listingStore.toJson(),
-      oheStore: this.oheStore.toJson(),
       cityStore: this.cityStore.toJson(),
       neighborhoodStore: this.neighborhoodStore.toJson(),
       authStore: this.authStore.toJson(),

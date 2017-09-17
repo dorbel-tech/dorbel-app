@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import { Col, Grid, Row, Checkbox, ListGroup, ListGroupItem } from 'react-bootstrap';
-import NavLink from '~/components/NavLink';
-import utils from '~/providers/utils';
-import { getDashMyPropsPath } from '~/routesHelper';
-import ReactTooltip from 'react-tooltip';
 import autobind from 'react-autobind';
 import moment from 'moment';
-import TenantRow from '~/components/Tenants/TenantRow/TenantRow';
+import ReactTooltip from 'react-tooltip';
+import ListingSocial from '~/components/Listing/components/ListingSocial';
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
+import ShareListingToGroupsModal from '~/components/ShareListingToGroupsModal/ShareListingToGroupsModal';
+import NavLink from '~/components/NavLink';
+import TenantRow from '~/components/Tenants/TenantRow/TenantRow';
+import utils from '~/providers/utils';
+import { getDashMyPropsPath } from '~/routesHelper';
 
 import './PropertyStats.scss';
 
@@ -21,11 +23,22 @@ class PropertyStats extends Component {
 
   componentDidMount() {
     this.loadListingStats();
+    this.showShareToGroupsModal();
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.listing.id !== nextProps.listing.id) {
       this.loadListingStats(nextProps.listing);
+    }
+  }
+
+  showShareToGroupsModal() {
+    if (ShareListingToGroupsModal.shouldShow(this.props.listing)) {
+      this.props.appProviders.modalProvider.showInfoModal({
+        title: ShareListingToGroupsModal.title,
+        body: <ShareListingToGroupsModal listing={this.props.listing} />,
+        modalSize: 'large'
+      });
     }
   }
 
@@ -43,250 +56,118 @@ class PropertyStats extends Component {
     }
   }
 
-  getNumberOfOheRegistrations(listingId) {
-    const openHouseEvents = this.props.appStore.oheStore.oheByListingId(listingId);
-    let totalRegistrations = 0;
+  renderInterests(interests, views) {
+    const { listing } = this.props;
+    let shownInterests;
 
-    if (openHouseEvents) {
-      openHouseEvents
-        .filter(ohe => ohe.registrations)
-        .forEach(ohe => totalRegistrations += ohe.registrations.length);
-    }
-
-    return totalRegistrations;
-  }
-
-  renderListedStats() {
-    const { appStore, listing } = this.props;
-    const listingId = listing.id;
-    const views = appStore.listingStore.listingViewsById.get(listingId);
-    const registrations = this.getNumberOfOheRegistrations(listingId);
-    const listingCreatedAt = utils.formatDate(listing.created_at);
-    const daysPassedSinceCratedAt = moment().diff(moment(listing.created_at), 'days');
-    const listingRented = listing.status === 'rented';
-    const oheTabUrl = getDashMyPropsPath(listing, '/ohe');
-    const likes = appStore.likeStore.likesByListingId.get(listing.id);
-
-    return <Grid fluid className="property-stats">
-            <Row className="property-stats-rent-title">
-              <Col xs={12}>
-                תהליך ההשכרה:
-              </Col>
-            </Row>
-            <Row>
-              <Col xs={12}>
-                <div>
-                  <div className={'property-stats-number' + (views > 0 ? ' property-stats-number-not-empty': '')}>{views || 0}</div>
-                  <div className="property-stats-empty"></div>
-                  <div className={'property-stats-number' + (registrations > 0 ? ' property-stats-number-not-empty': '')}>
-                    <NavLink to={oheTabUrl}>{registrations || 0}</NavLink></div>
-                  <div className="property-stats-empty"></div>
-                  <div className={'property-stats-number property-stats-rented-check' + (listingRented ? ' property-stats-number-not-empty': '')}>
-                    <i className="fa fa-check" aria-hidden="true"></i>
-                  </div>
-                </div>
-                <div>
-                  <div className={'property-stats-bubble' + (views > 0 ? ' property-stats-bubble-not-empty': '')}>
-                    <div className="property-stats-bubble-text">צפיות במודעה</div>
-                  </div>
-                  <div className={'property-stats-line' + (registrations > 0 ? ' property-stats-line-not-empty': '')}></div>
-                  <div className={'property-stats-bubble' + (registrations > 0 ? ' property-stats-bubble-not-empty': '')}>
-                    <NavLink to={oheTabUrl}><div className="property-stats-bubble-text">הרשמות לביקורים</div></NavLink>
-                  </div>
-                  <div className={'property-stats-line' + (listingRented ? ' property-stats-line-not-empty': '')}></div>
-                  <div className={'property-stats-bubble' + (listingRented ? ' property-stats-bubble-not-empty': '')}>
-                    <div className="property-stats-bubble-text">הושכרה</div>
-                  </div>
-                </div>
-              </Col>
-            </Row>
-            <Row className="property-stats-publishing-title">
-              <Col xs={12}>
-                תאריך פרסום המודעה: {listingCreatedAt || null}
-              </Col>
-            </Row>
-            <Row className="property-stats-listing-stats text-center">
-              <Col xs={6}>
-                <div className="property-stats-card">
-                  <div className="property-stats-number">{likes ? likes.length : 0}</div>
-                  <div className="property-stats-title">לייקים</div>
-                </div>
-              </Col>
-              <Col xs={6}>
-                <div className="property-stats-card">
-                  <div className="property-stats-number">{daysPassedSinceCratedAt}</div>
-                  <div className="property-stats-title">ימים שחלפו</div>
-                </div>
-              </Col>
-            </Row>
-            <Row className="property-stats-services-title">
-              <Col xs={12}>
-                שירותים בתשלום:
-              </Col>
-            </Row>
-            <Row className="property-stats-services">
-              <Col md={4}>
-                <div className="property-stats-service">
-                  <img className="property-stats-image"
-                      src="https://static.dorbel.com/images/dashboard/service-publishing-icon.svg"/>
-                  <div className="property-stats-title">פרסום פרימיום</div>
-                  <div>הגדילו את חשיפת הדירה ע״י פרסום ממומן. הגיעו ליותר דיירים בפחות זמן</div>
-                  <a className="property-stats-button btn btn-success"
-                      href="https://www.dorbel.com/pages/services/social-advertising?utm_source=app&utm_medium=link&utm_campaign=my-properties" target="_blank">לפרטים והזמנה</a>
-                </div>
-              </Col>
-              <Col md={4}>
-                <div className="property-stats-service">
-                  <img className="property-stats-image"
-                      src="https://static.dorbel.com/images/dashboard/service-credit-score-icon.svg"/>
-                  <div className="property-stats-title">דו״ח נתוני אשראי</div>
-                  <div>הכירו את הדיירים הבאים שלכם חסכו הרבה כסף וצרות בעזרת בדיקה אחת פשוטה ומהירה</div>
-                  <a className="property-stats-button btn btn-success"
-                      href="https://www.dorbel.com/pages/services/credit-report?utm_source=app&utm_medium=link&utm_campaign=my-properties" target="_blank">לפרטים והזמנה</a>
-                </div>
-              </Col>
-              <Col md={4}>
-                <div className="property-stats-service">
-                  <img className="property-stats-image"
-                      src="https://static.dorbel.com/images/dashboard/service-photography-icon.svg"/>
-                  <div className="property-stats-title">צילום הדירה</div>
-                  <div>מודעה עם תמונות טובות נחשפת לפי 5 יותר דיירים. הזמינו את הצלם שלנו עוד היום</div>
-                  <a className="property-stats-button btn btn-success"
-                      href="https://www.dorbel.com/pages/services/apartment-photography?utm_source=app&utm_medium=link&utm_campaign=my-properties" target="_blank">לפרטים והזמנה</a>
-                </div>
-              </Col>
-            </Row>
-          </Grid>;
-  }
-
-  renderRentedStats() {
-    const { appStore, listing } = this.props;
-    const listingId = listing.id;
-    const views = appStore.listingStore.listingViewsById.get(listingId);
-    const leaseStats = utils.getListingLeaseStats(listing);
-    const manageTabUrl = getDashMyPropsPath(listing, '/manage');
-    const tipOffset = {top: -7, left: 2};
-    const likes = appStore.likeStore.likesByListingId.get(listing.id);
-
-    return <Grid fluid className="property-stats">
-            <Row className="property-stats-rent-title">
-              <Col xs={12}>
-                מעקב אחר הנכס:
-              </Col>
-            </Row>
-            <Row>
-              <Col xs={12}>
-                <div>
-                  <div className="property-stats-number">{views || 0}</div>
-                  <div className="property-stats-empty"></div>
-                  <div className="property-stats-number">{likes ? likes.length : 0}</div>
-                </div>
-                <div>
-                  <div className="property-stats-bubble">
-                    <div className="property-stats-bubble-text">צפיות במודעה</div>
-                  </div>
-                  <div className="property-stats-empty"></div>
-                  <div className="property-stats-bubble">
-                    <NavLink to={manageTabUrl}><div className="property-stats-bubble-text">לייקים</div></NavLink>
-                  </div>
-                </div>
-              </Col>
-            </Row>
-            <Row className="property-stats-listing-stats text-center property-stats-padding-top">
-              <Col xs={6} md={5} lg={4}>
-                <div className="property-stats-card">
-                  <div className="property-stats-number">{leaseStats.leaseStart}</div>
-                  <div className="property-stats-title">ההשכרה האחרונה</div>
-                </div>
-              </Col>
-              <Col xs={6} md={5} lg={4}>
-                <div className="property-stats-card">
-                  <div className="property-stats-number">{leaseStats.daysPassedLabel}</div>
-                  <div className="property-stats-title">ימים עברו</div>
-                </div>
-              </Col>
-            </Row>
-            <Row className="property-stats-listing-stats text-right property-stats-padding-top">
-              <Col xs={12} md={10} lg={8}>
-                <div className="property-stats-card property-stats-card-with-padding">
-                  <Checkbox className="property-stats-future-booking" inline checked={listing.show_for_future_booking} onChange={this.updateFutureBooking}>
-                    אפשר לדיירים לעקוב אחר הדירה להשכרה הבאה
-                  </Checkbox>
-                  &nbsp;
-                  <span className="property-stats-info" data-tip="אפשרו לדיירים שמחפשים דירה כמו שלכם למצוא אותה ולעקוב אחריה.
-                   כאשר הדירה תתפרסם להשכרה בעתיד,
-                    העוקבים שלה יקבלו עדכון ויוכלו להירשם לביקור במהירות.">
-                    <i className="fa fa-info-circle" aria-hidden="true"></i>
-                    &nbsp;מה זה אומר?
-                  </span>
-                  <ReactTooltip type="dark" effect="solid" place="top" offset={tipOffset}
-                                multiline className="property-stats-future-booking-tooltip"/>
-                </div>
-              </Col>
-            </Row>
-            <Row className="property-stats-rent-title property-stats-padding-top">
-              <Col xs={12}>
-                עוקבים אחר הנכס:
-              </Col>
-            </Row>
-            <Row>
-              <Col xs={12}>
-                {this.renderLikedUsers()}
-              </Col>
-            </Row>
-           </Grid>;
-  }
-
-  updateFutureBooking(event) {
-    const { listing, appProviders } = this.props;
-    const allowFutureBooking = event.target.checked;
-    const data = { show_for_future_booking: allowFutureBooking };
-    const notificationProvider = this.props.appProviders.notificationProvider;
-
-    // A check for at least one image and if no images,
-    // send notification to user and do not allow future booking.
-    if (allowFutureBooking && listing.images && listing.images.length < 1) {
-      const err = { response: { data: 'אין באפשרותכם לאפשר את אופציה זו עד שתוסיפו לפחות תמונה אחת לנכס.' }};
-      notificationProvider.error(err);
-      return;
-    }
-
-    appProviders.listingsProvider.updateListing(listing.id, data);
-    notificationProvider.success('עודכן בהצלחה. ');
-  }
-
-  renderLikedUsers() {
-    const { listing, appStore } = this.props;
-    const listingTitle = utils.getListingTitle(listing);
-    const likes = appStore.likeStore.likesByListingId.get(listing.id);
-
-    if (!likes) {
+    if (!interests) {
       return <LoadingSpinner />;
-    }
-
-    if (likes.length === 0) {
-      return <h5 className="property-stats-no-followers-title">אין עוקבים אחר הנכס</h5>;
+    } else if (interests.length === 0) {
+      shownInterests = TenantRow.getEmptyTenantList();
+    } else {
+      shownInterests = interests;
     }
 
     return (
-      <ListGroup>
-        { likes.map(like => (
-            <ListGroupItem key={like.id} disabled={like.disabled} className="property-manage-list-group-item">
-              <TenantRow tenant={like.user_details} listingTitle={listingTitle} />
+      <div className="property-stats-followers-container">
+        <div className="property-stats-followers-title">
+          רשימת הדיירים המתעניינים בדירה ({interests.length})
+        </div>
+        <div className="property-stats-value-title">
+          {interests.length === 0 ?
+            'ברשימה למטה יופיעו הדיירים המעוניינים בדירה עם כל המידע עליהם'
+          :
+            'לחצו על שם הדייר על מנת לראות את כל המידע עליו'
+          }
+        </div>
+        <ListGroup className={interests.length === 0 ? 'property-stats-list-group-disabled' : ''}>
+          { shownInterests.map(tenant => (
+            <ListGroupItem key={tenant.id} disabled={tenant.disabled} className="property-stats-list-group-item">
+              <TenantRow tenant={tenant.user_details || tenant} listing={listing} />
             </ListGroupItem>
           )) }
-      </ListGroup>
+        </ListGroup>
+      </div>
     );
   }
 
   render() {
-    const { listing } = this.props;
-    const listingPendingOrListed = (listing.status === 'pending' || listing.status === 'listed');
+    const { appStore, listing } = this.props;
+    const listingId = listing.id;
 
-    return listingPendingOrListed ?
-        this.renderListedStats()
-      :
-        this.renderRentedStats();
+    const listingCreatedAt = utils.formatDate(listing.created_at);
+    const daysPassedSinceCratedAt = moment().diff(moment(listing.created_at), 'days');
+
+    const tipOffset = {left: 2};
+    const interests = appStore.likeStore.likesByListingId.get(listingId);
+    const hasInterests = interests && interests.length > 0;
+    const views = appStore.listingStore.listingViewsById.get(listingId);
+    const isRented = listing.status == 'rented';
+
+    let step = 5;
+    if (!isRented) {
+      if (hasInterests) {
+        step = 4;
+      } else {
+        step = 3;
+      }
+    }
+
+    return <Grid fluid className="property-stats">
+            <Row>
+              <Col lg={9} md={8} sm={7}>
+                {this.renderInterests(interests, views)}
+              </Col>
+              <Col lg={3} md={4} sm={5}>
+                <div className="property-stats-container property-stats-share-container">
+                  <div>
+                    <span className="property-stats-share-title">
+                      שתפו את מודעת הדירה
+                    </span>
+                    <i className="fa fa-info-circle property-stats-share-help" aria-hidden="true"
+                      data-tip="למציאת דיירים - שתפו את הלינק<br />או שלחו אותו לדיירים שפנו אליכם"></i>
+                    <ReactTooltip type="dark" effect="solid" place="top" offset={tipOffset} multiline />
+                  </div>
+                  <div className="property-stats-share-sub-title">
+                    צפיות במודעה: {views || 0}
+                  </div>
+                  <ListingSocial listing={listing} />
+                </div>
+                <div className="property-stats-container">
+                  <div className="property-stats-process-title">
+                  תהליך ההשכרה
+                  </div>
+                  <div className="property-stats-value-title">
+                  תאריך פרסום: {listingCreatedAt || null}
+                  </div>
+                  <div className="property-stats-value-title">
+                                ימים שחלפו: {daysPassedSinceCratedAt}
+                  </div>
+                  <div className="property-stats-process-diagram">
+                    <div className="property-stats-process-point-half">
+                      יצירת מודעה
+                    </div>
+                    <div className="property-stats-process-vr-done" />
+                    <div className="property-stats-process-point-half">
+                      הוספת תמונות
+                    </div>
+                    <div className="property-stats-process-vr-done" />
+                    <div className={'property-stats-process-point-' + (step === 3 ? 'full' : 'half')}>
+                      צפיות במודעה
+                    </div>
+                    <div className={'property-stats-process-vr-' + (step > 3 ? 'done' : 'not-done')} />
+                    <div className={'property-stats-process-point-' + (step === 4 ? 'full' : (step === 5 ? 'half' : 'empty'))}>
+                      דיירים מתעניינים
+                    </div>
+                    <div className={'property-stats-process-vr-' + (step > 4 ? 'done' : 'not-done')} />
+                    <div className={'property-stats-process-point-' + (step === 5 ? 'full' : 'empty')}>
+                      הדירה הושכרה
+                    </div>
+                  </div>
+                </div>
+              </Col>
+            </Row>
+          </Grid>;
   }
 }
 

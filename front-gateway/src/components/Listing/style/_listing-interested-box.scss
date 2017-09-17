@@ -1,0 +1,56 @@
+.listing-interested-box-content {
+  background-color: $brand-white;
+  box-shadow: 0 2px 20px 0 rgba(0, 0, 0, 0.15);
+  padding-bottom: 20px;
+
+  .listing-interested-box-content-text {
+    margin: 0 20px;
+    padding: 15px 0;
+
+    .listing-interested-box-content-text-heading {
+      color: $gray-dark;
+      font-weight: 600;
+    }
+
+    .listing-interested-box-content-text-explain {
+      color: $gray-light;
+    }
+  }
+
+  .listing-interested-box-button-container {
+    text-align: center;
+    padding-bottom: 10px;
+
+    .like-button {
+      width: 90%;
+
+      @media (max-width: $screen-xs-max) {
+        box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.3);
+        left: 0;
+        margin: 0 auto;
+        padding: 2px 5px 5px;
+        position: fixed;
+        right: 0;
+        top: 70px;
+        z-index: 1;
+      }
+    }
+  }
+
+  @media (max-width: $screen-xs-max) {
+    padding-bottom: 0;
+
+    span:first-child {
+      color: $gray-dark;
+    }
+
+    .listing-interested-box-content-text {
+      padding: 0;
+    }
+
+    .listing-interested-box-content-text-heading,
+    .listing-interested-box-content-text-explain {
+      display: none;
+    }
+  }
+}

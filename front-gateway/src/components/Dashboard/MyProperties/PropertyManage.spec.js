@@ -37,12 +37,12 @@ describe('Property Manage Page', () => {
 
   const propertyManage = () => shallow(<PropertyManage.wrappedComponent appStore={appStoreMock} appProviders={appProvidersMock} listing={listingMock} />);
 
-  it('should render dummy tenant when there are no tenants', () => {
+  it('should render 4 dummy tenants when there are no tenants', () => {
     appStoreMock.listingStore.listingTenantsById.get.mockReturnValue([]);
     const wrapper = propertyManage();
     const tenantRows = wrapper.find(TenantRow);
-    expect(tenantRows).toHaveLength(1);
-    expect(tenantRows.prop('tenant')).toEqual(TenantRow.getEmptyTenantList()[0]);
+    expect(tenantRows).toHaveLength(4);
+    tenantRows.forEach((tenantRow, i) => expect(tenantRow.prop('tenant')).toEqual(TenantRow.getEmptyTenantList()[i]));
   });
 
   it('should render a list of tenants', () => {
@@ -83,7 +83,7 @@ describe('Property Manage Page', () => {
     expect(listItems).toHaveLength(mockDocuments.length);
     listItems.forEach((listItem, index) => {
       expect(listItem.key()).toEqual(mockDocuments[index].id.toString());
-      expect(listItem.prop('disabled')).toBeUndefined();      
+      expect(listItem.prop('disabled')).toBeUndefined();
       expect(listItem.childAt(0).is(DocumentRow)).toBe(true);
       expect(listItem.childAt(0).prop('document')).toBe(mockDocuments[index]);
     });
