@@ -20,6 +20,23 @@ $brand-green: #1cb039;
 
 $gray-border: 1px solid $gray-lighter;
 
+// MIXINS
+@mixin button() {
+  border-radius: 4px;
+  color: $brand-white;
+  cursor: pointer;
+  padding: 12px;
+  text-align: center;
+}
+
+@mixin i-button() {
+  @include button();
+
+  font-size: 16px;
+  height: 40px;
+  width: 40px;
+}
+
 // //== Typography
 $font-family-sans-serif: "Arimo", "Helvetica Neue", Helvetica, Arial, sans-serif !default;
 $font-size-base: 14px;

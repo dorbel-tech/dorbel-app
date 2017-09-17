@@ -23,7 +23,10 @@ class PropertyStats extends Component {
 
   componentDidMount() {
     this.loadListingStats();
-    this.showShareToGroupsModal();
+    if (ShareListingToGroupsModal.listingHasSharingGroups(this.props.listing) &&
+        !ShareListingToGroupsModal.listingGroupShareDismissed(this.props.listing)) {
+      this.showShareToGroupsModal();
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -33,13 +36,11 @@ class PropertyStats extends Component {
   }
 
   showShareToGroupsModal() {
-    if (ShareListingToGroupsModal.shouldShow(this.props.listing)) {
-      this.props.appProviders.modalProvider.showInfoModal({
-        title: ShareListingToGroupsModal.title,
-        body: <ShareListingToGroupsModal listing={this.props.listing} />,
-        modalSize: 'large'
-      });
-    }
+    this.props.appProviders.modalProvider.showInfoModal({
+      title: ShareListingToGroupsModal.title,
+      body: <ShareListingToGroupsModal listing={this.props.listing} />,
+      modalSize: 'large'
+    });
   }
 
   loadListingStats(listing) {
@@ -59,13 +60,21 @@ class PropertyStats extends Component {
   renderInterests(interests, views) {
     const { listing } = this.props;
     let shownInterests;
+    let titleText;
+    let groupShareElement;
 
     if (!interests) {
       return <LoadingSpinner />;
     } else if (interests.length === 0) {
       shownInterests = TenantRow.getEmptyTenantList();
+      titleText = 'ברשימה למטה יופיעו הדיירים המעוניינים בדירה עם כל המידע עליהם';
+
+      if (ShareListingToGroupsModal.listingHasSharingGroups(this.props.listing)) {
+        groupShareElement = <div className="property-stats-share-groups">הגיעו ליותר דיירים! שתפו בקבוצות פייסבוק למחפשי דירות:<span className="property-stats-share-groups-button" onClick={this.showShareToGroupsModal}><i className="fa fa-users" />שתף לקבוצות</span></div>;
+      }
     } else {
       shownInterests = interests;
+      titleText = 'לחצו על שם הדייר על מנת לראות את כל המידע עליו';
     }
 
     return (
@@ -74,12 +83,9 @@ class PropertyStats extends Component {
           רשימת הדיירים המתעניינים בדירה ({interests.length})
         </div>
         <div className="property-stats-value-title">
-          {interests.length === 0 ?
-            'ברשימה למטה יופיעו הדיירים המעוניינים בדירה עם כל המידע עליהם'
-          :
-            'לחצו על שם הדייר על מנת לראות את כל המידע עליו'
-          }
+          {titleText}
         </div>
+        {groupShareElement}
         <ListGroup className={interests.length === 0 ? 'property-stats-list-group-disabled' : ''}>
           { shownInterests.map(tenant => (
             <ListGroupItem key={tenant.id} disabled={tenant.disabled} className="property-stats-list-group-item">

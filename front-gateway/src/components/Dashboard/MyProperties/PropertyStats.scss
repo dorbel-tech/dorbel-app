@@ -290,6 +290,24 @@ $active-color: #3398db;
   line-height: 20px;
 }
 
+.property-stats-share-groups {
+  background-color: $brand-white;
+  border: 0;
+  margin: 0 0 4px;
+  padding: 18px 15px;
+}
+
+.property-stats-share-groups-button {
+  @include button();
+
+  background-color: #096abd;
+  margin-right: 10px;
+
+  > i {
+    margin-left: 9px;
+  }
+}
+
 .property-stats-followers-container > .property-stats-value-title {
   margin-bottom: 20px;
 }
