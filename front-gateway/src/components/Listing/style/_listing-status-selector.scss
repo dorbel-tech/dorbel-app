@@ -23,11 +23,10 @@
   }
 
   &.listing-status-selector-pending {
-    background-color: #9b9b9b !important;
-    border-color: #9b9b9b;
+    background-color: $gray-mid-light !important;
+    border-color: $gray-mid-light;
   }
 
-  &.listing-status-selector-deleted,
   &.listing-status-selector-unlisted {
     background-color: #2d3e50 !important;
     border-color: #2d3e50;
@@ -45,10 +44,6 @@
 
   &.listing-status-selector-item-rented > a::before {
     content: '\f058';
-  }
-
-  &.listing-status-selector-item-republish > a::before {
-    content: '\f01e';
   }
 
   &.listing-status-selector-item-unlisted > a::before {

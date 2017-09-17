@@ -5,6 +5,8 @@ const _ = require('lodash');
 const errors = shared.utils.domainErrors;
 const userManagement = shared.utils.user.management;
 
+const rootProfileSections = ['main', 'full_profile'];
+
 const profileSectionParams = {
   main: {
     first_name: { isRequired: true },
@@ -32,7 +34,7 @@ async function update(user, profileData) {
 
     logger.info({ user_uuid: user.id, userData: profileData }, 'Updating user details');
     const newUserProfile = await userManagement.updateUserDetails(user.id, {
-      user_metadata: (profileData.section == 'main') ? profileData.data : { [profileData.section]: profileData.data }
+      user_metadata: (rootProfileSections.indexOf(profileData.section) != -1) ? profileData.data : { [profileData.section]: profileData.data }
     });
     logger.info({ user_uuid: user.id, userData: newUserProfile }, 'Updated user details');
 
@@ -45,30 +47,36 @@ async function update(user, profileData) {
 }
 
 function validateRequest(profileData) {
-  if (!profileData.section) {
-    throw new errors.DomainValidationError('SectionNotDefined', { profileData }, 'The update request was rejected because no section was defined');
+  if (profileData.section == 'full_profile') { // Quick and dirty solution because profile structure will probably change 
+    validateRequest({ section: 'main', data: _.omit(profileData.data, 'tenant_profile')});
+    validateRequest({ section: 'tenant_profile', data: profileData.data.tenant_profile });
   }
-  if (!profileSectionParams[profileData.section]) {
-    throw new errors.DomainValidationError('IllegalSection', { profileData }, 'The update request was rejected because the supplied section is illegal');
+  else {
+    if (!profileData.section) {
+      throw new errors.DomainValidationError('SectionNotDefined', { profileData }, 'The update request was rejected because no section was defined');
+    }
+    if (!profileSectionParams[profileData.section]) {
+      throw new errors.DomainValidationError('IllegalSection', { profileData }, 'The update request was rejected because the supplied section is illegal');
+    }
+
+    const fieldMap = profileSectionParams[profileData.section];
+    const keysToUpdate = _.keys(profileData.data);
+    const sectionFieldKeys = _.keys(fieldMap) || [];
+
+    keysToUpdate
+      .forEach((key) => {
+        if (sectionFieldKeys.indexOf(key) == -1) {
+          throw new errors.DomainValidationError('FieldNotAllowed', { field: key }, 'The update request contains an illegal, not white listed field!');
+        }
+      });
+
+    sectionFieldKeys
+      .forEach((key) => {
+        if (fieldMap[key].isRequired && (profileData.data[key] == '' || profileData.data[key] == undefined)) {
+          throw new errors.DomainValidationError('RequiredFieldMissing', { field: key }, `The update request doesn't contain a value for the '${key}' required field`);
+        }
+      });
   }
-
-  const fieldMap = profileSectionParams[profileData.section];
-  const keysToUpdate = _.keys(profileData.data);
-  const sectionFieldKeys = _.keys(fieldMap) || [];
-
-  keysToUpdate
-    .forEach((key) => {
-      if (sectionFieldKeys.indexOf(key) == -1) {
-        throw new errors.DomainValidationError('FieldNotAllowed', { field: key }, 'The update request contains an illegal, not white listed field!');
-      }
-    });
-
-  sectionFieldKeys
-    .forEach((key) => {
-      if (fieldMap[key].isRequired && (profileData.data[key] == '' || profileData.data[key] == undefined)) {
-        throw new errors.DomainValidationError('RequiredFieldMissing', { field: key }, `The update request doesn't contain a value for the '${key}' required field`);
-      }
-    });
 }
 
 module.exports = {

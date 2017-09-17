@@ -1,4 +1,5 @@
 import React from 'react';
+import autobind from 'react-autobind';
 import { Button } from 'react-bootstrap';
 import ShareModal from '~/components/Modals/ShareModal/ShareModal';
 
@@ -6,37 +7,27 @@ import ShareModal from '~/components/Modals/ShareModal/ShareModal';
 export default class ModalProvider {
   constructor(appStore) {
     this.appStore = appStore;
+    autobind(this);
   }
 
   showConfirmationModal(params) {
     return new Promise((resolve) => {
-      const close = (choice) => {
-        resolve(choice);
-        this.appStore.showModal = false;
-      };
-
+      params.closeHandler = (choice) => resolve(choice);
       params.bodyClass = 'text-center';
-
       params.footer = (
         <div>
-          <Button onClick={() => close(true)} bsStyle={params.confirmStyle || 'danger'} block>{params.confirmButton || 'המשך'}</Button>
-          <Button onClick={() => close(false)} block>{params.cancelButton || 'ביטול'}</Button>
+          <Button onClick={() => this.close(true)} bsStyle={params.confirmStyle || 'danger'} block>{params.confirmButton || 'המשך'}</Button>
+          <Button onClick={() => this.close(false)} block>{params.cancelButton || 'ביטול'}</Button>
         </div>
       );
-
-      this.show(params, () => close(false));
+      this.show(params);
     });
   }
 
   showInfoModal(params) {
     return new Promise((resolve) => {
-      // expecting only one modal open each time so calling modalProvider.close() will close it
-      this.close = () => {
-        resolve(true);
-        this.appStore.showModal = false;
-      };
-
-      this.show(params, () => this.close());
+      params.closeHandler = () => resolve(true);
+      this.show(params);
     });
   }
 
@@ -63,9 +54,9 @@ export default class ModalProvider {
       ),
       footer: params.footer,
       modalSize: params.modalSize || 'small',
-      onClose: () => {
+      onClose: (value) => {
         if (params.closeHandler) {
-          params.closeHandler();
+          params.closeHandler(value);
         }
         this.appStore.showModal = false;
       }
@@ -74,7 +65,9 @@ export default class ModalProvider {
     this.appStore.showModal = true;
   }
 
-  close() {
+  close(value) {
+    const { onClose } = this.appStore.modalParams;
+    if (onClose) { onClose(value) }
     this.appStore.showModal = false;
   }
 }

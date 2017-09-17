@@ -87,12 +87,12 @@ a {
 }
 
 .modal-backdrop.in {
-  opacity: 0.2;
+  opacity: 0.7;
 }
 
 .modal-content {
   border: none;
-  border-radius: 0;
+  border-radius: 3px;
   box-shadow: 0 30px 40px rgba(0, 0, 0, 0.2);
 }
 
@@ -107,6 +107,7 @@ a {
   top: 10px;
   padding: 10px;
   position: absolute;
+  z-index: 5;
 }
 
 .modal-title {
@@ -122,10 +123,6 @@ a {
 
 .modal-body {
   padding: 10px 30px 25px;
-}
-
-.modal-body .row:not(:first-child) {
-  padding-top: 20px;
 }
 
 table.vertical-middle > tbody > tr > td {
@@ -216,4 +213,8 @@ ul.nav.nav-tabs.navbar-nav {
 
 .react-toggle--checked .react-toggle-thumb {
   left: 21px;
+}
+
+.underline {
+  text-decoration: underline;
 }

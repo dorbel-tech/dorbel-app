@@ -23,10 +23,10 @@ services:
       NODE_ENV: ${NODE_ENV}
       SUMOLOGIC_COLLECTOR: ${SUMOLOGIC_COLLECTOR}
 
-  ohe-api:
-    volumes:
-      - ./ohe-api-shared:/shared
-    command: bash -c "yarn run wait:db && yarn run start"
-    environment:
-      NODE_ENV: ${NODE_ENV}
-      SUMOLOGIC_COLLECTOR: ${SUMOLOGIC_COLLECTOR}
+  # ohe-api:
+  #   volumes:
+  #     - ./ohe-api-shared:/shared
+  #   command: bash -c "yarn run wait:db && yarn run start"
+  #   environment:
+  #     NODE_ENV: ${NODE_ENV}
+  #     SUMOLOGIC_COLLECTOR: ${SUMOLOGIC_COLLECTOR}

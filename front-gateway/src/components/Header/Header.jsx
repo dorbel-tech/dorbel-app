@@ -77,9 +77,6 @@ class Header extends Component {
               <NavItem onClick={this.handleHrefClick} href={SEARCH_PREFIX}>מצאו דירה</NavItem>
               :
               null}
-            <NavItem onClick={this.handleHrefClick} href={externalURL + '/pages/about_us'}>
-              מי אנחנו
-            </NavItem>
             <NavItem onClick={this.handleHrefClick} href={externalURL + '/pages/owner'}>
               בעלי דירות
             </NavItem>

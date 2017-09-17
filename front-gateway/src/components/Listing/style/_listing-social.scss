@@ -1,47 +1,44 @@
+@import "../../sharedStyles/variables.scss";
+
 .listing-social-share-container {
   display: inline-block;
-  padding-right: 10px;
 
-  a {
-    color: $gray-dark;
-    font-size: 18px;
-  }
-
-  svg {
-    fill: $gray-dark;
-    width: 18px;
-    height: 18px;
-    vertical-align: middle;
+  > textarea {
+    height: 0;
+    opacity: 0;
+    position: absolute;
+    width: 0;
   }
 
   .listing-social-share-item {
-    padding: 10px;
+    border-radius: 4px;
+    color: $brand-white;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 16px;
+    height: 40px;
+    margin-left: 10px;
+    margin-top: 10px;
+    padding: 12px;
+    text-align: center;
+    width: 40px;
+
+    &.fa-link {
+      background-color: $gray-button;
+    }
+
+    &.fa-facebook-f {
+      background-color: #096abd;
+    }
+
+    &.fa-whatsapp {
+      background-color: $brand-green;
+    }
   }
 
   @media (min-width: $screen-md-min) {
-    .fb-desktop,
-    .email {
-      display: inline;
-    }
-
-    .fb-mobile,
-    .fb-messenger-mobile,
     .whatsapp {
       display: none;
-    }
-  }
-
-  @media (max-width: $screen-sm-max) {
-    .fb-desktop,
-    .fb-messenger-desktop,
-    .email {
-      display: none;
-    }
-
-    .fb-mobile,
-    .fb-messenger-mobile,
-    .whatsapp {
-      display: inline;
     }
   }
 }

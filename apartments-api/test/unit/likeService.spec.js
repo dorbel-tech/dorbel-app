@@ -57,7 +57,7 @@ describe('Likes Service', function () {
     it('Set an apartment as liked', function* () {
       const user = faker.getFakeUser();
 
-      yield this.likeService.set(1, 1, user, true);
+      yield this.likeService.set(1, 1, user, undefined, true);
 
       __.assertThat(this.sendNotification.calledOnce, __.is(true));
       __.assertThat(this.sendNotification.getCall(0).args[1], __.is('LISTING_LIKED'));
@@ -66,7 +66,17 @@ describe('Likes Service', function () {
     it('Set an apartment as unliked', function* () {
       const user = faker.getFakeUser();
 
-      yield this.likeService.set(1, 1, user, false);
+      yield this.likeService.set(1, 1, user, undefined, false);
+
+      __.assertThat(this.sendNotification.calledOnce, __.is(true));
+      __.assertThat(this.sendNotification.getCall(0).args[1], __.is('LISTING_UNLIKED'));
+    });
+
+    it('Set an apartment as unliked by admin', function* () {
+      const user = faker.getFakeUser({ role: 'admin' });
+      const tenant = faker.getFakeUser();
+
+      yield this.likeService.set(1, 1, user, tenant, false);
 
       __.assertThat(this.sendNotification.calledOnce, __.is(true));
       __.assertThat(this.sendNotification.getCall(0).args[1], __.is('LISTING_UNLIKED'));
@@ -77,7 +87,7 @@ describe('Likes Service', function () {
       this.likeRepositoryMock.set = sinon.stub().throws();
 
       try {
-        yield this.likeService.set(0, 0, user, true);
+        yield this.likeService.set(0, 0, user, undefined, true);
         __.assertThat('code', __.is('not reached'));
       }
       catch (error) {

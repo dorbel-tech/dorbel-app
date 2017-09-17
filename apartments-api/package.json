@@ -1,6 +1,6 @@
 {
   "name": "apartments-api",
-  "version": "1.1.18",
+  "version": "1.2.1",
   "description": "API for dorbel apartments domain",
   "main": "src/index.js",
   "scripts": {

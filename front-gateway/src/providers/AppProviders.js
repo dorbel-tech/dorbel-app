@@ -5,7 +5,6 @@
 'use strict';
 import ApiProvider from './ApiProvider';
 import ListingsProvider from './ListingsProvider';
-import OheProvider from './OheProvider';
 import CityProvider from './CityProvider';
 import NeighborhoodProvider from './NeighborhoodProvider';
 import CloudinaryProvider from './CloudinaryProvider';
@@ -17,6 +16,7 @@ import LikeProvider from './LikeProvider';
 import ListingImageProvider from './ListingImageProvider';
 import NavProvider from './NavProvider';
 import DocumentProvider from './DocumentProvider';
+import ShortUrlProvider from './ShortUrlProvider';
 
 import utils from './utils';
 
@@ -39,17 +39,17 @@ class AppProviders {
     this.apiProvider = new ApiProvider(appStore);
     this.authProvider = loadAuthProvider(appStore, router, this.apiProvider);
     this.messagingProvider = new MessagingProvider(appStore.authStore, appStore.messagingStore);
-    this.oheProvider = new OheProvider(appStore, this.apiProvider, this.authProvider);
     this.navProvider = new NavProvider(appStore, router);
-    this.listingsProvider = new ListingsProvider(appStore, { api: this.apiProvider, ohe: this.oheProvider, navProvider: this.navProvider });
+    this.listingsProvider = new ListingsProvider(appStore, { api: this.apiProvider, navProvider: this.navProvider });
     this.listingImageProvider = new ListingImageProvider({ cloudinary: this.cloudinaryProvider });
     this.cityProvider = new CityProvider(appStore, this.apiProvider);
     this.neighborhoodProvider = new NeighborhoodProvider(appStore, this.apiProvider);
     this.notificationProvider = new NotificationProvider();
     this.modalProvider = new ModalProvider(appStore);
-    this.searchProvider = new SearchProvider(appStore, { api: this.apiProvider, ohe: this.oheProvider });
+    this.searchProvider = new SearchProvider(appStore, { api: this.apiProvider });
     this.likeProvider = new LikeProvider(appStore, this.apiProvider);
     this.documentProvider = new DocumentProvider(appStore, this.apiProvider);
+    this.shortUrlProvider = new ShortUrlProvider(appStore, this.apiProvider);
     this.utils = utils;
   }
 }

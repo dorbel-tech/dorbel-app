@@ -3,5 +3,5 @@
 
 yarn run deploy apartments-api $1 &
 yarn run deploy front-gateway $1 &
-yarn run deploy notifications-service $1 &
-yarn run deploy ohe-api $1
+yarn run deploy notifications-service $1
+# yarn run deploy ohe-api $1
