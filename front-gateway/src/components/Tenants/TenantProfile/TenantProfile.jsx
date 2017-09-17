@@ -149,9 +149,9 @@ class TenantProfile extends Component {
         </Col>
         <Col xs={6} className="tenant-profile-contact-details">
           <div className="tenant-profile-field">
-            <label>פעולות</label>
+            <label>קבלו מידע נוסף על הדייר</label>
             <div className="tenant-profile-contact-details-item">
-              <Button href="https://www.dorbel.com/pages/services/credit-report" target="_blank" onClick={() => window.analytics.track('client_click_tenant_credit_score')}>קרדיט סקור</Button>
+              <Button href="https://www.dorbel.com/pages/services/credit-report?utm source=tenant profile" target="_blank" onClick={() => window.analytics.track('client_click_tenant_credit_score')}>דו"ח אשראי</Button>
             </div>
           </div>
         </Col>
