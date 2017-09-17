@@ -49,7 +49,7 @@ function initLock(clientId, domain) {
 }
 
 // Make sure to sync this object in case of changing with dorbe-shared server object as well:
-// https://github.com/dorbel-tech/dorbel-shared/blob/master/src/utils/user/helpers.js#L6
+// https://github.com/dorbel-tech/dorbel-shared/blob/master/src/utils/user/helpers.js
 function mapAuth0Profile(auth0profile) {
   const mappedProfile = {
     email: _.get(auth0profile, 'user_metadata.email') || auth0profile.email,
@@ -63,10 +63,15 @@ function mapAuth0Profile(auth0profile) {
 
   if (!mappedProfile.tenant_profile) {
     mappedProfile.tenant_profile = {};
-    if (_.get(auth0profile, 'identities[0].provider') === 'facebook') {
-      mappedProfile.tenant_profile.facebook_url = auth0profile.link;
+    const facebookIdentity = _.find(auth0profile.identities, { provider: 'facebook' });
+    if (facebookIdentity) {
+      mappedProfile.tenant_profile.facebook_user_id = facebookIdentity.user_id;
+      mappedProfile.tenant_profile.facebook_url = 'https://www.facebook.com/app_scoped_user_id/' + facebookIdentity.user_id;
     }
+    mappedProfile.tenant_profile.work_place = _.get(auth0profile, 'work[0].employer.name');
+    mappedProfile.tenant_profile.position = _.get(auth0profile, 'work[0].position.name');
   }
+
   mappedProfile.role = _.get(auth0profile, 'app_metadata.role');
   mappedProfile.dorbel_user_id = _.get(auth0profile, 'app_metadata.dorbel_user_id');
   mappedProfile.first_login = _.get(auth0profile, 'app_metadata.first_login');
