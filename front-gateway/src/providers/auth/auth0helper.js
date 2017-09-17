@@ -68,8 +68,8 @@ function mapAuth0Profile(auth0profile) {
       mappedProfile.tenant_profile.facebook_user_id = facebookIdentity.user_id;
       mappedProfile.tenant_profile.facebook_url = 'https://www.facebook.com/app_scoped_user_id/' + facebookIdentity.user_id;
     }
-    mappedProfile.tenant_profile.work_place = _.get(auth0profile, 'work[0].employer.name');
-    mappedProfile.tenant_profile.position = _.get(auth0profile, 'work[0].position.name');
+    mappedProfile.tenant_profile.work_place = _.get(auth0profile, 'work[0].employer.name') || '';
+    mappedProfile.tenant_profile.position = _.get(auth0profile, 'work[0].position.name') || '';
   }
 
   mappedProfile.role = _.get(auth0profile, 'app_metadata.role');
