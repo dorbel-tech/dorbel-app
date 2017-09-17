@@ -49,16 +49,16 @@ services:
       NODE_ENV: ${NODE_ENV}
     command: yarn run start:dev
 
-  ohe-api:
-    ports:
-      - '5860:5860'
-    volumes:
-      - ./ohe-api:/home/nodejs/app
-      - /home/nodejs/app/node_modules/
-      # - ../dorbel-shared:/home/nodejs/app/node_modules/dorbel-shared
-    environment:
-      NODE_ENV: ${NODE_ENV}
-    command: bash -c "yarn run wait:db && yarn run start:dev"
+  # ohe-api:
+  #   ports:
+  #     - '5860:5860'
+  #   volumes:
+  #     - ./ohe-api:/home/nodejs/app
+  #     - /home/nodejs/app/node_modules/
+  #     # - ../dorbel-shared:/home/nodejs/app/node_modules/dorbel-shared
+  #   environment:
+  #     NODE_ENV: ${NODE_ENV}
+  #   command: bash -c "yarn run wait:db && yarn run start:dev"
 
   # admin:
   #   volumes:

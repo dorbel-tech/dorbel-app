@@ -1,24 +1,88 @@
+@import "../../sharedStyles/variables.scss";
+@import "../../sharedStyles/bsvars.scss";
+
 .tenant-row {
-  display: flex;
   align-items: center;
+  cursor: pointer;
+  display: flex;
+  padding: 10px 15px;
+
+  @media (max-width: $screen-xs-max) {
+    margin: 0 -20px;
+  }
 
   i {
     cursor: pointer;
   }
+}
 
-  .tenant-row-msg-icon {
-    font-size: 16px;
-    margin-bottom: 2px;
-    vertical-align: middle;
+.tenant-row-profile {
+  color: $brand-info;
+  cursor: pointer;
+  display: inline;
+
+  .tenant-row-text {
+    float: right;
+
+    .tenant-row-name {
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    .tenant-row-position {
+      color: #9b9b9b;
+    }
+  }
+
+  .tenant-row-image {
+    float: right;
+    margin-left: 15px;
+    width: 40px;
+
+    @media (max-width: $screen-xs-max) {
+      width: 30px;
+    }
   }
 }
 
-.tenant-row-image {
-  width: 40px;
+.tenant-row-remove {
+  display: inline;
+
+  i {
+    color: $gray-light;
+    padding: 8px 30px 8px 5px;
+
+    @media (max-width: $screen-sm-max) {
+      padding: 8px 10px 8px 5px;
+    }
+
+    &:hover {
+      color: $gray-mid-light;
+    }
+  }
 }
 
-.tenant-row-no-facebook {
-  color: #979797;
-  font-size: 18px;
-  vertical-align: middle;
+.tenant-row-button {
+  color: #4d4d44;
+  display: inline;
+  padding: 6px;
+  text-decoration: underline;
+
+  &:hover {
+    cursor: pointer;
+    color: $gray-mid-light;
+  }
+
+  .tenant-row-button-text {
+    display: inline;
+
+    @media (max-width: $screen-xs-max) {
+      font-size: 12px;
+    }
+  }
+
+  i {
+    padding: 0 5px;
+  }
 }

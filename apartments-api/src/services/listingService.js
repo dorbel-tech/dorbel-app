@@ -4,8 +4,8 @@ const moment = require('moment');
 const shared = require('dorbel-shared');
 const listingRepository = require('../apartmentsDb/repositories/listingRepository');
 const likeRepository = require('../apartmentsDb/repositories/likeRepository');
-const geoProvider = require('../providers/geoProvider');
 const listingSearchQuery = require('./listingService.searchQuery');
+const addressUtils = require('./utils/addressUtil');
 const logger = shared.logger.getLogger(module);
 const { messageBus, generic, analytics } = shared.utils;
 const userManagement = shared.utils.user.management;
@@ -15,10 +15,12 @@ const APARTMENTS_UINQUE_CONSTRAINT_INDEX_NAME = 'apartments_index';
 
 const possibleStatusesByCurrentStatus = {
   unlisted: ['listed', 'rented'],
-  listed: ['unlisted', 'rented']
+  listed: ['unlisted', 'rented'],
+  rented: ['listed', 'unlisted']
 };
 
 const createdEventsByListingStatus = {
+  listed: messageBus.eventType.APARTMENT_LISTED,
   pending: messageBus.eventType.APARTMENT_CREATED,
   rented: messageBus.eventType.APARTMENT_CREATED_FOR_MANAGEMENT
 };
@@ -33,10 +35,12 @@ function CustomError(code, message) {
 async function create(listing, user) {
   const publishingUserId = user.id;
   listing.publishing_user_id = publishingUserId;
+  listing.apartment.building = await addressUtils.validateAndEnrichBuilding(listing.apartment.building);
+
   await validateNewListing(listing, user);
 
   let modifiedListing = setListingAutoFields(listing);
-  listing.apartment.building.geolocation = await geoProvider.getGeoLocation(listing.apartment.building);
+  
   let createdListing = await listingRepository.create(modifiedListing);
 
   // TODO: Update user details can be done on client using user token.
@@ -81,7 +85,7 @@ async function create(listing, user) {
 }
 
 async function validateNewListing(listing, user) {
-  if (['pending', 'rented'].indexOf(listing.status) < 0) {
+  if (['listed', 'pending', 'rented'].indexOf(listing.status) < 0) {
     throw new CustomError(400, `לא ניתן להעלות דירה ב status ${listing.status}`);
   }
 
@@ -142,7 +146,7 @@ async function update(listingId, user, patch) {
     if (ex.name == 'SequelizeUniqueConstraintError' && ex.fields && ex.fields[APARTMENTS_UINQUE_CONSTRAINT_INDEX_NAME]) {
       throw new CustomError(409, 'דירה עם פרטים זהים כבר קיימת במערכת');
     }
-    else{
+    else {
       throw ex;
     }
   }
@@ -210,7 +214,7 @@ function notifyListingChanged(oldListing, newListing) {
 
 function setListingAutoFields(listing) {
   // default lease_end to after one year
-  if (listing.lease_start && (!listing.lease_end || listing.status == 'pending')) {
+  if (listing.lease_start && (!listing.lease_end || (listing.status == 'listed' || listing.status == 'pending'))) {
     listing.lease_end = moment(listing.lease_start).add(1, 'years').format('YYYY-MM-DD');
   }
 

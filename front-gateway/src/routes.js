@@ -7,7 +7,6 @@ import ErrorPage from '~/components/ErrorPage';
 import Login from '~/components/Login';
 import Health from '~/components/Health';
 import UploadApartmentForm from '~/components/ApartmentForm/UploadApartmentForm';
-import SelectUploadMode from '~/components/ApartmentForm/SelectUploadMode';
 import MonthlyReport from '~/components/MonthlyReport/MonthlyReport';
 import routesHelper from './routesHelper';
 
@@ -16,11 +15,10 @@ const routes = [
   { route: '/health', view: Health },
   { route: '/login', view: Login },
   { route: routesHelper.SEARCH_PREFIX, view: Search },
-  { route: routesHelper.PROPERTIES_PREFIX + '/submit', view: SelectUploadMode },
+  { route: routesHelper.PROPERTIES_PREFIX + '/submit', view: UploadApartmentForm },
   { route: routesHelper.PROPERTIES_PREFIX + '/submit/:mode', view: UploadApartmentForm },
   { route: routesHelper.PROPERTIES_PREFIX + '/:apartmentId', view: Listing },
   { route: routesHelper.PROPERTIES_PREFIX + '/:apartmentId/:action', view: Listing, requireLogin: true },
-  { route: routesHelper.PROPERTIES_PREFIX + '/:apartmentId/:action/:oheId', view: Listing, requireLogin: true },
   { route: routesHelper.DASHBOARD_PREFIX, view: Dashboard, requireLogin: true },
   { route: routesHelper.DASHBOARD_PREFIX + '/:action', view: Dashboard, requireLogin: true },
   { route: routesHelper.DASHBOARD_PREFIX + '/my-profile/:tab', view: Dashboard, requireLogin: true },

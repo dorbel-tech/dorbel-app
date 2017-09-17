@@ -90,7 +90,7 @@ describe('Integration - PATCH /listings/{id}', function () {
     const update = {
       apartment: {
         building: {
-          street_name: faker.address.streetName()
+          street_name: 'אלנבי'
         }
       }
     };
@@ -136,7 +136,7 @@ describe('Integration - PATCH /listings/{id}', function () {
     const update = {
       apartment: {
         building: {
-          street_name: faker.address.streetName(),
+          street_name: 'פרנקל',
           elevator: !createdListing.apartment.building.elevator
         }
       }
@@ -172,12 +172,20 @@ describe('Integration - PATCH /listings/{id}', function () {
     yield otherUserApi.patchListing(createdListing.id, { directions: 'bla' }).expect(403).end();
   });
 
-  it('should fail to update to a non-existing city', function* () {
-    yield apiClient.patchListing(createdListing.id, _.set({}, 'apartment.building.city.id', 100)).expect(400).end();
+  it('should fail to update to a city outside Israel', function* () {
+    yield apiClient.patchListing(createdListing.id, _.set({}, 'apartment.building.city.city_name', 'New York')).expect(400).end();
   });
 
   it('should fail to update to a non-existing neighborhood', function* () {
-    yield apiClient.patchListing(createdListing.id, _.set({}, 'apartment.building.neighborhood.id', 100)).expect(400).end();
+    yield apiClient.patchListing(createdListing.id, _.set({}, 'apartment.building.neighborhood_id', 100)).expect(400).end();
+  });
+
+  it('should allow to remove neighborhood (undefined)', function* () {
+    const response = yield apiClient.patchListing(createdListing.id, _.set({}, 'apartment.building.neighborhood_id', null)).expect(200).end();
+
+    __.assertThat(response.body.apartment.building, __.hasProperties({
+      neighborhood_id: null
+    }));
   });
 
   it('should fail for non-existing listing', function* () {

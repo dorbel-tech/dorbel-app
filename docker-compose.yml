@@ -49,6 +49,7 @@ services:
       GOOGLE_API_SERVICE_KEY: ${GOOGLE_API_SERVICE_KEY}
       GOOGLE_API_SERVICE_EMAIL: ${GOOGLE_API_SERVICE_EMAIL}
       GOOGLE_ANALYTICS_ID: ${GOOGLE_ANALYTICS_ID}
+      GOOGLE_PLACES_API_KEY: ${GOOGLE_PLACES_API_KEY}
 
   front-gateway:
     build:
@@ -59,15 +60,14 @@ services:
     depends_on:
       - cache
       - apartments-api
-      - ohe-api
+      # - ohe-api
     links:
       - cache
       - apartments-api
-      - ohe-api
+      # - ohe-api
     environment:
       APARTMENTS_API_URL: http://apartments-api:3000
       FRONT_GATEWAY_URL: ${FRONT_GATEWAY_URL}
-      OHE_API_URL: http://ohe-api:3003
       REDIS_HOST: cache
       REDIS_PORT: 6379
       AUTH0_DOMAIN: ${AUTH0_DOMAIN}
@@ -79,7 +79,7 @@ services:
       BROWSERSTACK_USERNAME: ${BROWSERSTACK_USERNAME}
       BROWSERSTACK_ACCESS_KEY: ${BROWSERSTACK_ACCESS_KEY}
       OPTIMIZELY_KEY: ${OPTIMIZELY_KEY}
-      HOTJAR_KEY: ${HOTJAR_KEY}      
+      HOTJAR_KEY: ${HOTJAR_KEY}
       LOG_LEVEL: ${LOG_LEVEL}
       TALKJS_APP_ID: ${TALKJS_APP_ID}
       TALKJS_PUBLISHABLE_KEY: ${TALKJS_PUBLISHABLE_KEY}
@@ -94,14 +94,13 @@ services:
     depends_on:
       - cache
       - apartments-api
-      - ohe-api
+      # - ohe-api
     links:
       - cache
       - apartments-api
-      - ohe-api
+      # - ohe-api
     environment:
       APARTMENTS_API_URL: http://apartments-api:3000
-      OHE_API_URL: http://ohe-api:3003
       REDIS_HOST: cache
       REDIS_PORT: 6379
       AUTH0_DOMAIN: ${AUTH0_DOMAIN}
@@ -115,36 +114,36 @@ services:
       FRONT_GATEWAY_URL: ${FRONT_GATEWAY_URL}
       LOG_LEVEL: ${LOG_LEVEL}
 
-  ohe-api:
-    build:
-      context: ohe-api
-    image: dorbel/ohe-api
-    ports:
-      - '3003:3003'
-    depends_on:
-      - db
-      - cache
-    links:
-      - db
-      - cache
-    environment:
-      RDS_HOSTNAME: db
-      RDS_DB_NAME: ${MYSQL_DATABASE_OHE}
-      RDS_USERNAME: ${MYSQL_ROOT_USER}
-      RDS_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      REDIS_HOST: cache
-      REDIS_PORT: 6379
-      AUTH0_DOMAIN: ${AUTH0_DOMAIN}
-      AUTH0_API_CLIENT_ID: ${AUTH0_API_CLIENT_ID}
-      AUTH0_API_CLIENT_SECRET: ${AUTH0_API_CLIENT_SECRET}
-      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
-      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
-      AWS_REGION: ${AWS_REGION}
-      NOTIFICATIONS_SNS_TOPIC_ARN: ${NOTIFICATIONS_SNS_TOPIC_ARN}
-      SEGMENT_IO_WRITE_KEY: ${SEGMENT_IO_WRITE_KEY}
-      OHE_API_EVENTS_SQS_QUEUE_URL: ${OHE_API_EVENTS_SQS_QUEUE_URL}
-      FRONT_GATEWAY_URL: ${FRONT_GATEWAY_URL}
-      LOG_LEVEL: ${LOG_LEVEL}
+  # ohe-api:
+  #   build:
+  #     context: ohe-api
+  #   image: dorbel/ohe-api
+  #   ports:
+  #     - '3003:3003'
+  #   depends_on:
+  #     - db
+  #     - cache
+  #   links:
+  #     - db
+  #     - cache
+  #   environment:
+  #     RDS_HOSTNAME: db
+  #     RDS_DB_NAME: ${MYSQL_DATABASE_OHE}
+  #     RDS_USERNAME: ${MYSQL_ROOT_USER}
+  #     RDS_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+  #     REDIS_HOST: cache
+  #     REDIS_PORT: 6379
+  #     AUTH0_DOMAIN: ${AUTH0_DOMAIN}
+  #     AUTH0_API_CLIENT_ID: ${AUTH0_API_CLIENT_ID}
+  #     AUTH0_API_CLIENT_SECRET: ${AUTH0_API_CLIENT_SECRET}
+  #     AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+  #     AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+  #     AWS_REGION: ${AWS_REGION}
+  #     NOTIFICATIONS_SNS_TOPIC_ARN: ${NOTIFICATIONS_SNS_TOPIC_ARN}
+  #     SEGMENT_IO_WRITE_KEY: ${SEGMENT_IO_WRITE_KEY}
+  #     OHE_API_EVENTS_SQS_QUEUE_URL: ${OHE_API_EVENTS_SQS_QUEUE_URL}
+  #     FRONT_GATEWAY_URL: ${FRONT_GATEWAY_URL}
+  #     LOG_LEVEL: ${LOG_LEVEL}
 
   # Admin apartments backoffice
   # admin:

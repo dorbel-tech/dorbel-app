@@ -2,7 +2,7 @@
 const common = require('../common');
 
 module.exports = {
-  url: function(listingId, tab){
+  url: function (listingId, tab) {
     return common.getBaseUrl() + '/dashboard/my-properties/' + listingId + '/' + (tab || '');
   },
   sections: {
@@ -23,12 +23,12 @@ module.exports = {
     }
   },
   commands: [{
-    navigateToPropertyPage: function(url) {
+    navigateToPropertyPage: function (url) {
       return this
         .navigate(url)
         .waitForElementVisible('body');
     },
-    changeListingStatus: function(status) {
+    changeListingStatus: function (status) {
       return this.section.listingStatusSelector
         .click('@listingMenuStatusDropdownToggle')
         .click('@listingMenuStatusSelector_' + status);

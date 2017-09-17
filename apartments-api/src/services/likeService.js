@@ -38,7 +38,17 @@ async function getByApartment(apartmentId) {
   return likes.map(f => f.get({ plain: true }));
 }
 
-async function set(apartmentId, listingId, user, isLiked) {
+async function set(apartmentId, listingId, user, tenant, isLiked) {
+  // Check if user is resource owner and can remove other user like.
+  if (tenant) {
+    const listing = await listingRepository.getById(listingId);
+    if (userPermissions.isResourceOwnerOrAdmin(user, listing.publishing_user_id)) {
+      user = tenant;
+    } else {
+      throw new errors.NotResourceOwnerError();
+    }
+  }
+
   try {
     await likeRepository.set(apartmentId, listingId, user.id, isLiked);
   } catch (error) {

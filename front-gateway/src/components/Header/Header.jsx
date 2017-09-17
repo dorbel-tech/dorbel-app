@@ -45,6 +45,7 @@ class Header extends Component {
     const isLoggedIn = authStore.isLoggedIn;
     const isMobile = isMobileJs.phone;
     const externalURL = 'https://www.dorbel.com';
+    const submitRoute = PROPERTY_SUBMIT_PREFIX + '/publish';
 
     return (
       <Navbar className="header-navbar"
@@ -69,16 +70,13 @@ class Header extends Component {
             {MENU_ITEMS.map((item) => this.renderDashboardMenuItem(item))}
             {isMobile ?
               <NavItem className="header-navbar-btn-publish" onClick={this.handleHrefClick}
-                href={PROPERTY_SUBMIT_PREFIX}>פרסמו דירה</NavItem>
+                href={submitRoute}>פרסמו דירה</NavItem>
               :
               null}
             {isMobile ?
               <NavItem onClick={this.handleHrefClick} href={SEARCH_PREFIX}>מצאו דירה</NavItem>
               :
               null}
-            <NavItem onClick={this.handleHrefClick} href={externalURL + '/pages/about_us'}>
-              מי אנחנו
-            </NavItem>
             <NavItem onClick={this.handleHrefClick} href={externalURL + '/pages/owner'}>
               בעלי דירות
             </NavItem>
@@ -96,7 +94,7 @@ class Header extends Component {
               null
               :
               <NavItem className="header-navbar-btn-publish" onClick={this.handleHrefClick}
-                href={PROPERTY_SUBMIT_PREFIX}>פרסמו דירה</NavItem>
+                href={submitRoute}>פרסמו דירה</NavItem>
             }
             {isLoggedIn ?
               <NavItem onClick={authProvider.logout}

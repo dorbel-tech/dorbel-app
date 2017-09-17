@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import autobind from 'react-autobind';
 import { Col, Grid, Row } from 'react-bootstrap';
-import OHEList from './components/OHEList';
 import ListingDescription from './components/ListingDescription';
 import ListingHighlight from './components/ListingHighlight';
 import ListingHeader from './components/ListingHeader';
@@ -12,6 +11,7 @@ import ApartmentLocation from '~/components/MapWrapper/MapWrapper';
 import RelatedListings from '~/components/RelatedListings/RelatedListings';
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
 import ListingActions from './components/ListingActions';
+import InterestedBox from './components/InterestedBox';
 
 import utils from '~/providers/utils';
 
@@ -71,7 +71,7 @@ class Listing extends Component {
     const { apartmentId, appStore, appProviders } = this.props;
     let listing = appStore.listingStore.getByApartmentId(apartmentId);
 
-    if(!listing) {
+    if (!listing) {
       this.setState({ isLoading: true });
       appProviders.listingsProvider.loadListingByApartmentId(apartmentId)
         .then(() => {
@@ -139,16 +139,16 @@ class Listing extends Component {
           <Col sm={7} smPull={5} md={4} mdPull={4} className="listing-title-container">
             <h2 className="listing-title">{utils.getListingTitle(listing)}</h2>
             <h4 className="listing-sub-title">{utils.getListingSubTitle(listing)}</h4>
-            <ListingSocial listing={listing} />
+            שתפו חברים שמחפשים:<ListingSocial listing={listing} />
           </Col>
         </Row>
         <ListingInfo listing={listing} />
         <Row>
-          <Col md={4} xs={12} className="listing-ohe-box">
+          <Col md={4} xs={12} className="listing-interested-box">
             <Col smHidden xsHidden>
               <ListingHighlight listing={listing} />
             </Col>
-            <OHEList listing={listing} oheId={this.props.oheId} action={this.props.action} />
+            <InterestedBox listing={listing} />
           </Col>
         </Row>
         <ListingDescription listing={listing} />
@@ -163,7 +163,6 @@ Listing.wrappedComponent.propTypes = {
   apartmentId: React.PropTypes.string.isRequired,
   appProviders: React.PropTypes.object,
   appStore: React.PropTypes.object,
-  oheId: React.PropTypes.string,
   action: React.PropTypes.string
 };
 

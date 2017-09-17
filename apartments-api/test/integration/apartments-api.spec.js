@@ -59,6 +59,18 @@ describe('Apartments API Integration', function () {
       ));
     });
 
+    it('should allow to add a listing without specifieng a neighborhood_id', function* () {
+      const newListing = fakeObjectGenerator.getFakeListing();
+      delete newListing.apartment.building.neighborhood_id;
+      delete newListing.apartment.building.neighborhood;
+      const createdListingResp = yield this.apiClient.createListing(newListing).expect(201).end();
+
+      const getResponse = yield this.apiClient.getSingleListing(createdListingResp.body.id, true).expect(200).end();
+
+      __.assertThat(getResponse.body.apartment.building.neighborhood_id, __.is(null));
+      __.assertThat(getResponse.body.apartment.building.neighborhood, __.is(null));
+    });
+
     it('should fail to add a listing without monthly rent', function* () {
       const newListing = fakeObjectGenerator.getFakeListing();
       delete newListing.monthly_rent;

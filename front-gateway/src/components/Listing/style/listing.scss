@@ -15,6 +15,10 @@
 .listing-title-container {
   padding-left: 0;
   padding-right: 15px;
+
+  .listing-social-share-container {
+    margin-right: 10px;
+  }
 }
 
 .listing-title {
@@ -27,19 +31,12 @@
   color: #9b9b9b;
 }
 
-.listing-ohe-box {
+.listing-interested-box {
   @media (min-width: $screen-md-min) {
     left: 0;
     padding: 0;
     position: absolute;
     top: 34px;
     z-index: 1;
-  }
-
-  .listing-ohe-box-text {
-    border-top: $gray-border;
-    margin: 0 20px;
-    padding: 30px 10px 0;
-    font-size: 13px;
   }
 }

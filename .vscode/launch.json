@@ -10,9 +10,7 @@
       "restart": true,
       "sourceMaps": true,
       "localRoot": "${workspaceRoot}/apartments-api",
-      "smartStep": true,
-      "remoteRoot": "/home/nodejs/app",
-      "protocol": "inspector"
+      "remoteRoot": "/home/nodejs/app"
     },
     {
       "name": "apartments-api#unit-tests",

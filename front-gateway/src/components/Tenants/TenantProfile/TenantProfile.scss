@@ -3,31 +3,43 @@
 .tenant-profile {
   font-weight: normal;
 
+  .row {
+    padding-top: 0 !important;
+  }
+
   .tenant-profile-header {
+    margin-top: -65px; // compensate for no title in this popup
     position: relative;
-    height: 70px;
-    width: 100%;
+    height: 120px;
     border-bottom: $gray-border;
-    margin-bottom: 10px;
+
+    .tenant-profile-header-title {
+      height: 20px;
+      margin-top: 19px;
+      color: $gray-dark;
+      font-size: 15px;
+      font-weight: bold;
+      line-height: 20px;
+      text-align: center;
+    }
 
     .tenant-profile-header-content {
-      top: 10px;
+      top: 20px;
       margin: -15px 0;
       position: relative;
       z-index: 1;
 
-      label {
-        color: $gray-light;
-      }
-
-      img {
-        height: 50px;
+      .tenant-profile-header-content-picture {
+        height: 75px;
+        position: absolute;
+        left: 20px;
+        top: 20px;
       }
     }
 
     .tenant-profile-header-backgound {
       position: absolute;
-      height: 100%;
+      height: 120px;
       width: 100%;
       top: 0;
       left: 0;
@@ -43,60 +55,67 @@
   .tenant-profile-field {
     height: 100%;
     line-height: 16px;
+    text-align: right;
+    padding-right: 10px;
+    padding-top: 20px;
 
     label {
-      font-size: 11px;
+      display: block;
+      font-size: 12px;
       color: #979797;
-      vertical-align: middle;
-    }
-
-    a {
-      float: left;
-      text-decoration: underline;
     }
 
     span {
-      font-size: 15px;
+      display: block;
       color: $gray-dark;
       white-space: pre-wrap;
-      vertical-align: middle;
-      float: left;
-    }
-
-    &.vertical {
-      label {
-        display: block;
-        float: none;
-      }
-
-      span {
-        float: none;
-      }
-    }
-
-    &.border-bottom {
-      padding-bottom: 20px;
-      border-bottom: $gray-border;
-    }
-
-    &.pad-bottom {
-      padding-bottom: 10px;
     }
   }
 
+  .tenant-profile-border-bottom {
+    padding-bottom: 20px;
+    border-bottom: $gray-border;
+  }
+
   .tenant-profile-social-links {
-    float: left;
+    width: 100%;
+    margin: 0 auto;
 
     .tenant-profile-social-links-item {
-      padding: 0;
-      padding-right: 10px;
+      color: $brand-white;
+      margin: 0 5px;
+      width: 120px;
 
-      &[disabled] {
-        color: #cdcdcd;
+      &.btn-default {
+        border-color: white !important;
       }
 
-      .fa {
-        font-size: 20px;
+      &.linkedin {
+        background-color: #0077b5;
+      }
+
+      &.facebook {
+        background-color: #3b5998;
+      }
+
+      &[disabled] {
+        background-color: #cecece;
+      }
+    }
+  }
+
+  .tenant-profile-contact-details {
+    .tenant-profile-contact-details-item {
+      display: inline-block;
+      line-height: 44px;
+      margin: 0 5px 5px;
+
+      .btn {
+        width: 120px;
+
+        i {
+          padding-left: 5px;
+        }
       }
     }
   }
