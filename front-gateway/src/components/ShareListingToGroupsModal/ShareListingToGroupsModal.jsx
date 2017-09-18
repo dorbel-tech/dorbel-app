@@ -26,10 +26,14 @@ export default class ShareListingToGroupsModal extends React.Component {
   shortUrl: ''
   static title = 'שתפו את המודעה לדיירים שמחפשים דירה ממש עכשיו!';
 
-  static shouldShow = (listing) => {
+  static listingHasSharingGroups = (listing) => {
     const allowedCityNames = ['תל אביב יפו', 'רמת גן', 'גבעתיים', 'חולון', 'בת ים', 'ירושלים', 'חיפה', 'באר שבע'];
     const cityName = _.get(listing, 'apartment.building.city.city_name');
-    return (allowedCityNames.indexOf(cityName) !== -1 && !localStorageHelper.getItem(DONT_SHOW_AGAIN_PREFIX + listing.id));
+    return allowedCityNames.indexOf(cityName) !== -1;
+  }
+
+  static listingGroupShareDismissed = (listing) => {
+    return localStorageHelper.getItem(DONT_SHOW_AGAIN_PREFIX + listing.id);
   }
 
   getShortUrl() {
