@@ -87,8 +87,8 @@ function mapAuth0Profile(auth0profile) {
     first_login: _.get(auth0profile, 'app_metadata.first_login'),
   };
 
-  mappedProfile.tenant_profile.work_place = _.get(auth0profile, 'work[0].employer.name');
-  mappedProfile.tenant_profile.position = _.get(auth0profile, 'work[0].position.name');
+  mappedProfile.tenant_profile.work_place = mappedProfile.tenant_profile.work_place || _.get(auth0profile, 'work[0].employer.name');
+  mappedProfile.tenant_profile.position = mappedProfile.tenant_profile.position || _.get(auth0profile, 'work[0].position.name');
 
   const facebookIdentity = _.find(auth0profile.identities || [], { provider: 'facebook' });
   if (facebookIdentity) {
