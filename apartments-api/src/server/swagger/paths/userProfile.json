@@ -32,6 +32,42 @@
           }
         }
       }
+    },
+    "get": {
+      "operationId": "getUsersProfiles",
+      "summary": "Returns an array of the requested user's public profiles",
+      "description": "Receives an array of user_ids and returns their public profiles (only ones with all required fields)",
+      "parameters": [
+        {
+          "name": "uids",
+          "in": "query",
+          "type": "string",
+          "required": true,
+          "description": "comma delimited list of dorbel_user_id's"
+        },
+        {
+          "name": "x-user-profile",
+          "in": "header",
+          "required": true,
+          "type": "string",
+          "description": "Stringified JSON object with the user's profile information"
+        }
+      ],
+      "tags": [
+        "userProfileController",
+        "authenticated"
+      ],
+      "responses": {
+        "200": {
+          "description": "Success"
+        },
+        "default": {
+          "description": "Unexpected error",
+          "schema": {
+            "$ref": "#/definitions/Error"
+          }
+        }
+      }
     }
   }
 }

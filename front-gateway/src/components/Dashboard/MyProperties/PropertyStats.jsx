@@ -23,6 +23,7 @@ class PropertyStats extends Component {
 
   componentDidMount() {
     this.loadListingStats();
+    this.loadMatchingUsers();
     if (ShareListingToGroupsModal.listingHasSharingGroups(this.props.listing) &&
         !ShareListingToGroupsModal.listingGroupShareDismissed(this.props.listing)) {
       setTimeout(() => {
@@ -58,6 +59,12 @@ class PropertyStats extends Component {
     }
   }
 
+  loadMatchingUsers() {
+    const { listing, appProviders } = this.props
+    const { matchingUsersProvider } = appProviders;
+    matchingUsersProvider.getMatchingUsers(listing.id);
+  }
+
   renderInterests(interests, views) {
     const { listing } = this.props;
     let shownInterests;
@@ -88,14 +95,44 @@ class PropertyStats extends Component {
         </div>
         {groupShareElement}
         <ListGroup className={interests.length === 0 ? 'property-stats-list-group-disabled' : ''}>
-          { shownInterests.map(tenant => (
+          {shownInterests.map(tenant => (
             <ListGroupItem key={tenant.id} disabled={tenant.disabled} className="property-stats-list-group-item">
               <TenantRow tenant={tenant.user_details || tenant} listing={listing} />
             </ListGroupItem>
-          )) }
+          ))}
         </ListGroup>
       </div>
     );
+  }
+
+  renderMatchingUsers(matchingUsers) {
+    if (!matchingUsers) {
+      return <LoadingSpinner />
+    }
+    else {
+      if (matchingUsers.length == 0) { return null }
+      else {
+        return (
+          <div className="property-stats-matches-container">
+            <div className="property-stats-matches-title">
+              דיירים המחפשים עכשיו דירה כמו שלך:
+            </div>
+            <div className="property-stats-value-title">
+              לחצו על שם הדייר על מנת לראות את כל המידע עליו
+            </div>
+            <ListGroup>
+              {
+                matchingUsers.map(user => (
+                  <ListGroupItem key={user.dorbel_user_id} className="property-stats-list-group-item">
+                    <TenantRow tenant={user} listing={this.props.listing} />
+                  </ListGroupItem>
+                ))
+              }
+            </ListGroup>
+          </div>
+        )
+      }
+    }
   }
 
   render() {
@@ -105,8 +142,9 @@ class PropertyStats extends Component {
     const listingCreatedAt = utils.formatDate(listing.created_at);
     const daysPassedSinceCratedAt = moment().diff(moment(listing.created_at), 'days');
 
-    const tipOffset = {left: 2};
+    const tipOffset = { left: 2 };
     const interests = appStore.likeStore.likesByListingId.get(listingId);
+    const matchingUsers = appStore.matchingUsersStore.get(listing.id)
     const hasInterests = interests && interests.length > 0;
     const views = appStore.listingStore.listingViewsById.get(listingId);
     const isRented = listing.status == 'rented';
@@ -121,60 +159,61 @@ class PropertyStats extends Component {
     }
 
     return <Grid fluid className="property-stats">
-            <Row>
-              <Col lg={9} md={8} sm={7}>
-                {this.renderInterests(interests, views)}
-              </Col>
-              <Col lg={3} md={4} sm={5}>
-                <div className="property-stats-container property-stats-share-container">
-                  <div>
-                    <span className="property-stats-share-title">
-                      שתפו את מודעת הדירה
+      <Row>
+        <Col lg={9} md={8} sm={7}>
+          {this.renderInterests(interests, views)}
+          {this.renderMatchingUsers(matchingUsers)}
+        </Col>
+        <Col lg={3} md={4} sm={5}>
+          <div className="property-stats-container property-stats-share-container">
+            <div>
+              <span className="property-stats-share-title">
+                שתפו את מודעת הדירה
                     </span>
-                    <i className="fa fa-info-circle property-stats-share-help" aria-hidden="true"
-                      data-tip="למציאת דיירים - שתפו את הלינק<br />או שלחו אותו לדיירים שפנו אליכם"></i>
-                    <ReactTooltip type="dark" effect="solid" place="top" offset={tipOffset} multiline />
+              <i className="fa fa-info-circle property-stats-share-help" aria-hidden="true"
+                data-tip="למציאת דיירים - שתפו את הלינק<br />או שלחו אותו לדיירים שפנו אליכם"></i>
+              <ReactTooltip type="dark" effect="solid" place="top" offset={tipOffset} multiline />
+            </div>
+            <div className="property-stats-share-sub-title">
+              צפיות במודעה: {views || 0}
+            </div>
+            <ListingSocial listing={listing} />
+          </div>
+          <div className="property-stats-container">
+            <div className="property-stats-process-title">
+              תהליך ההשכרה
                   </div>
-                  <div className="property-stats-share-sub-title">
-                    צפיות במודעה: {views || 0}
-                  </div>
-                  <ListingSocial listing={listing} />
-                </div>
-                <div className="property-stats-container">
-                  <div className="property-stats-process-title">
-                  תהליך ההשכרה
-                  </div>
-                  <div className="property-stats-value-title">
-                  תאריך פרסום: {listingCreatedAt || null}
-                  </div>
-                  <div className="property-stats-value-title">
-                                ימים שחלפו: {daysPassedSinceCratedAt}
-                  </div>
-                  <div className="property-stats-process-diagram">
-                    <div className="property-stats-process-point-half">
-                      יצירת מודעה
+            <div className="property-stats-value-title">
+              תאריך פרסום: {listingCreatedAt || null}
+            </div>
+            <div className="property-stats-value-title">
+              ימים שחלפו: {daysPassedSinceCratedAt}
+            </div>
+            <div className="property-stats-process-diagram">
+              <div className="property-stats-process-point-half">
+                יצירת מודעה
                     </div>
-                    <div className="property-stats-process-vr-done" />
-                    <div className="property-stats-process-point-half">
-                      הוספת תמונות
+              <div className="property-stats-process-vr-done" />
+              <div className="property-stats-process-point-half">
+                הוספת תמונות
                     </div>
-                    <div className="property-stats-process-vr-done" />
-                    <div className={'property-stats-process-point-' + (step === 3 ? 'full' : 'half')}>
-                      צפיות במודעה
+              <div className="property-stats-process-vr-done" />
+              <div className={'property-stats-process-point-' + (step === 3 ? 'full' : 'half')}>
+                צפיות במודעה
                     </div>
-                    <div className={'property-stats-process-vr-' + (step > 3 ? 'done' : 'not-done')} />
-                    <div className={'property-stats-process-point-' + (step === 4 ? 'full' : (step === 5 ? 'half' : 'empty'))}>
-                      דיירים מתעניינים
+              <div className={'property-stats-process-vr-' + (step > 3 ? 'done' : 'not-done')} />
+              <div className={'property-stats-process-point-' + (step === 4 ? 'full' : (step === 5 ? 'half' : 'empty'))}>
+                דיירים מתעניינים
                     </div>
-                    <div className={'property-stats-process-vr-' + (step > 4 ? 'done' : 'not-done')} />
-                    <div className={'property-stats-process-point-' + (step === 5 ? 'full' : 'empty')}>
-                      הדירה הושכרה
+              <div className={'property-stats-process-vr-' + (step > 4 ? 'done' : 'not-done')} />
+              <div className={'property-stats-process-point-' + (step === 5 ? 'full' : 'empty')}>
+                הדירה הושכרה
                     </div>
-                  </div>
-                </div>
-              </Col>
-            </Row>
-          </Grid>;
+            </div>
+          </div>
+        </Col>
+      </Row>
+    </Grid>;
   }
 }
 
