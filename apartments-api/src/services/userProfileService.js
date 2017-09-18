@@ -15,9 +15,9 @@ const profileSectionParams = {
     email: { isRequired: true }
   },
   tenant_profile: {
-    about_you: { isRequired: false },
-    work_place: { isRequired: false },
-    position: { isRequired: false },
+    about_you: { isRequired: true },
+    work_place: { isRequired: true },
+    position: { isRequired: true },
     facebook_url: { isRequired: false },
     linkedin_url: { isRequired: false }
   },
@@ -27,6 +27,15 @@ const profileSectionParams = {
     receive_newsletter: { isRequired: false }
   }
 };
+
+const requiredProfileFieldPathMap = [];
+_.keys(profileSectionParams).map((sectionName) => {
+  _.keys(profileSectionParams[sectionName]).map((sectionField) => {
+    if (profileSectionParams[sectionName][sectionField].isRequired) {
+      requiredProfileFieldPathMap.push(sectionName == 'main' ? sectionField : `${sectionName}.${sectionField}`);
+    }
+  });
+});
 
 async function update(user, profileData) {
   if (user) {
@@ -46,9 +55,21 @@ async function update(user, profileData) {
   }
 }
 
+async function getUsersProfiles(userIds, limit = 10) {
+  const profilesArr = [];
+  const profiles = await Promise.all(userIds.map((userId) => { return userManagement.getPublicProfile(userId); }));
+
+  for (var i = 0; i < profiles.length && profilesArr.length <= limit; i++) {
+    if (_.every(requiredProfileFieldPathMap, (key) => { return _.has(profiles[i], key); })) {
+      profilesArr.push(profiles[i]);
+    }
+  }
+  return profilesArr;
+}
+
 function validateRequest(profileData) {
   if (profileData.section == 'full_profile') { // Quick and dirty solution because profile structure will probably change 
-    validateRequest({ section: 'main', data: _.omit(profileData.data, 'tenant_profile')});
+    validateRequest({ section: 'main', data: _.omit(profileData.data, 'tenant_profile') });
     validateRequest({ section: 'tenant_profile', data: profileData.data.tenant_profile });
   }
   else {
@@ -80,5 +101,6 @@ function validateRequest(profileData) {
 }
 
 module.exports = {
-  update
+  update,
+  getUsersProfiles
 };
