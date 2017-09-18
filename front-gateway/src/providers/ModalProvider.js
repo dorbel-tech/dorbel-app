@@ -12,6 +12,7 @@ export default class ModalProvider {
 
   showConfirmationModal(params) {
     return new Promise((resolve) => {
+      params.closeButton = true;
       params.closeHandler = (choice) => resolve(choice);
       params.bodyClass = 'text-center';
       params.footer = (
@@ -33,6 +34,7 @@ export default class ModalProvider {
 
   showShareModal(params) {
     this.show({
+      closeButton: true,
       body: <ShareModal
         shareUrl={params.shareUrl}
         title={params.title}
@@ -43,6 +45,7 @@ export default class ModalProvider {
 
   show(params) {
     this.appStore.modalParams = {
+      closeButton: params.closeButton,
       title: params.title,
       body: (
         <div className="text-center">

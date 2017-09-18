@@ -16,6 +16,7 @@ class PropertyValueBox extends Component {
   }
   showUpdatePropertyValuePopup(propertyValue, listingId) {
     this.modalProvider.show({
+      closeButton: true,
       title: 'עדכון שווי נכס',
       body: (
         <div>
