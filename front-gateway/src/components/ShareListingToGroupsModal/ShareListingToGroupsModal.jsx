@@ -75,7 +75,7 @@ export default class ShareListingToGroupsModal extends React.Component {
         onClick={() => window.analytics.track('client_click_facebook_group_open')}>
         <span className="share-listing-to-groups-group-name">{name}</span><br />
         <span className="small-text">{members} חברים בקבוצה</span>
-        <Glyphicon className="share-listng-group-icon pull-left small-text" glyph="chevron-left" />
+        <Glyphicon className="share-listing-to-groups-group-icon pull-left small-text" glyph="chevron-left" />
       </Button>
     );
   }
@@ -143,7 +143,7 @@ export default class ShareListingToGroupsModal extends React.Component {
           <span>הגיעו במהירות לעשות דיירים איכותיים</span>
         </div>
         <div className="share-listing-to-groups-section">
-          <b>1 .העתיקו את הטקסט</b>
+          <b>1 .העתיקו את הטקסט</b> <span className="gray-mid-light-text">(ניתן לשינוי בהמשך)</span>
           {
             this.state.isLoading ?
               <LoadingSpinner /> :

@@ -161,6 +161,7 @@ class PropertyManage extends Component {
 
   showAddTenantModal() {
     this.props.appProviders.modalProvider.showInfoModal({
+      closeButton: true,
       title: AddTenantModal.title,
       body: <AddTenantModal listing_id={this.props.listing.id} />,
     });

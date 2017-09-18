@@ -26,6 +26,7 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
     const listingId = validationResp.listing_id;
     const modalOptions = {
       bodyClass: 'upload-apartment-validation-popup',
+      closeButton: true,
       closeHandler: this.clickBack // Modal will only be fired on the next step, so after we close it we want to go one step back
     };
 

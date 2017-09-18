@@ -256,7 +256,7 @@ class Filter extends Component {
       })
       .catch(err => {
         let heading = err.message || _.get(err, 'response.data');
-        appProviders.modalProvider.showInfoModal({ title: 'אופס...', heading });
+        appProviders.modalProvider.showInfoModal({ closeButton: true, title: 'אופס...', heading });
       });
     }
   }

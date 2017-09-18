@@ -43,6 +43,7 @@ class ListingStatusSelector extends React.Component {
 
     if (newStatus === 'rented') {
       appProviders.modalProvider.showInfoModal({
+        closeButton: true,
         title: <div className="rented-congrats-modal-title">ברכות על השכרת הדירה!</div>,
         body: <div>
           <h4 className="rented-congrats-modal-text">האם מצאת את הדיירים החדשים שלך באמצעות dorbel?</h4>

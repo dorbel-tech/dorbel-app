@@ -32,6 +32,7 @@ class LikeButton extends Component {
       .then(() => {
         notificationProvider.success('הדירה נשמרה בהצלחה לרשימת הדירות שאתם מעוניינים');
         modalProvider.showInfoModal({
+          closeButton: true,
           title: 'בעל הדירה קיבל את פנייתך ויוכל לחזור אליך בהקדם',
           body: (
             <div className="like-confirm-dialog">
@@ -57,6 +58,7 @@ class LikeButton extends Component {
   showEditProfileModalBeforeLiking() {
     const { modalProvider } = this.props.appProviders;
     return modalProvider.show({
+      closeButton: true,
       title: TenantProfileEdit.title,
       body: <TenantProfileEdit />,
       modalSize: 'large',
