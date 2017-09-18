@@ -1,13 +1,13 @@
 import React from 'react';
 import autobind from 'react-autobind';
 import { inject } from 'mobx-react';
-import { Grid, Row, Col, Button, Image } from 'react-bootstrap';
+import { Grid, Row, Col, ButtonGroup, Button, Image } from 'react-bootstrap';
 import FormWrapper, { FRC } from '~/components/FormWrapper/FormWrapper';
 import { hideIntercom } from '~/providers/utils';
 
 import './TenantProfileEdit.scss';
 
-@inject('appProviders')
+@inject('appProviders', 'appStore')
 export default class TenantProfileEdit extends React.Component {
   constructor(props) {
     super(props);
@@ -60,8 +60,38 @@ export default class TenantProfileEdit extends React.Component {
     }
   }
 
+  renderSocialConnectButtons() {
+    const { appProviders, appStore } = this.props;
+    const { profile } = appStore.authStore;
+
+    const socialConnect = function(account) {
+      this.props.appProviders.authProvider.linkSocialAccount(account).then(() => this.forceUpdate());
+    };
+
+    return (
+      <div className="tenant-profile-edit-form-section">
+        <div className="tenant-profile-edit-form-section-title-optional">רשתות חברתיות</div>
+        <div className="tenant-profile-edit-form-section-explain">הוסיפו רשתות חברתיות על מנת לגלות חברים משותפים עם בעל הדירה</div>
+        <Row>
+          <Col xs={12} sm={3}>
+            { profile.tenant_profile.linkedin_url ?
+              <Button block className="connect-social-button-connected" href={profile.tenant_profile.linkedin_url} target="_blank">✔ פרופיל לינקדאין מחובר<i className="fa fa-linkedin" /></Button> :
+              <Button block className="connect-social-button-linkedin" onClick={() => socialConnect('linkedin')}>חבר פרופיל לינקדאין<i className="fa fa-linkedin" /></Button>
+            }
+          </Col>
+          <Col xs={12} sm={3}>
+            { profile.tenant_profile.facebook_url ?
+              <Button block className="connect-social-button-connected" href={profile.tenant_profile.facebook_url} target="_blank">✔ פרופיל פייסבוק מחובר<i className="fa fa-facebook-f" /></Button> :
+              <Button block className="connect-social-button-facebook" onClick={() => socialConnect('facebook')}>חבר פרופיל פייסבוק<i className="fa fa-facebook-f" /></Button>
+            }
+          </Col>
+        </Row>
+      </div>
+    );
+  }
+
   render() {
-    const { profile } = this.props;
+    const { profile } = this.props.appStore.authStore;
     return (
       <div className="tenant-profile-edit">
         <div className="tenant-profile-edit-heading">
@@ -101,18 +131,7 @@ export default class TenantProfileEdit extends React.Component {
                 </Col>
               </Row>
             </div>
-            <div className="tenant-profile-edit-form-section">
-              <div className="tenant-profile-edit-form-section-title-optional">רשתות חברתיות</div>
-              <div className="tenant-profile-edit-form-section-explain">הוסיפו רשתות חברתיות על מנת לגלות חברים משותפים עם בעל הדירה</div>
-              <Row>
-                <Col xs={12} sm={6}>
-                  <FRC.Input value={profile.tenant_profile.linkedin_url} name="tenant_profile.linkedin_url" type="text" placeholder="העתיקו לינק לפרופיל הלינקדאין שלכם" />
-                </Col>
-                <Col xs={12} sm={6}>
-                  <FRC.Input value={profile.tenant_profile.facebook_url} name="tenant_profile.facebook_url" type="text" placeholder="העתיקו לינק לפרופיל הפייסבוק שלכם" />
-                </Col>
-              </Row>
-            </div>
+            { this.renderSocialConnectButtons() }
             <div className="tenant-profile-edit-form-section">
               <div className="tenant-profile-edit-form-section-title">ספרו על עצמכם</div>
               <FRC.Textarea
@@ -133,5 +152,5 @@ export default class TenantProfileEdit extends React.Component {
 
 TenantProfileEdit.wrappedComponent.propTypes = {
   appProviders: React.PropTypes.object.isRequired,
-  profile: React.PropTypes.object.isRequired
+  appStore: React.PropTypes.object.isRequired
 };

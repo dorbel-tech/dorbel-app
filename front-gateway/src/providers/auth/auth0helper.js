@@ -1,6 +1,8 @@
 'use strict';
 const _ = require('lodash');
 const localStorageHelper = require('../../stores/localStorageHelper');
+const auth0 = require('auth0-js');
+const axios = require('axios');
 
 function initLock(clientId, domain) {
   const Auth0Lock = require('auth0-lock').default; // can only be required on client side
@@ -48,33 +50,56 @@ function initLock(clientId, domain) {
   });
 }
 
+function initAuth0Sdk(clientID, domain) {
+  return new auth0.WebAuth({ domain, clientID });
+}
+
+function linkAccount(domain, primaryUserId, primaryJWT, secondaryJWT) {
+  // based on https://auth0.com/docs/link-accounts/user-initiated-linking#3-perform-linking-by-calling-the-auth0-management-api
+  if (!domain || !primaryUserId || !primaryJWT || !secondaryJWT) {
+    return;
+  }
+
+  return axios({
+    url: `https://${domain}/api/v2/users/${primaryUserId}/identities`,
+    method: 'POST',
+    headers : { Authorization: `Bearer ${primaryJWT}` },
+    data: { link_with: secondaryJWT }
+  })
+  .then(res => res.data);
+}
+
 // Make sure to sync this object in case of changing with dorbe-shared server object as well:
 // https://github.com/dorbel-tech/dorbel-shared/blob/master/src/utils/user/helpers.js
 function mapAuth0Profile(auth0profile) {
   const mappedProfile = {
+    dorbel_user_id: _.get(auth0profile, 'app_metadata.dorbel_user_id'),
+    auth0_user_id: _.get(auth0profile, 'sub'),
     email: _.get(auth0profile, 'user_metadata.email') || auth0profile.email,
     first_name: _.get(auth0profile, 'user_metadata.first_name') || auth0profile.given_name,
     last_name: _.get(auth0profile, 'user_metadata.last_name') || auth0profile.family_name,
     phone: _.get(auth0profile, 'user_metadata.phone'),
     picture: getPermanentFBPictureUrl(auth0profile) || auth0profile.picture,
-    tenant_profile: _.get(auth0profile, 'user_metadata.tenant_profile'),
-    settings: _.get(auth0profile, 'user_metadata.settings') || {}
+    tenant_profile: _.get(auth0profile, 'user_metadata.tenant_profile') || {},
+    settings: _.get(auth0profile, 'user_metadata.settings') || {},
+    role: _.get(auth0profile, 'app_metadata.role'),
+    first_login: _.get(auth0profile, 'app_metadata.first_login'),
+    allow_publisher_messages: _.get(auth0profile, 'user_metadata.settings.allow_publisher_messages', true)
   };
 
-  if (!mappedProfile.tenant_profile) {
-    mappedProfile.tenant_profile = {};
-    const facebookIdentity = _.find(auth0profile.identities, { provider: 'facebook' });
-    if (facebookIdentity) {
-      mappedProfile.tenant_profile.facebook_user_id = facebookIdentity.user_id;
-      mappedProfile.tenant_profile.facebook_url = 'https://www.facebook.com/app_scoped_user_id/' + facebookIdentity.user_id;
-    }
-    mappedProfile.tenant_profile.work_place = _.get(auth0profile, 'work[0].employer.name');
-    mappedProfile.tenant_profile.position = _.get(auth0profile, 'work[0].position.name');
+  mappedProfile.tenant_profile.work_place = mappedProfile.tenant_profile.work_place || _.get(auth0profile, 'work[0].employer.name');
+  mappedProfile.tenant_profile.position = mappedProfile.tenant_profile.position || _.get(auth0profile, 'work[0].position.name');
+
+  const facebookIdentity = _.find(auth0profile.identities || [], { provider: 'facebook' });
+  if (facebookIdentity) {
+    mappedProfile.tenant_profile.facebook_user_id = facebookIdentity.user_id;
+    mappedProfile.tenant_profile.facebook_url = 'https://www.facebook.com/app_scoped_user_id/' + facebookIdentity.user_id;
   }
 
-  mappedProfile.role = _.get(auth0profile, 'app_metadata.role');
-  mappedProfile.dorbel_user_id = _.get(auth0profile, 'app_metadata.dorbel_user_id');
-  mappedProfile.first_login = _.get(auth0profile, 'app_metadata.first_login');
+  const linkedinIdentity = _.find(auth0profile.identities || [], { provider: 'linkedin' });
+  if (linkedinIdentity && linkedinIdentity.profileData) {
+    mappedProfile.tenant_profile.linkedin_url = linkedinIdentity.profileData.publicProfileUrl;
+  }
 
   return mappedProfile;
 }
@@ -87,5 +112,7 @@ function getPermanentFBPictureUrl(user) {
 
 module.exports = {
   initLock,
-  mapAuth0Profile
+  mapAuth0Profile,
+  initAuth0Sdk,
+  linkAccount
 };

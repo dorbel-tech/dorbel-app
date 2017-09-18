@@ -63,6 +63,10 @@
           margin-bottom: 5px;
         }
       }
+
+      .fa { /* Social network logos in social-connect buttons */
+        margin-right: 5px;
+      }
     }
 
     .required-symbol {
@@ -84,6 +88,20 @@
 
     .form-control-feedback {
       display: none;
+    }
+
+    .connect-social-button-facebook {
+      color: $brand-white;
+      background-color: $facebook-color;
+    }
+
+    .connect-social-button-linkedin {
+      color: $brand-white;
+      background-color: $linkedin-color;
+    }
+
+    .connect-social-button-connected {
+      background-color: $gray-mid-light;
     }
   }
 }
