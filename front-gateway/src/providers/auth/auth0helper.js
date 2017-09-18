@@ -71,7 +71,6 @@ function linkAccount(domain, primaryUserId, primaryJWT, secondaryJWT) {
 
 // Make sure to sync this object in case of changing with dorbe-shared server object as well:
 // https://github.com/dorbel-tech/dorbel-shared/blob/master/src/utils/user/helpers.js
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!111 Currently NOT synced !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
 function mapAuth0Profile(auth0profile) {
   const mappedProfile = {
     dorbel_user_id: _.get(auth0profile, 'app_metadata.dorbel_user_id'),
@@ -85,6 +84,7 @@ function mapAuth0Profile(auth0profile) {
     settings: _.get(auth0profile, 'user_metadata.settings') || {},
     role: _.get(auth0profile, 'app_metadata.role'),
     first_login: _.get(auth0profile, 'app_metadata.first_login'),
+    allow_publisher_messages: _.get(auth0profile, 'user_metadata.settings.allow_publisher_messages', true)
   };
 
   mappedProfile.tenant_profile.work_place = mappedProfile.tenant_profile.work_place || _.get(auth0profile, 'work[0].employer.name');
