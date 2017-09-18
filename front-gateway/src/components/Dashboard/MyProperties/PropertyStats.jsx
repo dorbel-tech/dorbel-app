@@ -25,7 +25,9 @@ class PropertyStats extends Component {
     this.loadListingStats();
     if (ShareListingToGroupsModal.listingHasSharingGroups(this.props.listing) &&
         !ShareListingToGroupsModal.listingGroupShareDismissed(this.props.listing)) {
-      this.showShareToGroupsModal();
+      setTimeout(() => {
+        this.showShareToGroupsModal();
+      }, 3000);
     }
   }
 
@@ -36,12 +38,10 @@ class PropertyStats extends Component {
   }
 
   showShareToGroupsModal() {
-    setTimeout(() => {
-      this.props.appProviders.modalProvider.showInfoModal({
-        title: ShareListingToGroupsModal.title,
-        body: <ShareListingToGroupsModal listing={this.props.listing} />
-      });
-    }, 3000);
+    this.props.appProviders.modalProvider.showInfoModal({
+      title: ShareListingToGroupsModal.title,
+      body: <ShareListingToGroupsModal listing={this.props.listing} />
+    });
   }
 
   loadListingStats(listing) {
