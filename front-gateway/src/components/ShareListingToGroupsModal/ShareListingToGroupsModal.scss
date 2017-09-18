@@ -32,12 +32,24 @@
 }
 
 .share-listing-to-groups-group-button {
+  background-color: #096abd !important;
+  color: $brand-white !important;
   overflow-x: hidden;
   text-align: right;
   text-overflow: ellipsis;
+
+  &::before {
+    content: "\f09a";
+    font-family: FontAwesome;
+    margin-left: 5px;
+  }
+
+  > .small-text {
+    color: $brand-white;
+  }
 }
 
 .share-listing-to-groups-group-name {
-  color: $brand-info;
+
 }
 

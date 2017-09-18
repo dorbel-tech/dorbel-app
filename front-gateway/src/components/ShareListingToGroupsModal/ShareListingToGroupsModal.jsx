@@ -143,7 +143,7 @@ export default class ShareListingToGroupsModal extends React.Component {
           <span>הגיעו במהירות לעשות דיירים איכותיים</span>
         </div>
         <div className="share-listing-to-groups-section">
-          <b>1 .העתיקו את הטקסט</b>
+          <b>1 .העתיקו את הטקסט</b> <span className="gray-mid-light-text">(ניתן לשינוי בהמשך)</span>
           {
             this.state.isLoading ?
               <LoadingSpinner /> :
