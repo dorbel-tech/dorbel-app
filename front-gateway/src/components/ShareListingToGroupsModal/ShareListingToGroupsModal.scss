@@ -35,6 +35,7 @@
   background-color: #096abd !important;
   color: $brand-white !important;
   overflow-x: hidden;
+  padding-left: 20px;
   text-align: right;
   text-overflow: ellipsis;
 
@@ -49,7 +50,9 @@
   }
 }
 
-.share-listing-to-groups-group-name {
-
+.share-listing-to-groups-group-icon::before {
+  left: -14px;
+  position: absolute;
+  top: -7px;
 }
 
