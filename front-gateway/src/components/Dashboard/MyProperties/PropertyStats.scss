@@ -294,13 +294,12 @@ $active-color: #3398db;
   background-color: $brand-white;
   border: 0;
   margin: 0 0 4px;
-  padding: 18px 15px;
+  padding: 15px;
 }
 
 .property-stats-share-groups-button {
-  @include button();
-
-  background-color: #096abd;
+  background-color: #096abd !important;
+  color: $brand-white !important;
   margin-right: 10px;
 
   > i {

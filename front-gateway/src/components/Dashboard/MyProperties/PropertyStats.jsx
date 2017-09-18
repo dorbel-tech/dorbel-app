@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
-import { Col, Grid, Row, Checkbox, ListGroup, ListGroupItem } from 'react-bootstrap';
+import { Col, Grid, Row, Button, Checkbox, ListGroup, ListGroupItem } from 'react-bootstrap';
 import autobind from 'react-autobind';
 import moment from 'moment';
 import ReactTooltip from 'react-tooltip';
@@ -71,7 +71,7 @@ class PropertyStats extends Component {
       titleText = 'ברשימה למטה יופיעו הדיירים המעוניינים בדירה עם כל המידע עליהם';
 
       if (ShareListingToGroupsModal.listingHasSharingGroups(this.props.listing)) {
-        groupShareElement = <div className="property-stats-share-groups">הגיעו ליותר דיירים! שתפו בקבוצות פייסבוק למחפשי דירות:<span className="property-stats-share-groups-button" onClick={this.showShareToGroupsModal}><i className="fa fa-users" />שתף לקבוצות</span></div>;
+        groupShareElement = <div className="property-stats-share-groups">הגיעו ליותר דיירים! שתפו בקבוצות פייסבוק למחפשי דירות:<Button className="property-stats-share-groups-button" onClick={this.showShareToGroupsModal}><i className="fa fa-users" />שתף לקבוצות</Button></div>;
       }
     } else {
       shownInterests = interests;
