@@ -22,9 +22,7 @@ export default class TenantProfileEdit extends React.Component {
     hideIntercom(false);
   }
 
-  static title = (
-    <h4>עזרו לבעל הדירה להכיר אתכם - פרטים בסיסיים</h4>
-  )
+  static title = 'עזרו לבעל הדירה להכיר אתכם - פרטים בסיסיים'
 
   static profileRequiredFields = [
     'email',

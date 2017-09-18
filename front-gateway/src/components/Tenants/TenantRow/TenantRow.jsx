@@ -41,7 +41,9 @@ export default class TenantRow extends React.Component {
     });
   }
 
-  handleMsgClick() {
+  handleMsgClick(e) {
+    e.stopPropagation(); // Prevent propagation to showTenantProfileModal
+
     const { tenant, listing } = this.props;
     const { messagingProvider } = this.props.appProviders;
 
@@ -49,7 +51,7 @@ export default class TenantRow extends React.Component {
       id: tenant.dorbel_user_id,
       name: getUserNickname(tenant),
       email: tenant.email,
-      welcomeMessage: 'באפשרותך לשלוח הודעה לדיירים. במידה והם אינם מחוברים הודעתך תישלח אליהם למייל.'
+      welcomeMessage: 'באפשרותך לשלוח הודעה לדיירים עם הפרטים והזמנה לראות דירה. במידה והם אינם מחוברים הודעתך תישלח אליהם למייל.'
     };
     messagingProvider.getOrStartConversation(withUserObj, {
       topicId: listing.id,
@@ -57,7 +59,9 @@ export default class TenantRow extends React.Component {
     }).then(popup => this.popup = popup);
   }
 
-  removeTenant() {
+  removeTenant(e) {
+    e.stopPropagation(); // Prevent propagation to showTenantProfileModal
+
     const { appProviders, tenant, listing } = this.props;
 
     if (tenant.disabled) { return; }
@@ -89,9 +93,9 @@ export default class TenantRow extends React.Component {
     const listingTitle = getListingTitle(listing);
 
     return (
-      <Row className="tenant-row">
+      <Row className="tenant-row" onClick={this.showTenantProfileModal}>
         <Col xs={6}>
-          <div className="tenant-row-profile" onClick={this.showTenantProfileModal}>
+          <div className="tenant-row-profile">
             <Image className="tenant-row-image" src={tenant.picture} circle />
             <div className="tenant-row-text">
               <div className="tenant-row-name">{tenant.first_name || 'אנונימי'} {tenant.last_name || ''}</div>
@@ -105,8 +109,8 @@ export default class TenantRow extends React.Component {
           </div>
           {!tenant.disabled && tenant.dorbel_user_id && process.env.TALKJS_PUBLISHABLE_KEY && listingTitle &&
             <div className="tenant-row-button pull-left" onClick={this.handleMsgClick}>
-              <i className="fa fa-comments fa-2 tenant-row-msg-icon"></i>
-              <span className="tenant-row-button-text">שלח הודעה</span>
+              <i className="fa fa-calendar fa-2 tenant-row-msg-icon"></i>
+              <span className="tenant-row-button-text">קבע פגישה</span>
             </div>
           }
         </Col>

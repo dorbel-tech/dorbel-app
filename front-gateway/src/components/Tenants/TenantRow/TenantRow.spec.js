@@ -22,7 +22,7 @@ const listingMock = {
 }
 
 describe.only('Tenant Row', () => {
-  let appProvidersMock;
+  let appProvidersMock, clickEventMock;
 
   beforeEach(() => {
     appProvidersMock = {
@@ -30,6 +30,10 @@ describe.only('Tenant Row', () => {
         show: jest.fn()
       }
     };
+
+    clickEventMock = {
+      stopPropagation: jest.fn()
+    }
   });
 
   const tenantRow = (tenant, listing) => shallow(<TenantRow.wrappedComponent tenant={tenant} listing={listing} appProviders={appProvidersMock} />);
@@ -42,16 +46,18 @@ describe.only('Tenant Row', () => {
   it('should show tenant profile when clicking on row', () => {
     const wrapper = tenantRow(tenantMock, listingMock);
     global.window.analytics = { track: jest.fn() };
-    wrapper.find('.tenant-row-profile').first().simulate('click');
+    wrapper.simulate('click', clickEventMock);
 
     expect(appProvidersMock.modalProvider.show.mock.calls[0][0].body.type).toBe(TenantProfile);
+    expect(clickEventMock.stopPropagation).not.toHaveBeenCalled();
   });
 
   it('should show disabled tenant row', () => {
     const wrapper = tenantRow({ disabled: true }, listingMock);
-    wrapper.find('.tenant-row-profile').first().simulate('click');
+    wrapper.simulate('click', clickEventMock);
 
     expect(appProvidersMock.modalProvider.show).not.toHaveBeenCalled();
+    expect(clickEventMock.stopPropagation).not.toHaveBeenCalled();
   });
 
   describe('TalkJS integration', () => {
@@ -71,7 +77,9 @@ describe.only('Tenant Row', () => {
       popupMock.destroy = jest.fn();
       utils.hideIntercom = jest.fn();
       const wrapper = tenantRow(tenantMock, listingMock);
-      wrapper.find('.tenant-row-button').simulate('click');
+      wrapper.find('.tenant-row-button').simulate('click', clickEventMock);
+
+      expect(clickEventMock.stopPropagation).toHaveBeenCalledWith();
 
       return utils.flushPromises().then(() => {
         wrapper.unmount();
@@ -83,14 +91,16 @@ describe.only('Tenant Row', () => {
 
     it('should call messagingProvider.getOrStartConversation', () => {
       const wrapper = tenantRow(tenantMock, listingMock);
-      wrapper.find('.tenant-row-button').simulate('click');
+      wrapper.find('.tenant-row-button').simulate('click', clickEventMock);
+
+      expect(clickEventMock.stopPropagation).toHaveBeenCalledWith();
 
       expect(appProvidersMock.messagingProvider.getOrStartConversation).toHaveBeenCalledWith(
         {
           id: tenantMock.dorbel_user_id,
           name: tenantMock.first_name,
           email: tenantMock.email,
-          welcomeMessage: 'באפשרותך לשלוח הודעה לדיירים. במידה והם אינם מחוברים הודעתך תישלח אליהם למייל.'
+          welcomeMessage: 'באפשרותך לשלוח הודעה לדיירים עם הפרטים והזמנה לראות דירה. במידה והם אינם מחוברים הודעתך תישלח אליהם למייל.'
         },
         {
           topicId: listingMock.id,

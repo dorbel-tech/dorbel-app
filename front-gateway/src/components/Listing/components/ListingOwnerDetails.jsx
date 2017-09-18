@@ -10,6 +10,7 @@ class ListingOwnerDetails extends Component {
       <div className="listing-owner-container">
         <span>{title}: </span>
         <span>{listing.publishing_user_first_name || 'אנונימי'}</span>
+        <div className="listing-owner-container-text-explain">הודיעו לבעל הדירה שאתם מעוניינים בדירה שיוכל לחזור אליכם</div>
       </div>
     );
   }
