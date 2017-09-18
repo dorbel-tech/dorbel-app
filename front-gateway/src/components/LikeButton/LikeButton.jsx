@@ -55,15 +55,15 @@ class LikeButton extends Component {
     return _.isNil(missingRequiredField)
   }
 
-  showEditProfileModalBeforeLiking(profile) {
+  showEditProfileModalBeforeLiking() {
     const { modalProvider } = this.props.appProviders;
     return modalProvider.show({
-      body: <TenantProfileEdit profile={profile} />,
       closeButton: true,
-      modalSize: 'large',
       title: TenantProfileEdit.title,
+      body: <TenantProfileEdit />,
+      modalSize: 'large',
       closeHandler: (isOK) => { if (isOK) { this.toggleLiked(true); } }
-    })
+    });
   }
 
   handleClick() {
@@ -79,9 +79,8 @@ class LikeButton extends Component {
         window.analytics.track('client_click_interested_in_apartment_already');
       }
       else {
-        const { profile } = this.props.appStore.authStore;
         window.analytics.track('client_click_interested_in_apartment_fill_tenant_profile');
-        this.showEditProfileModalBeforeLiking(profile);
+        this.showEditProfileModalBeforeLiking();
       }
     }
     else {
