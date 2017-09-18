@@ -36,11 +36,12 @@ class PropertyStats extends Component {
   }
 
   showShareToGroupsModal() {
-    this.props.appProviders.modalProvider.showInfoModal({
-      title: ShareListingToGroupsModal.title,
-      body: <ShareListingToGroupsModal listing={this.props.listing} />,
-      modalSize: 'large'
-    });
+    setTimeout(() => {
+      this.props.appProviders.modalProvider.showInfoModal({
+        title: ShareListingToGroupsModal.title,
+        body: <ShareListingToGroupsModal listing={this.props.listing} />
+      });
+    }, 3000);
   }
 
   loadListingStats(listing) {
