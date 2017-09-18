@@ -25,13 +25,13 @@
       width: 90%;
 
       @media (max-width: $screen-xs-max) {
+        bottom: 8px;
         box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.3);
         left: 0;
         margin: 0 auto;
         padding: 2px 5px 5px;
         position: fixed;
         right: 0;
-        top: 70px;
         z-index: 1;
       }
     }
