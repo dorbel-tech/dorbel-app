@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import autobind from 'react-autobind';
+import ismobilejs from 'ismobilejs';
 import { Col, Grid, Row } from 'react-bootstrap';
 import ListingDescription from './components/ListingDescription';
 import ListingHighlight from './components/ListingHighlight';
@@ -45,6 +46,16 @@ class Listing extends Component {
 
   componentDidMount() {
     this.shouldShowShareModal();
+
+    if (ismobilejs.phone) {
+      setTimeout(() => {
+        utils.hideIntercom(true);
+      }, 3000);
+    }
+  }
+
+  componentWillUnmount() {
+    utils.hideIntercom(false);
   }
 
   shouldShowShareModal() {
