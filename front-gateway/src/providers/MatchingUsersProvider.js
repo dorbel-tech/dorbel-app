@@ -1,11 +1,7 @@
-import _ from 'lodash';
-import autobind from 'react-autobind';
-
 export default class MatchingUsersProvider {
   constructor(appStore, apiProvider) {
     this.apiProvider = apiProvider;
     this.matchingUsersStore = appStore.matchingUsersStore;
-    autobind(this);
   }
 
   getMatchingUsers(listingId) {

@@ -24,9 +24,9 @@ class PropertyStats extends Component {
   componentDidMount() {
     this.loadListingStats();
     this.loadMatchingUsers();
-    this.loadMatchingUsers();
+
     if (ShareListingToGroupsModal.listingHasSharingGroups(this.props.listing) &&
-        !ShareListingToGroupsModal.listingGroupShareDismissed(this.props.listing)) {
+      !ShareListingToGroupsModal.listingGroupShareDismissed(this.props.listing)) {
       setTimeout(() => {
         this.showShareToGroupsModal();
       }, 3000);
