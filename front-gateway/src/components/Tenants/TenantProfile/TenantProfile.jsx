@@ -128,7 +128,7 @@ class TenantProfile extends Component {
             <div className="tenant-profile-contact-details-item">
               <Button className="chat" bsStyle="success" onClick={this.handleMsgClick}>
                 <i className="fa fa-comments" />
-                שלח הודעה
+                צור קשר
               </Button>
             </div>
             <div className="tenant-profile-contact-details-item">
