@@ -64,9 +64,7 @@ export default class TenantProfileEdit extends React.Component {
     const { appProviders, appStore } = this.props;
     const { profile } = appStore.authStore;
 
-    const socialConnect = function(account) {
-      this.props.appProviders.authProvider.linkSocialAccount(account).then(() => this.forceUpdate());
-    };
+    const socialConnect = account => appProviders.authProvider.linkSocialAccount(account).then(() => this.forceUpdate());
 
     return (
       <div className="tenant-profile-edit-form-section">
