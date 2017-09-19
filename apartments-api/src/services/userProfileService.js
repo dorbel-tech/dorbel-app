@@ -15,7 +15,7 @@ const profileSectionParams = {
     email: { isRequired: true }
   },
   tenant_profile: {
-    about_you: { isRequired: true },
+    about_you: { isRequired: false },
     work_place: { isRequired: true },
     position: { isRequired: true },
     facebook_url: { isRequired: false },
