@@ -55,13 +55,14 @@ async function update(user, profileData) {
   }
 }
 
-async function getUsersProfiles(userIds, limit = 10) {
+async function getUsersProfiles(userIds, limit = 15) {
   const profilesArr = [];
   const profiles = await Promise.all(userIds.map((userId) => { return userManagement.getPublicProfile(userId); }));
-
-  for (var i = 0; i < profiles.length && profilesArr.length <= limit; i++) {
-    if (_.every(requiredProfileFieldPathMap, (key) => { return _.has(profiles[i], key); })) {
-      profilesArr.push(profiles[i]);
+  if (profiles.length > 0) {
+    for (var i = profiles.length - 1; i >= 0 && profilesArr.length <= limit; i--) {
+      if (_.every(requiredProfileFieldPathMap, (key) => { return _.has(profiles[i], key); })) {
+        profilesArr.push(profiles[i]);
+      }
     }
   }
   return profilesArr;
