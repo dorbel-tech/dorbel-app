@@ -23,7 +23,6 @@ class PropertyStats extends Component {
 
   componentDidMount() {
     this.loadListingStats();
-    this.loadMatchingUsers();
 
     if (ShareListingToGroupsModal.listingHasSharingGroups(this.props.listing) &&
       !ShareListingToGroupsModal.listingGroupShareDismissed(this.props.listing)) {
@@ -58,12 +57,6 @@ class PropertyStats extends Component {
     if (!appStore.likeStore.likesByListingId.has(listingId)) {
       appProviders.likeProvider.getLikesForListing(listingId, true);
     }
-  }
-
-  loadMatchingUsers() {
-    const { listing, appProviders } = this.props
-    const { matchingUsersProvider } = appProviders;
-    matchingUsersProvider.getMatchingUsers(listing.id);
   }
 
   renderInterests(interests, views) {
@@ -106,30 +99,35 @@ class PropertyStats extends Component {
     );
   }
 
-  renderMatchingUsers(matchingUsers) {
-    if (!matchingUsers) {
-      return <LoadingSpinner />
-    }
+  renderMatchingUsers() {
+    const { listing, appProviders, appStore } = this.props
+    const { matchingUsersProvider } = appProviders;
+    const { matchingUsersStore } = appStore;
+
+    matchingUsersProvider.getMatchingUsers(listing.id);
+    const matchingUsers = matchingUsersStore.get(listing.id) || [];
+
+    if (matchingUsers.length == 0) { return null }
     else {
-      if (matchingUsers.length == 0) { return null }
-      else {
-        return (
-          <div className="property-stats-matches-container">
-            <div className="property-stats-matches-title">
-              דיירים המחפשים עכשיו דירה כמו שלך:
+      return (
+        <div className="property-stats-matches-container">
+          <div className="property-stats-matches-title">
+            דיירים המחפשים עכשיו דירה כמו שלך:
             </div>
-            <ListGroup>
-              {
-                matchingUsers.map(user => (
-                  <ListGroupItem key={user.dorbel_user_id} className="property-stats-list-group-item">
-                    <TenantRow tenant={user} listing={this.props.listing} />
-                  </ListGroupItem>
-                ))
-              }
-            </ListGroup>
-          </div>
-        )
-      }
+          <div className="property-stats-value-title">
+            אלו דיירים שמחפשים דירה כמו שלכם אך טרם נחשפו למודעת הדירה. באפשרותכם ליצור איתם קשר ולעניין אותם בדירה
+            </div>
+          <ListGroup>
+            {
+              matchingUsers.map(user => (
+                <ListGroupItem key={user.dorbel_user_id} className="property-stats-list-group-item">
+                  <TenantRow tenant={user} listing={this.props.listing} />
+                </ListGroupItem>
+              ))
+            }
+          </ListGroup>
+        </div>
+      )
     }
   }
 
@@ -142,7 +140,6 @@ class PropertyStats extends Component {
 
     const tipOffset = { left: 2 };
     const interests = appStore.likeStore.likesByListingId.get(listingId);
-    const matchingUsers = appStore.matchingUsersStore.get(listing.id)
     const hasInterests = interests && interests.length > 0;
     const views = appStore.listingStore.listingViewsById.get(listingId);
     const isRented = listing.status == 'rented';
@@ -160,7 +157,7 @@ class PropertyStats extends Component {
       <Row>
         <Col lg={9} md={8} sm={7}>
           {this.renderInterests(interests, views)}
-          {this.renderMatchingUsers(matchingUsers)}
+          {(interests && interests.length > 0) ? null : this.renderMatchingUsers()}
         </Col>
         <Col lg={3} md={4} sm={5}>
           <div className="property-stats-container property-stats-share-container">
