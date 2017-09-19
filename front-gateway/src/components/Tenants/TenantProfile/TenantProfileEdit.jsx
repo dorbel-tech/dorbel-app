@@ -73,13 +73,13 @@ export default class TenantProfileEdit extends React.Component {
         <Row>
           <Col xs={12} sm={3}>
             { profile.tenant_profile.linkedin_url ?
-              <Button block className="connect-social-button-connected" href={profile.tenant_profile.linkedin_url} target="_blank">✔ פרופיל לינקדאין מחובר<i className="fa fa-linkedin" /></Button> :
+              <Button block className="connect-social-button-connected" target="_blank">✔ פרופיל לינקדאין מחובר<i className="fa fa-linkedin" /></Button> :
               <Button block className="connect-social-button-linkedin" onClick={() => socialConnect('linkedin')}>חבר פרופיל לינקדאין<i className="fa fa-linkedin" /></Button>
             }
           </Col>
           <Col xs={12} sm={3}>
             { profile.tenant_profile.facebook_url ?
-              <Button block className="connect-social-button-connected" href={profile.tenant_profile.facebook_url} target="_blank">✔ פרופיל פייסבוק מחובר<i className="fa fa-facebook-f" /></Button> :
+              <Button block className="connect-social-button-connected" target="_blank">✔ פרופיל פייסבוק מחובר<i className="fa fa-facebook-f" /></Button> :
               <Button block className="connect-social-button-facebook" onClick={() => socialConnect('facebook')}>חבר פרופיל פייסבוק<i className="fa fa-facebook-f" /></Button>
             }
           </Col>

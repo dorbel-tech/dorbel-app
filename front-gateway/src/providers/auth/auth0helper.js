@@ -9,6 +9,7 @@ function initLock(clientId, domain) {
 
   // Lock customization - https://auth0.com/docs/libraries/lock/v10/customization
   return new Auth0Lock(clientId, domain, {
+    allowedConnections: ['Username-Password-Authentication', 'facebook'],
     auth: {
       redirectUrl: window.location.origin + '/login',
       responseType: 'token'
