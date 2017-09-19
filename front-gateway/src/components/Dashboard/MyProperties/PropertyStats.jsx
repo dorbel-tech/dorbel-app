@@ -118,9 +118,6 @@ class PropertyStats extends Component {
             <div className="property-stats-matches-title">
               דיירים המחפשים עכשיו דירה כמו שלך:
             </div>
-            <div className="property-stats-value-title">
-              לחצו על שם הדייר על מנת לראות את כל המידע עליו
-            </div>
             <ListGroup>
               {
                 matchingUsers.map(user => (
