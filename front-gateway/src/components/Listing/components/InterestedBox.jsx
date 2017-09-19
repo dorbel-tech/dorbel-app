@@ -1,27 +1,8 @@
 import React, { Component } from 'react';
-import ismobilejs from 'ismobilejs';
-import { hideIntercom } from '~/providers/utils';
 import ListingOwnerDetails from './ListingOwnerDetails';
 import LikeButton from '~/components/LikeButton/LikeButton';
 
 class InterestedBox extends Component {
-  componentDidMount() {
-    if (ismobilejs.phone && this.isInterestAllowed()) {
-      setTimeout(() => {
-        hideIntercom(true);
-      }, 3000);
-    }
-  }
-
-  componentWillUnmount() {
-    hideIntercom(false);
-  }
-
-  isInterestAllowed() {
-    const { listing } = this.props;
-    return listing.status === 'listed' || listing.status === 'pending';
-  }
-
   renderLikeCounter() {
     const totalLikes = this.props.listing.totalLikes; // returned from server for publishing users and admins only
     if (totalLikes) {
@@ -35,7 +16,7 @@ class InterestedBox extends Component {
 
   render() {
     const { listing } = this.props;
-    const allowInterest = this.isInterestAllowed();
+    const allowInterest = listing.status === 'listed' || listing.status === 'pending';
 
     return (
       <div className="listing-interested-box-content">
