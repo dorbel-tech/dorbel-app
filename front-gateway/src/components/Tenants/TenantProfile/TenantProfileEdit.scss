@@ -98,6 +98,10 @@
     .connect-social-button-linkedin {
       color: $brand-white;
       background-color: $linkedin-color;
+
+      @media (max-width: $screen-xs-max) {
+        margin-bottom: 10px;
+      }
     }
 
     .connect-social-button-connected {
