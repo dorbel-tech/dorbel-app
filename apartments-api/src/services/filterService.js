@@ -87,21 +87,21 @@ function destory(filterId, user) {
 }
 
 async function getFilterByMatchedListing(listing_id, user) {
-  if (user.role !== 'admin') {
-    throw new errors.NotResourceOwnerError();
-  }
-
   const listing = await listingRepository.getById(listing_id);
-
   if (!listing) {
     throw new errors.DomainNotFoundError('listing not found', { listing_id }, 'listing not found');
-  } else if (listing.status === 'rented' && !listing.show_for_future_booking) {
+  }
+  else if (listing.status === 'rented' && !listing.show_for_future_booking) {
     // rented && not showed for future listing - this listing should not be matched by any filter.
     return [];
   }
-
-  const query = mapListingToMatchingFilterQuery(listing);
-  return filterRepository.find(query).then(filters => filters.map(filter => mapFilter(filter, true)));
+  else if (shared.utils.user.permissions.isResourceOwnerOrAdmin(user, listing.publishing_user_id)) {
+    const query = mapListingToMatchingFilterQuery(listing);
+    return filterRepository.find(query).then(filters => filters.map(filter => mapFilter(filter, true)));
+  }
+  else {
+    throw new errors.NotResourceOwnerError();
+  }
 }
 
 function toggleEmail(email_notification, user) {

@@ -100,7 +100,7 @@ describe.only('Tenant Row', () => {
           id: tenantMock.dorbel_user_id,
           name: tenantMock.first_name,
           email: tenantMock.email,
-          welcomeMessage: 'באפשרותך לשלוח הודעה לדיירים עם הפרטים והזמנה לראות דירה. במידה והם אינם מחוברים הודעתך תישלח אליהם למייל.'
+          welcomeMessage: 'באפשרותך לשלוח הודעה לדיירים עם הפרטים והזמנה לראות דירה.'
         },
         {
           topicId: listingMock.id,

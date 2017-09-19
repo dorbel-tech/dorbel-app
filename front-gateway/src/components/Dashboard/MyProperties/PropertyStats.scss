@@ -307,10 +307,18 @@ $active-color: #3398db;
   }
 }
 
-.property-stats-followers-container > .property-stats-value-title {
-  margin-bottom: 20px;
+.property-stats-matches-container,
+.property-stats-followers-container {
+  > .property-stats-value-title {
+    margin-bottom: 20px;
+  }
 }
 
+.property-stats-matches-container {
+  margin-top: 50px;
+}
+
+.property-stats-matches-title,
 .property-stats-followers-title {
   color: $gray-button;
   font-size: 16px;

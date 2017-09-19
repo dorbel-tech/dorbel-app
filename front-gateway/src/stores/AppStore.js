@@ -9,6 +9,7 @@ import MessagingStore from '~/stores/MessagingStore';
 import NeighborhoodStore from '~/stores/NeighborhoodStore';
 import SearchStore from '~/stores/SearchStore';
 import ShortUrlStore from '~/stores/ShortUrlStore';
+import MatchingUsersStore from '~/stores/MatchingUsersStore';
 
 import { observable, action, autorun } from 'mobx';
 
@@ -39,6 +40,7 @@ export default class AppStore {
     this.documentStore = new DocumentStore();
     this.messagingStore = new MessagingStore();
     this.shortUrlStore = new ShortUrlStore();
+    this.matchingUsersStore = new MatchingUsersStore();
     this.metaData = initialState.metaData || {};
 
     autorun(() => {

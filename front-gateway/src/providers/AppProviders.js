@@ -17,6 +17,7 @@ import ListingImageProvider from './ListingImageProvider';
 import NavProvider from './NavProvider';
 import DocumentProvider from './DocumentProvider';
 import ShortUrlProvider from './ShortUrlProvider';
+import MatchingUsersProvider from './MatchingUsersProvider';
 
 import utils from './utils';
 
@@ -50,6 +51,7 @@ class AppProviders {
     this.likeProvider = new LikeProvider(appStore, this.apiProvider);
     this.documentProvider = new DocumentProvider(appStore, this.apiProvider);
     this.shortUrlProvider = new ShortUrlProvider(appStore, this.apiProvider);
+    this.matchingUsersProvider = new MatchingUsersProvider(appStore, this.apiProvider)
     this.utils = utils;
   }
 }

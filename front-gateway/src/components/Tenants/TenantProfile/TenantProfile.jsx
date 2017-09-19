@@ -189,7 +189,7 @@ class TenantProfile extends Component {
         id: profile.dorbel_user_id,
         name: getUserNickname(profile),
         email: profile.email,
-        welcomeMessage: 'באפשרותך לשלוח הודעה לדיירים. במידה והם אינם מחוברים הודעתך תישלח אליהם למייל.'
+        welcomeMessage: 'באפשרותך לשלוח הודעה לדיירים עם הפרטים והזמנה לראות דירה.'
       };
 
       window.analytics.track('client_click_tenant_contact_message', {
