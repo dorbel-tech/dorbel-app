@@ -91,7 +91,7 @@ function mapAuth0Profile(auth0profile) {
   if (linkedinIdentity) {
     const linkedInWorkPlace = 'positions.values[0].company.name';
     const linkedInWorkPosition = 'positions.values[0].title';
-    mappedProfile.tenant_profile.linkedin_url = _.get(linkedinIdentity.profileData, 'publicProfileUrl');
+    mappedProfile.tenant_profile.linkedin_url = mappedProfile.tenant_profile.linkedin_url || _.get(auth0profile, 'publicProfileUrl') || _.get(linkedinIdentity.profileData, 'publicProfileUrl');
     mappedProfile.tenant_profile.work_place = mappedProfile.tenant_profile.work_place || _.get(auth0profile, linkedInWorkPlace) || _.get(linkedinIdentity.profileData, linkedInWorkPlace);
     mappedProfile.tenant_profile.position = mappedProfile.tenant_profile.position || _.get(auth0profile, linkedInWorkPosition) || _.get(linkedinIdentity.profileData, linkedInWorkPosition);
   }
@@ -101,7 +101,7 @@ function mapAuth0Profile(auth0profile) {
     const facebookWorkPlace = 'work[0].employer.name';
     const facebookWorkPosition = 'work[0].position.name';
     mappedProfile.tenant_profile.facebook_user_id = facebookIdentity.user_id;
-    mappedProfile.tenant_profile.facebook_url = 'https://www.facebook.com/app_scoped_user_id/' + facebookIdentity.user_id;
+    mappedProfile.tenant_profile.facebook_url = mappedProfile.tenant_profile.facebook_url || 'https://www.facebook.com/app_scoped_user_id/' + facebookIdentity.user_id;
     mappedProfile.tenant_profile.work_place = mappedProfile.tenant_profile.work_place || _.get(auth0profile, facebookWorkPlace) || _.get(facebookIdentity.profileData, facebookWorkPlace);
     mappedProfile.tenant_profile.position = mappedProfile.tenant_profile.position || _.get(auth0profile, facebookWorkPosition) || _.get(facebookIdentity.profileData, facebookWorkPosition);
   }
