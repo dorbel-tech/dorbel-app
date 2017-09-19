@@ -9,6 +9,7 @@ function initLock(clientId, domain) {
 
   // Lock customization - https://auth0.com/docs/libraries/lock/v10/customization
   return new Auth0Lock(clientId, domain, {
+    allowedConnections: ['Username-Password-Authentication', 'facebook'],
     auth: {
       redirectUrl: window.location.origin + '/login',
       responseType: 'token'
@@ -74,7 +75,7 @@ function linkAccount(domain, primaryUserId, primaryJWT, secondaryJWT) {
 function mapAuth0Profile(auth0profile) {
   const mappedProfile = {
     dorbel_user_id: _.get(auth0profile, 'app_metadata.dorbel_user_id'),
-    auth0_user_id: _.get(auth0profile, 'sub'),
+    auth0_user_id: _.get(auth0profile, 'user_id'),
     email: _.get(auth0profile, 'user_metadata.email') || auth0profile.email,
     first_name: _.get(auth0profile, 'user_metadata.first_name') || auth0profile.given_name,
     last_name: _.get(auth0profile, 'user_metadata.last_name') || auth0profile.family_name,
@@ -87,18 +88,22 @@ function mapAuth0Profile(auth0profile) {
     allow_publisher_messages: _.get(auth0profile, 'user_metadata.settings.allow_publisher_messages', true)
   };
 
-  mappedProfile.tenant_profile.work_place = mappedProfile.tenant_profile.work_place || _.get(auth0profile, 'work[0].employer.name');
-  mappedProfile.tenant_profile.position = mappedProfile.tenant_profile.position || _.get(auth0profile, 'work[0].position.name');
+  const linkedinIdentity = _.find(auth0profile.identities || [], { provider: 'linkedin' });
+  if (linkedinIdentity) {
+    const linkedInWorkPlace = 'positions.values[0].company.name';
+    const linkedInWorkPosition = 'positions.values[0].title';
+    mappedProfile.tenant_profile.linkedin_url = mappedProfile.tenant_profile.linkedin_url || _.get(auth0profile, 'publicProfileUrl') || _.get(linkedinIdentity.profileData, 'publicProfileUrl');
+    mappedProfile.tenant_profile.work_place = mappedProfile.tenant_profile.work_place || _.get(auth0profile, linkedInWorkPlace) || _.get(linkedinIdentity.profileData, linkedInWorkPlace);
+    mappedProfile.tenant_profile.position = mappedProfile.tenant_profile.position || _.get(auth0profile, linkedInWorkPosition) || _.get(linkedinIdentity.profileData, linkedInWorkPosition);
+  }
 
   const facebookIdentity = _.find(auth0profile.identities || [], { provider: 'facebook' });
   if (facebookIdentity) {
-    mappedProfile.tenant_profile.facebook_user_id = facebookIdentity.user_id;
-    mappedProfile.tenant_profile.facebook_url = 'https://www.facebook.com/app_scoped_user_id/' + facebookIdentity.user_id;
-  }
-
-  const linkedinIdentity = _.find(auth0profile.identities || [], { provider: 'linkedin' });
-  if (linkedinIdentity && linkedinIdentity.profileData) {
-    mappedProfile.tenant_profile.linkedin_url = linkedinIdentity.profileData.publicProfileUrl;
+    const facebookWorkPlace = 'work[0].employer.name';
+    const facebookWorkPosition = 'work[0].position.name';
+    mappedProfile.tenant_profile.facebook_url = mappedProfile.tenant_profile.facebook_url || _.get(auth0profile, 'link') || _.get(linkedinIdentity.profileData, 'link');;
+    mappedProfile.tenant_profile.work_place = mappedProfile.tenant_profile.work_place || _.get(auth0profile, facebookWorkPlace) || _.get(facebookIdentity.profileData, facebookWorkPlace);
+    mappedProfile.tenant_profile.position = mappedProfile.tenant_profile.position || _.get(auth0profile, facebookWorkPosition) || _.get(facebookIdentity.profileData, facebookWorkPosition);
   }
 
   return mappedProfile;
