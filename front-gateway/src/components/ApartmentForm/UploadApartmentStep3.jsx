@@ -135,12 +135,8 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
       :
       (
         <div className="modal-text">
-          <h4>מה עכשיו?</h4>
-          <ol>
-            <li>שתפו את הדירה או שלחו לינק לדיירים שפנו אליכם.</li>
-            <li>הדיירים שיתעניינו בדירה יפנו אליכם ויספרו על עצמם.</li>
-            <li>אתם תוכלו לראות את הפרופילים של הדיירים ולפנות לדייר שמתאים לכם.</li>
-          </ol>
+          <h4><b>עכשיו תורכם!</b><br /><br />המשיכו לחשבון הדירה שלכם, ממנו תשתפו את המודעה.</h4>
+          <span className="upload-apt-success-modal-sub-text">כשתקבלו פניות מדיירים שמעוניינים בדירה, תוכלו לגלות מי הם וליצור קשר עם אלו שמתאימים לכם!</span>
         </div>
       );
   }
