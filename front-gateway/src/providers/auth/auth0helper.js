@@ -74,7 +74,7 @@ function linkAccount(domain, primaryUserId, primaryJWT, secondaryJWT) {
 function mapAuth0Profile(auth0profile) {
   const mappedProfile = {
     dorbel_user_id: _.get(auth0profile, 'app_metadata.dorbel_user_id'),
-    auth0_user_id: _.get(auth0profile, 'sub'),
+    auth0_user_id: _.get(auth0profile, 'user_id'),
     email: _.get(auth0profile, 'user_metadata.email') || auth0profile.email,
     first_name: _.get(auth0profile, 'user_metadata.first_name') || auth0profile.given_name,
     last_name: _.get(auth0profile, 'user_metadata.last_name') || auth0profile.family_name,
@@ -100,8 +100,7 @@ function mapAuth0Profile(auth0profile) {
   if (facebookIdentity) {
     const facebookWorkPlace = 'work[0].employer.name';
     const facebookWorkPosition = 'work[0].position.name';
-    mappedProfile.tenant_profile.facebook_user_id = facebookIdentity.user_id;
-    mappedProfile.tenant_profile.facebook_url = mappedProfile.tenant_profile.facebook_url || 'https://www.facebook.com/app_scoped_user_id/' + facebookIdentity.user_id;
+    mappedProfile.tenant_profile.facebook_url = mappedProfile.tenant_profile.facebook_url || _.get(auth0profile, 'link') || _.get(linkedinIdentity.profileData, 'link');;
     mappedProfile.tenant_profile.work_place = mappedProfile.tenant_profile.work_place || _.get(auth0profile, facebookWorkPlace) || _.get(facebookIdentity.profileData, facebookWorkPlace);
     mappedProfile.tenant_profile.position = mappedProfile.tenant_profile.position || _.get(auth0profile, facebookWorkPosition) || _.get(facebookIdentity.profileData, facebookWorkPosition);
   }
