@@ -8,39 +8,28 @@
   }
 
   .tenant-profile-header {
+    border-bottom: $gray-border;
+    height: 87px;
     margin-top: -65px; // compensate for no title in this popup
     position: relative;
-    height: 120px;
-    border-bottom: $gray-border;
+    text-align: center;
 
     .tenant-profile-header-title {
-      height: 20px;
-      margin-top: 19px;
-      color: $gray-dark;
-      font-size: 15px;
-      font-weight: bold;
-      line-height: 20px;
-      text-align: center;
+      color: $gray-button;
+      font-size: 13px;
+      margin-top: 10px;
+      text-align: left;
     }
 
-    .tenant-profile-header-content {
-      top: 20px;
-      margin: -15px 0;
-      position: relative;
-      z-index: 1;
-
-      .tenant-profile-header-content-picture {
-        height: 75px;
-        position: absolute;
-        left: 20px;
-        top: 20px;
-        width: 75px;
-      }
+    .tenant-profile-header-picture {
+      height: 91px;
+      margin-top: -9px;
+      width: 91px;
     }
 
     .tenant-profile-header-backgound {
       position: absolute;
-      height: 120px;
+      height: 87px;
       width: 100%;
       top: 0;
       left: 0;

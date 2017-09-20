@@ -38,17 +38,9 @@ class TenantProfile extends Component {
       <Row className="tenant-profile-header">
         <Col xs={12}>
           <div className="tenant-profile-header-title">
-            פרופיל הדייר
+            פרופיל דייר
           </div>
-          <div className="tenant-profile-header-content">
-            <div className="tenant-profile-field">
-              <div>
-                <label>שם</label>
-                <span>{`${profile.first_name} ${profile.last_name}`}</span>
-              </div>
-              <Image className="tenant-profile-header-content-picture" src={profile.picture} circle />
-            </div>
-          </div>
+          <Image className="tenant-profile-header-picture" src={profile.picture} circle />
           <div className="tenant-profile-header-backgound" style={nameBackground}>
           </div>
         </Col>
@@ -210,6 +202,12 @@ class TenantProfile extends Component {
     return (
       <Row className="tenant-profile">
         {this.renderHeader(profile)}
+        <div className="tenant-profile-field">
+          <div>
+            <label>שם</label>
+            <span>{`${profile.first_name} ${profile.last_name}`}</span>
+          </div>
+        </div>
         {this.renderOccupation(profile)}
         {this.renderSocial(profile)}
         {this.renderAboutMe(profile)}
