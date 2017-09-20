@@ -202,11 +202,8 @@ class TenantProfile extends Component {
     return (
       <Row className="tenant-profile">
         {this.renderHeader(profile)}
-        <div className="tenant-profile-field">
-          <div>
-            <label>שם</label>
-            <span>{`${profile.first_name} ${profile.last_name}`}</span>
-          </div>
+        <div className="tenant-profile-name">
+          {`${profile.first_name} ${profile.last_name}`}
         </div>
         {this.renderOccupation(profile)}
         {this.renderSocial(profile)}

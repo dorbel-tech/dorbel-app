@@ -12,7 +12,6 @@
     height: 87px;
     margin-top: -65px; // compensate for no title in this popup
     position: relative;
-    text-align: center;
 
     .tenant-profile-header-title {
       color: $gray-button;
@@ -40,6 +39,13 @@
       opacity: 0.3;
       overflow: hidden;
     }
+  }
+
+  .tenant-profile-name {
+    color: #4d4d4d;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: right;
   }
 
   .tenant-profile-field {
