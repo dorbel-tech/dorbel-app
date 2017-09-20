@@ -53,14 +53,14 @@ class TenantProfile extends Component {
       <Row className="tenant-profile-border-bottom">
         <Col xs={6}>
           <div className="tenant-profile-field">
-            <label>מקום עבודה</label>
-            <span>{profile.tenant_profile.work_place || emptyFieldText}</span>
+            <label>תפקיד</label>
+            <span>{profile.tenant_profile.position || emptyFieldText}</span>
           </div>
         </Col>
         <Col xs={6}>
           <div className="tenant-profile-field">
-            <label>תפקיד</label>
-            <span>{profile.tenant_profile.position || emptyFieldText}</span>
+            <label>מקום עבודה</label>
+            <span>{profile.tenant_profile.work_place || emptyFieldText}</span>
           </div>
         </Col>
       </Row>
@@ -120,18 +120,18 @@ class TenantProfile extends Component {
             <div className="tenant-profile-contact-details-item">
               <Button className="chat" bsStyle="success" onClick={this.handleMsgClick}>
                 <i className="fa fa-comments" />
-                צור קשר
+                שלח הודעה
               </Button>
             </div>
             <div className="tenant-profile-contact-details-item">
-              {this.renderRevealContactDetailsButton('email', 'הצג מייל',
+              {this.renderRevealContactDetailsButton('email', 'הצג דוא"ל', 'envelope-o',
                 <a href={`mailto:${profile.email}`}>
                   {profile.email}
                 </a>
               )}
             </div>
             <div className="tenant-profile-contact-details-item">
-              {this.renderRevealContactDetailsButton('phone', 'הצג טלפון',
+              {this.renderRevealContactDetailsButton('phone', 'הצג טלפון', 'phone',
                 <a href={`tel:${profile.phone}`}>
                   {profile.phone}
                 </a>
@@ -151,7 +151,7 @@ class TenantProfile extends Component {
     );
   }
 
-  renderRevealContactDetailsButton(contactDetailsType, buttonText, nodeToReveal) {
+  renderRevealContactDetailsButton(contactDetailsType, buttonText, faIconName, nodeToReveal) {
     return (
       this.state[contactDetailsTypeToStateName[contactDetailsType]] ?
         nodeToReveal :
@@ -167,6 +167,7 @@ class TenantProfile extends Component {
             }
             this.setState({ [contactDetailsTypeToStateName[contactDetailsType]]: true });
           }}>
+          <i className={'fa fa-' + faIconName} />
           {buttonText}
         </Button >
     )
