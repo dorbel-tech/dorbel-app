@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
-import { Col, Grid, Row, Button, Checkbox, ListGroup, ListGroupItem } from 'react-bootstrap';
+import { Col, Grid, Row, Button, ListGroup, ListGroupItem } from 'react-bootstrap';
 import autobind from 'react-autobind';
 import moment from 'moment';
 import ReactTooltip from 'react-tooltip';
 import ListingSocial from '~/components/Listing/components/ListingSocial';
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
 import ShareListingToGroupsModal from '~/components/ShareListingToGroupsModal/ShareListingToGroupsModal';
-import NavLink from '~/components/NavLink';
 import TenantRow from '~/components/Tenants/TenantRow/TenantRow';
 import utils from '~/providers/utils';
-import { getDashMyPropsPath } from '~/routesHelper';
 
 import './PropertyStats.scss';
 
@@ -59,7 +57,7 @@ class PropertyStats extends Component {
     }
   }
 
-  renderInterests(interests, views) {
+  renderInterests(interests) {
     const { listing } = this.props;
     let shownInterests;
     let titleText;
@@ -100,23 +98,23 @@ class PropertyStats extends Component {
   }
 
   renderMatchingUsers() {
-    const { listing, appProviders, appStore } = this.props
+    const { listing, appProviders, appStore } = this.props;
     const { matchingUsersProvider } = appProviders;
     const { matchingUsersStore } = appStore;
 
     matchingUsersProvider.getMatchingUsers(listing.id);
     const matchingUsers = matchingUsersStore.get(listing.id) || [];
 
-    if (matchingUsers.length == 0) { return null }
+    if (matchingUsers.length == 0) { return null; }
     else {
       return (
         <div className="property-stats-matches-container">
           <div className="property-stats-matches-title">
             דיירים המחפשים עכשיו דירה כמו שלך:
-            </div>
+          </div>
           <div className="property-stats-value-title">
             אלו דיירים שמחפשים דירה כמו שלכם אך טרם נחשפו למודעת הדירה. באפשרותכם ליצור איתם קשר ולעניין אותם בדירה
-            </div>
+          </div>
           <ListGroup>
             {
               matchingUsers.map(user => (
@@ -127,7 +125,7 @@ class PropertyStats extends Component {
             }
           </ListGroup>
         </div>
-      )
+      );
     }
   }
 
@@ -156,7 +154,7 @@ class PropertyStats extends Component {
     return <Grid fluid className="property-stats">
       <Row>
         <Col lg={9} md={8} sm={7}>
-          {this.renderInterests(interests, views)}
+          {this.renderInterests(interests)}
           {(interests && interests.length > 0) ? null : this.renderMatchingUsers()}
         </Col>
         <Col lg={3} md={4} sm={5}>
@@ -164,7 +162,7 @@ class PropertyStats extends Component {
             <div>
               <span className="property-stats-share-title">
                 שתפו את מודעת הדירה
-                    </span>
+              </span>
               <i className="fa fa-info-circle property-stats-share-help" aria-hidden="true"
                 data-tip="למציאת דיירים - שתפו את הלינק<br />או שלחו אותו לדיירים שפנו אליכם"></i>
               <ReactTooltip type="dark" effect="solid" place="top" offset={tipOffset} multiline />
@@ -177,7 +175,7 @@ class PropertyStats extends Component {
           <div className="property-stats-container">
             <div className="property-stats-process-title">
               תהליך ההשכרה
-                  </div>
+            </div>
             <div className="property-stats-value-title">
               תאריך פרסום: {listingCreatedAt || null}
             </div>
@@ -187,23 +185,23 @@ class PropertyStats extends Component {
             <div className="property-stats-process-diagram">
               <div className="property-stats-process-point-half">
                 יצירת מודעה
-                    </div>
+              </div>
               <div className="property-stats-process-vr-done" />
               <div className="property-stats-process-point-half">
                 הוספת תמונות
-                    </div>
+              </div>
               <div className="property-stats-process-vr-done" />
               <div className={'property-stats-process-point-' + (step === 3 ? 'full' : 'half')}>
                 צפיות במודעה
-                    </div>
+              </div>
               <div className={'property-stats-process-vr-' + (step > 3 ? 'done' : 'not-done')} />
               <div className={'property-stats-process-point-' + (step === 4 ? 'full' : (step === 5 ? 'half' : 'empty'))}>
                 דיירים מתעניינים
-                    </div>
+              </div>
               <div className={'property-stats-process-vr-' + (step > 4 ? 'done' : 'not-done')} />
               <div className={'property-stats-process-point-' + (step === 5 ? 'full' : 'empty')}>
                 הדירה הושכרה
-                    </div>
+              </div>
             </div>
           </div>
         </Col>

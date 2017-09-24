@@ -55,7 +55,7 @@ class ManageLeaseModal extends React.Component {
     const modalBody = <div className="property-manage-modal-body">
       <div className="property-manage-modal-section-header">
         עדכנו את מועדי תחילת ותום השכירות
-        </div>
+      </div>
       <div>
         <div className="property-manage-modal-picker-label">תחילת השכירות</div>
         <div className="property-manage-modal-picker-label">תום השכירות</div>
@@ -78,7 +78,7 @@ class ManageLeaseModal extends React.Component {
         block disabled={!periodValid}
         title={invalidTitle}>
         עדכן פרטים
-        </Button>
+      </Button>
     </div>;
 
     return (

@@ -53,7 +53,7 @@ class LikeProvider {
 
   getLikesForListing(listingId, includeProfile=false) {
     return this.fetch(`listings/${listingId}/likes?include_profile=${includeProfile}`)
-    .then(likes => this.appStore.likeStore.likesByListingId.set(listingId, likes));
+      .then(likes => this.appStore.likeStore.likesByListingId.set(listingId, likes));
   }
 }
 

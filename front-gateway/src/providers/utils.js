@@ -111,10 +111,10 @@ function promiseSeries(functionsThatReturnPromises, allResults) {
   const firstFunc = functionsThatReturnPromises.shift();
 
   return firstFunc()
-  .then(result => {
-    allResults.push(result);
-    return promiseSeries(functionsThatReturnPromises, allResults);
-  });
+    .then(result => {
+      allResults.push(result);
+      return promiseSeries(functionsThatReturnPromises, allResults);
+    });
 }
 
 function isMobile() {

@@ -3,8 +3,7 @@ import autobind from 'react-autobind';
 import _ from 'lodash';
 import { inject, observer } from 'mobx-react';
 import { Row, Col, Checkbox, Radio } from 'react-bootstrap';
-import { Collapse } from 'react-collapse';
-import { gql, graphql } from 'react-apollo';
+import { graphql } from 'react-apollo';
 import { isMobile } from '~/providers/utils';
 import queries from '~/graphql/queries';
 
@@ -16,13 +15,6 @@ export default class SavedFilters extends React.Component {
   constructor(props) {
     super(props);
     autobind(this);
-  }
-
-  static propTypes = {
-    appStore: React.PropTypes.any,
-    appProviders: React.PropTypes.any,
-    onFilterChange: React.PropTypes.func,
-    animateEmailRow: React.PropTypes.bool
   }
 
   selectFilter(filter) {
@@ -56,7 +48,7 @@ export default class SavedFilters extends React.Component {
     appProviders.searchProvider.toggleEmailNotification(!user_email_notification);
   }
 
-  renderFilter(filter, index) {
+  renderFilter(filter) {
     const { appStore } = this.props;
     const city = appStore.cityStore.cities.find(city => city.id === filter.city);
     const cityName = city && city.city_name;
@@ -65,7 +57,7 @@ export default class SavedFilters extends React.Component {
     return (
       <Col key={filter.id} sm={4} lg={2} xs={12} className="saved-filter-wrapper">
         <Radio checked={appStore.searchStore.activeFilterId === filter.id}
-                  onClick={() => this.selectFilter(filter)}>
+          onClick={() => this.selectFilter(filter)}>
           <span>
             {cityName}, {rangeLabel}&nbsp;חד'
             { isMobile() ? ', ' : <br/> }
@@ -91,7 +83,7 @@ export default class SavedFilters extends React.Component {
   }
 
   render() {
-    const { appStore, data } = this.props;
+    const { data } = this.props;
 
     if (data.loading || data.filters.length === 0) {
       return null;
@@ -111,3 +103,11 @@ export default class SavedFilters extends React.Component {
   }
 }
 
+
+SavedFilters.wrappedComponent.propTypes = {
+  appStore: React.PropTypes.any,
+  appProviders: React.PropTypes.any,
+  onFilterChange: React.PropTypes.func,
+  animateEmailRow: React.PropTypes.bool,
+  data: React.PropTypes.any
+};

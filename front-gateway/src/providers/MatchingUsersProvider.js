@@ -5,7 +5,7 @@ export default class MatchingUsersProvider {
   }
 
   getMatchingUsers(listingId) {
-    const potentialRenters = this.matchingUsersStore.get(listingId)
+    const potentialRenters = this.matchingUsersStore.get(listingId);
     if (potentialRenters) {
       return Promise.resolve(potentialRenters);
     }
@@ -13,14 +13,14 @@ export default class MatchingUsersProvider {
       return this.apiProvider.fetch(`/api/apartments/v1/filters?matchingListingId=${listingId}`)
         .then((filters) => {
           if (filters && filters.length) {
-            const uids = filters.map((filter) => { return filter.dorbel_user_id });
+            const uids = filters.map((filter) => { return filter.dorbel_user_id; });
             this.apiProvider.fetch(`/api/apartments/v1/user-profile?uids=${uids.join(',')}`)
               .then((profiles) => {
                 this.matchingUsersStore.set(listingId, profiles);
-              })
+              });
           }
           else { this.matchingUsersStore.set(listingId, []); }
-        })
+        });
     }
   }
 }

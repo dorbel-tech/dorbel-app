@@ -24,10 +24,10 @@ describe('Document Provider', () => {
     apiProviderMock.fetch.mockReturnValue(Promise.resolve(mockDocuments));
 
     return documentProvider.getDocumentsForListing(listing_id)
-    .then(() => {
-      expect(apiProviderMock.fetch.mock.calls[0][0]).toContain('listing_id=' + listing_id);
-      expect(appStoreMock.documentStore.add).toHaveBeenCalledWith(mockDocuments);
-    });
+      .then(() => {
+        expect(apiProviderMock.fetch.mock.calls[0][0]).toContain('listing_id=' + listing_id);
+        expect(appStoreMock.documentStore.add).toHaveBeenCalledWith(mockDocuments);
+      });
   });
 
   it('should get all documents for user and put them in store', () => {
@@ -35,10 +35,10 @@ describe('Document Provider', () => {
     apiProviderMock.fetch.mockReturnValue(Promise.resolve(mockDocuments));
 
     return documentProvider.getAllDocumentsForUser()
-    .then(() => {
-      expect(apiProviderMock.fetch.mock.calls[0][0]).toEqual('/api/apartments/v1/documents');
-      expect(appStoreMock.documentStore.add).toHaveBeenCalledWith(mockDocuments);
-    });
+      .then(() => {
+        expect(apiProviderMock.fetch.mock.calls[0][0]).toEqual('/api/apartments/v1/documents');
+        expect(appStoreMock.documentStore.add).toHaveBeenCalledWith(mockDocuments);
+      });
   });
 
   it('should save document to API and add it to store', () => {
@@ -48,12 +48,12 @@ describe('Document Provider', () => {
     apiProviderMock.fetch.mockReturnValue(Promise.resolve(mockSavedDocument));
 
     return documentProvider.saveDocument(listing_id, mockNewDocument)
-    .then(() => {
-      const apiCallArgs = apiProviderMock.fetch.mock.calls[0];
-      expect(apiCallArgs[1].method).toBe('POST');
-      expect(apiCallArgs[1].data).toMatchObject(Object.assign({ listing_id }, mockNewDocument));
-      expect(appStoreMock.documentStore.add).toHaveBeenCalledWith([ mockSavedDocument ]);
-    });
+      .then(() => {
+        const apiCallArgs = apiProviderMock.fetch.mock.calls[0];
+        expect(apiCallArgs[1].method).toBe('POST');
+        expect(apiCallArgs[1].data).toMatchObject(Object.assign({ listing_id }, mockNewDocument));
+        expect(appStoreMock.documentStore.add).toHaveBeenCalledWith([ mockSavedDocument ]);
+      });
   });
 
   it('should get download link for filestack provider', () => {
@@ -76,11 +76,11 @@ describe('Document Provider', () => {
     apiProviderMock.fetch.mockReturnValue(Promise.resolve());
 
     return documentProvider.deleteDocument(mockDocument)
-    .then(() => {
-      const apiCallArgs = apiProviderMock.fetch.mock.calls[0];
-      expect(apiCallArgs[0]).toMatch(new RegExp(`documents/${mockDocument.id}$`));
-      expect(apiCallArgs[1].method).toBe('DELETE');
-      expect(appStoreMock.documentStore.remove).toHaveBeenCalledWith(mockDocument);
-    });
+      .then(() => {
+        const apiCallArgs = apiProviderMock.fetch.mock.calls[0];
+        expect(apiCallArgs[0]).toMatch(new RegExp(`documents/${mockDocument.id}$`));
+        expect(apiCallArgs[1].method).toBe('DELETE');
+        expect(appStoreMock.documentStore.remove).toHaveBeenCalledWith(mockDocument);
+      });
   });
 });

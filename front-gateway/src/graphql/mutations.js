@@ -15,6 +15,6 @@ module.exports = {
         toggleFiltersEmail(email_notification: $email_notification)
     }
   `
-}
+};
 
 

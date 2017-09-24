@@ -1,7 +1,7 @@
 import React from 'react';
 import autobind from 'react-autobind';
 import { inject } from 'mobx-react';
-import { Grid, Row, Col, ButtonGroup, Button, Image } from 'react-bootstrap';
+import { Row, Col, Button, Image } from 'react-bootstrap';
 import FormWrapper, { FRC } from '~/components/FormWrapper/FormWrapper';
 import { hideIntercom } from '~/providers/utils';
 
@@ -56,7 +56,7 @@ export default class TenantProfileEdit extends React.Component {
     }
     else {
       formsy.submit(); // show validation errors
-      notificationProvider.error('חסרים פרטים, נא למלא את כל הפרטים')
+      notificationProvider.error('חסרים פרטים, נא למלא את כל הפרטים');
     }
   }
 

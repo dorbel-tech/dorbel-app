@@ -67,7 +67,7 @@ class MyProfile extends Component {
     return (
       <Grid fluid className="profile-container">
         <Tabs className="tab-menu" activeKey={activeTab}
-              onSelect={this.handleTabSelect} id="my-profile-tabs">
+          onSelect={this.handleTabSelect} id="my-profile-tabs">
           {this.tabs.map(tab =>
             <Tab eventKey={tab} key={tab.key} title={tab.title}></Tab>
           )}
