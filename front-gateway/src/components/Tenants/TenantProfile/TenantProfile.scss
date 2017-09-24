@@ -10,6 +10,7 @@
   .tenant-profile-header {
     border-bottom: $gray-border;
     height: 87px;
+    margin-bottom: 16px;
     margin-top: -65px; // compensate for no title in this popup
     position: relative;
 
@@ -45,8 +46,10 @@
     color: #4d4d4d;
     font-size: 18px;
     font-weight: bold;
-    padding-top: 41px;
+    position: absolute;
+    right: 20px;
     text-align: right;
+    top: 85px;
   }
 
   .tenant-profile-field {
@@ -74,45 +77,42 @@
     border-bottom: $gray-border;
   }
 
-  .tenant-profile-social-links {
-    width: 100%;
-    margin: 0 auto;
+  .tenant-profile-occupation-field {
+    padding-right: 5px;
+    padding-top: 80px;
+  }
 
-    .tenant-profile-social-links-item {
-      color: $brand-white;
-      margin: 0 5px;
-      width: 120px;
+  .tenant-profile-social-link-button {
+    color: $brand-white;
+    display: block;
+    margin-bottom: 8px;
+    width: 130px;
 
-      &.btn-default {
-        border-color: white !important;
-      }
+    &.btn-default {
+      border-color: white !important;
+    }
 
-      &.linkedin {
-        background-color: #0077b5;
-      }
+    &.linkedin {
+      background-color: #0077b5;
+    }
 
-      &.facebook {
-        background-color: #3b5998;
-      }
+    &.facebook {
+      background-color: #3b5998;
+    }
 
-      &[disabled] {
-        background-color: #cecece;
-      }
+    &[disabled] {
+      background-color: #cecece;
     }
   }
 
-  .tenant-profile-contact-details {
-    .tenant-profile-contact-details-item {
-      display: inline-block;
-      line-height: 44px;
-      margin: 0 5px 5px;
+  .tenant-profile-contact-details-item {
+    line-height: 44px;
 
-      .btn {
-        width: 120px;
+    .btn {
+      width: 130px;
 
-        i {
-          padding-left: 5px;
-        }
+      i {
+        padding-left: 5px;
       }
     }
   }
