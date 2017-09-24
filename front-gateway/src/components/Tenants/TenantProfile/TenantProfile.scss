@@ -17,13 +17,14 @@
     .tenant-profile-header-title {
       color: $gray-button;
       font-size: 13px;
-      margin-top: 10px;
-      text-align: left;
+      position: absolute;
+      right: 50px;
+      top: 38px;
     }
 
     .tenant-profile-header-picture {
       height: 91px;
-      margin-top: -9px;
+      margin-top: 18px;
       width: 91px;
     }
 
@@ -49,7 +50,7 @@
     position: absolute;
     right: 20px;
     text-align: right;
-    top: 85px;
+    top: 75px;
   }
 
   .tenant-profile-field {
@@ -79,7 +80,7 @@
 
   .tenant-profile-occupation-field {
     padding-right: 5px;
-    padding-top: 80px;
+    padding-top: 75px;
   }
 
   .tenant-profile-social-link-button {

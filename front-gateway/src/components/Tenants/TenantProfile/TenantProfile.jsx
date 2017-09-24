@@ -16,6 +16,7 @@ class TenantProfile extends Component {
   constructor(props) {
     super(props);
     autobind(this);
+
     this.state = {
       showPhone: false,
       showEmail: false
