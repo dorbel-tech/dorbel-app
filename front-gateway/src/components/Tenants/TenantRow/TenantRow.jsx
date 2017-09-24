@@ -38,7 +38,7 @@ export default class TenantRow extends React.Component {
     this.props.appProviders.modalProvider.show({
       body: <TenantProfile profile={tenant} listing={listing} />,
       closeButton: true,
-      modalSize: 'md'
+      modalSize: 'large'
     });
   }
 
