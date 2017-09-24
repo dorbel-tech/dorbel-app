@@ -101,6 +101,7 @@ describe('Saved Filters', () => {
   });
 
   it('should render email checkbox when filter is selected and email_notification is true', () => {
+    mockFilter({ email_notification: true }, true);
     const wrapper = savedFilters();
     const emailCheckbox = wrapper.find('.saved-filter-email-notification-checkbox');
 
