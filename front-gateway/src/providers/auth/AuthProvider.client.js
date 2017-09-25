@@ -33,7 +33,7 @@ class AuthProvider {
     if (stateBeforeLogin && stateBeforeLogin.actionBeforeLogin === LINK_ACCOUNTS) {
       return auth0helper.linkAccount(this.domain, this.authStore.profile.auth0_user_id, this.authStore.idToken, authResult.idToken)
       // we are supposed to be in the link-account popup, so it can be closed
-      .then(() => window.close());
+        .then(() => window.close());
     } else {
       this.authStore.setToken(authResult.idToken, authResult.accessToken);
       return this.getUserInfo(authResult)

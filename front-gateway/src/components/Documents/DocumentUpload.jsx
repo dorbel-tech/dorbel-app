@@ -67,9 +67,9 @@ export default class DocumentUpload extends React.Component {
 
   renderButton({ onPick }) {
     return <Button onClick={event => this.openUploadModal(onPick, event)}
-                   className={this.props.className}
-                   bsSize={this.props.bsSize}
-                   >הוסף מסמך</Button>;
+      className={this.props.className}
+      bsSize={this.props.bsSize}
+    >הוסף מסמך</Button>;
   }
 
   render() {

@@ -1,7 +1,7 @@
 import React from 'react';
 import autobind from 'react-autobind';
 import { inject } from 'mobx-react';
-import { Button, ButtonGroup, Glyphicon } from 'react-bootstrap';
+import { Button, Glyphicon } from 'react-bootstrap';
 import Clipboard from 'clipboard';
 import _ from 'lodash';
 import routesHelper from '~/routesHelper';
@@ -11,7 +11,7 @@ import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
 
 import './ShareListingToGroupsModal.scss';
 
-const DONT_SHOW_AGAIN_PREFIX = "share_listing_dont_show_again_";
+const DONT_SHOW_AGAIN_PREFIX = 'share_listing_dont_show_again_';
 
 @inject('appProviders')
 export default class ShareListingToGroupsModal extends React.Component {
@@ -19,7 +19,7 @@ export default class ShareListingToGroupsModal extends React.Component {
     super(props);
     this.state = {
       isLoading: true
-    }
+    };
     autobind(this);
   }
 
@@ -40,19 +40,19 @@ export default class ShareListingToGroupsModal extends React.Component {
     const { listing } = this.props;
     const website_url = process.env.FRONT_GATEWAY_URL || 'https://app.dorbel.com';
     const currentUrl = website_url + routesHelper.getPropertyPath(listing);
-    const shareUrl = utils.getShareUrl(currentUrl, "facebook_group_share", false);
+    const shareUrl = utils.getShareUrl(currentUrl, 'facebook_group_share', false);
     const { shortUrlProvider } = this.props.appProviders;
     return shortUrlProvider.get(shareUrl)
       .then((shortUrl) => {
         this.shortUrl = shortUrl;
         new Clipboard('.share-listing-to-groups-copy-button');
         this.setState({ isLoading: false });
-      })
+      });
   }
 
   componentDidMount() {
     utils.hideIntercom(true);
-    this.getShortUrl()
+    this.getShortUrl();
   }
 
   componentWillUnmount() {
@@ -170,3 +170,8 @@ export default class ShareListingToGroupsModal extends React.Component {
     );
   }
 }
+
+ShareListingToGroupsModal.wrappedComponent.propTypes = {
+  appProviders: React.PropTypes.object,
+  listing: React.PropTypes.object.isRequired
+};

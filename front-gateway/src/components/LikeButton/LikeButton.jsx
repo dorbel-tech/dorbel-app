@@ -6,7 +6,7 @@ import _ from 'lodash';
 
 import './LikeButton.scss';
 
-import TenantProfileEdit from '../Tenants/TenantProfile/TenantProfileEdit'
+import TenantProfileEdit from '../Tenants/TenantProfile/TenantProfileEdit';
 
 @inject('appStore', 'appProviders') @observer
 class LikeButton extends Component {
@@ -45,14 +45,14 @@ class LikeButton extends Component {
             </div>
           ),
           modalSize: 'large'
-        })
+        });
       })
       .catch(err => notificationProvider.error(err));
   }
 
   isProfileFull(profile) {
     const missingRequiredField = TenantProfileEdit.profileRequiredFields.find((fieldName) => { return _.isNil(_.get(profile, fieldName)); });
-    return _.isNil(missingRequiredField)
+    return _.isNil(missingRequiredField);
   }
 
   showEditProfileModalBeforeLiking() {
@@ -67,7 +67,7 @@ class LikeButton extends Component {
   }
 
   handleClick() {
-    const { apartmentId, listingId, appStore, appProviders } = this.props;
+    const { apartmentId, appStore, appProviders } = this.props;
     const { likeProvider, notificationProvider, authProvider } = appProviders;
 
     window.analytics.track('client_click_interested_in_apartment');

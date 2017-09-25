@@ -20,19 +20,19 @@ class Search extends Component {
     const isLoadingCities = cityStore.cities.length === 0;
 
     return <div className="search-container">
-        <Filter />
-        <SearchResults
-          isReady={!isLoadingCities}
-          retryLink={<span></span>}
-          noResultsContent={
-            <div className="search-results-not-found">
-              <b className="search-results-not-found-title">רוצים לקבל עדכון כשתעלה הדירה שחיפשתם?</b><br />
+      <Filter />
+      <SearchResults
+        isReady={!isLoadingCities}
+        retryLink={<span></span>}
+        noResultsContent={
+          <div className="search-results-not-found">
+            <b className="search-results-not-found-title">רוצים לקבל עדכון כשתעלה הדירה שחיפשתם?</b><br />
              לא נמצאו דירות פנויות שתואמות את החיפוש שלכם.<br />
              באפשרותכם לשמור את החיפוש ולקבל הודעה למייל על דירות חדשות, ברגע שהן יעלו לאתר.
-            </div>
-          }
-        />
-      </div>;
+          </div>
+        }
+      />
+    </div>;
   }
 }
 

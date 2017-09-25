@@ -97,8 +97,8 @@ export default class SearchResults extends React.Component {
     } else if (results.length > 0) {
       return (
         <div className="search-results-scroll"
-             onScroll={this.handleScroll}
-             ref={this.setScrollTargets}>
+          onScroll={this.handleScroll}
+          ref={this.setScrollTargets}>
           { title || null }
           <Grid className="search-results-container">
             <Row>

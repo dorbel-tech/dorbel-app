@@ -2,7 +2,7 @@ import React from 'react';
 import autobind from 'react-autobind';
 import _ from 'lodash';
 import { inject } from 'mobx-react';
-import { Col, Row, Image, Dropdown, MenuItem } from 'react-bootstrap';
+import { Col, Row, Image } from 'react-bootstrap';
 import TenantProfile from '~/components/Tenants/TenantProfile/TenantProfile';
 import { getUserNickname, hideIntercom, getListingTitle } from '~/providers/utils';
 

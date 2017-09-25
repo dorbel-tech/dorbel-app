@@ -25,15 +25,15 @@ describe('Utils', () => {
       expect.assertions(4);
 
       return utils.promiseSeries([ goodFunc, badFunc, wontBeCalledFunc ])
-      .then(() => {
-        expect('this not').toBe('called');
-      })
-      .catch(caughtError => {
-        expect(caughtError).toBe(error);
-        expect(goodFunc).toHaveBeenCalled();
-        expect(badFunc).toHaveBeenCalled();
-        expect(wontBeCalledFunc).not.toHaveBeenCalled();
-      });
+        .then(() => {
+          expect('this not').toBe('called');
+        })
+        .catch(caughtError => {
+          expect(caughtError).toBe(error);
+          expect(goodFunc).toHaveBeenCalled();
+          expect(badFunc).toHaveBeenCalled();
+          expect(wontBeCalledFunc).not.toHaveBeenCalled();
+        });
     });
   });
 });

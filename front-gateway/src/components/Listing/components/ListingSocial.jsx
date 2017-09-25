@@ -4,7 +4,7 @@ import autobind from 'react-autobind';
 import Clipboard from 'clipboard';
 import routesHelper from '~/routesHelper';
 
-import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner'
+import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
 
 @inject('appStore', 'appProviders') @observer
 class ListingSocial extends React.Component {
@@ -13,7 +13,7 @@ class ListingSocial extends React.Component {
     super(props);
     this.state = {
       isLoading: true
-    }
+    };
     this.shortUrlForCopy = '';
     this.listingUrl = this.getListingUrl();
     autobind(this);
@@ -37,7 +37,7 @@ class ListingSocial extends React.Component {
         this.shortUrlForCopy = shortUrl;
         this.setState({ isLoading: false });
         new Clipboard('.listing-social-copy-button').on('success', this.urlCopiedToClipboard);
-      })
+      });
   }
 
   render() {
@@ -69,7 +69,7 @@ class ListingSocial extends React.Component {
         break;
     }
 
-    window.open(shareUrl)
+    window.open(shareUrl);
     window.analytics.track('client_click_share_' + socialNetwork);
   }
 

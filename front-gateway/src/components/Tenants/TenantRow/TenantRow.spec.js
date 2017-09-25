@@ -19,7 +19,7 @@ const listingMock = {
   id: 1,
   title: 'title',
   apartment: { rooms: 1 }
-}
+};
 
 describe.only('Tenant Row', () => {
   let appProvidersMock, clickEventMock;
@@ -33,7 +33,7 @@ describe.only('Tenant Row', () => {
 
     clickEventMock = {
       stopPropagation: jest.fn()
-    }
+    };
   });
 
   const tenantRow = (tenant, listing) => shallow(<TenantRow.wrappedComponent tenant={tenant} listing={listing} appProviders={appProvidersMock} />);

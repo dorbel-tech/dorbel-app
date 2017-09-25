@@ -2,7 +2,6 @@ import React from 'react';
 import DorbelModal from '~/components/DorbelModal/DorbelModal';
 import { Button, Col, Grid, Row } from 'react-bootstrap';
 import { inject, observer } from 'mobx-react';
-import _ from 'lodash';
 import UploadApartmentBaseStep from './UploadApartmentBaseStep';
 import FormWrapper from '~/components/FormWrapper/FormWrapper';
 import SubmitButton from '~/components/SubmitButton/SubmitButton';

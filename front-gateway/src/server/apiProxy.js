@@ -13,14 +13,14 @@ const logger = shared.logger.getLogger(module);
 const apisConfig = [{
   url: 'APARTMENTS_API_URL',
   prefix: 'apartments'
-}]
+}];
 
 function* loadProxy(app) {
   logger.info('loading proxy');
 
   apisConfig.forEach(apiConfig => {
     logger.info(apiConfig, 'loading proxy for backend API');
-    const pattern = new RegExp(`^\/api\/${apiConfig.prefix}`);
+    const pattern = new RegExp(`^/api/${apiConfig.prefix}`);
     app.use(koaConvert(proxy({
       host: process.env[apiConfig.url],
       match: pattern,
