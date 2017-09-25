@@ -91,7 +91,7 @@ class TenantProfile extends Component {
     return (
       <div className="tenant-profile-field">
         <label>יצירת קשר</label>
-        <Row>
+        <Row className="tenant-profile-border-bottom">
           <Col sm={4} className="tenant-profile-contact-details-item">
             <Button className="chat" bsStyle="success" onClick={this.handleMsgClick}>
               <i className="fa fa-comments" />
@@ -190,6 +190,14 @@ class TenantProfile extends Component {
         </Row>
         {tProfile && this.renderAboutMe(tProfile)}
         {this.renderContactDetails(profile)}
+        <div className="tenant-profile-field">
+          <label>קבלו מידע נוסף על הדייר</label>
+          <Row>
+            <Col sm={4} className="tenant-profile-contact-details-item">
+              <Button href="https://www.dorbel.com/pages/services/credit-report?utm_source=tenant-profile" target="_blank" onClick={() => window.analytics.track('client_click_tenant_credit_score')}>דו"ח אשראי</Button>
+            </Col>
+          </Row>
+        </div>
       </Row>
     );
   }
