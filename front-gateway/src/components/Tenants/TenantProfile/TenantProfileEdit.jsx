@@ -102,18 +102,32 @@ export default class TenantProfileEdit extends React.Component {
               <div className="tenant-profile-edit-form-section-title">פרטים אישיים</div>
               <Row>
                 <Col xs={12} sm={6}>
+                  <label className="tenant-profile-edit-form-label" htmlFor="first_name">שם פרטי</label>
                   <FRC.Input value={profile.first_name} name="first_name" type="text" placeholder="שם פרטי (חובה)" required />
                 </Col>
                 <Col xs={12} sm={6}>
+                  <label className="tenant-profile-edit-form-label" htmlFor="last_name">שם משפחה</label>
                   <FRC.Input value={profile.last_name} name="last_name" type="text" placeholder="שם משפחה (חובה)" required />
                 </Col>
               </Row>
               <Row>
                 <Col xs={12} sm={6}>
-                  <FRC.Input value={profile.email} name="email" type="email" placeholder="אי-מייל (חובה)" validations="isEmail" required />
+                  <label className="tenant-profile-edit-form-label" htmlFor="email">מייל</label>
+                  <FRC.Input value={profile.email} name="email" type="email" placeholder="מייל (חובה)" validations="isEmail" required />
                 </Col>
                 <Col xs={12} sm={6}>
+                  <label className="tenant-profile-edit-form-label" htmlFor="phone">טלפון</label>
                   <FRC.Input value={profile.phone} name="phone" type="text" placeholder="טלפון (חובה)" required />
+                </Col>
+              </Row>
+              <Row>
+                <Col xs={12} sm={6}>
+                  <label className="tenant-profile-edit-form-label" htmlFor="location">עיר</label>
+                  <FRC.Input value={profile.tenant_profile.location} name="location" type="text" placeholder="עיר מגורים שלכם" />
+                </Col>
+                <Col xs={12} sm={6}>
+                  <label className="tenant-profile-edit-form-label" htmlFor="age">גיל</label>
+                  <FRC.Input value={profile.tenant_profile.age} label="age" name="age" type="text" placeholder="הגיל שלכם" />
                 </Col>
               </Row>
             </div>
@@ -122,10 +136,12 @@ export default class TenantProfileEdit extends React.Component {
               <div className="tenant-profile-edit-form-section-explain">פרטו על התעסוקה שלכם כדי שבעל הדירה יהיה שקט שתוכלו לעמוד בתשלומים</div>
               <Row>
                 <Col xs={12} sm={6}>
-                  <FRC.Input value={profile.tenant_profile.work_place} name="tenant_profile.work_place" type="text" placeholder="מקום העבודה/עצמאי (חובה)" required />
+                  <label className="tenant-profile-edit-form-label" htmlFor="tenant_profile.work_place">מקום העבודה</label>
+                  <FRC.Input value={profile.tenant_profile.work_place} name="tenant_profile.work_place" type="text" placeholder="מקום העבודה/עצמאי" />
                 </Col>
                 <Col xs={12} sm={6}>
-                  <FRC.Input value={profile.tenant_profile.position} name="tenant_profile.position" type="text" placeholder="התפקיד שלכם (חובה)" required />
+                  <label className="tenant-profile-edit-form-label" htmlFor="tenant_profile.position">התפקיד</label>
+                  <FRC.Input value={profile.tenant_profile.position} name="tenant_profile.position" type="text" placeholder="התפקיד שלכם" />
                 </Col>
               </Row>
             </div>
