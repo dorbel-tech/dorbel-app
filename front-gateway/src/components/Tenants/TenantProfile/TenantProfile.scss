@@ -21,6 +21,10 @@
       position: absolute;
       right: 50px;
       top: 38px;
+
+      @media (max-width: $screen-xs-max) {
+        right: 35px;
+      }
     }
 
     .tenant-profile-header-picture {
@@ -49,22 +53,24 @@
     font-size: 18px;
     font-weight: bold;
     position: absolute;
-    right: 20px;
+    right: 165px;
     text-align: right;
-    top: 75px;
+    top: 70px;
+
+    @media (max-width: $screen-sm-max) {
+      right: 15px;
+    }
   }
 
   .tenant-profile-field {
-    height: 100%;
-    line-height: 16px;
     text-align: right;
-    padding-right: 10px;
     padding-top: 20px;
 
     label {
+      color: #979797;
       display: block;
       font-size: 12px;
-      color: #979797;
+      height: 25px;
     }
 
     span {
@@ -80,7 +86,6 @@
   }
 
   .tenant-profile-occupation-field {
-    padding-right: 5px;
     padding-top: 75px;
 
     @media (max-width: $screen-xs-max) {
@@ -113,6 +118,7 @@
     @media (max-width: $screen-xs-max) {
       display: inline-block;
       margin-left: 15px;
+      margin-top: 25px;
     }
   }
 
@@ -120,10 +126,25 @@
     line-height: 44px;
 
     .btn {
-      width: 130px;
+      width: 120px;
+
+      @media (max-width: $screen-xs-max) {
+        padding: 8px 3px;
+        width: 100px;
+      }
 
       i {
         padding-left: 5px;
+      }
+    }
+
+    @media (max-width: $screen-xs-max) {
+      &:nth-child(2) {
+        padding-right: 7.5px;
+      }
+
+      &:nth-child(3) {
+        padding-right: 0;
       }
     }
   }

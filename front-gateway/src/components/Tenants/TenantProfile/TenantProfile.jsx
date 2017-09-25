@@ -36,34 +36,30 @@ class TenantProfile extends Component {
     const nameBackground = { backgroundImage: `url('${profile.picture}')` };
 
     return (
-      <Row className="tenant-profile-header">
-        <Col xs={12}>
-          <div className="tenant-profile-header-title">
-            פרופיל דייר
-          </div>
-          <Image className="tenant-profile-header-picture" src={profile.picture} circle />
-          <div className="tenant-profile-header-backgound" style={nameBackground}>
-          </div>
-        </Col>
-      </Row>
+      <div className="tenant-profile-header">
+        <div className="tenant-profile-header-title">
+          פרופיל דייר
+        </div>
+        <Image className="tenant-profile-header-picture" src={profile.picture} circle />
+        <div className="tenant-profile-header-backgound" style={nameBackground}>
+        </div>
+      </div>
     );
   }
 
   renderAboutMe(tProfile) {
     return tProfile.about_you &&
       <Row className="tenant-profile-border-bottom">
-        <Col xs={12}>
-          <div className="tenant-profile-field">
-            <label>על עצמי</label>
-            <span>{tProfile.about_you}</span>
-          </div>
+        <Col md={8} mdOffset={2} className="tenant-profile-field">
+          <label>על עצמי</label>
+          <span>{tProfile.about_you}</span>
         </Col>
       </Row>;
   }
 
   renderSocial(tProfile) {
     return (
-      <Col sm={4}>
+      <Col md={4} sm={4}>
         <div className="tenant-profile-field">
           <label>רשתות חברתיות</label>
           <Button
@@ -87,33 +83,37 @@ class TenantProfile extends Component {
     );
   }
 
-  renderContactDetails(profile) {
+  renderDetails(profile) {
     return (
-      <div className="tenant-profile-field">
-        <label>יצירת קשר</label>
-        <Row className="tenant-profile-border-bottom">
-          <Col sm={4} className="tenant-profile-contact-details-item">
-            <Button className="chat" bsStyle="success" onClick={this.handleMsgClick}>
-              <i className="fa fa-comments" />
-              שלח הודעה
-            </Button>
-          </Col>
-          <Col sm={4} className="tenant-profile-contact-details-item">
-            {this.renderRevealContactDetailsButton('email', 'הצג דוא"ל', 'envelope-o',
-              <a href={`mailto:${profile.email}`}>
-                {profile.email}
-              </a>
-            )}
-          </Col>
-          <Col sm={4} className="tenant-profile-contact-details-item">
-            {this.renderRevealContactDetailsButton('phone', 'הצג טלפון', 'phone',
-              <a href={`tel:${profile.phone}`}>
-                {profile.phone}
-              </a>
-            )}
-          </Col>
-        </Row>
-      </div>
+      <Row className="tenant-profile-field">
+        <Col md={2} mdOffset={2} sm={3} xs={4} className="tenant-profile-contact-details-item">
+          <label>יצירת קשר</label>
+          <Button className="chat" bsStyle="success" onClick={this.handleMsgClick}>
+            <i className="fa fa-comments" />
+            שלח הודעה
+          </Button>
+        </Col>
+        <Col md={2} sm={3} xs={4} className="tenant-profile-contact-details-item">
+          <label />
+          {this.renderRevealContactDetailsButton('email', 'הצג דוא"ל', 'envelope-o',
+            <a href={`mailto:${profile.email}`}>
+              {profile.email}
+            </a>
+          )}
+        </Col>
+        <Col md={2} sm={3} xs={4} className="tenant-profile-contact-details-item">
+          <label />
+          {this.renderRevealContactDetailsButton('phone', 'הצג טלפון', 'phone',
+            <a href={`tel:${profile.phone}`}>
+              {profile.phone}
+            </a>
+          )}
+        </Col>
+        <Col md={4} sm={3} xs={12} className="tenant-profile-contact-details-item">
+          <label>מידע נוסף על הדייר</label>
+          <Button href="https://www.dorbel.com/pages/services/credit-report?utm_source=tenant-profile" target="_blank" onClick={() => window.analytics.track('client_click_tenant_credit_score')}>דו"ח אשראי</Button>
+        </Col>
+      </Row>
     );
   }
 
@@ -174,30 +174,18 @@ class TenantProfile extends Component {
           {`${profile.first_name} ${profile.last_name}`}
         </div>
         <Row className="tenant-profile-border-bottom">
-          <Col sm={4} xs={6}>
-            <div className="tenant-profile-field tenant-profile-occupation-field">
-              <label>תפקיד</label>
-              <span>{tProfile.position || emptyFieldText}</span>
-            </div>
+          <Col md={3} mdOffset={2} sm={4} xs={6} className="tenant-profile-field tenant-profile-occupation-field">
+            <label>תפקיד</label>
+            <span>{tProfile.position || emptyFieldText}</span>
           </Col>
-          <Col sm={4} xs={6}>
-            <div className="tenant-profile-field tenant-profile-occupation-field">
-              <label>מקום עבודה</label>
-              <span>{tProfile.work_place || emptyFieldText}</span>
-            </div>
+          <Col md={3} xs={6} sm={4} className="tenant-profile-field tenant-profile-occupation-field">
+            <label>מקום עבודה</label>
+            <span>{tProfile.work_place || emptyFieldText}</span>
           </Col>
-          {tProfile && this.renderSocial(tProfile)}
+          {this.renderSocial(tProfile)}
         </Row>
-        {tProfile && this.renderAboutMe(tProfile)}
-        {this.renderContactDetails(profile)}
-        <div className="tenant-profile-field">
-          <label>קבלו מידע נוסף על הדייר</label>
-          <Row>
-            <Col sm={4} className="tenant-profile-contact-details-item">
-              <Button href="https://www.dorbel.com/pages/services/credit-report?utm_source=tenant-profile" target="_blank" onClick={() => window.analytics.track('client_click_tenant_credit_score')}>דו"ח אשראי</Button>
-            </Col>
-          </Row>
-        </div>
+        {this.renderAboutMe(tProfile)}
+        {this.renderDetails(profile)}
       </Row>
     );
   }
