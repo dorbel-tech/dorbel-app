@@ -72,7 +72,7 @@ class TenantProfile extends Component {
             className="tenant-profile-social-link-button facebook"
             disabled={!tProfile.facebook_url}
             target="_blank">
-            <i className="fa fa-facebook-square"></i> פייסבוק
+            <i className="fa fa-facebook-square"></i> פרופיל פייסבוק
           </Button>
           <Button
             href={tProfile.linkedin_url}
@@ -80,7 +80,7 @@ class TenantProfile extends Component {
             className="tenant-profile-social-link-button linkedin"
             disabled={!tProfile.linkedin_url}
             target="_blank">
-            <i className="fa fa-linkedin-square"></i> לינקדאין
+            <i className="fa fa-linkedin-square"></i> פרופיל לינקדאין
           </Button>
         </div>
       </Col>
