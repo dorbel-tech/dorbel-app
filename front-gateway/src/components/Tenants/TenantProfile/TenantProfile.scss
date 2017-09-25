@@ -11,8 +11,7 @@
   .tenant-profile-header {
     border-bottom: $gray-border;
     height: 87px;
-    margin-bottom: 16px;
-    margin-top: -65px; // compensate for no title in this popup
+    margin: -65px -15px 16px; // Top compensates for no title in this popup
     position: relative;
 
     .tenant-profile-header-title {
