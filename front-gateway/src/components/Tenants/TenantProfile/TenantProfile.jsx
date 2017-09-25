@@ -63,7 +63,7 @@ class TenantProfile extends Component {
 
   renderSocial(tProfile) {
     return (
-      <Col xs={4}>
+      <Col sm={4}>
         <div className="tenant-profile-field">
           <label>רשתות חברתיות</label>
           <Button
@@ -92,20 +92,20 @@ class TenantProfile extends Component {
       <div className="tenant-profile-field">
         <label>יצירת קשר</label>
         <Row>
-          <Col xs={4} className="tenant-profile-contact-details-item">
+          <Col sm={4} className="tenant-profile-contact-details-item">
             <Button className="chat" bsStyle="success" onClick={this.handleMsgClick}>
               <i className="fa fa-comments" />
               שלח הודעה
             </Button>
           </Col>
-          <Col xs={4} className="tenant-profile-contact-details-item">
+          <Col sm={4} className="tenant-profile-contact-details-item">
             {this.renderRevealContactDetailsButton('email', 'הצג דוא"ל', 'envelope-o',
               <a href={`mailto:${profile.email}`}>
                 {profile.email}
               </a>
             )}
           </Col>
-          <Col xs={4} className="tenant-profile-contact-details-item">
+          <Col sm={4} className="tenant-profile-contact-details-item">
             {this.renderRevealContactDetailsButton('phone', 'הצג טלפון', 'phone',
               <a href={`tel:${profile.phone}`}>
                 {profile.phone}
@@ -174,13 +174,13 @@ class TenantProfile extends Component {
           {`${profile.first_name} ${profile.last_name}`}
         </div>
         <Row className="tenant-profile-border-bottom">
-          <Col xs={4}>
+          <Col sm={4} xs={6}>
             <div className="tenant-profile-field tenant-profile-occupation-field">
               <label>תפקיד</label>
               <span>{tProfile.position || emptyFieldText}</span>
             </div>
           </Col>
-          <Col xs={4}>
+          <Col sm={4} xs={6}>
             <div className="tenant-profile-field tenant-profile-occupation-field">
               <label>מקום עבודה</label>
               <span>{tProfile.work_place || emptyFieldText}</span>
