@@ -1,3 +1,4 @@
+@import "../../sharedStyles/bsvars.scss";
 @import "../../sharedStyles/variables.scss";
 
 .tenant-profile {
@@ -8,39 +9,32 @@
   }
 
   .tenant-profile-header {
-    margin-top: -65px; // compensate for no title in this popup
-    position: relative;
-    height: 120px;
     border-bottom: $gray-border;
+    height: 87px;
+    margin: -65px -15px 16px; // Top compensates for no title in this popup
+    position: relative;
 
     .tenant-profile-header-title {
-      height: 20px;
-      margin-top: 19px;
-      color: $gray-dark;
-      font-size: 15px;
-      font-weight: bold;
-      line-height: 20px;
-      text-align: center;
+      color: $gray-button;
+      font-size: 13px;
+      position: absolute;
+      right: 50px;
+      top: 38px;
+
+      @media (max-width: $screen-xs-max) {
+        right: 35px;
+      }
     }
 
-    .tenant-profile-header-content {
-      top: 20px;
-      margin: -15px 0;
-      position: relative;
-      z-index: 1;
-
-      .tenant-profile-header-content-picture {
-        height: 75px;
-        position: absolute;
-        left: 20px;
-        top: 20px;
-        width: 75px;
-      }
+    .tenant-profile-header-picture {
+      height: 91px;
+      margin-top: 18px;
+      width: 91px;
     }
 
     .tenant-profile-header-backgound {
       position: absolute;
-      height: 120px;
+      height: 87px;
       width: 100%;
       top: 0;
       left: 0;
@@ -53,17 +47,29 @@
     }
   }
 
-  .tenant-profile-field {
-    height: 100%;
-    line-height: 16px;
+  .tenant-profile-name {
+    color: #4d4d4d;
+    font-size: 18px;
+    font-weight: bold;
+    position: absolute;
+    right: 165px;
     text-align: right;
-    padding-right: 10px;
+    top: 70px;
+
+    @media (max-width: $screen-sm-max) {
+      right: 15px;
+    }
+  }
+
+  .tenant-profile-field {
+    text-align: right;
     padding-top: 20px;
 
     label {
+      color: #979797;
       display: block;
       font-size: 12px;
-      color: #979797;
+      height: 25px;
     }
 
     span {
@@ -78,45 +84,66 @@
     border-bottom: $gray-border;
   }
 
-  .tenant-profile-social-links {
-    width: 100%;
-    margin: 0 auto;
+  .tenant-profile-occupation-field {
+    padding-top: 75px;
 
-    .tenant-profile-social-links-item {
-      color: $brand-white;
-      margin: 0 5px;
-      width: 120px;
-
-      &.btn-default {
-        border-color: white !important;
-      }
-
-      &.linkedin {
-        background-color: #0077b5;
-      }
-
-      &.facebook {
-        background-color: #3b5998;
-      }
-
-      &[disabled] {
-        background-color: #cecece;
-      }
+    @media (max-width: $screen-xs-max) {
+      padding-bottom: 30px;
     }
   }
 
-  .tenant-profile-contact-details {
-    .tenant-profile-contact-details-item {
+  .tenant-profile-social-link-button {
+    color: $brand-white;
+    display: block;
+    margin-bottom: 8px;
+    width: 130px;
+
+    &.btn-default {
+      border-color: white !important;
+    }
+
+    &.linkedin {
+      background-color: #0077b5;
+    }
+
+    &.facebook {
+      background-color: #3b5998;
+    }
+
+    &[disabled] {
+      background-color: #cecece;
+    }
+
+    @media (max-width: $screen-xs-max) {
       display: inline-block;
-      line-height: 44px;
-      margin: 0 5px 5px;
+      margin-left: 15px;
+      margin-top: 25px;
+    }
+  }
 
-      .btn {
-        width: 120px;
+  .tenant-profile-contact-details-item {
+    line-height: 44px;
 
-        i {
-          padding-left: 5px;
-        }
+    .btn {
+      width: 120px;
+
+      @media (max-width: $screen-xs-max) {
+        padding: 8px 3px;
+        width: 100px;
+      }
+
+      i {
+        padding-left: 5px;
+      }
+    }
+
+    @media (max-width: $screen-xs-max) {
+      &:nth-child(2) {
+        padding-right: 7.5px;
+      }
+
+      &:nth-child(3) {
+        padding-right: 0;
       }
     }
   }
