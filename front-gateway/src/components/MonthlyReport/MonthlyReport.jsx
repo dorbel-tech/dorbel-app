@@ -3,7 +3,7 @@ import { inject, observer } from 'mobx-react';
 import autobind from 'react-autobind';
 import moment from 'moment';
 
-import { Grid, Row, Col, Button, ListGroup, ListGroupItem } from 'react-bootstrap';
+import { Grid, Row, Col, Button } from 'react-bootstrap';
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
 import ListingInfo from '~/components/Listing/components/ListingInfo';
 
@@ -136,7 +136,7 @@ class MonthlyReport extends Component {
                   className="property-details-section-header-image" />
                 <span className="property-details-section-header-text">
                   <i className="fa fa-map-pin" />&nbsp;
-                      {`${listing.apartment.building.street_name} ${listing.apartment.building.house_number}, דירה ${listing.apartment.apt_number}`}
+                  {`${listing.apartment.building.street_name} ${listing.apartment.building.house_number}, דירה ${listing.apartment.apt_number}`}
                 </span>
               </Col>
             </Row>

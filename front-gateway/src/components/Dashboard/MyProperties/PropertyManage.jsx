@@ -151,10 +151,10 @@ class PropertyManage extends Component {
     return (
       <ListGroup>
         { tenants.map(tenant => (
-            <ListGroupItem key={tenant.id} disabled={tenant.disabled} className="property-manage-list-group-item">
-              <TenantRow tenant={tenant} listing={listing} showActionButtons/>
-            </ListGroupItem>
-          )) }
+          <ListGroupItem key={tenant.id} disabled={tenant.disabled} className="property-manage-list-group-item">
+            <TenantRow tenant={tenant} listing={listing} showActionButtons/>
+          </ListGroupItem>
+        )) }
       </ListGroup>
     );
   }
@@ -203,8 +203,8 @@ class PropertyManage extends Component {
       </Row>
       <Row className="property-manage-section-content property-manage-lease-period">
         <ManageLeaseModal listing={listing}
-                          show={this.state.showManageLeaseModal}
-                          onClose={this.closeManageLeaseModal}/>
+          show={this.state.showManageLeaseModal}
+          onClose={this.closeManageLeaseModal}/>
         <Col xs={12}>
           <div>
             תקופת השכירות: {leasePeriodLabel} ימים

@@ -3,7 +3,6 @@
  */
 'use strict';
 import axios from 'axios';
-import _ from 'lodash';
 import { ApolloClient, createNetworkInterface } from 'react-apollo';
 let urlPrefix = '';
 

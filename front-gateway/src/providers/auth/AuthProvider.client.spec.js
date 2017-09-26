@@ -54,9 +54,9 @@ describe('Auth Provider - Client', () => {
       auth0helper.linkAccount = jest.fn(() => Promise.resolve());
 
       return provider.afterAuthentication(authResult)
-      .then(() => {
-        expect(auth0helper.linkAccount).toHaveBeenCalledWith('domain', 'user1', 'token1', 'token2')
-      });
+        .then(() => {
+          expect(auth0helper.linkAccount).toHaveBeenCalledWith('domain', 'user1', 'token1', 'token2');
+        });
     });
 
     it('should close window after successful account linking', () => {
@@ -66,7 +66,7 @@ describe('Auth Provider - Client', () => {
       window.close = jest.fn();
 
       return provider.afterAuthentication(authResult)
-      .then(() => expect(window.close).toHaveBeenCalled());
+        .then(() => expect(window.close).toHaveBeenCalled());
     });
   });
 
@@ -80,13 +80,13 @@ describe('Auth Provider - Client', () => {
       const provider = new AuthProvider(1, 2, {}, {}, {});
 
       return provider.linkSocialAccount(connection)
-      .then(() => {
-        expect(sdkMock.popup.authorize).toHaveBeenCalledWith({
-          connection, responseType: 'token id_token',
-          redirect_uri: 'httz://wuw.dorknob.io/login',
-          state: JSON.stringify({ actionBeforeLogin: 'link-accounts' })
+        .then(() => {
+          expect(sdkMock.popup.authorize).toHaveBeenCalledWith({
+            connection, responseType: 'token id_token',
+            redirect_uri: 'httz://wuw.dorknob.io/login',
+            state: JSON.stringify({ actionBeforeLogin: 'link-accounts' })
+          });
         });
-      });
     });
   });
 });

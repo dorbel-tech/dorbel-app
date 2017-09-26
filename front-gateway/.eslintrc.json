@@ -17,10 +17,10 @@
     "plugins": [
       "jsx-a11y",
       "react"
-    ],
-    "extends": [
-      "plugin:react/recommended",
-      "./node_modules/dorbel-shared/eslint.shared.json"
     ]
-  }
+  },
+  "extends": [
+    "plugin:react/recommended",
+    "./node_modules/dorbel-shared/eslint.shared.json"
+  ]
 }

@@ -37,8 +37,8 @@ describe('Search Results', () => {
   });
 
   const searchResults = () => shallow(<SearchResults.wrappedComponent appStore={appStoreMock}
-                                                                      appProviders={appProvidersMock}
-                                                                      noResultsContent={noResults} />);
+    appProviders={appProvidersMock}
+    noResultsContent={noResults} />);
 
   const simulateScroll = (distanceFromBottom) => {
     const wrapper = searchResults();

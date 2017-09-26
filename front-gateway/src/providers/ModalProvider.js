@@ -70,7 +70,7 @@ export default class ModalProvider {
 
   close(value) {
     const { onClose } = this.appStore.modalParams;
-    if (onClose) { onClose(value) }
+    if (onClose) { onClose(value); }
     this.appStore.showModal = false;
   }
 }

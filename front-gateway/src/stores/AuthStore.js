@@ -16,7 +16,7 @@ export default class AuthStore {
 
   constructor(initialState = {}) {
     this.setToken(localStorageHelper.getItem(ID_TOKEN_KEY) || initialState.idToken,
-                  localStorageHelper.getItem(ACCESS_TOKEN_KEY) || initialState.accessToken);
+      localStorageHelper.getItem(ACCESS_TOKEN_KEY) || initialState.accessToken);
     this.setProfile(localStorageHelper.getItem(PROFILE_KEY) || initialState.profile);
     this.events = new EventEmitter();
   }

@@ -66,7 +66,7 @@ class LeaseStats extends Component {
               <div className="lease-stats-details-income-remaining">
                 <div className="heading">
                   נותר לתשלום
-                  </div>
+                </div>
                 <div className="content">
                   {statsVM.rentRemainingFormatted}
                 </div>
@@ -74,7 +74,7 @@ class LeaseStats extends Component {
               <div className="lease-stats-details-income-paid">
                 <div className="heading">
                   עד כה שולם
-                  </div>
+                </div>
                 <div className="content">
                   {statsVM.rentPayedFormatted}
                 </div>

@@ -8,4 +8,4 @@ module.exports = {
       filters { ${fieldSets.filterFields.join(', ')} }
     }
   `
-}
+};

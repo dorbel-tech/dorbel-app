@@ -20,18 +20,18 @@ export default class ListingImageProvider {
     });
 
     return this.cloudinaryProvider.upload(file, onProgress)
-    .then(action('image-upload-done', uploadedImage => {
-      let storedImage = imageStore.find(img => img.src === image.src, imageStore.length - 1);
-      storedImage.complete = true;
-      storedImage.src = `https://res.cloudinary.com/dorbel/${uploadedImage.resource_type}/${uploadedImage.type}/v${uploadedImage.version}/${uploadedImage.public_id}.${uploadedImage.format}`;
-      storedImage.delete_token = uploadedImage.delete_token;
-      storedImage.secure_url = uploadedImage.secure_url;
+      .then(action('image-upload-done', uploadedImage => {
+        let storedImage = imageStore.find(img => img.src === image.src, imageStore.length - 1);
+        storedImage.complete = true;
+        storedImage.src = `https://res.cloudinary.com/dorbel/${uploadedImage.resource_type}/${uploadedImage.type}/v${uploadedImage.version}/${uploadedImage.public_id}.${uploadedImage.format}`;
+        storedImage.delete_token = uploadedImage.delete_token;
+        storedImage.secure_url = uploadedImage.secure_url;
 
-      return uploadedImage;
-    }))
-    .catch(action(() => {
-      imageStore.remove(image); // remove method is available as this is a mobx observable array
-    }));
+        return uploadedImage;
+      }))
+      .catch(action(() => {
+        imageStore.remove(image); // remove method is available as this is a mobx observable array
+      }));
   }
 
   deleteImage(image, editedListingStore) {

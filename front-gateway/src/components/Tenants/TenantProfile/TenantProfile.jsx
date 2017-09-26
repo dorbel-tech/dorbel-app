@@ -9,7 +9,7 @@ const emptyFieldText = 'אין פירוט';
 const contactDetailsTypeToStateName = {
   phone: 'showPhone',
   email: 'showEmail'
-}
+};
 
 @inject('appProviders')
 class TenantProfile extends Component {
@@ -20,7 +20,7 @@ class TenantProfile extends Component {
     this.state = {
       showPhone: false,
       showEmail: false
-    }
+    };
   }
 
   componentDidMount() {
@@ -136,7 +136,7 @@ class TenantProfile extends Component {
           <i className={'fa fa-' + faIconName} />
           {buttonText}
         </Button >
-    )
+    );
   }
 
   handleMsgClick() {

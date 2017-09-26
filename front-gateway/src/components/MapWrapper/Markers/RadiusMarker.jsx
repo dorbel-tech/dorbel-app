@@ -8,7 +8,7 @@ class RadiusMarker extends Component {
 
   render() {
     return (
-        <div className='radiusMarker'></div>
+      <div className='radiusMarker'></div>
     );
   }
 }
