@@ -123,11 +123,11 @@ export default class TenantProfileEdit extends React.Component {
               <Row>
                 <Col xs={12} sm={6}>
                   <label className="tenant-profile-edit-form-label" htmlFor="location">עיר</label>
-                  <FRC.Input value={profile.tenant_profile.location} name="location" type="text" placeholder="עיר מגורים שלכם" />
+                  <FRC.Input value={profile.tenant_profile.location} name="tenant_profile.location" type="text" placeholder="עיר מגורים שלכם" />
                 </Col>
                 <Col xs={12} sm={6}>
                   <label className="tenant-profile-edit-form-label" htmlFor="age">גיל</label>
-                  <FRC.Input value={profile.tenant_profile.age} label="age" name="age" type="text" placeholder="הגיל שלכם" />
+                  <FRC.Input value={profile.tenant_profile.age} name="tenant_profile.age" type="text" placeholder="הגיל שלכם" />
                 </Col>
               </Row>
             </div>
