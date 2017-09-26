@@ -28,6 +28,8 @@ function getTestUser(userType) {
 
 function getRandomProfile() {
   return {
+    age: faker.random.number({ min: 18, max: 80 }),
+    location: faker.address.city(),
     workplace: faker.name.firstName(),
     position: faker.name.lastName(),
     about: faker.name.firstName()};

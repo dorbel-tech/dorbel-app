@@ -39,6 +39,12 @@ module.exports = {
         title: {
           selector: '.modal-header > h4'
         },
+        age: {
+          selector: 'input[name="tenant_profile.age"]'
+        },
+        location: {
+          selector: 'input[name="tenant_profile.location"]'
+        },
         workplace: {
           selector: 'input[name="tenant_profile.work_place"]'
         },
@@ -68,6 +74,8 @@ module.exports = {
       const randomProfile = common.getRandomProfile();
       this.section.profileEditModal
         .waitForElementVisible('@workplace')
+        .setValue('@age', randomProfile.age)
+        .setValue('@location', randomProfile.location)
         .setValue('@workplace', randomProfile.workplace)
         .setValue('@position', randomProfile.position)
         .setValue('@about', randomProfile.about);
