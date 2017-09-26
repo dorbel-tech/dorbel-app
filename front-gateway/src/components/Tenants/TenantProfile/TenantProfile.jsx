@@ -16,6 +16,7 @@ class TenantProfile extends Component {
   constructor(props) {
     super(props);
     autobind(this);
+
     this.state = {
       showPhone: false,
       showEmail: false
@@ -35,131 +36,88 @@ class TenantProfile extends Component {
     const nameBackground = { backgroundImage: `url('${profile.picture}')` };
 
     return (
-      <Row className="tenant-profile-header">
-        <Col xs={12}>
-          <div className="tenant-profile-header-title">
-            פרופיל הדייר
-          </div>
-          <div className="tenant-profile-header-content">
-            <div className="tenant-profile-field">
-              <div>
-                <label>שם</label>
-                <span>{`${profile.first_name} ${profile.last_name}`}</span>
-              </div>
-              <Image className="tenant-profile-header-content-picture" src={profile.picture} circle />
-            </div>
-          </div>
-          <div className="tenant-profile-header-backgound" style={nameBackground}>
-          </div>
-        </Col>
-      </Row>
+      <div className="tenant-profile-header">
+        <div className="tenant-profile-header-title">
+          פרופיל דייר
+        </div>
+        <Image className="tenant-profile-header-picture" src={profile.picture} circle />
+        <div className="tenant-profile-header-backgound" style={nameBackground}>
+        </div>
+      </div>
     );
   }
 
-  renderOccupation(profile) {
-    return (
+  renderAboutMe(tProfile) {
+    return tProfile.about_you &&
       <Row className="tenant-profile-border-bottom">
-        <Col xs={6}>
-          <div className="tenant-profile-field">
-            <label>מקום עבודה</label>
-            <span>{profile.tenant_profile.work_place || emptyFieldText}</span>
-          </div>
+        <Col md={8} mdOffset={2} className="tenant-profile-field">
+          <label>על עצמי</label>
+          <span>{tProfile.about_you}</span>
         </Col>
-        <Col xs={6}>
-          <div className="tenant-profile-field">
-            <label>תפקיד</label>
-            <span>{profile.tenant_profile.position || emptyFieldText}</span>
-          </div>
-        </Col>
-      </Row>
-    );
+      </Row>;
   }
 
-  renderAboutMe(profile) {
-    return profile.tenant_profile.about_you ?
-      <Row className="tenant-profile-border-bottom">
-        <Col xs={12}>
-          <div className="tenant-profile-field">
-            <label>על עצמי</label>
-            <span>{profile.tenant_profile.about_you}</span>
-          </div>
-        </Col>
-      </Row>
-      :
-      null;
-  }
-
-  renderSocial(profile) {
+  renderSocial(tProfile) {
     return (
-      <Row className="tenant-profile-border-bottom">
-        <Col xs={12}>
-          <div className="tenant-profile-field">
-            <label>רשתות חברתיות</label>
-            <div className="tenant-profile-social-links">
-              <Button
-                href={profile.tenant_profile.linkedin_url}
-                title={this.props.isPreview ? 'אפשרו לבעל הדירה לדעת אם יש לכם מכרים משותפים' : ''}
-                className="tenant-profile-social-links-item linkedin"
-                disabled={!profile.tenant_profile.linkedin_url}
-                target="_blank">
-                <i className="fa fa-linkedin-square"></i> לינקדאין
-              </Button>
-              <Button
-                href={profile.tenant_profile.facebook_url}
-                title={this.props.isPreview ? 'אפשרו לבעל הדירה לדעת אם יש לכם חברים משותפים' : ''}
-                className="tenant-profile-social-links-item facebook"
-                disabled={!profile.tenant_profile.facebook_url}
-                target="_blank">
-                <i className="fa fa-facebook-square"></i> פייסבוק
-              </Button>
-            </div>
-          </div>
-        </Col>
-      </Row>
+      <Col md={4} sm={4}>
+        <div className="tenant-profile-field">
+          <label>רשתות חברתיות</label>
+          <Button
+            href={tProfile.facebook_url}
+            title={this.props.isPreview ? 'אפשרו לבעל הדירה לדעת אם יש לכם חברים משותפים' : ''}
+            className="tenant-profile-social-link-button facebook"
+            disabled={!tProfile.facebook_url}
+            target="_blank">
+            <i className="fa fa-facebook-square"></i> פרופיל פייסבוק
+          </Button>
+          <Button
+            href={tProfile.linkedin_url}
+            title={this.props.isPreview ? 'אפשרו לבעל הדירה לדעת אם יש לכם מכרים משותפים' : ''}
+            className="tenant-profile-social-link-button linkedin"
+            disabled={!tProfile.linkedin_url}
+            target="_blank">
+            <i className="fa fa-linkedin-square"></i> פרופיל לינקדאין
+          </Button>
+        </div>
+      </Col>
     );
   }
 
-  renderContactDetails(profile) {
+  renderDetails(profile) {
     return (
-      <Row>
-        <Col xs={6} className="tenant-profile-contact-details">
-          <div className="tenant-profile-field">
-            <label>יצירת קשר</label>
-            <div className="tenant-profile-contact-details-item">
-              <Button className="chat" bsStyle="success" onClick={this.handleMsgClick}>
-                <i className="fa fa-comments" />
-                צור קשר
-              </Button>
-            </div>
-            <div className="tenant-profile-contact-details-item">
-              {this.renderRevealContactDetailsButton('email', 'הצג מייל',
-                <a href={`mailto:${profile.email}`}>
-                  {profile.email}
-                </a>
-              )}
-            </div>
-            <div className="tenant-profile-contact-details-item">
-              {this.renderRevealContactDetailsButton('phone', 'הצג טלפון',
-                <a href={`tel:${profile.phone}`}>
-                  {profile.phone}
-                </a>
-              )}
-            </div>
-          </div>
+      <Row className="tenant-profile-field">
+        <Col md={2} mdOffset={2} sm={3} xs={4} className="tenant-profile-contact-details-item">
+          <label>יצירת קשר</label>
+          <Button className="chat" bsStyle="success" onClick={this.handleMsgClick}>
+            <i className="fa fa-comments" />
+            שלח הודעה
+          </Button>
         </Col>
-        <Col xs={6} className="tenant-profile-contact-details">
-          <div className="tenant-profile-field">
-            <label>קבלו מידע נוסף על הדייר</label>
-            <div className="tenant-profile-contact-details-item">
-              <Button href="https://www.dorbel.com/pages/services/credit-report?utm_source=tenant-profile" target="_blank" onClick={() => window.analytics.track('client_click_tenant_credit_score')}>דו"ח אשראי</Button>
-            </div>
-          </div>
+        <Col md={2} sm={3} xs={4} className="tenant-profile-contact-details-item">
+          <label />
+          {this.renderRevealContactDetailsButton('email', 'הצג דוא"ל', 'envelope-o',
+            <a href={`mailto:${profile.email}`}>
+              {profile.email}
+            </a>
+          )}
+        </Col>
+        <Col md={2} sm={3} xs={4} className="tenant-profile-contact-details-item">
+          <label />
+          {this.renderRevealContactDetailsButton('phone', 'הצג טלפון', 'phone',
+            <a href={`tel:${profile.phone}`}>
+              {profile.phone}
+            </a>
+          )}
+        </Col>
+        <Col md={4} sm={3} xs={12} className="tenant-profile-contact-details-item">
+          <label>מידע נוסף על הדייר</label>
+          <Button href="https://www.dorbel.com/pages/services/credit-report?utm_source=tenant-profile" target="_blank" onClick={() => window.analytics.track('client_click_tenant_credit_score')}>דו"ח אשראי</Button>
         </Col>
       </Row>
     );
   }
 
-  renderRevealContactDetailsButton(contactDetailsType, buttonText, nodeToReveal) {
+  renderRevealContactDetailsButton(contactDetailsType, buttonText, faIconName, nodeToReveal) {
     return (
       this.state[contactDetailsTypeToStateName[contactDetailsType]] ?
         nodeToReveal :
@@ -175,6 +133,7 @@ class TenantProfile extends Component {
             }
             this.setState({ [contactDetailsTypeToStateName[contactDetailsType]]: true });
           }}>
+          <i className={'fa fa-' + faIconName} />
           {buttonText}
         </Button >
     );
@@ -206,14 +165,27 @@ class TenantProfile extends Component {
 
   render() {
     const profile = this.props.profile;
+    const tProfile = profile.tenant_profile || {};
 
     return (
       <Row className="tenant-profile">
         {this.renderHeader(profile)}
-        {this.renderOccupation(profile)}
-        {this.renderSocial(profile)}
-        {this.renderAboutMe(profile)}
-        {this.renderContactDetails(profile)}
+        <div className="tenant-profile-name">
+          {`${profile.first_name} ${profile.last_name}`}
+        </div>
+        <Row className="tenant-profile-border-bottom">
+          <Col md={3} mdOffset={2} sm={4} xs={6} className="tenant-profile-field tenant-profile-occupation-field">
+            <label>תפקיד</label>
+            <span>{tProfile.position || emptyFieldText}</span>
+          </Col>
+          <Col md={3} xs={6} sm={4} className="tenant-profile-field tenant-profile-occupation-field">
+            <label>מקום עבודה</label>
+            <span>{tProfile.work_place || emptyFieldText}</span>
+          </Col>
+          {this.renderSocial(tProfile)}
+        </Row>
+        {this.renderAboutMe(tProfile)}
+        {this.renderDetails(profile)}
       </Row>
     );
   }
