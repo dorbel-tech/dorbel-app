@@ -35,6 +35,11 @@
   .tenant-profile-edit-form {
     padding-top: 15px;
 
+    .tenant-profile-edit-form-label {
+      color: $gray-mid-light;
+      margin-bottom: -5px;
+    }
+
     .tenant-profile-edit-form-section {
       margin: 15px 0;
       display: block;
@@ -42,6 +47,9 @@
       text-align: right;
 
       .tenant-profile-edit-form-section-title {
+        font-size: 16px;
+        padding-bottom: 5px;
+
         &::after {
           content: ' *';
           color: $brand-danger;

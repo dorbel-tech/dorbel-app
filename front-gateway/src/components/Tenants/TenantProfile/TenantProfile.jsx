@@ -47,34 +47,34 @@ class TenantProfile extends Component {
     );
   }
 
-  renderAboutMe(tProfile) {
-    return tProfile.about_you &&
+  renderAboutMe(tenantProfile) {
+    return tenantProfile.about_you &&
       <Row className="tenant-profile-border-bottom">
         <Col md={8} mdOffset={2} className="tenant-profile-field">
           <label>על עצמי</label>
-          <span>{tProfile.about_you}</span>
+          <span>{tenantProfile.about_you}</span>
         </Col>
       </Row>;
   }
 
-  renderSocial(tProfile) {
+  renderSocial(tenantProfile) {
     return (
       <Col md={4} sm={4}>
         <div className="tenant-profile-field">
           <label>רשתות חברתיות</label>
           <Button
-            href={tProfile.facebook_url}
+            href={tenantProfile.facebook_url}
             title={this.props.isPreview ? 'אפשרו לבעל הדירה לדעת אם יש לכם חברים משותפים' : ''}
             className="tenant-profile-social-link-button facebook"
-            disabled={!tProfile.facebook_url}
+            disabled={!tenantProfile.facebook_url}
             target="_blank">
             <i className="fa fa-facebook-square"></i> פרופיל פייסבוק
           </Button>
           <Button
-            href={tProfile.linkedin_url}
+            href={tenantProfile.linkedin_url}
             title={this.props.isPreview ? 'אפשרו לבעל הדירה לדעת אם יש לכם מכרים משותפים' : ''}
             className="tenant-profile-social-link-button linkedin"
-            disabled={!tProfile.linkedin_url}
+            disabled={!tenantProfile.linkedin_url}
             target="_blank">
             <i className="fa fa-linkedin-square"></i> פרופיל לינקדאין
           </Button>
@@ -165,7 +165,7 @@ class TenantProfile extends Component {
 
   render() {
     const profile = this.props.profile;
-    const tProfile = profile.tenant_profile || {};
+    const tenantProfile = profile.tenant_profile || {};
 
     return (
       <Row className="tenant-profile">
@@ -175,16 +175,26 @@ class TenantProfile extends Component {
         </div>
         <Row className="tenant-profile-border-bottom">
           <Col md={3} mdOffset={2} sm={4} xs={6} className="tenant-profile-field tenant-profile-occupation-field">
+            <label>עיר</label>
+            <span>{tenantProfile.location || emptyFieldText}</span>
+          </Col>
+          <Col md={3} xs={6} sm={4} className="tenant-profile-field tenant-profile-occupation-field">
+            <label>גיל</label>
+            <span>{tenantProfile.age || emptyFieldText}</span>
+          </Col>
+        </Row>
+        <Row className="tenant-profile-border-bottom">
+          <Col md={3} mdOffset={2} sm={4} xs={6} className="tenant-profile-field tenant-profile-occupation-field">
             <label>תפקיד</label>
-            <span>{tProfile.position || emptyFieldText}</span>
+            <span>{tenantProfile.position || emptyFieldText}</span>
           </Col>
           <Col md={3} xs={6} sm={4} className="tenant-profile-field tenant-profile-occupation-field">
             <label>מקום עבודה</label>
-            <span>{tProfile.work_place || emptyFieldText}</span>
+            <span>{tenantProfile.work_place || emptyFieldText}</span>
           </Col>
-          {this.renderSocial(tProfile)}
+          {this.renderSocial(tenantProfile)}
         </Row>
-        {this.renderAboutMe(tProfile)}
+        {this.renderAboutMe(tenantProfile)}
         {this.renderDetails(profile)}
       </Row>
     );

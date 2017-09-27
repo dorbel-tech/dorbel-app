@@ -3,6 +3,7 @@ const _ = require('lodash');
 const localStorageHelper = require('../../stores/localStorageHelper');
 const auth0 = require('auth0-js');
 const axios = require('axios');
+const moment = require('moment');
 
 function initLock(clientId, domain) {
   const Auth0Lock = require('auth0-lock').default; // can only be required on client side
@@ -104,6 +105,10 @@ function mapAuth0Profile(auth0profile) {
     mappedProfile.tenant_profile.facebook_url = mappedProfile.tenant_profile.facebook_url || _.get(auth0profile, 'link') || _.get(facebookIdentity.profileData, 'link');
     mappedProfile.tenant_profile.work_place = mappedProfile.tenant_profile.work_place || _.get(auth0profile, facebookWorkPlace) || _.get(facebookIdentity.profileData, facebookWorkPlace);
     mappedProfile.tenant_profile.position = mappedProfile.tenant_profile.position || _.get(auth0profile, facebookWorkPosition) || _.get(facebookIdentity.profileData, facebookWorkPosition);
+    mappedProfile.tenant_profile.location = mappedProfile.tenant_profile.location || _.get(auth0profile, 'location.name') || _.get(facebookIdentity.profileData, 'location.name');
+
+    const birthDate = moment(_.get(auth0profile, 'birthday') || _.get(facebookIdentity.profileData, 'birthday'), 'MM/DD/YYYY');
+    mappedProfile.tenant_profile.age = birthDate ? moment().diff(birthDate, 'years') : '';
   }
 
   return mappedProfile;

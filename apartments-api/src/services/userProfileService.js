@@ -15,6 +15,8 @@ const profileSectionParams = {
     email: { isRequired: true }
   },
   tenant_profile: {
+    age: { isRequired: false },
+    location: { isRequired: false },
     about_you: { isRequired: false },
     work_place: { isRequired: true },
     position: { isRequired: true },
@@ -69,7 +71,7 @@ async function getUsersProfiles(userIds, limit = 15) {
 }
 
 function validateRequest(profileData) {
-  if (profileData.section == 'full_profile') { // Quick and dirty solution because profile structure will probably change 
+  if (profileData.section == 'full_profile') { // Quick and dirty solution because profile structure will probably change
     validateRequest({ section: 'main', data: _.omit(profileData.data, 'tenant_profile') });
     validateRequest({ section: 'tenant_profile', data: profileData.data.tenant_profile });
   }
