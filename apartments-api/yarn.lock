@@ -1054,7 +1054,7 @@ doctrine@^1.2.2:
     esutils "^2.0.2"
     isarray "^1.0.0"
 
-"dorbel-shared@git://github.com/dorbel-tech/dorbel-shared#1.0.82":
+"dorbel-shared@git://github.com/dorbel-tech/dorbel-shared#v1.0.82":
   version "1.0.82"
   resolved "git://github.com/dorbel-tech/dorbel-shared#5cb2cad77b90a2ff5b3e45154a081bd7a4955584"
   dependencies:
