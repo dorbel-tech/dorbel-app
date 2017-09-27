@@ -152,7 +152,6 @@ class ListingsProvider {
       q: JSON.stringify({
         apartment_id,
         myProperties: true,
-        oldListings: true,
         order: 'lease_end'
       })
     };

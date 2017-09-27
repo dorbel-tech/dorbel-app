@@ -27,7 +27,7 @@ export default class MyDocuments extends Component {
 
   componentDidMount() {
     this.props.appStore.searchStore.reset();
-    this.props.appProviders.searchProvider.search({ myProperties: true, oldListings: true });
+    this.props.appProviders.searchProvider.search({ myProperties: true });
     this.props.appProviders.documentProvider.getAllDocumentsForUser();
   }
 
