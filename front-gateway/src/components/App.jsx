@@ -10,24 +10,7 @@ moment.locale('he'); // TODO : dynamic locale
 
 @inject('appStore', 'appProviders') @observer
 class App extends Component {
-  setViewport() {
-    if (process.env.IS_CLIENT) {
-      const { currentView } = this.props.appStore;
-      const { utils } = this.props.appProviders;
-
-      const metaElement = document.getElementsByName('viewport');
-      if (currentView.viewportWidth && (window.screen.width < currentView.viewportWidth) && utils.isMobile()) {
-        const ratio = window.screen.width / currentView.viewportWidth;
-        metaElement[0].setAttribute('content', `initial-scale=${ratio}, maximum-scale=2.0, user-scalable=yes`);
-      }
-      else {
-        metaElement[0].setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no');
-      }
-    }
-  }
-
   render() {
-    this.setViewport();
     const { appStore } = this.props;
     const components = {
       mobxDevTools: process.env.NODE_ENV === 'development' ? require('mobx-react-devtools').default : (() => null),
