@@ -17,7 +17,6 @@ class ApiProvider {
   constructor(appStore) {
     this.appStore = appStore;
 
-    // TODO : need a separate client for the OHE api or maybe to merge GQL schemas.
     const networkInterface = createNetworkInterface({ uri: urlPrefix + '/api/apartments/graphql' });
     networkInterface.use([{
       applyMiddleware(req, next) {
