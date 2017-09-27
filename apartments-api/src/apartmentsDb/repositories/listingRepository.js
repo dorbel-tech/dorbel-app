@@ -223,26 +223,6 @@ async function update(listing, patch) {
   }
 }
 
-async function getMonthlyReportData(reportDate, leaseStartDays) {
-  const sequelize = models.listing.sequelize;
-  const res = await models.listing.findAll({
-    attributes: [
-      'id',
-      'publishing_user_id'
-    ],
-    where: {
-      status: 'rented',
-      publishing_user_type: 'landlord',
-      lease_end: { $gt: reportDate },
-      $and: [
-        sequelize.where(sequelize.fn('day', sequelize.col('listing.lease_start')), { $in: leaseStartDays })
-      ]
-    }
-  });
-
-  return res;
-}
-
 module.exports = {
   list,
   create,
@@ -251,6 +231,5 @@ module.exports = {
   getByApartmentId: getLatestListingByApartmentId,
   getSlugs,
   update,
-  getMonthlyReportData,
   listingStatuses: models.listing.attributes.status.values
 };
