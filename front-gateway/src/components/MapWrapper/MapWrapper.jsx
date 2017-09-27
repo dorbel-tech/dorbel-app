@@ -32,7 +32,7 @@ class MapWrapper extends Component {
       const iconURL = 'https://static.dorbel.com/images/radiusMarker/map-radius.png';
       return (
         <div className="map-image-container">
-          <img src={`https://maps.googleapis.com/maps/api/staticmap?center=${positionStr}&size=640x400&markers=anchor:center|icon:${iconURL}|${positionStr}&language=he&zoom=15&key=${process.env.GOOGLE_MAPS_API_KEY}`} />
+          <img src={`https://maps.googleapis.com/maps/api/staticmap?center=${positionStr}&size=640x400&markers=anchor:center|icon:${iconURL}|${positionStr}&language=he&zoom=15&key=${process.env.GOOGLE_API_KEY}`} />
         </div>
       );
     }
@@ -40,7 +40,7 @@ class MapWrapper extends Component {
       return (
         <GoogleMap
           bootstrapURLKeys={{
-            key: process.env.GOOGLE_MAPS_API_KEY,
+            key: process.env.GOOGLE_API_KEY,
             language: 'he'
           }}
           options={options}
