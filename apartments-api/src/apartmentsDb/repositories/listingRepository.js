@@ -17,7 +17,7 @@ const neighborhoodAttributes = ['id', 'neighborhood_name', 'city_id'];
 const imageAttributes = { exclude: ['created_at', 'updated_at'] };
 
 const LISTING_UPDATE_WHITELIST = ['status', 'monthly_rent', 'roommates', 'property_tax', 'board_fee', 'lease_start',
-  'lease_end', 'publishing_user_type', 'roommate_needed', 'directions', 'description', 'show_phone', 'show_for_future_booking', 'property_value', 'rent_lead_by'];
+  'lease_end', 'publishing_user_type', 'roommate_needed', 'directions', 'description', 'show_phone', 'show_for_future_booking', 'rent_lead_by'];
 const APARTMENT_UPDATE_WHITELIST = ['apt_number', 'size', 'rooms', 'floor', 'parking', 'sun_heated_boiler', 'pets',
   'air_conditioning', 'balcony', 'security_bars', 'parquet_floor'];
 const BUILDING_UPDATE_WHITELIST = ['floors', 'elevator', 'entrance'];
@@ -223,26 +223,6 @@ async function update(listing, patch) {
   }
 }
 
-async function getMonthlyReportData(reportDate, leaseStartDays) {
-  const sequelize = models.listing.sequelize;
-  const res = await models.listing.findAll({
-    attributes: [
-      'id',
-      'publishing_user_id'
-    ],
-    where: {
-      status: 'rented',
-      publishing_user_type: 'landlord',
-      lease_end: { $gt: reportDate },
-      $and: [
-        sequelize.where(sequelize.fn('day', sequelize.col('listing.lease_start')), { $in: leaseStartDays })
-      ]
-    }
-  });
-
-  return res;
-}
-
 module.exports = {
   list,
   create,
@@ -251,6 +231,5 @@ module.exports = {
   getByApartmentId: getLatestListingByApartmentId,
   getSlugs,
   update,
-  getMonthlyReportData,
   listingStatuses: models.listing.attributes.status.values
 };
