@@ -97,7 +97,6 @@ function* createApartment(city, neighborhood, id, slug) {
     publishing_user_type: 'landlord',
     apartment_id: id,
     slug: slug,
-    property_value: 1500000,
     created_at: moment().subtract(id, 'day').toDate()
   });
 

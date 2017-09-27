@@ -330,7 +330,6 @@ async function enrichListingResponse(listing, user) {
       }
       else {
         throwIfNotAllowed(listing);
-        delete enrichedListing.property_value;
       }
       if (publishingUserProfile) {
         enrichedListing.publishing_user_email = publishingUserProfile.email;
@@ -341,7 +340,6 @@ async function enrichListingResponse(listing, user) {
       }
     }
     else {
-      delete enrichedListing.property_value;
       throwIfNotAllowed(listing);
     }
 
