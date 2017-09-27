@@ -12,7 +12,6 @@ module.exports = {
     home = browser.page.home();
     home.resizeDesktop(browser);
     apartmentForm = browser.page.apartment_form();
-    apartmentForm.props.mode = 'publish';
   },
   'should not display exitDate input on upload for publish': function () {
     apartmentForm.navigateToApartmentDetailsSection()
