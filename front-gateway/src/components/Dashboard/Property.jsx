@@ -6,7 +6,6 @@ import CloudinaryImage from '../CloudinaryImage/CloudinaryImage';
 import EditListing from './MyProperties/EditListing.jsx';
 import ListingStatusSelector from './MyProperties/ListingStatusSelector';
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
-import PropertyManage from './MyProperties/PropertyManage';
 import PropertyStats from './MyProperties/PropertyStats';
 import utils from '~/providers/utils';
 import { Button, Col, Grid, Row, Overlay, Popover } from 'react-bootstrap';
@@ -162,7 +161,6 @@ class Property extends Component {
 
     const propertyTabs = [
       { relativeRoute: 'stats', title: 'סטטיסטיקה', component: <PropertyStats listing={this.property} /> },
-      { relativeRoute: 'manage', title: 'שכירות', component: <PropertyManage listing={this.property} /> },
       { relativeRoute: 'edit', title: 'עריכת פרטי הנכס', component: <EditListing listing={this.property} ref={form => editForm = form} />,
         replaceNavbar: true, hideFromMenu: true, headerButtons: editHeaderButtons }
     ];
