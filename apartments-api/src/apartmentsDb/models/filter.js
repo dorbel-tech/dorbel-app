@@ -17,7 +17,6 @@ module.exports = function define(sequelize, DataTypes) {
       parking: DataTypes.BOOLEAN,
       pets: DataTypes.BOOLEAN,
       security_bars: DataTypes.BOOLEAN,
-      future_booking: DataTypes.BOOLEAN,
       elevator: DataTypes.BOOLEAN,
       min_lease_start: DataTypes.DATE,
       max_lease_start: DataTypes.DATE

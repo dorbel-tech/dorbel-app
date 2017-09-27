@@ -221,12 +221,6 @@ function setListingAutoFields(listing) {
     listing.roommates = true;
   }
 
-  // In case that listing was approved (listed) or submitted for manage and have images,
-  // we can safely show_for_future_booking enabled by default, because we validated all apartment details.
-  if (listing.images && listing.images.length > 0 && listing.publishing_user_type == 'landlord') {
-    listing.show_for_future_booking = true;
-  }
-
   return listing;
 }
 
@@ -351,7 +345,7 @@ async function enrichListingResponse(listing, user) {
 }
 
 function throwIfNotAllowed(listing) {
-  if (listing.status == 'rented' && !listing.show_for_future_booking) {
+  if (listing.status == 'rented') {
     throw new CustomError(403, 'Cant show rented listing. User is not a publisher of listingId: ' + listing.id);
   }
 }

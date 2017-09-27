@@ -114,7 +114,7 @@ module.exports = `
     cities: [City]
     neighborhoods(city_id: Int!): [Neighborhood]
     listing(listing_id: Int!): Listing
-    listings(myProperties: Boolean, oldListings: Boolean): [Listing]
+    listings(myProperties: Boolean): [Listing]
     filters: [Filter]
   }
 
