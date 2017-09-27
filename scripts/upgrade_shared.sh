@@ -14,5 +14,4 @@ if [[ $1 ]]; then
     cd apartments-api && yarn upgrade $PACKAGE_URL && cd ..
     cd front-gateway && yarn upgrade $PACKAGE_URL && cd ..
     cd notifications-service && yarn upgrade $PACKAGE_URL && cd ..
-    # cd ohe-api && yarn upgrade $PACKAGE_URL && cd ..
 fi

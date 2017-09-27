@@ -59,11 +59,9 @@ services:
     depends_on:
       - cache
       - apartments-api
-      # - ohe-api
     links:
       - cache
       - apartments-api
-      # - ohe-api
     environment:
       APARTMENTS_API_URL: http://apartments-api:3000
       FRONT_GATEWAY_URL: ${FRONT_GATEWAY_URL}
@@ -93,11 +91,9 @@ services:
     depends_on:
       - cache
       - apartments-api
-      # - ohe-api
     links:
       - cache
       - apartments-api
-      # - ohe-api
     environment:
       APARTMENTS_API_URL: http://apartments-api:3000
       REDIS_HOST: cache
@@ -112,37 +108,6 @@ services:
       NOTIFICATIONS_APP_EVENTS_SQS_QUEUE_URL: ${NOTIFICATIONS_APP_EVENTS_SQS_QUEUE_URL}
       FRONT_GATEWAY_URL: ${FRONT_GATEWAY_URL}
       LOG_LEVEL: ${LOG_LEVEL}
-
-  # ohe-api:
-  #   build:
-  #     context: ohe-api
-  #   image: dorbel/ohe-api
-  #   ports:
-  #     - '3003:3003'
-  #   depends_on:
-  #     - db
-  #     - cache
-  #   links:
-  #     - db
-  #     - cache
-  #   environment:
-  #     RDS_HOSTNAME: db
-  #     RDS_DB_NAME: ${MYSQL_DATABASE_OHE}
-  #     RDS_USERNAME: ${MYSQL_ROOT_USER}
-  #     RDS_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-  #     REDIS_HOST: cache
-  #     REDIS_PORT: 6379
-  #     AUTH0_DOMAIN: ${AUTH0_DOMAIN}
-  #     AUTH0_API_CLIENT_ID: ${AUTH0_API_CLIENT_ID}
-  #     AUTH0_API_CLIENT_SECRET: ${AUTH0_API_CLIENT_SECRET}
-  #     AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
-  #     AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
-  #     AWS_REGION: ${AWS_REGION}
-  #     NOTIFICATIONS_SNS_TOPIC_ARN: ${NOTIFICATIONS_SNS_TOPIC_ARN}
-  #     SEGMENT_IO_WRITE_KEY: ${SEGMENT_IO_WRITE_KEY}
-  #     OHE_API_EVENTS_SQS_QUEUE_URL: ${OHE_API_EVENTS_SQS_QUEUE_URL}
-  #     FRONT_GATEWAY_URL: ${FRONT_GATEWAY_URL}
-  #     LOG_LEVEL: ${LOG_LEVEL}
 
   # Admin apartments backoffice
   # admin:
@@ -159,21 +124,4 @@ services:
   #     DATABASE_URL: mysql://${MYSQL_ROOT_USER}:${MYSQL_ROOT_PASSWORD}@db:3306/${MYSQL_DATABASE_APT}
   #     FOREST_AUTH_SECRET: ${FOREST_APARTMENTS_AUTH_SECRET}
   #     FOREST_ENV_SECRET: ${FOREST_APARTMENTS_ENV_SECRET}
-  #     FRONT_GATEWAY_URL: ${FRONT_GATEWAY_URL}
-
-  # Admin ohe backoffice
-  # admin-ohe:
-  #   build:
-  #     context: admin
-  #   image: dorbel/admin-ohe
-  #   ports:
-  #     - '3005:3005'
-  #   depends_on:
-  #     - db
-  #   links:
-  #     - db
-  #   environment:
-  #     DATABASE_URL: mysql://${MYSQL_ROOT_USER}:${MYSQL_ROOT_PASSWORD}@db:3306/${MYSQL_DATABASE_OHE}
-  #     FOREST_AUTH_SECRET: ${FOREST_OHE_AUTH_SECRET}
-  #     FOREST_ENV_SECRET: ${FOREST_OHE_ENV_SECRET}
   #     FRONT_GATEWAY_URL: ${FRONT_GATEWAY_URL}
