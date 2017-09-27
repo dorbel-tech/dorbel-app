@@ -11,19 +11,10 @@ import { PROPERTY_SUBMIT_PREFIX } from '~/routesHelper';
 export default class UploadApartmentStep1 extends UploadApartmentBaseStep.wrappedComponent {
 
   renderSidePanelListItems() {
-    return (this.props.appStore.newListingStore.uploadMode == 'manage') ?
-      (
-        <ul>
-          <li>הקפידו למלא את כל הפרטים</li>
-        </ul>
-      )
-      :
-      (
-        <ul>
-          <li>פרטים מלאים ימשכו יותר דיירים רציניים</li>
-          <li>הדיירים יפנו אליכם עם מידע נוסף עליהם כדי שתדעו מי הם</li>
-        </ul>
-      );
+    return  <ul>
+              <li>פרטים מלאים ימשכו יותר דיירים רציניים</li>
+              <li>הדיירים יפנו אליכם עם מידע נוסף עליהם כדי שתדעו מי הם</li>
+            </ul>;
   }
 
   clickNext() {

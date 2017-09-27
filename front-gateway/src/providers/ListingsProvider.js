@@ -80,7 +80,6 @@ class ListingsProvider {
 
   uploadApartment(listing) {
     let createdListing;
-    const { uploadMode } = this.appStore.newListingStore;
     return this.apiProvider.fetch('/api/apartments/v1/listings', { method: 'POST', data: listing })
       .then((newListing) => createdListing = newListing)
       .then(() => this.appStore.authStore.updateProfile({
@@ -90,8 +89,7 @@ class ListingsProvider {
         email: listing.user.email
       }))
       .then(() => {
-        const eventName = (uploadMode == 'publish') ? 'client_apartment_created' : 'client_apartment_created_for_management';
-        window.analytics.track(eventName, { listing_id: createdListing.id }); // For Facebook conversion tracking.
+        window.analytics.track('client_apartment_created', { listing_id: createdListing.id }); // For Facebook conversion tracking.
         return createdListing;
       });
   }
