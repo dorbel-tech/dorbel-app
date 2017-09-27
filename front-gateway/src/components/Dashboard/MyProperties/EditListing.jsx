@@ -27,14 +27,14 @@ export default class EditListing extends Component {
     const { listing, appStore, appProviders } = this.props;
     const patch = appStore.editedListingStore.toListingObject();
     return appProviders.listingsProvider.updateListing(listing.id, patch)
-    .then(() => {
-      appProviders.notificationProvider.success('הדירה עודכנה בהצלחה');
-      this.gotoMyProperty();
-    })
-    .catch(err => {
-      appProviders.notificationProvider.error(err);
-      throw err;
-    });
+      .then(() => {
+        appProviders.notificationProvider.success('הדירה עודכנה בהצלחה');
+        this.gotoMyProperty();
+      })
+      .catch(err => {
+        appProviders.notificationProvider.error(err);
+        throw err;
+      });
   }
 
   cancel() {
@@ -49,7 +49,7 @@ export default class EditListing extends Component {
     return (
       <div>
         <Tabs className="tab-menu" activeKey={activeTab}
-              onSelect={(tab) => this.setState({ activeTab: tab })} id="edit-listing-tabs">
+          onSelect={(tab) => this.setState({ activeTab: tab })} id="edit-listing-tabs">
           {tabs.map(tab =>
             <Tab eventKey={tab} key={tab.key} title={tab.title}></Tab>
           )}

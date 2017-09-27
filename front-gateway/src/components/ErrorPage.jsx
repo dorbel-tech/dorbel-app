@@ -10,7 +10,7 @@ class ErrorPage extends Component {
 
   getErrorTitle() {
     return  this.error400 ? 'שגיאה ' + this.props.errorId + ' - העמוד לא נמצא' :
-              'שגיאה ' + this.props.errorId + ' (שם לא רע לשגיאה)';
+      'שגיאה ' + this.props.errorId + ' (שם לא רע לשגיאה)';
   }
   getErrorImage() {
     let errImageUrl = 'https://static.dorbel.com/images/errors/';

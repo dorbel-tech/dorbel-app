@@ -28,7 +28,7 @@ class PropertyValueBox extends Component {
               onChange={(inputName, inputVal) => {
                 const formsy = this.form.refs.formsy;
                 const currentModel = formsy.getModel();
-                inputVal = parseInt(inputVal.replace(/[^0-9\.]+/g, '')) || '';
+                inputVal = parseInt(inputVal.replace(/[^0-9.]+/g, '')) || '';
                 currentModel[inputName] = inputVal.toLocaleString();
                 formsy.reset(currentModel);
               }} />
@@ -37,7 +37,7 @@ class PropertyValueBox extends Component {
               onClick={() => {
                 const formsy = this.form.refs.formsy;
                 let { property_value } = formsy.getModel();
-                property_value = parseInt(property_value.replace(/[^0-9\.]+/g, ''));
+                property_value = parseInt(property_value.replace(/[^0-9.]+/g, ''));
                 if (property_value) {
                   this.listingsProvider.updateListing(listingId, { property_value })
                     .then(() => {
@@ -47,7 +47,7 @@ class PropertyValueBox extends Component {
                 }
               }}>
               עדכן
-              </Button>
+            </Button>
           </FormWrapper.Wrapper>
         </div>
       ),

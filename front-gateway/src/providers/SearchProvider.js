@@ -10,7 +10,6 @@ import queries from '~/graphql/queries';
 import { updateHandler } from '~/graphql/graphqlUtils';
 
 const PAGE_SIZE = isMobile() ? 9 : 15;
-const FILTERS_URL = '/api/apartments/v1/filters';
 
 class SearchProvider {
   constructor(appStore, appProviders) {
@@ -93,18 +92,18 @@ class SearchProvider {
     }
 
     return asPromise(() => this.validateFilter(filter))
-    .then(() => this.apiProvider.mutate(mutations.saveFilter, {
-      variables: { filter },
-      update: updateHandler(queries.getFilters, (data, upsertResult) => {
-        const upsertFilter = upsertResult.data.upsertFilter;
-        // react apollo will automatically update existing objects, but new ones need to added explicitly
-        if (!data.filters.find(filter => filter.id === upsertFilter.id)) {
-          data.filters.push(upsertFilter);
-        }
-        return data;
-      })
-    }))
-    .then(({ data }) => searchStore.activeFilterId = data.upsertFilter.id);
+      .then(() => this.apiProvider.mutate(mutations.saveFilter, {
+        variables: { filter },
+        update: updateHandler(queries.getFilters, (data, upsertResult) => {
+          const upsertFilter = upsertResult.data.upsertFilter;
+          // react apollo will automatically update existing objects, but new ones need to added explicitly
+          if (!data.filters.find(filter => filter.id === upsertFilter.id)) {
+            data.filters.push(upsertFilter);
+          }
+          return data;
+        })
+      }))
+      .then(({ data }) => searchStore.activeFilterId = data.upsertFilter.id);
   }
 
   toggleEmailNotification(email_notification) {

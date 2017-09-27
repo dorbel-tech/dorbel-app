@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import autobind from 'react-autobind';
 
 class ListingOwnerDetails extends Component {
   render() {

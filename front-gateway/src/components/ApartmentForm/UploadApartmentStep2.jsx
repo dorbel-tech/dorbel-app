@@ -18,11 +18,10 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
 
   handleValidationResponse(validationResp) {
     if (!validationResp) {
-      return
+      return;
     }
 
     const { modalProvider, navProvider } = this.props.appProviders;
-    const { newListingStore } = this.props.appStore;
     const listingId = validationResp.listing_id;
     const modalOptions = {
       bodyClass: 'upload-apartment-validation-popup',
@@ -45,7 +44,7 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
               <div className="upload-apartment-validation-popup-contact-us">
                 אם דירה זו שייכת לכם צרו עמנו קשר
                 <div> או&nbsp;
-                <a className="upload-apartment-validation-popup-link" href="mailto:contact@dorbel.com">שלחו לנו מייל</a>
+                  <a className="upload-apartment-validation-popup-link" href="mailto:contact@dorbel.com">שלחו לנו מייל</a>
                 </div>
               </div>
             </div>

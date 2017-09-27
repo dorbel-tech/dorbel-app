@@ -16,7 +16,7 @@ class CloudinaryProvider {
     formData.append('file', file);
 
     return axios.post(baseUrl + 'image/upload', formData, { onUploadProgress })
-    .then(res => res.data);
+      .then(res => res.data);
   }
 
   deleteImage(image) {

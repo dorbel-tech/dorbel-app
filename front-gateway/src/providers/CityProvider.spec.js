@@ -27,10 +27,10 @@ describe('City Provider', () => {
       apiMock.gql.mockReturnValue(Promise.resolve({ data: { cities: mockCities } }));
 
       return cityProvider.loadCities()
-      .then(() => {
-        expect(apiMock.gql).toHaveBeenCalled();
-        expect(appStoreMock.cityStore.cities).toBe(mockCities);
-      });
+        .then(() => {
+          expect(apiMock.gql).toHaveBeenCalled();
+          expect(appStoreMock.cityStore.cities).toBe(mockCities);
+        });
     });
   });
 });

@@ -30,9 +30,9 @@ class MySettingsFields extends Component {
         <Row className="my-settings-input">
           <FRC.Input value="settings" name="section" type="hidden" />
           <Toggle defaultChecked={settings.allow_publisher_messages}
-                  onChange={this.handleChange}
-                  id="allow_publisher_messages"
-                  icons={false}></Toggle>
+            onChange={this.handleChange}
+            id="allow_publisher_messages"
+            icons={false}></Toggle>
           <FRC.Checkbox
             ref={(el) => { this.allow_publisher_messages = el; }}
             name="data.allow_publisher_messages"
@@ -41,9 +41,9 @@ class MySettingsFields extends Component {
         </Row>
         <Row className="my-settings-input">
           <Toggle defaultChecked={settings.receive_like_related_notifications}
-                  onChange={this.handleChange}
-                  id="receive_like_related_notifications"
-                  icons={false}></Toggle>
+            onChange={this.handleChange}
+            id="receive_like_related_notifications"
+            icons={false}></Toggle>
           <FRC.Checkbox
             ref={(el) => { this.receive_like_related_notifications = el; }}
             name="data.receive_like_related_notifications"
@@ -52,9 +52,9 @@ class MySettingsFields extends Component {
         </Row>
         <Row className="my-settings-input">
           <Toggle defaultChecked={settings.receive_newsletter}
-                  onChange={this.handleChange}
-                  id="receive_newsletter"
-                  icons={false}></Toggle>
+            onChange={this.handleChange}
+            id="receive_newsletter"
+            icons={false}></Toggle>
           <FRC.Checkbox
             ref={(el) => { this.receive_newsletter = el; }}
             name="data.receive_newsletter"

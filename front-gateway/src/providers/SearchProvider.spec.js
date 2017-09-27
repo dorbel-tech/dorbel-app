@@ -107,9 +107,9 @@ describe('SearchProvider', () => {
     ];
     resolveFetch();
     return Promise.all(promises)
-    .then(() => {
-      expect(appProvidersMock.api.fetch).toHaveBeenCalledTimes(1);
-    });
+      .then(() => {
+        expect(appProvidersMock.api.fetch).toHaveBeenCalledTimes(1);
+      });
   });
 
   it('should not get next page while getting next page', () => {
@@ -121,9 +121,9 @@ describe('SearchProvider', () => {
     ];
     resolveFetch();
     return Promise.all(promises)
-    .then(() => {
-      expect(appProvidersMock.api.fetch).toHaveBeenCalledTimes(1);
-    });
+      .then(() => {
+        expect(appProvidersMock.api.fetch).toHaveBeenCalledTimes(1);
+      });
   });
 
   it('should set last scroll top correctly', () => {
@@ -185,10 +185,10 @@ describe('SearchProvider', () => {
     it('should throw error and not call API when missing minimal fields', () => {
       expect.assertions(2);
       return searchProvider.saveFilter({ city: 5 })
-      .catch(err => {
-        expect(err).toHaveProperty('message', 'על מנת לשמור חיפוש - יש לבחור עיר, מספר חדרים ומחיר');
-        expect(appProvidersMock.api.fetch).not.toHaveBeenCalled();
-      });
+        .catch(err => {
+          expect(err).toHaveProperty('message', 'על מנת לשמור חיפוש - יש לבחור עיר, מספר חדרים ומחיר');
+          expect(appProvidersMock.api.fetch).not.toHaveBeenCalled();
+        });
     });
   });
 });

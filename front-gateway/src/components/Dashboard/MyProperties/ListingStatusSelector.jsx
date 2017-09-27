@@ -4,7 +4,6 @@ import _ from 'lodash';
 import { DropdownButton, MenuItem, Button } from 'react-bootstrap';
 import autobind from 'react-autobind';
 import utils from '~/providers/utils';
-import { getDashMyPropsPath } from '~/routesHelper';
 
 import './ListingStatusSelector.scss';
 
@@ -19,8 +18,6 @@ class ListingStatusSelector extends React.Component {
 
   changeStatus(newStatus) {
     const { listing, appProviders } = this.props;
-
-    let confirmation = Promise.resolve(true);
 
     return appProviders.listingsProvider.updateListingStatus(listing.id, newStatus)
       .then(() => {
@@ -59,7 +56,7 @@ class ListingStatusSelector extends React.Component {
   }
 
   render() {
-    const { listing, appProviders } = this.props;
+    const { listing } = this.props;
     
     const currentStatusLabel =
       listingStatusLabels[listing.status].landlordLabel || listingStatusLabels[listing.status].label;

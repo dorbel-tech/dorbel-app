@@ -34,9 +34,9 @@ describe('Listings Provider', () => {
     apiMock.fetch.mockReturnValue(Promise.resolve({ [listingId] : { views } }));
 
     return listingsProvider.loadListingPageViews(listingId)
-    .then(() => {
-      expect(apiMock.fetch).toHaveBeenCalledWith('/api/apartments/v1/page_views/listings/' + listingId);
-      expect(appStoreMock.listingStore.listingViewsById.set).toHaveBeenCalledWith(listingId, views);
-    });
+      .then(() => {
+        expect(apiMock.fetch).toHaveBeenCalledWith('/api/apartments/v1/page_views/listings/' + listingId);
+        expect(appStoreMock.listingStore.listingViewsById.set).toHaveBeenCalledWith(listingId, views);
+      });
   });
 });

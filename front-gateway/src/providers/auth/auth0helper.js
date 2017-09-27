@@ -68,7 +68,7 @@ function linkAccount(domain, primaryUserId, primaryJWT, secondaryJWT) {
     headers : { Authorization: `Bearer ${primaryJWT}` },
     data: { link_with: secondaryJWT }
   })
-  .then(res => res.data);
+    .then(res => res.data);
 }
 
 // Make sure to sync this object in case of changing with dorbe-shared server object as well:

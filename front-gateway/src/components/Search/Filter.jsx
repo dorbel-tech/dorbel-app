@@ -4,15 +4,12 @@ import { Collapse, Button, Checkbox, OverlayTrigger, Popover, Col, DropdownButto
 import { inject, observer } from 'mobx-react';
 import Nouislider from 'react-nouislider';
 import { range } from 'lodash';
-import ReactTooltip from 'react-tooltip';
 import _ from 'lodash';
 
 import './Filter.scss';
 import SavedFilters from './SavedFilters/SavedFilters';
 import { hideIntercom, isMobile } from '~/providers/utils';
 import DatePicker from '~/components/DatePicker/DatePicker';
-
-const NEW_TIP_OFFSET = {top: -10, left: -17};
 
 const CITY_ALL_OPTION = { value: '*', label: 'כל הערים' };
 const NEIGHBORHOOD_ALL_OPTION = { value: '*', label: 'כל השכונות' };
@@ -247,17 +244,17 @@ class Filter extends Component {
 
     if (!appProviders.authProvider.shouldLogin({ actionBeforeLogin: SAVE_FILTER_ACTION })) {
       appProviders.searchProvider.saveFilter(this.filterObj)
-      .then(() => {
-        appProviders.notificationProvider.success('החיפוש נשמר בהצלחה');
+        .then(() => {
+          appProviders.notificationProvider.success('החיפוש נשמר בהצלחה');
 
-        if (!appStore.searchStore.activeFilterId) {
-          window.analytics.track('saved_filter_created', this.filterObj);
-        }
-      })
-      .catch(err => {
-        let heading = err.message || _.get(err, 'response.data');
-        appProviders.modalProvider.showInfoModal({ closeButton: true, title: 'אופס...', heading });
-      });
+          if (!appStore.searchStore.activeFilterId) {
+            window.analytics.track('saved_filter_created', this.filterObj);
+          }
+        })
+        .catch(err => {
+          let heading = err.message || _.get(err, 'response.data');
+          appProviders.modalProvider.showInfoModal({ closeButton: true, title: 'אופס...', heading });
+        });
     }
   }
 
@@ -308,112 +305,112 @@ class Filter extends Component {
 
   roomsPopup() {
     return <Popover className="filter-rooms-popup" id="popup-rooms">
-             <Nouislider onChange={this.roomsSliderChangeHandler}
-                        range={{
-                          min: DEFAULT_FILTER_PARAMS.minRooms,
-                          '12.5%': 1.5,
-                          '25%': 2,
-                          '37.5%': 2.5,
-                          '50%': 3,
-                          '62.5%': 3.5,
-                          '75%': 4,
-                          '87.5%': 4.5,
-                          max: DEFAULT_FILTER_PARAMS.maxRooms
-                        }}
-                        start={[this.state.minRooms, this.state.maxRooms]}
-                        snap={true}
-                        pips={{
-                          mode: 'values',
-                          values: range(DEFAULT_FILTER_PARAMS.minRooms,
-                            DEFAULT_FILTER_PARAMS.maxRooms + 1),
-                          density: 30
-                        }}
-                        connect={true}
-                        direction={'ltr'} />
-           </Popover>;
+      <Nouislider onChange={this.roomsSliderChangeHandler}
+        range={{
+          min: DEFAULT_FILTER_PARAMS.minRooms,
+          '12.5%': 1.5,
+          '25%': 2,
+          '37.5%': 2.5,
+          '50%': 3,
+          '62.5%': 3.5,
+          '75%': 4,
+          '87.5%': 4.5,
+          max: DEFAULT_FILTER_PARAMS.maxRooms
+        }}
+        start={[this.state.minRooms, this.state.maxRooms]}
+        snap={true}
+        pips={{
+          mode: 'values',
+          values: range(DEFAULT_FILTER_PARAMS.minRooms,
+            DEFAULT_FILTER_PARAMS.maxRooms + 1),
+          density: 30
+        }}
+        connect={true}
+        direction={'ltr'} />
+    </Popover>;
   }
 
   mrPopup() {
     return <Popover className="filter-mr-popup" id="popup-mr">
-             <Nouislider onChange={this.mrSliderChangeHandler}
-               range={{
-                 min: DEFAULT_FILTER_PARAMS.mrs,
-                 max: DEFAULT_FILTER_PARAMS.mre
-               }}
-               start={[this.state.mrs, this.state.mre]}
-               step={DEFAULT_FILTER_PARAMS.mrs}
-               pips={{ mode: 'steps', density: 30 }}
-               connect={true}
-               direction={'ltr'} />
-           </Popover>;
+      <Nouislider onChange={this.mrSliderChangeHandler}
+        range={{
+          min: DEFAULT_FILTER_PARAMS.mrs,
+          max: DEFAULT_FILTER_PARAMS.mre
+        }}
+        start={[this.state.mrs, this.state.mre]}
+        step={DEFAULT_FILTER_PARAMS.mrs}
+        pips={{ mode: 'steps', density: 30 }}
+        connect={true}
+        direction={'ltr'} />
+    </Popover>;
   }
 
   leaseStartPopup() {
     return <Popover className="filter-lease-start-popup" id="popup-lease-start">
-             <h5><b>מתאריך:</b></h5>
-             <DatePicker placeholder="בחרו תאריך התחלה" value={this.state.minLease} id="min-lease-date-picker"
-                showClearButton={true} onChange={this.leaseStartDateChange.bind(this, 'minLease')}/>
-             <h5><b>עד תאריך:</b></h5>
-             <DatePicker placeholder="בחרו תאריך סיום" value={this.state.maxLease} id="max-lease-date-picker"
-                showClearButton={true} onChange={this.leaseStartDateChange.bind(this, 'maxLease')}/>
-           </Popover>;
+      <h5><b>מתאריך:</b></h5>
+      <DatePicker placeholder="בחרו תאריך התחלה" value={this.state.minLease} id="min-lease-date-picker"
+        showClearButton={true} onChange={this.leaseStartDateChange.bind(this, 'minLease')}/>
+      <h5><b>עד תאריך:</b></h5>
+      <DatePicker placeholder="בחרו תאריך סיום" value={this.state.maxLease} id="max-lease-date-picker"
+        showClearButton={true} onChange={this.leaseStartDateChange.bind(this, 'maxLease')}/>
+    </Popover>;
   }
 
   extraPopup() {
     return <Popover className="filter-extra-popup" id="popup-extra">
-              {this.renderAdminFilter()}
-              <div className="filter-group-container">
-                <Checkbox name="roommate"
-                  checked={this.state.roommate}
-                  className="filter-switch-group-header"
-                  onChange={this.roommateChangeHandler}>
-                  <b>הציגו לי דירות לשותפים</b>
-                </Checkbox>
-                <div className="filter-input-wrapper">
-                  <Checkbox name="empty"
-                    checked={this.state.empty}
-                    disabled={!this.state.roommate || !this.state.room}
-                    onChange={this.roommateChangeHandler}>
+      {this.renderAdminFilter()}
+      <div className="filter-group-container">
+        <Checkbox name="roommate"
+          checked={this.state.roommate}
+          className="filter-switch-group-header"
+          onChange={this.roommateChangeHandler}>
+          <b>הציגו לי דירות לשותפים</b>
+        </Checkbox>
+        <div className="filter-input-wrapper">
+          <Checkbox name="empty"
+            checked={this.state.empty}
+            disabled={!this.state.roommate || !this.state.room}
+            onChange={this.roommateChangeHandler}>
                     דירות ריקות לשותפים
-                  </Checkbox>
-                </div>
-                <div className="filter-input-wrapper">
-                  <Checkbox name="room"
-                    checked={this.state.room}
-                    disabled={!this.state.roommate || !this.state.empty}
-                    onChange={this.roommateChangeHandler}>
+          </Checkbox>
+        </div>
+        <div className="filter-input-wrapper">
+          <Checkbox name="room"
+            checked={this.state.room}
+            disabled={!this.state.roommate || !this.state.empty}
+            onChange={this.roommateChangeHandler}>
                     חדר בדירת שותפים
-                  </Checkbox>
-                </div>
-              </div>
-              <div className="filter-amenities-container">
-                <h5><b>צמצמו את החיפוש</b></h5>
-                <Col xs={4}>
-                  <Checkbox name="park" checked={this.state.park} onChange={this.checkboxChangeHandler}>
+          </Checkbox>
+        </div>
+      </div>
+      <div className="filter-amenities-container">
+        <h5><b>צמצמו את החיפוש</b></h5>
+        <Col xs={4}>
+          <Checkbox name="park" checked={this.state.park} onChange={this.checkboxChangeHandler}>
                     חניה
-                  </Checkbox>
-                  <Checkbox name="balc" checked={this.state.balc} onChange={this.checkboxChangeHandler}>
+          </Checkbox>
+          <Checkbox name="balc" checked={this.state.balc} onChange={this.checkboxChangeHandler}>
                     מרפסת
-                  </Checkbox>
-                </Col>
-                <Col xs={4}>
-                  <Checkbox name="ac" checked={this.state.ac} onChange={this.checkboxChangeHandler}>
+          </Checkbox>
+        </Col>
+        <Col xs={4}>
+          <Checkbox name="ac" checked={this.state.ac} onChange={this.checkboxChangeHandler}>
                     מזגן
-                  </Checkbox>
-                  <Checkbox name="ele" checked={this.state.ele} onChange={this.checkboxChangeHandler}>
+          </Checkbox>
+          <Checkbox name="ele" checked={this.state.ele} onChange={this.checkboxChangeHandler}>
                     מעלית
-                  </Checkbox>
-                </Col>
-                <Col xs={4}>
-                  <Checkbox name="pet" checked={this.state.pet} onChange={this.checkboxChangeHandler}>
+          </Checkbox>
+        </Col>
+        <Col xs={4}>
+          <Checkbox name="pet" checked={this.state.pet} onChange={this.checkboxChangeHandler}>
                     מותר בע״ח
-                  </Checkbox>
-                  <Checkbox name="sb" checked={this.state.sb} onChange={this.checkboxChangeHandler}>
+          </Checkbox>
+          <Checkbox name="sb" checked={this.state.sb} onChange={this.checkboxChangeHandler}>
                     סורגים
-                  </Checkbox>
-                </Col>
-              </div>
-           </Popover>;
+          </Checkbox>
+        </Col>
+      </div>
+    </Popover>;
   }
 
   renderCollapseContent() {
@@ -426,45 +423,45 @@ class Filter extends Component {
         <Row>
           <Col sm={2} smOffset={0} mdOffset={1}>
             <OverlayTrigger placement="bottom" trigger="click" rootClose
-                            overlay={this.roomsPopup()}
-                            onEntered={this.subFilterEntered}
-                            onExit={this.subFilterExit}>
+              overlay={this.roomsPopup()}
+              onEntered={this.subFilterEntered}
+              onExit={this.subFilterExit}>
               <div className={'filter-trigger-container ' + this.state.roomsFilterClass}>חדרים</div>
             </OverlayTrigger>
           </Col>
           <Col sm={2}>
             <OverlayTrigger placement="bottom" trigger="click" rootClose
-                            overlay={this.mrPopup()}
-                            onEntered={this.subFilterEntered}
-                            onExit={this.subFilterExit}>
+              overlay={this.mrPopup()}
+              onEntered={this.subFilterEntered}
+              onExit={this.subFilterExit}>
               <div className={'filter-trigger-container ' + this.state.mrFilterClass}>מחיר</div>
             </OverlayTrigger>
           </Col>
           <Col sm={3} md={2}>
             <OverlayTrigger placement={isMobile() ? 'top' : 'bottom'}
-                            trigger="click" rootClose
-                            overlay={this.leaseStartPopup()}
-                            onEntered={this.subFilterEntered}
-                            onExit={this.subFilterExit}>
+              trigger="click" rootClose
+              overlay={this.leaseStartPopup()}
+              onEntered={this.subFilterEntered}
+              onExit={this.subFilterExit}>
               <div className={'filter-trigger-container ' + this.state.leaseStartFilterClass}>תאריך כניסה</div>
             </OverlayTrigger>
           </Col>
           <Col sm={3} md={2}>
             <OverlayTrigger placement={isMobile() ? 'top' : 'bottom'}
-                            trigger="click" rootClose
-                            overlay={this.extraPopup()}
-                            onEntered={this.subFilterEntered}
-                            onExit={this.subFilterExit}>
+              trigger="click" rootClose
+              overlay={this.extraPopup()}
+              onEntered={this.subFilterEntered}
+              onExit={this.subFilterExit}>
               <div className={'filter-trigger-more filter-trigger-container ' + this.state.extraFilterClass}>פילטרים נוספים</div>
             </OverlayTrigger>
           </Col>
           <Col sm={2} className="filter-actions-container">
             <Button id="saveFilterButton" className="filter-save"
-                    block bsStyle="info" onClick={this.saveFilter}>
+              block bsStyle="info" onClick={this.saveFilter}>
               {saveFilterButtonText}
             </Button>
             <Button className="filter-close" bsStyle="primary"
-                    onClick={this.toggleHideFilter}>
+              onClick={this.toggleHideFilter}>
               סנן
             </Button>
           </Col>
@@ -505,8 +502,8 @@ class Filter extends Component {
     const filterExpanded = this.state.expandFilter || this.state.subFilterOpen;
 
     return <div onMouseEnter={this.mouseEnterHandler}
-                onMouseLeave={this.mouseLeaveHandler}
-                className={this.state.hideFilter ? '' : 'filter-component'}>
+      onMouseLeave={this.mouseLeaveHandler}
+      className={this.state.hideFilter ? '' : 'filter-component'}>
       <div className="filter-toggle-container">
         <Button onClick={this.toggleHideFilter}>
           {filterButtonText}

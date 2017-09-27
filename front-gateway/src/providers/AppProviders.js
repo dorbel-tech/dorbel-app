@@ -51,7 +51,7 @@ class AppProviders {
     this.likeProvider = new LikeProvider(appStore, this.apiProvider);
     this.documentProvider = new DocumentProvider(appStore, this.apiProvider);
     this.shortUrlProvider = new ShortUrlProvider(appStore, this.apiProvider);
-    this.matchingUsersProvider = new MatchingUsersProvider(appStore, this.apiProvider)
+    this.matchingUsersProvider = new MatchingUsersProvider(appStore, this.apiProvider);
     this.utils = utils;
   }
 }

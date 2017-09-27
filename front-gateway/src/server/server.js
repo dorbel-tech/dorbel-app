@@ -10,7 +10,6 @@ const apiProxy = require('./apiProxy');
 const renderApp = require('../app.server').renderApp;
 const getBuildOutputs = require('./buildOutputs').getBuildOutputs;
 
-const logger = shared.logger.getLogger(module);
 const STATIC_FILE_MAX_AGE_MS = 31536000 * 1000; // http://stackoverflow.com/questions/7071763/max-value-for-cache-control-header-in-http
 
 function* runServer() {
