@@ -83,13 +83,13 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
   }
 
   renderSidePanelText() {
-    return  <div className="upload-apt-right-container-text-container">
-              <h1>תמונות של הדירה</h1>
-              <ul>
-                <li>תמונות טובות זה ממש חשוב כדי שדיירים יבינו איך נראית הדירה</li>
-                <li>תמונות שישקפו את הדירה היטב ימשכו יותר דיירים רציניים</li>
-              </ul>
-            </div>;
+    return <div className="upload-apt-right-container-text-container">
+      <h1>תמונות של הדירה</h1>
+      <ul>
+        <li>תמונות טובות זה ממש חשוב כדי שדיירים יבינו איך נראית הדירה</li>
+        <li>תמונות שישקפו את הדירה היטב ימשכו יותר דיירים רציניים</li>
+      </ul>
+    </div>;
   }
 
   render() {

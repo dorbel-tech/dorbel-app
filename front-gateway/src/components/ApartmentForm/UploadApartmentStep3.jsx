@@ -95,7 +95,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
     }
   }
 
-  renderSidePanel(newListingStore) {
+  renderSidePanel() {
     return (
       <Col md={5} className="upload-apt-right-container">
         <div className="upload-apt-right-container-text-wrapper">
@@ -112,11 +112,11 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
     );
   }
 
-  renderPopupBodyText(newListingStore) {
-    return  <div className="modal-text">
-              <h4><b>עכשיו תורכם!</b><br /><br />המשיכו לחשבון הדירה שלכם, ממנו תשתפו את המודעה.</h4>
-              <span className="upload-apt-success-modal-sub-text">כשתקבלו פניות מדיירים שמעוניינים בדירה, תוכלו לגלות מי הם וליצור קשר עם אלו שמתאימים לכם!</span>
-            </div>;
+  renderPopupBodyText() {
+    return <div className="modal-text">
+      <h4><b>עכשיו תורכם!</b><br /><br />המשיכו לחשבון הדירה שלכם, ממנו תשתפו את המודעה.</h4>
+      <span className="upload-apt-success-modal-sub-text">כשתקבלו פניות מדיירים שמעוניינים בדירה, תוכלו לגלות מי הם וליצור קשר עם אלו שמתאימים לכם!</span>
+    </div>;
   }
 
   render() {
@@ -125,7 +125,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
 
     return (
       <Grid fluid className="upload-apt-wrapper">
-        {this.renderSidePanel(newListingStore)}
+        {this.renderSidePanel()}
 
         <Col md={7} className="upload-apt-left-container contact-details-step">
           <FormWrapper.Wrapper layout="vertical" onChange={this.handleChanges} ref="form">
@@ -150,7 +150,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
           title="פרטי הדירה שלכם עלו בהצלחה!"
           body={
             <div className="modal-container" {...createdListingIdAttr}>
-              {this.renderPopupBodyText(newListingStore)}
+              {this.renderPopupBodyText()}
               <p className="text-center">
                 <Button bsStyle="info" className="submit-success" onClick={this.onCloseSuccessModal.bind(this)}>קחו אותי לחשבון שלי</Button>
               </p>
