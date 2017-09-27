@@ -12,7 +12,6 @@ rm -rf ~/.phpbrew/
 
 # Creating directories for codecov.io for code coverage report mounted volume.
 mkdir apartments-api-shared
-# mkdir ohe-api-shared
 mkdir notifications-service-shared
 mkdir front-gateway-shared
 

@@ -4,9 +4,6 @@
 docker-compose exec apartments-api yarn run lint &&
 docker-compose exec apartments-api yarn run test &&
 docker-compose exec apartments-api yarn run test:integration &&
-# docker-compose exec ohe-api yarn run lint &&
-# docker-compose exec ohe-api yarn run test &&
-# docker-compose exec ohe-api yarn run test:integration &&
 docker-compose exec notifications-service yarn run lint &&
 docker-compose exec notifications-service yarn run test &&
 docker-compose exec notifications-service yarn run test:integration &&
