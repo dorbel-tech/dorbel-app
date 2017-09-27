@@ -419,48 +419,6 @@ async function getValidationData(apartment, user) {
   return result;
 }
 
-/*
-  This method is invoked by an AWS monthly-report-lambda repo: https://github.com/dorbel-tech/monthly-report-lambda.
-  First it calls listings repository to collect listing_ids and publishing_user_ids for:
-  rented listings, with lease_end>now, publishing_user_type=landlord, lease_start day of month = this day of month.
-
-  Then it iterates over each listing and publishes a message to SNS which being processed by notification-service to deliver the reports.
-*/
-async function sendMonthlyReports(day, month, year, user) {
-  if (userPermissions.isUserAdmin(user)) {
-    const momentJsMonth = month - 1;
-    const reportDate = moment({ year, month: momentJsMonth, date: day });
-
-    logger.info('Gettting monthly report data');
-    const reportData = await listingRepository.getMonthlyReportData(reportDate, getMonthlyReportDays(reportDate));
-    logger.info({ reportData }, 'Received monthly report data');
-
-    reportData.map(reportDataItem =>
-      messageBus.publish(process.env.NOTIFICATIONS_SNS_TOPIC_ARN, messageBus.eventType.SEND_MONTHLY_REPORT, {
-        user_uuid: reportDataItem.publishing_user_id,
-        listing_id: reportDataItem.id,
-        day,
-        month,
-        year
-      })
-    );
-  }
-  else {
-    throw new CustomError(403, 'You are not allowed to view this data');
-  }
-}
-
-function getMonthlyReportDays(reportDate) {
-  const reportDay = reportDate.date();
-
-  if (reportDate.daysInMonth() == reportDay) {
-    return _.range(reportDay, 32);
-  }
-  else {
-    return [reportDay];
-  }
-}
-
 module.exports = {
   create,
   update,
@@ -469,6 +427,5 @@ module.exports = {
   getBySlug,
   getByApartmentId,
   getRelatedListings,
-  getValidationData,
-  sendMonthlyReports
+  getValidationData
 };

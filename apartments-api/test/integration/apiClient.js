@@ -160,10 +160,6 @@ class ApiClient {
     `, { email_notification });
   }
 
-  sendMonthlyReport(day, month, year) {
-    return this.post('/v1/sendMonthlyReport', { day, month, year });
-  }
-
   createDocument(document) {
     return this.post('/v1/documents', document);
   }
