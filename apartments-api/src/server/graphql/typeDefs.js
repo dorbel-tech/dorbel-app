@@ -75,7 +75,6 @@ module.exports = `
     roommate_needed: Boolean
     directions: String
     show_phone: Boolean
-    show_for_future_booking: Boolean
     rent_lead_by: String
     apartment: Apartment
     documents: [Document]

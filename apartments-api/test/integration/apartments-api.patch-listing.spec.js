@@ -17,7 +17,7 @@ describe('Integration - PATCH /listings/{id}', function () {
     createdListing = postResponse.body;
   });
 
-  it.only('should return an error if the patch conflicts with another apartments details', function* () {
+  it('should return an error if the patch conflicts with another apartments details', function* () {
     let listingToPatch = _.clone(fakeListingObj);
     const aptNumToConflict = _.clone(fakeListingObj.apartment.apt_number);
 
@@ -37,12 +37,12 @@ describe('Integration - PATCH /listings/{id}', function () {
     __.assertThat(patchResponse.text, __.is('דירה עם פרטים זהים כבר קיימת במערכת'));
   });
 
-  it.only('should update listing status', function* () {
+  it('should update listing status', function* () {
     const response = yield apiClient.patchListing(createdListing.id, { status: 'rented' }).expect(200).end();
     __.assertThat(response.body.status, __.is('rented'));
   });
 
-  it.only('should update entire listing with apartment and building properties', function* () {
+  it('should update entire listing with apartment and building properties', function* () {
     const listingUpdate = { monthly_rent: faker.random.number(20000) };
     const apartmentUpdate = { rooms: faker.random.number(10) };
     const buildingUpdate = { floors: faker.random.number(100) };
@@ -65,7 +65,7 @@ describe('Integration - PATCH /listings/{id}', function () {
     createdListing = response.body; // used in tests below
   });
 
-  it.only('should not update some details and not others (test transaction)', function* () {
+  it('should not update some details and not others (test transaction)', function* () {
     const update = {
       publishing_user_type: 'bad-value',
       apartment: {
@@ -74,7 +74,7 @@ describe('Integration - PATCH /listings/{id}', function () {
     };
 
     yield apiClient.patchListing(createdListing.id, update).expect(500).end();
-    const response = yield apiClient.getSingleListing(createdListing.id).expect(200).end();
+    const response = yield apiClient.getSingleListing(createdListing.id, true).expect(200).end();
 
     __.assertThat(response.body, __.allOf(
       __.hasProperty('publishing_user_type', createdListing.publishing_user_type),

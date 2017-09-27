@@ -322,9 +322,6 @@ async function enrichListingResponse(listing, user) {
       if (userPermissions.isResourceOwnerOrAdmin(user, listing.publishing_user_id)) {
         enrichedListing.totalLikes = await likeRepository.getApartmentTotalLikes(listing.apartment_id);
       }
-      else {
-        throwIfNotAllowed(listing);
-      }
       if (publishingUserProfile) {
         enrichedListing.publishing_user_email = publishingUserProfile.email;
       }
