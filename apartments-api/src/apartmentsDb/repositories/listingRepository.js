@@ -17,7 +17,7 @@ const neighborhoodAttributes = ['id', 'neighborhood_name', 'city_id'];
 const imageAttributes = { exclude: ['created_at', 'updated_at'] };
 
 const LISTING_UPDATE_WHITELIST = ['status', 'monthly_rent', 'roommates', 'property_tax', 'board_fee', 'lease_start',
-  'lease_end', 'publishing_user_type', 'roommate_needed', 'directions', 'description', 'show_phone', 'show_for_future_booking', 'property_value', 'rent_lead_by'];
+  'lease_end', 'publishing_user_type', 'roommate_needed', 'directions', 'description', 'show_phone', 'show_for_future_booking', 'rent_lead_by'];
 const APARTMENT_UPDATE_WHITELIST = ['apt_number', 'size', 'rooms', 'floor', 'parking', 'sun_heated_boiler', 'pets',
   'air_conditioning', 'balcony', 'security_bars', 'parquet_floor'];
 const BUILDING_UPDATE_WHITELIST = ['floors', 'elevator', 'entrance'];
