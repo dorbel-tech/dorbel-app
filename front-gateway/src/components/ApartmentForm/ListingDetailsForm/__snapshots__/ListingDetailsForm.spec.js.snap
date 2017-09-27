@@ -1743,20 +1743,6 @@ exports[`Listing Details Form should match snapshot in empty state 1`] = `
                     </DatePicker>
                   </div>
                 </Col>
-                <Col
-                  bsClass="col"
-                  className="listing-details-form-date-error-text"
-                  componentClass="div"
-                  hidden={true}
-                  xs={12}>
-                  <div
-                    className="listing-details-form-date-error-text col-xs-12"
-                    hidden={true}>
-                    <label>
-                      תאריך תום השכירות חייב להיות מאוחר מתאריך תחילת השכירות
-                    </label>
-                  </div>
-                </Col>
               </div>
             </Row>
             <Row
