@@ -304,10 +304,6 @@ async function enrichListingResponse(listing, user) {
       if (publishingUserProfile) {
         enrichedListing.publishing_user_email = publishingUserProfile.email;
       }
-      // TODO: Implemented this way as discussed - should be different api call when possible
-      if (listing.show_phone) {
-        enrichedListing.publishing_user_phone = publishingUserProfile.phone || '';
-      }
     }
     else {
       throwIfNotAllowed(listing);

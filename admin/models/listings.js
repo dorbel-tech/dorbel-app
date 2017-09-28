@@ -66,10 +66,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING(255),
         defaultValue: null
       },
-      show_phone: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: false
-      },
       created_at: {
         type: DataTypes.DATE,
       },
