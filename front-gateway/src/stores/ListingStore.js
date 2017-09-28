@@ -1,21 +1,17 @@
-import { observable, computed } from 'mobx';
+import { observable } from 'mobx';
 import autobind from 'react-autobind';
 
 export default class ListingStore {
   @observable listingsById;
-  @observable lastListingByApartmentId;
   @observable listingViewsById;
   @observable listingTenantsById;
-  @observable listingsByApartmentId;
   @observable isLoading = false;
 
   constructor(initialState = {}, authStore) {
     this.listingsById = observable.map(initialState.listingsById || {});
-    this.lastListingByApartmentId = observable.map(initialState.lastListingByApartmentId || {});
     this.listingsBySlug = observable.map(initialState.listingsBySlug || {});
     this.listingViewsById = observable.map(initialState.listingViewsById || {});
     this.listingTenantsById = observable.map(initialState.listingTenantsById || {});
-    this.listingsByApartmentId = observable.map(initialState.listingsByApartmentId || {});
     this.authStore = authStore;
     autobind(this);
   }
@@ -29,39 +25,12 @@ export default class ListingStore {
     }
   }
 
-  getByApartmentId(apartmentId){
-    return this.lastListingByApartmentId.get(apartmentId);
-  }
-
   set(listing) {
     this.listingsById.set(listing.id, listing);
 
     if (listing.slug) {
       this.listingsBySlug.set(listing.slug, listing);
     }
-  }
-
-  setLastByApartmentId(listing) {
-    this.lastListingByApartmentId.set(listing.apartment_id, listing);
-  }
-
-  @computed get apartments() {
-    return this.listingsById.values();
-  }
-
-  clearAndSet(listings) {
-    // TODO: Remove the clear and use the computed listings to filter the view.
-    this.listingsById.clear();
-    this.listingsBySlug.clear();
-    this.lastListingByApartmentId.clear();
-    listings.forEach(this.add);
-
-    this.isLoading = false;
-  }
-
-  update(listingId, updates) {
-    const listing = this.listingsById.get(listingId);
-    this.listingsById.set(listingId, Object.assign(listing, updates));
   }
 
   isListingPublisherOrAdmin(listing) {

@@ -194,23 +194,6 @@ describe('Apartments API - saved filters - ', function () {
       unmatchingFilter.elevator = !listing.apartment.building.elevator;
       yield assertMatchingFilters();
     });
-
-    it('should match by future booking', function * () {
-      yield adminClient.patchListing(listing.id, { status: 'rented', show_for_future_booking: true });
-      matchingFilter.futureBooking = true;
-      unmatchingFilter.futureBooking = false;
-      yield assertMatchingFilters();
-    });
-
-    it('should not match by future booking if listing is not meant to be shown for future booking', function * () {
-      yield adminClient.patchListing(listing.id, { status: 'rented', show_for_future_booking: false }).expect(200).end();
-      matchingFilter.futureBooking = true;
-      yield apiClient.putFilter(matchingFilter.id, matchingFilter).expect(200).end();
-
-      const { body: matchedFilters } = yield adminClient.getFilters({ matchingListingId: listing.id }).expect(200).end();
-
-      __.assertThat(matchedFilters, __.not(__.hasItem(__.hasProperty('id', matchingFilter.id))));
-    });
   });
 
   describe('using graphql', function () {

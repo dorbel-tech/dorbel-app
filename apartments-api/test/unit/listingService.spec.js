@@ -67,26 +67,6 @@ describe('Listing Service', function () {
       __.assertThat(this.listingRepositoryMock.list.args[0][1], __.hasProperties(options));
     });
 
-    it('should set status of listed only when future booking is off', function* () {
-      yield this.listingService.getByFilter({ futureBooking: false });
-      __.assertThat(this.listingRepositoryMock.list.args[0][0], __.hasProperty('$and', __.contains({ status: 'listed' })));
-    });
-
-    it('should set conditions for future booking by default', function* () {
-      yield this.listingService.getByFilter();
-      __.assertThat(this.listingRepositoryMock.list.args[0][0], __.hasProperty('$and', __.allOf(
-        __.not(__.contains(__.hasProperty('status'))),
-        __.contains(__.hasProperty('$or', __.contains(
-          __.hasProperty('status', 'listed'),
-          __.hasProperties({
-            status: 'rented',
-            lease_end: __.hasProperty('$gte', __.is(__.date())),
-            show_for_future_booking: true
-          })
-        )))
-      )));
-    });
-
     it('should remove private fields from response when not in my-properties', function* () {
       const mockListings = [
         { id: 5, apartment: { apt_number: 'private', building: {} } },
@@ -170,7 +150,6 @@ describe('Listing Service', function () {
       const updatedListing = Object.assign({}, listing, { status: 'rented' });
       this.listingRepositoryMock.update = sinon.stub().resolves(updatedListing);
       this.listingRepositoryMock.getById = sinon.stub().resolves(listing);
-      this.listingRepositoryMock.getByApartmentId = sinon.stub().resolves(listing);
       this.likeRepositoryMock.getApartmentTotalLikes = sinon.stub().resolves(listing.apartment_id);
 
       const result = yield this.listingService.update(listing.id, user, updatedListing);
@@ -232,19 +211,19 @@ describe('Listing Service', function () {
 
   describe('Get related listings', function () {
     it('should return error if listing doesn\'t exist', function* () {
-      this.listingRepositoryMock.getByApartmentId = sinon.stub().resolves(undefined);
+      this.listingRepositoryMock.getById = sinon.stub().resolves(undefined);
 
       try {
         yield this.listingService.getRelatedListings(0);
         __.assertThat('code', __.is('not reached'));
       }
       catch (error) {
-        __.assertThat(error.message, __.is('Failed to get related listings. Listing does not exists. apartmentId: 0'));
+        __.assertThat(error.message, __.is('Failed to get related listings. Listing does not exists. listingId: 0'));
       }
     });
 
     it('should get related listings of existing listing', function* () {
-      this.listingRepositoryMock.getByApartmentId = sinon.stub().resolves(faker.getFakeListing());
+      this.listingRepositoryMock.getById = sinon.stub().resolves(faker.getFakeListing());
       this.listingRepositoryMock.list = sinon.stub().resolves([]);
       const relatedListings = yield this.listingService.getRelatedListings(1);
       __.assertThat(Array.isArray(relatedListings), __.is(true));

@@ -17,8 +17,7 @@ describe('Property', () => {
       listingStore: {
         get: jest.fn(),
         listingViewsById: { get: jest.fn(), has: jest.fn() },
-        isListingPublisherOrAdmin: jest.fn().mockReturnValue(true),
-        listingsByApartmentId: { get: jest.fn() }
+        isListingPublisherOrAdmin: jest.fn().mockReturnValue(true)
       },
       editedListingStore: {
         loadListing: jest.fn()
@@ -33,9 +32,7 @@ describe('Property', () => {
     appProvidersMock = {
       listingsProvider: {
         loadListingPageViews: jest.fn(),
-        loadFullListingDetails: jest.fn(),
-        loadListingsForApartment: jest.fn(),
-        isActiveListing: jest.fn().mockReturnValue(true)
+        loadFullListingDetails: jest.fn()
       },
       navProvider: {},
       likeProvider: {

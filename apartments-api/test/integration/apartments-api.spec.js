@@ -91,43 +91,6 @@ describe('Apartments API Integration', function () {
     });
   });
 
-  describe('GET /listings/{idOrSlug} (rented/future-booking)', function () {
-    before(function* () {
-      const fakeRentedWithFutureBooking = fakeObjectGenerator.getFakeListing({ status: 'rented' });
-      const fakeRentedWithoutFutureBooking = fakeObjectGenerator.getFakeListing({ status: 'rented', show_for_future_booking: false });
-
-      const futureBookingReponse = yield this.apiClient.createListing(fakeRentedWithFutureBooking).expect(201).end();
-      const noFutureBookingResponse = yield this.apiClient.createListing(fakeRentedWithoutFutureBooking).expect(201).end();
-
-      this.futureBookingListing = futureBookingReponse.body;
-      this.noFutureBooking = noFutureBookingResponse.body;
-    });
-
-    it('should return the rented listing with future booking (property owner)', function* () {
-      yield this.apiClient.getSingleListing(this.futureBookingListing.id, true).expect(200).end();
-    });
-
-    it('should return the rented listing with future booking (admin)', function* () {
-      yield this.adminApiClient.getSingleListing(this.futureBookingListing.id, true).expect(200).end();
-    });
-
-    it('should return the rented listing with future booking (any other user)', function* () {
-      yield this.otherApiClient.getSingleListing(this.futureBookingListing.id, true).expect(200).end();
-    });
-
-    it('should return the rented listing with future booking (anonymous user)', function* () {
-      yield this.anonymousApiClient.getSingleListing(this.futureBookingListing.id).expect(200).end();
-    });
-
-    it('should return the rented listing *WITHOUT* future booking (property owner)', function* () {
-      yield this.apiClient.getSingleListing(this.noFutureBooking.id, true).expect(200).end();
-    });
-
-    it('should return the rented listing *WITHOUT* future booking (admin)', function* () {
-      yield this.adminApiClient.getSingleListing(this.noFutureBooking.id, true).expect(200).end();
-    });
-  });
-
   describe('GET /listings/{id}/related', function () {
     before(function* () {
       this.createdListings = [];
