@@ -21,8 +21,8 @@ class InterestedBox extends Component {
     return (
       <div className="listing-interested-box-content">
         <div className="listing-interested-box-content-text">
-          <h4 className="listing-interested-box-content-text-heading">מעוניינים בדירה?</h4>
-          <span className="listing-interested-box-content-text-explain">הודיעו לבעל הדירה שאתם מעוניינים בדירה שיוכל לחזור אליכם</span>
+          <h4 className="listing-interested-box-content-text-heading">אהבתם? בואו נתקדם.</h4>
+          <span className="listing-interested-box-content-text-explain">שלחו באופן מיידי את הפרטים שחשובים לבעלי הדירה כדי להתקדם אתכם בתהליך.</span>
         </div>
         <div className="listing-interested-box-button-container">
           {allowInterest && <LikeButton apartmentId={listing.apartment_id} listingId={listing.id} />}
@@ -38,4 +38,4 @@ InterestedBox.propTypes = {
   listing: React.PropTypes.object.isRequired,
 };
 
-export default InterestedBox; 
+export default InterestedBox;

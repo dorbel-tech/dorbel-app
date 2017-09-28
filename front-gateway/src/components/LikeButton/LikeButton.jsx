@@ -100,7 +100,7 @@ class LikeButton extends Component {
       <a href="#" className={isLiked ? 'like-button liked' : 'like-button'} onClick={this.handleClick}>
         <div className="text-center">
           <i className="fa fa-heart" />
-          <span className="like-button-text">אני מעוניין/ת בדירה</span>
+          <span className="like-button-text">לשליחה לחצו כאן</span>
         </div>
       </a>
     );
