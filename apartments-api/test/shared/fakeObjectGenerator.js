@@ -24,7 +24,7 @@ function getFakeBuilding(variant) {
 
 function getFakeListing(variant) {
   const listing =  {
-    status: 'pending',
+    status: 'listed',
     monthly_rent: faker.random.number({ min: 1000, max: 9000 }),
     lease_start: getDateString(),
     lease_end: getDateString(),
@@ -46,8 +46,7 @@ function getFakeListing(variant) {
     },
     slug: 'test-listing-' + faker.random.uuid(), // This field has a unique constraint
     show_phone: false,
-    show_for_future_booking: true,
-    property_value: faker.random.number(1000000, 9999999)
+    show_for_future_booking: true
   };
 
   listing.apartment.building.toJSON = () => listing.apartment.building;

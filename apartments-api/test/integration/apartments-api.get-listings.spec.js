@@ -87,16 +87,6 @@ describe('GET /listings', function () {
     ));
   });
 
-  it('should not return private fields', function* () {
-    const getResponse = yield this.apiClient.getListings({}, true).expect(200).end();
-
-    __.assertThat(getResponse.body, __.everyItem(__.allOf(
-      __.not(__.hasProperty('property_value')),
-      __.hasProperty('apartment', __.not(__.hasProperty('apt_number'))),
-      __.hasProperty('apartment', __.hasProperty('building', __.not(__.hasProperty('house_number'))))
-    )));
-  });
-
   it('should get listing my lease date for a single day', function * () {
     const { body: allListings } = yield this.apiClient.getListings({ limit: 1 }).expect(200).end();
     const date = allListings[0].lease_start;

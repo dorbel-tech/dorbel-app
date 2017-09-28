@@ -19,12 +19,6 @@ const possibleStatusesByCurrentStatus = {
   rented: ['listed', 'unlisted']
 };
 
-const createdEventsByListingStatus = {
-  listed: messageBus.eventType.APARTMENT_LISTED,
-  pending: messageBus.eventType.APARTMENT_CREATED,
-  rented: messageBus.eventType.APARTMENT_CREATED_FOR_MANAGEMENT
-};
-
 // TODO : move this to dorbel-shared
 function CustomError(code, message) {
   let error = new Error(message);
@@ -38,6 +32,7 @@ async function create(listing, user) {
   await validateNewListing(listing, user);
 
   let modifiedListing = setListingAutoFields(listing);
+  modifiedListing.status = modifiedListing.status || 'listed';
   listing.apartment.building.geolocation = await geoProvider.getGeoLocation(listing.apartment.building);
   let createdListing = await listingRepository.create(modifiedListing);
 
@@ -54,7 +49,7 @@ async function create(listing, user) {
   });
 
   // Publish event trigger message to SNS for notifications dispatching.
-  const messageType = createdEventsByListingStatus[listing.status];
+  const messageType = messageBus.eventType.APARTMENT_LISTED;
   const publishingUserType = createdListing.publishing_user_type;
 
   if (messageType) {
@@ -83,10 +78,6 @@ async function create(listing, user) {
 }
 
 async function validateNewListing(listing, user) {
-  if (['listed', 'pending', 'rented'].indexOf(listing.status) < 0) {
-    throw new CustomError(400, `לא ניתן להעלות דירה ב status ${listing.status}`);
-  }
-
   const validationData = await getValidationData(listing.apartment, user);
   if (validationData.listing_id) {
     const loggerObj = {
@@ -107,8 +98,8 @@ async function validateNewListing(listing, user) {
     }
   }
 
-  // Disable uploading apartment for listing without images
-  if (listing.status == 'pending' && (!listing.images || !listing.images.length)) {
+  // Disable uploading apartment without images
+  if (!listing.images || !listing.images.length) {
     throw new CustomError(400, 'לא ניתן להעלות מודעה להשכרה ללא תמונות');
   }
 }
@@ -330,7 +321,6 @@ async function enrichListingResponse(listing, user) {
       }
       else {
         throwIfNotAllowed(listing);
-        delete enrichedListing.property_value;
       }
       if (publishingUserProfile) {
         enrichedListing.publishing_user_email = publishingUserProfile.email;
@@ -341,7 +331,6 @@ async function enrichListingResponse(listing, user) {
       }
     }
     else {
-      delete enrichedListing.property_value;
       throwIfNotAllowed(listing);
     }
 
@@ -419,48 +408,6 @@ async function getValidationData(apartment, user) {
   return result;
 }
 
-/*
-  This method is invoked by an AWS monthly-report-lambda repo: https://github.com/dorbel-tech/monthly-report-lambda.
-  First it calls listings repository to collect listing_ids and publishing_user_ids for:
-  rented listings, with lease_end>now, publishing_user_type=landlord, lease_start day of month = this day of month.
-
-  Then it iterates over each listing and publishes a message to SNS which being processed by notification-service to deliver the reports.
-*/
-async function sendMonthlyReports(day, month, year, user) {
-  if (userPermissions.isUserAdmin(user)) {
-    const momentJsMonth = month - 1;
-    const reportDate = moment({ year, month: momentJsMonth, date: day });
-
-    logger.info('Gettting monthly report data');
-    const reportData = await listingRepository.getMonthlyReportData(reportDate, getMonthlyReportDays(reportDate));
-    logger.info({ reportData }, 'Received monthly report data');
-
-    reportData.map(reportDataItem =>
-      messageBus.publish(process.env.NOTIFICATIONS_SNS_TOPIC_ARN, messageBus.eventType.SEND_MONTHLY_REPORT, {
-        user_uuid: reportDataItem.publishing_user_id,
-        listing_id: reportDataItem.id,
-        day,
-        month,
-        year
-      })
-    );
-  }
-  else {
-    throw new CustomError(403, 'You are not allowed to view this data');
-  }
-}
-
-function getMonthlyReportDays(reportDate) {
-  const reportDay = reportDate.date();
-
-  if (reportDate.daysInMonth() == reportDay) {
-    return _.range(reportDay, 32);
-  }
-  else {
-    return [reportDay];
-  }
-}
-
 module.exports = {
   create,
   update,
@@ -469,6 +416,5 @@ module.exports = {
   getBySlug,
   getByApartmentId,
   getRelatedListings,
-  getValidationData,
-  sendMonthlyReports
+  getValidationData
 };

@@ -75,7 +75,7 @@ describe('Apartments API Integration', function () {
       const postReponse = yield this.apiClient.createListing(fakeObjectGenerator.getFakeListing()).expect(201).end();
       yield this.adminApiClient.patchListing(postReponse.body.id, { status: 'listed' }).expect(200).end();
       postReponse.body.status = 'listed';
-      this.createdListing = _.omit(postReponse.body, ['lease_end', 'updated_at', 'property_value', 'rent_lead_by']);
+      this.createdListing = _.omit(postReponse.body, ['lease_end', 'updated_at', 'rent_lead_by']);
     });
 
     it('should return a single listing by id', function* () {
@@ -89,32 +89,12 @@ describe('Apartments API Integration', function () {
       // TODO : this is a very shallow check
       __.assertThat(getResponse.body, __.hasProperties(this.createdListing));
     });
-
-    it('should return the property_value field (property owner)', function* () {
-      const getResponse = yield this.apiClient.getSingleListing(this.createdListing.slug).expect(200).end();
-      __.assertThat(getResponse.body, __.hasProperties('property_value'));
-    });
-
-    it('should return the property_value field (admin)', function* () {
-      const getResponse = yield this.adminApiClient.getSingleListing(this.createdListing.slug).expect(200).end();
-      __.assertThat(getResponse.body, __.hasProperties('property_value'));
-    });
-
-    it('should *NOT* return the property_value field (any other user)', function* () {
-      const getResponse = yield this.apiClient.getSingleListing(this.createdListing.slug).expect(200).end();
-      __.assertThat(getResponse.body, __.not(__.hasProperty('property_value')));
-    });
-
-    it('should *NOT* return the property_value field (anonymous user)', function* () {
-      const getResponse = yield this.anonymousApiClient.getSingleListing(this.createdListing.slug).expect(200).end();
-      __.assertThat(getResponse.body, __.not(__.hasProperty('property_value')));
-    });
   });
 
   describe('GET /listings/{idOrSlug} (rented/future-booking)', function () {
     before(function* () {
       const fakeRentedWithFutureBooking = fakeObjectGenerator.getFakeListing({ status: 'rented' });
-      const fakeRentedWithoutFutureBooking = fakeObjectGenerator.getFakeListing({ status: 'rented', images:[], show_for_future_booking: false });
+      const fakeRentedWithoutFutureBooking = fakeObjectGenerator.getFakeListing({ status: 'rented', show_for_future_booking: false });
 
       const futureBookingReponse = yield this.apiClient.createListing(fakeRentedWithFutureBooking).expect(201).end();
       const noFutureBookingResponse = yield this.apiClient.createListing(fakeRentedWithoutFutureBooking).expect(201).end();
@@ -145,14 +125,6 @@ describe('Apartments API Integration', function () {
 
     it('should return the rented listing *WITHOUT* future booking (admin)', function* () {
       yield this.adminApiClient.getSingleListing(this.noFutureBooking.id, true).expect(200).end();
-    });
-
-    it('should *NOT* return the rented listing *WITHOUT* future booking (any other user)', function* () {
-      yield this.otherApiClient.getSingleListing(this.noFutureBooking.id, true).expect(403).end();
-    });
-
-    it('should *NOT* return the rented listing *WITHOUT* future booking (anonymous user)', function* () {
-      yield this.anonymousApiClient.getSingleListing(this.noFutureBooking.id).expect(403).end();
     });
   });
 
