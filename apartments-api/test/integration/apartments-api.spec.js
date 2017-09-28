@@ -94,7 +94,7 @@ describe('Apartments API Integration', function () {
   describe('GET /listings/{idOrSlug} (rented/future-booking)', function () {
     before(function* () {
       const fakeRentedWithFutureBooking = fakeObjectGenerator.getFakeListing({ status: 'rented' });
-      const fakeRentedWithoutFutureBooking = fakeObjectGenerator.getFakeListing({ status: 'rented', images:[], show_for_future_booking: false });
+      const fakeRentedWithoutFutureBooking = fakeObjectGenerator.getFakeListing({ status: 'rented', show_for_future_booking: false });
 
       const futureBookingReponse = yield this.apiClient.createListing(fakeRentedWithFutureBooking).expect(201).end();
       const noFutureBookingResponse = yield this.apiClient.createListing(fakeRentedWithoutFutureBooking).expect(201).end();
