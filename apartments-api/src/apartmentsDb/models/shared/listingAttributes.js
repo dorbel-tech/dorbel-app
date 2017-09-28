@@ -72,10 +72,6 @@ const attributes = {
     type: DataTypes.BOOLEAN,
     defaultValue: false
   },
-  property_value: {
-    type: DataTypes.DECIMAL(10, 2),
-    defaultValue: null
-  },
   rent_lead_by: {
     type: DataTypes.ENUM('dorbel', 'other'),
     defaultValue: null

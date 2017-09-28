@@ -76,7 +76,6 @@ module.exports = `
     directions: String
     show_phone: Boolean
     show_for_future_booking: Boolean
-    property_value: Float
     rent_lead_by: String
     apartment: Apartment
     documents: [Document]

@@ -77,18 +77,5 @@ describe('Data Retrieval Integration', function () {
     // The test-seed filters are expected to match the test-seed listing
     __.assertThat(matchingFilters.customRecipients, __.contains(fixtures.staticUser.id));
   });
-
-  it('should get monthly reportData', function* () {
-    const reportData = yield this.retrieve('getMonthlyReportData', {
-      user_uuid: fixtures.staticUser.id,
-      listing_id: fixtures.listing_id
-    });
-
-    __.assertThat(reportData.listing_id, __.is(fixtures.listing_id));
-    __.assertThat(reportData.street_name, __.is(__.defined()));
-    __.assertThat(reportData.house_number, __.is(__.defined()));
-    __.assertThat(reportData.apt_number, __.is(__.defined()));
-    __.assertThat(reportData.months_to_lease_end, __.is(__.defined()));
-  });
 });
 
