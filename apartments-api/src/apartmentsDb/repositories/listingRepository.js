@@ -117,6 +117,7 @@ function getLatestListingByApartmentId(apartmentId) {
       apartment_id: apartmentId,
       status: { $notIn: ['deleted'] }
     },
+    order: [ [ 'id', 'DESC' ]],    
     include: fullListingDataInclude
   });
 }

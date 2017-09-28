@@ -61,15 +61,15 @@ async function renderApp(ctx) {
     return ctx.redirect('/search' + ctx.search);
   }
 
-  // Old apartments page redirect to properties page.
-  if (ctx.path.startsWith('/apartments/')) {
-    const listingId = ctx.path.split('/').pop(-1); // Get listingId from path.
-    const url = `${ctx.protocol}://${ctx.host}/api/apartments/v1/listings/${listingId}`;
+  // Old properties  page redirect to apartments page.
+  if (ctx.path.startsWith('/properties/')) {
+    const apartmentId = ctx.path.split('/').pop(-1); // Get apartmentId from path.
+    const url = `${ctx.protocol}://${ctx.host}/api/apartments/v1/listings/by-apartment/${apartmentId}`;
 
     return request.get(url) // Get listing from apartments-api.
       .then(response => {
         ctx.status = 301;
-        return ctx.redirect('/properties/' + response.data.apartment_id + ctx.search);
+        return ctx.redirect('/apartments/' + response.data.id + ctx.search);
       })
       .catch(() => { // If listing wasn't found.
         return ctx.redirect('/search');
