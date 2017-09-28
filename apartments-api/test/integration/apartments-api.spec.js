@@ -126,14 +126,6 @@ describe('Apartments API Integration', function () {
     it('should return the rented listing *WITHOUT* future booking (admin)', function* () {
       yield this.adminApiClient.getSingleListing(this.noFutureBooking.id, true).expect(200).end();
     });
-
-    it('should *NOT* return the rented listing *WITHOUT* future booking (any other user)', function* () {
-      yield this.otherApiClient.getSingleListing(this.noFutureBooking.id, true).expect(403).end();
-    });
-
-    it('should *NOT* return the rented listing *WITHOUT* future booking (anonymous user)', function* () {
-      yield this.anonymousApiClient.getSingleListing(this.noFutureBooking.id).expect(403).end();
-    });
   });
 
   describe('GET /listings/{id}/related', function () {
