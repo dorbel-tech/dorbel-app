@@ -83,31 +83,19 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
   }
 
   renderSidePanelText() {
-    return (this.props.appStore.newListingStore.uploadMode == 'manage') ?
-      (
-        <div className="upload-apt-right-container-text-container">
-          <h1>תמונות של הנכס</h1>
-          <div>הוסיפו תמונות של הנכס.</div>
-          <div>בהמשך תוכלו להוסיף או לעדכן תמונות בלחצית כפתור.</div>
-        </div>
-      )
-      :
-      (
-        <div className="upload-apt-right-container-text-container">
-          <h1>תמונות של הדירה</h1>
-          <ul>
-            <li>תמונות טובות זה ממש חשוב כדי שדיירים יבינו איך נראית הדירה</li>
-            <li>תמונות שישקפו את הדירה היטב ימשכו יותר דיירים רציניים</li>
-          </ul>
-        </div>
-      );
+    return <div className="upload-apt-right-container-text-container">
+      <h1>תמונות של הדירה</h1>
+      <ul>
+        <li>תמונות טובות זה ממש חשוב כדי שדיירים יבינו איך נראית הדירה</li>
+        <li>תמונות שישקפו את הדירה היטב ימשכו יותר דיירים רציניים</li>
+      </ul>
+    </div>;
   }
 
   render() {
     const { newListingStore } = this.props.appStore;
     const disableSave = newListingStore.shouldDisableSave;
-    const isManageMode = this.props.appStore.newListingStore.uploadMode == 'manage';
-    const isHideTooltip = isManageMode || newListingStore.formValues.images.length > 0;
+    const isHideTooltip = newListingStore.formValues.images.length > 0;
 
     return (
       <Grid fluid className="upload-apt-wrapper">

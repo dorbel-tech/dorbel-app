@@ -11,7 +11,6 @@ describe('Image Upload', () => {
 
   beforeEach(() => {
     editedListingStoreMock = {
-      uploadMode: 'publish',
       disableSave: jest.fn(),
       formValues: {
         images: []

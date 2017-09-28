@@ -24,7 +24,7 @@ function getFakeBuilding(variant) {
 
 function getFakeListing(variant) {
   const listing =  {
-    status: 'pending',
+    status: 'listed',
     monthly_rent: faker.random.number({ min: 1000, max: 9000 }),
     lease_start: getDateString(),
     lease_end: getDateString(),
