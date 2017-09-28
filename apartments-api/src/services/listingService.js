@@ -19,12 +19,6 @@ const possibleStatusesByCurrentStatus = {
   rented: ['listed', 'unlisted']
 };
 
-const createdEventsByListingStatus = {
-  listed: messageBus.eventType.APARTMENT_LISTED,
-  pending: messageBus.eventType.APARTMENT_CREATED,
-  rented: messageBus.eventType.APARTMENT_CREATED_FOR_MANAGEMENT
-};
-
 // TODO : move this to dorbel-shared
 function CustomError(code, message) {
   let error = new Error(message);
@@ -38,6 +32,7 @@ async function create(listing, user) {
   await validateNewListing(listing, user);
 
   let modifiedListing = setListingAutoFields(listing);
+  modifiedListing.status = modifiedListing.status || 'listed';
   listing.apartment.building.geolocation = await geoProvider.getGeoLocation(listing.apartment.building);
   let createdListing = await listingRepository.create(modifiedListing);
 
@@ -54,7 +49,7 @@ async function create(listing, user) {
   });
 
   // Publish event trigger message to SNS for notifications dispatching.
-  const messageType = createdEventsByListingStatus[listing.status];
+  const messageType = messageBus.eventType.APARTMENT_LISTED;
   const publishingUserType = createdListing.publishing_user_type;
 
   if (messageType) {
@@ -83,10 +78,6 @@ async function create(listing, user) {
 }
 
 async function validateNewListing(listing, user) {
-  if (['listed', 'pending', 'rented'].indexOf(listing.status) < 0) {
-    throw new CustomError(400, `לא ניתן להעלות דירה ב status ${listing.status}`);
-  }
-
   const validationData = await getValidationData(listing.apartment, user);
   if (validationData.listing_id) {
     const loggerObj = {
@@ -107,8 +98,8 @@ async function validateNewListing(listing, user) {
     }
   }
 
-  // Disable uploading apartment for listing without images
-  if (listing.status == 'pending' && (!listing.images || !listing.images.length)) {
+  // Disable uploading apartment without images
+  if (!listing.images || !listing.images.length) {
     throw new CustomError(400, 'לא ניתן להעלות מודעה להשכרה ללא תמונות');
   }
 }
@@ -238,17 +229,6 @@ async function getByFilter(filter = {}, options = {}) {
   return listings;
 }
 
-async function getByApartmentId(id, user) {
-  let listing = await listingRepository.getByApartmentId(id);
-
-  if (!listing) {
-    throw new CustomError(404, 'Cant get listing by apartmentId. Listing does not exists. apartmentId: ' + id);
-  }
-
-  validateListing(listing, user);
-  return await enrichListingResponse(listing, user);
-}
-
 async function getById(id, user) {
   let listing = await listingRepository.getById(id);
 
@@ -279,7 +259,6 @@ function validateListing(listing, user) {
 
 async function getBySlug(slug, user) {
   // TODO: Remove once all legacy listing urls with slug are outdated.
-  logger.warn('You are using deprecated function, please use getByApartmentId instead!');
   let listing = await listingRepository.getBySlug(slug);
 
   if (!listing) {
@@ -343,17 +322,17 @@ function throwIfNotAllowed(listing) {
   }
 }
 
-async function getRelatedListings(apartmentId, limit) {
-  const listing = await listingRepository.getByApartmentId(apartmentId);
+async function getRelatedListings(listingId, limit) {
+  const listing = await listingRepository.getById(listingId);
 
   if (!listing) { // Verify that the listing exists
-    throw new CustomError(404, 'Failed to get related listings. Listing does not exists. apartmentId: ' + apartmentId);
+    throw new CustomError(404, 'Failed to get related listings. Listing does not exists. listingId: ' + listingId);
   }
 
   const listingQuery = {
     status: 'listed',
     $not: {
-      apartment_id: apartmentId
+      id: listingId
     }
   };
 
@@ -410,7 +389,6 @@ module.exports = {
   getByFilter,
   getById,
   getBySlug,
-  getByApartmentId,
   getRelatedListings,
   getValidationData
 };

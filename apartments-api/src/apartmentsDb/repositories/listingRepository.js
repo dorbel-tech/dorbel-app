@@ -109,7 +109,7 @@ function getOneListing(where) {
 }
 
 function getLatestListingByApartmentId(apartmentId) {
-  return models.latest_listing.findOne({
+  return models.listing.findOne({
     attributes: listingAttributes,
     where: {
       apartment_id: apartmentId,

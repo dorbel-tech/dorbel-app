@@ -13,23 +13,6 @@ class ListingsProvider {
     this.navProvider = providers.navProvider;
   }
 
-  loadListingByApartmentId(id) {
-    return this.apiProvider.fetch('/api/apartments/v1/listings/by-apartment/' + id)
-      .then(listing => {
-        listing.title = utils.getListingTitle(listing);
-        this.appStore.listingStore.set(listing);
-        this.appStore.listingStore.setLastByApartmentId(listing);
-        this.appStore.metaData = _.defaults(this.getListingMetadata(listing), this.appStore.metaData);
-      })
-      .catch((error) => {
-        this.navProvider.showErrorPage(error.response.status);
-
-        if (!process.env.IS_CLIENT) { // must throw on SSR order to return an error
-          throw error;
-        }
-      });
-  }
-
   loadFullListingDetails(idOrSlug) {
     return this.apiProvider.fetch('/api/apartments/v1/listings/' + idOrSlug)
       .then(listing => {
@@ -80,7 +63,6 @@ class ListingsProvider {
 
   uploadApartment(listing) {
     let createdListing;
-    const { uploadMode } = this.appStore.newListingStore;
     return this.apiProvider.fetch('/api/apartments/v1/listings', { method: 'POST', data: listing })
       .then((newListing) => createdListing = newListing)
       .then(() => this.appStore.authStore.updateProfile({
@@ -90,8 +72,7 @@ class ListingsProvider {
         email: listing.user.email
       }))
       .then(() => {
-        const eventName = (uploadMode == 'publish') ? 'client_apartment_created' : 'client_apartment_created_for_management';
-        window.analytics.track(eventName, { listing_id: createdListing.id }); // For Facebook conversion tracking.
+        window.analytics.track('client_apartment_created', { listing_id: createdListing.id }); // For Facebook conversion tracking.
         return createdListing;
       });
   }
@@ -137,27 +118,6 @@ class ListingsProvider {
         const listingTenants = this.appStore.listingStore.listingTenantsById.get(tenant.listing_id);
         listingTenants.remove(tenant);
       });
-  }
-
-  isActiveListing(listing) {
-    const { listingsByApartmentId } = this.appStore.listingStore;
-    const listingHistory = listingsByApartmentId.get(listing.apartment_id);
-    return listingHistory && listingHistory[0] && listingHistory[0].id === listing.id;
-  }
-
-  loadListingsForApartment(apartment_id) {
-    const { listingsByApartmentId } = this.appStore.listingStore;
-
-    const params = {
-      q: JSON.stringify({
-        apartment_id,
-        myProperties: true,
-        order: 'lease_end'
-      })
-    };
-
-    return this.apiProvider.fetch('/api/apartments/v1/listings', { params })
-      .then(listings => listingsByApartmentId.set(apartment_id, listings.reverse()));
   }
 
   validateApartment(listing) {

@@ -89,30 +89,16 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
     }
   }
 
-  renderSidePanel(newListingStore) {
-    let title = 'פרטי קשר וסיום';
-    let content;
-    switch (newListingStore.uploadMode) {
-      case 'publish':
-        content = (
-          <ul className="upload-apt-right-container-step3-text-ul">
-            <li>לסיום התהליך וודאו שפרטי הקשר שלכם נכונים</li>
-            <li>פרטי הקשר שלכם ישמשו לעדכונים חשובים בלבד!</li>
-          </ul>
-        );
-        break;
-      case 'manage':
-        content = (
-          <h4>פרטי הקשר שלכם ישמשו לעדכונים חשובים בלבד!</h4>
-        );
-    }
-
+  renderSidePanel() {
     return (
       <Col md={5} className="upload-apt-right-container">
         <div className="upload-apt-right-container-text-wrapper">
           <div className="upload-apt-right-container-text-container">
-            <h1>{title}</h1>
-            {content}
+            <h1>פרטי קשר וסיום</h1>
+            <ul className="upload-apt-right-container-step3-text-ul">
+              <li>לסיום התהליך וודאו שפרטי הקשר שלכם נכונים</li>
+              <li>פרטי הקשר שלכם ישמשו לעדכונים חשובים בלבד!</li>
+            </ul>
           </div>
         </div>
         <img src="https://static.dorbel.com/images/upload-apt-form/icon-signup-card.svg" alt="" />
@@ -120,18 +106,11 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
     );
   }
 
-  renderPopupBodyText(newListingStore) {
-    return newListingStore.uploadMode == 'manage' ?
-      (
-        <p>הנכם מועברים לחשבון הדירה החדש שלכם, בו תוכלו לנהל ולעקוב אחר נתוני הנכס</p>
-      )
-      :
-      (
-        <div className="modal-text">
-          <h4><b>עכשיו תורכם!</b><br /><br />המשיכו לחשבון הדירה שלכם, ממנו תשתפו את המודעה.</h4>
-          <span className="upload-apt-success-modal-sub-text">כשתקבלו פניות מדיירים שמעוניינים בדירה, תוכלו לגלות מי הם וליצור קשר עם אלו שמתאימים לכם!</span>
-        </div>
-      );
+  renderPopupBodyText() {
+    return <div className="modal-text">
+      <h4><b>עכשיו תורכם!</b><br /><br />המשיכו לחשבון הדירה שלכם, ממנו תשתפו את המודעה.</h4>
+      <span className="upload-apt-success-modal-sub-text">כשתקבלו פניות מדיירים שמעוניינים בדירה, תוכלו לגלות מי הם וליצור קשר עם אלו שמתאימים לכם!</span>
+    </div>;
   }
 
   render() {
@@ -140,7 +119,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
 
     return (
       <Grid fluid className="upload-apt-wrapper">
-        {this.renderSidePanel(newListingStore)}
+        {this.renderSidePanel()}
 
         <Col md={7} className="upload-apt-left-container contact-details-step">
           <FormWrapper.Wrapper layout="vertical" onChange={this.handleChanges} ref="form">
@@ -165,7 +144,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
           title="פרטי הדירה שלכם עלו בהצלחה!"
           body={
             <div className="modal-container" {...createdListingIdAttr}>
-              {this.renderPopupBodyText(newListingStore)}
+              {this.renderPopupBodyText()}
               <p className="text-center">
                 <Button bsStyle="info" className="submit-success" onClick={this.onCloseSuccessModal.bind(this)}>קחו אותי לחשבון שלי</Button>
               </p>

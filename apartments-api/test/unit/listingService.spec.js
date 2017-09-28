@@ -103,15 +103,6 @@ describe('Listing Service', function () {
       __.assertThat(newListing, __.is(this.mockListing));
     });
 
-    it('should create a new listing for management without any images', function* () {
-      let newListing = faker.getFakeListing();
-      newListing.status = 'rented';
-      newListing.images = [];
-
-      newListing = yield this.listingService.create(newListing, this.mockUser);
-      __.assertThat(newListing, __.is(this.mockListing));
-    });
-
     it('should not create new listing without any images for publishing', function* () {
       let badListing = faker.getFakeListing();
       badListing.images = [];
@@ -122,41 +113,6 @@ describe('Listing Service', function () {
       }
       catch (error) {
         __.assertThat(error.message, __.is('לא ניתן להעלות מודעה להשכרה ללא תמונות'));
-      }
-    });
-
-    it('should successfuly to create listings with different statuses', function* () {
-      const statuses = [
-        'listed',
-        'pending',
-        'rented'
-      ];
-
-      for (let i = 0; i < statuses.length; i++) {
-        let newListing = faker.getFakeListing();
-        newListing.status = statuses[i];
-        yield this.listingService.create(newListing, this.mockUser);
-      }
-    });
-
-    it('should fail to create listings with different statuses', function* () {
-      const statuses = [
-        'unlisted',
-        'deleted',
-        'random',
-        undefined
-      ];
-
-      for (let i = 0; i < statuses.length; i++) {
-        let newListing = faker.getFakeListing();
-        newListing.status = statuses[i];
-        try {
-          yield this.listingService.create(newListing, this.mockUser);
-          __.assertThat('code', __.is('not reached'));
-        }
-        catch (error) {
-          __.assertThat(error.message, __.is(`לא ניתן להעלות דירה ב status ${statuses[i]}`));
-        }
       }
     });
 
@@ -194,7 +150,6 @@ describe('Listing Service', function () {
       const updatedListing = Object.assign({}, listing, { status: 'rented' });
       this.listingRepositoryMock.update = sinon.stub().resolves(updatedListing);
       this.listingRepositoryMock.getById = sinon.stub().resolves(listing);
-      this.listingRepositoryMock.getByApartmentId = sinon.stub().resolves(listing);
       this.likeRepositoryMock.getApartmentTotalLikes = sinon.stub().resolves(listing.apartment_id);
 
       const result = yield this.listingService.update(listing.id, user, updatedListing);
@@ -256,19 +211,19 @@ describe('Listing Service', function () {
 
   describe('Get related listings', function () {
     it('should return error if listing doesn\'t exist', function* () {
-      this.listingRepositoryMock.getByApartmentId = sinon.stub().resolves(undefined);
+      this.listingRepositoryMock.getById = sinon.stub().resolves(undefined);
 
       try {
         yield this.listingService.getRelatedListings(0);
         __.assertThat('code', __.is('not reached'));
       }
       catch (error) {
-        __.assertThat(error.message, __.is('Failed to get related listings. Listing does not exists. apartmentId: 0'));
+        __.assertThat(error.message, __.is('Failed to get related listings. Listing does not exists. listingId: 0'));
       }
     });
 
     it('should get related listings of existing listing', function* () {
-      this.listingRepositoryMock.getByApartmentId = sinon.stub().resolves(faker.getFakeListing());
+      this.listingRepositoryMock.getById = sinon.stub().resolves(faker.getFakeListing());
       this.listingRepositoryMock.list = sinon.stub().resolves([]);
       const relatedListings = yield this.listingService.getRelatedListings(1);
       __.assertThat(Array.isArray(relatedListings), __.is(true));

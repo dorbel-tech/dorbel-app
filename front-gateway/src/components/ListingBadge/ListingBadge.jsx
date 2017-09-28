@@ -9,7 +9,7 @@ import './ListingBadge.scss';
 class ListingBadge extends Component {
 
   getBadgeData() {
-    const { appStore, listing } = this.props;
+    const { listing } = this.props;
 
     const options = {
       show: false,
@@ -26,11 +26,7 @@ class ListingBadge extends Component {
       const listingStatusLabel = listingStatusLabels[listingStatus];
       if (listingStatusLabel) {
         options.show = true;
-        if (listingStatusLabel.landlordLabel && appStore.listingStore.isListingPublisherOrAdmin(listing)) {
-          options.text = listingStatusLabel.landlordLabel;
-        } else {
-          options.text = listingStatusLabel.label;
-        }
+        options.text = listingStatusLabel.label;
       }
     }
     else if (this.props.listing.roommate_needed) {

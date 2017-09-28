@@ -6,7 +6,7 @@ const DASHBOARD_PREFIX = '/dashboard';
 const SEARCH_PREFIX = '/search';
 
 function getPropertyPath(listing) {
-  return PROPERTIES_PREFIX + '/' + listing.apartment_id;
+  return PROPERTIES_PREFIX + '/' + listing.id;
 }
 
 function getDashMyPropsPath(listing, addPath = '') {
