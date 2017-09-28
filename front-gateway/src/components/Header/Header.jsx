@@ -8,7 +8,7 @@ import UserProfileBadge from './UserProfileBadge/UserProfileBadge';
 import { hideIntercom } from '~/providers/utils';
 import { MENU_ITEMS } from '../Dashboard/DashboardShared';
 import { Nav, Navbar, NavItem } from 'react-bootstrap';
-import { PROPERTY_SUBMIT_PREFIX } from '~/routesHelper';
+import { APARTMENTS_SUBMIT_PREFIX } from '~/routesHelper';
 import { SEARCH_PREFIX } from '~/routesHelper';
 
 import './Header.scss';
@@ -45,7 +45,7 @@ class Header extends Component {
     const isLoggedIn = authStore.isLoggedIn;
     const isMobile = isMobileJs.phone;
     const externalURL = 'https://www.dorbel.com';
-    const submitRoute = PROPERTY_SUBMIT_PREFIX;
+    const submitRoute = APARTMENTS_SUBMIT_PREFIX;
 
     return (
       <Navbar className="header-navbar"

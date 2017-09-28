@@ -24,10 +24,6 @@ class UploadApartmentForm extends Component {
   validateAndSetMode() {
     const { newListingStore } = this.props.appStore;
     newListingStore.attemptRestoreState();
-
-    if (process.env.IS_CLIENT) {
-      this.props.appProviders.navProvider.setRoute('/properties/submit');
-    }
   }
 
   nextStep() {
