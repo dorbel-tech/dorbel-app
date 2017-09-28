@@ -10,18 +10,13 @@ import FlatListing from './models/FlatListing';
 const roomOptions = _.range(1, 11, 0.5).map(num => ({ value: num, label: num }));
 
 export default class EditedListingStore {
-  @observable uploadMode;
   @observable formValues;
   @observable stepNumber = 0;
   @observable isFromValid = true;
 
   @computed get shouldDisableSave() {
     const images = this.formValues.images;
-    if (this.uploadMode !== 'manage') {
-      return images.length === 0 || images.some(img => !img.complete);
-    }
-
-    return false;
+    return images.length === 0 || images.some(img => !img.complete);
   }
 
   constructor(authStore, options) {
@@ -98,7 +93,6 @@ export default class EditedListingStore {
 
   toJson() {
     return {
-      uploadMode: this.uploadMode,
       formValues: this.formValues,
       stepNumber: this.stepNumber
     };

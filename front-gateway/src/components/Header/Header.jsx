@@ -45,7 +45,7 @@ class Header extends Component {
     const isLoggedIn = authStore.isLoggedIn;
     const isMobile = isMobileJs.phone;
     const externalURL = 'https://www.dorbel.com';
-    const submitRoute = PROPERTY_SUBMIT_PREFIX + '/publish';
+    const submitRoute = PROPERTY_SUBMIT_PREFIX;
 
     return (
       <Navbar className="header-navbar"

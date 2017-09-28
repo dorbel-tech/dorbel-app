@@ -4,11 +4,6 @@ import { inject, observer } from 'mobx-react';
 import _ from 'lodash';
 import './UploadApartmentForm.scss';
 
-const statusByUploadMode = {
-  publish: 'listed',
-  manage: 'rented'
-};
-
 const steps = [
   'UploadApartmentStep1',
   'UploadApartmentStep2',
@@ -30,18 +25,8 @@ class UploadApartmentForm extends Component {
     const { newListingStore } = this.props.appStore;
     newListingStore.attemptRestoreState();
 
-    if (statusByUploadMode[this.props.mode]) {
-      if (newListingStore.uploadMode != this.props.mode) {
-        newListingStore.stepNumber = 0; // Set step to 0 on mode change
-      }
-      newListingStore.uploadMode = this.props.mode;
-      newListingStore.updateFormValues({ status: statusByUploadMode[this.props.mode] });
-    }
-    else { // handle invalid mode
-      newListingStore.uploadMode = undefined;
-      if (process.env.IS_CLIENT) {
-        this.props.appProviders.navProvider.setRoute('/properties/submit');
-      }
+    if (process.env.IS_CLIENT) {
+      this.props.appProviders.navProvider.setRoute('/properties/submit');
     }
   }
 
@@ -95,8 +80,7 @@ class UploadApartmentForm extends Component {
 
 UploadApartmentForm.wrappedComponent.propTypes = {
   appStore: React.PropTypes.object,
-  appProviders: React.PropTypes.object,
-  mode: React.PropTypes.string
+  appProviders: React.PropTypes.object
 };
 
 export default UploadApartmentForm;

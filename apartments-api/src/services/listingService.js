@@ -19,12 +19,6 @@ const possibleStatusesByCurrentStatus = {
   rented: ['listed', 'unlisted']
 };
 
-const createdEventsByListingStatus = {
-  listed: messageBus.eventType.APARTMENT_LISTED,
-  pending: messageBus.eventType.APARTMENT_CREATED,
-  rented: messageBus.eventType.APARTMENT_CREATED_FOR_MANAGEMENT
-};
-
 // TODO : move this to dorbel-shared
 function CustomError(code, message) {
   let error = new Error(message);
@@ -38,6 +32,7 @@ async function create(listing, user) {
   await validateNewListing(listing, user);
 
   let modifiedListing = setListingAutoFields(listing);
+  modifiedListing.status = modifiedListing.status || 'listed';
   listing.apartment.building.geolocation = await geoProvider.getGeoLocation(listing.apartment.building);
   let createdListing = await listingRepository.create(modifiedListing);
 
@@ -54,7 +49,7 @@ async function create(listing, user) {
   });
 
   // Publish event trigger message to SNS for notifications dispatching.
-  const messageType = createdEventsByListingStatus[listing.status];
+  const messageType = messageBus.eventType.APARTMENT_LISTED;
   const publishingUserType = createdListing.publishing_user_type;
 
   if (messageType) {
@@ -83,10 +78,6 @@ async function create(listing, user) {
 }
 
 async function validateNewListing(listing, user) {
-  if (['listed', 'pending', 'rented'].indexOf(listing.status) < 0) {
-    throw new CustomError(400, `לא ניתן להעלות דירה ב status ${listing.status}`);
-  }
-
   const validationData = await getValidationData(listing.apartment, user);
   if (validationData.listing_id) {
     const loggerObj = {
@@ -107,8 +98,8 @@ async function validateNewListing(listing, user) {
     }
   }
 
-  // Disable uploading apartment for listing without images
-  if (listing.status == 'pending' && (!listing.images || !listing.images.length)) {
+  // Disable uploading apartment without images
+  if (!listing.images || !listing.images.length) {
     throw new CustomError(400, 'לא ניתן להעלות מודעה להשכרה ללא תמונות');
   }
 }
