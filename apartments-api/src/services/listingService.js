@@ -97,6 +97,11 @@ async function validateNewListing(listing, user) {
         break;
     }
   }
+
+  // Disable uploading apartment without images
+  if (!listing.images || !listing.images.length) {
+    throw new CustomError(400, 'לא ניתן להעלות מודעה להשכרה ללא תמונות');
+  }
 }
 
 async function update(listingId, user, patch) {
