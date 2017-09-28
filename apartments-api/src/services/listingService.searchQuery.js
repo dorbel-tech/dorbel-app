@@ -23,23 +23,16 @@ function getListingQuery(filter, options) {
 
   const listingQuery = [];
 
-  let statusQuery = { $or: [
-    { status: 'listed' },
-    { status: 'rented',
-      lease_end: { $gte: moment().add(1, 'month').toDate() }, // lease ends at least a month from now
-      show_for_future_booking: true
-    }
-  ] };
-
-  if (filter.futureBooking === false) {
-    statusQuery = { status: 'listed' };
-  }
+  let statusQuery = {
+    $or: [
+      { status: 'listed' }
+    ]
+  };
 
   let queryOptions = {
     order: filter.order || 'created_at DESC',
     limit: options.limit || DEFUALT_LISTING_LIST_LIMIT,
-    offset: options.offset || 0,
-    oldListings: filter.oldListings
+    offset: options.offset || 0
   };
 
   if (options.user) {
@@ -129,7 +122,7 @@ function getListingQuery(filter, options) {
   }
 
   return {
-    listingQuery : { $and: listingQuery },
+    listingQuery: { $and: listingQuery },
     queryOptions
   };
 }
@@ -137,7 +130,7 @@ function getListingQuery(filter, options) {
 function getDateRangeQuery(filter) {
   let dateRange;
   if (filter.minLease && filter.maxLease) {
-    dateRange = { $between: [ filter.minLease, moment(filter.maxLease).endOf('day').toISOString() ] };
+    dateRange = { $between: [filter.minLease, moment(filter.maxLease).endOf('day').toISOString()] };
   } else if (filter.minLease) {
     dateRange = { $gte: filter.minLease };
   } else {

@@ -17,7 +17,7 @@ const neighborhoodAttributes = ['id', 'neighborhood_name', 'city_id'];
 const imageAttributes = { exclude: ['created_at', 'updated_at'] };
 
 const LISTING_UPDATE_WHITELIST = ['status', 'monthly_rent', 'roommates', 'property_tax', 'board_fee', 'lease_start',
-  'lease_end', 'publishing_user_type', 'roommate_needed', 'directions', 'description', 'show_phone', 'show_for_future_booking', 'rent_lead_by'];
+  'lease_end', 'publishing_user_type', 'roommate_needed', 'directions', 'description', 'show_phone', 'rent_lead_by'];
 const APARTMENT_UPDATE_WHITELIST = ['apt_number', 'size', 'rooms', 'floor', 'parking', 'sun_heated_boiler', 'pets',
   'air_conditioning', 'balcony', 'security_bars', 'parquet_floor'];
 const BUILDING_UPDATE_WHITELIST = ['floors', 'elevator', 'entrance'];
@@ -49,9 +49,7 @@ const fullListingDataInclude = [
 ];
 
 function list(query, options = {}) {
-  const modelName = options.oldListings ? 'listing' : 'latest_listing';
-
-  return models[modelName].findAll({
+  return models.listing.findAll({
     attributes: options.listingAttributes || ['id', 'slug', 'title', 'monthly_rent', 'roommate_needed', 'lease_start', 'lease_end', 'status', 'created_at', 'apartment_id'],
     where: query,
     include: [
@@ -98,7 +96,7 @@ function list(query, options = {}) {
 
     limit: options.limit,
     offset: options.offset,
-    order: options.order ? modelName + '.' + options.order : undefined // workaround to prevent ambiguous field on order by
+    order: options.order ? `listing.${options.order}` : undefined // workaround to prevent ambiguous field on order by
   });
 }
 
@@ -111,7 +109,7 @@ function getOneListing(where) {
 }
 
 function getLatestListingByApartmentId(apartmentId) {
-  return models.latest_listing.findOne({
+  return models.listing.findOne({
     attributes: listingAttributes,
     where: {
       apartment_id: apartmentId,

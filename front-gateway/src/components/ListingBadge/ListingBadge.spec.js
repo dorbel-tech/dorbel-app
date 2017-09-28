@@ -27,7 +27,7 @@ describe('Search', () => {
     appStoreMock.listingStore.isListingPublisherOrAdmin.mockReturnValue(true);
     listingMock.status = 'rented';
     const wrapper = listingBadge();
-    expect(wrapper.find('span').text()).toEqual(utils.getListingStatusLabels()[listingMock.status].landlordLabel);
+    expect(wrapper.find('span').text()).toEqual(utils.getListingStatusLabels()[listingMock.status].label);
   });
   it('should not show label for listed listing', () => {
     listingMock.status = 'listed';

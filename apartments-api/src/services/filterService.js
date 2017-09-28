@@ -6,7 +6,7 @@ const { createObjectByMapping } = require('./utils');
 
 const MAX_FILTERS_PER_USER = 2;
 const filterUpdateFields = [ 'city', 'neighborhood', 'min_monthly_rent', 'max_monthly_rent', 'min_rooms', 'max_rooms',
-  'air_conditioning', 'balcony', 'elevator', 'parking', 'pets', 'security_bars', 'future_booking', 'min_lease_start', 'max_lease_start' ];
+  'air_conditioning', 'balcony', 'elevator', 'parking', 'pets', 'security_bars', 'min_lease_start', 'max_lease_start' ];
 const errors = shared.utils.domainErrors;
 
 const clientToApiFilterMap = [
@@ -24,7 +24,6 @@ const clientToApiFilterMap = [
   ['park', 'parking'],
   ['pet', 'pets'],
   ['sb', 'security_bars'],
-  ['futureBooking', 'future_booking'],
   ['ele', 'elevator'],
   ['minLease', 'min_lease_start'],
   ['maxLease', 'max_lease_start']
@@ -91,8 +90,8 @@ async function getFilterByMatchedListing(listing_id, user) {
   if (!listing) {
     throw new errors.DomainNotFoundError('listing not found', { listing_id }, 'listing not found');
   }
-  else if (listing.status === 'rented' && !listing.show_for_future_booking) {
-    // rented && not showed for future listing - this listing should not be matched by any filter.
+  else if (listing.status === 'rented') {
+    // rented - this listing should not be matched by any filter.
     return [];
   }
   else if (shared.utils.user.permissions.isResourceOwnerOrAdmin(user, listing.publishing_user_id)) {
@@ -114,16 +113,6 @@ function toggleEmail(email_notification, user) {
 }
 
 function mapListingToMatchingFilterQuery(listing) {
-  const filterQuery = {};
-  const listingReferenceDate = listing.status === 'rented' ? listing.lease_end : listing.lease_start;
-
-  if (listing.status === 'rented' && listing.show_for_future_booking) {
-    // only show filters that are looking for future_booking or don't care
-    filterQuery.future_booking = nullOrEqualTo(true);
-    // otherwise (listing is listed) we take all future_booking values
-    // assuming that rented && !show_for_future_booking listings dont get to this stage
-  }
-
   return {
     email_notification: true, // only return the filters that require email notification
     city: listing.apartment.building.city_id,
@@ -138,8 +127,8 @@ function mapListingToMatchingFilterQuery(listing) {
     pets: nullOrEqualTo(listing.apartment.pets),
     security_bars: nullOrEqualTo(listing.apartment.security_bars),
     elevator: nullOrEqualTo(listing.apartment.building.elevator),
-    min_lease_start: nullOrModifier('$lte', listingReferenceDate),
-    max_lease_start: nullOrModifier('$gte', listingReferenceDate)
+    min_lease_start: nullOrModifier('$lte', listing.lease_start),
+    max_lease_start: nullOrModifier('$gte', listing.lease_start)
   };
 }
 

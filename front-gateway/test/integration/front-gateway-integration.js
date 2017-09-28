@@ -116,8 +116,8 @@ describe('Front Gateway API Integration', function () {
     });
 
     it('should render property urls', function* () {
-      const listingData = yield apiClient.get('/api/apartments/v1/listings/by-apartment/1');
-      yield assertUrls('/properties/1', `/properties/${listingData.body.apartment_id}`);
+      const listingData = yield apiClient.get('/api/apartments/v1/listings/1');
+      yield assertUrls('/properties/1', `/properties/${listingData.body.id}`);
     });
   });
 });

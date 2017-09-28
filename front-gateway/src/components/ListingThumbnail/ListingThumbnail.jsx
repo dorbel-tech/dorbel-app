@@ -7,7 +7,7 @@ import ListingBadge from '../ListingBadge/ListingBadge';
 import CloudinaryImage from '../CloudinaryImage/CloudinaryImage';
 import LikeButton from '../LikeButton/LikeButton';
 import utils from '../../providers/utils';
-import { getPropertyPath, getDashMyPropsPath } from '~/routesHelper';
+import { getPropertyPath } from '~/routesHelper';
 
 import './ListingThumbnail.scss';
 
@@ -19,11 +19,7 @@ class ListingThumbnail extends Component {
   }
 
   getListingUrl(listing) {
-    if (this.props.isMyProperties) {
-      return getDashMyPropsPath(listing);
-    } else {
-      return getPropertyPath(listing);
-    }
+    return getPropertyPath(listing);
   }
 
   getListingDateStr(isRented) {
@@ -65,7 +61,7 @@ class ListingThumbnail extends Component {
                 {utils.getListingTitle(listing)}
               </div>
               <div className="apt-thumb-details-like">
-                <LikeButton apartmentId={listing.apartment_id} listingId={listing.id} showText/>
+                <LikeButton apartmentId={listing.apartment_id} listingId={listing.id} showText />
               </div>
             </div>
             <div className="apt-thumb-details-address">

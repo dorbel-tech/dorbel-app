@@ -75,7 +75,6 @@ module.exports = `
     roommate_needed: Boolean
     directions: String
     show_phone: Boolean
-    show_for_future_booking: Boolean
     rent_lead_by: String
     apartment: Apartment
     documents: [Document]
@@ -114,7 +113,7 @@ module.exports = `
     cities: [City]
     neighborhoods(city_id: Int!): [Neighborhood]
     listing(listing_id: Int!): Listing
-    listings(myProperties: Boolean, oldListings: Boolean): [Listing]
+    listings(myProperties: Boolean): [Listing]
     filters: [Filter]
   }
 

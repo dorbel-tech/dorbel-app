@@ -74,7 +74,7 @@ describe('Integration - PATCH /listings/{id}', function () {
     };
 
     yield apiClient.patchListing(createdListing.id, update).expect(500).end();
-    const response = yield apiClient.getSingleListing(createdListing.id).expect(200).end();
+    const response = yield apiClient.getSingleListing(createdListing.id, true).expect(200).end();
 
     __.assertThat(response.body, __.allOf(
       __.hasProperty('publishing_user_type', createdListing.publishing_user_type),

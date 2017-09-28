@@ -30,11 +30,11 @@ class Listing extends Component {
   }
 
   static serverPreRender(props) {
-    return props.appProviders.listingsProvider.loadListingByApartmentId(props.apartmentId);
+    return props.appProviders.listingsProvider.loadFullListingDetails(props.listingId);
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.apartmentId != nextProps.apartmentId) {
+    if (this.props.listingId != nextProps.listingId) {
       this.props = nextProps;
       this.loadFullListingDetails();
     }
@@ -79,14 +79,14 @@ class Listing extends Component {
   }
 
   loadFullListingDetails() {
-    const { apartmentId, appStore, appProviders } = this.props;
-    let listing = appStore.listingStore.getByApartmentId(apartmentId);
+    const { listingId, appStore, appProviders } = this.props;
+    let listing = appStore.listingStore.get(listingId);
 
     if (!listing) {
       this.setState({ isLoading: true });
-      appProviders.listingsProvider.loadListingByApartmentId(apartmentId)
+      appProviders.listingsProvider.loadFullListingDetails(listingId)
         .then(() => {
-          listing = appStore.listingStore.getByApartmentId(apartmentId);
+          listing = appStore.listingStore.get(listingId);
           this.reportListingPageView(listing.id);
           this.setState({ isLoading: false });
         });
@@ -128,8 +128,8 @@ class Listing extends Component {
   }
 
   render() {
-    const { apartmentId, appStore } = this.props;
-    const listing = appStore.listingStore.getByApartmentId(apartmentId);
+    const { listingId, appStore } = this.props;
+    const listing = appStore.listingStore.get(listingId);
 
     if (this.state.isLoading) {
       return (
@@ -171,7 +171,7 @@ class Listing extends Component {
 }
 
 Listing.wrappedComponent.propTypes = {
-  apartmentId: React.PropTypes.string.isRequired,
+  listingId: React.PropTypes.string.isRequired,
   appProviders: React.PropTypes.object,
   appStore: React.PropTypes.object,
   action: React.PropTypes.string

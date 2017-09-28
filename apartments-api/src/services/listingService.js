@@ -212,12 +212,6 @@ function setListingAutoFields(listing) {
     listing.roommates = true;
   }
 
-  // In case that listing was approved (listed) or submitted for manage and have images,
-  // we can safely show_for_future_booking enabled by default, because we validated all apartment details.
-  if (listing.images && listing.images.length > 0 && listing.publishing_user_type == 'landlord') {
-    listing.show_for_future_booking = true;
-  }
-
   return listing;
 }
 
@@ -233,17 +227,6 @@ async function getByFilter(filter = {}, options = {}) {
   }
 
   return listings;
-}
-
-async function getByApartmentId(id, user) {
-  let listing = await listingRepository.getByApartmentId(id);
-
-  if (!listing) {
-    throw new CustomError(404, 'Cant get listing by apartmentId. Listing does not exists. apartmentId: ' + id);
-  }
-
-  validateListing(listing, user);
-  return await enrichListingResponse(listing, user);
 }
 
 async function getById(id, user) {
@@ -276,7 +259,6 @@ function validateListing(listing, user) {
 
 async function getBySlug(slug, user) {
   // TODO: Remove once all legacy listing urls with slug are outdated.
-  logger.warn('You are using deprecated function, please use getByApartmentId instead!');
   let listing = await listingRepository.getBySlug(slug);
 
   if (!listing) {
@@ -319,9 +301,6 @@ async function enrichListingResponse(listing, user) {
       if (userPermissions.isResourceOwnerOrAdmin(user, listing.publishing_user_id)) {
         enrichedListing.totalLikes = await likeRepository.getApartmentTotalLikes(listing.apartment_id);
       }
-      else {
-        throwIfNotAllowed(listing);
-      }
       if (publishingUserProfile) {
         enrichedListing.publishing_user_email = publishingUserProfile.email;
       }
@@ -342,22 +321,22 @@ async function enrichListingResponse(listing, user) {
 }
 
 function throwIfNotAllowed(listing) {
-  if (listing.status == 'rented' && !listing.show_for_future_booking) {
+  if (listing.status == 'rented') {
     throw new CustomError(403, 'Cant show rented listing. User is not a publisher of listingId: ' + listing.id);
   }
 }
 
-async function getRelatedListings(apartmentId, limit) {
-  const listing = await listingRepository.getByApartmentId(apartmentId);
+async function getRelatedListings(listingId, limit) {
+  const listing = await listingRepository.getById(listingId);
 
   if (!listing) { // Verify that the listing exists
-    throw new CustomError(404, 'Failed to get related listings. Listing does not exists. apartmentId: ' + apartmentId);
+    throw new CustomError(404, 'Failed to get related listings. Listing does not exists. listingId: ' + listingId);
   }
 
   const listingQuery = {
     status: 'listed',
     $not: {
-      apartment_id: apartmentId
+      id: listingId
     }
   };
 
@@ -414,7 +393,6 @@ module.exports = {
   getByFilter,
   getById,
   getBySlug,
-  getByApartmentId,
   getRelatedListings,
   getValidationData
 };
