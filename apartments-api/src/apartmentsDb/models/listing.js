@@ -64,10 +64,6 @@ function define(sequelize, DataTypes) {
         type: DataTypes.STRING(255),
         defaultValue: null
       },
-      show_phone: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: false
-      },
       rent_lead_by: {
         type: DataTypes.ENUM('dorbel', 'other'),
         defaultValue: null
