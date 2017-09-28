@@ -123,15 +123,6 @@ describe('Listing Service', function () {
       __.assertThat(newListing, __.is(this.mockListing));
     });
 
-    it('should create a new listing for management without any images', function* () {
-      let newListing = faker.getFakeListing();
-      newListing.status = 'rented';
-      newListing.images = [];
-
-      newListing = yield this.listingService.create(newListing, this.mockUser);
-      __.assertThat(newListing, __.is(this.mockListing));
-    });
-
     it('should not create new listing without any images for publishing', function* () {
       let badListing = faker.getFakeListing();
       badListing.images = [];
@@ -142,20 +133,6 @@ describe('Listing Service', function () {
       }
       catch (error) {
         __.assertThat(error.message, __.is('לא ניתן להעלות מודעה להשכרה ללא תמונות'));
-      }
-    });
-
-    it('should successfuly to create listings with different statuses', function* () {
-      const statuses = [
-        'listed',
-        'pending',
-        'rented'
-      ];
-
-      for (let i = 0; i < statuses.length; i++) {
-        let newListing = faker.getFakeListing();
-        newListing.status = statuses[i];
-        yield this.listingService.create(newListing, this.mockUser);
       }
     });
 
