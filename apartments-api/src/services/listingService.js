@@ -19,12 +19,6 @@ const possibleStatusesByCurrentStatus = {
   rented: ['listed', 'unlisted']
 };
 
-const createdEventsByListingStatus = {
-  listed: messageBus.eventType.APARTMENT_LISTED,
-  pending: messageBus.eventType.APARTMENT_CREATED,
-  rented: messageBus.eventType.APARTMENT_CREATED_FOR_MANAGEMENT
-};
-
 // TODO : move this to dorbel-shared
 function CustomError(code, message) {
   let error = new Error(message);
