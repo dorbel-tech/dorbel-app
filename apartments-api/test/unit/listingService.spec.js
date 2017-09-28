@@ -159,27 +159,6 @@ describe('Listing Service', function () {
       }
     });
 
-    it('should fail to create listings with different statuses', function* () {
-      const statuses = [
-        'unlisted',
-        'deleted',
-        'random',
-        undefined
-      ];
-
-      for (let i = 0; i < statuses.length; i++) {
-        let newListing = faker.getFakeListing();
-        newListing.status = statuses[i];
-        try {
-          yield this.listingService.create(newListing, this.mockUser);
-          __.assertThat('code', __.is('not reached'));
-        }
-        catch (error) {
-          __.assertThat(error.message, __.is(`לא ניתן להעלות דירה ב status ${statuses[i]}`));
-        }
-      }
-    });
-
     it('should not create a new listing if apartment already has a non-closed listing', function* () {
       this.listingRepositoryMock.list = sinon.stub().resolves([{ id: 1, status: 'pending', publishing_user_id: this.mockUser.id }]);
       let newListing = faker.getFakeListing();

@@ -32,6 +32,7 @@ async function create(listing, user) {
   await validateNewListing(listing, user);
 
   let modifiedListing = setListingAutoFields(listing);
+  modifiedListing.status = 'listed';
   listing.apartment.building.geolocation = await geoProvider.getGeoLocation(listing.apartment.building);
   let createdListing = await listingRepository.create(modifiedListing);
 
