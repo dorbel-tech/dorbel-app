@@ -67,6 +67,9 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
                 <FRC.Input name="user.email" label="מייל" value={authStore.profile.email}
                   type="email" validations="isEmail" validationError="כתובת מייל לא תקינה" required />
               </Col>
+              <Col md={6}>
+                <FRC.Input validations="isNumeric" name="user.phone" label="טלפון" value={authStore.profile.phone} validationError="מספר טלפון לא תקין" required />
+              </Col>
             </Row>
             <Row>
               <Col md={6}>
@@ -135,7 +138,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
                 bsStyle={authStore.isLoggedIn ? 'success' : 'default'}
                 disabled={!authStore.isLoggedIn} >שליחה וסיום</SubmitButton>
             </span>
-            <ReactTooltip type="dark" effect="solid" place="top" disable={newListingStore.isFromValid}/>
+            <ReactTooltip type="dark" effect="solid" place="top" disable={newListingStore.isFromValid} />
           </Col>
         </Col>
         <DorbelModal
