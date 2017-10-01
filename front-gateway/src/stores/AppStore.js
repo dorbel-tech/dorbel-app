@@ -1,7 +1,6 @@
 'use strict';
 import AuthStore from '~/stores/AuthStore';
 import CityStore from '~/stores/CityStore';
-import DocumentStore from '~/stores/DocumentStore';
 import EditedListingStore from '~/stores/EditedListingStore';
 import LikeStore from '~/stores/LikeStore';
 import ListingStore from '~/stores/ListingStore';
@@ -37,7 +36,6 @@ export default class AppStore {
     this.editedListingStore = new EditedListingStore(this.authStore);
     this.searchStore = new SearchStore(initialState.searchStore);
     this.likeStore = new LikeStore(initialState.likeStore);
-    this.documentStore = new DocumentStore();
     this.messagingStore = new MessagingStore();
     this.shortUrlStore = new ShortUrlStore();
     this.matchingUsersStore = new MatchingUsersStore();
