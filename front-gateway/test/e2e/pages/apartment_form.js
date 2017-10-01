@@ -4,7 +4,7 @@ const imagePath = common.IS_CI ? 'C:/Users/hello/Desktop/images/logo1.jpg' : __d
 
 module.exports = {
   url: function () {
-    return common.getBaseUrl() + '/apartments/new_form';
+    return common.getBaseUrl() + '/apartments/submit';
   },
   sections: {
     apartmentDetails: {
