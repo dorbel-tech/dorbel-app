@@ -13,63 +13,23 @@ describe('Front Gateway API Integration', function () {
     __.assertThat(response.body, __.is(__.array()));
   });
 
-  it('should redirect /apartments/new to /properties/submit', function* () {
-    const response = yield apiClient.get('/apartments/new');
-    __.assertThat(response, __.hasProperties({
-      statusCode: 301,
-      headers: __.hasProperty('location', '/properties/submit')
-    }));
-  });
-
-  it('should redirect /apartments to /search', function* () {
-    const response = yield apiClient.get('/apartments');
-    __.assertThat(response, __.hasProperties({
-      statusCode: 301,
-      headers: __.hasProperty('location', '/search')
-    }));
-  });
-
-  it('should open property url', function* () {
-    const response = yield apiClient.get('/properties/1');
+  it('should open apartment url', function* () {
+    const response = yield apiClient.get('/apartments/1');
     __.assertThat(response, __.hasProperties({
       statusCode: 200,
     }));
   });
 
-  it('should redirect apartment url to property without slug', function* () {
-    const response = yield apiClient.get('/apartments/1');
+  it('should redirect property url to apartment without slug', function* () {
+    const response = yield apiClient.get('/properties/1');
     __.assertThat(response, __.hasProperties({
       statusCode: 301,
-      headers: __.hasProperty('location', '/properties/1')
+      headers: __.hasProperty('location', '/apartments/1')
     }));
   });
 
-  it('should redirect apartment page to property with text slug', function* () {
-    const response = yield apiClient.get('/apartments/best-apt-test');
-    __.assertThat(response, __.hasProperties({
-      statusCode: 301,
-      headers: __.hasProperty('location', '/properties/1')
-    }));
-  });
-
-  it('should redirect apartment page to property with number and text slug', function* () {
-    const response = yield apiClient.get('/apartments/123-slug');
-    __.assertThat(response, __.hasProperties({
-      statusCode: 301,
-      headers: __.hasProperty('location', '/properties/2')
-    }));
-  });
-
-  it('should redirect apartment page url to property with space in slug', function* () {
-    const response = yield apiClient.get('/apartments/123-slug slug');
-    __.assertThat(response, __.hasProperties({
-      statusCode: 301,
-      headers: __.hasProperty('location', '/properties/3')
-    }));
-  });
-
-  it('should return 404 for a non existing property', function* () {
-    const response = yield apiClient.get('/properties/SomeMadeUpSlug');
+  it('should return 404 for a non existing apartment', function* () {
+    const response = yield apiClient.get('/apartments/SomeMadeUpSlug');
     __.assertThat(response, __.hasProperties({
       statusCode: 404,
     }));
@@ -112,12 +72,12 @@ describe('Front Gateway API Integration', function () {
     });
 
     it('should render new apartment form urls with own url', function* () {
-      yield assertUrls('/properties/submit');
+      yield assertUrls('/apartments/submit');
     });
 
     it('should render property urls', function* () {
       const listingData = yield apiClient.get('/api/apartments/v1/listings/1');
-      yield assertUrls('/properties/1', `/properties/${listingData.body.id}`);
+      yield assertUrls('/apartments/1', `/apartments/${listingData.body.id}`);
     });
   });
 });

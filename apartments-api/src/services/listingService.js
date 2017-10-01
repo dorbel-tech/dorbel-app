@@ -383,6 +383,17 @@ async function getValidationData(apartment, user) {
   return result;
 }
 
+async function getByApartmentId(id, user) {
+  let listing = await listingRepository.getByApartmentId(id);
+
+  if (!listing) {
+    throw new CustomError(404, 'Cant get listing by apartmentId. Listing does not exists. apartmentId: ' + id);
+  }
+
+  validateListing(listing, user);
+  return await enrichListingResponse(listing, user);
+}
+
 module.exports = {
   create,
   update,
@@ -390,5 +401,6 @@ module.exports = {
   getById,
   getBySlug,
   getRelatedListings,
-  getValidationData
+  getValidationData,
+  getByApartmentId
 };
