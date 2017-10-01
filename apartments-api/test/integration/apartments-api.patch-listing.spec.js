@@ -21,7 +21,6 @@ describe('Integration - PATCH /listings/{id}', function () {
     let listingToPatch = _.clone(fakeListingObj);
     const aptNumToConflict = _.clone(fakeListingObj.apartment.apt_number);
 
-    delete listingToPatch.slug;
     listingToPatch.status = 'rented';
     listingToPatch.apartment.apt_number = 'test1';
 

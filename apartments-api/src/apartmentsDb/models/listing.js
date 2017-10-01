@@ -1,5 +1,4 @@
 'use strict';
-const normalizeSlug = require('dorbel-shared').utils.generic.normalizeSlug;
 
 function define(sequelize, DataTypes) {
   return sequelize.define('listing',
@@ -52,13 +51,6 @@ function define(sequelize, DataTypes) {
       roommate_needed: {
         type: DataTypes.BOOLEAN,
         defaultValue: false
-      },
-      slug: {
-        type: DataTypes.STRING,
-        defaultValue: null,
-        set: function (val) {
-          this.setDataValue('slug', normalizeSlug(val, true));
-        }
       },
       directions: {
         type: DataTypes.STRING(255),
