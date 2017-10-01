@@ -76,18 +76,7 @@ module.exports = `
     directions: String
     rent_lead_by: String
     apartment: Apartment
-    documents: [Document]
     images: [Image]
-  }
-
-  type Document {
-    id: Int!
-    dorbel_user_id: ID!
-    provider: String!
-    provider_file_id: String!
-    filename: String!
-    type: String
-    size: Int
   }
 
   type Image {
