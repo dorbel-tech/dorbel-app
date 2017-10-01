@@ -5,18 +5,10 @@ const listingService = require('../../services/listingService');
 const ONE_MINUTE = 60;
 
 async function get(ctx) {
-  const listingIdOrSlug = ctx.params.listingId;
-  const isSlug = isNaN(listingIdOrSlug);
+  const listingId = ctx.params.listingId;
 
   shared.helpers.headers.setUserConditionalCacheHeader(ctx.request, ctx.response, ONE_MINUTE);
-
-  if (isSlug) {
-    const encodedSlug = shared.utils.generic.normalizeSlug(listingIdOrSlug);
-    ctx.response.body = await listingService.getBySlug(encodedSlug, ctx.request.user);
-  }
-  else {
-    ctx.response.body = await listingService.getById(listingIdOrSlug, ctx.request.user);
-  }
+  ctx.response.body = await listingService.getById(listingId, ctx.request.user);
 }
 
 async function patchListing(ctx) {

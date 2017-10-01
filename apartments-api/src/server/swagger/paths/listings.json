@@ -91,7 +91,7 @@
         {
           "name": "listingId",
           "in": "path",
-          "description": "{id} of listing or {slug}",
+          "description": "{id} of listing",
           "type": "string",
           "required": true
         }

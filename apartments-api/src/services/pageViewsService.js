@@ -3,7 +3,6 @@ const _ = require('lodash');
 const moment = require('moment');
 const shared = require('dorbel-shared');
 const analyticsProvider = require('../providers/googleAnalyticsProvider');
-const listingRepository = require('../apartmentsDb/repositories/listingRepository');
 
 const logger = shared.logger.getLogger(module);
 const cache = shared.utils.cache;
@@ -32,9 +31,7 @@ async function getPageViewsFromCache(listingIds) {
 }
 
 async function getPageViewsFromProvider(listingsIds) {
-  const listings = await listingRepository.getSlugs(listingsIds);
-
-  const idsByUrl = getIdsByUrl(listings);
+  const idsByUrl = getIdsByUrl(listingsIds);
   const urls = Object.keys(idsByUrl);
 
   const pageViews = await analyticsProvider.getPageViews(urls);
@@ -42,22 +39,16 @@ async function getPageViewsFromProvider(listingsIds) {
   const viewsFromProvider = {};
   pageViews.forEach(result => {
     const listingId = idsByUrl[result.url];
-    viewsFromProvider[listingId] = viewsFromProvider[listingId] || { views: 0 };
-    viewsFromProvider[listingId].views += result.views;
+    viewsFromProvider[listingId] = { views: result.views || 0 };
   });
 
   return viewsFromProvider;
 }
 
-function getIdsByUrl(listings) {
-  // return a map between URL => listing_id (listings with slug will have two entries)
+function getIdsByUrl(listingIds) {
+  // return a map between URL => listing_id
   const idsByUrl = {};
-  listings.forEach(listing => {
-    idsByUrl[`/apartments/${listing.id}`] = listing.id;
-    if (listing.slug) {
-      idsByUrl[`/apartments/${listing.slug}`] = listing.id;
-    }
-  });
+  listingIds.forEach(id => { idsByUrl[`/apartments/${id}`] = id; });
   return idsByUrl;
 }
 

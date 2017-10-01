@@ -43,8 +43,7 @@ function getFakeListing(variant) {
     images: [ getFakeImage(true) ],
     user: {
       phone: '123456789'
-    },
-    slug: 'test-listing-' + faker.random.uuid() // This field has a unique constraint
+    }
   };
 
   listing.apartment.building.toJSON = () => listing.apartment.building;
