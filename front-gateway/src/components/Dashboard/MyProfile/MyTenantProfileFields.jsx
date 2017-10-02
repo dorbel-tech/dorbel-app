@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Row, Col } from 'react-bootstrap';
-import { FRC } from '~/components/FormWrapper/FormWrapper';
 
 import './MyProfileEditFields.scss';
 
@@ -13,33 +12,33 @@ class TenantProfileFields extends Component {
     return (
       <Row>
         <Row>
-          <FRC.Input value="tenant_profile" name="section" type="hidden" />
+          <input value="tenant_profile" name="section" type="hidden" />
           <Col className="my-profile-input" sm={12}>
-            <FRC.Textarea
+            <textarea
               value={tenant_profile.about_you}
+              onChange={this.props.onChange}
               label="כמה מילים על עצמכם"
               name="data.about_you"
-              layout="vertical"
               placeholder="עזרו לבעל הדירה להכיר אתכם טוב יותר. איך אתם כשוכרים? לכמה זמן מעוניינים בדירה?"
             />
           </Col>
         </Row>
         <Row>
           <Col className="my-profile-input" sm={6}>
-            <FRC.Input
+            <input
               value={tenant_profile.work_place}
+              onChange={this.props.onChange}
               label="מקום עבודה"
               name="data.work_place"
-              layout="vertical"
               placeholder="שם החברה / ארגון"
             />
           </Col>
           <Col className="my-profile-input" sm={6}>
-            <FRC.Input
+            <input
               value={tenant_profile.position}
+              onChange={this.props.onChange}
               label="תפקיד"
               name="data.position"
-              layout="vertical"
               type="text"
               placeholder="התפקיד שלכם"
             />
@@ -47,20 +46,20 @@ class TenantProfileFields extends Component {
         </Row>
         <Row>
           <Col className="my-profile-input" sm={6}>
-            <FRC.Input
+            <input
               value={tenant_profile.facebook_url}
+              onChange={this.props.onChange}
               label="לינק לפרופיל הfacebook שלכם"
               name="data.facebook_url"
-              layout="vertical"
               placeholder="העתיקו את הלינק לכאן"
             />
           </Col>
           <Col className="my-profile-input" sm={6}>
-            <FRC.Input
+            <input
               value={tenant_profile.linkedin_url}
+              onChange={this.props.onChange}
               label="לינק לפרופיל הLinkedIn שלכם"
               name="data.linkedin_url"
-              layout="vertical"
               placeholder="העתיקו את הלינק לכאן"
             />
           </Col>
@@ -71,6 +70,7 @@ class TenantProfileFields extends Component {
 }
 
 TenantProfileFields.propTypes = {
+  onChange: React.PropTypes.func.isRequired,
   profile: React.PropTypes.object.isRequired
 };
 

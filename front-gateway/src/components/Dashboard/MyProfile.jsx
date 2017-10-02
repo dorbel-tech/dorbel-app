@@ -4,7 +4,6 @@ import { Tabs, Tab, Grid, Row, Button } from 'react-bootstrap';
 import { inject, observer } from 'mobx-react';
 import { find } from 'lodash';
 import { getMyProfilePath } from '~/routesHelper';
-import FormWrapper from '~/components/FormWrapper/FormWrapper';
 import SubmitButton from '~/components/SubmitButton/SubmitButton';
 import TenantProfile from '~/components/Tenants/TenantProfile/TenantProfile';
 import MySettingsFields from './MyProfile/MySettingsFields';
@@ -31,19 +30,21 @@ class MyProfile extends Component {
   }
 
   submit() {
-    const formsy = this.form.refs.formsy;
-
-    if (formsy.isChanged()) {
+/*    if (formsy.isChanged()) {
       const profile = formsy.getModel();
       const notificationProvider = this.props.appProviders.notificationProvider;
       return this.props.appProviders.authProvider.updateUserProfile(profile)
         .then(() => { notificationProvider.success('הפרטים עודכנו בהצלחה'); })
         .catch(notificationProvider.error);
-    }
+    }*/
+  }
+
+  handleInputChange(e) {
+    this.setState({[e.target.name]: e.target.value});
   }
 
   renderActiveSection(activeTab, profile) {
-    return (<activeTab.content profile={profile} />);
+    return (<activeTab.content profile={profile} onChange={this.handleInputChange}/>);
   }
 
   showPreview(profile) {
@@ -84,9 +85,7 @@ class MyProfile extends Component {
               <img className="profile-picture" src={profile.picture} />
             </div>
             <Row>
-              <FormWrapper.Wrapper className="profile-form" ref={el => this.form = el}
-                onInvalid={() => { this.setState({ isValid: false }); }}
-                onValid={() => { this.setState({ isValid: true }); }}>
+              <form className="profile-form" onSubmit={this.submit}>
                 {this.renderActiveSection(activeTab, profile)}
                 <Row>
                   <SubmitButton disabled={!formChanged || !this.state.isValid} onClick={this.submit} className="profile-submit"
@@ -94,7 +93,7 @@ class MyProfile extends Component {
                     {activeTab.submitText || 'עדכון פרטים'}
                   </SubmitButton>
                 </Row>
-              </FormWrapper.Wrapper>
+              </form>
             </Row>
           </div>
         </Row>
