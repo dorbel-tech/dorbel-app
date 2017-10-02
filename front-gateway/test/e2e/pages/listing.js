@@ -3,7 +3,7 @@ const common = require('../common');
 
 module.exports = {
   url: function(listingId){
-    return common.getBaseUrl() + '/properties/' + listingId;
+    return common.getBaseUrl() + '/apartments/' + listingId;
   },
   elements: {
     notification: {
