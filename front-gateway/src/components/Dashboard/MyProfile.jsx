@@ -29,7 +29,8 @@ class MyProfile extends Component {
     this.state = {
       activeTab: activeTab,
       isValid: false,
-      section: props.appStore.authStore.profile[activeTab.section]
+      section: Object.assign({}, props.appStore.authStore.profile[activeTab.section]),
+      formChanged: false
     };
   }
 
@@ -46,7 +47,7 @@ class MyProfile extends Component {
   handleInputChange(e) {
     const newSection = this.state.section;
     newSection[e.target.name] = e.target.value;
-    this.setState({section: newSection});
+    this.setState({section: newSection, formChanged: this.isFormChanged()});
   }
 
   renderActiveSection(activeTab, section) {
@@ -61,6 +62,17 @@ class MyProfile extends Component {
     });
   }
 
+  isFormChanged() {
+    const oldSection = this.props.appStore.authStore.profile[this.state.activeTab.section];
+    const newSection = this.state.section;
+
+    return Object.keys(newSection).some(key => {
+      if (newSection[key] !== oldSection[key]) {
+        return true;
+      }
+    });
+  }
+
   handleTabSelect(e) {
     this.props.router.setRoute(getMyProfilePath(e.key));
   }
@@ -68,7 +80,6 @@ class MyProfile extends Component {
   render() {
     const { authStore } = this.props.appStore;
     const fullProfile = authStore.profile;
-    const formChanged = false;
 
     return (
       <Grid fluid className="profile-container">
@@ -93,7 +104,7 @@ class MyProfile extends Component {
               <form className="profile-form" onSubmit={this.submit}>
                 {this.renderActiveSection(this.state.activeTab, this.state.section)}
                 <Row>
-                  <SubmitButton disabled={!formChanged || !this.state.isValid} onClick={this.submit} className="profile-submit"
+                  <SubmitButton disabled={!this.state.formChanged || !this.state.isValid} onClick={this.submit} className="profile-submit"
                     bsStyle="success">
                     {this.state.activeTab.submitText || 'עדכון פרטים'}
                   </SubmitButton>
