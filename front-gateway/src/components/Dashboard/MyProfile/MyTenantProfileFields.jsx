@@ -1,14 +1,29 @@
 import React, { Component } from 'react';
 import autobind from 'react-autobind';
 import { Row, Col } from 'react-bootstrap';
+import inputValidator from '~/components/FormWrapper/InputValidator';
 
 import './MyProfileEditFields.scss';
 
 class TenantProfileFields extends Component {
   static showPicture = false;
 
+  constructor(props) {
+    super(props);
+    autobind(this);
+
+    this.state = {
+      isValid: true
+    };
+  }
+
   handleInputChange(e) {
-    this.props.onChange(e);
+    this.setState({isValid: this.isFormValid()});
+    this.props.onChange(e, this.state.isValid);
+  }
+
+  isFormValid() {
+    return true;
   }
 
   render() {
@@ -24,6 +39,7 @@ class TenantProfileFields extends Component {
               label="כמה מילים על עצמכם"
               name="about_you"
               placeholder="עזרו לבעל הדירה להכיר אתכם טוב יותר. איך אתם כשוכרים? לכמה זמן מעוניינים בדירה?"
+              required
             />
           </Col>
         </Row>

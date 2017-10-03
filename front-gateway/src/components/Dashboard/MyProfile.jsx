@@ -28,7 +28,7 @@ class MyProfile extends Component {
 
     this.state = {
       activeTab: activeTab,
-      isValid: false,
+      isValid: true,
       section: Object.assign({}, props.appStore.authStore.profile[activeTab.section]),
       formChanged: false
     };
@@ -44,10 +44,14 @@ class MyProfile extends Component {
     }*/
   }
 
-  handleInputChange(e) {
+  handleInputChange(e, isValid) {
     const newSection = this.state.section;
     newSection[e.target.name] = e.target.value;
-    this.setState({section: newSection, formChanged: this.isFormChanged()});
+    this.setState({
+      section: newSection,
+      formChanged: this.isFormChanged(),
+      isValid: isValid
+    });
   }
 
   renderActiveSection(activeTab, section) {
