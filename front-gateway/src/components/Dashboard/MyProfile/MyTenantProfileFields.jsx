@@ -7,7 +7,7 @@ class TenantProfileFields extends Component {
   static showPicture = false;
 
   render() {
-    let tenant_profile = this.props.profile.tenant_profile;
+    let tenant_profile = this.props.section;
 
     return (
       <Row>
@@ -18,7 +18,7 @@ class TenantProfileFields extends Component {
               value={tenant_profile.about_you}
               onChange={this.props.onChange}
               label="כמה מילים על עצמכם"
-              name="data.about_you"
+              name="about_you"
               placeholder="עזרו לבעל הדירה להכיר אתכם טוב יותר. איך אתם כשוכרים? לכמה זמן מעוניינים בדירה?"
             />
           </Col>
@@ -29,7 +29,7 @@ class TenantProfileFields extends Component {
               value={tenant_profile.work_place}
               onChange={this.props.onChange}
               label="מקום עבודה"
-              name="data.work_place"
+              name="work_place"
               placeholder="שם החברה / ארגון"
             />
           </Col>
@@ -38,7 +38,7 @@ class TenantProfileFields extends Component {
               value={tenant_profile.position}
               onChange={this.props.onChange}
               label="תפקיד"
-              name="data.position"
+              name="position"
               type="text"
               placeholder="התפקיד שלכם"
             />
@@ -50,7 +50,7 @@ class TenantProfileFields extends Component {
               value={tenant_profile.facebook_url}
               onChange={this.props.onChange}
               label="לינק לפרופיל הfacebook שלכם"
-              name="data.facebook_url"
+              name="facebook_url"
               placeholder="העתיקו את הלינק לכאן"
             />
           </Col>
@@ -59,7 +59,7 @@ class TenantProfileFields extends Component {
               value={tenant_profile.linkedin_url}
               onChange={this.props.onChange}
               label="לינק לפרופיל הLinkedIn שלכם"
-              name="data.linkedin_url"
+              name="linkedin_url"
               placeholder="העתיקו את הלינק לכאן"
             />
           </Col>
@@ -71,7 +71,7 @@ class TenantProfileFields extends Component {
 
 TenantProfileFields.propTypes = {
   onChange: React.PropTypes.func.isRequired,
-  profile: React.PropTypes.object.isRequired
+  section: React.PropTypes.object.isRequired
 };
 
 export default TenantProfileFields;

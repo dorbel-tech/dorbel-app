@@ -21,11 +21,15 @@ class MyProfile extends Component {
     this.tabs = [
       { key: 'settings', title: 'הגדרות', content: MySettingsFields, submitText: 'שמור שינויים' },
       { key: 'me', title: 'פרטי קשר', content: MyProfileFields },
-      { key: 'tenant', title: 'פרופיל דייר', content: MyTenantProfileFields }
+      { key: 'tenant', section: 'tenant_profile', title: 'פרופיל דייר', content: MyTenantProfileFields }
     ];
 
+    const activeTab = find(this.tabs, { key: props.tab }) || this.tabs[0];
+
     this.state = {
-      isValid: false
+      activeTab: activeTab,
+      isValid: false,
+      section: props.appStore.authStore.profile[activeTab.section]
     };
   }
 
@@ -40,11 +44,13 @@ class MyProfile extends Component {
   }
 
   handleInputChange(e) {
-    this.setState({[e.target.name]: e.target.value});
+    const newSection = this.state.section;
+    newSection[e.target.name] = e.target.value;
+    this.setState({section: newSection});
   }
 
-  renderActiveSection(activeTab, profile) {
-    return (<activeTab.content profile={profile} onChange={this.handleInputChange}/>);
+  renderActiveSection(activeTab, section) {
+    return (<activeTab.content section={section} onChange={this.handleInputChange}/>);
   }
 
   showPreview(profile) {
@@ -61,13 +67,12 @@ class MyProfile extends Component {
 
   render() {
     const { authStore } = this.props.appStore;
-    const profile = authStore.profile;
-    const activeTab = find(this.tabs, { key: this.props.tab }) || this.tabs[0];
-    const formChanged = this.form && this.form.refs.formsy.isChanged();
+    const fullProfile = authStore.profile;
+    const formChanged = false;
 
     return (
       <Grid fluid className="profile-container">
-        <Tabs className="tab-menu" activeKey={activeTab}
+        <Tabs className="tab-menu" activeKey={this.state.activeTab}
           onSelect={this.handleTabSelect} id="my-profile-tabs">
           {this.tabs.map(tab =>
             <Tab eventKey={tab} key={tab.key} title={tab.title}></Tab>
@@ -75,22 +80,22 @@ class MyProfile extends Component {
         </Tabs>
         <Row className="profile-edit-wrapper">
           <div className="profile-header">
-            <div className="profile-title pull-right">{activeTab.title}</div>
-            <Button className={'profile-preview pull-left profile-preview-' + activeTab.key} onClick={() => { this.showPreview(profile); }}>
+            <div className="profile-title pull-right">{this.state.activeTab.title}</div>
+            <Button className={'profile-preview pull-left profile-preview-' + this.state.activeTab.key} onClick={() => { this.showPreview(fullProfile); }}>
               תצוגה מקדימה
             </Button>
           </div>
           <div className="profile-edit-container">
-            <div className={activeTab.content.showPicture ? 'profile-picture-container' : 'hidden'}>
-              <img className="profile-picture" src={profile.picture} />
+            <div className={this.state.activeTab.content.showPicture ? 'profile-picture-container' : 'hidden'}>
+              <img className="profile-picture" src={fullProfile.picture} />
             </div>
             <Row>
               <form className="profile-form" onSubmit={this.submit}>
-                {this.renderActiveSection(activeTab, profile)}
+                {this.renderActiveSection(this.state.activeTab, this.state.section)}
                 <Row>
                   <SubmitButton disabled={!formChanged || !this.state.isValid} onClick={this.submit} className="profile-submit"
                     bsStyle="success">
-                    {activeTab.submitText || 'עדכון פרטים'}
+                    {this.state.activeTab.submitText || 'עדכון פרטים'}
                   </SubmitButton>
                 </Row>
               </form>
