@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Row, Col } from 'react-bootstrap';
+import FormInput from '~/components/FormWrapper/FormInput';
 
 import './MyProfileEditFields.scss';
 
@@ -13,15 +14,14 @@ class TenantProfileFields extends Component {
       <Row>
         <Row>
           <Col className="my-profile-input" sm={12}>
-            <textarea
+            <FormInput
+              label="כמה מילים על עצמכם"
               value={tenant_profile.about_you}
               onChange={this.props.onChange}
-              label="כמה מילים על עצמכם"
               name="about_you"
               placeholder="עזרו לבעל הדירה להכיר אתכם טוב יותר. איך אתם כשוכרים? לכמה זמן מעוניינים בדירה?"
               required
-            />
-            {this.props.invalidFieldMap.about_you && <span className="input-field-invalid-text">שדה חובה</span>}
+              invalidText={this.props.invalidFieldMap.about_you} />
           </Col>
         </Row>
         <Row>
