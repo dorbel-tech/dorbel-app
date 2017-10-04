@@ -52,6 +52,12 @@ class MessagingProvider {
         me: this.talkUser
       });
 
+      // Register mobile device for push notfication.
+      const talkJsRegisterDevice = localStorage.getItem('talkJsRegisterDevice');
+      if (talkJsRegisterDevice) {
+        this.talkSession.registerDevice(talkJsRegisterDevice);
+      }
+
       // Watch message sent callback.
       this.talkSession.on('message', () => {
         // Report event to analytics.
@@ -90,14 +96,7 @@ class MessagingProvider {
   getOrStartConversationOnReady(withUserObj, options) {
     if (this.initTalkSession() && this.talkUser.id !== withUserObj.id) {
       const withUser = new global.window.Talk.User(_.defaults(withUserObj, TALKJS_USER_OBJ_EXTRA));
-
       const conversation = this.talkSession.getOrStartConversation(withUser, options || {});
-
-      const talkJsRegisterDevice = localStorage.getItem('talkJsRegisterDevice');
-      if (talkJsRegisterDevice) {
-        this.talkSession.registerDevice(talkJsRegisterDevice);
-      }
-
       const popup = this.talkSession.createPopup(conversation, {keepOpen: false});
       popup.mount();
 
