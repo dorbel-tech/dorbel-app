@@ -53,7 +53,7 @@ class MessagingProvider {
       });
 
       // Register mobile device for push notfication.
-      const talkJsRegisterDevice = localStorage.getItem('talkJsRegisterDevice');
+      const talkJsRegisterDevice = JSON.parse(localStorage.getItem('talkJsRegisterDevice'));
       if (talkJsRegisterDevice) {
         this.talkSession.registerDevice(talkJsRegisterDevice);
       }
