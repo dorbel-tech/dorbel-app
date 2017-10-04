@@ -11,19 +11,7 @@ class Search extends Component {
 
   constructor(props) {
     super(props);
-    this.writePushInfo();
     this.props.appStore.metaData.title = 'dorbel - דירות להשכרה שתשמחו לגור בהן. ללא תיווך';
-  }
-
-  writePushInfo() {
-    const platform = this.getParameterByName('platform');
-    const pushRegId = this.getParameterByName('regId');
-    console.log('platform', platform);
-    console.log('pushRegId', pushRegId);
-
-    if (platform && pushRegId) {
-      localStorage.setItem('talkJsRegisterDevice', JSON.stringify({ platform: platform, pushRegistrationId: pushRegId }));
-    }
   }
 
   getParameterByName(name, url) {
