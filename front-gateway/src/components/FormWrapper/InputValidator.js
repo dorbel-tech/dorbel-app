@@ -1,14 +1,16 @@
 'use strict';
 import _ from 'lodash';
 
-function isValid(inputElement) {
+function invalidate(inputElement, invalidFieldMap) {
   if (inputElement.getAttribute('required') !== null && !inputElement.value) {
-    return false;
+    invalidFieldMap[inputElement.name] = 'required';
+  } else {
+    delete invalidFieldMap[inputElement.name];
   }
   
-  return true;
+  return invalidFieldMap;
 }
 
 module.exports = {
-  isValid
+  invalidate
 };

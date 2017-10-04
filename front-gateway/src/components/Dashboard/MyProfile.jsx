@@ -4,6 +4,7 @@ import { Tabs, Tab, Grid, Row, Button } from 'react-bootstrap';
 import { inject, observer } from 'mobx-react';
 import { find } from 'lodash';
 import { getMyProfilePath } from '~/routesHelper';
+import inputValidator from '~/components/FormWrapper/InputValidator';
 import SubmitButton from '~/components/SubmitButton/SubmitButton';
 import TenantProfile from '~/components/Tenants/TenantProfile/TenantProfile';
 import MySettingsFields from './MyProfile/MySettingsFields';
@@ -28,7 +29,7 @@ class MyProfile extends Component {
 
     this.state = {
       activeTab: activeTab,
-      isValid: true,
+      invalidFieldMap: {},
       section: Object.assign({}, props.appStore.authStore.profile[activeTab.section]),
       formChanged: false
     };
@@ -44,18 +45,20 @@ class MyProfile extends Component {
     }*/
   }
 
-  handleInputChange(e, isValid) {
+  handleInputChange(e) {
     const newSection = this.state.section;
     newSection[e.target.name] = e.target.value;
     this.setState({
       section: newSection,
       formChanged: this.isFormChanged(),
-      isValid: isValid
+      invalidFieldMap: inputValidator.invalidate(e.target, this.state.invalidFieldMap)
     });
   }
 
   renderActiveSection(activeTab, section) {
-    return (<activeTab.content section={section} onChange={this.handleInputChange}/>);
+    return (<activeTab.content section={section}
+                               onChange={this.handleInputChange}
+                               invalidFieldMap={this.state.invalidFieldMap}/>);
   }
 
   showPreview(profile) {
@@ -84,6 +87,7 @@ class MyProfile extends Component {
   render() {
     const { authStore } = this.props.appStore;
     const fullProfile = authStore.profile;
+    const validForm = Object.keys(this.state.invalidFieldMap).length === 0;
 
     return (
       <Grid fluid className="profile-container">
@@ -108,7 +112,7 @@ class MyProfile extends Component {
               <form className="profile-form" onSubmit={this.submit}>
                 {this.renderActiveSection(this.state.activeTab, this.state.section)}
                 <Row>
-                  <SubmitButton disabled={!this.state.formChanged || !this.state.isValid} onClick={this.submit} className="profile-submit"
+                  <SubmitButton disabled={!this.state.formChanged || !validForm} onClick={this.submit} className="profile-submit"
                     bsStyle="success">
                     {this.state.activeTab.submitText || 'עדכון פרטים'}
                   </SubmitButton>

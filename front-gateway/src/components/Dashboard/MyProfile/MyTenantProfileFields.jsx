@@ -21,6 +21,7 @@ class TenantProfileFields extends Component {
               placeholder="עזרו לבעל הדירה להכיר אתכם טוב יותר. איך אתם כשוכרים? לכמה זמן מעוניינים בדירה?"
               required
             />
+            {this.props.invalidFieldMap.about_you && <span className="input-field-invalid-text">שדה חובה</span>}
           </Col>
         </Row>
         <Row>
@@ -71,7 +72,8 @@ class TenantProfileFields extends Component {
 
 TenantProfileFields.propTypes = {
   onChange: React.PropTypes.func.isRequired,
-  section: React.PropTypes.object.isRequired
+  section: React.PropTypes.object.isRequired,
+  invalidFieldMap: React.PropTypes.object.isRequired
 };
 
 export default TenantProfileFields;
