@@ -1,33 +1,13 @@
 import React, { Component } from 'react';
-import autobind from 'react-autobind';
 import { Row, Col } from 'react-bootstrap';
-import inputValidator from '~/components/FormWrapper/InputValidator';
 
 import './MyProfileEditFields.scss';
 
 class TenantProfileFields extends Component {
   static showPicture = false;
 
-  constructor(props) {
-    super(props);
-    autobind(this);
-
-    this.state = {
-      isValid: true
-    };
-  }
-
-  handleInputChange(e) {
-    this.setState({isValid: this.isFormValid()});
-    this.props.onChange(e, this.state.isValid);
-  }
-
-  isFormValid() {
-    return true;
-  }
-
   render() {
-    let tenant_profile = this.props.section;
+    const tenant_profile = this.props.section;
 
     return (
       <Row>
@@ -35,7 +15,7 @@ class TenantProfileFields extends Component {
           <Col className="my-profile-input" sm={12}>
             <textarea
               value={tenant_profile.about_you}
-              onChange={this.handleInputChange}
+              onChange={this.props.onChange}
               label="כמה מילים על עצמכם"
               name="about_you"
               placeholder="עזרו לבעל הדירה להכיר אתכם טוב יותר. איך אתם כשוכרים? לכמה זמן מעוניינים בדירה?"
@@ -47,7 +27,7 @@ class TenantProfileFields extends Component {
           <Col className="my-profile-input" sm={6}>
             <input
               value={tenant_profile.work_place}
-              onChange={this.handleInputChange}
+              onChange={this.props.onChange}
               label="מקום עבודה"
               name="work_place"
               placeholder="שם החברה / ארגון"
@@ -56,7 +36,7 @@ class TenantProfileFields extends Component {
           <Col className="my-profile-input" sm={6}>
             <input
               value={tenant_profile.position}
-              onChange={this.handleInputChange}
+              onChange={this.props.onChange}
               label="תפקיד"
               name="position"
               type="text"
@@ -68,7 +48,7 @@ class TenantProfileFields extends Component {
           <Col className="my-profile-input" sm={6}>
             <input
               value={tenant_profile.facebook_url}
-              onChange={this.handleInputChange}
+              onChange={this.props.onChange}
               label="לינק לפרופיל הfacebook שלכם"
               name="facebook_url"
               placeholder="העתיקו את הלינק לכאן"
@@ -77,7 +57,7 @@ class TenantProfileFields extends Component {
           <Col className="my-profile-input" sm={6}>
             <input
               value={tenant_profile.linkedin_url}
-              onChange={this.handleInputChange}
+              onChange={this.props.onChange}
               label="לינק לפרופיל הLinkedIn שלכם"
               name="linkedin_url"
               placeholder="העתיקו את הלינק לכאן"
