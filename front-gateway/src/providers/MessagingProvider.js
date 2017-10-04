@@ -92,6 +92,12 @@ class MessagingProvider {
       const withUser = new global.window.Talk.User(_.defaults(withUserObj, TALKJS_USER_OBJ_EXTRA));
 
       const conversation = this.talkSession.getOrStartConversation(withUser, options || {});
+
+      const talkJsRegisterDevice = localStorage.getItem('talkJsRegisterDevice');
+      if (talkJsRegisterDevice) {
+        this.talkSession.registerDevice(talkJsRegisterDevice);
+      }
+
       const popup = this.talkSession.createPopup(conversation, {keepOpen: false});
       popup.mount();
 

@@ -11,8 +11,29 @@ class Search extends Component {
 
   constructor(props) {
     super(props);
-
+    this.writePushInfo();
     this.props.appStore.metaData.title = 'dorbel - דירות להשכרה שתשמחו לגור בהן. ללא תיווך';
+  }
+
+  writePushInfo() {
+    const platform = this.getParameterByName('platform');
+    const pushRegId = this.getParameterByName('regId');
+    console.log('platform', platform);
+    console.log('pushRegId', pushRegId);
+
+    if (platform && pushRegId) {
+      localStorage.setItem('talkJsRegisterDevice', JSON.stringify({ platform: platform, pushRegistrationId: pushRegId }));
+    }
+  }
+
+  getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
   }
 
   render() {
