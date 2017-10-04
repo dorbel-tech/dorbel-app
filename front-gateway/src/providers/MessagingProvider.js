@@ -52,8 +52,11 @@ class MessagingProvider {
         me: this.talkUser
       });
 
-      // Register mobile device for push notfication.
-      // talkJsRegisterDevice object is created in local storage my mobile wrapper.
+      /**
+       * MOBILE INTEGRATION
+       * Register mobile device for push notfication.
+       * talkJsRegisterDevice object is created in local storage my mobile wrapper.
+       */
       const talkJsRegisterDevice = JSON.parse(localStorage.getItem('talkJsRegisterDevice'));
       if (talkJsRegisterDevice) {
         this.talkSession.registerDevice(talkJsRegisterDevice);
