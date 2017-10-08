@@ -15,6 +15,7 @@ class TenantProfileFields extends Component {
         <Row>
           <Col className="my-profile-input" sm={12}>
             <FormInput
+              type="textarea"
               label="כמה מילים על עצמכם"
               value={tenant_profile.about_you}
               onChange={this.props.onChange}
