@@ -23,6 +23,7 @@ class AuthProvider {
 
   hideHandler() {
     if (this.onHideCallback) {
+      hideIntercom(false);
       this.onHideCallback();
     }
     this.onHideCallback = undefined;
@@ -109,7 +110,6 @@ class AuthProvider {
   }
 
   showLoginModal(options = {}) {
-    hideIntercom(true);
     this.onHideCallback = options.onHideCallback;
     this.lock.show({
       auth: {
@@ -124,6 +124,7 @@ class AuthProvider {
         }
       }
     });
+    hideIntercom(true);
   }
 
   updateUserProfile(userProfile) {
