@@ -17,6 +17,11 @@ class FormInput extends React.Component {
       </label>
     );
   }
+}
+
+FormInput.propTypes = {
+  invalidText: React.PropTypes.string,
+  label: React.PropTypes.string.isRequired
 };
 
 export default FormInput;

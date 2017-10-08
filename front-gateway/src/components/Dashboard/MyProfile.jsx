@@ -36,7 +36,7 @@ class MyProfile extends Component {
   }
 
   submit() {
-/*    if (formsy.isChanged()) {
+    /* if (formsy.isChanged()) {
       const profile = formsy.getModel();
       const notificationProvider = this.props.appProviders.notificationProvider;
       return this.props.appProviders.authProvider.updateUserProfile(profile)
@@ -57,8 +57,8 @@ class MyProfile extends Component {
 
   renderActiveSection(activeTab, section) {
     return (<activeTab.content section={section}
-                               onChange={this.handleInputChange}
-                               invalidFieldMap={this.state.invalidFieldMap}/>);
+      onChange={this.handleInputChange}
+      invalidFieldMap={this.state.invalidFieldMap}/>);
   }
 
   showPreview(profile) {
