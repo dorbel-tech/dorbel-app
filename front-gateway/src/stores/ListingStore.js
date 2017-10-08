@@ -9,28 +9,18 @@ export default class ListingStore {
 
   constructor(initialState = {}, authStore) {
     this.listingsById = observable.map(initialState.listingsById || {});
-    this.listingsBySlug = observable.map(initialState.listingsBySlug || {});
     this.listingViewsById = observable.map(initialState.listingViewsById || {});
     this.listingTenantsById = observable.map(initialState.listingTenantsById || {});
     this.authStore = authStore;
     autobind(this);
   }
 
-  get(idOrSlug){
-    if(isNaN(idOrSlug)){
-      return this.listingsBySlug.get(idOrSlug);
-    }
-    else{
-      return this.listingsById.get(idOrSlug);
-    }
+  get(listingId) {
+    return this.listingsById.get(listingId);
   }
 
   set(listing) {
     this.listingsById.set(listing.id, listing);
-
-    if (listing.slug) {
-      this.listingsBySlug.set(listing.slug, listing);
-    }
   }
 
   isListingPublisherOrAdmin(listing) {
@@ -44,8 +34,6 @@ export default class ListingStore {
   toJson() {
     return {
       listingsById: this.listingsById,
-      lastListingByApartmentId: this.lastListingByApartmentId,
-      listingsBySlug: this.listingsBySlug,
       listingViewsById: this.listingViewsById,
       listingTenantsById: this.listingTenantsById
     };

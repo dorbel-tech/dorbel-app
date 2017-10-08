@@ -23,7 +23,7 @@ function getFakeBuilding(variant) {
 }
 
 function getFakeListing(variant) {
-  const listing =  {
+  const listing = {
     status: 'listed',
     monthly_rent: faker.random.number({ min: 1000, max: 9000 }),
     lease_start: getDateString(),
@@ -40,11 +40,10 @@ function getFakeListing(variant) {
     open_house_event_date: getDateString(),
     open_house_event_start_time: '07:00',
     open_house_event_end_time: '07:30',
-    images: [ getFakeImage(true) ],
+    images: [getFakeImage(true)],
     user: {
       phone: '123456789'
-    },
-    slug: 'test-listing-' + faker.random.uuid() // This field has a unique constraint
+    }
   };
 
   listing.apartment.building.toJSON = () => listing.apartment.building;
@@ -75,15 +74,6 @@ function getFakeLike(variant) {
   return like;
 }
 
-function getFakeDocument(variant) {
-  return Object.assign({
-    provider: 'filestack',
-    provider_file_id: faker.random.word(),
-    filename: faker.system.fileName(),
-    type: faker.system.mimeType()
-  }, variant);
-}
-
 module.exports = {
   getFakeListing,
   getFakeUser,
@@ -91,5 +81,4 @@ module.exports = {
   getFakeBuilding,
   getFakeLike,
   getDateString,
-  getFakeDocument
 };

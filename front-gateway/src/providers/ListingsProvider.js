@@ -13,8 +13,8 @@ class ListingsProvider {
     this.navProvider = providers.navProvider;
   }
 
-  loadFullListingDetails(idOrSlug) {
-    return this.apiProvider.fetch('/api/apartments/v1/listings/' + idOrSlug)
+  loadFullListingDetails(listingId) {
+    return this.apiProvider.fetch('/api/apartments/v1/listings/' + listingId)
       .then(listing => {
         listing.title = utils.getListingTitle(listing);
         this.appStore.listingStore.set(listing);

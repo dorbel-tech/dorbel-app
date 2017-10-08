@@ -50,7 +50,7 @@ const fullListingDataInclude = [
 
 function list(query, options = {}) {
   return models.listing.findAll({
-    attributes: options.listingAttributes || ['id', 'slug', 'title', 'monthly_rent', 'roommate_needed', 'lease_start', 'lease_end', 'status', 'created_at', 'apartment_id'],
+    attributes: options.listingAttributes || ['id', 'title', 'monthly_rent', 'roommate_needed', 'lease_start', 'lease_end', 'status', 'created_at', 'apartment_id'],
     where: query,
     include: [
       {
@@ -146,14 +146,6 @@ async function create(listing) {
   return savedListing;
 }
 
-function getSlugs(ids) {
-  return models.listing.findAll({
-    attributes: ['id', 'slug'],
-    where: { id: ids },
-    raw: true
-  });
-}
-
 async function update(listing, patch) {
   logger.debug('updating listing');
   const transaction = await db.db.transaction();
@@ -226,9 +218,7 @@ module.exports = {
   list,
   create,
   getById: id => getOneListing({ id }),
-  getBySlug: slug => getOneListing({ slug }),
   getByApartmentId: getLatestListingByApartmentId,
-  getSlugs,
   update,
   listingStatuses: models.listing.attributes.status.values
 };

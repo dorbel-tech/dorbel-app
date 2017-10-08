@@ -3308,16 +3308,6 @@ fileset@^2.0.2:
     glob "^7.0.3"
     minimatch "^3.0.3"
 
-filestack-js@^0.6.0:
-  version "0.6.3"
-  resolved "https://registry.yarnpkg.com/filestack-js/-/filestack-js-0.6.3.tgz#4b68852b5fc3891cd1e6e89dba6b2405ab5f4ea8"
-
-filestack-react@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/filestack-react/-/filestack-react-1.0.0.tgz#683bc4715d4b01af26986f795498e206f6ac0f58"
-  dependencies:
-    filestack-js "^0.6.0"
-
 fill-range@^2.1.0:
   version "2.2.3"
   resolved "https://registry.yarnpkg.com/fill-range/-/fill-range-2.2.3.tgz#50b77dfd7e469bc7492470963699fe7a8485a723"

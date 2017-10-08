@@ -51,14 +51,14 @@ function* buildTestSeed() {
   const telaviv = yield db.models.city.find({ name: 'תל אביב' });
   const merkazHair = yield db.models.neighborhood.find({ name: 'מרכז העיר', city: telaviv });
 
-  yield createApartment(telaviv, merkazHair, 1, 'best-apt-test');
-  yield createApartment(telaviv, merkazHair, 2, '123-slug');
-  yield createApartment(telaviv, merkazHair, 3, '123-slug slug');
+  yield createApartment(telaviv, merkazHair, 1);
+  yield createApartment(telaviv, merkazHair, 2);
+  yield createApartment(telaviv, merkazHair, 3);
   yield createLikes();
   yield createSavedFilter(telaviv.id, merkazHair.id);
 }
 
-function* createApartment(city, neighborhood, id, slug) {
+function* createApartment(city, neighborhood, id) {
   yield db.models.building.upsert({
     id: 1,
     street_name: 'שדרות רוטשילד',
@@ -96,7 +96,6 @@ function* createApartment(city, neighborhood, id, slug) {
     publishing_user_id: TEST_USER_ID,
     publishing_user_type: 'landlord',
     apartment_id: id,
-    slug: slug,
     created_at: moment().subtract(id, 'day').toDate()
   });
 

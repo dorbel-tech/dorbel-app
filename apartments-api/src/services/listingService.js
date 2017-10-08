@@ -257,17 +257,6 @@ function validateListing(listing, user) {
   }
 }
 
-async function getBySlug(slug, user) {
-  // TODO: Remove once all legacy listing urls with slug are outdated.
-  let listing = await listingRepository.getBySlug(slug);
-
-  if (!listing) {
-    throw new CustomError(404, 'Cant get listing by slug. Listing does not exists. slug: ' + slug);
-  }
-
-  return await enrichListingResponse(listing, user);
-}
-
 function getPossibleStatuses(listing, user) {
   let possibleStatuses = [];
   if (user) {
@@ -399,7 +388,6 @@ module.exports = {
   update,
   getByFilter,
   getById,
-  getBySlug,
   getRelatedListings,
   getValidationData,
   getByApartmentId

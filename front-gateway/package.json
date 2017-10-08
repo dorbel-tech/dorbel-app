@@ -56,7 +56,6 @@
     "extract-text-webpack-plugin": "beta",
     "faker": "^4.1.0",
     "file-loader": "0.9.0",
-    "filestack-react": "^1.0.0",
     "formsy-react": "^0.19.2",
     "formsy-react-components": "^0.10.1",
     "google-map-react": "^0.22.3",
