@@ -1,7 +1,7 @@
 @import "../../sharedStyles/variables.scss";
 
 .my-settings-input {
-  padding-bottom: 10px;
+  padding-bottom: 21px;
   position: relative;
 
   .react-toggle {
@@ -10,6 +10,8 @@
 
   label {
     color: $gray-light;
+    font-weight: normal;
+    padding-right: 50px;
   }
 
   .checkbox {
@@ -18,13 +20,5 @@
     > label > input {
       opacity: 0;
     }
-  }
-
-  .form-group {
-    pointer-events: none;
-  }
-
-  .control-label {
-    width: 0;
   }
 }
