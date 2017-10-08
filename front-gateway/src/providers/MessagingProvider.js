@@ -101,6 +101,7 @@ class MessagingProvider {
   getOrStartConversationOnReady(withUserObj, options) {
     if (this.initTalkSession() && this.talkUser.id !== withUserObj.id) {
       const withUser = new global.window.Talk.User(_.defaults(withUserObj, TALKJS_USER_OBJ_EXTRA));
+
       const conversation = this.talkSession.getOrStartConversation(withUser, options || {});
       const popup = this.talkSession.createPopup(conversation, {keepOpen: false});
       popup.mount();

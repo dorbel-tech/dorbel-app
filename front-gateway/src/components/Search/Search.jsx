@@ -11,17 +11,8 @@ class Search extends Component {
 
   constructor(props) {
     super(props);
-    this.props.appStore.metaData.title = 'dorbel - דירות להשכרה שתשמחו לגור בהן. ללא תיווך';
-  }
 
-  getParameterByName(name, url) {
-    if (!url) url = window.location.href;
-    name = name.replace(/[\[\]]/g, "\\$&");
-    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-        results = regex.exec(url);
-    if (!results) return null;
-    if (!results[2]) return '';
-    return decodeURIComponent(results[2].replace(/\+/g, " "));
+    this.props.appStore.metaData.title = 'dorbel - דירות להשכרה שתשמחו לגור בהן. ללא תיווך';
   }
 
   render() {
