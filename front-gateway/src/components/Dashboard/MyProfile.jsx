@@ -20,8 +20,8 @@ class MyProfile extends Component {
     autobind(this);
 
     this.tabs = [
-      { key: 'settings', title: 'הגדרות', content: MySettingsFields, submitText: 'שמור שינויים' },
-      { key: 'me', title: 'פרטי קשר', content: MyProfileFields },
+      { key: 'settings', section: 'settings', title: 'הגדרות', content: MySettingsFields, submitText: 'שמור שינויים' },
+      { key: 'me', section: 'main', title: 'פרטי קשר', content: MyProfileFields },
       { key: 'tenant', section: 'tenant_profile', title: 'פרופיל דייר', content: MyTenantProfileFields }
     ];
 
@@ -48,8 +48,9 @@ class MyProfile extends Component {
   }
 
   handleInputChange(e) {
+    const newValue = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
     const newSection = this.state.section;
-    newSection[e.target.name] = e.target.value;
+    newSection[e.target.name] = newValue;
     this.setState({
       section: newSection,
       formChanged: this.isFormChanged(),
