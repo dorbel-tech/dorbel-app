@@ -40,7 +40,7 @@ class MyProfile extends Component {
     const profile = {
       section: this.state.activeTab.section,
       data: this.state.section
-    }
+    };
 
     return this.props.appProviders.authProvider.updateUserProfile(profile)
       .then(() => { notificationProvider.success('הפרטים עודכנו בהצלחה'); })
