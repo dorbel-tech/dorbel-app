@@ -36,13 +36,15 @@ class MyProfile extends Component {
   }
 
   submit() {
-    /* if (formsy.isChanged()) {
-      const profile = formsy.getModel();
-      const notificationProvider = this.props.appProviders.notificationProvider;
-      return this.props.appProviders.authProvider.updateUserProfile(profile)
-        .then(() => { notificationProvider.success('הפרטים עודכנו בהצלחה'); })
-        .catch(notificationProvider.error);
-    }*/
+    const notificationProvider = this.props.appProviders.notificationProvider;
+    const profile = {
+      section: this.state.activeTab.section,
+      data: this.state.section
+    }
+
+    return this.props.appProviders.authProvider.updateUserProfile(profile)
+      .then(() => { notificationProvider.success('הפרטים עודכנו בהצלחה'); })
+      .catch(notificationProvider.error);
   }
 
   handleInputChange(e) {

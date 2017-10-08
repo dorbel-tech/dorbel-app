@@ -27,28 +27,31 @@ class TenantProfileFields extends Component {
         </Row>
         <Row>
           <Col className="my-profile-input" sm={6}>
-            <input
+            <FormInput
               value={tenant_profile.work_place}
               onChange={this.props.onChange}
               label="מקום עבודה"
               name="work_place"
               placeholder="שם החברה / ארגון"
+              required
+              invalidText={this.props.invalidFieldMap.work_place}
             />
           </Col>
           <Col className="my-profile-input" sm={6}>
-            <input
+            <FormInput
               value={tenant_profile.position}
               onChange={this.props.onChange}
               label="תפקיד"
               name="position"
-              type="text"
               placeholder="התפקיד שלכם"
+              required
+              invalidText={this.props.invalidFieldMap.position}
             />
           </Col>
         </Row>
         <Row>
           <Col className="my-profile-input" sm={6}>
-            <input
+            <FormInput
               value={tenant_profile.facebook_url}
               onChange={this.props.onChange}
               label="לינק לפרופיל הfacebook שלכם"
@@ -57,7 +60,7 @@ class TenantProfileFields extends Component {
             />
           </Col>
           <Col className="my-profile-input" sm={6}>
-            <input
+            <FormInput
               value={tenant_profile.linkedin_url}
               onChange={this.props.onChange}
               label="לינק לפרופיל הLinkedIn שלכם"
