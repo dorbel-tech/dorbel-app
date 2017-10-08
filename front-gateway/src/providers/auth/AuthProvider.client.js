@@ -2,6 +2,7 @@
 import promisify from 'es6-promisify';
 import autobind from 'react-autobind';
 import auth0helper from './auth0helper';
+import { hideIntercom } from '~/providers/utils';
 
 const LINK_ACCOUNTS = 'link-accounts';
 
@@ -28,6 +29,7 @@ class AuthProvider {
   }
 
   afterAuthentication(authResult) {
+    hideIntercom(false);
     const stateBeforeLogin = this.parseStateBeforeLogin(authResult);
 
     if (stateBeforeLogin && stateBeforeLogin.actionBeforeLogin === LINK_ACCOUNTS) {
@@ -107,6 +109,7 @@ class AuthProvider {
   }
 
   showLoginModal(options = {}) {
+    hideIntercom(true);
     this.onHideCallback = options.onHideCallback;
     this.lock.show({
       auth: {
