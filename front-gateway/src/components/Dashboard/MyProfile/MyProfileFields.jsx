@@ -48,7 +48,7 @@ class MyProfileFields extends Component {
               onChange={this.props.onChange}
               label="טלפון"
               name="phone"
-              validations="isNumeric"
+              type="tel"
               placeholder="מספר הנייד שלכם"
               required
               invalidText={this.props.invalidFieldMap.phone} />
@@ -59,7 +59,7 @@ class MyProfileFields extends Component {
               value={profile.email}
               onChange={this.props.onChange}
               label="מייל ליצירת קשר"
-              validations="isEmail"
+              type="email"
               name="email"
               placeholder="כתובת המייל שלכם"
               required
