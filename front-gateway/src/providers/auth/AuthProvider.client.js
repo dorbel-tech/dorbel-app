@@ -22,8 +22,8 @@ class AuthProvider {
   }
 
   hideHandler() {
+    hideIntercom(false);
     if (this.onHideCallback) {
-      hideIntercom(false);
       this.onHideCallback();
     }
     this.onHideCallback = undefined;
