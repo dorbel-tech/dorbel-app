@@ -160,18 +160,6 @@ class ApiClient {
     `, { email_notification });
   }
 
-  createDocument(document) {
-    return this.post('/v1/documents', document);
-  }
-
-  getDocuments(query) {
-    return this.get('/v1/documents', query);
-  }
-
-  deleteDocument(document_id) {
-    return this.delete(`/v1/documents/${document_id}`);
-  }
-
   // General purpose methods
 
   get(url, query) {

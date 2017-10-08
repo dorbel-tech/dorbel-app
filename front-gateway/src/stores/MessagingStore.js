@@ -1,7 +1,7 @@
 'use strict';
 import { observable } from 'mobx';
 
-export default class DocumentStore {
+export default class MessagingStore {
   @observable unreadMessagesCount;
   
   constructor() {

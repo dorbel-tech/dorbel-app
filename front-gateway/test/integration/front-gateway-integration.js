@@ -20,21 +20,6 @@ describe('Front Gateway API Integration', function () {
     }));
   });
 
-  it('should redirect property url to apartment without slug', function* () {
-    const response = yield apiClient.get('/properties/1');
-    __.assertThat(response, __.hasProperties({
-      statusCode: 301,
-      headers: __.hasProperty('location', '/apartments/1')
-    }));
-  });
-
-  it('should return 404 for a non existing apartment', function* () {
-    const response = yield apiClient.get('/apartments/SomeMadeUpSlug');
-    __.assertThat(response, __.hasProperties({
-      statusCode: 404,
-    }));
-  });
-
   it('should return 404 for a non existing route', function* () {
     const response = yield apiClient.get('/someMadeUpRoute');
     __.assertThat(response, __.hasProperties({

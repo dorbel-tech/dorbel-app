@@ -70,7 +70,7 @@ describe('Apartments API Integration', function () {
     });
   });
 
-  describe('GET /listings/{idOrSlug}', function () {
+  describe('GET /listings/id', function () {
     before(function* () {
       const postReponse = yield this.apiClient.createListing(fakeObjectGenerator.getFakeListing()).expect(201).end();
       yield this.adminApiClient.patchListing(postReponse.body.id, { status: 'listed' }).expect(200).end();
@@ -80,12 +80,6 @@ describe('Apartments API Integration', function () {
 
     it('should return a single listing by id', function* () {
       const getResponse = yield this.apiClient.getSingleListing(this.createdListing.id).expect(200).end();
-      // TODO : this is a very shallow check
-      __.assertThat(getResponse.body, __.hasProperties(this.createdListing));
-    });
-
-    it('should return a single listing by slug', function* () {
-      const getResponse = yield this.apiClient.getSingleListing(this.createdListing.slug).expect(200).end();
       // TODO : this is a very shallow check
       __.assertThat(getResponse.body, __.hasProperties(this.createdListing));
     });

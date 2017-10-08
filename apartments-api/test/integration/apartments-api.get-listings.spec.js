@@ -49,7 +49,6 @@ describe('GET /listings', function () {
   it('should return only the last listing for an apartment with multiple listings', function* () {
     // Create 2 lisitngs for the same apartment, set the first to rented and the second to listed
     const firstListing = fakeObjectGenerator.getFakeListing();
-    delete firstListing.slug;
     const firstListingResp = yield this.apiClient.createListing(firstListing).expect(201).end();
 
     yield this.adminApiClient.patchListing(firstListingResp.body.id, { status: 'rented' }).expect(200).end();
