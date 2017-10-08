@@ -25,21 +25,48 @@ class MyProfile extends Component {
       { key: 'tenant', section: 'tenant_profile', title: 'פרופיל דייר', content: MyTenantProfileFields }
     ];
 
-    const activeTab = find(this.tabs, { key: props.tab }) || this.tabs[0];
+    const activeTab = this.getActiveTab(props);
 
     this.state = {
       activeTab: activeTab,
       invalidFieldMap: {},
-      section: Object.assign({}, props.appStore.authStore.profile[activeTab.section]),
+      section: Object.assign({}, this.getSectionFromProfile(activeTab.section)),
       formChanged: false
     };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.state.activeTab.key !== nextProps.tab) {
+      this.setState({activeTab: this.getActiveTab(nextProps)});
+    }
+  }
+
+  getActiveTab(props) {
+    return find(this.tabs, { key: props.tab }) || this.tabs[0];
+  }
+
+  getSectionFromProfile(section) {
+    const profile = this.props.appStore.authStore.profile;
+    return section === 'main' ? profile : profile[section];
+  }
+
+  getSectionModel(section) {
+    let sectionModel = {};
+
+    Object.keys(section).forEach(key => {
+      if (this.form.elements.namedItem(key)) {
+        sectionModel[key] = section[key];
+      }
+    });
+
+    return sectionModel;
   }
 
   submit() {
     const notificationProvider = this.props.appProviders.notificationProvider;
     const profile = {
       section: this.state.activeTab.section,
-      data: this.state.section
+      data: this.getSectionModel(this.state.section)
     };
 
     return this.props.appProviders.authProvider.updateUserProfile(profile)
@@ -73,7 +100,7 @@ class MyProfile extends Component {
   }
 
   isFormChanged() {
-    const oldSection = this.props.appStore.authStore.profile[this.state.activeTab.section];
+    const oldSection = this.getSectionFromProfile(this.state.activeTab.section);
     const newSection = this.state.section;
 
     return Object.keys(newSection).some(key => {
@@ -112,7 +139,7 @@ class MyProfile extends Component {
               <img className="profile-picture" src={fullProfile.picture} />
             </div>
             <Row>
-              <form className="profile-form" onSubmit={this.submit}>
+              <form className="profile-form" onSubmit={this.submit} ref={(el) => { this.form = el; }}>
                 {this.renderActiveSection(this.state.activeTab, this.state.section)}
                 <Row>
                   <SubmitButton disabled={!this.state.formChanged || !validForm} onClick={this.submit} className="profile-submit"

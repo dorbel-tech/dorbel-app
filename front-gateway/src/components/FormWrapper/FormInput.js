@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 class FormInput extends React.Component {
   render() {
-    const props = _.omit(this.props, ['label', 'invalidText']);
+    const props = _.omit(this.props, ['label', 'invalidText', 'validations']);
     let inputElement;
 
     if (this.props.type === 'textarea') {
