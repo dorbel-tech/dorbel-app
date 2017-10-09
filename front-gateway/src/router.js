@@ -50,7 +50,7 @@ function startRouter(appStore) {
   if (process.env.IS_CLIENT) {
     router.configure({
       notfound: callback => handleError(appStore, callback, 404),
-      html5history: false,
+      html5history: true,
       strict: false,
       async: true,
       convert_hash_in_init: false // required for auth0 callback
