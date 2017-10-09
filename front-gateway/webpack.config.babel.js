@@ -1,5 +1,5 @@
 'use strict';
-require('dotenv').config({ path: '../.env' });
+require('dotenv').config();
 const webpack = require('webpack');
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -49,6 +49,11 @@ let commonConfig = {
     path.join(dir.src, 'app.client.js')
   ],
   resolve: {
+    alias: {
+    // Prevent duplicated react instances: https://github.com/callemall/material-ui/issues/2818#issuecomment-225865795
+      'react': path.resolve('./node_modules/react'),
+      'react-dom': path.resolve('./node_modules/react-dom'),
+    },
     // http://stackoverflow.com/questions/41981735/webpack-2-director-router-is-not-working-after-compilation-process
     mainFields: ['browserify', 'browser', 'module', 'main'],
     modules: [dir.src, 'node_modules'],
@@ -93,14 +98,13 @@ const webConfig = Object.assign({}, commonConfig, {
 const mobileConfig = Object.assign({}, commonConfig,
   {
     output: {
-      path: path.join(dir.public, 'build/mobile'),
-      filename: '/mobile/' + jsBundleFileName + '.mobile.js',
-      publicPath
+      path: path.join(dir.public, '/build/mobile'),
+      filename: jsBundleFileName + '.js',
     },
     plugins: commonConfig.plugins
       .concat([new HtmlWebpackPlugin({
-        template: path.join(dir.src, 'server/index.mobile.ejs'),
-        filename: path.join(dir.public, 'build/mobile/index.mobile.html'),
+        template: path.join(dir.src, '/server/index.mobile.ejs'),
+        filename: path.join(dir.public, '/build/mobile/index.mobile.html'),
         inject: 'body',
         envVars: clientEnvVars
       })])
