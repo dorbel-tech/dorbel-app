@@ -6,6 +6,10 @@
   padding-bottom: 10px;
   position: relative;
 
+  .required-symbol {
+    font-weight: bold;
+  }
+
   textarea,
   input {
     border: 1px solid #ccc;
