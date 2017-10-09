@@ -7,7 +7,7 @@ const renderToString = require('react-dom/server').renderToString;
 const _ = require('lodash');
 const request = require('axios');
 const shared = require('./app.shared.js');
-const getCloudinaryParams = require('./server/cloudinaryConfigProvider').getCloudinaryParams;
+const clientEnvVarsProvider = require('./server/clientEnvVarsProvider');
 
 function setRoute(router, context) {
   // this method is used to set the route in the server side and wait until it resolves (usually called 'callback' on router.js)
@@ -64,10 +64,7 @@ async function renderApp(ctx) {
       });
   }
 
-  const clientSideEnvVars = _.pick(process.env, [ 'NODE_ENV', 'AUTH0_FRONT_CLIENT_ID', 'AUTH0_DOMAIN', 'GOOGLE_API_KEY',
-    'FRONT_GATEWAY_URL', 'TALKJS_APP_ID', 'TALKJS_PUBLISHABLE_KEY', 'FILESTACK_API_KEY' ]);
-
-  clientSideEnvVars.CLOUDINARY_PARAMS = getCloudinaryParams();
+  const clientSideEnvVars = clientEnvVarsProvider.getClientSideEnvVars();
 
   const entryPoint = shared.createAppEntryPoint();
   await entryPoint.appProviders.authProvider.loginWithCookie(ctx.cookies);
