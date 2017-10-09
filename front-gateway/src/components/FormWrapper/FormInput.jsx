@@ -18,6 +18,7 @@ class FormInput extends Component {
     return (
       <div className="form-input-container">
         <label className="form-input-label">{this.props.label}</label>
+        {this.props.required && <span className="required-symbol"> *</span>}
         {inputElement}
         {this.props.invalidText && <span className="input-field-invalid-text">{this.props.invalidText}</span>}
       </div>
