@@ -2,16 +2,6 @@
 @import "../../sharedStyles/bsvars.scss";
 
 .my-profile-input {
-  color: $gray-light;
-  padding-bottom: 10px;
-  position: relative;
-
-  textarea,
-  input {
-    color: $gray;
-    font-weight: normal;
-  }
-
   .fa.fa-lock {
     position: absolute;
     top: 34px;

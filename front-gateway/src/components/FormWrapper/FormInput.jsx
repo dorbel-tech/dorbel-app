@@ -1,8 +1,9 @@
-'use strict';
-import React from 'react';
+import React, { Component } from 'react';
 import _ from 'lodash';
 
-class FormInput extends React.Component {
+import './FormInput.scss';
+
+class FormInput extends Component {
   render() {
     const props = _.omit(this.props, ['label', 'invalidText', 'validations']);
     let inputElement;
@@ -15,11 +16,11 @@ class FormInput extends React.Component {
     }
 
     return (
-      <label className="form-input-label">
-        {this.props.label}
+      <div className="form-input-container">
+        <label className="form-input-label">{this.props.label}</label>
         {inputElement}
         {this.props.invalidText && <span className="input-field-invalid-text">{this.props.invalidText}</span>}
-      </label>
+      </div>
     );
   }
 }

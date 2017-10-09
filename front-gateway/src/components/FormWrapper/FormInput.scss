@@ -1,0 +1,15 @@
+@import "../sharedStyles/variables.scss";
+
+.form-input-container {
+  color: $gray-light;
+  padding-bottom: 10px;
+  position: relative;
+
+  textarea,
+  input {
+    color: $gray;
+    display: block;
+    font-weight: normal;
+    width: 100%;
+  }
+}
