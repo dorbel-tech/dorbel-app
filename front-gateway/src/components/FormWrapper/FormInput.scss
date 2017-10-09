@@ -1,0 +1,27 @@
+@import "../sharedStyles/variables.scss";
+
+.form-input-container {
+  color: $gray-light;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  position: relative;
+
+  .required-symbol {
+    font-weight: bold;
+  }
+
+  textarea,
+  input {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    color: $gray;
+    display: block;
+    font-weight: normal;
+    padding: 6px 12px;
+    width: 100%;
+  }
+
+  input {
+    height: $input-height-base;
+  }
+}

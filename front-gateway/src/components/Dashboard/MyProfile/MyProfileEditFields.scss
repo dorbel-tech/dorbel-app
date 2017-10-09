@@ -2,13 +2,6 @@
 @import "../../sharedStyles/bsvars.scss";
 
 .my-profile-input {
-  padding-bottom: 10px;
-  position: relative;
-
-  .control-label {
-    color: $gray-light;
-  }
-
   .fa.fa-lock {
     position: absolute;
     top: 34px;

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Row, Col, OverlayTrigger, Tooltip } from 'react-bootstrap';
-import { FRC } from '~/components/FormWrapper/FormWrapper';
+import FormInput from '~/components/FormWrapper/FormInput';
 
 import './MyProfileEditFields.scss';
 
@@ -16,54 +16,54 @@ class MyProfileFields extends Component {
   }
 
   render() {
-    let profile = this.props.profile;
+    let profile = this.props.section;
 
     return (
       <Row>
         <Row>
-          <FRC.Input value="main" name="section" type="hidden" />
           <Col className="my-profile-input" sm={6}>
-            <FRC.Input
+            <FormInput
               value={profile.first_name}
+              onChange={this.props.onChange}
               label="שם פרטי" 
-              name="data.first_name"
-              layout="vertical"
-              type="text"
-              required />
+              name="first_name"
+              required
+              invalidText={this.props.invalidFieldMap.first_name} />
           </Col>
           <Col className="my-profile-input" sm={6}>
-            <FRC.Input
+            <FormInput
               value={profile.last_name}
+              onChange={this.props.onChange}
               label="שם משפחה"
-              name="data.last_name"
-              layout="vertical"
-              type="text"
-              required />
+              name="last_name"
+              required
+              invalidText={this.props.invalidFieldMap.last_name} />
             {this.renderLockIcon()}
           </Col>
         </Row>
         <Row>
           <Col className="my-profile-input" sm={6}>
-            <FRC.Input
+            <FormInput
               value={profile.phone}
+              onChange={this.props.onChange}
               label="טלפון"
-              name="data.phone"
-              validations="isNumeric"
-              layout="vertical"
+              name="phone"
+              type="tel"
               placeholder="מספר הנייד שלכם"
-              required />
+              required
+              invalidText={this.props.invalidFieldMap.phone} />
             {this.renderLockIcon()}
           </Col>
           <Col className="my-profile-input" sm={6}>
-            <FRC.Input
+            <FormInput
               value={profile.email}
+              onChange={this.props.onChange}
               label="מייל ליצירת קשר"
-              validations="isEmail"
-              name="data.email"
-              layout="vertical"
+              type="email"
+              name="email"
               placeholder="כתובת המייל שלכם"
-              type="text"
-              required />
+              required
+              invalidText={this.props.invalidFieldMap.email} />
           </Col>
         </Row>
       </Row>
@@ -72,7 +72,9 @@ class MyProfileFields extends Component {
 }
 
 MyProfileFields.propTypes = {
-  profile: React.PropTypes.object.isRequired
+  onChange: React.PropTypes.func.isRequired,
+  section: React.PropTypes.object.isRequired,
+  invalidFieldMap: React.PropTypes.object.isRequired
 };
 
 export default MyProfileFields;
