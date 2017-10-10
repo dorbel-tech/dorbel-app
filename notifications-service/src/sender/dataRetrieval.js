@@ -36,8 +36,10 @@ const dataRetrievalFunctions = {
       .then(listing => {
         return userManagement.getUserDetails(listing.publishing_user_id)
           .then(listingUser => {
-            listing.publishing_user_email = _.get(listingUser, 'user_metadata.email') || listingUser.email;
-            listing.publishing_user_phone = _.get(listingUser, 'user_metadata.phone') || listingUser.phone;
+            if (listingUser) {
+              listing.publishing_user_email = _.get(listingUser, 'user_metadata.email') || listingUser.email;
+              listing.publishing_user_phone = _.get(listingUser, 'user_metadata.phone') || listingUser.phone;
+            }
             // Reducing object size by removing unused data.
             listing.apartment.building.geolocation = undefined;
             listing.meta = undefined;
