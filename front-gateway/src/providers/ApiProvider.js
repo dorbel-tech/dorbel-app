@@ -6,12 +6,12 @@ import axios from 'axios';
 import { ApolloClient, createNetworkInterface } from 'react-apollo';
 let urlPrefix = '';
 
-if (!process.env.IS_CLIENT) {
-  // TODO: on the server we should make direct calls to the API's
-  // instead of that we are making the calls from the server to itself and they go through the gateway
-  const port = process.env.PORT || 3001;
-  urlPrefix = 'http://127.0.0.1:' + port;
-}
+//if (!process.env.IS_CLIENT) {
+// TODO: on the server we should make direct calls to the API's
+// instead of that we are making the calls from the server to itself and they go through the gateway
+// const port = process.env.PORT || 3001;
+urlPrefix = 'https://test.dorbel.com';
+//}
 
 class ApiProvider {
   constructor(appStore) {

@@ -98,7 +98,7 @@ const webConfig = Object.assign({}, commonConfig, {
 const mobileConfig = Object.assign({}, commonConfig,
   {
     output: {
-      path: path.join(dir.public, '/build/mobile'),
+      path: path.join(dir.public, '/build/mobile/bundle'),
       filename: jsBundleFileName + '.js',
     },
     plugins: commonConfig.plugins

@@ -3,6 +3,7 @@ const koaConvert = require('koa-convert'); // TODO: remove this after middleware
 const serve = require('koa-static');
 const compress = require('koa-compress');
 const koa_ejs = require('koa-ejs');
+const cors = require('koa2-cors');
 require('isomorphic-fetch'); // polyfill fetch for nodejs
 const config = require('../config');
 const shared = require('dorbel-shared');
@@ -19,6 +20,9 @@ function* runServer() {
   getBuildOutputs(app);
   app.use(serve(config.dir.public, { maxage: STATIC_FILE_MAX_AGE_MS }));
   app.use(koaConvert(shared.middleware.auth.parseAuthToken));
+  // app.use(cors({
+  //   origin: ['*']
+  // }));
 
   yield apiProxy.loadProxy(app);
 
