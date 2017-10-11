@@ -36,7 +36,7 @@ exports[`Listing Details Form should match snapshot in empty state 1`] = `
       "updateFormValues": [Function],
     }
   }>
-  <FormWrapper
+  <Component
     layout="vertical"
     onChange={[Function]}>
     <Formsy
@@ -1971,6 +1971,6 @@ exports[`Listing Details Form should match snapshot in empty state 1`] = `
         </Row>
       </form>
     </Formsy>
-  </FormWrapper>
+  </Component>
 </ListingDetailsForm>
 `;

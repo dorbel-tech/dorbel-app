@@ -19,7 +19,7 @@ exports[`Add Tenant Modal should match snapshot in empty state 1`] = `
       <br />
       הדייר יקבל מייל עם הזמנה למלא את פרטיו, שיתווספו עבורכם אוטומטית למסך ניהול הדירה
     </p>
-    <FormWrapper
+    <Component
       layout="vertical">
       <Formsy
         className="form-vertical"
@@ -312,7 +312,7 @@ exports[`Add Tenant Modal should match snapshot in empty state 1`] = `
           </Button>
         </form>
       </Formsy>
-    </FormWrapper>
+    </Component>
   </div>
 </AddTenantModal>
 `;

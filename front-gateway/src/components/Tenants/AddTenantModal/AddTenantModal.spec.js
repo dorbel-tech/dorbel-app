@@ -36,7 +36,7 @@ describe('Add Tenant Modal', () => {
     const listing_id = faker.random.number();
     const wrapper = mount(<AddTenantModal.wrappedComponent listing_id={listing_id} appProviders={appProvidersMock} />);
     const first_name = faker.name.firstName();
-    const firstNameInput = wrapper.node.refs.form.refs.formsy.inputs.find(input => input.props.name === 'first_name');
+    const firstNameInput = wrapper.node.form.formsy.inputs.find(input => input.props.name === 'first_name');
     firstNameInput.setValue(first_name);
     appProvidersMock.listingsProvider.addTenant.mockReturnValue(Promise.resolve());
     wrapper.find(Button).simulate('click');
