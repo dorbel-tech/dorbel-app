@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import autobind from 'react-autobind';
 import Clipboard from 'clipboard';
@@ -81,9 +82,9 @@ class ListingSocial extends React.Component {
 }
 
 ListingSocial.wrappedComponent.propTypes = {
-  appStore: React.PropTypes.object,
-  appProviders: React.PropTypes.object,
-  listing: React.PropTypes.object.isRequired
+  appStore: PropTypes.object,
+  appProviders: PropTypes.object,
+  listing: PropTypes.object.isRequired
 };
 
 export default ListingSocial;

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Button, Col, Grid } from 'react-bootstrap';
 import { inject, observer } from 'mobx-react';
 import UploadApartmentBaseStep from './UploadApartmentBaseStep';
@@ -130,8 +131,8 @@ class UploadApartmentStep2 extends UploadApartmentBaseStep.wrappedComponent {
 }
 
 UploadApartmentStep2.wrappedComponent.propTypes = {
-  appProviders: React.PropTypes.object,
-  appStore: React.PropTypes.object,
+  appProviders: PropTypes.object,
+  appStore: PropTypes.object,
 };
 
 export default UploadApartmentStep2;

@@ -1,5 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import ReactBootstrapDatePicker from 'react-bootstrap-date-picker';
 import { FormControl, InputGroup, Glyphicon } from 'react-bootstrap';
 import moment from 'moment';
@@ -11,7 +12,7 @@ const dateFormat = moment.localeData()._longDateFormat.L;
 
 class InputWithClearButton extends Component {
   static propTypes = {
-    onClear: React.PropTypes.func    
+    onClear: PropTypes.func
   }
 
   clear() {
@@ -96,16 +97,16 @@ class DatePicker extends Component {
 }
 
 DatePicker.propTypes = {
-  onChange: React.PropTypes.func,
-  value: React.PropTypes.string,
-  name: React.PropTypes.string,
-  disabled: React.PropTypes.bool,
-  calendarPlacement: React.PropTypes.string,
-  calendarContainer: React.PropTypes.object,
-  placeholder: React.PropTypes.string,
-  showClearButton: React.PropTypes.bool,
-  onClear: React.PropTypes.func,
-  id: React.PropTypes.string
+  onChange: PropTypes.func,
+  value: PropTypes.string,
+  name: PropTypes.string,
+  disabled: PropTypes.bool,
+  calendarPlacement: PropTypes.string,
+  calendarContainer: PropTypes.object,
+  placeholder: PropTypes.string,
+  showClearButton: PropTypes.bool,
+  onClear: PropTypes.func,
+  id: PropTypes.string
 };
 
 export default DatePicker;

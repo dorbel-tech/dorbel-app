@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import NavLink from '~/components/NavLink';
 import { getDashMyPropsPath } from '~/routesHelper';
@@ -29,8 +30,8 @@ class ListingHighlight extends React.Component {
 }
 
 ListingHighlight.propTypes = {
-  listing: React.PropTypes.object.isRequired,
-  appStore: React.PropTypes.object
+  listing: PropTypes.object.isRequired,
+  appStore: PropTypes.object
 };
 
 export default ListingHighlight;

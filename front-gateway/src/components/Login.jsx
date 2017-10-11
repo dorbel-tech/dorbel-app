@@ -1,5 +1,6 @@
 'use strict';
-import React, { PropTypes as T } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import LoadingSpinner from '~/components/LoadingSpinner/LoadingSpinner';
 
@@ -8,8 +9,8 @@ export class Login extends React.Component {
   static hideFooter = true;
 
   static propTypes = {
-    appProviders: T.object,
-    appStore: T.object
+    appProviders: PropTypes.object,
+    appStore: PropTypes.object
   }
 
   componentDidMount() {

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 
 @inject('router') @observer
@@ -37,7 +38,7 @@ class ErrorPage extends Component {
 }
 
 ErrorPage.wrappedComponent.propTypes = {
-  errorId: React.PropTypes.number
+  errorId: PropTypes.number
 };
 
 export default ErrorPage;

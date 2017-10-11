@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import autobind from 'react-autobind';
 import { Tabs, Tab, Grid, Row, Button } from 'react-bootstrap';
 import { inject, observer } from 'mobx-react';
@@ -104,10 +105,10 @@ class MyProfile extends Component {
 }
 
 MyProfile.wrappedComponent.propTypes = {
-  appStore: React.PropTypes.object.isRequired,
-  appProviders: React.PropTypes.object.isRequired,
-  router: React.PropTypes.object,
-  tab: React.PropTypes.string
+  appStore: PropTypes.object.isRequired,
+  appProviders: PropTypes.object.isRequired,
+  router: PropTypes.object,
+  tab: PropTypes.string
 };
 
 export default MyProfile;

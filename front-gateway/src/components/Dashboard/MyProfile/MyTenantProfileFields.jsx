@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Row, Col } from 'react-bootstrap';
 import { FRC } from '~/components/FormWrapper/FormWrapper';
 
@@ -71,7 +72,7 @@ class TenantProfileFields extends Component {
 }
 
 TenantProfileFields.propTypes = {
-  profile: React.PropTypes.object.isRequired
+  profile: PropTypes.object.isRequired
 };
 
 export default TenantProfileFields;

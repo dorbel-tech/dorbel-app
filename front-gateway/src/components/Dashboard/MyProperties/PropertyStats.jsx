@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import { Col, Grid, Row, Button, ListGroup, ListGroupItem } from 'react-bootstrap';
 import autobind from 'react-autobind';
@@ -211,9 +212,9 @@ class PropertyStats extends Component {
 }
 
 PropertyStats.wrappedComponent.propTypes = {
-  listing: React.PropTypes.object.isRequired,
-  appStore: React.PropTypes.object,
-  appProviders: React.PropTypes.object.isRequired,
+  listing: PropTypes.object.isRequired,
+  appStore: PropTypes.object,
+  appProviders: PropTypes.object.isRequired,
 };
 
 export default PropertyStats;

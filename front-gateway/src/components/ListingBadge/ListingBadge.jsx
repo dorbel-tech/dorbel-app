@@ -1,6 +1,6 @@
 'use strict';
-
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import utils from '../../providers/utils';
 import './ListingBadge.scss';
@@ -53,8 +53,8 @@ class ListingBadge extends Component {
 }
 
 ListingBadge.wrappedComponent.propTypes = {
-  appStore: React.PropTypes.object,
-  listing: React.PropTypes.object.isRequired
+  appStore: PropTypes.object,
+  listing: PropTypes.object.isRequired
 };
 
 export default ListingBadge;

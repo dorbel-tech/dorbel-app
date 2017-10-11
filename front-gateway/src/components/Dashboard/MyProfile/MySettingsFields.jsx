@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import autobind from 'react-autobind';
 import { Row } from 'react-bootstrap';
 import Toggle from 'react-toggle';
@@ -67,7 +68,7 @@ class MySettingsFields extends Component {
 }
 
 MySettingsFields.propTypes = {
-  profile: React.PropTypes.object.isRequired
+  profile: PropTypes.object.isRequired
 };
 
 export default MySettingsFields;

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import ismobilejs from 'ismobilejs';
 
@@ -61,10 +62,10 @@ class ShareModal extends Component {
 }
 
 ShareModal.propTypes = {
-  appProviders: React.PropTypes.object,
-  shareUrl: React.PropTypes.string.isRequired,
-  title: React.PropTypes.node,
-  content: React.PropTypes.node
+  appProviders: PropTypes.object,
+  shareUrl: PropTypes.string.isRequired,
+  title: PropTypes.node,
+  content: PropTypes.node
 };
 
 export default ShareModal;

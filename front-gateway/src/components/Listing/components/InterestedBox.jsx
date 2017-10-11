@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import ListingOwnerDetails from './ListingOwnerDetails';
 import LikeButton from '~/components/LikeButton/LikeButton';
 
@@ -35,7 +36,7 @@ class InterestedBox extends Component {
 }
 
 InterestedBox.propTypes = {
-  listing: React.PropTypes.object.isRequired,
+  listing: PropTypes.object.isRequired,
 };
 
 export default InterestedBox;

@@ -1,4 +1,5 @@
-import React, { Component, PropTypes as T } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import autobind from 'react-autobind';
 
@@ -22,8 +23,8 @@ class Header extends Component {
   }
 
   static propTypes = {
-    appProviders: T.object,
-    appStore: T.object
+    appProviders: PropTypes.object,
+    appStore: PropTypes.object
   }
 
   renderDashboardMenuItem(item) {

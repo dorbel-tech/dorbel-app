@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import GoogleMap from 'google-map-react';
 import './MapWrapper.scss';
 import RadiusMarker from '../MapWrapper/Markers/RadiusMarker.jsx';
@@ -68,7 +69,7 @@ class MapWrapper extends Component {
 }
 
 MapWrapper.propTypes = {
-  geo: React.PropTypes.object,
+  geo: PropTypes.object,
 };
 
 export default MapWrapper;

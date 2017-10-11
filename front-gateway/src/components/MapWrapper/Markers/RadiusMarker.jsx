@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import './RadiusMarker.scss';
 
 class RadiusMarker extends Component {
@@ -14,8 +15,8 @@ class RadiusMarker extends Component {
 }
 
 RadiusMarker.propTypes = {
-  lat: React.PropTypes.number,
-  lng: React.PropTypes.number
+  lat: PropTypes.number,
+  lng: PropTypes.number
 };
 
 export default RadiusMarker;

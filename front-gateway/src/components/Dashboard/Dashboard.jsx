@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { find } from 'lodash';
 import autobind from 'react-autobind';
 
@@ -60,10 +61,10 @@ class Dashboard extends Component {
 }
 
 Dashboard.propTypes = {
-  action: React.PropTypes.string,
-  listingId: React.PropTypes.string,
-  tab: React.PropTypes.string,
-  externalComponent: React.PropTypes.node
+  action: PropTypes.string,
+  listingId: PropTypes.string,
+  tab: PropTypes.string,
+  externalComponent: PropTypes.node
 };
 
 export default Dashboard;

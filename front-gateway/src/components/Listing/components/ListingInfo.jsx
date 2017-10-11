@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import autobind from 'react-autobind';
 import { Col, Row } from 'react-bootstrap';
 import utils from '~/providers/utils';
@@ -69,8 +70,8 @@ ListingInfo.defaultProps = {
 };
 
 ListingInfo.propTypes = {
-  listing: React.PropTypes.object.isRequired,
-  mode: React.PropTypes.string.isRequired
+  listing: PropTypes.object.isRequired,
+  mode: PropTypes.string.isRequired
 };
 
 export default ListingInfo;

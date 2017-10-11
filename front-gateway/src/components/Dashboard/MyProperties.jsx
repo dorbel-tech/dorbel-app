@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Grid, Col } from 'react-bootstrap';
 import { inject, observer } from 'mobx-react';
 import NavLink from '~/components/NavLink';
@@ -53,8 +54,8 @@ class MyProperties extends Component {
 }
 
 MyProperties.wrappedComponent.propTypes = {
-  appStore: React.PropTypes.object.isRequired,
-  appProviders: React.PropTypes.object.isRequired
+  appStore: PropTypes.object.isRequired,
+  appProviders: PropTypes.object.isRequired
 };
 
 export default MyProperties;

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import { Button } from 'react-bootstrap';
 import autobind from 'react-autobind';
@@ -108,10 +109,10 @@ class LikeButton extends Component {
 }
 
 LikeButton.wrappedComponent.propTypes = {
-  appStore: React.PropTypes.object.isRequired,
-  appProviders: React.PropTypes.object.isRequired,
-  apartmentId: React.PropTypes.number.isRequired,
-  listingId: React.PropTypes.number.isRequired,
+  appStore: PropTypes.object.isRequired,
+  appProviders: PropTypes.object.isRequired,
+  apartmentId: PropTypes.number.isRequired,
+  listingId: PropTypes.number.isRequired,
 };
 
 export default LikeButton;

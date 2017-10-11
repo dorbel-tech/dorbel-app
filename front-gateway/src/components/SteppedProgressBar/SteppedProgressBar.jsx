@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Grid, Row, Col, ProgressBar } from 'react-bootstrap';
 
 import './SteppedProgressBar.scss';
@@ -56,7 +57,9 @@ class SteppedProgressBar extends Component {
             }
             <Row className="progress-bar-row">
               <Col>
-                <ProgressBar children={this.renderSteps(steps, currentStepIndex, stepWidth)} />
+                <ProgressBar>
+                  {this.renderSteps(steps, currentStepIndex, stepWidth)}
+                </ProgressBar>
               </Col>
             </Row>
             {
@@ -76,10 +79,10 @@ class SteppedProgressBar extends Component {
 }
 
 SteppedProgressBar.propTypes = {
-  steps: React.PropTypes.array.isRequired,
-  currentStepIndex: React.PropTypes.number.isRequired,
-  pointerText: React.PropTypes.string,
-  hideStepMarks: React.PropTypes.bool
+  steps: PropTypes.array.isRequired,
+  currentStepIndex: PropTypes.number.isRequired,
+  pointerText: PropTypes.string,
+  hideStepMarks: PropTypes.bool
 };
 
 export default SteppedProgressBar;

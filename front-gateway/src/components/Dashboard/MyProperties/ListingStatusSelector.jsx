@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import _ from 'lodash';
 import { DropdownButton, MenuItem, Button } from 'react-bootstrap';
@@ -79,10 +80,10 @@ class ListingStatusSelector extends React.Component {
 }
 
 ListingStatusSelector.wrappedComponent.propTypes = {
-  appStore: React.PropTypes.object,
-  appProviders: React.PropTypes.object,
-  listing: React.PropTypes.object.isRequired,
-  disabled: React.PropTypes.bool
+  appStore: PropTypes.object,
+  appProviders: PropTypes.object,
+  listing: PropTypes.object.isRequired,
+  disabled: PropTypes.bool
 };
 
 export default ListingStatusSelector;

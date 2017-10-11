@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class ListingOwnerDetails extends Component {
   render() {
@@ -16,7 +17,7 @@ class ListingOwnerDetails extends Component {
 }
 
 ListingOwnerDetails.propTypes = {
-  listing: React.PropTypes.object.isRequired
+  listing: PropTypes.object.isRequired
 };
 
 export default ListingOwnerDetails;

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 
 import './UnreadMessagesNotifier.scss';
@@ -18,6 +19,6 @@ export default class UnreadMessagesNotifier extends Component {
 }
 
 UnreadMessagesNotifier.wrappedComponent.propTypes = {
-  appProviders: React.PropTypes.object,
-  appStore: React.PropTypes.object
+  appProviders: PropTypes.object,
+  appStore: PropTypes.object
 };

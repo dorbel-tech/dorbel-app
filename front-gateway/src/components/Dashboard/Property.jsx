@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import autobind from 'react-autobind';
 
@@ -183,11 +184,11 @@ class Property extends Component {
             </div>
             <div className="property-title-details-sub">
               <span>{this.property.apartment.size}</span>
-              <span className="property-title-details-sub-text">&nbsp;מ"ר</span>
+              <span className="property-title-details-sub-text">{' מ"ר'}</span>
             </div>
             <div className="property-title-details-sub">
               <span>{this.property.monthly_rent}</span>
-              <span className="property-title-details-sub-text">&nbsp;ש"ח</span>
+              <span className="property-title-details-sub-text">{' ש"ח'}</span>
             </div>
           </div>
           <div className="property-status-desktop property-title-details-sub-text">
@@ -217,11 +218,11 @@ class Property extends Component {
 }
 
 Property.wrappedComponent.propTypes = {
-  listingId: React.PropTypes.string.isRequired,
-  tab: React.PropTypes.string,
-  appProviders: React.PropTypes.object,
-  appStore: React.PropTypes.object,
-  router: React.PropTypes.object
+  listingId: PropTypes.string.isRequired,
+  tab: PropTypes.string,
+  appProviders: PropTypes.object,
+  appStore: PropTypes.object,
+  router: PropTypes.object
 };
 
 export default Property;

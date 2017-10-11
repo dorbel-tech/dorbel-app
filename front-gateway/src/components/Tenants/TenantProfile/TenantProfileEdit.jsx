@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import autobind from 'react-autobind';
 import { inject } from 'mobx-react';
 import { Row, Col, Button, Image } from 'react-bootstrap';
@@ -35,7 +36,7 @@ export default class TenantProfileEdit extends React.Component {
   ]
 
   submit() {
-    const { formsy } = this.refs.form.refs;
+    const { formsy } = this.form.refs;
     const { notificationProvider, modalProvider } = this.props.appProviders;
     if (formsy.state.isValid) {
       const profile = {
@@ -97,7 +98,7 @@ export default class TenantProfileEdit extends React.Component {
         </div>
         <Image src={profile.picture} className="tenant-profile-edit-picture" circle />
         <div className="tenant-profile-edit-form">
-          <FormWrapper.Wrapper layout="vertical" ref="form">
+          <FormWrapper.Wrapper layout="vertical" ref={el => this.form = el}>
             <div className="tenant-profile-edit-form-section">
               <div className="tenant-profile-edit-form-section-title">פרטים אישיים</div>
               <Row>
@@ -165,6 +166,6 @@ export default class TenantProfileEdit extends React.Component {
 }
 
 TenantProfileEdit.wrappedComponent.propTypes = {
-  appProviders: React.PropTypes.object.isRequired,
-  appStore: React.PropTypes.object.isRequired
+  appProviders: PropTypes.object.isRequired,
+  appStore: PropTypes.object.isRequired
 };

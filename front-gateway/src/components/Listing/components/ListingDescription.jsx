@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import autobind from 'react-autobind';
 import { inject, observer } from 'mobx-react';
 import { Col, Row } from 'react-bootstrap';
@@ -54,9 +55,9 @@ class ListingDescription extends React.Component {
 }
 
 ListingDescription.wrappedComponent.propTypes = {
-  appProviders: React.PropTypes.object,
-  appStore: React.PropTypes.object,
-  listing: React.PropTypes.object.isRequired
+  appProviders: PropTypes.object,
+  appStore: PropTypes.object,
+  listing: PropTypes.object.isRequired
 };
 
 export default ListingDescription;

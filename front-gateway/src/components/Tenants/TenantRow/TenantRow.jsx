@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import autobind from 'react-autobind';
 import _ from 'lodash';
 import { inject } from 'mobx-react';
@@ -125,9 +126,9 @@ TenantRow.defaultProps = {
 };
 
 TenantRow.propTypes = {
-  appProviders: React.PropTypes.object,
-  tenant: React.PropTypes.object.isRequired,
-  listing: React.PropTypes.object.isRequired,
-  showActionButtons: React.PropTypes.bool,
-  mode: React.PropTypes.string
+  appProviders: PropTypes.object,
+  tenant: PropTypes.object.isRequired,
+  listing: PropTypes.object.isRequired,
+  showActionButtons: PropTypes.bool,
+  mode: PropTypes.string
 };

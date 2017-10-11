@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Button, Col, Grid } from 'react-bootstrap';
 import { inject, observer } from 'mobx-react';
 import UploadApartmentBaseStep from './UploadApartmentBaseStep';
@@ -18,7 +19,7 @@ export default class UploadApartmentStep1 extends UploadApartmentBaseStep.wrappe
   }
 
   clickNext() {
-    const validationErrors = this.refs.listingDetailsForm.wrappedInstance.getValidationErrors();
+    const validationErrors = this.listingDetailsForm.wrappedInstance.getValidationErrors();
     if (validationErrors) {
       this.props.onValidationError(validationErrors);
     } else {
@@ -43,7 +44,7 @@ export default class UploadApartmentStep1 extends UploadApartmentBaseStep.wrappe
         <Col md={7} className="upload-apt-left-container apartment-details-step">
           <ListingDetailsForm
             editedListingStore={editedListingStore}
-            ref="listingDetailsForm"
+            ref={el => this.listingDetailsForm = el}
           />
           <Col xs={12} md={7} className="form-nav bottom">
             <NavLink to={PROPERTY_SUBMIT_PREFIX} className="prev-step step1">
@@ -66,6 +67,6 @@ export default class UploadApartmentStep1 extends UploadApartmentBaseStep.wrappe
 }
 
 UploadApartmentStep1.wrappedComponent.propTypes = {
-  appProviders: React.PropTypes.object,
-  appStore: React.PropTypes.object,
+  appProviders: PropTypes.object,
+  appStore: PropTypes.object,
 };

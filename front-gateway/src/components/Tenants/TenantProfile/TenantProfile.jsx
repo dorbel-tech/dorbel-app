@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { inject } from 'mobx-react';
 import autobind from 'react-autobind';
 import { Row, Col, Button, Image } from 'react-bootstrap';
@@ -111,7 +112,7 @@ class TenantProfile extends Component {
         </Col>
         <Col md={4} sm={3} xs={12} className="tenant-profile-contact-details-item">
           <label>מידע נוסף על הדייר</label>
-          <Button href="https://www.dorbel.com/pages/services/credit-report?utm_source=tenant-profile" target="_blank" onClick={() => window.analytics.track('client_click_tenant_credit_score')}>דו"ח אשראי</Button>
+          <Button href="https://www.dorbel.com/pages/services/credit-report?utm_source=tenant-profile" target="_blank" onClick={() => window.analytics.track('client_click_tenant_credit_score')}>{'דו"ח אשראי'}</Button>
         </Col>
       </Row>
     );
@@ -202,10 +203,10 @@ class TenantProfile extends Component {
 }
 
 TenantProfile.wrappedComponent.propTypes = {
-  appProviders: React.PropTypes.object.isRequired,
-  profile: React.PropTypes.object.isRequired,
-  isPreview: React.PropTypes.bool,
-  listing: React.PropTypes.object
+  appProviders: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired,
+  isPreview: PropTypes.bool,
+  listing: PropTypes.object
 };
 
 export default TenantProfile;

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import ismobilejs from 'ismobilejs';
 import { hideIntercom } from '~/providers/utils';
@@ -34,8 +35,8 @@ class MyMessages extends Component {
 }
 
 MyMessages.wrappedComponent.propTypes = {
-  appProviders: React.PropTypes.object.isRequired,
-  listingId: React.PropTypes.string
+  appProviders: PropTypes.object.isRequired,
+  listingId: PropTypes.string
 };
 
 export default MyMessages;

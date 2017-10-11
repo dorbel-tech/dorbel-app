@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import autobind from 'react-autobind';
 import { Tabs, Tab, Row, Grid, Col, Button } from 'react-bootstrap';
@@ -71,9 +72,9 @@ export default class EditListing extends Component {
 }
 
 EditListing.wrappedComponent.propTypes = {
-  listing: React.PropTypes.object.isRequired,
-  appStore: React.PropTypes.object.isRequired,
-  appProviders: React.PropTypes.object.isRequired,
-  router: React.PropTypes.object.isRequired
+  listing: PropTypes.object.isRequired,
+  appStore: PropTypes.object.isRequired,
+  appProviders: PropTypes.object.isRequired,
+  router: PropTypes.object.isRequired
 };
 

@@ -14,7 +14,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
   componentDidMount() {
     // load form with existing values from store
     const { newListingStore } = this.props.appStore;
-    const { formsy } = this.refs.form.refs;
+    const { formsy } = this.form.refs;
     formsy.reset(newListingStore.formValues);
   }
 
@@ -23,9 +23,9 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
   }
 
   clickNext() {
-    const formsy = this.refs.form.refs.formsy;
+    const formsy = this.form.refs.formsy;
     if (formsy.state.isValid) {
-      this.props.appStore.newListingStore.updateFormValues(this.refs.form.refs.formsy.getCurrentValues());
+      this.props.appStore.newListingStore.updateFormValues(this.form.refs.formsy.getCurrentValues());
       return super.clickNext();
     } else {
       this.props.appStore.newListingStore.isFromValid = formsy.state.isValid;
@@ -125,7 +125,7 @@ class UploadApartmentStep3 extends UploadApartmentBaseStep.wrappedComponent {
         {this.renderSidePanel()}
 
         <Col md={7} className="upload-apt-left-container contact-details-step">
-          <FormWrapper.Wrapper layout="vertical" onChange={this.handleChanges} ref="form">
+          <FormWrapper.Wrapper layout="vertical" onChange={this.handleChanges} ref={el => this.form = el}>
             {this.renderUserDetails()}
           </FormWrapper.Wrapper>
           <Col xs={12} md={7} className="form-nav bottom">

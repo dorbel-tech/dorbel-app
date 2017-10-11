@@ -4,6 +4,7 @@
 * It will take the results from the SearchStore and activate the SearchProvider for paging, etc...
 **/
 import React from 'react';
+import PropTypes from 'prop-types';
 import autobind from 'react-autobind';
 import { inject, observer } from 'mobx-react';
 import { Grid, Row } from 'react-bootstrap';
@@ -115,13 +116,13 @@ export default class SearchResults extends React.Component {
 }
 
 SearchResults.wrappedComponent.propTypes = {
-  appStore: React.PropTypes.object.isRequired,
-  appProviders: React.PropTypes.object.isRequired,
-  noResultsContent: React.PropTypes.node.isRequired,
-  title: React.PropTypes.node,
-  retryLink: React.PropTypes.node,
-  isReady: React.PropTypes.bool,
-  thumbnailProps: React.PropTypes.object
+  appStore: PropTypes.object.isRequired,
+  appProviders: PropTypes.object.isRequired,
+  noResultsContent: PropTypes.node.isRequired,
+  title: PropTypes.node,
+  retryLink: PropTypes.node,
+  isReady: PropTypes.bool,
+  thumbnailProps: PropTypes.object
 };
 
 SearchResults.wrappedComponent.defaultProps = {

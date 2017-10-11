@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import { Col } from 'react-bootstrap';
 import ListingPageViews from './ListingPageViews';
@@ -26,8 +27,8 @@ class ListingActions extends React.Component {
 }
 
 ListingActions.wrappedComponent.propTypes = {
-  appStore: React.PropTypes.object,
-  listing: React.PropTypes.object.isRequired
+  appStore: PropTypes.object,
+  listing: PropTypes.object.isRequired
 };
 
 export default ListingActions;

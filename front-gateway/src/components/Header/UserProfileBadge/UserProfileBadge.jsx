@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import { Nav, NavItem } from 'react-bootstrap';
 import { MENU_ITEMS } from '../../Dashboard/DashboardShared';
@@ -111,8 +112,8 @@ class UserProfileBadge extends Component {
 }
 
 UserProfileBadge.wrappedComponent.propTypes = {
-  appProviders: React.PropTypes.object,
-  appStore: React.PropTypes.object
+  appProviders: PropTypes.object,
+  appStore: PropTypes.object
 };
 
 export default UserProfileBadge;

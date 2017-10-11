@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import utils from '~/providers/utils';
 
 class CloudinaryImage extends Component {
@@ -12,10 +13,10 @@ class CloudinaryImage extends Component {
 }
 
 CloudinaryImage.propTypes = {
-  height: React.PropTypes.number,
-  width: React.PropTypes.number,
-  src: React.PropTypes.string.isRequired,
-  className: React.PropTypes.string
+  height: PropTypes.number,
+  width: PropTypes.number,
+  src: PropTypes.string.isRequired,
+  className: PropTypes.string
 };
 
 export default CloudinaryImage;

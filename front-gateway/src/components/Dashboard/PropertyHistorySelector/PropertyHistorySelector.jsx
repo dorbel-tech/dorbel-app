@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import autobind from 'react-autobind';
 import moment from 'moment';
 import _ from 'lodash';
@@ -14,11 +15,11 @@ export default class PropertyHistorySelector extends React.Component {
   }
 
   static propTypes = {
-    apartment_id: React.PropTypes.number.isRequired,
-    listing_id: React.PropTypes.number.isRequired,
-    appProviders: React.PropTypes.object.isRequired,
-    appStore: React.PropTypes.object.isRequired,
-    router: React.PropTypes.object.isRequired
+    apartment_id: PropTypes.number.isRequired,
+    listing_id: PropTypes.number.isRequired,
+    appProviders: PropTypes.object.isRequired,
+    appStore: PropTypes.object.isRequired,
+    router: PropTypes.object.isRequired
   };
 
   componentDidMount() {

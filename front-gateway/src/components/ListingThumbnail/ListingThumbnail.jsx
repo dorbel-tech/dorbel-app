@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import autobind from 'react-autobind';
 import { Col } from 'react-bootstrap';
@@ -71,7 +72,7 @@ class ListingThumbnail extends Component {
               <span>
                 {listing.apartment.size}</span><span className="apt-thumb-sub-text"> מ״ר</span>
               <span className="apt-thumb-details-extra-rooms">
-                {listing.apartment.rooms}</span><span className="apt-thumb-sub-text"> חד'</span>
+                {listing.apartment.rooms}</span><span className="apt-thumb-sub-text">{' חד\''}</span>
               <span className="apt-thumb-details-extra-date">
                 <span className={'apt-thumb-sub-text ' + (isRented ? 'apt-thumb-warning-sub-text' : '')}>{listingDateTitle}</span>
                 <span className={classLeaseDate}>{listingDateStr}</span>
@@ -90,11 +91,11 @@ class ListingThumbnail extends Component {
 }
 
 ListingThumbnail.wrappedComponent.propTypes = {
-  listing: React.PropTypes.object.isRequired,
-  appProviders: React.PropTypes.object,
-  appStore: React.PropTypes.object.isRequired,
-  isMyProperties: React.PropTypes.bool,
-  thumbIndex: React.PropTypes.number
+  listing: PropTypes.object.isRequired,
+  appProviders: PropTypes.object,
+  appStore: PropTypes.object.isRequired,
+  isMyProperties: PropTypes.bool,
+  thumbIndex: PropTypes.number
 };
 
 export default ListingThumbnail;

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import autobind from 'react-autobind';
 import ismobilejs from 'ismobilejs';
@@ -171,10 +172,10 @@ class Listing extends Component {
 }
 
 Listing.wrappedComponent.propTypes = {
-  listingId: React.PropTypes.string.isRequired,
-  appProviders: React.PropTypes.object,
-  appStore: React.PropTypes.object,
-  action: React.PropTypes.string
+  listingId: PropTypes.string.isRequired,
+  appProviders: PropTypes.object,
+  appStore: PropTypes.object,
+  action: PropTypes.string
 };
 
 export default Listing;

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import { Col, Row } from 'react-bootstrap';
 import DatePicker from '~/components/DatePicker/DatePicker';
@@ -21,7 +22,7 @@ export default class ListingDetailsForm extends React.Component {
   componentDidMount() {
     // load form with existing values from store
     const { editedListingStore } = this.props;
-    const { formsy } = this.refs.form.refs;
+    const { formsy } = this.form.refs;
     formsy.reset(editedListingStore.formValues);
   }
 
@@ -65,11 +66,11 @@ export default class ListingDetailsForm extends React.Component {
 
   // used outside of component
   getValidationErrors() {
-    const formsy = this.refs.form.refs.formsy;
+    const formsy = this.form.refs.formsy;
     this.props.editedListingStore.isFromValid = formsy.state.isValid;
 
     if (formsy.state.isValid) {
-      this.updateStore(this.refs.form.refs.formsy.getCurrentValues());
+      this.updateStore(this.form.refs.formsy.getCurrentValues());
       return null;
     } else {
       return formsy;
@@ -119,7 +120,7 @@ export default class ListingDetailsForm extends React.Component {
     if (!editedListingStore.formValues.rooms) { roomOptions.unshift({ label: 'בחר' }); }
 
     return (
-      <FormWrapper.Wrapper layout="vertical" onChange={this.updateStore} ref="form">
+      <FormWrapper.Wrapper layout="vertical" onChange={this.updateStore} ref={el => this.form = el}>
         <Row className="form-section">
           <div className="form-section-headline">כתובת</div>
           <Row>
@@ -211,9 +212,9 @@ export default class ListingDetailsForm extends React.Component {
 }
 
 ListingDetailsForm.wrappedComponent.propTypes = {
-  appStore: React.PropTypes.object,
-  appProviders: React.PropTypes.object,
-  editedListingStore: React.PropTypes.object.isRequired,
-  children: React.PropTypes.node,
-  showLeaseEnd: React.PropTypes.bool
+  appStore: PropTypes.object,
+  appProviders: PropTypes.object,
+  editedListingStore: PropTypes.object.isRequired,
+  children: PropTypes.node,
+  showLeaseEnd: PropTypes.bool
 };

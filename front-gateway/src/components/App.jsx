@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import AppHeader from '~/components/Header/Header';
 import AppFooter from '~/components/Footer/Footer';
@@ -36,8 +37,8 @@ class App extends Component {
 }
 
 App.wrappedComponent.propTypes = {
-  appStore: React.PropTypes.object,
-  appProviders: React.PropTypes.object
+  appStore: PropTypes.object,
+  appProviders: PropTypes.object
 };
 
 export default App;

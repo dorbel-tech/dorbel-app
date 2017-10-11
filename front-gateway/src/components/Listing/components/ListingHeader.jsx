@@ -1,5 +1,6 @@
 'use strict';
 import React from 'react';
+import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import { Grid, Row } from 'react-bootstrap';
 import utils from '~/providers/utils';
@@ -48,6 +49,6 @@ export default class ListingHeader extends React.Component {
 }
 
 ListingHeader.wrappedComponent.propTypes = {
-  listing: React.PropTypes.object.isRequired
+  listing: PropTypes.object.isRequired
 };
 

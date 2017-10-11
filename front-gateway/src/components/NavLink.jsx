@@ -1,5 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { inject } from 'mobx-react';
 
 @inject('appProviders')
@@ -17,11 +18,11 @@ class NavLink extends Component {
 }
 
 NavLink.wrappedComponent.propTypes = {
-  appProviders: React.PropTypes.object.isRequired,
-  to: React.PropTypes.string,
-  className: React.PropTypes.string,
-  title: React.PropTypes.string,
-  children: React.PropTypes.any
+  appProviders: PropTypes.object.isRequired,
+  to: PropTypes.string,
+  className: PropTypes.string,
+  title: PropTypes.string,
+  children: PropTypes.any
 };
 
 export default NavLink;

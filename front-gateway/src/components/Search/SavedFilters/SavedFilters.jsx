@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import autobind from 'react-autobind';
 import _ from 'lodash';
 import { inject, observer } from 'mobx-react';
@@ -59,9 +60,9 @@ export default class SavedFilters extends React.Component {
         <Radio checked={appStore.searchStore.activeFilterId === filter.id}
           onClick={() => this.selectFilter(filter)}>
           <span>
-            {cityName}, {rangeLabel}&nbsp;חד'
+            {cityName}, {rangeLabel + ' חד\''}
             { isMobile() ? ', ' : <br/> }
-            {this.getRangeLabel(filter.mrs, filter.mre)}&nbsp;ש"ח
+            {this.getRangeLabel(filter.mrs, filter.mre) + ' ש"ח'}
           </span>
         </Radio>
       </Col>
@@ -105,9 +106,9 @@ export default class SavedFilters extends React.Component {
 
 
 SavedFilters.wrappedComponent.propTypes = {
-  appStore: React.PropTypes.any,
-  appProviders: React.PropTypes.any,
-  onFilterChange: React.PropTypes.func,
-  animateEmailRow: React.PropTypes.bool,
-  data: React.PropTypes.any
+  appStore: PropTypes.any,
+  appProviders: PropTypes.any,
+  onFilterChange: PropTypes.func,
+  animateEmailRow: PropTypes.bool,
+  data: PropTypes.any
 };

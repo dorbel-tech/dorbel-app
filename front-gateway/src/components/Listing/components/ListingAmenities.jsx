@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Col } from 'react-bootstrap';
 import _ from 'lodash';
 
@@ -45,5 +46,5 @@ export default class ListingAmenities extends Component {
 }
 
 ListingAmenities.propTypes = {
-  listing: React.PropTypes.object.isRequired
+  listing: PropTypes.object.isRequired
 };

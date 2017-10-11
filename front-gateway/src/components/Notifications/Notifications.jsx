@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { inject } from 'mobx-react';
 import NotificationSystem from 'react-notification-system';
 
@@ -7,18 +8,18 @@ class Notifications extends Component {
 
   componentDidMount() {
     // initiating the provider outside its constructor...
-    this.props.appProviders.notificationProvider.notificationSystem = this.refs.notificationSystem;
+    this.props.appProviders.notificationProvider.notificationSystem = this.notificationSystem;
   }
 
   render() {
     return (
-      <NotificationSystem ref="notificationSystem" />
+      <NotificationSystem ref={el => this.notificationSystem = el} />
     );
   }
 }
 
 Notifications.wrappedComponent.propTypes = {
-  appProviders: React.PropTypes.object
+  appProviders: PropTypes.object
 };
 
 export default Notifications;

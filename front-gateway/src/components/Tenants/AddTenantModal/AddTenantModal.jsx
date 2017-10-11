@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import autobind from 'react-autobind';
 import { inject } from 'mobx-react';
 import { Button } from 'react-bootstrap';
@@ -14,7 +15,7 @@ export default class AddTenantModal extends React.Component {
   }
 
   submit() {
-    const { formsy } = this.refs.form.refs;
+    const { formsy } = this.form.refs;
 
     if (formsy.state.isValid) {
       const { appProviders, listing_id } = this.props;
@@ -36,7 +37,7 @@ export default class AddTenantModal extends React.Component {
           <b>צרפו דייר חדש לדירה שהשכרתם</b><br/>
           הדייר יקבל מייל עם הזמנה למלא את פרטיו, שיתווספו עבורכם אוטומטית למסך ניהול הדירה
         </p>
-        <FormWrapper.Wrapper layout="vertical" ref="form">
+        <FormWrapper.Wrapper layout="vertical" ref={el => this.form = el}>
           <FRC.Input value="" name="email" type="email" label="אי-מייל" validations="isEmail" />
           <FRC.Input value="" name="first_name" type="text" label="שם פרטי" required />
           <FRC.Input value="" name="last_name" type="text" label="שם משפחה" />
@@ -49,6 +50,6 @@ export default class AddTenantModal extends React.Component {
 }
 
 AddTenantModal.wrappedComponent.propTypes = {
-  appProviders: React.PropTypes.object.isRequired,
-  listing_id: React.PropTypes.number.isRequired
+  appProviders: PropTypes.object.isRequired,
+  listing_id: PropTypes.number.isRequired
 };

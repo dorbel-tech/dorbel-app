@@ -1,13 +1,15 @@
 'use strict';
 import React from 'react';
+import PropTypes from 'prop-types';
+import createClass from 'create-react-class';
 import FRC from 'formsy-react-components';
 import Formsy, { HOC } from 'formsy-react';
 import _ from 'lodash';
 
-const FormWrapper = React.createClass({
+const FormWrapper = createClass({
   mixins: [FRC.ParentContextMixin],
   propTypes: {
-    children: React.PropTypes.node
+    children: PropTypes.node
   },
   render() {
     const props = _.omit(this.props, ['layout', 'validatePristine']);
@@ -16,7 +18,7 @@ const FormWrapper = React.createClass({
       <Formsy.Form
         className={this.getLayoutClassName()}
         {...props}
-        ref="formsy"
+        ref={el => this.formsy = el}
       >
         {this.props.children}
       </Formsy.Form>

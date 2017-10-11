@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import NavLink from '~/components/NavLink';
 import SearchResults from '~/components/Search/SearchResults';
@@ -37,8 +38,8 @@ class MyLikes extends Component {
 }
 
 MyLikes.wrappedComponent.propTypes = {
-  appStore: React.PropTypes.object.isRequired,
-  appProviders: React.PropTypes.object.isRequired
+  appStore: PropTypes.object.isRequired,
+  appProviders: PropTypes.object.isRequired
 };
 
 export default MyLikes;

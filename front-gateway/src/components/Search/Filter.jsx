@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import autobind from 'react-autobind';
 import { Collapse, Button, Checkbox, OverlayTrigger, Popover, Col, DropdownButton, Grid, MenuItem, Row } from 'react-bootstrap';
 import { inject, observer } from 'mobx-react';
@@ -547,8 +548,8 @@ class Filter extends Component {
 }
 
 Filter.wrappedComponent.propTypes = {
-  appStore: React.PropTypes.object.isRequired,
-  appProviders: React.PropTypes.object.isRequired
+  appStore: PropTypes.object.isRequired,
+  appProviders: PropTypes.object.isRequired
 };
 
 export default Filter;

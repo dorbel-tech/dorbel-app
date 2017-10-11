@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Button } from 'react-bootstrap';
 import _ from 'lodash';
 
@@ -39,7 +40,7 @@ class SubmitButton extends Component {
 }
 
 SubmitButton.propTypes = {
-  onClick: React.PropTypes.func
+  onClick: PropTypes.func
 };
 
 export default SubmitButton;

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import autobind from 'react-autobind';
 import { inject } from 'mobx-react';
 import { Button, Glyphicon } from 'react-bootstrap';
@@ -172,6 +173,6 @@ export default class ShareListingToGroupsModal extends React.Component {
 }
 
 ShareListingToGroupsModal.wrappedComponent.propTypes = {
-  appProviders: React.PropTypes.object,
-  listing: React.PropTypes.object.isRequired
+  appProviders: PropTypes.object,
+  listing: PropTypes.object.isRequired
 };

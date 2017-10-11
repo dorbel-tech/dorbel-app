@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import autobind from 'react-autobind';
 import { inject, observer } from 'mobx-react';
 import { ProgressBar, Row, Checkbox } from 'react-bootstrap';
@@ -91,6 +92,6 @@ export default class ImageUpload extends React.Component {
 }
 
 ImageUpload.wrappedComponent.propTypes = {
-  appProviders: React.PropTypes.object.isRequired,
-  editedListingStore: React.PropTypes.object.isRequired
+  appProviders: PropTypes.object.isRequired,
+  editedListingStore: PropTypes.object.isRequired
 };

@@ -1,5 +1,6 @@
 'use strict';
 import React from 'react';
+import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import ReactTooltip from 'react-tooltip';
 
@@ -31,9 +32,9 @@ class ListingPageViews extends React.Component {
 }
 
 ListingPageViews.wrappedComponent.propTypes = {
-  appStore: React.PropTypes.object.isRequired,
-  appProviders: React.PropTypes.object.isRequired,
-  listing: React.PropTypes.object.isRequired
+  appStore: PropTypes.object.isRequired,
+  appProviders: PropTypes.object.isRequired,
+  listing: PropTypes.object.isRequired
 };
 
 export default ListingPageViews;

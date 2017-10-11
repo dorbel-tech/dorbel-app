@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import ListingThumbnail from '../ListingThumbnail/ListingThumbnail.jsx';
 import '../ListingThumbnail/ListingThumbnail.scss';
@@ -54,8 +55,8 @@ class RelatedListings extends Component {
 }
 
 RelatedListings.wrappedComponent.propTypes = {
-  apartmentId: React.PropTypes.number.isRequired,
-  appProviders: React.PropTypes.object.isRequired
+  apartmentId: PropTypes.number.isRequired,
+  appProviders: PropTypes.object.isRequired
 };
 
 

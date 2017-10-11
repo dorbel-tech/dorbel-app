@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Modal } from 'react-bootstrap';
 import autobind from 'react-autobind';
 import { get } from 'lodash';
@@ -41,13 +42,13 @@ class DorbelModal extends React.Component {
 }
 
 DorbelModal.propTypes = {
-  show: React.PropTypes.bool,
-  title: React.PropTypes.any,
-  body: React.PropTypes.any,
-  footer: React.PropTypes.any,
-  onClose: React.PropTypes.func,
-  modalSize: React.PropTypes.oneOf(['small', 'large']),
-  params: React.PropTypes.any
+  show: PropTypes.bool,
+  title: PropTypes.any,
+  body: PropTypes.any,
+  footer: PropTypes.any,
+  onClose: PropTypes.func,
+  modalSize: PropTypes.oneOf(['small', 'large']),
+  params: PropTypes.any
 };
 
 export default DorbelModal;

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Row, Col } from 'react-bootstrap';
 import ListingDetailsForm from '~/components/ApartmentForm/ListingDetailsForm/ListingDetailsForm';
 import { FRC } from '~/components/FormWrapper/FormWrapper';
@@ -29,7 +30,7 @@ export default class EditListingForm extends Component {
 }
 
 EditListingForm.propTypes = {
-  editedListingStore: React.PropTypes.object.isRequired,
-  values: React.PropTypes.object,
+  editedListingStore: PropTypes.object.isRequired,
+  values: PropTypes.object,
 };
 

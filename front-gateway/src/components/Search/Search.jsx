@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 import Filter from './Filter.jsx';
 import SearchResults from '~/components/Search/SearchResults';
@@ -37,7 +38,7 @@ class Search extends Component {
 }
 
 Search.wrappedComponent.propTypes = {
-  appStore: React.PropTypes.object.isRequired
+  appStore: PropTypes.object.isRequired
 };
 
 export default Search;

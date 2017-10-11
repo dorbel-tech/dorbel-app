@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { action } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import _ from 'lodash';
@@ -75,8 +76,8 @@ class UploadApartmentForm extends Component {
 }
 
 UploadApartmentForm.wrappedComponent.propTypes = {
-  appStore: React.PropTypes.object,
-  appProviders: React.PropTypes.object
+  appStore: PropTypes.object,
+  appProviders: PropTypes.object
 };
 
 export default UploadApartmentForm;

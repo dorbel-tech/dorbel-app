@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
+import PropTypes from 'prop-types';
 import { action } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import autobind from 'react-autobind';
@@ -41,9 +42,9 @@ class UploadApartmentBaseStep extends Component {
 }
 
 UploadApartmentBaseStep.wrappedComponent.propTypes = {
-  onClickNext: React.PropTypes.func,
-  onClickBack: React.PropTypes.func,
-  appStore: React.PropTypes.object
+  onClickNext: PropTypes.func,
+  onClickBack: PropTypes.func,
+  appStore: PropTypes.object
 };
 
 export default UploadApartmentBaseStep;
