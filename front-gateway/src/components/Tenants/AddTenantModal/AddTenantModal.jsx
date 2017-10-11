@@ -15,7 +15,7 @@ export default class AddTenantModal extends React.Component {
   }
 
   submit() {
-    const { formsy } = this.form.refs;
+    const { formsy } = this.form;
 
     if (formsy.state.isValid) {
       const { appProviders, listing_id } = this.props;

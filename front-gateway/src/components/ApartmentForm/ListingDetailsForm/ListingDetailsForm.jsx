@@ -22,7 +22,7 @@ export default class ListingDetailsForm extends React.Component {
   componentDidMount() {
     // load form with existing values from store
     const { editedListingStore } = this.props;
-    const { formsy } = this.form.refs;
+    const { formsy } = this.form;
     formsy.reset(editedListingStore.formValues);
   }
 
@@ -66,11 +66,11 @@ export default class ListingDetailsForm extends React.Component {
 
   // used outside of component
   getValidationErrors() {
-    const formsy = this.form.refs.formsy;
+    const { formsy } = this.form;
     this.props.editedListingStore.isFromValid = formsy.state.isValid;
 
     if (formsy.state.isValid) {
-      this.updateStore(this.form.refs.formsy.getCurrentValues());
+      this.updateStore(formsy.getCurrentValues());
       return null;
     } else {
       return formsy;
