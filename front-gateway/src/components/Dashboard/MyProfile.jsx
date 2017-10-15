@@ -32,7 +32,7 @@ class MyProfile extends Component {
   }
 
   submit() {
-    const formsy = this.form.refs.formsy;
+    const formsy = this.form.formsy;
 
     if (formsy.isChanged()) {
       const profile = formsy.getModel();
@@ -63,7 +63,7 @@ class MyProfile extends Component {
     const { authStore } = this.props.appStore;
     const profile = authStore.profile;
     const activeTab = find(this.tabs, { key: this.props.tab }) || this.tabs[0];
-    const formChanged = this.form && this.form.refs.formsy.isChanged();
+    const formChanged = this.form && this.form.formsy.isChanged();
 
     return (
       <Grid fluid className="profile-container">
